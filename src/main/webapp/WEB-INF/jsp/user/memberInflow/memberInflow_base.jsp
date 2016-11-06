@@ -34,10 +34,7 @@
 									所属组织机构
 								</td>
 								<td  class="bg-left" style="min-width: 80px">
-									${partyMap.get(memberInflow.partyId).name}
-									<c:if test="${memberInflow.branchId>0}">
-										-${branchMap.get(memberInflow.branchId).name}
-									</c:if>
+										${cm:displayParty(memberInflow.partyId, memberInflow.branchId)}
 								</td>
 								<td class="bg-right">
 									原职业

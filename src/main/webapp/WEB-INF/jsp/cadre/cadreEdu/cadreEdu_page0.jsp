@@ -145,7 +145,7 @@
             url: '${ctx}/cadreEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: [
                 {label: '学历', name: 'eduId' ,frozen:true, formatter:function(cellvalue, options, rowObject){
-                    return _metaTypeMap[cellvalue]
+                    return _cMap.metaTypeMap[cellvalue].name
                 }},
                 {label: '入学时间', name: 'enrolTime',formatter:'date',formatoptions: {newformat:'Y.m'}, width:80},
                 {label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y.m'}, width:80},
@@ -164,7 +164,7 @@
 
                 {label: '学制', name: 'schoolLen', width:50},
                 {label: '学习方式', name: 'learnStyle', formatter:function(cellvalue, options, rowObject){
-                    return _metaTypeMap[cellvalue]
+                    return _cMap.metaTypeMap[cellvalue].name
                 }},
                 {label: '学位', name: 'degree', formatter:function(cellvalue, options, rowObject){
                     return rowObject.hasDegree?cellvalue:"-";

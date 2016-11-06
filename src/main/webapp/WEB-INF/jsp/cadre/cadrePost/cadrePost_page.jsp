@@ -185,7 +185,7 @@
             {label: '职务', name: 'post', frozen: true},
             {
                 label: '职务属性', width: 120, name: 'postId', formatter: function (cellvalue, options, rowObject) {
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }, frozen: true
             },
             {
@@ -224,8 +224,7 @@
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
+                    var year = yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -242,8 +241,7 @@
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
+                    var year = yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -302,7 +300,7 @@
             {label: '兼任职务', name: 'post', frozen: true},
             {
                 label: '职务属性', width: 120, name: 'postId', formatter: function (cellvalue, options, rowObject) {
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }
             },
             {
@@ -323,8 +321,7 @@
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
+                    var year = yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -341,8 +338,7 @@
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
+                    var year = yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -389,12 +385,12 @@
             {
                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }, width: 200
             },
             {
                 label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }, width: 200
             },
             {

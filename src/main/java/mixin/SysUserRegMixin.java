@@ -12,9 +12,9 @@ import java.util.Date;
 @JsonIgnoreProperties(value = { })
 public class SysUserRegMixin {
 
-    @JsonProperty("party")
+    /*@JsonProperty("party")
     @JsonSerialize(using = PartySerializer.class,nullsUsing=PartySerializer.class)
-    public Integer partyId;
+    public Integer partyId;*/
 
     @JsonFormat(pattern = "yyyy-MM-dd mm:HH:ss",timezone="GMT+8")
     public Date createTime;

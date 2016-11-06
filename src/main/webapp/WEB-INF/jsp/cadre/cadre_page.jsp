@@ -207,14 +207,12 @@ pageEncoding="UTF-8" %>
             { label: '年龄', name: 'birth', width: 50,
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
-                    return year;
+                    return yearOffNow(cellvalue);
                 } },
             { label: '党派', name: 'isDp', width: 80,formatter:function(cellvalue, options, rowObject){
 
                 if(!rowObject.isDp && rowObject.growTime!=undefined) return "中共党员";
-                if(rowObject.isDp) return _metaTypeMap[rowObject.dpTypeId];
+                if(rowObject.isDp) return _cMap.metaTypeMap[rowObject.dpTypeId].name;
                 return "";
             }},
             { label: '党派加入时间', name: 'growTime', width: 120,formatter:function(cellvalue, options, rowObject){
@@ -226,13 +224,13 @@ pageEncoding="UTF-8" %>
             { label: '到校时间', name: 'arriveTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} },
             { label: '最高学历', name: 'eduId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }},
             { label: '最高学位', name: 'degree'},
             { label: '毕业时间', name: 'finishTime',formatter:'date',formatoptions: {newformat:'Y.m'}},
             { label: '学习方式', name: 'learnStyle', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }},
             { label: '毕业学校、学院', name: 'school', width: 150},
             { label: '学校类型', name: 'schoolType', formatter:function(cellvalue, options, rowObject){
@@ -276,8 +274,7 @@ pageEncoding="UTF-8" %>
                 name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
+                    var year = yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },

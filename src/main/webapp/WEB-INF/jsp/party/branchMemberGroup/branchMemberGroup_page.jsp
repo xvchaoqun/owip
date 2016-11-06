@@ -9,12 +9,23 @@
                  data-url-au="${ctx}/branchMemberGroup_au"
                  data-url-page="${ctx}/branchMemberGroup_page"
                  data-url-export="${ctx}/branchMemberGroup_data"
-                 data-url-del="${ctx}/branchMemberGroup_del"
-                 data-url-bd="${ctx}/branchMemberGroup_batchDel"
                  data-url-co="${ctx}/branchMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.name ||not empty param.partyId
             ||not empty param.branchId}"/>
+
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li  class="<c:if test="${status==1}">active</c:if>">
+                            <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部委员会</a>
+                        </li>
+                        <li  class="<c:if test="${status==-1}">active</c:if>">
+                            <a href="?status=-1"><i class="fa fa-trash"></i> 已删除支部委员会</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home4" class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
 
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
@@ -25,9 +36,24 @@
                     </button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
-                    <shiro:hasPermission name="branchMemberGroup:del">
-                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
-                    </shiro:hasPermission>
+                    <c:if test="${status>=0}">
+                        <shiro:hasPermission name="branchMemberGroup:del">
+                            <a class="jqBatchBtn btn btn-danger btn-sm"
+                               data-url="${ctx}/branchMemberGroup_batchDel" data-title="删除支部委员会"
+                               data-msg="确定删除这{0}个支部委员会吗？"><i class="fa fa-trash"></i> 删除</a>
+                            【注：删除操作将同时删除相关管理员权限，请谨慎操作！】
+                        </shiro:hasPermission>
+                    </c:if>
+                    <c:if test="${status==-1}">
+                        <shiro:hasPermission name="branchMemberGroup:del">
+                            <a class="jqBatchBtn btn btn-success btn-sm"
+                               data-url="${ctx}/branchMemberGroup_batchDel"
+                               data-querystr="isDeleted=0"
+                               data-title="恢复已删除支部委员会"
+                               data-msg="确定恢复这{0}个支部委员会吗？"><i class="fa fa-reply"></i> 恢复</a>
+                            【注：恢复操作之后需要重新设置相关管理员权限！】
+                        </shiro:hasPermission>
+                    </c:if>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
@@ -41,7 +67,7 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
-                                    <input type="hidden" name="cls" value="${cls}">
+                                <input type="hidden" name="status" value="${status}">
                                     <div class="form-group">
                                         <label>名称</label>
                                         <input class="form-control search-query" name="name" type="text" value="${param.name}"
@@ -86,6 +112,7 @@
                 <div id="jqGridPager"> </div>
             </div>
         </div>
+                </div></div></div>
         <div id="item-content"></div>
     </div>
 </div>

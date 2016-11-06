@@ -49,7 +49,7 @@ public class GraduateAbroadController extends BaseController {
         GraduateAbroad graduateAbroad = graduateAbroadService.get(userId);
         modelMap.put("graduateAbroad", graduateAbroad);
 
-        if(graduateAbroad!=null) {
+        /*if(graduateAbroad!=null) {
             Integer partyId = graduateAbroad.getPartyId();
             Integer branchId = graduateAbroad.getBranchId();
             Integer toBranchId = graduateAbroad.getToBranchId();
@@ -64,7 +64,7 @@ public class GraduateAbroadController extends BaseController {
             if (toBranchId != null) {
                 modelMap.put("toBranch", branchMap.get(toBranchId));
             }
-        }
+        }*/
         modelMap.put("student", studentService.get(userId));
         modelMap.put("userBean", userBeanService.get(userId));
 

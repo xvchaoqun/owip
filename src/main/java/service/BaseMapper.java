@@ -169,11 +169,15 @@ public class BaseMapper {
 	@Autowired
 	protected PartyMapper partyMapper;
 	@Autowired
+	protected PartyViewMapper partyViewMapper;
+	@Autowired
 	protected PartyMemberMapper partyMemberMapper;
 	@Autowired
 	protected PartyMemberGroupMapper partyMemberGroupMapper;
 	@Autowired
 	protected BranchMapper branchMapper;
+	@Autowired
+	protected BranchViewMapper branchViewMapper;
 	@Autowired
 	protected OrgAdminMapper orgAdminMapper;
 

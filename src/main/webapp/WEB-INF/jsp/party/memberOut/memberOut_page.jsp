@@ -166,7 +166,7 @@
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects?auth=1"
                                                         name="partyId" data-placeholder="请选择分党委">
-                                                    <option value="${party.id}">${party.name}</option>
+                                                    <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
@@ -174,7 +174,7 @@
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/branch_selects?auth=1"
                                                         name="branchId" data-placeholder="请选择党支部">
-                                                    <option value="${branch.id}">${branch.name}</option>
+                                                    <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                 </select>
                                             </div>
                                             <script>
@@ -362,9 +362,7 @@
             {
                 label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    var party = rowObject.party;
-                    var branch = rowObject.branch;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
@@ -404,9 +402,9 @@
             {label: '转出单位联系电话', name: 'fromPhone', width: 150},
             {label: '转出单位传真', name: 'fromFax', width: 120},
             {label: '转出单位邮编', name: 'fromPostCode', width: 120},
-            {label: '党费缴纳至年月', name: 'payTime', width: 150},
+            {label: '党费缴纳至年月', name: 'payTime', width: 150,formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             {label: '介绍信有效期天数', name: 'validDays', width: 150},
-            {label: '办理时间', name: 'handleTime'},
+            {label: '办理时间', name: 'handleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '是否有回执', name: 'hasReceipt', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue?"是":"否"
             }},

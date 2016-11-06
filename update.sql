@@ -1,4 +1,40 @@
 
+-- 2016-11-5
+
+ALTER TABLE `ow_branch`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `update_time`;
+
+ALTER TABLE `ow_branch_member_group`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `sort_order`;
+ALTER TABLE `ow_party_member_group`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `sort_order`;
+	ALTER TABLE `ow_party`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `update_time`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_branch_member_group_view` AS select `bmg`.`id` AS `id`,`bmg`.`fid` AS `fid`,`bmg`.`branch_id` AS `branch_id`,`bmg`.`name` AS `name`,
+`bmg`.`is_present` AS `is_present`,`bmg`.`tran_time` AS `tran_time`,`bmg`.`actual_tran_time` AS `actual_tran_time`,
+`bmg`.`appoint_time` AS `appoint_time`,`bmg`.`dispatch_unit_id` AS `dispatch_unit_id`,`bmg`.`sort_order` AS `sort_order`, bmg.is_deleted,
+`b`.`party_id` AS `party_id` from (`ow_branch_member_group` `bmg` join `ow_branch` `b`) where (`bmg`.`branch_id` = `b`.`id`)  ;
+
+
+
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_party_view` AS select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
+left join (select count(*) as num, party_id from ow_branch group by party_id) btmp on btmp.party_id=p.id
+left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, party_id from ow_member_teacher where status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id  ;
+
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_branch_view` AS select b.*,  mtmp.num as member_count,mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count from ow_branch b
+left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group group by branch_id) gtmp on gtmp.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_present=1 group by  branch_id) gtmp2 on gtmp2.branch_id=b.id  ;
+
 -- 2016-11-3
 ALTER TABLE `cadre_concat`
 	ADD COLUMN `msg_title` VARCHAR(20) NULL DEFAULT NULL COMMENT '短信称谓' AFTER `mobile`;

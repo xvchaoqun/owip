@@ -61,11 +61,11 @@ public class BranchMemberGroupController extends BaseController {
 
     @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_page")
-    public String branchMemberGroup_page(HttpServletResponse response,
+    public String branchMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status,
                                          Integer partyId,
-                                         Integer branchId,
-                                         String name,
-                                         Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                         Integer branchId, ModelMap modelMap) {
+
+        modelMap.put("status", status);
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -83,6 +83,7 @@ public class BranchMemberGroupController extends BaseController {
     public void branchMemberGroup_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                       @RequestParam(required = false, defaultValue = "1")Byte status,
                                     Integer partyId,
                                     Integer branchId,
                                     String name,
@@ -100,6 +101,8 @@ public class BranchMemberGroupController extends BaseController {
         BranchMemberGroupViewExample example = new BranchMemberGroupViewExample();
         BranchMemberGroupViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        criteria.andIsDeletedEqualTo(status == -1);
 
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -222,7 +225,7 @@ public class BranchMemberGroupController extends BaseController {
         return "party/branchMemberGroup/branchMemberGroup_au";
     }
 
-    @RequiresPermissions("branchMemberGroup:del")
+    /*@RequiresPermissions("branchMemberGroup:del")
     @RequestMapping(value = "/branchMemberGroup_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branchMemberGroup_del(HttpServletRequest request, Integer id) {
@@ -233,16 +236,18 @@ public class BranchMemberGroupController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "删除支部委员会：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("branchMemberGroup:del")
     @RequestMapping(value = "/branchMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            branchMemberGroupService.batchDel(ids);
+            branchMemberGroupService.batchDel(ids, isDeleted);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除支部委员会：%s", StringUtils.join(ids, ",")));
         }
 

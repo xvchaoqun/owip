@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
 import service.LoginUserService;
-import service.OrgAdminService;
+import service.party.OrgAdminService;
 import service.SpringProps;
 import service.abroad.*;
 import service.analysis.StatService;
@@ -293,16 +293,14 @@ public class BaseController extends BaseMapper {
 
         map.put("partyMap", partyService.findAll());
         map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
-        map.put("branchUnitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
         map.put("partyUnitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
-
         map.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
-
         map.put("partyMemberTypeMap", metaTypeService.metaTypes("mc_party_member_type"));
-
         map.put("partyTypeMap", metaTypeService.metaTypes("mc_part_type"));
 
         map.put("branchMap", branchService.findAll());
+        map.put("branchTypeMap", metaTypeService.metaTypes("mc_branch_type"));
+        map.put("branchUnitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
         map.put("jobMap", metaTypeService.metaTypes("mc_job"));
         map.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));

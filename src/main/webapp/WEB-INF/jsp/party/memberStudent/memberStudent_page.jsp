@@ -155,14 +155,14 @@
                                                         <select class="form-control" data-width="350"  data-rel="select2-ajax"
                                                                 data-ajax-url="${ctx}/party_selects?auth=1"
                                                                 name="partyId" data-placeholder="请选择分党委">
-                                                            <option value="${party.id}">${party.name}</option>
+                                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                         </select>
                                                 </div>
                                                 <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
                                                     <label>所在党支部</label>
                                                         <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?auth=1"
                                                                 name="branchId" data-placeholder="请选择党支部">
-                                                            <option value="${branch.id}">${branch.name}</option>
+                                                            <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                         </select>
                                                 </div>
                                                 <script>
@@ -311,25 +311,28 @@
                         .format(rowObject.userId, cellvalue);
             }, frozen:true  },
             { label: '学生证号',  name: 'code', width: 120, frozen:true },
-            { label: '性别',  name: 'gender', width: 55, frozen:true },
+            { label: '性别',  name: 'gender', width: 55, frozen:true, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.GENDER_MAP[cellvalue];
+            } },
             { label: '民族',  name: 'nation', width: 80},
             { label: '籍贯',  name: 'nativePlace', width: 80},
-            { label: '年龄',  name: 'age', width: 55 },
+            { label: '年龄',  name: 'birth', width: 55,formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return yearOffNow(cellvalue)
+            } },
             { label: '学生类别',  name: 'type', width: 150 },
             { label: '年级',  name: 'grade', width: 55 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
-                var party = rowObject.party;
-                var branch = rowObject.branch;
-                //console.log(branch)
-                return party + (($.trim(branch)=='')?'':'-'+branch);
+                return displayParty(rowObject.partyId, rowObject.branchId);
             },sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间',  name: 'growTime', width: 120, sortable:true},
-            { label:'转正时间',  name: 'positiveTime'},
+            { label:'入党时间',  name: 'growTime', width: 120, sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label:'转正时间',  name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label:'培养层次',  name: 'eduLevel' },
             { label:'培养类型',  name: 'eduType' },
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){

@@ -71,7 +71,7 @@
         <label class="col-xs-5 control-label">请选择分党委</label>
         <div class="col-xs-6">
           <select required class="form-control"  data-rel="select2-ajax" data-width="350"
-                  data-ajax-url="${ctx}/party_selects"
+                  data-ajax-url="${ctx}/party_selects?del=0"
                   name="partyId" data-placeholder="请选择">
             <option value="${party.id}">${party.name}</option>
           </select>
@@ -81,7 +81,7 @@
         <label class="col-xs-5 control-label">请选择党支部</label>
         <div class="col-xs-6">
           <select class="form-control"  data-rel="select2-ajax"  data-width="260"
-                  data-ajax-url="${ctx}/branch_selects"
+                  data-ajax-url="${ctx}/branch_selects?del=0"
                   name="branchId" data-placeholder="请选择">
             <option value="${branch.id}">${branch.name}</option>
           </select>

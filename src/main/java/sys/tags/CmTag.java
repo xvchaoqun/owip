@@ -6,6 +6,7 @@ import domain.abroad.*;
 import domain.cadre.*;
 import domain.dispatch.*;
 import domain.member.MemberApply;
+import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
 import domain.sys.*;
@@ -30,6 +31,7 @@ import sys.utils.HtmlEscapeUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
+import java.text.MessageFormat;
 import java.util.*;
 
 public class CmTag {
@@ -88,6 +90,25 @@ public class CmTag {
     public static HtmlFragment getHtmlFragment(Integer id){
 
         return htmlFragmentMapper.selectByPrimaryKey(id);
+    }
+
+    // 用于jsp页面显示党组织名称
+    public static String displayParty(Integer partyId, Integer branchId){
+
+        String html = "<span class=\"{0}\">{1}<span><span class=\"{2}\">{3}<span>";
+        Party party =null;
+        Branch branch = null;
+        if(partyId!=null){
+            Map<Integer, Party> partyMap = partyService.findAll();
+            party = partyMap.get(partyId);
+        }
+        if(branchId!=null){
+            Map<Integer, Branch> branchMap = branchService.findAll();
+            branch = branchMap.get(branchId);
+        }
+
+        return MessageFormat.format(html, (party!=null&&party.getIsDeleted())?"delete":"", party!=null?party.getName():"",
+                (branch!=null&&branch.getIsDeleted())?"delete":"", branch!=null?(party!=null?" - ":"") + branch.getName():"");
     }
 
     public static String getApplyStatus(MemberApply memberApply) {

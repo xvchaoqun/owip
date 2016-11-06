@@ -79,20 +79,14 @@
                         转入组织机构
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${toParty.name}
-                            <c:if test="${not empty toBranch}">
-                            -${toBranch.name}
-                            </c:if>
+                            ${cm:displayParty(memberTransfer.partyId, memberTransfer.branchId)}
                     </td>
 
                     <td class="bg-right">
                         转出组织机构
                     </td>
                     <td class="bg-left" style="min-width: 120px" colspan="5">
-                        ${fromParty.name}
-                        <c:if test="${not empty fromBranch}">
-                            -${fromBranch.name}
-                        </c:if>
+                        ${cm:displayParty(userBean.partyId, userBean.branchId)}
                     </td>
                 </tr>
                 <tr>

@@ -129,7 +129,7 @@
                                                             <select class="form-control" data-width="350"
                                                                     data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
                                                                     name="partyId" data-placeholder="请选择分党委">
-                                                                <option value="${party.id}">${party.name}</option>
+                                                                <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                             </select>
                                                     </div>
                                                     <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
@@ -137,7 +137,7 @@
                                                             <select class="form-control"  data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/branch_selects?auth=1"
                                                                     name="branchId" data-placeholder="请选择党支部">
-                                                                <option value="${branch.id}">${branch.name}</option>
+                                                                <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                             </select>
                                                     </div>
                                                 <script>
@@ -316,9 +316,7 @@
             { label: '姓名',  name: 'user.realname', width: 100, frozen:true },
             { label: '所属组织机构', name: 'party', width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
-                var party = rowObject.party;
-                var branch = rowObject.branch;
-                return party + (($.trim(branch)=='')?'':'-'+branch);
+                    return displayParty(rowObject.partyId, rowObject.branchId);
             }, frozen:true  },
             { label: '状态',   name: 'outStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_INFLOW_OUT_STATUS_MAP[rowObject.outStatus];
@@ -330,7 +328,7 @@
             } },
             { label: '转出时间',   name: 'outTime', width: 100 },
             { label:'原职业',  name:'originalJob', width: 200 ,formatter:function(cellvalue, options, rowObject){
-                return _metaTypeMap[cellvalue];
+                return _cMap.metaTypeMap[cellvalue].name;
             } },
             { label: '流入前所在省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;

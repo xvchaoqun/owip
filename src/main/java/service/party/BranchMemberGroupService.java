@@ -109,6 +109,7 @@ public class BranchMemberGroupService extends BaseMapper {
         if (record.getIsPresent()) {
             clearPresentGroup(record.getBranchId());
         }
+        record.setIsDeleted(false);
         branchMemberGroupMapper.insertSelective(record);
 
         Integer id = record.getId();
@@ -117,7 +118,7 @@ public class BranchMemberGroupService extends BaseMapper {
         _record.setSortOrder(id);
         return branchMemberGroupMapper.updateByPrimaryKeySelective(_record);
     }
-    @Transactional
+   /* @Transactional
     public void del(Integer id){
 
         BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
@@ -129,19 +130,27 @@ public class BranchMemberGroupService extends BaseMapper {
             clearPresentGroup(branchMemberGroup.getBranchId());
         }
         branchMemberGroupMapper.deleteByPrimaryKey(id);
-    }
+    }*/
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
 
-
         for (Integer id : ids) {
             BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(id);
-
             Branch branch = branchMapper.selectByPrimaryKey(branchMemberGroup.getBranchId());
             checkAuth(branch.getPartyId());
+
+            if(!isDeleted){ // 恢复支部委员会
+                if(branch.getIsDeleted())
+                    throw new RuntimeException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除。", branch.getName()));
+                else{
+                    Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
+                    if(party.getIsDeleted())
+                        throw new RuntimeException(String.format("恢复支部委员会失败，支部委员会所属分党委【%s】已删除。", party.getName()));
+                }
+            }
 
             if (branchMemberGroup.getIsPresent()) {
                 clearPresentGroup(branchMemberGroup.getBranchId());
@@ -149,7 +158,9 @@ public class BranchMemberGroupService extends BaseMapper {
         }
         BranchMemberGroupExample example = new BranchMemberGroupExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        branchMemberGroupMapper.deleteByExample(example);
+        BranchMemberGroup record = new BranchMemberGroup();
+        record.setIsDeleted(isDeleted);
+        branchMemberGroupMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional

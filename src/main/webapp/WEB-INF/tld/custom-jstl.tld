@@ -96,16 +96,20 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.sys.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
 	</function>
-
+	<function>
+		<name>displayParty</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String displayParty(java.lang.Integer,java.lang.Integer)</function-signature>
+	</function>
 	<function>
 		<name>getUserById</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.SysUser getUserById(java.lang.Integer)</function-signature>
+		<function-signature>domain.sys.SysUserView getUserById(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getUserByUsername</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.SysUser getUserByUsername(java.lang.String)</function-signature>
+		<function-signature>domain.sys.SysUserView getUserByUsername(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>typeEqualsCode</name>

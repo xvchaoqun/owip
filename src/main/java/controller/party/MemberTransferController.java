@@ -54,25 +54,25 @@ public class MemberTransferController extends BaseController {
         UserBean userBean = userBeanService.get(userId);
         modelMap.put("userBean", userBean);
 
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
+        /*Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();*/
 
-        modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
-        modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));
+        /*modelMap.put("fromParty", partyMap.get(userBean.getPartyId()));
+        modelMap.put("fromBranch", branchMap.get(userBean.getBranchId()));*/
 
         MemberTransfer memberTransfer = memberTransferService.get(userId);
         modelMap.put("memberTransfer", memberTransfer);
 
         modelMap.put("locationMap", locationService.codeMap());
 
-        if(memberTransfer!=null) {
+        /*if(memberTransfer!=null) {
             if (memberTransfer.getToPartyId() != null) {
                 modelMap.put("toParty", partyMap.get(memberTransfer.getToPartyId()));
             }
             if (memberTransfer.getToBranchId() != null) {
                 modelMap.put("toBranch", branchMap.get(memberTransfer.getToBranchId()));
             }
-        }
+        }*/
 
         return "party/memberTransfer/memberTransfer_view";
     }

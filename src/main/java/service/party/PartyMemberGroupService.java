@@ -1,9 +1,6 @@
 package service.party;
 
-import domain.party.PartyMember;
-import domain.party.PartyMemberExample;
-import domain.party.PartyMemberGroup;
-import domain.party.PartyMemberGroupExample;
+import domain.party.*;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
@@ -91,6 +88,7 @@ public class PartyMemberGroupService extends BaseMapper {
         if (record.getIsPresent()) {
             clearPresentGroup(record.getPartyId());
         }
+        record.setIsDeleted(false);
         partyMemberGroupMapper.insertSelective(record);
 
         Integer id = record.getId();
@@ -100,7 +98,7 @@ public class PartyMemberGroupService extends BaseMapper {
         return partyMemberGroupMapper.updateByPrimaryKeySelective(_record);
     }
 
-    @Transactional
+   /* @Transactional
     public void del(Integer id) {
 
         PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(id);
@@ -108,10 +106,10 @@ public class PartyMemberGroupService extends BaseMapper {
             clearPresentGroup(partyMemberGroup.getPartyId());
         }
         partyMemberGroupMapper.deleteByPrimaryKey(id);
-    }
+    }*/
 
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, boolean isDeleted) {
 
         if (ids == null || ids.length == 0) return;
         for (Integer id : ids) {
@@ -119,10 +117,18 @@ public class PartyMemberGroupService extends BaseMapper {
             if (partyMemberGroup.getIsPresent()) {
                 clearPresentGroup(partyMemberGroup.getPartyId());
             }
+
+            if(!isDeleted){ // 恢复班子
+                Party party = partyMapper.selectByPrimaryKey(partyMemberGroup.getPartyId());
+                if(party.getIsDeleted())
+                    throw new RuntimeException(String.format("恢复班子失败，班子所属的分党委【%s】已删除。", party.getName()));
+            }
         }
         PartyMemberGroupExample example = new PartyMemberGroupExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        partyMemberGroupMapper.deleteByExample(example);
+        PartyMemberGroup record = new PartyMemberGroup();
+        record.setIsDeleted(isDeleted);
+        partyMemberGroupMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional

@@ -100,8 +100,7 @@
                 name: 'birthday',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var month = MonthDiff(cellvalue, new Date().format("yyyy-MM-dd"));
-                    var year = Math.floor(month / 12);
+                    var year = yearOffNow(cellvalue);
                     return year;
                 }
             },

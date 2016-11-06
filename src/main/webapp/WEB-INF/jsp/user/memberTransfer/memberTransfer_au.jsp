@@ -45,7 +45,7 @@
                             <label class="col-xs-3 control-label">转入分党委</label>
                             <div class="col-xs-9">
                                 <select required class="form-control"  data-rel="select2-ajax"
-                                        data-ajax-url="${ctx}/party_selects" data-width="100%"
+                                        data-ajax-url="${ctx}/party_selects?del=0" data-width="100%"
                                         name="toPartyId" data-placeholder="请选择" >
                                     <option value="${toParty.id}">${toParty.name}</option>
                                 </select>
@@ -55,7 +55,7 @@
                             <label class="col-xs-3 control-label">转入党支部</label>
                             <div class="col-xs-9">
                                 <select class="form-control"  data-rel="select2-ajax"  data-width="100%"
-                                        data-ajax-url="${ctx}/branch_selects"
+                                        data-ajax-url="${ctx}/branch_selects?del=0"
                                         name="toBranchId" data-placeholder="请选择">
                                     <option value="${toBranch.id}">${toBranch.name}</option>
                                 </select>

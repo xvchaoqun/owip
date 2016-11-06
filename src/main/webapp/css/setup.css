@@ -53,7 +53,8 @@ body{
     position: absolute;
     right:80px
  }
-.myTableDiv .widget-header{ /*搜索框点击收起*/
+/*搜索框点击收起、排序数字*/
+.myTableDiv .widget-header, a.change-order{
     /*background-image: none;
     background: none;*/
     cursor: pointer;
@@ -706,4 +707,8 @@ input[type=radio].bigger{
 
 .two-frames .right {
     width: 730px;
+}
+
+span.delete{
+    text-decoration:line-through
 }

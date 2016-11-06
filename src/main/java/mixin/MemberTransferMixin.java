@@ -12,7 +12,7 @@ import java.util.Date;
 @JsonIgnoreProperties(value = { })
 public class MemberTransferMixin {
 
-    @JsonProperty("party")
+    /*@JsonProperty("party")
     @JsonSerialize(using = PartySerializer.class,nullsUsing=PartySerializer.class)
     public Integer partyId;
 
@@ -26,7 +26,7 @@ public class MemberTransferMixin {
 
     @JsonProperty("toBranch")
     @JsonSerialize(using = BranchSerializer.class,nullsUsing=BranchSerializer.class)
-    public Integer toBranchId;
+    public Integer toBranchId;*/
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date fromHandleTime;

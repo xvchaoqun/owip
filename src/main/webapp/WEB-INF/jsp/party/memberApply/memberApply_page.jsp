@@ -310,7 +310,7 @@
                                                                                         <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                                                 data-ajax-url="${ctx}/party_selects?auth=1"
                                                                                                 name="partyId" data-placeholder="请选择分党委">
-                                                                                            <option value="${party.id}">${party.name}</option>
+                                                                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                                                         </select>
                                                                                 </div>
 
@@ -319,7 +319,7 @@
                                                                                         <select class="form-control" data-rel="select2-ajax"
                                                                                                 data-ajax-url="${ctx}/branch_selects?auth=1"
                                                                                                 name="branchId" data-placeholder="请选择党支部">
-                                                                                            <option value="${branch.id}">${branch.name}</option>
+                                                                                            <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                                                         </select>
                                                                                 </div>
 
@@ -401,39 +401,36 @@
             {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
             {label: '姓名', name: 'user.realname', width: 100, frozen:true},
             {
-                label: '所属组织机构', name: 'party',  width: 550,
-                formatter: function (cellvalue, options, rowObject) {
-                    var party = rowObject.party;
-                    var branch = rowObject.branch;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
-                }
+                label: '所属组织机构', name: 'party',  width: 550, formatter:function(cellvalue, options, rowObject){
+                return displayParty(rowObject.partyId, rowObject.branchId);
+            }
             },
             <c:if test="${stage<APPLY_STAGE_INIT}">
-            {label: '提交书面申请书时间', name: 'applyTime', width: 180},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==APPLY_STAGE_INIT}">
-            {label: '提交书面申请书时间', name: 'applyTime', width: 180},
-            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==APPLY_STAGE_ACTIVE}">
-            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200},
-            {label: '确定为发展对象时间', name: 'candidateTime', width: 180},
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
-            {label: '确定为发展对象时间', name: 'candidateTime', width: 180},
-            {label: '列入发展计划时间', name: 'planTime', width: 180},
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==APPLY_STAGE_PLAN}">
-            {label: '列入发展计划时间', name: 'planTime', width: 180},
-            {label: '领取志愿书时间', name: 'drawTime', width: 160},
+            {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==APPLY_STAGE_DRAW}">
-            {label: '领取志愿书时间', name: 'drawTime', width: 160},
-            {label: '发展时间', name: 'growTime', width: 100},
+            {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发展时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
-            {label: '入党时间', name: 'growTime', width: 100},
-            {label: '转正时间', name: 'positiveTime', width: 100},
+            {label: '入党时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '转正时间', name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             {label: '状态', name: 'applyStatus', width: 300},
             {hidden: true, name: 'stage'},

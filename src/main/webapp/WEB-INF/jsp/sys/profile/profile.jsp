@@ -58,7 +58,7 @@
                       <div class="col-sm-8">
                         <div class="label-text">
                           <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">
-                            ${partyMap.get(partyId).name}
+                            ${cm:displayParty(partyId, null)}
                             <c:if test="${!vs.last}">,</c:if>
                           </c:forEach>
                         </div>
@@ -72,7 +72,7 @@
                         <div class="label-text">
                           <c:forEach items="${adminBranchIdList}" var="branchId" varStatus="vs">
                             <c:set var="branch" value="${branchMap.get(branchId)}"/>
-                            ${partyMap.get(branch.partyId).name}-${branch.name}
+                            ${cm:displayParty(branch.partyId, branch.id)}
                             <c:if test="${!vs.last}">,</c:if>
                           </c:forEach>
                         </div>

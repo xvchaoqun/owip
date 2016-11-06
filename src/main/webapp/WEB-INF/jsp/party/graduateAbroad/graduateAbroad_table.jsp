@@ -268,7 +268,7 @@
   </td>
   <c:set var="isDirectBranch" value="${cm:isDirectBranch(party.id)}"/>
   <td class="bg-left" colspan="${(!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY)?2:5}">
-    ${party.name}<c:if test="${not empty branch}">-${branch.name}</c:if>
+      ${cm:displayParty(graduateAbroad.partyId, graduateAbroad.branchId)}
   </td>
   <c:if test="${!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY}">
     <td class="bg-right">
@@ -300,7 +300,7 @@
       暂留所在党支部名称
     </td>
     <td class="bg-left" colspan="2">
-      ${toBranch.name}
+        ${cm:displayParty(null, graduateAbroad.toBranchId)}
     </td>
   </c:if>
   <td class="bg-right" colspan="${(!isDirectBranch&&graduateAbroad.status>=GRADUATE_ABROAD_STATUS_PARTY_VERIFY)?'':2}">

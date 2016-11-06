@@ -1,23 +1,9 @@
 package domain.party;
 
-import domain.sys.MetaType;
-import domain.unit.Unit;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 public class Party implements Serializable {
-
-    public Unit getUnit() {
-        return CmTag.getUnit(unitId);
-    }
-    public MetaType getPartyClass(){
-        Map<Integer, MetaType> partyClassMap = CmTag.getMetaTypes("mc_party_class");
-        return partyClassMap.get(classId);
-    }
-
     private Integer id;
 
     private String code;
@@ -53,6 +39,8 @@ public class Party implements Serializable {
     private Integer sortOrder;
 
     private Date createTime;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -198,5 +186,13 @@ public class Party implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

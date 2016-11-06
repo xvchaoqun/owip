@@ -12,7 +12,7 @@ import java.util.Date;
 @JsonIgnoreProperties(value = { })
 public class MemberOutMixin {
 
-    @JsonProperty("party")
+   /* @JsonProperty("party")
     @JsonSerialize(using = PartySerializer.class,nullsUsing=PartySerializer.class)
     public Integer partyId;
 
@@ -23,5 +23,5 @@ public class MemberOutMixin {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date handleTime;
     @JsonFormat(pattern = "yyyy-MM",timezone="GMT+8")
-    public Date payTime;
+    public Date payTime;*/
 }

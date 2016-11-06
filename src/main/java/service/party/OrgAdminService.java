@@ -1,4 +1,4 @@
-package service;
+package service.party;
 
 import domain.party.OrgAdmin;
 import domain.party.OrgAdminExample;
@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -116,6 +117,23 @@ public class OrgAdminService extends BaseMapper {
             if (branchIdList.size() == 0) {
                 sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
             }
+        }
+    }
+
+    // 删除管理员
+    public void delAllOrgAdmin(Integer partyId, Integer branchId){
+
+        if(partyId==null && branchId== null) return ; // 不能删除全部的管理员
+
+        OrgAdminExample example = new OrgAdminExample();
+        OrgAdminExample.Criteria criteria = example.createCriteria();
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+        List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExample(example);
+
+        for (OrgAdmin orgAdmin : orgAdmins) {
+
+            del(orgAdmin.getId(), orgAdmin.getUserId());
         }
     }
 }

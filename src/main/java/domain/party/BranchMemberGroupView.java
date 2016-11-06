@@ -16,7 +16,6 @@ public class BranchMemberGroupView implements Serializable {
         if(dispatch==null) return null;
         return CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear());
     }
-
     private Integer id;
 
     private Integer fid;
@@ -36,6 +35,8 @@ public class BranchMemberGroupView implements Serializable {
     private Integer dispatchUnitId;
 
     private Integer sortOrder;
+
+    private Boolean isDeleted;
 
     private Integer partyId;
 
@@ -119,6 +120,14 @@ public class BranchMemberGroupView implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Integer getPartyId() {

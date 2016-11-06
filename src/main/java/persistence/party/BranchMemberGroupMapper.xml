@@ -12,6 +12,7 @@
     <result column="appoint_time" property="appointTime" jdbcType="DATE" />
     <result column="dispatch_unit_id" property="dispatchUnitId" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, fid, branch_id, name, is_present, tran_time, actual_tran_time, appoint_time, 
-    dispatch_unit_id, sort_order
+    dispatch_unit_id, sort_order, is_deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.BranchMemberGroupExample" >
     select
@@ -105,17 +106,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert  keyProperty="id" id="insert" parameterType="domain.party.BranchMemberGroup" >
+  <insert keyProperty="id" id="insert" parameterType="domain.party.BranchMemberGroup" >
     insert into ow_branch_member_group (id, fid, branch_id, 
       name, is_present, tran_time, 
       actual_tran_time, appoint_time, dispatch_unit_id, 
-      sort_order)
+      sort_order, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{isPresent,jdbcType=BIT}, #{tranTime,jdbcType=DATE}, 
       #{actualTranTime,jdbcType=DATE}, #{appointTime,jdbcType=DATE}, #{dispatchUnitId,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT})
   </insert>
-  <insert  keyProperty="id" id="insertSelective" parameterType="domain.party.BranchMemberGroup" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.party.BranchMemberGroup" >
     insert into ow_branch_member_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +149,9 @@
       <if test="sortOrder != null" >
         sort_order,
       </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -179,6 +183,9 @@
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +247,8 @@
       actual_tran_time = #{record.actualTranTime,jdbcType=DATE},
       appoint_time = #{record.appointTime,jdbcType=DATE},
       dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER}
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +283,9 @@
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -285,7 +299,8 @@
       actual_tran_time = #{actualTranTime,jdbcType=DATE},
       appoint_time = #{appointTime,jdbcType=DATE},
       dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
-      sort_order = #{sortOrder,jdbcType=INTEGER}
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.party.BranchMemberGroupExample" id="selectByExampleWithRowbounds" >

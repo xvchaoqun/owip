@@ -75,10 +75,11 @@
                 <tbody>
                 <c:forEach items="${branchMembers}" var="branchMember" varStatus="st">
                     <tr>
+                        <c:set var="user" value="${cm:getUserById(branchMember.userId)}"/>
                         <td nowrap>
                             <c:if test="${branchMember.isAdmin}">
                                 <span class="label label-success arrowed-in arrowed-in-right">管理员</span>
-                            </c:if>${cm:getUserById(branchMember.userId).realname}
+                            </c:if>${user.realname}（${user.code}）
                         </td>
                         <td nowrap>${typeMap.get(branchMember.typeId).name}</td>
                         <shiro:hasPermission name="branchMember:changeOrder">

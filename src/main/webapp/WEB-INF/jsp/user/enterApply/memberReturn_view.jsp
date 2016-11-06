@@ -24,7 +24,7 @@
           <div class="profile-info-name"> 分党委 </div>
 
           <div class="profile-info-value">
-            <span class="editable" id="signup">${partyMap.get(memberReturn.partyId).name}</span>
+            <span class="editable" id="signup">${cm:displayParty(memberReturn.partyId, null)}</span>
           </div>
         </div>
         <c:if test="${memberReturn.branchId>0}">
@@ -32,7 +32,7 @@
             <div class="profile-info-name"> 党支部 </div>
 
             <div class="profile-info-value">
-              <span class="editable" id="login">${branchMap.get(memberReturn.branchId).name}</span>
+              <span class="editable" id="login">${cm:displayParty(null, memberReturn.branchId)}</span>
             </div>
           </div>
         </c:if>

@@ -4,11 +4,9 @@ import controller.BaseController;
 import domain.party.*;
 import domain.party.BranchExample.Criteria;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.BranchMixin;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -28,7 +26,6 @@ import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -80,9 +77,11 @@ public class BranchController extends BaseController {
 
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_page")
-    public String branch_page(Integer partyId, ModelMap modelMap) {
+    public String branch_page(Integer partyId,
+                              @RequestParam(required = false, defaultValue = "1")Byte status,
+                              ModelMap modelMap) {
 
-        modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_type"));
+        modelMap.put("status", status);
 
         if(partyId!=null) {
             Party party = partyMapper.selectByPrimaryKey(partyId);
@@ -97,6 +96,7 @@ public class BranchController extends BaseController {
     public void branch_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                    @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String code,
                                     String name,
                                     Integer partyId,
@@ -119,9 +119,11 @@ public class BranchController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        BranchExample example = new BranchExample();
-        Criteria criteria = example.createCriteria();
+        BranchViewExample example = new BranchViewExample();
+        BranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        criteria.andIsDeletedEqualTo(status==-1);
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
@@ -180,11 +182,11 @@ public class BranchController extends BaseController {
             return;
         }
 
-        int count = branchMapper.countByExample(example);
+        int count = branchViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Branch> Branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<BranchView> Branchs = branchViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -194,9 +196,7 @@ public class BranchController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Branch.class, BranchMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap);
         return;
     }
 
@@ -271,7 +271,7 @@ public class BranchController extends BaseController {
         return "party/branch/branch_au";
     }
 
-    @RequiresPermissions("branch:del")
+    /*@RequiresPermissions("branch:del")
     @RequestMapping(value = "/branch_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branch_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -293,23 +293,25 @@ public class BranchController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "删除党支部：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("branch:del")
     @RequestMapping(value = "/branch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            branchService.batchDel(ids);
+            branchService.batchDel(ids, isDeleted);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除党支部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("branch:changeOrder")
+    /*@RequiresPermissions("branch:changeOrder")
     @RequestMapping(value = "/branch_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_branch_changeOrder(@CurrentUser SysUserView loginUser, Integer id, Integer addNum, HttpServletRequest request) {
@@ -329,16 +331,16 @@ public class BranchController extends BaseController {
         branchService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_OW, "党支部调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
-    public void branch_export(BranchExample example, HttpServletResponse response) {
+    public void branch_export(BranchViewExample example, HttpServletResponse response) {
 
-        List<Branch> records = branchMapper.selectByExample(example);
+        List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"编号","名称","简称","所属分党委","类别","单位属性","联系电话","传真","邮箱","成立时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            Branch record = records.get(i);
+            BranchView record = records.get(i);
             String[] values = {
                     record.getCode(),
                     record.getName(),
@@ -358,15 +360,15 @@ public class BranchController extends BaseController {
     }
 
     // 导出支部书记
-    public void branch_secretary_export(BranchExample example, HttpServletResponse response) {
+    public void branch_secretary_export(BranchViewExample example, HttpServletResponse response) {
 
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
-        List<Branch> records = branchMapper.selectByExample(example);
+        List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"姓名","工号","所在单位","联系电话","所属分党委","所属党支部","党支部类别"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            Branch record = records.get(i);
+            BranchView record = records.get(i);
             List<BranchMember> branchSecretary = commonMapper.findBranchSecretary(secretaryType.getId(), record.getId());
 
             if(branchSecretary.size()>0) {
@@ -391,7 +393,8 @@ public class BranchController extends BaseController {
 
     @RequestMapping("/branch_selects")
     @ResponseBody
-    public Map branch_selects(Integer pageSize, Boolean auth, Integer pageNo, Integer partyId, String searchStr) throws IOException {
+    public Map branch_selects(Integer pageSize, Boolean auth,  Boolean del,
+                              Integer pageNo, Integer partyId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -404,6 +407,10 @@ public class BranchController extends BaseController {
         BranchExample example = new BranchExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        if(del!=null){
+            criteria.andIsDeletedEqualTo(del);
+        }
 
         if(partyId==null)criteria.andIdIsNull(); // partyId肯定存在
 
@@ -439,7 +446,7 @@ public class BranchController extends BaseController {
         }
         List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        /*List<Select2Option> options = new ArrayList<Select2Option>();
         if(null != branchs && branchs.size()>0){
 
             for(Branch branch:branchs){
@@ -450,6 +457,15 @@ public class BranchController extends BaseController {
 
                 options.add(option);
             }
+        }*/
+
+        List<Map<String, Object>> options = new ArrayList<>();
+        for(Branch branch:branchs){
+            Map<String, Object> option = new HashMap<>();
+            option.put("text", branch.getName());
+            option.put("id", branch.getId());
+            option.put("del", branch.getIsDeleted());
+            options.add(option);
         }
 
         Map resultMap = success();

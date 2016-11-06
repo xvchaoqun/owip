@@ -216,7 +216,7 @@
                                                     <select class="form-control" data-width="350"  data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1"
                                                             name="partyId" data-placeholder="请选择分党委">
-                                                        <option value="${party.id}">${party.name}</option>
+                                                        <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                     </select>
                                             </div>
                                             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
@@ -224,7 +224,7 @@
                                                     <select class="form-control"  data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/branch_selects?auth=1"
                                                             name="branchId" data-placeholder="请选择党支部">
-                                                        <option value="${branch.id}">${branch.name}</option>
+                                                        <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                     </select>
                                             </div>
                                             <script>
@@ -320,55 +320,43 @@
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));
 
-    function partyFormatter (cellvalue, options, rowObject)
-    {
-        var party = rowObject.party;
-        var branch = rowObject.branch;
-        return party + (($.trim(branch)=='')?'':'-'+branch);
-    }
-    function nameFormatter(cellvalue, options, rowObject){
-
-        return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                .format(rowObject.retireApply.userId, cellvalue);
-    }
     $("#jqGrid").jqGrid({
         multiboxonly:false,
         ondblClickRow:function(){},
         url: '${ctx}/memberTeacher_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         sortname:'party',
         colModel: [
-            { label: '姓名',name: 'realname', width: 75, formatter:nameFormatter ,frozen:true },
-            <c:if test="${cls==4}">
-            { label: ' ',  width: 200 , formatter:function(cellvalue, options, rowObject){
-                if(rowObject.retireApply.status!=0)
-                    return '<button onclick="_retireApply({0})" class="btn btn-primary btn-mini btn-xs">'.format(rowObject.retireApply.userId)
-                            +'<i class="fa fa-edit"></i> 提交党员退休'
-                            +'</button>';
-                if(rowObject.retireApply.status==0)
-                    return '<button onclick="_retireApply({0})" class="btn btn-success btn-mini btn-xs">'.format(rowObject.retireApply.userId)
-                            +'<i class="fa fa-check"></i> 审核党员退休'
-                            +'</button>';
-            },frozen:true},
-            </c:if>
+            { label: '姓名',name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
+                        .format(rowObject.userId, cellvalue);
+            },frozen:true },
             { label: '工作证号', name: 'code', width: 100,frozen:true },
-            { label: '性别', name: 'gender', width: 55 },
+            { label: '性别', name: 'gender', width: 55, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return _cMap.GENDER_MAP[cellvalue];
+            } },
             { label: '民族',  name: 'nation'},
             { label: '籍贯',  name: 'nativePlace', width: 80},
-            { label: '年龄', name: 'age', width: 55 },
+            { label: '年龄', name: 'birth', width: 55,formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return ''
+                return yearOffNow(cellvalue)
+            } },
             { label: '最高学历', name: 'education', width: 100 },
             { label: '岗位类别', name: 'postClass', width: 100 },
             { label: '专业技术职务', name: 'proPost', width: 150 },
-            { label:'所属组织机构', name: 'party', width: 550, formatter:partyFormatter,sortable:true, align:'left' },
+            { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
+                return displayParty(rowObject.partyId, rowObject.branchId);
+            },sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
                     return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
                 return "-";
             }},
-            { label:'入党时间', name: 'growTime', width: 120,sortable:true },
-            { label:'转正时间',  name: 'positiveTime', width: 100 },
+            { label:'入党时间', name: 'growTime', width: 120,sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'转正时间',  name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'联系手机', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
-            { label:'退休时间', name: 'retireTime', width: 100 },
+            { label:'退休时间', name: 'retireTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
             } },

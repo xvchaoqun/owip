@@ -201,12 +201,12 @@
                 {
                     label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    return _metaTypeMap[cellvalue]
+                    return _cMap.metaTypeMap[cellvalue].name
                 }
                 },
                 {
                     label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
-                    return _metaTypeMap[cellvalue]
+                    return _cMap.metaTypeMap[cellvalue].name
                 }
                 },
                 {
@@ -298,12 +298,12 @@
                     {
                         label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                         if (cellvalue == undefined) return '';
-                        return _metaTypeMap[cellvalue]
+                        return _cMap.metaTypeMap[cellvalue].name
                     }
                     },
                     {
                         label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
-                        return _metaTypeMap[cellvalue]
+                        return _cMap.metaTypeMap[cellvalue].name
                     }, width: 120
                     },
                     {

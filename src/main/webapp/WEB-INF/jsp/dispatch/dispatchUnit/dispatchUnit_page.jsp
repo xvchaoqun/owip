@@ -102,7 +102,7 @@
 
             { label:'所属单位', name: 'unit.name', width: 150 },
             { label:'类型', name: 'typeId', width: 120  , formatter:function(cellvalue, options, rowObject){
-                return _metaTypeMap[cellvalue];
+                return _cMap.metaTypeMap[cellvalue].name;
             }},
             { label:'年份', name: 'year'},
             { label:'备注', name: 'remark'}

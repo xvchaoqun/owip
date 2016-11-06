@@ -24,6 +24,8 @@ public class PartyMemberGroup implements Serializable {
 
     private Integer sortOrder;
 
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -104,5 +106,13 @@ public class PartyMemberGroup implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

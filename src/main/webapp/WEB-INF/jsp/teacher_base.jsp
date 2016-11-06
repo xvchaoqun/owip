@@ -232,8 +232,12 @@ pageEncoding="UTF-8"%>
 					<td  class="bg-right">
 						是否离休
 					</td>
-					<td  class="bg-left" colspan="3">
+					<td  class="bg-left">
 						${teacher.isHonorRetire?"是":"否"}
+					</td>
+					<td class="bg-right">组织关系状态</td>
+					<td class="bg-left">
+						${memberTeacher.status==null?"-":MEMBER_STATUS_MAP.get(memberTeacher.status)}
 					</td>
 				</tr>
 				</tbody>

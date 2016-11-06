@@ -59,10 +59,7 @@
 
                                     <div class="profile-info-value">
                                     <span class="editable">
-                                        ${partyMap.get(memberTransfer.partyId).name}
-                                            <c:if test="${memberTransfer.branchId>0}">
-                                                -${branchMap.get(memberTransfer.branchId).name}
-                                            </c:if>
+                                        ${cm:displayParty(memberTransfer.partyId, memberTransfer.branchId)}
                                     </span>
                                     </div>
                                 </div>
@@ -74,10 +71,7 @@
 
                                     <div class="profile-info-value">
                                         <span class="editable" >
-                                            ${partyMap.get(memberTransfer.toPartyId).name}
-                                            <c:if test="${memberTransfer.toBranchId>0}">
-                                                -${branchMap.get(memberTransfer.toBranchId).name}
-                                            </c:if>
+                                            ${cm:displayParty(memberTransfer.toPartyId, memberTransfer.toBranchId)}
                                         </span>
                                     </div>
                                 </div>

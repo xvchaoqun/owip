@@ -269,10 +269,7 @@
 			所属组织机构
 		</td>
 		<td class="bg-left" colspan="5">
-			${partyMap.get(memberTeacher.partyId).name}
-			<c:if test="${not empty memberTeacher.branchId}">
-				-${branchMap.get(memberTeacher.branchId).name}
-			</c:if>
+				${cm:displayParty(memberTeacher.partyId, memberTeacher.branchId)}
 		</td>
 	</tr>
 	<tr>

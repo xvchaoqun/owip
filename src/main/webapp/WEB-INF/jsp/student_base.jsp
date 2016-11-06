@@ -62,8 +62,12 @@ pageEncoding="UTF-8"%>
 				<td  class="bg-right">
 					来源
 				</td>
-				<td  class="bg-left" colspan="3">
+				<td  class="bg-left">
 					${USER_SOURCE_MAP.get(sysUser.source)}
+				</td>
+				<td class="bg-right">组织关系状态</td>
+				<td class="bg-left">
+					${memberStudent.status==null?"-":MEMBER_STATUS_MAP.get(memberStudent.status)}
 				</td>
 			</tr>
 			<tr>

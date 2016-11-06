@@ -1,5 +1,7 @@
 package controller;
 
+import domain.member.MemberStudent;
+import domain.member.MemberTeacher;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
@@ -89,15 +91,20 @@ public class IndexController extends BaseController {
 	@RequestMapping("/user_base")
 	public String user_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
+		Integer userId = loginUser.getId();
 		modelMap.put("sysUser", loginUser);
 
 		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG) {
-
-			modelMap.put("teacher", teacherService.get(loginUser.getId()));
+			MemberTeacher memberTeacher = memberTeacherService.get(userId);
+			modelMap.put("memberTeacher", memberTeacher);
+			modelMap.put("teacher", teacherService.get(userId));
 			return "teacher_base";
+		}else {
+			MemberStudent memberStudent = memberStudentService.get(userId);
+			modelMap.put("memberStudent", memberStudent);
+			modelMap.put("student", studentService.get(userId));
+			return "student_base";
 		}
-		modelMap.put("student", studentService.get(loginUser.getId()));
-		return "student_base";
 	}
 
 	@RequestMapping("/menu")

@@ -63,7 +63,7 @@
 
                                     <div class="profile-info-value">
                                     <span class="editable">
-                                        ${partyMap.get(sysUserReg.partyId).name}
+                                        ${cm:displayParty(sysUserReg.partyId, null)}
                                     </span>
                                     </div>
                                 </div>

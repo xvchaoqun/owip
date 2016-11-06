@@ -101,7 +101,7 @@
                                                             <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/party_selects"
                                                                     name="partyId" data-placeholder="请选择分党委">
-                                                                <option value="${party.id}">${party.name}</option>
+                                                                <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                             </select>
                                                     </div>
                                                     <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
@@ -109,7 +109,7 @@
                                                             <select class="form-control" data-rel="select2-ajax"
                                                                     data-ajax-url="${ctx}/branch_selects"
                                                                     name="branchId" data-placeholder="请选择党支部">
-                                                                <option value="${branch.id}">${branch.name}</option>
+                                                                <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                                             </select>
                                                     </div>
                                                 <script>
@@ -122,7 +122,7 @@
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/party_selects"
                                                         name="toPartyId" data-placeholder="请选择分党委">
-                                                    <option value="${toParty.id}">${toParty.name}</option>
+                                                    <option value="${toParty.id}" title="${toParty.isDeleted}">${toParty.name}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group" style="${(empty toBranch)?'display: none':''}" id="toBranchDiv">
@@ -130,7 +130,7 @@
                                                 <select class="form-control" data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/branch_selects"
                                                         name="toBranchId" data-placeholder="请选择党支部">
-                                                    <option value="${toBranch.id}">${toBranch.name}</option>
+                                                    <option value="${toBranch.id}" title="${toBranch.isDeleted}">${toBranch.name}</option>
                                                 </select>
                                             </div>
                                             <script>
@@ -249,16 +249,12 @@
             {
                 label: '所属组织机构', name: 'from',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    var party = rowObject.party;
-                    var branch = rowObject.branch;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return displayParty(rowObject.partyId, rowObject.branchId);
                 },frozen:true
             },
             {label: '转入组织机构', name: 'to', width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    var party = rowObject.toParty;
-                    var branch = rowObject.toBranch;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return displayParty(rowObject.toPartyId, rowObject.toBranchId);
                 }
             },
             {label: '转出办理时间', name: 'fromHandleTime', width: 150},

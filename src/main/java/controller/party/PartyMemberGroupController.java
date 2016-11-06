@@ -60,12 +60,9 @@ public class PartyMemberGroupController extends BaseController {
 
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_page")
-    public String partyMemberGroup_page(HttpServletResponse response,
-                                        String name,
-                                        Integer partyId,
-                                        Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String partyMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status, ModelMap modelMap) {
 
-
+        modelMap.put("status", status);
         return "party/partyMemberGroup/partyMemberGroup_page";
     }
     @RequiresPermissions("partyMemberGroup:list")
@@ -73,6 +70,7 @@ public class PartyMemberGroupController extends BaseController {
     public void partyMemberGroup_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party_member_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                      @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String name,
                                     Integer partyId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -90,6 +88,8 @@ public class PartyMemberGroupController extends BaseController {
         PartyMemberGroupExample example = new PartyMemberGroupExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        criteria.andIsDeletedEqualTo(status==-1);
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
@@ -199,7 +199,7 @@ public class PartyMemberGroupController extends BaseController {
         return "party/partyMemberGroup/partyMemberGroup_au";
     }
 
-    @RequiresPermissions("partyMemberGroup:del")
+    /*@RequiresPermissions("partyMemberGroup:del")
     @RequestMapping(value = "/partyMemberGroup_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyMemberGroup_del(HttpServletRequest request, Integer id) {
@@ -210,16 +210,18 @@ public class PartyMemberGroupController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织领导班子：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("partyMemberGroup:del")
     @RequestMapping(value = "/partyMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            partyMemberGroupService.batchDel(ids);
+            partyMemberGroupService.batchDel(ids, isDeleted);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织领导班子：%s", StringUtils.join(ids, ",")));
         }
 

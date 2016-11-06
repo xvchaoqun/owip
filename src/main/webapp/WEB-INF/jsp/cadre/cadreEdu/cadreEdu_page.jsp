@@ -133,7 +133,7 @@
             url: '${ctx}/cadreEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: [
                 {label: '学历', name: 'eduId' ,frozen:true, formatter:function(cellvalue, options, rowObject){
-                    return _metaTypeMap[cellvalue]
+                    return _cMap.metaTypeMap[cellvalue].name
                 }},
                 {label: '毕业/在读', width:90, name: 'isGraduated', formatter:function(cellvalue, options, rowObject){
                     return cellvalue?"毕业":"在读";
@@ -152,7 +152,7 @@
 
                 {label: '学制', name: 'schoolLen', width:50},
                 {label: '学习方式', name: 'learnStyle', formatter:function(cellvalue, options, rowObject){
-                    return _metaTypeMap[cellvalue]
+                    return _cMap.metaTypeMap[cellvalue].name
                 }},
                 {label: '学位', name: 'degree', formatter:function(cellvalue, options, rowObject){
                     return rowObject.hasDegree?cellvalue:"-";

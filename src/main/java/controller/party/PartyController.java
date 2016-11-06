@@ -6,7 +6,6 @@ import domain.party.PartyExample.Criteria;
 import domain.sys.MetaType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.PartyMixin;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -78,7 +77,9 @@ public class PartyController extends BaseController {
     @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party_page")
-    public String party_page(ModelMap modelMap) {
+    public String party_page(ModelMap modelMap,@RequestParam(required = false, defaultValue = "1")Byte status) {
+
+        modelMap.put("status", status);
 
         return "party/party_page";
     }
@@ -89,6 +90,7 @@ public class PartyController extends BaseController {
     public void party_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                           @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String code,
                                     String name,
                                     Integer unitId,
@@ -111,9 +113,11 @@ public class PartyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartyExample example = new PartyExample();
-        Criteria criteria = example.createCriteria();
+        PartyViewExample example = new PartyViewExample();
+        PartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
+
+        criteria.andIsDeletedEqualTo(status==-1);
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
@@ -160,12 +164,12 @@ public class PartyController extends BaseController {
             return;
         }
 
-        int count = partyMapper.countByExample(example);
+        int count = partyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Party> Partys = partyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PartyView> Partys = partyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -174,9 +178,7 @@ public class PartyController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Party.class, PartyMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap);
         return;
     }
 
@@ -223,7 +225,7 @@ public class PartyController extends BaseController {
         return "party/party_au";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    /*@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_del", method = RequestMethod.POST)
     @ResponseBody
@@ -235,17 +237,19 @@ public class PartyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "删除基层党组织：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            partyService.batchDel(ids);
+            partyService.batchDel(ids, isDeleted);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
         }
 
@@ -256,21 +260,21 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_party_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_party_changeOrder(Integer id, Integer sortOrder, HttpServletRequest request) {
 
-        partyService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织调序：%s,%s", id, addNum));
+        partyService.changeOrder(id, sortOrder);
+        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织调序：%s,%s", id, sortOrder));
         return success(FormUtils.SUCCESS);
     }
 
-    public void party_export(PartyExample example, HttpServletResponse response) {
+    public void party_export(PartyViewExample example, HttpServletResponse response) {
 
-        List<Party> records = partyMapper.selectByExample(example);
+        List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"编号","名称","简称","所属单位","党总支类别","组织类别","所在单位属性","联系电话","邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            Party record = records.get(i);
+            PartyView record = records.get(i);
             String[] values = {
                     record.getCode(),
                     record.getName(),
@@ -292,6 +296,7 @@ public class PartyController extends BaseController {
     @RequestMapping("/party_selects")
     @ResponseBody
     public Map party_selects(Integer pageSize, Boolean auth, Boolean notDirect,
+                             Boolean del,
                              Boolean notBranchAdmin,
                              Integer pageNo, Integer classId, String searchStr) throws IOException {
 
@@ -306,6 +311,10 @@ public class PartyController extends BaseController {
         PartyExample example = new PartyExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        if(del!=null){
+            criteria.andIsDeletedEqualTo(del);
+        }
 
         if(classId!=null) criteria.andClassIdEqualTo(classId);
 
@@ -355,6 +364,7 @@ public class PartyController extends BaseController {
             option.put("text", party.getName());
             option.put("id", party.getId());
             option.put("class", party.getClassId());
+            option.put("del", party.getIsDeleted());
             options.add(option);
         }
 

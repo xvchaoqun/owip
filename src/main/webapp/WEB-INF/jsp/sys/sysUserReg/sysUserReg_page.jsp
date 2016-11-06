@@ -88,7 +88,7 @@
                                                         <label>所属分党委</label>
                                                         <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?auth=1"
                                                                 name="partyId" data-placeholder="请选择">
-                                                            <option value="${party.id}">${party.name}</option>
+                                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                                         </select>
                                                     </div>
 
@@ -166,7 +166,9 @@
             {label: '学工号', name: 'code', frozen:true},
             {label: '身份证号码', name: 'idcard', width: 200,frozen:true},
             {label: '手机号码', name: 'phone'},
-            {label: '所属组织机构', name: 'party', width: 450, align:'left'},
+            {label: '所属组织机构', name: 'party', width: 450, align:'left',formatter: function (cellvalue, options, rowObject) {
+                return displayParty(rowObject.partyId);
+            }},
             {label: '注册时间', name: 'createTime', width: 150},
             {label: 'IP', name: 'ip', width: 150}, {hidden: true, name: 'status'}
         ],

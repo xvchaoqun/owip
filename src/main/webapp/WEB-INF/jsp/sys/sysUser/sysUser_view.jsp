@@ -105,11 +105,11 @@
                                     <div class="profile-info-value">
                                     <span class="editable" >
                                         <c:forEach items="${adminPartyIdList}" var="partyId" varStatus="vs">
-                                            ${partyMap.get(partyId).name}
+                                            ${cm:displayParty(partyId, null)}
                                             <shiro:hasAnyRoles name="admin, odAdmin">
                                             <a class="confirm btn btn-danger btn-xs"
                                                data-url="${ctx}/partyAdmin_del?userId=${param.userId}&partyId=${partyId}"
-                                               data-msg="确定删除该管理员[${partyMap.get(partyId).name}]？"
+                                               data-msg="确定删除该管理员[${cm:displayParty(partyId, null)}]？"
                                                data-callback="_delAdminCallback">删除</a>
                                             </shiro:hasAnyRoles>
                                             <c:if test="${!vs.last}">,</c:if>
@@ -125,11 +125,11 @@
                                     <span class="editable" >
                                         <c:forEach items="${adminBranchIdList}" var="branchId" varStatus="vs">
                                             <c:set var="branch" value="${branchMap.get(branchId)}"/>
-                                            ${partyMap.get(branch.partyId).name}-${branch.name}
+                                            ${cm:displayParty(branch.partyId, branch.id)}
                                             <shiro:hasAnyRoles name="admin, odAdmin">
                                             <a class="confirm btn btn-danger btn-xs"
                                                data-url="${ctx}/branchAdmin_del?userId=${param.userId}&branchId=${branch.id}"
-                                               data-msg="确定删除该管理员[${partyMap.get(branch.partyId).name}-${branch.name}]？"
+                                               data-msg="确定删除该管理员[${cm:displayParty(branch.partyId, branch.id)}]？"
                                                data-callback="_delAdminCallback">删除</a>
                                             </shiro:hasAnyRoles>
                                             <c:if test="${!vs.last}">,</c:if>

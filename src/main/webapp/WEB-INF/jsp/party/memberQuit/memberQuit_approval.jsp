@@ -59,10 +59,7 @@
 
                                     <div class="profile-info-value">
                                     <span class="editable">
-                                        ${partyMap.get(memberQuit.partyId).name}
-                                            <c:if test="${memberQuit.branchId>0}">
-                                                -${branchMap.get(memberQuit.branchId).name}
-                                            </c:if>
+                                        ${cm:displayParty(memberQuit.partyId, memberQuit.branchId)}
                                     </span>
                                     </div>
                                 </div>

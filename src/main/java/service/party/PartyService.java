@@ -1,10 +1,8 @@
 package service.party;
 
+import domain.party.*;
 import domain.sys.MetaType;
-import domain.party.Party;
-import domain.party.PartyExample;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,15 +12,19 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.sys.MetaTypeService;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PartyService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
+    @Autowired
+    private BranchService branchService;
+    @Autowired
+    private PartyMemberGroupService partyMemberGroupService;
+    @Autowired
+    private OrgAdminService orgAdminService;
+
     // 是否直属党支部
     public boolean isDirectBranch(int partyId){
 
@@ -62,6 +64,7 @@ public class PartyService extends BaseMapper {
     public int insertSelective(Party record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()));
+        record.setIsDeleted(false);
         partyMapper.insertSelective(record);
         Integer id = record.getId();
         Party _record = new Party();
@@ -69,22 +72,59 @@ public class PartyService extends BaseMapper {
         _record.setSortOrder(id);
         return partyMapper.updateByPrimaryKeySelective(_record);
     }
-    @Transactional
+    /*@Transactional
     @CacheEvict(value="Party:ALL", allEntries = true)
     public void del(Integer id){
 
         partyMapper.deleteByPrimaryKey(id);
-    }
+    }*/
 
     @Transactional
     @CacheEvict(value="Party:ALL", allEntries = true)
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, boolean isDeleted){
 
         if(ids==null || ids.length==0) return;
 
+        if(isDeleted) {
+            for (Integer id : ids) {
+
+                // 删除所有的领导班子
+                {
+                    PartyMemberGroupExample example = new PartyMemberGroupExample();
+                    example.createCriteria().andPartyIdEqualTo(id);
+                    List<PartyMemberGroup> partyMemberGroups = partyMemberGroupMapper.selectByExample(example);
+                    if (partyMemberGroups.size() > 0) {
+                        List<Integer> groupIds = new ArrayList<>();
+                        for (PartyMemberGroup partyMemberGroup : partyMemberGroups) {
+                            groupIds.add(partyMemberGroup.getId());
+                        }
+                        partyMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}), true);
+                    }
+                }
+                // 删除所有的支部
+                {
+                    BranchExample example = new BranchExample();
+                    example.createCriteria().andPartyIdEqualTo(id);
+                    List<Branch> branchs = branchMapper.selectByExample(example);
+                    if (branchs.size() > 0) {
+                        List<Integer> branchIds = new ArrayList<>();
+                        for (Branch branch : branchs) {
+                            branchIds.add(branch.getId());
+                        }
+                        branchService.batchDel(branchIds.toArray(new Integer[]{}), true);
+                    }
+                }
+
+                // 删除所有的分党委管理员
+                orgAdminService.delAllOrgAdmin(id, null);
+            }
+        }
+
         PartyExample example = new PartyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        partyMapper.deleteByExample(example);
+        Party record = new Party();
+        record.setIsDeleted(isDeleted);
+        partyMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
@@ -109,46 +149,13 @@ public class PartyService extends BaseMapper {
         return map;
     }
 
-    /**
-     * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
-     * 3.sort_order = LAST_INSERT_ID()+1,
-     * @param id
-     * @param addNum
-     */
     @Transactional
     @CacheEvict(value = "Party:ALL", allEntries = true)
-    public void changeOrder(int id, int addNum) {
+    public void changeOrder(int id, int sortOrder) {
 
-        if(addNum == 0) return ;
-
-        Party entity = partyMapper.selectByPrimaryKey(id);
-        Integer baseSortOrder = entity.getSortOrder();
-
-        PartyExample example = new PartyExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        }else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<Party> overEntities = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
-
-            Party targetEntity = overEntities.get(overEntities.size()-1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("ow_party", baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_party", baseSortOrder, targetEntity.getSortOrder());
-
-            Party record = new Party();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            partyMapper.updateByPrimaryKeySelective(record);
-        }
+        Party record = new Party();
+        record.setId(id);
+        record.setSortOrder(sortOrder);
+        partyMapper.updateByPrimaryKeySelective(record);
     }
 }

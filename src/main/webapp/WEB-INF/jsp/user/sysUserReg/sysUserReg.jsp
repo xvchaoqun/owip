@@ -45,7 +45,7 @@
                         所属组织机构
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${partyMap.get(sysUserReg.partyId).name}
+                            ${cm:displayParty(sysUserReg.partyId, null)}
                     </td>
                     <td class="bg-right">
                         身份证号码

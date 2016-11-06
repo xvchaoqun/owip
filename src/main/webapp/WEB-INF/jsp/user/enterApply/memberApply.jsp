@@ -52,7 +52,7 @@
         </div>
         <div class="form-group"  id="party" style="${empty party?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
-          <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+          <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects?del=0"
                   name="partyId" data-placeholder="请选择分党委">
             <option value="${party.id}">${party.name}</option>
           </select>
@@ -60,7 +60,7 @@
          </div>
           <div class="form-group" id="branch" style="${empty branch?'display: none;':''}" >
             <div class="col-sm-offset-3 col-sm-9">
-          <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+          <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?del=0"
                   name="branchId" data-placeholder="请选择党支部">
             <option value="${branch.id}">${branch.name}</option>
           </select>

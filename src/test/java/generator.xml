@@ -120,21 +120,36 @@
       </table>-->
       <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
       </table>
-      <table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
-      </table>-->
-      <!--<table tableName="ow_branch_member_group_view" domainObjectName="party.BranchMemberGroupView">
-      </table>-->
+      -->
+
 
    <!--<table tableName="ow_party" domainObjectName="party.Party">
        <ignoreColumn column="update_time"/>
     </table>
       <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
-      </table>
-       <table tableName="ow_party_member" domainObjectName="party.PartyMember">
       </table>-->
-<!--    <table tableName="ow_branch" domainObjectName="party.Branch">
+      <!-- <table tableName="ow_party_member" domainObjectName="party.PartyMember">
+      </table>-->
+      <table tableName="ow_party_view" domainObjectName="party.PartyView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+   <!-- <table tableName="ow_branch" domainObjectName="party.Branch">
     <ignoreColumn column="update_time"/>
-    </table>-->
+    </table>
+      <table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
+      </table>-->
+
+      <table tableName="ow_branch_view" domainObjectName="party.BranchView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+
+     <!-- <table tableName="ow_branch_member_group_view" domainObjectName="party.BranchMemberGroupView">
+     </table>-->
+
       <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
       </table>-->
 
@@ -161,11 +176,11 @@
 
       <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
               </table>-->
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>

@@ -22,6 +22,7 @@ import domain.sys.SysUserViewExample;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
+import mixin.PartyOptionMixin;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -36,6 +37,7 @@ import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,30 +80,20 @@ public class CommonController extends BaseController{
         }
     }*/
 
-    @RequestMapping("/metaMap_JSON")
-    public String metaMap_JSON(ModelMap modelMap) throws JsonProcessingException {
+    @RequestMapping("/metadata")
+    @ResponseBody
+    public void metadata_JSON(PrintWriter writer) throws JsonProcessingException {
 
-        /*Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MetaType.class, MetaTypeMixin.class);
-        sourceMixins.put(SafeBox.class, MetaSafeBoxMixin.class);
-        sourceMixins.put(Unit.class, MetaUnitMixin.class);
-        sourceMixins.put(DispatchType.class, MetaDispatchTypeMixin.class);
-
-        Map metaMap = getMetaMap();
-        metaMap.remove("cadreMap");*/
-
-        Map map = new HashMap();
+        /*Map map = new HashMap();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         for (MetaType metaType : metaTypeMap.values()) {
             map.put(metaType.getId(), metaType.getName());
         }
-        modelMap.put("metaTypeMap", JSONUtils.toString(map));
+        modelMap.put("metaTypeMap", JSONUtils.toString(map));*/
 
         Map cMap = new HashMap();
 
-        Map metaMap = getMetaMap();
         Map constantMap = new HashMap();
-
         Field[] fields = SystemConstants.class.getFields();
         for (Field field : fields) {
             if(StringUtils.equals(field.getType().getName(), "java.util.Map")){
@@ -112,17 +104,22 @@ public class CommonController extends BaseController{
                 }
             }
         }
-
-        cMap.putAll(metaMap);
         cMap.putAll(constantMap);
+
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        cMap.put("metaTypeMap", metaTypeMap);
+
+        Map metaMap = getMetaMap();
+        cMap.putAll(metaMap);
+
 
         ObjectMapper mapper = JSONUtils.buildObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 
         Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
         sourceMixins.put(MetaType.class, MetaTypeOptionMixin.class);
-        sourceMixins.put(Party.class, OptionMixin.class);
-        sourceMixins.put(Branch.class, OptionMixin.class);
+        sourceMixins.put(Party.class, PartyOptionMixin.class);
+        sourceMixins.put(Branch.class, PartyOptionMixin.class);
         //sourceMixins.put(Dispatch.class, OptionMixin.class);
         //sourceMixins.put(DispatchUnit.class, OptionMixin.class);
         sourceMixins.put(Unit.class, OptionMixin.class);
@@ -137,9 +134,15 @@ public class CommonController extends BaseController{
 
         mapper.setMixInAnnotations(sourceMixins);
 
-        modelMap.put("cMap", mapper.writeValueAsString(cMap));
+        // 删除目前不需要的
+        cMap.remove("dispatchMap");
+        cMap.remove("cadreMap");
+        cMap.remove("countryMap");
+        cMap.remove("dispatchCadreMap");
+        cMap.remove("safeBoxMap");
 
-        return "common/metaMap_JSON";
+        writer.write("var _cMap="+mapper.writeValueAsString(cMap));
+        //return "common/metadata_JSON";
     }
 
     // 根据账号或姓名或学工号选择用户

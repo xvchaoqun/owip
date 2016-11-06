@@ -86,10 +86,7 @@ pageEncoding="UTF-8" %>
                                                         --
                                                     </c:if>
                                                         <c:if test="${!applyOpenTime.isGlobal}">
-                                                            ${partyMap.get(applyOpenTime.partyId).name}
-                                                            <c:if test="${not empty applyOpenTime.branchId}">
-                                                                -${branchMap.get(applyOpenTime.branchId).name}
-                                                            </c:if>
+                                                            ${cm:displayParty(applyOpenTime.partyId, applyOpenTime.branchId)}
                                                                 </c:if>
                                                     </td>
                                                     <td>${cm:formatDate(applyOpenTime.startTime,'yyyy-MM-dd')}</td>

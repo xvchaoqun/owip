@@ -12,6 +12,7 @@
     <result column="appoint_time" property="appointTime" jdbcType="DATE" />
     <result column="dispatch_unit_id" property="dispatchUnitId" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, fid, branch_id, name, is_present, tran_time, actual_tran_time, appoint_time, 
-    dispatch_unit_id, sort_order, party_id
+    dispatch_unit_id, sort_order, is_deleted, party_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.BranchMemberGroupViewExample" >
     select
@@ -100,11 +101,13 @@
     insert into ow_branch_member_group_view (id, fid, branch_id, 
       name, is_present, tran_time, 
       actual_tran_time, appoint_time, dispatch_unit_id, 
-      sort_order, party_id)
+      sort_order, is_deleted, party_id
+      )
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{isPresent,jdbcType=BIT}, #{tranTime,jdbcType=DATE}, 
       #{actualTranTime,jdbcType=DATE}, #{appointTime,jdbcType=DATE}, #{dispatchUnitId,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER})
+      #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, #{partyId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.party.BranchMemberGroupView" >
     insert into ow_branch_member_group_view
@@ -138,6 +141,9 @@
       </if>
       <if test="sortOrder != null" >
         sort_order,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
       </if>
       <if test="partyId != null" >
         party_id,
@@ -173,6 +179,9 @@
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="partyId != null" >
         #{partyId,jdbcType=INTEGER},
@@ -218,6 +227,9 @@
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
       <if test="record.partyId != null" >
         party_id = #{record.partyId,jdbcType=INTEGER},
       </if>
@@ -238,6 +250,7 @@
       appoint_time = #{record.appointTime,jdbcType=DATE},
       dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       party_id = #{record.partyId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />

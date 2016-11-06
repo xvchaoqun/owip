@@ -21,6 +21,7 @@
     <result column="found_time" property="foundTime" jdbcType="DATE" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List" >
     id, code, name, short_name, party_id, type_id, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
-    email, found_time, sort_order, create_time
+    email, found_time, sort_order, create_time, is_deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.BranchExample" >
     select
@@ -121,15 +122,15 @@
       is_staff, is_prefessional, is_base_team, 
       unit_type_id, is_enterprise_big, is_enterprise_nationalized, 
       is_union, phone, fax, email, 
-      found_time, sort_order, create_time
-      )
+      found_time, sort_order, create_time, 
+      is_deleted)
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{shortName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{isStaff,jdbcType=BIT}, #{isPrefessional,jdbcType=BIT}, #{isBaseTeam,jdbcType=BIT}, 
       #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, 
       #{isUnion,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.party.Branch" >
     insert into ow_branch
@@ -191,6 +192,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -249,6 +253,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -318,6 +325,9 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -343,7 +353,8 @@
       email = #{record.email,jdbcType=VARCHAR},
       found_time = #{record.foundTime,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -405,6 +416,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -427,7 +441,8 @@
       email = #{email,jdbcType=VARCHAR},
       found_time = #{foundTime,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.party.BranchExample" id="selectByExampleWithRowbounds" >

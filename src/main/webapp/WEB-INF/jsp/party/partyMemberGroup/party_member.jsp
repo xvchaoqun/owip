@@ -75,10 +75,11 @@
                 <tbody>
                 <c:forEach items="${partyMembers}" var="partyMember" varStatus="st">
                     <tr>
+                        <c:set var="user" value="${cm:getUserById(partyMember.userId)}"/>
                         <td nowrap>
                             <c:if test="${partyMember.isAdmin}">
                                 <span class="label label-success arrowed-in arrowed-in-right">管理员</span>
-                            </c:if>${cm:getUserById(partyMember.userId).realname}
+                            </c:if>${user.realname}（${user.code}）
                         </td>
                         <td nowrap>${partyMemberTypeMap.get(partyMember.typeId).name}</td>
                         <shiro:hasPermission name="partyMember:changeOrder">

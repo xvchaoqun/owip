@@ -165,12 +165,8 @@ pageEncoding="UTF-8"%>
 		<td class="bg-right">
 			所属组织机构
 		</td>
-
 		<td class="bg-left" colspan="5">
-			${partyMap.get(memberStudent.partyId).name}
-			<c:if test="${not empty memberStudent.branchId}">
-				-${branchMap.get(memberStudent.branchId).name}
-			</c:if>
+			${cm:displayParty(memberStudent.partyId, memberStudent.branchId)}
 		</td>
 
 	</tr>

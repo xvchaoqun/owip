@@ -86,10 +86,7 @@ pageEncoding="UTF-8"%>
 					所在党组织
 				</td>
 				<td>
-					${partyMap.get(member.partyId).name}
-					<c:if test="${not empty member.branchId}">
-					- ${branchMap.get(member.branchId).name}
-					</c:if>
+					${cm:displayParty(member.partyId, member.branchId)}
 				</td>
 
 				<td>证件类型</td>

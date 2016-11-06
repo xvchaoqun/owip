@@ -1025,6 +1025,14 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
     partyId = partyId || "partyId";
     branchId = branchId || "branchId";
     $('select[name='+partyId+'], select[name='+branchId+']', $container).select2({
+        templateResult: function(state) {
+
+            return '<span class="{0}">{1}</span>'.format(state.del||state.title=='true'?"delete":"", state.text);
+        },
+        templateSelection: function(state) {
+            return '<span class="{0}">{1}</span>'.format(state.del||state.title=='true'?"delete":"", state.text);
+        },
+        escapeMarkup: function (markup) { return markup; },
         ajax: {
             dataType: 'json',
             delay: 300,
@@ -1202,11 +1210,17 @@ function register_user_select($select, ts){
     });
 }
 // 选择分党委
-function register_party_select($select, ts){
+function register_party_select($select){
     return $select.select2({
         width:350,
-        templateResult: formatState,
-        templateSelection:ts||templateSelection,
+        templateResult: function(state) {
+
+            return '<span class="{0}">{1}</span>'.format(state.del||state.title=='true'?"delete":"", state.text);
+        },
+        templateSelection: function(state) {
+            return '<span class="{0}">{1}</span>'.format(state.del||state.title=='true'?"delete":"", state.text);
+        },
+        escapeMarkup: function (markup) { return markup; },
         ajax: {
             dataType: 'json',
             delay: 300,
@@ -1438,3 +1452,40 @@ $(document).on("click", ".infobox", function(){
     if(parseInt(_count)>0 && _url.length>0)
         location.href=_url;
 });
+
+$(document).on("click", "a.change-order",function(){
+    $this = $(this);
+    var url = $this.data("url");
+    var id = $this.data("id");
+    var init = $this.data("init");
+    var title = $.trim($this.data("title"));
+    var grid = $($this.data("grid-id") || "#jqGrid");
+    bootbox.prompt({
+        size:'small',
+        title: "修改排序，序号大的在前" + (title!=''?"["+title+"]":""),
+        value:init,
+        inputType: 'number',
+        callback: function (result) {
+            $.post(url, {id:id, sortOrder:result}, function(ret){
+                if(ret.success){
+                    grid.trigger("reloadGrid");
+                }
+            });
+        }
+    }).draggable({handle :".modal-header"});
+});
+
+// 距离现在多少年
+function yearOffNow(date){
+    var month = MonthDiff(date, new Date().format("yyyy-MM-dd"));
+    return Math.floor(month / 12);
+}
+// 显示组织名称
+function displayParty(partyId, branchId){
+
+    var party = _cMap.partyMap[partyId];
+    var branch = branchId==undefined?undefined:_cMap.branchMap[branchId];
+    return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
+        .format(party.isDeleted?"delete":"", party.name,
+        (branch!=undefined && branch.isDeleted)?"delete":"", (branch==undefined)?"":" - "+branch.name)
+}

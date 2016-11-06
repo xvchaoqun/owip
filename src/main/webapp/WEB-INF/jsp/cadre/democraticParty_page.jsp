@@ -125,7 +125,7 @@ pageEncoding="UTF-8" %>
             },frozen:true  },
             { label: '民主党派', name: 'dpTypeId', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                return _metaTypeMap[cellvalue]
+                return _cMap.metaTypeMap[cellvalue].name
             }},
             { label: '党派加入时间', name: 'dpAddTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} , width: 120},
             { label: '担任党派职务', name: 'dpPost' , width: 250},

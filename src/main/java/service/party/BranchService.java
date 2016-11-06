@@ -1,8 +1,6 @@
 package service.party;
 
-import domain.party.Branch;
-import domain.party.BranchExample;
-import domain.party.Party;
+import domain.party.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -18,16 +16,17 @@ import service.BaseMapper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BranchService extends BaseMapper {
 
     @Autowired
     private PartyMemberService partyMemberService;
+    @Autowired
+    private BranchMemberGroupService branchMemberGroupService;
+    @Autowired
+    private OrgAdminService orgAdminService;
 
     public boolean idDuplicate(Integer id, String code) {
 
@@ -78,6 +77,7 @@ public class BranchService extends BaseMapper {
 
         checkAuth(record.getPartyId());
 
+        record.setIsDeleted(false);
         record.setCode(genCode(record.getPartyId()));
         branchMapper.insertSelective(record);
         Integer id = record.getId();
@@ -87,42 +87,54 @@ public class BranchService extends BaseMapper {
         return branchMapper.updateByPrimaryKeySelective(_record);
     }
 
-    @Transactional
+    /*@Transactional
     @CacheEvict(value = "Branch:ALL", allEntries = true)
     public void del(Integer id) {
         Branch branch = branchMapper.selectByPrimaryKey(id);
         checkAuth(branch.getPartyId());
 
         branchMapper.deleteByPrimaryKey(id);
-    }
+    }*/
 
     @Transactional
     @CacheEvict(value = "Branch:ALL", allEntries = true)
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, boolean isDeleted) {
 
         if (ids == null || ids.length == 0) return;
-        Subject subject = SecurityUtils.getSubject();
-        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+
         for (Integer id : ids) {
-            // 权限控制
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
-                // 要求是分党委管理员
-                Branch branch = findAll().get(id);
-                int partyId = branch.getPartyId();
-
-                if (!partyMemberService.isPresentAdmin(shiroUser.getId(), partyId)) {
-                    throw new UnauthorizedException();
-                }
-            }
-
             Branch branch = branchMapper.selectByPrimaryKey(id);
             checkAuth(branch.getPartyId());
+
+            if(!isDeleted){ // 恢复支部
+                Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
+                if(party.getIsDeleted())
+                    throw new RuntimeException(String.format("恢复支部失败，支部所属的分党委【%s】已删除。", party.getName()));
+            }
+
+            if(isDeleted) {
+                // 删除所有的支部委员会
+                BranchMemberGroupExample example = new BranchMemberGroupExample();
+                example.createCriteria().andBranchIdEqualTo(id);
+                List<BranchMemberGroup> branchMemberGroups = branchMemberGroupMapper.selectByExample(example);
+                if (branchMemberGroups.size() > 0) {
+                    List<Integer> groupIds = new ArrayList<>();
+                    for (BranchMemberGroup branchMemberGroup : branchMemberGroups) {
+                        groupIds.add(branchMemberGroup.getId());
+                    }
+                    branchMemberGroupService.batchDel(groupIds.toArray(new Integer[]{}), true);
+                }
+
+                // 删除所有的支部管理员
+                orgAdminService.delAllOrgAdmin(null, id);
+            }
         }
 
         BranchExample example = new BranchExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        branchMapper.deleteByExample(example);
+        Branch record = new Branch();
+        record.setIsDeleted(isDeleted);
+        branchMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
@@ -149,52 +161,5 @@ public class BranchService extends BaseMapper {
         }
 
         return map;
-    }
-
-    /**
-     * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
-     * 3.sort_order = LAST_INSERT_ID()+1,
-     *
-     * @param id
-     * @param addNum
-     */
-    @Transactional
-    @CacheEvict(value = "Branch:ALL", allEntries = true)
-    public void changeOrder(int id, int addNum) {
-
-        if (addNum == 0) return;
-
-        Branch entity = branchMapper.selectByPrimaryKey(id);
-
-        checkAuth(entity.getPartyId());
-
-        Integer baseSortOrder = entity.getSortOrder();
-
-        BranchExample example = new BranchExample();
-        if (addNum > 0) {
-
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
-            example.setOrderByClause("sort_order asc");
-        } else {
-
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
-            example.setOrderByClause("sort_order desc");
-        }
-
-        List<Branch> overEntities = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if (overEntities.size() > 0) {
-
-            Branch targetEntity = overEntities.get(overEntities.size() - 1);
-
-            if (addNum > 0)
-                commonMapper.downOrder("ow_branch", baseSortOrder, targetEntity.getSortOrder());
-            else
-                commonMapper.upOrder("ow_branch", baseSortOrder, targetEntity.getSortOrder());
-
-            Branch record = new Branch();
-            record.setId(id);
-            record.setSortOrder(targetEntity.getSortOrder());
-            branchMapper.updateByPrimaryKeySelective(record);
-        }
     }
 }
