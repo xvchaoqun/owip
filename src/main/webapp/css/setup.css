@@ -297,6 +297,10 @@ body{
 .has-success .select2-selection{
     border-color: #3c763d;
 }
+/*防止初始化时页面变形*/
+select[multiple]{
+    display: none;
+}
 
 /*login page*/
 br.xs-100 {

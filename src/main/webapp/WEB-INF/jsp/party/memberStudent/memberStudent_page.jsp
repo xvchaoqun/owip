@@ -247,56 +247,9 @@
 
     $('#searchForm [data-rel="select2"]').select2();
 
-    $('#searchForm select[name=nation]').multiselect({
-        enableFiltering: true,
-        enableHTML: true,
-        buttonClass: 'btn btn-default',
-        filterPlaceholder: '查找',
-        nonSelectedText: '请选择',
-        nSelectedText: '已选择',
-        includeSelectAllOption:true,
-        selectAllText:'全选/取消全选',
-        allSelectedText: '全部已选择',
-        maxHeight:300,
-        templates: {
-            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-            ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-            filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-            li: '<li><a tabindex="0"><label></label></a></li>',
-            divider: '<li class="multiselect-item divider"></li>',
-            liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-        }
-    });
-    $('#searchForm select[name=nativePlace]').multiselect({
-        enableFiltering: true,
-        enableHTML: true,
-        buttonClass: 'btn btn-default',
-        filterPlaceholder: '查找',
-        nonSelectedText: '请选择',
-        nSelectedText: '已选择',
-        includeSelectAllOption:true,
-        selectAllText:'全选/取消全选',
-        allSelectedText: '全部已选择',
-        maxHeight:300,
-        templates: {
-            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-            ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-            filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-            li: '<li><a tabindex="0"><label></label></a></li>',
-            divider: '<li class="multiselect-item divider"></li>',
-            liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-        }
-    });
-    <c:if test="${fn:length(selectNations)>0}">
-    $("#searchForm select[name=nation]").multiselect('select',
-            ${cm:toJSONArray(selectNations)});
-    </c:if>
-    <c:if test="${fn:length(selectNativePlaces)>0}">
-    $("#searchForm select[name=nativePlace]").multiselect('select',
-            ${cm:toJSONArray(selectNativePlaces)});
-    </c:if>
+    register_multiselect($('#searchForm select[name=nation]'), ${cm:toJSONArray(selectNations)});
+    register_multiselect($('#searchForm select[name=nativePlace]'), ${cm:toJSONArray(selectNativePlaces)});
+
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('#searchForm select[name=userId]'));
 
