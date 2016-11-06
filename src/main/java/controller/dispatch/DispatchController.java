@@ -49,9 +49,16 @@ public class DispatchController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("dispatch:list")
     @RequestMapping("/dispatch_page")
-    public String dispatch_page(Integer dispatchTypeId,ModelMap modelMap) {
+    public String dispatch_page(@RequestParam(defaultValue = "1") Integer cls,
+                                Integer dispatchTypeId,ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if(cls==2){
+            return "forward:/dispatchCadre_page";
+        }
 
         if (dispatchTypeId!=null) {
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
@@ -60,6 +67,7 @@ public class DispatchController extends BaseController {
 
         return "dispatch/dispatch_page";
     }
+
     @RequiresPermissions("dispatch:list")
     @RequestMapping("/dispatch_data")
     public void dispatch_data(HttpServletResponse response,
@@ -150,6 +158,38 @@ public class DispatchController extends BaseController {
         sourceMixins.put(Dispatch.class, DispatchMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
+    }
+
+    @RequiresPermissions("dispatch:edit")
+    @RequestMapping("/dispatch_au_page")
+    public String dispatch_cadres(Integer id, ModelMap modelMap) {
+
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+        modelMap.put("dispatch", dispatch);
+
+        return "dispatch/dispatch_au_page";
+    }
+
+    @RequiresPermissions("dispatch:edit")
+    @RequestMapping("/dispatch_au")
+    public String dispatch_au(Integer id, ModelMap modelMap) {
+
+        Integer year = null;
+        if (id != null) {
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+            modelMap.put("dispatch", dispatch);
+            year = dispatch.getYear();
+
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
+        }
+
+        if(year == null) {
+            year = DateUtils.getCurrentYear();
+        }
+        modelMap.put("year", year);
+
+        return "dispatch/dispatch_au";
     }
 
     @RequiresPermissions("dispatch:edit")
@@ -328,28 +368,6 @@ public class DispatchController extends BaseController {
         outputStream.write(bytes);
         outputStream.flush();
         outputStream.close();
-    }
-
-    @RequiresPermissions("dispatch:edit")
-    @RequestMapping("/dispatch_au")
-    public String dispatch_au(Integer id, ModelMap modelMap) {
-
-        Integer year = null;
-        if (id != null) {
-            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-            modelMap.put("dispatch", dispatch);
-            year = dispatch.getYear();
-
-            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
-            modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
-        }
-
-        if(year == null) {
-            year = DateUtils.getCurrentYear();
-        }
-        modelMap.put("year", year);
-
-        return "dispatch/dispatch_au";
     }
 
     @RequiresPermissions("dispatch:del")

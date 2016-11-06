@@ -510,7 +510,11 @@
       <artifactId>pdfbox</artifactId>
       <version>2.0.3</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom2</artifactId>
+      <version>2.0.5</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -749,7 +753,7 @@
             <output>${basedir}/src/main/webapp/css/extend.css</output>
             <includes>
               <include>extend/css/bootstrap-switch.min.css</include>
-              <include>extend/css/skin/ui.dynatree.css</include>
+              <include>extend/css/ui.dynatree.css</include>
               <include>extend/css/showLoading.css</include>
               <include>extend/css/toastr.css</include>
               <include>extend/css/select2.css</include>

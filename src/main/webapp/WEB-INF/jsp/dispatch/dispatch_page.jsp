@@ -6,7 +6,6 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
         <div class="myTableDiv"
-             data-url-au="${ctx}/dispatch_au"
              data-url-page="${ctx}/dispatch_page"
              data-url-del="${ctx}/dispatch_del"
              data-url-bd="${ctx}/dispatch_batchDel"
@@ -15,11 +14,17 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.typeId ||not empty param.code
             ||not empty param._pubTime ||not empty param._workTime ||not empty param._meetingTime || not empty param.code}"/>
+            <div class="tabbable">
+                <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
+                <div class="tab-content">
+                    <div id="home4" class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="dispatch:edit">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="openView btn btn-info btn-sm"
+                       data-url="${ctx}/dispatch_au_page"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>
-                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
+                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                   data-open-by="page" data-url="${ctx}/dispatch_au_page">
                     <i class="fa fa-edit"></i> 修改信息</a>
                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres">
@@ -107,6 +112,7 @@ pageEncoding="UTF-8" %>
             <div id="jqGridPager"> </div>
         </div>
         </div>
+            </div></div></div>
         <div id="item-content"> </div>
     </div>
 </div>

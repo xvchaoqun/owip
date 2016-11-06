@@ -1,19 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${dispatch!=null}">编辑</c:if><c:if test="${dispatch==null}">添加</c:if>发文</h3>
-</div>
-<div class="modal-body">
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="smaller">
+            ${dispatch!=null?"修改":"添加"}发文
+        </h4>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
     <form class="form-horizontal" action="${ctx}/dispatch_au" id="modalForm" method="post" enctype="multipart/form-data">
+        <div class="row">
         <input type="hidden" name="id" value="${dispatch.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">年份</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 100px">
                         <input required class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
-                               data-date-format="yyyy" data-date-min-view-mode="2" value="${year}" />
+                               data-date-format="yyyy" data-date-min-view-mode="2" value="${year}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -37,7 +41,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">党委常委会日期</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 100px">
                         <input class="form-control date-picker" name="_meetingTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -47,7 +51,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">发文日期</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 100px">
                         <input required class="form-control date-picker" name="_pubTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -57,7 +61,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任免日期</label>
 				<div class="col-xs-6">
-                    <div class="input-group">
+                    <div class="input-group" style="width: 100px">
                         <input required class="form-control date-picker" name="_workTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -94,15 +98,27 @@ pageEncoding="UTF-8"%>
                         <textarea class="form-control limited"name="remark">${dispatch.remark}</textarea>
 				</div>
 			</div>
+        </div>
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-info btn-sm" type="submit">
+                    <i class="ace-icon fa fa-check "></i>
+                    ${dispatch!=null?"修改":"添加"}
+                </button>
+
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn btn-default btn-sm" type="reset">
+                    <i class="ace-icon fa fa-undo"></i>
+                    重置
+                </button>
+            </div>
+        </div>
     </form>
-</div>
-<div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${dispatch!=null}">确定</c:if><c:if test="${dispatch==null}">添加</c:if>"/>
+        </div>
+    </div>
 </div>
 
 <script>
-
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 
@@ -122,7 +138,7 @@ pageEncoding="UTF-8"%>
     register_dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
     register_date($('.date-picker'));
 
-    $("#modal form").validate({
+    $("#modalForm").validate({
         rules: {
             code: {
                 digits: true
@@ -132,10 +148,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        $("#modal").modal('hide');
-                        //SysMsg.success('提交成功。', '成功',function(){
-                            $("#jqGrid").trigger("reloadGrid");
-                       // });
+                        alert("添加成功")
                     }
                 }
             });

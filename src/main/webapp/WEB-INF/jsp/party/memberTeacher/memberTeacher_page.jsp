@@ -319,7 +319,7 @@
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
                 return _cMap.unitMap[cellvalue].name;
             }},
-            {hidden:true, key:true, name:'retireApply.userId'}, {hidden: true, name: 'partyId'},
+            {hidden:true, key:true, name:'userId'},{hidden: true, name: 'partyId'},
             {hidden: true, name: 'source'}
         ],onSelectRow: function (id, status) {
             saveJqgridSelected("#"+this.id, id, status);

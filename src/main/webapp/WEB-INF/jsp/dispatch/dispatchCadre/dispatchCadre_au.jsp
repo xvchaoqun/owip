@@ -161,8 +161,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        //SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });

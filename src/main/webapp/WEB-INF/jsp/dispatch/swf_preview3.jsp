@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:if test="${empty dispatch || empty filePath}">
+<c:set var="exists" value="${cm:exists(filePath)}"/>
+<c:if test="${!exists}">
     <div class="swf-file none well">
-        没有文件
+        ${empty filePath?"请上传文件":"文件不存在"}${filePath}
     </div>
 </c:if>
-<c:if test="${not empty dispatch && not empty filePath}">
+<c:if test="${exists}">
     <div class="swf-file flash">
 <div id="flashContent">
 </div>
