@@ -1466,11 +1466,13 @@ $(document).on("click", "a.change-order",function(){
         value:init,
         inputType: 'number',
         callback: function (result) {
-            $.post(url, {id:id, sortOrder:result}, function(ret){
-                if(ret.success){
-                    grid.trigger("reloadGrid");
-                }
-            });
+            if(result!=null) {
+                $.post(url, {id: id, sortOrder: result}, function (ret) {
+                    if (ret.success) {
+                        grid.trigger("reloadGrid");
+                    }
+                });
+            }
         }
     }).draggable({handle :".modal-header"});
 });
