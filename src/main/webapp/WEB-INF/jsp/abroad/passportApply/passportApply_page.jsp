@@ -166,6 +166,7 @@ pageEncoding="UTF-8" %>
             </c:if>
             <c:if test="${status!=0}">
             { label: '审批人', name: 'approvalUser.realname', formatter:function(cellvalue, options, rowObject){
+                if(rowObject.approvalUser==undefined) return ''
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.approvalUser.id, cellvalue);
             }},
