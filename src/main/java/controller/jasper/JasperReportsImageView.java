@@ -1,5 +1,6 @@
 package controller.jasper;
 
+import net.coobird.thumbnailator.Thumbnails;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -24,18 +25,19 @@ public class JasperReportsImageView extends AbstractJasperReportsSingleFormatVie
 
         JRGraphics2DExporter exporter = new JRGraphics2DExporter();//创建graphics输出器
         //创建一个影像对象
-        BufferedImage bufferedImage = new BufferedImage(jasperPrint.getPageWidth(), jasperPrint.getPageHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(jasperPrint.getPageWidth(),
+                jasperPrint.getPageHeight(), BufferedImage.TYPE_INT_RGB);
         //取graphics
         Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
         //设置相应参数信息
         exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, g);
-        //exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, Float.valueOf(4));
+        //exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, 0.2f);
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.exportReport();
         g.dispose();//释放资源信息
 
         //这里的bufferedImage就是最终的影像图像信息,可以通过这个对象导入到cm中了.
-        ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
+        ImageIO.write(Thumbnails.of(bufferedImage).scale(0.25f).asBufferedImage(), "JPEG", response.getOutputStream());
     }
 
     @Override
