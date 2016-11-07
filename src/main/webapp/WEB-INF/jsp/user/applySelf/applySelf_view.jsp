@@ -93,7 +93,7 @@
           <td colspan="5" class="bg-left">
 
             <c:forEach items="${fn:split(applySelf.needPassports, ',')}" var="typeId" varStatus="vs">
-              ${cm:getMetaType("mc_passport_type", typeId).name}
+              ${cm:getMetaType(typeId).name}
               ${!vs.last?", ":""}
             </c:forEach>
           </td>

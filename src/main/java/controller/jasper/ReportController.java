@@ -171,7 +171,7 @@ public class ReportController extends BaseController {
                          Model model) throws IOException, DocumentException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
-        MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
+        MetaType passportType = CmTag.getMetaType(passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         SysUserView user = sysUserService.findById(cadre.getUserId());
         //String unit = unitService.findAll().get(cadre.getUnitId()).getName();

@@ -2,11 +2,8 @@ package controller.dispatch;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
-import domain.dispatch.DispatchCadreExample;
+import domain.dispatch.*;
 import domain.dispatch.DispatchCadreExample.Criteria;
-import domain.dispatch.DispatchType;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import mixin.DispatchMixin;
@@ -57,11 +54,16 @@ public class DispatchCadreController extends BaseController {
 
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatch_cadres_admin")
-    public String dispatch_cadres_admin(Integer dispatchId, ModelMap modelMap) {
+    public String dispatch_cadres_admin(Integer dispatchId, Integer id, ModelMap modelMap) {
 
         if(dispatchId!=null) {
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchId);
             modelMap.put("dispatch", dispatch);
+
+            if(id!=null){
+                DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
+                modelMap.put("dispatchCadre", dispatchCadre);
+            }
 
             DispatchCadreExample example = new DispatchCadreExample();
             example.createCriteria().andDispatchIdEqualTo(dispatchId);
@@ -81,19 +83,20 @@ public class DispatchCadreController extends BaseController {
 
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre_page")
-    public String dispatchCadre_page(HttpServletResponse response,
+    public String dispatchCadre_page(@RequestParam(defaultValue = "1") Integer cls,
                                      Integer dispatchId,
-                                    /*Integer typeId,*/
-                                    Integer wayId,
-                                    Integer procedureId,
-                                    Integer cadreId,
-                                    /*String name,*/
-                                    Integer adminLevelId,
-                                    Integer unitId,
-                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                     Integer dispatchTypeId,
+                                    Integer cadreId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
 
         if (dispatchId!=null) {
             modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchId));
+        }
+
+        if (dispatchTypeId!=null) {
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
         if (cadreId!=null) {
 
@@ -113,6 +116,9 @@ public class DispatchCadreController extends BaseController {
     public void dispatchCadre_data(HttpServletResponse response,
                                  /*@SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
+                                   Integer year,
+                                   Integer dispatchTypeId,
+                                   Integer code,
                                     Integer dispatchId,
                                     /*Integer typeId,*/
                                     Integer wayId,
@@ -132,13 +138,24 @@ public class DispatchCadreController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        DispatchCadreExample example = new DispatchCadreExample();
-        Criteria criteria = example.createCriteria();
+        DispatchCadreViewExample example = new DispatchCadreViewExample();
+        DispatchCadreViewExample.Criteria criteria = example.createCriteria();
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (dispatchId!=null) {
             criteria.andDispatchIdEqualTo(dispatchId);
         }
+
+        if (year!=null) {
+            criteria.andYearEqualTo(year);
+        }
+        if (dispatchTypeId!=null) {
+            criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
+        }
+        if (code!=null) {
+            criteria.andCodeEqualTo(code);
+        }
+
         /*if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
         }*/
@@ -166,15 +183,14 @@ public class DispatchCadreController extends BaseController {
             return;
         }
 
-        int count = dispatchCadreMapper.countByExample(example);
+        int count = dispatchCadreViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<DispatchCadre> DispatchCadres =
-                selectMapper.selectDispatchCadrePage(dispatchId, wayId, procedureId, cadreId, adminLevelId, unitId,
-                        new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DispatchCadreView> DispatchCadres =
+                dispatchCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
@@ -264,14 +280,14 @@ public class DispatchCadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void dispatchCadre_export(DispatchCadreExample example, HttpServletResponse response) {
+    public void dispatchCadre_export(DispatchCadreViewExample example, HttpServletResponse response) {
 
-        List<DispatchCadre> records = dispatchCadreMapper.selectByExample(example);
+        List<DispatchCadreView> records = dispatchCadreViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"发文号","任免方式","任免程序","工作证号","姓名","行政级别","所属单位","备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            DispatchCadre record = records.get(i);
+            DispatchCadreView record = records.get(i);
             Dispatch dispatch = record.getDispatch();
             SysUserView uv =  record.getUser();
             String[] values = {

@@ -716,3 +716,16 @@ input[type=radio].bigger{
 span.delete{
     text-decoration:line-through
 }
+
+.btn-upload-form{
+    position: relative;
+    overflow: hidden;
+}
+.btn-upload-form input[type=file]{
+    position: absolute;
+    top:0;
+    left:-100px;
+    opacity:0;
+    filter:alpha(opacity=0);
+    cursor: pointer;
+}

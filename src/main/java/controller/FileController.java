@@ -3,8 +3,8 @@ package controller;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
@@ -81,18 +81,17 @@ public class FileController extends BaseController {
         }
     }
 
-    // 查看swf 页面打开
-    @RequestMapping("/swf_preview_url")
-    public String swf_preview_url() {
 
-        return "common/swf_preview_url";
-    }
-
-    // 查看swf modal
     @RequestMapping("/swf/preview")
-    public String swf_preview() {
+    public String swf_preview(String type) {
 
-        return "common/swf_preview";
+        if(StringUtils.equals(type, "url")) // 查看swf 页面打开
+             return "common/swf_preview_url";
+
+        if(StringUtils.equals(type, "html")) // 嵌入页面
+            return "common/swf_preview_html";
+
+        return "common/swf_preview"; // 查看swf modal
     }
 
     // swf内容

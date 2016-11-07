@@ -69,7 +69,7 @@ public class PassportService extends BaseMapper {
             record.setCancelConfirm(false);
 
             if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())>0) {
-                MetaType mcPassportType = CmTag.getMetaType("mc_passport_type", passportType);
+                MetaType mcPassportType = CmTag.getMetaType(passportType);
                 throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode() + "["+ mcPassportType.getName() + "]重复");
             }
 

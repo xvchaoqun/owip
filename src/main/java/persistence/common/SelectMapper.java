@@ -67,14 +67,6 @@ public interface SelectMapper {
             "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id ")
     List<Integer> getApprovalPostIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
-    List<DispatchCadre> selectDispatchCadrePage(
-            @Param("dispatchId") Integer dispatchId,
-            @Param("wayId") Integer wayId,
-            @Param("procedureId") Integer procedureId,
-            @Param("cadreId") Integer cadreId,
-            @Param("adminLevelId") Integer adminLevelId,
-            @Param("unitId") Integer unitId, RowBounds rowBounds);
-
         @Select("select distinct parent_code from base_location order by parent_code asc")
         List<Integer> selectDistinctLocationParentCode();
 

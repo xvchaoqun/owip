@@ -13,7 +13,8 @@
                  data-url-co="${ctx}/dispatchCadre_changeOrder"
                  data-url-export="${ctx}/dispatchCadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.dispatchId ||not empty param.typeId
+                <c:set var="_query" value="${not empty param.year ||not empty param.dispatchTypeId ||not empty param.code
+                || not empty param.dispatchId
             ||not empty param.wayId ||not empty param.procedureId ||not empty param.cadreId
             ||not empty param.adminLevelId ||not empty param.unitId }"/>
                 <div class="tabbable">
@@ -42,15 +43,26 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
-                                            <%--<div class="form-group">
-                                            <label>发文</label>
-                                            <div class="col-xs-6">
-                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatch_selects"
-                                                        name="dispatchId" data-placeholder="请选择">
-                                                    <option value="${dispatch.id}">${dispatch.code}</option>
-                                                </select>
-                                            </div>
-                                        </div>--%>
+                                <div class="form-group">
+                                    <label>年份</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                                        <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                                               data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>发文类型</label>
+                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
+                                            name="dispatchTypeId" data-placeholder="请选择发文类型" data-no-results="ss">
+                                        <option value="${dispatchType.id}">${dispatchType.name}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>发文号</label>
+                                    <input class="form-control search-query" name="code" type="text" value="${param.code}"
+                                           placeholder="请输入发文号">
+                                </div>
                                         <div class="form-group">
                                             <label>干部</label>
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
@@ -138,9 +150,10 @@
         <i class="fa fa-check"></i> 确定</a>&nbsp;
     <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-trash"></i> 取消</a>
 </script>
-
-
 <script>
+    register_date($('.date-picker'));
+    register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchCadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -190,6 +203,10 @@
                     return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'ppt\')">查看</a>'
                                     .format(rowObject.id);
                 else return '';
+            }},
+            { label: '是否复核', name: 'hasChecked', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                return cellvalue?"已复核":"否";
             }}
         ]
     }).jqGrid("setFrozenColumns");

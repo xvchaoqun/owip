@@ -236,9 +236,13 @@ public class BaseMapper {
 	@Autowired
 	protected DispatchMapper dispatchMapper;
 	@Autowired
+	protected DispatchViewMapper dispatchViewMapper;
+	@Autowired
 	protected DispatchTypeMapper dispatchTypeMapper;
 	@Autowired
 	protected DispatchCadreMapper dispatchCadreMapper;
+	@Autowired
+	protected DispatchCadreViewMapper dispatchCadreViewMapper;
 	@Autowired
 	protected DispatchCadreRelateMapper dispatchCadreRelateMapper;
 	@Autowired

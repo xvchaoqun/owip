@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
+<c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
 <div class="modal-header">
   <h3>申请签注(${passportType.name})</h3>
 </div>

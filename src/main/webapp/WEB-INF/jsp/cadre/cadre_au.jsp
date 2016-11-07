@@ -111,7 +111,7 @@ pageEncoding="UTF-8"%>
             onCustomRender: function(node) {
                 if(!node.data.isFolder)
                     return "<span class='dynatree-title'>"+node.data.title
-                            +"</span>&nbsp;&nbsp;<button class='openUrl btn btn-xs btn-default' data-url='${ctx}/swf_preview_url?path="+node.data.tooltip+"'>查看</button>"
+                            +"</span>&nbsp;&nbsp;<button class='openUrl btn btn-xs btn-default' data-url='${ctx}/swf/preview?type=url&path="+node.data.tooltip+"'>查看</button>"
             },
             cookieId: "dynatree-Cb3",
             idPrefix: "dynatree-Cb3-"

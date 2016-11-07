@@ -195,11 +195,11 @@ public class CmTag {
         return metaTypeService.metaTypes(classCode);
     }
 
-    public static MetaType getMetaType(String classCode, Integer id) {
+    public static MetaType getMetaType(Integer id) {
 
-        if (StringUtils.isBlank(classCode) || id == null) return null;
+        if (id == null) return null;
 
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes(classCode);
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         return metaTypeMap.get(id);
     }
 

@@ -517,7 +517,7 @@ public class PassportController extends BaseController {
 
         Integer id = record.getId();
 
-        MetaType passportType = CmTag.getMetaType("mc_passport_type", record.getClassId());
+        MetaType passportType = CmTag.getMetaType(record.getClassId());
         int idDuplicate = passportService.idDuplicate(id, record.getType(), record.getCadreId(), record.getClassId(), record.getCode());
         if(idDuplicate == 1){
             return failed("证件号码重复");
@@ -602,7 +602,7 @@ public class PassportController extends BaseController {
         String cancelPic = passport.getCancelPic();
         String filePath = springProps.uploadPath + cancelPic;
 
-        MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
+        MetaType passportType = CmTag.getMetaType(passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
@@ -621,7 +621,7 @@ public class PassportController extends BaseController {
         String lostProof = passport.getLostProof();
         String filePath = springProps.uploadPath + lostProof;
 
-        MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
+        MetaType passportType = CmTag.getMetaType(passport.getClassId());
         Cadre cadre = cadreService.findAll().get(passport.getCadreId());
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 

@@ -41,9 +41,32 @@
         <div id="dispatch-cadres-view">
             <c:import url="/dispatch_cadres_admin?dispatchId=${dispatch.id}"/>
         </div>
+        <shiro:hasPermission name="dispatch:check">
+            <c:if test="${param.check==1}">
+        <div class="clearfix form-actions center">
+            <button class="btn btn-primary" onclick="_check()">
+                <i class="ace-icon fa fa-check "></i>
+                复核完成，信息确认
+            </button>
+        </div>
+            </c:if>
+        </shiro:hasPermission>
    </div>
 </div>
 <script>
+    <shiro:hasPermission name="dispatch:check">
+    function _check(){
+        bootbox.confirm("确认复核完成？", function(result){
+            if(result){
+                $.post("${ctx}/dispatch_check",{id:'${dispatch.id}'}, function(ret){
+                    if(ret.success){
+                        $(".closeView").click();
+                    }
+                })
+            }
+        });
+    }
+    </shiro:hasPermission>
     register_date($('.date-picker'));
     register_dispatch_select($('.dispatch_cadres select[name=dispatchTypeId]'),
             $(".dispatch_cadres input[name=year]"), $(".dispatch_cadres select[name=dispatchId]"));

@@ -89,7 +89,7 @@
 	<function>
 		<name>getMetaType</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.MetaType getMetaType(java.lang.String, java.lang.Integer)</function-signature>
+		<function-signature>domain.sys.MetaType getMetaType(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getMetaTypeByCode</name>

@@ -95,7 +95,7 @@
         <div style="float: left; font-weight: bolder">申请使用证件名称：</div>
       </c:if>
       <c:forEach items="${passports}" var="passport">
-        <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
+        <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
         <div style="float: left; margin-right: 40px;">
           <input type="checkbox" class="big" name="passportId" value="${passport.id}"
                  data-passport-type="${passportType.code}"> ${passportType.name}

@@ -71,6 +71,7 @@ public class DispatchService extends BaseMapper {
             Assert.isTrue(!idDuplicate(null, record.getDispatchTypeId(), record.getYear(), record.getCode()));
         }
 
+        record.setHasChecked(false);
         dispatchMapper.insertSelective(record);
 
         Integer id = record.getId();

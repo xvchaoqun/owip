@@ -13,6 +13,7 @@
     <result column="real_appoint_count" property="realAppointCount" jdbcType="INTEGER" />
     <result column="dismiss_count" property="dismissCount" jdbcType="INTEGER" />
     <result column="real_dismiss_count" property="realDismissCount" jdbcType="INTEGER" />
+    <result column="has_checked" property="hasChecked" jdbcType="BIT" />
     <result column="file" property="file" jdbcType="VARCHAR" />
     <result column="file_name" property="fileName" jdbcType="VARCHAR" />
     <result column="ppt" property="ppt" jdbcType="VARCHAR" />
@@ -80,8 +81,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, year, dispatch_type_id, code, meeting_time, pub_time, work_time, appoint_count, 
-    real_appoint_count, dismiss_count, real_dismiss_count, file, file_name, ppt, ppt_name, 
-    remark, sort_order
+    real_appoint_count, dismiss_count, real_dismiss_count, has_checked, file, file_name, 
+    ppt, ppt_name, remark, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.dispatch.DispatchExample" >
     select
@@ -117,15 +118,17 @@
     insert into dispatch (id, year, dispatch_type_id, 
       code, meeting_time, pub_time, 
       work_time, appoint_count, real_appoint_count, 
-      dismiss_count, real_dismiss_count, file, 
-      file_name, ppt, ppt_name, 
-      remark, sort_order)
+      dismiss_count, real_dismiss_count, has_checked, 
+      file, file_name, ppt, 
+      ppt_name, remark, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, 
       #{code,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
       #{workTime,jdbcType=DATE}, #{appointCount,jdbcType=INTEGER}, #{realAppointCount,jdbcType=INTEGER}, 
-      #{dismissCount,jdbcType=INTEGER}, #{realDismissCount,jdbcType=INTEGER}, #{file,jdbcType=VARCHAR}, 
-      #{fileName,jdbcType=VARCHAR}, #{ppt,jdbcType=VARCHAR}, #{pptName,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{dismissCount,jdbcType=INTEGER}, #{realDismissCount,jdbcType=INTEGER}, #{hasChecked,jdbcType=BIT}, 
+      #{file,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{ppt,jdbcType=VARCHAR}, 
+      #{pptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.dispatch.Dispatch" >
     insert into dispatch
@@ -162,6 +165,9 @@
       </if>
       <if test="realDismissCount != null" >
         real_dismiss_count,
+      </if>
+      <if test="hasChecked != null" >
+        has_checked,
       </if>
       <if test="file != null" >
         file,
@@ -215,6 +221,9 @@
       </if>
       <if test="realDismissCount != null" >
         #{realDismissCount,jdbcType=INTEGER},
+      </if>
+      <if test="hasChecked != null" >
+        #{hasChecked,jdbcType=BIT},
       </if>
       <if test="file != null" >
         #{file,jdbcType=VARCHAR},
@@ -278,6 +287,9 @@
       <if test="record.realDismissCount != null" >
         real_dismiss_count = #{record.realDismissCount,jdbcType=INTEGER},
       </if>
+      <if test="record.hasChecked != null" >
+        has_checked = #{record.hasChecked,jdbcType=BIT},
+      </if>
       <if test="record.file != null" >
         file = #{record.file,jdbcType=VARCHAR},
       </if>
@@ -314,6 +326,7 @@
       real_appoint_count = #{record.realAppointCount,jdbcType=INTEGER},
       dismiss_count = #{record.dismissCount,jdbcType=INTEGER},
       real_dismiss_count = #{record.realDismissCount,jdbcType=INTEGER},
+      has_checked = #{record.hasChecked,jdbcType=BIT},
       file = #{record.file,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       ppt = #{record.ppt,jdbcType=VARCHAR},
@@ -357,6 +370,9 @@
       <if test="realDismissCount != null" >
         real_dismiss_count = #{realDismissCount,jdbcType=INTEGER},
       </if>
+      <if test="hasChecked != null" >
+        has_checked = #{hasChecked,jdbcType=BIT},
+      </if>
       <if test="file != null" >
         file = #{file,jdbcType=VARCHAR},
       </if>
@@ -390,6 +406,7 @@
       real_appoint_count = #{realAppointCount,jdbcType=INTEGER},
       dismiss_count = #{dismissCount,jdbcType=INTEGER},
       real_dismiss_count = #{realDismissCount,jdbcType=INTEGER},
+      has_checked = #{hasChecked,jdbcType=BIT},
       file = #{file,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
       ppt = #{ppt,jdbcType=VARCHAR},

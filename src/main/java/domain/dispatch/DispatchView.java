@@ -5,15 +5,13 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Dispatch implements Serializable {
-
+public class DispatchView implements Serializable {
     public String getDispatchCode(){
         return CmTag.getDispatchCode(code, dispatchTypeId, year);
     }
     public DispatchType getDispatchType(){
         return CmTag.getDispatchType(dispatchTypeId);
     }
-
     private Integer id;
 
     private Integer year;

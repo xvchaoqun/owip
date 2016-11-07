@@ -291,6 +291,8 @@ public class BaseController extends BaseMapper {
 
         Map map = new HashMap<>();
 
+        map.put("_uploadPath", springProps.uploadPath);
+
         map.put("partyMap", partyService.findAll());
         map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
         map.put("partyUnitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));

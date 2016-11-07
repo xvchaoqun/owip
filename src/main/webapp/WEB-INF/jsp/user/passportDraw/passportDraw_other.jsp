@@ -23,7 +23,7 @@
       <select required data-rel="select2" name="passportId" data-placeholder="请选择" data-width="260">
         <option></option>
         <c:forEach items="${passports}" var="passport">
-          <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
+          <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
           <option value="${passport.id}">${passportType.name}</option>
         </c:forEach>
       </select>

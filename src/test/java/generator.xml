@@ -130,22 +130,22 @@
       </table>-->
       <!-- <table tableName="ow_party_member" domainObjectName="party.PartyMember">
       </table>-->
-      <table tableName="ow_party_view" domainObjectName="party.PartyView"
+     <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
    <!-- <table tableName="ow_branch" domainObjectName="party.Branch">
     <ignoreColumn column="update_time"/>
     </table>
       <table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
       </table>-->
 
-      <table tableName="ow_branch_view" domainObjectName="party.BranchView"
+      <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
      <!-- <table tableName="ow_branch_member_group_view" domainObjectName="party.BranchMemberGroupView">
      </table>-->
@@ -229,9 +229,9 @@
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>-->
 
-     <!-- <table tableName="dispatch" domainObjectName="dispatch.Dispatch">
+     <table tableName="dispatch" domainObjectName="dispatch.Dispatch">
       </table>
-      <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
+      <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
       </table>
     <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
     </table>
@@ -241,7 +241,16 @@
     </table>
     <table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
     </table>-->
-
+      <table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+      <table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
 
      <!-- <table tableName="unit" domainObjectName="unit.Unit">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>

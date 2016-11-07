@@ -199,7 +199,7 @@
                 <div class="profile-info-value">
                   <span class="editable">
                     <c:forEach items="${fn:split(applySelf.needPassports, ',')}" var="typeId" varStatus="vs">
-                      ${cm:getMetaType("mc_passport_type", typeId).name}
+                      ${cm:getMetaType(typeId).name}
                       ${!vs.last?", ":""}
                     </c:forEach>
                   </span>

@@ -172,7 +172,7 @@ public class UserPassportController extends BaseController {
         String lostProof = passport.getLostProof();
         String filePath = springProps.uploadPath + lostProof;
 
-        MetaType passportType = CmTag.getMetaType("mc_passport_type", passport.getClassId());
+        MetaType passportType = CmTag.getMetaType(passport.getClassId());
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
         String fileName = URLEncoder.encode(sysUser.getRealname() + "-" + passportType.getName()

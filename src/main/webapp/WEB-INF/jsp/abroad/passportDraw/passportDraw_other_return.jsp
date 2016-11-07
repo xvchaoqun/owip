@@ -129,7 +129,7 @@
 </div>
 <div class="modal-footer center">
     <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
-    <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
+    <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
            class="btn btn-success" value="确认归还"/>

@@ -83,7 +83,7 @@
                         <c:set var="cadre" value="${cadreMap.get(passportDraw.cadreId)}"/>
                         <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                         <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
-                        <c:set var="passportType" value="${cm:getMetaType('mc_passport_type', passport.classId)}"/>
+                        <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
                         <tr>
                             <td>A${passportDraw.id}</td>
                             <td>${cm:formatDate(passportDraw.applyDate,'yyyy-MM-dd')}</td>

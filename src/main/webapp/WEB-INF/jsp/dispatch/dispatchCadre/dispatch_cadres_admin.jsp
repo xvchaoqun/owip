@@ -12,6 +12,7 @@
   <form class="form-horizontal" action="${ctx}/dispatchCadre_au" id="cadreForm" method="post">
     <div class="row">
       <div class="col-xs-6">
+        <input type="hidden" name="id" value="${dispatchCadre.id}">
         <input type="hidden" name="dispatchId" value="${dispatch.id}">
         <div class="form-group">
           <label class="col-xs-3 control-label">类别</label>
@@ -35,7 +36,7 @@
               </c:forEach>
             </select>
             <script type="text/javascript">
-              $("#modalForm select[name=cadreTypeId]").val('${dispatchCadre.cadreTypeId}');
+              $("#cadreForm select[name=cadreTypeId]").val('${dispatchCadre.cadreTypeId}');
             </script>
           </div>
         </div>
@@ -49,7 +50,7 @@
               </c:forEach>
             </select>
             <script type="text/javascript">
-              $("#modalForm select[name=wayId]").val('${dispatchCadre.wayId}');
+              $("#cadreForm select[name=wayId]").val('${dispatchCadre.wayId}');
             </script>
           </div>
         </div>
@@ -63,7 +64,7 @@
               </c:forEach>
             </select>
             <script type="text/javascript">
-              $("#modalForm select[name=procedureId]").val('${dispatchCadre.procedureId}');
+              $("#cadreForm select[name=procedureId]").val('${dispatchCadre.procedureId}');
             </script>
           </div>
         </div>
@@ -72,7 +73,7 @@
           <div class="col-xs-8">
             <select required data-ajax-url="${ctx}/cadre_selects"
                     name="cadreId" data-placeholder="请选择干部">
-              <option></option>
+              <option value="${dispatchCadre.cadre.id}">${dispatchCadre.user.code}</option>
             </select>
           </div>
         </div>
@@ -80,7 +81,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">姓名</label>
           <div class="col-xs-8">
-            <input disabled class="form-control" type="text" name="_name">
+            <input disabled class="form-control" type="text" name="_name" value="${dispatchCadre.user.realname}">
           </div>
         </div>
         <div class="form-group">
@@ -102,7 +103,7 @@
               </c:forEach>
             </select>
             <script>
-              $("#modalForm select[name=postId]").val('${dispatchCadre.postId}');
+              $("#cadreForm select[name=postId]").val('${dispatchCadre.postId}');
             </script>
           </div>
         </div>
@@ -116,7 +117,7 @@
               </c:forEach>
             </select>
             <script type="text/javascript">
-              $("#modalForm select[name=adminLevelId]").val('${dispatchCadre.adminLevelId}');
+              $("#cadreForm select[name=adminLevelId]").val('${dispatchCadre.adminLevelId}');
             </script>
           </div>
         </div>
@@ -125,8 +126,8 @@
           <div class="col-xs-6">
             <select required class="form-control" name="_unitStatus" data-rel="select2" data-placeholder="请选择单位类别">
               <option></option>
-              <option value="1">正在运转单位</option>
-              <option value="2">历史单位</option>
+              <option value="1" ${dispatchCadre.unit.status==1?"selected":""}>正在运转单位</option>
+              <option value="2" ${dispatchCadre.unit.status==2?"selected":""}>历史单位</option>
             </select>
           </div>
         </div>
@@ -135,14 +136,14 @@
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
                     name="unitId" data-placeholder="请选择单位">
-              <option value="${unit.id}">${unit.name}</option>
+              <option value="${dispatchCadre.unit.id}">${dispatchCadre.unit.name}</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <label class="col-xs-3 control-label">单位类型</label>
           <div class="col-xs-8">
-            <input class="form-control" name="_unitType" type="text" disabled>
+            <input class="form-control" name="_unitType" type="text" disabled value="${dispatchCadre.unit.unitType.name}">
           </div>
         </div>
         <div class="form-group">
@@ -153,19 +154,18 @@
         </div>
       </div>
     </div>
-    <div class="clearfix form-actions">
-      <div class="col-md-offset-3 col-md-9">
-        <button class="btn btn-info btn-sm" type="submit">
-          <i class="ace-icon fa fa-check "></i>
-          确定
+    <div class="clearfix form-actions center">
+        <button class="btn ${empty dispatchCadre?'btn-success':'btn-info'} btn-sm" type="submit">
+          <i class="ace-icon fa ${empty dispatchCadre?"fa-plus":"fa-edit"} "></i>
+          ${empty dispatchCadre?"添加":"修改"}
         </button>
-
+        <c:if test="${not empty dispatchCadre}">
         &nbsp; &nbsp; &nbsp;
-        <button class="btn btn-default btn-sm" type="reset">
+        <button class="btn btn-default btn-sm" onclick="_update()">
           <i class="ace-icon fa fa-undo"></i>
-          重置
+          返回添加
         </button>
-      </div>
+        </c:if>
     </div>
   </form>
     </div>
@@ -176,11 +176,12 @@
   <table class="table table-actived table-striped table-bordered table-hover">
     <thead>
     <tr>
-      <th>类别</th>
-      <th>任免方式</th>
-      <th>任免程序</th>
-      <th>姓名</th>
+      <th style="width: 50px">类别</th>
+      <th style="width: 80px">任免方式</th>
+      <th style="width: 80px">任免程序</th>
+      <th style="width: 80px">姓名</th>
       <th>所属单位</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -192,6 +193,9 @@
         <td nowrap>${procedureMap.get(dispatchCadre.procedureId).name}</td>
         <td nowrap>${user.realname}</td>
         <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
+        <td>
+          <a href="javascript:void(0)" onclick="_update(${dispatchCadre.id})">修改</a>
+        </td>
       </tr>
     </c:forEach>
     </tbody>
@@ -215,6 +219,10 @@
       });
     }
   });
+  function _update(id){
+    $("#dispatch-cadres-view").load("${ctx}/dispatch_cadres_admin?dispatchId=${param.dispatchId}&id="+ $.trim(id));
+  }
+
   $('[data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
 
@@ -224,6 +232,7 @@
     return $state;
   });
   $selectCadre.on("change",function(){
+    //console.log($(this).select2("data")[0])
     var name = $(this).select2("data")[0]['text']||'';
     $('#cadreForm input[name=_name]').val(name);
   });

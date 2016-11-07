@@ -16,13 +16,13 @@ public class DispatchMixin {
     @JsonSerialize(using = DispatchTypeSerializer.class,nullsUsing=DispatchTypeSerializer.class)
     public Integer dispatchTypeId;*/
 
-    public Integer code;
+    /*public Integer code;
 
     public Integer year;
 
     @JsonProperty("branch")
     @JsonSerialize(using = BranchSerializer.class,nullsUsing=BranchSerializer.class)
-    public Integer branchId;
+    public Integer branchId;*/
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date meetingTime;

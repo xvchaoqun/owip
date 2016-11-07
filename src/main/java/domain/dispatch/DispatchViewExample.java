@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class DispatchExample {
+public class DispatchViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public DispatchExample() {
+    public DispatchViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

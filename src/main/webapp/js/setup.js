@@ -1257,7 +1257,12 @@ function register_dispatchType_select($select, $year){
     $year.on("change",function(){
         $select.val(null).trigger("change");
     });
-    $select.select2({
+    var t = $select.select2({
+        language: {
+            noResults: function(term) {
+                return "请先选择年份";
+            }
+        },
         templateResult: formatState,
         ajax: {
             dataType: 'json',
