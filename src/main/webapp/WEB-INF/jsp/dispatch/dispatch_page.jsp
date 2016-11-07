@@ -30,11 +30,13 @@
                                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres">
                                     <i class="fa fa-plus"></i> 添加干部任免
                                 </a>
+                                <shiro:hasPermission name="dispatch:check">
                                 <button id="checkBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres"
                                    data-querystr="&check=1">
                                     <i class="fa fa-check"></i> 复核
                                 </button>
+                                </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
