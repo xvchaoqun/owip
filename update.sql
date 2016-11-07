@@ -12,7 +12,8 @@ ALTER TABLE `dispatch`
 
 	ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `dispatch_cadre_view` AS select dc.*, d.year, d.dispatch_type_id, d.code , d.has_checked from dispatch_cadre dc, dispatch d, dispatch_type dt
     where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
-
+ALTER ALGORITHM = UNDEFINED VIEW `dispatch_view` AS select d.* from dispatch d, dispatch_type dt
+    where d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc ;
 -- 2016-11-5
 
 ALTER TABLE `ow_branch`
