@@ -49,8 +49,11 @@
         $(this).closest("form").ajaxSubmit({
             success: function (ret) {
                 if (ret.success) {
-                    console.log(ret)
-                    $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path="+ret.file);
+                    //console.log(ret)
+                    setTimeout(function () {
+                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path="+ret.file);
+                    }, 3000);
+
                     $("#modalForm input[name=file]").val(ret.file);
                     $("#modalForm input[name=fileName]").val(ret.fileName);
                 }
