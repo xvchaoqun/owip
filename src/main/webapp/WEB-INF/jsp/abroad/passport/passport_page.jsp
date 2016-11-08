@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.unitId ||not empty param.cadreId ||not empty param.classId
-                ||not empty param.safeBoxId ||not empty param.type || not empty param.code }"/>
+                ||not empty param.safeBoxId ||not empty param.type || not empty param.code|| not empty param.isLent }"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <jsp:include page="menu.jsp"/>
@@ -175,6 +175,19 @@ pageEncoding="UTF-8" %>
                                             <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                    placeholder="请输入证件号码">
                                     </div>
+                                    <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
+                                    <div class="form-group">
+                                        <label>是否借出</label>
+                                        <select name="isLent" data-width="100" data-rel="select2" data-placeholder="请选择">
+                                            <option></option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                        <script>
+                                            $("#searchForm select[name=isLent]").val('${param.isLent}');
+                                        </script>
+                                    </div>
+                                        </c:if>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -240,7 +253,8 @@ pageEncoding="UTF-8" %>
             <c:if test="${status==2||status==4}">
             { label:'取消集中保管原因', name: 'cancelType', width: 140 },
             { label:'状态', name: 'cancelConfirm', formatter:function(cellvalue){
-                return cellvalue?"已确认":"未确认";
+                if(cellvalue==undefined) return ''
+                return _cMap.PASSPORT_CANCEL_CONFIRM_MAP[cellvalue];
             } },
             </c:if>
             {hidden:true, name:'canEdit', formatter:function(cellvalue, options, rowObject) {

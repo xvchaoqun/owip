@@ -28,6 +28,7 @@ import service.BaseMapper;
 import service.abroad.ApproverBlackListService;
 import service.abroad.ApproverTypeService;
 import service.dispatch.DispatchService;
+import service.helper.ShiroSecurityHelper;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
@@ -365,15 +366,39 @@ public class CadreService extends BaseMapper {
 
         if(status == SystemConstants.CADRE_STATUS_LEAVE){
 
-            // 中层干部离任时，所有的证件都移动到 取消集中管理证件库
-            Passport record = new Passport();
-            record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
-            record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
+            /**2016.11.08
+             *
+             * 中层干部离任时，所有的在集中管理中的证件都移动到 取消集中管理证件库：
+             *
+             * 1、如果证件为“未借出”，就转移到“取消集中管理（未确认）”。
+             * 2、如果证件“已借出”，直接转移到“取消集中管理证件（已确认）”中，最后一个字段“状态”为“免职前已领取”。
+                  同时借出记录的“实交组织部日期”为“已免职”。
+             */
+            {
+                Passport record = new Passport();
+                record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
+                record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
+                record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT); // 未确认
 
-            PassportExample example = new PassportExample();
-            example.createCriteria().andCadreIdEqualTo(id).
-                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP);
-            passportMapper.updateByExampleSelective(record, example);
+                PassportExample example = new PassportExample();
+                example.createCriteria().andCadreIdEqualTo(id).
+                        andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andIsLentEqualTo(false);
+                passportMapper.updateByExampleSelective(record, example);
+            }
+            {
+                Passport record = new Passport();
+                record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
+                record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
+                //record.setCancelPic(savePath);
+                record.setCancelTime(new Date());
+                record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_YES_DISMISS); //免职前已领取
+                record.setCancelUserId(ShiroSecurityHelper.getCurrentUserId());
+
+                PassportExample example = new PassportExample();
+                example.createCriteria().andCadreIdEqualTo(id).
+                        andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andIsLentEqualTo(true);
+                passportMapper.updateByExampleSelective(record, example);
+            }
         }
 
         Cadre record = new Cadre();

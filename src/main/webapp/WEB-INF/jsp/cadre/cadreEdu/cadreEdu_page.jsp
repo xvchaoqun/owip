@@ -186,9 +186,9 @@
                         var filesArray = [];
                         if(cellvalue!=undefined){
                             var filePaths = cellvalue.split(",");
-                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/img?path={0}">证件{1}</a>'.format(filePaths[0], 1 ,rowObject.id));
+                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'.format(filePaths[0], 1 ,rowObject.id));
                             if(filePaths.length==2)
-                                filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/img?path={0}">证件{1}</a>'.format(filePaths[1], 2 ,rowObject.id));
+                                filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'.format(filePaths[1], 2 ,rowObject.id));
                         }
 
                         return filesArray.join("，");

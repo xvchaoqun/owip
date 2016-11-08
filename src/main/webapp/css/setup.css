@@ -549,6 +549,35 @@ form .form-actions{
 .dispatch_cadres .swf-file.flash{
 }
 
+/* 干部任免信息添加界面 */
+.dispatch_au{
+    padding: 20px;
+    padding-top: 10px;
+    width: 1300px;
+}
+.dispatch_au .preview, .dispatch_au .au{
+    float: left;
+}
+
+.dispatch_au .select-form{
+    padding-bottom: 20px;
+}
+.dispatch_au .preview{
+    width: 730px;
+    margin-right: 25px;
+}
+.dispatch_au .au{
+    width: 500px;
+}
+.dispatch_au .swf-file.none{
+    height: 710px;
+    text-align: center;
+    line-height: 710px;
+}
+.dispatch_au .swf-file.flash{
+}
+
+
 .passport_apply .preview, .passport_apply .info{
      float: left;
  }

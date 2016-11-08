@@ -53,7 +53,7 @@
         printWindow("${ctx}/report/cancel?id=${param.id}&format=pdf");
     });
     $("#print_proof").click(function(){
-        printWindow('${ctx}/img?path=${fn:replace(passport.cancelPic, "\\","\\/"  )}');
+        printWindow('${ctx}/pic?path=${fn:replace(passport.cancelPic, "\\","\\/"  )}');
     });
 
     /*$('#modalForm input[type=file]').ace_file_input({

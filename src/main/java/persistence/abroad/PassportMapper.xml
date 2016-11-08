@@ -15,7 +15,7 @@
     <result column="is_lent" property="isLent" jdbcType="BIT" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="cancel_type" property="cancelType" jdbcType="TINYINT" />
-    <result column="cancel_confirm" property="cancelConfirm" jdbcType="BIT" />
+    <result column="cancel_confirm" property="cancelConfirm" jdbcType="TINYINT" />
     <result column="cancel_pic" property="cancelPic" jdbcType="VARCHAR" />
     <result column="cancel_time" property="cancelTime" jdbcType="DATE" />
     <result column="cancel_user_id" property="cancelUserId" jdbcType="INTEGER" />
@@ -135,7 +135,7 @@
       #{classId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
       #{issueDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, 
       #{safeBoxId,jdbcType=INTEGER}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
-      #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=BIT}, #{cancelPic,jdbcType=VARCHAR}, 
+      #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=TINYINT}, #{cancelPic,jdbcType=VARCHAR}, 
       #{cancelTime,jdbcType=DATE}, #{cancelUserId,jdbcType=INTEGER}, #{lostType,jdbcType=TINYINT}, 
       #{lostTime,jdbcType=DATE}, #{lostProof,jdbcType=VARCHAR}, #{lostUserId,jdbcType=INTEGER}, 
       #{hasFind,jdbcType=BIT}, #{findTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
@@ -258,7 +258,7 @@
         #{cancelType,jdbcType=TINYINT},
       </if>
       <if test="cancelConfirm != null" >
-        #{cancelConfirm,jdbcType=BIT},
+        #{cancelConfirm,jdbcType=TINYINT},
       </if>
       <if test="cancelPic != null" >
         #{cancelPic,jdbcType=VARCHAR},
@@ -341,7 +341,7 @@
         cancel_type = #{record.cancelType,jdbcType=TINYINT},
       </if>
       <if test="record.cancelConfirm != null" >
-        cancel_confirm = #{record.cancelConfirm,jdbcType=BIT},
+        cancel_confirm = #{record.cancelConfirm,jdbcType=TINYINT},
       </if>
       <if test="record.cancelPic != null" >
         cancel_pic = #{record.cancelPic,jdbcType=VARCHAR},
@@ -393,7 +393,7 @@
       is_lent = #{record.isLent,jdbcType=BIT},
       type = #{record.type,jdbcType=TINYINT},
       cancel_type = #{record.cancelType,jdbcType=TINYINT},
-      cancel_confirm = #{record.cancelConfirm,jdbcType=BIT},
+      cancel_confirm = #{record.cancelConfirm,jdbcType=TINYINT},
       cancel_pic = #{record.cancelPic,jdbcType=VARCHAR},
       cancel_time = #{record.cancelTime,jdbcType=DATE},
       cancel_user_id = #{record.cancelUserId,jdbcType=INTEGER},
@@ -448,7 +448,7 @@
         cancel_type = #{cancelType,jdbcType=TINYINT},
       </if>
       <if test="cancelConfirm != null" >
-        cancel_confirm = #{cancelConfirm,jdbcType=BIT},
+        cancel_confirm = #{cancelConfirm,jdbcType=TINYINT},
       </if>
       <if test="cancelPic != null" >
         cancel_pic = #{cancelPic,jdbcType=VARCHAR},
@@ -497,7 +497,7 @@
       is_lent = #{isLent,jdbcType=BIT},
       type = #{type,jdbcType=TINYINT},
       cancel_type = #{cancelType,jdbcType=TINYINT},
-      cancel_confirm = #{cancelConfirm,jdbcType=BIT},
+      cancel_confirm = #{cancelConfirm,jdbcType=TINYINT},
       cancel_pic = #{cancelPic,jdbcType=VARCHAR},
       cancel_time = #{cancelTime,jdbcType=DATE},
       cancel_user_id = #{cancelUserId,jdbcType=INTEGER},

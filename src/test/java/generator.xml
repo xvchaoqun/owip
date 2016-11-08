@@ -48,8 +48,9 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
-     <!-- <table tableName="abroad_passport" domainObjectName="abroad.Passport">
+      <!--<table tableName="abroad_passport" domainObjectName="abroad.Passport">
       </table>-->
+
       <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
@@ -229,8 +230,8 @@
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>-->
 
-     <table tableName="dispatch" domainObjectName="dispatch.Dispatch">
-      </table>
+     <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch">
+      </table>-->
       <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
       </table>
     <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
@@ -241,7 +242,7 @@
     </table>
     <table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
     </table>-->
-      <table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
+     <!-- <table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
@@ -250,7 +251,7 @@
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
      <!-- <table tableName="unit" domainObjectName="unit.Unit">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>

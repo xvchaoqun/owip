@@ -224,7 +224,7 @@
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
                             //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
-                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-fancybox-type="image" href="${ctx}/img?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.filePath, parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.filePath, parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                         }
                     }
                     return filesArray.join("，");
@@ -274,12 +274,15 @@
             },
             {
                 label: '短信通知', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.status == '${PASSPORT_DRAW_STATUS_INIT}') {
-                    return '-';
+                /*if (rowObject.status == '${PASSPORT_DRAW_STATUS_INIT}') {
+                 return '-';
+                 }*/
+                if (rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
+                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-mini btn-xs">'
+                                    .format(rowObject.id)
+                            + '<i class="fa fa-info"></i> 短信通知</button>';
                 }
-                return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-mini btn-xs">'
-                                .format(rowObject.id)
-                        + '<i class="fa fa-info"></i> 短信通知</button>';
+                return '-'
             }
             },
             {
@@ -292,7 +295,7 @@
                                     .format(rowObject.id)
                             + '<i class="fa fa-hand-lizard-o"></i> 领取证件</button>'
                 }
-                return rowObject.drawStatusName;
+                return _cMap.PASSPORT_DRAW_DRAW_STATUS_MAP[rowObject.drawStatus];
             }
             },
             {label: '应交组织部日期', align: 'center', name: 'returnDate', width: 130,cellattr:function(rowId, val, rowObject, cm, rdata) {
@@ -311,7 +314,7 @@
                 width: 110,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
+                    if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm>0)
                         return '已取消集中管理';
                     if(rowObject.passport.type=='${PASSPORT_TYPE_LOST}')
                         return '证件丢失';
@@ -335,7 +338,7 @@
 
                         if(rowObject.useRecord==undefined) return '-';
 
-                        return '<a class="various" title="{1}" data-fancybox-type="image" href="${ctx}/img?path={0}">使用记录</a>'
+                        return '<a class="various" title="{1}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
                                 .format(rowObject.useRecord, "使用记录");
                     }
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
@@ -348,7 +351,13 @@
                             + '<i class="fa fa-reply"></i> 归还证件</button>'
                 }
             },
-            {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130},
+            {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm>0)
+                    return '已免职';
+                if(cellvalue==undefined) return ''
+                return cellvalue;
+            }},
             { label: '附件', formatter:function(cellvalue, options, rowObject){
                 //console.log(rowObject.attachmentFilename)
                 if(rowObject.attachment && rowObject.attachment!='')

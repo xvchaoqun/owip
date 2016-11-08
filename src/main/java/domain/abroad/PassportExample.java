@@ -942,52 +942,52 @@ public class PassportExample {
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmEqualTo(Boolean value) {
+        public Criteria andCancelConfirmEqualTo(Byte value) {
             addCriterion("cancel_confirm =", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmNotEqualTo(Boolean value) {
+        public Criteria andCancelConfirmNotEqualTo(Byte value) {
             addCriterion("cancel_confirm <>", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmGreaterThan(Boolean value) {
+        public Criteria andCancelConfirmGreaterThan(Byte value) {
             addCriterion("cancel_confirm >", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andCancelConfirmGreaterThanOrEqualTo(Byte value) {
             addCriterion("cancel_confirm >=", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmLessThan(Boolean value) {
+        public Criteria andCancelConfirmLessThan(Byte value) {
             addCriterion("cancel_confirm <", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmLessThanOrEqualTo(Boolean value) {
+        public Criteria andCancelConfirmLessThanOrEqualTo(Byte value) {
             addCriterion("cancel_confirm <=", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmIn(List<Boolean> values) {
+        public Criteria andCancelConfirmIn(List<Byte> values) {
             addCriterion("cancel_confirm in", values, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmNotIn(List<Boolean> values) {
+        public Criteria andCancelConfirmNotIn(List<Byte> values) {
             addCriterion("cancel_confirm not in", values, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmBetween(Boolean value1, Boolean value2) {
+        public Criteria andCancelConfirmBetween(Byte value1, Byte value2) {
             addCriterion("cancel_confirm between", value1, value2, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andCancelConfirmNotBetween(Byte value1, Byte value2) {
             addCriterion("cancel_confirm not between", value1, value2, "cancelConfirm");
             return (Criteria) this;
         }

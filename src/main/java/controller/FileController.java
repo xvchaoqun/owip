@@ -113,7 +113,7 @@ public class FileController extends BaseController {
     }
 
     // 图片
-    @RequestMapping("/img")
+    @RequestMapping("/pic")
     public void sign(String path, HttpServletResponse response) throws IOException {
 
         ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + path), response);

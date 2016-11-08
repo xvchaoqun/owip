@@ -109,7 +109,7 @@
                                             <shiro:hasAnyRoles name="admin, odAdmin">
                                             <a class="confirm btn btn-danger btn-xs"
                                                data-url="${ctx}/partyAdmin_del?userId=${param.userId}&partyId=${partyId}"
-                                               data-msg="确定删除该管理员[${cm:displayParty(partyId, null)}]？"
+                                               data-msg='确定删除该管理员[${cm:displayParty(partyId, null)}]？'
                                                data-callback="_delAdminCallback">删除</a>
                                             </shiro:hasAnyRoles>
                                             <c:if test="${!vs.last}">,</c:if>
@@ -129,7 +129,7 @@
                                             <shiro:hasAnyRoles name="admin, odAdmin">
                                             <a class="confirm btn btn-danger btn-xs"
                                                data-url="${ctx}/branchAdmin_del?userId=${param.userId}&branchId=${branch.id}"
-                                               data-msg="确定删除该管理员[${cm:displayParty(branch.partyId, branch.id)}]？"
+                                               data-msg='确定删除该管理员[${cm:displayParty(branch.partyId, branch.id)}]？'
                                                data-callback="_delAdminCallback">删除</a>
                                             </shiro:hasAnyRoles>
                                             <c:if test="${!vs.last}">,</c:if>

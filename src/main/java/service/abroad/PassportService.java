@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.abroad.PassportDrawMapper;
+import persistence.common.PassportSearchBean;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.helper.ShiroSecurityHelper;
@@ -66,7 +67,7 @@ public class PassportService extends BaseMapper {
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);
-            record.setCancelConfirm(false);
+            record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT);
 
             if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())>0) {
                 MetaType mcPassportType = CmTag.getMetaType(passportType);
@@ -82,8 +83,10 @@ public class PassportService extends BaseMapper {
     }
     public List<Passport> findByCadreId(int cadreId){
 
-       return selectMapper.selectPassportList(null, cadreId, null, null,
-               SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
+        PassportSearchBean bean = new PassportSearchBean(null, cadreId, null, null,
+                SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
+
+       return selectMapper.selectPassportList(bean, new RowBounds());
     }
 
     // 0 不重复  1证件号码重复 2证件类别重复
@@ -255,8 +258,11 @@ public class PassportService extends BaseMapper {
     public void expire(){
 
         Date now = new Date();
-        List<Passport> passports = selectMapper.selectPassportList(null, null, null, null,
-                SystemConstants.PASSPORT_TYPE_KEEP, null, null, new RowBounds());
+
+        PassportSearchBean bean = new PassportSearchBean(null, null, null, null,
+                SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
+
+        List<Passport> passports = selectMapper.selectPassportList(bean, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
             if(expiryDate.before(now)){

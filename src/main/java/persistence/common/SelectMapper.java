@@ -70,18 +70,8 @@ public interface SelectMapper {
         @Select("select distinct parent_code from base_location order by parent_code asc")
         List<Integer> selectDistinctLocationParentCode();
 
-    List<Passport> selectPassportList(@Param("unitId") Integer unitId, @Param("cadreId") Integer cadreId,
-                                      @Param("classId") Integer classId,
-                                      @Param("code") String code,
-                                      @Param("type") Byte type,
-                                      @Param("safeBoxId") Integer safeBoxId,
-                                      @Param("cancelConfirm") Boolean cancelConfirm, RowBounds rowBounds);
-    Integer countPassport(@Param("unitId") Integer unitId, @Param("cadreId") Integer cadreId,
-                              @Param("classId") Integer classId,
-                              @Param("code") String code,
-                              @Param("type") Byte type,
-                              @Param("safeBoxId") Integer safeBoxId,
-                              @Param("cancelConfirm") Boolean cancelConfirm);
+    List<Passport> selectPassportList(@Param("bean") PassportSearchBean bean, RowBounds rowBounds);
+    Integer countPassport(@Param("bean") PassportSearchBean bean);
     // 获取干部证件
    // List<Passport> selectCadrePassports(@Param("cadreId") Integer cadreId);
 

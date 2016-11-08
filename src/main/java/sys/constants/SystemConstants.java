@@ -762,6 +762,17 @@ public class SystemConstants {
 		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_DISMISS, "不再担任行政职务");
 		PASSPORT_CANCEL_TYPE_MAP.put(PASSPORT_CANCEL_TYPE_ABOLISH, "证件作废");
 	}
+	// 取消集中保管确认类别 0：未确认 1：已确认 2：已确认（免职前已领取）
+	public final static byte PASSPORT_CANCEL_CONFIRM_NOT= 0;
+	public final static byte PASSPORT_CANCEL_CONFIRM_YES = 1;
+	public final static byte PASSPORT_CANCEL_CONFIRM_YES_DISMISS = 2;
+	public final static Map<Byte, String> PASSPORT_CANCEL_CONFIRM_MAP = new LinkedHashMap<>();
+	static {
+		PASSPORT_CANCEL_CONFIRM_MAP.put(PASSPORT_CANCEL_CONFIRM_NOT, "未确认");
+		PASSPORT_CANCEL_CONFIRM_MAP.put(PASSPORT_CANCEL_CONFIRM_YES, "已确认");
+		PASSPORT_CANCEL_CONFIRM_MAP.put(PASSPORT_CANCEL_CONFIRM_YES_DISMISS, "免职前已领取");
+	}
+
 	// 丢失来源 1 从集中管理库中转移 2 后台添加
 	public final static byte PASSPORT_LOST_TYPE_TRANSFER= 1;
 	public final static byte PASSPORT_LOST_TYPE_ADD = 2;

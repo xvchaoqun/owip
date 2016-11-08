@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.common.PassportSearchBean;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -131,12 +132,17 @@ public class SafeBoxController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = selectMapper.countPassport(null, null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1);
+        if(cancelConfirm==null) cancelConfirm=SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT;
+
+        PassportSearchBean bean = new PassportSearchBean(null, null, null, null, type,
+                safeBoxId, /*cancelConfirm != null && cancelConfirm ==1*/ cancelConfirm, null);
+
+        int count = selectMapper.countPassport(bean);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (null, null, null, null, type, safeBoxId, cancelConfirm != null && cancelConfirm == 1, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (bean, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

@@ -64,8 +64,10 @@
             },frozen:true},
             { label: '取消集中管理证件数量（未确认）', align:'center', name: 'cancelCount', width: 250 ,
                 formatter:function(cellvalue, options, rowObject){
+                    var count = rowObject.totalCount - rowObject.keepCount;
+                    if(count<=0) return '0';
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}&type=2&cancelConfirm=0">{1}</a>'
-                        .format(rowObject.id, rowObject.totalCount - rowObject.keepCount)
+                        .format(rowObject.id, count)
             },frozen:true},
             { label:'排序',align:'center', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})

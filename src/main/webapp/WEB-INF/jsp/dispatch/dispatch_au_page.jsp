@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row dispatch_cadres" style="width: 1300px">
-    <div class="dispatch">
+<div class="row dispatch_au">
+    <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="smaller">
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div class="cadres" style="width:500px;">
+    <div class="au">
         <div id="dispatch-cadres-view">
             <c:import url="/dispatch_au?id=${dispatch.id}"/>
         </div>

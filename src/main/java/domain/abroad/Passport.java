@@ -1,6 +1,5 @@
 package domain.abroad;
 
-import domain.sys.SysUser;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUserView;
@@ -59,7 +58,7 @@ public class Passport implements Serializable {
 
     private Byte cancelType;
 
-    private Boolean cancelConfirm;
+    private Byte cancelConfirm;
 
     private String cancelPic;
 
@@ -187,11 +186,11 @@ public class Passport implements Serializable {
         this.cancelType = cancelType;
     }
 
-    public Boolean getCancelConfirm() {
+    public Byte getCancelConfirm() {
         return cancelConfirm;
     }
 
-    public void setCancelConfirm(Boolean cancelConfirm) {
+    public void setCancelConfirm(Byte cancelConfirm) {
         this.cancelConfirm = cancelConfirm;
     }
 

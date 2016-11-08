@@ -1,4 +1,10 @@
 
+
+-- 2016-11-8
+
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `cancel_confirm` `cancel_confirm` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '确认状态，0：未确认 1：已确认 2：已确认（免职前已领取）' AFTER `cancel_type`;
+
 -- 2016-11-7
 
 CREATE ALGORITHM = UNDEFINED VIEW `dispatch_cadre_view` AS select dc.*, d.year, d.dispatch_type_id, d.code from dispatch_cadre dc, dispatch d, dispatch_type dt

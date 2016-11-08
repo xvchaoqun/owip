@@ -48,9 +48,9 @@ public class PassportDraw implements Serializable {
     public String getStatusName(){
         return SystemConstants.PASSPORT_DRAW_STATUS_MAP.get(status);
     }
-    public String getDrawStatusName(){
+    /*public String getDrawStatusName(){
         return SystemConstants.PASSPORT_DRAW_DRAW_STATUS_MAP.get(drawStatus);
-    }
+    }*/
     public Boolean getReturnDateNotNow(){
         Date now = new Date();
         return DateUtils.compareDate(returnDate, now);

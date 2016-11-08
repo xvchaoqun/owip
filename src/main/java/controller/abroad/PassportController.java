@@ -2,10 +2,7 @@ package controller.abroad;
 
 import bean.*;
 import controller.BaseController;
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportExample;
-import domain.abroad.SafeBox;
+import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
 import domain.sys.SysUser;
@@ -36,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import persistence.common.PassportSearchBean;
 import service.helper.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -153,6 +151,7 @@ public class PassportController extends BaseController {
                               Integer classId,
                               String code,
                               Integer safeBoxId,
+                              Boolean isLent,
                               // 1:集中管理证件 2:取消集中保管证件（未确认） 3:丢失证件  4:取消集中保管证件（已确认）
                               @RequestParam(required = false, defaultValue = "1") byte status,
                               @RequestParam(required = false, defaultValue = "0") int export,
@@ -170,29 +169,32 @@ public class PassportController extends BaseController {
         if (status < 4) {
             type = status;
         }
-        Boolean cancelConfirm = null;
+        Byte cancelConfirm = null;
         if (status == 2) {
-            cancelConfirm = false;
+            cancelConfirm = SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT;
         }
         if (status == 4) {
-            cancelConfirm = true;
+            cancelConfirm = 1; // 已确认或免职前已领取
             type = 2;
         }
 
         code = StringUtils.trimToNull(code);
 
+        PassportSearchBean bean = new PassportSearchBean(unitId, cadreId, classId, code,
+                type, safeBoxId, cancelConfirm, isLent);
+
         if (export == 1) {
-            passport_export(unitId, cadreId, classId, code, type, safeBoxId, cancelConfirm, status, response);
+            passport_export(bean, status, response);
             return;
         }
 
-        int count = selectMapper.countPassport(unitId, cadreId, classId, code, type, safeBoxId, cancelConfirm);
+        int count = selectMapper.countPassport(bean);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<Passport> passports = selectMapper.selectPassportList
-                (unitId, cadreId, classId, code, type, safeBoxId, cancelConfirm, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                (bean, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -208,12 +210,10 @@ public class PassportController extends BaseController {
         return;
     }
 
-    public void passport_export(Integer unitId, Integer cadreId, Integer classId, String code,
-                                Byte type, Integer safeBoxId, Boolean cancelConfirm, Byte status,
+    public void passport_export(PassportSearchBean bean, Byte status,
                                 HttpServletResponse response) {
 
-        List<Passport> records = selectMapper.selectPassportList(unitId, cadreId, classId, code, type, safeBoxId,
-                cancelConfirm, new RowBounds());
+        List<Passport> records = selectMapper.selectPassportList(bean, new RowBounds());
         int rownum = records.size();
         if(status==SystemConstants.PASSPORT_TYPE_KEEP) {
             String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
@@ -268,7 +268,7 @@ public class PassportController extends BaseController {
                         record.getSafeBox().getCode(),
                         record.getIsLent()?"借出":"-",
                         SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
-                        record.getCancelConfirm()?"已确认":"未确认"
+                        SystemConstants.PASSPORT_CANCEL_CONFIRM_MAP.get(record.getCancelConfirm())
                 };
                 valuesList.add(values);
             }
@@ -298,7 +298,7 @@ public class PassportController extends BaseController {
                         record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
                         record.getCancelTime()!=null?DateUtils.formatDate(record.getCancelTime(), DateUtils.YYYY_MM_DD):"",
                         SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
-                        record.getCancelConfirm()?"已确认":"未确认"
+                        SystemConstants.PASSPORT_CANCEL_CONFIRM_MAP.get(record.getCancelConfirm())
                 };
                 valuesList.add(values);
             }
@@ -372,7 +372,7 @@ public class PassportController extends BaseController {
         record.setId(id);
         record.setCancelPic(savePath);
         record.setCancelTime(new Date());
-        record.setCancelConfirm(true);
+        record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_YES);
         record.setCancelUserId(loginUser.getId());
 
         passportService.updateByPrimaryKeySelective(record);
@@ -497,7 +497,7 @@ public class PassportController extends BaseController {
             FileUtils.copyFile(_cancelPic, new File(springProps.uploadPath + savePath));
             record.setCancelPic(savePath);
         }
-        record.setCancelConfirm(true);
+        //record.setCancelConfirm(true);
         if(record.getCancelTime()!=null || record.getCancelPic()!=null)
             passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "更新取消集中管理证明：%s", record.getId()));
@@ -563,7 +563,7 @@ public class PassportController extends BaseController {
                 record.setType(type);
 
             record.setIsLent(false);
-            record.setCancelConfirm(false);
+            record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT);
             record.setCreateTime(new Date());
             passportService.add(record, applyId);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
@@ -795,8 +795,9 @@ public class PassportController extends BaseController {
         for (SafeBox safeBox : safeBoxMap.values()) {
 
             Integer safeBoxId = safeBox.getId();
-            List<Passport> passports = selectMapper.selectPassportList(null, null, null, null, null,
-                    safeBoxId, null, new RowBounds());
+            PassportSearchBean bean = new PassportSearchBean(null, null, null, null, null,
+                    safeBoxId, null, null);
+            List<Passport> passports = selectMapper.selectPassportList(bean, new RowBounds());
             int size = passports.size();
             if (size == 0) continue;
 

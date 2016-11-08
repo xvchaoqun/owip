@@ -82,25 +82,29 @@ pageEncoding="UTF-8"%>
                 return;
             }
 
-            var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
-                return node.data.key;
-            });
-            if(selectIds.length>1){
-                SysMsg.warning("只能选择一个发文");
-
-            }else{
-                $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
-                $(form).ajaxSubmit({
-                    success:function(ret){
-                        if(ret.success){
-                            $("#modal").modal("hide");
-                            //SysMsg.success('操作成功。', '成功',function(){
-                                    location.href='${ctx}/cadre?status='+$("#modal input[name=status]").val()
-                            //});
-                        }
-                    }
+            var dispatchCadreId = -1;
+            if(treeNode.children.length>0) {
+                var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+                    return node.data.key;
                 });
+                if (selectIds.length > 1) {
+                    SysMsg.warning("只能选择一个发文");
+                    return;
+                }
+                if (selectIds.length==1)
+                    $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
             }
+
+            $(form).ajaxSubmit({
+                success:function(ret){
+                    if(ret.success){
+                        $("#modal").modal("hide");
+                        //SysMsg.success('操作成功。', '成功',function(){
+                                location.href='${ctx}/cadre?status='+$("#modal input[name=status]").val()
+                        //});
+                    }
+                }
+            });
         }
     });
 </script>

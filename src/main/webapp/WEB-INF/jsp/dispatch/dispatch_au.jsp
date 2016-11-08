@@ -18,7 +18,7 @@
                         <label class="col-xs-3 control-label">年份</label>
 
                         <div class="col-xs-6">
-                            <div class="input-group" style="width: 100px">
+                            <div class="input-group">
                                 <input required class="form-control date-picker" placeholder="请选择年份" name="year"
                                        type="text"
                                        data-date-format="yyyy" data-date-min-view-mode="2" value="${year}"/>
@@ -31,7 +31,7 @@
 
                         <div class="col-xs-6">
                             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
-                                    name="dispatchTypeId" data-placeholder="请选择发文类型">
+                                    name="dispatchTypeId" data-placeholder="请选择发文类型" data-width="240">
                                 <option value="${dispatchType.id}">${dispatchType.name}</option>
                             </select>
                         </div>
@@ -48,7 +48,7 @@
                         <label class="col-xs-3 control-label">党委常委会日期</label>
 
                         <div class="col-xs-6">
-                            <div class="input-group" style="width: 100px">
+                            <div class="input-group">
                                 <input class="form-control date-picker" name="_meetingTime" type="text"
                                        data-date-format="yyyy-mm-dd"
                                        value="${cm:formatDate(dispatch.meetingTime,'yyyy-MM-dd')}"/>
@@ -60,7 +60,7 @@
                         <label class="col-xs-3 control-label">发文日期</label>
 
                         <div class="col-xs-6">
-                            <div class="input-group" style="width: 100px">
+                            <div class="input-group">
                                 <input required class="form-control date-picker" name="_pubTime" type="text"
                                        data-date-format="yyyy-mm-dd"
                                        value="${cm:formatDate(dispatch.pubTime,'yyyy-MM-dd')}"/>
@@ -72,7 +72,7 @@
                         <label class="col-xs-3 control-label">任免日期</label>
 
                         <div class="col-xs-6">
-                            <div class="input-group" style="width: 100px">
+                            <div class="input-group">
                                 <input required class="form-control date-picker" name="_workTime" type="text"
                                        data-date-format="yyyy-mm-dd"
                                        value="${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}"/>
