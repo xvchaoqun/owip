@@ -339,7 +339,7 @@
                         if(rowObject.useRecord==undefined) return '-';
 
                         return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
-                                .format(rowObject.useRecord, "使用记录.jpg");
+                                .format(rowObject.useRecord, "使用记录");
                     }
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
                             rowObject.passport.type=='${PASSPORT_TYPE_LOST}' ||
@@ -353,7 +353,7 @@
             },
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm>0)
+                if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm=='${PASSPORT_CANCEL_CONFIRM_YES_DISMISS}')
                     return '已免职';
                 if(cellvalue==undefined) return ''
                 return cellvalue;

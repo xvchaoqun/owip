@@ -260,6 +260,9 @@
 <c:set var="PASSPORT_TYPE_MAP" value="<%=SystemConstants.PASSPORT_TYPE_MAP%>"/>
 <c:set var="PASSPORT_CANCEL_TYPE_MAP" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_MAP%>"/>
 
+<c:set var="PASSPORT_CANCEL_CONFIRM_YES_DISMISS" value="<%=SystemConstants.PASSPORT_CANCEL_CONFIRM_YES_DISMISS%>"/>
+<c:set var="PASSPORT_CANCEL_CONFIRM_MAP" value="<%=SystemConstants.PASSPORT_CANCEL_CONFIRM_MAP%>"/>
+
 <c:set var="PASSPORT_LOST_TYPE_TRANSFER" value="<%=SystemConstants.PASSPORT_LOST_TYPE_TRANSFER%>"/>
 
 <c:set var="PASSPORT_DRAW_USE_TYPE_MAP" value="<%=SystemConstants.PASSPORT_DRAW_USE_TYPE_MAP%>"/>
