@@ -60,8 +60,7 @@ public class PassportDrawService extends BaseMapper {
             Passport passport = passportDraw.getPassport();
             if(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
                     || (passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
-                    && passport.getCancelConfirm()==
-                    SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
+                    && passport.getCancelConfirm()== false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
 
                 Date returnDate = passportDraw.getReturnDate(); // 应归还时间
                 Period p = new Period(new DateTime(returnDate), new DateTime(today), PeriodType.days());

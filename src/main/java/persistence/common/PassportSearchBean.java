@@ -11,14 +11,14 @@ public class PassportSearchBean {
     private String code;
     private Byte type;
     private Integer safeBoxId;
-    private Byte cancelConfirm;
+    private Boolean cancelConfirm;
     private Boolean isLent;
 
     public PassportSearchBean() {
     }
 
     public PassportSearchBean(Integer unitId, Integer cadreId, Integer classId, String code,
-                              Byte type, Integer safeBoxId, Byte cancelConfirm, Boolean isLent) {
+                              Byte type, Integer safeBoxId, Boolean cancelConfirm, Boolean isLent) {
         this.unitId = unitId;
         this.cadreId = cadreId;
         this.classId = classId;
@@ -77,11 +77,11 @@ public class PassportSearchBean {
         this.safeBoxId = safeBoxId;
     }
 
-    public Byte getCancelConfirm() {
+    public Boolean getCancelConfirm() {
         return cancelConfirm;
     }
 
-    public void setCancelConfirm(Byte cancelConfirm) {
+    public void setCancelConfirm(Boolean cancelConfirm) {
         this.cancelConfirm = cancelConfirm;
     }
 

@@ -932,6 +932,76 @@ public class PassportExample {
             return (Criteria) this;
         }
 
+        public Criteria andCancelTypeOtherIsNull() {
+            addCriterion("cancel_type_other is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherIsNotNull() {
+            addCriterion("cancel_type_other is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherEqualTo(String value) {
+            addCriterion("cancel_type_other =", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherNotEqualTo(String value) {
+            addCriterion("cancel_type_other <>", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherGreaterThan(String value) {
+            addCriterion("cancel_type_other >", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherGreaterThanOrEqualTo(String value) {
+            addCriterion("cancel_type_other >=", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherLessThan(String value) {
+            addCriterion("cancel_type_other <", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherLessThanOrEqualTo(String value) {
+            addCriterion("cancel_type_other <=", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherLike(String value) {
+            addCriterion("cancel_type_other like", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherNotLike(String value) {
+            addCriterion("cancel_type_other not like", value, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherIn(List<String> values) {
+            addCriterion("cancel_type_other in", values, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherNotIn(List<String> values) {
+            addCriterion("cancel_type_other not in", values, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherBetween(String value1, String value2) {
+            addCriterion("cancel_type_other between", value1, value2, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelTypeOtherNotBetween(String value1, String value2) {
+            addCriterion("cancel_type_other not between", value1, value2, "cancelTypeOther");
+            return (Criteria) this;
+        }
+
         public Criteria andCancelConfirmIsNull() {
             addCriterion("cancel_confirm is null");
             return (Criteria) this;
@@ -942,52 +1012,52 @@ public class PassportExample {
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmEqualTo(Byte value) {
+        public Criteria andCancelConfirmEqualTo(Boolean value) {
             addCriterion("cancel_confirm =", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmNotEqualTo(Byte value) {
+        public Criteria andCancelConfirmNotEqualTo(Boolean value) {
             addCriterion("cancel_confirm <>", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmGreaterThan(Byte value) {
+        public Criteria andCancelConfirmGreaterThan(Boolean value) {
             addCriterion("cancel_confirm >", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmGreaterThanOrEqualTo(Byte value) {
+        public Criteria andCancelConfirmGreaterThanOrEqualTo(Boolean value) {
             addCriterion("cancel_confirm >=", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmLessThan(Byte value) {
+        public Criteria andCancelConfirmLessThan(Boolean value) {
             addCriterion("cancel_confirm <", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmLessThanOrEqualTo(Byte value) {
+        public Criteria andCancelConfirmLessThanOrEqualTo(Boolean value) {
             addCriterion("cancel_confirm <=", value, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmIn(List<Byte> values) {
+        public Criteria andCancelConfirmIn(List<Boolean> values) {
             addCriterion("cancel_confirm in", values, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmNotIn(List<Byte> values) {
+        public Criteria andCancelConfirmNotIn(List<Boolean> values) {
             addCriterion("cancel_confirm not in", values, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmBetween(Byte value1, Byte value2) {
+        public Criteria andCancelConfirmBetween(Boolean value1, Boolean value2) {
             addCriterion("cancel_confirm between", value1, value2, "cancelConfirm");
             return (Criteria) this;
         }
 
-        public Criteria andCancelConfirmNotBetween(Byte value1, Byte value2) {
+        public Criteria andCancelConfirmNotBetween(Boolean value1, Boolean value2) {
             addCriterion("cancel_confirm not between", value1, value2, "cancelConfirm");
             return (Criteria) this;
         }
@@ -1179,6 +1249,76 @@ public class PassportExample {
 
         public Criteria andCancelUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("cancel_user_id not between", value1, value2, "cancelUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkIsNull() {
+            addCriterion("cancel_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkIsNotNull() {
+            addCriterion("cancel_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkEqualTo(String value) {
+            addCriterion("cancel_remark =", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkNotEqualTo(String value) {
+            addCriterion("cancel_remark <>", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkGreaterThan(String value) {
+            addCriterion("cancel_remark >", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("cancel_remark >=", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkLessThan(String value) {
+            addCriterion("cancel_remark <", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkLessThanOrEqualTo(String value) {
+            addCriterion("cancel_remark <=", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkLike(String value) {
+            addCriterion("cancel_remark like", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkNotLike(String value) {
+            addCriterion("cancel_remark not like", value, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkIn(List<String> values) {
+            addCriterion("cancel_remark in", values, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkNotIn(List<String> values) {
+            addCriterion("cancel_remark not in", values, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkBetween(String value1, String value2) {
+            addCriterion("cancel_remark between", value1, value2, "cancelRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCancelRemarkNotBetween(String value1, String value2) {
+            addCriterion("cancel_remark not between", value1, value2, "cancelRemark");
             return (Criteria) this;
         }
 

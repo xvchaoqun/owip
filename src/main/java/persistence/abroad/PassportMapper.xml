@@ -15,10 +15,12 @@
     <result column="is_lent" property="isLent" jdbcType="BIT" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="cancel_type" property="cancelType" jdbcType="TINYINT" />
-    <result column="cancel_confirm" property="cancelConfirm" jdbcType="TINYINT" />
+    <result column="cancel_type_other" property="cancelTypeOther" jdbcType="VARCHAR" />
+    <result column="cancel_confirm" property="cancelConfirm" jdbcType="BIT" />
     <result column="cancel_pic" property="cancelPic" jdbcType="VARCHAR" />
     <result column="cancel_time" property="cancelTime" jdbcType="DATE" />
     <result column="cancel_user_id" property="cancelUserId" jdbcType="INTEGER" />
+    <result column="cancel_remark" property="cancelRemark" jdbcType="VARCHAR" />
     <result column="lost_type" property="lostType" jdbcType="TINYINT" />
     <result column="lost_time" property="lostTime" jdbcType="DATE" />
     <result column="lost_proof" property="lostProof" jdbcType="VARCHAR" />
@@ -87,9 +89,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, apply_id, cadre_id, class_id, code, authority, issue_date, expiry_date, keep_date, 
-    safe_box_id, is_lent, type, cancel_type, cancel_confirm, cancel_pic, cancel_time, 
-    cancel_user_id, lost_type, lost_time, lost_proof, lost_user_id, has_find, find_time, 
-    create_time
+    safe_box_id, is_lent, type, cancel_type, cancel_type_other, cancel_confirm, cancel_pic, 
+    cancel_time, cancel_user_id, cancel_remark, lost_type, lost_time, lost_proof, lost_user_id, 
+    has_find, find_time, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.abroad.PassportExample" >
     select
@@ -126,20 +128,20 @@
       class_id, code, authority, 
       issue_date, expiry_date, keep_date, 
       safe_box_id, is_lent, type, 
-      cancel_type, cancel_confirm, cancel_pic, 
-      cancel_time, cancel_user_id, lost_type, 
-      lost_time, lost_proof, lost_user_id, 
-      has_find, find_time, create_time
-      )
+      cancel_type, cancel_type_other, cancel_confirm, 
+      cancel_pic, cancel_time, cancel_user_id, 
+      cancel_remark, lost_type, lost_time, 
+      lost_proof, lost_user_id, has_find, 
+      find_time, create_time)
     values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{classId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
       #{issueDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{keepDate,jdbcType=DATE}, 
       #{safeBoxId,jdbcType=INTEGER}, #{isLent,jdbcType=BIT}, #{type,jdbcType=TINYINT}, 
-      #{cancelType,jdbcType=TINYINT}, #{cancelConfirm,jdbcType=TINYINT}, #{cancelPic,jdbcType=VARCHAR}, 
-      #{cancelTime,jdbcType=DATE}, #{cancelUserId,jdbcType=INTEGER}, #{lostType,jdbcType=TINYINT}, 
-      #{lostTime,jdbcType=DATE}, #{lostProof,jdbcType=VARCHAR}, #{lostUserId,jdbcType=INTEGER}, 
-      #{hasFind,jdbcType=BIT}, #{findTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{cancelType,jdbcType=TINYINT}, #{cancelTypeOther,jdbcType=VARCHAR}, #{cancelConfirm,jdbcType=BIT}, 
+      #{cancelPic,jdbcType=VARCHAR}, #{cancelTime,jdbcType=DATE}, #{cancelUserId,jdbcType=INTEGER}, 
+      #{cancelRemark,jdbcType=VARCHAR}, #{lostType,jdbcType=TINYINT}, #{lostTime,jdbcType=DATE}, 
+      #{lostProof,jdbcType=VARCHAR}, #{lostUserId,jdbcType=INTEGER}, #{hasFind,jdbcType=BIT}, 
+      #{findTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.abroad.Passport" >
     insert into abroad_passport
@@ -183,6 +185,9 @@
       <if test="cancelType != null" >
         cancel_type,
       </if>
+      <if test="cancelTypeOther != null" >
+        cancel_type_other,
+      </if>
       <if test="cancelConfirm != null" >
         cancel_confirm,
       </if>
@@ -194,6 +199,9 @@
       </if>
       <if test="cancelUserId != null" >
         cancel_user_id,
+      </if>
+      <if test="cancelRemark != null" >
+        cancel_remark,
       </if>
       <if test="lostType != null" >
         lost_type,
@@ -257,8 +265,11 @@
       <if test="cancelType != null" >
         #{cancelType,jdbcType=TINYINT},
       </if>
+      <if test="cancelTypeOther != null" >
+        #{cancelTypeOther,jdbcType=VARCHAR},
+      </if>
       <if test="cancelConfirm != null" >
-        #{cancelConfirm,jdbcType=TINYINT},
+        #{cancelConfirm,jdbcType=BIT},
       </if>
       <if test="cancelPic != null" >
         #{cancelPic,jdbcType=VARCHAR},
@@ -268,6 +279,9 @@
       </if>
       <if test="cancelUserId != null" >
         #{cancelUserId,jdbcType=INTEGER},
+      </if>
+      <if test="cancelRemark != null" >
+        #{cancelRemark,jdbcType=VARCHAR},
       </if>
       <if test="lostType != null" >
         #{lostType,jdbcType=TINYINT},
@@ -340,8 +354,11 @@
       <if test="record.cancelType != null" >
         cancel_type = #{record.cancelType,jdbcType=TINYINT},
       </if>
+      <if test="record.cancelTypeOther != null" >
+        cancel_type_other = #{record.cancelTypeOther,jdbcType=VARCHAR},
+      </if>
       <if test="record.cancelConfirm != null" >
-        cancel_confirm = #{record.cancelConfirm,jdbcType=TINYINT},
+        cancel_confirm = #{record.cancelConfirm,jdbcType=BIT},
       </if>
       <if test="record.cancelPic != null" >
         cancel_pic = #{record.cancelPic,jdbcType=VARCHAR},
@@ -351,6 +368,9 @@
       </if>
       <if test="record.cancelUserId != null" >
         cancel_user_id = #{record.cancelUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cancelRemark != null" >
+        cancel_remark = #{record.cancelRemark,jdbcType=VARCHAR},
       </if>
       <if test="record.lostType != null" >
         lost_type = #{record.lostType,jdbcType=TINYINT},
@@ -393,10 +413,12 @@
       is_lent = #{record.isLent,jdbcType=BIT},
       type = #{record.type,jdbcType=TINYINT},
       cancel_type = #{record.cancelType,jdbcType=TINYINT},
-      cancel_confirm = #{record.cancelConfirm,jdbcType=TINYINT},
+      cancel_type_other = #{record.cancelTypeOther,jdbcType=VARCHAR},
+      cancel_confirm = #{record.cancelConfirm,jdbcType=BIT},
       cancel_pic = #{record.cancelPic,jdbcType=VARCHAR},
       cancel_time = #{record.cancelTime,jdbcType=DATE},
       cancel_user_id = #{record.cancelUserId,jdbcType=INTEGER},
+      cancel_remark = #{record.cancelRemark,jdbcType=VARCHAR},
       lost_type = #{record.lostType,jdbcType=TINYINT},
       lost_time = #{record.lostTime,jdbcType=DATE},
       lost_proof = #{record.lostProof,jdbcType=VARCHAR},
@@ -447,8 +469,11 @@
       <if test="cancelType != null" >
         cancel_type = #{cancelType,jdbcType=TINYINT},
       </if>
+      <if test="cancelTypeOther != null" >
+        cancel_type_other = #{cancelTypeOther,jdbcType=VARCHAR},
+      </if>
       <if test="cancelConfirm != null" >
-        cancel_confirm = #{cancelConfirm,jdbcType=TINYINT},
+        cancel_confirm = #{cancelConfirm,jdbcType=BIT},
       </if>
       <if test="cancelPic != null" >
         cancel_pic = #{cancelPic,jdbcType=VARCHAR},
@@ -458,6 +483,9 @@
       </if>
       <if test="cancelUserId != null" >
         cancel_user_id = #{cancelUserId,jdbcType=INTEGER},
+      </if>
+      <if test="cancelRemark != null" >
+        cancel_remark = #{cancelRemark,jdbcType=VARCHAR},
       </if>
       <if test="lostType != null" >
         lost_type = #{lostType,jdbcType=TINYINT},
@@ -497,10 +525,12 @@
       is_lent = #{isLent,jdbcType=BIT},
       type = #{type,jdbcType=TINYINT},
       cancel_type = #{cancelType,jdbcType=TINYINT},
-      cancel_confirm = #{cancelConfirm,jdbcType=TINYINT},
+      cancel_type_other = #{cancelTypeOther,jdbcType=VARCHAR},
+      cancel_confirm = #{cancelConfirm,jdbcType=BIT},
       cancel_pic = #{cancelPic,jdbcType=VARCHAR},
       cancel_time = #{cancelTime,jdbcType=DATE},
       cancel_user_id = #{cancelUserId,jdbcType=INTEGER},
+      cancel_remark = #{cancelRemark,jdbcType=VARCHAR},
       lost_type = #{lostType,jdbcType=TINYINT},
       lost_time = #{lostTime,jdbcType=DATE},
       lost_proof = #{lostProof,jdbcType=VARCHAR},

@@ -2,10 +2,12 @@ package controller.abroad;
 
 import bean.*;
 import controller.BaseController;
-import domain.abroad.*;
+import domain.abroad.Passport;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportExample;
+import domain.abroad.SafeBox;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -169,12 +171,12 @@ public class PassportController extends BaseController {
         if (status < 4) {
             type = status;
         }
-        Byte cancelConfirm = null;
+        Boolean cancelConfirm = null;
         if (status == 2) {
-            cancelConfirm = SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT;
+            cancelConfirm = false;
         }
         if (status == 4) {
-            cancelConfirm = 1; // 已确认或免职前已领取
+            cancelConfirm = true;
             type = 2;
         }
 
@@ -268,7 +270,7 @@ public class PassportController extends BaseController {
                         record.getSafeBox().getCode(),
                         record.getIsLent()?"借出":"-",
                         SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
-                        SystemConstants.PASSPORT_CANCEL_CONFIRM_MAP.get(record.getCancelConfirm())
+                        BooleanUtils.isTrue(record.getCancelConfirm())?"已确认":"未确认"
                 };
                 valuesList.add(values);
             }
@@ -298,7 +300,7 @@ public class PassportController extends BaseController {
                         record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
                         record.getCancelTime()!=null?DateUtils.formatDate(record.getCancelTime(), DateUtils.YYYY_MM_DD):"",
                         SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
-                        SystemConstants.PASSPORT_CANCEL_CONFIRM_MAP.get(record.getCancelConfirm())
+                        BooleanUtils.isTrue(record.getCancelConfirm())?"已确认":"未确认"
                 };
                 valuesList.add(values);
             }
@@ -372,7 +374,7 @@ public class PassportController extends BaseController {
         record.setId(id);
         record.setCancelPic(savePath);
         record.setCancelTime(new Date());
-        record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_YES);
+        record.setCancelConfirm(true);
         record.setCancelUserId(loginUser.getId());
 
         passportService.updateByPrimaryKeySelective(record);
@@ -563,7 +565,7 @@ public class PassportController extends BaseController {
                 record.setType(type);
 
             record.setIsLent(false);
-            record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT);
+            record.setCancelConfirm(false);
             record.setCreateTime(new Date());
             passportService.add(record, applyId);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
@@ -694,7 +696,7 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:lost")
     @RequestMapping(value = "/passport_lost", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_lost(HttpServletRequest request, Integer id, String _lostTime,
+    public Map do_passport_lost(@CurrentUser SysUserView loginUser, Integer id, String _lostTime,
                                 MultipartFile _lostProof) {
 
         Passport record = new Passport();
@@ -715,6 +717,14 @@ public class PassportController extends BaseController {
 
         record.setType(SystemConstants.PASSPORT_TYPE_LOST);
         record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_TRANSFER);
+        record.setLostUserId(loginUser.getUserId());
+
+        // 在“借出”状态, 加备注
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        if(BooleanUtils.isTrue(passport.getIsLent())){
+
+            record.setCancelRemark("在证件借出的情况下证件丢失");
+        }
 
         passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "丢失证件：%s", id));
@@ -723,15 +733,31 @@ public class PassportController extends BaseController {
     }
 
     @RequiresPermissions("passport:abolish")
+    @RequestMapping("/passport_abolish")
+    public String passport_abolish(Integer id, ModelMap modelMap) {
+
+        Passport passport = passportMapper.selectByPrimaryKey(id);
+        modelMap.put("passport", passport);
+
+        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        modelMap.put("cadre", cadre);
+        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        return "abroad/passport/passport_abolish";
+    }
+
+    @RequiresPermissions("passport:abolish")
     @RequestMapping(value = "/passport_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_passport_abolish(HttpServletRequest request,
+                                   Integer id, Byte cancelType,
+                                   String cancelTypeOther) {
 
-        if (null != ids && ids.length > 0) {
+        passportService.abolish(id,cancelType, cancelTypeOther);
+        logger.info(addLog(SystemConstants.LOG_ABROAD,
+                "取消证件集中管理：%s, %s", id, cancelType, cancelTypeOther));
 
-            passportService.abolish(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "作废证件：%s", StringUtils.join(ids, ",")));
-        }
         return success(FormUtils.SUCCESS);
     }
 

@@ -314,8 +314,8 @@
                 width: 110,
                 formatter: function (cellvalue, options, rowObject) {
 
-                    if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm>0)
-                        return '已取消集中管理';
+                    if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
+                        return '-';
                     if(rowObject.passport.type=='${PASSPORT_TYPE_LOST}')
                         return '证件丢失';
 
@@ -341,6 +341,7 @@
                         return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
                                 .format(rowObject.useRecord, "使用记录");
                     }
+
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
                             rowObject.passport.type=='${PASSPORT_TYPE_LOST}' ||
                             rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
@@ -353,9 +354,23 @@
             },
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm=='${PASSPORT_CANCEL_CONFIRM_YES_DISMISS}')
-                    return '已免职';
+                if(rowObject.passport.type=='${PASSPORT_TYPE_LOST}'){
+
+                    return '证件丢失'
+                }
+
+                if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}'){
+
+                    var ret = _cMap.PASSPORT_CANCEL_TYPE_MAP[rowObject.passport.cancelType];
+                    if(rowObject.passport.cancelType=='${PASSPORT_CANCEL_TYPE_OTHER}'
+                       && $.trim(rowObject.passport.cancelTypeOther)!=''){
+                        ret = ret + ":" + $.trim(rowObject.passport.cancelTypeOther);
+                    }
+                    return ret;
+                }
+
                 if(cellvalue==undefined) return ''
+
                 return cellvalue;
             }},
             { label: '附件', formatter:function(cellvalue, options, rowObject){

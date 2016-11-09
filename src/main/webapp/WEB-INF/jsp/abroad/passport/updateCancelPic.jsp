@@ -12,8 +12,8 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/updateCancelPic" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
             <div class="form-group">
-                <label class="col-xs-3 control-label">取消集中保管确认时间</label>
-                <div class="col-xs-6">
+                <label class="col-xs-4 control-label">取消集中保管确认时间</label>
+                <div class="col-xs-5">
                     <div class="input-group">
                         <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
                         <input required class="form-control date-picker" name="_cancelTime" type="text"
@@ -23,8 +23,8 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">确认单</label>
-                <div class="col-xs-6">
+                <label class="col-xs-4 control-label">确认单</label>
+                <div class="col-xs-5">
                     <input  ${passport==null?'required':''} class="form-control" type="file" name="_cancelPic" />
                 </div>
             </div>

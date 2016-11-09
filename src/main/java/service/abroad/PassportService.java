@@ -4,15 +4,14 @@ import bean.XlsPassport;
 import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import persistence.abroad.PassportDrawMapper;
 import persistence.common.PassportSearchBean;
 import service.BaseMapper;
 import service.cadre.CadreService;
@@ -21,7 +20,9 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class PassportService extends BaseMapper {
@@ -67,7 +68,7 @@ public class PassportService extends BaseMapper {
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);
-            record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT);
+            record.setCancelConfirm(false);
 
             if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())>0) {
                 MetaType mcPassportType = CmTag.getMetaType(passportType);
@@ -154,19 +155,35 @@ public class PassportService extends BaseMapper {
     }
 
     @Transactional
-    public void abolish(Integer[] ids){
+    public void abolish(Integer id, Byte cancelType,
+                        String cancelTypeOther){
 
-        if(ids==null || ids.length==0) return;
+        if(id!=null && cancelType!=null
+                && (cancelType==SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH
+                || cancelType==SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)) {
 
-        PassportExample example = new PassportExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+            Passport passport = passportMapper.selectByPrimaryKey(id);
 
-        Passport record = new Passport();
-        record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
-        record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH);
+            // “未借出”状态下取消集中管理 ，转移到未确认
+            Passport record = new Passport();
+            record.setId(id);
+            record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
+            record.setCancelType(cancelType);
+            if(cancelType==SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)
+                record.setCancelTypeOther(cancelTypeOther);
 
-        passportMapper.updateByExampleSelective(record, example);
+            // “借出”状态下取消集中管理，转移到已确认，并加备注
+            if(BooleanUtils.isTrue(passport.getIsLent())){
+                record.setCancelConfirm(true);
+                record.setCancelTime(new Date());
+                record.setCancelRemark("在证件借出的情况下取消集中管理");
+                record.setCancelUserId(ShiroSecurityHelper.getCurrentUserId());
+            }
+
+            passportMapper.updateByPrimaryKeySelective(record);
+        }
     }
+
     @Transactional
     public void lost(Integer[] ids){
 
@@ -266,11 +283,19 @@ public class PassportService extends BaseMapper {
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
             if(expiryDate.before(now)){
+
+                // 未借出状态，转移到取消未确认
                 Passport record = new Passport();
                 record.setId(passport.getId());
                 record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
                 record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE);
-                //record.setCancelTime(new Date());
+
+                if(BooleanUtils.isTrue(passport.getIsLent())) {
+                    // 借出状态，转移到取消已确认，并加备注
+                    record.setCancelTime(new Date());
+                    record.setCancelConfirm(true);
+                    record.setCancelRemark("在证件借出的情况下取消集中管理");
+                }
 
                 passportMapper.updateByPrimaryKeySelective(record);
             }

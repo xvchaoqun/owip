@@ -93,14 +93,19 @@
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-                                                <td>${PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}</td>
+                                                <td>${PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}
+                                                <c:if test="${passport.cancelType==PASSPORT_CANCEL_TYPE_OTHER
+                                                    && not empty passport.cancelTypeOther}">
+                                                    :${passport.cancelTypeOther}
+                                                </c:if>
+                                                </td>
                                                 <td>${cm:formatDate(passport.cancelTime,'yyyy-MM-dd')}</td>
                                                 <td>
                                                     <a class="openView btn btn-info btn-xs"
                                                        data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
                                                         <i class="fa fa-history"></i> 使用记录
                                                     </a>
-                                                    <c:if  test="${passport.cancelConfirm}">
+                                                    <c:if  test="${passport.cancelConfirm && not empty passport.cancelPic}">
                                                         <a class="openView btn btn-success btn-xs"
                                                            data-url="${ctx}/user/passport_cancel?id=${passport.id}">
                                                             <i class="fa fa-search"></i> 取消集中管理证明

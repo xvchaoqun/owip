@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Passport implements Serializable {
+
     public SysUserView getUser(){
         Cadre cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
@@ -32,6 +33,7 @@ public class Passport implements Serializable {
 
         return CmTag.getSafeBoxMap().get(safeBoxId);
     }
+
     private Integer id;
 
     private Integer applyId;
@@ -58,13 +60,17 @@ public class Passport implements Serializable {
 
     private Byte cancelType;
 
-    private Byte cancelConfirm;
+    private String cancelTypeOther;
+
+    private Boolean cancelConfirm;
 
     private String cancelPic;
 
     private Date cancelTime;
 
     private Integer cancelUserId;
+
+    private String cancelRemark;
 
     private Byte lostType;
 
@@ -186,11 +192,19 @@ public class Passport implements Serializable {
         this.cancelType = cancelType;
     }
 
-    public Byte getCancelConfirm() {
+    public String getCancelTypeOther() {
+        return cancelTypeOther;
+    }
+
+    public void setCancelTypeOther(String cancelTypeOther) {
+        this.cancelTypeOther = cancelTypeOther == null ? null : cancelTypeOther.trim();
+    }
+
+    public Boolean getCancelConfirm() {
         return cancelConfirm;
     }
 
-    public void setCancelConfirm(Byte cancelConfirm) {
+    public void setCancelConfirm(Boolean cancelConfirm) {
         this.cancelConfirm = cancelConfirm;
     }
 
@@ -216,6 +230,14 @@ public class Passport implements Serializable {
 
     public void setCancelUserId(Integer cancelUserId) {
         this.cancelUserId = cancelUserId;
+    }
+
+    public String getCancelRemark() {
+        return cancelRemark;
+    }
+
+    public void setCancelRemark(String cancelRemark) {
+        this.cancelRemark = cancelRemark == null ? null : cancelRemark.trim();
     }
 
     public Byte getLostType() {

@@ -48,8 +48,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
-      <!--<table tableName="abroad_passport" domainObjectName="abroad.Passport">
-      </table>-->
+      <table tableName="abroad_passport" domainObjectName="abroad.Passport">
+      </table>
 
       <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
       </table>-->

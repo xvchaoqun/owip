@@ -12,7 +12,6 @@ import domain.cadre.CadreExample;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
@@ -378,7 +377,7 @@ public class CadreService extends BaseMapper {
                 Passport record = new Passport();
                 record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
                 record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
-                record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT); // 未确认
+                record.setCancelConfirm(false); // 未确认
 
                 PassportExample example = new PassportExample();
                 example.createCriteria().andCadreIdEqualTo(id).
@@ -391,8 +390,9 @@ public class CadreService extends BaseMapper {
                 record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
                 //record.setCancelPic(savePath);
                 record.setCancelTime(new Date());
-                record.setCancelConfirm(SystemConstants.PASSPORT_CANCEL_CONFIRM_YES_DISMISS); //免职前已领取
+                record.setCancelConfirm(true); //已确认
                 record.setCancelUserId(ShiroSecurityHelper.getCurrentUserId());
+                record.setCancelRemark("在证件借出的情况下取消集中管理");
 
                 PassportExample example = new PassportExample();
                 example.createCriteria().andCadreIdEqualTo(id).

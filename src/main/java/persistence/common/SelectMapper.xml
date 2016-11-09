@@ -36,12 +36,7 @@
         </if>
       </if>
       <if test="bean.cancelConfirm!=null">
-        <if test="bean.cancelConfirm==0">
-        and p.cancel_confirm = 0
-        </if>
-          <if test="bean.cancelConfirm!=0">
-              and p.cancel_confirm != 0
-          </if>
+        and p.cancel_confirm = #{bean.cancelConfirm}
       </if>
       and p.cadre_id=c.id and p.class_id=mt.id
     </where>

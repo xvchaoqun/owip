@@ -22,29 +22,28 @@ pageEncoding="UTF-8" %>
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==PASSPORT_TYPE_KEEP}">
                                 <shiro:hasPermission name="passport:edit">
-                                    <a class="editBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加证件</a>
+                                    <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加证件</a>
                                 </shiro:hasPermission>
-                                <a class="importBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 导入</a>
-                                <a class="jqBatchBtn btn btn-warning btn-sm"
-                                   data-url="${ctx}/passport_abolish" data-title="证件作废"
-                                   data-msg="确定将这{0}个证件移动到取消集中管理证件库吗？">
-                                    <i class="fa fa-recycle"></i> 作废
-                                </a>
-                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                   data-url="${ctx}/passport_lost" >
-                                    <i class="fa fa-times"></i> 丢失
-                                </a>
                                 <shiro:hasPermission name="passport:edit">
                                     <button class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
                                 </shiro:hasPermission>
+                                <a class="jqOpenViewBtn btn btn-warning btn-sm"
+                                   data-width="500" data-url="${ctx}/passport_abolish">
+                                    <i class="fa fa-recycle"></i> 取消集中管理
+                                </a>
+                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                   data-url="${ctx}/passport_lost" >
+                                    <i class="fa fa-times"></i> 丢失
+                                </a>
                                 <shiro:hasPermission name="passport:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/passport_batchDel" data-title="证件删除"
                                        data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
+                                <a class="importBtn btn btn-success btn-sm tooltip-success"
+                                   data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 导入</a>
                             </c:if>
 
                             <c:if test="${status==PASSPORT_TYPE_CANCEL}">
@@ -93,25 +92,26 @@ pageEncoding="UTF-8" %>
                                        data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
+                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                    class="fa fa-download"></i> 导出</a>
                             <a class="jqOpenViewBtn btn btn-info btn-sm"
                                data-open-by="page" data-url="${ctx}/passport_useLogs">
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
-                            <c:if test="${status==PASSPORT_TYPE_KEEP}">
-                                <button disabled id="hasFindBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
-                                   data-url="${ctx}/passport_remark" data-open-by="page">
-                                    <i class="fa fa-search"></i> 备注
-                                </button>
-                            </c:if>
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/passport_au" data-querystr="&op=back">
                                 <i class="fa fa-search"></i> 证件找回
                             </a>
                             </c:if>
-                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
-                                    class="fa fa-download"></i> 导出</a>
+
+                            <c:if test="${status==PASSPORT_TYPE_KEEP}">
+                                <button disabled id="hasFindBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/passport_remark" data-open-by="page">
+                                    <i class="fa fa-search"></i> 丢失情况
+                                </button>
+                            </c:if>
                         </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -251,11 +251,23 @@ pageEncoding="UTF-8" %>
             { label:'登记丢失日期', name: 'lostTime', width: 120 },
             </c:if>
             <c:if test="${status==2||status==4}">
-            { label:'取消集中保管原因', name: 'cancelType', width: 140 },
+            { label:'取消集中保管原因', name: 'cancelType', width: 140, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                var ret = _cMap.PASSPORT_CANCEL_TYPE_MAP[cellvalue];
+                if(cellvalue=='${PASSPORT_CANCEL_TYPE_OTHER}'){
+                    if(rowObject.cancelTypeOther!=''){
+                        ret = ret + ":"+  rowObject.cancelTypeOther;
+                    }
+                }
+                return ret;
+            }  },
             { label:'状态', name: 'cancelConfirm', formatter:function(cellvalue){
                 if(cellvalue==undefined) return ''
-                return _cMap.PASSPORT_CANCEL_CONFIRM_MAP[cellvalue];
+                return cellvalue?"已确认":"未确认";
             } },
+            </c:if>
+            <c:if test="${status==4 || status==PASSPORT_TYPE_LOST}">
+            { label:'备注', name: 'cancelRemark',align:'left', width: 350},
             </c:if>
             {hidden:true, name:'canEdit', formatter:function(cellvalue, options, rowObject) {
                 var type = rowObject.type;

@@ -132,10 +132,8 @@ public class SafeBoxController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        if(cancelConfirm==null) cancelConfirm=SystemConstants.PASSPORT_CANCEL_CONFIRM_NOT;
-
         PassportSearchBean bean = new PassportSearchBean(null, null, null, null, type,
-                safeBoxId, /*cancelConfirm != null && cancelConfirm ==1*/ cancelConfirm, null);
+                safeBoxId, cancelConfirm != null && cancelConfirm ==1, null);
 
         int count = selectMapper.countPassport(bean);
         if ((pageNo - 1) * pageSize >= count) {

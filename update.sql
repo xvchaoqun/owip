@@ -2,6 +2,15 @@
 
 -- 2016-11-9
 
+ALTER TABLE `abroad_passport`
+	CHANGE COLUMN `cancel_type` `cancel_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '取消集中保管原因，1证件过期 2不再担任行政职务3证件作废 4其他' AFTER `type`,
+	ADD COLUMN `cancel_type_other` VARCHAR(100) NULL DEFAULT NULL COMMENT '取消集中保管原因（其他）' AFTER `cancel_type`,
+	CHANGE COLUMN `cancel_confirm` `cancel_confirm` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '确认状态，0：未确认 1：已确认' AFTER `cancel_type_other`,
+	ADD COLUMN `cancel_remark` VARCHAR(100) NULL DEFAULT NULL COMMENT '取消集中保管（备注）' AFTER `cancel_user_id`;
+
+
+-- 2016-11-9
+
 ALTER TABLE `ow_member_apply`
 	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1教职工 2学生  与党员表type保持一致' AFTER `branch_id`;
 update ow_member_apply set type=3 where type=1;

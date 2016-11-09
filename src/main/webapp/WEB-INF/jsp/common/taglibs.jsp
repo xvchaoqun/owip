@@ -258,10 +258,10 @@
 <c:set var="PASSPORT_TYPE_LOST" value="<%=SystemConstants.PASSPORT_TYPE_LOST%>"/>
 <c:set var="PASSPORT_TYPE_CANCEL" value="<%=SystemConstants.PASSPORT_TYPE_CANCEL%>"/>
 <c:set var="PASSPORT_TYPE_MAP" value="<%=SystemConstants.PASSPORT_TYPE_MAP%>"/>
-<c:set var="PASSPORT_CANCEL_TYPE_MAP" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_MAP%>"/>
 
-<c:set var="PASSPORT_CANCEL_CONFIRM_YES_DISMISS" value="<%=SystemConstants.PASSPORT_CANCEL_CONFIRM_YES_DISMISS%>"/>
-<c:set var="PASSPORT_CANCEL_CONFIRM_MAP" value="<%=SystemConstants.PASSPORT_CANCEL_CONFIRM_MAP%>"/>
+<c:set var="PASSPORT_CANCEL_TYPE_ABOLISH" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH%>"/>
+<c:set var="PASSPORT_CANCEL_TYPE_OTHER" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_OTHER%>"/>
+<c:set var="PASSPORT_CANCEL_TYPE_MAP" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_MAP%>"/>
 
 <c:set var="PASSPORT_LOST_TYPE_TRANSFER" value="<%=SystemConstants.PASSPORT_LOST_TYPE_TRANSFER%>"/>
 
