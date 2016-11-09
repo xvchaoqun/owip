@@ -32,26 +32,37 @@
                   <div class="widget-main padding-4">
                     <div class="col-sm-12">
 
-                      <div class="infobox infobox-pink" data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}">
+                      <div class="infobox infobox-pink">
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-hand-lizard-o"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><span class="count">${growOdCheckCount}</span> <span style="font-size: 10pt;">未处理</span></span>
+                          <span class="infobox-data-number">
+                            <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}&type=${APPLY_TYPE_STU}&growStatus=-1">
+                            <span class="count">${studentGrowOdCheckCount}</span><span style="font-size: 10pt;">学生</span></span>
+                             <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}&type=${APPLY_TYPE_TECHER}&growStatus=-1">
+                            <span class="count">${teacherGrowOdCheckCount}</span><span style="font-size: 10pt;">教职工</span></span>
+                            </span>
                           <div class="infobox-content">领取志愿书审批</div>
                         </div>
                       </div>
-                      <div class="infobox infobox-red" data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_GROW}">
+
+                      <div class="infobox infobox-red">
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-star"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><span class="count">${positiveOdCheckCount}</span> <span style="font-size: 10pt;">未处理</span></span>
+                          <span class="infobox-data-number">
+                            <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_GROW}&type=${APPLY_TYPE_STU}&positiveStatus=1">
+                            <span class="count">${studentPositiveOdCheckCount}</span><span style="font-size: 10pt;">学生</span></span>
+                             <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_GROW}&type=${APPLY_TYPE_TECHER}&positiveStatus=1">
+                            <span class="count">${teacherPositiveOdCheckCount}</span><span style="font-size: 10pt;">教职工</span></span>
+                            </span>
                           <div class="infobox-content">预备党员转正审批</div>
                         </div>
                       </div>
 
-                      <div class="infobox infobox-blue" data-url="${ctx}/memberOut?cls=6">
+                      <div class="infobox infobox-blue" <c:if test="${memberOutCount>0}">data-url="${ctx}/memberOut?cls=6"</c:if>>
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-sign-out"></i>
                         </div>
@@ -61,7 +72,7 @@
                           <div class="infobox-content">组织关系转出审批</div>
                         </div>
                       </div>
-                      <div class="infobox infobox-green" data-url="${ctx}/memberIn?cls=4">
+                      <div class="infobox infobox-green" <c:if test="${memberInCount>0}">data-url="${ctx}/memberIn?cls=4"</c:if>>
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-sign-in"></i>
                         </div>
@@ -75,7 +86,7 @@
                         </div>
                       </div>
 
-                      <div class="infobox infobox-blue2" data-url="${ctx}/graduateAbroad?cls=3">
+                      <div class="infobox infobox-blue2" <c:if test="${graduateAbroadCount>0}">data-url="${ctx}/graduateAbroad?cls=3"</c:if>>
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-plane"></i>
                         </div>

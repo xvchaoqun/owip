@@ -56,9 +56,9 @@
                                         <div id="home3" class="tab-pane in active">
                                             <div class="tabbable" >
                                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                                                    <li class="<c:if test="${type==1}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=1&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
-                                                            <c:set value="${stage}_1" var="_key"/>
+                                                    <li class="<c:if test="${type==APPLY_TYPE_STU}">active</c:if>">
+                                                        <a href='?cls=${cls}&type=${APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
+                                                            <c:set value="${stage}_${APPLY_TYPE_STU}" var="_key"/>
                                                             <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"
@@ -68,9 +68,9 @@
                                                         </a>
                                                     </li>
 
-                                                    <li class="<c:if test="${type==2}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=2&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
-                                                            <c:set value="${stage}_2" var="_key"/>
+                                                    <li class="<c:if test="${type==APPLY_TYPE_TECHER}">active</c:if>">
+                                                        <a href='?cls=${cls}&type=${APPLY_TYPE_TECHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
+                                                            <c:set value="${stage}_${APPLY_TYPE_TECHER}" var="_key"/>
                                                             <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"
@@ -398,7 +398,7 @@
         ondblClickRow:function(){},
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '${type==1?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
+            {label: '${type==APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
             {label: '姓名', name: 'user.realname', width: 100, frozen:true},
             {
                 label: '所属组织机构', name: 'party',  width: 550, formatter:function(cellvalue, options, rowObject){
@@ -623,8 +623,8 @@
         loadModal("${ctx}/memberApply_au");
     });
 
-    function goto_next(type){
-        if(type==1){
+    function goto_next(gotoNext){
+        if(gotoNext==1){
             if($("#next").hasClass("disabled") && $("#last").hasClass("disabled") )
                 $(".closeView").click();
             else if(!$("#next").hasClass("disabled"))
@@ -635,159 +635,159 @@
             page_reload();
         }
     }
-    function apply_deny(userId, type){
+    function apply_deny(userId, gotoNext){
         bootbox.confirm("确定拒绝该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_deny",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }
-    function apply_pass(userId, type){
+    function apply_pass(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_pass",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }
-    function apply_active(userId, type){
+    function apply_active(userId, gotoNext){
         var url = "${ctx}/apply_active?ids[]="+userId;
-        if(type!=undefined)
-            url += "&type="+ type;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
         loadModal(url);
     }
-    function apply_candidate(userId, type){
+    function apply_candidate(userId, gotoNext){
         var url = "${ctx}/apply_candidate?ids[]="+userId;
-        if(type!=undefined)
-            url += "&type="+ type;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
         loadModal(url);
     }
-    function apply_candidate_check(userId, type){
+    function apply_candidate_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_candidate_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }
 
-    function apply_plan(userId, type){
+    function apply_plan(userId, gotoNext){
 
         var url = "${ctx}/apply_plan?ids[]="+userId;
-        if(type!=undefined)
-            url += "&type="+ type;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
         loadModal(url);
     }
-    function apply_plan_check(userId, type){
+    function apply_plan_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_plan_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }
 
-    function apply_draw(userId, type){
+    function apply_draw(userId, gotoNext){
 
         var url = "${ctx}/apply_draw?ids[]="+userId;
-        if(type!=undefined)
-            url += "&type="+ type;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
         loadModal(url);
     }
-    /*function apply_draw_check(userId, type){
+    /*function apply_draw_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_draw_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }*/
 
-    function apply_grow(userId, type){
+    function apply_grow(userId, gotoNext){
         var url = "${ctx}/apply_grow?ids[]="+userId;
-        if(type!=undefined)
-            url += "&type="+ type;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
         loadModal(url);
     }
-    function apply_grow_check(userId, type){
+    function apply_grow_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_grow_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }
-    function apply_grow_check2(userId, type){
+    function apply_grow_check2(userId, gotoNext){
         //bootbox.confirm("确定通过该申请？", function (result) {
             //if(result){
                 $.post("${ctx}/apply_grow_check2",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             //}
         //});
     }
-    function apply_positive(userId, type){
+    function apply_positive(userId, gotoNext){
         var url = "${ctx}/apply_positive?ids[]="+userId;
-        if(type!=undefined)
-            url += "&type="+ type;
+        if(gotoNext!=undefined)
+            url += "&gotoNext="+ gotoNext;
         loadModal(url)
     }
-    function apply_positive_check(userId, type){
+    function apply_positive_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_positive_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }
         });
     }
-    function apply_positive_check2(userId, type){
+    function apply_positive_check2(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
             if(result){
                 $.post("${ctx}/apply_positive_check2",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');
-                        goto_next(type);
+                        goto_next(gotoNext);
                     }
                 });
             }

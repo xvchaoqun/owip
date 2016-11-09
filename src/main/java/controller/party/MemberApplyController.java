@@ -146,7 +146,7 @@ public class MemberApplyController extends BaseController {
                                    Integer userId,
                                    Integer partyId,
                                    Integer branchId,
-                                   @RequestParam(defaultValue = "1")Byte type,
+                                   @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
                                    @RequestParam(defaultValue = "0")Byte stage,
                                    ModelMap modelMap) {
 
@@ -232,7 +232,7 @@ public class MemberApplyController extends BaseController {
                                    Integer userId,
                                    Integer partyId,
                                    Integer branchId,
-                                   @RequestParam(defaultValue = "1")Byte type,
+                                 @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
                                    @RequestParam(defaultValue = "0")Byte stage,
                                    Byte growStatus, // 领取志愿书阶段查询
                                    Byte positiveStatus, // 预备党员阶段查询

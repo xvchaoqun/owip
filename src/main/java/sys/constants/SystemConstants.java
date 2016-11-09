@@ -223,8 +223,8 @@ public class SystemConstants {
 	}
 
 	// 申请入党类型
-	public final static byte APPLY_TYPE_STU= 1; // 学生
-	public final static byte APPLY_TYPE_TECHER = 2; // 教职工
+	public final static byte APPLY_TYPE_TECHER = 1; // 教职工
+	public final static byte APPLY_TYPE_STU= 2; // 学生
 	public final static Map<Byte, String> APPLY_TYPE_MAP = new LinkedHashMap<>();
 	static {
 		APPLY_TYPE_MAP.put(APPLY_TYPE_STU, "学生");

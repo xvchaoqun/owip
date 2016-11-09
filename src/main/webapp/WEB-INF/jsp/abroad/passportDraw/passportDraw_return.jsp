@@ -99,6 +99,9 @@
                     </div>
                     <input type="hidden" name="_useRecord_base64">
                     <div style="display: inherit;line-height: 126px">或 <a href="javascript:" onclick="opencam()" class="camera"><img src="${ctx}/extend/img/camera.png"/>点此拍照</a></div>
+                    <%--<div>
+                        <input type="button" value="旋转" onclick="rotate()"/>
+                    </div>--%>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">实际出发时间</label>
@@ -169,10 +172,18 @@
     </div>
 </div>
 <script src="${ctx}/extend/js/webcam.min.js"></script>
+<script src="${ctx}/extend/js/jQueryRotate.js"></script>
 
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
+
+    var i=1;
+    function rotate(){
+        $(".ace-file-input img").rotate(90*i);
+        i++;
+        console.log($(".ace-file-input img").attr("src"))
+    }
 
     function snap(){
         Webcam.snap( function(data_uri) {
@@ -195,6 +206,7 @@
             width: 640,
             height: 480,
             //force_flash: true,
+            //flip_horiz:true,
             image_format: 'jpeg',
             jpeg_quality: 100
         });

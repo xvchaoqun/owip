@@ -614,9 +614,9 @@
       <version>1.5.1</version>
       <executions>
         <execution>
-          <goals>
+         <!-- <goals>
             <goal>compress</goal>
-          </goals>
+          </goals>-->
         </execution>
       </executions>
       <configuration>

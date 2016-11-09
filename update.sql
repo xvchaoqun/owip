@@ -1,5 +1,12 @@
 
 
+-- 2016-11-9
+
+ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型，1教职工 2学生  与党员表type保持一致' AFTER `branch_id`;
+update ow_member_apply set type=3 where type=1;
+update ow_member_apply set type=1 where type=2;
+update ow_member_apply set type=2 where type=3;
 -- 2016-11-8
 
 ALTER TABLE `abroad_passport`

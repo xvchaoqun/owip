@@ -224,7 +224,7 @@
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
                             //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
-                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.filePath, parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.filePath, parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                         }
                     }
                     return filesArray.join("，");
@@ -338,8 +338,8 @@
 
                         if(rowObject.useRecord==undefined) return '-';
 
-                        return '<a class="various" title="{1}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
-                                .format(rowObject.useRecord, "使用记录");
+                        return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
+                                .format(rowObject.useRecord, "使用记录.jpg");
                     }
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
                             rowObject.passport.type=='${PASSPORT_TYPE_LOST}' ||
@@ -398,7 +398,7 @@
             },
             afterLoad: function() {
                 //console.log(this)
-                this.title = '<div class="title">'+this.title + '<div class="download">【<a href="${ctx}/attach/passportDrawFile?id={0}">点击下载</a>】</div></div>'.format($(this.element).data('title-id')) ;
+                this.title = '<div class="title">'+this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}">点击下载</a>】</div></div>'.format($(this.element).data('path'), this.title) ;
             }
         });
     });

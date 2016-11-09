@@ -1457,6 +1457,12 @@ $(document).on("click", ".infobox", function(){
     if(parseInt(_count)>0 && _url.length>0)
         location.href=_url;
 });
+$(document).on("click", ".infobox [data-url]", function(){
+    var _count = $.trim($(".count", this).html());
+    var _url = $.trim($(this).data("url"));
+    if(parseInt(_count)>0 && _url.length>0)
+        location.href=_url;
+});
 
 $(document).on("click", "a.change-order",function(){
     $this = $(this);

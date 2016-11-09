@@ -75,7 +75,10 @@ body{
 }
 
 /*===infobox */
-.infobox{
+.infobox[data-url]{
+    cursor: pointer;
+}
+.infobox *[data-url]{
     cursor: pointer;
 }
 /*============search form=======*/

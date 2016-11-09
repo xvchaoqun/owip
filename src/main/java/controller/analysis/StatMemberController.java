@@ -34,11 +34,17 @@ public class StatMemberController extends BaseController {
     @RequestMapping("/stat_member_page")
     public String stat_page(ModelMap modelMap) {
 
-        modelMap.put("growOdCheckCount", memberApplyService.count(null, null, null, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
+        modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, null,
+                SystemConstants.APPLY_TYPE_STU, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
+        modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TECHER,
+                SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
         modelMap.put("graduateAbroadCount", graduateAbroadService.count(null, null, (byte) 3, null));
-        modelMap.put("positiveOdCheckCount", memberApplyService.count(null, null, null, SystemConstants.APPLY_STAGE_GROW, (byte) 1));
+        modelMap.put("studentPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_STU,
+                SystemConstants.APPLY_STAGE_GROW, (byte) 1));
+        modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TECHER,
+                SystemConstants.APPLY_STAGE_GROW, (byte) 1));
         return "analysis/party/stat_member_page";
     }
 
