@@ -131,15 +131,17 @@ public class ApplySelfController extends BaseController {
 
         approvalLogService.doApproval(record);
 
-        // 如果在工作时间（8:00-20:30），那么就立即发送给下一个领导
-        // 短信通知下一个审批人
-        /*String nowTime = DateUtils.formatDate(new Date(), "HHmm");
-        if(nowTime.compareTo("0800")>=0 && nowTime.compareTo("2030")<=0) {
+        if(springProps.applySelfSendApprovalMsg) {
+            // 如果在工作时间（8:00-20:30），那么就立即发送给下一个领导
+            // 短信通知下一个审批人
+            String nowTime = DateUtils.formatDate(new Date(), "HHmm");
+            if (nowTime.compareTo("0800") >= 0 && nowTime.compareTo("2030") <= 0) {
 
-            Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
-            logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, false));
+                Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
+                logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, false));
+            }
         }
-*/
+
         logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
 
         return success(FormUtils.SUCCESS);
