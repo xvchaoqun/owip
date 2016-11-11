@@ -70,14 +70,16 @@
         </div><!-- /.widget-body -->
     </div>
     <div class="well" style="margin-top: 20px; font-size: 20px">
-        <div class="row" style="padding-left: 100px">
+
             <form class="form-horizontal" action="${ctx}/passportDraw_return"
                   id="modalForm" method="post" enctype="multipart/form-data">
+                <div class="row">
+                <div class="col-xs-6" style="width: 500px;">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">实交组织部日期</label>
+                    <label class="col-xs-4 control-label">实交组织部日期</label>
                     <div class="col-xs-6">
-                        <div class="input-group" style="width: 200px">
+                        <div class="input-group" style="width: 300px">
                             <input class="form-control date-picker" name="_realReturnDate" type="text"
                                    data-date-format="yyyy-mm-dd" value="${today}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -85,28 +87,18 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">类别</label>
-                    <div class="col-xs-6">
-                        <input type="radio" name="usePassport" value="1" class="bigger" checked> 持证件出国（境）
-                        <input type="radio" name="usePassport" value="0" class="bigger"> 未持证件出国（境）
+                    <label class="col-xs-4 control-label">类别</label>
+                    <div class="col-xs-8 label-text" style="font-size: 14px">
+                        <input type="radio" name="usePassport" value="1" class="big" checked> 持证件出国（境）
+                        <input type="radio" name="usePassport" value="0" class="big"> 未持证件出国（境）
                     </div>
                 </div>
                 <div id="illegalUsePassport">
+
                 <div class="form-group">
-                    <label class="col-xs-3 control-label" style="line-height: 100px">证件使用记录</label>
-                    <div class="col-xs-2 file" style="width:360px;">
-                        <input type="file" name="_useRecord" />
-                    </div>
-                    <input type="hidden" name="_useRecord_base64">
-                    <div style="display: inherit;line-height: 126px">或 <a href="javascript:" onclick="opencam()" class="camera"><img src="${ctx}/extend/img/camera.png"/>点此拍照</a></div>
-                    <%--<div>
-                        <input type="button" value="旋转" onclick="rotate()"/>
-                    </div>--%>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">实际出发时间</label>
+                    <label class="col-xs-4 control-label">实际出发时间</label>
                     <div class="col-xs-6">
-                        <div class="input-group" style="width: 200px">
+                        <div class="input-group" style="width: 300px">
                             <input class="form-control date-picker" name="_realStartDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -114,9 +106,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">实际返回时间</label>
+                    <label class="col-xs-4 control-label">实际返回时间</label>
                     <div class="col-xs-6">
-                        <div class="input-group" style="width: 200px">
+                        <div class="input-group" style="width: 300px">
                             <input class="form-control date-picker" name="_realEndDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -125,7 +117,7 @@
                 </div>
                 <c:if test="${not empty applySelf}">
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">实际前往国家或地区</label>
+                    <label class="col-xs-4 control-label">实际前往国家或地区</label>
                     <div class="col-xs-6">
                         <input type="text" name="realToCountry" id="form-field-tags"
                                <%--value="${applySelf.toCountry}"--%> placeholder="输入后选择国家或按回车 ..." />
@@ -134,19 +126,36 @@
                 </c:if>
                     </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">干部本人说明材料</label>
-                    <div class="col-xs-6"  style="width: 300px">
+                    <label class="col-xs-4 control-label">干部本人说明材料（要求pdf格式）</label>
+                    <div class="col-xs-6"  style="width: 325px">
                         <input class="form-control" type="file" name="_attachment" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">备注</label>
-                    <div class="col-xs-6">
-                        <textarea class="form-control limited" type="text" name="remark" rows="5"></textarea>
+                    <label class="col-xs-4 control-label">备注</label>
+                    <div class="col-xs-6" >
+                        <textarea class="form-control limited" style="width: 300px" type="text" name="remark" rows="5"></textarea>
                     </div>
                 </div>
+                    </div>
+                    <div class="col-xs-6" style="width: 400px; margin-left: 50px;">
+                        <div class="form-group">
+
+                                <input type="file" name="_useRecord" />
+
+                            <input type="hidden" name="_useRecord_base64">
+                            <div class="pull-right">或
+                                <a href="javascript:" onclick="opencam()" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-camera"></i>
+                                    点此拍照</a>
+                                <input type="hidden" name="_rotate">
+                                <a class="btn btn-warning btn-xs" onclick="_rotate()"><i class="fa fa-rotate-right"></i> 旋转</a>
+                            </div>
+                        </div>
+                        </div>
+                </div>
             </form>
-        </div>
+
     </div>
 </div>
 <div class="modal-footer center" style="margin-bottom: 25px;">
@@ -171,6 +180,21 @@
         <a href="javascript:" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
     </div>
 </div>
+<style>
+    .ace-file-multiple .ace-file-container{
+        height: 420px;
+    }
+    .tags{
+        width: 300px;
+    }
+    .ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
+        line-height: 160px;
+    }
+    .ace-file-multiple .ace-file-container:before{
+        line-height: 120px;
+        font-size: 20pt;
+    }
+</style>
 <script src="${ctx}/extend/js/webcam.min.js"></script>
 <script src="${ctx}/extend/js/jQueryRotate.js"></script>
 
@@ -179,15 +203,22 @@
 <script>
 
     var i=1;
-    function rotate(){
+    function _rotate(){
         $(".ace-file-input img").rotate(90*i);
+        $("input[name=_rotate]").val(90*i);
         i++;
-        console.log($(".ace-file-input img").attr("src"))
+        //console.log($(".ace-file-input img").attr("src"))
+    }
+    function reset_rotate(){
+        //alert("reset")
+        i=1;
+        $("input[name=_rotate]").val('');
     }
 
     function snap(){
         Webcam.snap( function(data_uri) {
             //console.log(data_uri)
+            reset_rotate();
             $("input[name=_useRecord_base64]").val(data_uri);
             $('input[type=file][name=_useRecord]').ace_file_input('show_file_list', [
                 {type: 'image', name: '使用记录拍照.jpg', path: data_uri}]);
@@ -203,8 +234,8 @@
     function opencam(){
 
         Webcam.set({
-            width: 640,
-            height: 480,
+            width: 480,
+            height: 640,
             //force_flash: true,
             //flip_horiz:true,
             image_format: 'jpeg',
@@ -233,18 +264,27 @@
 
     $('input[type=file][name=_useRecord]').ace_file_input({
         style:'well',
-        btn_choose:'请选择证件使用记录拍照',
+        btn_choose:'请点击选择证件使用记录拍照',
         btn_change:null,
         no_icon:'ace-icon fa fa-picture-o',
         thumbnail:'large',
         droppable:true,
-        previewWidth: 320,
-        previewHeight: 240,
+        previewWidth: 280,
+        previewHeight: 420,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
+        before_change:function(){
+            reset_rotate();
+            return true;
+        },
+        before_remove:function(){
+            reset_rotate();
+            return true;
+        }
     }).end().find('button[type=reset]').on(ace.click_event, function(){
+
         $('input[type=file][name=_useRecord]').ace_file_input('reset_input');
-    });
+    })
 
     $('input[type=file][name=_attachment]').ace_file_input({
         no_file:'请选择文件 ...',
@@ -309,9 +349,9 @@
                 success:function(ret){
                     if(ret.success){
                         bootbox.hideAll();
-                        SysMsg.success('归还成功。', '成功',function(){
-                            page_reload();
-                        });
+                        //SysMsg.success('归还成功。', '成功',function(){
+                            $(".closeView").click();
+                        //});
                     }
                 }
             });

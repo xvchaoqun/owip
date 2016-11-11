@@ -3,7 +3,9 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <img src="${ctx}/report/passportApply?id=${passportApply.id}&_=<%=new Date().getTime()%>" width="595" height="842"/>
+        <img data-src="${ctx}/report/passportApply?id=${passportApply.id}&_=<%=new Date().getTime()%>"
+             src="${ctx}/img/loading.gif"
+             onload="lzld(this)" <%-- width="595" height="842"--%>/>
     </div>
     <div class="info">
         <div style="border: 1px dashed #aaaaaa;padding: 20px">

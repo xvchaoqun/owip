@@ -166,10 +166,9 @@
                         bootbox.hideAll();
                         $.post("${ctx}/shortMsg", {id:'${passportDraw.id}', type:'passportDraw'}, function(ret){
                             if(ret.success) {
-                                SysMsg.success('通知成功', '提示', function () {
-                                    $("#jqGrid").trigger("reloadGrid");
+                                //SysMsg.success('通知成功', '提示', function () {
                                     $(".closeView").click();
-                                });
+                                //});
                             }
                         })
                     }

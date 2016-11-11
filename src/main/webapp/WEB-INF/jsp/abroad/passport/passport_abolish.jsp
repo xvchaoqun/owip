@@ -42,9 +42,9 @@ pageEncoding="UTF-8"%>
                 $("#modal input[name=cancelType]").val('${PASSPORT_CANCEL_TYPE_OTHER}');
                 var cancelTypeOther = $.trim($("#modal input[name=cancelTypeOther]").val());
                 if(cancelTypeOther==''){
-                    SysMsg.info("请输入其他类别", "", function(){
+                    //SysMsg.info("请输入其他类别", "", function(){
                         $("#modal input[name=cancelTypeOther]").val('').focus();
-                    });
+                    //});
 
                     return;
                 }

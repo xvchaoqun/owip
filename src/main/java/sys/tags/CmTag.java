@@ -432,27 +432,6 @@ public class CmTag {
         return passportDrawService.getPassportDrawFiles(id);
     }
 
-    public static String encodeQueryString(String queryString) {
-
-        if (StringUtils.isBlank(queryString)) return "";
-
-        List<String> paramList = new ArrayList<>();
-        String[] paramPairs = queryString.split("&");
-        for (String paramPair : paramPairs) {
-            if (StringUtils.isBlank(paramPair)) continue;
-            String[] param = paramPair.split("=");
-            if (param.length == 1) {
-                paramList.add(HtmlEscapeUtils.escape(param[0], "UTF-8"));
-                continue;
-            }
-            String paramName = HtmlEscapeUtils.escape(param[0], "UTF-8");
-            String paramValue = HtmlEscapeUtils.escape(param[1], "UTF-8");
-            paramList.add(paramName + "=" + paramValue);
-        }
-
-        return StringUtils.join(paramList, "&");
-    }
-
     public static ApprovalLog getApprovalLog(Integer applySelfId, Integer approverTypeId) {
 
         return approvalLogService.getApprovalLog(applySelfId, approverTypeId);

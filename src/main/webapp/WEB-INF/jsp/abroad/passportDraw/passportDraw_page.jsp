@@ -339,7 +339,7 @@
                         if(rowObject.useRecord==undefined) return '-';
 
                         return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
-                                .format(rowObject.useRecord, "使用记录");
+                                .format(rowObject.useRecord, "使用记录.jpg");
                     }
 
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||

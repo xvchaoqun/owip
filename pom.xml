@@ -686,6 +686,7 @@
               <include>extend/js/base64.js</include>
               <include>extend/js/jquery.ba-throttle-debounce.js</include>
               <include>extend/js/jquery.stickyheader.js</include>
+              <include>extend/js/lazyload.js</include>
             </includes>
           </aggregation>
 

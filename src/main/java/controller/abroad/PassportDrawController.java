@@ -15,6 +15,7 @@ import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.ApplySelfMixin;
 import mixin.PassportDrawMixin;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -354,9 +355,10 @@ public class PassportDrawController extends BaseController {
                                     MultipartFile _attachment,
                                     MultipartFile _useRecord,
                                       String _useRecord_base64,
+                                      @RequestParam(required = false, defaultValue = "0") Integer _rotate,
                                       String _realStartDate,
                                     String _realEndDate,
-                                      String realToCountry, String remark, Integer id) {
+                                      String realToCountry, String remark, Integer id) throws IOException {
 
         PassportDraw record = new PassportDraw();
 
@@ -407,7 +409,11 @@ public class PassportDrawController extends BaseController {
                     + "draw" + File.separator + "use" + File.separator
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
+            //FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
+
+            Thumbnails.of(_useRecord.getInputStream())
+                    .scale(1f)
+                    .rotate(_rotate).toFile(springProps.uploadPath + savePath);
 
             record.setUseRecord(savePath);
         }else if(StringUtils.isNotBlank(_useRecord_base64)){
@@ -416,7 +422,10 @@ public class PassportDrawController extends BaseController {
             String realPath = File.separator
                     + "draw" + File.separator + "use" + File.separator;
 
-            ImageUtils.decodeBase64ToImage(_useRecord_base64.split("base64,")[1], springProps.uploadPath + realPath, fileName);
+            Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_useRecord_base64.split("base64,")[1]))
+                    .scale(1f)
+                    .rotate(_rotate).toFile(springProps.uploadPath + realPath + fileName);
+            //ImageUtils.decodeBase64ToImage(_useRecord_base64.split("base64,")[1], springProps.uploadPath + realPath, fileName);
 
             record.setUseRecord(realPath + fileName);
         }

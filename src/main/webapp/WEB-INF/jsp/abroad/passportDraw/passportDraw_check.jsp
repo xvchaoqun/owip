@@ -62,7 +62,8 @@
 <div class="row passport_apply">
     <c:if test="${passportDraw.needSign}">
     <div class="preview">
-        <img src="${ctx}/report/passportSign?id=${param.id}" width="595" height="842" />
+        <img data-src="${ctx}/report/passportSign?id=${param.id}" src="${ctx}/img/loading.gif"
+             onload="lzld(this)" />
     </div>
     </c:if>
     <div class="info">
@@ -104,10 +105,10 @@
         var remark = $("textarea[name=remark]").val().trim();
         $.post("${ctx}/passportDraw_agree",{id:"${param.id}", remark:remark},function(ret){
             if(ret.success){
-                SysMsg.success('审批成功', '提示', function(){
-                    page_reload();
-                });
-
+                //SysMsg.success('审批成功', '提示', function(){
+                    //page_reload();
+                    $(".closeView").click();
+                //});
             }
         });
     });
@@ -119,9 +120,10 @@
         }
         $.post("${ctx}/passportDraw_disagree",{id:"${param.id}", remark:reason},function(ret){
             if(ret.success){
-                SysMsg.success('提交成功', '提示', function(){
-                    page_reload();
-                });
+                //SysMsg.success('提交成功', '提示', function(){
+                    //page_reload();
+                    $(".closeView").click();
+                //});
             }
         });
     });

@@ -3,6 +3,9 @@
 # 重置因私申请审批状态
 delete from abroad_approval_log where apply_id=203;
 update abroad_apply_self set flow_node=-1, flow_nodes=null where id=203;
+# 重置领取证件归还状态
+update abroad_passport_draw apd, abroad_passport p set p.is_lent=1, apd.draw_status=1 , apd.use_record=null, 
+apd.use_passport=null, apd.real_return_date=null where apd.id=147 and p.id=apd.passport_id;
 
 组织工作管理与服务一体化平台
 Organization Work Integration Platform

@@ -589,7 +589,13 @@ form .form-actions{
 }
 .passport_apply .preview{
     width: 600px;
+    height: 860px;
+    line-height: 877px;
+    text-align: center;
     margin-right: 25px;
+}
+.passport_apply .preview img{
+    max-height: 850px;
 }
 .passport_apply .info{
     width: 600px;
@@ -629,6 +635,14 @@ input[type=checkbox].big{
     vertical-align: -3px;*/
     _vertical-align: -3px;/*针对IE6使用hack*/
     vertical-align: -3px;
+}
+input[type=radio].big{
+    width: 20px;
+    height: 20px;
+    /*_vertical-align: -2px;*//*针对IE6使用hack*//*
+    vertical-align: -3px;*/
+    _vertical-align: -5px;/*针对IE6使用hack*/
+    vertical-align: -5px;
 }
 
 input[type=checkbox].bigger{
@@ -706,8 +720,8 @@ input[type=radio].bigger{
     display: none;
     position: fixed;
     padding-right: 0px!important;
-    width: 674px;
-    height: 656px;
+    width: 510px;
+    height: 818px;
     background-color: #fff;
     z-index: 9999;
     left:50%;

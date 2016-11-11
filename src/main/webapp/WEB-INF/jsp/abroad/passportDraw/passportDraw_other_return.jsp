@@ -217,9 +217,9 @@
                 success:function(ret){
                     if(ret.success){
                         bootbox.hideAll();
-                        SysMsg.success('归还成功。', '成功',function(){
-                            page_reload();
-                        });
+                        //SysMsg.success('归还成功。', '成功',function(){
+                            $(".closeView").click();
+                        //});
                     }
                 }
             });

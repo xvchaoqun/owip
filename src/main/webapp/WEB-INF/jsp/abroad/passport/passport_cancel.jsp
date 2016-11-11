@@ -22,7 +22,8 @@
         </div>
     </ul>
     <div class="preview" style="margin: 20px 5px 50px 0px;">
-        <img src="${ctx}/report/cancel?id=${param.id}" width="595" height="842"/>
+        <img data-src="${ctx}/report/cancel?id=${param.id}" src="${ctx}/img/loading.gif"
+             onload="lzld(this)"/>
     </div>
     <div class="info" style="margin-top: 20px; margin-bottom: 50px; padding-left: 5px">
     <form class="form-horizontal" action="${ctx}/passport_cancel" id="modalForm" method="post"  enctype="multipart/form-data">
