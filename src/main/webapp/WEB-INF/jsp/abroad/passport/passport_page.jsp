@@ -284,7 +284,7 @@ pageEncoding="UTF-8" %>
             //console.log(id)
             var rowData = $(this).getRowData(id);
             $(".jqEditBtn,.jqBatchBtn").prop("disabled",rowData.canEdit==0);
-            console.log(rowData.hasFind);
+            //console.log(rowData.hasFind);
             $("#hasFindBtn").prop("disabled",rowData.hasFind==0);
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){

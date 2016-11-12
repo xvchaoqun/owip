@@ -138,17 +138,15 @@
                     </div>
                 </div>
                     </div>
-                    <div class="col-xs-6" style="width: 400px; margin-left: 50px;">
+                    <div class="col-xs-6" style="width: 430px; margin-left: 50px;">
                         <div class="form-group">
-
-                                <input type="file" name="_useRecord" />
-
-                            <input type="hidden" name="_useRecord_base64">
+                            <input type="file" name="_useRecord" />
+                            <input type="hidden" name="_base64">
+                            <input type="hidden" name="_rotate">
                             <div class="pull-right">或
                                 <a href="javascript:" onclick="opencam()" class="btn btn-primary btn-xs">
                                     <i class="fa fa-camera"></i>
                                     点此拍照</a>
-                                <input type="hidden" name="_rotate">
                                 <a class="btn btn-warning btn-xs" onclick="_rotate()"><i class="fa fa-rotate-right"></i> 旋转</a>
                             </div>
                         </div>
@@ -219,7 +217,7 @@
         Webcam.snap( function(data_uri) {
             //console.log(data_uri)
             reset_rotate();
-            $("input[name=_useRecord_base64]").val(data_uri);
+            $("input[name=_base64]").val(data_uri);
             $('input[type=file][name=_useRecord]').ace_file_input('show_file_list', [
                 {type: 'image', name: '使用记录拍照.jpg', path: data_uri}]);
         } );
@@ -279,6 +277,7 @@
         },
         before_remove:function(){
             reset_rotate();
+            $("input[name=_base64]").val('');
             return true;
         }
     }).end().find('button[type=reset]').on(ace.click_event, function(){

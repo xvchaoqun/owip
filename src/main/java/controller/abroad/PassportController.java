@@ -12,6 +12,7 @@ import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PassportMixin;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -358,24 +359,47 @@ public class PassportController extends BaseController {
     @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_cancel", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_cancel( @CurrentUser SysUserView loginUser, int id, MultipartFile _cancelPic, HttpServletRequest request) {
+    public Map do_passport_cancel( @CurrentUser SysUserView loginUser, int id,
+                                   String _base64,
+                                   @RequestParam(required = false, defaultValue = "0") Integer _rotate,
+                                   MultipartFile _cancelPic, HttpServletRequest request) throws IOException {
 
-        if (_cancelPic == null || _cancelPic.isEmpty()) throw new RuntimeException("请选择确认文件");
-
-        String fileName = UUID.randomUUID().toString();
-        String realPath = File.separator
-                + "passport_cancel" + File.separator
-                + fileName;
-        String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
-        String savePath = realPath + ext;
-        FileUtils.copyFile(_cancelPic, new File(springProps.uploadPath + savePath));
+        if ((_cancelPic == null || _cancelPic.isEmpty()) && StringUtils.isBlank(_base64))
+            throw new RuntimeException("请选择签字图片或进行拍照");
 
         Passport record = new Passport();
         record.setId(id);
-        record.setCancelPic(savePath);
+
         record.setCancelTime(new Date());
         record.setCancelConfirm(true);
         record.setCancelUserId(loginUser.getId());
+
+        if (_cancelPic != null && !_cancelPic.isEmpty()) {
+            String fileName = UUID.randomUUID().toString();
+            String realPath = File.separator
+                    + "passport_cancel" + File.separator
+                    + fileName;
+            String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
+            String savePath = realPath + ext;
+            //FileUtils.copyFile(_cancelPic, new File(springProps.uploadPath + savePath));
+            Thumbnails.of(_cancelPic.getInputStream())
+                    .scale(1f)
+                    .rotate(_rotate).toFile(springProps.uploadPath + savePath);
+
+            record.setCancelPic(savePath);
+        }else if(StringUtils.isNotBlank(_base64)){
+
+            String fileName = UUID.randomUUID().toString() + ".jpg";
+            String realPath = File.separator
+                    + "passport_cancel" + File.separator;
+
+            Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_base64.split("base64,")[1]))
+                    .scale(1f)
+                    .rotate(_rotate).toFile(springProps.uploadPath + realPath + fileName);
+            //ImageUtils.decodeBase64ToImage(_base64.split("base64,")[1], springProps.uploadPath + realPath, fileName);
+
+            record.setCancelPic(realPath + fileName);
+        }
 
         passportService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));

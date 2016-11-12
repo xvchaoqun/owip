@@ -214,13 +214,12 @@ public class ApplySelfService extends BaseMapper {
         if(key != null){
             for (SysUserView approver : approvers) {
 
-                Cadre approvalCadre = cadreService.findByUserId(approver.getId());
-                CadreConcat approvalCadreConcat = cadreConcatMapper.selectByPrimaryKey(approvalCadre.getId());
-                String title = StringUtils.isBlank(approvalCadreConcat.getMsgTitle())?approver.getRealname():
-                        approvalCadreConcat.getMsgTitle();
+                int userId = approver.getId();
+                String msgTitle = cadreConcatService.getMsgTitle(userId);
+                String mobile = cadreConcatService.getCadreMobile(userId);
                 ShortMsgBean bean = new ShortMsgBean();
                 bean.setSender(null);
-                bean.setReceiver(approver.getId());
+                bean.setReceiver(userId);
                 ContentTpl tpl = shortMsgService.getShortMsgTpl(key);
                 String msgTpl = tpl.getContent();
                 bean.setType(tpl.getName());
@@ -228,15 +227,15 @@ public class ApplySelfService extends BaseMapper {
                 switch (key){
                     case SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1:
                     case SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2:
-                        msg = MessageFormat.format(msgTpl, title, applyUser.getRealname());
+                        msg = MessageFormat.format(msgTpl, msgTitle, applyUser.getRealname());
                         break;
                     default:
                         Cadre applyCadre = cadreService.findByUserId(applyUser.getId());
-                        msg = MessageFormat.format(msgTpl, title, applyCadre.getTitle(), applyUser.getRealname());
+                        msg = MessageFormat.format(msgTpl, msgTitle, applyCadre.getTitle(), applyUser.getRealname());
                         break;
                 }
                 bean.setContent(msg);
-                bean.setMobile(approvalCadreConcat.getMobile());
+                bean.setMobile(mobile);
                 try {
                     total++;
                     boolean ret = shortMsgService.send(bean, "127.0.0.1");
