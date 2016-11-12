@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.cadre.CadreConcatService;
 import service.cadre.CadreService;
 import service.party.BranchService;
 import service.party.MemberService;
@@ -33,8 +32,6 @@ public class UserBeanService extends BaseMapper {
     private PartyService partyService;
     @Autowired
     private CadreService cadreService;
-    @Autowired
-    private CadreConcatService cadreConcatService;
 
     @Autowired
     private MemberService memberService;
@@ -60,8 +57,8 @@ public class UserBeanService extends BaseMapper {
 
         Cadre cadre = cadreService.findByUserId(userId);
         if (cadre!= null) {
-            String mobile = cadreConcatService.getCadreMobileByCadreId(cadre.getId());
-            if(StringUtils.isNotBlank(mobile)) return mobile;
+            CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadre.getId());
+            if(cadreConcat!=null  && StringUtils.isNotBlank(cadreConcat.getMobile())) return cadreConcat.getMobile();
         }
         SysUserView user = sysUserService.findById(userId);
         if(user!=null) return user.getMobile();

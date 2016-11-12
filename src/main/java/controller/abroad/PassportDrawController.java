@@ -1,15 +1,14 @@
 package controller.abroad;
 
 import controller.BaseController;
+import domain.abroad.ApplySelf;
 import domain.abroad.Passport;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawExample;
 import domain.abroad.PassportDrawExample.Criteria;
-import domain.abroad.ApplySelf;
 import domain.base.ContentTpl;
 import domain.base.Country;
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -275,7 +274,8 @@ public class PassportDrawController extends BaseController {
 
         ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW);
         modelMap.put("shortMsg", shortMsgTpl.getContent());
-        modelMap.put("mobile", cadreConcatService.getCadreMobileByCadreId(passport.getCadreId()));
+        modelMap.put("mobile", userBeanService.getMsgMobile(passport.getUser().getId()));
+        //modelMap.put("mobile", cadreConcatService.getCadreMobileByCadreId(passport.getCadreId()));
 
 
         return "abroad/passportDraw/passportDraw_draw";
