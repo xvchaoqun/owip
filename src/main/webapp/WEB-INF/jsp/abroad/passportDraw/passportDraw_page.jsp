@@ -274,9 +274,9 @@
             },
             {
                 label: '短信通知', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
-                /*if (rowObject.status == '${PASSPORT_DRAW_STATUS_INIT}') {
+                if (rowObject.status == '${PASSPORT_DRAW_STATUS_INIT}') {
                  return '-';
-                 }*/
+                 }
                 if (rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
                     return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-mini btn-xs">'
                                     .format(rowObject.id)

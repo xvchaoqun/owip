@@ -1,17 +1,21 @@
 package service.sys;
 
 import bean.UserBean;
+import domain.cadre.Cadre;
+import domain.cadre.CadreConcat;
 import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
+import service.cadre.CadreConcatService;
+import service.cadre.CadreService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
-import sys.constants.SystemConstants;
 
 import java.util.Map;
 
@@ -27,9 +31,43 @@ public class UserBeanService extends BaseMapper {
     private BranchService branchService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private CadreService cadreService;
+    @Autowired
+    private CadreConcatService cadreConcatService;
 
     @Autowired
     private MemberService memberService;
+
+    // 获取接收短信的称谓。如果设定了干部的短信称谓，优先使用该称谓
+    public String getMsgTitle(int userId){
+
+        Cadre cadre = cadreService.findByUserId(userId);
+        if(cadre!=null) {
+            CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadre.getId());
+            if(cadreConcat!=null  && StringUtils.isNotBlank(cadreConcat.getMsgTitle()))
+                return cadreConcat.getMsgTitle();
+        }
+
+        SysUserView user = sysUserService.findById(userId);
+        if(user!=null) return user.getRealname();
+
+        throw new RuntimeException("user is not existed. id="+userId);
+    }
+
+    // 获接收短信的手机号码。 如果是干部，优先使用干部联系方式中的手机号码
+    public String getMsgMobile(int userId) {
+
+        Cadre cadre = cadreService.findByUserId(userId);
+        if (cadre!= null) {
+            String mobile = cadreConcatService.getCadreMobileByCadreId(cadre.getId());
+            if(StringUtils.isNotBlank(mobile)) return mobile;
+        }
+        SysUserView user = sysUserService.findById(userId);
+        if(user!=null) return user.getMobile();
+
+        throw new RuntimeException("user is not existed. id="+userId);
+    }
 
     public UserBean get(int userId) {
 

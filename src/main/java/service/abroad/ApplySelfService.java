@@ -26,6 +26,7 @@ import service.helper.ShiroSecurityHelper;
 import service.sys.MetaTypeService;
 import service.sys.ShortMsgService;
 import service.sys.SysUserService;
+import service.sys.UserBeanService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -58,7 +59,7 @@ public class ApplySelfService extends BaseMapper {
     @Autowired
     protected ShortMsgService shortMsgService;
     @Autowired
-    protected CadreConcatService cadreConcatService;
+    protected UserBeanService userBeanService;
     @Autowired
     protected SpringProps springProps;
 
@@ -215,8 +216,8 @@ public class ApplySelfService extends BaseMapper {
             for (SysUserView approver : approvers) {
 
                 int userId = approver.getId();
-                String msgTitle = cadreConcatService.getMsgTitle(userId);
-                String mobile = cadreConcatService.getCadreMobile(userId);
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
                 ShortMsgBean bean = new ShortMsgBean();
                 bean.setSender(null);
                 bean.setReceiver(userId);

@@ -59,9 +59,9 @@ public class ShortMsgService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private CadreService cadreService;
+    private UserBeanService userBeanService;
     @Autowired
-    private CadreConcatService cadreConcatService;
+    private CadreService cadreService;
     @Autowired
     private ApplySelfService applySelfService;
     @Autowired
@@ -138,10 +138,11 @@ public class ShortMsgService extends BaseMapper {
         for (SysUserView uv : cadreAdmin) {
             try {
                 int userId = uv.getId();
-                String mobile = uv.getMobile();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
 
                 Cadre cadre = cadreService.findByUserId(applyUser.getId());
-                String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(),
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         cadre.getUnit().getName(),applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
@@ -174,10 +175,11 @@ public class ShortMsgService extends BaseMapper {
         for (SysUserView uv : cadreAdmin) {
             try {
                 int userId = uv.getId();
-                String mobile = uv.getMobile();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
 
                 Cadre cadre = cadreService.findByUserId(applyUser.getId());
-                String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(),
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         cadre.getUnit().getName(),applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
@@ -229,8 +231,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passport.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passport.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
@@ -251,8 +253,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = applySelf.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             String msg = MessageFormat.format(tpl.getContent(), msgTitle);
             bean.setContent(msg);
@@ -266,8 +268,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
@@ -282,8 +284,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
@@ -297,8 +299,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
@@ -312,8 +314,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportApply.getApplyUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportApply.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
@@ -328,8 +330,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportDraw.getPassportClass();
             String returnDate = DateUtils.formatDate(passportDraw.getReturnDate(), "yyyy年MM月dd日");
@@ -345,8 +347,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             //MetaType passportClass = passportDraw.getPassportClass();
             String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), "yyyy年MM月dd日");
@@ -364,8 +366,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             String realReturnDate = DateUtils.formatDate(passportDraw.getRealReturnDate(), "yyyy年MM月dd日");
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportDraw.getPassportClass().getName(), realReturnDate);
@@ -397,8 +399,8 @@ public class ShortMsgService extends BaseMapper {
 
             SysUserView uv = passportDraw.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
-            String msgTitle = cadreConcatService.getMsgTitle(uv.getId());
-            String mobile = cadreConcatService.getCadreMobile(uv.getId());
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportDraw.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName(), passportDraw.getId());

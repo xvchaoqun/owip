@@ -195,7 +195,7 @@ public class ApplySelfController extends BaseController {
         modelMap.put("cadre", cadre);
         modelMap.put("applySelf", applySelf);
 
-        modelMap.put("cadreMobile", cadreConcatService.getCadreMobile(cadre.getUserId()));
+        modelMap.put("cadreMobile", userBeanService.getMsgMobile(cadre.getUserId()));
 
         List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
         modelMap.put("files", files);
