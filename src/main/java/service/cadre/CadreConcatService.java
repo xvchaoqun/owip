@@ -2,7 +2,6 @@ package service.cadre;
 
 import domain.cadre.CadreConcat;
 import domain.cadre.CadreConcatExample;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -12,11 +11,11 @@ import java.util.Arrays;
 @Service
 public class CadreConcatService extends BaseMapper {
 
-    public String getCadreMobileByCadreId(int cadreId) {
+    /*public String getCadreMobileByCadreId(int cadreId) {
 
         CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadreId);
         return (cadreConcat == null) ? null : StringUtils.trimToNull(cadreConcat.getMobile());
-    }
+    }*/
 
     @Transactional
     public void del(Integer cadreId) {
