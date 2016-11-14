@@ -22,7 +22,7 @@
     <div class="info">
         <div class="alert alert-warning" style="font-size: 20px">
             请仔细核对申办人姓名、身份证号、所在单位和职务。若信息有误，请联系组织部。<br/>
-            联系人：徐蕾、龙海明<br/>
+            联系人：杨学玉、龙海明<br/>
             联系电话：58808302、58806879。
         </div>
         <div class="center" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif; padding: 50px;">
