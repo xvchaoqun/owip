@@ -107,27 +107,27 @@ public class MemberService extends BaseMapper {
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
         }
 
-        SysUserView sysUser = sysUserService.findById(userId);
-        Byte type = sysUser.getType();
+        SysUserView uv = sysUserService.findById(userId);
+        Byte type = uv.getType();
         if(type== SystemConstants.USER_TYPE_JZG){
 
             // 同步教职工信息到ow_member_teacher表
-            sysUserSyncService.snycTeacherInfo(userId, sysUser);
+            sysUserSyncService.snycTeacherInfo(userId, uv);
         }else if(type==SystemConstants.USER_TYPE_BKS){
 
             // 同步本科生信息到 ow_member_student表
-            sysUserSyncService.snycStudent(userId, sysUser);
+            sysUserSyncService.snycStudent(userId, uv);
         }else if(type==SystemConstants.USER_TYPE_YJS){
 
             // 同步研究生信息到 ow_member_student表
-            sysUserSyncService.snycStudent(userId, sysUser);
+            sysUserSyncService.snycStudent(userId, uv);
         }else{
-            throw new DBErrorException("添加失败，该账号不是教工或学生");
+            throw new DBErrorException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, sysUser.getUsername(), sysUser.getCode());
+                SystemConstants.ROLE_MEMBER, uv.getUsername(), uv.getCode());
     }
 
     @Transactional
@@ -160,7 +160,7 @@ public class MemberService extends BaseMapper {
             record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
             sysUserSyncService.snycStudent(userId, uv);
         }else{
-            throw new DBErrorException("添加失败，该账号不是教工或学生");
+            throw new DBErrorException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }
 
         Member _member = get(userId);
@@ -169,7 +169,7 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1);
         }else if(_member==null) {
             Assert.isTrue(memberMapper.insertSelective(record) == 1);
-        }else throw new RuntimeException("数据异常，入党失败");
+        }else throw new RuntimeException("数据异常，入党失败。"+ uv.getCode() + "," + uv.getRealname());
 
         // 如果是预备党员，则要进入申请入党预备党员阶段
         memberApplyService.addGrowApply(userId);

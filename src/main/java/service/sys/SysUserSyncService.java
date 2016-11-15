@@ -489,11 +489,6 @@ public class SysUserSyncService extends BaseMapper {
     public  void snycTeacherInfo(int userId, SysUserView uv){
 
         TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
-        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
-
-        // 基本信息
-        SysUserInfo ui = new SysUserInfo();
-        ui.setUserId(userId);
 
         String code = uv.getCode();
         // 教工信息
@@ -505,18 +500,24 @@ public class SysUserSyncService extends BaseMapper {
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
 
-            ui.setRealname(org.apache.commons.lang.StringUtils.defaultString(org.apache.commons.lang.StringUtils.trimToNull(extJzg.getXm()),
-                    org.apache.commons.lang.StringUtils.trim(extJzg.getXmpy())));
+            SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+
+            // 基本信息
+            SysUserInfo ui = new SysUserInfo();
+            ui.setUserId(userId);
+
+            ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extJzg.getXm()),
+                    StringUtils.trim(extJzg.getXmpy())));
             ui.setGender(NumberUtils.toByte(extJzg.getXbm()));
             ui.setBirth(extJzg.getCsrq());
-            ui.setIdcard(org.apache.commons.lang.StringUtils.trim(extJzg.getSfzh()));
+            ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
             ui.setNativePlace(extJzg.getJg());
             ui.setNation(extJzg.getMz());
             ui.setIdcard(extJzg.getSfzh());
             ui.setEmail(extJzg.getDzxx());
 
             // 手机号码为空才同步20161102  （手机号不同步人事库 20160616修改）
-            if(sysUserInfo==null || org.apache.commons.lang.StringUtils.isBlank(sysUserInfo.getMobile()))
+            if(sysUserInfo==null || StringUtils.isBlank(sysUserInfo.getMobile()))
                 ui.setMobile(extJzg.getYddh());
 
             ui.setHomePhone(extJzg.getJtdh());
@@ -552,33 +553,29 @@ public class SysUserSyncService extends BaseMapper {
             //teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
 
             // 人员状态：在职、离退、离校、离世、NULL
-            teacher.setIsRetire(org.apache.commons.lang.StringUtils.equals(extJzg.getRyzt(), "离退")
-                    || org.apache.commons.lang.StringUtils.equals(extJzg.getSfzg(), "离休") || org.apache.commons.lang.StringUtils.equals(extJzg.getSfzg(), "内退")
-                    || org.apache.commons.lang.StringUtils.equals(extJzg.getSfzg(), "退休"));
+            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
+                    || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
+                    || StringUtils.equals(extJzg.getSfzg(), "退休"));
 
             //teacher.setRetireTime(); 退休时间
-            teacher.setIsHonorRetire(org.apache.commons.lang.StringUtils.equals(extJzg.getSfzg(), "离休"));
-        }
+            teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
-        if(sysUserInfo==null)
-            sysUserInfoMapper.insertSelective(ui);
-        else
-            sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+            if(sysUserInfo==null)
+                sysUserInfoMapper.insertSelective(ui);
+            else
+                sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+        }
 
         if(teacherInfo==null)
             teacherInfoMapper.insertSelective(teacher);
         else
-            teacherInfoMapper.updateByPrimaryKey(teacher);
+            teacherInfoMapper.updateByPrimaryKeySelective(teacher);
     }
 
     // 同步学生党员信息
     public void snycStudent(int userId, SysUserView uv){
 
         StudentInfo studentInfo = studentInfoMapper.selectByPrimaryKey(userId);
-        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
-
-        SysUserInfo ui = new SysUserInfo();
-        ui.setUserId(userId);
 
         String code = uv.getCode();
         StudentInfo student = new StudentInfo();
@@ -590,19 +587,23 @@ public class SysUserSyncService extends BaseMapper {
             ExtBks extBks = extService.getExtBks(code);
             if(extBks!=null){
 
-                ui.setRealname(org.apache.commons.lang.StringUtils.defaultString(org.apache.commons.lang.StringUtils.trimToNull(extBks.getXm()),
-                        org.apache.commons.lang.StringUtils.trim(extBks.getXmpy())));
+                SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+                SysUserInfo ui = new SysUserInfo();
+                ui.setUserId(userId);
 
-                if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
+                ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extBks.getXm()),
+                        StringUtils.trim(extBks.getXmpy())));
+
+                if (StringUtils.equalsIgnoreCase(extBks.getXb(), "男"))
                     ui.setGender(SystemConstants.GENDER_MALE);
-                else if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
+                else if (StringUtils.equalsIgnoreCase(extBks.getXb(), "女"))
                     ui.setGender(SystemConstants.GENDER_FEMALE);
                 else
                     ui.setGender(SystemConstants.GENDER_UNKNOWN);
 
-                if (org.apache.commons.lang.StringUtils.isNotBlank(extBks.getCsrq()))
+                if (StringUtils.isNotBlank(extBks.getCsrq()))
                     ui.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
-                ui.setIdcard(org.apache.commons.lang.StringUtils.trim(extBks.getSfzh()));
+                ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extBks.getYddh()));
                 //ui.setEmail(StringUtils.trim(extBks.getDzxx()));
                 ui.setNation(extBks.getMz());
@@ -625,6 +626,11 @@ public class SysUserSyncService extends BaseMapper {
                 //student.setActualGraduateTime(DateUtils.parseDate(extBks.getSjbyny(), "yyyyMM")); 实际毕业年月
                 student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
                 student.setXjStatus(extBks.getXjbd());
+
+                if(sysUserInfo==null)
+                    sysUserInfoMapper.insertSelective(ui);
+                else
+                    sysUserInfoMapper.updateByPrimaryKeySelective(ui);
             }
         }
 
@@ -632,12 +638,16 @@ public class SysUserSyncService extends BaseMapper {
             ExtYjs extYjs = extService.getExtYjs(code);
             if(extYjs!=null){
 
-                ui.setRealname(org.apache.commons.lang.StringUtils.defaultString(org.apache.commons.lang.StringUtils.trimToNull(extYjs.getXm()),
-                        org.apache.commons.lang.StringUtils.trim(extYjs.getXmpy())));
+                SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+                SysUserInfo ui = new SysUserInfo();
+                ui.setUserId(userId);
+
+                ui.setRealname(StringUtils.defaultString(StringUtils.trimToNull(extYjs.getXm()),
+                        StringUtils.trim(extYjs.getXmpy())));
                 ui.setGender(NumberUtils.toByte(extYjs.getXbm()));
-                if (org.apache.commons.lang.StringUtils.isNotBlank(extYjs.getCsrq()))
-                    ui.setBirth(DateUtils.parseDate(org.apache.commons.lang.StringUtils.substring(extYjs.getCsrq(), 0, 8), "yyyyMMdd"));
-                ui.setIdcard(org.apache.commons.lang.StringUtils.trim(extYjs.getSfzh()));
+                if (StringUtils.isNotBlank(extYjs.getCsrq()))
+                    ui.setBirth(DateUtils.parseDate(StringUtils.substring(extYjs.getCsrq(), 0, 8), "yyyyMMdd"));
+                ui.setIdcard(StringUtils.trim(extYjs.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extYjs.getYddh()));
                 //ui.setEmail(StringUtils.trim(extYjs.getDzxx()));
                 ui.setNation(extYjs.getMz());
@@ -655,24 +665,24 @@ public class SysUserSyncService extends BaseMapper {
                 student.setPeriod(extYjs.getXz() + "");
                 student.setGrade(extYjs.getNj() + "");
 
-                student.setActualEnrolTime(DateUtils.parseDate(org.apache.commons.lang.StringUtils.substring(extYjs.getSjrxny(), 0, 6), "yyyyMM"));
-                student.setExpectGraduateTime(DateUtils.parseDate(org.apache.commons.lang.StringUtils.substring(extYjs.getYjbyny(), 0, 6), "yyyyMM"));
+                student.setActualEnrolTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjrxny(), 0, 6), "yyyyMM"));
+                student.setExpectGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getYjbyny(), 0, 6), "yyyyMM"));
                 student.setDelayYear(extYjs.getYqbynx());
-                student.setActualGraduateTime(DateUtils.parseDate(org.apache.commons.lang.StringUtils.substring(extYjs.getSjbyny(), 0, 6), "yyyyMM"));
+                student.setActualGraduateTime(DateUtils.parseDate(StringUtils.substring(extYjs.getSjbyny(), 0, 6), "yyyyMM"));
                 student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
                 student.setXjStatus(extYjs.getZt());
+
+                if(sysUserInfo==null)
+                    sysUserInfoMapper.insertSelective(ui);
+                else
+                    sysUserInfoMapper.updateByPrimaryKeySelective(ui);
             }
         }
-
-        if(sysUserInfo==null)
-            sysUserInfoMapper.insertSelective(ui);
-        else
-            sysUserInfoMapper.updateByPrimaryKeySelective(ui);
 
         if(studentInfo==null)
             studentInfoMapper.insertSelective(student);
         else
-            studentInfoMapper.updateByPrimaryKey(student);
+            studentInfoMapper.updateByPrimaryKeySelective(student);
     }
 
     @Transactional
