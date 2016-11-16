@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
 import service.LoginUserService;
-import service.party.OrgAdminService;
 import service.SpringProps;
 import service.abroad.*;
 import service.analysis.StatService;
@@ -18,7 +17,6 @@ import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.party.*;
-import service.sys.TeacherInfoService;
 import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
@@ -130,8 +128,6 @@ public class BaseController extends BaseMapper {
     protected ExtYjsService extYjsService;
     @Autowired
     protected ExtBksService extBksService;
-    @Autowired
-    protected CadreConcatService cadreConcatService;
     @Autowired
     protected CadreInfoService cadreInfoService;
     @Autowired

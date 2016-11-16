@@ -1,5 +1,30 @@
 
 
+-- 2016-11-16
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `msg_title` VARCHAR(20) NULL DEFAULT NULL COMMENT '短信称谓' AFTER `email`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
+
+
+update sys_user_info ui, cadre_concat cc, cadre c set ui.mobile=cc.mobile, ui.msg_title=cc.msg_title, ui.phone=cc.office_phone,
+ui.home_phone=cc.home_phone, ui.email=cc.email where cc.cadre_id=c.id and c.user_id=ui.user_id;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select `c`.*,`ui`.`msg_title`,`ui`.`mobile` AS `mobile`,`ui`.`phone`,`ui`.`home_phone` AS `home_phone`,`ui`.`email` AS `email`,
+ui.`realname` AS `realname`,ui.`gender` AS `gender`,ui.`nation` AS `nation`,ui.`native_place` AS `native_place`,ui.`idcard` AS `idcard`,
+ui.`birth` AS `birth`,`om`.`party_id` AS `party_id`,`om`.`branch_id` AS `branch_id`,`om`.`grow_time` AS `grow_time`,
+`t`.`arrive_time` AS `arrive_time`,`max_ce`.`edu_id` AS `edu_id`,`max_ce`.`finish_time` AS `finish_time`,
+`max_ce`.`learn_style` AS `learn_style`,`max_ce`.`school` AS `school`,`max_ce`.`dep` AS `dep`,`max_ce`.`school_type` AS `school_type`,
+`max_ce`.`major` AS `major`,`t`.`post_class` AS `post_class`,`t`.`pro_post_level` AS `pro_post_level`,`t`.`pro_post` AS `pro_post`,
+`t`.`manage_level` AS `manage_level`,`max_degree`.`degree` AS `degree` from ((((`cadre` `c`
+left join sys_user_info ui on ui.user_id=c.user_id
+ left join `sys_teacher_info` `t` on((`t`.`user_id` = `c`.`user_id`)))
+ left join `ow_member` `om` on((`om`.`user_id` = `c`.`user_id`)))
+ left join `cadre_edu` `max_ce` on(((`max_ce`.`cadre_id` = `c`.`id`) and (`max_ce`.`is_high_edu` = 1))))
+ left join `cadre_edu` `max_degree` on(((`max_degree`.`cadre_id` = `c`.`id`) and (`max_degree`.`is_high_degree` = 1))))  ;
+
+
 -- 2016-11-9
 
 ALTER TABLE `abroad_passport`

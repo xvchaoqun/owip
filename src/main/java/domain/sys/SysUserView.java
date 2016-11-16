@@ -58,6 +58,8 @@ public class SysUserView implements Serializable {
 
     private String email;
 
+    private String msgTitle;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -274,5 +276,13 @@ public class SysUserView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getMsgTitle() {
+        return msgTitle;
+    }
+
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle == null ? null : msgTitle.trim();
     }
 }

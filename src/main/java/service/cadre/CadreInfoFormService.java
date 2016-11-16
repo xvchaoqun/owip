@@ -4,7 +4,6 @@ import bean.CadreInfoForm;
 import domain.cadre.*;
 import domain.member.Member;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.common.FreemarkerService;
-import service.helper.ShiroSecurityHelper;
 import service.party.MemberService;
 import service.sys.MetaTypeService;
 import sys.constants.SystemConstants;
@@ -62,6 +60,12 @@ public class CadreInfoFormService extends BaseMapper{
         // 行政级别
         bean.setAdminLevel(cadre.getTypeId());
         bean.setIdCard(uv.getIdcard());
+
+        // 联系方式
+        bean.setMobile(uv.getMobile());
+        bean.setPhone(uv.getPhone());
+        bean.setHomePhone(uv.getHomePhone());
+        bean.setEmail(uv.getEmail());
 
         File avatar =  new File(springProps.avatarFolder + File.separator
                 + uv.getId()%100 + File.separator + uv.getCode() +".jpg");
@@ -111,14 +115,6 @@ public class CadreInfoFormService extends BaseMapper{
         // 其他奖励情况
         CadreInfo otherReward = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER);
         bean.setOtherRewardDesc(otherReward == null ? null : otherReward.getContent());
-
-        CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadreId);
-        if(cadreConcat!=null) {
-            bean.setMobile(cadreConcat.getMobile());
-            bean.setPhone(cadreConcat.getOfficePhone());
-            bean.setHomePhone(cadreConcat.getHomePhone());
-            bean.setEmail(cadreConcat.getEmail());
-        }
 
         {
             // 企业兼职情况

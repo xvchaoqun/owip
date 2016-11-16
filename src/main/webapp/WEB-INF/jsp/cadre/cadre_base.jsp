@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${sysUser.username}" class="avatar">
+					<img src="${ctx}/avatar/${uv.username}" class="avatar">
 				</td>
 
 				<td class="bg-right">
@@ -133,6 +133,51 @@ pageEncoding="UTF-8"%>
 			</tbody>
 		</table>
 </div></div></div>
+
+<div class="widget-box transparent">
+	<div class="widget-header widget-header-flat">
+		<h4 class="widget-title lighter">
+			<i class="ace-icon fa fa-info-circle blue"></i>
+			联系方式
+		</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="ace-icon fa fa-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+			<table class="table table-unhover table-bordered table-striped">
+				<tbody>
+				<tr>
+					<td>
+						手机号
+					</td>
+					<td style="min-width: 80px">
+						${uv.mobile}
+					</td>
+					<td>
+						办公电话
+					</td>
+					<td style="min-width: 80px">
+						${uv.phone}
+					</td>
+
+					<td>
+						电子邮箱
+					</td>
+					<td  style="min-width: 80px">
+						${uv.email}
+					</td>
+				</tr>
+
+				</tbody>
+			</table>
+		</div></div></div>
+
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">

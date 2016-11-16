@@ -20,7 +20,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="msg_title" property="msgTitle" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="office_phone" property="officePhone" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="home_phone" property="homePhone" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="realname" property="realname" jdbcType="VARCHAR" />
@@ -78,17 +78,18 @@
   <sql id="Base_Column_List" >
     id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, 
     dp_add_time, dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, 
-    office_phone, home_phone, email, realname, gender, nation, native_place, idcard, 
-    birth, party_id, branch_id, grow_time, arrive_time, edu_id, finish_time, learn_style, 
-    school, dep, school_type, major, post_class, pro_post_level, pro_post, manage_level, 
-    degree
+    phone, home_phone, email, realname, gender, nation, native_place, idcard, birth, 
+    party_id, branch_id, grow_time, arrive_time, edu_id, finish_time, learn_style, school, 
+    dep, school_type, major, post_class, pro_post_level, pro_post, manage_level, degree
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from cadre_view
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreViewExample" >
     select
     <if test="distinct" >

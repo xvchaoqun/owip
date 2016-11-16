@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CadreView implements Serializable {
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -46,6 +47,7 @@ public class CadreView implements Serializable {
         }
         return null;
     }
+
     private Integer id;
 
     private Integer userId;
@@ -82,7 +84,7 @@ public class CadreView implements Serializable {
 
     private String mobile;
 
-    private String officePhone;
+    private String phone;
 
     private String homePhone;
 
@@ -278,12 +280,12 @@ public class CadreView implements Serializable {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
-    public String getOfficePhone() {
-        return officePhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setOfficePhone(String officePhone) {
-        this.officePhone = officePhone == null ? null : officePhone.trim();
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getHomePhone() {

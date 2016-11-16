@@ -48,8 +48,8 @@
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
-      <table tableName="abroad_passport" domainObjectName="abroad.Passport">
-      </table>
+      <!--<table tableName="abroad_passport" domainObjectName="abroad.Passport">
+      </table>-->
 
       <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
       </table>-->
@@ -177,11 +177,11 @@
 
       <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
               </table>-->
-      <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -189,8 +189,6 @@
       <table tableName="cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
       </table>
       <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
-      </table>-->
-     <!-- <table tableName="cadre_concat" domainObjectName="cadre.CadreConcat">
       </table>-->
      <!-- <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
       </table>-->
@@ -282,12 +280,12 @@
    <!-- <table tableName="sys_user" domainObjectName="sys.SysUser">
       <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-      <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo">
+     <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo">
       </table>
       <table tableName="sys_user_view" domainObjectName="sys.SysUserView">
           <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-      </table>
-      <table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
+      </table>-->
+      <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
          <ignoreColumn column="update_time"/>
      </table>-->
       <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo">

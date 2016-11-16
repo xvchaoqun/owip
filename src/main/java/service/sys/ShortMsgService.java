@@ -37,7 +37,6 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.abroad.ApplySelfService;
 import service.base.ContentTplService;
-import service.cadre.CadreConcatService;
 import service.cadre.CadreService;
 import service.helper.ContextHelper;
 import shiro.PasswordHelper;

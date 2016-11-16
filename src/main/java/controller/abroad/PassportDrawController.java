@@ -275,7 +275,6 @@ public class PassportDrawController extends BaseController {
         ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW);
         modelMap.put("shortMsg", shortMsgTpl.getContent());
         modelMap.put("mobile", userBeanService.getMsgMobile(passport.getUser().getId()));
-        //modelMap.put("mobile", cadreConcatService.getCadreMobileByCadreId(passport.getCadreId()));
 
 
         return "abroad/passportDraw/passportDraw_draw";

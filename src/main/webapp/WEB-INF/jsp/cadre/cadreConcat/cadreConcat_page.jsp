@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                     <div class="profile-info-name"> 手机号 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadreConcat.mobile}</span>
+                        <span class="editable" >${cadre.user.mobile}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
@@ -27,28 +27,28 @@ pageEncoding="UTF-8" %>
 
                     <div class="profile-info-value">
                         <span class="editable" >
-                        ${empty cadreConcat.msgTitle?cadre.user.realname:cadreConcat.msgTitle}</span>
+                        ${empty cadre.user.msgTitle?cadre.user.realname:cadre.user.msgTitle}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">办公电话 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadreConcat.officePhone}</span>
+                        <span class="editable" >${cadre.user.phone}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">家庭电话 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadreConcat.homePhone}</span>
+                        <span class="editable" >${cadre.user.homePhone}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">电子邮箱 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadreConcat.email}</span>
+                        <span class="editable" >${cadre.user.email}</span>
                     </div>
                 </div>
             </div>

@@ -513,14 +513,13 @@ public class SysUserSyncService extends BaseMapper {
             ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
             ui.setNativePlace(extJzg.getJg());
             ui.setNation(extJzg.getMz());
-            ui.setIdcard(extJzg.getSfzh());
             ui.setEmail(extJzg.getDzxx());
 
             // 手机号码为空才同步20161102  （手机号不同步人事库 20160616修改）
-            if(sysUserInfo==null || StringUtils.isBlank(sysUserInfo.getMobile()))
+            /*if(sysUserInfo==null || StringUtils.isBlank(sysUserInfo.getMobile()))
                 ui.setMobile(extJzg.getYddh());
 
-            ui.setHomePhone(extJzg.getJtdh());
+            ui.setHomePhone(extJzg.getJtdh());*/  // 不同步手机号和办公电话、家庭电话20161116
 
             //+++++++++++++ 同步后面一系列属性
 

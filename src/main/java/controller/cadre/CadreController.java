@@ -187,7 +187,7 @@ public class CadreController extends BaseController {
         modelMap.put("cadre", cadre);
 
         SysUserView uv = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", uv);
+        modelMap.put("uv", uv);
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -416,7 +416,7 @@ public class CadreController extends BaseController {
                     record.getPost(),
                     record.getTitle(),
                     record.getMobile(),
-                    record.getOfficePhone(),
+                    record.getPhone(),
                     record.getHomePhone(),
                     record.getEmail(),
                     record.getRemark()

@@ -318,7 +318,7 @@ pageEncoding="UTF-8" %>
             }
             },
             { label: '联系方式', name: 'mobile' },
-            /*{ label: '办公电话', name: 'officePhone' },
+            /*{ label: '办公电话', name: 'phone' },
             { label: '家庭电话', name: 'homePhone' },*/
             { label: '电子邮箱', name: 'email', width: 150 },
             { label: '所属党组织', name: 'partyId',align:'left', width: 550, formatter:function(cellvalue, options, rowObject){
@@ -380,7 +380,7 @@ pageEncoding="UTF-8" %>
             } },
             { label: '${status==CADRE_STATUS_TEMP?"现":"原"}职务属性', name: 'postType.name', width: 150 },
             { label: '手机号', name: 'mobile' },
-            { label: '办公电话', name: 'officePhone' },
+            { label: '办公电话', name: 'phone' },
             { label: '家庭电话', name: 'homePhone' },
             { label: '电子邮箱', name: 'email', width: 150 },
             { label: '备注', name: 'remark', width: 150 }

@@ -102,6 +102,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-3 control-label">短信称谓</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="msgTitle" value="${ui.msgTitle}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">家庭电话</label>
 
                 <div class="col-xs-6">
@@ -109,7 +116,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">邮箱</label>
+                <label class="col-xs-3 control-label">*邮箱</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="email" value="${ui.email}">

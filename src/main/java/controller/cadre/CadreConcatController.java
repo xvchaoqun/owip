@@ -2,7 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.cadre.CadreConcat;
+import domain.sys.SysUserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -36,9 +36,6 @@ public class CadreConcatController extends BaseController {
     public String cadreConcat_page(int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
 
-        CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadreId);
-        modelMap.put("cadreConcat", cadreConcat);
-
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
 
@@ -48,34 +45,28 @@ public class CadreConcatController extends BaseController {
     @RequiresPermissions("cadreConcat:edit")
     @RequestMapping(value = "/cadreConcat_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreConcat_au(CadreConcat record, HttpServletRequest request) {
+    public Map do_cadreConcat_au(int userId, String mobile, String phone, String homePhone,
+                                 String msgTitle, String email, HttpServletRequest request) {
 
-        if(StringUtils.isNotBlank(record.getMobile())) {
-            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile())) {
+        if(StringUtils.isNotBlank(mobile)) {
+            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
                 throw new RuntimeException("手机号码有误");
             }
         }
 
-        cadreConcatService.insertOrUpdate(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新干部联系方式：%s", record.getCadreId()));
+        SysUserInfo record = new SysUserInfo();
+        record.setUserId(userId);
+        record.setMobile(mobile);
+        record.setPhone(phone);
+        record.setHomePhone(homePhone);
+        record.setMsgTitle(msgTitle);
+        record.setEmail(email);
+
+        sysUserService.updateUserInfoByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新干部联系方式：userId=%s", userId));
 
         return success(FormUtils.SUCCESS);
     }
-  /*  @RequiresPermissions("cadreConcat:edit")
-    @RequestMapping(value = "/cadreConcat_updateWork", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreConcat_updateWork(int cadreId, String work, HttpServletRequest request) {
-
-
-        CadreConcat record = new CadreConcat();
-        record.setCadreId(cadreId);
-        record.setWork(work);
-        record.setWorkSaveDate(new Date());
-
-        cadreConcatService.insertOrUpdate(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新工作经历信息：%s, %s", record.getCadreId(), work));
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions("cadreConcat:edit")
     @RequestMapping("/cadreConcat_au")
@@ -84,82 +75,7 @@ public class CadreConcatController extends BaseController {
         if (cadreId != null) {
             Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
-            CadreConcat cadreConcat = cadreConcatMapper.selectByPrimaryKey(cadreId);
-            modelMap.put("cadreConcat", cadreConcat);
         }
         return "cadre/cadreConcat/cadreConcat_au";
     }
-
-    /*@RequiresPermissions("cadreConcat:del")
-    @RequestMapping(value = "/cadreConcat_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreConcat_del(HttpServletRequest request, Integer cadreId) {
-
-        if (cadreId != null) {
-
-            cadreConcatService.del(cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部联系方式：%s", cadreId));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cadreConcat:del")
-    @RequestMapping(value = "/cadreConcat_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] cadreIds, ModelMap modelMap) {
-
-
-        if (null != cadreIds && cadreIds.length>0){
-            cadreConcatService.batchDel(cadreIds);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部联系方式：%s", StringUtils.join(cadreIds, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
-
-   /* public void cadreConcat_export(CadreConcatExample example, HttpServletResponse response) {
-
-        List<CadreConcat> cadreConcats = cadreConcatMapper.selectByExample(example);
-        int rownum = cadreConcatMapper.countByExample(example);
-
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"手机号","办公电话","电子邮箱"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
-        for (int i = 0; i < rownum; i++) {
-
-            CadreConcat cadreConcat = cadreConcats.get(i);
-            String[] values = {
-                        cadreConcat.getMobile(),
-                                            cadreConcat.getOfficePhone(),
-                                            cadreConcat.getEmail()
-                    };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
-        }
-        try {
-            String fileName = "干部联系方式_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
 }
