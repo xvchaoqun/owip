@@ -137,7 +137,7 @@ pageEncoding="UTF-8"%>
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
 		<h4 class="widget-title lighter">
-			<i class="ace-icon fa fa-info-circle blue"></i>
+			<i class="ace-icon fa fa-phone-square blue"></i>
 			联系方式
 		</h4>
 
