@@ -288,14 +288,14 @@ public class MemberTeacherController extends BaseController {
     public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
         Map<Integer, Unit> unitMap = unitService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"工作证号","姓名","性别","民族","籍贯","最高学历","岗位类别","专业技术职务",
+        String[] titles = {"工作证号","姓名","性别","民族","籍贯","最高学历","编制类别","人员类别","岗位类别","专业技术职务",
                 "出生日期","所在单位","所属分党委","所属党支部",
                 "入党时间","转正时间","联系手机"};
         List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            MemberTeacher record = records.get(i);
+        for (MemberTeacher record:records) {
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
@@ -307,12 +307,14 @@ public class MemberTeacherController extends BaseController {
                     record.getNation(),
                     record.getNativePlace(),
                     record.getEducation(),
+                    record.getAuthorizedType(),
+                    record.getStaffType(),
                     record.getPostClass(),
                     record.getProPost(),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
                     unitMap.get(record.getUnitId()).getName(),
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    partyId==null?"":partyMap.get(partyId).getName(),
+                    branchId==null?"":branchMap.get(branchId).getName(),
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     record.getMobile()

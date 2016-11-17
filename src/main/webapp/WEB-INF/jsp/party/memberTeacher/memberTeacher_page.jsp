@@ -297,6 +297,8 @@
                 return yearOffNow(cellvalue)
             } },
             { label: '最高学历', name: 'education', width: 100 },
+            { label: '编制类别', name: 'authorizedType', width: 100 },
+            { label: '人员类别', name: 'staffType', width: 100 },
             { label: '岗位类别', name: 'postClass', width: 100 },
             { label: '专业技术职务', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
