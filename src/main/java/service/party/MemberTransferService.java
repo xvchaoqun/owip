@@ -6,6 +6,7 @@ import domain.member.MemberTransferExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -282,17 +283,24 @@ public class MemberTransferService extends BaseMapper {
     @Transactional
     public void memberTransfer_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
+        Subject subject = SecurityUtils.getSubject();
+        boolean notAdmin = (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN));
+
         for (int userId : userIds) {
 
             MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(userId);
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
-            Boolean presentToPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
 
-            if(memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
-                if(!presentToPartyAdmin) throw new UnauthorizedException();
-            }
-            if(memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_BACK){
-                if(!presentToPartyAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+            if(notAdmin) {
+                Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
+                Boolean presentToPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
+
+                if (memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY) {
+                    if (!presentToPartyAdmin) throw new UnauthorizedException();
+                }
+                if (memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_BACK) {
+                    if (!presentToPartyAdmin && !presentPartyAdmin) throw new UnauthorizedException();
+                }
             }
 
             back(memberTransfer, status, loginUserId, reason);
