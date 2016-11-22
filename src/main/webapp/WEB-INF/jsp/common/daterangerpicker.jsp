@@ -12,7 +12,9 @@
     'cancelClass' : 'btn-sm btn-default',
     locale: {
       applyLabel: '确定',
-      cancelLabel: '清除'
+      cancelLabel: '清除',
+      format: 'YYYY-MM-DD',
+      separator: ' 至 '
     }
   }).on('apply.daterangepicker', function(ev, picker) {
     $(this).val(picker.startDate.format('YYYY-MM-DD') + ' 至 ' + picker.endDate.format('YYYY-MM-DD'));
