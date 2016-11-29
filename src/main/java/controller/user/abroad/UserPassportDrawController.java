@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.abroad;
 
 import controller.BaseController;
 import domain.abroad.*;
@@ -73,7 +73,7 @@ public class UserPassportDrawController extends BaseController {
         List<Passport> passports = passportService.findByCadreId(cadreId);
         modelMap.put("passports", passports);
 
-        return "user/passportDraw/passportDraw_select";
+        return "user/abroad/passportDraw/passportDraw_select";
     }
 
     @RequiresRoles("cadre")
@@ -112,7 +112,7 @@ public class UserPassportDrawController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        return "user/passportDraw/passportDraw_self";
+        return "user/abroad/passportDraw/passportDraw_self";
     }
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_self_select")
@@ -127,7 +127,7 @@ public class UserPassportDrawController extends BaseController {
         List<Passport> passports = passportService.findByCadreId(cadre.getId());
         modelMap.put("passports", passports);
 
-        return "user/passportDraw/passportDraw_self_select";
+        return "user/abroad/passportDraw/passportDraw_self_select";
     }
 
     @RequiresRoles("cadre")
@@ -158,14 +158,14 @@ public class UserPassportDrawController extends BaseController {
             if(passportTw == null)throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
             modelMap.put("passport", passportTw);*/
 
-            return "user/passportDraw/passportDraw_self_sign_tw";
+            return "user/abroad/passportDraw/passportDraw_self_sign_tw";
         }
 
 
         if(StringUtils.equals(type, "add"))
-            return "user/passportDraw/passportDraw_self_sign_add";
+            return "user/abroad/passportDraw/passportDraw_self_sign_add";
 
-        return "user/passportDraw/passportDraw_self_sign";
+        return "user/abroad/passportDraw/passportDraw_self_sign";
     }
 
     @RequiresRoles("cadre")
@@ -185,7 +185,7 @@ public class UserPassportDrawController extends BaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         modelMap.put("passport", passport);
 
-        return "user/passportDraw/passportDraw_self_confirm";
+        return "user/abroad/passportDraw/passportDraw_self_confirm";
     }
 
     @RequiresRoles("cadre")
@@ -211,7 +211,7 @@ public class UserPassportDrawController extends BaseController {
         modelMap.put("passports", passports);
         modelMap.put("passportTw", passportTw);
 
-        return "user/passportDraw/passportDraw_tw";
+        return "user/abroad/passportDraw/passportDraw_tw";
     }
     @RequiresRoles("cadre")
     @RequestMapping("/passportDraw_other")
@@ -222,7 +222,7 @@ public class UserPassportDrawController extends BaseController {
         List<Passport> passports = passportService.findByCadreId(cadre.getId());
         modelMap.put("passports", passports);
 
-        return "user/passportDraw/passportDraw_other";
+        return "user/abroad/passportDraw/passportDraw_other";
     }
 
     @RequiresRoles("cadre")
@@ -240,7 +240,7 @@ public class UserPassportDrawController extends BaseController {
 
         modelMap.put("type", type);
 
-        return "user/passportDraw/passportDraw_page";
+        return "user/abroad/passportDraw/passportDraw_page";
     }
     @RequiresRoles("cadre")
     @RequestMapping("/userPassportDraw_data")
@@ -514,6 +514,6 @@ public class UserPassportDrawController extends BaseController {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             modelMap.put("passportDraw", passportDraw);
         }
-        return "user/passportDraw/passportDraw_au";
+        return "user/abroad/passportDraw/passportDraw_au";
     }*/
 }

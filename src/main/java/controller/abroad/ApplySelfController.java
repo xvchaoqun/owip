@@ -203,7 +203,7 @@ public class ApplySelfController extends BaseController {
         Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
         modelMap.put("approvalResultMap", approvalResultMap);
 
-        return "user/applySelf/applySelf_view";
+        return "user/abroad/applySelf/applySelf_view";
     }
 
     @RequiresPermissions("applySelf:view")
@@ -214,7 +214,7 @@ public class ApplySelfController extends BaseController {
         Integer currentYear = DateUtils.getYear(applySelf.getApplyDate());
         modelMap.put("applySelf", applySelf);
         modelMap.put("currentYear", currentYear);
-        return "user/applySelf/applySelf_yearLogs";
+        return "user/abroad/applySelf/applySelf_yearLogs";
     }
 
     @RequiresPermissions("applySelf:view")

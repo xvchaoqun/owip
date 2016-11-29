@@ -1,11 +1,10 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.member.*;
 import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -50,7 +49,7 @@ public class EnterApplyController extends BaseController {
         if(currentApply==null) {
             modelMap.put("applyList", enterApplyService.findApplyList(userId));
             modelMap.put("member", memberService.get(userId));
-            return "user/enterApply/apply";
+            return "user/party/enterApply/apply";
         }
         switch (currentApply.getType()){
             case SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY:
@@ -78,7 +77,7 @@ public class EnterApplyController extends BaseController {
         modelMap.put("branchMap", branchService.findAll());
 
 
-        return "user/enterApply/memberApply_view";
+        return "user/party/enterApply/memberApply_view";
     }
 
     @RequiresRoles("guest")
@@ -102,7 +101,7 @@ public class EnterApplyController extends BaseController {
             }
         }
 
-        return "user/enterApply/memberApply";
+        return "user/party/enterApply/memberApply";
     }
 
     // 撤回申请
@@ -175,7 +174,7 @@ public class EnterApplyController extends BaseController {
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("branchMap", branchService.findAll());
 
-        return "user/enterApply/memberReturn_view";
+        return "user/party/enterApply/memberReturn_view";
     }
 
     @RequiresRoles("guest")
@@ -199,7 +198,7 @@ public class EnterApplyController extends BaseController {
                 modelMap.put("branch", branchMap.get(branchId));
             }
         }
-        return "user/enterApply/memberReturn";
+        return "user/party/enterApply/memberReturn";
     }
 
     @RequiresRoles("guest")
@@ -278,7 +277,7 @@ public class EnterApplyController extends BaseController {
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("branchMap", branchService.findAll());
 
-        return "user/enterApply/memberIn_view";
+        return "user/party/enterApply/memberIn_view";
     }
 
     @RequiresRoles("guest")
@@ -319,7 +318,7 @@ public class EnterApplyController extends BaseController {
             }
         }
 
-        return "user/enterApply/memberIn";
+        return "user/party/enterApply/memberIn";
     }
 
     @RequiresRoles("guest")
@@ -405,7 +404,7 @@ public class EnterApplyController extends BaseController {
         modelMap.put("memberInflow", memberInflow);
 
         modelMap.put("locationMap", locationService.codeMap());
-        return "user/enterApply/memberInflow_view";
+        return "user/party/enterApply/memberInflow_view";
     }
 
     @RequiresRoles("guest")
@@ -428,7 +427,7 @@ public class EnterApplyController extends BaseController {
                 modelMap.put("branch", branchMap.get(branchId));
             }
         }
-        return "user/enterApply/memberInflow";
+        return "user/party/enterApply/memberInflow";
     }
 
     @RequiresRoles("guest")

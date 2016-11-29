@@ -308,6 +308,10 @@ public class DispatchController extends BaseController {
         }else {
 
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+            if(dispatch!=null && dispatch.getHasChecked()){
+                return failed("已经复核，不可修改。");
+            }
+
             if(StringUtils.isNotBlank(file) && StringUtils.isNotBlank(record.getFile())){
                 FileUtils.delFile(springProps.uploadPath + dispatch.getFile()); // 删除原文件
             }

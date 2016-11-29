@@ -458,7 +458,7 @@ public class PassportDrawController extends BaseController {
             modelMap.put("applySelf", applySelf);
         }
 
-        return "user/passportDraw/passportDraw_view";
+        return "user/abroad/passportDraw/passportDraw_view";
     }
 
     /*@RequiresPermissions("passportDraw:del")

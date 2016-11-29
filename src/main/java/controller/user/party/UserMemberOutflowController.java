@@ -1,10 +1,9 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.member.MemberOutflow;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -64,9 +63,9 @@ public class UserMemberOutflowController extends BaseController{
         if(memberOutflow==null
                 || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK
                 || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_BACK)
-            return "user/memberOutflow/memberOutflow_au";
+            return "user/party/memberOutflow/memberOutflow_au";
 
-        return "user/memberOutflow/memberOutflow";
+        return "user/party/memberOutflow/memberOutflow";
     }
 
     @RequiresRoles("member")

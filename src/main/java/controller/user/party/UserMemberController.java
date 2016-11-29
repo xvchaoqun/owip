@@ -1,9 +1,8 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ public class UserMemberController extends BaseController {
         modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
         modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
-        return "user/member/student_base";
+        return "user/party/member/student_base";
     }
     @RequiresRoles("member")
     @RequestMapping("/teacher_base")
@@ -70,6 +69,6 @@ public class UserMemberController extends BaseController {
         modelMap.put("partyMap", partyService.findAll());
         modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
 
-        return "user/member/teacher_base";
+        return "user/party/member/teacher_base";
     }
 }

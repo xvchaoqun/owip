@@ -23,8 +23,8 @@
                         <div id="home4" class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
-                    <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm" data-width="700">
-                        <i class="fa fa-edit"></i> 修改信息</a>
+                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="700">
+                        <i class="fa fa-edit"></i> 修改信息</button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="dispatchCadre:del">
@@ -208,8 +208,22 @@
             { label: '是否复核', name: 'hasChecked', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
                 return cellvalue?"已复核":"否";
+            }},{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.hasChecked==undefined) return 0;
+                return rowObject.hasChecked?1:0;
             }}
-        ]
+        ], onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#editBtn").prop("disabled", true);
+            } else if (ids.length == 1) {
+                var rowData = $(this).getRowData(ids[0]);
+                $("#editBtn").prop("disabled", rowData._hasChecked==1)
+            } else {
+                $("#editBtn").prop("disabled", false);
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");

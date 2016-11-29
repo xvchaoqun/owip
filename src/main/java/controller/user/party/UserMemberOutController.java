@@ -1,9 +1,8 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -51,9 +50,9 @@ public class UserMemberOutController extends BaseController{
         modelMap.put("memberOut", memberOut);
 
         if(memberOut==null || memberOut.getStatus() <= SystemConstants.MEMBER_OUT_STATUS_BACK)
-            return "user/memberOut/memberOut_au";
+            return "user/party/memberOut/memberOut_au";
 
-        return "user/memberOut/memberOut";
+        return "user/party/memberOut/memberOut";
     }
 
     @RequiresRoles("member")

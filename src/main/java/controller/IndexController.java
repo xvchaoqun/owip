@@ -81,7 +81,7 @@ public class IndexController extends BaseController {
 
 		if(SecurityUtils.getSubject().hasRole("reg")){
 			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));
-			return "user/sysUserReg/sysUserReg";
+			return "user/party/sysUserReg/sysUserReg";
 		}
 
 		return "index_page";

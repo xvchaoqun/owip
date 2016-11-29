@@ -23,13 +23,13 @@
                                     <a class="openView btn btn-info btn-sm"
                                        data-url="${ctx}/dispatch_au_page"><i class="fa fa-plus"></i> 添加</a>
                                 </shiro:hasPermission>
-                                <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm"
+                                <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                    data-open-by="page" data-url="${ctx}/dispatch_au_page">
-                                    <i class="fa fa-edit"></i> 修改信息</a>
-                                <a class="jqOpenViewBtn btn btn-success btn-sm"
+                                    <i class="fa fa-edit"></i> 修改信息</button>
+                                <button id="addDipatchCadreBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres">
                                     <i class="fa fa-plus"></i> 添加干部任免
-                                </a>
+                                </button>
                                 <shiro:hasPermission name="dispatch:check">
                                 <button id="checkBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres"
@@ -246,23 +246,27 @@
 
                 return '<a href="/dispatch?cls=2&year={0}&dispatchTypeId={1}&code={2}">查看任免信息</a>'
                         .format(rowObject.year, rowObject.dispatchTypeId, rowObject.code);
-            }
-            },
-            {label: '备注', name: 'remark', width: 550}
+            }},{label: '备注', name: 'remark', width: 550}
+                ,{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.hasChecked==undefined) return 0;
+                return rowObject.hasChecked?1:0;
+            }}
         ], onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
-                $("#checkBtn").prop("disabled", true);
+                $("#checkBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", true);
             } else if (ids.length == 1) {
 
                 var rowData = $(this).getRowData(ids[0]);
-
                 $("#checkBtn").prop("disabled", !isFinished(parseInt(rowData.appointCount), parseInt(rowData.dismissCount),
-                        parseInt(rowData.realAppointCount), parseInt(rowData.realDismissCount)));
+                        parseInt(rowData.realAppointCount), parseInt(rowData.realDismissCount)) || rowData._hasChecked==1);
+
+                //console.log(rowData._hasChecked==1)
+                $("#addDipatchCadreBtn, #editBtn").prop("disabled", rowData._hasChecked==1)
             } else {
-                $("#checkBtn").prop("disabled", false);
+                $("#checkBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", false);
             }
         }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {

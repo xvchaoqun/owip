@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringProps {
 
+	@Value("${db.schema}")
+	public String schema;
+
 	@Value("${page.pageSize}")
 	public int pageSize;
 

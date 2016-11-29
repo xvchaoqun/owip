@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.modify.ModifyBaseItemMapper" >
+  <resultMap id="BaseResultMap" type="domain.modify.ModifyBaseItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apply_id" property="applyId" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="orginal_value" property="orginalValue" jdbcType="VARCHAR" />
+    <result column="modify_value" property="modifyValue" jdbcType="VARCHAR" />
+    <result column="is_string" property="isString" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
+    <result column="check_reason" property="checkReason" jdbcType="VARCHAR" />
+    <result column="check_user_id" property="checkUserId" jdbcType="INTEGER" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="check_ip" property="checkIp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, apply_id, code, table_name, name, orginal_value, modify_value, is_string, create_time, 
+    ip, status, check_remark, check_reason, check_user_id, check_time, check_ip
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.modify.ModifyBaseItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from modify_base_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from modify_base_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from modify_base_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.modify.ModifyBaseItemExample" >
+    delete from modify_base_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.modify.ModifyBaseItem" >
+    insert into modify_base_item (id, apply_id, code, 
+      table_name, name, orginal_value, 
+      modify_value, is_string, create_time, 
+      ip, status, check_remark, 
+      check_reason, check_user_id, check_time, 
+      check_ip)
+    values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+      #{tableName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orginalValue,jdbcType=VARCHAR}, 
+      #{modifyValue,jdbcType=VARCHAR}, #{isString,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}, 
+      #{checkReason,jdbcType=VARCHAR}, #{checkUserId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{checkIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.modify.ModifyBaseItem" >
+    insert into modify_base_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applyId != null" >
+        apply_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="orginalValue != null" >
+        orginal_value,
+      </if>
+      <if test="modifyValue != null" >
+        modify_value,
+      </if>
+      <if test="isString != null" >
+        is_string,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="checkRemark != null" >
+        check_remark,
+      </if>
+      <if test="checkReason != null" >
+        check_reason,
+      </if>
+      <if test="checkUserId != null" >
+        check_user_id,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+      <if test="checkIp != null" >
+        check_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orginalValue != null" >
+        #{orginalValue,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyValue != null" >
+        #{modifyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="isString != null" >
+        #{isString,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="checkRemark != null" >
+        #{checkRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkReason != null" >
+        #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null" >
+        #{checkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkIp != null" >
+        #{checkIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.modify.ModifyBaseItemExample" resultType="java.lang.Integer" >
+    select count(*) from modify_base_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update modify_base_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyId != null" >
+        apply_id = #{record.applyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tableName != null" >
+        table_name = #{record.tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orginalValue != null" >
+        orginal_value = #{record.orginalValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyValue != null" >
+        modify_value = #{record.modifyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isString != null" >
+        is_string = #{record.isString,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.checkRemark != null" >
+        check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkReason != null" >
+        check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkUserId != null" >
+        check_user_id = #{record.checkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkTime != null" >
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkIp != null" >
+        check_ip = #{record.checkIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update modify_base_item
+    set id = #{record.id,jdbcType=INTEGER},
+      apply_id = #{record.applyId,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      table_name = #{record.tableName,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      orginal_value = #{record.orginalValue,jdbcType=VARCHAR},
+      modify_value = #{record.modifyValue,jdbcType=VARCHAR},
+      is_string = #{record.isString,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      check_user_id = #{record.checkUserId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      check_ip = #{record.checkIp,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.modify.ModifyBaseItem" >
+    update modify_base_item
+    <set >
+      <if test="applyId != null" >
+        apply_id = #{applyId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orginalValue != null" >
+        orginal_value = #{orginalValue,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyValue != null" >
+        modify_value = #{modifyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="isString != null" >
+        is_string = #{isString,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="checkRemark != null" >
+        check_remark = #{checkRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkReason != null" >
+        check_reason = #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null" >
+        check_user_id = #{checkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkIp != null" >
+        check_ip = #{checkIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.modify.ModifyBaseItem" >
+    update modify_base_item
+    set apply_id = #{applyId,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      orginal_value = #{orginalValue,jdbcType=VARCHAR},
+      modify_value = #{modifyValue,jdbcType=VARCHAR},
+      is_string = #{isString,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      check_remark = #{checkRemark,jdbcType=VARCHAR},
+      check_reason = #{checkReason,jdbcType=VARCHAR},
+      check_user_id = #{checkUserId,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      check_ip = #{checkIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.modify.ModifyBaseItemExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from modify_base_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

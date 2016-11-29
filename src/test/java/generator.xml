@@ -177,11 +177,11 @@
 
       <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
               </table>-->
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -227,6 +227,14 @@
       </table>
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>-->
+
+      <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
+      </table>
+      <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
+      </table>
+      <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
+          <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
+      </table>
 
      <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch">
       </table>-->

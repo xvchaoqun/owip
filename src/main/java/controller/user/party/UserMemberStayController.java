@@ -1,9 +1,8 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.member.Member;
 import domain.member.MemberStay;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -53,9 +52,9 @@ public class UserMemberStayController extends BaseController{
 
         if(memberStay==null || memberStay.getStatus()== SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
                 || memberStay.getStatus()==SystemConstants.MEMBER_STAY_STATUS_BACK)
-            return "user/memberStay/memberStay_au";
+            return "user/party/memberStay/memberStay_au";
 
-        return "user/memberStay/memberStay";
+        return "user/party/memberStay/memberStay";
     }
 
     @RequiresRoles("member")

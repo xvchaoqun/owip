@@ -1,4 +1,4 @@
-package service.source;
+package bean;
 
 public class ColumnBean {
 

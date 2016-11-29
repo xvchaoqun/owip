@@ -20,8 +20,9 @@ import java.util.Set;
 public class DBServcie {
 
     @Autowired
-    DataSource dataSource;
-    public static String schema = "owip";
+    private DataSource dataSource;
+    @Autowired
+    private SpringProps springProps;
 
     @Cacheable(value="TableColumns", key = "#tablename")
     public Set<String> getTableColumns(String tablename) throws Exception {
@@ -33,7 +34,7 @@ public class DBServcie {
         try {
 
             String sql = " select column_name, data_type, character_maximum_length as data_length, column_comment as comments from information_schema.columns "
-                    + "where table_name='" + tablename + "' and table_schema='" + schema + "'";
+                    + "where table_name='" + tablename + "' and table_schema='" + springProps.schema + "'";
 
             stat = conn.createStatement();
             //System.out.println("sql=" + sql);

@@ -15,6 +15,9 @@ import persistence.ext.ExtBksMapper;
 import persistence.ext.ExtJzgMapper;
 import persistence.ext.ExtYjsMapper;
 import persistence.member.*;
+import persistence.modify.ModifyBaseApplyMapper;
+import persistence.modify.ModifyBaseItemMapper;
+import persistence.modify.ModifyTableApplyMapper;
 import persistence.party.*;
 import persistence.sys.*;
 import persistence.unit.*;
@@ -261,6 +264,13 @@ public class BaseMapper {
 	protected HistoryUnitMapper historyUnitMapper;
 	@Autowired
 	protected UnitMapper unitMapper;
+
+	@Autowired
+	protected ModifyBaseApplyMapper modifyBaseApplyMapper;
+	@Autowired
+	protected ModifyBaseItemMapper modifyBaseItemMapper;
+	@Autowired
+	protected ModifyTableApplyMapper modifyTableApplyMapper;
 
 	@Autowired
 	protected SysUserSyncMapper sysUserSyncMapper;

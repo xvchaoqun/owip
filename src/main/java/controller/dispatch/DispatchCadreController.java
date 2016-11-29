@@ -214,10 +214,17 @@ public class DispatchCadreController extends BaseController {
         Integer id = record.getId();
 
         if (id == null) {
+            DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(record.getDispatchId());
+            if(dispatchCadre!=null && dispatchCadre.getDispatch().getHasChecked()){
+                return failed("已经复核，不可添加。");
+            }
             dispatchCadreService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部发文：%s", record.getId()));
         } else {
-
+            DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
+            if(dispatchCadre!=null && dispatchCadre.getDispatch().getHasChecked()){
+                return failed("已经复核，不可修改。");
+            }
             dispatchCadreService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
         }
@@ -232,12 +239,13 @@ public class DispatchCadreController extends BaseController {
         if (id != null) {
             DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchCadre", dispatchCadre);
-            modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId()));
-
-            Cadre cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
+            if(dispatchCadre!=null) {
+                modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId()));
+                Cadre cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
+                modelMap.put("cadre", cadre);
+                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
+                modelMap.put("sysUser", sysUser);
+            }
         }
 
         return "dispatch/dispatchCadre/dispatchCadre_au";

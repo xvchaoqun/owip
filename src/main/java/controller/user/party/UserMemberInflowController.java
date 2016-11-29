@@ -1,10 +1,9 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.party.Branch;
 import domain.member.MemberInflow;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -45,7 +44,7 @@ public class UserMemberInflowController extends BaseController{
         MemberInflow memberInflow = memberInflowService.get(userId);
         modelMap.put("memberInflow", memberInflow);
 
-        return "user/memberInflow/memberInflow_base";
+        return "user/party/memberInflow/memberInflow_base";
     }
 
     @RequiresRoles("inflowMember")
@@ -77,9 +76,9 @@ public class UserMemberInflowController extends BaseController{
 
         if(memberInflow.getOutStatus()==null ||
                 memberInflow.getOutStatus()<= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK)
-            return "user/memberInflow/memberInflowOut_au";
+            return "user/party/memberInflow/memberInflowOut_au";
 
-        return "user/memberInflow/memberInflowOut";
+        return "user/party/memberInflow/memberInflowOut";
     }
 
     @RequiresRoles("inflowMember")

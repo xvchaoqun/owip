@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.abroad;
 
 import bean.ApprovalResult;
 import controller.BaseController;
@@ -91,7 +91,7 @@ public class UserApplySelfController extends BaseController {
 
         modelMap.put("justView", true);
 
-        return "user/applySelf/applySelf_view";
+        return "user/abroad/applySelf/applySelf_view";
     }
 
     @RequiresRoles("cadre")
@@ -104,7 +104,7 @@ public class UserApplySelfController extends BaseController {
     @RequestMapping("/applySelf_page")
     public String applySelf_page(ModelMap modelMap) {
 
-        return "user/applySelf/applySelf_page";
+        return "user/abroad/applySelf/applySelf_page";
     }
     @RequiresRoles("cadre")
     @RequestMapping("/applySelf_data")
@@ -333,6 +333,6 @@ public class UserApplySelfController extends BaseController {
         }
         modelMap.put("countryList", JSONUtils.toString(countryList));
 
-        return "user/applySelf/applySelf_au";
+        return "user/abroad/applySelf/applySelf_au";
     }
 }

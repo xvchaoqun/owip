@@ -1,11 +1,10 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.member.Member;
 import domain.party.Branch;
 import domain.party.GraduateAbroad;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -71,9 +70,9 @@ public class UserGraduateAbroadController extends BaseController{
 
         if(graduateAbroad==null || graduateAbroad.getStatus()== SystemConstants.GRADUATE_ABROAD_STATUS_SELF_BACK
                 || graduateAbroad.getStatus()==SystemConstants.GRADUATE_ABROAD_STATUS_BACK)
-            return "user/graduateAbroad/graduateAbroad_au";
+            return "user/party/graduateAbroad/graduateAbroad_au";
 
-        return "user/graduateAbroad/graduateAbroad";
+        return "user/party/graduateAbroad/graduateAbroad";
     }
 
     @RequiresRoles("member")

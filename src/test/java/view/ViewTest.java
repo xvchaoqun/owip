@@ -5,10 +5,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import tpl.ColumnBean;
-import tpl.DBParser;
+import bean.ColumnBean;
+import service.DBOperator;
+import service.SpringProps;
 
-import javax.sql.DataSource;
 import java.util.Map;
 
 /**
@@ -19,14 +19,14 @@ import java.util.Map;
 public class ViewTest{
 
     @Autowired
-    DataSource dataSource;
+    DBOperator dbOperator;
+    @Autowired
+    private SpringProps springProps;
 
     @Test
     public void get() throws Exception {
 
-        DBParser dbParser = new DBParser(dataSource);
-
-        Map<String, ColumnBean> columnBeanMap = dbParser.getTableColumnsMap("ow_student", "owip");
+        Map<String, ColumnBean> columnBeanMap = dbOperator.getTableColumnsMap("ow_student", springProps.schema);
         for (Map.Entry<String, ColumnBean> entry : columnBeanMap.entrySet()) {
 
             System.out.println("s." + entry.getKey() + ",");

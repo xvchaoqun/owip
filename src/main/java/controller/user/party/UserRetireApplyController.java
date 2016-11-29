@@ -1,10 +1,9 @@
-package controller.user;
+package controller.user.party;
 
 import controller.BaseController;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -63,10 +62,10 @@ public class UserRetireApplyController extends BaseController{
                     modelMap.put("branch", branchService.findAll().get(retireApply.getBranchId()));
                 }
             }
-            return "user/retireApply/retireApply_au";
+            return "user/party/retireApply/retireApply_au";
         }
 
-        return "user/retireApply/retireApply";
+        return "user/party/retireApply/retireApply";
     }
     @RequiresRoles("member")
     @RequestMapping(value = "/retireApply_au", method = RequestMethod.POST)

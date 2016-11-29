@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.abroad;
 
 import controller.BaseController;
 import domain.abroad.*;
@@ -100,7 +100,7 @@ public class UserPassportController extends BaseController {
         modelMap.put("lostPassports", lostPassports);
 
 
-        return "user/passport/passportList_page";
+        return "user/abroad/passport/passportList_page";
     }
 
     @RequiresRoles("cadre")

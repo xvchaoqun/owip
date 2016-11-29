@@ -1,4 +1,4 @@
-package tpl;
+package service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,16 +11,16 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import bean.ColumnBean;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class DBParser {
+@Service
+public class DBOperator {
 
-	DataSource dataSource;
-	
-	public DBParser(DataSource dataSource) {
-		super();
-		this.dataSource = dataSource;
-	}
+	@Autowired
+	private DataSource dataSource;
 
 	public List<String> getTableNameList(String schema) throws SQLException {
 

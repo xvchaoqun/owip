@@ -1,4 +1,8 @@
 
+--#####
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;
+
 
 -- 2016-11-16
 ALTER TABLE `sys_user_info`

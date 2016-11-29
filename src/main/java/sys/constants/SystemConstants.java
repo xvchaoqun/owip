@@ -722,6 +722,30 @@ public class SystemConstants {
 		CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_DAUGHTER, "女儿");
 	}
 
+	// 基本信息修改请求 审核状态，0 待审核 1 部分审核 2 全部审核 3管理员删除（待审核时才可以删除）
+	public final static byte MODIFY_BASE_APPLY_STATUS_APPLY = 0;
+	public final static byte MODIFY_BASE_APPLY_STATUS_PART_CHECK = 1;
+	public final static byte MODIFY_BASE_APPLY_STATUS_ALL_CHECK = 2;
+	public final static byte MODIFY_BASE_APPLY_STATUS_DELETE = 3;
+	public final static Map<Byte, String> MODIFY_BASE_APPLY_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		MODIFY_BASE_APPLY_STATUS_MAP.put(MODIFY_BASE_APPLY_STATUS_APPLY, "待审核");
+		MODIFY_BASE_APPLY_STATUS_MAP.put(MODIFY_BASE_APPLY_STATUS_PART_CHECK, "部分审核");
+		MODIFY_BASE_APPLY_STATUS_MAP.put(MODIFY_BASE_APPLY_STATUS_ALL_CHECK, "全部审核");
+		MODIFY_BASE_APPLY_STATUS_MAP.put(MODIFY_BASE_APPLY_STATUS_DELETE, "已删除");
+	}
+
+	// 基本信息修改 每个字段的审核状态，0 待审核 1 审核通过 2审核未通过
+	public final static byte MODIFY_BASE_ITEM_STATUS_APPLY = 0;
+	public final static byte MODIFY_BASE_ITEM_STATUS_PASS = 1;
+	public final static byte MODIFY_BASE_ITEM_STATUS_DENY = 2;
+	public final static Map<Byte, String> MODIFY_BASE_ITEM_STATUS_MAP = new LinkedHashMap<>();
+	static {
+		MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_APPLY, "待审核");
+		MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_PASS, "审核通过");
+		MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_DENY, "2审核未通过");
+	}
+
 	//出行时间范围
 	public final static byte APPLY_SELF_DATE_TYPE_HOLIDAY = 1;
 	public final static byte APPLY_SELF_DATE_TYPE_SCHOOL = 2;

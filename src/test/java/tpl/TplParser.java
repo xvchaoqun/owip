@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,18 +20,18 @@ import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import bean.ColumnBean;
+import service.DBOperator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml"})
 public class TplParser {
 	
 	@Autowired
-	DataSource dataSource;
+	DBOperator dbOperator;
 
 	@Test
 	public void execute() throws Exception{
-		
-		DBParser dbParser = new DBParser(dataSource);
 		
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-ow.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sys.json";
@@ -66,9 +64,9 @@ public class TplParser {
 			genService(folder, tablePrefix, tablename, key, spath);
 			
 			String outpath4Page = vpath + TableNameMethod.formatStr(tablename, "tableName") + "\\";
-			String cnTableName = dbParser.getTableComments(tablePrefix + tablename, schema);
+			String cnTableName = dbOperator.getTableComments(tablePrefix + tablename, schema);
 			
-			Map<String, ColumnBean> tableColumnsMap = dbParser.getTableColumnsMap(tablePrefix + tablename, schema);
+			Map<String, ColumnBean> tableColumnsMap = dbOperator.getTableColumnsMap(tablePrefix + tablename, schema);
 
 			List<ColumnBean> searchColumnBeans = new ArrayList<>();
 			for (String searchColumn : searchColumns.split(",")) {
@@ -77,13 +75,13 @@ public class TplParser {
 			}
 
 			String listPageShowColumns = tableNode.path("showColumns").getTextValue();
-			List<ColumnBean> listPageTableColumns= dbParser.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);
+			List<ColumnBean> listPageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);
 			genPageJsp(tablename, key,  cnTableName , searchColumnBeans, listPageTableColumns, outpath4Page );
 
 			genController(folder, tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
 
 			String savePageExcludeColumns = tableNode.path("excludeEditColumns").getTextValue();
-			List<ColumnBean> savePageTableColumns= dbParser.getTableColumns(tablePrefix + tablename, schema, savePageExcludeColumns, false);
+			List<ColumnBean> savePageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, savePageExcludeColumns, false);
 			genCuJsp(tablename, cnTableName, savePageTableColumns, outpath4Page);
 		
 		}

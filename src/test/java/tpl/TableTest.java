@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import service.DBOperator;
+import service.SpringProps;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -17,14 +19,14 @@ import java.util.List;
 public class TableTest {
 
     @Autowired
-    DataSource dataSource;
+    DBOperator dbOperator;
+    @Autowired
+    private SpringProps springProps;
 
     @Test
     public void execute() throws Exception {
 
-        DBParser dbParser = new DBParser(dataSource);
-
-        List<String> tableNameList = dbParser.getTableNameList("owip");
+        List<String> tableNameList = dbOperator.getTableNameList(springProps.schema);
         for (String s : tableNameList) {
 
             System.out.println(("truncate " + s + ";"));

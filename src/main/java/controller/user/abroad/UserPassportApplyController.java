@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.abroad;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
@@ -88,21 +88,21 @@ public class UserPassportApplyController extends BaseController {
     @RequestMapping("/passportApply_begin")
     public String passportApply_begin() {
 
-        return "user/passportApply/passportApply_begin";
+        return "user/abroad/passportApply/passportApply_begin";
     }
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportApply_select")
     public String passportApply_select() {
 
-        return "user/passportApply/passportApply_select";
+        return "user/abroad/passportApply/passportApply_select";
     }
 
     @RequiresRoles("cadre")
     @RequestMapping("/passportApply_confirm")
     public String passportApply_confirm() {
 
-        return "user/passportApply/passportApply_confirm";
+        return "user/abroad/passportApply/passportApply_confirm";
     }
 
     /*@RequiresRoles("cadre")
@@ -163,6 +163,6 @@ public class UserPassportApplyController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        return "user/passportApply/passportApply_page";
+        return "user/abroad/passportApply/passportApply_page";
     }
 }

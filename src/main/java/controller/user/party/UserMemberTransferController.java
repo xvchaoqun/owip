@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.party;
 
 import bean.UserBean;
 import controller.BaseController;
@@ -6,7 +6,6 @@ import domain.member.Member;
 import domain.member.MemberTransfer;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -71,9 +70,9 @@ public class UserMemberTransferController extends BaseController{
 
         if(memberTransfer==null || memberTransfer.getStatus()== SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
                 || memberTransfer.getStatus()==SystemConstants.MEMBER_TRANSFER_STATUS_BACK)
-            return "user/memberTransfer/memberTransfer_au";
+            return "user/party/memberTransfer/memberTransfer_au";
 
-        return "user/memberTransfer/memberTransfer";
+        return "user/party/memberTransfer/memberTransfer";
     }
 
     @RequiresRoles("member")

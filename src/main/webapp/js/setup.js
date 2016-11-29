@@ -170,6 +170,7 @@ $(window).on('resize.jqGrid', function () {
     navHeight = navHeight>0?(navHeight+10):navHeight;
     if(navHeight==null) navHeight=0;
 
+    //console.log("document.body.scrollHeight=" + document.body.scrollHeight + " $(window).height()=" + $(window).height())
     $(".jqGrid").setGridHeight($(window).height()-320-height-navHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);

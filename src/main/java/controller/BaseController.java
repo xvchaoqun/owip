@@ -16,6 +16,8 @@ import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
+import service.modify.ModifyBaseApplyService;
+import service.modify.ModifyBaseItemService;
 import service.party.*;
 import service.sys.*;
 import service.unit.*;
@@ -192,6 +194,11 @@ public class BaseController extends BaseMapper {
     protected MetaClassService metaClassService;
     @Autowired
     protected MetaTypeService metaTypeService;
+
+    @Autowired
+    protected ModifyBaseApplyService modifyBaseApplyService;
+    @Autowired
+    protected ModifyBaseItemService modifyBaseItemService;
 
     @Autowired
     protected LoginUserService loginUserService;
