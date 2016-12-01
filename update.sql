@@ -1,8 +1,18 @@
-
 --#####
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;
 
+
+
+
+-- 2016-12-1
+ALTER TABLE `cadre_edu`
+	DROP COLUMN `school_len`;
+
+ALTER TABLE `cadre_company`
+	ADD COLUMN `type` INT(10) UNSIGNED NULL COMMENT '兼职类型，1企业兼职 2社团兼职 3其他' AFTER `cadre_id`,
+	ADD COLUMN `type_other` VARCHAR(50) NULL COMMENT '其他兼职类型' AFTER `type`,
+	ADD COLUMN `has_pay` TINYINT(1) UNSIGNED NULL COMMENT '是否取酬' AFTER `type_other`;
 
 -- 2016-11-16
 ALTER TABLE `sys_user_info`

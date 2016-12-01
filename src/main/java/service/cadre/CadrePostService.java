@@ -52,6 +52,10 @@ public class CadrePostService extends BaseMapper {
 
     public void updateByPrimaryKeySelective(CadrePost record){
 
+        if(BooleanUtils.isFalse(record.getIsDouble())){ // 不是双肩挑
+            updateMapper.del_cadrePost_doubleUnitId(record.getId());
+        }
+
         record.setIsMainPost(null); // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
     }

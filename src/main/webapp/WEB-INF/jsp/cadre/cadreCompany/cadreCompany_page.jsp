@@ -34,6 +34,20 @@ pageEncoding="UTF-8" %>
         pager: "#jqGridPager_cadreCompany",
         url: '${ctx}/cadreCompany_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label:'兼职类型', name: 'type', width: 140, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '';
+                var ret = _cMap.CADRE_COMPANY_TYPE_MAP[cellvalue];
+                if(cellvalue=='${CADRE_COMPANY_TYPE_OTHER}'){
+                    if(rowObject.typeOther!=''){
+                        ret = ret + ":"+  rowObject.typeOther;
+                    }
+                }
+                return ret;
+            },frozen:true},
+            {label: '是否取酬', name: 'hasPay', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return "";
+                return cellvalue?"是":"否";
+            }, width:80,frozen:true},
             {label: '兼职起始时间', name: 'startTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
             {label: '兼职单位及职务', name: 'unit', width: 350},
             {label: '报批单位', name: 'reportUnit', width: 280},

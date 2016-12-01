@@ -99,21 +99,6 @@
 </div>
 
 <script>
-    $("#modal :checkbox").bootstrapSwitch();
-    register_date($('.date-picker'));
-
-    $("#modal form").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success: function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                }
-            });
-        }
-    });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $('#modalForm [data-rel="select2-ajax"]').select2({
@@ -138,4 +123,33 @@
             cache: true
         }
     });
+
+    function isDoubleChange(){
+        if($("input[name=isDouble]").bootstrapSwitch("state")){
+            $("select[name=doubleUnitId]").attr("required", "required").prop("disabled", false);
+        }else{
+            $("select[name=doubleUnitId]").removeAttr("required").val(null).trigger("change").prop("disabled", true);
+        }
+    }
+    $('input[name=isDouble]').on('switchChange.bootstrapSwitch', function(event, state) {
+        isDoubleChange();
+    });
+    isDoubleChange();
+
+    $("#modal :checkbox").bootstrapSwitch();
+    register_date($('.date-picker'));
+
+    $("#modal form").validate({
+        submitHandler: function (form) {
+            $(form).ajaxSubmit({
+                success: function (ret) {
+                    if (ret.success) {
+                        _reload();
+                        //SysMsg.success('操作成功。', '成功');
+                    }
+                }
+            });
+        }
+    });
+
 </script>

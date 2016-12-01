@@ -277,6 +277,8 @@
             },
             {
                 label: '双肩挑单位', name: 'doubleUnitId', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                if(!rowObject.isDouble) return '-'
                 if (cellvalue == undefined) return '';
                 return _cMap.unitMap[cellvalue].name
             }

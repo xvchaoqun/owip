@@ -252,6 +252,196 @@ public class CadreCompanyExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherIsNull() {
+            addCriterion("type_other is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherIsNotNull() {
+            addCriterion("type_other is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherEqualTo(String value) {
+            addCriterion("type_other =", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherNotEqualTo(String value) {
+            addCriterion("type_other <>", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherGreaterThan(String value) {
+            addCriterion("type_other >", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherGreaterThanOrEqualTo(String value) {
+            addCriterion("type_other >=", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherLessThan(String value) {
+            addCriterion("type_other <", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherLessThanOrEqualTo(String value) {
+            addCriterion("type_other <=", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherLike(String value) {
+            addCriterion("type_other like", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherNotLike(String value) {
+            addCriterion("type_other not like", value, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherIn(List<String> values) {
+            addCriterion("type_other in", values, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherNotIn(List<String> values) {
+            addCriterion("type_other not in", values, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherBetween(String value1, String value2) {
+            addCriterion("type_other between", value1, value2, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeOtherNotBetween(String value1, String value2) {
+            addCriterion("type_other not between", value1, value2, "typeOther");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayIsNull() {
+            addCriterion("has_pay is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayIsNotNull() {
+            addCriterion("has_pay is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayEqualTo(Boolean value) {
+            addCriterion("has_pay =", value, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayNotEqualTo(Boolean value) {
+            addCriterion("has_pay <>", value, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayGreaterThan(Boolean value) {
+            addCriterion("has_pay >", value, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_pay >=", value, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayLessThan(Boolean value) {
+            addCriterion("has_pay <", value, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_pay <=", value, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayIn(List<Boolean> values) {
+            addCriterion("has_pay in", values, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayNotIn(List<Boolean> values) {
+            addCriterion("has_pay not in", values, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_pay between", value1, value2, "hasPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPayNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_pay not between", value1, value2, "hasPay");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

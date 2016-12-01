@@ -822,66 +822,6 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
-        public Criteria andSchoolLenIsNull() {
-            addCriterion("school_len is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenIsNotNull() {
-            addCriterion("school_len is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenEqualTo(Byte value) {
-            addCriterion("school_len =", value, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenNotEqualTo(Byte value) {
-            addCriterion("school_len <>", value, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenGreaterThan(Byte value) {
-            addCriterion("school_len >", value, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenGreaterThanOrEqualTo(Byte value) {
-            addCriterion("school_len >=", value, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenLessThan(Byte value) {
-            addCriterion("school_len <", value, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenLessThanOrEqualTo(Byte value) {
-            addCriterion("school_len <=", value, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenIn(List<Byte> values) {
-            addCriterion("school_len in", values, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenNotIn(List<Byte> values) {
-            addCriterion("school_len not in", values, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenBetween(Byte value1, Byte value2) {
-            addCriterion("school_len between", value1, value2, "schoolLen");
-            return (Criteria) this;
-        }
-
-        public Criteria andSchoolLenNotBetween(Byte value1, Byte value2) {
-            addCriterion("school_len not between", value1, value2, "schoolLen");
-            return (Criteria) this;
-        }
-
         public Criteria andLearnStyleIsNull() {
             addCriterion("learn_style is null");
             return (Criteria) this;
@@ -1669,6 +1609,66 @@ public class CadreEduExample {
 
         public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("sort_order not between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Byte value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Byte value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Byte value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Byte value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Byte> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Byte> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Byte value1, Byte value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
     }

@@ -26,8 +26,6 @@ public class CadreEdu implements Serializable {
 
     private Date finishTime;
 
-    private Byte schoolLen;
-
     private Integer learnStyle;
 
     private Boolean hasDegree;
@@ -51,6 +49,8 @@ public class CadreEdu implements Serializable {
     private String remark;
 
     private Integer sortOrder;
+
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -140,14 +140,6 @@ public class CadreEdu implements Serializable {
 
     public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
-    }
-
-    public Byte getSchoolLen() {
-        return schoolLen;
-    }
-
-    public void setSchoolLen(Byte schoolLen) {
-        this.schoolLen = schoolLen;
     }
 
     public Integer getLearnStyle() {
@@ -244,5 +236,13 @@ public class CadreEdu implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

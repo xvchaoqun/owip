@@ -150,7 +150,7 @@
                     return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
                 }, width:80},
 
-                {label: '学制', name: 'schoolLen', width:50},
+                //{label: '学制', name: 'schoolLen', width:50},
                 {label: '学习方式', name: 'learnStyle', formatter:function(cellvalue, options, rowObject){
                     return _cMap.metaTypeMap[cellvalue].name
                 }},

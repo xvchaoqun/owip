@@ -190,8 +190,8 @@
       </table>
       <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
       </table>-->
-     <!-- <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
-      </table>-->
+      <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
+      </table>
       <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>
@@ -215,8 +215,8 @@
       </table>
        <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
        </table>-->
-      <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
-      </table>-->
+      <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
+      </table>
       <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
       </table>
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
@@ -228,13 +228,13 @@
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>-->
 
-      <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
+     <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
       </table>
       <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
       </table>
       <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
           <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
 
      <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch">
       </table>-->

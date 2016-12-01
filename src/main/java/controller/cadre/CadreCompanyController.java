@@ -6,6 +6,7 @@ import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyExample;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -126,6 +127,7 @@ public class CadreCompanyController extends BaseController {
             record.setPaper(savePath);
         }
 
+        record.setHasPay(BooleanUtils.isTrue(record.getHasPay()));
         if (id == null) {
             cadreCompanyService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));

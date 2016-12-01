@@ -13,7 +13,6 @@
     <result column="school_type" property="schoolType" jdbcType="TINYINT" />
     <result column="enrol_time" property="enrolTime" jdbcType="DATE" />
     <result column="finish_time" property="finishTime" jdbcType="DATE" />
-    <result column="school_len" property="schoolLen" jdbcType="TINYINT" />
     <result column="learn_style" property="learnStyle" jdbcType="INTEGER" />
     <result column="has_degree" property="hasDegree" jdbcType="BIT" />
     <result column="degree" property="degree" jdbcType="VARCHAR" />
@@ -26,6 +25,7 @@
     <result column="certificate" property="certificate" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -87,9 +87,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, edu_id, is_graduated, is_high_edu, school, dep, major, school_type, 
-    enrol_time, finish_time, school_len, learn_style, has_degree, degree, is_high_degree, 
-    degree_country, degree_unit, degree_time, tutor_name, tutor_title, certificate, remark, 
-    sort_order
+    enrol_time, finish_time, learn_style, has_degree, degree, is_high_degree, degree_country, 
+    degree_unit, degree_time, tutor_name, tutor_title, certificate, remark, sort_order, 
+    status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreEduExample" >
     select
@@ -125,20 +125,20 @@
     insert into cadre_edu (id, cadre_id, edu_id, 
       is_graduated, is_high_edu, school, 
       dep, major, school_type, 
-      enrol_time, finish_time, school_len, 
-      learn_style, has_degree, degree, 
-      is_high_degree, degree_country, degree_unit, 
-      degree_time, tutor_name, tutor_title, 
-      certificate, remark, sort_order
+      enrol_time, finish_time, learn_style, 
+      has_degree, degree, is_high_degree, 
+      degree_country, degree_unit, degree_time, 
+      tutor_name, tutor_title, certificate, 
+      remark, sort_order, status
       )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, 
       #{dep,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{schoolType,jdbcType=TINYINT}, 
-      #{enrolTime,jdbcType=DATE}, #{finishTime,jdbcType=DATE}, #{schoolLen,jdbcType=TINYINT}, 
-      #{learnStyle,jdbcType=INTEGER}, #{hasDegree,jdbcType=BIT}, #{degree,jdbcType=VARCHAR}, 
-      #{isHighDegree,jdbcType=BIT}, #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, 
-      #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, 
-      #{certificate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      #{enrolTime,jdbcType=DATE}, #{finishTime,jdbcType=DATE}, #{learnStyle,jdbcType=INTEGER}, 
+      #{hasDegree,jdbcType=BIT}, #{degree,jdbcType=VARCHAR}, #{isHighDegree,jdbcType=BIT}, 
+      #{degreeCountry,jdbcType=VARCHAR}, #{degreeUnit,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, 
+      #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
       )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreEdu" >
@@ -177,9 +177,6 @@
       <if test="finishTime != null" >
         finish_time,
       </if>
-      <if test="schoolLen != null" >
-        school_len,
-      </if>
       <if test="learnStyle != null" >
         learn_style,
       </if>
@@ -216,6 +213,9 @@
       <if test="sortOrder != null" >
         sort_order,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -250,9 +250,6 @@
       </if>
       <if test="finishTime != null" >
         #{finishTime,jdbcType=DATE},
-      </if>
-      <if test="schoolLen != null" >
-        #{schoolLen,jdbcType=TINYINT},
       </if>
       <if test="learnStyle != null" >
         #{learnStyle,jdbcType=INTEGER},
@@ -289,6 +286,9 @@
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -334,9 +334,6 @@
       <if test="record.finishTime != null" >
         finish_time = #{record.finishTime,jdbcType=DATE},
       </if>
-      <if test="record.schoolLen != null" >
-        school_len = #{record.schoolLen,jdbcType=TINYINT},
-      </if>
       <if test="record.learnStyle != null" >
         learn_style = #{record.learnStyle,jdbcType=INTEGER},
       </if>
@@ -373,6 +370,9 @@
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -391,7 +391,6 @@
       school_type = #{record.schoolType,jdbcType=TINYINT},
       enrol_time = #{record.enrolTime,jdbcType=DATE},
       finish_time = #{record.finishTime,jdbcType=DATE},
-      school_len = #{record.schoolLen,jdbcType=TINYINT},
       learn_style = #{record.learnStyle,jdbcType=INTEGER},
       has_degree = #{record.hasDegree,jdbcType=BIT},
       degree = #{record.degree,jdbcType=VARCHAR},
@@ -403,7 +402,8 @@
       tutor_title = #{record.tutorTitle,jdbcType=VARCHAR},
       certificate = #{record.certificate,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER}
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -441,9 +441,6 @@
       <if test="finishTime != null" >
         finish_time = #{finishTime,jdbcType=DATE},
       </if>
-      <if test="schoolLen != null" >
-        school_len = #{schoolLen,jdbcType=TINYINT},
-      </if>
       <if test="learnStyle != null" >
         learn_style = #{learnStyle,jdbcType=INTEGER},
       </if>
@@ -480,6 +477,9 @@
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -495,7 +495,6 @@
       school_type = #{schoolType,jdbcType=TINYINT},
       enrol_time = #{enrolTime,jdbcType=DATE},
       finish_time = #{finishTime,jdbcType=DATE},
-      school_len = #{schoolLen,jdbcType=TINYINT},
       learn_style = #{learnStyle,jdbcType=INTEGER},
       has_degree = #{hasDegree,jdbcType=BIT},
       degree = #{degree,jdbcType=VARCHAR},
@@ -507,7 +506,8 @@
       tutor_title = #{tutorTitle,jdbcType=VARCHAR},
       certificate = #{certificate,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      sort_order = #{sortOrder,jdbcType=INTEGER}
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreEduExample" id="selectByExampleWithRowbounds" >

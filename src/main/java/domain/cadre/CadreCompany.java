@@ -8,6 +8,12 @@ public class CadreCompany implements Serializable {
 
     private Integer cadreId;
 
+    private Integer type;
+
+    private String typeOther;
+
+    private Boolean hasPay;
+
     private Date startTime;
 
     private String unit;
@@ -36,6 +42,30 @@ public class CadreCompany implements Serializable {
 
     public void setCadreId(Integer cadreId) {
         this.cadreId = cadreId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getTypeOther() {
+        return typeOther;
+    }
+
+    public void setTypeOther(String typeOther) {
+        this.typeOther = typeOther == null ? null : typeOther.trim();
+    }
+
+    public Boolean getHasPay() {
+        return hasPay;
+    }
+
+    public void setHasPay(Boolean hasPay) {
+        this.hasPay = hasPay;
     }
 
     public Date getStartTime() {

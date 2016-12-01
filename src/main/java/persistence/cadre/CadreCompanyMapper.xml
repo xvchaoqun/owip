@@ -4,6 +4,9 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadreCompany" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="type_other" property="typeOther" jdbcType="VARCHAR" />
+    <result column="has_pay" property="hasPay" jdbcType="BIT" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="report_unit" property="reportUnit" jdbcType="VARCHAR" />
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, start_time, unit, report_unit, paper, paper_filename, remark
+    id, cadre_id, type, type_other, has_pay, start_time, unit, report_unit, paper, paper_filename, 
+    remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreCompanyExample" >
     select
@@ -103,10 +107,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadreCompany" >
-    insert into cadre_company (id, cadre_id, start_time, 
+    insert into cadre_company (id, cadre_id, type, 
+      type_other, has_pay, start_time, 
       unit, report_unit, paper, 
       paper_filename, remark)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{typeOther,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{startTime,jdbcType=DATE}, 
       #{unit,jdbcType=VARCHAR}, #{reportUnit,jdbcType=VARCHAR}, #{paper,jdbcType=VARCHAR}, 
       #{paperFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
@@ -118,6 +124,15 @@
       </if>
       <if test="cadreId != null" >
         cadre_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="typeOther != null" >
+        type_other,
+      </if>
+      <if test="hasPay != null" >
+        has_pay,
       </if>
       <if test="startTime != null" >
         start_time,
@@ -144,6 +159,15 @@
       </if>
       <if test="cadreId != null" >
         #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeOther != null" >
+        #{typeOther,jdbcType=VARCHAR},
+      </if>
+      <if test="hasPay != null" >
+        #{hasPay,jdbcType=BIT},
       </if>
       <if test="startTime != null" >
         #{startTime,jdbcType=DATE},
@@ -180,6 +204,15 @@
       <if test="record.cadreId != null" >
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeOther != null" >
+        type_other = #{record.typeOther,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hasPay != null" >
+        has_pay = #{record.hasPay,jdbcType=BIT},
+      </if>
       <if test="record.startTime != null" >
         start_time = #{record.startTime,jdbcType=DATE},
       </if>
@@ -207,6 +240,9 @@
     update cadre_company
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      type_other = #{record.typeOther,jdbcType=VARCHAR},
+      has_pay = #{record.hasPay,jdbcType=BIT},
       start_time = #{record.startTime,jdbcType=DATE},
       unit = #{record.unit,jdbcType=VARCHAR},
       report_unit = #{record.reportUnit,jdbcType=VARCHAR},
@@ -222,6 +258,15 @@
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeOther != null" >
+        type_other = #{typeOther,jdbcType=VARCHAR},
+      </if>
+      <if test="hasPay != null" >
+        has_pay = #{hasPay,jdbcType=BIT},
       </if>
       <if test="startTime != null" >
         start_time = #{startTime,jdbcType=DATE},
@@ -247,6 +292,9 @@
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreCompany" >
     update cadre_company
     set cadre_id = #{cadreId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      type_other = #{typeOther,jdbcType=VARCHAR},
+      has_pay = #{hasPay,jdbcType=BIT},
       start_time = #{startTime,jdbcType=DATE},
       unit = #{unit,jdbcType=VARCHAR},
       report_unit = #{reportUnit,jdbcType=VARCHAR},

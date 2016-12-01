@@ -32,6 +32,9 @@ public interface UpdateMapper {
     @Update("update cadre_work set unit_id=null where id=#{id}")
     void del_cadreWork_unitId(@Param("id") int id);
 
+    @Update("update cadre_post set double_unit_id=null where id=#{id}")
+    void del_cadrePost_doubleUnitId(@Param("id") int id);
+
     // 如果修改成直属党支部， 则将支部ID设置为NULL
     @Update("update ${tableName} set party_id=#{partyId}, branch_id=null where ${idName}=#{id}")
     int updateToDirectBranch(@Param("tableName") String tableName, @Param("idName") String idName,

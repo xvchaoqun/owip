@@ -94,13 +94,6 @@
 						</script>
 					</div>
 				</div>
-
-				<div class="form-group">
-					<label class="col-xs-5 control-label">学制</label>
-					<div class="col-xs-6">
-						<input  class="form-control required digits" type="text" name="schoolLen" value="${cadreEdu.schoolLen}">
-					</div>
-				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">学习方式</label>
 					<div class="col-xs-6">
@@ -114,10 +107,8 @@
 						</script>
 					</div>
 				</div>
-			</div>
-			<div class="col-xs-6">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">是否获得学位</label>
+					<label class="col-xs-5 control-label">是否获得学位</label>
 					<div class="col-xs-6">
 						<label>
 							<input name="hasDegree" ${cadreEdu.hasDegree?"checked":""}  type="checkbox" />
@@ -125,6 +116,9 @@
 						</label>
 					</div>
 				</div>
+			</div>
+			<div class="col-xs-6">
+
 				<div class="form-group">
 					<label class="col-xs-4 control-label">学位</label>
 					<div class="col-xs-8">
@@ -264,7 +258,7 @@
 			$("input[name='_files[]']").prop("disabled", true);
 
 			$("input[name=_finishTime]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
+			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
 
 		}else {
 			$("input[name=hasDegree]").bootstrapSwitch('disabled', false).bootstrapSwitch("state", true);
@@ -272,7 +266,7 @@
 			$("input[name='_files[]']").prop("disabled", false);
 
 			$("input[name=_finishTime]").prop("disabled", false).attr("required", "required");
-			$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
+			//$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
 		}
 	}
 	$('input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {

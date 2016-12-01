@@ -15,11 +15,41 @@ pageEncoding="UTF-8"%>
                 <input type="text" value="${sysUser.realname}" disabled>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">兼职类型</label>
+            <div class="col-xs-6">
+                <select required data-rel="select2" name="type"
+                        data-placeholder="请选择" data-width="162">
+                    <option></option>
+                    <c:forEach items="${CADRE_COMPANY_TYPE_MAP}" var="type">
+                        <option value="${type.key}">${type.value}</option>
+                    </c:forEach>
+                </select>
+                <script type="text/javascript">
+                    $("#modal form select[name=type]").val(${cadreCompany.type});
+                </script>
+            </div>
+        </div>
+        <div class="form-group" id="typeOtherDiv">
+            <label class="col-xs-3 control-label">其他兼职类型</label>
+            <div class="col-xs-6">
+                <input  type="text" name="typeOther" placeholder="请输入其他兼职类型">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">是否取酬</label>
+            <div class="col-xs-6">
+                <label>
+                    <input name="hasPay" ${cadreCompany.hasPay?"checked":""}  type="checkbox" />
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">兼职起始时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_startTime" type="text"
+                        <input class="form-control date-picker" name="_startTime" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreCompany.startTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -58,9 +88,11 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $("#modal :checkbox").bootstrapSwitch();
     register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
+
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -71,6 +103,22 @@ pageEncoding="UTF-8"%>
             });
         }
     });
+
+    function typeChange(){
+
+        if($("#modalForm select[name=type]").val() == '${CADRE_COMPANY_TYPE_OTHER}'){
+            $("#typeOtherDiv").show();
+            $("#modalForm input[name=typeOther]").attr("required", "required");
+        }else{
+            $("#typeOtherDiv").hide();
+            $("#modalForm input[name=typeOther]").removeAttr("required");
+        }
+    }
+    $("#modalForm select[name=type]").change(function(){
+        typeChange();
+    });
+    typeChange();
+
     $('#modalForm input[type=file]').ace_file_input({
         no_file:'请选择文件 ...',
         btn_choose:'选择',
