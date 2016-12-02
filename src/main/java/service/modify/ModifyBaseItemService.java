@@ -1,25 +1,32 @@
 package service.modify;
 
 import domain.modify.ModifyBaseApply;
-import domain.modify.ModifyBaseApplyExample;
 import domain.modify.ModifyBaseItem;
 import domain.modify.ModifyBaseItemExample;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
 
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ModifyBaseItemService extends BaseMapper {
+
+
+    // 查找当前申请的所有修改项
+    public List<ModifyBaseItem> list(int applyId) {
+
+        ModifyBaseItemExample example = new ModifyBaseItemExample();
+        example.createCriteria().andApplyIdEqualTo(applyId);
+
+        return modifyBaseItemMapper.selectByExample(example);
+    }
 
     // 更新申请变更的值
     @Transactional
@@ -42,10 +49,10 @@ public class ModifyBaseItemService extends BaseMapper {
     public void approval(int id, Boolean status, String checkRemark, String checkReason) {
 
         ModifyBaseItem mbi = modifyBaseItemMapper.selectByPrimaryKey(id);
-        if(mbi==null) return;
+        if (mbi == null) return;
         int applyId = mbi.getApplyId();
         ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
-        if(mba==null) return;
+        if (mba == null) return;
 
         String ip = IpUtils.getRealIp(ContextHelper.getRequest());
         { // 先审核

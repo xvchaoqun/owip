@@ -15,6 +15,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.helper.ContextHelper;
 import service.helper.ShiroSecurityHelper;
+import service.sys.AvatarService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -31,6 +32,8 @@ public class ModifyBaseApplyService extends BaseMapper {
 
     @Autowired
     protected SpringProps springProps;
+    @Autowired
+    protected AvatarService avatarService;
 
     // 查找未审批的申请（只有一条）
     public ModifyBaseApply get(int userId){
@@ -84,40 +87,17 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         int modifyCount = 0;
 
-        String avatar = null;
+        String avatar = avatarService.uploadAvatar(_avatar, uv.getCode());
         String historyAvatar = null;
-        if(_avatar!=null && !_avatar.isEmpty()){
-            //String originalFilename = _avatar.getOriginalFilename();
-
-            avatar =  File.separator
-                    + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + File.separator;
-            File path = new File(springProps.avatarFolder + avatar);
-            if(!path.exists()) path.mkdirs();
-            avatar += code +".jpg";
-
-            /*avatar =  File.separator + userId%100 + File.separator;
-            File path = new File(springProps.avatarFolder + avatar);
-            if(!path.exists()) path.mkdirs();
-            avatar += code +".jpg";*/
-
-            Thumbnails.of(_avatar.getInputStream())
-                    .size(143, 198)
-                    .outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.avatarFolder + avatar);
-            //FileUtils.copyFile(_avatar, new File(springProps.uploadPath + avatar));
-
-            String oldAvatarPath =  springProps.avatarFolder +
-                    File.separator + userId%100 +
-                    File.separator + code +".jpg";
-            historyAvatar = File.separator + DateUtils.formatDate(new Date(), "yyyy-MM-dd") +
-                    File.separator + code + File.separator +System.currentTimeMillis() +".jpg";
-            if(FileUtils.exists(oldAvatarPath)){ // 保存原图
-                Thumbnails.of(oldAvatarPath).toFile(springProps.avatarFolder + historyAvatar);
-            }
-        }
 
         if(StringUtils.isNotBlank(avatar)){ // 头像单独处理
+
+            String oldAvatarPath =  uv.getAvatar();
+            historyAvatar = File.separator + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) +
+                    File.separator + code + File.separator +System.currentTimeMillis() +".jpg";
+            if(FileUtils.exists(springProps.avatarFolder +oldAvatarPath)){ // 保存原图
+                Thumbnails.of(springProps.avatarFolder +oldAvatarPath).toFile(springProps.avatarFolder + historyAvatar);
+            }
 
             ModifyBaseItem mbi = new ModifyBaseItem();
             mbi.setApplyId(mba.getId());

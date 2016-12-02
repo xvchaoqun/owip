@@ -255,7 +255,7 @@ public class SysUserService extends BaseMapper {
         return sysUserMapper.updateByPrimaryKeySelective(user);
     }
 
-    @Transactional
+    /*@Transactional
     @Caching(evict = {
             @CacheEvict(value = "SysUserView", key = "#result.Username"),
             @CacheEvict(value = "SysUserView:CODE_", key = "#result.code"),
@@ -267,7 +267,7 @@ public class SysUserService extends BaseMapper {
         sysUserInfoMapper.updateByPrimaryKeySelective(record);
 
         return sysUser;
-    }
+    }*/
 
     @Transactional
     @Caching(evict = {

@@ -500,7 +500,7 @@ public class SysUserSyncService extends BaseMapper {
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
 
-            SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+            //SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
 
             // 基本信息
             SysUserInfo ui = new SysUserInfo();
@@ -559,10 +559,7 @@ public class SysUserSyncService extends BaseMapper {
             //teacher.setRetireTime(); 退休时间
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
-            if(sysUserInfo==null)
-                sysUserInfoMapper.insertSelective(ui);
-            else
-                sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+            sysUserService.insertOrUpdateUserInfoSelective(ui);
         }
 
         if(teacherInfo==null)
@@ -586,7 +583,7 @@ public class SysUserSyncService extends BaseMapper {
             ExtBks extBks = extService.getExtBks(code);
             if(extBks!=null){
 
-                SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+                //SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
                 SysUserInfo ui = new SysUserInfo();
                 ui.setUserId(userId);
 
@@ -626,10 +623,7 @@ public class SysUserSyncService extends BaseMapper {
                 student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
                 student.setXjStatus(extBks.getXjbd());
 
-                if(sysUserInfo==null)
-                    sysUserInfoMapper.insertSelective(ui);
-                else
-                    sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+                sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
         }
 
@@ -637,7 +631,7 @@ public class SysUserSyncService extends BaseMapper {
             ExtYjs extYjs = extService.getExtYjs(code);
             if(extYjs!=null){
 
-                SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+                //SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
                 SysUserInfo ui = new SysUserInfo();
                 ui.setUserId(userId);
 
@@ -671,10 +665,7 @@ public class SysUserSyncService extends BaseMapper {
                 student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
                 student.setXjStatus(extYjs.getZt());
 
-                if(sysUserInfo==null)
-                    sysUserInfoMapper.insertSelective(ui);
-                else
-                    sysUserInfoMapper.updateByPrimaryKeySelective(ui);
+                sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
         }
 

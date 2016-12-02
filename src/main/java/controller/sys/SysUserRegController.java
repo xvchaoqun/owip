@@ -225,7 +225,7 @@ public class SysUserRegController extends BaseController {
         VerifyAuth<SysUserReg> verifyAuth = checkVerityAuth2(id);
         SysUserReg sysUserReg = verifyAuth.entity;
 
-        sysUserRegService.pass(sysUserReg.getId(), sysUserReg.getUserId(), sysUserReg.getUsername());
+        sysUserRegService.pass(sysUserReg.getId());
         logger.info(addLog(SystemConstants.LOG_OW, "用户注册-分党委审核：%s", id));
 
         int loginUserId = loginUser.getId();

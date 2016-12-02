@@ -41,7 +41,10 @@ public class UserModifyBaseApplyController extends BaseController{
         modelMap.put("extJzg", extJzg);
 
         ModifyBaseApply mba = modifyBaseApplyService.get(userId);
-        modelMap.put("mba", mba);
+        if(mba!=null) {
+            modelMap.put("mba", mba);
+            modelMap.put("mbis", modifyBaseItemService.list(mba.getId()));
+        }
 
         return "user/modify/modifyBaseApply/modifyBaseApply_au";
     }

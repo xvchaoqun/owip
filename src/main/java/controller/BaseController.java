@@ -201,6 +201,9 @@ public class BaseController extends BaseMapper {
     protected ModifyBaseItemService modifyBaseItemService;
 
     @Autowired
+    protected AvatarService avatarService;
+
+    @Autowired
     protected LoginUserService loginUserService;
     @Autowired
     protected UserBeanService userBeanService;

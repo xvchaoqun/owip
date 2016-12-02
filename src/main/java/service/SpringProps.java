@@ -21,6 +21,9 @@ public class SpringProps {
 	@Value("${avatar.folder}")
 	public String avatarFolder;
 
+	@Value("${avatar.folder.ext}")
+	public String avatarFolderExt;
+
 	@Value("${avatar.default}")
 	public String defaultAvatar;
 	

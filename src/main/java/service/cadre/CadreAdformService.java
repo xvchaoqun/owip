@@ -64,8 +64,8 @@ public class CadreAdformService extends BaseMapper{
         bean.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
 
         File avatar =  new File(springProps.avatarFolder + File.separator
-                + uv.getId()%100 + File.separator + uv.getCode() +".jpg");
-        if(!avatar.exists()) avatar = new File(springProps.avatarFolder + springProps.defaultAvatar);
+                + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) + File.separator + uv.getCode() +".jpg");
+        if(!avatar.exists()) avatar = new File(springProps.avatarFolder + File.separator + springProps.defaultAvatar);
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         bean.setAvatar(base64);
         bean.setNation(cadre.getNation());

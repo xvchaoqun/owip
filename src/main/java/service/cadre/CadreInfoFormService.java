@@ -68,8 +68,8 @@ public class CadreInfoFormService extends BaseMapper{
         bean.setEmail(uv.getEmail());
 
         File avatar =  new File(springProps.avatarFolder + File.separator
-                + uv.getId()%100 + File.separator + uv.getCode() +".jpg");
-        if(!avatar.exists()) avatar = new File(springProps.avatarFolder + springProps.defaultAvatar);
+                + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) + File.separator + uv.getCode() +".jpg");
+        if(!avatar.exists()) avatar = new File(springProps.avatarFolder + File.separator + springProps.defaultAvatar);
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         bean.setAvatar(base64);
         bean.setNation(cadre.getNation());

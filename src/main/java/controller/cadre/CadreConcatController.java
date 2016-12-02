@@ -62,7 +62,7 @@ public class CadreConcatController extends BaseController {
         record.setMsgTitle(msgTitle);
         record.setEmail(email);
 
-        sysUserService.updateUserInfoByPrimaryKeySelective(record);
+        sysUserService.insertOrUpdateUserInfoSelective(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新干部联系方式：userId=%s", userId));
 
         return success(FormUtils.SUCCESS);

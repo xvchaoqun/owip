@@ -28,6 +28,7 @@ import shiro.SaltPassword;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
@@ -215,24 +216,7 @@ public class SysUserController extends BaseController {
 
         record.setUserId(userId);
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
-        String code = sysUser.getCode();
-
-        String avatar = null;
-        if(_avatar!=null && !_avatar.isEmpty()){
-            //String originalFilename = _avatar.getOriginalFilename();
-
-            avatar =  File.separator + userId%100 + File.separator;
-            File path = new File(springProps.avatarFolder + avatar);
-            if(!path.exists()) path.mkdirs();
-            avatar += code +".jpg";
-
-            Thumbnails.of(_avatar.getInputStream())
-                    .size(143, 198)
-                    .outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.avatarFolder + avatar);
-            //FileUtils.copyFile(_avatar, new File(springProps.uploadPath + avatar));
-        }
+        String avatar = avatarService.uploadAvatar(_avatar, sysUser.getCode());
         record.setAvatar(avatar);
 
         sysUserService.insertOrUpdateUserInfoSelective(record);

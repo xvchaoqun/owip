@@ -274,6 +274,10 @@
 </div>
 <!-- /.widget-box -->
     <div class="clearfix form-actions center">
+        <c:if test="${not empty mba}">
+            您的申请已提交，请等待审核。
+        </c:if>
+        <c:if test="${empty mba}">
         <button class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>
             保存
@@ -284,12 +288,12 @@
             <i class="ace-icon fa fa-undo bigger-110"></i>
             取消
         </button>
+        </c:if>
     </div>
 </form>
 </div>
 
 <script>
-
     $("#_avatar").ace_file_input({
         style:'well',
         btn_choose:'更换头像',
@@ -307,6 +311,20 @@
     });
     $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${uv.username}'}]);
 
+    <c:if test="${not empty mbis}">
+    var mbis = ${cm:toJSONArray(mbis)};
+    for(i in mbis){
+        var mbi = mbis[i];
+        if(mbi.code=='_avatar'){
+            $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: mbi.modifyValue}]);
+        }else {
+            var $item = $("[data-code='{0}'][data-table='{1}']".format(mbi.code, mbi.tableName));
+            $item.val(mbi.modifyValue);
+            $item.closest("td").prev().addClass("text-danger bolder");
+        }
+    }
+    </c:if>
+
     $("#modalForm").validate({
         submitHandler: function (form) {
 
@@ -319,9 +337,9 @@
                 modifys.push($(this).val());
                 isStrings.push($(this).data("is-string"));
             })
-            console.log(codes)
-            console.log(originals)
-            console.log(modifys)
+            //console.log(codes)
+            //console.log(originals)
+            //console.log(modifys)
 
             $(form).ajaxSubmit({
                 data:{codes:codes, tables:tables, names:names, originals:originals, modifys:modifys, isStrings:isStrings},

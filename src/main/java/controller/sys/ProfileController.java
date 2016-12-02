@@ -83,7 +83,7 @@ public class ProfileController extends BaseController {
         record.setMobile(mobile);
         record.setPhone(phone);
 
-        sysUserService.updateUserInfoByPrimaryKeySelective(record);
+        sysUserService.insertOrUpdateUserInfoSelective(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -126,22 +126,8 @@ public class ProfileController extends BaseController {
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         int userId = shiroUser.getId();
         SysUserView uv = sysUserService.findById(userId);
-        String avatar = null;
-        if(_avatar!=null && !_avatar.isEmpty()){
-            //String originalFilename = _avatar.getOriginalFilename();
 
-            avatar =  File.separator + userId%100 + File.separator;
-            File path = new File(springProps.avatarFolder + avatar);
-            if(!path.exists()) path.mkdirs();
-            avatar += uv.getCode() +".jpg";
-
-            Thumbnails.of(_avatar.getInputStream())
-                    .size(143, 198)
-                    .outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.avatarFolder + avatar);
-            //FileUtils.copyFile(_avatar, new File(springProps.uploadPath + avatar));
-        }
+        String avatar = avatarService.uploadAvatar(_avatar, uv.getCode());
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(userId);
@@ -152,7 +138,7 @@ public class ProfileController extends BaseController {
         record.setEmail(email);
         record.setMobile(mobile);
 
-        sysUserService.updateUserInfoByPrimaryKeySelective(record);
+        sysUserService.insertOrUpdateUserInfoSelective(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -162,25 +148,12 @@ public class ProfileController extends BaseController {
     public Map do_updateAvatar(MultipartFile _avatar, int userId) throws IOException {
 
         SysUserView uv = sysUserService.findById(userId);
-        String avatar = null;
-        if(_avatar!=null && !_avatar.isEmpty()){
-
-            avatar =  File.separator + userId%100 + File.separator;
-            File path = new File(springProps.avatarFolder + avatar);
-            if(!path.exists()) path.mkdirs();
-            avatar += uv.getCode() +".jpg";
-
-            Thumbnails.of(_avatar.getInputStream())
-                    .size(143, 198)
-                    .outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.avatarFolder + avatar);
-        }
+        String avatar = avatarService.uploadAvatar(_avatar, uv.getCode());
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(userId);
         record.setAvatar(avatar);
-        sysUserService.updateUserInfoByPrimaryKeySelective(record);
+        sysUserService.insertOrUpdateUserInfoSelective(record);
         return success(FormUtils.SUCCESS);
     }
 

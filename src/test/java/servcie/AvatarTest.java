@@ -1,13 +1,16 @@
 package servcie;
 
+import bean.AvatarImportResult;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.SpringProps;
+import service.sys.AvatarService;
 import service.sys.SysUserService;
 import sys.utils.FileUtils;
 import sys.utils.PatternUtils;
@@ -22,39 +25,20 @@ import java.io.File;
 public class AvatarTest {
 
     @Autowired
-    private SysUserService sysUserService;
+    private AvatarService avatarService;
     @Autowired
     private SpringProps springProps;
 
     @Test
     public void process(){
 
-        listFolder(new File("D:\\upload\\test"));
-    }
-
-    public void listFolder(File folder){
-        File[] files = folder.listFiles();
-        for (File file : files) {
-            if(file.isDirectory()){
-                listFolder(file);
-            }
-            if(file.isFile()){
-                String filename = file.getName();
-
-                if( PatternUtils.match("^.*\\.(jpg|JPG)$", filename)) {
-                    String code = filename.split("\\.")[0];
-                    SysUserView sysUser = sysUserService.findByCode(code);
-                    if(sysUser!=null){
-                        String avatar =  springProps.avatarFolder + File.separator + sysUser.getId()%100 + File.separator;
-                        File path = new File(avatar);
-                        if(!path.exists()) path.mkdirs();
-
-                        System.out.println((avatar + code + ".jpg"));
-                        FileUtils.copyFile(file, new File(avatar + code +".jpg"));
-                    }
-                }
-            }
-        }
+        System.out.println("处理头像");
+        long startTime=System.currentTimeMillis();
+        AvatarImportResult result = new AvatarImportResult();
+        avatarService.importAvatar(new File(StringUtils.defaultString(null,
+                springProps.avatarFolder + File.separator + springProps.avatarFolderExt)), result);
+        long endTime=System.currentTimeMillis();
+        System.out.println("total:" + result.total + " save:" + result.save + " error:" + result.error + "处理头像运行时间： " + (endTime - startTime) + "ms");
     }
 
 }

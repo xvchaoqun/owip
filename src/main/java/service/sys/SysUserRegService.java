@@ -102,19 +102,22 @@ public class SysUserRegService extends BaseMapper {
             updateByPrimaryKeySelective(record);
         }
         // 删除账号
-        sysUserService.deleteByPrimaryKey(sysUserReg.getUserId(), sysUserReg.getUsername(), sysUserReg.getCode());
+        int userId = sysUserReg.getUserId();
+        sysUserInfoMapper.deleteByPrimaryKey(userId);
+        sysUserService.deleteByPrimaryKey(userId, sysUserReg.getUsername(), sysUserReg.getCode());
     }
 
     // 通过
     @Transactional
     @Caching(evict={
-            @CacheEvict(value="SysUserView", key="#username"),
-            @CacheEvict(value="SysUserView:ID_", key="#userId"),
-            @CacheEvict(value="UserRoles", key="#username"),
-            @CacheEvict(value="UserPermissions", key="#username"),
-            @CacheEvict(value="Menus", key="#username")
+            @CacheEvict(value="SysUserView", key="#result.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#result.code"),
+            @CacheEvict(value="SysUserView:ID_", key="#result.userId"),
+            @CacheEvict(value="UserRoles", key="#result.username"),
+            @CacheEvict(value="UserPermissions", key="#result.username"),
+            @CacheEvict(value="Menus", key="#result.username")
     })
-    public void pass(int id, int userId, String username){
+    public SysUserReg pass(int id){
 
         SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
         {
@@ -143,6 +146,7 @@ public class SysUserRegService extends BaseMapper {
 
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
+        return sysUserReg;
     }
     
     // 自动生成学工号,ZG开头+6位数字
