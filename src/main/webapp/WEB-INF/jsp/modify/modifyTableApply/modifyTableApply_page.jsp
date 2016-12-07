@@ -124,9 +124,11 @@
             }},
             </c:if>
             <c:if test="${cls==2}">
+            { label: '审核人', name: 'checkUser.realname'},
             { label: '审核时间', name: 'checkTime', width: 150},
+            { label:'依据', name: 'checkReason', width: 250 },
             { label:'备注', name: 'checkRemark', width: 250 },
-                </c:if>
+            </c:if>
             {hidden:true, name:'_status', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.status==undefined) return -1;
                 return rowObject.status;
