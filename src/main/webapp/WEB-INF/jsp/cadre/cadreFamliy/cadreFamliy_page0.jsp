@@ -46,12 +46,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreFamliy:edit">
-                                    <button onclick="cadreFamliy_au(${cadreFamliy.id})" class="btn btn-default btn-mini btn-xs">
+                                    <button onclick="cadreFamliy_au(${cadreFamliy.id})" class="btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreFamliy:del">
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="cadreFamliy_del(${cadreFamliy.id})">
+                                    <button class="btn btn-danger btn-xs" onclick="cadreFamliy_del(${cadreFamliy.id})">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -125,12 +125,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreFamliyAbroad:edit">
-                                        <button onclick="cadreFamliyAbroad_au(${cadreFamliyAbroad.id})" class="btn btn-default btn-mini btn-xs">
+                                        <button onclick="cadreFamliyAbroad_au(${cadreFamliyAbroad.id})" class="btn btn-default btn-xs">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="cadreFamliyAbroad:del">
-                                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadreFamliyAbroad_del(${cadreFamliyAbroad.id})">
+                                        <button class="btn btn-danger btn-xs" onclick="cadreFamliyAbroad_del(${cadreFamliyAbroad.id})">
                                             <i class="fa fa-trash"></i> 删除
                                         </button>
                                     </shiro:hasPermission>

@@ -9,7 +9,7 @@
             </h5>
             <div class="widget-toolbar no-border">
                 <div class="inline dropdown-hover">
-                    <button class="btn btn-mini btn-xs btn-info">
+                    <button class="btn btn-xs btn-info">
                         ${empty type?"全部":(type==MEMBER_TYPE_TEACHER)?"教职工":"学生"}
                          <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
                     </button>

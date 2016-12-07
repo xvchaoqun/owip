@@ -36,13 +36,27 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">修改前</label>
             <div class="col-xs-6 label-text">
+                <c:if test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
+                    <a class="various" data-fancybox-type="image" href="${ctx}/avatar?path=${record.orginalValue}">
+                    <img class="avatar" src="${ctx}/avatar?path=${record.orginalValue}"/>
+                    </a>
+                </c:if>
+                <c:if test="${record.type!=MODIFY_BASE_ITEM_TYPE_IMAGE}">
                 ${record.orginalValue}
+                </c:if>
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">修改后</label>
             <div class="col-xs-6 label-text">
-                ${record.modifyValue}
+                <c:if test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
+                    <a class="various" data-fancybox-type="image" href="${ctx}/avatar?path=${record.modifyValue}">
+                    <img class="avatar" src="${ctx}/avatar?path=${record.modifyValue}"/>
+                    </a>
+                </c:if>
+                <c:if test="${record.type!=MODIFY_BASE_ITEM_TYPE_IMAGE}">
+                    ${record.modifyValue}
+                </c:if>
             </div>
         </div>
         <div class="form-group">
@@ -55,13 +69,13 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">依据</label>
 			<div class="col-xs-6">
-				<textarea class="form-control limited" type="text" name="checkReason" rows="5"></textarea>
+				<textarea class="form-control limited" type="text" name="checkReason" rows="2"></textarea>
 			</div>
 		</div>
         <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6">
-                <textarea class="form-control limited" type="text" name="checkRemark" rows="5"></textarea>
+                <textarea class="form-control limited" type="text" name="checkRemark" rows="2"></textarea>
             </div>
         </div>
     </form>
@@ -72,13 +86,25 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    $("input[type=checkbox]").click(function(){
+        if($(this).prop("checked")){
+            $("input[type=checkbox]").not(this).prop("checked", false);
+        }
+    });
 	$("#modalForm").validate({
         submitHandler: function (form) {
+
+            var type = $('#modal input[type=checkbox]:checked').val();
+            if(type!=1&&type!=2){
+                SysMsg.warning("请选择审核意见");
+                return;
+            }
+
             $(form).ajaxSubmit({
+                data:{status:(type==1)},
                 success:function(ret){
                     if(ret.success){
-                        $("#modal").modal("hide");
-                        _reload();
+                        _reload()
                     }
                 }
             });

@@ -1,0 +1,313 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="jqgrid-vertical-offset clearfix" style="background-color: #f5f5f5;padding: 5px 0 5px 0">
+    <div class="col-md-9">
+        <button class="closeView btn btn-success btn-sm" type="button">
+            <i class="ace-icon fa fa-backward bigger-110"></i>
+            返回
+        </button>
+    </div>
+</div>
+<div class="jqgrid-vertical-offset widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="ace-icon fa fa-list blue "></i> 学习经历列表</h4>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-down"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <table id="jqGrid_cadreEdu" class="jqGrid4"></table>
+        </div>
+    </div>
+</div>
+
+<div class="jqgrid-vertical-offset widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="ace-icon fa fa-edit blue "></i>
+        ${MODIFY_TABLE_APPLY_TYPE_MAP.get(mta.type)}学习经历内容（申请时间：${cm:formatDate(mta.createTime, "yyyy-MM-dd")}）</h4>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-down"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <table class="table  table-unhover table-bordered table-striped">
+                <tr>
+                    <td data-code="eduId">学历</td>
+                    <td class="bg-left">${cm:getMetaType(modify.eduId).name}</td>
+                    <td data-code="enrolTime">入学时间</td>
+                    <td class="bg-left">${cm:formatDate(modify.enrolTime,'yyyy.MM')}</td>
+                    <td data-code="finishTime">毕业时间</td>
+                    <td class="bg-left">${cm:formatDate(modify.finishTime,'yyyy.MM')}</td>
+                </tr>
+                <tr>
+                    <td data-code="isGraduated">毕业/在读</td>
+                    <td class="bg-left">${modify.isGraduated?"毕业":"在读"}</td>
+                    <td data-code="isHighEdu">是否最高学历</td>
+                    <td class="bg-left">${modify.isHighEdu?"是":"否"}</td>
+                    <td data-code="school">毕业/在读学校</td>
+                    <td class="bg-left">${modify.school}</td>
+                </tr>
+                <tr>
+                    <td data-code="dep">院系</td>
+                    <td class="bg-left">${modify.dep}</td>
+                    <td data-code="major">所学专业</td>
+                    <td class="bg-left">${modify.major}</td>
+                    <td data-code="schoolType">学校类型</td>
+                    <td class="bg-left">${cm:getMetaType(modify.schoolType).name}</td>
+                </tr>
+                <tr>
+                    <td data-code="learnStyle">学习方式</td>
+                    <td class="bg-left">${cm:getMetaType(modify.learnStyle).name}</td>
+                    <td data-code="hasDegree">是否获得学位</td>
+                    <td class="bg-left">${modify.hasDegree?"是":"否"}</td>
+                    <td data-code="degree">学位</td>
+                    <td class="bg-left">${modify.degree}</td>
+                </tr>
+                <tr>
+                    <td data-code="isHighDegree">是否为最高学位</td>
+                    <td class="bg-left">${modify.isHighDegree?"是":"否"}</td>
+                    <td data-code="degreeCountry">学位授予国家</td>
+                    <td class="bg-left">${modify.degreeCountry}</td>
+                    <td data-code="degreeUnit">学位授予单位</td>
+                    <td class="bg-left">${modify.degreeUnit}</td>
+                </tr>
+                <tr>
+                    <td data-code="degreeTime">学位授予日期</td>
+                    <td class="bg-left">${cm:formatDate(modify.degreeTime,'yyyy.MM')}</td>
+                    <td data-code="tutorName">导师姓名</td>
+                    <td class="bg-left">${modify.tutorName}</td>
+                    <td data-code="tutorTitle">导师所在单位及职务（职称）</td>
+                    <td class="bg-left">${modify.tutorTitle}</td>
+                </tr>
+                <tr>
+                    <td data-code="certificate">学历学位证书</td>
+                    <td class="bg-left">
+                        <c:if test="${not empty modify.certificate}">
+                    <c:forEach items="${fn:split(modify.certificate, ',')}" var="filePath" varStatus="vs">
+                        <a class="various" rel="group${modify.id}" title="证件${vs.index+1}" data-fancybox-type="image" data-path="${filePath}" href="${ctx}/pic?path=${filePath}">证件${vs.index+1}</a>
+                        ${vs.last?'':'，'}
+                    </c:forEach>
+                        </c:if>
+                    </td>
+                    <td data-code="remark">备注</td>
+                    <td colspan="3" class="bg-left">${modify.remark}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<c:if test="${param.type=='check'}">
+<shiro:hasPermission name="modifyTableApply:approval">
+<div class="jqgrid-vertical-offset widget-box">
+    <div class="widget-header">
+        <h4 class="widget-title"><i class="ace-icon fa fa-check-circle blue "></i> 管理员审核</h4>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-down"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <form class="form-horizontal" action="${ctx}/modifyTableApply_approval" id="approvalForm" method="post">
+                <input type="hidden" name="id" value="${mta.id}">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">审核意见</label>
+                    <div class="col-xs-8 label-text"  style="font-size: 15px;">
+                        <input type="checkbox" class="big" value="1"/> 通过审核
+                        <input type="checkbox"  class="big" value="2"/> 未通过审核
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">依据</label>
+                    <div class="col-xs-6">
+                        <textarea class="form-control limited" type="text" name="checkReason" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">备注</label>
+                    <div class="col-xs-6">
+                        <textarea class="form-control limited" type="text" name="checkRemark" rows="2"></textarea>
+                    </div>
+                </div>
+        </form>
+        </div>
+    </div>
+</div>
+</shiro:hasPermission>
+</c:if>
+
+<div class="clearfix form-actions center">
+    <shiro:hasRole name="cadre">
+        <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
+        <button class="popupBtn btn btn-primary"
+                data-url="${ctx}/user/cadreEdu_au?_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
+                data-width="900"
+                type="button">
+            <i class="ace-icon fa fa-edit"></i>
+            编辑
+        </button>
+        </c:if>
+    </shiro:hasRole>
+    <c:if test="${param.type=='check'}">
+    <shiro:hasPermission name="modifyTableApply:approval">
+    <button class="btn btn-success" type="button" id="approvalBtn">
+        <i class="ace-icon fa fa-check"></i>
+        审核
+    </button>
+    </shiro:hasPermission>
+    </c:if>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="closeView btn btn-default" type="button">
+        <i class="ace-icon fa fa-undo"></i>
+        返回
+    </button>
+</div>
+<script>
+    <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
+    var modify = ${cm:toJSONObject(modify)};
+    var original = ${mta.originalJson}
+    $("td[data-code]").each(function(){
+        var $this = $(this);
+        var code = $this.data("code");
+        if(modify[code]!=original[code]){
+            $this.addClass("text-danger bolder");
+        }
+    });
+    </c:if>
+
+    $("#approvalBtn").click(function(){$("#approvalForm").submit();return false;})
+    $("#approvalForm").validate({
+        submitHandler: function (form) {
+
+            var type = $('#approvalForm input[type=checkbox]:checked').val();
+            if(type!=1&&type!=2){
+                SysMsg.warning("请选择审核意见");
+                return;
+            }
+
+            $(form).ajaxSubmit({
+                data:{status:(type==1)},
+                success:function(ret){
+                    if(ret.success){
+
+                        $(".closeView").click();
+                    }
+                }
+            });
+        }
+    });
+
+    $("#jqGrid_cadreEdu").jqGrid({
+        pager: null,
+        ondblClickRow: function () {
+        },
+        datatype: "local",
+        data:${cm:toJSONArray(cadreEdus)},
+        multiselect: false,
+        colModel: [
+            {
+                label: '学历', name: 'eduId', frozen: true, formatter: function (cellvalue, options, rowObject) {
+                return _cMap.metaTypeMap[cellvalue].name
+            }
+            },
+            {
+                label: '毕业/在读', width: 90, name: 'isGraduated', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue ? "毕业" : "在读";
+            }
+            },
+            {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
+            {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
+            {
+                label: '是否最高学历', width: 110, name: 'isHighEdu', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue ? "是" : "否";
+            }
+            },
+            {label: '毕业/在读学校', name: 'school', width: 280},
+            {label: '院系', name: 'dep', width: 380},
+            {label: '所学专业', name: 'major', width: 380},
+            {
+                label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
+                return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
+            }, width: 80
+            },
+
+            //{label: '学制', name: 'schoolLen', width:50},
+            {
+                label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
+                return _cMap.metaTypeMap[cellvalue].name
+            }
+            },
+            {
+                label: '学位', name: 'degree', formatter: function (cellvalue, options, rowObject) {
+                return rowObject.hasDegree ? cellvalue : "-";
+            }
+            },
+            {
+                label: '是否最高学位', name: 'isHighDegree', formatter: function (cellvalue, options, rowObject) {
+                if (!rowObject.hasDegree) return "-";
+                return cellvalue ? "是" : "否";
+            }, width: 110
+            },
+            {
+                label: '学位授予国家',
+                name: 'degreeCountry',
+                width: 110,
+                formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.hasDegree ? cellvalue : "-";
+                }
+            },
+            {
+                label: '学位授予单位', name: 'degreeUnit', width: 150, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.hasDegree ? cellvalue : "-";
+            }
+            },
+            {label: '学位授予日期', name: 'degreeTime', width: 110, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {
+                label: '导师姓名', name: 'tutorName', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
+                    return cellvalue == undefined ? '' : cellvalue;
+                } else return '-'
+            }
+            },
+            {
+                label: '导师现所在单位及职务（或职称）', name: 'tutorTitle', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
+                    return cellvalue == undefined ? '' : cellvalue;
+                } else return '-'
+            }, width: 250
+            },
+            {
+                label: '学历学位证书',
+                name: 'certificate',
+                width: 150,
+                formatter: function (cellvalue, options, rowObject) {
+                    var filesArray = [];
+                    if (cellvalue != undefined) {
+                        var filePaths = cellvalue.split(",");
+                        filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'.format(filePaths[0], 1, rowObject.id));
+                        if (filePaths.length == 2)
+                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'.format(filePaths[1], 2, rowObject.id));
+                    }
+
+                    return filesArray.join("，");
+                }
+            }, {label: '备注', name: 'remark', width: 180},{hidden:true, name:'id'}],
+        rowattr: function(rowData, currentObj, rowId)
+        {
+            //console.log(rowData.id + '-${mta.originalId}')
+            if(rowData.id=='${mta.originalId}') {
+                //console.log(rowData)
+                return {'class':'info'}
+            }
+        }
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid4');
+</script>

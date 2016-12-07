@@ -6,7 +6,7 @@
 <div class="widget-box transparent" id="view-box">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:;" class="closeView btn btn-mini btn-xs btn-success">
+            <a href="javascript:;" class="closeView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
@@ -28,16 +28,7 @@
                             <table class="table table-unhover table-bordered table-striped" >
                                 <tbody>
                                 <tr>
-                                    <td rowspan="6" style="text-align: center;
-				                         width: 50px;background-color: #fff;">
-                                        <div  style="width:170px">
-                                            <input type="file" name="_avatar" id="_avatar"/>
-                                        </div>
-                                        <div>
-                                            <a href="javascrip:;" class="btn btn-xs btn-primary" onclick='$("#_avatar").click()'>
-                                                <i class="fa fa-upload"></i> 重传</a>
-                                        </div>
-                                    </td>
+                                    <td id="_avatarTitle" class="bg-right" style="text-align: left!important;">头像：</td>
 
                                     <td class="bg-right">
                                         姓名
@@ -59,21 +50,31 @@
 
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td rowspan="5" style="text-align: center;
+				                         width: 50px;background-color: #fff;">
+                                        <div  style="width:170px">
+                                            <input type="file" name="_avatar" id="_avatar"/>
+                                        </div>
+                                        <div>
+                                            <a href="javascrip:;" class="btn btn-xs btn-primary" onclick='$("#_avatar").click()'>
+                                                <i class="fa fa-upload"></i> 重传</a>
+                                        </div>
+                                    </td>
+                                    <td class="bg-right">
                                         民族
                                     </td>
-                                    <td>
+                                    <td class="bg-left">
                                         ${extJzg.mz}
                                     </td>
-                                    <td>出生日期</td>
-                                    <td>
+                                    <td class="bg-right">出生日期</td>
+                                    <td class="bg-left">
                                         ${cm:formatDate(extJzg.csrq,'yyyy-MM-dd')}
                                     </td>
-                                    <td>
+                                    <td class="bg-right">
                                         年龄
                                     </td>
-                                    <td>
-                                        ${cm:intervalYearsUntilNow(extJzg.csrq)}
+                                    <td class="bg-left">
+                                        ${empty xtJzg.csrq?'':cm:intervalYearsUntilNow(extJzg.csrq)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -84,9 +85,10 @@
                                         <input type="text"
                                                data-code="political_status"
                                                data-table=""
+                                               data-table-id-name=""
                                                data-name="政治面貌"
                                                data-original="${original}"
-                                               data-is-string="1"
+                                               data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                value="${original}">
                                     </td>
                                     <td>
@@ -99,9 +101,10 @@
                                                    data-date-format="yyyy-mm-dd"
                                                    data-code="grow_time"
                                                    data-table=""
+                                                   data-table-id-name=""
                                                    data-name="党派加入时间"
                                                    data-original="${original}"
-                                                   data-is-string="1"
+                                                   data-type="${MODIFY_BASE_ITEM_TYPE_DATE}"
                                                    value="${original}"/>
                                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                         </div>
@@ -141,9 +144,10 @@
                                     <input type="text"
                                            data-code="native_place"
                                            data-table="sys_user_info"
+                                           data-table-id-name="user_id"
                                            data-name="籍贯"
                                            data-original="${original}"
-                                           data-is-string="1"
+                                           data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                            value="${original}">
                                     </td>
                                     <td>出生地</td>
@@ -152,9 +156,10 @@
                                         <input type="text"
                                                data-code="homeplace"
                                                data-table="sys_user_info"
+                                               data-table-id-name="user_id"
                                                data-name="出生地"
                                                data-original="${original}"
-                                               data-is-string="1"
+                                               data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                value="${original}">
                                         <div class="inline-block">
                                             格式：“**省**市”或者“北京市***区”
@@ -168,9 +173,10 @@
                                         <input type="text"
                                                data-code="household"
                                                data-table="sys_user_info"
+                                               data-table-id-name="user_id"
                                                data-name="户籍地"
                                                data-original="${original}"
-                                               data-is-string="1"
+                                               data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                value="${original}">
                                         <div class="inline-block">
                                             格式：“**省**市”或者“北京市***区”
@@ -184,9 +190,10 @@
                                         <input type="text"
                                                data-code="health"
                                                data-table="sys_user_info"
+                                               data-table-id-name="user_id"
                                                data-name="健康状况"
                                                data-original="${original}"
-                                               data-is-string="1"
+                                               data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                value="${original}">
                                     </td>
                                     <td>
@@ -197,9 +204,10 @@
                                         <input type="text"
                                                data-code="specialty"
                                                data-table="sys_user_info"
+                                               data-table-id-name="user_id"
                                                data-name="熟悉专业有何专长"
                                                data-original="${original}"
-                                               data-is-string="1"
+                                               data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                value="${original}" style="width: 500px">
                                     </td>
                                 </tr>
@@ -229,9 +237,10 @@
                                             <input type="text"
                                                    data-code="mobile"
                                                    data-table="sys_user_info"
+                                                   data-table-id-name="user_id"
                                                    data-name="手机号"
                                                    data-original="${original}"
-                                                   data-is-string="1"
+                                                   data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                    value="${original}">
                                     </td>
                                     <td>
@@ -242,9 +251,10 @@
                                         <input type="text"
                                                data-code="phone"
                                                data-table="sys_user_info"
+                                               data-table-id-name="user_id"
                                                data-name="办公电话"
                                                data-original="${original}"
-                                               data-is-string="1"
+                                               data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                value="${original}">
                                     </td>
 
@@ -256,9 +266,10 @@
                                             <input type="text"
                                                    data-code="email"
                                                    data-table="sys_user_info"
+                                                   data-table-id-name="user_id"
                                                    data-name="电子邮箱"
                                                    data-original="${original}"
-                                                   data-is-string="1"
+                                                   data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                                                    value="${original}">
                                     </td>
                                 </tr>
@@ -315,8 +326,10 @@
     var mbis = ${cm:toJSONArray(mbis)};
     for(i in mbis){
         var mbi = mbis[i];
-        if(mbi.code=='_avatar'){
-            $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: mbi.modifyValue}]);
+        if(mbi.code=='avatar'){
+            $("#_avatarTitle").addClass("text-danger bolder");
+            $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
+                name: '${ctx}/avatar?path={0}'.format(mbi.modifyValue)}]);
         }else {
             var $item = $("[data-code='{0}'][data-table='{1}']".format(mbi.code, mbi.tableName));
             $item.val(mbi.modifyValue);
@@ -328,21 +341,23 @@
     $("#modalForm").validate({
         submitHandler: function (form) {
 
-            var codes=[], tables=[], names=[], originals=[], modifys=[], isStrings=[];
+            var codes=[], tables=[], tableIdNames=[], names=[], originals=[], modifys=[], types=[];
             $("input[data-code]").each(function(){
                 codes.push($(this).data("code"));
                 tables.push($(this).data("table"));
+                tableIdNames.push($(this).data("table-id-name"));
                 names.push($(this).data("name"));
                 originals.push($(this).data("original"));
                 modifys.push($(this).val());
-                isStrings.push($(this).data("is-string"));
+                types.push($(this).data("type"));
             })
             //console.log(codes)
             //console.log(originals)
             //console.log(modifys)
 
             $(form).ajaxSubmit({
-                data:{codes:codes, tables:tables, names:names, originals:originals, modifys:modifys, isStrings:isStrings},
+                data:{codes:codes, tables:tables, tableIdNames:tableIdNames,
+                    names:names, originals:originals, modifys:modifys, types:types},
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");

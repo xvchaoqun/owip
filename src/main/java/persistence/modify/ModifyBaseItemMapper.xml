@@ -6,10 +6,11 @@
     <result column="apply_id" property="applyId" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="table_id_name" property="tableIdName" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="orginal_value" property="orginalValue" jdbcType="VARCHAR" />
     <result column="modify_value" property="modifyValue" jdbcType="VARCHAR" />
-    <result column="is_string" property="isString" jdbcType="BIT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
@@ -78,8 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, apply_id, code, table_name, name, orginal_value, modify_value, is_string, create_time, 
-    ip, status, check_remark, check_reason, check_user_id, check_time, check_ip
+    id, apply_id, code, table_name, table_id_name, name, orginal_value, modify_value, 
+    type, create_time, ip, status, check_remark, check_reason, check_user_id, check_time, 
+    check_ip
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.modify.ModifyBaseItemExample" >
     select
@@ -113,17 +115,17 @@
   </delete>
   <insert id="insert" parameterType="domain.modify.ModifyBaseItem" >
     insert into modify_base_item (id, apply_id, code, 
-      table_name, name, orginal_value, 
-      modify_value, is_string, create_time, 
-      ip, status, check_remark, 
-      check_reason, check_user_id, check_time, 
-      check_ip)
+      table_name, table_id_name, name, 
+      orginal_value, modify_value, type, 
+      create_time, ip, status, 
+      check_remark, check_reason, check_user_id, 
+      check_time, check_ip)
     values (#{id,jdbcType=INTEGER}, #{applyId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
-      #{tableName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orginalValue,jdbcType=VARCHAR}, 
-      #{modifyValue,jdbcType=VARCHAR}, #{isString,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}, 
-      #{checkReason,jdbcType=VARCHAR}, #{checkUserId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, 
-      #{checkIp,jdbcType=VARCHAR})
+      #{tableName,jdbcType=VARCHAR}, #{tableIdName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{orginalValue,jdbcType=VARCHAR}, #{modifyValue,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{checkRemark,jdbcType=VARCHAR}, #{checkReason,jdbcType=VARCHAR}, #{checkUserId,jdbcType=INTEGER}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{checkIp,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.modify.ModifyBaseItem" >
     insert into modify_base_item
@@ -140,6 +142,9 @@
       <if test="tableName != null" >
         table_name,
       </if>
+      <if test="tableIdName != null" >
+        table_id_name,
+      </if>
       <if test="name != null" >
         name,
       </if>
@@ -149,8 +154,8 @@
       <if test="modifyValue != null" >
         modify_value,
       </if>
-      <if test="isString != null" >
-        is_string,
+      <if test="type != null" >
+        type,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -190,6 +195,9 @@
       <if test="tableName != null" >
         #{tableName,jdbcType=VARCHAR},
       </if>
+      <if test="tableIdName != null" >
+        #{tableIdName,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -199,8 +207,8 @@
       <if test="modifyValue != null" >
         #{modifyValue,jdbcType=VARCHAR},
       </if>
-      <if test="isString != null" >
-        #{isString,jdbcType=BIT},
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -249,6 +257,9 @@
       <if test="record.tableName != null" >
         table_name = #{record.tableName,jdbcType=VARCHAR},
       </if>
+      <if test="record.tableIdName != null" >
+        table_id_name = #{record.tableIdName,jdbcType=VARCHAR},
+      </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -258,8 +269,8 @@
       <if test="record.modifyValue != null" >
         modify_value = #{record.modifyValue,jdbcType=VARCHAR},
       </if>
-      <if test="record.isString != null" >
-        is_string = #{record.isString,jdbcType=BIT},
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -296,10 +307,11 @@
       apply_id = #{record.applyId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       table_name = #{record.tableName,jdbcType=VARCHAR},
+      table_id_name = #{record.tableIdName,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       orginal_value = #{record.orginalValue,jdbcType=VARCHAR},
       modify_value = #{record.modifyValue,jdbcType=VARCHAR},
-      is_string = #{record.isString,jdbcType=BIT},
+      type = #{record.type,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
@@ -324,6 +336,9 @@
       <if test="tableName != null" >
         table_name = #{tableName,jdbcType=VARCHAR},
       </if>
+      <if test="tableIdName != null" >
+        table_id_name = #{tableIdName,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -333,8 +348,8 @@
       <if test="modifyValue != null" >
         modify_value = #{modifyValue,jdbcType=VARCHAR},
       </if>
-      <if test="isString != null" >
-        is_string = #{isString,jdbcType=BIT},
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -368,10 +383,11 @@
     set apply_id = #{applyId,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       table_name = #{tableName,jdbcType=VARCHAR},
+      table_id_name = #{tableIdName,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       orginal_value = #{orginalValue,jdbcType=VARCHAR},
       modify_value = #{modifyValue,jdbcType=VARCHAR},
-      is_string = #{isString,jdbcType=BIT},
+      type = #{type,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},

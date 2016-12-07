@@ -67,19 +67,19 @@
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="metaType:edit">
-                                    <button onclick="metaType_au(${metaType.id})" class="btn btn-default btn-mini btn-xs">
+                                    <button onclick="metaType_au(${metaType.id})" class="btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="metaType:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${metaType.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${metaType.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline pos-rel">
-                                    <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown"
                                             data-position="auto">
                                         <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                     </button>

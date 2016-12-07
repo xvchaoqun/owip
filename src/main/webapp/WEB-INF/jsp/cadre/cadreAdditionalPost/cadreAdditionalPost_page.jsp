@@ -88,12 +88,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreAdditionalPost:edit">
-                                    <button data-id="${cadreAdditionalPost.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${cadreAdditionalPost.id}" class="editBtn btn btn-xs btn-primary">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreAdditionalPost:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${cadreAdditionalPost.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${cadreAdditionalPost.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

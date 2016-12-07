@@ -23,6 +23,7 @@ import sys.utils.IpUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -35,12 +36,16 @@ public class ModifyBaseApplyService extends BaseMapper {
     @Autowired
     protected AvatarService avatarService;
 
-    // 查找未审批的申请（只有一条）
+    // 查找未完成审批的申请（只有一条）
     public ModifyBaseApply get(int userId){
 
         ModifyBaseApplyExample example = new ModifyBaseApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId).
-                andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
+        ModifyBaseApplyExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+
+        List<Byte> statusList = new ArrayList<>();
+        statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
+        statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
+        criteria.andStatusIn(statusList);
 
         List<ModifyBaseApply> records = modifyBaseApplyMapper.selectByExample(example);
         if(records.size()>0) return records.get(0);
@@ -53,16 +58,16 @@ public class ModifyBaseApplyService extends BaseMapper {
     public void apply(MultipartFile _avatar, // 头像是特殊的字段
                         String[] codes,  // 数据库字段代码
                         String[] tables,  // 数据库表名
+                        String[] tableIdNames,  // 数据库表主键名
                         String[] names,  // 字段中文名
                         String[] originals,  // 原来的值
                         String[] modifys, // 更改的值
-                        Boolean[] isStrings // 更改的值类型是否是字符串，表名不为空时有效
+                        Byte[] types // 更改的值类型，表名不为空时有效
                         ) throws IOException {
 
         SysUserView uv = ShiroSecurityHelper.getCurrentUser();
         int applyUserId = uv.getId();
         int userId = uv.getId(); // 当前只允许本人申请
-        String code = uv.getCode();
 
         String ip = IpUtils.getRealIp(ContextHelper.getRequest());
         Date now = new Date();
@@ -87,26 +92,22 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         int modifyCount = 0;
 
-        String avatar = avatarService.uploadAvatar(_avatar, uv.getCode());
-        String historyAvatar = null;
+        String avatar = avatarService.uploadAvatar(_avatar);
+        String backupAvatar = null;
 
         if(StringUtils.isNotBlank(avatar)){ // 头像单独处理
 
-            String oldAvatarPath =  uv.getAvatar();
-            historyAvatar = File.separator + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) +
-                    File.separator + code + File.separator +System.currentTimeMillis() +".jpg";
-            if(FileUtils.exists(springProps.avatarFolder +oldAvatarPath)){ // 保存原图
-                Thumbnails.of(springProps.avatarFolder +oldAvatarPath).toFile(springProps.avatarFolder + historyAvatar);
-            }
+            backupAvatar = avatarService.backupAvatar(userId);
 
             ModifyBaseItem mbi = new ModifyBaseItem();
             mbi.setApplyId(mba.getId());
-            mbi.setCode("_avatar");
-            mbi.setTableName(null);
+            mbi.setCode("avatar");
+            mbi.setTableName("sys_user_info");
+            mbi.setTableIdName("user_id");
             mbi.setName("头像");
-            mbi.setOrginalValue(historyAvatar);
+            mbi.setOrginalValue(backupAvatar);
             mbi.setModifyValue(avatar);
-            mbi.setIsString(true);
+            mbi.setType(SystemConstants.MODIFY_BASE_ITEM_TYPE_IMAGE);
             mbi.setCreateTime(now);
             mbi.setIp(ip);
             mbi.setStatus(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
@@ -125,10 +126,11 @@ public class ModifyBaseApplyService extends BaseMapper {
                     mbi.setApplyId(mba.getId()); // 关联申请记录
                     mbi.setCode(codes[i]);
                     mbi.setTableName(tables[i]);
+                    mbi.setTableIdName(tableIdNames[i]);
                     mbi.setName(names[i]);
                     mbi.setOrginalValue(originals[i]);
                     mbi.setModifyValue(modifys[i]);
-                    mbi.setIsString(isStrings[i]);
+                    mbi.setType(types[i]);
                     mbi.setCreateTime(now);
                     mbi.setIp(ip);
                     mbi.setStatus(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);

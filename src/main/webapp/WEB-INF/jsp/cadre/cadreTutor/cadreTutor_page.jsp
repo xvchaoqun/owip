@@ -82,19 +82,19 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreTutor:edit">
-                                    <button data-id="${cadreTutor.id}" class="editBtn btn btn-default btn-mini btn-xs">
+                                    <button data-id="${cadreTutor.id}" class="editBtn btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreTutor:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${cadreTutor.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${cadreTutor.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

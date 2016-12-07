@@ -6,10 +6,7 @@ import domain.cadre.CadreEdu;
 import domain.cadre.CadreEduExample;
 import domain.cadre.CadreEduExample.Criteria;
 import domain.cadre.CadreInfo;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -75,15 +72,13 @@ public class CadreEduController extends BaseController {
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
-        modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
+        //modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
         return "cadre/cadreEdu/cadreEdu_page";
     }
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_data")
     @ResponseBody
     public void cadreEdu_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_edu") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -97,8 +92,8 @@ public class CadreEduController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreEduExample example = new CadreEduExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -242,16 +237,6 @@ public class CadreEduController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
         }
 
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cadreEdu:changeOrder")
-    @RequestMapping(value = "/cadreEdu_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreEdu_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
-
-        cadreEduService.changeOrder(id, cadreId, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部学习经历调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

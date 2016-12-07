@@ -13,6 +13,9 @@ import java.util.List;
  */
 public interface UpdateMapper {
 
+    @Update("${sql}")
+    void excuteSql(@Param("sql") String sql);
+
     // 更新发文提交的干部任免数量
     @Update("update dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
             "bd.real_dismiss_count=bdc.real_dismiss_count where bd.id=bdc.dispatch_id")

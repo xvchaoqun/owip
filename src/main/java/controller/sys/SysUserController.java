@@ -216,7 +216,7 @@ public class SysUserController extends BaseController {
 
         record.setUserId(userId);
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
-        String avatar = avatarService.uploadAvatar(_avatar, sysUser.getCode());
+        String avatar = avatarService.uploadAvatar(_avatar);
         record.setAvatar(avatar);
 
         sysUserService.insertOrUpdateUserInfoSelective(record);

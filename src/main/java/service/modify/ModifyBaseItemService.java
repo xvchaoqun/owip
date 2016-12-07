@@ -3,13 +3,20 @@ package service.modify;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.modify.ModifyBaseItemExample;
+import domain.sys.SysUser;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.helper.ContextHelper;
+import service.helper.ShiroSecurityHelper;
 import sys.constants.SystemConstants;
+import sys.utils.HtmlEscapeUtils;
 import sys.utils.IpUtils;
 
 import java.util.Date;
@@ -26,6 +33,17 @@ public class ModifyBaseItemService extends BaseMapper {
         example.createCriteria().andApplyIdEqualTo(applyId);
 
         return modifyBaseItemMapper.selectByExample(example);
+    }
+
+    // 删除
+    @Transactional
+    public void del(int id) {
+
+        ModifyBaseItemExample example = new ModifyBaseItemExample();
+        example.createCriteria().andIdEqualTo(id)
+                .andStatusEqualTo(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以删除
+
+        modifyBaseItemMapper.deleteByExample(example);
     }
 
     // 更新申请变更的值
@@ -46,13 +64,21 @@ public class ModifyBaseItemService extends BaseMapper {
 
     // 更新申请变更的值
     @Transactional
-    public void approval(int id, Boolean status, String checkRemark, String checkReason) {
+    @Caching(evict = {
+            @CacheEvict(value = "SysUserView", key = "#result.Username", condition="#result!=null"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#result.code", condition="#result!=null"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#result.id", condition="#result!=null")
+    })
+    public SysUser approval(int id, Boolean status, String checkRemark, String checkReason) {
 
         ModifyBaseItem mbi = modifyBaseItemMapper.selectByPrimaryKey(id);
-        if (mbi == null) return;
+        if (mbi == null) return null;
         int applyId = mbi.getApplyId();
         ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
-        if (mba == null) return;
+        if (mba == null) return null;
+
+        String tableName = mbi.getTableName();
+        SysUser sysUser = sysUserMapper.selectByPrimaryKey(mba.getUserId());
 
         String ip = IpUtils.getRealIp(ContextHelper.getRequest());
         { // 先审核
@@ -62,15 +88,23 @@ public class ModifyBaseItemService extends BaseMapper {
                     SystemConstants.MODIFY_BASE_ITEM_STATUS_DENY);
             record.setCheckRemark(checkRemark);
             record.setCheckReason(checkReason);
+            record.setCheckUserId(ShiroSecurityHelper.getCurrentUserId());
             record.setCheckTime(new Date());
             record.setCheckIp(ip);
 
-            modifyBaseItemMapper.updateByPrimaryKey(record);
+            modifyBaseItemMapper.updateByPrimaryKeySelective(record);
         }
 
-        {// 实际去更新值！！！！！！！
+        {
+            if(BooleanUtils.isTrue(status) && StringUtils.isNotBlank(tableName)){
 
-
+                // 更新数据库内容，主键值必须是用户ID
+                boolean needSingleQuotes = (mbi.getType()!=SystemConstants.MODIFY_BASE_ITEM_TYPE_INT);
+                String sql = "update " + tableName + " set " + mbi.getCode() + " = " + (needSingleQuotes?"'":"") +
+                        StringEscapeUtils.escapeSql(mbi.getModifyValue().replace("\\", "\\\\")) + (needSingleQuotes ? "'" : "")
+                        + " where "+ mbi.getTableIdName() + "=" + sysUser.getId();
+                updateMapper.excuteSql(sql);
+            }
         }
 
         { // 更新申请记录的审核状态
@@ -98,7 +132,15 @@ public class ModifyBaseItemService extends BaseMapper {
                     record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
                 record.setCheckTime(new Date());
                 record.setCheckIp(ip);
+
+                modifyBaseApplyMapper.updateByPrimaryKeySelective(record);
             }
         }
+
+        // 没审核通过或者不需要更新数据的，则不更新缓存
+        if(BooleanUtils.isFalse(status) || StringUtils.isBlank(tableName)) return null;
+
+        // 返回更新缓存对象
+        return sysUser;
     }
 }

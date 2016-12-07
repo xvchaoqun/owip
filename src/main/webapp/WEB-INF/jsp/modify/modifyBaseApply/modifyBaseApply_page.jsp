@@ -13,31 +13,37 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 修改申请</a>
+                        <a href="?status=1"><i class="fa fa-edit"></i> 修改申请</a>
                     </li>
                     <li  class="<c:if test="${status==2}">active</c:if>">
                         <a href="?status=2"><i class="fa fa-check"></i> 审核完成</a>
                     </li>
+                    <shiro:hasRole name="cadreAdmin">
                     <li  class="<c:if test="${status==3}">active</c:if>">
-                        <a href="?status=3"><i class="fa fa-trash"></i> 删除</a>
+                        <a href="?status=3"><i class="fa fa-times"></i> 已删除</a>
                     </li>
+                    </shiro:hasRole>
                 </ul>
 
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
+                        <c:if test="${status==1}">
                         <div class="jqgrid-vertical-offset buttons">
-
+                            <shiro:lacksRole name="cadreAdmin">
                             <a class="openView btn btn-success btn-sm"
                                data-url="${ctx}/user/modifyBaseApply_au"
                                data-open-by="page"><i class="fa fa-edit"></i> 修改申请</a>
-                            <a class="jqBatchBtn btn btn-danger btn-sm"
+                            <button id="backBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                data-url="${ctx}/user/modifyBaseApply_back" data-title="撤销申请记录"
-                               data-msg="确定撤销申请记录吗？"><i class="fa fa-trash"></i> 撤销申请</a>
-
+                               data-msg="确定撤销申请记录吗？"><i class="fa fa-times"></i> 撤销申请</button>
+                            </shiro:lacksRole>
+                            <shiro:hasRole name="cadreAdmin">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/modifyBaseApply_batchDel" data-title="删除申请记录"
-                                   data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 管理员删除</a>
+                                   data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                            </shiro:hasRole>
                         </div>
+                        </c:if>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
@@ -82,6 +88,18 @@
         </div>
     </div>
 </div>
+<style>
+    .avatar{
+        width: 16px;
+        cursor: pointer;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="${ctx}/extend/js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+<link rel="stylesheet" href="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+
+<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
+<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="${ctx}/extend/js/jquery.mousewheel.pack.js"></script>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
@@ -93,19 +111,72 @@
             { label: '姓名', name: 'cadre.user.realname', width: 80,frozen:true },
             { label: '所在单位及职务', name: 'cadre.title', width: 250},
             { label: '申请内容', name: 'content', width: 80,formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/modifyBaseItem?applyId={0}">详情</a>'
-                        .format(rowObject.id);
+
+                return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyBaseItem_page?applyId={0}">'.format(rowObject.id)
+                        +'<i class="fa fa-search"></i> 详情</button>';
             }},
             { label: '审核状态', name: 'status',formatter:function(cellvalue, options, rowObject){
                 return _cMap.MODIFY_BASE_APPLY_STATUS_MAP[cellvalue]
             }},
+            <c:if test="${status!=3}">
+            <shiro:hasRole name="cadreAdmin">
+            { label: '组织部审核', name: '_approval',formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
+                    return '-';
+                }
+                return '<button data-url="${ctx}/modifyBaseItem_page?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
+                                .format(rowObject.id)
+                        + '<i class="fa fa-check"></i> 审核</button>'
+            }},
             { label: '最后审核时间', name: 'checkTime', width: 150},
-            { label: '最后审核IP', name: 'checkIp'}
-        ]}).jqGrid("setFrozenColumns");
+            { label: '最后审核IP', name: 'checkIp'},
+            </shiro:hasRole>
+            </c:if>
+            {hidden:true, name:'_status', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.status==undefined) return -1;
+                return rowObject.status;
+            }}]
+        , onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            //console.log(id)
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#backBtn").prop("disabled", true);
+            } else if (ids.length == 1) {
+                var rowData = $(this).getRowData(ids[0]);
+                $("#backBtn").prop("disabled", rowData._status!='${MODIFY_BASE_APPLY_STATUS_APPLY}')
+            } else {
+                $("#backBtn").prop("disabled", false);
+            }
+        }
+    }).jqGrid("setFrozenColumns");
 
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=userId]'));
     $('[data-rel="tooltip"]').tooltip();
+
+
+    $(".various").fancybox({
+        live:true,
+        tpl:{error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
+        maxWidth	: 800,
+        maxHeight	: 600,
+        fitToView	: false,
+        width		: '70%',
+        height		: '70%',
+        autoSize	: false,
+        closeClick	: false,
+        openEffect	: 'none',
+        closeEffect	: 'none',
+        loop:false,
+        arrows:false,
+        prevEffect		: 'none',
+        nextEffect		: 'none',
+        closeBtn		: true,
+        beforeShow: function() {
+            this.wrap.draggable();
+        }
+    });
 </script>

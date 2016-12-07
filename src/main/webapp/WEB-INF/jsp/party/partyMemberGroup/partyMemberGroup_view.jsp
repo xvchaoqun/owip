@@ -2,7 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="jqgrid-vertical-offset buttons">
-    <button class="btn btn-primary btn-mini btn-xs" onclick="_au()">
+    <button class="btn btn-primary btn-xs" onclick="_au()">
         <i class="fa fa-users"></i> 添加分党委班子
     </button>
     <a href="javascript:;" onclick="_au(1)" class="btn btn-primary btn-xs" >

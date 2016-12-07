@@ -20,6 +20,9 @@
 
 <fmt:setBundle basename="spring" var="spring"/>
 
+<fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
+<fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
+
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
@@ -236,6 +239,28 @@
 
 <c:set var="APPLYSELF_MODIFY_TYPE_ORIGINAL" value="<%=SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL%>"/>
 <c:set var="APPLYSELF_MODIFY_TYPE_MODIFY" value="<%=SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY%>"/>
+
+<c:set var="MODIFY_BASE_ITEM_TYPE_STRING" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_STRING%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_INT" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_INT%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_DATE" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_DATE%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_IMAGE" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_IMAGE%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_MAP" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_MAP%>"/>
+
+<c:set var="MODIFY_BASE_APPLY_STATUS_APPLY" value="<%=SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY%>"/>
+<c:set var="MODIFY_BASE_APPLY_STATUS_DELETE" value="<%=SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE%>"/>
+<c:set var="MODIFY_BASE_APPLY_STATUS_ALL_CHECK" value="<%=SystemConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK%>"/>
+
+<c:set var="MODIFY_BASE_ITEM_STATUS_MAP" value="<%=SystemConstants.MODIFY_BASE_ITEM_STATUS_MAP%>"/>
+
+<c:set var="MODIFY_TABLE_APPLY_STATUS_APPLY" value="<%=SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY%>"/>
+<c:set var="MODIFY_TABLE_APPLY_STATUS_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_STATUS_MAP%>"/>
+
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_EDU" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_MAP%>"/>
+
+<c:set var="MODIFY_TABLE_APPLY_TYPE_MODIFY" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY%>"/>
+<c:set var="MODIFY_TABLE_APPLY_TYPE_DELETE" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE%>"/>
+<c:set var="MODIFY_TABLE_APPLY_TYPE_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_MAP%>"/>
 
 <c:set var="APPLY_TYPE_TECHER" value="<%=SystemConstants.APPLY_TYPE_TECHER%>"/>
 <c:set var="APPLY_TYPE_STU" value="<%=SystemConstants.APPLY_TYPE_STU%>"/>

@@ -103,25 +103,25 @@
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="branchMember:edit">
                                     <c:if test="${!branchMember.isAdmin}">
-                                        <button class="adminBtn btn btn-success btn-mini btn-xs" data-id="${branchMember.id}">
+                                        <button class="adminBtn btn btn-success btn-xs" data-id="${branchMember.id}">
                                             <i class="fa fa-trash"></i> 设为管理员
                                         </button>
                                     </c:if>
                                     <c:if test="${branchMember.isAdmin}">
-                                        <button class="adminBtn btn btn-danger btn-mini btn-xs" data-id="${branchMember.id}">
+                                        <button class="adminBtn btn btn-danger btn-xs" data-id="${branchMember.id}">
                                             <i class="fa fa-trash"></i> 删除管理员
                                         </button>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="branchMember:del">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${branchMember.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${branchMember.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
                             </div>
                             <div class="hidden-md hidden-lg">
                                 <div class="inline pos-rel">
-                                    <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown"
                                             data-position="auto">
                                         <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                     </button>

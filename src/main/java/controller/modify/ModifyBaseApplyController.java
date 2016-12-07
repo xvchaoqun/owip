@@ -6,6 +6,7 @@ import domain.modify.ModifyBaseApplyExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -46,16 +48,19 @@ public class ModifyBaseApplyController extends BaseController{
     @RequiresPermissions("modifyBaseApply:list")
     @RequestMapping("/modifyBaseApply_page")
     public String modifyBaseApply_page(
+            Integer userId,
             @RequestParam(required = false, defaultValue = "1")Byte status, // 1 干部信息修改申请 2 审核完成 3 删除
             ModelMap modelMap) {
 
+        if(userId!=null)
+            modelMap.put("sysUser", sysUserService.findById(userId));
         modelMap.put("status", status);
         return "modify/modifyBaseApply/modifyBaseApply_page";
     }
 
     @RequiresPermissions("modifyBaseApply:list")
     @RequestMapping("/modifyBaseApply_data")
-    public void modifyBaseApply_data(HttpServletResponse response,
+    public void modifyBaseApply_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                            @RequestParam(required = false, defaultValue = "1")Byte status,
                            Integer userId,
                            Integer pageSize, Integer pageNo) throws IOException {
@@ -72,16 +77,21 @@ public class ModifyBaseApplyController extends BaseController{
         ModifyBaseApplyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("check_time desc");
 
-        if (userId!=null) {
-            criteria.andUserIdEqualTo(userId);
+        if(SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)){
+            if (userId != null) {
+                criteria.andUserIdEqualTo(userId);
+            }
+        }else{ // 干部只能看到自己的
+            criteria.andUserIdEqualTo(loginUser.getId());
         }
-        if(status==1){ // 待审核
-            criteria.andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
-        }else if(status==2){ // 部分审核或审核完成
+
+        if(status==1){ // 待审核、部分审核
             List<Byte> statusList = new ArrayList<>();
+            statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
             statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
-            statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK);
             criteria.andStatusIn(statusList);
+        }else if(status==2){ // 审核完成
+            criteria.andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK);
         }else if(status==3){ // 已删除
             criteria.andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
         }else{
@@ -109,6 +119,7 @@ public class ModifyBaseApplyController extends BaseController{
     // 假删除
     @RequiresPermissions("modifyBaseApply:del")
     @RequestMapping(value = "/modifyBaseApply_batchDel", method = RequestMethod.POST)
+    @ResponseBody
     public Map modify(@CurrentUser SysUserView loginUser,
                       @RequestParam(value = "ids[]") Integer[] ids,
                       HttpServletRequest request){

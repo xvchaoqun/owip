@@ -382,7 +382,7 @@
      var lastTdBean = rowObject.approvalTdBeanMap[0];
      if(firstTdBean.tdType==5 || (lastTdBean.tdType==5||lastTdBean.tdType==6)){
      html ="<button data-id=\"{0}\" " +
-     "        class=\"shortMsgBtn btn btn-primary btn-mini btn-xs\">\n" +
+     "        class=\"shortMsgBtn btn btn-primary btn-xs\">\n" +
      "        <i class=\"fa fa-info-circle\"></i> 短信提醒\n" +
      "        </button>";
      html = html.format(applySelfId);

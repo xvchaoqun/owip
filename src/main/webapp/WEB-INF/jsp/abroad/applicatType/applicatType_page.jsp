@@ -57,12 +57,12 @@ pageEncoding="UTF-8" %>
 
 								<td>${applicatType.name}</td>
                             <td>
-                                <button data-url="${ctx}/applicatType/selectCadres?id=${applicatType.id}" class="popupBtn btn btn-success btn-mini btn-xs">
+                                <button data-url="${ctx}/applicatType/selectCadres?id=${applicatType.id}" class="popupBtn btn btn-success btn-xs">
                                     <i class="fa fa-th-list"></i>  包含干部
                                 </button>
                             </td>
                             <td>
-                                <button data-url="${ctx}/applicatType/approvalOrder?id=${applicatType.id}" class="popupBtn btn btn-warning btn-mini btn-xs">
+                                <button data-url="${ctx}/applicatType/approvalOrder?id=${applicatType.id}" class="popupBtn btn btn-warning btn-xs">
                                     <i class="fa fa-th-list"></i>  审批人身份
                                 </button>
                             </td>
@@ -76,16 +76,16 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${applicatType.id}" class="editBtn btn btn-primary btn-mini btn-xs">
+                                    <button data-id="${applicatType.id}" class="editBtn btn btn-primary btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${applicatType.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${applicatType.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

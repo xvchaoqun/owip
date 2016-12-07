@@ -34,13 +34,13 @@
                                 <%--<shiro:hasPermission name="sysResource:create">--%>
 
                                 <a href="javascript:;" onclick="_appendChild(${sysResource.id})"
-                                   class="btn btn-success btn-mini btn-xs"><i class="fa fa-plus"></i> 添加子节点</a>
+                                   class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加子节点</a>
 
 
                             <a href="javascript:;" onclick="_update(${sysResource.id})"
-                               class="btn btn-info btn-mini btn-xs"><i class="fa fa-pencil-square-o"></i> 修改</a>
+                               class="btn btn-info btn-xs"><i class="fa fa-pencil-square-o"></i> 修改</a>
                             <c:if test="${sysResource.parentId!=0}">
-                                <a href="javascript:;" onclick="_del(${sysResource.id})" class="btn btn-danger btn-mini btn-xs">
+                                <a href="javascript:;" onclick="_del(${sysResource.id})" class="btn btn-danger btn-xs">
                                     <i class="fa fa-trash"></i> 删除</a>
                             </c:if>
                         </td>

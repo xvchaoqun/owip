@@ -119,31 +119,31 @@ pageEncoding="UTF-8" %>
                             <td >
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="unit:edit">
-                                    <button data-id="${unit.id}" class="editBtn btn btn-default btn-mini btn-xs">
+                                    <button data-id="${unit.id}" class="editBtn btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                     <c:if test="${status==1}">
                                     <shiro:hasPermission name="unit:abolish">
-                                        <button data-id="${unit.id}" class="abolishBtn btn btn-warning btn-mini btn-xs">
+                                        <button data-id="${unit.id}" class="abolishBtn btn btn-warning btn-xs">
                                             <i class="fa fa-recycle"></i> 转移
                                         </button>
                                     </shiro:hasPermission>
                                     </c:if>
                                     <shiro:hasPermission name="unit:history">
-                                        <button class="historyBtn btn btn-primary btn-mini btn-xs" data-id="${unit.id}">
+                                        <button class="historyBtn btn btn-primary btn-xs" data-id="${unit.id}">
                                             <i class="fa fa-history"></i> 编辑历史单位
                                         </button>
                                     </shiro:hasPermission>
                                      <%--<shiro:hasPermission name="unit:del">
-                                        <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${unit.id}">
+                                        <button class="delBtn btn btn-danger btn-xs" data-id="${unit.id}">
                                             <i class="fa fa-trash"></i> 删除
                                         </button>
                                       </shiro:hasPermission>--%>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

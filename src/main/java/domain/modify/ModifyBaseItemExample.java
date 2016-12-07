@@ -365,6 +365,76 @@ public class ModifyBaseItemExample {
             return (Criteria) this;
         }
 
+        public Criteria andTableIdNameIsNull() {
+            addCriterion("table_id_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameIsNotNull() {
+            addCriterion("table_id_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameEqualTo(String value) {
+            addCriterion("table_id_name =", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameNotEqualTo(String value) {
+            addCriterion("table_id_name <>", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameGreaterThan(String value) {
+            addCriterion("table_id_name >", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameGreaterThanOrEqualTo(String value) {
+            addCriterion("table_id_name >=", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameLessThan(String value) {
+            addCriterion("table_id_name <", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameLessThanOrEqualTo(String value) {
+            addCriterion("table_id_name <=", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameLike(String value) {
+            addCriterion("table_id_name like", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameNotLike(String value) {
+            addCriterion("table_id_name not like", value, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameIn(List<String> values) {
+            addCriterion("table_id_name in", values, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameNotIn(List<String> values) {
+            addCriterion("table_id_name not in", values, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameBetween(String value1, String value2) {
+            addCriterion("table_id_name between", value1, value2, "tableIdName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTableIdNameNotBetween(String value1, String value2) {
+            addCriterion("table_id_name not between", value1, value2, "tableIdName");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -575,63 +645,63 @@ public class ModifyBaseItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsStringIsNull() {
-            addCriterion("is_string is null");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringIsNotNull() {
-            addCriterion("is_string is not null");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringEqualTo(Boolean value) {
-            addCriterion("is_string =", value, "isString");
+        public Criteria andTypeEqualTo(Byte value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringNotEqualTo(Boolean value) {
-            addCriterion("is_string <>", value, "isString");
+        public Criteria andTypeNotEqualTo(Byte value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringGreaterThan(Boolean value) {
-            addCriterion("is_string >", value, "isString");
+        public Criteria andTypeGreaterThan(Byte value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_string >=", value, "isString");
+        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringLessThan(Boolean value) {
-            addCriterion("is_string <", value, "isString");
+        public Criteria andTypeLessThan(Byte value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_string <=", value, "isString");
+        public Criteria andTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringIn(List<Boolean> values) {
-            addCriterion("is_string in", values, "isString");
+        public Criteria andTypeIn(List<Byte> values) {
+            addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringNotIn(List<Boolean> values) {
-            addCriterion("is_string not in", values, "isString");
+        public Criteria andTypeNotIn(List<Byte> values) {
+            addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_string between", value1, value2, "isString");
+        public Criteria andTypeBetween(Byte value1, Byte value2) {
+            addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsStringNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_string not between", value1, value2, "isString");
+        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
 

@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
 								<%--<td>
-                                    <button class="openView btn btn-success btn-mini btn-xs"
+                                    <button class="openView btn btn-success btn-xs"
                                             data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
                                         <i class="fa fa-file-o"></i> 申请表
                                     </button>
@@ -55,20 +55,20 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_NOT_PASS}">
-                                        <button data-remark="${passportApply.remark}" class="remarkBtn btn btn-warning btn-mini btn-xs">
+                                        <button data-remark="${passportApply.remark}" class="remarkBtn btn btn-warning btn-xs">
                                             <i class="fa fa-info-circle"></i> 未批准原因
                                         </button>
                                     </c:if>
                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
                                         <c:if test="${passportApply.abolish}">作废</c:if>
                                         <c:if test="${!passportApply.abolish}">
-                                        <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-mini btn-xs">
+                                        <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-xs">
                                             <i class="fa fa-print"></i> 打印审批表
                                         </button>
                                         </c:if>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
-                                         <button class="openView btn btn-success btn-mini btn-xs"
+                                         <button class="openView btn btn-success btn-xs"
                                                  data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
                                              <i class="fa fa-file-o"></i> 查看申请表
                                          </button>

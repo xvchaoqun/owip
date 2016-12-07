@@ -797,6 +797,21 @@ public class SystemConstants {
         MODIFY_BASE_APPLY_STATUS_MAP.put(MODIFY_BASE_APPLY_STATUS_DELETE, "已删除");
     }
 
+    // 基本信息修改 字段类型
+    public final static byte MODIFY_BASE_ITEM_TYPE_STRING = 1;
+    public final static byte MODIFY_BASE_ITEM_TYPE_INT = 2;
+    public final static byte MODIFY_BASE_ITEM_TYPE_DATE = 3;
+    public final static byte MODIFY_BASE_ITEM_TYPE_IMAGE = 4;
+    public final static Map<Byte, String> MODIFY_BASE_ITEM_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        MODIFY_BASE_ITEM_TYPE_MAP.put(MODIFY_BASE_ITEM_TYPE_STRING, "字符串");
+        MODIFY_BASE_ITEM_TYPE_MAP.put(MODIFY_BASE_ITEM_TYPE_INT, "数字");
+        MODIFY_BASE_ITEM_TYPE_MAP.put(MODIFY_BASE_ITEM_TYPE_DATE, "日期");
+        MODIFY_BASE_ITEM_TYPE_MAP.put(MODIFY_BASE_ITEM_TYPE_IMAGE, "图片");
+    }
+
+
     // 基本信息修改 每个字段的审核状态，0 待审核 1 审核通过 2审核未通过
     public final static byte MODIFY_BASE_ITEM_STATUS_APPLY = 0;
     public final static byte MODIFY_BASE_ITEM_STATUS_PASS = 1;
@@ -806,7 +821,46 @@ public class SystemConstants {
     static {
         MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_APPLY, "待审核");
         MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_PASS, "审核通过");
-        MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_DENY, "2审核未通过");
+        MODIFY_BASE_ITEM_STATUS_MAP.put(MODIFY_BASE_ITEM_STATUS_DENY, "审核未通过");
+    }
+
+    // 信息修改申请 类别
+    public final static byte MODIFY_TABLE_APPLY_TYPE_ADD = 1;
+    public final static byte MODIFY_TABLE_APPLY_TYPE_MODIFY = 2;
+    public final static byte MODIFY_TABLE_APPLY_TYPE_DELETE = 3;
+    public final static Map<Byte, String> MODIFY_TABLE_APPLY_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        MODIFY_TABLE_APPLY_TYPE_MAP.put(MODIFY_TABLE_APPLY_TYPE_ADD, "添加");
+        MODIFY_TABLE_APPLY_TYPE_MAP.put(MODIFY_TABLE_APPLY_TYPE_MODIFY, "修改");
+        MODIFY_TABLE_APPLY_TYPE_MAP.put(MODIFY_TABLE_APPLY_TYPE_DELETE, "删除");
+    }
+
+    // 信息修改请求 审核状态，0 待审核 1 审核通过 2 审核未通过 3 管理员删除（待审核时才可以删除）
+    public final static byte MODIFY_TABLE_APPLY_STATUS_APPLY = 0;
+    public final static byte MODIFY_TABLE_APPLY_STATUS_PASS = 1;
+    public final static byte MODIFY_TABLE_APPLY_STATUS_DENY = 2;
+    public final static byte MODIFY_TABLE_APPLY_STATUS_DELETE = 3;
+    public final static Map<Byte, String> MODIFY_TABLE_APPLY_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        MODIFY_TABLE_APPLY_STATUS_MAP.put(MODIFY_TABLE_APPLY_STATUS_APPLY, "待审核");
+        MODIFY_TABLE_APPLY_STATUS_MAP.put(MODIFY_TABLE_APPLY_STATUS_PASS, "审核通过");
+        MODIFY_TABLE_APPLY_STATUS_MAP.put(MODIFY_TABLE_APPLY_STATUS_DENY, "审核未通过");
+        MODIFY_TABLE_APPLY_STATUS_MAP.put(MODIFY_TABLE_APPLY_STATUS_DELETE, "已删除");
+    }
+
+
+    // 信息修改申请
+    public final static byte RECORD_STATUS_FORMAL = 0; // 正式记录
+    public final static byte RECORD_STATUS_MODIFY = 1; // 修改记录
+
+    // 信息修改申请 模块
+    public final static byte MODIFY_TABLE_APPLY_MODULE_CADRE_EDU = 1;
+    public final static Map<Byte, String> MODIFY_TABLE_APPLY_MODULE_MAP = new LinkedHashMap<>();
+
+    static {
+        MODIFY_TABLE_APPLY_MODULE_MAP.put(MODIFY_TABLE_APPLY_MODULE_CADRE_EDU, "学习经历");
     }
 
     //出行时间范围

@@ -264,7 +264,7 @@
                 break;
             case 4:
             {
-                html = "<button {0} class=\"openView btn {1} btn-mini  btn-xs\"" +
+                html = "<button {0} class=\"openView btn {1}  btn-xs\"" +
                 "        data-url=\"${ctx}/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
                 "        <i class=\"fa fa-edit\"></i> 审批" +
                 "        </button>";

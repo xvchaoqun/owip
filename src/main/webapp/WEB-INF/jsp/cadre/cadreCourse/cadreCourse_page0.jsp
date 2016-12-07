@@ -40,12 +40,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreCourse:edit">
-                                    <button onclick="cadreCourse_au(${cadreCourse.id})" class="btn btn-default btn-mini btn-xs">
+                                    <button onclick="cadreCourse_au(${cadreCourse.id})" class="btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="cadreCourse:del">
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="cadreCourse_del(${cadreCourse.id})">
+                                    <button class="btn btn-danger btn-xs" onclick="cadreCourse_del(${cadreCourse.id})">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>
@@ -98,12 +98,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="cadreReward:edit">
-                                        <button onclick="cadreReward_au(${cadreReward.id})" class="btn btn-default btn-mini btn-xs">
+                                        <button onclick="cadreReward_au(${cadreReward.id})" class="btn btn-default btn-xs">
                                             <i class="fa fa-edit"></i> 编辑
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="cadreReward:del">
-                                        <button class="btn btn-danger btn-mini btn-xs" onclick="cadreReward_del(${cadreReward.id})">
+                                        <button class="btn btn-danger btn-xs" onclick="cadreReward_del(${cadreReward.id})">
                                             <i class="fa fa-trash"></i> 删除
                                         </button>
                                     </shiro:hasPermission>

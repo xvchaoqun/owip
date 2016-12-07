@@ -11,7 +11,7 @@
                         </h5>
                         <div class="widget-toolbar no-border">
                             <div class="inline dropdown-hover">
-                                <button class="btn btn-mini btn-xs btn-info">
+                                <button class="btn btn-xs btn-info">
                                     ${type==1?"最近三个月":(type==2)?"最近半年":"最近一年"}
                                     <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
                                 </button>

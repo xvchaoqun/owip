@@ -1,9 +1,11 @@
 package controller.modify;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.modify.ModifyBaseItemExample;
+import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -41,9 +44,17 @@ public class ModifyBaseItemController extends BaseController{
 
     @RequiresPermissions("modifyBaseItem:list")
     @RequestMapping("/modifyBaseItem_page")
-    public String modifyBaseItem_page(ModelMap modelMap) {
-        
-        return "modifyBaseItem/modifyBaseItem_page";
+    public String modifyBaseItem_page(Integer applyId, ModelMap modelMap) {
+
+        ModifyBaseApply apply = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
+        modelMap.put("apply", apply);
+        Integer userId = apply.getUserId();
+        SysUserView uv = sysUserService.findById(userId);
+        modelMap.put("uv", uv);
+        Cadre cadre = cadreService.findByUserId(userId);
+        modelMap.put("cadre", cadre);
+
+        return "modify/modifyBaseItem/modifyBaseItem_page";
     }
 
     @RequiresPermissions("modifyBaseItem:list")
@@ -62,7 +73,7 @@ public class ModifyBaseItemController extends BaseController{
 
         ModifyBaseItemExample example = new ModifyBaseItemExample();
         ModifyBaseItemExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("check_time desc");
+        //example.setOrderByClause("check_time desc");
 
         criteria.andApplyIdEqualTo(applyId);
 
@@ -100,6 +111,7 @@ public class ModifyBaseItemController extends BaseController{
 
     @RequiresPermissions("modifyBaseItem:approval")
     @RequestMapping(value = "/modifyBaseItem_approval", method = RequestMethod.POST)
+    @ResponseBody
     public Map do_modifyBaseItem_approval(Integer id, Boolean status, String checkRemark, String checkReason){
 
         if (null != id){

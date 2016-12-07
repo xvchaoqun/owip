@@ -79,16 +79,16 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${approvalOrder.id}" class="editBtn btn btn-default btn-mini btn-xs">
+                                    <button data-id="${approvalOrder.id}" class="editBtn btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${approvalOrder.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${approvalOrder.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

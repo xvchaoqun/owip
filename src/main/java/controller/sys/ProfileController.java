@@ -127,7 +127,7 @@ public class ProfileController extends BaseController {
         int userId = shiroUser.getId();
         SysUserView uv = sysUserService.findById(userId);
 
-        String avatar = avatarService.uploadAvatar(_avatar, uv.getCode());
+        String avatar = avatarService.uploadAvatar(_avatar);
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(userId);
@@ -148,7 +148,7 @@ public class ProfileController extends BaseController {
     public Map do_updateAvatar(MultipartFile _avatar, int userId) throws IOException {
 
         SysUserView uv = sysUserService.findById(userId);
-        String avatar = avatarService.uploadAvatar(_avatar, uv.getCode());
+        String avatar = avatarService.uploadAvatar(_avatar);
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(userId);

@@ -102,7 +102,7 @@
         <span class="title">申请已提交
         <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_APPLY}">
           <small>
-            <button class="btn btn-white btn-warning btn-mini btn-xs" onclick="_applyBack()">
+            <button class="btn btn-white btn-warning btn-xs" onclick="_applyBack()">
               <i class="fa fa-undo"></i>
               撤销
             </button>

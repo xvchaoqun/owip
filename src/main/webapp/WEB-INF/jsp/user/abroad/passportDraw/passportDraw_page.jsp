@@ -50,13 +50,13 @@
 </div>
 <script type="text/template" id="needSign_tpl">
     <button data-url="${ctx}/user/passportDraw_self_sign?type=view&id={{=id}}&passportId={{=passportId}}"
-            class="openView btn btn-success btn-mini btn-xs">
+            class="openView btn btn-success btn-xs">
         <i class="fa fa-eye"></i> {{=printStr}}签注申请表
     </button>
 </script>
 <script type="text/template" id="notNeedSign_tpl">
     <button data-url="${ctx}/user/passportDraw_self_sign?type=add&id={{=id}}&passportId={{=passportId}}"
-            class="openView btn btn-default btn-mini btn-xs">
+            class="openView btn btn-default btn-xs">
         <i class="fa fa-plus"></i> 办理签注
     </button>
 </script>

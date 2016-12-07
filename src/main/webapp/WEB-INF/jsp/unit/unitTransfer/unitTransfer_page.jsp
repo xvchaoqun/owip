@@ -42,16 +42,16 @@ pageEncoding="UTF-8" %>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="unitTransfer:edit">
-                                    <button onclick="_au(${unitTransfer.id})" class="editBtn btn btn-default btn-mini btn-xs">
+                                    <button onclick="_au(${unitTransfer.id})" class="editBtn btn btn-default btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
 
-                                        <button onclick="unitTransfer_addDispatchs(${unitTransfer.id})" class="btn btn-primary btn-mini btn-xs">
+                                        <button onclick="unitTransfer_addDispatchs(${unitTransfer.id})" class="btn btn-primary btn-xs">
                                             <i class="fa fa-file-o"></i> 相关发文
                                         </button>
                                      <shiro:hasPermission name="unitTransfer:del">
-                                    <button class="btn btn-danger btn-mini btn-xs" onclick="_del(${unitTransfer.id})">
+                                    <button class="btn btn-danger btn-xs" onclick="_del(${unitTransfer.id})">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

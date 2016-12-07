@@ -1,9 +1,15 @@
 package domain.modify;
 
+import domain.cadre.Cadre;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class ModifyTableApply implements Serializable {
+    public Cadre getCadre(){
+        return CmTag.getCadreByUserId(userId);
+    }
     private Integer id;
 
     private Byte module;

@@ -18,6 +18,7 @@ import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.modify.ModifyBaseApplyService;
 import service.modify.ModifyBaseItemService;
+import service.modify.ModifyTableApplyService;
 import service.party.*;
 import service.sys.*;
 import service.unit.*;
@@ -199,6 +200,8 @@ public class BaseController extends BaseMapper {
     protected ModifyBaseApplyService modifyBaseApplyService;
     @Autowired
     protected ModifyBaseItemService modifyBaseItemService;
+    @Autowired
+    protected ModifyTableApplyService modifyTableApplyService;
 
     @Autowired
     protected AvatarService avatarService;
@@ -297,7 +300,7 @@ public class BaseController extends BaseMapper {
 
         Map map = new HashMap<>();
 
-        map.put("_uploadPath", springProps.uploadPath);
+        //map.put("_uploadPath", springProps.uploadPath);
 
         map.put("partyMap", partyService.findAll());
         map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));

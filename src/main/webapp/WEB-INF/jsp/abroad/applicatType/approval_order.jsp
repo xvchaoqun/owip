@@ -82,7 +82,7 @@
                         </c:if>--%>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${approvalOrder.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${approvalOrder.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                             </div>

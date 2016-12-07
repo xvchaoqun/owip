@@ -12,13 +12,15 @@ public class ModifyBaseItem implements Serializable {
 
     private String tableName;
 
+    private String tableIdName;
+
     private String name;
 
     private String orginalValue;
 
     private String modifyValue;
 
-    private Boolean isString;
+    private Byte type;
 
     private Date createTime;
 
@@ -70,6 +72,14 @@ public class ModifyBaseItem implements Serializable {
         this.tableName = tableName == null ? null : tableName.trim();
     }
 
+    public String getTableIdName() {
+        return tableIdName;
+    }
+
+    public void setTableIdName(String tableIdName) {
+        this.tableIdName = tableIdName == null ? null : tableIdName.trim();
+    }
+
     public String getName() {
         return name;
     }
@@ -94,12 +104,12 @@ public class ModifyBaseItem implements Serializable {
         this.modifyValue = modifyValue == null ? null : modifyValue.trim();
     }
 
-    public Boolean getIsString() {
-        return isString;
+    public Byte getType() {
+        return type;
     }
 
-    public void setIsString(Boolean isString) {
-        this.isString = isString;
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Date getCreateTime() {

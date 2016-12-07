@@ -74,12 +74,12 @@ pageEncoding="UTF-8" %>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <shiro:hasPermission name="orgAdmin:edit">
-                                    <button data-id="${orgAdmin.id}" class="editBtn btn btn-mini">
+                                    <button data-id="${orgAdmin.id}" class="editBtn btn btn-primary btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
                                      </shiro:hasPermission>
                                      <shiro:hasPermission name="orgAdmin:del">
-                                    <button class="delBtn btn btn-danger btn-mini" data-id="${orgAdmin.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${orgAdmin.id}">
                                         <i class="fa fa-times"></i> 删除
                                     </button>
                                       </shiro:hasPermission>

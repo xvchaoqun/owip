@@ -257,7 +257,7 @@
                 if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                     return '-';
                 }
-                return '<button onclick="printWindow(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-mini btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
+                return '<button onclick="printWindow(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
                         .format(rowObject.id);
             }
             },
@@ -265,7 +265,7 @@
             {
                 label: '组织部审批', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${PASSPORT_DRAW_STATUS_INIT}')
-                    return '<button data-url="${ctx}/passportDraw_check?id={0}"  class="openView btn btn-success btn-mini btn-xs">'
+                    return '<button data-url="${ctx}/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-check"></i> 组织部审批</button>';
                 else
@@ -278,7 +278,7 @@
                  return '-';
                  }
                 if (rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
-                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-mini btn-xs">'
+                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-info"></i> 短信通知</button>';
                 }
@@ -291,7 +291,7 @@
                     return '-';
                 }
                 if (rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
-                    return '<button data-url="${ctx}/passportDraw_draw?id={0}" class="openView btn btn-info btn-mini btn-xs">'
+                    return '<button data-url="${ctx}/passportDraw_draw?id={0}" class="openView btn btn-info btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-hand-lizard-o"></i> 领取证件</button>'
                 }
@@ -322,7 +322,7 @@
                     if (rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow) {
                         return '-';
                     }
-                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-mini btn-xs">'
+                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-hand-paper-o"></i> 催交证件</button>';
                 }
@@ -347,7 +347,7 @@
                             rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
                         return '-';
                     }
-                    return '<button data-url="${ctx}/passportDraw_return?id={0}" class="openView btn btn-default btn-mini btn-xs">'
+                    return '<button data-url="${ctx}/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-reply"></i> 归还证件</button>'
                 }

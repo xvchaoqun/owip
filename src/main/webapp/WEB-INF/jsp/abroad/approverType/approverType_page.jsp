@@ -56,14 +56,14 @@ pageEncoding="UTF-8" %>
 								<td>
                                     <c:if test="${approverType.type==APPROVER_TYPE_UNIT || approverType.type==APPROVER_TYPE_LEADER}">
                                         <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}"
-                                                class="popupBtn btn btn-primary btn-mini btn-xs"
+                                                class="popupBtn btn btn-primary btn-xs"
                                                 data-rel="tooltip" data-placement="top" title="点击进行二次编辑，在此最终确定参与审批的干部">
                                             <i class="fa fa-th-list"></i>  包含干部
                                         </button>
                                      </c:if>
                                     <c:if test="${approverType.type!=APPROVER_TYPE_UNIT && approverType.type!=APPROVER_TYPE_LEADER}">
                                     <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
-                                            class="popupBtn btn btn-success btn-mini btn-xs">
+                                            class="popupBtn btn btn-success btn-xs">
                                         <i class="fa fa-th-list"></i>  包含干部
                                     </button>
                                     </c:if>
@@ -78,16 +78,16 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <button data-id="${approverType.id}" class="editBtn btn btn-primary btn-mini btn-xs">
+                                    <button data-id="${approverType.id}" class="editBtn btn btn-primary btn-xs">
                                         <i class="fa fa-edit"></i> 编辑
                                     </button>
-                                    <button class="delBtn btn btn-danger btn-mini btn-xs" data-id="${approverType.id}">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${approverType.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </div>
                                 <div class="hidden-md hidden-lg">
                                     <div class="inline pos-rel">
-                                        <button class="btn btn-mini btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                        <button class="btn btn-xser btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                             <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                         </button>
 

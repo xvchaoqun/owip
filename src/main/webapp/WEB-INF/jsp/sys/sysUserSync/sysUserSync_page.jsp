@@ -47,7 +47,7 @@
             { label: '更新时间', align:'center', name: 'updateTime', width: 150},
             { label: '操作', align:'center', name: 'stopBtn', width: 150, formatter:function(cellvalue, options, rowObject){
 
-                return rowObject.isStop?'':'<button class="btn btn-danger btn-mini btn-xs" onclick="_stop({0})">'.format(rowObject.id)
+                return rowObject.isStop?'':'<button class="btn btn-danger btn-xs" onclick="_stop({0})">'.format(rowObject.id)
                         +'<i class="fa fa-stop-circle-o"></i> 强制结束</button>';
             }}
         ]
@@ -59,7 +59,7 @@
         $.post("${ctx}/sync_stop",{id:id},function(ret){
             if (ret.success) {
                 //SysMsg.success('操作成功。', '成功');
-                page_reload()
+                $("#jqGrid").trigger("reloadGrid");
             }
         })
     }

@@ -29,7 +29,11 @@ public class AvatarController extends BaseController{
     @RequestMapping("/avatar")
     public void show_avatar(String path, HttpServletResponse response) throws IOException {
 
-        ImageUtils.displayImage(FileUtils.getBytes(springProps.avatarFolder + path), response);
+        path = springProps.avatarFolder + path;
+        if(!new File(path).exists()){
+            path = springProps.avatarFolder + File.separator + springProps.defaultAvatar;
+        }
+        ImageUtils.displayImage(FileUtils.getBytes(path), response);
     }
 
     @RequestMapping("/avatar/{username}")

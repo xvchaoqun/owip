@@ -821,14 +821,16 @@ $(document).on("click", ".jqBatchBtn", function(e){
 // 操作for jqgrid
 $(document).on("click", ".myTableDiv .jqItemBtn", function(){
 
-    var grid = $("#jqGrid");
+    var _this = $(this);
+    var gridId = _this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
     var id  = grid.getGridParam("selrow");
     var ids  = grid.getGridParam("selarrrow");
     if(!id || ids.length>1){
         SysMsg.warning("请选择一行", "提示");
         return ;
     }
-
+    var callback = $.trim(_this.data("callback"));
     var queryString = $(this).data("querystr");
     var idName = $(this).data("id-name") || 'id';
     var url = $(this).data("url").split("?")[0] + "?"+ idName +"="+id + (queryString?("&"+queryString):"");
@@ -841,8 +843,12 @@ $(document).on("click", ".myTableDiv .jqItemBtn", function(){
         if (result) {
             $.post(url,function (ret) {
                 if (ret.success) {
-                    grid.trigger("reloadGrid");
-                    //SysMsg.success('操作成功。', '成功');
+                    if(callback){
+                        // console.log(_this)
+                        window[callback](_this);
+                    }else {
+                        grid.trigger("reloadGrid");
+                    }
                 }
             });
         }

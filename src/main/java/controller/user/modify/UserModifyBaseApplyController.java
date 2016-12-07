@@ -53,17 +53,22 @@ public class UserModifyBaseApplyController extends BaseController{
     @RequiresRoles("cadre")
     @RequestMapping(value = "/modifyBaseApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyBaseApply(MultipartFile _avatar,
+    public Map do_modifyBaseApply(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
                       @RequestParam(required = false, value = "codes[]")String[] codes,  // 数据库字段代码
                       @RequestParam(required = false, value = "tables[]")String[] tables, // 数据库表名
+                      @RequestParam(required = false, value = "tableIdNames[]")String[] tableIdNames, // 数据库表主键名
                       @RequestParam(required = false, value = "names[]")String[] names,  // 字段中文名
                       @RequestParam(required = false, value = "originals[]")String[] originals, // 原来的值
                       @RequestParam(required = false, value = "modifys[]")String[] modifys, // 更改的值
-                      @RequestParam(required = false, value = "isStrings[]")Boolean[] isStrings, // 更改的值类型是否是字符串，表名不为空时有效
+                      @RequestParam(required = false, value = "types[]")Byte[] types, // 更改的值类型，表名不为空时有效
                       HttpServletRequest request) throws IOException {
 
+        ModifyBaseApply mba = modifyBaseApplyService.get(loginUser.getId());
+        if(mba!=null) {
+            return failed("您已经提交了申请，请等待审核完成。");
+        }
         try {
-            modifyBaseApplyService.apply(_avatar, codes, tables, names, originals, modifys, isStrings);
+            modifyBaseApplyService.apply(_avatar, codes, tables, tableIdNames, names, originals, modifys, types);
         }catch (Exception ex){
             return failed(ex.getMessage());
         }

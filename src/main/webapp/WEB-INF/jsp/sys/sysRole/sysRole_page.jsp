@@ -30,13 +30,13 @@
                         </td>
                         <td>
                             <div class="buttons">
-                                <button class="btn btn-warning btn-mini btn-xs" onclick="au(${sysRole.id})">
+                                <button class="btn btn-warning btn-xs" onclick="au(${sysRole.id})">
                                     <i class="fa fa-edit"></i>  更新权限
                                 </button>
-                                <button class="btn ${sysRole.isSysHold?'btn-success':'btn-primary'} btn-mini btn-xs" onclick="updateIsSysHold(${sysRole.id})">
+                                <button class="btn ${sysRole.isSysHold?'btn-success':'btn-primary'} btn-xs" onclick="updateIsSysHold(${sysRole.id})">
                                     <i class="fa fa-key"></i>  ${sysRole.isSysHold?"修改为可手动设定":"仅允许系统自动设定"}
                                 </button>
-                                <a href="javascript:" onclick="del(${sysRole.id})" class="btn btn-danger btn-mini btn-xs">
+                                <a href="javascript:" onclick="del(${sysRole.id})" class="btn btn-danger btn-xs">
                                     <i class="fa fa-trash"></i> 删除</a>
                             </div>
 
