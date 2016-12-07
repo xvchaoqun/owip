@@ -29,14 +29,14 @@
                     <div id="home4" class="tab-pane in active">
                         <c:if test="${status==1}">
                         <div class="jqgrid-vertical-offset buttons">
-                            <shiro:lacksRole name="cadreAdmin">
+                            <shiro:hasRole name="cadre">
                             <a class="openView btn btn-success btn-sm"
                                data-url="${ctx}/user/modifyBaseApply_au"
                                data-open-by="page"><i class="fa fa-edit"></i> 修改申请</a>
                             <button id="backBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                data-url="${ctx}/user/modifyBaseApply_back" data-title="撤销申请记录"
                                data-msg="确定撤销申请记录吗？"><i class="fa fa-times"></i> 撤销申请</button>
-                            </shiro:lacksRole>
+                            </shiro:hasRole>
                             <shiro:hasRole name="cadreAdmin">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/modifyBaseApply_batchDel" data-title="删除申请记录"
