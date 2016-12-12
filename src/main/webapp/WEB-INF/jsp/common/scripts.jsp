@@ -9,13 +9,11 @@
 location.href="${ctx}/extend/unsupport.html"
 </script>
 <![endif]-->
-<!-- basic scripts -->
 <script src="${ctx}/js/main.js"></script>
 <script type="text/javascript">
 	if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
 </script>
 <script src="${ctx}/js/ui.js"></script>
-<!--extend-->
 <script src="${ctx}/js/extend.js"></script>
 <script type="text/javascript" src="${ctx}/location_JSON"></script>
 <script type="text/javascript" src="${ctx}/metadata"></script>
