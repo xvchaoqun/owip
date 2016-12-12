@@ -40,6 +40,7 @@ import java.util.*;
 public class BranchController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     // 基本信息
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_base")
@@ -48,7 +49,7 @@ public class BranchController extends BaseController {
         Branch branch = branchMapper.selectByPrimaryKey(id);
         modelMap.put("branch", branch);
         BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(id);
-        if(presentGroup!=null) {
+        if (presentGroup != null) {
             BranchMemberExample example = new BranchMemberExample();
             example.createCriteria().andGroupIdEqualTo(presentGroup.getId());
             example.setOrderByClause("sort_order desc");
@@ -63,7 +64,7 @@ public class BranchController extends BaseController {
 
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_view")
-    public String branch_show_page(HttpServletResponse response,  ModelMap modelMap) {
+    public String branch_show_page(HttpServletResponse response, ModelMap modelMap) {
 
         return "party/branch/branch_view";
     }
@@ -78,12 +79,12 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_page")
     public String branch_page(Integer partyId,
-                              @RequestParam(required = false, defaultValue = "1")Byte status,
+                              @RequestParam(required = false, defaultValue = "1") Byte status,
                               ModelMap modelMap) {
 
         modelMap.put("status", status);
 
-        if(partyId!=null) {
+        if (partyId != null) {
             Party party = partyMapper.selectByPrimaryKey(partyId);
             modelMap.put("party", party);
         }
@@ -94,22 +95,22 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch_data")
     public void branch_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    @RequestParam(required = false, defaultValue = "1")Byte status,
-                                    String code,
-                                    String name,
-                                    Integer partyId,
-                                    Integer typeId,
-                                    Integer unitTypeId,
-                                    String _foundTime,
-                                    Boolean isStaff,
-                                    Boolean isPrefessional,
-                                    Boolean isBaseTeam,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 String exportType,
+                            @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch") String sort,
+                            @OrderParam(required = false, defaultValue = "desc") String order,
+                            @RequestParam(required = false, defaultValue = "1") Byte status,
+                            String code,
+                            String name,
+                            Integer partyId,
+                            Integer typeId,
+                            Integer unitTypeId,
+                            String _foundTime,
+                            Boolean isStaff,
+                            Boolean isPrefessional,
+                            Boolean isBaseTeam,
+                            @RequestParam(required = false, defaultValue = "0") int export,
+                            String exportType,
                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                            Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -123,7 +124,7 @@ public class BranchController extends BaseController {
         BranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        criteria.andIsDeletedEqualTo(status==-1);
+        criteria.andIsDeletedEqualTo(status == -1);
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
@@ -131,7 +132,7 @@ public class BranchController extends BaseController {
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
-        if (partyId!=null) {
+        if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
 
@@ -144,22 +145,22 @@ public class BranchController extends BaseController {
             criteria.andPartyIdIn(partyIdList);
         }
 
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
-        if (unitTypeId!=null) {
+        if (unitTypeId != null) {
             criteria.andUnitTypeIdEqualTo(unitTypeId);
         }
-        if(isStaff!=null){
+        if (isStaff != null) {
             criteria.andIsStaffEqualTo(isStaff);
         }
-        if(isPrefessional!=null){
+        if (isPrefessional != null) {
             criteria.andIsPrefessionalEqualTo(isPrefessional);
         }
-        if(isBaseTeam!=null){
+        if (isBaseTeam != null) {
             criteria.andIsBaseTeamEqualTo(isBaseTeam);
         }
-        if(StringUtils.isNotBlank(_foundTime)) {
+        if (StringUtils.isNotBlank(_foundTime)) {
             String foundTimeStart = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String foundTimeEnd = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(foundTimeStart)) {
@@ -171,12 +172,12 @@ public class BranchController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
 
-            if(StringUtils.equals(exportType, "secretary")){ // 导出支部书记
+            if (StringUtils.equals(exportType, "secretary")) { // 导出支部书记
                 branch_secretary_export(example, response);
-            }else {
+            } else {
                 branch_export(example, response);
             }
             return;
@@ -222,20 +223,20 @@ public class BranchController extends BaseController {
             }
         }
 
-        if(StringUtils.isNotBlank(_foundTime)){
+        if (StringUtils.isNotBlank(_foundTime)) {
             record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
         }
 
-        record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
+        record.setIsEnterpriseBig((record.getIsEnterpriseBig() == null) ? false : record.getIsEnterpriseBig());
         record.setIsEnterpriseNationalized((record.getIsEnterpriseNationalized() == null) ? false : record.getIsEnterpriseNationalized());
         record.setIsUnion((record.getIsUnion() == null) ? false : record.getIsUnion());
         record.setIsStaff((record.getIsStaff() == null) ? false : record.getIsStaff());
         record.setIsPrefessional((record.getIsPrefessional() == null) ? false : record.getIsPrefessional());
         record.setIsBaseTeam((record.getIsBaseTeam() == null) ? false : record.getIsBaseTeam());
-        if(!record.getIsStaff()){
+        if (!record.getIsStaff()) {
             record.setIsPrefessional(false);
         }
-        if(!record.getIsPrefessional()){
+        if (!record.getIsPrefessional()) {
             record.setIsBaseTeam(false);
         }
 
@@ -260,7 +261,7 @@ public class BranchController extends BaseController {
             Branch branch = branchMapper.selectByPrimaryKey(id);
             modelMap.put("branch", branch);
 
-            if(branch!=null) {
+            if (branch != null) {
                 Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                 modelMap.put("party", party);
             }
@@ -299,11 +300,11 @@ public class BranchController extends BaseController {
     @RequestMapping(value = "/branch_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
-                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
+                        @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             branchService.batchDel(ids, isDeleted);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除党支部：%s", StringUtils.join(ids, ",")));
         }
@@ -337,7 +338,10 @@ public class BranchController extends BaseController {
 
         List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号","名称","简称","所属分党委","类别","单位属性","联系电话","传真","邮箱","成立时间"};
+        String[] titles = {"编号", "名称", "简称", "所属分党委", "类别",
+                "党员总数", "在职教职工数量", "离退休党员数量", "学生数量", "委员会总数",
+                "是否已设立现任委员会", "是否是教工党支部", "是否是专业教师党支部", "是否建立在团队",
+                "单位属性", "联系电话", "传真", "邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView record = records.get(i);
@@ -345,8 +349,17 @@ public class BranchController extends BaseController {
                     record.getCode(),
                     record.getName(),
                     record.getShortName(),
-                    record.getPartyId()==null?"":partyService.findAll().get(record.getPartyId()).getName(),
+                    record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
                     metaTypeService.getName(record.getTypeId()),
+                    record.getMemberCount()==null?"0":record.getMemberCount()+"",
+                    record.getTeacherMemberCount()==null?"0":record.getTeacherMemberCount()+"",
+                    record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
+                    record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
+                    record.getGroupCount()==null?"0":record.getGroupCount()+"",
+                    (record.getPresentGroupCount()!=null &&record.getPresentGroupCount() > 0) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsStaff()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsPrefessional()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsBaseTeam()) ? "是" : "否",
                     metaTypeService.getName(record.getUnitTypeId()),
                     record.getPhone(),
                     record.getFax(),
@@ -365,13 +378,13 @@ public class BranchController extends BaseController {
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         List<BranchView> records = branchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名","工号","所在单位","联系电话","所属分党委","所属党支部","党支部类别"};
+        String[] titles = {"姓名", "工号", "所在单位", "联系电话", "所属分党委", "所属党支部", "党支部类别"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView record = records.get(i);
             List<BranchMember> branchSecretary = commonMapper.findBranchSecretary(secretaryType.getId(), record.getId());
 
-            if(branchSecretary.size()>0) {
+            if (branchSecretary.size() > 0) {
                 Integer userId = branchSecretary.get(0).getUserId();
                 SysUserView sysUser = sysUserService.findById(userId);
                 String unit = sysUserService.getUnit(sysUser);
@@ -393,7 +406,7 @@ public class BranchController extends BaseController {
 
     @RequestMapping("/branch_selects")
     @ResponseBody
-    public Map branch_selects(Integer pageSize, Boolean auth,  Boolean del,
+    public Map branch_selects(Integer pageSize, Boolean auth, Boolean del,
                               Integer pageNo, Integer partyId, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -408,20 +421,20 @@ public class BranchController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(del!=null){
+        if (del != null) {
             criteria.andIsDeletedEqualTo(del);
         }
 
-        if(partyId==null)criteria.andIdIsNull(); // partyId肯定存在
+        if (partyId == null) criteria.andIdIsNull(); // partyId肯定存在
 
         criteria.andPartyIdEqualTo(partyId);
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         //===========权限
-        if(BooleanUtils.isTrue(auth)) {
+        if (BooleanUtils.isTrue(auth)) {
             Subject subject = SecurityUtils.getSubject();
             if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                     && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
@@ -440,11 +453,11 @@ public class BranchController extends BaseController {
         }
 
         int count = branchMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         /*List<Select2Option> options = new ArrayList<Select2Option>();
         if(null != branchs && branchs.size()>0){
@@ -460,7 +473,7 @@ public class BranchController extends BaseController {
         }*/
 
         List<Map<String, Object>> options = new ArrayList<>();
-        for(Branch branch:branchs){
+        for (Branch branch : branchs) {
             Map<String, Object> option = new HashMap<>();
             option.put("text", branch.getName());
             option.put("id", branch.getId());

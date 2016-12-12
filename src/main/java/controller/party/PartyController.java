@@ -271,7 +271,10 @@ public class PartyController extends BaseController {
 
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号","名称","简称","所属单位","党总支类别","组织类别","所在单位属性","联系电话","邮箱", "成立时间"};
+        String[] titles = {"编号","名称","简称","所属单位","党总支类别",
+                "支部数量","党员总数","在职教职工数量","离退休党员数量","学生数量","委员会总数","是否已设立现任委员会",
+                "是否大中型","是否国有独资","是否独立法人",
+                "组织类别","所在单位属性","联系电话","传真","邮箱", "成立时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyView record = records.get(i);
@@ -281,9 +284,22 @@ public class PartyController extends BaseController {
                     record.getShortName(),
                     record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
                     metaTypeService.getName(record.getClassId()),
+
+                    record.getBranchCount()==null?"0":record.getBranchCount()+"",
+                    record.getMemberCount()==null?"0":record.getMemberCount()+"",
+                    record.getTeacherMemberCount()==null?"0":record.getTeacherMemberCount()+"",
+                    record.getRetireMemberCount()==null?"0":record.getRetireMemberCount()+"",
+                    record.getStudentMemberCount()==null?"0":record.getStudentMemberCount()+"",
+                    record.getGroupCount()==null?"0":record.getGroupCount()+"",
+                    (record.getPresentGroupCount()!=null &&record.getPresentGroupCount() > 0) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsEnterpriseBig()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsEnterpriseNationalized()) ? "是" : "否",
+                    BooleanUtils.isTrue(record.getIsSeparate()) ? "是" : "否",
+
                     metaTypeService.getName(record.getTypeId()),
                     metaTypeService.getName(record.getUnitTypeId()),
                     record.getPhone(),
+                    record.getFax(),
                     record.getEmail(),
                     DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYY_MM_DD),
             };
