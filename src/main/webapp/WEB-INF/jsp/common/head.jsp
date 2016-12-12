@@ -9,8 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet" href="${ctx}/css/main.css" />
+<link rel="stylesheet" href="${ctx}/css/a.min.css" />
 <!--[if lte IE 9]>
-<link rel="stylesheet" href="${ctx}/css/ie9.css" />
+<link rel="stylesheet" href="${ctx}/css/ie9.css"/>
 <![endif]-->
 <!-- settings handler -->
 <script src="${ctx}/js/extra.js"></script>

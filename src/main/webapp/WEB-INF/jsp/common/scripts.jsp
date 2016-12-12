@@ -14,10 +14,6 @@ location.href="${ctx}/extend/unsupport.html"
 <script type="text/javascript">
 	if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
 </script>
-<!--[if lte IE 8]>
-<script src="${ctx}/assets/js/excanvas.js"></script>
-<![endif]-->
-<!-- ace scripts -->
 <script src="${ctx}/js/ui.js"></script>
 <!--extend-->
 <script src="${ctx}/js/extend.js"></script>

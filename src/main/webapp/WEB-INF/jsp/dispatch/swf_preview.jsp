@@ -23,6 +23,10 @@
     <div class="modal-body">
         <c:set var="exists" value="${cm:exists(filePath)}"/>
         <div class="txt" id="flashContent">
+            您还没有安装flash播放器。
+            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+                    width="0" height="0"
+                    codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0"></object>
         <c:if test="${!exists}">
         文件不存在：${filePath}
         </c:if>
