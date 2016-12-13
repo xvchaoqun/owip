@@ -35,10 +35,18 @@
                                 </button>
                             </c:if>
                             <c:if test="${type>=0}">
+                                <button id="resetDrawStatusBtn" data-url="${ctx}/reset_passportDraw_return"
+                                        data-title="重置归还状态"
+                                        data-msg="确认重置该证件为未归还状态？"
+                                        class="jqItemBtn btn btn-info btn-sm">
+                                    <i class="fa fa-reply"></i> 重置归还状态
+                                </button>
+
                                 <shiro:hasPermission name="passportDraw:del">
-                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                    <button id="delBtn" class="jqBatchBtn btn btn-danger btn-sm"
+                                            data-rel="tooltip" data-placement="top" title="证件未领取才可以删除"
                                        data-url="${ctx}/passportDraw_batchDel" data-title="删除申请使用证件申请"
-                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${type==-1}">
@@ -310,7 +318,6 @@
             {
                 label: '催交证件',
                 align: 'center',
-                name: 'passportType',
                 width: 110,
                 formatter: function (cellvalue, options, rowObject) {
 
@@ -330,7 +337,6 @@
             {
                 label: '归还证件',
                 align: 'center',
-                name: 'lostTime',
                 width: 100,
                 formatter: function (cellvalue, options, rowObject) {
 
@@ -380,8 +386,15 @@
                             'data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
                                     .format(rowObject.attachment, encodeURI(rowObject.attachmentFilename));
                 else return '';
-            } }
-        ]
+            }},{hidden:true, name:'drawStatus'}
+        ],
+        onSelectRow: function(id,status){
+            saveJqgridSelected("#"+this.id, id, status);
+
+            var rowData = $(this).getRowData(id);
+            $("#resetDrawStatusBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
+            $("#delBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
+        }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         //alert($(".various").length)
         $(".various").fancybox({

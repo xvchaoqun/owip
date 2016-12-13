@@ -819,7 +819,7 @@ $(document).on("click", ".jqBatchBtn", function(e){
 });
 
 // 操作for jqgrid
-$(document).on("click", ".myTableDiv .jqItemBtn", function(){
+$(document).on("click", ".jqItemBtn", function(){
 
     var _this = $(this);
     var gridId = _this.data("grid-id") || "#jqGrid";
@@ -847,7 +847,8 @@ $(document).on("click", ".myTableDiv .jqItemBtn", function(){
                         // console.log(_this)
                         window[callback](_this);
                     }else {
-                        grid.trigger("reloadGrid");
+                        //grid.trigger("reloadGrid");
+                        $(window).resize(); // 解决jqgrid显示的问题
                     }
                 }
             });

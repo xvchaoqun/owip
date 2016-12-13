@@ -175,6 +175,12 @@ public class PassportDrawService extends BaseMapper {
         shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
     }
 
+    // 重置归还状态为 “未归还”
+    public void resetReturnPassport(int id){
+
+        updateMapper.resetReturnPassport(id);
+    }
+
     @Transactional
     public int updateByPrimaryKeySelective(PassportDraw record){
         return passportDrawMapper.updateByPrimaryKeySelective(record);

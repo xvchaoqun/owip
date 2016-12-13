@@ -440,6 +440,18 @@ public class PassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 重置归还状态
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping(value = "/reset_passportDraw_return", method = RequestMethod.POST)
+    @ResponseBody
+    public Map reset_passportDraw_return(@CurrentUser SysUserView loginUser, Integer id) throws IOException {
+
+        passportDrawService.resetReturnPassport(id);
+
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "重置归还证件的归还状态为未归还：%s", id));
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("passportDraw:list")
     @RequestMapping("/passportDraw_view")
     public String passportDraw_view( Integer id, ModelMap modelMap) {
