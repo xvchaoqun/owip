@@ -31,6 +31,8 @@ public class MemberApplyLayoutController {
             return "forward:/applyOpenTime_page";
         if(cls==3)
             return "forward:/memberApplyLog_page";
+        if(cls==4)
+            return "forward:/memberApplyExport_page";
 
         return null;
     }

@@ -44,7 +44,7 @@
                             <span class="count">${studentGrowOdCheckCount}</span><span style="font-size: 10pt;">学生</span></span>
   </c:if>
 <c:if test="${teacherGrowOdCheckCount>0}">
-                             <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}&type=${APPLY_TYPE_TECHER}&growStatus=-1">
+                             <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_DRAW}&type=${APPLY_TYPE_TEACHER}&growStatus=-1">
                             <span class="count">${teacherGrowOdCheckCount}</span><span style="font-size: 10pt;">教职工</span></span>
   </c:if>
                             </span>
@@ -64,7 +64,7 @@
                             <span class="count">${studentPositiveOdCheckCount}</span><span style="font-size: 10pt;">学生</span></span>
   </c:if>
 <c:if test="${teacherPositiveOdCheckCount>0}">
-                             <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_GROW}&type=${APPLY_TYPE_TECHER}&positiveStatus=1">
+                             <span data-url="${ctx}/memberApply_layout?stage=${APPLY_STAGE_GROW}&type=${APPLY_TYPE_TEACHER}&positiveStatus=1">
                             <span class="count">${teacherPositiveOdCheckCount}</span><span style="font-size: 10pt;">教职工</span></span>
 </c:if>
                             </span>

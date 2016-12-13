@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
@@ -287,39 +288,68 @@ public class MemberTeacherController extends BaseController {
 
     public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
-        Map<Integer, Unit> unitMap = unitService.findAll();
+        //Map<Integer, Unit> unitMap = unitService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
-        String[] titles = {"工作证号","姓名","性别","民族","籍贯","最高学历","编制类别","人员类别","岗位类别","专业技术职务",
-                "出生日期","所在单位","所属分党委","所属党支部",
-                "入党时间","转正时间","联系手机"};
+        String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
+                "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
+                "政治面貌","所在分党委、党总支、直属党支部","所在党支部", "所在单位", "入党时间","到校日期",
+                "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","学历","学历毕业学校","学位授予学校",
+                "学位","学员结构", "人才类型", "人才称号", "籍贯","转正时间","手机号码"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberTeacher record:records) {
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-
+            ExtJzg extJzg = extJzgService.getByCode(record.getCode());
+            Date birth = record.getBirth();
+            String ageRange = "";
+            if(birth!=null){
+                byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                if(memberAgeRange>0)
+                    ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+            }
             String[] values = {
                     record.getCode(),
                     record.getRealname(),
-                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
-                    record.getNation(),
-                    record.getNativePlace(),
-                    record.getEducation(),
                     record.getAuthorizedType(),
                     record.getStaffType(),
-                    record.getPostClass(),
-                    record.getProPost(),
-                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
-                    unitMap.get(record.getUnitId()).getName(),
+                    record.getStaffStatus(), // 人员状态
+                    record.getOnJob(), // 在岗情况
+                    record.getPostClass(), // 岗位类别
+                    record.getPostType(), // 主岗等级--岗位级别
+                    gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
+                    birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
+                    ageRange, // 年龄范围
+                    record.getNation(),
+                    extJzg==null?"":extJzg.getGj(), // 国家/地区
+                    extJzg==null?"":extJzg.getSfzh(), // 证件号码
+                    //extJzg.getZzmm(), // 政治面貌
+                    SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
+                    //unitMap.get(record.getUnitId()).getName(),
+                    extJzg==null?"":extJzg.getDwmc(),
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
+                    record.getArriveTime(), // 到校日期
+                    record.getProPost(),
+                    record.getProPostLevel(), //专技岗位等级
+                    record.getManageLevel(), // 管理岗位等级
+                    record.getPostLevel(), // 任职级别 -- 行政级别
+                    record.getPost(), // 行政职务 -- 职务
+                    record.getEducation(), // 学历
+                    record.getSchool(), // 学历毕业学校
+                    extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校
+                    record.getDegree(), // 学位
+                    extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
+                    extJzg==null?"":extJzg.getRclx(),
+                    record.getTalentTitle(),
+                    record.getNativePlace(),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     record.getMobile()
             };
-
             valuesList.add(values);
         }
         String fileName = (cls==7?"已转出":"")+"教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");

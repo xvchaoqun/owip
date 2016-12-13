@@ -617,6 +617,17 @@ $(document).on("click", ".confirm", function(e){
     });
 });
 
+$(document).on("click", ".linkBtn", function(e){
+
+    e.stopPropagation();
+
+    var _this = this;
+    var url = $(this).data("url");
+    var target = $(this).data("target");
+
+    window.open(url,target||'_self','');
+});
+
 // 删除
 $(document).on("click", ".myTableDiv .delBtn", function(){
 
@@ -1063,7 +1074,7 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
     });
     $('select[name='+partyId+']', $container).on("change", function () {
 
-        $("#" + branchDivId + " select").removeAttr("required");
+        $("#" + branchDivId + " select", $container).removeAttr("required");
 
         var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
         //alert("${party.id}")
@@ -1072,7 +1083,7 @@ function register_party_branch_select($container, branchDivId, mt_direct_branch_
         if($(this).val()>0 && $party_class != mt_direct_branch_id){
             $("#"+branchDivId, $container).show();
             if(branchIsNotEmpty!=undefined && branchIsNotEmpty)
-                $("#" + branchDivId + " select").attr("required", "required");
+                $("#" + branchDivId + " select", $container).attr("required", "required");
         }else{
             $('select[name='+branchId+']', $container).val(null).trigger("change");
             $("#"+branchDivId, $container).hide();

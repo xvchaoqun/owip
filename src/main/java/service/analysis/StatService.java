@@ -3,11 +3,9 @@ package service.analysis;
 import bean.analysis.MemberStatByPartyBean;
 import bean.analysis.StatByteBean;
 import bean.analysis.StatIntBean;
-import domain.member.MemberExample;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
 
 import java.util.*;
 
@@ -84,10 +82,10 @@ public class StatService extends BaseMapper{
         if (type==null || type == SystemConstants.MEMBER_TYPE_STUDENT)
             statIntBeans.addAll(statMapper.member_studentGroupByBirth(partyId, branchId));
 
-        int year = DateUtils.getCurrentYear();
+        //int year = DateUtils.getCurrentYear();
         for (StatIntBean statIntBean : statIntBeans) {
             Integer _year = statIntBean.getType();
-            byte key = SystemConstants.MEMBER_AGE_0; // 未知年龄
+            /*byte key = SystemConstants.MEMBER_AGE_0; // 未知年龄
             if(_year!=null){
                 if(_year > year-20){ // 20岁及以下
                     key = SystemConstants.MEMBER_AGE_20;
@@ -100,7 +98,8 @@ public class StatService extends BaseMapper{
                 }else{ // 51及以上
                     key = SystemConstants.MEMBER_AGE_51;
                 }
-            }
+            }*/
+            byte key = SystemConstants.getMemberAgeRange(_year);
             Integer total = _ageMap.get(key);
             total = (total==null)?statIntBean.getNum():(total+statIntBean.getNum());
             _ageMap.put(key, total);

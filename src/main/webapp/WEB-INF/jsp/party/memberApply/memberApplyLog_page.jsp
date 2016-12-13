@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
@@ -33,25 +32,19 @@ pageEncoding="UTF-8" %>
                                     </div>
                                     <div class="widget-body">
                                         <div class="widget-main no-padding">
-                                            <form class="form-horizontal " id="searchForm">
-                                                <div class="row">
-                                                    <div class="col-xs-4">
+                                            <form class="form-inline search-form" id="searchForm">
                                                         <div class="form-group">
-                                                            <label class="col-xs-3 control-label">姓名</label>
-
-                                                            <div class="col-xs-6">
-                                                                <div class="input-group">
-                                                                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                                                                            name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                                                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
-                                                                    </select>
-                                                                </div>
+                                                            <label>姓名</label>
+                                                            <div class="input-group">
+                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-xs-3 control-label">阶段</label>
+                                                            <label>阶段</label>
 
-                                                            <div class="col-xs-6">
                                                                 <div class="input-group">
                                                                     <select class="form-control" name="stage" data-rel="select2" data-placeholder="请选择阶段">
                                                                         <option></option>
@@ -63,42 +56,32 @@ pageEncoding="UTF-8" %>
                                                                         $("#searchForm select[name=stage]").val('${param.stage}');
                                                                     </script>
                                                                 </div>
-                                                            </div>
                                                         </div>
 
-                                                    </div>
-                                                    <div class="col-xs-4">
                                                         <div class="form-group">
-                                                            <label class="col-xs-3 control-label">分党委</label>
+                                                            <label>分党委</label>
 
-                                                            <div class="col-xs-6">
+
                                                                 <select class="form-control" data-rel="select2-ajax"
                                                                         data-ajax-url="${ctx}/party_selects"
                                                                         name="partyId" data-placeholder="请选择分党委">
                                                                     <option value="${party.id}">${party.name}</option>
                                                                 </select>
-                                                            </div>
+
                                                         </div>
 
-                                                    </div>
-                                                    <div class="col-xs-4" style="${(empty branch)?'display: none':''}" id="branchDiv">
-                                                        <div class="form-group">
-                                                            <label class="col-xs-4 control-label">党支部</label>
-
-                                                            <div class="col-xs-6">
+                                                        <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
+                                                            <label >党支部</label>
                                                                 <select class="form-control" data-rel="select2-ajax"
                                                                         data-ajax-url="${ctx}/branch_selects"
                                                                         name="branchId" data-placeholder="请选择党支部">
                                                                     <option value="${branch.id}">${branch.name}</option>
                                                                 </select>
-                                                            </div>
                                                         </div>
-                                                    </div>
                                                     <script>
                                                         register_party_branch_select($("#searchForm"), "branchDiv",
                                                                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                     </script>
-                                                </div>
                                                 <div class="clearfix form-actions center">
                                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 

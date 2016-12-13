@@ -1,24 +1,18 @@
 package controller.analysis;
 
 import bean.analysis.MemberStatByPartyBean;
-import bean.analysis.StatIntBean;
 import controller.BaseController;
 import domain.party.Party;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import persistence.common.StatMapper;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,14 +30,14 @@ public class StatMemberController extends BaseController {
 
         modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, null,
                 SystemConstants.APPLY_TYPE_STU, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
-        modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TECHER,
+        modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TEACHER,
                 SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
         modelMap.put("graduateAbroadCount", graduateAbroadService.count(null, null, (byte) 3, null));
         modelMap.put("studentPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_STU,
                 SystemConstants.APPLY_STAGE_GROW, (byte) 1));
-        modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TECHER,
+        modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TEACHER,
                 SystemConstants.APPLY_STAGE_GROW, (byte) 1));
         return "analysis/party/stat_member_page";
     }

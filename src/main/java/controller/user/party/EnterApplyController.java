@@ -129,7 +129,7 @@ public class EnterApplyController extends BaseController {
         memberApply.setUserId(loginUser.getId());
 
         if(loginUser.getType() == SystemConstants.USER_TYPE_JZG){
-            memberApply.setType(SystemConstants.APPLY_TYPE_TECHER); // 教职工
+            memberApply.setType(SystemConstants.APPLY_TYPE_TEACHER); // 教职工
         } else if(loginUser.getType() == SystemConstants.USER_TYPE_BKS
                 || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
             memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生

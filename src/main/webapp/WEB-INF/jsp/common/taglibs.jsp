@@ -262,7 +262,7 @@
 <c:set var="MODIFY_TABLE_APPLY_TYPE_DELETE" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE%>"/>
 <c:set var="MODIFY_TABLE_APPLY_TYPE_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_MAP%>"/>
 
-<c:set var="APPLY_TYPE_TECHER" value="<%=SystemConstants.APPLY_TYPE_TECHER%>"/>
+<c:set var="APPLY_TYPE_TEACHER" value="<%=SystemConstants.APPLY_TYPE_TEACHER%>"/>
 <c:set var="APPLY_TYPE_STU" value="<%=SystemConstants.APPLY_TYPE_STU%>"/>
 <c:set var="APPLY_TYPE_MAP" value="<%=SystemConstants.APPLY_TYPE_MAP%>"/>
 

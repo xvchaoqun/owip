@@ -1,6 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.ext.ExtJzg;
+import domain.member.Member;
 import domain.party.*;
 import domain.party.BranchExample.Criteria;
 import domain.sys.MetaType;
@@ -373,7 +375,7 @@ public class BranchController extends BaseController {
     }
 
     // 导出支部书记
-    public void branch_secretary_export(BranchViewExample example, HttpServletResponse response) {
+    /*public void branch_secretary_export(BranchViewExample example, HttpServletResponse response) {
 
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         List<BranchView> records = branchViewMapper.selectByExample(example);
@@ -396,6 +398,86 @@ public class BranchController extends BaseController {
                         record.getPartyId() == null ? "" : partyService.findAll().get(record.getPartyId()).getName(),
                         record.getName(),
                         metaTypeService.getName(record.getTypeId())
+                };
+                valuesList.add(values);
+            }
+        }
+        String fileName = "党支部书记_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }*/
+
+    // 导出支部书记
+    public void branch_secretary_export(BranchViewExample example, HttpServletResponse response) {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
+        List<BranchView> records = branchViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
+                "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
+                "政治面貌","所在分党委、党总支、直属党支部","所在党支部", "所在单位", "入党时间","到校日期",
+                "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","学历","学历毕业学校","学位授予学校",
+                "学位","学员结构", "人才类型", "人才称号", "籍贯","转正时间","手机号码","电子邮箱"};
+
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            BranchView branch = records.get(i);
+            List<BranchMember> branchSecretary = commonMapper.findBranchSecretary(secretaryType.getId(), branch.getId());
+
+            if (branchSecretary.size() > 0) {
+                Integer userId = branchSecretary.get(0).getUserId();
+                SysUserView uv = sysUserService.findById(userId);
+                ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+                Date birth = (extJzg!=null)?extJzg.getCsrq():null;
+                String ageRange = "";
+                if(birth!=null){
+                    byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                    if(memberAgeRange>0)
+                        ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+                }
+                Member member = memberService.get(userId);
+                Integer partyId = (member!=null)?member.getPartyId():null;
+                Integer branchId = (member!=null)?member.getBranchId():null;
+                String[] values = {
+                        uv.getCode(),
+                        uv.getRealname(),
+                        extJzg==null?"":extJzg.getBzlx(),
+                        extJzg==null?"":extJzg.getRylx(),
+                        extJzg==null?"":extJzg.getRyzt(), // 人员状态
+                        extJzg==null?"":extJzg.getSfzg(), // 在岗情况
+                        extJzg==null?"":extJzg.getGwlb(), // 岗位类别
+                        extJzg==null?"":extJzg.getGwjb(), // 主岗等级--岗位级别
+                        extJzg==null?"":extJzg.getXb(),
+                        DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
+                        birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
+                        ageRange, // 年龄范围
+                        extJzg==null?"":extJzg.getMz(),
+                        extJzg==null?"":extJzg.getGj(), // 国家/地区
+                        extJzg==null?"":extJzg.getSfzh(), // 证件号码
+                        member==null?"":SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(member.getPoliticalStatus()), // 政治面貌
+                        partyId==null?"":partyMap.get(partyId).getName(),
+                        branchId==null?"":branchMap.get(branchId).getName(),
+                        //unitMap.get(record.getUnitId()).getName(),
+                        extJzg==null?"":extJzg.getDwmc(),
+                        member==null?"":DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD),
+                        extJzg==null?"":DateUtils.formatDate(extJzg.getLxrq(), DateUtils.YYYY_MM_DD), // 到校日期
+                        "", // 专业技术职务
+                        extJzg==null?"":extJzg.getZjgwdj(), //专技岗位等级
+                        extJzg==null?"":extJzg.getGlgwdj(), // 管理岗位等级
+                        extJzg==null?"":extJzg.getXzjb(), // 任职级别 -- 行政级别
+                        extJzg==null?"":extJzg.getZwmc(), // 行政职务 -- 职务
+                        extJzg==null?"":extJzg.getZhxlmc(), // 学历
+                        extJzg==null?"":extJzg.getXlbyxx(), // 学历毕业学校
+                        extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校
+                        extJzg==null?"":extJzg.getZhxw(), // 学位
+                        extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
+                        extJzg==null?"":extJzg.getRclx(),
+                        extJzg==null?"":extJzg.getRclx(),
+                        extJzg==null?"":extJzg.getRcch(),
+                        member==null?"":DateUtils.formatDate(member.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                        uv.getMobile(),
+                        extJzg==null?"":extJzg.getDzxx()
                 };
                 valuesList.add(values);
             }

@@ -68,9 +68,9 @@
                                                         </a>
                                                     </li>
 
-                                                    <li class="<c:if test="${type==APPLY_TYPE_TECHER}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=${APPLY_TYPE_TECHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
-                                                            <c:set value="${stage}_${APPLY_TYPE_TECHER}" var="_key"/>
+                                                    <li class="<c:if test="${type==APPLY_TYPE_TEACHER}">active</c:if>">
+                                                        <a href='?cls=${cls}&type=${APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
+                                                            <c:set value="${stage}_${APPLY_TYPE_TEACHER}" var="_key"/>
                                                             <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"

@@ -3,7 +3,6 @@ package service.party;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class MemberApplyService extends BaseMapper {
                 MemberApply record = new MemberApply();
                 record.setUserId(userId);
                 record.setType((member.getType()==SystemConstants.MEMBER_TYPE_TEACHER ?
-                        SystemConstants.APPLY_TYPE_TECHER : SystemConstants.APPLY_TYPE_STU));
+                        SystemConstants.APPLY_TYPE_TEACHER : SystemConstants.APPLY_TYPE_STU));
                 record.setPartyId(member.getPartyId());
                 record.setBranchId(member.getBranchId());
                 record.setApplyTime(now);
@@ -326,7 +325,7 @@ public class MemberApplyService extends BaseMapper {
         member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
         Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
-                || memberApply.getType() == SystemConstants.APPLY_TYPE_TECHER);
+                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER);
 
         member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员

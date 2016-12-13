@@ -7,7 +7,6 @@ import domain.member.MemberApplyExample;
 import domain.member.MemberApplyExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.helper.ShiroSecurityHelper;
 import service.party.MemberApplyOpService;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -383,7 +381,7 @@ public class MemberApplyController extends BaseController {
             memberApply.setUserId(userId);
 
             if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
-                memberApply.setType(SystemConstants.APPLY_TYPE_TECHER); // 教职工
+                memberApply.setType(SystemConstants.APPLY_TYPE_TEACHER); // 教职工
             } else if (sysUser.getType() == SystemConstants.USER_TYPE_BKS
                     || sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
                 memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生

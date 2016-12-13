@@ -1,5 +1,7 @@
 package sys.constants;
 
+import sys.utils.DateUtils;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -234,13 +236,13 @@ public class SystemConstants {
     }
 
     // 申请入党类型
-    public final static byte APPLY_TYPE_TECHER = 1; // 教职工
+    public final static byte APPLY_TYPE_TEACHER = 1; // 教职工
     public final static byte APPLY_TYPE_STU = 2; // 学生
     public final static Map<Byte, String> APPLY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         APPLY_TYPE_MAP.put(APPLY_TYPE_STU, "学生");
-        APPLY_TYPE_MAP.put(APPLY_TYPE_TECHER, "教职工");
+        APPLY_TYPE_MAP.put(APPLY_TYPE_TEACHER, "教职工");
     }
 
     // 党员年龄段
@@ -259,6 +261,26 @@ public class SystemConstants {
         MEMBER_AGE_MAP.put(MEMBER_AGE_41_50, "41~50");
         MEMBER_AGE_MAP.put(MEMBER_AGE_51, "51及以上");
         MEMBER_AGE_MAP.put(MEMBER_AGE_0, "未知");
+    }
+
+    public static byte getMemberAgeRange(Integer birthYear){
+
+        int currentYear = DateUtils.getCurrentYear();
+        byte key = SystemConstants.MEMBER_AGE_0; // 未知年龄
+        if(birthYear!=null){
+            if(birthYear > currentYear-20){ // 20岁及以下
+                key = SystemConstants.MEMBER_AGE_20;
+            }else if(birthYear > currentYear-30){ // 21~30
+                key = SystemConstants.MEMBER_AGE_21_30;
+            }else if(birthYear > currentYear-40){ // 31~40
+                key = SystemConstants.MEMBER_AGE_31_40;
+            }else if(birthYear > currentYear-50){ // 41~50
+                key = SystemConstants.MEMBER_AGE_41_50;
+            }else{ // 51及以上
+                key = SystemConstants.MEMBER_AGE_51;
+            }
+        }
+        return key;
     }
 
     public final static Map<Byte, String> PIE_COLOR_MAP = new LinkedHashMap<>();

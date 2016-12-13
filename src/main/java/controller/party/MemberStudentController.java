@@ -1,11 +1,14 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.ext.ExtYjs;
 import domain.party.Branch;
 import domain.member.MemberStudent;
 import domain.member.MemberStudentExample;
 import domain.member.MemberStudentExample.Criteria;
+import domain.party.GraduateAbroad;
 import domain.party.Party;
+import domain.sys.SysUserView;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberStudentMixin;
@@ -324,32 +327,44 @@ public class MemberStudentController extends BaseController {
 
     public void memberStudent_export(int cls, MemberStudentExample example, HttpServletResponse response) {
 
-        Map<Integer, Unit> unitMap = unitService.findAll();
+        //Map<Integer, Unit> unitMap = unitService.findAll();
         List<MemberStudent> records = memberStudentMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学生证号","姓名", "性别", "民族","籍贯","学生类别",  "所在单位","年级", "所属分党委", "所属党支部",
-                "入党时间","转正时间","培养层次","培养类型"};
+        String[] titles = {"学号","学生类别","姓名","性别", "出生日期", "身份证号",
+                "民族", "年级", "所在分党委、党总支、直属党支部", "所属党支部", "政治面貌", "发展时间",
+                "培养层次（研究生填写）","培养类型（研究生填写）", "教育类别（研究生填写）",
+                "培养方式（研究生填写）","预计毕业年月", "是否出国留学","籍贯","转正时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberStudent record = records.get(i);
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
+
+            GraduateAbroad graduateAbroad = graduateAbroadService.get(record.getUserId());
+
             String[] values = {
                     record.getCode(),
+                    record.getType(),
                     record.getRealname(),
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
+                    DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
+                    record.getIdcard(),
                     record.getNation(),
-                    record.getNativePlace(),
-                    record.getType(),
-                    unitMap.get(record.getUnitId()).getName(),
-                    record.getGrade(),
+                    record.getGrade(), // 年级
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     record.getEduLevel(),
-                    record.getEduType()
+                    record.getEduType(),
+                    record.getEduCategory(),
+                    record.getEduWay(),
+                    DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
+                    (graduateAbroad!=null&&graduateAbroad.getStatus()==
+                            SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY)?"是":"否",// 是否出国留学
+                    record.getNativePlace(),
+                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD)
             };
             valuesList.add(values);
         }
