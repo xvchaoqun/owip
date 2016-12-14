@@ -114,7 +114,7 @@ public class MemberApplyExportController extends BaseController {
                 "民族", "年级", "所在分党委、党总支、直属党支部", "所属党支部", "发展程度",
                 "提交书面申请书时间" , "确定为入党积极分子时间", "确定为发展对象时间",
                 "培养层次（研究生填写）","培养类型（研究生填写）", "教育类别（研究生填写）",
-                "培养方式（研究生填写）","预计毕业年月", "籍贯"};
+                "培养方式（研究生填写）","预计毕业年月", "学籍状态","籍贯"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
 
@@ -154,6 +154,7 @@ public class MemberApplyExportController extends BaseController {
                     record==null?"":record.getEduCategory(),
                     record==null?"":record.getEduWay(),
                     record==null?"":DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
+                    record==null?"":record.getXjStatus(),
                     uv.getNativePlace()
             };
             valuesList.add(values);
@@ -170,7 +171,7 @@ public class MemberApplyExportController extends BaseController {
         String[] titles = {"学号","学生类别","姓名","性别", "出生日期", "身份证号",
                 "民族", "年级", "所在分党委、党总支、直属党支部", "所属党支部", "政治面貌", "发展时间",
                 "培养层次（研究生填写）","培养类型（研究生填写）", "教育类别（研究生填写）",
-                "培养方式（研究生填写）","预计毕业年月", "籍贯","转正时间"};
+                "培养方式（研究生填写）","预计毕业年月", "学籍状态","籍贯","转正时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
             MemberStudent record = memberStudentService.get(memberApply.getUserId());
@@ -196,6 +197,7 @@ public class MemberApplyExportController extends BaseController {
                     record==null?"":record.getEduCategory(),
                     record==null?"":record.getEduWay(),
                     record==null?"":DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
+                    record==null?"":record.getXjStatus(),
                     record==null?"":record.getNativePlace(),
                     record==null?"":DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD)
             };

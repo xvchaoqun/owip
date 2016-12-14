@@ -22,7 +22,7 @@
         <div id="home4" class="tab-pane in active">
             丢失日期：${cm:formatDate(passport.lostTime, "yyyy-MM-dd")}
             <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px;width: 595px">
-                <img src="${ctx}/pic?path=${passport.lostProof}" style="max-width: 595px"/>
+                <img src="${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}" style="max-width: 595px"/>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
 <script>
     $("#print_proof").click(function () {
-        printWindow('${ctx}/pic?path=${fn:replace(passport.lostProof, "\\","\\/"  )}');
+        printWindow('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');
     });
     $("#updateLostProof").click(function(){
         loadModal("${ctx}/updateLostProof?id=${passport.id}")

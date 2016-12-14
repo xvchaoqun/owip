@@ -37,8 +37,8 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label">修改前</label>
             <div class="col-xs-6 label-text">
                 <c:if test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
-                    <a class="various" data-fancybox-type="image" href="${ctx}/avatar?path=${record.orginalValue}">
-                    <img class="avatar" src="${ctx}/avatar?path=${record.orginalValue}"/>
+                    <a class="various" data-fancybox-type="image" href="${ctx}/avatar?path=${cm:encodeURI(record.orginalValue)}">
+                    <img class="avatar" src="${ctx}/avatar?path=${cm:encodeURI(record.orginalValue)}"/>
                     </a>
                 </c:if>
                 <c:if test="${record.type!=MODIFY_BASE_ITEM_TYPE_IMAGE}">
@@ -50,8 +50,8 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label">修改后</label>
             <div class="col-xs-6 label-text">
                 <c:if test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
-                    <a class="various" data-fancybox-type="image" href="${ctx}/avatar?path=${record.modifyValue}">
-                    <img class="avatar" src="${ctx}/avatar?path=${record.modifyValue}"/>
+                    <a class="various" data-fancybox-type="image" href="${ctx}/avatar?path=${cm:encodeURI(record.modifyValue)}">
+                    <img class="avatar" src="${ctx}/avatar?path=${cm:encodeURI(record.modifyValue)}"/>
                     </a>
                 </c:if>
                 <c:if test="${record.type!=MODIFY_BASE_ITEM_TYPE_IMAGE}">

@@ -209,60 +209,6 @@ public class PassportDrawController extends BaseController {
         return;
     }
 
-    /*@RequiresPermissions("passportDraw:edit")
-    @RequestMapping(value = "/passportDraw_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_passportDraw_au(PassportDraw record, String _applyDate,
-                                  String _startDate, String _endDate, String _expectDate,
-                                  String _handleDate, HttpServletRequest request) {
-
-        Integer id = record.getId();
-        if (StringUtils.isNotBlank(_applyDate)) {
-            record.setApplyDate(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_startDate)) {
-            record.setStartDate(DateUtils.parseDate(_startDate, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_endDate)) {
-            record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_expectDate)) {
-            record.setExpectDate(DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD));
-        }
-        if (StringUtils.isNotBlank(_handleDate)) {
-            record.setHandleDate(DateUtils.parseDate(_handleDate, DateUtils.YYYY_MM_DD));
-        }
-        if (id == null) {
-            record.setCreateTime(new Date());
-            record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
-            record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
-            passportDrawService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加领取证件：%s", record.getId()));
-        } else {
-
-            passportDrawService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新领取证件：%s", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
-    @RequiresPermissions("passportDraw:edit")
-    @RequestMapping("/passportDraw_au")
-    public String passportDraw_au(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            modelMap.put("passportDraw", passportDraw);
-
-            Cadre cadre = cadreService.findAll().get(passportDraw.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
-        }
-        return "abroad/passportDraw/passportDraw_au";
-    }
-
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping("/passportDraw_draw")
     public String passportDraw_draw(Integer id, ModelMap modelMap) {
@@ -297,8 +243,8 @@ public class PassportDrawController extends BaseController {
         if (_drawRecord != null && !_drawRecord.isEmpty()) {
             String originalFilename = _drawRecord.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "draw" + File.separator + "draw" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "draw" + FILE_SEPARATOR + "draw" + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_drawRecord, new File(springProps.uploadPath + savePath));
@@ -373,10 +319,10 @@ public class PassportDrawController extends BaseController {
 
             String originalFilename = _attachment.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath =  File.separator
-                    + "passportDraw" + File.separator
-                    + "attachment" + File.separator
-                    + id + File.separator
+            String realPath =  FILE_SEPARATOR
+                    + "passportDraw" + FILE_SEPARATOR
+                    + "attachment" + FILE_SEPARATOR
+                    + id + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_attachment, new File(springProps.uploadPath + savePath));
@@ -404,8 +350,8 @@ public class PassportDrawController extends BaseController {
         if (_useRecord != null && !_useRecord.isEmpty()) {
             String originalFilename = _useRecord.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "draw" + File.separator + "use" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "draw" + FILE_SEPARATOR + "use" + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             //FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
@@ -418,8 +364,8 @@ public class PassportDrawController extends BaseController {
         }else if(StringUtils.isNotBlank(_base64)){
 
             String fileName = UUID.randomUUID().toString() + ".jpg";
-            String realPath = File.separator
-                    + "draw" + File.separator + "use" + File.separator;
+            String realPath = FILE_SEPARATOR
+                    + "draw" + FILE_SEPARATOR + "use" + FILE_SEPARATOR;
 
             Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_base64.split("base64,")[1]))
                     .scale(1f)

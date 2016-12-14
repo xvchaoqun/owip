@@ -333,7 +333,7 @@ public class MemberStudentController extends BaseController {
         String[] titles = {"学号","学生类别","姓名","性别", "出生日期", "身份证号",
                 "民族", "年级", "所在分党委、党总支、直属党支部", "所属党支部", "政治面貌", "发展时间",
                 "培养层次（研究生填写）","培养类型（研究生填写）", "教育类别（研究生填写）",
-                "培养方式（研究生填写）","预计毕业年月", "是否出国留学","籍贯","转正时间"};
+                "培养方式（研究生填写）","预计毕业年月", "学籍状态","是否出国留学","籍贯","转正时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberStudent record = records.get(i);
@@ -361,6 +361,7 @@ public class MemberStudentController extends BaseController {
                     record.getEduCategory(),
                     record.getEduWay(),
                     DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
+                    record.getXjStatus(),
                     (graduateAbroad!=null&&graduateAbroad.getStatus()==
                             SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY)?"是":"否",// 是否出国留学
                     record.getNativePlace(),

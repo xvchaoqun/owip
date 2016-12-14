@@ -214,8 +214,8 @@ public class UserApplySelfController extends BaseController {
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath =  File.separator
-                    + "apply_self" + File.separator + userId + File.separator
+            String realPath =  FILE_SEPARATOR
+                    + "apply_self" + FILE_SEPARATOR + userId + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));

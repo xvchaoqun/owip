@@ -202,8 +202,12 @@
 		droppable:false,
 		onchange:null,
 		thumbnail:false, //| true | large
+		maxSize:${_uploadMaxSize},
 		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
 		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+	}).off('file.error.ace').on("file.error.ace",function(e, info){
+		var size = info.error_list['size'];
+		if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size))
 	});
 	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){

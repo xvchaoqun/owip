@@ -207,8 +207,8 @@
     <td  class="bg-right">证件拍照</td>
     <td colspan="5" class="bg-left">
       <c:if test="${not empty passportDraw.drawRecord}">
-      <a href="${ctx}/pic?path=${passportDraw.drawRecord}" target="_blank">
-        <img src="${ctx}/pic?path=${passportDraw.drawRecord}"  style="max-height: 50px"/>
+      <a href="${ctx}/pic?path=${cm:encodeURI(passportDraw.drawRecord)}" target="_blank">
+        <img src="${ctx}/pic?path=${cm:encodeURI(passportDraw.drawRecord)}"  style="max-height: 50px"/>
       </a>
       </c:if>
     </td>
@@ -242,8 +242,8 @@
     <td class="bg-right">使用记录拍照</td>
     <td colspan="5" class="bg-left">
     <c:if test="${not empty passportDraw.useRecord}">
-      <a href="${ctx}/pic?path=${passportDraw.useRecord}" target="_blank">
-        <img src="${ctx}/pic?path=${passportDraw.useRecord}"  style="max-height: 50px"/>
+      <a href="${ctx}/pic?path=${cm:encodeURI(passportDraw.useRecord)}" target="_blank">
+        <img src="${ctx}/pic?path=${cm:encodeURI(passportDraw.useRecord)}"  style="max-height: 50px"/>
       </a>
       </c:if>
     </td>

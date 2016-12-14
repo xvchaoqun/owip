@@ -230,8 +230,8 @@
 
      <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
       </table>-->
-      <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
-      </table>
+     <!-- <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
+      </table>-->
       <!-- <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
           <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
       </table>-->
@@ -321,9 +321,9 @@
       </table>-->
 
 
-      <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
+      <table tableName="ext_bks" domainObjectName="ext.ExtBks">
       </table>
-      <table tableName="ext_jzg" domainObjectName="ext.ExtJzg">
+      <!--<table tableName="ext_jzg" domainObjectName="ext.ExtJzg">
       </table>
       <table tableName="ext_yjs" domainObjectName="ext.ExtYjs">
       </table>-->

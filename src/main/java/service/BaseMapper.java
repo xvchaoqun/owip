@@ -24,7 +24,12 @@ import persistence.unit.*;
 import shiro.ShiroUser;
 import sys.tags.CmTag;
 
+import java.io.File;
+
 public class BaseMapper {
+
+	// #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
+	protected final static String FILE_SEPARATOR= File.separator;
 
 	protected class VerifyAuth<T>{
 		public Boolean isBranchAdmin;

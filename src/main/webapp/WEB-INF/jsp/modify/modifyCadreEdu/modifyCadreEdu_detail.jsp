@@ -91,7 +91,7 @@
                     <td class="bg-left">
                         <c:if test="${not empty modify.certificate}">
                     <c:forEach items="${fn:split(modify.certificate, ',')}" var="filePath" varStatus="vs">
-                        <a class="various" rel="group${modify.id}" title="证件${vs.index+1}" data-fancybox-type="image" data-path="${filePath}" href="${ctx}/pic?path=${filePath}">证件${vs.index+1}</a>
+                        <a class="various" rel="group${modify.id}" title="证件${vs.index+1}" data-fancybox-type="image" data-path="${cm:encodeURI(filePath)}" href="${ctx}/pic?path=${cm:encodeURI(filePath)}">证件${vs.index+1}</a>
                         ${vs.last?'':'，'}
                     </c:forEach>
                         </c:if>
@@ -292,9 +292,9 @@
                     var filesArray = [];
                     if (cellvalue != undefined) {
                         var filePaths = cellvalue.split(",");
-                        filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'.format(filePaths[0], 1, rowObject.id));
+                        filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'.format(encodeURI(filePaths[0]), 1, rowObject.id));
                         if (filePaths.length == 2)
-                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'.format(filePaths[1], 2, rowObject.id));
+                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'.format(encodeURI(filePaths[1]), 2, rowObject.id));
                     }
 
                     return filesArray.join("，");

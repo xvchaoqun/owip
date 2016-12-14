@@ -44,6 +44,7 @@
     <result column="sfgfs" property="sfgfs" jdbcType="VARCHAR" />
     <result column="import_time_millis" property="importTimeMillis" jdbcType="VARCHAR" />
     <result column="yxsh" property="yxsh" jdbcType="VARCHAR" />
+    <result column="xjzt" property="xjzt" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -107,7 +108,7 @@
     id, xh, xm, xb, csrq, nj, yxmc, zymc, fgyx, pyfs, mz, zzmm, xjbd, xjrq, xjyy, sf, 
     dq, syxx, dxhwpdw, dxdwszd, ksh, xmpy, kslb, wyyz, jtdz, yzbm, lxdh, kl, lqzymc, 
     lqyxmc, mfsfs, sfzh, kstc, grpj, ksjl, xkml, zkzh, byxx, bz, sfgfs, import_time_millis, 
-    yxsh
+    yxsh, xjzt
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.ext.ExtBksExample" >
     select
@@ -151,7 +152,7 @@
       mfsfs, sfzh, kstc, 
       grpj, ksjl, xkml, zkzh, 
       byxx, bz, sfgfs, import_time_millis, 
-      yxsh)
+      yxsh, xjzt)
     values (#{id,jdbcType=INTEGER}, #{xh,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{xb,jdbcType=VARCHAR}, 
       #{csrq,jdbcType=VARCHAR}, #{nj,jdbcType=VARCHAR}, #{yxmc,jdbcType=VARCHAR}, #{zymc,jdbcType=VARCHAR}, 
       #{fgyx,jdbcType=VARCHAR}, #{pyfs,jdbcType=VARCHAR}, #{mz,jdbcType=VARCHAR}, #{zzmm,jdbcType=VARCHAR}, 
@@ -163,7 +164,7 @@
       #{mfsfs,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, #{kstc,jdbcType=VARCHAR}, 
       #{grpj,jdbcType=VARCHAR}, #{ksjl,jdbcType=VARCHAR}, #{xkml,jdbcType=VARCHAR}, #{zkzh,jdbcType=VARCHAR}, 
       #{byxx,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{sfgfs,jdbcType=VARCHAR}, #{importTimeMillis,jdbcType=VARCHAR}, 
-      #{yxsh,jdbcType=VARCHAR})
+      #{yxsh,jdbcType=VARCHAR}, #{xjzt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ext.ExtBks" >
     insert into ext_bks
@@ -294,6 +295,9 @@
       <if test="yxsh != null" >
         yxsh,
       </if>
+      <if test="xjzt != null" >
+        xjzt,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -421,6 +425,9 @@
       </if>
       <if test="yxsh != null" >
         #{yxsh,jdbcType=VARCHAR},
+      </if>
+      <if test="xjzt != null" >
+        #{xjzt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -559,6 +566,9 @@
       <if test="record.yxsh != null" >
         yxsh = #{record.yxsh,jdbcType=VARCHAR},
       </if>
+      <if test="record.xjzt != null" >
+        xjzt = #{record.xjzt,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -607,7 +617,8 @@
       bz = #{record.bz,jdbcType=VARCHAR},
       sfgfs = #{record.sfgfs,jdbcType=VARCHAR},
       import_time_millis = #{record.importTimeMillis,jdbcType=VARCHAR},
-      yxsh = #{record.yxsh,jdbcType=VARCHAR}
+      yxsh = #{record.yxsh,jdbcType=VARCHAR},
+      xjzt = #{record.xjzt,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -738,6 +749,9 @@
       <if test="yxsh != null" >
         yxsh = #{yxsh,jdbcType=VARCHAR},
       </if>
+      <if test="xjzt != null" >
+        xjzt = #{xjzt,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -783,7 +797,8 @@
       bz = #{bz,jdbcType=VARCHAR},
       sfgfs = #{sfgfs,jdbcType=VARCHAR},
       import_time_millis = #{importTimeMillis,jdbcType=VARCHAR},
-      yxsh = #{yxsh,jdbcType=VARCHAR}
+      yxsh = #{yxsh,jdbcType=VARCHAR},
+      xjzt = #{xjzt,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.ext.ExtBksExample" id="selectByExampleWithRowbounds" >

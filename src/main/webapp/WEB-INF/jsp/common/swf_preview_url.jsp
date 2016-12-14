@@ -23,7 +23,7 @@
 
     var xiSwfUrlStr = "${expressInstallSwf}";
     var flashvars = {
-      SwfFile : escape("${ctx}/swf?path=${fn:replace(param.path, '\\', '\\\\')}"),
+      SwfFile : escape("${ctx}/swf?path=${cm:encodeURI(param.path)}"),
       Scale : 0.6,
       ZoomTransition : "easeOut",
       ZoomTime : 0.5,

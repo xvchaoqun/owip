@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${attachFile!=null}">确定</c:if><c:if test="${attachFile==null}">添加</c:if>"/>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="<c:if test="${attachFile!=null}">确定</c:if><c:if test="${attachFile==null}">添加</c:if>"/>
 </div>
 
 <script>
@@ -63,13 +63,17 @@ pageEncoding="UTF-8"%>
         btn_change:'更改',
         droppable:false,
         onchange:null,
+        maxSize:${_uploadMaxSize},
         thumbnail:false //| true | large
         //whitelist:'gif|png|jpg|jpeg'
         //blacklist:'exe|php'
         //onchange:''
         //
+    }).off('file.error.ace').on("file.error.ace",function(e, info){
+        var size = info.error_list['size'];
+        if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size))
     });
-
+    $("#modal #submitBtn").click(function(){$("#modalForm").submit();return false;})
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

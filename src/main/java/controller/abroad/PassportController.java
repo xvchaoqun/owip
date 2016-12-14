@@ -376,8 +376,8 @@ public class PassportController extends BaseController {
 
         if (_cancelPic != null && !_cancelPic.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "passport_cancel" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "passport_cancel" + FILE_SEPARATOR
                     + fileName;
             String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
             String savePath = realPath + ext;
@@ -390,8 +390,8 @@ public class PassportController extends BaseController {
         }else if(StringUtils.isNotBlank(_base64)){
 
             String fileName = UUID.randomUUID().toString() + ".jpg";
-            String realPath = File.separator
-                    + "passport_cancel" + File.separator;
+            String realPath = FILE_SEPARATOR
+                    + "passport_cancel" + FILE_SEPARATOR;
 
             Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_base64.split("base64,")[1]))
                     .scale(1f)
@@ -464,8 +464,8 @@ public class PassportController extends BaseController {
         }
         if (_lostProof != null && !_lostProof.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "passport_lost" + File.separator  // passport_cancel -> passport_lost 20160620
+            String realPath = FILE_SEPARATOR
+                    + "passport_lost" + FILE_SEPARATOR  // passport_cancel -> passport_lost 20160620
                     + fileName;
             String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
             String savePath = realPath + ext;
@@ -515,8 +515,8 @@ public class PassportController extends BaseController {
         }
         if (_cancelPic != null && !_cancelPic.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "passport_cancel" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "passport_cancel" + FILE_SEPARATOR
                     + fileName;
             String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
             String savePath = realPath + ext;
@@ -570,8 +570,8 @@ public class PassportController extends BaseController {
             //if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new RuntimeException("请选择丢失证明文件");
             if (_lostProof != null && !_lostProof.isEmpty()) {
                 String fileName = UUID.randomUUID().toString();
-                String realPath = File.separator
-                        + "passport_cancel" + File.separator
+                String realPath = FILE_SEPARATOR
+                        + "passport_cancel" + FILE_SEPARATOR
                         + fileName;
                 String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
                 String savePath = realPath + ext;
@@ -730,8 +730,8 @@ public class PassportController extends BaseController {
         }
         if (_lostProof != null && !_lostProof.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "passport_cancel" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "passport_cancel" + FILE_SEPARATOR
                     + fileName;
             String ext = FileUtils.getExtention(_lostProof.getOriginalFilename());
             String savePath = realPath + ext;

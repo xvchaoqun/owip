@@ -24,6 +24,7 @@ import service.sys.*;
 import service.unit.*;
 import shiro.PasswordHelper;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 

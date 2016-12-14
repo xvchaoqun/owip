@@ -53,8 +53,8 @@ public class UserModifyCadreEduController extends BaseController{
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath =  File.separator
-                    + "cadre_edu" + File.separator + record.getCadreId() + File.separator
+            String realPath =  FILE_SEPARATOR
+                    + "cadre_edu" + FILE_SEPARATOR + record.getCadreId() + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));

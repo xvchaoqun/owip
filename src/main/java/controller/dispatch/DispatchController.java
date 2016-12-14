@@ -198,9 +198,9 @@ public class DispatchController extends BaseController {
         String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
 
         String fileName = UUID.randomUUID().toString();
-        String realPath =  File.separator
-                + "dispatch" + File.separator + uploadDate + File.separator
-                + "file" + File.separator
+        String realPath =  FILE_SEPARATOR
+                + "dispatch" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
+                + "file" + FILE_SEPARATOR
                 + fileName;
         String savePath = realPath + FileUtils.getExtention(originalFilename);
         FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
@@ -274,9 +274,9 @@ public class DispatchController extends BaseController {
 
             String originalFilename = _ppt.getOriginalFilename();
             String _fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "dispatch" + File.separator + uploadDate + File.separator
-                    + "ppt" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "dispatch" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
+                    + "ppt" + FILE_SEPARATOR
                     + _fileName;
             String savePath =  realPath + FileUtils.getExtention(originalFilename);
             String pdfPath = realPath + ".pdf";

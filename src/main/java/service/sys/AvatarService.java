@@ -33,7 +33,7 @@ public class AvatarService extends BaseMapper{
         String avatar = null;
         if(_avatar!=null && !_avatar.isEmpty()){
             //String originalFilename = _avatar.getOriginalFilename();
-            avatar =  File.separator + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) + File.separator;
+            avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) + FILE_SEPARATOR;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
             avatar += code +".jpg";
@@ -54,8 +54,8 @@ public class AvatarService extends BaseMapper{
         String avatar = null;
         if(_avatar!=null && !_avatar.isEmpty()){
             //String originalFilename = _avatar.getOriginalFilename();
-            avatar =  File.separator + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
-                    + File.separator + "upload" + File.separator;
+            avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
+                    + FILE_SEPARATOR + "upload" + FILE_SEPARATOR;
             File path = new File(springProps.avatarFolder + avatar);
             if(!path.exists()) path.mkdirs();
             avatar += System.currentTimeMillis() +".jpg";
@@ -75,8 +75,8 @@ public class AvatarService extends BaseMapper{
 
         SysUserView uv = sysUserService.findById(userId);
         String avatar =  uv.getAvatar();
-        String backup = File.separator + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) +
-                File.separator + "backup" + File.separator;
+        String backup = FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) +
+                FILE_SEPARATOR + "backup" + FILE_SEPARATOR;
         File path = new File(springProps.avatarFolder + backup);
         if(!path.exists()) path.mkdirs();
         backup += System.currentTimeMillis() +".jpg";

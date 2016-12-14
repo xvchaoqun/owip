@@ -62,6 +62,11 @@
 		<function-signature>java.lang.String  substr(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>encodeURI</name>
+		<function-class>sys.utils.ContentUtils</function-class>
+		<function-signature>java.lang.String  encodeURI(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>encodeQueryString</name>
 		<function-class>sys.utils.ContentUtils</function-class>
 		<function-signature>java.lang.String  encodeQueryString(java.lang.String)</function-signature>

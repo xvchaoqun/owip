@@ -436,8 +436,8 @@ public class ApplySelfController extends BaseController {
 
             modifyProofFileName = _modifyProof.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "apply_self_modify" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "apply_self_modify" + FILE_SEPARATOR
                     + fileName;
             String ext = FileUtils.getExtention(modifyProofFileName);
             modifyProof = realPath + ext;

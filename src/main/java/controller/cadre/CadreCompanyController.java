@@ -116,9 +116,9 @@ public class CadreCompanyController extends BaseController {
             //String ext = FileUtils.getExtention(_proof.getOriginalFilename());
             String originalFilename = _paper.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath =  File.separator
-                    + "cadre" + File.separator
-                    + "file" + File.separator
+            String realPath =  FILE_SEPARATOR
+                    + "cadre" + FILE_SEPARATOR
+                    + "file" + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_paper, new File(springProps.uploadPath + savePath));

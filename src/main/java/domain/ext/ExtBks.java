@@ -87,6 +87,8 @@ public class ExtBks implements Serializable {
 
     private String yxsh;
 
+    private String xjzt;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -423,5 +425,13 @@ public class ExtBks implements Serializable {
 
     public void setYxsh(String yxsh) {
         this.yxsh = yxsh == null ? null : yxsh.trim();
+    }
+
+    public String getXjzt() {
+        return xjzt;
+    }
+
+    public void setXjzt(String xjzt) {
+        this.xjzt = xjzt == null ? null : xjzt.trim();
     }
 }

@@ -22,6 +22,7 @@
 
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
 <fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
+<fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>

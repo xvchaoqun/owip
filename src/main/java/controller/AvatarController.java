@@ -31,7 +31,7 @@ public class AvatarController extends BaseController{
 
         path = springProps.avatarFolder + path;
         if(!new File(path).exists()){
-            path = springProps.avatarFolder + File.separator + springProps.defaultAvatar;
+            path = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
         }
         ImageUtils.displayImage(FileUtils.getBytes(path), response);
     }
@@ -48,7 +48,7 @@ public class AvatarController extends BaseController{
         }
 
         if(filepath==null)
-            filepath = springProps.avatarFolder + File.separator + springProps.defaultAvatar;
+            filepath = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
 
         ImageUtils.displayImage(FileUtils.getBytes(filepath), response);
     }
@@ -72,7 +72,7 @@ public class AvatarController extends BaseController{
                         String code = filename.split("\\.")[0];
                         SysUserView sysUser = sysUserService.findByCode(code);
                         if (sysUser != null) {
-                            String avatar = springProps.avatarFolder + File.separator + sysUser.getId() % 100 + File.separator;
+                            String avatar = springProps.avatarFolder + FILE_SEPARATOR + sysUser.getId() % 100 + FILE_SEPARATOR;
                             File path = new File(avatar);
                             if (!path.exists()) path.mkdirs();
 
@@ -98,7 +98,7 @@ public class AvatarController extends BaseController{
         long startTime=System.currentTimeMillis();
         AvatarImportResult result = new AvatarImportResult();
         avatarService.importAvatar(new File(springProps.avatarFolder +
-                File.separator + StringUtils.defaultString(ext, springProps.avatarFolderExt)), result);
+                FILE_SEPARATOR + StringUtils.defaultString(ext, springProps.avatarFolderExt)), result);
         long endTime=System.currentTimeMillis();
         System.out.println("total:"+ result.total + " save:"+result.save + " error:" + result.error + "处理头像运行时间： " + (endTime - startTime) + "ms");
     }

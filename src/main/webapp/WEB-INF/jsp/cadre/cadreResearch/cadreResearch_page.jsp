@@ -381,7 +381,7 @@
                     formatter: function (cellvalue, options, rowObject) {
                         if(rowObject.filePath==undefined) return '-';
                         return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                                .format(rowObject.filePath,rowObject.fileName);
+                                .format(encodeURI(rowObject.filePath),rowObject.fileName);
                     }},
                 {label: '备注', name: 'remark', width: 350}
             ]
@@ -403,7 +403,7 @@
                     formatter: function (cellvalue, options, rowObject) {
                         if(rowObject.proof==undefined) return '-';
                         return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                                .format(rowObject.proof,rowObject.proofFilename);
+                                .format(encodeURI(rowObject.proof),rowObject.proofFilename);
                     }},
                 {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==0) return '-';

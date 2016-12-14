@@ -16,8 +16,8 @@
             http://www.springframework.org/schema/mvc/spring-mvc.xsd  
             http://www.springframework.org/schema/context   
             http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-	
-	
+
+	<context:property-placeholder location="classpath:spring.properties,classpath:spring-m.properties" ignore-unresolvable="true" order="-2"/>
 	<context:component-scan base-package="controller">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -117,9 +117,9 @@
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- <property name="resolveLazily" value="true"/> -->
+		 <property name="resolveLazily" value="true"/>
 		<!-- 设置上传文件的最大尺寸为10MB--> 
-		<property name="maxUploadSize" value="10485760"/>
+		<property name="maxUploadSize" value="${upload.maxSize}"/>
 	</bean>
 
 	<aop:config proxy-target-class="true"></aop:config>

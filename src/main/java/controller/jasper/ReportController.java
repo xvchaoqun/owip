@@ -63,9 +63,9 @@ public class ReportController extends BaseController {
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
             Map<String, Object> map = getMemberOutInfoMap(id);
-            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "member_out_bj.jpg");
+            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "member_out_bj.jpg");
             if (type != null && type == 1) {
-                map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png");
+                map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png");
             }
             data.add(map);
         }
@@ -107,7 +107,7 @@ public class ReportController extends BaseController {
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
             Map<String, Object> map = getMemberOutInfoMap(id);
-            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "member_in_bj.jpg");
+            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "member_in_bj.jpg");
             data.add(map);
         }
 
@@ -197,10 +197,10 @@ public class ReportController extends BaseController {
         map.put("passport1", passportType.getName());
         map.put("passport1Code", passport.getCode());
         map.put("passport1Expiry", DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD_CHINA));
-        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "cancel.jpg");
+        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "cancel.jpg");
 
         // 在预览时显示签名和日期
-        String sign = ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png";
+        String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         /*if (passport.getCancelConfirm()) {
             SysUser _user = sysUserService.findById(passport.getCancelUserId()); // 审核人
             sign = springProps.uploadPath + _user.getSign();
@@ -265,9 +265,9 @@ public class ReportController extends BaseController {
         map.put("idcard", user.getIdcard());
         map.put("unit", PropertiesUtils.getString("report.unit.prefix") + unit);
         map.put("title", post);  // 职务
-        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + to + ".jpg");
+        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
 
-        String sign = ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png";
+        String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         String mobile = "";
         if (passportDraw != null) {
             if (passportDraw.getStatus() != null && passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_PASS) {
@@ -331,9 +331,9 @@ public class ReportController extends BaseController {
         map.put("idcard", user.getIdcard());
         map.put("unit", PropertiesUtils.getString("report.unit.prefix") + unit);
         map.put("title", post);  // 职务
-        map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + to + ".jpg");
+        map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
 
-        String sign = ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png";
+        String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         String mobile = "";
         if (passportApply != null) {
             if (passportApply.getStatus() != null && passportApply.getStatus() == SystemConstants.PASSPORT_APPLY_STATUS_PASS) {
@@ -382,9 +382,9 @@ public class ReportController extends BaseController {
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {
             Map<String, Object> map = getDrawProofMap(id);
-            map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "abroad_draw_proof.jpg");
+            map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "abroad_draw_proof.jpg");
             if (type != null && type == 1) {
-                map.put("bg", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator + "px.png");
+                map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png");
             }
             data.add(map);
         }

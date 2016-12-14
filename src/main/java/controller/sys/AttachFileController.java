@@ -113,8 +113,8 @@ public class AttachFileController extends BaseController {
             String ext = FileUtils.getExtention(originalFilename);
             record.setExt(ext);
 
-            String saveUrl = File.separator
-                    + "attach_file" + File.separator + ymd + File.separator + fileName + ext;
+            String saveUrl = FILE_SEPARATOR
+                    + "attach_file" + FILE_SEPARATOR + ymd + FILE_SEPARATOR + fileName + ext;
 
             FileUtils.copyFile(_file, new File(springProps.uploadPath + saveUrl));
 

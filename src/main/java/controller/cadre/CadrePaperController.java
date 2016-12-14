@@ -121,9 +121,9 @@ public class CadrePaperController extends BaseController {
 
             String originalFilename = _file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath = File.separator
-                    + "cadre" + File.separator
-                    + "paper" + File.separator
+            String realPath = FILE_SEPARATOR
+                    + "cadre" + FILE_SEPARATOR
+                    + "paper" + FILE_SEPARATOR
                     + fileName;
             String savePath =  realPath + FileUtils.getExtention(originalFilename);
             String pdfPath = realPath + ".pdf";

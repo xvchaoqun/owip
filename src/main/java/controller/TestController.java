@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Controller
 //@RequestMapping("/test")
-public class TestController {
+public class TestController extends BaseController{
 
     @Autowired
     TestServcie testServcie;
@@ -64,7 +64,7 @@ public class TestController {
         map.put("tel", "010-84572014");
         map.put("fax", "010-84572014");
         map.put("postCode", "100875");
-        map.put("imagePath", ConfigUtil.defaultConfigPath() + File.separator + "jasper" + File.separator );
+        map.put("imagePath", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR );
         data.add(map);
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);

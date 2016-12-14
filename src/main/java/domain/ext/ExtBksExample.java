@@ -3033,6 +3033,76 @@ public class ExtBksExample {
             addCriterion("yxsh not between", value1, value2, "yxsh");
             return (Criteria) this;
         }
+
+        public Criteria andXjztIsNull() {
+            addCriterion("xjzt is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztIsNotNull() {
+            addCriterion("xjzt is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztEqualTo(String value) {
+            addCriterion("xjzt =", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztNotEqualTo(String value) {
+            addCriterion("xjzt <>", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztGreaterThan(String value) {
+            addCriterion("xjzt >", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztGreaterThanOrEqualTo(String value) {
+            addCriterion("xjzt >=", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztLessThan(String value) {
+            addCriterion("xjzt <", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztLessThanOrEqualTo(String value) {
+            addCriterion("xjzt <=", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztLike(String value) {
+            addCriterion("xjzt like", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztNotLike(String value) {
+            addCriterion("xjzt not like", value, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztIn(List<String> values) {
+            addCriterion("xjzt in", values, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztNotIn(List<String> values) {
+            addCriterion("xjzt not in", values, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztBetween(String value1, String value2) {
+            addCriterion("xjzt between", value1, value2, "xjzt");
+            return (Criteria) this;
+        }
+
+        public Criteria andXjztNotBetween(String value1, String value2) {
+            addCriterion("xjzt not between", value1, value2, "xjzt");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

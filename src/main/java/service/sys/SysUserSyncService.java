@@ -621,7 +621,7 @@ public class SysUserSyncService extends BaseMapper {
                 //student.setDelayYear(extBks.getYqbynx()); 预计毕业年限
                 //student.setActualGraduateTime(DateUtils.parseDate(extBks.getSjbyny(), "yyyyMM")); 实际毕业年月
                 student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
-                student.setXjStatus(extBks.getXjbd());
+                student.setXjStatus(extBks.getXjzt());
 
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }

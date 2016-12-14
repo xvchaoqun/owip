@@ -138,7 +138,7 @@ pageEncoding="UTF-8" %>
         var partyId = $("select[name=partyId]", "#exportForm1").val();
         var branchId = $("select[name=branchId]", "#exportForm1").val();
         location.href="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&t={3}"
-                .format(type, partyId, branchId, new Date().getTime);
+                .format(type, partyId, branchId, new Date().getTime());
     }
 
     function _exportApply2(type){
@@ -146,6 +146,6 @@ pageEncoding="UTF-8" %>
         var partyId = $("select[name=partyId]", "#exportForm2").val();
         var branchId = $("select[name=branchId]", "#exportForm2").val();
         location.href="${ctx}/memberApplyExport?exportType=2&type={0}&partyId={1}&branchId={2}&t={3}"
-                .format(type, partyId, branchId, new Date().getTime);
+                .format(type, partyId, branchId, new Date().getTime());
     }
 </script>

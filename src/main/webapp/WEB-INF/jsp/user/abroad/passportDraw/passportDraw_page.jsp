@@ -32,7 +32,6 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="myTableDiv"
-                             data-url-au="${ctx}/user/passportDraw_au"
                              data-url-page="${ctx}/user/passportDraw_page"
                              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 

@@ -27,7 +27,7 @@
     <div class="tab-content">
         <div id="home4" class="tab-pane in active">
             <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px;width: 635px; text-align: center">
-                <img src="${ctx}/pic?path=${passport.cancelPic}" style="max-width: 595px"/>
+                <img src="${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}" style="max-width: 595px"/>
             </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
     </c:if>
 <script>
     $("#print_proof").click(function () {
-        printWindow('${ctx}/pic?path=${fn:replace(passport.cancelPic, "\\","\\/"  )}');
+        printWindow('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
     });
     $("#updateProof").click(function(){
         loadModal("${ctx}/updateCancelPic?id=${passport.id}")

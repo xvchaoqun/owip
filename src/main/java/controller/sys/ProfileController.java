@@ -56,7 +56,7 @@ public class ProfileController extends BaseController {
 
         String savePath =null;
         if(sign!=null && !sign.isEmpty()) {
-            savePath = File.separator + "sign" + File.separator;
+            savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR;
             File path = new File(springProps.uploadPath + savePath);
             if (!path.exists()) path.mkdirs();
             savePath += loginUser.getId() + ".jpg";

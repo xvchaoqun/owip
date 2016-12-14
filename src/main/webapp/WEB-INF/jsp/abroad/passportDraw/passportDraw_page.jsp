@@ -58,7 +58,6 @@
                             </c:if>
                         </div>
                         <div class="myTableDiv"
-                             data-url-au="${ctx}/passportDraw_au"
                              data-url-page="${ctx}/passportDraw_page"
                              data-url-del="${ctx}/passportDraw_del"
                              data-url-bd="${ctx}/passportDraw_batchDel"
@@ -172,7 +171,7 @@
             }, width: 100, frozen: true
             },
             </c:if>
-            {label: '工作证号', align: 'center', name: 'user.code', width: 80, frozen: true},
+            {label: '工作证号', align: 'center', name: 'user.code', frozen: true},
             {
                 label: '姓名',
                 align: 'center',
@@ -232,7 +231,7 @@
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
                             //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
-                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.filePath, parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                         }
                     }
                     return filesArray.join("，");
@@ -345,7 +344,7 @@
                         if(rowObject.useRecord==undefined) return '-';
 
                         return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">使用记录</a>'
-                                .format(rowObject.useRecord, "使用记录.jpg");
+                                .format(encodeURI(rowObject.useRecord), "使用记录.jpg");
                     }
 
                     if((rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm) ||
@@ -426,7 +425,7 @@
             },
             afterLoad: function() {
                 //console.log(this)
-                this.title = '<div class="title">'+this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}">点击下载</a>】</div></div>'.format($(this.element).data('path'), this.title) ;
+                this.title = '<div class="title">'+this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}">点击下载</a>】</div></div>'.format(encodeURI($(this.element).data('path')), this.title) ;
             }
         });
     });

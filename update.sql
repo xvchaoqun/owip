@@ -1,5 +1,10 @@
 
 
+ALTER TABLE `ext_bks`
+	ADD COLUMN `xjzt` VARCHAR(30) NULL DEFAULT NULL COMMENT '学籍状态' AFTER `yxsh`;
+	ALTER TABLE `sys_student_info`
+	CHANGE COLUMN `xj_status` `xj_status` VARCHAR(200) NULL DEFAULT NULL COMMENT '学籍状态，本科生XJZT,研究生ZT' AFTER `actual_graduate_time`;
+
 --##### 已改
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;

@@ -29,7 +29,7 @@
 	   </div>
   </div>
   <div class="modal-footer">
-      <a href="/attach/download?path=${param.path}&filename=${param.filename}" class="btn btn-success" target="_blank"><i class="fa fa-download"></i> 下载</a>
+      <a href="/attach/download?path=${cm:encodeURI(param.path)}&filename=${param.filename}" class="btn btn-success" target="_blank"><i class="fa fa-download"></i> 下载</a>
   <a href="#" data-dismiss="modal" class="btn btn-default"><i class="fa fa-reply"></i> 关闭</a>
   </div>
   <style>
@@ -46,7 +46,7 @@
 
  	 var xiSwfUrlStr = "${expressInstallSwf}";
       var flashvars = { 
-            SwfFile : escape("${ctx}/swf?path=${fn:replace(param.path, '\\', '\\\\')}"),
+            SwfFile : escape("${ctx}/swf?path=${cm:encodeURI(param.path)}"),
 	  Scale : 0.6, 
 	  ZoomTransition : "easeOut",
 	  ZoomTime : 0.5,
