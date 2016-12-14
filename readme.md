@@ -3,11 +3,11 @@
 # 重置因私申请审批状态
 delete from abroad_approval_log where apply_id=203;
 update abroad_apply_self set flow_node=-1, flow_nodes=null where id=203;
-# 重置领取证件归还状态
-update abroad_passport_draw apd, abroad_passport p set p.is_lent=1, apd.draw_status=1 , apd.use_record=null, 
-apd.attachment_filename=null,apd.attachment=null, apd.real_start_date=null, apd.real_end_date=null,
-apd.real_to_country=null, apd.return_remark=null,
-apd.use_passport=null, apd.real_return_date=null where apd.id=147 and p.id=apd.passport_id;
+# 更换领取证件证件号码（更换的证件应该是未借出状态；如果原来关联的证件是借出状态，可能需要修改为未借出状态）
+select ap.is_lent from abroad_passport_draw apd, abroad_passport ap where apd.id=196 and ap.id=apd.passport_id;
+update abroad_passport_draw apd, abroad_passport ap 
+set apd.passport_id=ap.id, ap.is_lent=1 
+where ap.code='E11700904' and apd.id=196 and ap.is_lent=0 and ap.cadre_id=apd.cadre_id; // 未借出且属于同一干部
 
 组织工作管理与服务一体化平台
 Organization Work Integration Platform
