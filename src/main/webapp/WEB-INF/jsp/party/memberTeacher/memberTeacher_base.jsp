@@ -184,7 +184,7 @@
 					<td  class="bg-right">
 						人才/荣誉称号
 					</td>
-					<td class="bg-left">
+					<td class="bg-left" width="200">
 						${memberTeacher.talentTitle}
 					</td>
 					<td class="bg-right">
