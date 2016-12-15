@@ -182,17 +182,18 @@
 						${memberTeacher.postLevel}
 					</td>
 					<td  class="bg-right">
+						人才类型
+					</td>
+					<td class="bg-left" width="200">
+						${memberTeacher.talentType}
+					</td>
+					<td  class="bg-right">
 						人才/荣誉称号
 					</td>
 					<td class="bg-left" width="200">
 						${memberTeacher.talentTitle}
 					</td>
-					<td class="bg-right">
-						居住地址
-					</td>
-					<td class="bg-left">
-						${memberTeacher.address}
-					</td>
+
 				</tr>
 				<tr>
 
@@ -206,22 +207,22 @@
 					<td class="bg-left">
 						${memberTeacher.email}
 					</td>
-					<td  class="bg-right">
-						联系手机
+
+					<td class="bg-right" >
+						居住地址
 					</td>
 					<td class="bg-left">
-						${memberTeacher.mobile}
-					</td>
-					<td class="bg-right">
-						家庭电话
-					</td>
-					<td class="bg-left">
-						${memberTeacher.phone}
+						${memberTeacher.address}
 					</td>
 				</tr>
 				<tr>
-
-					<td  class="bg-right" colspan="2">是否退休</td>
+					<td  class="bg-right" colspan="2">
+						手机号码
+					</td>
+					<td class="bg-left">
+						${memberTeacher.extPhone}
+					</td>
+					<td  class="bg-right" >是否退休</td>
 					<td class="bg-left" >
 						${memberTeacher.isRetire?"是":"否"}
 					</td>
@@ -233,7 +234,7 @@
 					<td  class="bg-right">
 						是否离休
 					</td>
-					<td  class="bg-left" colspan="3">
+					<td  class="bg-left">
 						${memberTeacher.isHonorRetire?"是":"否"}
 					</td>
 				</tr>

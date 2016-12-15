@@ -9,8 +9,8 @@ pageEncoding="UTF-8"%>
 			<div class="col-xs-4">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">工作证号</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="code" value="${sysUser.code}">
+				<div class="col-xs-6 label-text">
+					${sysUser.code}
 				</div>
 			</div>
 			<div class="form-group">
@@ -62,6 +62,32 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-3 control-label">手机号码</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="extPhone" value="${teacher.extPhone}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">国家/地区</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="country" value="${teacher.country}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">学员结构</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="fromType" value="${teacher.fromType}">
+						<span class="help-block">例如：本校、境内、境外等</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">所在单位</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="extUnit" value="${teacher.extUnit}">
+					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="col-xs-3 control-label">最高学历</label>
 					<div class="col-xs-6">
 						<input class="form-control" type="text" name="education" value="${teacher.education}">
@@ -83,37 +109,43 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-xs-3 control-label">所学专业</label>
-					<div class="col-xs-6">
-						<input class="form-control" type="text" name="major" value="${teacher.major}">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-3 control-label">毕业学校</label>
-					<div class="col-xs-6">
-						<input class="form-control" type="text" name="school" value="${teacher.school}">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-3 control-label">毕业学校类型</label>
-					<div class="col-xs-6">
-						<input class="form-control" type="text" name="schoolType" value="${teacher.schoolType}">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-3 control-label">到校日期</label>
-					<div class="col-xs-6">
-						<div class="input-group" style="width: 150px">
-							<input  class="form-control date-picker" name="_arriveTime" type="text"
-									data-date-format="yyyy-mm-dd" value="${teacher.arriveTime}" />
-							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-						</div>
-					</div>
-				</div>
+
 				</div>
 				<div class="col-xs-4">
-
+					<div class="form-group">
+						<label class="col-xs-3 control-label">所学专业</label>
+						<div class="col-xs-6">
+							<input class="form-control" type="text" name="major" value="${teacher.major}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-3 control-label">学历毕业学校</label>
+						<div class="col-xs-6">
+							<input class="form-control" type="text" name="school" value="${teacher.school}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-3 control-label">毕业学校类型</label>
+						<div class="col-xs-6">
+							<input class="form-control" type="text" name="schoolType" value="${teacher.schoolType}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-3 control-label">学位授予学校</label>
+						<div class="col-xs-6">
+							<input class="form-control" type="text" name="degreeSchool" value="${teacher.degreeSchool}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-3 control-label">到校日期</label>
+						<div class="col-xs-6">
+							<div class="input-group" style="width: 150px">
+								<input  class="form-control date-picker" name="_arriveTime" type="text"
+										data-date-format="yyyy-mm-dd" value="${teacher.arriveTime}" />
+								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+							</div>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">编制类别</label>
 						<div class="col-xs-6">
@@ -139,7 +171,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-3 control-label">岗位子类别</label>
+						<label class="col-xs-3 control-label">主岗等级</label>
 						<div class="col-xs-6">
 							<input class="form-control" type="text" name="postType" value="${teacher.postType}">
 						</div>
@@ -168,39 +200,46 @@ pageEncoding="UTF-8"%>
 							<input class="form-control" type="text" name="titleLevel" value="${teacher.titleLevel}">
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-3 control-label">管理岗位等级</label>
-						<div class="col-xs-6">
-							<input class="form-control" type="text" name="manageLevel" value="${teacher.manageLevel}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-3 control-label">工勤岗位等级</label>
-						<div class="col-xs-6">
-							<input class="form-control" type="text" name="officeLevel" value="${teacher.officeLevel}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-3 control-label">行政职务</label>
-						<div class="col-xs-6">
-							<input class="form-control" type="text" name="post" value="${teacher.post}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-3 control-label">任职级别</label>
-						<div class="col-xs-6">
-							<input class="form-control" type="text" name="postLevel" value="${teacher.postLevel}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-3 control-label">人才/荣誉称号</label>
-						<div class="col-xs-6">
-							<input class="form-control" type="text" name="talentTitle" value="${teacher.talentTitle}">
-						</div>
-					</div>
 
 				</div>
 			<div class="col-xs-4">
+				<div class="form-group">
+					<label class="col-xs-3 control-label">管理岗位等级</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="manageLevel" value="${teacher.manageLevel}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">工勤岗位等级</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="officeLevel" value="${teacher.officeLevel}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">行政职务</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="post" value="${teacher.post}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">任职级别</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="postLevel" value="${teacher.postLevel}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">人才类型</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="talentType" value="${teacher.talentType}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">人才/荣誉称号</label>
+					<div class="col-xs-6">
+						<input class="form-control" type="text" name="talentTitle" value="${teacher.talentTitle}">
+					</div>
+				</div>
+
 				<div class="form-group">
 					<label class="col-xs-3 control-label">居住地址</label>
 					<div class="col-xs-6">
@@ -219,12 +258,7 @@ pageEncoding="UTF-8"%>
                         <input class="form-control email" type="text" name="email" value="${sysUser.email}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">联系手机</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="mobile" value="${sysUser.mobile}">
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">家庭电话</label>
 				<div class="col-xs-6">

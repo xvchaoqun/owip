@@ -158,7 +158,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfoMapper.insertSelective(record);
         }else {
 
-            if(StringUtils.isBlank(sysUserInfo.getNativePlace())){
+            if(StringUtils.isBlank(record.getNativePlace())){
                 record.setNativePlace(getExtNativePlace(sysUser.getSource(), sysUser.getCode()));
             }
 

@@ -296,13 +296,12 @@ public class MemberTeacherController extends BaseController {
                 "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
                 "政治面貌","所在分党委、党总支、直属党支部","所在党支部", "所在单位", "入党时间","到校日期",
                 "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","学历","学历毕业学校","学位授予学校",
-                "学位","学员结构", "人才类型", "人才称号", "籍贯","转正时间","手机号码"};
+                "学位","学员结构", "人才类型", "人才称号", "手机号码"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberTeacher record:records) {
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            ExtJzg extJzg = extJzgService.getByCode(record.getCode());
             Date birth = record.getBirth();
             String ageRange = "";
             if(birth!=null){
@@ -324,14 +323,12 @@ public class MemberTeacherController extends BaseController {
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
                     record.getNation(),
-                    extJzg==null?"":extJzg.getGj(), // 国家/地区
-                    extJzg==null?"":extJzg.getSfzh(), // 证件号码
-                    //extJzg.getZzmm(), // 政治面貌
+                    record.getCountry(),// 国家/地区
+                    record.getIdcard(), // 证件号码
                     SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    //unitMap.get(record.getUnitId()).getName(),
-                    extJzg==null?"":extJzg.getDwmc(),
+                    record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record.getArriveTime(), // 到校日期
                     record.getProPost(),
@@ -341,13 +338,11 @@ public class MemberTeacherController extends BaseController {
                     record.getPost(), // 行政职务 -- 职务
                     record.getEducation(), // 学历
                     record.getSchool(), // 学历毕业学校
-                    extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校
+                    record.getDegreeSchool(),
                     record.getDegree(), // 学位
-                    extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
-                    extJzg==null?"":extJzg.getRclx(),
+                    record.getFromType(), // 学员结构
+                    record.getTalentType(), // 人才类型
                     record.getTalentTitle(),
-                    record.getNativePlace(),
-                    DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
                     record.getMobile()
             };
             valuesList.add(values);

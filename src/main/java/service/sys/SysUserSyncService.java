@@ -495,7 +495,6 @@ public class SysUserSyncService extends BaseMapper {
         TeacherInfo teacher = new TeacherInfo();
         teacher.setUserId(userId);
         teacher.setIsRetire(false); // 此值不能为空
-        teacher.setCreateTime(new Date());
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
@@ -523,11 +522,14 @@ public class SysUserSyncService extends BaseMapper {
 
             //+++++++++++++ 同步后面一系列属性
 
+            teacher.setExtPhone(extJzg.getYddh());
+            teacher.setExtUnit(extJzg.getDwmc());
             teacher.setEducation(extJzg.getZhxlmc());
             teacher.setDegree(extJzg.getZhxw());
             //teacher.setDegreeTime(); 学位授予日期
             //teacher.setMajor(extJzg.getz); 所学专业
-            teacher.setSchool(extJzg.getXlbyxx());
+            teacher.setSchool(extJzg.getXlbyxx()); // 学历毕业学校
+            teacher.setDegreeSchool(extJzg.getXwsyxx()); // 学位授予学校
             //teacher.setSchoolType(); 毕业学校类型
             if(extJzg.getLxrq()!=null)
                 teacher.setArriveTime(DateUtils.formatDate(extJzg.getLxrq(), DateUtils.YYYY_MM_DD));
@@ -538,13 +540,14 @@ public class SysUserSyncService extends BaseMapper {
             teacher.setPostType(extJzg.getGwjb());
             teacher.setOnJob(extJzg.getSfzg());
             //teacher.setProPost(); 专业技术职务
-            teacher.setProPostLevel(extJzg.getZjgwdj());
+            teacher.setProPostLevel(extJzg.getZjgwdj()); // 专技岗位等级
             teacher.setTitleLevel(extJzg.getZc()); // 职称级别
-            teacher.setManageLevel(extJzg.getGlgwdj());
+            teacher.setManageLevel(extJzg.getGlgwdj()); // 管理岗位等级
             //teacher.setOfficeLevel(extJzg.getgq);  工勤岗位等级
             //teacher.setPost(extJzg.getXzjb());  行政职务
             // teacher.setPostLevel(); 任职级别
             teacher.setTalentTitle(extJzg.getRcch());
+            teacher.setTalentType(extJzg.getRclx());
             // teacher.setAddress(extJzg.getjz); 居住地址
             // teacher.setMaritalStatus(); 婚姻状况
 

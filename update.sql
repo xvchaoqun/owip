@@ -1,5 +1,33 @@
 
 
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `post_type` `post_type` VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位子类别，主岗等级' AFTER `post_class`;
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `phone` VARCHAR(11) NULL COMMENT '手机号码，用于党统导出' AFTER `user_id`,
+	CHANGE COLUMN `school` `school` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历毕业学校' AFTER `major`,
+	CHANGE COLUMN `school_type` `school_type` VARCHAR(50) NULL DEFAULT NULL COMMENT '学历毕业学校类型' AFTER `school`,
+	ADD COLUMN `degree_school` VARCHAR(50) NULL DEFAULT NULL COMMENT '学位授予学校' AFTER `school_type`,
+	ADD COLUMN `country` VARCHAR(50) NULL DEFAULT NULL COMMENT '国家/地区' AFTER `post_type`,
+	ADD COLUMN `from_type` VARCHAR(50) NULL DEFAULT NULL COMMENT '学员结构，本校、境内、京外等' AFTER `country`,
+	ADD COLUMN `unit` VARCHAR(50) NULL DEFAULT NULL COMMENT '所在单位' AFTER `from_type`,
+	ADD COLUMN `talent_type` VARCHAR(50) NULL DEFAULT NULL COMMENT '人才类型' AFTER `post_level`,
+	CHANGE COLUMN `talent_title` `talent_title` TEXT NULL DEFAULT NULL COMMENT '人才/荣誉称号' AFTER `talent_type`;
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `phone` `ext_phone` VARCHAR(11) NULL DEFAULT NULL COMMENT '手机号码，用于党统导出' AFTER `user_id`,
+	CHANGE COLUMN `unit` `ext_unit` VARCHAR(50) NULL DEFAULT NULL COMMENT '所在单位' AFTER `from_type`;
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `address` `address` VARCHAR(50) NULL DEFAULT NULL COMMENT '居住地址' AFTER `talent_title`,
+	DROP COLUMN `create_time`,
+	DROP COLUMN `update_time`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_teacher` AS select t.*,`m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,
+`m`.`source` AS `member_source`,`u`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,
+`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`u`.`code` AS `code`,`ui`.`gender` AS `gender`,`ui`.`nation` AS `nation`,`ui`.`email` AS `email`,`ui`.`mobile` AS `mobile`,`ui`.`birth` AS `birth`,`ui`.`realname` AS `realname`,`ui`.`native_place` AS `native_place`,`ui`.`phone` AS `phone`,`ui`.`idcard` AS `idcard`,`p`.`unit_id` AS `unit_id` from ((`ow_member` `m` join `ow_party` `p`) join (`sys_user` `u` join `sys_teacher_info` `t`)) join sys_user_info ui where ((`m`.`user_id` = `t`.`user_id`) and (`m`.`party_id` = `p`.`id`) and (`m`.`user_id` = `u`.`id`)) and ui.user_id=u.id  ;
+
+-- 2016-12-14
 ALTER TABLE `ext_bks`
 	ADD COLUMN `xjzt` VARCHAR(30) NULL DEFAULT NULL COMMENT '学籍状态' AFTER `yxsh`;
 	ALTER TABLE `sys_student_info`

@@ -104,9 +104,13 @@
       <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
       </table>-->
      <!-- <table tableName="ow_member_student" domainObjectName="member.MemberStudent">
-      </table>
-      <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher">
       </table>-->
+      <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+          <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+      </table>
      <!-- <table tableName="ow_member" domainObjectName="member.Member">
           <ignoreColumn column="update_time"/>
       </table>-->
@@ -296,9 +300,9 @@
       <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
          <ignoreColumn column="update_time"/>
      </table>-->
-      <!--<table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo">
-          <ignoreColumn column="update_time"/>
-      </table>-->
+      <table tableName="sys_teacher_info" domainObjectName="sys.TeacherInfo">
+          <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+      </table>
       <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
       </table>-->
    <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">
@@ -321,8 +325,8 @@
       </table>-->
 
 
-      <table tableName="ext_bks" domainObjectName="ext.ExtBks">
-      </table>
+      <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
+      </table>-->
       <!--<table tableName="ext_jzg" domainObjectName="ext.ExtJzg">
       </table>
       <table tableName="ext_yjs" domainObjectName="ext.ExtYjs">

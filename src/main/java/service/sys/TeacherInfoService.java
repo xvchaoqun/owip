@@ -2,6 +2,7 @@ package service.sys;
 
 import domain.sys.TeacherInfo;
 import domain.sys.TeacherInfoExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -48,6 +49,12 @@ public class TeacherInfoService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(TeacherInfo record){
+
+        if(BooleanUtils.isFalse(record.getIsRetire())){
+            record.setRetireTime(null);
+            updateMapper.del_retireTime(record.getUserId());
+        }
+
         return teacherInfoMapper.updateByPrimaryKeySelective(record);
     }
 }

@@ -67,10 +67,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">籍贯</label>
+                <label class="col-xs-3 control-label">*籍贯</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="nativePlace" value="${ui.nativePlace}">
+                    <span class="help-block">* 研究生不同步籍贯</span>
                 </div>
             </div>
             <div class="form-group">
@@ -116,7 +117,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">*邮箱</label>
+                <label class="col-xs-3 control-label">邮箱</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="email" value="${ui.email}">

@@ -6,6 +6,8 @@ import java.util.Date;
 public class TeacherInfo implements Serializable {
     private Integer userId;
 
+    private String extPhone;
+
     private String education;
 
     private String degree;
@@ -18,6 +20,8 @@ public class TeacherInfo implements Serializable {
 
     private String schoolType;
 
+    private String degreeSchool;
+
     private String arriveTime;
 
     private String authorizedType;
@@ -29,6 +33,12 @@ public class TeacherInfo implements Serializable {
     private String postClass;
 
     private String postType;
+
+    private String country;
+
+    private String fromType;
+
+    private String extUnit;
 
     private String onJob;
 
@@ -46,6 +56,8 @@ public class TeacherInfo implements Serializable {
 
     private String postLevel;
 
+    private String talentType;
+
     private String talentTitle;
 
     private String address;
@@ -58,8 +70,6 @@ public class TeacherInfo implements Serializable {
 
     private Boolean isHonorRetire;
 
-    private Date createTime;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {
@@ -68,6 +78,14 @@ public class TeacherInfo implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getExtPhone() {
+        return extPhone;
+    }
+
+    public void setExtPhone(String extPhone) {
+        this.extPhone = extPhone == null ? null : extPhone.trim();
     }
 
     public String getEducation() {
@@ -118,6 +136,14 @@ public class TeacherInfo implements Serializable {
         this.schoolType = schoolType == null ? null : schoolType.trim();
     }
 
+    public String getDegreeSchool() {
+        return degreeSchool;
+    }
+
+    public void setDegreeSchool(String degreeSchool) {
+        this.degreeSchool = degreeSchool == null ? null : degreeSchool.trim();
+    }
+
     public String getArriveTime() {
         return arriveTime;
     }
@@ -164,6 +190,30 @@ public class TeacherInfo implements Serializable {
 
     public void setPostType(String postType) {
         this.postType = postType == null ? null : postType.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getFromType() {
+        return fromType;
+    }
+
+    public void setFromType(String fromType) {
+        this.fromType = fromType == null ? null : fromType.trim();
+    }
+
+    public String getExtUnit() {
+        return extUnit;
+    }
+
+    public void setExtUnit(String extUnit) {
+        this.extUnit = extUnit == null ? null : extUnit.trim();
     }
 
     public String getOnJob() {
@@ -230,6 +280,14 @@ public class TeacherInfo implements Serializable {
         this.postLevel = postLevel == null ? null : postLevel.trim();
     }
 
+    public String getTalentType() {
+        return talentType;
+    }
+
+    public void setTalentType(String talentType) {
+        this.talentType = talentType == null ? null : talentType.trim();
+    }
+
     public String getTalentTitle() {
         return talentTitle;
     }
@@ -276,13 +334,5 @@ public class TeacherInfo implements Serializable {
 
     public void setIsHonorRetire(Boolean isHonorRetire) {
         this.isHonorRetire = isHonorRetire;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }

@@ -1,16 +1,75 @@
 package domain.member;
 
-import domain.party.Party;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class MemberTeacher implements Serializable {
-    public String getParty(){
-        Party party = CmTag.getParty(partyId);
-        return party!=null?party.getName():null;
-    }
+    private Integer userId;
+
+    private String extPhone;
+
+    private String education;
+
+    private String degree;
+
+    private String degreeTime;
+
+    private String major;
+
+    private String school;
+
+    private String schoolType;
+
+    private String degreeSchool;
+
+    private String arriveTime;
+
+    private String authorizedType;
+
+    private String staffType;
+
+    private String staffStatus;
+
+    private String postClass;
+
+    private String postType;
+
+    private String country;
+
+    private String fromType;
+
+    private String extUnit;
+
+    private String onJob;
+
+    private String proPost;
+
+    private String proPostLevel;
+
+    private String titleLevel;
+
+    private String manageLevel;
+
+    private String officeLevel;
+
+    private String post;
+
+    private String postLevel;
+
+    private String talentType;
+
+    private String talentTitle;
+
+    private String address;
+
+    private String maritalStatus;
+
+    private Boolean isRetire;
+
+    private Date retireTime;
+
+    private Boolean isHonorRetire;
+
     private Date createTime;
 
     private Date applyTime;
@@ -26,8 +85,6 @@ public class MemberTeacher implements Serializable {
     private Byte politicalStatus;
 
     private Date transferTime;
-
-    private Integer userId;
 
     private Integer branchId;
 
@@ -47,79 +104,291 @@ public class MemberTeacher implements Serializable {
 
     private String code;
 
-    private String education;
-
     private Byte gender;
 
     private String nation;
 
-    private String schoolType;
-
-    private String titleLevel;
-
-    private String staffStatus;
-
-    private Date retireTime;
-
-    private String postClass;
-
-    private String proPost;
-
-    private String major;
-
-    private String post;
-
-    private String school;
-
-    private Boolean isRetire;
-
-    private Boolean isHonorRetire;
-
-    private String postType;
-
-    private String degreeTime;
-
-    private String manageLevel;
-
     private String email;
-
-    private String postLevel;
-
-    private String officeLevel;
-
-    private String talentTitle;
-
-    private String address;
-
-    private String degree;
 
     private String mobile;
 
     private Date birth;
 
-    private String authorizedType;
-
     private String realname;
 
-    private String arriveTime;
-
     private String nativePlace;
-
-    private String maritalStatus;
-
-    private String staffType;
 
     private String phone;
 
     private String idcard;
 
-    private String onJob;
-
-    private String proPostLevel;
-
     private Integer unitId;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getExtPhone() {
+        return extPhone;
+    }
+
+    public void setExtPhone(String extPhone) {
+        this.extPhone = extPhone == null ? null : extPhone.trim();
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education == null ? null : education.trim();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
+    }
+
+    public String getDegreeTime() {
+        return degreeTime;
+    }
+
+    public void setDegreeTime(String degreeTime) {
+        this.degreeTime = degreeTime == null ? null : degreeTime.trim();
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major == null ? null : major.trim();
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school == null ? null : school.trim();
+    }
+
+    public String getSchoolType() {
+        return schoolType;
+    }
+
+    public void setSchoolType(String schoolType) {
+        this.schoolType = schoolType == null ? null : schoolType.trim();
+    }
+
+    public String getDegreeSchool() {
+        return degreeSchool;
+    }
+
+    public void setDegreeSchool(String degreeSchool) {
+        this.degreeSchool = degreeSchool == null ? null : degreeSchool.trim();
+    }
+
+    public String getArriveTime() {
+        return arriveTime;
+    }
+
+    public void setArriveTime(String arriveTime) {
+        this.arriveTime = arriveTime == null ? null : arriveTime.trim();
+    }
+
+    public String getAuthorizedType() {
+        return authorizedType;
+    }
+
+    public void setAuthorizedType(String authorizedType) {
+        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
+    }
+
+    public String getStaffType() {
+        return staffType;
+    }
+
+    public void setStaffType(String staffType) {
+        this.staffType = staffType == null ? null : staffType.trim();
+    }
+
+    public String getStaffStatus() {
+        return staffStatus;
+    }
+
+    public void setStaffStatus(String staffStatus) {
+        this.staffStatus = staffStatus == null ? null : staffStatus.trim();
+    }
+
+    public String getPostClass() {
+        return postClass;
+    }
+
+    public void setPostClass(String postClass) {
+        this.postClass = postClass == null ? null : postClass.trim();
+    }
+
+    public String getPostType() {
+        return postType;
+    }
+
+    public void setPostType(String postType) {
+        this.postType = postType == null ? null : postType.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getFromType() {
+        return fromType;
+    }
+
+    public void setFromType(String fromType) {
+        this.fromType = fromType == null ? null : fromType.trim();
+    }
+
+    public String getExtUnit() {
+        return extUnit;
+    }
+
+    public void setExtUnit(String extUnit) {
+        this.extUnit = extUnit == null ? null : extUnit.trim();
+    }
+
+    public String getOnJob() {
+        return onJob;
+    }
+
+    public void setOnJob(String onJob) {
+        this.onJob = onJob == null ? null : onJob.trim();
+    }
+
+    public String getProPost() {
+        return proPost;
+    }
+
+    public void setProPost(String proPost) {
+        this.proPost = proPost == null ? null : proPost.trim();
+    }
+
+    public String getProPostLevel() {
+        return proPostLevel;
+    }
+
+    public void setProPostLevel(String proPostLevel) {
+        this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
+    }
+
+    public String getTitleLevel() {
+        return titleLevel;
+    }
+
+    public void setTitleLevel(String titleLevel) {
+        this.titleLevel = titleLevel == null ? null : titleLevel.trim();
+    }
+
+    public String getManageLevel() {
+        return manageLevel;
+    }
+
+    public void setManageLevel(String manageLevel) {
+        this.manageLevel = manageLevel == null ? null : manageLevel.trim();
+    }
+
+    public String getOfficeLevel() {
+        return officeLevel;
+    }
+
+    public void setOfficeLevel(String officeLevel) {
+        this.officeLevel = officeLevel == null ? null : officeLevel.trim();
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
+    }
+
+    public String getPostLevel() {
+        return postLevel;
+    }
+
+    public void setPostLevel(String postLevel) {
+        this.postLevel = postLevel == null ? null : postLevel.trim();
+    }
+
+    public String getTalentType() {
+        return talentType;
+    }
+
+    public void setTalentType(String talentType) {
+        this.talentType = talentType == null ? null : talentType.trim();
+    }
+
+    public String getTalentTitle() {
+        return talentTitle;
+    }
+
+    public void setTalentTitle(String talentTitle) {
+        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus == null ? null : maritalStatus.trim();
+    }
+
+    public Boolean getIsRetire() {
+        return isRetire;
+    }
+
+    public void setIsRetire(Boolean isRetire) {
+        this.isRetire = isRetire;
+    }
+
+    public Date getRetireTime() {
+        return retireTime;
+    }
+
+    public void setRetireTime(Date retireTime) {
+        this.retireTime = retireTime;
+    }
+
+    public Boolean getIsHonorRetire() {
+        return isHonorRetire;
+    }
+
+    public void setIsHonorRetire(Boolean isHonorRetire) {
+        this.isHonorRetire = isHonorRetire;
+    }
 
     public Date getCreateTime() {
         return createTime;
@@ -183,14 +452,6 @@ public class MemberTeacher implements Serializable {
 
     public void setTransferTime(Date transferTime) {
         this.transferTime = transferTime;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Integer getBranchId() {
@@ -265,14 +526,6 @@ public class MemberTeacher implements Serializable {
         this.code = code == null ? null : code.trim();
     }
 
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
-    }
-
     public Byte getGender() {
         return gender;
     }
@@ -289,164 +542,12 @@ public class MemberTeacher implements Serializable {
         this.nation = nation == null ? null : nation.trim();
     }
 
-    public String getSchoolType() {
-        return schoolType;
-    }
-
-    public void setSchoolType(String schoolType) {
-        this.schoolType = schoolType == null ? null : schoolType.trim();
-    }
-
-    public String getTitleLevel() {
-        return titleLevel;
-    }
-
-    public void setTitleLevel(String titleLevel) {
-        this.titleLevel = titleLevel == null ? null : titleLevel.trim();
-    }
-
-    public String getStaffStatus() {
-        return staffStatus;
-    }
-
-    public void setStaffStatus(String staffStatus) {
-        this.staffStatus = staffStatus == null ? null : staffStatus.trim();
-    }
-
-    public Date getRetireTime() {
-        return retireTime;
-    }
-
-    public void setRetireTime(Date retireTime) {
-        this.retireTime = retireTime;
-    }
-
-    public String getPostClass() {
-        return postClass;
-    }
-
-    public void setPostClass(String postClass) {
-        this.postClass = postClass == null ? null : postClass.trim();
-    }
-
-    public String getProPost() {
-        return proPost;
-    }
-
-    public void setProPost(String proPost) {
-        this.proPost = proPost == null ? null : proPost.trim();
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
-    }
-
-    public Boolean getIsRetire() {
-        return isRetire;
-    }
-
-    public void setIsRetire(Boolean isRetire) {
-        this.isRetire = isRetire;
-    }
-
-    public Boolean getIsHonorRetire() {
-        return isHonorRetire;
-    }
-
-    public void setIsHonorRetire(Boolean isHonorRetire) {
-        this.isHonorRetire = isHonorRetire;
-    }
-
-    public String getPostType() {
-        return postType;
-    }
-
-    public void setPostType(String postType) {
-        this.postType = postType == null ? null : postType.trim();
-    }
-
-    public String getDegreeTime() {
-        return degreeTime;
-    }
-
-    public void setDegreeTime(String degreeTime) {
-        this.degreeTime = degreeTime == null ? null : degreeTime.trim();
-    }
-
-    public String getManageLevel() {
-        return manageLevel;
-    }
-
-    public void setManageLevel(String manageLevel) {
-        this.manageLevel = manageLevel == null ? null : manageLevel.trim();
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
-    }
-
-    public String getPostLevel() {
-        return postLevel;
-    }
-
-    public void setPostLevel(String postLevel) {
-        this.postLevel = postLevel == null ? null : postLevel.trim();
-    }
-
-    public String getOfficeLevel() {
-        return officeLevel;
-    }
-
-    public void setOfficeLevel(String officeLevel) {
-        this.officeLevel = officeLevel == null ? null : officeLevel.trim();
-    }
-
-    public String getTalentTitle() {
-        return talentTitle;
-    }
-
-    public void setTalentTitle(String talentTitle) {
-        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
     }
 
     public String getMobile() {
@@ -465,14 +566,6 @@ public class MemberTeacher implements Serializable {
         this.birth = birth;
     }
 
-    public String getAuthorizedType() {
-        return authorizedType;
-    }
-
-    public void setAuthorizedType(String authorizedType) {
-        this.authorizedType = authorizedType == null ? null : authorizedType.trim();
-    }
-
     public String getRealname() {
         return realname;
     }
@@ -481,36 +574,12 @@ public class MemberTeacher implements Serializable {
         this.realname = realname == null ? null : realname.trim();
     }
 
-    public String getArriveTime() {
-        return arriveTime;
-    }
-
-    public void setArriveTime(String arriveTime) {
-        this.arriveTime = arriveTime == null ? null : arriveTime.trim();
-    }
-
     public String getNativePlace() {
         return nativePlace;
     }
 
     public void setNativePlace(String nativePlace) {
         this.nativePlace = nativePlace == null ? null : nativePlace.trim();
-    }
-
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus == null ? null : maritalStatus.trim();
-    }
-
-    public String getStaffType() {
-        return staffType;
-    }
-
-    public void setStaffType(String staffType) {
-        this.staffType = staffType == null ? null : staffType.trim();
     }
 
     public String getPhone() {
@@ -527,22 +596,6 @@ public class MemberTeacher implements Serializable {
 
     public void setIdcard(String idcard) {
         this.idcard = idcard == null ? null : idcard.trim();
-    }
-
-    public String getOnJob() {
-        return onJob;
-    }
-
-    public void setOnJob(String onJob) {
-        this.onJob = onJob == null ? null : onJob.trim();
-    }
-
-    public String getProPostLevel() {
-        return proPostLevel;
-    }
-
-    public void setProPostLevel(String proPostLevel) {
-        this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
     }
 
     public Integer getUnitId() {
