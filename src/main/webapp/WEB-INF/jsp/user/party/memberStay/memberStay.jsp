@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="row footer-margin">
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系暂留申请</h4>
@@ -144,7 +145,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script>
     function _applyBack(){
         bootbox.confirm("确定撤销申请吗？", function (result) {

@@ -315,9 +315,9 @@ public class MemberTeacherController extends BaseController {
             Cadre cadre = cadreService.findByUserId(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
-            if(cadre!=null){
+            if(cadre!=null && cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW){
                 post = cadre.getTitle();
-                adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
+                if(cadre.getTypeId()!=null) adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
             }
             String[] values = {
                     record.getCode(),

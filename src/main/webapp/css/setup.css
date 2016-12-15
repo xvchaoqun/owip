@@ -27,8 +27,12 @@ body{
     background-color: #1482C5;
 }
 .footer{
-    padding-top: 50px;
-    margin-top: 20px;
+    padding-top:0;
+    /*padding-top: 50px;*/
+    /*margin-top: 20px;*/
+}
+.row.footer-margin{
+    margin-bottom: 70px;
 }
 /**************/
 
@@ -91,11 +95,6 @@ body{
 }
 .search-form .form-group{
     padding-bottom: 10px;
-}
-
-/* row */
-.row.bottom20px{
-    margin-bottom: 20px;
 }
 
 /*============table================*/
