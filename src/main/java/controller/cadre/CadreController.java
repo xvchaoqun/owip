@@ -8,6 +8,7 @@ import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -194,6 +195,9 @@ public class CadreController extends BaseController {
         modelMap.put("branchMap", branchMap);
         modelMap.put("partyMap", partyMap);
         modelMap.put("member", memberService.get(uv.getId()));
+
+        TeacherInfo teacherInfo = teacherService.get(uv.getUserId());
+        modelMap.put("teacherInfo", teacherInfo);
 
         // 人事信息
         ExtJzg extJzg = extJzgService.getByCode(uv.getCode());

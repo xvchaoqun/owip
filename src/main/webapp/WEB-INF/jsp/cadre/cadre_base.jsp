@@ -30,18 +30,18 @@ pageEncoding="UTF-8"%>
 					姓名
 				</td>
 				<td class="bg-left"  style="min-width: 150px;">
-					${extJzg.xm}
+					${uv.realname}
 				</td>
 
 				<td class="bg-right">
 					工作证号
 				</td>
 				<td class="bg-left" style="min-width: 150px;" >
-					${extJzg.zgh}
+					${uv.code}
 				</td>
 				<td class="bg-right">性别</td>
 				<td class="bg-left"  style="min-width: 150px;">
-					${extJzg.xb}
+					${GENDER_MAP.get(uv.gender)}
 				</td>
 
 			</tr>
@@ -50,17 +50,17 @@ pageEncoding="UTF-8"%>
 					民族
 				</td>
 				<td>
-					${extJzg.mz}
+					${uv.nation}
 				</td>
 				<td>出生日期</td>
 				<td >
-					${cm:formatDate(extJzg.csrq,'yyyy-MM-dd')}
+					${cm:formatDate(uv.birth,'yyyy-MM-dd')}
 				</td>
 				<td>
 					年龄
 				</td>
 				<td>
-					${cm:intervalYearsUntilNow(extJzg.csrq)}
+					${uv.birth==null?'':cm:intervalYearsUntilNow(uv.birth)}
 				</td>
 			</tr>
 			<tr>
@@ -78,7 +78,7 @@ pageEncoding="UTF-8"%>
 
 				<td>国家/地区</td>
 				<td >
-					${extJzg.gj}
+					${teacherInfo.country}
 				</td>
 			</tr>
 			<tr>
@@ -105,29 +105,29 @@ pageEncoding="UTF-8"%>
 					籍贯
 				</td>
 				<td style="min-width: 100px">
-					${extJzg.jg}
+					${uv.nativePlace}
 				</td>
 				<td>出生地</td>
 				<td>
-					--
+					${uv.homeplace}
 				</td>
 				<td>
 					户籍地
 				</td>
 				<td >
-					--
+					${uv.household}
 				</td>
 			</tr>
 			<tr>
 				<td>熟悉专业有何专长</td>
 				<td >
-					--
+					${uv.specialty}
 				</td>
 				<td>
 					健康状况
 				</td>
 				<td colspan="3">
-					--
+					${uv.health}
 				</td>
 			</tr>
 			</tbody>
@@ -257,13 +257,13 @@ pageEncoding="UTF-8"%>
 
 					<td>岗位类别</td>
 					<td >
-						--
+						${teacherInfo.postClass}
 					</td>
 					<td>
 						岗位子类别
 					</td>
 					<td>
-						${extJzg.gwlb}
+						${teacherInfo.postType}
 					</td>
 					<td >
 						在岗情况
@@ -281,7 +281,7 @@ pageEncoding="UTF-8"%>
 					<td>
 						到校时间
 					</td>
-					<td>${cm:formatDate(extJzg.lxrq,'yyyy-MM-dd')}
+					<td>${teacherInfo.arriveTime}
 					</td>
 					<td >
 						转正定级时间
@@ -473,7 +473,7 @@ pageEncoding="UTF-8"%>
 						专业技术职务
 					</td>
 					<td style="min-width: 80px" class="bg-left">
-						--
+						${teacherInfo.proPost}
 					</td>
 
 					<td class="bg-right">
@@ -486,7 +486,7 @@ pageEncoding="UTF-8"%>
 				<tr>
 					<td  class="bg-right">专业技术职务等级</td>
 					<td >
-						--
+						${teacherInfo.proPostLevel}
 					</td>
 					<td  class="bg-right">
 						专业技术职务分级时间
@@ -510,7 +510,7 @@ pageEncoding="UTF-8"%>
 						管理岗位等级
 					</td>
 					<td  class="bg-left">
-						${extJzg.glgwdj}
+						${teacherInfo.manageLevel}
 					</td>
 					<td class="bg-right">
 						管理岗位分级
