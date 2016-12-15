@@ -1,12 +1,14 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
 import domain.member.MemberTeacherExample.Criteria;
 import domain.party.Party;
+import domain.sys.MetaType;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
@@ -289,6 +291,7 @@ public class MemberTeacherController extends BaseController {
     public void memberTeacher_export(int cls, MemberTeacherExample example, HttpServletResponse response) {
 
         //Map<Integer, Unit> unitMap = unitService.findAll();
+        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
@@ -308,6 +311,13 @@ public class MemberTeacherController extends BaseController {
                 byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
                 if(memberAgeRange>0)
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+            }
+            Cadre cadre = cadreService.findByUserId(record.getUserId());
+            String post = record.getPost();  // 行政职务 -- 所在单位及职务
+            String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
+            if(cadre!=null){
+                post = cadre.getTitle();
+                adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
             }
             String[] values = {
                     record.getCode(),
@@ -331,11 +341,11 @@ public class MemberTeacherController extends BaseController {
                     record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record.getArriveTime(), // 到校日期
-                    record.getProPost(),
+                    record.getProPost(), // 专业技术职务
                     record.getProPostLevel(), //专技岗位等级
                     record.getManageLevel(), // 管理岗位等级
-                    record.getPostLevel(), // 任职级别 -- 行政级别
-                    record.getPost(), // 行政职务 -- 职务
+                    adminLevel, // 任职级别 -- 行政级别
+                    post, // 行政职务 -- 职务
                     record.getEducation(), // 学历
                     record.getSchool(), // 学历毕业学校
                     record.getDegreeSchool(),

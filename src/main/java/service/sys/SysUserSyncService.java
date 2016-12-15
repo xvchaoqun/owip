@@ -539,9 +539,9 @@ public class SysUserSyncService extends BaseMapper {
             teacher.setPostClass(extJzg.getGwlb());
             teacher.setPostType(extJzg.getGwjb());
             teacher.setOnJob(extJzg.getSfzg());
-            //teacher.setProPost(); 专业技术职务
+            teacher.setProPost(extJzg.getZc()); //专业技术职务
             teacher.setProPostLevel(extJzg.getZjgwdj()); // 专技岗位等级
-            teacher.setTitleLevel(extJzg.getZc()); // 职称级别
+            //teacher.setTitleLevel(extJzg.get); // 职称级别
             teacher.setManageLevel(extJzg.getGlgwdj()); // 管理岗位等级
             //teacher.setOfficeLevel(extJzg.getgq);  工勤岗位等级
             //teacher.setPost(extJzg.getXzjb());  行政职务

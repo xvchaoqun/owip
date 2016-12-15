@@ -1,6 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
@@ -8,6 +9,7 @@ import domain.member.*;
 import domain.member.MemberApplyExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.sys.MetaType;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -210,12 +212,13 @@ public class MemberApplyExportController extends BaseController {
     // 教职工申请入党人员导出信息
     public void memberTeacher_apply_export( MemberApplyExample example, HttpServletResponse response) {
 
+        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
         String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
                 "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
-                "发展程度","所在分党委、党总支、直属党支部","所在党支部",
+                "发展程度","所在分党委、党总支、直属党支部","所在党支部","所在单位",
                 "提交书面申请书时间" , "确定为入党积极分子时间", "确定为发展对象时间","到校日期",
                 "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","单位全称", "学历","学历毕业学校","学位授予学校",
                 "学位","学员结构", "人才类型", "人才称号", "籍贯","手机号码"};
@@ -238,7 +241,7 @@ public class MemberApplyExportController extends BaseController {
             TeacherInfo record = teacherService.get(memberApply.getUserId());
             Integer partyId = memberApply.getPartyId();
             Integer branchId = memberApply.getBranchId();
-            ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+            //ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
             Date birth = uv.getBirth();
             String ageRange = "";
             if(birth!=null){
@@ -246,6 +249,15 @@ public class MemberApplyExportController extends BaseController {
                 if(memberAgeRange>0)
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
+
+            Cadre cadre = cadreService.findByUserId(memberApply.getUserId());
+            String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
+            String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
+            if(cadre!=null){
+                post = cadre.getTitle();
+                adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
+            }
+
             String[] values = {
                     uv.getCode(),
                     uv.getRealname(),
@@ -260,11 +272,12 @@ public class MemberApplyExportController extends BaseController {
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
                     uv.getNation(),
-                    extJzg==null?"":extJzg.getGj(), // 国家/地区
-                    extJzg==null?"":extJzg.getSfzh(), // 证件号码
+                    record==null?"":record.getCountry(), // 国家/地区
+                    uv.getIdcard(), // 证件号码
                     stage, // 发展程度
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
+                    record==null?"":record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(memberApply.getApplyTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(memberApply.getActiveTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD),
@@ -272,15 +285,15 @@ public class MemberApplyExportController extends BaseController {
                     record==null?"":record.getProPost(),
                     record==null?"":record.getProPostLevel(), //专技岗位等级
                     record==null?"":record.getManageLevel(), // 管理岗位等级
-                    record==null?"":record.getPostLevel(), // 任职级别 -- 行政级别
-                    record==null?"":record.getPost(), // 行政职务 -- 职务
-                    extJzg==null?"":extJzg.getDwmc(),
+                    adminLevel, // 任职级别 -- 行政级别
+                    post, // 行政职务 -- 职务
+                    record==null?"":record.getExtUnit(),
                     record==null?"":record.getEducation(), // 学历
                     record==null?"":record.getSchool(), // 学历毕业学校
-                    extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校
+                    record==null?"":record.getDegreeSchool(), // 学位授予学校
                     record==null?"":record.getDegree(), // 学位
-                    extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
-                    extJzg==null?"":extJzg.getRclx(),
+                    record==null?"":record.getFromType(), // 学员结构 (学位授予国家)
+                    record==null?"":record.getTalentType(),
                     record==null?"":record.getTalentTitle(),
                     uv.getNativePlace(),
                     uv.getMobile()
@@ -296,6 +309,7 @@ public class MemberApplyExportController extends BaseController {
     // 教职工发展党员信息导出
     public void memberTeacher_export( MemberApplyExample example, HttpServletResponse response) {
 
+        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
@@ -311,7 +325,7 @@ public class MemberApplyExportController extends BaseController {
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
-            ExtJzg extJzg = extJzgService.getByCode(record.getCode());
+            //ExtJzg extJzg = extJzgService.getByCode(record.getCode());
             Date birth = record.getBirth();
             String ageRange = "";
             if(birth!=null){
@@ -319,6 +333,15 @@ public class MemberApplyExportController extends BaseController {
                 if(memberAgeRange>0)
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
+
+            Cadre cadre = cadreService.findByUserId(memberApply.getUserId());
+            String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
+            String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
+            if(cadre!=null){
+                post = cadre.getTitle();
+                adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
+            }
+
             String[] values = {
                     record.getCode(),
                     record.getRealname(),
@@ -333,27 +356,26 @@ public class MemberApplyExportController extends BaseController {
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
                     record.getNation(),
-                    extJzg==null?"":extJzg.getGj(), // 国家/地区
-                    extJzg==null?"":extJzg.getSfzh(), // 证件号码
+                    record.getCountry(), // 国家/地区
+                    record.getIdcard(), // 证件号码
                     //extJzg.getZzmm(), // 政治面貌
                     SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    //unitMap.get(record.getUnitId()).getName(),
-                    extJzg==null?"":extJzg.getDwmc(),
+                    record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record.getArriveTime(), // 到校日期
                     record.getProPost(),
                     record.getProPostLevel(), //专技岗位等级
                     record.getManageLevel(), // 管理岗位等级
-                    record.getPostLevel(), // 任职级别 -- 行政级别
-                    record.getPost(), // 行政职务 -- 职务
+                    adminLevel, // 任职级别 -- 行政级别
+                    post, // 行政职务 -- 职务
                     record.getEducation(), // 学历
                     record.getSchool(), // 学历毕业学校
-                    extJzg==null?"":extJzg.getXwsyxx(), // 学位授予学校
+                    record.getDegreeSchool(), // 学位授予学校
                     record.getDegree(), // 学位
-                    extJzg==null?"":extJzg.getXyjg(), // 学员结构 (学位授予国家)
-                    extJzg==null?"":extJzg.getRclx(),
+                    record.getFromType(), // 学员结构
+                    record.getTalentType(), // 人才类型
                     record.getTalentTitle(),
                     record.getNativePlace(),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
