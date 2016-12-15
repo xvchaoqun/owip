@@ -304,7 +304,7 @@ public class MemberController extends BaseController {
 
         if (null != ids) {
             memberService.changeBranch(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量分党委内部转移：%s, %s, %s", ids, partyId, branchId));
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量分党委内部转移：%s, %s, %s", StringUtils.join(ids, ","), partyId, branchId));
         }
         return success(FormUtils.SUCCESS);
     }

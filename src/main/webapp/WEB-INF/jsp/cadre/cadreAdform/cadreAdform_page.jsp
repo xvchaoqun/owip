@@ -369,7 +369,9 @@
                 ${f.realname}
             </td>
             <td class="td14 center">
+                <c:if test="${f.birthday!=null}">
                 ${cm:intervalYearsUntilNow(f.birthday)}岁
+                </c:if>
             </td>
             <td class="td2 center" colspan="2">
                 ${politicalStatusMap.get(f.getPoliticalStatus()).name}
@@ -521,6 +523,7 @@
         
     </c:if>
 </div>
+<div class="row footer-margin">&nbsp;</div>
 <script>
     function _innerPage(type) {
         $("#view-box .tab-content").load("${ctx}/cadreAdform_page?cadreId=${param.cadreId}&type=" + type)
