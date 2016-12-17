@@ -42,6 +42,9 @@ public interface UpdateMapper {
     @Update("update sys_teacher_info set retire_time=null where user_id=#{userId}")
     void del_retireTime(@Param("userId") int userId);
 
+    @Update("update modify_cadre_auth set start_time=null, end_time=null, is_unlimited=1 where id=#{id}")
+    void del_ModifyCadreAuth_time(@Param("id") int id);
+
     // 如果修改成直属党支部， 则将支部ID设置为NULL
     @Update("update ${tableName} set party_id=#{partyId}, branch_id=null where ${idName}=#{id}")
     int updateToDirectBranch(@Param("tableName") String tableName, @Param("idName") String idName,

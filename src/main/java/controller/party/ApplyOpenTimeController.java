@@ -8,6 +8,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -117,7 +118,7 @@ public class ApplyOpenTimeController extends BaseController {
         if(record.getStartTime().after(record.getEndTime())){
             return failed("时间有误");
         }
-        record.setIsGlobal((record.getIsGlobal() == null) ? false : record.getIsGlobal());
+        record.setIsGlobal(BooleanUtils.isTrue(record.getIsGlobal()));
 
         if (id == null) {
             applyOpenTimeService.insertSelective(record);

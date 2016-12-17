@@ -18,6 +18,7 @@ import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.modify.ModifyBaseApplyService;
 import service.modify.ModifyBaseItemService;
+import service.modify.ModifyCadreAuthService;
 import service.modify.ModifyTableApplyService;
 import service.party.*;
 import service.sys.*;
@@ -197,6 +198,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MetaTypeService metaTypeService;
 
+    @Autowired
+    protected ModifyCadreAuthService modifyCadreAuthService;
     @Autowired
     protected ModifyBaseApplyService modifyBaseApplyService;
     @Autowired

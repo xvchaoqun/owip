@@ -8,10 +8,10 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
-        <div class="myTableDiv"
-             data-url-page="&{ctx}/${tableName}_page"
-             data-url-export="&{ctx}/${tableName}_data"
-             data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">
+            <div id="body-content" class="myTableDiv"
+                 data-url-page="&{ctx}/${tableName}_page"
+                 data-url-export="&{ctx}/${tableName}_data"
+                 data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="&{<#list searchColumnBeans as column>not empty param.${tbn(column.name, "tableName")} ||</#list> not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="${tableName}:edit">
@@ -72,7 +72,6 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
-        </div>
         </div>
         <div id="item-content"></div>
     </div>

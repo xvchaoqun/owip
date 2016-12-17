@@ -372,7 +372,7 @@ public class MemberApplyService extends BaseMapper {
         if (updateByExampleSelective(userId, record, example) == 0)
             throw new DBErrorException("系统错误");
 
-        Member member = memberMapper.selectByPrimaryKey(userId);
+        //Member member = memberMapper.selectByPrimaryKey(userId);
         Member _record = new Member();
         _record.setUserId(userId);
         _record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
@@ -418,8 +418,8 @@ public class MemberApplyService extends BaseMapper {
         member.setApplyTime(memberApply.getApplyTime());
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());
-        member.setGrowTime(memberApply.getGrowTime());
-        //member.setPositiveTime(memberApply.getPositiveTime());
+        member.setGrowTime(growTime);
+
         member.setCreateTime(new Date());
 
         //3. 进入党员库

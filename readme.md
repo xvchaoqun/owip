@@ -9,6 +9,12 @@ update abroad_passport_draw apd, abroad_passport ap
 set apd.passport_id=ap.id, ap.is_lent=1 
 where ap.code='E11700904' and apd.id=196 and ap.is_lent=0 and ap.cadre_id=apd.cadre_id; // 未借出且属于同一干部
 
+# 批量同步入党申请里预备党员的入党时间 到 党员库中
+select om.user_id, om.grow_time, oma.grow_time from ow_member om, ow_member_apply oma where oma.user_id=om.user_id and oma.stage=6 and oma.grow_time is not null and om.grow_time!=oma.grow_time;
+select  om.user_id, om.grow_time, oma.grow_time  from ow_member om, ow_member_apply oma where oma.user_id=om.user_id and oma.stage=6 and oma.grow_time is not null and om.grow_time is null;
+update ow_member om, ow_member_apply oma set om.grow_time=oma.grow_time where oma.user_id=om.user_id and oma.stage=6 and oma.grow_time is not null and om.grow_time!=oma.grow_time;
+update ow_member om, ow_member_apply oma set om.grow_time=oma.grow_time where oma.user_id=om.user_id and oma.stage=6 and oma.grow_time is not null and om.grow_time is null;
+
 组织工作管理与服务一体化平台
 Organization Work Integration Platform
 

@@ -4,6 +4,7 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
+  "folder": "sys",
   "tables": [
     {
       "table": "sys_user_sync",

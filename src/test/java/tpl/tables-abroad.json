@@ -4,6 +4,7 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "abroad_",
+  "folder": "abroad",
   "tables": [
     {
       "table": "approval_order",

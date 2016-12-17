@@ -17,6 +17,7 @@ import persistence.ext.ExtYjsMapper;
 import persistence.member.*;
 import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
+import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
 import persistence.party.*;
 import persistence.sys.*;
@@ -270,6 +271,8 @@ public class BaseMapper {
 	@Autowired
 	protected UnitMapper unitMapper;
 
+	@Autowired
+	protected ModifyCadreAuthMapper modifyCadreAuthMapper;
 	@Autowired
 	protected ModifyBaseApplyMapper modifyBaseApplyMapper;
 	@Autowired

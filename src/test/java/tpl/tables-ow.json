@@ -4,6 +4,7 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "ow_",
+  "folder": "member",
   "tables": [
     {
       "table": "org_admin",
