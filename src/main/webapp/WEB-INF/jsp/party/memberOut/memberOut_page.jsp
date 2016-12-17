@@ -360,7 +360,7 @@
                         .format(rowObject.userId, cellvalue);
             }, frozen:true  },
             {
-                label: '所属组织机构', name: 'party',  width: 450,
+                label: '所属组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     return displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
