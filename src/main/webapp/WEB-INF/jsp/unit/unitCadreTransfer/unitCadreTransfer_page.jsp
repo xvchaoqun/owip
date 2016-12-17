@@ -56,16 +56,6 @@ pageEncoding="UTF-8" %>
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>
 <script>
-
-    var _id;
-    function unitCadreTransfer_addDispatchs(id){
-        _id = id;
-        loadModal("${ctx}/unitCadreTransfer_addDispatchs?unitId=${unitCadreTransferGroup.unitId}&id="+id, 1000);
-    }
-    function closeSwfPreview(){
-        unitCadreTransfer_addDispatchs(_id);
-    };
-
     function unitCadreTransfer_au(id) {
         var url = "${ctx}/unitCadreTransfer_au?groupId=${param.groupId}";
         if (id > 0)  url += "&id=" + id;

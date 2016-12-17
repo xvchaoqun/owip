@@ -49,7 +49,7 @@
                     <tr>
 
                         <td>${sysUser.code}</td>
-                        <td><a href="javascript:" class="openView" data-url="${ctx}/cadre_view?id=${passport.cadreId}">
+                        <td><a href="javascript:" class="openView" data-url="${ctx}/cadre_view?cadreId=${passport.cadreId}">
                             ${sysUser.realname}
                         </a></td>
                         <td>${cadre.title}</td>

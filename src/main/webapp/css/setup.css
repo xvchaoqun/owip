@@ -34,6 +34,11 @@ body{
 .row.footer-margin{
     margin-bottom: 70px;
 }
+.row.footer-margin.lower{
+     margin-bottom: 30px;
+}
+
+
 /**************/
 
 
@@ -62,7 +67,7 @@ body{
     font-weight: bolder;
 }
 /*搜索框点击收起、排序数字*/
-.myTableDiv .widget-header, a.change-order{
+.widget-header, a.change-order{
     /*background-image: none;
     background: none;*/
     cursor: pointer;

@@ -51,7 +51,7 @@
                 if (ret.success) {
                     //console.log(ret)
                     setTimeout(function () {
-                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path="+ret.file);
+                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path="+encodeURI(ret.file));
                     }, 3000);
 
                     $("#modalForm input[name=file]").val(ret.file);

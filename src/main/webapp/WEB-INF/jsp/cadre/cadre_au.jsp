@@ -117,11 +117,6 @@ pageEncoding="UTF-8"%>
             idPrefix: "dynatree-Cb3-"
         });
     }
-    $(".openUrl").click(function(){
-        event.stopPropagation();
-        event.preventDefault();
-        openwindow($(this).data("url"), '', 720, 820)
-    });
     </c:if>
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();

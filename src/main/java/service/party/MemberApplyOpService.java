@@ -9,7 +9,9 @@ import org.apache.shiro.subject.Subject;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import service.helper.ShiroSecurityHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -41,17 +43,19 @@ public class MemberApplyOpService extends BaseController {
 
     // 申请：拒绝申请
     @Transactional
-    public void apply_deny(Integer[] userIds, String remark, int loginUserId){
+    public void apply_deny(Integer[] userIds, String remark) {
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
-            applyApprovalLogService.add(userId,
-                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
+            if (memberApply != null && memberApply.getStage() != SystemConstants.APPLY_STAGE_DENY) {
+                enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                applyApprovalLogService.add(userId,
+                        memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                        ShiroSecurityHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
+            }
         }
     }
     // 申请：通过申请
@@ -614,7 +618,7 @@ public class MemberApplyOpService extends BaseController {
                 throw new RuntimeException("打回状态有误，请联系系统管理员。");
             }
 
-            memberApplyService.memberApply_back(memberApply, stage);
+            memberApplyService.memberApply_back(userId, stage);
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,

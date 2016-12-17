@@ -45,11 +45,15 @@ public class MemberService extends BaseMapper {
     @Autowired
     private MemberApplyService memberApplyService;
     @Autowired
+    protected MemberApplyOpService memberApplyOpService;
+    @Autowired
     private PartyService partyService;
     @Autowired
     private BranchService branchService;
     @Autowired
     private LogService logService;
+    @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;
 
     public Member get(int userId){
 
@@ -208,6 +212,10 @@ public class MemberService extends BaseMapper {
         Member record = new Member();
         record.setBranchId(branchId);
         memberMapper.updateByExampleSelective(record,example);
+
+        for(int userId:userIds){ // 更新入党申请的预备党员
+            memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
+        }
     }
 
     @Transactional
@@ -237,6 +245,10 @@ public class MemberService extends BaseMapper {
         }
 
         updateMapper.changeMemberParty(partyId, branchId, example);
+
+        for(int userId:userIds){ // 更新入党申请的预备党员
+            memberApplyService.updateWhenModifyMember(userId, partyId, branchId);
+        }
     }
 
     @Transactional
@@ -247,6 +259,12 @@ public class MemberService extends BaseMapper {
             MemberExample example = new MemberExample();
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             memberMapper.deleteByExample(example);
+        }
+
+        // 删除入党申请（预备党员、正式党员)
+        for (Integer userId : userIds) {
+
+            memberApplyService.denywhenDeleteMember(userId);
         }
 
         // 删除组织关系转出、出国党员暂留、校内转接、党员流出
@@ -304,6 +322,10 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
             updateMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
         }
+        if(record.getPartyId()!=null){
+            memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
+        }
+
         return memberMapper.updateByPrimaryKeySelective(record);
     }
 

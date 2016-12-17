@@ -169,9 +169,9 @@ public class CadreController extends BaseController {
     }
 
 
-    @RequiresPermissions("cadre:info")
+    @RequiresPermissions("cadre:view")
     @RequestMapping("/cadre_view")
-    public String cadre_show_page(HttpServletResponse response,
+    public String cadre_view(HttpServletResponse response,
                                   @RequestParam(defaultValue = "cadre_base")String to, // 默认跳转到基本信息
                                   ModelMap modelMap) {
         modelMap.put("to", to);
@@ -180,11 +180,11 @@ public class CadreController extends BaseController {
     }
 
     // 基本信息
-    @RequiresPermissions("cadre:info")
+    @RequiresPermissions("cadre:view")
     @RequestMapping("/cadre_base")
-    public String cadre_base(Integer id, ModelMap modelMap) {
+    public String cadre_base(Integer cadreId, ModelMap modelMap) {
 
-        Cadre cadre = cadreService.findAll().get(id);
+        Cadre cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
 
         SysUserView uv = sysUserService.findById(cadre.getUserId());
@@ -203,16 +203,16 @@ public class CadreController extends BaseController {
         ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
         modelMap.put("extJzg", extJzg);
 
-        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(id);
+        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
         // 主职,现任职务
         modelMap.put("mainCadrePost", mainCadrePost);
 
         // 任现职级
-        modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(id,
+        modelMap.put("cadreAdminLevel",cadreAdminLevelService.getPresentByCadreId(cadreId,
                 mainCadrePost!=null?mainCadrePost.getAdminLevelId():null));
 
         // 兼职单位
-        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);
+        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
         if(subCadrePosts.size()>=1){
             modelMap.put("subCadrePost1", subCadrePosts.get(0));
         }
@@ -221,21 +221,11 @@ public class CadreController extends BaseController {
         }
 
         // 最高学历
-        modelMap.put("highEdu", cadreEduService.getHighEdu(id));
+        modelMap.put("highEdu", cadreEduService.getHighEdu(cadreId));
         //最高学位
-        modelMap.put("highDegree", cadreEduService.getHighDegree(id));
+        modelMap.put("highDegree", cadreEduService.getHighDegree(cadreId));
 
         return "cadre/cadre_base";
-    }
-
-    // 人事信息
-    @RequiresPermissions("cadre:info")
-    @RequestMapping("/cadre_personnel")
-    public String cadre_personnel(Integer id, ModelMap modelMap) {
-
-        Cadre cadre = cadreService.findAll().get(id);
-        //modelMap.put("cadre", cadre);
-        return "cadre/cadre_personnel";
     }
 
     @RequiresPermissions("cadre:edit")

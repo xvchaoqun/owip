@@ -193,7 +193,12 @@ $(window).on('resize.jqGrid2', function () {
         height += $(this).height();
         //alert(height)
     });
-    $(".jqGrid2").setGridHeight($(window).height()-390-height);
+
+    var navHeight = $(".nav.nav-tabs").height();
+    navHeight = navHeight>0?(navHeight+40):navHeight;
+    if(navHeight==null) navHeight=0;
+
+    $(".jqGrid2").setGridHeight($(window).height()-390-height-navHeight);
 });
 // 不改变宽度
 $(window).on('resize.jqGrid3', function () {
@@ -254,10 +259,10 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
-$(document).on("click", ".myTableDiv .widget-header", function(){
+$(document).on("click", ".widget-header", function(){
     $("a[data-action=collapse]", this).click()
 });
-$(document).on("click", ".myTableDiv .widget-header a[data-action=collapse]",function(e){
+$(document).on("click", ".widget-header a[data-action=collapse]",function(e){
     e.stopPropagation();
 });
 
@@ -454,6 +459,14 @@ $(document).on("click", ".popupBtn", function(e){
 
     e.stopPropagation();
     loadModal($(this).data("url"), $(this).data("width"));
+});
+
+$(document).on("click", ".openUrl", function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    var width = $(this).data("width")||720;
+    var height = $(this).data("height")||820;
+    openwindow($(this).data("url"), '', width, height)
 });
 
 // 编辑 for jqgrid
@@ -1415,10 +1428,6 @@ function register_unit_select($unitTypeSelect, $unitSelect, $unitType) {
         $name.val(name);
     });
 }*/
-// 预览发文
-function swf_preview(id, type){
-    loadModal(ctx + "/swf_preview?id="+id + "&type=" + type);
-}
 
 /**
  * detect IE
@@ -1522,6 +1531,7 @@ function displayParty(partyId, branchId){
         (branch!=undefined && branch.isDeleted)?"delete":"", (branch==undefined)?"":" - "+branch.name)
 }
 
+// 下拉多选
 function register_multiselect($select, selected){
 
     $select.multiselect({
@@ -1548,4 +1558,40 @@ function register_multiselect($select, selected){
 
     if(selected!=undefined && selected instanceof Array && selected.length>0)
         $select.multiselect('select', selected);
+}
+
+// 图片
+function register_fancybox(afterLoad){
+
+    $(".various").fancybox({
+        live:true,
+        tpl: {error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
+        maxWidth: 800,
+        maxHeight: 600,
+        fitToView: false,
+        width: '70%',
+        height: '70%',
+        autoSize: false,
+        closeClick: false,
+        openEffect: 'none',
+        closeEffect: 'none',
+        loop: false,
+
+        arrows: false,
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: false,
+        helpers: {
+            overlay: {
+                closeClick: false,
+                locked: false
+            },
+            title: {type: 'inside'},
+            buttons: {}
+        },
+        beforeShow: function () {
+            this.wrap.draggable();
+        },
+        afterLoad: afterLoad || function(){}
+    });
 }

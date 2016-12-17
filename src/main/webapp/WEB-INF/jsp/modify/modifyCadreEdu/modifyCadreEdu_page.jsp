@@ -37,15 +37,6 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="${ctx}/extend/js/fancybox/source/jquery.fancybox.css?v=2.1.5"
-      media="screen"/>
-<link rel="stylesheet" href="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5"
-      type="text/css" media="screen"/>
-
-<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
-<script type="text/javascript"
-        src="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-<script type="text/javascript" src="${ctx}/extend/js/jquery.mousewheel.pack.js"></script>
 <script>
     function _delCallback(type) {
         $("#modal").modal("hide");
@@ -146,35 +137,10 @@
                 }
             }, {label: '备注', name: 'remark', width: 180}]
     }).jqGrid("setFrozenColumns");
-    $(".various").fancybox({
-        live:true,
-        tpl: {error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
-        maxWidth: 800,
-        maxHeight: 600,
-        fitToView: false,
-        width: '70%',
-        height: '70%',
-        autoSize: false,
-        closeClick: false,
-        openEffect: 'none',
-        closeEffect: 'none',
-        loop: false,
-
-        arrows: false,
-        prevEffect: 'none',
-        nextEffect: 'none',
-        closeBtn: false,
-        helpers: {
-            overlay: {
-                closeClick: false,
-                locked: false
-            },
-            title: {type: 'inside'},
-            buttons: {}
-        },
-        beforeShow: function () {
-            this.wrap.draggable();
-        }
+    register_fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'));
     });
     $(window).triggerHandler('resize.jqGrid');
 </script>

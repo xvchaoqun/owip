@@ -91,9 +91,13 @@
         <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
         <property name="arguments" ref="securityManager"/>
     </bean>
+    <!--密码辅助工具-->
+    <bean id="passwordHelper" class="shiro.PasswordHelper">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
 
     <!-- 基于Form表单的身份验证过滤器 -->
-    <bean id="formAuthenticationFilter" class="shiro.CaptchaFormAuthenticationFilter">
+    <bean id="formAuthenticationFilter" class="shiro.filter.CaptchaFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="passwd"/>
         <property name="rememberMeParam" value="rememberMe"/>
@@ -101,29 +105,24 @@
         <property name="typeParam" value="type"/>
         <property name="loginUrl" value="/login"/>
     </bean>
-    <!--密码辅助工具-->
-    <bean id="passwordHelper" class="shiro.PasswordHelper">
-        <property name="credentialsMatcher" ref="credentialsMatcher"/>
-    </bean>
-
-    <bean id="kickoutSessionControlFilter" class="shiro.KickoutSessionControlFilter">
+    <bean id="kickoutSessionControlFilter" class="shiro.filter.KickoutSessionControlFilter">
         <property name="cacheManager" ref="cacheManager"/>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="kickoutAfter" value="false"/>
         <property name="maxSession" value="1"/>
     </bean>
+    <bean id="currentUserFilter" class="shiro.filter.CurrentUserFilter"></bean>
+    <bean id="cadreAuthFilter" class="shiro.filter.CadreAuthFilter"></bean>
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
         <property name="filters">
             <util:map>
-                <entry key="authc" value-ref="formAuthenticationFilter">
-                </entry>
-                <entry key="currentUserFilter">
-                    <bean class="shiro.CurrentUserFilter"/>
-                </entry>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="currentUser" value-ref="currentUserFilter"/>
                 <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+                <entry key="cadreAuth" value-ref="cadreAuthFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -149,7 +148,9 @@
                 /extend/** = anon
                 /template/** = anon
                 /favicon.ico = anon
-                /** =  kickout, user, currentUserFilter
+                /cadre_selects = kickout, user, currentUser
+                /cadre* = kickout, user, cadreAuth, currentUser
+                /** =  kickout, user, currentUser
             </value>
         </property>
     </bean>

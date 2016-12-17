@@ -174,7 +174,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             },frozen:true  },
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
@@ -251,7 +251,8 @@ pageEncoding="UTF-8" %>
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, dispatchCode);
+                        return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
+                            .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -357,7 +358,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             },frozen:true  },
             { label:'排序', width: 80, index:'sort', formatter:function(cellvalue, options, rowObject){
@@ -369,7 +370,8 @@ pageEncoding="UTF-8" %>
             <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
             { label:'离任文件',  name: 'dispatch', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(cellvalue.id, cellvalue.dispatchCode);
+                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
+                        .format(encodeURI(cellvalue.file), cellvalue.fileName, cellvalue.dispatchCode);
             },frozen:true },
             {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
                 </c:if>
@@ -415,7 +417,7 @@ pageEncoding="UTF-8" %>
 
     function openView(id){
         $("#body-content").hide();
-        $("#item-content").load("${ctx}/cadre_view?id="+id).show();
+        $("#item-content").load("${ctx}/cadre_view?cadreId="+id).show();
     }
     function closeView(){
         $("#body-content").show();

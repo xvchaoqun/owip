@@ -59,11 +59,6 @@ pageEncoding="UTF-8"%>
             idPrefix: "dynatree-Cb3-"
         });
     }
-    $(".openUrl").click(function(){
-        event.stopPropagation();
-        event.preventDefault();
-        openwindow($(this).data("url"), '', 720, 820)
-    });
 
     $("input[type=checkbox]").click(function(){
         if($(this).prop("checked")){

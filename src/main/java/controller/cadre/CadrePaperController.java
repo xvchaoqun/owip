@@ -154,7 +154,7 @@ public class CadrePaperController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequestMapping("/cadrePaper_swf")
+    /*@RequestMapping("/cadrePaper_swf")
     public void cadrePaper_swf(Integer id, @RequestParam(required = false,defaultValue = "chair")String type
             , HttpServletResponse response) throws IOException{
 
@@ -182,7 +182,7 @@ public class CadrePaperController extends BaseController {
         modelMap.put("cadrePaper", cadrePaper);
         modelMap.put("filePath", filePath);
         return "cadre/cadrePaper/cadrePaper_swf_preview";
-    }
+    }*/
 
     @RequiresPermissions("cadrePaper:edit")
     @RequestMapping("/cadrePaper_au")

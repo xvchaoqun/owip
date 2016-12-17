@@ -74,12 +74,6 @@
         cursor: pointer;
     }
 </style>
-<link rel="stylesheet" type="text/css" href="${ctx}/extend/js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
-<link rel="stylesheet" href="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
-
-<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
-<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-<script type="text/javascript" src="${ctx}/extend/js/jquery.mousewheel.pack.js"></script>
 <script>
     //序号、申请时间、工作证号、姓名、所在单位及职务、修改方式、申请内容、组织部审核
     $("#jqGrid").jqGrid({
@@ -158,25 +152,4 @@
         $("#modal").modal('hide');
         $("#jqGrid").trigger("reloadGrid");
     }
-    $(".various").fancybox({
-        live:true,
-        tpl:{error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
-        maxWidth	: 800,
-        maxHeight	: 600,
-        fitToView	: false,
-        width		: '70%',
-        height		: '70%',
-        autoSize	: false,
-        closeClick	: false,
-        openEffect	: 'none',
-        closeEffect	: 'none',
-        loop:false,
-        arrows:false,
-        prevEffect		: 'none',
-        nextEffect		: 'none',
-        closeBtn		: true,
-        beforeShow: function() {
-            this.wrap.draggable();
-        }
-    });
 </script>

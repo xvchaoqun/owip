@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
 <div class="col-xs-offset-1 width500">
-
     <div class="page-header">
         <h1>
             <i class="fa fa-user"></i>
@@ -54,6 +52,7 @@ pageEncoding="UTF-8" %>
             </div>
     </div>
 </div>
+<div class="row footer-margin lower">&nbsp;</div>
 <style>
     .profile-info-name{
         width: 100px;

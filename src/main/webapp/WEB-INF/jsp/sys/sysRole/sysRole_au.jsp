@@ -10,14 +10,14 @@
   <input type="hidden" name="id" value="${sysRole.id}">
   	<div class="form-group">
 		<label class="col-xs-3 control-label">代码</label>
-		<div class="col-xs-4">
+		<div class="col-xs-8">
 			<input class="form-control" <c:if test="${sysRole.role eq 'admin'}"> disabled </c:if> type="text" name="role" value="${sysRole.role}">
 			<span class="help-block">* 不可修改；如需修改，请联系系统开发人员</span>
 		</div>
 	</div>
   	<div class="form-group">
 		<label class="col-xs-3 control-label">名称</label>
-		<div class="col-xs-4">
+		<div class="col-xs-8">
 			<input class="form-control" type="text" name="description" value="${sysRole.description}">
 		</div>
 	</div>
@@ -55,6 +55,11 @@
 
                 //node.expand(node.data.isFolder && node.isSelected());
             },
+			onCustomRender: function(node) {
+				if(node.data.tooltip!=null)
+					return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
+							.format(node.data.tooltip, node.data.title)
+			},
             cookieId: "dynatree-Cb3",
             idPrefix: "dynatree-Cb3-"
         });

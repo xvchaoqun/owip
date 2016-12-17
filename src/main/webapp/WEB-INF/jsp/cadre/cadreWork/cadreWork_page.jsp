@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
@@ -43,7 +42,6 @@
     <div class="space-4"></div>
     <table id="jqGrid_cadreWork" class="jqGrid2"></table>
     <div id="jqGridPager_cadreWork"></div>
-    </div>
 </c:if>
 <c:if test="${type==2}">
     <div class="row two-frames">
@@ -99,6 +97,7 @@
         </div>
     </div>
 </c:if>
+<div class="row footer-margin lower">&nbsp;</div>
 <style>
     .table > tbody > tr.ui-subgrid.active > td,
     .table tbody tr.ui-subgrid:hover td, .table tbody tr.ui-subgrid:hover th {
@@ -150,7 +149,7 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
-            items : ["source", "|", "fullscreen"],
+            items: ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
         });
@@ -158,7 +157,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type:"${CADRE_INFO_TYPE_WORK}"
+                type: "${CADRE_INFO_TYPE_WORK}"
             }, function (ret) {
                 if (ret.success) {
                     SysMsg.info("保存成功", "", function () {
@@ -346,19 +345,6 @@
         // 删除期间工作时调用
         function showSubWork(id) {
             loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
-        }
-
-        function showDispatch(_param) {
-            //alert(_param)
-            loadModal("${ctx}/cadreWork_addDispatchs?cadreId=${param.cadreId}&" + _param, 1000);
-        }
-
-        function closeSwfPreview(close) {
-            if (close == 0) {
-                $("#modal").modal("hide")
-            } else {
-                showDispatch(_param);
-            }
         }
 
         /*function _reload() {

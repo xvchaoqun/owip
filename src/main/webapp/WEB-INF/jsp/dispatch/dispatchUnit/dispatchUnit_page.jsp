@@ -96,7 +96,8 @@
         colModel: [
             { label:'所属发文',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
-                    return '<a href="javascript:void(0)" onclick="swf_preview({0}, \'file\')">{1}</a>'.format(rowObject.dispatch.id, cellvalue);
+                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
+                            .format(encodeURI(rowObject.dispatch.file), rowObject.dispatch.fileName, cellvalue);
                 else return cellvalue;
             },frozen:true },
 

@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:if test="${empty param.path}">
+<c:set value="${_uploadPath}${param.path}" var="path"/>
+<c:if test="${empty param.path || !cm:exists(path)}">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
         <h3>提示</h3>
     </div>
     <div class="modal-body">
-        文件不存在
+        文件不存在：${param.path}
     </div>
     <div class="modal-footer">
         <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
     </div>
 </c:if>
-<c:if test="${not empty param.path}">
+<c:if test="${not empty param.path && cm:exists(path)}">
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>

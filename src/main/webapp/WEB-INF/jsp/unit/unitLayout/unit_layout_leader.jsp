@@ -42,7 +42,7 @@
 
                         <tr>
                             <td nowrap>${sysUser.code}</td>
-                            <td nowrap><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${cadre.id}"> ${sysUser.realname}</a></td>
+                            <td nowrap><a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadre.id}"> ${sysUser.realname}</a></td>
                             <td nowrap>${cadre.title}</td>
                             <td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>
                             <td>${leader.job}</td>

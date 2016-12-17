@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="tabbable">
-<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 其他奖励情况</a>
     </li>
@@ -36,7 +35,6 @@
     <div class="space-4"></div>
     <table id="jqGrid_cadreReward" class="jqGrid2"></table>
     <div id="jqGridPager_cadreReward"></div>
-    </div>
 </c:if>
 <c:if test="${type==2}">
     <div class="row two-frames">
@@ -84,7 +82,7 @@
         </div>
     </div>
 </c:if>
-
+<div class="row footer-margin lower">&nbsp;</div>
 <c:if test="${type==2}">
 
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>

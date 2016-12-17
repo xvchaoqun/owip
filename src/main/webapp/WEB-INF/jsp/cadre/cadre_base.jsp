@@ -659,12 +659,12 @@ pageEncoding="UTF-8"%>
 				</tbody>
 			</table>
 		</div></div></div>
-
-
+<c:if test="${param._auth!='self'}">
 <div class="clearfix form-actions center">
 	<button class="closeView btn btn-default" type="button">
 		<i class="ace-icon fa fa-undo"></i>
 		返回
 	</button>
 </div>
-<div class="row footer-margin">&nbsp;</div>
+	</c:if>
+<div class="row footer-margin lower">&nbsp;</div>

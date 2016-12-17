@@ -1,4 +1,4 @@
-package shiro;
+package shiro.filter;
 
 import controller.BaseController;
 import org.apache.commons.lang.StringUtils;
@@ -6,7 +6,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.SavedRequest;
@@ -16,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
 import service.sys.SysLoginLogService;
+import shiro.AuthToken;
+import shiro.IncorrectCaptchaException;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.HttpUtils;
 import sys.utils.JSONUtils;

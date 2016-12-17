@@ -688,6 +688,9 @@
               <include>extend/js/jquery.ba-throttle-debounce.js</include>
               <include>extend/js/jquery.stickyheader.js</include>
               <include>extend/js/lazyload.js</include>
+              <include>extend/js/fancybox/source/jquery.fancybox.js</include>
+              <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
+              <include>extend/js/jquery.mousewheel.pack.js</include>
             </includes>
           </aggregation>
 
@@ -762,6 +765,8 @@
               <include>extend/css/jquery.qtip.min.css</include>
               <include>extend/css/component.css</include>
               <include>extend/css/navbar.css</include>
+              <include>extend/js/fancybox/source/jquery.fancybox.css</include>
+              <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css</include>
             </includes>
           </aggregation>
           <aggregation>

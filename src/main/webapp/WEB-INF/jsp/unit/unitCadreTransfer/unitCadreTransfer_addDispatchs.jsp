@@ -53,11 +53,13 @@ pageEncoding="UTF-8" %>
                             <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                             <td nowrap><c:if test="${not empty dispatch.fileName}">
                                 <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
-                                <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">预览</a>
+                                <a href="javascript:void(0)" class="openUrl"
+                                   data-url="${ctx}/swf/preview?type=url&path=${cm:encodeURI(dispatch.file)}&filename=${dispatch.fileName}">预览</a>
                             </c:if>
                             </td>
                             <td nowrap><c:if test="${not empty dispatch.pptName}"><a href="/dispatch_download?id=${dispatch.id}&type=ppt" target="_blank">下载</a>
-                                <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'ppt')">预览</a>
+                                <a href="javascript:void(0)" class="openUrl"
+                                   data-url="${ctx}/swf/preview?type=url&path=${cm:encodeURI(dispatch.ppt)}&filename=${dispatch.pptName}">预览</a>
                             </c:if>
                             </td>
                         </tr>
@@ -76,10 +78,6 @@ pageEncoding="UTF-8" %>
     <input type="button" onclick="addDispatch()" class="btn btn-primary" value="保存"/>
 </div>
 <script>
-    function swf_preview(id, type){
-        loadModal("${ctx}/swf_preview?way=2&id="+id + "&type=" + type);
-    }
-
     function addDispatch(){
 
             var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){

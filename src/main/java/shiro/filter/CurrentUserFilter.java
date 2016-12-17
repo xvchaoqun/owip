@@ -1,9 +1,11 @@
-package shiro;
+package shiro.filter;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sys.SysUserService;
+import shiro.Constants;
+import shiro.ShiroUser;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

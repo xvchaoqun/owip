@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +37,7 @@ public class MobileIndexController extends BaseController {
 		Subject subject = SecurityUtils.getSubject();
 		int notApprovalCount = 0;
 		int hasApprovalCount = 0;
-		if(!subject.hasRole("cadreAdmin")) { // 干部 登录
+		if(!subject.hasRole(SystemConstants.ROLE_CADREADMIN)) { // 干部 登录
 
 			Integer userId = loginUser.getId();
 			{

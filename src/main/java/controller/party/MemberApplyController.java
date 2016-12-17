@@ -349,10 +349,12 @@ public class MemberApplyController extends BaseController {
                                  String _planTime, String _drawTime,
                                  String _growTime, String _positiveTime, String remark, HttpServletRequest request) {
 
+        Integer oldPartyId = null;
+        Integer oldBranchId = null;
         MemberApply _memberApply = memberApplyService.get(userId);
         if(_memberApply!=null) {
-            partyId = _memberApply.getPartyId();
-            branchId = _memberApply.getBranchId();
+            oldPartyId = _memberApply.getPartyId();
+            oldBranchId = _memberApply.getBranchId();
         }
         //===========权限
         Integer loginUserId = loginUser.getId();
@@ -360,9 +362,17 @@ public class MemberApplyController extends BaseController {
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
-            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
-                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, oldPartyId);
+            if(isAdmin) {
+                // 分党委管理员不能修改所属分党委
+                if(_memberApply!=null) partyId = null;
+            }else{
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, oldPartyId, oldBranchId);
+                // 支部管理员不能修改所属分党委及所属党支部
+                if(isAdmin && _memberApply!=null) {
+                    partyId = null;
+                    branchId = null;
+                }
             }
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -409,6 +419,24 @@ public class MemberApplyController extends BaseController {
 
             StringBuffer _remark = new StringBuffer();
             MemberApply record = new MemberApply();
+
+            record.setPartyId(partyId);
+            record.setBranchId(branchId);
+            if (partyId != null && partyId.intValue() != oldPartyId) {
+                Map<Integer, Party> partyMap = partyService.findAll();
+                _remark.append("所属分党委由" + partyMap.get(oldPartyId).getName() + "修改为"
+                        + partyMap.get(partyId).getName() + ";");
+            }
+
+            if (branchId != null && (oldBranchId==null || branchId.intValue() != oldBranchId)) {
+                Map<Integer, Branch> branchMap = branchService.findAll();
+                if(oldBranchId==null){
+                    _remark.append("所属党支部修改为" + branchMap.get(branchId).getName() + ";");
+                }else {
+                    _remark.append("所属党支部由" + branchMap.get(oldBranchId).getName() + "修改为"
+                            + branchMap.get(branchId).getName() + ";");
+                }
+            }
 
             String applyTime = DateUtils.formatDate(_memberApply.getApplyTime(), DateUtils.YYYY_MM_DD);
             if (StringUtils.isNotBlank(_applyTime) && !StringUtils.equalsIgnoreCase(applyTime, _applyTime.trim())) {
@@ -519,7 +547,7 @@ public class MemberApplyController extends BaseController {
             checkVerityAuth(userId);
         }
 
-        memberApplyOpService.apply_deny(ids, remark, loginUser.getId());
+        memberApplyOpService.apply_deny(ids, remark);
 
         return success(FormUtils.SUCCESS);
     }

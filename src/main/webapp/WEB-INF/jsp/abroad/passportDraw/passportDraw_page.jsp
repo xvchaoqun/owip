@@ -130,12 +130,6 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<link rel="stylesheet" type="text/css" href="${ctx}/extend/js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
-<link rel="stylesheet" href="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
-
-<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
-<script type="text/javascript" src="${ctx}/extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-<script type="text/javascript" src="${ctx}/extend/js/jquery.mousewheel.pack.js"></script>
 <script>
 
 
@@ -178,7 +172,7 @@
                 name: 'user.realname',
                 width: 75,
                 formatter: function (cellvalue, options, rowObject) {
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id={0}">{1}</a>'
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                             .format(rowObject.cadre.id, cellvalue);
                 },
                 frozen: true
@@ -394,43 +388,15 @@
             $("#resetDrawStatusBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
             $("#delBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
         }
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        //alert($(".various").length)
-        $(".various").fancybox({
-            tpl:{error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
-            maxWidth	: 800,
-            maxHeight	: 600,
-            fitToView	: false,
-            width		: '70%',
-            height		: '70%',
-            autoSize	: false,
-            closeClick	: false,
-            openEffect	: 'none',
-            closeEffect	: 'none',
-            loop:false,
-
-            arrows:false,
-            prevEffect		: 'none',
-            nextEffect		: 'none',
-            closeBtn		: false,
-            helpers		: {
-                overlay:{
-                    closeClick : false,
-                    locked     : false },
-                title	: { type : 'inside' },
-                buttons	: {}
-            },
-            beforeShow: function() {
-                this.wrap.draggable();
-            },
-            afterLoad: function() {
-                //console.log(this)
-                this.title = '<div class="title">'+this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}">点击下载</a>】</div></div>'.format(encodeURI($(this.element).data('path')), this.title) ;
-            }
-        });
-    });
+    }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
+
+    register_fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'), this.title);
+    });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

@@ -523,7 +523,7 @@
         
     </c:if>
 </div>
-<div class="row footer-margin">&nbsp;</div>
+<div class="row footer-margin lower">&nbsp;</div>
 <script>
     function _innerPage(type) {
         $("#view-box .tab-content").load("${ctx}/cadreAdform_page?cadreId=${param.cadreId}&type=" + type)

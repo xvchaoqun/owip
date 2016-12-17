@@ -3,13 +3,14 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <html>
 <head>
-    <title>${param.title}</title>
+    <title>${param.filename}</title>
 </head>
 <body>
-<c:if test="${empty param.path}">
-    文件不存在
+<c:set value="${_uploadPath}${param.path}" var="path"/>
+<c:if test="${empty param.path || !cm:exists(path)}">
+    文件不存在：${param.path}
 </c:if>
-<c:if test="${not empty param.path}">
+<c:if test="${not empty param.path && cm:exists(path)}">
     <div class="txt" id="flashContent">
         您还没有安装flash播放器。
         <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"

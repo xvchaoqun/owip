@@ -26,6 +26,7 @@ pageEncoding="UTF-8" %>
 <div class="space-4"></div>
 <table id="jqGrid_cadreCompany" class="jqGrid2"></table>
 <div id="jqGridPager_cadreCompany"></div>
+<div class="row footer-margin lower">&nbsp;</div>
 <script>
 
     $("#jqGrid_cadreCompany").jqGrid({

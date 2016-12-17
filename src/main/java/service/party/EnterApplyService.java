@@ -277,7 +277,7 @@ public class EnterApplyService extends BaseMapper{
                 }
 
                 MemberApply record = new MemberApply();
-                record.setBranchId(_memberApply.getBranchId());
+                //record.setBranchId(_memberApply.getBranchId());  ?? 注释2016-12-16
                 record.setStage(SystemConstants.APPLY_STAGE_DENY);
                 record.setPassTime(new Date());// 用"通过时间"记录处理时间
                 record.setRemark(remark);

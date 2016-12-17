@@ -91,7 +91,7 @@ pageEncoding="UTF-8"%>
                         //SysMsg.success('操作成功。', '成功',function(){
                             //$("#jqGrid").trigger("reloadGrid");
                             //location.href='${ctx}/cadre?status=1'
-                            _openView('${ctx}/cadre_view?id=${cadre.id}&to=cadrePost_page')
+                            _openView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
                        // });
                     }
                 }

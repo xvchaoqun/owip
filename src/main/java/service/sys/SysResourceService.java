@@ -156,6 +156,7 @@ public class SysResourceService {
 			TreeNode node = new TreeNode();
 			node.key = sysResource.getId()+"";
 			node.title = sysResource.getName();
+			node.tooltip = sysResource.getPermission();
 			node.expand = false;
 			node.hideCheckbox = false;
 			if(selectIdSet.contains(sysResource.getId().intValue())){

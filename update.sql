@@ -1,5 +1,30 @@
 
+-- 2016-12-16
+update sys_resource set permission='cadre:list' where permission='cadre:*';
+update sys_resource set permission='cadre:view' where permission='cadre:info';
+update sys_resource set permission='userMember:menu' where permission='userMemberMenu:*';
+update sys_resource set permission='userMember:abroad' where permission='userGraduateAbroad:*';
+update sys_resource set permission='member:list' where permission='member:menu';
+update sys_resource set permission='member:menu' where permission='party:menu';
+update sys_resource set permission='party:menu' where permission='partyMenu:*';
+update sys_resource set permission='userMemberInflow:menu' where permission='userMemberInflowMenu:*';
+update sys_resource set permission='cadreOther:menu' where permission='cadreOther:*';
 
+
+cadre:* -> cadre:list
+cadre:info -> cadre:view
+
+userMemberMenu:* -> userMember:menu
+userGraduateAbroad:* -> userMember:abroad
+
+member:menu -> member:list
+party:menu -> member:menu
+partyMenu:* -> party:menu
+
+userMemberInflowMenu:* -> userMemberInflow:menu
+cadreOther:* -> cadreOther:menu
+
+-- 2016-12-15
 ALTER TABLE `sys_teacher_info`
 	CHANGE COLUMN `post_type` `post_type` VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位子类别，主岗等级' AFTER `post_class`;
 

@@ -3,6 +3,7 @@ package service.party;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
+import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,13 @@ public class MemberApplyService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
     @Autowired
+    private PartyService partyService;
+    @Autowired
     private MemberService memberService;
     @Autowired
     private LoginUserService loginUserService;
+    @Autowired
+    private EnterApplyService enterApplyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
 
@@ -219,16 +224,63 @@ public class MemberApplyService extends BaseMapper {
         return memberApplyMapper.selectByPrimaryKey(userId);
     }
 
-    /*@Transactional
-    @CacheEvict(value = "MemberApply", key = "#record.userId")
-    public int updateByPrimaryKeySelective(MemberApply record) {
+    // 修改党员所属党组织时，入党申请信息保持同步。如果该党员是预备党员，则相应的要修改入党申请里的预备党员所属党组织，目的是为了预备党员正常转正；
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void updateWhenModifyMember(int userId, Integer partyId, Integer branchId) {
 
-        return memberApplyMapper.updateByPrimaryKeySelective(record);
-    }*/
+        MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(_memberApply!=null && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_GROW && partyId!=null){
+
+            MemberApply record = new MemberApply();
+            record.setUserId(userId);
+            record.setPartyId(partyId);
+            record.setBranchId(branchId);
+
+            memberApplyMapper.updateByPrimaryKeySelective(record);
+
+            if(partyId!=null && branchId==null){
+                // 修改为直属党支部
+                Assert.isTrue(partyService.isDirectBranch(partyId));
+                updateMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, partyId);
+            }
+
+            applyApprovalLogService.add(_memberApply.getUserId(),
+                    _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
+                    ShiroSecurityHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    "更新",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "修改党员所属党组织关系，同时修改入党申请的所属组织关系");
+        }
+    }
 
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
+
+        // 修改入党申请人员的所在分党委和支部，如果是在预备或正式党员中修改，则相应的要修改党员信息
+        if(record.getPartyId()!=null){
+            Member member = memberService.get(userId);
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(member!=null && memberApply!=null) {
+
+                if(record.getBranchId()==null){
+                    // 修改为直属党支部
+                    Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+                    updateMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, record.getPartyId());
+                }
+
+                if (memberApply.getStage()==SystemConstants.APPLY_STAGE_GROW
+                        || memberApply.getStage()==SystemConstants.APPLY_STAGE_POSITIVE) {
+                    Member _member = new Member();
+                    _member.setUserId(userId);
+                    _member.setPartyId(record.getPartyId());
+                    _member.setBranchId(record.getBranchId());
+                    memberService.updateByPrimaryKeySelective(_member, "入党申请中修改所属党组织");
+                }
+            }
+        }
 
         if(record.getGrowTime()!=null){ // 如果修改了入党时间，相应的党员信息的入党时间也要修改
             Member member = memberService.get(userId);
@@ -263,6 +315,40 @@ public class MemberApplyService extends BaseMapper {
 
         if(memberApplyMapper.updateByExampleSelective(record, example)>0){
             memberPositive(userId);
+        }
+    }
+
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void denywhenDeleteMember(int userId){
+        MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(_memberApply!=null && _memberApply.getStage()!=SystemConstants.APPLY_STAGE_DENY) {
+            // 状态检查
+            EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
+            if (_enterApply != null) {
+                EnterApply enterApply = new EnterApply();
+                enterApply.setId(_enterApply.getId());
+                enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApply.setRemark("系统打回");
+                enterApply.setBackTime(new Date());
+                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+            }
+
+            MemberApply record = new MemberApply();
+            record.setStage(SystemConstants.APPLY_STAGE_DENY);
+            record.setPassTime(new Date());// 用"通过时间"记录处理时间
+            record.setRemark("系统打回");
+            MemberApplyExample example = new MemberApplyExample();
+            example.createCriteria().andUserIdEqualTo(userId);
+            Assert.isTrue(memberApplyMapper.updateByExampleSelective(record, example) > 0);
+
+            applyApprovalLogService.add(_memberApply.getUserId(),
+                    _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
+                    ShiroSecurityHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    "撤回",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "删除党员时，同时打回入党申请");
         }
     }
 
@@ -341,10 +427,9 @@ public class MemberApplyService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "MemberApply", key = "#memberApply.userId")
-    public void memberApply_back(MemberApply memberApply, byte stage){
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void memberApply_back(int userId, byte stage){
 
-        int userId = memberApply.getUserId();
         switch (stage){
             case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= SystemConstants.APPLY_STAGE_DRAW)
                 updateMapper.memberApplyBackToPlan(userId);

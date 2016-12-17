@@ -54,7 +54,8 @@ pageEncoding="UTF-8" %>
                     <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                     <td nowrap><c:if test="${not empty dispatch.fileName}">
                         <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
-                        <a href="javascript:void(0)" onclick="swf_preview(${dispatch.id}, 'file')">预览</a>
+                        <a href="javascript:void(0)" class="openUrl"
+                           data-url="${ctx}/swf/preview?type=url&path=${cm:encodeURI(dispatch.file)}&filename=${dispatch.fileName}">预览</a>
                     </c:if>
                     </td>
                 </tr>
@@ -81,12 +82,6 @@ pageEncoding="UTF-8" %>
     </c:if>
 </div>
 <script>
-    var _url;
-    function swf_preview(id, type){
-        _url="${ctx}/cadreAdminLevel_addDispatchs?id=${param.id}&cadreId=${param.cadreId}&type=${type}&cls=${param.cls}";
-        loadModal("${ctx}/swf_preview?way=2&id="+id + "&type=" + type);
-    }
-
     function addDispatch(type){
 
             var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){

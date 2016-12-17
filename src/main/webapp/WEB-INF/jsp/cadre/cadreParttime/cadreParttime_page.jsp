@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="tabbable">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 兼职情况</a>
@@ -36,7 +35,6 @@
     <div class="space-4"></div>
     <table id="jqGrid_cadreParttime" class="jqGrid2"></table>
     <div id="jqGridPager_cadreParttime"></div>
-    </div>
 </c:if>
 <c:if test="${type==2}">
     <div class="row two-frames">
@@ -84,12 +82,12 @@
         </div>
     </div>
 </c:if>
-
+<div class="row footer-margin lower">&nbsp;</div>
 <c:if test="${type==2}">
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
-            items : ["source", "|", "fullscreen"],
+            items: ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
         });
@@ -97,7 +95,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type:"${CADRE_INFO_TYPE_PARTTIME}"
+                type: "${CADRE_INFO_TYPE_PARTTIME}"
             }, function (ret) {
                 if (ret.success) {
                     SysMsg.info("保存成功", "", function () {
@@ -124,8 +122,8 @@
             pager: "#jqGridPager_cadreParttime",
             url: '${ctx}/cadreParttime_data?${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: [
-                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
+                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
+                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
                 {label: '兼职单位', name: 'unit', width: 280},
                 {label: '兼任职务', name: 'post', width: 280},
                 {label: '备注', name: 'remark', width: 350}

@@ -63,15 +63,6 @@ pageEncoding="UTF-8" %>
                 </table>
 
 <script>
-    var _id;
-    function unitTransfer_addDispatchs(id){
-        _id = id;
-        loadModal("${ctx}/unitTransfer_addDispatchs?id="+id, 1000);
-    }
-    function closeSwfPreview(){
-            unitTransfer_addDispatchs(_id);
-    };
-
     function _au(id) {
         url = "${ctx}/unitTransfer_au?unitId=${param.unitId}";
         if (id > 0)  url += "&id=" + id;

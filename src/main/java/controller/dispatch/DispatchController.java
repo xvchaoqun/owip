@@ -332,7 +332,7 @@ public class DispatchController extends BaseController {
     }
 
     // swf内容
-    @RequestMapping("/dispatch_swf")
+   /* @RequestMapping("/dispatch_swf")
     public void dispatch_swf(Integer id, @RequestParam(required = false,defaultValue = "file")String type
             , HttpServletResponse response) throws IOException{
 
@@ -379,7 +379,7 @@ public class DispatchController extends BaseController {
         }
 
         return null;
-    }
+    }*/
 
     @RequiresPermissions("dispatch:download")
     @RequestMapping("/dispatch_download")

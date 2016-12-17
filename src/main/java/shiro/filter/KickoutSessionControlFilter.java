@@ -1,4 +1,4 @@
-package shiro;
+package shiro.filter;
 
 import controller.BaseController;
 import org.apache.shiro.cache.Cache;
@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sys.SysLoginLogService;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 

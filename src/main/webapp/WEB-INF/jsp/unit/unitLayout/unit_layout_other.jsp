@@ -32,7 +32,7 @@
                          ： </c:if>
                     <c:forEach items="${pUnitAdminCadres}" var="pUnitAdminCadre">
                         <c:set var="cadre" value="${cadreMap.get(pUnitAdminCadre.cadreId)}"/>
-                         <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${cadre.id}">
+                         <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadre.id}">
                          ${cm:getUserById(cadre.userId).realname}
                              </a>
                     </c:forEach>
@@ -40,7 +40,7 @@
                     | </c:if>
                     <c:forEach items="${npUnitAdminCadres}" var="npUnitAdminCadre">
                         <c:set var="cadre2" value="${cadreMap.get(npUnitAdminCadre.cadreId)}"/>
-                         <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?id=${cadre2.id}">
+                         <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadre2.id}">
                         ${cm:getUserById(cadre2.userId).realname}
                              </a>
                     </c:forEach>

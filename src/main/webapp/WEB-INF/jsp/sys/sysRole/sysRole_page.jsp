@@ -57,10 +57,8 @@
 <script>
 
     function au(id) {
-        url = "${ctx}/sysRole_au";
-        if (id > 0)
-            url += "?id=" + id;
-        loadModal(url);
+        url = "${ctx}/sysRole_au?id=" + id;
+        loadModal(url, 700);
     }
 
     function updateIsSysHold(id) {

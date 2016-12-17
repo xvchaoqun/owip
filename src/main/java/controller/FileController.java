@@ -100,7 +100,7 @@ public class FileController extends BaseController {
 
     // swf内容
     @RequestMapping("/swf")
-    public void dispatch_swf(String path, HttpServletResponse response) throws IOException {
+    public void swf(String path, HttpServletResponse response) throws IOException {
 
         String filePath = springProps.uploadPath + FileUtils.getFileName(path) + ".swf";
 

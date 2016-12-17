@@ -21,34 +21,21 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 请选择组织机构</label>
 
+            <div class="form-group" id="party" >
+                <label class="col-sm-3 control-label no-padding-right">所属党组织</label>
                 <div class="col-sm-9">
-                    <select required name="classId" data-rel="select2" data-placeholder="请选择">
-                        <option></option>
-                        <c:forEach items="${partyClassMap}" var="cls">
-                            <option value="${cls.key}">${cls.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=classId]").val("${party.classId}")
-                    </script>
-                </div>
-            </div>
-            <div class="form-group" id="party" style="${empty party?'display: none;':''}">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                    <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/party_selects?auth=1"
                             name="partyId" data-placeholder="请选择分党委">
-                        <option value="${party.id}">${party.name}</option>
+                        <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group" id="branch" style="${empty branch?'display: none;':''}">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                    <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/branch_selects?auth=1"
                             name="branchId" data-placeholder="请选择党支部">
-                        <option value="${branch.id}">${branch.name}</option>
+                        <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                     </select>
                 </div>
             </div>
@@ -74,11 +61,21 @@
                     <input type="hidden" name="userId" value="${sysUser.id}">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">所属组织机构</label>
-
-                <div class="col-sm-9 label-text">
-                        ${party.name}${branch.name}
+            <div class="form-group" id="party" style="${empty party?'display: none;':''}">
+                <label class="col-sm-3 control-label no-padding-right">所属党组织</label>
+                <div class=" col-sm-9">
+                    <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/party_selects?auth=1"
+                            name="partyId" data-placeholder="请选择分党委">
+                        <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" id="branch" style="${empty branch?'display: none;':''}">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <select data-rel="select2-ajax" data-width="350"  data-ajax-url="${ctx}/branch_selects?auth=1"
+                            name="branchId" data-placeholder="请选择党支部">
+                        <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -212,13 +209,15 @@
 </div>
 <script>
     register_user_select($('#modalForm select[name=userId]'));
-    register_class_party_branch_select($("#modalForm"), "party", "branch",
-            '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
+
+    register_party_branch_select($("#modalForm"), "branch",
+            '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+
     register_date($('.date-picker'));
 
     $("#modalForm").validate({
         submitHandler: function (form) {
-            <c:if test="${empty memberApply}">
+
             if (!$("#party").is(":hidden")) {
                 if ($('#modalForm select[name=partyId]').val() == '') {
                     bootbox.alert("请选择分党委。");
@@ -231,7 +230,7 @@
                     return;
                 }
             }
-            </c:if>
+
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
