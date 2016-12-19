@@ -36,9 +36,9 @@
     </select>
     <!-- 统计入党申请各阶段情况-->
     <select id="memberApply_groupByStage" resultType="bean.analysis.StatByteBean" parameterType="map">
-        select count(*) as num, stage as type from ow_member_apply where stage>-1
-        <if test="type!=null">
-            and type =#{type}
+        select count(*) as num, stage as type from ow_member_apply_view where member_status=0 and stage>-1
+        <if test="stage!=null">
+            and stage =#{stage}
         </if>
         <include refid="Where_ow"/> group by stage
     </select>

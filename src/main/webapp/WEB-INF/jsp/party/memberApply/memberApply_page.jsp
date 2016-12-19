@@ -36,6 +36,11 @@
                                     %>
                                     <c:set value="<%=colors%>" var="colors"/>
                                     <ul class="nav nav-tabs" id="myTab3">
+                                        <li class="<c:if test="${stage==APPLY_STAGE_OUT}">active</c:if>">
+                                            <a href='?cls=${cls}&type=${type}&stage=${APPLY_STAGE_OUT}'>
+                                                <span class="badge">*</span> 已转出的申请
+                                            </a>
+                                        </li>
                                         <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
                                             <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
                                                 <a href='?cls=${cls}&type=${type}&stage=${applyStage.key}'>
@@ -43,7 +48,13 @@
                                                     <c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>
                                                     <span class="badge ${colors[colorKey]}">${colorKey}</span>
                                                         ${applyStage.value}
-                                                    <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
+                                                            <c:if test="${applyStage.key==APPLY_STAGE_INIT}">
+                                                                <c:set var="stageCount" value="${stageCountMap[APPLY_STAGE_INIT]+stageCountMap[APPLY_STAGE_PASS]}"/>
+                                                            </c:if>
+                                                            <c:if test="${applyStage.key!=APPLY_STAGE_INIT}">
+                                                                <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
+                                                             </c:if>
+
                                                     <c:if test="${stageCount>0}">
                                                     <span class="badge badge-success pull-right"
                                                           data-rel="tooltip" title="${stageCount}条待处理审批">${stageCount}</span>
@@ -58,8 +69,17 @@
                                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <li class="<c:if test="${type==APPLY_TYPE_STU}">active</c:if>">
                                                         <a href='?cls=${cls}&type=${APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
-                                                            <c:set value="${stage}_${APPLY_TYPE_STU}" var="_key"/>
-                                                            <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
+
+                                                            <c:if test="${stage==APPLY_STAGE_INIT}">
+                                                                <c:set value="${APPLY_STAGE_INIT}_${APPLY_TYPE_STU}" var="_key1"/>
+                                                                <c:set value="${APPLY_STAGE_PASS}_${APPLY_TYPE_STU}" var="_key2"/>
+                                                                <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key1)+stageTypeCountMap.get(_key2)}"/>
+                                                            </c:if>
+                                                            <c:if test="${stage!=APPLY_STAGE_INIT}">
+                                                                <c:set value="${stage}_${APPLY_TYPE_STU}" var="_key"/>
+                                                                <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
+                                                            </c:if>
+
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"
                                                                       data-placement="right"
@@ -71,7 +91,16 @@
                                                     <li class="<c:if test="${type==APPLY_TYPE_TEACHER}">active</c:if>">
                                                         <a href='?cls=${cls}&type=${APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
                                                             <c:set value="${stage}_${APPLY_TYPE_TEACHER}" var="_key"/>
-                                                            <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
+                                                            <c:if test="${stage==APPLY_STAGE_INIT}">
+                                                                <c:set value="${APPLY_STAGE_INIT}_${APPLY_TYPE_TEACHER}" var="_key1"/>
+                                                                <c:set value="${APPLY_STAGE_PASS}_${APPLY_TYPE_TEACHER}" var="_key2"/>
+                                                                <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key1)+stageTypeCountMap.get(_key2)}"/>
+                                                            </c:if>
+                                                            <c:if test="${stage!=APPLY_STAGE_INIT}">
+                                                                <c:set value="${stage}_${APPLY_TYPE_TEACHER}" var="_key"/>
+                                                                <c:set var="stageTypeCount" value="${stageTypeCountMap.get(_key)}"/>
+                                                            </c:if>
+
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"
                                                                       data-placement="right"
@@ -90,11 +119,13 @@
                                                 <div class="tab-content" >
                                                     <div id="home4" class="tab-pane in active">
                                                         <div class="jqgrid-vertical-offset buttons">
+                                                            <c:if test="${stage!=APPLY_STAGE_OUT}">
                                                             <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                                                     data-id-name="userId"
                                                                     data-querystr="&stage=${param.stage}">
                                                                 <i class="fa fa-edit"></i> 修改信息
                                                             </button>
+                                                            </c:if>
                                                             <c:choose>
                                                                 <c:when test="${stage==APPLY_STAGE_INIT || stage==APPLY_STAGE_PASS}">
                                                                     <button id="applyBtn" ${applyCount>0?'':'disabled'}
@@ -129,7 +160,7 @@
                                                                             data-count="${candidateCount}">
                                                                         <i class="fa fa-sign-in"></i> 支部确定为发展对象（${candidateCount}）
                                                                     </button>
-                                                                    <shiro:hasRole name="partyAdmin">
+                                                                    <shiro:hasAnyRoles name="admin,partyAdmin">
                                                                     <button id="candidateCheckBtn" ${candidateCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -140,7 +171,7 @@
                                                                             data-count="${candidateCheckCount}">
                                                                         <i class="fa fa-sign-in"></i> 分党委审核（${candidateCheckCount}）
                                                                     </button>
-                                                                    </shiro:hasRole>
+                                                                    </shiro:hasAnyRoles>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_CANDIDATE}">
                                                                     <button id="planBtn" ${planCount>0?'':'disabled'}
@@ -153,7 +184,7 @@
                                                                             data-count="${planCount}">
                                                                         <i class="fa fa-sign-in"></i> 支部列入发展计划（${planCount}）
                                                                     </button>
-                                                                    <shiro:hasRole name="partyAdmin">
+                                                                    <shiro:hasAnyRoles name="admin,partyAdmin">
                                                                     <button id="planCheckBtn" ${planCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -164,10 +195,10 @@
                                                                             data-count="${planCheckCount}">
                                                                         <i class="fa fa-sign-in"></i> 分党委审核（${planCheckCount}）
                                                                     </button>
-                                                                    </shiro:hasRole>
+                                                                    </shiro:hasAnyRoles>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_PLAN}">
-                                                                    <shiro:hasRole name="partyAdmin">
+                                                                    <shiro:hasAnyRoles name="admin,partyAdmin">
                                                                     <button id="drawBtn" ${drawCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -178,7 +209,7 @@
                                                                             data-count="${drawCount}">
                                                                         <i class="fa fa-sign-in"></i> 领取志愿书（${drawCount}）
                                                                     </button>
-                                                                    </shiro:hasRole>
+                                                                    </shiro:hasAnyRoles>
                                                                    <%-- <button id="drawCheckCount" ${drawCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -191,18 +222,40 @@
                                                                     </button>--%>
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_DRAW}">
-                                                                    <shiro:hasRole name="partyAdmin">
+                                                                    <shiro:hasAnyRoles name="admin,odAdmin">
+                                                                        <button id="growOdCheckCount" ${growOdCheckCount>0?'':'disabled'}
+                                                                                class="jqOpenViewBtn btn btn-danger btn-sm"
+                                                                                data-url="${ctx}/memberApply_approval"
+                                                                                data-open-by="page"
+                                                                                data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=-1"
+                                                                                data-need-id="false"
+                                                                                data-id-name="userId"
+                                                                                data-count="${growOdCheckCount}">
+                                                                            <i class="fa fa-sign-in"></i> 组织部审核（${growOdCheckCount}）
+                                                                        </button>
+                                                                    </shiro:hasAnyRoles>
                                                                     <button id="growBtn" ${growCount>0?'':'disabled'}
-                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            class="jqOpenViewBtn btn btn-success btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
                                                                             data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=2"
                                                                             data-need-id="false"
                                                                             data-id-name="userId"
                                                                             data-count="${growCount}">
-                                                                        <i class="fa fa-sign-in"></i> 分党委发展为预备党员（${growCount}）
+                                                                        <i class="fa fa-sign-in"></i> 支部发展为预备党员（${growCount}）
                                                                     </button>
-                                                                    </shiro:hasRole>
+                                                                    <shiro:hasAnyRoles name="admin,partyAdmin">
+                                                                    <button id="growCheckBtn" ${growCheckCount>0?'':'disabled'}
+                                                                            class="jqOpenViewBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_approval"
+                                                                            data-open-by="page"
+                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=0"
+                                                                            data-need-id="false"
+                                                                            data-id-name="userId"
+                                                                            data-count="${growCheckCount}">
+                                                                        <i class="fa fa-sign-in"></i> 分党委审核（${growCheckCount}）
+                                                                    </button>
+                                                                    </shiro:hasAnyRoles>
                                                                    <%-- <button id="growCheckCount" ${growCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -213,18 +266,7 @@
                                                                             data-count="${growCheckCount}">
                                                                         <i class="fa fa-sign-in"></i> 分党委审核（${growCheckCount}）
                                                                     </button>--%>
-                                                                    <shiro:hasRole name="odAdmin">
-                                                                    <button id="growOdCheckCount" ${growOdCheckCount>0?'':'disabled'}
-                                                                            class="jqOpenViewBtn btn btn-danger btn-sm"
-                                                                            data-url="${ctx}/memberApply_approval"
-                                                                            data-open-by="page"
-                                                                            data-querystr="&type=${type}&stage=${APPLY_STAGE_DRAW}&status=-1"
-                                                                            data-need-id="false"
-                                                                            data-id-name="userId"
-                                                                            data-count="${growOdCheckCount}">
-                                                                        <i class="fa fa-sign-in"></i> 组织部审核（${growOdCheckCount}）
-                                                                    </button>
-                                                                    </shiro:hasRole>
+
                                                                 </c:when>
                                                                 <c:when test="${stage==APPLY_STAGE_GROW}">
                                                                     <button id="positiveBtn" ${positiveCount>0?'':'disabled'}
@@ -237,7 +279,7 @@
                                                                             data-count="${positiveCount}">
                                                                         <i class="fa fa-sign-in"></i> 支部预备党员转正（${positiveCount}）
                                                                     </button>
-                                                                    <shiro:hasRole name="partyAdmin">
+                                                                    <shiro:hasAnyRoles name="admin,partyAdmin">
                                                                     <button id="positiveCheckCount" ${positiveCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -248,8 +290,8 @@
                                                                             data-count="${positiveCheckCount}">
                                                                         <i class="fa fa-sign-in"></i> 分党委审核（${positiveCheckCount}）
                                                                     </button>
-                                                                    </shiro:hasRole>
-                                                                    <shiro:hasRole name="odAdmin">
+                                                                    </shiro:hasAnyRoles>
+                                                                    <shiro:hasAnyRoles name="admin,odAdmin">
                                                                     <button id="positiveOdCheckCount" ${positiveOdCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
@@ -260,7 +302,7 @@
                                                                             data-count="${positiveOdCheckCount}">
                                                                         <i class="fa fa-sign-in"></i> 组织部审核（${positiveOdCheckCount}）
                                                                     </button>
-                                                                    </shiro:hasRole>
+                                                                    </shiro:hasAnyRoles>
                                                                 </c:when>
                                                             </c:choose>
 
@@ -408,27 +450,27 @@
             <c:if test="${stage<APPLY_STAGE_INIT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_INIT}">
+            <c:if test="${stage==APPLY_STAGE_INIT || stage==APPLY_STAGE_OUT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_ACTIVE}">
+            <c:if test="${stage==APPLY_STAGE_ACTIVE || stage==APPLY_STAGE_OUT}">
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_CANDIDATE}">
+            <c:if test="${stage==APPLY_STAGE_CANDIDATE || stage==APPLY_STAGE_OUT}">
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_PLAN}">
+            <c:if test="${stage==APPLY_STAGE_PLAN || stage==APPLY_STAGE_OUT}">
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_DRAW}">
+            <c:if test="${stage==APPLY_STAGE_DRAW || stage==APPLY_STAGE_OUT}">
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发展时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE}">
+            <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE || stage==APPLY_STAGE_OUT}">
             {label: '入党时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '转正时间', name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
@@ -461,7 +503,7 @@
                 $("#drawBtn").prop("disabled", rowData.drawStatus != 0);
                 $("#drawCheckBtn").prop("disabled", rowData.drawStatus != 1);
                 $("#growBtn").prop("disabled", rowData.growStatus != 2);
-                //$("#growCheckBtn").prop("disabled", rowData.growStatus != 1);
+                $("#growCheckBtn").prop("disabled", rowData.growStatus != 0);
                 $("#growOdCheckBtn").prop("disabled", rowData.growStatus != '');
                 //console.log($.trim(rowData.positiveStatus) != '')
                 $("#positiveBtn").prop("disabled", $.trim(rowData.positiveStatus) != '');
@@ -557,28 +599,26 @@
     </c:if>
 
     <c:if test="${stage==APPLY_STAGE_DRAW}">
-    <shiro:hasRole name="partyAdmin">
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委发展为预备党员（批量）",
-        btnbase:"jqOpenViewBatchBtn btn btn-warning btn-xs",
-        buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_grow"'
-    });
-    </shiro:hasRole>
-    <%--<shiro:hasRole name="partyAdmin">
-    $("#jqGrid").navButtonAdd('#jqGridPager',{
-        caption:"分党委批量审核",
-        btnbase:"jqBatchBtn btn btn-warning btn-xs",
-        buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
-    });
-    </shiro:hasRole>--%>
     <shiro:hasRole name="odAdmin">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-primary btn-xs",
         buttonicon:"fa fa-check-circle-o",
-        props:'data-url="${ctx}/apply_grow_check2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
+        props:'data-url="${ctx}/apply_grow_od_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
+    });
+    </shiro:hasRole>
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"支部发展为预备党员（批量）",
+        btnbase:"jqOpenViewBatchBtn btn btn-success btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_grow"'
+    });
+    <shiro:hasRole name="partyAdmin">
+    $("#jqGrid").navButtonAdd('#jqGridPager',{
+        caption:"分党委批量审核",
+        btnbase:"jqBatchBtn btn btn-warning btn-xs",
+        buttonicon:"fa fa-check-circle-o",
+        props:'data-url="${ctx}/apply_grow_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </shiro:hasRole>
     </c:if>
@@ -748,10 +788,10 @@
             }
         });
     }
-    function apply_grow_check2(userId, gotoNext){
+    function apply_grow_od_check(userId, gotoNext){
         //bootbox.confirm("确定通过该申请？", function (result) {
             //if(result){
-                $.post("${ctx}/apply_grow_check2",{ids:[userId]},function(ret){
+                $.post("${ctx}/apply_grow_od_check",{ids:[userId]},function(ret){
                     if(ret.success){
                         //page_reload();
                         //SysMsg.success('操作成功。', '成功');

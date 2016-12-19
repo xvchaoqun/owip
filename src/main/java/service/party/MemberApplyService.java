@@ -1,8 +1,6 @@
 package service.party;
 
-import domain.member.Member;
-import domain.member.MemberApply;
-import domain.member.MemberApplyExample;
+import domain.member.*;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
@@ -82,8 +80,8 @@ public class MemberApplyService extends BaseMapper {
     // status=-1代表 isNULL
     public int count(Integer partyId, Integer branchId, Byte  type, Byte stage, Byte status){
 
-        MemberApplyExample example = new MemberApplyExample();
-        MemberApplyExample.Criteria criteria = example.createCriteria();
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -121,14 +119,14 @@ public class MemberApplyService extends BaseMapper {
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
-        return memberApplyMapper.countByExample(example);
+        return memberApplyViewMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
     public MemberApply next(Byte type, Byte stage,Byte status, MemberApply memberApply){
 
-        MemberApplyExample example = new MemberApplyExample();
-        MemberApplyExample.Criteria criteria = example.createCriteria();
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -167,15 +165,16 @@ public class MemberApplyService extends BaseMapper {
             criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeLessThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time desc");
 
-        List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return (memberApplies.size()==0)?null:memberApplies.get(0);
+        List<MemberApplyView> memberApplies = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return (memberApplies.size()==0)?null:get(memberApplies.get(0).getUserId());
     }
 
     // 下一个（查找比当前记录的“创建时间” 大  的记录中的  最小  的“创建时间”的记录）
     public MemberApply last(Byte type, Byte stage,Byte status, MemberApply memberApply){
 
-        MemberApplyExample example = new MemberApplyExample();
-        MemberApplyExample.Criteria criteria = example.createCriteria();
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        MemberApplyViewExample.Criteria criteria = example.createCriteria().andMemberStatusEqualTo(0);
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -214,8 +213,8 @@ public class MemberApplyService extends BaseMapper {
             criteria.andUserIdNotEqualTo(memberApply.getUserId()).andCreateTimeGreaterThanOrEqualTo(memberApply.getCreateTime());
         example.setOrderByClause("create_time asc");
 
-        List<MemberApply> memberApplies = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        return (memberApplies.size()==0)?null:memberApplies.get(0);
+        List<MemberApplyView> memberApplies = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (memberApplies.size()==0)?null:get(memberApplies.get(0).getUserId());
     }
 
     @Cacheable(value = "MemberApply", key = "#userId")
@@ -259,9 +258,10 @@ public class MemberApplyService extends BaseMapper {
     @CacheEvict(value = "MemberApply", key = "#userId")
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
 
+        Member member = memberService.get(userId);
         // 修改入党申请人员的所在分党委和支部，如果是在预备或正式党员中修改，则相应的要修改党员信息
         if(record.getPartyId()!=null){
-            Member member = memberService.get(userId);
+
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(member!=null && memberApply!=null) {
 
@@ -282,8 +282,39 @@ public class MemberApplyService extends BaseMapper {
             }
         }
 
+        if(record.getApplyTime()!=null){ // 如果修改了提交书面申请书时间，相应的党员信息的也要修改
+            if(member!=null) {
+                if (member.getApplyTime()==null || !member.getApplyTime().equals(record.getApplyTime())) {
+                    Member _member = new Member();
+                    _member.setUserId(userId);
+                    _member.setApplyTime(record.getApplyTime());
+                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改提交书面申请书时间");
+                }
+            }
+        }
+
+        if(record.getActiveTime()!=null){ // 如果修改了确定为入党积极分子时间，相应的党员信息的也要修改
+            if(member!=null) {
+                if (member.getActiveTime()==null || !member.getActiveTime().equals(record.getActiveTime())) {
+                    Member _member = new Member();
+                    _member.setUserId(userId);
+                    _member.setActiveTime(record.getActiveTime());
+                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改确定为入党积极分子时间");
+                }
+            }
+        }
+        if(record.getCandidateTime()!=null){ // 如果修改了确定为发展对象时间，相应的党员信息的也要修改
+            if(member!=null) {
+                if (member.getCandidateTime()==null || !member.getCandidateTime().equals(record.getCandidateTime())) {
+                    Member _member = new Member();
+                    _member.setUserId(userId);
+                    _member.setCandidateTime(record.getCandidateTime());
+                    memberService.updateByPrimaryKeySelective(_member, "入党申请中提交或修改确定为发展对象时间");
+                }
+            }
+        }
+
         if(record.getGrowTime()!=null){ // 如果修改了入党时间，相应的党员信息的入党时间也要修改
-            Member member = memberService.get(userId);
             if(member!=null) {
                 if (member.getGrowTime()==null || !member.getGrowTime().equals(record.getGrowTime())) {
                     Member _member = new Member();
@@ -294,7 +325,6 @@ public class MemberApplyService extends BaseMapper {
             }
         }
         if(record.getPositiveTime()!=null){ // 如果修改了转正时间
-            Member member = memberService.get(userId);
             if(member!=null && member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
                 if (member.getPositiveTime()==null || !member.getPositiveTime().equals(record.getPositiveTime())) {
                     Member _member = new Member();
@@ -383,9 +413,9 @@ public class MemberApplyService extends BaseMapper {
             throw new DBErrorException("系统错误");
     }
 
-    // 成为预备党员 (组织部审核之后，分党委提交发展时间)
+    // 成为预备党员 (组织部审核之后，直属党支部提交发展时间)
     @Transactional
-    public void memberGrow(int userId, Date growTime) {
+    public void memberGrowByDirectParty(int userId, Date growTime) {
 
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
@@ -393,6 +423,7 @@ public class MemberApplyService extends BaseMapper {
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_GROW);
+        record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
         record.setGrowTime(growTime);
 
         MemberApplyExample example = new MemberApplyExample();
@@ -419,6 +450,49 @@ public class MemberApplyService extends BaseMapper {
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());
         member.setGrowTime(growTime);
+
+        member.setCreateTime(new Date());
+
+        //3. 进入党员库
+        memberService.add(member);
+    }
+
+    // 成为预备党员 (支部提交之后，分党委审核)
+    @Transactional
+    public void memberGrowByParty(int userId) {
+
+        SysUserView sysUser = sysUserService.findById(userId);
+        MemberApply memberApply = get(userId);
+        if(sysUser==null || memberApply==null) throw new DBErrorException("系统错误");
+
+        MemberApply record = new MemberApply();
+        record.setStage(SystemConstants.APPLY_STAGE_GROW);
+        record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
+
+        MemberApplyExample example = new MemberApplyExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
+                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+
+        //1. 更新申请状态
+        if (updateByExampleSelective(userId, record, example) == 0)
+            throw new DBErrorException("需要党支部提交发展时间之后，才可以审核");
+
+        Member member = new Member();
+        member.setUserId(userId);
+        member.setPartyId(memberApply.getPartyId());
+        member.setBranchId(memberApply.getBranchId());
+        member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
+
+        Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
+                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER);
+
+        member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
+        member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员
+        member.setApplyTime(memberApply.getApplyTime());
+        member.setActiveTime(memberApply.getActiveTime());
+        member.setCandidateTime(memberApply.getCandidateTime());
+        member.setGrowTime(memberApply.getGrowTime());
 
         member.setCreateTime(new Date());
 

@@ -5,6 +5,8 @@ import controller.BaseController;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.member.MemberApplyExample.Criteria;
+import domain.member.MemberApplyView;
+import domain.member.MemberApplyViewExample;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
@@ -114,7 +116,9 @@ public class MemberApplyController extends BaseController {
             case SystemConstants.APPLY_STAGE_DRAW:
                 if(status==-1)
                     modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
-                else if(status==2) // 组织部审核之后，分党委才提交
+                else if(status==2) // 组织部审核之后，党支部才提交
+                    modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
+                else if(status==0) // 党支部提交后，分党委审核
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
@@ -182,10 +186,10 @@ public class MemberApplyController extends BaseController {
                 //modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
-                // 组织部先审核，然后分党委提交发展时间
+                // 组织部先审核 - 支部提交发展时间 - 分党委审核
                 modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
                 modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)2));
-                //modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
+                modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
                 modelMap.put("positiveCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte)-1));
@@ -245,8 +249,8 @@ public class MemberApplyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberApplyExample example = new MemberApplyExample();
-        Criteria criteria = example.createCriteria();
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        MemberApplyViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -261,8 +265,9 @@ public class MemberApplyController extends BaseController {
                 stageList.add(SystemConstants.APPLY_STAGE_INIT);
                 stageList.add(SystemConstants.APPLY_STAGE_PASS);
                 criteria.andStageIn(stageList);
-            }else
+            }else if(stage>SystemConstants.APPLY_STAGE_PASS) {
                 criteria.andStageEqualTo(stage);
+            }
 
             if(stage == SystemConstants.APPLY_STAGE_DRAW){
                 if(growStatus!=null && growStatus>=0)
@@ -275,6 +280,13 @@ public class MemberApplyController extends BaseController {
                     criteria.andPositiveStatusEqualTo(positiveStatus);
                 if(positiveStatus!=null && positiveStatus==-1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
+            }
+
+            // 考虑已经转出的情况 2016-12-19
+            if(stage==SystemConstants.APPLY_STAGE_OUT){
+                criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
+            }else{
+                criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
             }
         }
         if (userId != null) {
@@ -292,12 +304,12 @@ public class MemberApplyController extends BaseController {
             return;
         }
 
-        int count = memberApplyMapper.countByExample(example);
+        int count = memberApplyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberApply> MemberApplys = memberApplyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberApplyView> MemberApplys = memberApplyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -459,7 +471,7 @@ public class MemberApplyController extends BaseController {
             }*/
 
             String candidateTime = DateUtils.formatDate(_memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_candidateTime) && _memberApply.getCandidateStatus()!=null
+            if (StringUtils.isNotBlank(_candidateTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_CANDIDATE
                     && !StringUtils.equalsIgnoreCase(candidateTime, _candidateTime.trim())) {
 
                 record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
@@ -476,28 +488,28 @@ public class MemberApplyController extends BaseController {
             }
 
             String trainTime = DateUtils.formatDate(_memberApply.getTrainTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_trainTime) && _memberApply.getCandidateStatus()!=null
+            if (StringUtils.isNotBlank(_trainTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_CANDIDATE
                     && !StringUtils.equalsIgnoreCase(trainTime, _trainTime.trim())) {
                 record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
                 _remark.append("参加培训时间由" +trainTime + "修改为" + _trainTime + ";");
             }
 
             String planTime = DateUtils.formatDate(_memberApply.getPlanTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_planTime) && _memberApply.getPlanStatus()!=null
+            if (StringUtils.isNotBlank(_planTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_PLAN
                     && !StringUtils.equalsIgnoreCase(planTime, _planTime.trim())) {
                 record.setPlanTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
                 _remark.append("列入发展计划时间由" + planTime + "修改为" + _planTime + ";");
             }
 
             String drawTime = DateUtils.formatDate(_memberApply.getDrawTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_drawTime) && _memberApply.getDrawStatus()!=null
+            if (StringUtils.isNotBlank(_drawTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_DRAW
                     && !StringUtils.equalsIgnoreCase(drawTime, _drawTime.trim())) {
                 record.setDrawTime(DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD));
                 _remark.append("领取志愿书时间由" + drawTime + "修改为" + _drawTime + ";");
             }
 
             String growTime = DateUtils.formatDate(_memberApply.getGrowTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_growTime) && _memberApply.getGrowStatus()!=null
+            if (StringUtils.isNotBlank(_growTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_GROW
                     && !StringUtils.equalsIgnoreCase(growTime, _growTime.trim())) {
                 record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
                 _remark.append("入党时间由" + growTime + "修改为" + _growTime + ";");
@@ -508,7 +520,7 @@ public class MemberApplyController extends BaseController {
             }
 
             String positiveTime = DateUtils.formatDate(_memberApply.getPositiveTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_positiveTime) && _memberApply.getPositiveStatus()!=null
+            if (StringUtils.isNotBlank(_positiveTime) && _memberApply.getStage()==SystemConstants.APPLY_STAGE_POSITIVE
                     && !StringUtils.equalsIgnoreCase(positiveTime, _positiveTime.trim())) {
                 record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
                 _remark.append("转正时间由" + positiveTime + "修改为" + _positiveTime + ";");
@@ -689,16 +701,16 @@ public class MemberApplyController extends BaseController {
     //组织部管理员审核 预备党员 , 在领取志愿书模块
     @RequiresRoles("odAdmin")
     @RequiresPermissions("memberApply:grow_check2")
-    @RequestMapping(value = "/apply_grow_check2", method = RequestMethod.POST)
+    @RequestMapping(value = "/apply_grow_od_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map apply_grow_check2(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {
+    public Map apply_grow_od_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
-        memberApplyOpService.apply_grow_check(ids, loginUser.getId());
+        memberApplyOpService.apply_grow_od_check(ids, loginUser.getId());
 
         return success(FormUtils.SUCCESS);
     }
 
-    //分党委提交 预备党员， 在组织部审核之后
+    //党支部提交 预备党员， 在组织部审核之后
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow", method = RequestMethod.POST)
     @ResponseBody
@@ -708,8 +720,8 @@ public class MemberApplyController extends BaseController {
 
         return success();
     }
-    //审核 预备党员
- /*   @RequiresPermissions("memberApply:grow_check")
+    //分党委审核 预备党员
+    @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
     @ResponseBody
     public Map apply_grow_check(@RequestParam(value = "ids[]") Integer[] ids, @CurrentUser SysUserView loginUser, HttpServletRequest request) {
@@ -717,7 +729,7 @@ public class MemberApplyController extends BaseController {
         memberApplyOpService.apply_grow_check(ids, loginUser.getId());
 
         return success();
-    }*/
+    }
 
 
     @RequiresPermissions("memberApply:positive")
@@ -808,10 +820,10 @@ public class MemberApplyController extends BaseController {
         return "party/memberApply/memberApplyLog_page";
     }
 
-    public void memberApply_export(MemberApplyExample example, HttpServletResponse response) {
+    public void memberApply_export(MemberApplyViewExample example, HttpServletResponse response) {
 
-        List<MemberApply> memberApplys = memberApplyMapper.selectByExample(example);
-        int rownum = memberApplyMapper.countByExample(example);
+        List<MemberApplyView> memberApplys = memberApplyViewMapper.selectByExample(example);
+        int rownum = memberApplyViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -826,7 +838,7 @@ public class MemberApplyController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            MemberApply memberApply = memberApplys.get(i);
+            MemberApplyView memberApply = memberApplys.get(i);
             String[] values = {
                     memberApply.getUserId() + "",
                     memberApply.getPartyId() + "",

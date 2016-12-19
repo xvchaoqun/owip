@@ -123,6 +123,12 @@
      <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply">
           <ignoreColumn column="update_time"/>
       </table>-->
+       <table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
+              enableInsert="false" enableUpdateByPrimaryKey="false"
+              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+              enableDeleteByExample="false">
+          <ignoreColumn column="update_time"/>
+      </table>
       <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
       </table>
       -->
@@ -232,8 +238,8 @@
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>-->
 
-      <table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
-      </table>
+      <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
+      </table>-->
       <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
       </table>-->
      <!-- <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">

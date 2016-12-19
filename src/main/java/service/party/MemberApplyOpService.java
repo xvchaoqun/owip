@@ -1,8 +1,10 @@
 package service.party;
 
 import controller.BaseController;
+import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
+import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
@@ -435,7 +437,7 @@ public class MemberApplyOpService extends BaseController {
 
     // 领取志愿书：组织部管理员审核 预备党员
     @Transactional
-    public void apply_grow_check(Integer[] userIds, int loginUserId){
+    public void apply_grow_od_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
@@ -464,20 +466,74 @@ public class MemberApplyOpService extends BaseController {
         }
     }
 
-    // 领取志愿书：提交 预备党员 【// 分党委直接提交，不需要审核 -- 20160718 修改by 邹老师】
+    // 领取志愿书：2、支部提交 预备党员
     @Transactional
     public void apply_grow(Integer[] userIds, String _growTime, int loginUserId){
+
+        for (int userId : userIds) {
+            VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
+            MemberApply _memberApply = verifyAuth.entity;
+            boolean partyAdmin = verifyAuth.isPartyAdmin;
+            boolean directParty = verifyAuth.isDirectBranch;
+
+            if(_memberApply.getGrowStatus()==null ||
+                    _memberApply.getGrowStatus()!=SystemConstants.APPLY_STATUS_OD_CHECKED){
+                throw new RuntimeException("待组织部审核之后，才能提交。");
+            }
+
+            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW){
+                throw new RuntimeException("状态异常，还没到领取志愿书阶段。");
+            }
+
+            Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
+            if(growTime.before(_memberApply.getDrawTime())){
+                throw new RuntimeException("发展时间应该在领取志愿书之后");
+            }
+
+            if(directParty && partyAdmin){
+
+                memberApplyService.memberGrowByDirectParty(userId, growTime);
+                applyApprovalLogService.add(userId,
+                        _memberApply.getPartyId(), _memberApply.getBranchId(), userId,
+                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        "预备党员，直属党支部提交");
+            }else {
+                MemberApply record = new MemberApply();
+                record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
+                record.setGrowTime(growTime);
+
+                MemberApplyExample example = new MemberApplyExample();
+                example.createCriteria().andUserIdEqualTo(userId)
+                        .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
+                        .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_OD_CHECKED);
+
+                if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
+
+                    MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+                    applyApprovalLogService.add(userId,
+                            memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                            loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                            SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                            SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                            SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                            "预备党员，支部提交");
+                }
+            }
+        }
+    }
+
+    // 领取志愿书：3、分党委审核
+    @Transactional
+    public void apply_grow_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
 
-            Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
-            if(growTime.before(memberApply.getDrawTime())){
-                throw new RuntimeException("发展时间应该在领取志愿书之后");
-            }
-
-            memberApplyService.memberGrow(userId, growTime);
+            memberApplyService.memberGrowByParty(userId);
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
@@ -485,7 +541,7 @@ public class MemberApplyOpService extends BaseController {
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
-                    "预备党员，分党委提交");
+                    "预备党员，分党委审核");
         }
     }
 
@@ -494,6 +550,13 @@ public class MemberApplyOpService extends BaseController {
     public void apply_positive(Integer[] userIds, String _positiveTime, int loginUserId){
 
         for (int userId : userIds) {
+
+            Member member = memberService.get(userId);
+            if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+                SysUserView uv = sysUserService.findById(userId);
+                throw new RuntimeException(uv.getRealname()+"组织关系已经转出");
+            }
+
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
             MemberApply memberApply = verifyAuth.entity;
             boolean partyAdmin = verifyAuth.isPartyAdmin;
@@ -538,6 +601,13 @@ public class MemberApplyOpService extends BaseController {
     public void apply_positive_check(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
+
+            Member member = memberService.get(userId);
+            if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+                SysUserView uv = sysUserService.findById(userId);
+                throw new RuntimeException(uv.getRealname()+"组织关系已经转出");
+            }
+
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
             boolean isParty = verifyAuth.isParty;
@@ -585,6 +655,13 @@ public class MemberApplyOpService extends BaseController {
     public void apply_positive_check2(Integer[] userIds, int loginUserId){
 
         for (int userId : userIds) {
+
+            Member member = memberService.get(userId);
+            if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+                SysUserView uv = sysUserService.findById(userId);
+                throw new RuntimeException(uv.getRealname()+"组织关系已经转出");
+            }
+
             memberApplyService.memberPositive(userId);
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);

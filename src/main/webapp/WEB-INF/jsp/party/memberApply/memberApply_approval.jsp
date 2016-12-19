@@ -249,21 +249,22 @@
                                     </c:if>--%>
                                 </c:when>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_DRAW}">
+                                    <c:if test="${empty memberApply.growStatus}">
+                                        <button ${isAdmin?'':'disabled'}  onclick="apply_grow_od_check(${memberApply.userId}, 1)" class="btn btn-success">
+                                            <i class="fa fa-check"></i> 组织部审核
+                                        </button>
+                                    </c:if>
                                     <c:if test="${memberApply.growStatus==2}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_grow(${memberApply.userId}, 1)" class="btn btn-success">
                                             <i class="fa fa-check"></i> 发展为预备党员
                                         </button>
                                     </c:if>
-                                    <%--<c:if test="${memberApply.growStatus==0}">
+                                    <c:if test="${memberApply.growStatus==0}">
                                         <button ${isAdmin?'':'disabled'}  onclick="apply_grow_check(${memberApply.userId}, 1)" class="btn btn-success">
-                                            <i class="fa fa-check"></i> 审核
-                                        </button>
-                                    </c:if>--%>
-                                    <c:if test="${empty memberApply.growStatus}">
-                                        <button ${isAdmin?'':'disabled'}  onclick="apply_grow_check2(${memberApply.userId}, 1)" class="btn btn-success">
-                                            <i class="fa fa-check"></i> 组织部审核
+                                            <i class="fa fa-check"></i> 分党委审核
                                         </button>
                                     </c:if>
+
                                 </c:when>
                                 <c:when test="${memberApply.stage==APPLY_STAGE_GROW}">
                                     <c:if test="${empty memberApply.positiveStatus}">

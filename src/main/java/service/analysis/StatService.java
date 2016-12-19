@@ -66,7 +66,13 @@ public class StatService extends BaseMapper{
 
         Map<Byte, Integer> applyMap = new LinkedHashMap<>();
         for (Byte key : SystemConstants.APPLY_STAGE_MAP.keySet()) {
-            applyMap.put(key, _applyMap.get(key));
+            Integer count = _applyMap.get(key);
+            if(key==SystemConstants.APPLY_STAGE_INIT){
+                Integer initCount = _applyMap.get(SystemConstants.APPLY_STAGE_INIT);
+                Integer passCount = _applyMap.get(SystemConstants.APPLY_STAGE_PASS);
+                count = (initCount!=null?initCount:0) + (passCount!=null?passCount:0);
+            }
+            applyMap.put(key, count);
         }
 
         return applyMap;

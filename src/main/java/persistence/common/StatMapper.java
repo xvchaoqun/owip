@@ -30,7 +30,7 @@ public interface StatMapper {
     List<StatIntBean> member_studentGroupByBirth(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
     // 统计入党申请各阶段情况
-    List<StatByteBean> memberApply_groupByStage(@Param("type")Byte type,
+    List<StatByteBean> memberApply_groupByStage(@Param("stage")Byte stage,
                                                 @Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
 
     // 统计各分党委党员人数

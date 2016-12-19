@@ -1,4 +1,10 @@
 
+
+-- 2016-12-19
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS select *, if((_status is null or _status=1), 0, 1) as member_status from (select ma.*, m.`status` as _status from ow_member_apply ma left join ow_member m  on ma.user_id = m.user_id) tmp;
+
+
+
 -- 2016-12-17
 ALTER TABLE `modify_cadre_auth`
 	CHANGE COLUMN `start_time` `start_time` DATE NULL DEFAULT NULL COMMENT '起始日期' AFTER `cadre_id`,

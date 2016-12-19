@@ -270,6 +270,7 @@
 <c:set var="APPLY_TYPE_MAP" value="<%=SystemConstants.APPLY_TYPE_MAP%>"/>
 
 <c:set var="APPLY_STAGE_MAP" value="<%=SystemConstants.APPLY_STAGE_MAP%>"/>
+<c:set var="APPLY_STAGE_OUT" value="<%=SystemConstants.APPLY_STAGE_OUT%>"/>
 <c:set var="APPLY_STAGE_DENY" value="<%=SystemConstants.APPLY_STAGE_DENY%>"/>
 <c:set var="APPLY_STAGE_INIT" value="<%=SystemConstants.APPLY_STAGE_INIT%>"/>
 <c:set var="APPLY_STAGE_PASS" value="<%=SystemConstants.APPLY_STAGE_PASS%>"/>

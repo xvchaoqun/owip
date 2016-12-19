@@ -6,13 +6,13 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class MemberApply implements Serializable {
+public class MemberApplyView implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    /*public String getApplyStatus(){
+    public String getApplyStatus(){
         return CmTag.getApplyStatus(this);
-    }*/
+    }
     private Integer userId;
 
     private Integer partyId;
@@ -24,8 +24,6 @@ public class MemberApply implements Serializable {
     private Date applyTime;
 
     private Date fillTime;
-
-    private String remark;
 
     private Byte stage;
 
@@ -58,6 +56,12 @@ public class MemberApply implements Serializable {
     private Byte positiveStatus;
 
     private Date createTime;
+
+    private Byte status;
+
+    private Integer memberStatus;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -107,14 +111,6 @@ public class MemberApply implements Serializable {
 
     public void setFillTime(Date fillTime) {
         this.fillTime = fillTime;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 
     public Byte getStage() {
@@ -243,5 +239,29 @@ public class MemberApply implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Integer getMemberStatus() {
+        return memberStatus;
+    }
+
+    public void setMemberStatus(Integer memberStatus) {
+        this.memberStatus = memberStatus;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

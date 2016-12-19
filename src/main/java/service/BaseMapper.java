@@ -170,6 +170,8 @@ public class BaseMapper {
 	@Autowired
 	protected MemberApplyMapper memberApplyMapper;
 	@Autowired
+	protected MemberApplyViewMapper memberApplyViewMapper;
+	@Autowired
 	protected BranchMemberGroupMapper branchMemberGroupMapper;
 	@Autowired
 	protected BranchMemberGroupViewMapper branchMemberGroupViewMapper;

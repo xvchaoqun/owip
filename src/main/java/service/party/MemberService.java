@@ -175,7 +175,7 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(memberMapper.insertSelective(record) == 1);
         }else throw new RuntimeException("数据异常，入党失败。"+ uv.getCode() + "," + uv.getRealname());
 
-        // 如果是预备党员，则要进入申请入党预备党员阶段
+        // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
         memberApplyService.addGrowApply(userId);
 
         // 更新系统角色  访客->党员

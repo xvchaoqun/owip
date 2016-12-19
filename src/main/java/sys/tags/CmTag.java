@@ -6,6 +6,7 @@ import domain.abroad.*;
 import domain.cadre.*;
 import domain.dispatch.*;
 import domain.member.MemberApply;
+import domain.member.MemberApplyView;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
@@ -122,7 +123,7 @@ public class CmTag {
                 (branch!=null&&branch.getIsDeleted())?"delete":"", branch!=null?(party!=null?" - ":"") + branch.getName():"");
     }
 
-    public static String getApplyStatus(MemberApply memberApply) {
+    public static String getApplyStatus(MemberApplyView memberApply) {
         String stage = "";
         switch (memberApply.getStage()) {
             case SystemConstants.APPLY_STAGE_INIT:
@@ -164,9 +165,10 @@ public class CmTag {
             case SystemConstants.APPLY_STAGE_DRAW:
                 if (memberApply.getGrowStatus() == null ) {
                     stage = "待组织部审核";
-                } else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_OD_CHECKED
-                        || memberApply.getGrowTime() == null) {
-                    stage = "组织部已审核，待分党委发展为预备党员";
+                } else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_OD_CHECKED) {
+                    stage = "组织部已审核，待支部发展为预备党员";
+                }else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                    stage = "支部已提交，待分党委审核";
                 }
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
