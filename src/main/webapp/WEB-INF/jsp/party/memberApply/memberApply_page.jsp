@@ -280,7 +280,7 @@
                                                                         <i class="fa fa-sign-in"></i> 支部预备党员转正（${positiveCount}）
                                                                     </button>
                                                                     <shiro:hasAnyRoles name="admin,partyAdmin">
-                                                                    <button id="positiveCheckCount" ${positiveCheckCount>0?'':'disabled'}
+                                                                    <button id="positiveCheckBtn" ${positiveCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-warning btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
@@ -292,7 +292,7 @@
                                                                     </button>
                                                                     </shiro:hasAnyRoles>
                                                                     <shiro:hasAnyRoles name="admin,odAdmin">
-                                                                    <button id="positiveOdCheckCount" ${positiveOdCheckCount>0?'':'disabled'}
+                                                                    <button id="positiveOdCheckBtn" ${positiveOdCheckCount>0?'':'disabled'}
                                                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                                                             data-url="${ctx}/memberApply_approval"
                                                                             data-open-by="page"
@@ -505,10 +505,9 @@
                 $("#growBtn").prop("disabled", rowData.growStatus != 2);
                 $("#growCheckBtn").prop("disabled", rowData.growStatus != 0);
                 $("#growOdCheckBtn").prop("disabled", rowData.growStatus != '');
-                //console.log($.trim(rowData.positiveStatus) != '')
                 $("#positiveBtn").prop("disabled", $.trim(rowData.positiveStatus) != '');
-                $("#positiveCheckBtn").prop("disabled", rowData.positiveStatus != 1);
-                $("#positiveOdCheckBtn").prop("disabled", rowData.positiveStatus != 2);
+                $("#positiveCheckBtn").prop("disabled", parseInt(rowData.positiveStatus) != 0);
+                $("#positiveOdCheckBtn").prop("disabled", parseInt(rowData.positiveStatus) != 1);
             } else {
                 $("*[data-count]").each(function(){
                     $(this).prop("disabled", $(this).data("count") == 0);
