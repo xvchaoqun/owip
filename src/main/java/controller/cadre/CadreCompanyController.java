@@ -132,7 +132,11 @@ public class CadreCompanyController extends BaseController {
             cadreCompanyService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadreCompany _record = cadreCompanyMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreCompanyService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部企业兼职情况：%s", record.getId()));
         }
@@ -155,7 +159,7 @@ public class CadreCompanyController extends BaseController {
         return "cadre/cadreCompany/cadreCompany_au";
     }
 
-    @RequiresPermissions("cadreCompany:del")
+    /*@RequiresPermissions("cadreCompany:del")
     @RequestMapping(value = "/cadreCompany_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreCompany_del(HttpServletRequest request, Integer id) {
@@ -166,16 +170,18 @@ public class CadreCompanyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部企业兼职情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreCompany:del")
     @RequestMapping(value = "/cadreCompany_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreCompanyService.batchDel(ids);
+            cadreCompanyService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部企业兼职情况：%s", StringUtils.join(ids, ",")));
         }
 

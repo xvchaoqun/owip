@@ -8,13 +8,12 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreFamliy!=null}">编辑</c:if><c:if test="${cadreFamliy==null}">添加</c:if>家庭成员信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreFamliy_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreFamliy_au?cadreId=${cadre.id}" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreFamliy.id}">
-        <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">所属干部</label>
-            <div class="col-xs-6">
-                <input type="text" value="${sysUser.realname}" disabled>
+            <label class="col-xs-3 control-label">姓名</label>
+            <div class="col-xs-6 label-text">
+                ${sysUser.realname}
             </div>
         </div>
 			<div class="form-group">

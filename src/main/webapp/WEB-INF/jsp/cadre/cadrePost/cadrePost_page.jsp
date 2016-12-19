@@ -17,6 +17,7 @@
     <div class="widget-box">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主职
+                <shiro:hasRole name="${ROLE_CADREADMIN}">
                 <div class="buttons">
                     <c:if test="${empty mainCadrePost}">
                         <a class="popupBtn btn btn-info btn-sm"
@@ -35,6 +36,7 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </div>
+                </shiro:hasRole>
             </h4>
 
             <div class="widget-toolbar">
@@ -52,6 +54,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
+                <shiro:hasRole name="${ROLE_CADREADMIN}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadrePost_au?isMainPost=0&cadreId=${param.cadreId}"><i
@@ -71,6 +74,7 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+                </shiro:hasRole>
             </h4>
 
             <div class="widget-toolbar">
@@ -87,6 +91,7 @@
     </div>
 </c:if>
 <c:if test="${type==2}">
+    <shiro:hasRole name="${ROLE_CADREADMIN}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
@@ -96,11 +101,13 @@
             <i class="fa fa-edit"></i> 修改对应现运行单位
         </button>
     </div>
+    </shiro:hasRole>
     <div class="space-4"></div>
     <table id="jqGrid_cadreWork" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadreWork"></div>
 </c:if>
 <c:if test="${type==3}">
+    <shiro:hasRole name="${ROLE_CADREADMIN}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <a class="popupBtn btn  btn-sm btn-info"
@@ -121,6 +128,7 @@
             <i class="fa fa-times"></i> 删除
         </button>
     </div>
+    </shiro:hasRole>
     <div class="space-4"></div>
     <table id="jqGrid_cadreAdminLevels" data-width-reduce="60" class="jqGrid2"></table>
 </c:if>
@@ -257,6 +265,7 @@
                     else return dispatchCode;
                 }
             },
+            <shiro:hasRole name="${ROLE_CADREADMIN}">
             {
                 label: '关联任命文件',
                 name: 'dispatchCadreRelateBean.all',
@@ -269,7 +278,7 @@
                     ({id: rowObject.id, cadreId: rowObject.cadreId});
                 },
                 width: 120
-            },
+            },</shiro:hasRole>
             {
                 label: '是否双肩挑', name: 'isDouble', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
@@ -287,6 +296,9 @@
     }).jqGrid("setFrozenColumns");
 
     $("#jqGrid_subCadrePosts").jqGrid({
+        <shiro:lacksRole name="${ROLE_CADREADMIN}">
+        multiselect:false,
+        </shiro:lacksRole>
         pager: null,
         ondblClickRow: function () {
         },
@@ -357,6 +369,7 @@
                     else return dispatchCode;
                 }
             },
+            <shiro:hasRole name="${ROLE_CADREADMIN}">
             {
                 label: '关联任命文件',
                 name: 'dispatchCadreRelateBean.all',
@@ -369,6 +382,7 @@
                 },
                 width: 120
             }
+                </shiro:hasRole>
         ]
     });
 
@@ -376,6 +390,9 @@
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadreWork").jqGrid({
+        <shiro:lacksRole name="${ROLE_CADREADMIN}">
+        multiselect:false,
+        </shiro:lacksRole>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreWork",
@@ -383,7 +400,7 @@
         colModel: [
             {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '任职单位', name: 'unit', width: 280},
+            {label: '任职单位', name: 'unit', width: 280, align:'left'},
             {label: '担任职务', name: 'post', width: 280},
             {
                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
@@ -408,6 +425,9 @@
     </c:if>
     <c:if test="${type==3}">
     $("#jqGrid_cadreAdminLevels").jqGrid({
+        <shiro:lacksRole name="${ROLE_CADREADMIN}">
+        multiselect:false,
+        </shiro:lacksRole>
         pager: null,
         ondblClickRow: function () {
         },
@@ -432,10 +452,10 @@
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
             },
-            {label: '职级始任职务', width: 120, name: 'startDispatchCadre.post'},
+            {label: '职级始任职务', width: 200, align:'left', name: 'startDispatchCadre.post'},
             {
                 label: '职级始任文件',
-                width: 120,
+                width: 150,
                 name: 'startDispatch',
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
@@ -482,6 +502,7 @@
                     return year == 0 ? "未满一年" : year;
                 }
             },
+            <shiro:hasRole name="${ROLE_CADREADMIN}">
             {
                 label: '关联任免文件', name: 'selectDispatch', formatter: function (cellvalue, options, rowObject) {
 
@@ -489,8 +510,8 @@
                 var hasEnd = rowObject.endDispatchCadreId > 0;
                 return _.template($("#dispatch_adminLevel_tpl").html().NoMultiSpace())
                 ({id: rowObject.id, hasStart: hasStart, hasEnd: hasEnd, cadreId: rowObject.cadreId});
-            }, width: 250
-            },
+            }, width: 250 },
+            </shiro:hasRole>
             {label: '备注', name: 'remark', width: 250}
         ]
     });

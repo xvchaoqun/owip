@@ -6,12 +6,15 @@ import domain.abroad.*;
 import domain.cadre.*;
 import domain.dispatch.*;
 import domain.member.MemberApply;
+import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
 import domain.sys.*;
 import domain.unit.Unit;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
 import persistence.common.SelectMapper;
@@ -22,11 +25,13 @@ import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.cadre.*;
 import service.dispatch.*;
+import service.modify.ModifyCadreAuthService;
 import service.party.*;
 import service.sys.*;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
+import sys.utils.DateUtils;
 import sys.utils.HtmlEscapeUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
@@ -65,6 +70,12 @@ public class CmTag {
     static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
+    static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
+
+    public static Boolean hasRole(String role){
+
+        return SecurityUtils.getSubject().hasRole(role);
+    }
 
     public static String toJSONObject(Object obj){
 
@@ -436,4 +447,34 @@ public class CmTag {
 
         return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
     }
+    // 判断干部是否拥有直接修改本人干部信息的权限
+    public static Boolean hasDirectModifyCadreAuth(Integer cadreId){
+
+        String today = DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD);
+        List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadreId);
+        if(modifyCadreAuths==null || modifyCadreAuths.size()==0) return false;
+
+        for (ModifyCadreAuth modifyCadreAuth : modifyCadreAuths) {
+
+            // 永久有效
+            if(BooleanUtils.isTrue(modifyCadreAuth.getIsUnlimited())) return true;
+
+            if(modifyCadreAuth.getStartTime()==null && modifyCadreAuth.getEndTime()==null){
+                continue; // 不可能出现的情况，因为不是永久有效，则一定要有开始或结束时间
+            }
+            if(modifyCadreAuth.getStartTime()!=null){
+                String startTime = DateUtils.formatDate(modifyCadreAuth.getStartTime(), DateUtils.YYYY_MM_DD);
+                if(startTime.compareTo(today)>0) continue;
+            }
+            if(modifyCadreAuth.getEndTime()!=null){
+                String endTime = DateUtils.formatDate(modifyCadreAuth.getEndTime(), DateUtils.YYYY_MM_DD);
+                if(endTime.compareTo(today)<0) continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
 }

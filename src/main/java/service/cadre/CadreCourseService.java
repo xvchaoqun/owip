@@ -52,10 +52,18 @@ public class CadreCourseService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, int cadreId){
 
         if(ids==null || ids.length==0) return;
-
+        {
+            // 干部信息本人直接修改数据校验
+            CadreCourseExample example = new CadreCourseExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
+            int count = cadreCourseMapper.countByExample(example);
+            if(count!=ids.length){
+                throw new IllegalArgumentException("数据异常");
+            }
+        }
         CadreCourseExample example = new CadreCourseExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadreCourseMapper.deleteByExample(example);

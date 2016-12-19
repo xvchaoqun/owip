@@ -6,11 +6,16 @@
 	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/cadreEdu_au" id="modalForm" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" action="${ctx}/cadreEdu_au?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-5">
 				<input type="hidden" name="id" value="${cadreEdu.id}">
-				<input type="hidden" name="cadreId" value="${cadre.id}">
+				<div class="form-group">
+					<label class="col-xs-5 control-label">姓名</label>
+					<div class="col-xs-6 label-text">
+						${sysUser.realname}
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">学历</label>
 					<div class="col-xs-6">

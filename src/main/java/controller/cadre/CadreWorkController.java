@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.DBErrorException;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -159,6 +160,11 @@ public class CadreWorkController extends BaseController {
             cadreWorkService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
         } else {
+            // 干部信息本人直接修改数据校验
+            CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
+            if(cadreWork.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
 
             cadreWorkService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
@@ -188,6 +194,7 @@ public class CadreWorkController extends BaseController {
         return "cadre/cadreWork/cadreWork_au";
     }
 
+    // 不提供给干部本人操作
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_updateUnitId", method = RequestMethod.POST)
     @ResponseBody
@@ -244,11 +251,13 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:del")
     @RequestMapping(value = "/cadreWork_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部信息本人直接修改数据校验
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            cadreWorkService.batchDel(ids);
+            cadreWorkService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除工作经历：%s", StringUtils.join(ids, ",")));
         }
 
@@ -286,6 +295,7 @@ public class CadreWorkController extends BaseController {
         return "cadre/cadreWork/cadreWork_addDispatchs";
     }
 
+    // 不提供给干部本人操作
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_addDispatchs", method = RequestMethod.POST)
     @ResponseBody

@@ -18,11 +18,18 @@ pageEncoding="UTF-8" %>
 
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <c:forEach var="cadreStatus" items="${CADRE_STATUS_MAP}">
-                <li class="<c:if test="${status==cadreStatus.key}">active</c:if>">
-                    <a href="?status=${cadreStatus.key}"><i class="fa fa-flag"></i> ${cadreStatus.value}</a>
+                <li class="<c:if test="${status==CADRE_STATUS_NOW}">active</c:if>">
+                    <a href="?status=${CADRE_STATUS_NOW}"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_NOW)}</a>
                 </li>
-                </c:forEach>
+                <li class="<c:if test="${status==CADRE_STATUS_TEMP}">active</c:if>">
+                    <a href="?status=${CADRE_STATUS_TEMP}"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_TEMP)}</a>
+                </li>
+                <li class="<c:if test="${status==CADRE_STATUS_LEAVE}">active</c:if>">
+                    <a href="?status=${CADRE_STATUS_LEAVE}"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEAVE)}</a>
+                </li>
+                <li class="<c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">active</c:if>">
+                    <a href="?status=${CADRE_STATUS_LEADER_LEAVE}"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER_LEAVE)}</a>
+                </li>
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                     <a class="popupBtn btn btn-danger btn-sm"
                        data-url="${ctx}/cadre/search"><i class="fa fa-search"></i> 查询账号所属干部库</a>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
@@ -135,6 +136,42 @@ public class ModifyCadreAuthController extends BaseController {
             modelMap.put("sysUser", cadre.getUser());
         }
         return "modify/modifyCadreAuth/modifyCadreAuth_au";
+    }
+
+    // 批量添加
+    @RequiresPermissions("modifyCadreAuth:edit")
+    @RequestMapping("/modifyCadreAuth_batchAdd")
+    public String modifyCadreAuth_batchAdd() {
+
+        return "modify/modifyCadreAuth/modifyCadreAuth_batchAdd";
+    }
+
+    // 批量添加-选择干部
+    @RequiresPermissions("modifyCadreAuth:edit")
+    @RequestMapping("/modifyCadreAuth/selectCadres_tree")
+    @ResponseBody
+    public Map selectCadres_tree() throws IOException {
+
+        TreeNode tree = modifyCadreAuthService.getTree();
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("modifyCadreAuth:edit")
+    @RequestMapping(value = "/modifyCadreAuth_batchAdd", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_modifyCadreAuth_batchAdd(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds,
+                                           String _startTime, String _endTime, Boolean isUnlimited) {
+
+        Date start = DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD);
+        Date end = DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD);
+        isUnlimited = BooleanUtils.isTrue(isUnlimited);
+
+        modifyCadreAuthService.batchAdd(cadreIds, start, end, isUnlimited);
+        logger.info(addLog( SystemConstants.LOG_ADMIN, "批量添加干部信息修改权限设置：%s", StringUtils.join(cadreIds, ",")));
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("modifyCadreAuth:del")

@@ -6,10 +6,10 @@ pageEncoding="UTF-8"%>
     <h3>修改对应工作单位</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreWork_updateUnitId" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreWork_updateUnitId?cadreId=${cadre.id}" id="modalForm" method="post">
             <input type="hidden" name="id" value="${cadreWork.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">所属干部</label>
+				<label class="col-xs-4 control-label">姓名</label>
 				<div class="col-xs-6 label-text">
                     ${sysUser.realname}
 				</div>

@@ -160,6 +160,11 @@ public class CadreFamliyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
         } else {
 
+            // 干部信息本人直接修改数据校验
+            CadreFamliy _record = cadreFamliyMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreFamliyService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
         }
@@ -183,7 +188,7 @@ public class CadreFamliyController extends BaseController {
         return "cadre/cadreFamliy/cadreFamliy_au";
     }
 
-    @RequiresPermissions("cadreFamliy:del")
+    /*@RequiresPermissions("cadreFamliy:del")
     @RequestMapping(value = "/cadreFamliy_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreFamliy_del(HttpServletRequest request, Integer id) {
@@ -194,16 +199,18 @@ public class CadreFamliyController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除家庭成员信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreFamliy:del")
     @RequestMapping(value = "/cadreFamliy_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreFamliyService.batchDel(ids);
+            cadreFamliyService.batchDel(ids,cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除家庭成员信息：%s", StringUtils.join(ids, ",")));
         }
 

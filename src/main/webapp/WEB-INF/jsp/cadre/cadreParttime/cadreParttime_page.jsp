@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<shiro:hasRole name="${ROLE_CADREADMIN}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 兼职情况</a>
@@ -9,7 +10,9 @@
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
+    </shiro:hasRole>
 <c:if test="${type==1}">
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreParttime:edit">
@@ -27,11 +30,13 @@
                     data-title="删除"
                     data-msg="确定删除这{0}条数据？"
                     data-grid-id="#jqGrid_cadreParttime"
+                    data-querystr="cadreId=${param.cadreId}"
                     class="jqBatchBtn btn btn-danger btn-sm">
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
     </div>
+        </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreParttime" class="jqGrid2"></table>
     <div id="jqGridPager_cadreParttime"></div>
@@ -117,6 +122,9 @@
             $("#view-box .tab-content").load("${ctx}/cadreParttime_page?cadreId=${param.cadreId}&type=" + type)
         }
         $("#jqGrid_cadreParttime").jqGrid({
+            <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            multiselect:false,
+            </c:if>
             ondblClickRow: function () {
             },
             pager: "#jqGridPager_cadreParttime",

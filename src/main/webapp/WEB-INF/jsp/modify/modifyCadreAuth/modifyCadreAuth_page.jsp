@@ -10,7 +10,10 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="modifyCadreAuth:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/modifyCadreAuth_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="openView btn btn-success btn-sm"
+                       data-url="${ctx}/modifyCadreAuth_batchAdd"
+                            data-open-by="page"><i class="fa fa-plus-square"></i> 批量添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/modifyCadreAuth_au"><i class="fa fa-user-plus"></i> 个别添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/modifyCadreAuth_au"><i class="fa fa-edit"></i>
                         修改</a>
@@ -75,9 +78,12 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.cadre.id, cellvalue);
             }},
             { label: '所在单位及职务', name: 'cadre.title', width: 250},
-
-            { label: '起始时间',name: 'startTime', width: 150},
-            { label: '结束时间',name: 'endTime', width: 150},
+            { label: '所属干部库', name: 'cadre.status', width: 250, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '';
+                return _cMap.CADRE_STATUS_MAP[cellvalue];
+            }},
+            { label: '起始日期',name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '结束日期',name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '是否永久有效',name: 'isUnlimited', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return cellvalue ? "是" : "否"

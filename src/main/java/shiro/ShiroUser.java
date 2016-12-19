@@ -82,7 +82,7 @@ public class ShiroUser implements Serializable {
      */
     public Set<String> filterMenus(ApproverTypeBean approverTypeBean, Set<String> userRoles, Set<String> userPermissions) {
 
-        if (userRoles.contains("cadre")) {
+        if (userRoles.contains(SystemConstants.ROLE_CADRE)) {
             Cadre cadre = CmTag.getCadreByUserId(id);
 
             //临时和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
@@ -113,7 +113,15 @@ public class ShiroUser implements Serializable {
                     userPermissions.remove("abroad:admin");
                 }
             }
+
+            // 非管理员的干部如果有直接修改本人干部信息的权限，则不能看到“干部信息修改申请”菜单
+            boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
+            if(!userRoles.contains(SystemConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth){
+
+                userPermissions.remove("modifyCadreInfo:menu");
+            }
         }
+
         return userPermissions;
     }
 

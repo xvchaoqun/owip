@@ -110,7 +110,6 @@ public class ExceptionHandlerController {
         return mav;
     }
 
-
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseBody
     public ModelAndView resolveUnauthorizedException(HttpServletRequest request, Exception ex) {

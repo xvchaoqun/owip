@@ -142,7 +142,11 @@ public class CadreParttimeController extends BaseController {
             cadreParttimeService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadreParttime _record = cadreParttimeMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreParttimeService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
         }
@@ -167,7 +171,7 @@ public class CadreParttimeController extends BaseController {
         return "cadre/cadreParttime/cadreParttime_au";
     }
 
-    @RequiresPermissions("cadreParttime:del")
+    /*@RequiresPermissions("cadreParttime:del")
     @RequestMapping(value = "/cadreParttime_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreParttime_del(HttpServletRequest request, Integer id) {
@@ -178,16 +182,18 @@ public class CadreParttimeController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部社会或学术兼职：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreParttime:del")
     @RequestMapping(value = "/cadreParttime_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreParttimeService.batchDel(ids);
+            cadreParttimeService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
         }
 

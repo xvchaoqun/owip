@@ -23,10 +23,18 @@ public class CadreCompanyService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, int cadreId){
 
         if(ids==null || ids.length==0) return;
-
+        {
+            // 干部信息本人直接修改数据校验
+            CadreCompanyExample example = new CadreCompanyExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
+            int count = cadreCompanyMapper.countByExample(example);
+            if(count!=ids.length){
+                throw new IllegalArgumentException("数据异常");
+            }
+        }
         CadreCompanyExample example = new CadreCompanyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadreCompanyMapper.deleteByExample(example);

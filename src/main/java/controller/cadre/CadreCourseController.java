@@ -2,10 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.*;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -133,7 +130,11 @@ public class CadreCourseController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加干部教学课程：%s, %s",
                     SystemConstants.CADRE_COURSE_TYPE_MAP.get(record.getType()), names));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadreCourse _record = cadreCourseMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreCourseService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
         }
@@ -157,7 +158,7 @@ public class CadreCourseController extends BaseController {
         return "cadre/cadreCourse/cadreCourse_au";
     }
 
-    @RequiresPermissions("cadreCourse:del")
+    /*@RequiresPermissions("cadreCourse:del")
     @RequestMapping(value = "/cadreCourse_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreCourse_del(HttpServletRequest request, Integer id) {
@@ -168,15 +169,17 @@ public class CadreCourseController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部教学课程：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreCourse:del")
     @RequestMapping(value = "/cadreCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
-            cadreCourseService.batchDel(ids);
+            cadreCourseService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部教学课程：%s", StringUtils.join(ids, ",")));
         }
 

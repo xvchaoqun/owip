@@ -1,96 +1,131 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-  <div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${op}角色</h3>
-  </div>
-  <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/sysRole_au" method="post">
-  <input type="hidden" name="id" value="${sysRole.id}">
-  	<div class="form-group">
-		<label class="col-xs-3 control-label">代码</label>
-		<div class="col-xs-8">
-			<input class="form-control" <c:if test="${sysRole.role eq 'admin'}"> disabled </c:if> type="text" name="role" value="${sysRole.role}">
-			<span class="help-block">* 不可修改；如需修改，请联系系统开发人员</span>
-		</div>
-	</div>
-  	<div class="form-group">
-		<label class="col-xs-3 control-label">名称</label>
-		<div class="col-xs-8">
-			<input class="form-control" type="text" name="description" value="${sysRole.description}">
-		</div>
-	</div>
-	  <div class="form-group">
-		  <label class="col-xs-3 control-label">备注</label>
-		  <div class="col-xs-8">
-			  <textarea class="form-control" name="remark">${sysRole.remark}</textarea>
-		  </div>
-	  </div>
-	<div class="form-group">
-		<label class="col-xs-3 control-label">拥有的资源</label>
-		<div class="col-xs-8">
-			<div id="tree3"></div>
-		</div>
-	</div>
-  
-  </form>
-  </div>
-  <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-  <input type="submit" class="btn btn-primary" value="${op}"/></div>
-  <style>
-	ul.dynatree-container{border: none;}
-</style>
-  <script>
+         pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:;" class="closeView reload btn btn-xs btn-success">
+                <i class="ace-icon fa fa-backward"></i>
+                返回</a>
+        </h4>
 
-		var treeData = ${tree};
-		treeData.title = "选择资源";
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="javascript:;">${op}角色</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-6" style="width: 600px;float: left">
+                            <form class="form-horizontal" id="submitForm" action="${ctx}/sysRole_au" method="post">
+                                <input type="hidden" name="id" value="${sysRole.id}">
 
-        $("#tree3").dynatree({
-            checkbox: true,
-            selectMode: 2,
-            children: treeData,
-            onSelect: function(select, node) {
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label">代码</label>
 
-                //node.expand(node.data.isFolder && node.isSelected());
-            },
-			onCustomRender: function(node) {
-				if(node.data.tooltip!=null)
-					return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
-							.format(node.data.tooltip, node.data.title)
-			},
-            cookieId: "dynatree-Cb3",
-            idPrefix: "dynatree-Cb3-"
-        });
+                                    <div class="col-xs-6">
+                                        <input required class="form-control" ${sysRole.role eq 'admin'?'disabled':''}
+                                        type="text" name="role" value="${sysRole.role}">
+                                        <span class="help-block small danger">如需修改，请联系系统开发人员</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label required class="col-xs-2 control-label">名称</label>
 
-		$("#modal input[type=submit]").click(function(){$("#modal form").submit();return false;});
-		$("#modal form").validate({
-				rules: {
-					role: {
-						required: true
-					},
-					description: {
-						required: true
-					}
-				},
-				submitHandler: function (form) {
-					
-					var resIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
-						//if(!node.data.isFolder)
-						return node.data.key;
-					});
-					
-					$(form).ajaxSubmit({
-						data:{resIds:resIds},
-						success:function(data){
-							if(data.success){
+                                    <div class="col-xs-6">
+                                        <input class="form-control" type="text" name="description"
+                                               value="${sysRole.description}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label">备注</label>
 
-								_reload();
-								//SysMsg.success('操作成功。', '成功');
-							}
-						}
-					});
-				}
-			});
+                                    <div class="col-xs-6">
+                                        <textarea class="form-control" name="remark">${sysRole.remark}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label">拥有的资源</label>
+
+                                    <div class="col-xs-9">
+                                        <div id="tree3" style="height: 500px;"></div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="col-xs-6" style="height: 664px; width: 500px;float: left;border:1px dotted">
+                            菜单预览：
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class=" form-actions center">
+        <button id="submitBtn" class="btn btn-info" type="submit">
+            <i class="ace-icon fa fa-check bigger-110"></i>
+            ${op}
+        </button>
+    </div>
+</div>
+<%--<style>
+    ul.dynatree-container {
+        border: none;
+    }
+</style>--%>
+<script>
+
+    var treeData = ${tree};
+    treeData.title = "选择资源";
+
+    $("#tree3").dynatree({
+        checkbox: true,
+        selectMode: 2,
+        children: treeData,
+        onSelect: function (select, node) {
+
+            //node.expand(node.data.isFolder && node.isSelected());
+        },
+        onCustomRender: function (node) {
+            if (node.data.tooltip != null)
+                return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
+                        .format(node.data.tooltip, node.data.title)
+        },
+        cookieId: "dynatree-Cb3",
+        idPrefix: "dynatree-Cb3-"
+    });
+
+    $("#submitBtn").click(function () {
+        $("#submitForm").submit();
+        return false;
+    });
+    $("#submitForm").validate({
+        submitHandler: function (form) {
+
+            var resIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+                //if(!node.data.isFolder)
+                return node.data.key;
+            });
+
+            $(form).ajaxSubmit({
+                data: {resIds: resIds},
+                success: function (data) {
+                    if (data.success) {
+
+                        _reload();
+                        //SysMsg.success('操作成功。', '成功');
+                    }
+                }
+            });
+        }
+    });
 </script>

@@ -6,13 +6,12 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreCompany!=null}">编辑</c:if><c:if test="${cadreCompany==null}">添加</c:if>干部企业兼职情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreCompany_au" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/cadreCompany_au?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cadreCompany.id}">
-        <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">所属干部</label>
-            <div class="col-xs-6">
-                <input type="text" value="${sysUser.realname}" disabled>
+            <label class="col-xs-3 control-label">姓名</label>
+            <div class="col-xs-6 label-text">
+                ${sysUser.realname}
             </div>
         </div>
         <div class="form-group">

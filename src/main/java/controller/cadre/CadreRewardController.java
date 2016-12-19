@@ -152,7 +152,11 @@ public class CadreRewardController extends BaseController {
             cadreRewardService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadreReward _record = cadreRewardMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreRewardService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
         }
@@ -175,7 +179,7 @@ public class CadreRewardController extends BaseController {
         return "cadre/cadreReward/cadreReward_au";
     }
 
-    @RequiresPermissions("cadreReward:del")
+    /*@RequiresPermissions("cadreReward:del")
     @RequestMapping(value = "/cadreReward_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreReward_del(HttpServletRequest request, Integer id) {
@@ -187,15 +191,17 @@ public class CadreRewardController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreReward:del")
     @RequestMapping(value = "/cadreReward_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length>0){
-            cadreRewardService.batchDel(ids);
+            cadreRewardService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部教学奖励：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);

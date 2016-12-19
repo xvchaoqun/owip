@@ -177,9 +177,9 @@ public class MemberApplyExportController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
             MemberStudent record = memberStudentService.get(memberApply.getUserId());
-            Byte gender = record.getGender();
-            Integer partyId = record.getPartyId();
-            Integer branchId = record.getBranchId();
+            Byte gender = record==null?null:record.getGender();
+            Integer partyId = record==null?null:record.getPartyId();
+            Integer branchId = record==null?null:record.getBranchId();
 
             String[] values = {
                     record==null?"":record.getCode(),
@@ -322,11 +322,11 @@ public class MemberApplyExportController extends BaseController {
         for (MemberApply memberApply:records) {
 
             MemberTeacher record = memberTeacherService.get(memberApply.getUserId());
-            Byte gender = record.getGender();
-            Integer partyId = record.getPartyId();
-            Integer branchId = record.getBranchId();
+            Byte gender = record==null?null:record.getGender();
+            Integer partyId = record==null?null:record.getPartyId();
+            Integer branchId = record==null?null:record.getBranchId();
             //ExtJzg extJzg = extJzgService.getByCode(record.getCode());
-            Date birth = record.getBirth();
+            Date birth = record==null?null:record.getBirth();
             String ageRange = "";
             if(birth!=null){
                 byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
@@ -343,43 +343,43 @@ public class MemberApplyExportController extends BaseController {
             }
 
             String[] values = {
-                    record.getCode(),
-                    record.getRealname(),
-                    record.getAuthorizedType(),
-                    record.getStaffType(),
-                    record.getStaffStatus(), // 人员状态
-                    record.getOnJob(), // 在岗情况
-                    record.getPostClass(), // 岗位类别
-                    record.getPostType(), // 主岗等级--岗位级别
+                    record==null?"":record.getCode(),
+                    record==null?"":record.getRealname(),
+                    record==null?"":record.getAuthorizedType(),
+                    record==null?"":record.getStaffType(),
+                    record==null?"":record.getStaffStatus(), // 人员状态
+                    record==null?"":record.getOnJob(), // 在岗情况
+                    record==null?"":record.getPostClass(), // 岗位类别
+                    record==null?"":record.getPostType(), // 主岗等级--岗位级别
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
-                    record.getNation(),
-                    record.getCountry(), // 国家/地区
-                    record.getIdcard(), // 证件号码
+                    record==null?"":record.getNation(),
+                    record==null?"":record.getCountry(), // 国家/地区
+                    record==null?"":record.getIdcard(), // 证件号码
                     //extJzg.getZzmm(), // 政治面貌
                     SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    record.getExtUnit(), // 所在单位
+                    record==null?"":record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
-                    record.getArriveTime(), // 到校日期
-                    record.getProPost(),
-                    record.getProPostLevel(), //专技岗位等级
-                    record.getManageLevel(), // 管理岗位等级
+                    record==null?"":record.getArriveTime(), // 到校日期
+                    record==null?"":record.getProPost(),
+                    record==null?"":record.getProPostLevel(), //专技岗位等级
+                    record==null?"":record.getManageLevel(), // 管理岗位等级
                     adminLevel, // 任职级别 -- 行政级别
                     post, // 行政职务 -- 职务
-                    record.getEducation(), // 学历
-                    record.getSchool(), // 学历毕业学校
-                    record.getDegreeSchool(), // 学位授予学校
-                    record.getDegree(), // 学位
-                    record.getFromType(), // 学员结构
-                    record.getTalentType(), // 人才类型
-                    record.getTalentTitle(),
-                    record.getNativePlace(),
+                    record==null?"":record.getEducation(), // 学历
+                    record==null?"":record.getSchool(), // 学历毕业学校
+                    record==null?"":record.getDegreeSchool(), // 学位授予学校
+                    record==null?"":record.getDegree(), // 学位
+                    record==null?"":record.getFromType(), // 学员结构
+                    record==null?"":record.getTalentType(), // 人才类型
+                    record==null?"":record.getTalentTitle(),
+                    record==null?"":record.getNativePlace(),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
-                    record.getMobile()
+                    record==null?"":record.getMobile()
             };
             valuesList.add(values);
         }

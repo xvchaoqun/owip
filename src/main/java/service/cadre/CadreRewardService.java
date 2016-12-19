@@ -33,10 +33,18 @@ public class CadreRewardService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, int cadreId){
 
         if(ids==null || ids.length==0) return;
-
+        {
+            // 干部信息本人直接修改数据校验
+            CadreRewardExample example = new CadreRewardExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
+            int count = cadreRewardMapper.countByExample(example);
+            if(count!=ids.length){
+                throw new IllegalArgumentException("数据异常");
+            }
+        }
         CadreRewardExample example = new CadreRewardExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadreRewardMapper.deleteByExample(example);

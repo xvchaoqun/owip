@@ -8,11 +8,10 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreCourse!=null}">编辑</c:if><c:if test="${cadreCourse==null}">添加</c:if>教学课程</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreCourse_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreCourse_au?cadreId=${cadre.id}" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreCourse.id}">
-        <input type="hidden" name="cadreId" value="${cadre.id}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">所属干部</label>
+            <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
                 ${sysUser.realname}
             </div>
@@ -46,14 +45,13 @@ pageEncoding="UTF-8"%>
                     <input required class="form-control" type="text" name="name" value="${cadreCourse.name}">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label" >备注</label>
-                <div class="col-xs-6">
-                    <textarea class="form-control" name="remark">${cadreCourse.remark}</textarea>
-                </div>
-            </div>
         </c:if>
-
+        <div class="form-group">
+            <label class="col-xs-3 control-label" >备注</label>
+            <div class="col-xs-6">
+                <textarea class="form-control" name="remark" rows="5">${cadreCourse.remark}</textarea>
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">

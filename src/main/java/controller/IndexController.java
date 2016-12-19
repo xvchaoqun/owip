@@ -3,6 +3,7 @@ package controller;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.HtmlFragment;
+import domain.sys.SysResource;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import service.helper.ShiroSecurityHelper;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.CasUtils;
@@ -110,7 +112,11 @@ public class IndexController extends BaseController {
 	@RequestMapping("/menu")
 	public String menu(ModelMap modelMap) {
 
-		modelMap.put("menus", sysResourceService.getSortedSysResources().values());
+		ShiroUser shiroUser =(ShiroUser)SecurityUtils.getSubject().getPrincipal();
+		List<SysResource> userMenus = sysResourceService.getUserMenus(shiroUser.getPermissions());
+
+		modelMap.put("menus", userMenus);
+		//modelMap.put("menus", sysResourceService.getSortedSysResources().values());
 
 		return "menu";
 	}

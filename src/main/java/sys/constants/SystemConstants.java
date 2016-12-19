@@ -657,6 +657,7 @@ public class SystemConstants {
     public final static byte CADRE_STATUS_TEMP = 2;
     public final static byte CADRE_STATUS_LEAVE = 3;
     public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
+    public final static byte CADRE_STATUS_RESERVE = 5;
     public final static Map<Byte, String> CADRE_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -664,6 +665,7 @@ public class SystemConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "考察对象");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任中层干部库");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库");
     }
 
     // 干部任免类别

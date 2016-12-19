@@ -1,10 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.member.Member;
-import domain.member.MemberApply;
-import domain.member.MemberExample;
-import domain.member.MemberTeacher;
+import domain.member.*;
 import domain.party.Branch;
 import domain.party.GraduateAbroad;
 import domain.party.Party;
@@ -51,14 +48,15 @@ public class MemberController extends BaseController {
     public Map do_search(String code) {
 
         String realname = "";
+        String unit = "";
         String msg = "";
         String status = "";
-        SysUserView sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.findByCode(StringUtils.trimToEmpty(code));
         if(sysUser==null){
             msg = "该用户不存在";
         }else {
             realname = sysUser.getRealname();
-
+            unit = sysUserService.getUnit(sysUser);
             Member member = memberService.get(sysUser.getId());
             if(member==null){
                 msg = "该用户不是党员";
@@ -96,9 +94,12 @@ public class MemberController extends BaseController {
                 }
             }
         }
+
+
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("msg", msg);
         resultMap.put("realname", realname);
+        resultMap.put("unit", unit);
         resultMap.put("status", status);
         return resultMap;
     }

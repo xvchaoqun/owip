@@ -6,6 +6,7 @@
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员信息
+<c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamliy:edit">
                     <a class="popupBtn btn btn-success btn-sm"
@@ -20,13 +21,15 @@
                 <shiro:hasPermission name="cadreFamliy:del">
                     <button data-url="${ctx}/cadreFamliy_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？<div class='bolder text-danger'>（与此关联的家庭成员移居国（境）外的情况也将删除）</div>"
                             data-grid-id="#jqGrid_cadreFamliy"
+                            data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
             </div>
+    </c:if>
         </h4>
 
         <div class="widget-toolbar">
@@ -47,6 +50,7 @@
 <div class="widget-box collapsed">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
+<c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamliy:edit">
                     <a class="popupBtn btn btn-success btn-sm"
@@ -63,11 +67,13 @@
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid_cadreFamliyAbroad"
+                            data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
             </div>
+    </c:if>
         </h4>
 
         <div class="widget-toolbar">
@@ -87,6 +93,9 @@
 <div class="row footer-margin lower">&nbsp;</div>
 <script>
     $("#jqGrid_cadreFamliy").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         pager: "#jqGridPager_cadreFamliy",
         ondblClickRow: function () {
         },
@@ -121,6 +130,9 @@
     });
 
     $("#jqGrid_cadreFamliyAbroad").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         pager: "#jqGridPager_cadreFamliyAbroad",
         ondblClickRow: function () {
         },

@@ -1,4 +1,14 @@
 
+-- 2016-12-17
+ALTER TABLE `modify_cadre_auth`
+	CHANGE COLUMN `start_time` `start_time` DATE NULL DEFAULT NULL COMMENT '起始日期' AFTER `cadre_id`,
+	CHANGE COLUMN `end_time` `end_time` DATE NULL DEFAULT NULL COMMENT '结束日期' AFTER `start_time`;
+
+ALTER TABLE `ext_yjs` CHANGE COLUMN `ksh16` `ksh16` VARCHAR(200) NULL COMMENT '学号';
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `ext_phone` `ext_phone` VARCHAR(200) NULL DEFAULT NULL COMMENT '手机号码，用于党统导出' AFTER `user_id`;
+
+
 -- 2016-12-16
 update sys_resource set permission='cadre:list' where permission='cadre:*';
 update sys_resource set permission='cadre:view' where permission='cadre:info';

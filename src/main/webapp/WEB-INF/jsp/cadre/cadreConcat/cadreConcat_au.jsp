@@ -6,8 +6,14 @@ pageEncoding="UTF-8"%>
     <h3>更新干部联系方式</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreConcat_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreConcat_au?cadreId=${cadre.id}" id="modalForm" method="post">
         <input type="hidden" name="userId" value="${cadre.userId}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">姓名</label>
+            <div class="col-xs-6 label-text">
+                ${cadre.user.realname}
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">手机号</label>
 				<div class="col-xs-6">

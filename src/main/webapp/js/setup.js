@@ -195,7 +195,7 @@ $(window).on('resize.jqGrid2', function () {
     });
 
     var navHeight = $(".nav.nav-tabs").height();
-    navHeight = navHeight>0?(navHeight+40):navHeight;
+    navHeight = navHeight>0?(navHeight+10):navHeight;
     if(navHeight==null) navHeight=0;
 
     $(".jqGrid2").setGridHeight($(window).height()-390-height-navHeight);
@@ -361,6 +361,10 @@ $.ajaxSetup({
 
          return data;
     },error:function(jqXHR, textStatus, errorMsg){
+
+        if (jqXHR.status == 401) {
+            alert("您没有权限进行此项操作，请联系系统管理员。");
+        }
         //alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
         //SysMsg.error('系统异常，请稍后再试。', '系统异常');
     }

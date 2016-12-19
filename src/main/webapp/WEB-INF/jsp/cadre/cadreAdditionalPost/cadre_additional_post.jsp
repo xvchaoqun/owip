@@ -14,8 +14,13 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-                <form class="form-horizontal no-footer" action="${ctx}/cadreAdditionalPost_au" id="modalForm" method="post">
-                    <input type="hidden" name="cadreId" value="${cadre.id}">
+                <form class="form-horizontal no-footer" action="${ctx}/cadreAdditionalPost_au?cadreId=${cadre.id}" id="modalForm" method="post">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">姓名</label>
+                        <div class="col-xs-6 label-text">
+                            ${cadre.user.realname}
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-xs-3 control-label">职务属性</label>
                         <div class="col-xs-6">

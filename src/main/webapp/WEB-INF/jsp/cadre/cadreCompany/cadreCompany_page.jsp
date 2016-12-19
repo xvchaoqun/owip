@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="cadreCompany:edit">
@@ -18,11 +19,13 @@ pageEncoding="UTF-8" %>
                 data-title="删除"
                 data-msg="确定删除这{0}条数据？"
                 data-grid-id="#jqGrid_cadreCompany"
+                data-querystr="cadreId=${param.cadreId}"
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-times"></i> 删除
         </button>
     </shiro:hasPermission>
 </div>
+    </c:if>
 <div class="space-4"></div>
 <table id="jqGrid_cadreCompany" class="jqGrid2"></table>
 <div id="jqGridPager_cadreCompany"></div>
@@ -30,6 +33,9 @@ pageEncoding="UTF-8" %>
 <script>
 
     $("#jqGrid_cadreCompany").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreCompany",

@@ -23,7 +23,7 @@
             <div class="widget-main padding-4">
                 <div class="tab-content padding-8">
 
-                    <div class="col-xs-offset-1 col-xs-10 loading">
+                    <div class="col-xs-offset-1 col-xs-10">
 
                         <div class="page-header">
                             <h1>

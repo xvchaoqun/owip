@@ -141,7 +141,11 @@ public class CadreTrainController extends BaseController {
             cadreTrainService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadreTrain _record = cadreTrainMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreTrainService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
         }
@@ -166,7 +170,7 @@ public class CadreTrainController extends BaseController {
         return "cadre/cadreTrain/cadreTrain_au";
     }
 
-    @RequiresPermissions("cadreTrain:del")
+   /* @RequiresPermissions("cadreTrain:del")
     @RequestMapping(value = "/cadreTrain_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreTrain_del(HttpServletRequest request, Integer id) {
@@ -177,16 +181,18 @@ public class CadreTrainController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部社会或学术兼职：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreTrain:del")
     @RequestMapping(value = "/cadreTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreTrainService.batchDel(ids);
+            cadreTrainService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
         }
 

@@ -6,14 +6,13 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">期间</c:if>工作经历</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreWork_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreWork_au?cadreId=${cadre.id}" id="modalForm" method="post">
             <input type="hidden" name="id" value="${cadreWork.id}">
             <input  type="hidden" name="fid" value="${empty cadreWork?param.fid:cadreWork.fid}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">所属干部</label>
+				<label class="col-xs-4 control-label">姓名</label>
 				<div class="col-xs-6 label-text">
-                    <input  type="hidden" name="cadreId" value="${cadre.id}">
-                        ${sysUser.realname}
+                    ${sysUser.realname}
 				</div>
 			</div>
 			<div class="form-group">

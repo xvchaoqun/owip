@@ -35,6 +35,7 @@
 
     <c:if test="${type==1}">
     $("#jqGrid_cadrePostPro").jqGrid({
+        multiselect:false,
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadrePostPro",
@@ -52,6 +53,7 @@
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadrePostAdmin").jqGrid({
+        multiselect:false,
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadrePostAdmin",
@@ -67,6 +69,7 @@
     </c:if>
     <c:if test="${type==3}">
     $("#jqGrid_cadrePostWork").jqGrid({
+        multiselect:false,
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadrePostWork",

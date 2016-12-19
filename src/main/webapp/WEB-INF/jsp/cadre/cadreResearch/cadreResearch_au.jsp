@@ -6,12 +6,11 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreResearch!=null}">编辑</c:if><c:if test="${cadreResearch==null}">添加</c:if>干部${param.researchType==CADRE_RESEARCH_TYPE_DIRECT?"主持":"参与"}科研项目情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreResearch_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreResearch_au?cadreId=${cadre.id}" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreResearch.id}">
-        <input type="hidden" name="cadreId" value="${cadre.id}">
         <input type="hidden" name="researchType" value="${param.researchType}">
         <div class="form-group">
-            <label class="col-xs-3 control-label">所属干部</label>
+            <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
                 ${sysUser.realname}
             </div>

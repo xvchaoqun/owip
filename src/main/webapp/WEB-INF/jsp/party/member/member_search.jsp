@@ -22,6 +22,9 @@
         <small id="realname" style="display: none">
           <span ></span>
         </small>
+        <small id="unit" style="display: none">
+          <span ></span>
+        </small>
         <small id="msg" style="display: none">
           <span ></span>
         </small>
@@ -55,6 +58,9 @@
           }
           if($.trim(ret.realname)!='') {
             $("#modal #realname").show().find("span").html(ret.realname);
+          }
+          if($.trim(ret.unit)!='') {
+            $("#modal #unit").show().find("span").html(ret.unit);
           }
           if($.trim(ret.status)!='') {
             $("#modal #status").show().find("span").html(ret.status);

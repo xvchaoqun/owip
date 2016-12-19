@@ -2,6 +2,7 @@ package service.sys;
 
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -56,6 +57,34 @@ public class SysResourceService {
 		SysResourceExample example = new SysResourceExample();
 		example.createCriteria().andParentIdsLike(sysResource.getParentIds() + sysResource.getId() + "/" + "%");
 		sysResourceMapper.deleteByExample(example);
+	}
+
+	// 根据拥有的权限，形成菜单栏目
+	public List<SysResource> getUserMenus(Set<String> ownPermissions){
+
+		List<SysResource> menus = new ArrayList<>();
+		Map<Integer, SysResource> sortedPermissions = getSortedSysResources();
+		Collection<SysResource> permissions = sortedPermissions.values();
+		for (SysResource res : permissions) {
+			String type = res.getType();
+			String permission = res.getPermission();
+			if((StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
+					|| StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_URL))
+					&& ownPermissions.contains(permission)) {
+
+				if(res.getParentId()==null) {
+					menus.add(res);
+				}else{
+					SysResource parent = sortedPermissions.get(res.getParentId());
+					// id=1是顶级节点，此值必须固定为1
+					if(parent.getId()==1 || ownPermissions.contains(parent.getPermission())) {
+						menus.add(res);
+					}
+				}
+			}
+		}
+
+		return menus;
 	}
 
 	public SysResource getByUrl(String url){

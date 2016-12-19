@@ -1,16 +1,20 @@
 package servcie;
 
 import domain.sys.SysResource;
+import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.sys.SysResourceService;
+import service.sys.SysUserService;
+import shiro.ShiroUser;
+import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2015/11/9.
@@ -21,6 +25,8 @@ public class SysResourceServiceTest {
 
     @Autowired
     SysResourceService sysResourceService;
+    @Autowired
+    SysUserService sysUserService;
 
     @Test
     public void loop(){
@@ -28,9 +34,28 @@ public class SysResourceServiceTest {
 
     }
     @Test
-    public void show(){
+    public void findAll(){
 
         Map<Integer, SysResource> sortedSysResources = sysResourceService.getSortedSysResources();
-        System.out.println(sortedSysResources.size());
+        Collection<SysResource> sysResources = sortedSysResources.values();
+        for (SysResource sysResource : sysResources) {
+            System.out.println(sysResource.getPermission());
+        }
+    }
+    @Test
+    public void userMenu(){
+
+        int userId = 672;//李晓兵
+        SysUserView uv = sysUserService.findById(userId);
+        ShiroUser shiroUser = new ShiroUser(userId, uv.getUsername(), uv.getCode(), uv.getRealname(), uv.getType());
+        Set<String> ownPermissions = shiroUser.getPermissions();
+       /* for (String permission : ownPermissions) {
+            System.out.println(permission);
+        }*/
+
+        List<SysResource> userMenus = sysResourceService.getUserMenus(ownPermissions);
+        for (SysResource userMenu : userMenus) {
+            System.out.println(userMenu.getPermission());
+        }
     }
 }

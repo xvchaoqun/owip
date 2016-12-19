@@ -8,6 +8,13 @@
   	<tlib-version>1.0</tlib-version>
  	<short-name>cm</short-name>
  	<uri>http://java.sun.com/jsp/jstl/custom</uri>
+
+	<function>
+		<name>hasRole</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Boolean hasRole(java.lang.String)</function-signature>
+	</function>
+
 	<!--获得MAP KEY VALUE-->
 	<function>
 		<name>getMapValue</name>

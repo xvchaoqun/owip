@@ -46,7 +46,7 @@ public class ApproverTypeController extends BaseController {
 
         }else if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
 
-            // 分管校领导 黑名单
+            // 分管校领导 黑名单（即二次编辑中没有选择的干部）
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
             Integer leaderApproverTypeId = leaderApproverType.getId();
             Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverTypeId);

@@ -180,6 +180,11 @@ public class CadreEduController extends BaseController {
             cadreEduService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
         } else {
+            // 干部信息本人直接修改数据校验
+            CadreEdu _record = cadreEduMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
 
             cadreEduService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
@@ -213,7 +218,7 @@ public class CadreEduController extends BaseController {
         return "cadre/cadreEdu/cadreEdu_rule";
     }
 
-    @RequiresPermissions("cadreEdu:del")
+ /*   @RequiresPermissions("cadreEdu:del")
     @RequestMapping(value = "/cadreEdu_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreEdu_del(HttpServletRequest request, Integer id) {
@@ -224,16 +229,18 @@ public class CadreEduController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部学习经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreEdu:del")
     @RequestMapping(value = "/cadreEdu_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadreEduService.batchDel(ids);
+            cadreEduService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
         }
 

@@ -9,12 +9,15 @@
     <li class="${type==2?"active":""}">
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 教学成果及获奖情况</a>
     </li>
+<shiro:hasRole name="${ROLE_CADREADMIN}">
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 预览</a>
     </li>
+    </shiro:hasRole>
 </ul>
 
 <c:if test="${type==1}">
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreCourse:edit">
@@ -32,18 +35,20 @@
                     data-title="删除"
                     data-msg="确定删除这{0}条数据？"
                     data-grid-id="#jqGrid_cadreCourse"
+                    data-querystr="cadreId=${param.cadreId}"
                     class="jqBatchBtn btn btn-danger btn-sm">
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
     </div>
+        </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreCourse" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadreCourse"></div>
 </c:if>
 <c:if test="${type==2}">
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
-
     <div class="jqgrid-vertical-offset buttons">
         <a class="popupBtn btn  btn-sm btn-info"
            data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_TEACH}&cadreId=${param.cadreId}"><i
@@ -59,11 +64,12 @@
                 data-title="删除"
                 data-msg="确定删除这{0}条数据？"
                 data-grid-id="#jqGrid_cadreReward"
-
+                data-querystr="cadreId=${param.cadreId}"
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-times"></i> 删除
         </button>
     </div>
+        </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreReward" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadreReward"></div>
@@ -169,12 +175,12 @@
 
 <script type="text/template" id="sort_tpl">
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
-       data-url="${ctx}/cadreCourse_changeOrder" data-id="{{=id}}"
+       data-url="${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}" data-id="{{=id}}"
        data-direction="-1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
            title="修改操作步长">
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
-       data-url="${ctx}/cadreCourse_changeOrder"
+       data-url="${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"
        data-id="{{=id}}" data-direction="1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
@@ -183,6 +189,9 @@
     }
     <c:if test="${type==1}">
     $("#jqGrid_cadreCourse").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreCourse",
@@ -194,17 +203,22 @@
             }
             },
             {label: '课程名称', name: 'name', width: 250},
+            <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
             }, frozen: true
             },
-            {label: '备注（点击右上角“修改”，可添加备注信息）', name: 'remark', width: 350}
+            </c:if>
+            {label: '备注', name: 'remark', width: 350}
         ]
     });
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadreReward").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreReward",
