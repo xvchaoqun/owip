@@ -34,6 +34,8 @@ public class EnterApplyService extends BaseMapper{
     @Autowired
     private MemberInService memberInService;
     @Autowired
+    private MemberOutService memberOutService;
+    @Autowired
     private MemberService memberService;
     @Autowired
     private SysUserService sysUserService;
@@ -79,17 +81,15 @@ public class EnterApplyService extends BaseMapper{
         Member member = memberService.get(userId);
         if(member!=null){
             if(member.getStatus()==SystemConstants.MEMBER_STATUS_QUIT){
-                throw new RuntimeException("您已出党");
-            }
-            /*if(member.getStatus()==SystemConstants.MEMBER_STATUS_RETIRE){
-                throw new RuntimeException("您已退休");
-            }*/
-            if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+                throw new RuntimeException("已出党，不能进行转入操作。");
+            }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
+                throw new RuntimeException("已经是党员，不需要进行转入操作。");
+            }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+                throw new RuntimeException("已经转出党员，不能进行转入操作。");
+            }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER_TEMP){
                 //throw new RuntimeException("您已办理组织关系转出");
                 return;// 允许挂职干部转出后用原账号转入
             }
-
-            throw new RuntimeException("您已经是党员");
         }
     }
 
@@ -155,6 +155,7 @@ public class EnterApplyService extends BaseMapper{
     public synchronized void memberIn(MemberIn record) { //
 
         int userId = record.getUserId();
+
         checkMemberApplyAuth(userId);
 
         record.setIsModify(false);
