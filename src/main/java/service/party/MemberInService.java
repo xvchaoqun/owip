@@ -2,6 +2,7 @@ package service.party;
 
 import domain.member.*;
 import domain.party.EnterApply;
+import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
@@ -302,7 +303,16 @@ public class MemberInService extends BaseMapper {
     public void memberIn_check(Integer[] ids, Boolean hasReceipt, byte type, int loginUserId){
 
         for (int id : ids) {
-            MemberIn memberIn = null;
+            MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
+            int userId = memberIn.getUserId();
+
+            // 检查是否已经后台添加成了党员，如果是，则提示打回申请
+            Member member = memberService.get(userId);
+            if(member!=null){
+                SysUserView uv = CmTag.getUserById(userId);
+                throw new RuntimeException(uv.getRealname() + "已经是党员，请打回该转入申请。");
+            }
+
             if(type==1) {
                 VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
                 memberIn = verifyAuth.entity;
@@ -318,12 +328,9 @@ public class MemberInService extends BaseMapper {
             }
             if(type==2) {
                 SecurityUtils.getSubject().checkRole("odAdmin");
-
-                memberIn = memberInMapper.selectByPrimaryKey(id);
                 addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
             }
 
-            int userId = memberIn.getUserId();
             applyApprovalLogService.add(memberIn.getId(),
                     memberIn.getPartyId(), memberIn.getBranchId(), userId,
                     loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
@@ -370,15 +377,15 @@ public class MemberInService extends BaseMapper {
         if(status==SystemConstants.MEMBER_IN_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-            if (_enterApply == null)
-                throw new DBErrorException("系统错误");
-
-            EnterApply enterApply = new EnterApply();
-            enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
-            enterApply.setRemark(reason);
-            enterApply.setBackTime(new Date());
-            enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+            //throw new DBErrorException("系统错误");
+            if (_enterApply != null) {
+                EnterApply enterApply = new EnterApply();
+                enterApply.setId(_enterApply.getId());
+                enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApply.setRemark(reason);
+                enterApply.setBackTime(new Date());
+                enterApplyMapper.updateByPrimaryKeySelective(enterApply);
+            }
         }
 
         updateMapper.memberIn_back(id, status);
