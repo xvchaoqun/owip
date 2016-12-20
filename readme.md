@@ -15,6 +15,14 @@ select  om.user_id, om.grow_time, oma.grow_time  from ow_member om, ow_member_ap
 update ow_member om, ow_member_apply oma set om.grow_time=oma.grow_time where oma.user_id=om.user_id and oma.stage=6 and oma.grow_time is not null and om.grow_time!=oma.grow_time;
 update ow_member om, ow_member_apply oma set om.grow_time=oma.grow_time where oma.user_id=om.user_id and oma.stage=6 and oma.grow_time is not null and om.grow_time is null;
 
+
+# 查询已经转入申请但未审核，被管理员后台添加党员的情况 （已处理：审核时提示打回）
+select mi.id, mi.user_id, mi.status,mi.create_time, m.create_time, u.code from ow_member_in mi, ow_member m , sys_user u 
+where mi.user_id=m.user_id and m.status=1 and mi.status<=0 and u.id=m.user_id;
+
+# 查询已转出党员， 仍然在党员库中的情况（原因：在党员已经转出审批完成的情况下，进行了转入操作，结果又进入了党员库）
+select mi.id, mi.user_id, mi.status, m.status m_stauts, mi.apply_time, m.create_time, u.code from ow_member_out mi, ow_member m, sys_user u where mi.user_id=m.user_id and m.status=1 and mi.status=2 and u.id=m.user_id;
+
 组织工作管理与服务一体化平台
 Organization Work Integration Platform
 
