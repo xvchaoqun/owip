@@ -1,7 +1,7 @@
 
 
 
-
+-- 2016-12-22
 ALTER TABLE `cadre` CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，1现任干部库  2 考察对象 3 离任中层干部库 4 离任校领导干部库 5 后备干部库';
 
 CREATE ALGORITHM = UNDEFINED VIEW cadre_reserve_view as select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
