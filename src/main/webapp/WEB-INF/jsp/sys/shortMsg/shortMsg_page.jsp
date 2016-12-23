@@ -42,7 +42,7 @@
                                         <option value="${sender.id}">${sender.realname}-${sender.code}</option>
                                     </select>
                                 </div>
-                                    <shiro:hasRole name="admin">
+                                    <shiro:hasRole name="${ROLE_ADMIN}">
                                             <div class="form-group">
                                                 <label>手机</label>
                                                     <input class="form-control search-query" name="mobile" type="text" value="${param.mobile}"

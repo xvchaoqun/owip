@@ -3,7 +3,6 @@ package service.cadre;
 import bean.CadreAdform;
 import domain.cadre.*;
 import domain.member.Member;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.common.FreemarkerService;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.party.MemberService;
 import service.sys.MetaTypeService;
 import sys.constants.SystemConstants;
@@ -161,7 +160,7 @@ public class CadreAdformService extends BaseMapper{
                 famliy += getFamliySeg(cadreFamliys.get(i), "/adform/famliy.ftl");
         }
         dataMap.put("famliy", famliy);
-        SysUserView currentUser = ShiroSecurityHelper.getCurrentUser();
+        SysUserView currentUser = ShiroHelper.getCurrentUser();
         if(currentUser!=null)
             dataMap.put("admin", currentUser.getRealname());
 

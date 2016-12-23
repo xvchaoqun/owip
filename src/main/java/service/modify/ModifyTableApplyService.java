@@ -3,7 +3,6 @@ package service.modify;
 import domain.cadre.CadreEdu;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
-import domain.sys.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.cadre.CadreEduService;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.AvatarService;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
@@ -36,7 +35,7 @@ public class ModifyTableApplyService extends BaseMapper {
 
         if (id == null) return;
 
-        Integer currentUserId = ShiroSecurityHelper.getCurrentUserId();
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(id);
         if (mta.getUserId().intValue() != currentUserId ||
                 mta.getStatus() != SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
@@ -122,7 +121,7 @@ public class ModifyTableApplyService extends BaseMapper {
                 : SystemConstants.MODIFY_TABLE_APPLY_STATUS_DENY);
         record.setCheckRemark(checkRemark);
         record.setCheckReason(checkReason);
-        record.setCheckUserId(ShiroSecurityHelper.getCurrentUserId());
+        record.setCheckUserId(ShiroHelper.getCurrentUserId());
         record.setCheckTime(new Date());
         record.setCheckIp(IpUtils.getRealIp(ContextHelper.getRequest()));
 

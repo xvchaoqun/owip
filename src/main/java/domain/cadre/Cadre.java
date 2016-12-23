@@ -3,7 +3,6 @@ package domain.cadre;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;

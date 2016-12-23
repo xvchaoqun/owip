@@ -2,7 +2,6 @@ package servcie;
 
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -53,7 +51,7 @@ public class SysResourceServiceTest {
             System.out.println(permission);
         }*/
 
-        List<SysResource> userMenus = sysResourceService.getUserMenus(ownPermissions);
+        List<SysResource> userMenus = sysResourceService.makeMenus(ownPermissions);
         for (SysResource userMenu : userMenus) {
             System.out.println(userMenu.getPermission());
         }

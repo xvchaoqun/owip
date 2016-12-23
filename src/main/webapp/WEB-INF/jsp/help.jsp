@@ -4,34 +4,15 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <!-- Meta, title, CSS, favicons, etc. -->
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta charset="utf-8"/>
-  <title>组织工作管理与服务一体化平台</title>
-
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="description" content="overview &amp; stats" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>组织工作管理与服务一体化平台</title>
-
-  <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
-  <link rel="stylesheet" href="${ctx}/extend/css/bootstrap-theme-3.3.5.css" />
-  <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
-
-  <link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
-  <link href="http://v3.bootcss.com/assets/css/patch.css" rel="stylesheet">
-  <!-- Documentation extras -->
   <link href="${ctx}/extend/css/docs.min.css" rel="stylesheet">
-  <script src="${ctx}/extend/js/ie-emulation-modes-warning.js"></script>
-
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  <script src="${ctx}/assets/js/html5shiv.js"></script>
-  <script src="${ctx}/assets/js/respond.js"></script>
-  <![endif]-->
+  <link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
+  <link href="${ctx}/css/doc.css" rel="stylesheet">
 </head>
 <body>
 <div id="navbar" class="navbar navbar-default" id="top">
@@ -54,7 +35,7 @@
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
-      <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin,branchAdmin">
+      <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
         <li class="<c:if test="${_path=='/help'}">active</c:if>">
           <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
         </li>
@@ -64,7 +45,6 @@
       </li>
     </ul>
   </div>
-  <!-- /.navbar-container -->
 </div>
 <div class="container bs-docs-container">
   <div class="row">

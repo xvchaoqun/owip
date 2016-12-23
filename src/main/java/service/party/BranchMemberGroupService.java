@@ -221,9 +221,9 @@ public class BranchMemberGroupService extends BaseMapper {
             BranchMemberGroup targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("ow_branch_member_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("ow_branch_member_group", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("ow_branch_member_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("ow_branch_member_group", null, baseSortOrder, targetEntity.getSortOrder());
 
             BranchMemberGroup record = new BranchMemberGroup();
             record.setId(id);

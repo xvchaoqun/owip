@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CadreView implements Serializable {
-
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -47,7 +46,6 @@ public class CadreView implements Serializable {
         }
         return null;
     }
-
     private Integer id;
 
     private Integer userId;

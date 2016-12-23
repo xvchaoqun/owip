@@ -17,7 +17,7 @@
                 ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <shiro:hasAnyRoles name="branchAdmin,partyAdmin,odAdmin,admin">
+                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
                         <li class="dropdown <c:if test="${cls==1||cls==11||cls==12}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==11)?"(返回修改)":(cls==12)?"(已审核)":""}
@@ -36,7 +36,7 @@
                             </ul>
                         </li>
                         </shiro:hasAnyRoles>
-                        <shiro:hasAnyRoles name="partyAdmin,odAdmin,admin">
+                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                         <li class="dropdown <c:if test="${cls==2||cls==21||cls==22}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-circle-o"></i> 分党委审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
@@ -55,7 +55,7 @@
                             </ul>
                         </li>
                         </shiro:hasAnyRoles>
-                        <shiro:hasAnyRoles name="odAdmin,admin">
+                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                         <li class="dropdown <c:if test="${cls==3||cls==31}">active</c:if>" >
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-circle-o"></i> 组织部审核${cls==3?"(新申请)":(cls==31)?"(返回修改)":""}
@@ -120,7 +120,7 @@
                                     </button>
                                     </c:if>
                                 </shiro:hasPermission>
-                                <shiro:hasAnyRoles name="partyAdmin, odAdmin, admin">
+                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                                 <c:if test="${cls==5||cls==6}">
                                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/graduateAbroad_transfer_au">
@@ -175,7 +175,7 @@
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
 
-                                <shiro:hasAnyRoles name="admin,odAdmin">
+                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
                                        data-title="删除"
                                        data-msg="确定删除这{0}条记录吗？"

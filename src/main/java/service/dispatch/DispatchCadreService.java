@@ -119,9 +119,9 @@ public class DispatchCadreService extends BaseMapper {
             DispatchCadre targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("dispatch_cadre", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_cadre", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("dispatch_cadre", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_cadre", null, baseSortOrder, targetEntity.getSortOrder());
 
             DispatchCadre record = new DispatchCadre();
             record.setId(id);

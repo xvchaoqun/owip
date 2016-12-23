@@ -37,13 +37,13 @@ public class SysRoleController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysRole")
 	public String sysRole() {
 
 		return "index";
 	}
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysRole_page")
 	public String sysRole_page(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr, ModelMap modelMap) {
 		
@@ -81,7 +81,7 @@ public class SysRoleController extends BaseController {
 		return "sys/sysRole/sysRole_page";
 	}
 
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
@@ -90,7 +90,7 @@ public class SysRoleController extends BaseController {
 			HttpServletRequest request) {
 
 		String role = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getRole()));
-		if(StringUtils.equals(role, "admin")) {
+		if(StringUtils.equals(role, SystemConstants.ROLE_ADMIN)) {
 			throw new IllegalArgumentException("不允许添加admin角色");
 		}
 		if (role!=null && sysRoleService.idDuplicate(sysRole.getId(), role)) {
@@ -117,7 +117,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysRole_au")
 	public String sysRole_au(Integer id, ModelMap modelMap) throws IOException {
 
@@ -146,7 +146,7 @@ public class SysRoleController extends BaseController {
 		
 		return "sys/sysRole/sysRole_au";
 	}
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
@@ -160,7 +160,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_updateIsSysHold", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {

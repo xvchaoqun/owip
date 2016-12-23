@@ -11,9 +11,8 @@ import org.apache.shiro.subject.Subject;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -53,7 +52,7 @@ public class MemberApplyOpService extends BaseController {
                 enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        ShiroSecurityHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");

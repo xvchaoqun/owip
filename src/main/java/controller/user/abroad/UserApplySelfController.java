@@ -39,7 +39,7 @@ public class UserApplySelfController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-/*    @RequiresRoles("cadre")
+/*    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_download")
     public void applySelf_download(@CurrentUser SysUserView loginUser,
                                    Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -58,7 +58,7 @@ public class UserApplySelfController extends BaseController {
                 springProps.uploadPath + applySelfFile.getFilePath(), applySelfFile.getFileName());
     }*/
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_view")
     public String applySelf_view(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
@@ -94,19 +94,19 @@ public class UserApplySelfController extends BaseController {
         return "user/abroad/applySelf/applySelf_view";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf")
     public String applySelf() {
 
         return "index";
     }
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_page")
     public String applySelf_page(ModelMap modelMap) {
 
         return "user/abroad/applySelf/applySelf_page";
     }
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_data")
     @ResponseBody
     public void applySelf_data(@CurrentUser SysUserView loginUser,
@@ -167,7 +167,7 @@ public class UserApplySelfController extends BaseController {
         JSONUtils.jsonp(resultMap, sourceMixins);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -200,7 +200,7 @@ public class UserApplySelfController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_au(@CurrentUser SysUserView loginUser,
@@ -285,7 +285,7 @@ public class UserApplySelfController extends BaseController {
         return resultMap;
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/applySelfFile_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelfFile_del(@CurrentUser SysUserView loginUser, Integer id) {
@@ -307,7 +307,7 @@ public class UserApplySelfController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_au")
     public String applySelf_au(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 

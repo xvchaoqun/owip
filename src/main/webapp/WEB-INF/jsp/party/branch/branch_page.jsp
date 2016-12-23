@@ -29,7 +29,7 @@
                     <div id="home4" class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
 <c:if test="${status>=0}">
-                <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
+                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                 <shiro:hasPermission name="branch:edit">
                     <a class="editBtn btn btn-info btn-sm" data-width="900"><i class="fa fa-plus"></i> 添加</a>
                 </shiro:hasPermission>

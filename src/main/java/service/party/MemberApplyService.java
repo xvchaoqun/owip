@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
@@ -65,7 +65,7 @@ public class MemberApplyService extends BaseMapper {
 
                 memberApplyMapper.insertSelective(record);
 
-                Integer currentUserId = ShiroSecurityHelper.getCurrentUserId();
+                Integer currentUserId = ShiroHelper.getCurrentUserId();
                 applyApprovalLogService.add(userId,
                         member.getPartyId(), member.getBranchId(), userId,
                         currentUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
@@ -246,7 +246,7 @@ public class MemberApplyService extends BaseMapper {
 
             applyApprovalLogService.add(_memberApply.getUserId(),
                     _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                    ShiroSecurityHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "更新",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
@@ -374,7 +374,7 @@ public class MemberApplyService extends BaseMapper {
 
             applyApprovalLogService.add(_memberApply.getUserId(),
                     _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                    ShiroSecurityHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "撤回",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

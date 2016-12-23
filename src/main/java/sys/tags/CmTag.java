@@ -26,6 +26,7 @@ import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.cadre.*;
 import service.dispatch.*;
+import service.helper.ShiroHelper;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
 import service.sys.*;
@@ -75,7 +76,7 @@ public class CmTag {
 
     public static Boolean hasRole(String role){
 
-        return SecurityUtils.getSubject().hasRole(role);
+        return ShiroHelper.hasRole(role);
     }
 
     public static String toJSONObject(Object obj){

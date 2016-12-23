@@ -33,7 +33,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <shiro:hasAnyRoles name="odAdmin,admin">
+                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                             <li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <i class="fa fa-circle-o"></i> 组织部审核${cls==6?"(新申请)":(cls==7)?"(返回修改)":""}
@@ -129,7 +129,7 @@
                                         data-open-by="page">
                                     <i class="fa fa-print"></i> 批量介绍信套打
                                 </button>
-                                <shiro:hasAnyRoles name="admin,odAdmin">
+                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberOut_abolish">
                                         <i class="fa fa-reply"></i> 撤销
@@ -373,7 +373,7 @@
             }, frozen:true}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
-             <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin">
+             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
             { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
 
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_INSIDE}"){
@@ -454,7 +454,7 @@
     });
     </c:if>
 <c:if test="${cls==6||cls==7}">
-    <shiro:hasRole name="odAdmin">
+    <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",

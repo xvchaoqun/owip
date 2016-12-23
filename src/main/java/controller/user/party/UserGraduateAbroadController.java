@@ -31,14 +31,14 @@ public class UserGraduateAbroadController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/graduateAbroad")
     public String graduateAbroad(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/graduateAbroad_page")
     public String graduateAbroad_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -75,7 +75,7 @@ public class UserGraduateAbroadController extends BaseController{
         return "user/party/graduateAbroad/graduateAbroad";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/graduateAbroad_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_graduateAbroad_au(@CurrentUser SysUserView loginUser,
@@ -154,7 +154,7 @@ public class UserGraduateAbroadController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/graduateAbroad_back", method = RequestMethod.POST)
     @ResponseBody
     public Map graduateAbroad_back(@CurrentUser SysUserView loginUser, String remark){

@@ -23,9 +23,11 @@
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-flag"></i>
             科研成果及获奖</a>
     </li>
+<shiro:hasRole name="${ROLE_CADREADMIN}">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
+    </shiro:hasRole>
 </ul>
 
 <div class="row two-frames">
@@ -33,7 +35,7 @@
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="smaller">
-                    ${type==CADRE_INFO_TYPE_RESEARCH?"初始数据":"参考模板"}
+                    ${(type==CADRE_INFO_TYPE_RESEARCH||type==CADRE_INFO_TYPE_RESEARCH_REWARD)?"初始数据":"参考模板"}
                 </h4>
             </div>
             <div class="widget-body">
@@ -51,10 +53,7 @@
                         <p>${researchRewardInfo.content}</p>
                     </c:if>
                     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
-                        <c:if test="${fn:length(cadreRewards)>0}">获奖情况：</c:if>
-                        <c:forEach items="${cadreRewards}" var="cadreReward">
-                            <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}&nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
-                        </c:forEach>
+                        <c:import url="/cadreReward_fragment"/>
                     </c:if>
                     <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH && type!=CADRE_INFO_TYPE_RESEARCH_REWARD}">
                         ${htmlFragment.content}
@@ -68,7 +67,8 @@
             <div class="widget-header">
                 <h4 class="smaller">
                     ${type==CADRE_INFO_TYPE_RESEARCH?"最终数据":"编辑区"}（<span
-                        style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                        style="font-weight: bolder; color: red;"
+                        id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                 </h4>
             </div>
             <div class="widget-body">
@@ -76,16 +76,19 @@
                     <textarea id="content">${cadreInfo.content}</textarea>
                     <input type="hidden" name="content">
                 </div>
-                <div class="modal-footer center">
-                    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH || type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
-                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
-                            <i class="ace-icon fa fa-copy"></i>
-                            同步自动生成的数据
-                        </a>
-                    </c:if>
-                    <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+                <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+                    <div class="modal-footer center">
+                        <c:if test="${type==CADRE_INFO_TYPE_RESEARCH || type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
+                            <a href="javascript:" onclick="copyOrginal()" class="btn btn-success">
+                                <i class="ace-icon fa fa-copy"></i>
+                                同步初始数据
+                            </a>
+                        </c:if>
+                        <input type="button" id="saveBtn" onclick="updateCadreInfo()" class="btn btn-primary"
+                               value="保存"/>
 
-                </div>
+                    </div>
+                </c:if>
             </div>
         </div>
     </div>
@@ -96,6 +99,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主持科研项目情况
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <shiro:hasPermission name="cadreResearch:edit">
                         <a class="popupBtn btn btn-success btn-sm"
@@ -114,11 +118,13 @@
                                 data-title="删除"
                                 data-msg="确定删除这{0}条数据？"
                                 data-grid-id="#jqGrid_cadreResearch_direct"
+                                data-querystr="cadreId=${param.cadreId}"
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-times"></i> 删除
                         </button>
                     </shiro:hasPermission>
                 </div>
+        </c:if>
             </h4>
             <div class="widget-toolbar">
                 <a href="#" data-action="collapse">
@@ -139,6 +145,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 参与科研项目情况
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <shiro:hasPermission name="cadreResearch:edit">
                         <a class="popupBtn btn btn-success btn-sm"
@@ -157,11 +164,13 @@
                                 data-title="删除"
                                 data-msg="确定删除这{0}条数据？"
                                 data-grid-id="#jqGrid_cadreResearch_in"
+                                data-querystr="cadreId=${param.cadreId}"
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-times"></i> 删除
                         </button>
                     </shiro:hasPermission>
                 </div>
+        </c:if>
             </h4>
             <div class="widget-toolbar">
                 <a href="#" data-action="collapse">
@@ -182,6 +191,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 出版著作情况
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadreBook_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -196,10 +206,12 @@
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid_cadreBook"
+                            data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+        </c:if>
             </h4>
 
             <div class="widget-toolbar">
@@ -221,6 +233,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 发表论文情况
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadrePaper_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -235,10 +248,12 @@
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid_cadrePaper"
+                            data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+        </c:if>
             </h4>
 
             <div class="widget-toolbar">
@@ -260,6 +275,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 科研成果及获奖情况
+    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}"><i
@@ -276,10 +292,12 @@
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid_cadreReward"
                             data-callback="_reload"
+                            data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+        </c:if>
             </h4>
 
             <div class="widget-toolbar">
@@ -297,40 +315,56 @@
     </div>
 </c:if>
 
-<div class="row footer-margin lower">&nbsp;</div>
+<div class="footer-margin"/>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
+    var ke_height =${type==CADRE_INFO_TYPE_RESEARCH?550:250};
+    var readonlyMode = false;
+    <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+    ke_height += 60;
+    readonlyMode = true;
+    </c:if>
     var ke = KindEditor.create('#content', {
         items: ["source", "|", "fullscreen"],
-        height: '${type==CADRE_INFO_TYPE_RESEARCH?'550px':'250px'}',
-        width: '700px'
+        height: ke_height + 'px',
+        width: '700px',
+        readonlyMode:readonlyMode
     });
     function updateCadreInfo() {
-        $.post("${ctx}/cadreInfo_updateContent", {
-            cadreId: '${param.cadreId}',
-            content: ke.html(),
-            type: "${type}"
-        }, function (ret) {
-            if (ret.success) {
-                SysMsg.info("保存成功", "", function () {
-                    _innerPage("${type}")
-                });
-            }
-        });
+        var html = $.trim(ke.html());
+        if (html != '') {
+            $.post("${ctx}/cadreInfo_updateContent", {
+                cadreId: '${param.cadreId}',
+                content: html,
+                type: "${type}"
+            }, function (ret) {
+                if (ret.success) {
+                    _innerPage("${type}", function () {
+                        $("#saveBtn").tip({content: "保存成功"});
+                    });
+                }
+            });
+        }
     }
     function copyOrginal() {
-        //console.log($("#orginal").html())
-        ke.html($("#orginal").html());
-        SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
+        var html = $.trim($("#orginal").html());
+        if (html != '') {
+            ke.html(html);
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '复制成功，请点击"保存"按钮进行保存'});
+        }
     }
 </script>
 
 <script>
-    function _innerPage(type) {
-        $("#view-box .tab-content").load("${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type)
+    function _innerPage(type, fn) {
+        $("#view-box .tab-content").load("${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type, null, fn)
     }
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     $("#jqGrid_cadreResearch_in").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreResearch_in",
@@ -363,6 +397,9 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     $("#jqGrid_cadreResearch_direct").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreResearch_direct",
@@ -395,6 +432,9 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     $("#jqGrid_cadreBook").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreBook",
@@ -416,6 +456,9 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     $("#jqGrid_cadrePaper").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadrePaper",
@@ -438,6 +481,9 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     $("#jqGrid_cadreReward").jqGrid({
+        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        multiselect:false,
+        </c:if>
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreReward",

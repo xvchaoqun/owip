@@ -1,5 +1,12 @@
 
 
+
+
+ALTER TABLE `cadre` CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，1现任干部库  2 考察对象 3 离任中层干部库 4 离任校领导干部库 5 后备干部库';
+
+CREATE ALGORITHM = UNDEFINED VIEW cadre_reserve_view as select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
+cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, cv.*
+from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id;
 -- 2016-12-19
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_apply_view` AS select *, if((_status is null or _status=1), 0, 1) as member_status from (select ma.*, m.`status` as _status from ow_member_apply ma left join ow_member m  on ma.user_id = m.user_id) tmp;
 

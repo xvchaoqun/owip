@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -255,7 +256,7 @@ public class MemberOutController extends BaseController {
     }
 
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
     public String memberOut_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUserView loginUser, Integer id,
@@ -286,7 +287,7 @@ public class MemberOutController extends BaseController {
             modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberOut.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
+            modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
         }
 
         // 读取总数
@@ -299,7 +300,7 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_approval";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_deny")
     public String memberOut_deny(Integer id, ModelMap modelMap) {
@@ -312,7 +313,7 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_deny";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
@@ -328,7 +329,7 @@ public class MemberOutController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_back")
     public String memberOut_back() {
@@ -336,7 +337,7 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_back";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
@@ -506,7 +507,7 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_au";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:abolish")
     @RequestMapping("/memberOut_abolish")
     public String memberOut_abolish(Integer id, ModelMap modelMap) {
@@ -518,7 +519,7 @@ public class MemberOutController extends BaseController {
         return "party/memberOut/memberOut_abolish";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:abolish")
     @RequestMapping(value = "/memberOut_abolish", method = RequestMethod.POST)
     @ResponseBody

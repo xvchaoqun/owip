@@ -4,7 +4,7 @@
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:;" class="closeView reload btn btn-xs btn-success">
+            <a href="javascript:;" class="closeView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
@@ -54,15 +54,20 @@
                                     <label class="col-xs-2 control-label">拥有的资源</label>
 
                                     <div class="col-xs-9">
-                                        <div id="tree3" style="height: 500px;"></div>
+                                        <div id="tree3" style="height: 450px;"></div>
                                     </div>
                                 </div>
 
                             </form>
                         </div>
-                        <div class="col-xs-6" style="height: 664px; width: 500px;float: left;border:1px dotted">
-                            菜单预览：
+                        <div class="col-xs-6" id="sidebar-review">
+                            <div class="title">菜单预览：</div>
+                            <div class="sidebar">
 
+                            </div>
+                            <script type="text/javascript">
+                                $('#sidebar-review .sidebar').ace_sidebar();
+                            </script>
                         </div>
                     </div>
                 </div>

@@ -186,9 +186,9 @@ public class ApproverTypeService extends BaseMapper {
             ApproverType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("abroad_approver_type", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("abroad_approver_type", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("abroad_approver_type", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("abroad_approver_type", null, baseSortOrder, targetEntity.getSortOrder());
 
             ApproverType record = new ApproverType();
             record.setId(id);

@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
                     </span>
                     <input placeholder="请选择免职日期范围" data-rel="date-range-picker" class="form-control date-range-picker" type="text" name="_dismissTime" value="${param._dismissTime}"/>
                 </div>
-                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.groupId ||not empty param.cadreId ||not empty param.appointTime ||not empty param.dismissTime || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">

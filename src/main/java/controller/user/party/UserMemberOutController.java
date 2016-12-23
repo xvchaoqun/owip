@@ -31,14 +31,14 @@ public class UserMemberOutController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberOut")
     public String memberOut(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberOut_page")
     public String memberOut_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -55,7 +55,7 @@ public class UserMemberOutController extends BaseController{
         return "user/party/memberOut/memberOut";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
@@ -104,7 +104,7 @@ public class UserMemberOutController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberOut_back(@CurrentUser SysUserView loginUser, String remark){

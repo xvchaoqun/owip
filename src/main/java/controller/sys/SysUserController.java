@@ -136,7 +136,7 @@ public class SysUserController extends BaseController {
         return;
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/sysUser_roles")
     public String sysUser_types(String _sysUsername, ModelMap modelMap) {
 
@@ -146,7 +146,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_roles";
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_au(SysUser sysUser, HttpServletRequest request) {
@@ -196,7 +196,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/sysUser_au")
     public String sysUser_au(Integer id, ModelMap modelMap) {
 
@@ -209,7 +209,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_au";
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
@@ -223,7 +223,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/sysUserInfo_au")
     public String sysUserInfo_au(Integer userId, ModelMap modelMap) {
 
@@ -238,7 +238,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUserInfo_au";
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_del(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
@@ -253,7 +253,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserRole(@CurrentUser SysUserView loginSysUser,
@@ -273,7 +273,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/sysUserRole")
     public String sysUserRole(Integer id, ModelMap modelMap) throws IOException {
 

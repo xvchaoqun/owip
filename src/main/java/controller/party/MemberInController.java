@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -288,7 +289,7 @@ public class MemberInController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_approval")
     public String memberIn_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -319,7 +320,7 @@ public class MemberInController extends BaseController {
             modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberIn.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
+            modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
         }
 
         // 读取总数
@@ -332,7 +333,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_approval";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_deny")
     public String memberIn_deny(Integer id, ModelMap modelMap) {
@@ -345,7 +346,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_deny";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
@@ -359,7 +360,7 @@ public class MemberInController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("partyAdmin")
+    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_party_check")
     public String memberIn_party_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -371,7 +372,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_party_check";
     }
 
-    @RequiresRoles("partyAdmin")
+    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
     @ResponseBody
@@ -384,7 +385,7 @@ public class MemberInController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_back")
     public String memberIn_back() {
@@ -392,7 +393,7 @@ public class MemberInController extends BaseController {
         return "party/memberIn/memberIn_back";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody

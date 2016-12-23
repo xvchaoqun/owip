@@ -437,7 +437,7 @@ public class PassportController extends BaseController {
         return "abroad/passport/passport_lost_view";
     }
 
-    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
      @RequestMapping("/updateLostProof")
      public String updateLostProof(int id, ModelMap modelMap) {
 
@@ -447,7 +447,7 @@ public class PassportController extends BaseController {
         return "abroad/passport/updateLostProof";
     }
 
-    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
@@ -489,7 +489,7 @@ public class PassportController extends BaseController {
         return "abroad/passport/passport_cancel_view";
     }
 
-    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/updateCancelPic")
     public String updateCancelProof(int id, ModelMap modelMap) {
 
@@ -499,7 +499,7 @@ public class PassportController extends BaseController {
         return "abroad/passport/updateCancelPic";
     }
 
-    @RequiresRoles(value = {"admin", "cadreAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/updateCancelPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateCancelProof(

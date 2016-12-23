@@ -31,14 +31,14 @@ public class UserMemberOutflowController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberOutflow")
     public String memberOutflow(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberOutflow_page")
     public String memberOutflow_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -68,7 +68,7 @@ public class UserMemberOutflowController extends BaseController{
         return "user/party/memberOutflow/memberOutflow";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOutflow_au(@CurrentUser SysUserView loginUser,
@@ -105,7 +105,7 @@ public class UserMemberOutflowController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberOutflow_back(@CurrentUser SysUserView loginUser, String remark){

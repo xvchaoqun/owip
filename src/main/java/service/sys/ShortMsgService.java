@@ -130,7 +130,7 @@ public class ShortMsgService extends BaseMapper {
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
-        List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin");
+        List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
         ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
 
 

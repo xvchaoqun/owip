@@ -13,7 +13,7 @@
                 <button id="print" class="btn btn-info btn-sm"
                         style="margin-left: 50px" ><i class="fa fa-print"></i>  打印确认单</button>
 
-                <shiro:hasAnyRoles name="admin,cadreAdmin">
+                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
                     <button id="submit" class="btn btn-warning btn-sm"
                             data-rel="tooltip" data-placement="bottom"
                             title="点击即提交签字拍照文件"><i class="fa fa-upload"></i>  确认取消集中管理</button>

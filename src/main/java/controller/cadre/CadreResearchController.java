@@ -100,14 +100,26 @@ public class CadreResearchController extends BaseController {
             }
         }
 
-        {
+       /* {
             CadreRewardExample example = new CadreRewardExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
             example.setOrderByClause("reward_time asc");
             List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
             modelMap.put("cadreRewards", cadreRewards);
-        }
+        }*/
         return "cadre/cadreResearch/cadreResearch_page";
+    }
+    @RequiresPermissions("cadreResearch:list")
+    @RequestMapping("/cadreReward_fragment")
+    public String cadreReward_fragment(Integer cadreId, ModelMap modelMap){
+
+        CadreRewardExample example = new CadreRewardExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
+        example.setOrderByClause("reward_time asc");
+        List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
+        modelMap.put("cadreRewards", cadreRewards);
+
+        return "cadre/cadreResearch/cadreReward_fragment";
     }
 
     @RequiresPermissions("cadreResearch:list")
@@ -178,7 +190,11 @@ public class CadreResearchController extends BaseController {
             cadreResearchService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadreResearch _record = cadreResearchMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadreResearchService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部科研项目：%s", record.getId()));
         }
@@ -201,7 +217,7 @@ public class CadreResearchController extends BaseController {
         return "cadre/cadreResearch/cadreResearch_au";
     }
 
-    @RequiresPermissions("cadreResearch:del")
+    /*@RequiresPermissions("cadreResearch:del")
     @RequestMapping(value = "/cadreResearch_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreResearch_del(HttpServletRequest request, Integer id) {
@@ -212,16 +228,18 @@ public class CadreResearchController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部科研项目：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadreResearch:del")
     @RequestMapping(value = "/cadreResearch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            cadreResearchService.batchDel(ids);
+            cadreResearchService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部科研项目：%s", StringUtils.join(ids, ",")));
         }
 

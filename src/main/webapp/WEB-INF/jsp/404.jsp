@@ -1,0 +1,88 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${!param.__includePage}">
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="description" content="overview &amp; stats" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>组织工作管理与服务一体化平台</title>
+  <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
+  <link href="${ctx}/extend/css/docs.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
+</head>
+<body>
+  <div id="navbar" class="navbar navbar-default" id="top">
+    <div class="navbar-container" id="navbar-container">
+      <div class="navbar-header pull-left hidden-xs hidden-sm">
+        <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
+        <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">组织工作管理与服务一体化平台</div>
+      </div>
+      <div class="navbar-header pull-left hidden-md hidden-lg ">
+        <a href="index" class="navbar-brand">
+          <small  style="cursor: pointer;" onclick="location.href='${ctx}/'">
+            组工系统
+          </small>
+        </a>
+      </div>
+    </div>
+    <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
+      <ul class="nav nav-pills">
+        <li class="<c:if test="${_path=='/profile'}">active</c:if>">
+          <a href="${ctx}/profile"><i class="fa fa-user"></i>
+            ${_user.realname}（${_user.code}）</a>
+        </li>
+        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+          <li class="<c:if test="${_path=='/help'}">active</c:if>">
+            <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+          </li>
+        </shiro:hasAnyRoles>
+        <li>
+          <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div style="padding-top: 100px"></div>
+<div class="container">
+  </c:if>
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <!-- #section:pages/error -->
+    <div class="error-container">
+      <div class="well">
+        <h1 class="grey lighter smaller">
+					<span class="blue bigger-125">
+						<i class="ace-icon fa fa-sitemap"></i>
+						404
+					</span>
+          页面不存在
+        </h1>
+        <hr />
+        <div class="space"></div>
+        <div class="center">
+
+          <a href="${ctx}/" class="btn btn-primary">
+            <i class="ace-icon fa fa-home"></i>
+            回到首页
+          </a>
+
+          <a href="${ctx}/logout" class="btn btn-success">
+            <i class="ace-icon fa fa-home"></i>
+            安全退出
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- /section:pages/error -->
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div>
+
+<c:if test="${!param.__includePage}">
+  </div>
+</body>
+</html>
+  </c:if>

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.MetaTypeService;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
@@ -167,7 +167,7 @@ public class ModifyCadreAuthService extends BaseMapper {
             record.setEndTime(end);
         }
         record.setAddTime(new Date());
-        record.setAddUserId(ShiroSecurityHelper.getCurrentUserId());
+        record.setAddUserId(ShiroHelper.getCurrentUserId());
         record.setAddIp(IpUtils.getRealIp(ContextHelper.getRequest()));
 
         for (Integer cadreId : cadreIds) {

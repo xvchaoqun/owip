@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                 </script>
                 <input class="form-control search-query" name="isAdmin" type="text" value="${param.isAdmin}"
                        placeholder="请输入是否管理员">
-                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.groupId ||not empty param.userId ||not empty param.typeId ||not empty param.isAdmin || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">

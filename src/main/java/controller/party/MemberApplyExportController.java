@@ -38,7 +38,7 @@ public class MemberApplyExportController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyExport_page")
     public String memberApplyExport_page(@RequestParam(defaultValue = "1")int cls, ModelMap modelMap) {
@@ -47,7 +47,7 @@ public class MemberApplyExportController extends BaseController {
         return "party/memberApply/memberApplyExport_page";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyExport")
     public void memberApplyExport(HttpServletResponse response,

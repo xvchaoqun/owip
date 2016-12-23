@@ -10,6 +10,7 @@
 		<div class="row">
 			<div class="col-xs-5">
 				<input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+				<input type="hidden" name="applyId" value="${param.applyId}">
 				<input type="hidden" name="id" value="${cadreEdu.id}">
 				<input type="hidden" name="cadreId" value="${cadre.id}">
 				<div class="form-group">

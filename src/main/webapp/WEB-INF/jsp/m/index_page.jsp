@@ -12,7 +12,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-8 infobox-container">
-                    <shiro:lacksRole name="cadreAdmin">
+                    <shiro:lacksRole name="${ROLE_CADREADMIN}">
                     <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/applySelfList?status=0">
                         <div class="infobox-icon">
                             <i class="ace-icon fa fa-history"></i>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     </shiro:lacksRole>
-                    <shiro:hasRole name="cadreAdmin">
+                    <shiro:hasRole name="${ROLE_CADREADMIN}">
                         <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/applySelf?status=0">
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-history"></i>

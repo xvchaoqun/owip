@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.username }"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasAnyRoles name="admin">
+                <shiro:hasAnyRoles name="${ROLE_ADMIN}">
                 <shiro:hasPermission name="sysOnlineLog:kickout">
                     <a class="jqBatchBtn btn btn-danger btn-sm"
                        data-url="${ctx}/sysOnlineLog_kickout"

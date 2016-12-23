@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.qrcode.QRCodeUtil;
@@ -45,14 +46,21 @@ public class FileController extends BaseController {
     @RequestMapping(value = "/attach/cadre")
     public void cadreXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String path = FileController.class.getResource("/").getPath() + "cadre.xlsx";
+        String path = FileController.class.getResource("/").getPath() + "xlsx/cadre.xlsx";
         DownloadUtils.download(request, response, path, "干部录入样表.xlsx");
+    }
+
+    @RequestMapping(value = "/attach/cadreReserve")
+    public void cadreReserveXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String path = FileController.class.getResource("/").getPath() + "xlsx/cadreReserve.xlsx";
+        DownloadUtils.download(request, response, path, "后备干部录入样表.xlsx");
     }
 
     @RequestMapping(value = "/attach/passport")
     public void passportXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String path = FileController.class.getResource("/").getPath() + "passport.xlsx";
+        String path = FileController.class.getResource("/").getPath() + "xlsx/passport.xlsx";
         DownloadUtils.download(request, response, path, "证件录入样表.xlsx");
     }
 
@@ -73,9 +81,8 @@ public class FileController extends BaseController {
         if (passportDrawFile != null) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
             if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
-                boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN));
                 // 本人、干部管理员或管理员才可以下载
-                if (!hasRoles[0] && !hasRoles[1]) {
+                if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN)) {
                     throw new UnauthorizedException();
                 }
             }

@@ -32,7 +32,7 @@
                                         </a>
                                     </li>
                                     <li class="${type==3?'active':''}" data-type="3">
-                                        <a href="#"  class="blue">
+                                        <a href="#" class="blue">
                                             <i class="ace-icon fa fa-caret-right bigger-110 ${type==3?'':'invisible'}">
                                                 &nbsp;</i>
                                             最近一年

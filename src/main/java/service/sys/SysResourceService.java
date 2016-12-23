@@ -60,7 +60,7 @@ public class SysResourceService {
 	}
 
 	// 根据拥有的权限，形成菜单栏目
-	public List<SysResource> getUserMenus(Set<String> ownPermissions){
+	public List<SysResource> makeMenus(Set<String> ownPermissions){
 
 		List<SysResource> menus = new ArrayList<>();
 		Map<Integer, SysResource> sortedPermissions = getSortedSysResources();

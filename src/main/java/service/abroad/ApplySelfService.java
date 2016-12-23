@@ -21,7 +21,7 @@ import service.SpringProps;
 import service.cadre.CadreService;
 import service.helper.ContextHelper;
 import service.helper.ExportHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.MetaTypeService;
 import service.sys.ShortMsgService;
 import service.sys.SysUserService;
@@ -67,7 +67,7 @@ public class ApplySelfService extends BaseMapper {
 
         // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
         if (approvalTypeId <= 0) { // 查找干部管理员
-            List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin");
+            List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
             return cadreAdmin;
         } else {
 
@@ -555,7 +555,7 @@ public class ApplySelfService extends BaseMapper {
         }
 
         return resultMap;
-        /*if(!view && SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+        /*if(!view && ShiroHelper.hasRole("cadreAdmin")) {
             ApplySelfMapper applySelfMapper = (ApplySelfMapper) wac.getBean("applySelfMapper");
             CadreService cadreService = (CadreService) wac.getBean("cadreService");
             SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");
@@ -807,7 +807,7 @@ public class ApplySelfService extends BaseMapper {
 
         Cadre cadre = cadreService.findByUserId(userId);
         if (approvalTypeId <= 0) {
-            return SecurityUtils.getSubject().hasRole("cadreAdmin");
+            return ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN);
         } else if (cadre == null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW) {
             return false; // 必须是现任干部才有审批权限
         }
@@ -949,7 +949,7 @@ public class ApplySelfService extends BaseMapper {
         modify.setModifyProofFileName(modifyProofFileName);
         modify.setRemark(remark);
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
-        modify.setModifyUserId(ShiroSecurityHelper.getCurrentUserId());
+        modify.setModifyUserId(ShiroHelper.getCurrentUserId());
         modify.setCreateTime(new Date());
 
         // 第一条记录标记为本人提交

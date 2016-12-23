@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.helper.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -264,7 +265,7 @@ public class MemberStayService extends BaseMapper {
                 }
             }
             if(type==2) {
-                SecurityUtils.getSubject().checkRole("odAdmin");
+                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
 
                 memberStay = memberStayMapper.selectByPrimaryKey(id);
 
@@ -283,7 +284,7 @@ public class MemberStayService extends BaseMapper {
     @Transactional
     public void memberStay_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
         for (int userId : userIds) {
 
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(userId);

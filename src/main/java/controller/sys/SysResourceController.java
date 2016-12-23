@@ -32,20 +32,20 @@ public class SysResourceController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource")
 	public String sysResource() {
 
 		return "index";
 	}
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_page")
 	public String sysResource_page(ModelMap modelMap) {
 
 		modelMap.put("sysResources", sysResourceService.getSortedSysResources().values());
 		return "sys/sysResource/sysResource_page";
 	}
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_au(@CurrentUser SysUserView loginUser, SysResource sysResource, HttpServletRequest request) {
@@ -78,7 +78,7 @@ public class SysResourceController extends BaseController {
 		
 		return success(FormUtils.SUCCESS);
 	}
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_au")
 	public String sysResource_au(Integer id, Integer parentId, ModelMap modelMap) {
 
@@ -107,7 +107,7 @@ public class SysResourceController extends BaseController {
 		
 		return "sys/sysResource/sysResource_au";
 	}
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
@@ -121,7 +121,7 @@ public class SysResourceController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles("admin")
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_selects")
 	@ResponseBody
 	public Map sysResource_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {

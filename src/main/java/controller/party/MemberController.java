@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -36,13 +37,13 @@ public class MemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/member/search")
     public String search(){
 
         return "party/member/member_search";
     }
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/member/search", method = RequestMethod.POST)
     @ResponseBody
     public Map do_search(String code) {
@@ -105,7 +106,7 @@ public class MemberController extends BaseController {
     }
 
     // for test 后台数据库中导入党员数据后，需要同步信息、更新状态
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/member_dbUpdate")
     @ResponseBody
     public Map dbUpdate() {
@@ -258,7 +259,7 @@ public class MemberController extends BaseController {
         return "party/member/member_au";
     }
 
-    @RequiresRoles("partyAdmin")
+    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
     @RequestMapping("/member_changeBranch")
     public String member_changeBranch(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]") Integer[] ids,
                                       int partyId, ModelMap modelMap) {
@@ -289,7 +290,7 @@ public class MemberController extends BaseController {
     }
 
     // 批量分党委内部转移
-    @RequiresRoles("partyAdmin")
+    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeBranch(@CurrentUser SysUserView loginUser, HttpServletRequest request,
@@ -310,7 +311,7 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("odAdmin")
+    @RequiresRoles(SystemConstants.ROLE_ODADMIN)
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
@@ -320,7 +321,7 @@ public class MemberController extends BaseController {
     }
 
     // 批量校内组织关系转移
-    @RequiresRoles("odAdmin")
+    @RequiresRoles(SystemConstants.ROLE_ODADMIN)
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
@@ -336,7 +337,7 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    /*@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_del", method = RequestMethod.POST)
     @ResponseBody
@@ -350,7 +351,7 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -409,10 +410,8 @@ public class MemberController extends BaseController {
 
         Member member = memberService.get(userId);
 
-        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN));
         // 分党委、组织部管理员或管理员才可以操作
-        if (!hasRoles[0] && !hasRoles[1]) {
+        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_ADMIN)) {
             Integer partyId = member.getPartyId();
             Integer branchId = member.getBranchId();
             Integer loginUserId = loginUser.getId();

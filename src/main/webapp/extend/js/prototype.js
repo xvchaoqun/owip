@@ -127,7 +127,6 @@ function MonthDiff(date1,date2){
 
 }
 
-
 var SysMsg = {};
 SysMsg.error = function(msg, title){
     $("body").css('padding-right','0px');
@@ -167,3 +166,6 @@ SysMsg.confirm = function(msg, title, callback){
         closeButton:false*/
     });
 }
+
+
+

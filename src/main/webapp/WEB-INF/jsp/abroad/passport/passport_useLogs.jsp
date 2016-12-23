@@ -28,7 +28,7 @@
                                data-date-format="yyyy" placeholder="年份" data-date-min-view-mode="2" value="${param.year}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
-                    <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                    <a class="_searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${not empty param.year}">
                         <button type="button" class="resetBtn btn btn-warning btn-sm">
                             <i class="fa fa-reply"></i> 重置
@@ -51,7 +51,7 @@
 </div><!-- /.widget-box -->
 <script>
     register_date($('.date-picker'));
-    $("#useLogForm .searchBtn").click(function(){
+    $("#useLogForm ._searchBtn").click(function(){
         var year = $("#useLogForm input[name=year]").val();
         if(year==''){
             $("#useLogForm input[name=year]").focus();

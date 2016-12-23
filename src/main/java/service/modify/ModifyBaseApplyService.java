@@ -1,11 +1,9 @@
 package service.modify;
 
-import domain.ext.ExtBks;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseApplyExample;
 import domain.modify.ModifyBaseItem;
 import domain.sys.SysUserView;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,14 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.SpringProps;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.AvatarService;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.IpUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +60,7 @@ public class ModifyBaseApplyService extends BaseMapper {
                         Byte[] types // 更改的值类型，表名不为空时有效
                         ) throws IOException {
 
-        SysUserView uv = ShiroSecurityHelper.getCurrentUser();
+        SysUserView uv = ShiroHelper.getCurrentUser();
         int applyUserId = uv.getId();
         int userId = uv.getId(); // 当前只允许本人申请
 
@@ -153,7 +148,7 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        Integer currentUserId = ShiroSecurityHelper.getCurrentUserId();
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         for (Integer id : ids) {
 
             ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(id);

@@ -306,7 +306,7 @@ public class MemberReturnController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:list")
     @RequestMapping("/memberReturn_approval")
     public String memberReturn_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -352,7 +352,7 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_approval";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping("/memberReturn_deny")
     public String memberReturn_deny(Integer id, ModelMap modelMap) {
@@ -365,7 +365,7 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_deny";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_check", method = RequestMethod.POST)
     @ResponseBody
@@ -381,7 +381,7 @@ public class MemberReturnController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping("/memberReturn_back")
     public String memberReturn_back() {
@@ -389,7 +389,7 @@ public class MemberReturnController extends BaseController {
         return "party/memberReturn/memberReturn_back";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_back", method = RequestMethod.POST)
     @ResponseBody

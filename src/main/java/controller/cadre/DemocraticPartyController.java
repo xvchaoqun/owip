@@ -61,7 +61,7 @@ public class DemocraticPartyController extends BaseController {
             }
         }
 
-        return "cadre/democraticParty_page";
+        return "cadre/democraticParty/democraticParty_page";
     }
     @RequiresPermissions("democraticParty:list")
     @RequestMapping("/democraticParty_data")
@@ -158,7 +158,7 @@ public class DemocraticPartyController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
 
-        return "cadre/democraticParty_au";
+        return "cadre/democraticParty/democraticParty_au";
     }
 
     @RequiresPermissions("democraticParty:del")

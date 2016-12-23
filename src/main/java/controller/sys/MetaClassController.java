@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
@@ -74,7 +75,7 @@ public class MetaClassController extends BaseController {
         Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (!SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)) {
+        if (!ShiroHelper.hasRole(SystemConstants.ROLE_ADMIN)) {
 
             Set<Integer> roleIdSet = sysUserService.getUserRoleIdSet(loginUser.getRoleIds());
             criteria.andRoleIdIn(new ArrayList<>(roleIdSet));
@@ -183,7 +184,7 @@ public class MetaClassController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/metaClassRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_metaClassRole(int id,
@@ -198,7 +199,7 @@ public class MetaClassController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/metaClassRole")
     public String metaClassRole(Integer id, ModelMap modelMap) throws IOException {
 

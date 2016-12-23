@@ -109,9 +109,9 @@ public class UnitCadreTransferGroupService extends BaseMapper {
             UnitCadreTransferGroup targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("unit_cadre_transfer_group",baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_cadre_transfer_group",null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("unit_cadre_transfer_group",baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_cadre_transfer_group",null, baseSortOrder, targetEntity.getSortOrder());
 
             UnitCadreTransferGroup record = new UnitCadreTransferGroup();
             record.setId(id);

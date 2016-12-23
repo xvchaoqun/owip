@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
 import persistence.common.PassportSearchBean;
 import service.BaseMapper;
 import service.cadre.CadreService;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -138,7 +138,7 @@ public class PassportService extends BaseMapper {
             PassportApply passportApply = new PassportApply();
             passportApply.setId(applyId);
             passportApply.setHandleDate(new Date());
-            passportApply.setHandleUserId(ShiroSecurityHelper.getCurrentUserId());
+            passportApply.setHandleUserId(ShiroHelper.getCurrentUserId());
             passportApplyMapper.updateByPrimaryKeySelective(passportApply);
 
             record.setKeepDate(new Date()); // 集中保管日期为交证件日期
@@ -177,7 +177,7 @@ public class PassportService extends BaseMapper {
                 record.setCancelConfirm(true);
                 record.setCancelTime(new Date());
                 record.setCancelRemark("在证件借出的情况下取消集中管理");
-                record.setCancelUserId(ShiroSecurityHelper.getCurrentUserId());
+                record.setCancelUserId(ShiroHelper.getCurrentUserId());
             }
 
             passportMapper.updateByPrimaryKeySelective(record);

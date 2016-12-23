@@ -73,6 +73,9 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
+                        <c:if test="${param.rewardType==CADRE_REWARD_TYPE_RESEARCH}">
+                            $("#orginal").load("${ctx}/cadreReward_fragment?cadreId=${cadre.id}")
+                        </c:if>
                         $("#jqGrid_cadreReward").trigger("reloadGrid");
                     }
                 }

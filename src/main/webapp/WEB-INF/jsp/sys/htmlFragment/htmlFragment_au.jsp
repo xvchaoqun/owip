@@ -25,7 +25,7 @@
                 <input required class="form-control" type="text" name="title" value="${htmlFragment.title}">
             </div>
         </div>
-        <shiro:hasRole name="admin">
+        <shiro:hasRole name="${ROLE_ADMIN}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">代码</label>
 

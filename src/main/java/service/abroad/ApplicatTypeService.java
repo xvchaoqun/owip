@@ -185,9 +185,9 @@ public class ApplicatTypeService extends BaseMapper {
             ApplicatType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("abroad_applicat_type", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("abroad_applicat_type", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("abroad_applicat_type", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("abroad_applicat_type", null, baseSortOrder, targetEntity.getSortOrder());
 
             ApplicatType record = new ApplicatType();
             record.setId(id);

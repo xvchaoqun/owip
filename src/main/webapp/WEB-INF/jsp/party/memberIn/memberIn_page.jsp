@@ -57,7 +57,7 @@
                     </button>
                     </c:if>
                         <c:if test="${cls==4}">
-                        <shiro:hasRole name="odAdmin">
+                        <shiro:hasRole name="${ROLE_ODADMIN}">
                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                             class="jqOpenViewBtn btn btn-danger btn-sm"
                             data-url="${ctx}/memberIn_approval"
@@ -357,7 +357,7 @@
     });
     </c:if>
     <c:if test="${cls==4}">
-    <shiro:hasRole name="odAdmin">
+    <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
@@ -388,7 +388,7 @@
     });
     </c:if>
     <c:if test="${cls==4}">
-    <shiro:hasRole name="odAdmin">
+    <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
         btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",

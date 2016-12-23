@@ -18,7 +18,7 @@ import service.BaseMapper;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.party.EnterApplyService;
 import sys.constants.SystemConstants;
 
@@ -357,6 +357,7 @@ public class SysUserService extends BaseMapper {
         Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
 
         SysRole sysRole = sysRoleService.getByRole(role);
+        if(sysRole==null) throw new RuntimeException("系统角色"+ role + "不存在");
         Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
         roleIdSet.add(sysRole.getId());
 
@@ -399,7 +400,7 @@ public class SysUserService extends BaseMapper {
         updateByPrimaryKeySelective(record, sysUser.getUsername(), code);
 
         //踢下线（如果登入的话）
-        ShiroSecurityHelper.kickOutUser(username);
+        ShiroHelper.kickOutUser(username);
     }
 
     // 根据账号查找所有的角色（对象）

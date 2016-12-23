@@ -60,7 +60,7 @@
 .r2{height:0.7083333in;}
 .r3{keep-together:always;}
 .r4{height:0.35416666in;}
-.t1{table-layout:fixed;border-collapse:collapse;border-spacing:0;}
+.t1{table-layout:fixed;border-collapse:collapse;border-spacing:0;min-width: 706px}
 
 td.center {
     text-align: center
@@ -112,8 +112,10 @@ td.padding10{
                 <span>（  岁）</span>
             </div>
         </td><td class="td4 center" colspan="2">
+            <c:if test="${not empty bean.birth}">
             ${cm:formatDate(bean.birth, "yyyy.MM")}
             <div><span>（${bean.age}岁）</span></div>
+            </c:if>
         </td><td class="td6 center bolder"  rowspan="4">
             <img src="data:image/jpeg;base64,${bean.avatar}" width="110"/>
         </td>
@@ -564,4 +566,4 @@ td.padding10{
     </table>
         </div>
 </div>
-<div class="row footer-margin lower">&nbsp;</div>
+<div class="footer-margin"/>

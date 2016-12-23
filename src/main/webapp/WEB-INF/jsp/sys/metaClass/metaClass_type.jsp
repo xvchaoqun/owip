@@ -18,7 +18,7 @@
                 <tr>
                     <th>名称</th>
                     <th>${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
-                    <shiro:hasRole name="admin">
+                    <shiro:hasRole name="${ROLE_ADMIN}">
                     <th>代码</th>
 
                     <th>附加属性</th>
@@ -41,7 +41,7 @@
                                 ${metaType.boolAttr?"是":"否"}
                             </c:if>
                         </td>
-                        <shiro:hasRole name="admin">
+                        <shiro:hasRole name="${ROLE_ADMIN}">
                         <td nowrap>${metaType.code}</td>
 
                         <td nowrap>${metaType.extraAttr}</td>

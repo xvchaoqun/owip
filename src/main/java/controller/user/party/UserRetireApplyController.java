@@ -29,7 +29,7 @@ import java.util.Map;
 public class UserRetireApplyController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/retireApply")
     public String retireApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -67,7 +67,7 @@ public class UserRetireApplyController extends BaseController{
 
         return "user/party/retireApply/retireApply";
     }
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/retireApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_retireApply_au(@CurrentUser SysUserView loginUser, RetireApply retireApply, HttpServletRequest request) {

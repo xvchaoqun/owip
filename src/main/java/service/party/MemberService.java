@@ -17,9 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
-import service.ext.ExtService;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.SysUserSyncService;
@@ -361,7 +360,7 @@ public class MemberService extends BaseMapper {
             e.printStackTrace();
         }
         modify.setReason(reason);
-        modify.setOpUserId(ShiroSecurityHelper.getCurrentUserId());
+        modify.setOpUserId(ShiroHelper.getCurrentUserId());
         modify.setOpTime(new Date());
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
         memberModifyMapper.insertSelective(modify);

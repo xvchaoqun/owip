@@ -60,7 +60,7 @@
                     <td data-code="major">所学专业</td>
                     <td class="bg-left">${modify.major}</td>
                     <td data-code="schoolType">学校类型</td>
-                    <td class="bg-left">${cm:getMetaType(modify.schoolType).name}</td>
+                    <td class="bg-left">${CADRE_SCHOOL_TYPE_MAP.get(modify.schoolType)}</td>
                 </tr>
                 <tr>
                     <td data-code="learnStyle">学习方式</td>
@@ -145,7 +145,7 @@
 </c:if>
 
 <div class="clearfix form-actions center">
-    <shiro:hasRole name="cadre">
+    <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary"
                 data-url="${ctx}/user/cadreEdu_au?_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
@@ -155,7 +155,7 @@
             编辑
         </button>
         </c:if>
-    </shiro:hasRole>
+    </shiro:hasAnyRoles>
     <c:if test="${param.type=='check'}">
     <shiro:hasPermission name="modifyTableApply:approval">
     <button class="btn btn-success" type="button" id="approvalBtn">
@@ -170,6 +170,7 @@
         返回
     </button>
 </div>
+<div class="footer-margin"/>
 <script>
     <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
     var modify = ${cm:toJSONObject(modify)};

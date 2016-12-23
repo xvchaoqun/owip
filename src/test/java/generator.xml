@@ -123,12 +123,12 @@
      <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply">
           <ignoreColumn column="update_time"/>
       </table>-->
-       <table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
+       <!--<table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
               enableInsert="false" enableUpdateByPrimaryKey="false"
               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
               enableDeleteByExample="false">
           <ignoreColumn column="update_time"/>
-      </table>
+      </table>-->
       <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
       </table>
       -->
@@ -185,13 +185,20 @@
       <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
-      <!-- <table tableName="cadre" domainObjectName="cadre.Cadre">
-              </table>-->
-      <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView"
+       <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
+       </table>
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
+      <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
+      </table>-->
+      <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>

@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
+import sys.constants.SystemConstants;
 
 import java.util.List;
 
@@ -23,6 +24,9 @@ import java.util.List;
  * Created by fafa on 2015/11/16.
  */
 public interface CommonMapper {
+
+    @Select("select max(sort_order) from ${table} where ${whereSql}")
+    Integer getMaxSortOrder(@Param("table") String table, @Param("whereSql") String whereSql);
 
     // 查询用户管理的分党委ID（现任分党委管理员）
     @Select("select distinct pmg.party_id from ow_party_member_group pmg, ow_party_member pm " +
@@ -85,10 +89,10 @@ public interface CommonMapper {
             "where bmg.is_deleted=0 and bm.is_admin=1 and  bm.type_id=${metaTypeId} and bmg.is_present=1 and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
     List<BranchMember> findBranchSecretary(@Param("metaTypeId") int metaTypeId, @Param("branchId") int branchId);
 
-    @Update("update ${tableName} set sort_order = sort_order - 1 where sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
+    /*@Update("update ${tableName} set sort_order = sort_order - 1 where sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder(@Param("tableName") String tableName, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
     @Update("update ${tableName} set sort_order = sort_order + 1 where sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
-    void upOrder(@Param("tableName") String tableName,  @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
+    void upOrder(@Param("tableName") String tableName,  @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);*/
 
     @Update("update ow_party set sort_order = sort_order - 1 where is_deleted=0 and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_party(@Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
@@ -120,11 +124,12 @@ public interface CommonMapper {
     @Update("update unit set sort_order = sort_order + 1 where status=#{status} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
     void upOrder_unit(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
 
-    @Update("update cadre set sort_order = sort_order - 1 where status=#{status} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
-    void downOrder_cadre(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-    @Update("update cadre set sort_order = sort_order + 1 where status=#{status} and sort_order <#{baseSortOrder} and sort_order>=#{targetSortOrder}")
-    void upOrder_cadre(@Param("status") byte status, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);
-
+    void downOrder(@Param("table") String table, @Param("whereSql") String whereSql,
+                                @Param("baseSortOrder") int baseSortOrder,
+                                @Param("targetSortOrder") int targetSortOrder);
+    void upOrder(@Param("table") String table, @Param("whereSql") String whereSql,
+                              @Param("baseSortOrder") int baseSortOrder,
+                              @Param("targetSortOrder") int targetSortOrder);
 
     @Update("update base_meta_type set sort_order = sort_order - 1 where class_id=#{classId} and sort_order >#{baseSortOrder} and sort_order<=#{targetSortOrder}")
     void downOrder_metaType(@Param("classId") int classId, @Param("baseSortOrder") int baseSortOrder, @Param("targetSortOrder") int targetSortOrder);

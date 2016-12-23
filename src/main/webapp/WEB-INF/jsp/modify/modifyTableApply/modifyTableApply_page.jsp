@@ -16,7 +16,7 @@
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
-                                <shiro:hasRole name="cadreAdmin">
+                                <shiro:hasRole name="${ROLE_CADREADMIN}">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/modifyTableApply_batchDel" data-title="删除申请记录"
                                        data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
@@ -94,7 +94,7 @@
                 return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyTableApply_detail?module=${module}&applyId={0}">'.format(rowObject.id)
                         +'<i class="fa fa-search"></i> 详情</button>';
             }},
-            <shiro:hasRole name="cadreAdmin">
+            <shiro:hasRole name="${ROLE_CADREADMIN}">
             <c:if test="${cls==1}">
             { label: '组织部审核', name: '_check', formatter:function(cellvalue, options, rowObject){
 

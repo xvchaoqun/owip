@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -72,7 +73,7 @@ public class ApplySelfController extends BaseController {
         }
         if (approvalTypeId == -1) { // 管理员初审
             Assert.isTrue(result == null);
-            SecurityUtils.getSubject().checkRole("cadreAdmin");
+            SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_CADREADMIN);
         }
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         if (approvalTypeId > 0) {
@@ -153,7 +154,7 @@ public class ApplySelfController extends BaseController {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
 
-        if (!SecurityUtils.getSubject().hasRole("cadreAdmin")) { // 干部管理员有下载权限
+        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             Cadre cadre = cadreService.findByUserId(userId);
             Integer applyId = applySelfFile.getApplyId();
@@ -178,7 +179,7 @@ public class ApplySelfController extends BaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             if(cadre.getId().intValue()!=cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -224,7 +225,7 @@ public class ApplySelfController extends BaseController {
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
             Cadre cadre = cadreService.findAll().get(cadreId);
             if(cadre.getId().intValue()!=cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -279,7 +280,7 @@ public class ApplySelfController extends BaseController {
     }
 
     @RequiresPermissions("applySelf:list")
-    @RequiresRoles("cadreAdmin")
+    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
     @RequestMapping("/applySelf_page")
     public String applySelf_page(Integer cadreId,
                                // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
@@ -316,7 +317,7 @@ public class ApplySelfController extends BaseController {
     }
 
     @RequiresPermissions("applySelf:list")
-    @RequiresRoles("cadreAdmin")
+    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
     @RequestMapping("/applySelf_data")
     public void applySelf_data(HttpServletResponse response,
                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -351,7 +352,7 @@ public class ApplySelfController extends BaseController {
         return;
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList")
     public String applySelfList() {
@@ -360,7 +361,7 @@ public class ApplySelfController extends BaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_page")
     public String applySelfList_page(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
@@ -379,7 +380,7 @@ public class ApplySelfController extends BaseController {
         return "abroad/applySelf/applySelfList_page";
     }
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_data")
     public void applySelfList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,

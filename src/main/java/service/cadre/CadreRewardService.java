@@ -99,9 +99,9 @@ public class CadreRewardService extends BaseMapper {
             CadreReward targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_teach_reward", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre_teach_reward", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_teach_reward", null, baseSortOrder, targetEntity.getSortOrder());
 
             CadreReward record = new CadreReward();
             record.setId(id);

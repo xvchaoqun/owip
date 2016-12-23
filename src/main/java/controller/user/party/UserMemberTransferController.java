@@ -33,14 +33,14 @@ import java.util.Map;
 public class UserMemberTransferController extends BaseController{
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberTransfer")
     public String memberTransfer(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberTransfer_page")
     public String memberTransfer_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -75,7 +75,7 @@ public class UserMemberTransferController extends BaseController{
         return "user/party/memberTransfer/memberTransfer";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_au(@CurrentUser SysUserView loginUser,
@@ -129,7 +129,7 @@ public class UserMemberTransferController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberTransfer_back(@CurrentUser SysUserView loginUser, String remark){

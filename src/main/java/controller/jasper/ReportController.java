@@ -10,7 +10,6 @@ import domain.abroad.PassportDraw;
 import domain.cadre.Cadre;
 import domain.member.MemberOut;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
@@ -24,14 +23,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -53,10 +51,9 @@ public class ReportController extends BaseController {
                                 @RequestParam(defaultValue = "pdf")String format,
                                 Model model) throws IOException, DocumentException {
 
-        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
         // 分党委、组织部管理员或管理员才可以操作
-        if (!hasRoles[0] && !hasRoles[1] && !hasRoles[2]) {
+        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 
@@ -97,10 +94,9 @@ public class ReportController extends BaseController {
                                @RequestParam(defaultValue = "pdf")String format,
                                Model model) throws IOException, DocumentException {
 
-        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
         // 分党委、组织部管理员或管理员才可以操作
-        if (!hasRoles[0] && !hasRoles[1] && !hasRoles[2]) {
+        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 
@@ -211,7 +207,7 @@ public class ReportController extends BaseController {
             map.put("month", DateUtils.getMonth(cancelTime));
             map.put("day", DateUtils.getDay(cancelTime));
         }*/
-        SysUserView _user = ShiroSecurityHelper.getCurrentUser();
+        SysUserView _user = ShiroHelper.getCurrentUser();
         if(FileUtils.exists(springProps.uploadPath + _user.getSign()))
             sign = springProps.uploadPath + _user.getSign();
         Date cancelTime =new Date();
@@ -372,10 +368,9 @@ public class ReportController extends BaseController {
                                     @RequestParam(defaultValue = "pdf")String format,
                                     Model model) throws IOException, DocumentException {
 
-        boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN));
         // 分党委、组织部管理员或管理员才可以操作
-        if (!hasRoles[0] && !hasRoles[1] && !hasRoles[2]) {
+        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 

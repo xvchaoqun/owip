@@ -41,7 +41,7 @@
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
-                            <shiro:hasAnyRoles name="admin,odAdmin">
+                            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                             <a class="jqDelBtn btn btn-danger btn-sm">
                                 <i class="fa fa-trash"></i> 删除
                             </a>
@@ -297,7 +297,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
     _initNavGrid("jqGrid", "jqGridPager");
-    <shiro:hasRole name="partyAdmin">
+    <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
                 caption:"分党委内部组织关系变动",
                 btnbase:"branchChangeBtn btn btn-info btn-xs",
@@ -315,7 +315,7 @@
                 }
             });
     </shiro:hasRole>
-    <shiro:hasRole name="odAdmin">
+    <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"校内组织关系转移",
         btnbase:"partyChangeBtn btn btn-danger btn-xs",

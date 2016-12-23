@@ -32,14 +32,14 @@ public class UserMemberStayController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberStay")
     public String memberStay(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberStay_page")
     public String memberStay_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -57,7 +57,7 @@ public class UserMemberStayController extends BaseController{
         return "user/party/memberStay/memberStay";
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_au(@CurrentUser SysUserView loginUser,
@@ -116,7 +116,7 @@ public class UserMemberStayController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberStay_back(@CurrentUser SysUserView loginUser, String remark){

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.ShortMsgService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -54,7 +54,7 @@ public class PassportApplyService extends BaseMapper {
         HttpServletRequest request = ContextHelper.getRequest();
         try {
             // 发送短信
-            ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroSecurityHelper.getCurrentUserId(),
+            ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
                     null, "passportApplySubmit", record.getId());
             shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request));
         }catch (Exception ex){

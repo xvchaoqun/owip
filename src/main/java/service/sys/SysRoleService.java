@@ -1,8 +1,10 @@
 package service.sys;
 
 
+import domain.sys.SysResource;
 import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -20,6 +22,8 @@ public class SysRoleService {
 
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
+	@Autowired
+	private SysResourceService sysResourceService;
 
 	public boolean idDuplicate(Integer id, String role){
 
@@ -85,6 +89,29 @@ public class SysRoleService {
 			sysRoleMap.put(sysRole.getId(), sysRole);
 		}
 		return sysRoleMap;
+	}
+
+	// 获取某个角色下拥有的所有权限
+	public Set<String> getRolePermissions(int roleId){
+
+		Set<String> permissions = new HashSet<String>();
+		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+		String resourceIdsStr = sysRole.getResourceIds();
+		if(resourceIdsStr!=null){
+			Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources();
+			String[] resourceIds = resourceIdsStr.split(",");
+			for(String resourceId:resourceIds){
+				if(StringUtils.isNotBlank(resourceId)){
+
+					SysResource sysResource = sysResources.get(Integer.parseInt(resourceId));
+					if(sysResource!=null && StringUtils.isNotBlank(sysResource.getPermission())){
+						permissions.add(sysResource.getPermission().trim());
+					}
+				}
+			}
+		}
+
+		return permissions;
 	}
 	
 	public TreeNode getTree(Set<Integer> selectIdSet, boolean checkIsSysHold){

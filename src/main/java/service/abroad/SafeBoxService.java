@@ -124,9 +124,9 @@ public class SafeBoxService extends BaseMapper {
             SafeBox targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("abroad_safe_box", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("abroad_safe_box", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("abroad_safe_box", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("abroad_safe_box", null, baseSortOrder, targetEntity.getSortOrder());
 
             SafeBox record = new SafeBox();
             record.setId(id);

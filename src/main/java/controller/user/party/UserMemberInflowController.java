@@ -29,14 +29,14 @@ public class UserMemberInflowController extends BaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("inflowMember")
+    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflow_base")
     public String memberInflow_base() {
 
         return "index";
     }
 
-    @RequiresRoles("inflowMember")
+    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflow_base_page")
     public String memberInflow_base_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -47,14 +47,14 @@ public class UserMemberInflowController extends BaseController{
         return "user/party/memberInflow/memberInflow_base";
     }
 
-    @RequiresRoles("inflowMember")
+    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflowOut")
     public String memberInflowOut(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
 
-    @RequiresRoles("inflowMember")
+    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflowOut_page")
     public String memberInflowOut_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -81,7 +81,7 @@ public class UserMemberInflowController extends BaseController{
         return "user/party/memberInflow/memberInflowOut";
     }
 
-    @RequiresRoles("inflowMember")
+    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping(value = "/memberInflowOut", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflowOut(@CurrentUser SysUserView loginUser, String outUnit, Integer outLocation,
@@ -103,7 +103,7 @@ public class UserMemberInflowController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("inflowMember")
+    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberInflowOut_back(@CurrentUser SysUserView loginUser, String remark){

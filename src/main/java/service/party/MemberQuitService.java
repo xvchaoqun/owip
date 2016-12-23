@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.helper.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -132,7 +133,7 @@ public class MemberQuitService extends BaseMapper {
                 status = SystemConstants.MEMBER_QUIT_STATUS_APPLY;
             }
             if (type == 3) { // 组织部打回
-                SecurityUtils.getSubject().checkRole("odAdmin");
+                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
                 status = SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
             }
@@ -244,7 +245,7 @@ public class MemberQuitService extends BaseMapper {
                 check2(memberQuit.getUserId());
             }
             if(type==3) {
-                SecurityUtils.getSubject().checkRole("odAdmin");
+                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(id);
                 check3(memberQuit.getUserId());
             }
@@ -263,7 +264,7 @@ public class MemberQuitService extends BaseMapper {
     @Transactional
     public void memberQuit_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
         for (int userId : userIds) {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);

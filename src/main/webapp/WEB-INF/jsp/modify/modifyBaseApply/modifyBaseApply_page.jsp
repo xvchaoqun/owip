@@ -18,7 +18,7 @@
                     <li  class="<c:if test="${status==2}">active</c:if>">
                         <a href="?status=2"><i class="fa fa-check"></i> 审核完成</a>
                     </li>
-                    <shiro:hasRole name="cadreAdmin">
+                    <shiro:hasRole name="${ROLE_CADREADMIN}">
                     <li  class="<c:if test="${status==3}">active</c:if>">
                         <a href="?status=3"><i class="fa fa-times"></i> 已删除</a>
                     </li>
@@ -29,15 +29,15 @@
                     <div id="home4" class="tab-pane in active">
                         <c:if test="${status==1}">
                         <div class="jqgrid-vertical-offset buttons">
-                            <shiro:hasRole name="cadre">
+                            <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
                             <a class="openView btn btn-success btn-sm"
                                data-url="${ctx}/user/modifyBaseApply_au"
                                data-open-by="page"><i class="fa fa-edit"></i> 修改申请</a>
                             <button id="backBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                data-url="${ctx}/user/modifyBaseApply_back" data-title="撤销申请记录"
                                data-msg="确定撤销申请记录吗？"><i class="fa fa-times"></i> 撤销申请</button>
-                            </shiro:hasRole>
-                            <shiro:hasRole name="cadreAdmin">
+                            </shiro:hasAnyRoles>
+                            <shiro:hasRole name="${ROLE_CADREADMIN}">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/modifyBaseApply_batchDel" data-title="删除申请记录"
                                    data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
@@ -113,7 +113,7 @@
                 return _cMap.MODIFY_BASE_APPLY_STATUS_MAP[cellvalue]
             }},
             <c:if test="${status!=3}">
-            <shiro:hasRole name="cadreAdmin">
+            <shiro:hasRole name="${ROLE_CADREADMIN}">
             { label: '组织部审核', name: '_approval',formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
                     return '-';

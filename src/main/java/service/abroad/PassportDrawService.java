@@ -3,9 +3,7 @@ package service.abroad;
 import bean.ShortMsgBean;
 import domain.abroad.*;
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,12 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.ShortMsgService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
-import sys.utils.FormUtils;
 import sys.utils.IpUtils;
 import sys.utils.PropertiesUtils;
 
@@ -170,7 +167,7 @@ public class PassportDrawService extends BaseMapper {
         passportMapper.updateByPrimaryKeySelective(_record);
 
         // 归还证件后通知本人
-        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroSecurityHelper.getCurrentUserId(),
+        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
                 null, "passportDrawReturnSuccess", passportDraw.getId());
         shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
     }

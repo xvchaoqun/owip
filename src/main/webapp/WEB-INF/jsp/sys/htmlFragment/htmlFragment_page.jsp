@@ -27,7 +27,7 @@
                             </button>
 
                         </shiro:hasPermission>
-                        <shiro:hasRole name="admin">
+                        <shiro:hasRole name="${ROLE_ADMIN}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/htmlFragmentRole">
                                 <i class="fa fa-pencil"></i> 修改角色
@@ -58,7 +58,7 @@
                                                 <input class="form-control search-query" name="title" type="text" value="${param.title}"
                                                        placeholder="请输入名称">
                                         </div>
-                                    <shiro:hasRole name="admin">
+                                    <shiro:hasRole name="${ROLE_ADMIN}">
                                         <div class="form-group">
                                             <label>代码</label>
                                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -96,7 +96,7 @@
                 if(cellvalue==undefined) return '';
                 return "[{0}]".format(rowObject.parent.id) + rowObject.parent.title ;
             }  },
-            <shiro:hasRole name="admin">
+            <shiro:hasRole name="${ROLE_ADMIN}">
             { label: '代码', name: 'code', width: 250, align:'left' },
             </shiro:hasRole>
             { label: '排序', name: 'sortOrder'},

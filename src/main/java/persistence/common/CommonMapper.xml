@@ -208,5 +208,12 @@
     </if>
     order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc
   </select>
-
+  <update id="downOrder" parameterType="map" >
+    update ${table} set sort_order = sort_order - 1 where <if test="whereSql!=null"> ${whereSql} and </if>
+    sort_order >#{baseSortOrder} and sort_order<![CDATA[<=]]> #{targetSortOrder}
+  </update>
+  <update id="upOrder" parameterType="map" >
+    update ${table} set sort_order = sort_order + 1 where <if test="whereSql!=null"> ${whereSql} and </if>
+    sort_order <![CDATA[<]]> #{baseSortOrder} and sort_order>=#{targetSortOrder}
+  </update>
 </mapper>

@@ -6,7 +6,6 @@ import domain.sys.AttachFileExample;
 import domain.sys.AttachFileExample.Criteria;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FileUtils;
@@ -131,7 +130,7 @@ public class AttachFileController extends BaseController {
             if (StringUtils.isBlank(record.getCode()))
                 record.setCode(attachFileService.genCode());
 
-            record.setUserId(ShiroSecurityHelper.getCurrentUserId());
+            record.setUserId(ShiroHelper.getCurrentUserId());
             record.setCreateTime(new Date());
 
             attachFileService.insertSelective(record);

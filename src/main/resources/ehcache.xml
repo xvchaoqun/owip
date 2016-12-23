@@ -232,6 +232,16 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
               timeToIdleSeconds="0"
               timeToLiveSeconds="300"
               memoryStoreEvictionPolicy="LRU" />
+
+       <cache name="CadreReserve:ALL"
+              eternal="false"
+              maxElementsInMemory="100"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
+
        <cache name="CadreAdditionalPost:ALL"
               eternal="false"
               maxElementsInMemory="100"

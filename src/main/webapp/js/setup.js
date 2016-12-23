@@ -12,6 +12,7 @@ $.extend($.fn.bootstrapSwitch.defaults, {
     onColor:"success",
     offColor:"danger"
 });
+
 $.extend($.jgrid.defaults, {
     responsive:true,
     styleUI:"Bootstrap",
@@ -729,18 +730,22 @@ $(document).on("click", ".jqOrderBtn", function(){
     });
 });
 // 搜索
+/*$(document).on("click", " .searchBtn", function(){
+
+    var $div = $(this).closest(".myTableDiv");
+    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
+    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
+});*/
+
+// 搜索
 $(document).on("click", " .searchBtn", function(){
 
-    //alert($("div.myTableDiv #searchForm").serialize())
-    //var $div = $(".myTableDiv");
-    var $div = $(this).closest(".myTableDiv");
-    //alert($div.data("url-page"))
-    var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
-
-    //alert($target)
-    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
-    //_tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("#searchForm").serialize());
+    var $from = $($(this).data("form-id") || "#searchForm");
+    var $target = $($(this).data("target")) || $("#page-content");
+    var $url = $(this).data("url");
+    _tunePage(1, "", $url,  $target, "", "&" + $from.serialize());
 });
+
 // 搜索 for jqgrid
 $(document).on("click", " .jqSearchBtn", function(){
     var $div = $(this).closest(".myTableDiv");

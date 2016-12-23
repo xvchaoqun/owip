@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;
 import domain.sys.SysUserView;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -26,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserModifyBaseApplyController extends BaseController{
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping("/modifyBaseApply_au")
     public String modifyBaseApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -50,7 +52,7 @@ public class UserModifyBaseApplyController extends BaseController{
     }
 
     // 提交申请
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping(value = "/modifyBaseApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseApply(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
@@ -77,7 +79,7 @@ public class UserModifyBaseApplyController extends BaseController{
     }
 
     // 撤销申请
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping(value = "/modifyBaseApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map back(@RequestParam(required = false, value = "ids[]")Integer[] ids,

@@ -33,14 +33,14 @@ public class EnterApplyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/apply")
     public String apply() {
 
         return "index";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/apply_page")
     public String apply_page(@CurrentUser SysUserView loginUser, HttpServletResponse response, ModelMap modelMap) {
 
@@ -65,7 +65,7 @@ public class EnterApplyController extends BaseController {
         throw new RuntimeException("系统异常");
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberApply_view")
     public String memberApply_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -80,7 +80,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberApply_view";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberApply")
     public String memberApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -105,7 +105,7 @@ public class EnterApplyController extends BaseController {
     }
 
     // 撤回申请
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping(value = "/applyBack", method = RequestMethod.POST)
     @ResponseBody
     public Map applyBack(@CurrentUser SysUserView loginUser, String remark){
@@ -117,7 +117,7 @@ public class EnterApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply(@CurrentUser SysUserView loginUser,Integer partyId,
@@ -163,7 +163,7 @@ public class EnterApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberReturn_view")
     public String memberReturn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -177,7 +177,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberReturn_view";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberReturn")
     public String memberReturn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -201,7 +201,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberReturn";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberReturn", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn(@CurrentUser SysUserView loginUser, String _returnApplyTime,
@@ -266,7 +266,7 @@ public class EnterApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberIn_view")
     public String memberIn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -280,7 +280,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberIn_view";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberIn")
     public String memberIn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -321,7 +321,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberIn";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberIn", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn(@CurrentUser SysUserView loginUser, MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
@@ -395,7 +395,7 @@ public class EnterApplyController extends BaseController {
     }
 
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberInflow_view")
     public String memberInflow_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -407,7 +407,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberInflow_view";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/memberInflow")
     public String memberInflow(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -430,7 +430,7 @@ public class EnterApplyController extends BaseController {
         return "user/party/enterApply/memberInflow";
     }
 
-    @RequiresRoles("guest")
+    @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow(@CurrentUser SysUserView loginUser,MemberInflow record,

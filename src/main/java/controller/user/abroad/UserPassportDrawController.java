@@ -40,7 +40,7 @@ public class UserPassportDrawController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -62,7 +62,7 @@ public class UserPassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_select")
     public String passportDraw_select(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -76,7 +76,7 @@ public class UserPassportDrawController extends BaseController {
         return "user/abroad/passportDraw/passportDraw_select";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_self")
     public String passportDraw_self(@CurrentUser SysUserView loginUser, Integer pageSize, Integer pageNo, ModelMap modelMap, HttpServletRequest request) {
         if (null == pageSize) {
@@ -114,7 +114,7 @@ public class UserPassportDrawController extends BaseController {
 
         return "user/abroad/passportDraw/passportDraw_self";
     }
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_self_select")
     public String passportDraw_self_select(@CurrentUser SysUserView loginUser, int applyId, ModelMap modelMap, HttpServletRequest request) {
 
@@ -130,7 +130,7 @@ public class UserPassportDrawController extends BaseController {
         return "user/abroad/passportDraw/passportDraw_self_select";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_self_sign")
     public String passportDraw_self_sign(@CurrentUser SysUserView loginUser, String type,
                                          Integer passportId, Integer id, ModelMap modelMap) {
@@ -168,7 +168,7 @@ public class UserPassportDrawController extends BaseController {
         return "user/abroad/passportDraw/passportDraw_self_sign";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_self_confirm")
     public String passportDraw_self_confirm(@CurrentUser SysUserView loginUser, int applyId, int passportId,
                                             HttpServletRequest request, ModelMap modelMap) {
@@ -188,13 +188,13 @@ public class UserPassportDrawController extends BaseController {
         return "user/abroad/passportDraw/passportDraw_self_confirm";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_tw")
     public String passportDraw_tw(ModelMap modelMap) {
         return "index";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_tw_page")
     public String passportDraw_tw_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -213,7 +213,7 @@ public class UserPassportDrawController extends BaseController {
 
         return "user/abroad/passportDraw/passportDraw_tw";
     }
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_other")
     public String passportDraw_other(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -225,14 +225,14 @@ public class UserPassportDrawController extends BaseController {
         return "user/abroad/passportDraw/passportDraw_other";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw")
     public String passportDraw() {
 
         return "index";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_page")
     public String passportDraw_page(@CurrentUser SysUserView loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
@@ -242,7 +242,7 @@ public class UserPassportDrawController extends BaseController {
 
         return "user/abroad/passportDraw/passportDraw_page";
     }
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/userPassportDraw_data")
     @ResponseBody
     public void userPassportDraw_data(@CurrentUser SysUserView loginUser,
@@ -297,7 +297,7 @@ public class UserPassportDrawController extends BaseController {
         return;
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_self_sign_add", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_self_sign_add(@CurrentUser SysUserView loginUser, int id){
@@ -312,7 +312,7 @@ public class UserPassportDrawController extends BaseController {
     }
 
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_self_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_self_au(@CurrentUser SysUserView loginUser,
@@ -348,7 +348,7 @@ public class UserPassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_tw_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_tw_au(@CurrentUser SysUserView loginUser,
@@ -440,7 +440,7 @@ public class UserPassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_other_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_other_au(@CurrentUser SysUserView loginUser,

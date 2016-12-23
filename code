@@ -1,4 +1,6 @@
 
+<div class="footer-margin"/>
+
 register_class_party_branch_select($("#modalForm"), "party", "branch",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}')
 register_party_branch_select($("#searchForm"), "branchDiv",

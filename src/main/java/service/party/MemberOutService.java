@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -40,7 +40,7 @@ public class MemberOutService extends BaseMapper {
     // 增加已打印次数
     public void incrPrintCount(Integer[] ids) {
 
-        updateMapper.increaseMemberOutPrintCount(Arrays.asList(ids), new Date(), ShiroSecurityHelper.getCurrentUserId());
+        updateMapper.increaseMemberOutPrintCount(Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
     }
 
     private VerifyAuth<MemberOut> checkVerityAuth(int id) {
@@ -253,7 +253,7 @@ public class MemberOutService extends BaseMapper {
 
         applyApprovalLogService.add(memberOut.getId(),
                 memberOut.getPartyId(), memberOut.getBranchId(), userId,
-                ShiroSecurityHelper.getCurrentUserId(), (type == 1) ? SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
+                ShiroHelper.getCurrentUserId(), (type == 1) ? SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
                         SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "撤销已完成的审批", (byte) 1, StringUtils.defaultIfBlank(remark, "组织部打回已完成的审批"));
     }
@@ -317,7 +317,7 @@ public class MemberOutService extends BaseMapper {
                 check1(memberOut.getId());
             }
             if (type == 2) {
-                SecurityUtils.getSubject().checkRole("odAdmin");
+                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
 
                 memberOut = memberOutMapper.selectByPrimaryKey(id);
                 check2(memberOut.getId(), false);
@@ -336,7 +336,7 @@ public class MemberOutService extends BaseMapper {
     @Transactional
     public void memberOut_back(Integer[] userIds, byte status, String reason, int loginUserId) {
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
         for (int userId : userIds) {
 
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(userId);

@@ -74,7 +74,7 @@ public class PartyController extends BaseController {
         return "index";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party_page")
     public String party_page(ModelMap modelMap,@RequestParam(required = false, defaultValue = "1")Byte status) {
@@ -84,7 +84,7 @@ public class PartyController extends BaseController {
         return "party/party_page";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
@@ -182,7 +182,7 @@ public class PartyController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:edit")
     @RequestMapping(value = "/party_au", method = RequestMethod.POST)
     @ResponseBody
@@ -212,7 +212,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:edit")
     @RequestMapping("/party_au")
     public String party_au(Integer id, ModelMap modelMap) {
@@ -225,7 +225,7 @@ public class PartyController extends BaseController {
         return "party/party_au";
     }
 
-    /*@RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    /*@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_del", method = RequestMethod.POST)
     @ResponseBody
@@ -239,7 +239,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -256,7 +256,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
     @ResponseBody

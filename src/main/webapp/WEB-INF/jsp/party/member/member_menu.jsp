@@ -31,7 +31,7 @@
       </li>
     </ul>
   </li>
-  <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin,branchAdmin">
+  <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
   <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
     <a class="popupBtn btn btn-danger btn-sm"
        data-rel="tooltip" data-placement="bottom" title="可查询所有教职工和学生的组织关系状态"

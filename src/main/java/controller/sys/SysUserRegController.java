@@ -2,7 +2,6 @@ package controller.sys;
 
 import controller.BaseController;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserReg;
 import domain.sys.SysUserRegExample;
 import domain.sys.SysUserRegExample.Criteria;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -149,7 +148,7 @@ public class SysUserRegController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("sysUserReg:list")
     @RequestMapping("/sysUserReg_approval")
     public String sysUserReg_approval(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
@@ -256,7 +255,7 @@ public class SysUserRegController extends BaseController {
         SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(record.getId());
         Integer partyId = sysUserReg.getPartyId();
         //===========权限
-        Integer loginUserId = ShiroSecurityHelper.getCurrentUserId();
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
         Subject subject = SecurityUtils.getSubject();
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
@@ -293,7 +292,7 @@ public class SysUserRegController extends BaseController {
         SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
         Integer partyId = sysUserReg.getPartyId();
         //===========权限
-        Integer loginUserId = ShiroSecurityHelper.getCurrentUserId();
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
         Subject subject = SecurityUtils.getSubject();
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {

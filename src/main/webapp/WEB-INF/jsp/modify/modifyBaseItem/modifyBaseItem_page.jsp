@@ -54,26 +54,6 @@
 </style>
 <script>
     register_date($('.date-picker'));
-    $("#useLogForm .searchBtn").click(function(){
-        var year = $("#useLogForm input[name=year]").val();
-        if(year==''){
-            $("#useLogForm input[name=year]").focus();
-            return;
-        }
-        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}passport_useLogs?type=${param.type}"+
-        "&id=${passport.id}&year="+year);
-    });
-    $("#useLogForm .resetBtn").click(function(){
-        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}passport_useLogs?type=${param.type}"+
-        "&id=${passport.id}");
-    });
-    $("#useLogForm .exportBtn").click(function(){
-
-        var year = $("#useLogForm input[name=year]").val();
-        location.href = "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?export=1&passportId=${passport.id}"+
-        "&year="+year;
-    });
-
 
     $("#jqGrid2").jqGrid({
         //forceFit:true,

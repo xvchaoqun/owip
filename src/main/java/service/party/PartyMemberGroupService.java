@@ -191,9 +191,9 @@ public class PartyMemberGroupService extends BaseMapper {
             PartyMemberGroup targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("ow_party_member_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("ow_party_member_group", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("ow_party_member_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("ow_party_member_group", null, baseSortOrder, targetEntity.getSortOrder());
 
             PartyMemberGroup record = new PartyMemberGroup();
             record.setId(id);

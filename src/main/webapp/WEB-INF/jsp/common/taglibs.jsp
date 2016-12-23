@@ -27,7 +27,13 @@
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
+<c:set var="ROLE_ADMIN" value="<%=SystemConstants.ROLE_ADMIN%>"/>
+<c:set var="ROLE_ODADMIN" value="<%=SystemConstants.ROLE_ODADMIN%>"/>
+<c:set var="ROLE_PARTYADMIN" value="<%=SystemConstants.ROLE_PARTYADMIN%>"/>
+<c:set var="ROLE_BRANCHADMIN" value="<%=SystemConstants.ROLE_BRANCHADMIN%>"/>
 <c:set var="ROLE_CADREADMIN" value="<%=SystemConstants.ROLE_CADREADMIN%>"/>
+<c:set var="ROLE_CADRE" value="<%=SystemConstants.ROLE_CADRE%>"/>
+<c:set var="ROLE_CADRERESERVE" value="<%=SystemConstants.ROLE_CADRERESERVE%>"/>
 
 <c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
 
@@ -71,6 +77,8 @@
 <c:set var="GENDER_MALE" value="<%=SystemConstants.GENDER_MALE%>"/>
 <c:set var="GENDER_FEMALE" value="<%=SystemConstants.GENDER_FEMALE%>"/>
 
+<c:set value="<%=SystemConstants.CADRE_RESERVE_TYPE_MAP%>" var="CADRE_RESERVE_TYPE_MAP"/>
+<c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_MAP%>" var="CADRE_RESERVE_STATUS_MAP"/>
 
 <c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>

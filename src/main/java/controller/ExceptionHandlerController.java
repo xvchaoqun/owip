@@ -139,6 +139,34 @@ public class ExceptionHandlerController {
         return mav;
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseBody
+    public ModelAndView resolveNullPointerException(HttpServletRequest request, Exception ex) {
+
+        logger.warn(getMsg(request, ex));
+
+        // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
+        if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
+
+            //ex.printStackTrace();
+            logger.error(getMsg(request, ex));
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("exception", ex);
+            mv.setViewName("500");
+            return mv;
+        }
+
+        ModelAndView mav = new ModelAndView();
+        MappingJackson2JsonView view = new MappingJackson2JsonView();
+        Map attributes = new HashMap();
+        attributes.put("success", false);
+        attributes.put("msg", "系统异常[NULL]，请联系管理员");
+        view.setAttributesMap(attributes);
+        mav.setView(view);
+
+        return mav;
+    }
+
     @ExceptionHandler(SignParamsException.class)
     @ResponseBody
     public Map resolveSignParamsException(HttpServletRequest request, Exception ex) {

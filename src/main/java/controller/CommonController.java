@@ -50,7 +50,7 @@ import java.util.Map;
 @Controller
 public class CommonController extends BaseController{
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/cache/clear")
     @ResponseBody
     public Map clearCache(){

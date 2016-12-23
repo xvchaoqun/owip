@@ -222,7 +222,7 @@ public class MemberInflowOutController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:list")
     @RequestMapping("/memberInflowOut_approval")
     public String memberInflowOut_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -268,7 +268,7 @@ public class MemberInflowOutController extends BaseController {
         return "party/memberInflowOut/memberInflowOut_approval";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping("/memberInflowOut_deny")
     public String memberInflowOut_deny(Integer id, ModelMap modelMap) {
@@ -281,7 +281,7 @@ public class MemberInflowOutController extends BaseController {
         return "party/memberInflowOut/memberInflowOut_deny";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_check", method = RequestMethod.POST)
     @ResponseBody
@@ -297,7 +297,7 @@ public class MemberInflowOutController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping("/memberInflowOut_back")
     public String memberInflowOut_back() {
@@ -305,7 +305,7 @@ public class MemberInflowOutController extends BaseController {
         return "party/memberInflowOut/memberInflowOut_back";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody

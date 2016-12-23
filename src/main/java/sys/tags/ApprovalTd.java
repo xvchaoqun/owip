@@ -10,8 +10,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import persistence.abroad.ApplySelfMapper;
 import service.abroad.ApplySelfService;
 import service.cadre.CadreService;
+import service.helper.ShiroHelper;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
+import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -119,7 +121,8 @@ public class ApprovalTd extends BodyTagSupport {
         }else{
             td += "<td class='not_approval'></td>";
         }
-        if(!view && SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+
+        if(!view && ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN)) {
             ApplySelfMapper applySelfMapper = (ApplySelfMapper) wac.getBean("applySelfMapper");
             CadreService cadreService = (CadreService) wac.getBean("cadreService");
             SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");

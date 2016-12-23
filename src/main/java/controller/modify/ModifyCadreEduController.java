@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 
@@ -38,7 +39,7 @@ public class ModifyCadreEduController extends BaseController {
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
-            cls = (byte) (SecurityUtils.getSubject().hasRole("cadre") ? 0 : 1);
+            cls = (byte) (ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE) ? 0 : 1);
         }
         modelMap.put("cls", cls);
         if (cadreId != null) {

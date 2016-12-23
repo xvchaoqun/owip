@@ -299,7 +299,7 @@ public class CadreController extends BaseController {
     }
 
     // for test 给所有的干部加上干部身份
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/cadre_addAllCadreRole")
     @ResponseBody
     public Map do_cadre_addAllCadreRole() {
@@ -356,19 +356,6 @@ public class CadreController extends BaseController {
         if(status==SystemConstants.CADRE_STATUS_TEMP)
             return "cadre/cadre_temp_au";
         return "cadre/cadre_au";
-    }
-
-    @RequiresPermissions("cadre:del")
-    @RequestMapping(value = "/cadre_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadre_del(Integer id, HttpServletRequest request) {
-
-        if (id != null) {
-
-            cadreService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cadre:del")

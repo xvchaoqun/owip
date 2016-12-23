@@ -45,7 +45,7 @@
                                                     $("#searchForm select[name=typeId]").select2();
                                                 </script>
                                         </div>
-                                    <shiro:hasRole name="admin">
+                                    <shiro:hasRole name="${ROLE_ADMIN}">
                                             <div class="form-group">
                                                 <label>内容</label>
                                                     <input class="form-control search-query search-input"

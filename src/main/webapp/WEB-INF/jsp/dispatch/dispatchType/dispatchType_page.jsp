@@ -12,7 +12,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name ||not empty param.attr||not empty param.year  || (not empty param.sort&&param.sort!='sort_order')}"/>
                 <div class="jqgrid-vertical-offset buttons">
-                    <shiro:hasRole name="admin">
+                    <shiro:hasRole name="${ROLE_ADMIN}">
                         <shiro:hasPermission name="dispatchType:edit">
                             <a class="editBtn btn btn-info btn-sm">
                                 <i class="fa fa-plus"></i> 添加

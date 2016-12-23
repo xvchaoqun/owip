@@ -53,6 +53,7 @@ public class SystemConstants {
     public static final String ROLE_GUEST = "guest";
     public static final String ROLE_REG = "reg"; // 注册用户，未审核通过
     public static final String ROLE_CADRE = "cadre";
+    public static final String ROLE_CADRERESERVE = "cadreReserve"; // 后备干部
     public static final String ROLE_MEMBER = "member";
     public static final String ROLE_INFLOWMEMBER = "inflowMember";
     public static final String ROLE_PARTYADMIN = "partyAdmin";
@@ -653,7 +654,7 @@ public class SystemConstants {
     }
 
 
-    // 干部库类别 1现任干部库  2 考察对象 3离任干部库
+    // 干部库类别
     public final static byte CADRE_STATUS_NOW = 1;
     public final static byte CADRE_STATUS_TEMP = 2;
     public final static byte CADRE_STATUS_LEAVE = 3;
@@ -667,6 +668,34 @@ public class SystemConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任中层干部库");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库");
+    }
+
+    // 后备干部库类别
+    public final static byte CADRE_RESERVE_TYPE_SCHOOL = 1;
+    public final static byte CADRE_RESERVE_TYPE_ADMIN_CHIEF = 2;
+    public final static byte CADRE_RESERVE_TYPE_ADMIN_VICE = 3;
+    public final static byte CADRE_RESERVE_TYPE_COLLEGE_CHIEF = 4;
+    public final static byte CADRE_RESERVE_TYPE_COLLEGE_VICE = 5;
+    public final static Map<Byte, String> CADRE_RESERVE_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_SCHOOL, "校级后备干部库");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_CHIEF, "机关正处级后备干部库");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级后备干部库");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "学院正级后备干部库");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "学院副处级后备干部库");
+    }
+
+    // 后备干部库状态 0 后备干部 1 后备干部已使用 2 已撤销资格
+    public final static byte CADRE_RESERVE_STATUS_NORMAL = 0;
+    public final static byte CADRE_RESERVE_STATUS_ASSIGN = 1;
+    public final static byte CADRE_RESERVE_STATUS_ABOLISH = 2;
+    public final static Map<Byte, String> CADRE_RESERVE_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "后备干部");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "后备干部已使用");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
     }
 
     // 干部任免类别

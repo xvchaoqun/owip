@@ -13,15 +13,42 @@ import org.slf4j.LoggerFactory;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-public class ShiroSecurityHelper {
+public class ShiroHelper {
 
-	private final static Logger logger = LoggerFactory.getLogger(ShiroSecurityHelper.class);
+	private final static Logger logger = LoggerFactory.getLogger(ShiroHelper.class);
 
 	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
+
+	public static boolean lackRole(String role){
+
+		return !SecurityUtils.getSubject().hasRole(role);
+	}
+
+	public static boolean hasRole(String role){
+
+		return SecurityUtils.getSubject().hasRole(role);
+	}
+
+	public static boolean hasAnyRoles(String... roles){
+
+		if(roles==null||roles.length==0) return false;
+		boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(roles));
+		for (boolean hasRole : hasRoles) {
+			if(hasRole) return true;
+		}
+		return false;
+	}
+
+	public static boolean hasAllRoles(String... roles){
+
+		if(roles==null||roles.length==0) return false;
+		return SecurityUtils.getSubject().hasAllRoles(Arrays.asList(roles));
+	}
 
 	public static SysUserView getCurrentUser() {
 
@@ -113,7 +140,7 @@ public class ShiroSecurityHelper {
 	 */
 	public static void kickOutUser(String username){
 		Session session = getSessionByUsername(username);
-		if(null != session && !StringUtils.equals(String.valueOf(session.getId()), ShiroSecurityHelper.getSessionId())){
+		if(null != session && !StringUtils.equals(String.valueOf(session.getId()), ShiroHelper.getSessionId())){
 			session.setTimeout(0);//设置session立即失效，即将其踢出系统
 			logger.info("############## success kick out user 【{}】 ------ #################", username);
 			sessionDAO.delete(session);
@@ -142,8 +169,8 @@ public class ShiroSecurityHelper {
 	 * @param sessionDAO
 	 */
 	public static void initStaticField(SysUserService userService,SessionDAO sessionDAO){
-		ShiroSecurityHelper.userService = userService;
-		ShiroSecurityHelper.sessionDAO = sessionDAO;
+		ShiroHelper.userService = userService;
+		ShiroHelper.sessionDAO = sessionDAO;
 	}
 	
 	/**

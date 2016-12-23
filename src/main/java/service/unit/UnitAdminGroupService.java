@@ -116,9 +116,9 @@ public class UnitAdminGroupService extends BaseMapper {
             UnitAdminGroup targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("unit_admin_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_admin_group", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("unit_admin_group", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_admin_group", null, baseSortOrder, targetEntity.getSortOrder());
 
             UnitAdminGroup record = new UnitAdminGroup();
             record.setId(id);

@@ -17,15 +17,15 @@
       </h4>
       <div class="widget-toolbar no-border">
         <ul class="nav nav-tabs">
-          <li <shiro:lacksRole name="admin">
-  <shiro:lacksRole name="odAdmin">
+          <li <shiro:lacksRole name="${ROLE_ADMIN}">
+  <shiro:lacksRole name="${ROLE_ODADMIN}">
           class="active"
             </shiro:lacksRole>
             </shiro:lacksRole>
                   >
             <a href="javascript:" data-url="${ctx}/user_base">个人基本信息</a>
           </li>
-          <shiro:hasAnyRoles name="admin, odAdmin">
+          <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
           <li class="active">
               <a href="javascript:" data-url="${ctx}/stat_member_page">党建统计信息</a>
           </li>
@@ -39,11 +39,11 @@
     <div class="widget-body">
       <div class="widget-main padding-4">
         <div class="tab-content padding-8">
-          <shiro:hasAnyRoles name="admin, odAdmin">
+          <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
           <c:import url="/stat_member_page"/>
           </shiro:hasAnyRoles>
-          <shiro:lacksRole name="admin">
-            <shiro:lacksRole name="odAdmin">
+          <shiro:lacksRole name="${ROLE_ADMIN}">
+            <shiro:lacksRole name="${ROLE_ODADMIN}">
           <c:import url="/user_base"/>
               </shiro:lacksRole>
            </shiro:lacksRole>

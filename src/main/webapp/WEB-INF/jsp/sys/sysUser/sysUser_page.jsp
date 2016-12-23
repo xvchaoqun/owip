@@ -14,7 +14,7 @@
             <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname ||not empty param.code ||not empty param.username
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasRole name="admin">
+                <shiro:hasRole name="${ROLE_ADMIN}">
                     <a class="editBtn btn btn-info btn-sm">
                         <i class="fa fa-plus"></i> 添加账号
                     </a>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class MobileCadreController extends BaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles(value = {"cadre", "cadreAdmin"}, logical = Logical.OR)
+	@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
 	@RequestMapping("/cadre_base")
 	public String cadre_base(ModelMap modelMap) {
 
@@ -34,7 +35,7 @@ public class MobileCadreController extends BaseController {
 		return "m/index";
 	}
 
-	@RequiresRoles(value = {"cadre", "cadreAdmin"}, logical = Logical.OR)
+	@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
 	@RequestMapping("/cadre_base_page")
 	public String cadre_base_page(@CurrentUser SysUserView loginUser,  ModelMap modelMap) {
 

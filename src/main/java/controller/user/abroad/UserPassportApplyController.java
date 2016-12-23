@@ -39,7 +39,7 @@ public class UserPassportApplyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_au(int classId, @CurrentUser SysUserView loginUser,  HttpServletRequest request) {
@@ -66,7 +66,7 @@ public class UserPassportApplyController extends BaseController {
         return success;
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -84,35 +84,35 @@ public class UserPassportApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportApply_begin")
     public String passportApply_begin() {
 
         return "user/abroad/passportApply/passportApply_begin";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportApply_select")
     public String passportApply_select() {
 
         return "user/abroad/passportApply/passportApply_select";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportApply_confirm")
     public String passportApply_confirm() {
 
         return "user/abroad/passportApply/passportApply_confirm";
     }
 
-    /*@RequiresRoles("cadre")
+    /*@RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportApply")
     public String passportApply() {
 
         return "index";
     }*/
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportApply_page")
     public String passportApply_page(@CurrentUser SysUserView loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,

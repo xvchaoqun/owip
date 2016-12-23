@@ -9,7 +9,7 @@
 
     <b class="arrow"></b>
   </li>
-  <shiro:lacksRole name="cadreAdmin">
+  <shiro:lacksRole name="${ROLE_CADREADMIN}">
   <li class="${_path=='/m/applySelfList'?'active':''}">
     <a href="${ctx}/m/applySelfList">
       <i class="menu-icon fa fa-pencil-square-o"></i>
@@ -19,7 +19,7 @@
     <b class="arrow"></b>
   </li>
   </shiro:lacksRole>
-  <shiro:hasRole name="cadreAdmin">
+  <shiro:hasRole name="${ROLE_CADREADMIN}">
     <li class="${_path=='/m/applySelf'?'active':''}">
       <a href="${ctx}/m/applySelf">
         <i class="menu-icon fa fa-pencil-square-o"></i>

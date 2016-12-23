@@ -108,7 +108,7 @@
 
                                         </div>
                                         <div class="clearfix form-actions center">
-                                            <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                            <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
                                                 <button type="button" class="resetBtn btn btn-warning btn-sm"

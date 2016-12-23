@@ -90,7 +90,7 @@
     </div>
 </div>
 
-<div class="row footer-margin lower">&nbsp;</div>
+<div class="footer-margin"/>
 <script>
     $("#jqGrid_cadreFamliy").jqGrid({
         <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">

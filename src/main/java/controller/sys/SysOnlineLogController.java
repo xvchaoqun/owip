@@ -2,8 +2,6 @@ package controller.sys;
 
 import bean.LoginUser;
 import controller.BaseController;
-import domain.sys.SysOnlineStatic;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.SysOnlineStaticService;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -90,7 +88,7 @@ public class SysOnlineLogController extends BaseController {
         return;
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequiresPermissions("sysOnlineLog:kickout")
     @RequestMapping(value = "/sysOnlineLog_kickout", method = RequestMethod.POST)
     @ResponseBody
@@ -99,13 +97,13 @@ public class SysOnlineLogController extends BaseController {
         String currentUsername = loginUser.getUsername();
         Set<String> usernames = new HashSet<>();
         for (String id : ids) {
-            String username = ShiroSecurityHelper.getUsername(id);
+            String username = ShiroHelper.getUsername(id);
             if(username!=null && !StringUtils.equals(username, currentUsername))  // 不能踢自己
                 usernames.add(username);
         }
 
         if(usernames.size()>0) {
-            ShiroSecurityHelper.kickOutUser(usernames);
+            ShiroHelper.kickOutUser(usernames);
             logService.log(SystemConstants.LOG_USER, "踢下线：" + StringUtils.join(usernames, ","));
         }
 

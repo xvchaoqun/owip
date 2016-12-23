@@ -8,6 +8,8 @@ import persistence.base.ContentTplMapper;
 import persistence.base.CountryMapper;
 import persistence.base.LocationMapper;
 import persistence.cadre.*;
+import persistence.cadreReserve.CadreReserveMapper;
+import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.common.*;
 import persistence.dispatch.*;
 import persistence.ext.ExtAbroadMapper;
@@ -76,6 +78,13 @@ public class BaseMapper {
 		verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
 		verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
 		return verifyAuth;
+	}
+
+	// 获得表中最大的排序序号
+	public int getNextSortOrder(String tableName, String whereSql){
+
+		Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, whereSql);
+		return (maxSortOrder == null ? 1 : maxSortOrder + 1);
 	}
 
 	@Autowired
@@ -262,6 +271,10 @@ public class BaseMapper {
 	protected LeaderMapper leaderMapper;
 	@Autowired
 	protected LeaderUnitMapper leaderUnitMapper;
+	@Autowired
+	protected CadreReserveMapper cadreReserveMapper;
+	@Autowired
+	protected CadreReserveViewMapper cadreReserveViewMapper;
 	@Autowired
 	protected CadreMapper cadreMapper;
 	@Autowired

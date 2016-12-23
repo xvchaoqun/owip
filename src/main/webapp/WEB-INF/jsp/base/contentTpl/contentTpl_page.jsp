@@ -26,7 +26,7 @@
                         <i class="fa fa-edit"></i> 修改
                     </button>
                 </shiro:hasPermission>
-                <shiro:hasRole name="admin">
+                <shiro:hasRole name="${ROLE_ADMIN}">
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/contentTplRole">
                         <i class="fa fa-pencil"></i> 修改角色
@@ -61,7 +61,7 @@
                                 <input class="form-control search-query" name="content" type="text" value="${param.content}"
                                        placeholder="请输入内容">
                             </div>
-                            <shiro:hasRole name="admin">
+                            <shiro:hasRole name="${ROLE_ADMIN}">
                                 <div class="form-group">
                                     <label>代码</label>
                                     <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -94,7 +94,7 @@
         url: '${ctx}/contentTpl_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '模板名称', name: 'name', align:'left', width: 220,frozen:true },
-            <shiro:hasRole name="admin">
+            <shiro:hasRole name="${ROLE_ADMIN}">
             { label: '代码', name: 'code', align:'left', width: 250 },
             </shiro:hasRole>
             { label: '类型', name: 'type',  formatter: function (cellvalue, options, rowObject) {

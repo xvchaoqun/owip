@@ -667,4 +667,4 @@ pageEncoding="UTF-8"%>
 	</button>
 </div>
 	</c:if>
-<div class="row footer-margin lower">&nbsp;</div>
+<div class="footer-margin"/>

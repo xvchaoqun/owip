@@ -16,7 +16,7 @@
                 <a href="${ctx}/${param.type=='user'?'user/':''}passport_cancelPic_download?id=${passport.id}" target="_blank"
                    class="btn btn-primary btn-sm"><i class="fa fa-download"></i> 下载</a>
     </c:if>
-                <shiro:hasAnyRoles name="admin,cadreAdmin">
+                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
                     <button id="updateProof" class="btn btn-warning btn-sm"><i class="fa fa-upload"></i>  重新上传</button>
                 </shiro:hasAnyRoles>
             </div>

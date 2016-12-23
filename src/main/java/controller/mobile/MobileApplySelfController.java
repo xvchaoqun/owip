@@ -8,7 +8,6 @@ import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfFile;
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -19,8 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 
@@ -36,7 +37,7 @@ import java.util.Map;
 public class MobileApplySelfController extends BaseController {
 
 	@RequiresPermissions("applySelf:list")
-	@RequiresRoles("cadreAdmin")
+	@RequiresRoles(SystemConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf")
 	public String applySelf(ModelMap modelMap) {
 
@@ -50,7 +51,7 @@ public class MobileApplySelfController extends BaseController {
 	}
 
 	@RequiresPermissions("applySelf:list")
-	@RequiresRoles("cadreAdmin")
+	@RequiresRoles(SystemConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf_page")
 	public String applySelf_page(HttpServletResponse response,
 							   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -89,7 +90,7 @@ public class MobileApplySelfController extends BaseController {
 	}
 
 
-	@RequiresRoles("cadre")
+	@RequiresRoles(SystemConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList")
 	public String applySelfList(ModelMap modelMap) {
@@ -103,7 +104,7 @@ public class MobileApplySelfController extends BaseController {
 		return "m/index";
 	}
 
-	@RequiresRoles("cadre")
+	@RequiresRoles(SystemConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList_page")
 	public String applySelfList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,
@@ -135,7 +136,7 @@ public class MobileApplySelfController extends BaseController {
 		Integer cadreId = applySelf.getCadreId();
 
 		// 判断一下查看权限++++++++++++++++++++???
-		if(!SecurityUtils.getSubject().hasRole("cadreAdmin")) {
+		if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
 			Cadre cadre = cadreService.findAll().get(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

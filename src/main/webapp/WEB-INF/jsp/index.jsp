@@ -47,7 +47,7 @@
         <a href="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
-      <shiro:hasAnyRoles name="admin,odAdmin,partyAdmin,branchAdmin">
+      <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
       <li class="<c:if test="${_path=='/help'}">active</c:if>">
         <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
       </li>

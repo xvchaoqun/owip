@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="cadreId" type="text" value="${param.cadreId}"
                        placeholder="请输入所属干部">
-                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">

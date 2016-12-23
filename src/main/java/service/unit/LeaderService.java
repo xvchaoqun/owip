@@ -141,9 +141,9 @@ public class LeaderService extends BaseMapper {
             Leader targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("unit_leader", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_leader", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("unit_leader", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_leader", null, baseSortOrder, targetEntity.getSortOrder());
 
             Leader record = new Leader();
             record.setId(id);

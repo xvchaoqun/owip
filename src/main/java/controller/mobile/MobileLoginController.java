@@ -54,7 +54,7 @@ public class MobileLoginController extends BaseController {
 
 		Set<String> roles = sysUserService.findRoles(username);
 		// 不是干部，也不是干部管理员
-		if(!roles.contains("cadre") && !roles.contains("cadreAdmin")){
+		if(!roles.contains(SystemConstants.ROLE_CADRE) && !roles.contains(SystemConstants.ROLE_CADREADMIN)){
 
 			logger.info(sysLoginLogService.log(null, username,
 					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，请使用PC端登录网站办理相关业务，谢谢!"));
@@ -62,7 +62,7 @@ public class MobileLoginController extends BaseController {
 			return failed("登录失败，请使用PC端登录网站办理相关业务，谢谢!");
 		}
 		// 是干部，但不是干部管理员
-		if(roles.contains("cadre") && !roles.contains("cadreAdmin")){
+		if(roles.contains(SystemConstants.ROLE_CADRE) && !roles.contains(SystemConstants.ROLE_CADREADMIN)){
 			ApproverTypeBean approverTypeBean = CmTag.getApproverTypeBean(sysUser.getId());
 			if(approverTypeBean==null)
 				return failed(sysUser.getRealname()+"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -72,7 +73,7 @@ public class ModifyTableApplyController extends BaseController {
         ModifyTableApplyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if (SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)) {
+        if (ShiroHelper.hasRole(SystemConstants.ROLE_ADMIN)) {
             if (userId != null) {
                 criteria.andUserIdEqualTo(userId);
             }

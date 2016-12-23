@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
                        placeholder="请输入所属单位">
                 <input class="form-control search-query" name="typeId" type="text" value="${param.typeId}"
                        placeholder="请输入类别">
-                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${not empty param.leaderId ||not empty param.unitId ||not empty param.typeId || not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
                     <button type="button" class="resetBtn btn btn-warning btn-sm">

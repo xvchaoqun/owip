@@ -17,13 +17,13 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核（${branchApprovalCount}）</a>
+                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 支部审核<c:if test="${branchApprovalCount>0}">（${branchApprovalCount}）</c:if> </a>
                         </li>
                         <li class="${cls==11?'active':''}">
-                            <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> 分党委审核（${partyApprovalCount}）</a>
+                            <a ${cls!=11?'href="?cls=11"':''}><i class="fa fa-circle-o"></i> 分党委审核<c:if test="${partyApprovalCount>0}">（${partyApprovalCount}）</c:if> </a>
                         </li>
                         <li class="${cls==12?'active':''}">
-                            <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
+                            <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核<c:if test="${odApprovalCount>0}">（${odApprovalCount}）</c:if> </a>
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>

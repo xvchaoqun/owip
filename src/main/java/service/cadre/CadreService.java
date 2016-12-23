@@ -23,11 +23,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.abroad.ApproverBlackListService;
 import service.abroad.ApproverTypeService;
 import service.dispatch.DispatchService;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
@@ -309,7 +310,6 @@ public class CadreService extends BaseMapper {
 
         // 本单位正职身份
         ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-        Integer mainPostTypeId = mainPostApproverType.getId();
         Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
         for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
 
@@ -391,7 +391,7 @@ public class CadreService extends BaseMapper {
                 //record.setCancelPic(savePath);
                 record.setCancelTime(new Date());
                 record.setCancelConfirm(true); //已确认
-                record.setCancelUserId(ShiroSecurityHelper.getCurrentUserId());
+                record.setCancelUserId(ShiroHelper.getCurrentUserId());
                 record.setCancelRemark("在证件借出的情况下取消集中管理");
 
                 PassportExample example = new PassportExample();
@@ -474,7 +474,8 @@ public class CadreService extends BaseMapper {
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         {
             CadreExample example = new CadreExample();
-            example.createCriteria().andUnitIdEqualTo(unitId);
+            example.createCriteria().andUnitIdEqualTo(unitId)
+                    .andStatusNotEqualTo(SystemConstants.CADRE_STATUS_RESERVE);
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 MetaType postType = metaTypeMap.get(cadre.getPostId());
@@ -492,28 +493,17 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int insertSelective(Cadre record){
+    synchronized public void insertSelective(Cadre record){
 
         SysUserView uv = sysUserService.findById(record.getUserId());
         // 添加干部身份
         sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
 
         record.setIsDp(false);// 初次添加标记为非民主党派
+        Assert.isTrue(record.getStatus()!=SystemConstants.CADRE_STATUS_RESERVE);// 非后备干部
+        if(record.getStatus()!=null)
+            record.setSortOrder(getNextSortOrder("cadre", "status="+record.getStatus()));
         cadreMapper.insertSelective(record);
-        Integer id = record.getId();
-        Cadre _record = new Cadre();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return cadreMapper.updateByPrimaryKeySelective(_record);
-    }
-    @Transactional
-    @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public void del(Integer id){
-
-        cadreMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -525,9 +515,16 @@ public class CadreService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        CadreExample example = new CadreExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        cadreMapper.deleteByExample(example);
+        for (Integer id : ids) {
+
+            // 删除干部身份
+            Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+            SysUserView uv = sysUserService.findById(cadre.getUserId());
+            sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
+
+            Assert.isTrue(cadre.getStatus()!=SystemConstants.CADRE_STATUS_RESERVE); // 非后备干部
+            cadreMapper.deleteByPrimaryKey(id);
+        }
     }
 
     @Transactional
@@ -540,7 +537,10 @@ public class CadreService extends BaseMapper {
         if(ids==null || ids.length==0) return;
 
         CadreExample example = new CadreExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria()
+                .andIdIn(Arrays.asList(ids))
+                .andStatusNotEqualTo(SystemConstants.CADRE_STATUS_RESERVE)
+                .andIsDpEqualTo(true);
         Cadre record = new Cadre();
         record.setIsDp(false);
         cadreMapper.updateByExampleSelective(record, example);
@@ -566,6 +566,7 @@ public class CadreService extends BaseMapper {
         return cadreMapper.updateByExampleSelective(record, example);
     }
 
+    // 干部列表（包含后备干部）
     @Cacheable(value="Cadre:ALL")
     public Map<Integer, Cadre> findAll() {
 
@@ -612,9 +613,9 @@ public class CadreService extends BaseMapper {
             Cadre targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_cadre(status, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_cadre(status, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
 
             Cadre record = new Cadre();
             record.setId(id);

@@ -137,7 +137,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_page";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -167,7 +167,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping("/branchMember_au")
     public String branchMember_au(Integer id, ModelMap modelMap) {
@@ -179,7 +179,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_au";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
     @ResponseBody
@@ -206,7 +206,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -219,7 +219,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -234,7 +234,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:changeOrder")
     @RequestMapping(value = "/branchMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -245,7 +245,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody

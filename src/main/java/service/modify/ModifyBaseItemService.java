@@ -14,9 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import sys.constants.SystemConstants;
-import sys.utils.HtmlEscapeUtils;
 import sys.utils.IpUtils;
 
 import java.util.Date;
@@ -88,7 +87,7 @@ public class ModifyBaseItemService extends BaseMapper {
                     SystemConstants.MODIFY_BASE_ITEM_STATUS_DENY);
             record.setCheckRemark(checkRemark);
             record.setCheckReason(checkReason);
-            record.setCheckUserId(ShiroSecurityHelper.getCurrentUserId());
+            record.setCheckUserId(ShiroHelper.getCurrentUserId());
             record.setCheckTime(new Date());
             record.setCheckIp(ip);
 

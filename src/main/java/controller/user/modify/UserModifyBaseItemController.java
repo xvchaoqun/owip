@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.sys.SysUserView;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class UserModifyBaseItemController extends BaseController{
 
     // 干部本人更新某个字段的值（待审核状态）
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping("/modifyBaseItem_au")
     public String modifyBaseItem_au(int id, ModelMap modelMap) {
 
@@ -36,7 +37,7 @@ public class UserModifyBaseItemController extends BaseController{
         return "user/modify/modifyBaseItem/modifyBaseItem_au";
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping(value = "/modifyBaseItem_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseItem_au(@CurrentUser SysUserView loginUser,
@@ -63,7 +64,7 @@ public class UserModifyBaseItemController extends BaseController{
         return success();
     }
 
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping(value = "/modifyBaseItem_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseItem_del(@CurrentUser SysUserView loginUser, int id, String modifyValue){

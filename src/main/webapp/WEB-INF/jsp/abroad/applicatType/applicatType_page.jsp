@@ -20,16 +20,6 @@ pageEncoding="UTF-8" %>
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="cls" value="${cls}">
-
-                <%--<input class="form-control search-query" name="name" type="text" value="${param.name}"
-                       placeholder="请输入申请人身份">
-                <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-                <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
-                <c:if test="${_query}">
-                    <button type="button" class="resetBtn btn btn-warning btn-sm">
-                        <i class="fa fa-reply"></i> 重置
-                    </button>
-                </c:if>--%>
                 <div class="vspace-12"></div>
                 <div class="buttons">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>

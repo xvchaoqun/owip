@@ -183,7 +183,7 @@ public class ContentTplController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/contentTplRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_contentTplRole(int id,
@@ -198,7 +198,7 @@ public class ContentTplController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles("admin")
+    @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/contentTplRole")
     public String contentTplRole(Integer id, ModelMap modelMap) throws IOException {
 

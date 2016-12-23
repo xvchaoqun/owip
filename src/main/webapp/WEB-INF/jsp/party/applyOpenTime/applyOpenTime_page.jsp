@@ -35,7 +35,7 @@ pageEncoding="UTF-8" %>
                                         <script type="text/javascript">
                                             $("#searchForm select[name=type]").val(${param.type});
                                         </script>
-                                        <a class="searchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                        <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                         <c:set var="_query" value="${not empty param.type ||not empty param.branchId ||not empty param.startTime ||not empty param.endTime || not empty param.code || not empty param.sort}"/>
                                         <c:if test="${_query}">
                                             <button type="button"

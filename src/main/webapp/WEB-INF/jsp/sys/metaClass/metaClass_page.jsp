@@ -24,11 +24,11 @@
                             </button>
                             <button class="jqOpenViewBtn btn btn-success btn-sm"
                                     data-url="${ctx}/metaClass_type"
-                                    data-width="<shiro:hasRole name="admin">800</shiro:hasRole><shiro:lacksRole name="admin">400</shiro:lacksRole>">
+                                    data-width="<shiro:hasRole name="${ROLE_ADMIN}">800</shiro:hasRole><shiro:lacksRole name="${ROLE_ADMIN}">400</shiro:lacksRole>">
                                 <i class="fa fa-bars"></i> 编辑属性
                             </button>
                         </shiro:hasPermission>
-                        <shiro:hasRole name="admin">
+                        <shiro:hasRole name="${ROLE_ADMIN}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-url="${ctx}/metaClassRole">
                                 <i class="fa fa-pencil"></i> 修改角色
@@ -60,7 +60,7 @@
                                                 <input class="form-control search-query" name="name" type="text" value="${param.name}"
                                                        placeholder="请输入名称">
                                         </div>
-                                    <shiro:hasRole name="admin">
+                                    <shiro:hasRole name="${ROLE_ADMIN}">
                                         <div class="form-group">
                                             <label>代码</label>
                                                 <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -100,7 +100,7 @@
             { label: '名称', align:'center', name: 'name', width: 250,frozen:true },
             { label: '所属一级目录', align:'center', name: 'firstLevel', width: 200,frozen:true },
             { label: '所属二级目录', align:'center', name: 'secondLevel', width: 200,frozen:true },
-            <shiro:hasRole name="admin">
+            <shiro:hasRole name="${ROLE_ADMIN}">
             <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
@@ -108,7 +108,7 @@
             </c:if>
             </shiro:hasRole>
             { label: '布尔属性名称', align:'center',  name: 'boolAttr', width: 150 },
-            <shiro:hasRole name="admin">
+            <shiro:hasRole name="${ROLE_ADMIN}">
             { label: '代码', align:'center', name: 'code', width: 200 },
 
             { label: '附加属性名称', align:'center',  name: 'extraAttr', width: 150 }
@@ -120,7 +120,7 @@
     function openView(classId, pageNo){
         pageNo = pageNo||1;
         loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
-                '<shiro:hasRole name="admin">800</shiro:hasRole><shiro:lacksRole name="admin">400</shiro:lacksRole>');
+                '<shiro:hasRole name="${ROLE_ADMIN}">800</shiro:hasRole><shiro:lacksRole name="${ROLE_ADMIN}">400</shiro:lacksRole>');
     }
 
     register_date($('.date-picker'));

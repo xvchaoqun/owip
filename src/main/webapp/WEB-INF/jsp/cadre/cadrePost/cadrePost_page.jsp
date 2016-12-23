@@ -132,7 +132,7 @@
     <div class="space-4"></div>
     <table id="jqGrid_cadreAdminLevels" data-width-reduce="60" class="jqGrid2"></table>
 </c:if>
-<div class="row footer-margin lower">&nbsp;</div>
+<div class="footer-margin"/>
 <script type="text/template" id="dispatch_select_tpl">
     <button class="popupBtn btn btn-warning btn-xs"
             data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"

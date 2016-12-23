@@ -19,13 +19,13 @@ import sys.constants.SystemConstants;
 public class UserMemberController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/member")
     public String member(@CurrentUser SysUserView loginUser) {
 
         return "index";
     }
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/member_page")
     public String member_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -34,7 +34,7 @@ public class UserMemberController extends BaseController {
             return "forward:/user/teacher_base";
         return "forward:/user/student_base";
     }
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/student_base")
     public String student_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -53,7 +53,7 @@ public class UserMemberController extends BaseController {
 
         return "user/party/member/student_base";
     }
-    @RequiresRoles("member")
+    @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/teacher_base")
     public String teacher_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 

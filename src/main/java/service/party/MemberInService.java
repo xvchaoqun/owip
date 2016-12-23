@@ -17,7 +17,7 @@ import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.IpUtils;
@@ -288,7 +288,7 @@ public class MemberInService extends BaseMapper {
         }
 
         modify.setInId(id);
-        modify.setUserId(first?memberIn.getUserId():ShiroSecurityHelper.getCurrentUserId());
+        modify.setUserId(first?memberIn.getUserId(): ShiroHelper.getCurrentUserId());
         modify.setCreateTime(new Date());
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
         memberInModifyMapper.insertSelective(modify);
@@ -327,7 +327,7 @@ public class MemberInService extends BaseMapper {
                 }
             }
             if(type==2) {
-                SecurityUtils.getSubject().checkRole("odAdmin");
+                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
                 addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
             }
 
@@ -343,7 +343,7 @@ public class MemberInService extends BaseMapper {
     @Transactional
     public void memberIn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
         for (int userId : userIds) {
 
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);

@@ -666,22 +666,22 @@
             <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
             <includes>
               <include>extend/js/toastr.js</include>
+              <include>extend/js/jquery.qtip.js</include>
               <include>extend/js/jquery.form.js</include>
               <include>extend/js/jquery.dynatree.min.js</include>
               <include>extend/js/jquery.validate.min.js</include>
               <include>extend/js/additional-methods.min.js</include>
               <include>extend/js/jquery.validate.extend.js</include>
+              <include>extend/js/jquery.qtip.extend.js</include>
               <include>extend/js/jquery.showLoading.min.js</include>
               <include>extend/js/underscore.js</include>
               <include>extend/js/custom.js</include>
-              <include>extend/js/prototype.js</include>
               <include>extend/js/bootbox.min.js</include>
               <include>extend/js/select2.full.js</include>
               <include>extend/js/select2-zh-CN.js</include>
               <include>assets/js/date-time/bootstrap-datepicker.js</include>
               <include>extend/js/bootstrap-datepicker.zh-CN.min.js</include>
               <include>extend/js/bootstrap-switch.min.js</include>
-              <include>extend/js/jquery.qtip.min.js</include>
               <include>assets/js/jquery.inputlimiter.1.3.1.js</include>
               <include>extend/js/placeholders.jquery.js</include>
               <include>extend/js/base64.js</include>
@@ -691,6 +691,7 @@
               <include>extend/js/fancybox/source/jquery.fancybox.js</include>
               <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
               <include>extend/js/jquery.mousewheel.pack.js</include>
+              <include>extend/js/prototype.js</include>
             </includes>
           </aggregation>
 
@@ -762,7 +763,7 @@
               <include>extend/css/showLoading.css</include>
               <include>extend/css/toastr.css</include>
               <include>extend/css/select2.css</include>
-              <include>extend/css/jquery.qtip.min.css</include>
+              <include>extend/css/jquery.qtip.css</include>
               <include>extend/css/component.css</include>
               <include>extend/css/navbar.css</include>
               <include>extend/js/fancybox/source/jquery.fancybox.css</include>

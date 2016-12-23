@@ -68,7 +68,7 @@
                                             data-count="${partyApprovalCount}">
                                         <i class="fa fa-check-circle-o"></i> 分党委审核（${partyApprovalCount}）
                                     </button>
-                                    <shiro:hasRole name="odAdmin">
+                                    <shiro:hasRole name="${ROLE_ODADMIN}">
                                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                                             class="jqOpenViewBtn btn btn-danger btn-sm"
                                             data-url="${ctx}/memberStay_approval"

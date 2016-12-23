@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.helper.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -337,7 +338,7 @@ public class GraduateAbroadService extends BaseMapper {
                 check2(graduateAbroad.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
             }
             if(type==3) {
-                SecurityUtils.getSubject().checkRole("odAdmin");
+                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
                 graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);
                 check3(graduateAbroad.getId());
             }
@@ -356,7 +357,7 @@ public class GraduateAbroadService extends BaseMapper {
     @Transactional
     public void graduateAbroad_back(Integer[] ids, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = SecurityUtils.getSubject().hasRole("odAdmin");
+        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
         for (int id : ids) {
 
             GraduateAbroad graduateAbroad = graduateAbroadMapper.selectByPrimaryKey(id);

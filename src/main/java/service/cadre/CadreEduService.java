@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.modify.ModifyTableApplyMapper;
 import service.BaseMapper;
 import service.helper.ContextHelper;
-import service.helper.ShiroSecurityHelper;
+import service.helper.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -151,7 +151,11 @@ public class CadreEduService extends BaseMapper {
     @Transactional
     public void updateModify(CadreEdu record, Integer applyId){
 
-        Integer currentUserId = ShiroSecurityHelper.getCurrentUserId();
+        if(applyId==null){
+            throw new IllegalArgumentException();
+        }
+
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
         if (mta.getUserId().intValue() != currentUserId ||
                 mta.getStatus() != SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
@@ -217,7 +221,7 @@ public class CadreEduService extends BaseMapper {
             }
         }
 
-        Integer userId = ShiroSecurityHelper.getCurrentUserId();
+        Integer userId = ShiroHelper.getCurrentUserId();
         Cadre cadre = cadreService.findByUserId(userId);
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);

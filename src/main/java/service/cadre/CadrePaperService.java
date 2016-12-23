@@ -28,10 +28,18 @@ public class CadrePaperService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, int cadreId) {
 
         if (ids == null || ids.length == 0) return;
-
+        {
+            // 干部信息本人直接修改数据校验
+            CadrePaperExample example = new CadrePaperExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
+            int count = cadrePaperMapper.countByExample(example);
+            if(count!=ids.length){
+                throw new IllegalArgumentException("数据异常");
+            }
+        }
         CadrePaperExample example = new CadrePaperExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadrePaperMapper.deleteByExample(example);

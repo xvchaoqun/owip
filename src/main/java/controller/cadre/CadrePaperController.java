@@ -146,7 +146,11 @@ public class CadrePaperController extends BaseController {
             cadrePaperService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发表论文情况：%s", record.getId()));
         } else {
-
+            // 干部信息本人直接修改数据校验
+            CadrePaper _record = cadrePaperMapper.selectByPrimaryKey(id);
+            if(_record.getCadreId().intValue() != record.getCadreId()){
+                throw new IllegalArgumentException("数据异常");
+            }
             cadrePaperService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发表论文情况：%s", record.getId()));
         }
@@ -199,7 +203,7 @@ public class CadrePaperController extends BaseController {
         return "cadre/cadrePaper/cadrePaper_au";
     }
 
-    @RequiresPermissions("cadrePaper:del")
+    /*@RequiresPermissions("cadrePaper:del")
     @RequestMapping(value = "/cadrePaper_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadrePaper_del(HttpServletRequest request, Integer id) {
@@ -210,16 +214,18 @@ public class CadrePaperController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除发表论文情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadrePaper:del")
     @RequestMapping(value = "/cadrePaper_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        int cadreId, // 干部直接修改权限校验用
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cadrePaperService.batchDel(ids);
+            cadrePaperService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除发表论文情况：%s", StringUtils.join(ids, ",")));
         }
 

@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;
 import domain.sys.SysUserView;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -24,7 +26,7 @@ import java.util.Map;
 public class UserModifyTableApplyController extends BaseController {
 
     // 撤销申请
-    @RequiresRoles("cadre")
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
     @RequestMapping(value = "/modifyTableApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map back(Integer id,

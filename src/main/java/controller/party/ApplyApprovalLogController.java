@@ -31,7 +31,7 @@ import java.util.Map;
 @Controller
 public class ApplyApprovalLogController extends BaseController {
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_page")
     public String applyApprovalLog_page(Integer id, Byte type, ModelMap modelMap) {
 
@@ -87,7 +87,10 @@ public class ApplyApprovalLogController extends BaseController {
         return "party/applyApprovalLog/applyApprovalLog_page";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,
+            SystemConstants.ROLE_ODADMIN,
+            SystemConstants.ROLE_PARTYADMIN,
+            SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_data")
     public void applyApprovalLog_data(HttpServletResponse response,
                                    Integer id,
@@ -144,7 +147,7 @@ public class ApplyApprovalLogController extends BaseController {
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLogs")
     public String applyApprovalLogs(HttpServletRequest request, String idName, Byte type, ModelMap modelMap) {
 

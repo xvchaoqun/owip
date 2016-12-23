@@ -12,6 +12,7 @@ import service.abroad.*;
 import service.analysis.StatService;
 import service.base.ContentTplService;
 import service.cadre.*;
+import service.cadreReserve.CadreReserveService;
 import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
@@ -187,6 +188,8 @@ public class BaseController extends BaseMapper {
     protected LeaderUnitService leaderUnitService;
     @Autowired
     protected CadreService cadreService;
+    @Autowired
+    protected CadreReserveService cadreReserveService;
     @Autowired
     protected CadreAdditionalPostService cadreAdditionalPostService;
     @Autowired

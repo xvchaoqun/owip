@@ -108,7 +108,7 @@ public class ShiroUser implements Serializable {
                     !(approverTypeBean.getMainPostUnitIds().size()>0 || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
 
                 userPermissions.remove("applySelf:approvalList");
-                if (!userRoles.contains("cadreAdmin")) {
+                if (!userRoles.contains(SystemConstants.ROLE_CADREADMIN)) {
                     // 干部管理员 需要目录，普通干部不需要
                     userPermissions.remove("abroad:admin");
                 }

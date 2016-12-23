@@ -58,7 +58,7 @@
 .td20{width:3.395in;padding-start:0.075in;padding-end:0.075in;border-bottom:thin solid black;border-left:thin solid black;border-right:thin solid black;border-top:thin solid black;}
 .r1{keep-together:always;}
 .r2{height:0.35416666in;}
-.t1{table-layout:fixed;border-collapse:collapse;border-spacing:0;}
+.t1{table-layout:fixed;border-collapse:collapse;border-spacing:0;min-width: 706px}
 
     td.center {
         text-align: center
@@ -523,7 +523,7 @@
         
     </c:if>
 </div>
-<div class="row footer-margin lower">&nbsp;</div>
+<div class="footer-margin"/>
 <script>
     function _innerPage(type) {
         $("#view-box .tab-content").load("${ctx}/cadreAdform_page?cadreId=${param.cadreId}&type=" + type)

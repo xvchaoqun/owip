@@ -2,18 +2,22 @@ package bean;
 
 import domain.sys.MetaType;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class XlsUpload {
 
 	public final static int passportXLSColumnCount = 8;
 	public final static int cadreXLSColumnCount = 6;
+	public final static int cadreReserveXLSColumnCount = 7;
 	public final static int userXLSColumnCount = 4;
 
 	public static List<XlsPassport> fetchPassports(XSSFSheet sheet){
@@ -163,6 +167,75 @@ public class XlsUpload {
 		return cadreRows;
 	}
 
+	public static List<XlsCadreReserve> fetchCadreReserves(XSSFSheet sheet){
+
+		List<XlsCadreReserve> rows = new ArrayList<XlsCadreReserve>();
+		XSSFRow rowTitle = sheet.getRow(0);
+		if(null == rowTitle)
+			return rows;
+		int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
+		if(cellCount < cadreReserveXLSColumnCount)
+			return rows;
+
+		for (int i = sheet.getFirstRowNum() + 1 ; i <= sheet.getLastRowNum(); i++) {
+
+			XSSFRow row = sheet.getRow(i);
+			if (row == null) {// 如果为空，不处理
+				continue;
+			}
+
+			XlsCadreReserve bean = new XlsCadreReserve();
+			XSSFCell cell = row.getCell(0);
+			if (null != cell){
+				String userCode = getCell(cell);
+				if(StringUtils.isBlank(userCode)) {
+					continue;
+				}
+				bean.setUserCode(userCode);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(1);
+			if (null != cell){ // 行政级别
+				MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", getCell(cell));
+				if(adminLevelType==null) throw new RuntimeException("行政级别：" + getCell(cell) + " 不存在");
+				bean.setAdminLevel(adminLevelType.getId());
+			}
+
+			cell = row.getCell(2);
+			if (null != cell){ // 职务属性
+				MetaType postType = CmTag.getMetaTypeByName("mc_post", getCell(cell));
+				if(postType==null) throw new RuntimeException("职务属性：" + getCell(cell) + " 不存在");
+				bean.setPostId(postType.getId());
+			}
+
+			cell = row.getCell(3);
+			if (null != cell){ // 所属单位
+				bean.setUnitCode(getCell(cell));
+			}
+
+			cell = row.getCell(4);
+			if (null != cell){
+				bean.setPost(getCell(cell));
+			}
+
+			cell = row.getCell(5);
+			if (null != cell){
+				bean.setTitle(getCell(cell));
+			}
+
+			cell = row.getCell(6);
+			if (null != cell){
+				bean.setReserveRemark(getCell(cell));
+			}
+
+			rows.add(bean);
+		}
+
+		return rows;
+	}
+
 	public static List<XlsUser> fetchUsers(XSSFSheet sheet){
 
 		List<XlsUser> rows = new ArrayList<XlsUser>();
@@ -225,7 +298,10 @@ public class XlsUpload {
 
 	public static String getCell(XSSFCell cell) {
 
-		if (cell == null)
+		cell.setCellType(Cell.CELL_TYPE_STRING);
+		return cell.getStringCellValue();
+
+		/*if (cell == null)
 			return "";
 		switch (cell.getCellType()) {
 		case XSSFCell.CELL_TYPE_NUMERIC:
@@ -241,6 +317,6 @@ public class XlsUpload {
 		case XSSFCell.CELL_TYPE_ERROR:
 			return cell.getErrorCellValue() + "";
 		}
-		return "";
+		return "";*/
 	}
 }

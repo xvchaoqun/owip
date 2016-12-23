@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.helper.ExportHelper;
+import service.helper.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -225,7 +226,7 @@ public class MemberStayController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_approval")
     public String memberStay_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -256,7 +257,7 @@ public class MemberStayController extends BaseController {
             modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberStay.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", SecurityUtils.getSubject().hasRole("odAdmin"));
+            modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
         }
 
         // 读取总数
@@ -268,7 +269,7 @@ public class MemberStayController extends BaseController {
 
         return "party/memberStay/memberStay_approval";
     }
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_deny")
     public String memberStay_deny(Integer id, ModelMap modelMap) {
@@ -281,7 +282,7 @@ public class MemberStayController extends BaseController {
         return "party/memberStay/memberStay_deny";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check", method = RequestMethod.POST)
     @ResponseBody
@@ -297,7 +298,7 @@ public class MemberStayController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_back")
     public String memberStay_back() {
@@ -305,7 +306,7 @@ public class MemberStayController extends BaseController {
         return "party/memberStay/memberStay_back";
     }
 
-    @RequiresRoles(value = {"admin", "odAdmin", "partyAdmin", "branchAdmin"}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
