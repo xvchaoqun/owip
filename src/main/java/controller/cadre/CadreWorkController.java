@@ -194,7 +194,7 @@ public class CadreWorkController extends BaseController {
         return "cadre/cadreWork/cadreWork_au";
     }
 
-    // 不提供给干部本人操作
+    // （在菜单【任职情况】中，对没有干部管理权限的角色隐藏）
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_updateUnitId", method = RequestMethod.POST)
     @ResponseBody

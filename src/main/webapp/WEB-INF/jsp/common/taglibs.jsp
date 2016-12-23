@@ -35,6 +35,10 @@
 <c:set var="ROLE_CADRE" value="<%=SystemConstants.ROLE_CADRE%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=SystemConstants.ROLE_CADRERESERVE%>"/>
 
+
+<c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
+<c:set var="PERMISSION_CADREADMINSELF" value="<%=SystemConstants.PERMISSION_CADREADMINSELF%>"/>
+
 <c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
 
 <c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>

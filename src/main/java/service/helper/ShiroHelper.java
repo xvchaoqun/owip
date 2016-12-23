@@ -24,17 +24,23 @@ public class ShiroHelper {
 	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
 
-	public static boolean lackRole(String role){
+
+	public static Boolean isPermitted(String permission){
+
+		return SecurityUtils.getSubject().isPermitted(permission);
+	}
+
+	public static Boolean lackRole(String role){
 
 		return !SecurityUtils.getSubject().hasRole(role);
 	}
 
-	public static boolean hasRole(String role){
+	public static Boolean hasRole(String role){
 
 		return SecurityUtils.getSubject().hasRole(role);
 	}
 
-	public static boolean hasAnyRoles(String... roles){
+	public static Boolean hasAnyRoles(String... roles){
 
 		if(roles==null||roles.length==0) return false;
 		boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(roles));
@@ -44,7 +50,7 @@ public class ShiroHelper {
 		return false;
 	}
 
-	public static boolean hasAllRoles(String... roles){
+	public static Boolean hasAllRoles(String... roles){
 
 		if(roles==null||roles.length==0) return false;
 		return SecurityUtils.getSubject().hasAllRoles(Arrays.asList(roles));

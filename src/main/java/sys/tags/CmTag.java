@@ -5,7 +5,6 @@ import bean.ApproverTypeBean;
 import domain.abroad.*;
 import domain.cadre.*;
 import domain.dispatch.*;
-import domain.member.MemberApply;
 import domain.member.MemberApplyView;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
@@ -15,7 +14,6 @@ import domain.sys.*;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
 import persistence.common.SelectMapper;
@@ -26,7 +24,6 @@ import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.cadre.*;
 import service.dispatch.*;
-import service.helper.ShiroHelper;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
 import service.sys.*;
@@ -34,7 +31,6 @@ import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.DateUtils;
-import sys.utils.HtmlEscapeUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
@@ -73,11 +69,6 @@ public class CmTag {
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
     static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
-
-    public static Boolean hasRole(String role){
-
-        return ShiroHelper.hasRole(role);
-    }
 
     public static String toJSONObject(Object obj){
 

@@ -23,11 +23,11 @@
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_REWARD}')"><i class="fa fa-flag"></i>
             科研成果及获奖</a>
     </li>
-<shiro:hasRole name="${ROLE_CADREADMIN}">
+<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
-    </shiro:hasRole>
+    </shiro:hasPermission>
 </ul>
 
 <div class="row two-frames">
@@ -76,7 +76,7 @@
                     <textarea id="content">${cadreInfo.content}</textarea>
                     <input type="hidden" name="content">
                 </div>
-                <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+                <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                     <div class="modal-footer center">
                         <c:if test="${type==CADRE_INFO_TYPE_RESEARCH || type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
                             <a href="javascript:" onclick="copyOrginal()" class="btn btn-success">
@@ -99,7 +99,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主持科研项目情况
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <shiro:hasPermission name="cadreResearch:edit">
                         <a class="popupBtn btn btn-success btn-sm"
@@ -145,7 +145,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 参与科研项目情况
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <shiro:hasPermission name="cadreResearch:edit">
                         <a class="popupBtn btn btn-success btn-sm"
@@ -191,7 +191,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 出版著作情况
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadreBook_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -233,7 +233,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 发表论文情况
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadrePaper_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -275,7 +275,7 @@
     <div class="widget-box collapsed">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 科研成果及获奖情况
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}"><i
@@ -320,7 +320,7 @@
 <script>
     var ke_height =${type==CADRE_INFO_TYPE_RESEARCH?550:250};
     var readonlyMode = false;
-    <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+    <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
     ke_height += 60;
     readonlyMode = true;
     </c:if>
@@ -362,7 +362,7 @@
     }
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     $("#jqGrid_cadreResearch_in").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -397,7 +397,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     $("#jqGrid_cadreResearch_direct").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -432,7 +432,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     $("#jqGrid_cadreBook").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -456,7 +456,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     $("#jqGrid_cadrePaper").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -481,7 +481,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     $("#jqGrid_cadreReward").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {

@@ -6,7 +6,7 @@
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员信息
-<c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamliy:edit">
                     <a class="popupBtn btn btn-success btn-sm"
@@ -50,7 +50,7 @@
 <div class="widget-box collapsed">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
-<c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamliy:edit">
                     <a class="popupBtn btn btn-success btn-sm"
@@ -93,7 +93,7 @@
 <div class="footer-margin"/>
 <script>
     $("#jqGrid_cadreFamliy").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         pager: "#jqGridPager_cadreFamliy",
@@ -130,7 +130,7 @@
     });
 
     $("#jqGrid_cadreFamliyAbroad").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         pager: "#jqGridPager_cadreFamliyAbroad",

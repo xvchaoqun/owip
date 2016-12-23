@@ -75,6 +75,10 @@ public class SystemConstants {
         ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
     }
 
+    // 系统特殊的权限（与数据库对应）
+    public static final String PERMISSION_CADREADMIN = "cadre:admin";
+    public static final String PERMISSION_CADREADMINSELF = "cadre:adminSelf";
+
     // 系统配置字段：
     // 因私出国（境）申请说明
     public static final String HTML_FRAGMENT_APPLY_SELF_NOTE = "hf_apply_self_note";

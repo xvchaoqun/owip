@@ -9,15 +9,15 @@
     <li class="${type==2?"active":""}">
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 教学成果及获奖情况</a>
     </li>
-<shiro:hasRole name="${ROLE_CADREADMIN}">
+    <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 预览</a>
     </li>
-    </shiro:hasRole>
+    </shiro:hasPermission>
 </ul>
 
 <c:if test="${type==1}">
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreCourse:edit">
@@ -47,7 +47,7 @@
     <div id="jqGridPager_cadreCourse"></div>
 </c:if>
 <c:if test="${type==2}">
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <a class="popupBtn btn  btn-sm btn-info"
@@ -189,7 +189,7 @@
     }
     <c:if test="${type==1}">
     $("#jqGrid_cadreCourse").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -203,7 +203,7 @@
             }
             },
             {label: '课程名称', name: 'name', width: 250},
-            <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+            <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
@@ -216,7 +216,7 @@
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadreReward").jqGrid({
-        <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {

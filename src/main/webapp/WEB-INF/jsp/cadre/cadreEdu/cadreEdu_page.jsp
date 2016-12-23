@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<shiro:hasRole name="${ROLE_CADREADMIN}">
+<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 学习经历</a>
@@ -10,9 +10,10 @@
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
-</shiro:hasRole>
+
+    </shiro:hasPermission>
 <c:if test="${type==1}">
-    <c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
@@ -125,7 +126,7 @@
             $("#view-box .tab-content").load("${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type)
         }
         $("#jqGrid_cadreEdu").jqGrid({
-            <c:if test="${!cm:hasRole(ROLE_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
             multiselect:false,
             </c:if>
             pager: "#jqGridPager_cadreEdu",

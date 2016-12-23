@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <h1>
             <i class="fa fa-user"></i>
             ${cadre.user.realname} - 联系方式
-<c:if test="${cm:hasRole(ROLE_CADREADMIN) || hasDirectModifyCadreAuth}">
+<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
             <shiro:hasPermission name="cadreConcat:edit">
                 <a class="btn btn-info btn-xs" onclick="_au()"><i class="fa fa-edit"></i>   编辑</a>
             </shiro:hasPermission>

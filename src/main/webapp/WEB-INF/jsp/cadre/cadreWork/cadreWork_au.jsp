@@ -98,7 +98,8 @@ pageEncoding="UTF-8"%>
 <script>
     $("#modal :checkbox").bootstrapSwitch();
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'), {startDate:'${cm:formatDate(topCadreWork.startTime, "yyyy.MM")}', endDate:'${cm:formatDate(topCadreWork.endTime, "yyyy.MM")}'});
+    register_date($('.date-picker'));
+    //register_date($('.date-picker'), {startDate:'${cm:formatDate(topCadreWork.startTime, "yyyy.MM")}', endDate:'${cm:formatDate(topCadreWork.endTime, "yyyy.MM")}'});
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
