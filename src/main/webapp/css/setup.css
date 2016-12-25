@@ -919,3 +919,8 @@ span.delete {
     line-height: 50px;
     font-weight: bolder;
 }
+
+/*qtip*/
+.qtip{
+    min-width: 90px;
+}
