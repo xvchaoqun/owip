@@ -18,7 +18,7 @@ import service.BaseMapper;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.party.EnterApplyService;
 import sys.constants.SystemConstants;
 

@@ -15,6 +15,4 @@ location.href="${ctx}/extend/unsupport.html"
 </script>
 <script src="${ctx}/js/ui.js"></script>
 <script src="${ctx}/js/extend.js"></script>
-<script type="text/javascript" src="${ctx}/location_JSON"></script>
-<script type="text/javascript" src="${ctx}/metadata"></script>
 <script src="${ctx}/js/setup.js"></script>

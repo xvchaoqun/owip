@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
 import persistence.common.PassportSearchBean;
 import service.BaseMapper;
 import service.cadre.CadreService;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;

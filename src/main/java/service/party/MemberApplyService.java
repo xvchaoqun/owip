@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 

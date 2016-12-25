@@ -150,5 +150,7 @@
     </div>
   </div>
 </div>
+<script type="text/javascript" src="${ctx}/location_JSON"></script>
+<script type="text/javascript" src="${ctx}/metadata"></script>
 </body>
 </html>

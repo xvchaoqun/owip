@@ -10,7 +10,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import persistence.abroad.ApplySelfMapper;
 import service.abroad.ApplySelfService;
 import service.cadre.CadreService;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;

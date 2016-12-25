@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.sys.SysOnlineStaticService;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;

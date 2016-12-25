@@ -38,7 +38,7 @@ import service.SpringProps;
 import service.abroad.ApplySelfService;
 import service.base.ContentTplService;
 import service.cadre.CadreService;
-import service.helper.ContextHelper;
+import sys.utils.ContextHelper;
 import shiro.PasswordHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;

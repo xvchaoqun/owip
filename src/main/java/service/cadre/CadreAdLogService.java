@@ -5,12 +5,10 @@ import domain.cadre.CadreAdLog;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import persistence.cadre.CadreAdLogMapper;
 import service.BaseMapper;
-import service.helper.ContextHelper;
-import service.helper.ShiroHelper;
+import sys.utils.ContextHelper;
+import shiro.ShiroHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.common.FreemarkerService;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.party.MemberService;
 import service.sys.MetaTypeService;
 import sys.constants.SystemConstants;

@@ -5,11 +5,10 @@ import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.qrcode.QRCodeUtil;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Arrays;
 
 /**
  * Created by fafa on 2015/12/8.

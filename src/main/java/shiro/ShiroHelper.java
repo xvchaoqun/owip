@@ -1,4 +1,4 @@
-package service.helper;
+package shiro;
 
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
@@ -11,7 +11,6 @@ import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.sys.SysUserService;
-import shiro.ShiroUser;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -20,7 +20,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadreReserve.CadreReserveService;
 import service.cadreTemp.CadreTempService;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;

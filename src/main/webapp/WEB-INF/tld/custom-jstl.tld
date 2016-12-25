@@ -11,13 +11,13 @@
 
 	<function>
 		<name>isPermitted</name>
-		<function-class>service.helper.ShiroHelper</function-class>
+		<function-class>shiro.ShiroHelper</function-class>
 		<function-signature>java.lang.Boolean isPermitted(java.lang.String)</function-signature>
 	</function>
 
 	<function>
 		<name>hasRole</name>
-		<function-class>service.helper.ShiroHelper</function-class>
+		<function-class>shiro.ShiroHelper</function-class>
 		<function-signature>java.lang.Boolean hasRole(java.lang.String)</function-signature>
 	</function>
 

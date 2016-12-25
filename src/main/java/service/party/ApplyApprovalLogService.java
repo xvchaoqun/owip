@@ -4,7 +4,7 @@ import domain.member.ApplyApprovalLog;
 import domain.member.ApplyApprovalLogExample;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.helper.ContextHelper;
+import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;

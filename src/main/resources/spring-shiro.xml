@@ -160,7 +160,7 @@
 
 
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod" value="service.helper.ShiroHelper.initStaticField" />
+        <property name="staticMethod" value="shiro.ShiroHelper.initStaticField" />
         <property name="arguments">
             <list>
                 <ref bean="sysUserService"/>

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import service.helper.ShiroHelper;
+import shiro.ShiroHelper;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
