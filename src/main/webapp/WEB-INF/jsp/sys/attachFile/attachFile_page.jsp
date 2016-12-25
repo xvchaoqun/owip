@@ -81,8 +81,8 @@ pageEncoding="UTF-8" %>
         colModel: [
 
             { label: '文件名',name: 'filename', width: 400, align:'left',frozen:true},
-            { label: '唯一标识',name: 'code',frozen:true},
-            { label: '下载地址',name: 'id', width: 350, align:'left', formatter:function(cellvalue, options, rowObject){
+            { label: '唯一标识',name: 'code',frozen:true, align:'left', width: 180},
+            { label: '下载地址',name: 'id', width: 550, align:'left', formatter:function(cellvalue, options, rowObject){
                 return '<a href="{0}/attach?code={1}" target="_blank">{0}/attach?code={1}</a>'
                         .format('<fmt:message key="site.home" bundle="${spring}"/>', rowObject.code);
             },frozen:true},
