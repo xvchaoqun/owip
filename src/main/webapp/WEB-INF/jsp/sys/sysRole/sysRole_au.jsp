@@ -63,11 +63,18 @@
                         <div class="col-xs-6" id="sidebar-review">
                             <div class="title">菜单预览：</div>
                             <div class="sidebar">
-
+                                <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}"/>
                             </div>
                             <script type="text/javascript">
-                                $('#sidebar-review .sidebar').ace_sidebar();
+                                $("#sidebar-review a").attr("href", "#")
+                                $("#sidebar-review ul.submenu").each(function(){
+                                    if($("li", this).length==0){
+                                        $(this).closest("li").find(".menu-text").css("color", "red");
+                                        $(this).remove();
+                                    }
+                                })
                             </script>
+
                         </div>
                     </div>
                 </div>
@@ -88,6 +95,7 @@
     }
 </style>--%>
 <script>
+    $('#sidebar-review .sidebar').ace_sidebar();
 
     var treeData = ${tree};
     treeData.title = "选择资源";
@@ -97,8 +105,21 @@
         selectMode: 2,
         children: treeData,
         onSelect: function (select, node) {
-
             //node.expand(node.data.isFolder && node.isSelected());
+            var resIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+                //if(!node.data.isFolder)
+                return node.data.key;
+            });
+            $('#sidebar-review .sidebar').load("${ctx}/menu_preview",{resIds:resIds},function(){
+                //$('#sidebar-review .sidebar').ace_sidebar();
+                $("#sidebar-review a").attr("href", "#")
+                $("#sidebar-review ul.submenu").each(function(){
+                    if($("li", this).length==0){
+                        $(this).closest("li").find(".menu-text").css("color", "red");
+                        $(this).remove();
+                    }
+                })
+            });
         },
         onCustomRender: function (node) {
             if (node.data.tooltip != null)

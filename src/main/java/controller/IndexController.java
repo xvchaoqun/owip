@@ -3,9 +3,7 @@ package controller;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.HtmlFragment;
-import domain.sys.SysResource;
 import domain.sys.SysUserView;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,10 +22,7 @@ import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Controller
 public class IndexController extends BaseController {
@@ -63,13 +58,6 @@ public class IndexController extends BaseController {
 
 		return "help";
 	}
-
-	/*@RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
-	@RequestMapping("/help_page")
-	public String help_page() {
-
-		return "help";
-	}*/
 
 	@RequiresPermissions("index:home")
 	@RequestMapping("/index")
@@ -113,43 +101,5 @@ public class IndexController extends BaseController {
 			modelMap.put("student", studentService.get(userId));
 			return "student_base";
 		}
-	}
-
-	@RequestMapping("/menu")
-	public String menu(ModelMap modelMap) {
-
-		ShiroUser shiroUser =(ShiroUser)SecurityUtils.getSubject().getPrincipal();
-		List<SysResource> userMenus = sysResourceService.makeMenus(shiroUser.getPermissions());
-
-		modelMap.put("menus", userMenus);
-		return "menu";
-	}
-
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
-	@RequestMapping("/menu_preview")
-	public String menu_preview(Integer[] resIds, ModelMap modelMap) {
-
-		Set<String> permissions = new HashSet<String>();
-		Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources();
-		for (Integer resId : resIds) {
-			SysResource sysResource = sysResources.get(resId);
-			if(sysResource!=null && StringUtils.isNotBlank(sysResource.getPermission())){
-				permissions.add(sysResource.getPermission().trim());
-			}
-		}
-		List<SysResource> userMenus = sysResourceService.makeMenus(permissions);
-		modelMap.put("menus", userMenus);
-		return "menu";
-	}
-
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
-	@RequestMapping("/menu_preview_byRoleId")
-	public String menu_preview_byRoleId(int roleId, ModelMap modelMap) {
-
-		Set<String> rolePermissions = sysRoleService.getRolePermissions(roleId);
-		List<SysResource> userMenus = sysResourceService.makeMenus(rolePermissions);
-
-		modelMap.put("menus", userMenus);
-		return "menu";
 	}
 }
