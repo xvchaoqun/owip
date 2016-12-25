@@ -115,18 +115,18 @@ public class SystemConstants {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_MOBILE, "移动设备");
     }
 
-    // 系统附件类别，1图片 2word文档 3pdf 4 视频
+    // 系统附件类别，1图片 2文档 3视频 4 其他
     public static final byte ATTACH_FILE_TYPE_IMAGE = 1;
     public static final byte ATTACH_FILE_TYPE_DOC = 2;
-    public static final byte ATTACH_FILE_TYPE_PDF = 3;
-    public static final byte ATTACH_FILE_TYPE_VIDEO = 4;
+    public static final byte ATTACH_FILE_TYPE_VIDEO = 3;
+    public static final byte ATTACH_FILE_TYPE_OTHER = 4;
     public final static Map<Byte, String> ATTACH_FILE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_IMAGE, "图片");
-        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_DOC, "word文档");
-        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_PDF, "pdf文档");
+        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_DOC, "文档");
         ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_VIDEO, "视频");
+        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_OTHER, "其他");
     }
 
 
