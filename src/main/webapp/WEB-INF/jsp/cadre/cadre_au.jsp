@@ -16,11 +16,17 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="status" value="${status}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">账号<c:if test="${cadre==null}">(不在干部库中)</c:if></label>
-				<div class="col-xs-6">
+				<div class="col-xs-6 ${cadre!=null?'label-text':''}">
+                    <c:if test="${cadre==null}">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
+                    </c:if>
+                    <c:if test="${cadre!=null}">
+                        <input type="hidden" name="userId" value="${sysUser.id}">
+                        ${sysUser.realname}-${sysUser.code}
+                    </c:if>
 				</div>
 			</div>
 			<div class="form-group">
@@ -123,26 +129,28 @@ pageEncoding="UTF-8"%>
     $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {
-
-            var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
-                return node.data.key;
-            });
-            if(selectIds.length>1){
-                SysMsg.warning("只能选择一个发文");
-
-            }else{
-                $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
-                $(form).ajaxSubmit({
-                    success:function(ret){
-                        if(ret.success){
-                            $("#modal").modal('hide');
-                            //SysMsg.success('提交成功。', '成功',function(){
-                                $("#jqGrid").trigger("reloadGrid");
-                            //});
-                        }
-                    }
+            <c:if test="${cadre.id!=null && (status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+            if(treeNode.children.length>0) {
+                var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+                    return node.data.key;
                 });
+                if (selectIds.length > 1) {
+                    SysMsg.warning("只能选择一个发文");
+                    return;
+                }
+                $("#modal input[name=dispatchCadreId]").val(selectIds[0]);
             }
+            </c:if>
+            $(form).ajaxSubmit({
+                success:function(ret){
+                    if(ret.success){
+                        $("#modal").modal('hide');
+                        //SysMsg.success('提交成功。', '成功',function(){
+                            $("#jqGrid").trigger("reloadGrid");
+                        //});
+                    }
+                }
+            });
         }
     });
     $('[data-rel="select2"]').select2();

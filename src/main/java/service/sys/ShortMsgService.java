@@ -140,7 +140,7 @@ public class ShortMsgService extends BaseMapper {
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
 
-                Cadre cadre = cadreService.findByUserId(applyUser.getId());
+                Cadre cadre = cadreService.dbFindByUserId(applyUser.getId());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         cadre.getUnit().getName(),applyUser.getRealname());
 
@@ -177,7 +177,7 @@ public class ShortMsgService extends BaseMapper {
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
 
-                Cadre cadre = cadreService.findByUserId(applyUser.getId());
+                Cadre cadre = cadreService.dbFindByUserId(applyUser.getId());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         cadre.getUnit().getName(),applyUser.getRealname());
 

@@ -71,15 +71,16 @@ public class DispatchService extends BaseMapper {
             Assert.isTrue(!idDuplicate(null, record.getDispatchTypeId(), record.getYear(), record.getCode()));
         }
 
+        record.setSortOrder(getNextSortOrder("dispatch", "1=1"));
         record.setHasChecked(false);
-        dispatchMapper.insertSelective(record);
+        return dispatchMapper.insertSelective(record);
 
-        Integer id = record.getId();
+        /*Integer id = record.getId();
         Dispatch _record = new Dispatch();
         _record.setId(id);
         _record.setSortOrder(id);
         _record.setMeetingTime(record.getMeetingTime());
-        return dispatchMapper.updateByPrimaryKeySelective(_record);
+        return dispatchMapper.updateByPrimaryKeySelective(_record);*/
     }
     @Transactional
     @CacheEvict(value="Dispatch:ALL", allEntries = true)

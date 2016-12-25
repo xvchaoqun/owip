@@ -31,13 +31,8 @@ public class DispatchUnitRelateService extends BaseMapper {
     @CacheEvict(value="DispatchUnitRelate:ALL", allEntries = true)
     public int insertSelective(DispatchUnitRelate record){
 
-        dispatchUnitRelateMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        DispatchUnitRelate _record = new DispatchUnitRelate();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return dispatchUnitRelateMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("dispatch_unit_relate", "dispatch_unit_id=" + record.getDispatchUnitId()));
+        return dispatchUnitRelateMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="DispatchUnitRelate:ALL", allEntries = true)
@@ -108,11 +103,10 @@ public class DispatchUnitRelateService extends BaseMapper {
         if(overEntities.size()>0) {
 
             DispatchUnitRelate targetEntity = overEntities.get(overEntities.size()-1);
-
             if (addNum > 0)
-                commonMapper.downOrder_dispatchUnit(dispatchUnitId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_unit_relate", "dispatch_unit_id=" + dispatchUnitId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_dispatchUnit(dispatchUnitId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_unit_relate", "dispatch_unit_id=" + dispatchUnitId, baseSortOrder, targetEntity.getSortOrder());
 
             DispatchUnitRelate record = new DispatchUnitRelate();
             record.setId(id);

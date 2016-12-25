@@ -142,6 +142,8 @@ public class DemocraticPartyController extends BaseController {
         record.setDpRemark(dpRemark);
         record.setIsDp(true);
 
+        record.setUserId(null); // 不能修改账号、干部类别
+        record.setStatus(null);
         cadreService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新民主党派干部：%s", record.getId()));
 

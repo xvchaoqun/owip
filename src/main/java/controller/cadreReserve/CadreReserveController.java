@@ -56,32 +56,56 @@ public class CadreReserveController extends BaseController {
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve_page")
-    public String cadreReserve_page(
-            @RequestParam(required = false, defaultValue =
-                    SystemConstants.CADRE_RESERVE_TYPE_SCHOOL + "")Byte reserveType,
-                             Integer userId, ModelMap modelMap) {
+    public String cadreReserve_page(Byte status, Byte reserveType,
+                                    Integer userId, ModelMap modelMap) {
 
+        if (status == null && reserveType == null) {
+            // 默认页面
+            reserveType = SystemConstants.CADRE_RESERVE_TYPE_SCHOOL;
+        }
+        if (reserveType != null) {
+            // 正常状态的后备干部库，读取指定的类别
+            status = SystemConstants.CADRE_RESERVE_STATUS_NORMAL;
+        }
+        if (status != SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
+            // 非正常状态的后备干部库，读取全部的类别
+            reserveType = null;
+        }
+
+        modelMap.put("status", status);
         modelMap.put("reserveType", reserveType);
 
-        if (userId!=null) {
+        if (userId != null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
 
         return "cadreReserve/cadreReserve_page";
     }
+
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve_data")
-    public void cadreReserve_data(HttpServletResponse response,
-                                    @RequestParam(required = false, defaultValue =
-                                            SystemConstants.CADRE_RESERVE_TYPE_SCHOOL + "")Byte reserveType,
-                                    Integer userId,
-                                    Integer typeId,
-                                    Integer postId,
-                                    String title,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+    public void cadreReserve_data(HttpServletResponse response, Byte status, Byte reserveType,
+                                  Integer userId,
+                                  Integer typeId,
+                                  Integer postId,
+                                  String title,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer pageSize, Integer pageNo) throws IOException {
+
+        if (status == null && reserveType == null) {
+            // 默认页面
+            reserveType = SystemConstants.CADRE_RESERVE_TYPE_SCHOOL;
+        }
+        if (reserveType != null) {
+            // 正常状态的后备干部库，读取指定的类别
+            status = SystemConstants.CADRE_RESERVE_STATUS_NORMAL;
+        }
+        if (status != SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
+            // 非正常状态的后备干部库，读取全部的类别
+            reserveType = null;
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -92,18 +116,23 @@ public class CadreReserveController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreReserveViewExample example = new CadreReserveViewExample();
-        CadreReserveViewExample.Criteria criteria = example.createCriteria()
-                .andReserveTypeEqualTo(reserveType);
-        example.setOrderByClause("sort_order desc");
+        CadreReserveViewExample.Criteria criteria = example.createCriteria();
 
-        if (userId!=null) {
+        if (status != null)
+            criteria.andReserveStatusEqualTo(status);
+        if (status == null || status == SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
+            criteria.andReserveTypeEqualTo(reserveType);
+
+        example.setOrderByClause("reserve_sort_order desc");
+
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
 
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
-        if (postId!=null) {
+        if (postId != null) {
             criteria.andPostIdEqualTo(postId);
         }
 
@@ -112,9 +141,9 @@ public class CadreReserveController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cadreReserve_export(reserveType, example, response);
+            cadreReserve_export(example, response);
             return;
         }
 
@@ -145,9 +174,6 @@ public class CadreReserveController extends BaseController {
     public Map do_cadreReserve_au(int userId, Integer reserveId, Byte reserveType, String reserveRemark,
                                   Cadre cadreRecord, HttpServletRequest request) {
 
-        if(cadreReserveService.idDuplicate(reserveId, userId)){
-            return failed("添加重复");
-        }
         CadreReserve record = new CadreReserve();
         record.setId(reserveId);
         record.setType(reserveType);
@@ -179,15 +205,57 @@ public class CadreReserveController extends BaseController {
         return "cadreReserve/cadreReserve_au";
     }
 
-    @RequiresPermissions("cadreReserve:del")
+    /*@RequiresPermissions("cadreReserve:del")
     @RequestMapping(value = "/cadreReserve_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cadreReserve_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
-            cadreService.batchDel(ids);
+        if (null != ids) {
+            cadreReserveService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除后备干部：%s", StringUtils.join(ids, ",")));
         }
+
+        return success(FormUtils.SUCCESS);
+    }*/
+
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping("/cadreReserve_pass")
+    public String cadreReserve_pass(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+            Cadre cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            modelMap.put("cadreReserve", cadreReserve);
+            modelMap.put("cadre", cadre);
+        }
+        return "cadreReserve/cadreReserve_pass";
+    }
+
+    // 列为考察对象
+    @RequiresPermissions("cadreReserve:edit")
+    @RequestMapping(value = "/cadreReserve_pass", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreReserve_pass(Integer reserveId, String reserveRemark,
+                                 Cadre cadreRecord, HttpServletRequest request) {
+
+        CadreReserve record = new CadreReserve();
+        record.setId(reserveId);
+        record.setRemark(reserveRemark);
+
+        Cadre cadre = cadreReserveService.pass(record, cadreRecord);
+
+        SysUserView user = cadre.getUser();
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "后备干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreReserve:abolish")
+    @RequestMapping(value = "/cadreReserve_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cadreReserve_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
+
+        cadreReserveService.abolish(id);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "撤销后备干部：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -198,19 +266,19 @@ public class CadreReserveController extends BaseController {
     public Map do_cadreReserve_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreReserveService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "后备干部调序：%s, %s", id ,addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "后备干部调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreReserve_export(byte reserveType, CadreReserveViewExample example, HttpServletResponse response) {
+    public void cadreReserve_export(CadreReserveViewExample example, HttpServletResponse response) {
 
         List<CadreReserveView> records = cadreReserveViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","手机号","办公电话","家庭电话","电子邮箱","备注"};
+        String[] titles = {"工号", "姓名", "行政级别", "职务属性", "职务", "所在单位及职务", "手机号", "办公电话", "家庭电话", "电子邮箱", "备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreReserveView record = records.get(i);
-            SysUserView sysUser =  record.getUser();
+            SysUserView sysUser = record.getUser();
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
@@ -227,8 +295,7 @@ public class CadreReserveController extends BaseController {
             valuesList.add(values);
         }
 
-        String fileName = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(reserveType)+
-                "_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
@@ -241,9 +308,9 @@ public class CadreReserveController extends BaseController {
     }
 
     @RequiresPermissions("cadreReserve:import")
-    @RequestMapping(value="/cadreReserve_import", method=RequestMethod.POST)
+    @RequestMapping(value = "/cadreReserve_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreReserve_import( HttpServletRequest request, byte reserveType) throws InvalidFormatException, IOException {
+    public Map do_cadreReserve_import(HttpServletRequest request, byte reserveType) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");

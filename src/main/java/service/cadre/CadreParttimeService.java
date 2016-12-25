@@ -19,13 +19,8 @@ public class CadreParttimeService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreParttime record){
 
-        cadreParttimeMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        CadreParttime _record = new CadreParttime();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return cadreParttimeMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("cadre_parttime", "cadre_id=" + record.getCadreId()));
+        return cadreParttimeMapper.insertSelective(record);
     }
     @Transactional
     public void del(Integer id){
@@ -99,11 +94,10 @@ public class CadreParttimeService extends BaseMapper {
         if(overEntities.size()>0) {
 
             CadreParttime targetEntity = overEntities.get(overEntities.size()-1);
-
             if (addNum > 0)
-                commonMapper.downOrder_cadreParttime(cadreId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_parttime", "cadre_id=" + cadreId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_cadreParttime(cadreId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_parttime", "cadre_id=" + cadreId, baseSortOrder, targetEntity.getSortOrder());
 
             CadreParttime record = new CadreParttime();
             record.setId(id);

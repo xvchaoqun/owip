@@ -64,13 +64,8 @@ public class UnitService extends BaseMapper {
     @CacheEvict(value="Unit:ALL", allEntries = true)
     public int insertSelective(Unit record){
 
-        unitMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        Unit _record = new Unit();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return unitMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("unit", "status=" + record.getStatus()));
+        return unitMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="Unit:ALL", allEntries = true)
@@ -95,12 +90,19 @@ public class UnitService extends BaseMapper {
     public void abolish(Integer[] ids){
         if(ids==null || ids.length==0) return;
 
-        UnitExample example = new UnitExample();
+        for (Integer id : ids) {
+            Unit record = new Unit();
+            record.setId(id);
+            record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_HISTORY));
+            record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
+            unitMapper.updateByPrimaryKeySelective(record);
+        }
+        /*UnitExample example = new UnitExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
         Unit record = new Unit();
         record.setStatus(SystemConstants.UNIT_STATUS_HISTORY);
-        unitMapper.updateByExampleSelective(record, example);
+        unitMapper.updateByExampleSelective(record, example);*/
     }
 
     @Transactional
@@ -157,9 +159,9 @@ public class UnitService extends BaseMapper {
             Unit targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_unit(status, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_unit(status, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
 
             Unit record = new Unit();
             record.setId(id);

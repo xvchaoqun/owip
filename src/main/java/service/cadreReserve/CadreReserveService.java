@@ -6,6 +6,7 @@ import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveExample;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
+import domain.cadreTemp.CadreTemp;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.ibatis.session.RowBounds;
@@ -17,11 +18,14 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
+import service.cadreTemp.CadreTempService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,41 +33,112 @@ import java.util.Map;
 @Service
 public class CadreReserveService extends BaseMapper {
 
+    public static final String TABLE_NAME = "cadre_reserve";
     @Autowired
     private SysUserService sysUserService;
     @Autowired
     private CadreService cadreService;
     @Autowired
+    private CadreTempService cadreTempService;
+    @Autowired
+    private CadreAdLogService cadreAdLogService;
+    @Autowired
     private UnitService unitService;
 
-    public boolean idDuplicate(Integer id, int userId){
+    // 直接添加后备干部时执行检查
+    public void directAddCheck(Integer id, int userId){
 
-        Cadre cadre = cadreService.findByUserId(userId);
-        if(cadre == null) return false;
+        // 不在干部库中，肯定可以添加
+        Cadre cadre = cadreService.dbFindByUserId(userId);
+        if(cadre == null) return;
 
+        int cadreId = cadre.getId();
+        String realname = cadre.getUser().getRealname();
+
+        /*if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW||
+                cadre.getStatus()==SystemConstants.CADRE_STATUS_LEAVE||
+                cadre.getStatus()==SystemConstants.CADRE_STATUS_LEADER_LEAVE){
+            throw new RuntimeException(realname + "已经在"
+                    + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
+        }*/
+
+        // 本库检查
         CadreReserveExample example = new CadreReserveExample();
-        CadreReserveExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadre.getId())
-                .andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
+        CadreReserveExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusIn(Arrays.asList(SystemConstants.CADRE_RESERVE_STATUS_NORMAL
+                        , SystemConstants.CADRE_RESERVE_STATUS_FROM_TEMP));
         if(id!=null) criteria.andIdNotEqualTo(id);
 
-        return cadreReserveMapper.countByExample(example) > 0;
+        List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
+        if( cadreReserves.size() > 0){
+            CadreReserve cadreReserve = cadreReserves.get(0);
+            if(cadreReserve.getStatus()==SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
+                throw new RuntimeException(realname + "已经在"
+                +SystemConstants.CADRE_RESERVE_TYPE_MAP.get(cadreReserve.getType()) + "中");
+            }else if(cadreReserve.getStatus()==SystemConstants.CADRE_RESERVE_STATUS_FROM_TEMP){
+                throw new RuntimeException(realname + "已经列入考察对象");
+            }
+        }
+
+        // 考察对象库检查
+        CadreTemp normalRecord = cadreTempService.getNormalRecord(cadreId);
+        if(normalRecord!=null){
+            throw new RuntimeException(realname + "已经是考察对象");
+        }
     }
 
+    // 读取一下正常状态的记录
+    public CadreReserve getNormalRecord(int cadreId){
+
+        CadreReserveExample example = new CadreReserveExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
+        List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
+        if(cadreReserves.size()>1){
+            CadreReserve cadreReserve = cadreReserves.get(0);
+            Cadre cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
+                    +"状态异常，存在多条记录");
+        }
+
+        return (cadreReserves.size()==0)?null:cadreReserves.get(0);
+    }
+
+    // 至多有一条从考察对象过来的记录，否则抛出异常
+    public CadreReserve getFromTempRecord(int cadreId){
+
+        CadreReserveExample example = new CadreReserveExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_FROM_TEMP);
+        List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
+        if(cadreReserves.size()>1){
+            CadreReserve cadreReserve = cadreReserves.get(0);
+            Cadre cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
+                    +"状态异常，存在多条后备干部[已列为考察对象]记录");
+        }
+
+        return (cadreReserves.size()==0)?null:cadreReserves.get(0);
+    }
+
+    // 直接添加后备干部
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "CadreReserve:ALL", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void insertSelective(int userId, CadreReserve record, Cadre cadreRecord){
 
+        // 检查
+        directAddCheck(record.getId(), userId);
+
         SysUserView uv = sysUserService.findById(userId);
-        // 添加后备干部身份
+        // 添加后备干部角色
         sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE, uv.getUsername(), uv.getCode());
 
         Integer cadreId = null;
         {
-            Cadre cadre = cadreService.findByUserId(userId);
+            Cadre cadre = cadreService.dbFindByUserId(userId);
             if(cadre==null) { // 不在干部库的情况
 
                 if(cadreRecord==null) cadreRecord = new Cadre();
@@ -78,23 +153,32 @@ public class CadreReserveService extends BaseMapper {
             }else{
                 cadreId = cadre.getId();
 
-                // 已经在干部库中的情况，不进行任何操作
+                // 已经在干部库中的情况，经过了考察对象[非干部]撤销，需要更新为后备干部
+                if(cadre.getStatus()==SystemConstants.CADRE_STATUS_TEMP) {
+                    cadreRecord = new Cadre();
+                    cadreRecord.setId(cadreId);
+                    cadreRecord.setStatus(SystemConstants.CADRE_STATUS_RESERVE);
+                    cadreMapper.updateByPrimaryKeySelective(cadreRecord);
+                }
             }
         }
 
-        Integer maxSortOrder = commonMapper.getMaxSortOrder("cadre_reserve",
-                "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
+        Assert.isNotNull(SystemConstants.CADRE_RESERVE_TYPE_MAP.get(record.getType())!=null);
 
-        record.setSortOrder(maxSortOrder==null?1:maxSortOrder+1);
+        record.setSortOrder(getNextSortOrder(TABLE_NAME,
+                "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+record.getType()));
         record.setCadreId(cadreId);
         record.setStatus(SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
         cadreReserveMapper.insertSelective(record);
+
+        // 记录任免日志
+        cadreAdLogService.addLog(cadreId, "添加后备干部",
+                SystemConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
     }
 
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "CadreReserve:ALL", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void updateByPrimaryKeySelective(CadreReserve record, Cadre cadreRecord){
@@ -102,18 +186,20 @@ public class CadreReserveService extends BaseMapper {
         CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(record.getId());
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
         if(cadre.getStatus()==SystemConstants.CADRE_STATUS_RESERVE){
-            // 此时不需要清除干部库的缓存，因为后备干部库不在干部库的缓存中
+
             cadreRecord.setId(cadre.getId());
+            cadreRecord.setUserId(null);
+            cadreRecord.setStatus(cadre.getStatus());
             cadreService.updateByPrimaryKeySelective(cadreRecord);
         }
 
+        record.setStatus(cadreReserve.getStatus());
         cadreReserveMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "CadreReserve:ALL", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public int importCadreReserves(final List<XlsCadreReserve> beans, byte reserveType) {
@@ -125,7 +211,8 @@ public class CadreReserveService extends BaseMapper {
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
             if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
-            cadreRecord.setUserId(uv.getId());
+            int userId = uv.getId();
+            cadreRecord.setUserId(userId);
             cadreRecord.setTypeId(uRow.getAdminLevel());
             cadreRecord.setPostId(uRow.getPostId());
             Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
@@ -141,51 +228,17 @@ public class CadreReserveService extends BaseMapper {
             record.setStatus(SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
             record.setRemark(uRow.getReserveRemark());
 
-            Integer cadreId = null;
-            Cadre cadre = cadreService.findByUserId(uv.getId());
-            // 添加干部到后备干部库的情况，只需要添加后备干部信息
-            if(cadre!=null){
 
-                cadreId = cadre.getId();
-                // 如果原来存在后备干部信息，则更新（这种情况应该不存在，因为从后备干部库撤销的话，应该删除干部库里的信息）；否则保持不变
-                if(cadre.getStatus()==SystemConstants.CADRE_STATUS_RESERVE){
-                    cadreRecord.setId(cadreId);
-                    cadreMapper.updateByPrimaryKeySelective(cadreRecord);
-                }
-
-            }else{ // 添加非干部库账号的情况，需要初始化干部库信息
-
-                cadreRecord.setIsDp(false);
-                cadreRecord.setStatus(SystemConstants.CADRE_STATUS_RESERVE);
-                cadreMapper.insertSelective(cadreRecord);
-
-                cadreId = cadreRecord.getId();
-            }
-
-            CadreReserveExample example = new CadreReserveExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
-            if(cadreReserveMapper.countByExample(example)>0){
-                throw  new RuntimeException("工作证号："+userCode+"已经在后备干部库中");
-            }
-
-            record.setSortOrder(getNextSortOrder("cadre_reserve","status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL));
-            record.setCadreId(cadreId);
-            cadreReserveMapper.insertSelective(record);
-
-            // 添加后备干部身份
-            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE, uv.getUsername(), uv.getCode());
-
+            insertSelective(userId, record, cadreRecord);
             success++;
         }
 
         return success;
     }
 
-    @Transactional
+    /*@Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "CadreReserve:ALL", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void batchDel(Integer[] ids){
@@ -197,32 +250,117 @@ public class CadreReserveService extends BaseMapper {
             if(cadre.getStatus()==SystemConstants.CADRE_STATUS_RESERVE){
                 cadreMapper.deleteByPrimaryKey(cadre.getId());
             }
+
+            if(cadreReserve.getStatus()==SystemConstants.CADRE_RESERVE_STATUS_NORMAL){
+
+                SysUserView uv = sysUserService.findById(cadre.getUserId());
+                // 删除后备干部角色
+                sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE, uv.getUsername(), uv.getCode());
+            }
+
             cadreReserveMapper.deleteByPrimaryKey(id);
         }
-    }
+    }*/
 
-    // 后备干部缓存列表
-    @Cacheable(value="CadreReserve:ALL")
-    public Map<Integer, CadreReserveView> findAll() {
+    // 列为考察对象
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public Cadre pass(CadreReserve record, Cadre cadreRecord) {
 
-        CadreReserveViewExample example = new CadreReserveViewExample();
-        example.setOrderByClause("sort_order desc");
-        List<CadreReserveView> cadreReserveViews = cadreReserveViewMapper.selectByExample(example);
-        Map<Integer, CadreReserveView> map = new LinkedHashMap<>();
-        for (CadreReserveView cadreReserveView : cadreReserveViews) {
-            map.put(cadreReserveView.getReserveId(), cadreReserveView);
+        CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(record.getId());
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+        int userId = cadre.getUserId();
+        int cadreId = cadre.getId();
+        if (cadreReserve.getStatus() != SystemConstants.CADRE_TEMP_STATUS_NORMAL) {
+            throw new IllegalArgumentException("[列为考察对象]后备干部"
+                    +cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
         }
-        return map;
+
+        // 记录任免日志
+        cadreAdLogService.addLog(cadreId, "列为考察对象",
+                SystemConstants.CADRE_AD_LOG_MODULE_RESERVE, cadreReserve.getId());
+
+        cadreRecord.setId(cadreId);
+        cadreRecord.setUserId(null); // 账号不变
+        cadreRecord.setStatus(null); // 除了下面的情况，保持不变
+        if(cadre.getStatus()==SystemConstants.CADRE_STATUS_RESERVE){
+            // 如果原来是后备干部[非干部]，需要更新为考察对象
+            cadreRecord.setStatus(SystemConstants.CADRE_STATUS_TEMP);
+        }
+        cadreService.updateByPrimaryKeySelective(cadreRecord);
+
+        // 已列为考察对象
+        record.setStatus(SystemConstants.CADRE_RESERVE_STATUS_FROM_TEMP);
+        cadreReserveMapper.updateByPrimaryKeySelective(record);
+
+        SysUserView uv = sysUserService.findById(userId);
+        // 改变账号角色，后备干部->考核对象
+        sysUserService.changeRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE,
+                SystemConstants.ROLE_CADRETEMP, uv.getUsername(), uv.getCode());
+
+        // 检查
+        //cadreTempService.directAddCheck(null, userId);
+        if(cadreTempService.getNormalRecord(cadreId)!=null){
+            throw new RuntimeException(uv.getRealname() + "已经是考察对象");
+        }
+        // 添加到考察对象中
+        CadreTemp _record = new CadreTemp();
+        _record.setSortOrder(getNextSortOrder(CadreTempService.TABLE_NAME,
+                "status=" + SystemConstants.CADRE_TEMP_STATUS_NORMAL
+                        + " and type=" + SystemConstants.CADRE_TEMP_TYPE_DEFAULT));
+        _record.setCadreId(cadreId);
+        _record.setStatus(SystemConstants.CADRE_TEMP_STATUS_NORMAL);
+        _record.setType(SystemConstants.CADRE_TEMP_TYPE_DEFAULT);
+        _record.setRemark(SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "列入考察对象");
+        cadreTempMapper.insertSelective(_record);
+
+        return cadreMapper.selectByPrimaryKey(cadreId);
     }
 
     @Transactional
-    @CacheEvict(value = "CadreReserve:ALL", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void abolish(Integer id) {
+
+        if (id == null) return;
+        CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+
+        // 只有正常状态的后备干部，才可以撤销
+        if(cadreReserve.getStatus() != SystemConstants.CADRE_RESERVE_STATUS_NORMAL){
+            throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
+        }
+
+        // 记录任免日志
+        cadreAdLogService.addLog(cadre.getId(), "撤销后备干部",
+                SystemConstants.CADRE_AD_LOG_MODULE_RESERVE, cadreReserve.getId());
+
+        /*if (cadre.getStatus() == SystemConstants.CADRE_STATUS_RESERVE) {
+            cadreMapper.deleteByPrimaryKey(cadre.getId());
+        }*/
+
+        SysUserView uv = cadre.getUser();
+        // 删除后备干部角色
+        sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE, uv.getUsername(), uv.getCode());
+
+        CadreReserve record = new CadreReserve();
+        record.setId(id);
+        record.setStatus(SystemConstants.CADRE_RESERVE_STATUS_ABOLISH);
+        cadreReserveMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
 
         CadreReserve entity = cadreReserveMapper.selectByPrimaryKey(id);
-        byte reserveType = entity.getType();
+        byte type = entity.getType();
         // 只对后备干部正常状态进行排序
         Assert.isTrue(entity.getStatus()==SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
 
@@ -232,12 +370,12 @@ public class CadreReserveService extends BaseMapper {
         if (addNum > 0) {
 
             example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
-                    .andTypeEqualTo(reserveType).andSortOrderGreaterThan(baseSortOrder);
+                    .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
                 example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
-                    .andTypeEqualTo(reserveType).andSortOrderLessThan(baseSortOrder);
+                    .andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -247,12 +385,12 @@ public class CadreReserveService extends BaseMapper {
             CadreReserve targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cadre_reserve",
-                        "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+reserveType,
+                commonMapper.downOrder(TABLE_NAME,
+                        "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+type,
                         baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre_reserve",
-                        "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+reserveType,
+                commonMapper.upOrder(TABLE_NAME,
+                        "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+type,
                         baseSortOrder, targetEntity.getSortOrder());
 
             CadreReserve record = new CadreReserve();

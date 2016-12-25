@@ -50,7 +50,7 @@ public class ModifyBaseItemController extends BaseController{
         Integer userId = apply.getUserId();
         SysUserView uv = sysUserService.findById(userId);
         modelMap.put("uv", uv);
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
 
         return "modify/modifyBaseItem/modifyBaseItem_page";
@@ -104,7 +104,7 @@ public class ModifyBaseItemController extends BaseController{
         ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(mbi.getApplyId());
         Integer userId = mba.getUserId();
         modelMap.put("sysUser", sysUserService.findById(userId));
-        modelMap.put("cadre", cadreService.findByUserId(userId));
+        modelMap.put("cadre", cadreService.dbFindByUserId(userId));
         return "modify/modifyBaseItem/modifyBaseItem_approval";
     }
 

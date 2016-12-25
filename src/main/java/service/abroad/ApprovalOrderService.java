@@ -30,13 +30,9 @@ public class ApprovalOrderService extends BaseMapper {
     public int insertSelective(ApprovalOrder record){
 
         Assert.isTrue(!idDuplicate(null, record.getApplicatTypeId(), record.getApproverTypeId()));
-        approvalOrderMapper.insertSelective(record);
 
-        Integer id = record.getId();
-        ApprovalOrder _record = new ApprovalOrder();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return approvalOrderMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("abroad_approval_order", "applicat_type_id=" + record.getApplicatTypeId()));
+        return approvalOrderMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="ApprovalOrder:ALL", allEntries = true)
@@ -110,9 +106,9 @@ public class ApprovalOrderService extends BaseMapper {
             ApprovalOrder targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_approvalOrder(applicatTypeId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("abroad_approval_order", "applicat_type_id=" + applicatTypeId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_approvalOrder(applicatTypeId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("abroad_approval_order", "applicat_type_id=" + applicatTypeId, baseSortOrder, targetEntity.getSortOrder());
 
             ApprovalOrder record = new ApprovalOrder();
             record.setId(id);

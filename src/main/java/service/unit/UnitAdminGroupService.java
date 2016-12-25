@@ -33,14 +33,9 @@ public class UnitAdminGroupService extends BaseMapper {
         if (record.getIsPresent()) {
             resetPresentParty(record.getUnitId());
         }
-        
-        unitAdminGroupMapper.insertSelective(record);
 
-        Integer id = record.getId();
-        UnitAdminGroup _record = new UnitAdminGroup();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return unitAdminGroupMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("unit_admin_group", "1=1"));
+        return unitAdminGroupMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="UnitAdminGroup:ALL", allEntries = true)

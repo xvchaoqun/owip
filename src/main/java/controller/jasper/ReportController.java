@@ -14,7 +14,6 @@ import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -244,7 +243,7 @@ public class ReportController extends BaseController {
         }
 
         SysUserView user = sysUserService.findById(userId);
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String post = cadre.getPost();
 
@@ -310,7 +309,7 @@ public class ReportController extends BaseController {
         }
 
         SysUserView user = sysUserService.findById(userId);
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String post = cadre.getPost();
 

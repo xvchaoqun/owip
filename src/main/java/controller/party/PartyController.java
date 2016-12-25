@@ -260,10 +260,10 @@ public class PartyController extends BaseController {
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_party_changeOrder(Integer id, Integer sortOrder, HttpServletRequest request) {
+    public Map do_party_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        partyService.changeOrder(id, sortOrder);
-        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织调序：%s,%s", id, sortOrder));
+        partyService.changeOrder(id, addNum);
+        logger.info(addLog(SystemConstants.LOG_OW, "基层党组织调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

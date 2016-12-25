@@ -89,13 +89,8 @@ public class PartyMemberGroupService extends BaseMapper {
             clearPresentGroup(record.getPartyId());
         }
         record.setIsDeleted(false);
-        partyMemberGroupMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        PartyMemberGroup _record = new PartyMemberGroup();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return partyMemberGroupMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("ow_party_member_group", "1=1"));
+        return partyMemberGroupMapper.insertSelective(record);
     }
 
    /* @Transactional

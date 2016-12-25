@@ -2,14 +2,12 @@ package controller.party;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
 import domain.member.MemberTeacherExample.Criteria;
 import domain.party.Party;
 import domain.sys.MetaType;
-import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -312,7 +310,7 @@ public class MemberTeacherController extends BaseController {
                 if(memberAgeRange>0)
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
-            Cadre cadre = cadreService.findByUserId(record.getUserId());
+            Cadre cadre = cadreService.dbFindByUserId(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW){

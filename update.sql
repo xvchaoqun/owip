@@ -1,5 +1,29 @@
 
 
+select id, sort_order,status from cadre group by status, sort_order having count(*)>1;
+select id, sort_order,title, status from cadre where sort_order = 411 and status=1;
+select * from cadre where sort_order = 202 and status=3;
+select max(sort_order) from cadre;
+
+insert into cadre_temp(cadre_id, type, status) select id, 1, 0 from cadre where status=2;
+update cadre_temp set sort_order = id;
+
+ALTER TABLE `cadre_reserve`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '状态，1后备干部 2转移考察对象 3后备干部已使用 4 已撤销资格' AFTER `type`;
+
+CREATE ALGORITHM = UNDEFINED VIEW cadre_temp_view as select ct.id as temp_id, ct.`type` as temp_type, ct.`status` as temp_status,
+ct.remark as temp_remark, ct.sort_order as temp_sort_order, cv.*
+from cadre_temp ct left join cadre_view cv on ct.cadre_id=cv.id;
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_branch_view` AS select b.*,  mtmp.num as member_count,mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count from ow_branch b
+left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group group by branch_id) gtmp on gtmp.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_present=1 group by  branch_id) gtmp2 on gtmp2.branch_id=b.id
+
 
 -- 2016-12-22
 ALTER TABLE `cadre` CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，1现任干部库  2 考察对象 3 离任中层干部库 4 离任校领导干部库 5 后备干部库';

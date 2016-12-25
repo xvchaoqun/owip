@@ -45,7 +45,7 @@ public class PassportService extends BaseMapper {
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
             if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
-            Cadre cadre = cadreService.findByUserId(uv.getId());
+            Cadre cadre = cadreService.dbFindByUserId(uv.getId());
             if(cadre== null) throw  new RuntimeException("工作证号：" +userCode +" 姓名："+uv.getRealname() +"不是干部");
             record.setCadreId(cadre.getId());
             record.setType(type);

@@ -8,8 +8,6 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-page="${ctx}/cadre_page"
-                 data-url-del="${ctx}/cadre_del"
-                 data-url-bd="${ctx}/cadre_batchDel"
                  data-url-co="${ctx}/cadre_changeOrder?status=${status}"
                  data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -21,10 +19,6 @@
                         <li class="<c:if test="${status==CADRE_STATUS_NOW}">active</c:if>">
                             <a href="?status=${CADRE_STATUS_NOW}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_NOW)}</a>
-                        </li>
-                        <li class="<c:if test="${status==CADRE_STATUS_TEMP}">active</c:if>">
-                            <a href="?status=${CADRE_STATUS_TEMP}"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_TEMP)}</a>
                         </li>
                         <li class="<c:if test="${status==CADRE_STATUS_LEAVE}">active</c:if>">
                             <a href="?status=${CADRE_STATUS_LEAVE}"><i
@@ -46,15 +40,14 @@
                                 <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"
                                             data-title="重新任用"
-                                            data-msg="确定任用这{0}个干部吗？（移动到考察对象中）"
-                                            data-url="${ctx}/cadre_assign">
+                                            data-msg="确定重新任用这{0}个干部吗？（添加到考察对象中）"
+                                            data-url="${ctx}/cadre_re_assign" data-callback="_reAssignCallback">
                                         <i class="fa fa-reply"></i> 重新任用
                                     </button>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
                                        data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i>
-                                        <c:if test="${status==CADRE_STATUS_TEMP}">提任干部</c:if>
                                         <c:if test="${status==CADRE_STATUS_NOW}">添加现任干部</c:if>
                                         <c:if test="${status==CADRE_STATUS_LEAVE}">添加离任中层干部</c:if>
                                         <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导干部</c:if>
@@ -66,13 +59,6 @@
                                         data-querystr="&status=${status}">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
-
-                                <c:if test="${status==CADRE_STATUS_TEMP}">
-                                    <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                            data-url="${ctx}/cadre_temp_pass_au">
-                                        <i class="fa fa-edit"></i> 通过常委会任命
-                                    </button>
-                                </c:if>
 
                                 <c:if test="${status==CADRE_STATUS_NOW}">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
@@ -186,7 +172,9 @@
 <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
-
+    function _reAssignCallback(){
+        location.href='${ctx}/cadreTemp';
+    }
     <c:if test="${status==CADRE_STATUS_NOW}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
@@ -430,9 +418,9 @@
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
             }, frozen: true
             },
-            {label: '${status==CADRE_STATUS_TEMP?"现":"原"}所在单位', name: 'unit.name', width: 200},
-            {label: '${status==CADRE_STATUS_TEMP?"现任":"原"}职务', name: 'post', width: 350},
-            {label: '${status==CADRE_STATUS_TEMP?"现":"离任后"}所在单位及职务', name: 'title', width: 350},
+            {label: '原所在单位', name: 'unit.name', width: 200},
+            {label: '原职务', name: 'post', width: 350},
+            {label: '离任后所在单位及职务', name: 'title', width: 350},
             <c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
             {
                 label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
@@ -443,16 +431,15 @@
             },
             {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
             </c:if>
-            /*{ label: '${status==CADRE_STATUS_TEMP?"现":""}行政级别', name: 'presentAdminLevelType.name' },*/
             {
-                label: '${status==CADRE_STATUS_TEMP?"现":"原"}行政级别',
+                label: '原行政级别',
                 name: 'typeId',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
                     return _cMap.adminLevelMap[cellvalue].name;
                 }
             },
-            {label: '${status==CADRE_STATUS_TEMP?"现":"原"}职务属性', name: 'postType.name', width: 150},
+            {label: '原职务属性', name: 'postType.name', width: 150},
             {label: '手机号', name: 'mobile'},
             {label: '办公电话', name: 'phone'},
             {label: '家庭电话', name: 'homePhone'},

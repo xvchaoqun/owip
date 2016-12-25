@@ -9,10 +9,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     public CurrentUserMethodArgumentResolver() {
+
     }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
+
         if (parameter.hasParameterAnnotation(CurrentUser.class)) {
             return true;
         }
@@ -21,7 +23,9 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+
         CurrentUser currentUserAnnotation = parameter.getParameterAnnotation(CurrentUser.class);
+
         return webRequest.getAttribute(currentUserAnnotation.value(), NativeWebRequest.SCOPE_REQUEST);
     }
 }

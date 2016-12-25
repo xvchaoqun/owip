@@ -35,13 +35,8 @@ public class DispatchTypeService extends BaseMapper {
     public int insertSelective(DispatchType record){
 
         Assert.isTrue(!idDuplicate(null, record.getName(), record.getYear()));
-        dispatchTypeMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        DispatchType _record = new DispatchType();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return dispatchTypeMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("dispatch_type", "year=" + record.getYear()));
+        return dispatchTypeMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value = "DispatchType:ALL", allEntries = true)
@@ -111,11 +106,10 @@ public class DispatchTypeService extends BaseMapper {
         if(overEntities.size()>0) {
 
             DispatchType targetEntity = overEntities.get(overEntities.size()-1);
-
             if (addNum > 0)
-                commonMapper.downOrder_dispatchType(year, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_type", "year=" + year, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_dispatchType(year, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_type", "year=" + year, baseSortOrder, targetEntity.getSortOrder());
 
             DispatchType record = new DispatchType();
             record.setId(id);

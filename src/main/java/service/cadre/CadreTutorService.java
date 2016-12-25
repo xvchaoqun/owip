@@ -18,13 +18,8 @@ public class CadreTutorService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreTutor record){
 
-        cadreTutorMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        CadreTutor _record = new CadreTutor();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return cadreTutorMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("cadre_tutor", "cadre_id=" + record.getCadreId()));
+        return cadreTutorMapper.insertSelective(record);
     }
     @Transactional
     public void del(Integer id){
@@ -90,11 +85,10 @@ public class CadreTutorService extends BaseMapper {
         if(overEntities.size()>0) {
 
             CadreTutor targetEntity = overEntities.get(overEntities.size()-1);
-
             if (addNum > 0)
-                commonMapper.downOrder_cadreTutor(cadreId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_tutor", "cadre_id=" + cadreId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_cadreTutor(cadreId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_tutor", "cadre_id=" + cadreId, baseSortOrder, targetEntity.getSortOrder());
 
             CadreTutor record = new CadreTutor();
             record.setId(id);

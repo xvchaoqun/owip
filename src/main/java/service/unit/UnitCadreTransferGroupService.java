@@ -31,13 +31,8 @@ public class UnitCadreTransferGroupService extends BaseMapper {
     @CacheEvict(value="UnitCadreTransferGroup:ALL", allEntries = true)
     public int insertSelective(UnitCadreTransferGroup record){
 
-        unitCadreTransferGroupMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        UnitCadreTransferGroup _record = new UnitCadreTransferGroup();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return unitCadreTransferGroupMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("unit_cadre_transfer_group", "1=1"));
+        return unitCadreTransferGroupMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="UnitCadreTransferGroup:ALL", allEntries = true)

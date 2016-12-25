@@ -61,7 +61,7 @@ public class ApplicatTypeController extends BaseController {
             }
         }
 
-        TreeNode tree = cadreService.getTree(cadreSet, null, cadreIdSet);
+        TreeNode tree = cadreCommonService.getTree(cadreSet, null, cadreIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
@@ -85,7 +85,7 @@ public class ApplicatTypeController extends BaseController {
         Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);

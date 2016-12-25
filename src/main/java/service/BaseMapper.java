@@ -10,6 +10,8 @@ import persistence.base.LocationMapper;
 import persistence.cadre.*;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
+import persistence.cadreTemp.CadreTempMapper;
+import persistence.cadreTemp.CadreTempViewMapper;
 import persistence.common.*;
 import persistence.dispatch.*;
 import persistence.ext.ExtAbroadMapper;
@@ -272,15 +274,22 @@ public class BaseMapper {
 	@Autowired
 	protected LeaderUnitMapper leaderUnitMapper;
 	@Autowired
-	protected CadreReserveMapper cadreReserveMapper;
-	@Autowired
-	protected CadreReserveViewMapper cadreReserveViewMapper;
+	protected CadreAdditionalPostMapper cadreAdditionalPostMapper;
 	@Autowired
 	protected CadreMapper cadreMapper;
 	@Autowired
-	protected CadreAdditionalPostMapper cadreAdditionalPostMapper;
-	@Autowired
 	protected CadreViewMapper cadreViewMapper;
+	@Autowired
+	protected CadreAdLogMapper cadreAdLogMapper;
+	@Autowired
+	protected CadreTempMapper cadreTempMapper;
+	@Autowired
+	protected CadreTempViewMapper cadreTempViewMapper;
+	@Autowired
+	protected CadreReserveMapper cadreReserveMapper;
+	@Autowired
+	protected CadreReserveViewMapper cadreReserveViewMapper;
+
 	@Autowired
 	protected HistoryUnitMapper historyUnitMapper;
 	@Autowired

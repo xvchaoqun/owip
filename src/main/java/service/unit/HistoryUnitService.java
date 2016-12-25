@@ -30,13 +30,8 @@ public class HistoryUnitService extends BaseMapper {
     @CacheEvict(value="HistoryUnit", key = "#record.unitId")
     public int insertSelective(HistoryUnit record){
 
-        historyUnitMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        HistoryUnit _record = new HistoryUnit();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return historyUnitMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("unit_history_unit", "unit_id=" + record.getUnitId()));
+        return historyUnitMapper.insertSelective(record);
     }
 
     @Transactional
@@ -109,9 +104,9 @@ public class HistoryUnitService extends BaseMapper {
             HistoryUnit targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_historyUnit(unitId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_history_unit", "unit_id=" + unitId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_historyUnit(unitId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_history_unit", "unit_id=" + unitId, baseSortOrder, targetEntity.getSortOrder());
 
             HistoryUnit record = new HistoryUnit();
             record.setId(id);

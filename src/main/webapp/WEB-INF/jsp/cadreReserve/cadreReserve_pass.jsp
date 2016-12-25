@@ -3,24 +3,19 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>考察对象
-    </h3>
+    <h3>列为考察对象</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadre_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cadre.id}">
-        <input type="hidden" name="status" value="${status}">
+    <form class="form-horizontal" action="${ctx}/cadreReserve_pass" id="modalForm" method="post">
+        <input type="hidden" name="reserveId" value="${cadreReserve.id}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">账号<c:if test="${cadre==null}">(不在干部库中)</c:if></label>
-				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
-                            name="userId" data-placeholder="请输入账号或姓名或学工号">
-                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
-                    </select>
+				<label class="col-xs-3 control-label">账号</label>
+				<div class="col-xs-6 label-text">
+                    ${cadre.user.realname}-${cadre.user.code}
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">现所在单位</label>
+            <label class="col-xs-3 control-label">任职单位</label>
             <div class="col-xs-8">
                 <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                     <option></option>
@@ -34,19 +29,19 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">现任职务</label>
+            <label class="col-xs-3 control-label">任命职务</label>
             <div class="col-xs-6">
                 <input  class="form-control" type="text" name="post" value="${cadre.post}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">现所在单位及职务</label>
+            <label class="col-xs-3 control-label">任职单位及职务</label>
             <div class="col-xs-6">
                 <input  class="form-control" type="text" name="title" value="${cadre.title}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">现职务属性</label>
+            <label class="col-xs-3 control-label">职务属性</label>
             <div class="col-xs-6">
                 <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                     <option></option>
@@ -58,7 +53,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">现行政级别</label>
+				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
                     <select  data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
                         <option></option>
@@ -70,21 +65,19 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">备注</label>
+				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                    <textarea class="form-control limited" name="remark" rows="5">${cadre.remark}</textarea>
+                    <textarea class="form-control limited" name="reserveRemark" rows="5">${cadreReserve.remark}</textarea>
 				</div>
 			</div>
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadre!=null}">确定</c:if><c:if test="${cadre==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-success" value="列为考察对象"/>
 </div>
 
 <script>
-    jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
-    jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {
@@ -92,9 +85,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        //SysMsg.success('提交成功。', '成功',function(){
-                            $("#jqGrid").trigger("reloadGrid");
-                        //});
+                        location.href='${ctx}/cadreTemp';
                     }
                 }
             });

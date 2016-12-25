@@ -20,7 +20,7 @@ public class CurrentUserFilter extends PathMatchingFilter {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         String username = shiroUser.getUsername();
-        //String username = "admin";
+
         request.setAttribute(Constants.CURRENT_USER, userService.findByUsername(username));
         return true;
     }

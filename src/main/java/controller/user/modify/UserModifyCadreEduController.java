@@ -7,6 +7,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class UserModifyCadreEduController extends BaseController{
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 提交/更新 [添加或修改申请]
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/cadreEdu_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreEdu_au(@CurrentUser SysUserView loginUser,
@@ -111,7 +112,7 @@ public class UserModifyCadreEduController extends BaseController{
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping("/cadreEdu_au")
     public String cadreEdu_au(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
@@ -120,7 +121,7 @@ public class UserModifyCadreEduController extends BaseController{
             modelMap.put("cadreEdu", cadreEdu);
         }
 
-        Cadre cadre = cadreService.findByUserId(loginUser.getId());
+        Cadre cadre = cadreService.dbFindByUserId(loginUser.getId());
         modelMap.put("cadre", cadre);
         modelMap.put("sysUser", loginUser);
 
@@ -128,7 +129,7 @@ public class UserModifyCadreEduController extends BaseController{
     }
 
     // 删除申请
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/cadreEdu_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreEdu_del(HttpServletRequest request, Integer id) {

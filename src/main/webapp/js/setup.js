@@ -1501,6 +1501,12 @@ $(document).on("click", ".infobox [data-url]", function(){
         location.href=_url;
 });
 
+/*
+ { label:'排序',width: 50, name:'sortOrder',frozen:true, formatter:function(cellvalue, options, rowObject){
+ return '<a title="点击修改排序" class="change-order" data-url="${ctx}/party_changeOrder" data-id="{0}" data-init="{1}" data-title="{2}">{1}</a>'
+ .format(rowObject.id, rowObject.sortOrder, rowObject.code);
+ }},
+ */
 $(document).on("click", "a.change-order",function(){
     $this = $(this);
     var url = $this.data("url");

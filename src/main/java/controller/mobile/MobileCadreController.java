@@ -3,7 +3,6 @@ package controller.mobile;
 import bean.m.Breadcrumb;
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -40,7 +39,7 @@ public class MobileCadreController extends BaseController {
 	public String cadre_base_page(@CurrentUser SysUserView loginUser,  ModelMap modelMap) {
 
 		Integer userId = loginUser.getId();
-		Cadre cadre = cadreService.findByUserId(userId);
+		Cadre cadre = cadreService.dbFindByUserId(userId);
 		modelMap.put("cadre", cadre);
 
 		/*Map<Integer, Branch> branchMap = branchService.findAll();

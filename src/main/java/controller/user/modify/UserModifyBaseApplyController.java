@@ -6,6 +6,7 @@ import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,14 +29,14 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserModifyBaseApplyController extends BaseController{
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping("/modifyBaseApply_au")
     public String modifyBaseApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("uv", loginUser);
 
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
 
         // 人事信息
@@ -52,7 +53,7 @@ public class UserModifyBaseApplyController extends BaseController{
     }
 
     // 提交申请
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyBaseApply(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
@@ -79,7 +80,7 @@ public class UserModifyBaseApplyController extends BaseController{
     }
 
     // 撤销申请
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE}, logical = Logical.OR)
+    @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_back", method = RequestMethod.POST)
     @ResponseBody
     public Map back(@RequestParam(required = false, value = "ids[]")Integer[] ids,

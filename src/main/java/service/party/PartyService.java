@@ -3,6 +3,7 @@ package service.party;
 import domain.party.*;
 import domain.sys.MetaType;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,21 +27,23 @@ public class PartyService extends BaseMapper {
     private OrgAdminService orgAdminService;
 
     // 是否直属党支部
-    public boolean isDirectBranch(int partyId){
+    public boolean isDirectBranch(int partyId) {
 
         Party party = findAll().get(partyId);
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_direct_branch");
     }
+
     // 是否分党委
-    public boolean isParty(int partyId){
+    public boolean isParty(int partyId) {
 
         Party party = findAll().get(partyId);
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party");
     }
+
     // 是否党总支
-    public boolean isPartyGeneralBranch(int partyId){
+    public boolean isPartyGeneralBranch(int partyId) {
 
         Party party = findAll().get(partyId);
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
@@ -48,46 +51,40 @@ public class PartyService extends BaseMapper {
     }
 
 
-    public boolean idDuplicate(Integer id, String code){
+    public boolean idDuplicate(Integer id, String code) {
 
         Assert.isTrue(StringUtils.isNotBlank(code));
 
         PartyExample example = new PartyExample();
         PartyExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return partyMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    @CacheEvict(value="Party:ALL", allEntries = true)
-    public int insertSelective(Party record){
+    @CacheEvict(value = "Party:ALL", allEntries = true)
+    public int insertSelective(Party record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()));
+        record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0"));
         record.setIsDeleted(false);
-        partyMapper.insertSelective(record);
-        Integer id = record.getId();
-        Party _record = new Party();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return partyMapper.updateByPrimaryKeySelective(_record);
+        return partyMapper.insertSelective(record);
     }
-    /*@Transactional
-    @CacheEvict(value="Party:ALL", allEntries = true)
-    public void del(Integer id){
-
-        partyMapper.deleteByPrimaryKey(id);
-    }*/
 
     @Transactional
-    @CacheEvict(value="Party:ALL", allEntries = true)
-    public void batchDel(Integer[] ids, boolean isDeleted){
+    @CacheEvict(value = "Party:ALL", allEntries = true)
+    public void batchDel(Integer[] ids, boolean isDeleted) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
-        if(isDeleted) {
-            for (Integer id : ids) {
 
+        for (Integer id : ids) {
+
+            Party record = new Party();
+            record.setId(id);
+            record.setIsDeleted(isDeleted);
+            if (isDeleted) {
                 // 删除所有的领导班子
                 {
                     PartyMemberGroupExample example = new PartyMemberGroupExample();
@@ -117,25 +114,30 @@ public class PartyService extends BaseMapper {
 
                 // 删除所有的分党委管理员
                 orgAdminService.delAllOrgAdmin(id, null);
+            }else{
+                record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0")); // 恢复：更新排序
             }
+
+            partyMapper.updateByPrimaryKeySelective(record);
         }
 
-        PartyExample example = new PartyExample();
+
+        /*PartyExample example = new PartyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         Party record = new Party();
         record.setIsDeleted(isDeleted);
-        partyMapper.updateByExampleSelective(record, example);
+        partyMapper.updateByExampleSelective(record, example);*/
     }
 
     @Transactional
-    @CacheEvict(value="Party:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(Party record){
-        if(StringUtils.isNotBlank(record.getCode()))
+    @CacheEvict(value = "Party:ALL", allEntries = true)
+    public int updateByPrimaryKeySelective(Party record) {
+        if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
         return partyMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="Party:ALL")
+    @Cacheable(value = "Party:ALL")
     public Map<Integer, Party> findAll() {
 
         PartyExample example = new PartyExample();
@@ -151,11 +153,38 @@ public class PartyService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "Party:ALL", allEntries = true)
-    public void changeOrder(int id, int sortOrder) {
+    public void changeOrder(int id, int addNum) {
 
-        Party record = new Party();
-        record.setId(id);
-        record.setSortOrder(sortOrder);
-        partyMapper.updateByPrimaryKeySelective(record);
+        if (addNum == 0) return;
+
+        Party entity = partyMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+
+        PartyExample example = new PartyExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        } else {
+
+            example.createCriteria().andIsDeletedEqualTo(false).andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<Party> overEntities = partyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if (overEntities.size() > 0) {
+
+            Party targetEntity = overEntities.get(overEntities.size() - 1);
+
+            if (addNum > 0)
+                commonMapper.downOrder("ow_party", "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("ow_party", "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
+
+            Party record = new Party();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            partyMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

@@ -7,7 +7,6 @@ import domain.cadre.CadreEduExample;
 import domain.cadre.CadreEduExample.Criteria;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class ModifyCadreEduController extends BaseController {
             CadreEduExample example = new CadreEduExample();
             Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             // 干部只能看到自己的
-            Cadre cadre = cadreService.findByUserId(loginUser.getUserId());
+            Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             criteria.andCadreIdEqualTo(cadre.getId());
             List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
             modelMap.put("cadreEdus", cadreEdus);
@@ -81,7 +80,7 @@ public class ModifyCadreEduController extends BaseController {
         // 正式数据
         CadreEduExample example = new CadreEduExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
         modelMap.put("cadreEdus", cadreEdus);

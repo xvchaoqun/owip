@@ -1,21 +1,14 @@
 package service.cadre;
 
 import bean.XlsCadre;
-import domain.abroad.ApproverBlackList;
-import domain.abroad.ApproverType;
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.cadre.Cadre;
-import domain.cadre.CadreAdditionalPost;
-import domain.cadre.CadreAdditionalPostExample;
 import domain.cadre.CadreExample;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
-import domain.sys.MetaType;
+import domain.cadreTemp.CadreTemp;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,16 +18,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.abroad.ApproverBlackListService;
-import service.abroad.ApproverTypeService;
-import service.dispatch.DispatchService;
+import service.cadreReserve.CadreReserveService;
+import service.cadreTemp.CadreTempService;
 import service.helper.ShiroHelper;
-import service.sys.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
-import sys.tool.tree.TreeNode;
 
 import java.util.*;
 
@@ -42,318 +31,52 @@ import java.util.*;
 public class CadreService extends BaseMapper {
 
     @Autowired
-    private MetaTypeService metaTypeService;
-    @Autowired
     private SysUserService sysUserService;
     @Autowired
     private UnitService unitService;
     @Autowired
-    private DispatchService dispatchService;
+    private CadreReserveService cadreReserveService;
     @Autowired
-    private CadreAdditionalPostService cadreAdditionalPostService;
+    private CadreTempService cadreTempService;
     @Autowired
-    private ApproverBlackListService approverBlackListService;
-    @Autowired
-    private ApproverTypeService approverTypeService;
+    private CadreAdLogService cadreAdLogService;
 
-    // 获取干部范文
-    public TreeNode getDispatchCadreTree(int cadreId, Byte type){
+    /*
+        直接添加干部时执行的检查
+     */
+    public void directAddCheck(Integer id, int userId){
 
-        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
-
-        List<DispatchCadre> dispatchCadres =  commonMapper.selectDispatchCadreList(cadreId, type);
-        Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
-        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-        TreeNode root = new TreeNode();
-        root.title = "选择离任文件";
-        root.expand = true;
-        root.isFolder = true;
-        root.hideCheckbox = true;
-        root.children =  new ArrayList<TreeNode>();
-        for (DispatchCadre dispatchCadre : dispatchCadres) {
-
-            Dispatch dispatch = dispatchMap.get(dispatchCadre.getDispatchId());
-            TreeNode node = new TreeNode();
-            MetaType postType = postMap.get(dispatchCadre.getPostId());
-            node.title = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
-                    +"-" + dispatchCadre.getPost() + (postType!=null?("-" + postType.getName()):"");
-            node.key = dispatchCadre.getId()+"";
-            node.expand = false;
-            node.isFolder = false;
-            node.noLink = true;
-            node.icon = false;
-            node.hideCheckbox = false;
-            node.tooltip = dispatch.getFile();
-            node.select = (cadre.getDispatchCadreId()!=null && cadre.getDispatchCadreId().intValue() == dispatchCadre.getId());
-
-            root.children.add(node);
-        }
-        return root;
-    }
-
-    @Transactional
-    @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public int importCadres(final List<XlsCadre> cadres, byte status) {
-        //int duplicate = 0;
-        int success = 0;
-        for(XlsCadre uRow: cadres){
-
-            Cadre record = new Cadre();
-            String userCode = uRow.getUserCode();
-            SysUserView uv = sysUserService.findByCode(userCode);
-            if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
-            record.setUserId(uv.getId());
-            record.setStatus(status);
-            record.setTypeId(uRow.getAdminLevel());
-            record.setPostId(uRow.getPostId());
-            Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
-            if(unit==null){
-                throw  new RuntimeException("单位编号："+uRow.getUnitCode()+"不存在");
-            }
-            record.setUnitId(unit.getId());
-            record.setTitle(uRow.getTitle());
-            record.setRemark(uRow.getRemark());
-
-            if (idDuplicate(null, uv.getId())) {
-                throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode()+"重复");
-            }
-
-            insertSelective(record);
-            success++;
-        }
-        return success;
-    }
-
-    public TreeNode getTree( Set<Cadre> cadreList, Set<Integer> selectIdSet, Set<Integer> disabledIdSet){
-
-        return getTree(cadreList, selectIdSet, disabledIdSet, true, false);
-    }
-
-    // 职务属性-干部 Set<cadreId> , 用于审批人身份时disabledIdSet=null
-    public TreeNode getTree( Set<Cadre> cadreList, Set<Integer> selectIdSet,
-                             Set<Integer> disabledIdSet, boolean enableSelect, boolean defExpand){
-
-        if(null == selectIdSet) selectIdSet = new HashSet<>();
-        if(null == disabledIdSet) disabledIdSet = new HashSet<>();
-
-        TreeNode root = new TreeNode();
-        root.title = "现任干部库";
-        root.expand = true;
-        root.isFolder = true;
-        root.hideCheckbox = true;
-        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
-        root.children = rootChildren;
-
-        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-        // 职务属性-干部
-        Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
-
-        /*CadreExample example = new CadreExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
-        example.setOrderByClause(" sort_order desc");
-        List<Cadre> cadres = cadreMapper.selectByExample(example);*/
-        for (Cadre cadre : cadreList) {
-            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW) {
-                List<Cadre> list = null;
-                MetaType postType = postMap.get(cadre.getPostId());
-                int postId = postType.getId();
-                if (postIdCadresMap.containsKey(postId)) {
-                    list = postIdCadresMap.get(postId);
-                }
-                if (null == list) list = new ArrayList<>();
-                list.add(cadre);
-
-                postIdCadresMap.put(postId, list);
-            }
+        CadreExample example = new CadreExample();
+        CadreExample.Criteria criteria = example.createCriteria()
+                .andUserIdEqualTo(userId).andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_NOW,
+                        SystemConstants.CADRE_STATUS_LEAVE, SystemConstants.CADRE_STATUS_LEADER_LEAVE));
+        if(id!=null) criteria.andIdNotEqualTo(id);
+        int count = cadreMapper.countByExample(example);
+        if( count > 0){
+            Cadre cadre = dbFindByUserId(userId);
+            throw new RuntimeException(cadre.getUser().getRealname()
+                    + "已经在" + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }
 
-        // 排序
-        Map<String, List<Cadre>> postCadresMap = new LinkedHashMap<>();
-        for (MetaType metaType : postMap.values()) {
-            if(postIdCadresMap.containsKey(metaType.getId()))
-                postCadresMap.put(metaType.getName(), postIdCadresMap.get(metaType.getId()));
-        }
-
-        int i = 0;
-        for (Map.Entry<String, List<Cadre>> entry : postCadresMap.entrySet()) {
-
-            List<Cadre> entryValue = entry.getValue();
-            TreeNode titleNode = new TreeNode();
-
-            titleNode.expand = defExpand;
-            titleNode.isFolder = true;
-            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
-            titleNode.children = titleChildren;
-            if(!enableSelect)
-                titleNode.hideCheckbox = true;
-
-            int selectCount = 0;
-            for (Cadre cadre : entryValue) {
-
-                int cadreId = cadre.getId();
-                String title = cadre.getTitle();
-                TreeNode node = new TreeNode();
-                SysUserView uv = sysUserService.findById(cadre.getUserId());
-                node.title = uv.getRealname() + (title!=null?("-" + title):"");
-                node.key =  cadreId + "";
-
-                if (enableSelect && selectIdSet.contains(cadreId)) {
-                    selectCount++;
-                    node.select = true;
-                }
-                if(!enableSelect || disabledIdSet.contains(cadreId))
-                    node.hideCheckbox = true;
-                titleChildren.add(node);
-            }
-            titleNode.title = entry.getKey() + String.format("(%s", selectCount>0?selectCount+"/":"")+ entryValue.size() + "人)";
-            rootChildren.add(titleNode);
-        }
-        return root;
-    }
-
-    class CadrePostBean{
-        private int cadreId;
-        private int postId;
-        private boolean additional;
-
-        public CadrePostBean(int cadreId, int postId, boolean additional) {
-            this.cadreId = cadreId;
-            this.postId = postId;
-            this.additional = additional;
-        }
-
-        public int getCadreId() {
-            return cadreId;
-        }
-
-        public void setCadreId(int cadreId) {
-            this.cadreId = cadreId;
-        }
-
-        public int getPostId() {
-            return postId;
-        }
-
-        public void setPostId(int postId) {
-            this.postId = postId;
-        }
-
-        public boolean isAdditional() {
-            return additional;
-        }
-
-        public void setAdditional(boolean additional) {
-            this.additional = additional;
-        }
-    }
-
-    // 本单位正职列表（审批人，包括兼任职务）
-    public TreeNode getMainPostCadreTree(){
-
-        TreeNode root = new TreeNode();
-        root.title = "现任干部库";
-        root.expand = true;
-        root.isFolder = true;
-        root.hideCheckbox = true;
-        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
-        root.children = rootChildren;
-
-        Map<Integer, Cadre> cadreMap = findAll();
-        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-        // 职务属性-干部
-        Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
-
-        for (Cadre cadre : cadreMap.values()) {
-            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
-                    && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
-                List<CadrePostBean> list = null;
-                Integer unitId = cadre.getUnitId();
-                if (unitIdCadresMap.containsKey(unitId)) {
-                    list = unitIdCadresMap.get(unitId);
-                }
-                if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostId(), false);
-                list.add(bean);
-
-                unitIdCadresMap.put(unitId, list);
-            }
-        }
-        Map<String, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
-        for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
-            Cadre cadre = cadreMap.get(cPost.getCadreId());
-            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
-                    && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
-                List<CadrePostBean> list = null;
-                Integer unitId = cPost.getUnitId();
-                if (unitIdCadresMap.containsKey(unitId)) {
-                    list = unitIdCadresMap.get(unitId);
-                }
-                if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cPost.getCadreId(),
-                        cPost.getPostId(), true);
-                list.add(bean);
-
-                unitIdCadresMap.put(unitId, list);
-            }
-        }
-
-        // 排序
-        Map<Integer, Unit> unitMap = unitService.findAll();
-        Map<String, List<CadrePostBean>> unitCadresMap = new LinkedHashMap<>();
-        for (Unit unit : unitMap.values()) {
-            if(unitIdCadresMap.containsKey(unit.getId()))
-                unitCadresMap.put(unit.getName(), unitIdCadresMap.get(unit.getId()));
-        }
-
-        // 本单位正职身份
-        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
-        for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
-
-            List<CadrePostBean> entryValue = entry.getValue();
-            TreeNode titleNode = new TreeNode();
-
-
-            titleNode.isFolder = true;
-            titleNode.hideCheckbox=true;
-            titleNode.unselectable=true;
-            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
-            titleNode.children = titleChildren;
-
-            int blackCount = 0;
-            for (CadrePostBean bean : entryValue) {
-
-                int cadreId = bean.getCadreId();
-                TreeNode node = new TreeNode();
-                Cadre cadre = cadreMap.get(cadreId);
-                SysUserView uv = sysUserService.findById(cadre.getUserId());
-                node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
-                (bean.additional?"(兼审单位)":"");
-
-                if(bean.additional) {
-                    node.unselectable = true;
-                }else{
-                    node.key =  cadreId + "";
-                }
-                node.select=true;
-
-                // 本单位正职黑名单
-                if(!bean.additional && blackListMap.get(cadreId)!=null) {
-                    node.select = false;
-                    blackCount++;
+        if(id==null && count==0){ // 新添加干部的时候，判断一下是否在后备干部库或考察对象库中
+            Cadre cadre = dbFindByUserId(userId);
+            if(cadre!=null){
+                Integer cadreId = cadre.getId();
+                String realname = cadre.getUser().getRealname();
+                if(cadreTempService.getNormalRecord(cadreId)!=null){
+                    throw new RuntimeException( realname + "已经是考察对象");
                 }
 
-                titleChildren.add(node);
-            }
+                if(cadreReserveService.getNormalRecord(cadreId)!=null){
+                    throw new RuntimeException(realname + "已经是后备干部");
+                }
 
-            int selectCount = entryValue.size() - blackCount;
-            titleNode.title = entry.getKey() + String.format("(%s", selectCount>0?selectCount+"/":"") + entryValue.size() + ")";
-            rootChildren.add(titleNode);
+                // 此种情况应该不可能发生，上面的考察对象已经检查过了
+                if(cadreReserveService.getFromTempRecord(cadreId)!=null){
+                    throw new RuntimeException(realname + "已经列为考察对象[后备干部]");
+                }
+            }
         }
-        return root;
     }
 
     @Transactional
@@ -362,6 +85,10 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void leave(int id, byte status, String title, Integer dispatchCadreId){
+
+        // 记录任免日志
+        cadreAdLogService.addLog(id, "干部离任",
+                SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
         if(status == SystemConstants.CADRE_STATUS_LEAVE){
 
@@ -406,6 +133,8 @@ public class CadreService extends BaseMapper {
         if(StringUtils.isNotBlank(title))
             record.setTitle(title);
         record.setDispatchCadreId(dispatchCadreId);
+        record.setSortOrder(getNextSortOrder("cadre", "status="+status));
+
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
 
@@ -418,28 +147,41 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void assign(Integer[] ids){
+    public void re_assign(Integer[] ids){
 
-        Cadre record = new Cadre();
-        record.setStatus(SystemConstants.CADRE_STATUS_TEMP);
-        CadreExample example = new CadreExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids))
-                .andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_LEAVE,
-                        SystemConstants.CADRE_STATUS_LEADER_LEAVE));
+        for (Integer id : ids) {
 
-        cadreMapper.updateByExampleSelective(record, example);
+            // 记录任免日志
+            cadreAdLogService.addLog(id, "重新任用",
+                    SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
+
+            Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+            int userId = cadre.getUserId();
+            if(cadre.getStatus()!=SystemConstants.CADRE_STATUS_LEAVE
+                    && cadre.getStatus()!=SystemConstants.CADRE_STATUS_LEADER_LEAVE){
+                throw new IllegalArgumentException("干部["+cadre.getUser().getRealname()+"]状态异常：" + cadre.getStatus());
+            }
+
+            SysUserView uv = sysUserService.findById(userId);
+            // 添加考察对象角色
+            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRETEMP, uv.getUsername(), uv.getCode());
+
+            // 检查
+            cadreTempService.directAddCheck(null, userId);
+
+            // 添加到考察对象中
+            CadreTemp record = new CadreTemp();
+            record.setSortOrder(getNextSortOrder(CadreTempService.TABLE_NAME, "status=" + SystemConstants.CADRE_TEMP_STATUS_NORMAL));
+            record.setCadreId(cadre.getId());
+            record.setStatus(SystemConstants.CADRE_TEMP_STATUS_NORMAL);
+            record.setType(SystemConstants.CADRE_TEMP_TYPE_DEFAULT);
+            record.setRemark(SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "重新任用");
+            cadreTempMapper.insertSelective(record);
+
+        }
     }
 
-    public boolean idDuplicate(Integer id, int userId){
-
-        CadreExample example = new CadreExample();
-        CadreExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
-        if(id!=null) criteria.andIdNotEqualTo(id);
-
-        return cadreMapper.countByExample(example) > 0;
-    }
-
-    public Cadre findByUserId(int userId){
+    public Cadre dbFindByUserId(int userId){
 
         CadreExample example = new CadreExample();
         example.createCriteria().andUserIdEqualTo(userId);
@@ -449,45 +191,6 @@ public class CadreService extends BaseMapper {
         return null;
     }
 
-    // 获取某个单位下的兼审正职
-    public List<Cadre> findAdditionalPost(int unitId){
-
-        List<Cadre> cadreList = new ArrayList<>();
-        Map<Integer, Cadre> cadreMap = findAll();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        CadreAdditionalPostExample example = new CadreAdditionalPostExample();
-        example.createCriteria().andUnitIdEqualTo(unitId);
-        List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
-        for (CadreAdditionalPost cPost : cPosts) {
-            MetaType postType = metaTypeMap.get(cPost.getPostId());
-            if (postType.getBoolAttr()) {
-                cadreList.add(cadreMap.get(cPost.getCadreId()));
-            }
-        }
-        return cadreList;
-    }
-
-    // 查找某个单位的正职(不包括兼任职务的干部)
-    public List<Cadre> findMainPost(int unitId){
-
-        List<Cadre> cadreList = new ArrayList<>();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        {
-            CadreExample example = new CadreExample();
-            example.createCriteria().andUnitIdEqualTo(unitId)
-                    .andStatusNotEqualTo(SystemConstants.CADRE_STATUS_RESERVE);
-            List<Cadre> cadres = cadreMapper.selectByExample(example);
-            for (Cadre cadre : cadres) {
-                MetaType postType = metaTypeMap.get(cadre.getPostId());
-                if (postType.getBoolAttr()) {
-                    cadreList.add(cadre);
-                }
-            }
-        }
-
-        return cadreList;
-    }
-
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
@@ -495,18 +198,61 @@ public class CadreService extends BaseMapper {
     })
     synchronized public void insertSelective(Cadre record){
 
-        SysUserView uv = sysUserService.findById(record.getUserId());
+        int userId = record.getUserId();
+        // 检查
+        directAddCheck(null, userId);
+
+        SysUserView uv = sysUserService.findById(userId);
         // 添加干部身份
         sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
 
         record.setIsDp(false);// 初次添加标记为非民主党派
-        Assert.isTrue(record.getStatus()!=SystemConstants.CADRE_STATUS_RESERVE);// 非后备干部
-        if(record.getStatus()!=null)
-            record.setSortOrder(getNextSortOrder("cadre", "status="+record.getStatus()));
+        Assert.isTrue(record.getStatus()!=null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
+                && record.getStatus() != SystemConstants.CADRE_STATUS_TEMP); // 非后备干部、考察对象
+
+        //if(record.getStatus()!=null)
+        record.setSortOrder(getNextSortOrder("cadre", "status="+record.getStatus()));
         cadreMapper.insertSelective(record);
+
+        // 记录任免日志
+        cadreAdLogService.addLog(record.getId(), "添加干部",
+                SystemConstants.CADRE_AD_LOG_MODULE_CADRE, record.getId());
     }
 
     @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public int importCadres(final List<XlsCadre> cadres, byte status) {
+        //int duplicate = 0;
+        int success = 0;
+        for(XlsCadre uRow: cadres){
+
+            Cadre record = new Cadre();
+            String userCode = uRow.getUserCode();
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
+            int userId = uv.getId();
+            record.setUserId(userId);
+            record.setStatus(status);
+            record.setTypeId(uRow.getAdminLevel());
+            record.setPostId(uRow.getPostId());
+            Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
+            if(unit==null){
+                throw  new RuntimeException("单位编号："+uRow.getUnitCode()+"不存在");
+            }
+            record.setUnitId(unit.getId());
+            record.setTitle(uRow.getTitle());
+            record.setRemark(uRow.getRemark());
+
+            insertSelective(record);
+            success++;
+        }
+        return success;
+    }
+
+    /*@Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
@@ -517,15 +263,16 @@ public class CadreService extends BaseMapper {
 
         for (Integer id : ids) {
 
-            // 删除干部身份
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
-            SysUserView uv = sysUserService.findById(cadre.getUserId());
-            sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
+            Assert.isTrue(cadre.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_TEMP); // 非后备干部、考察对象
 
-            Assert.isTrue(cadre.getStatus()!=SystemConstants.CADRE_STATUS_RESERVE); // 非后备干部
+            SysUserView uv = sysUserService.findById(cadre.getUserId());
+            // 删除干部身份
+            sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
             cadreMapper.deleteByPrimaryKey(id);
         }
-    }
+    }*/
 
     @Transactional
     @Caching(evict= {
@@ -534,12 +281,20 @@ public class CadreService extends BaseMapper {
     })
     public void democraticParty_batchDel(Integer[] ids){
 
+        for (Integer id : ids) {
+            // 记录任免日志
+            cadreAdLogService.addLog(id, "从民主党派库中删除",
+                    SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
+        }
+
+
         if(ids==null || ids.length==0) return;
 
         CadreExample example = new CadreExample();
         example.createCriteria()
                 .andIdIn(Arrays.asList(ids))
-                .andStatusNotEqualTo(SystemConstants.CADRE_STATUS_RESERVE)
+                .andStatusNotIn(Arrays.asList(SystemConstants.CADRE_STATUS_RESERVE,
+                        SystemConstants.CADRE_STATUS_TEMP))
                 .andIsDpEqualTo(true);
         Cadre record = new Cadre();
         record.setIsDp(false);
@@ -566,7 +321,7 @@ public class CadreService extends BaseMapper {
         return cadreMapper.updateByExampleSelective(record, example);
     }
 
-    // 干部列表（包含后备干部）
+    // 干部列表（包含后备干部、考察对象）
     @Cacheable(value="Cadre:ALL")
     public Map<Integer, Cadre> findAll() {
 

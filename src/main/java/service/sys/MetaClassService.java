@@ -55,13 +55,8 @@ public class MetaClassService extends BaseMapper {
     public int insertSelective(MetaClass record){
 
         Assert.isTrue(codeAvailable(null, record.getCode()));
-        metaClassMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        MetaClass _record = new MetaClass();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return metaClassMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("base_meta_class", "1=1"));
+        return metaClassMapper.insertSelective(record);
     }
 
     @Transactional

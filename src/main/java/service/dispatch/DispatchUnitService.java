@@ -32,13 +32,8 @@ public class DispatchUnitService extends BaseMapper {
     @CacheEvict(value="DispatchUnit:ALL", allEntries = true)
     public int insertSelective(DispatchUnit record){
 
-        dispatchUnitMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        DispatchUnit _record = new DispatchUnit();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return dispatchUnitMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("dispatch_unit", "1=1"));
+        return dispatchUnitMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="DispatchUnit:ALL", allEntries = true)

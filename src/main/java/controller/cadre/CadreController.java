@@ -65,7 +65,7 @@ public class CadreController extends BaseController {
             msg = "该用户不存在";
         }else {
             resultMap.put("realname", sysUser.getRealname());
-            Cadre cadre = cadreService.findByUserId(sysUser.getId());
+            Cadre cadre = cadreService.dbFindByUserId(sysUser.getId());
             if(cadre==null){
                 msg = "该用户不是干部";
             }else{
@@ -229,36 +229,6 @@ public class CadreController extends BaseController {
     }
 
     @RequiresPermissions("cadre:edit")
-    @RequestMapping("/cadre_temp_pass_au")
-    public String cadre_temp_pass(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            Cadre cadre = cadreMapper.selectByPrimaryKey(id);
-            modelMap.put("cadre", cadre);
-            modelMap.put("sysUser", cadre.getUser());
-        }
-        return "cadre/cadre_temp_pass_au";
-    }
-
-    @RequiresPermissions("cadre:edit")
-    @RequestMapping(value = "/cadre_temp_pass_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadre_temp_pass_au(Cadre record, HttpServletRequest request) {
-
-        int id = record.getId();
-        record.setStatus(SystemConstants.CADRE_STATUS_NOW);
-        CadreExample example = new CadreExample();
-        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_TEMP);
-
-        cadreService.updateByExampleSelective(record, example);
-
-        Cadre cadre = cadreMapper.selectByPrimaryKey(id);
-        SysUserView user = cadre.getUser();
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cadre:edit")
     @RequestMapping("/cadre_leave")
     public String cadre_leave(int id, HttpServletResponse response,  ModelMap modelMap) {
 
@@ -267,7 +237,7 @@ public class CadreController extends BaseController {
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
 
-        TreeNode dispatchCadreTree = cadreService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
+        TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
         modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
 
         return "cadre/cadre_leave";
@@ -288,13 +258,13 @@ public class CadreController extends BaseController {
 
     // 在“离任中层干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
     @RequiresPermissions("cadre:edit")
-    @RequestMapping(value = "/cadre_assign", method = RequestMethod.POST)
+    @RequestMapping(value = "/cadre_re_assign", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_assign(@RequestParam(value = "ids[]") Integer[] ids) {
+    public Map do_cadre_re_assign(@RequestParam(value = "ids[]") Integer[] ids) {
 
-        cadreService.assign(ids);
+        cadreService.re_assign(ids);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部任用：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部重新任用：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -320,15 +290,12 @@ public class CadreController extends BaseController {
     public Map do_cadre_au(Cadre record, HttpServletRequest request) {
 
         Integer id = record.getId();
-        if(cadreService.idDuplicate(id, record.getUserId())){
-            return failed("添加重复");
-        }
-
         if (id == null) {
             cadreService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
         } else {
-
+            record.setUserId(null); // 不能修改账号、干部类别
+            record.setStatus(null);
             cadreService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部：%s", record.getId()));
         }
@@ -349,7 +316,7 @@ public class CadreController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
         if(id!=null && (status==SystemConstants.CADRE_STATUS_LEAVE || status==SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
-            TreeNode dispatchCadreTree = cadreService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
+            TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
 
@@ -358,7 +325,7 @@ public class CadreController extends BaseController {
         return "cadre/cadre_au";
     }
 
-    @RequiresPermissions("cadre:del")
+    /*@RequiresPermissions("cadre:del")
     @RequestMapping(value = "/cadre_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -368,7 +335,7 @@ public class CadreController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cadre:changeOrder")
     @RequestMapping(value = "/cadre_changeOrder", method = RequestMethod.POST)

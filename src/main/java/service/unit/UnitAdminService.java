@@ -22,13 +22,8 @@ public class UnitAdminService extends BaseMapper {
     @CacheEvict(value="UnitAdmin:ALL", allEntries = true)
     public int insertSelective(UnitAdmin record){
 
-        unitAdminMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        UnitAdmin _record = new UnitAdmin();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return unitAdminMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("unit_admin", "group_id=" + record.getGroupId()));
+        return unitAdminMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="UnitAdmin:ALL", allEntries = true)
@@ -100,9 +95,9 @@ public class UnitAdminService extends BaseMapper {
             UnitAdmin targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_unitAdmin(groupId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("unit_admin", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_unitAdmin(groupId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("unit_admin", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
 
             UnitAdmin record = new UnitAdmin();
             record.setId(id);

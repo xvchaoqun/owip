@@ -16,6 +16,7 @@ public class CadreUnderEduService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreUnderEdu record){
 
+        record.setSortOrder(getNextSortOrder("cadre_under_edu", "cadre_id=" + record.getCadreId()));
         return cadreUnderEduMapper.insertSelective(record);
     }
     @Transactional
@@ -67,11 +68,10 @@ public class CadreUnderEduService extends BaseMapper {
         if(overEntities.size()>0) {
 
             CadreUnderEdu targetEntity = overEntities.get(overEntities.size()-1);
-
             if (addNum > 0)
-                commonMapper.downOrder_cadreUnderEdu(cadreId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_under_edu", "cadre_id=" + cadreId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_cadreUnderEdu(cadreId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_under_edu", "cadre_id=" + cadreId, baseSortOrder, targetEntity.getSortOrder());
 
             CadreUnderEdu record = new CadreUnderEdu();
             record.setId(id);

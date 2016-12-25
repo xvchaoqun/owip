@@ -51,12 +51,8 @@ public class ApproverTypeService extends BaseMapper {
             Approver record = new Approver();
             record.setTypeId(typeId);
             record.setCadreId(cadreId);
-            approverMapper.insert(record);
-
-            Approver _record = new Approver();
-            _record.setId(record.getId());
-            _record.setSortOrder(record.getId());
-            approverMapper.updateByPrimaryKeySelective(_record);
+            record.setSortOrder(getNextSortOrder("abroad_approver", "1=1"));
+            approverMapper.insertSelective(record);
         }
     }
 
@@ -99,12 +95,8 @@ public class ApproverTypeService extends BaseMapper {
     public int insertSelective(ApproverType record){
 
         Assert.isTrue(!idDuplicate(null, record.getName(), record.getType()));
-        approverTypeMapper.insertSelective(record);
-
-        ApproverType _record = new ApproverType();
-        _record.setId(record.getId());
-        _record.setSortOrder(record.getId());
-        return approverTypeMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("abroad_approver_type", "1=1"));
+        return approverTypeMapper.insertSelective(record);
     }
     @Transactional
     @Caching(evict= {

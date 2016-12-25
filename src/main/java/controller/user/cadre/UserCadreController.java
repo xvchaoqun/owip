@@ -26,7 +26,7 @@ public class UserCadreController extends BaseController {
     public String cadre_page(@CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         return "forward:/cadre_view?cadreId="+cadre.getId()+"&_auth=self";
     }

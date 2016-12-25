@@ -34,13 +34,9 @@ public class CadreCourseService extends BaseMapper {
                 if(StringUtils.isNotBlank(name)){
                     record.setId(null);
                     record.setName(name);
+                    record.setSortOrder(getNextSortOrder("cadre_course",
+                            "cadre_id=" + record.getCadreId() + "and type="+record.getType()));
                     cadreCourseMapper.insertSelective(record);
-
-                    Integer id = record.getId();
-                    CadreCourse _record = new CadreCourse();
-                    _record.setId(id);
-                    _record.setSortOrder(id);
-                    cadreCourseMapper.updateByPrimaryKeySelective(_record);
                 }
             }
         }
@@ -100,9 +96,9 @@ public class CadreCourseService extends BaseMapper {
 
             CadreCourse targetEntity = overEntities.get(overEntities.size()-1);
             if (addNum > 0)
-                commonMapper.downOrder_cadreCourse(cadreId, type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_course", "cadre_id=" + cadreId + "and type="+type, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_cadreCourse(cadreId, type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_course", "cadre_id=" + cadreId + "and type="+type, baseSortOrder, targetEntity.getSortOrder());
 
             CadreCourse record = new CadreCourse();
             record.setId(id);

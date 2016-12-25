@@ -250,7 +250,7 @@ public class CmTag {
     }
     public static Cadre getCadreByUserId(Integer userId) {
 
-        return cadreService.findByUserId(userId);
+        return cadreService.dbFindByUserId(userId);
     }
 
     public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId){

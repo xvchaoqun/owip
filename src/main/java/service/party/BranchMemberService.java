@@ -111,13 +111,8 @@ public class BranchMemberService extends BaseMapper {
         checkAuth(branch.getPartyId());
 
         record.setIsAdmin(false);
+        record.setSortOrder(getNextSortOrder("ow_branch_member", "group_id=" + record.getGroupId()));
         branchMemberMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        BranchMember _record = new BranchMember();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        branchMemberMapper.updateByPrimaryKeySelective(_record);
 
         if(autoAdmin){
             branchMemberAdminService.toggleAdmin(record);
@@ -216,9 +211,9 @@ public class BranchMemberService extends BaseMapper {
             BranchMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_branchMember(groupId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("ow_branch_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_branchMember(groupId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("ow_branch_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
 
             BranchMember record = new BranchMember();
             record.setId(id);

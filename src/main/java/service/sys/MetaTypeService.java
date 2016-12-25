@@ -137,13 +137,8 @@ public class MetaTypeService extends BaseMapper {
     public int insertSelective(MetaType record){
 
         Assert.isTrue(codeAvailable(null, record.getCode()));
-        metaTypeMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        MetaType _record = new MetaType();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return metaTypeMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("base_meta_type", "class_id=" + record.getClassId()));
+        return metaTypeMapper.insertSelective(record);
     }
 
     @Transactional
@@ -241,9 +236,9 @@ public class MetaTypeService extends BaseMapper {
             MetaType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_metaType(classId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("base_meta_type", "class_id=" + classId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_metaType(classId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("base_meta_type", "class_id=" + classId, baseSortOrder, targetEntity.getSortOrder());
 
             MetaType record = new MetaType();
             record.setId(id);

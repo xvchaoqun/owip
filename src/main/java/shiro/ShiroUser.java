@@ -85,13 +85,13 @@ public class ShiroUser implements Serializable {
         if (userRoles.contains(SystemConstants.ROLE_CADRE)) {
             Cadre cadre = CmTag.getCadreByUserId(id);
 
-            //临时和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
+            //考察对象和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
             if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW
                     && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
-                userPermissions.remove("abroad:user");
-                userPermissions.remove("userApplySelf:*");
-                userPermissions.remove("userPassportDraw:*");
-                userPermissions.remove("userPassportApply:*");
+                userPermissions.remove("abroad:user"); // 因私出国境申请（干部目录）
+                userPermissions.remove("userApplySelf:*"); // 申请因私出国境（干部）
+                userPermissions.remove("userPassportDraw:*"); // 申请使用证件（干部）
+                userPermissions.remove("userPassportApply:*"); // 因私出国境证件（干部）
             }
 
             if (approverTypeBean != null && cadre!= null) {
@@ -105,16 +105,18 @@ public class ShiroUser implements Serializable {
 
             // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
             if (cadre==null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW || approverTypeBean == null ||
-                    !(approverTypeBean.getMainPostUnitIds().size()>0 || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
+                    !(approverTypeBean.getMainPostUnitIds().size()>0
+                            || approverTypeBean.isManagerLeader()
+                            || approverTypeBean.isApprover())) {
 
-                userPermissions.remove("applySelf:approvalList");
+                userPermissions.remove("applySelf:approvalList"); // 因私出国境审批
                 if (!userRoles.contains(SystemConstants.ROLE_CADREADMIN)) {
                     // 干部管理员 需要目录，普通干部不需要
-                    userPermissions.remove("abroad:admin");
+                    userPermissions.remove("abroad:admin"); // 因私出国境审批（目录）
                 }
             }
 
-            // 非管理员的干部如果有直接修改本人干部信息的权限，则不能看到“干部信息修改申请”菜单
+            // 非干部管理员账号如果有直接修改本人干部信息的权限，则不能看到“干部信息修改申请”菜单
             boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
             if(!userRoles.contains(SystemConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth){
 

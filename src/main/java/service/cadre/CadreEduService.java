@@ -162,7 +162,7 @@ public class CadreEduService extends BaseMapper {
             throw new RuntimeException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
-        Cadre cadre = cadreService.findByUserId(currentUserId);
+        Cadre cadre = cadreService.dbFindByUserId(currentUserId);
 
         int id = record.getId();
         CadreEduExample example = new CadreEduExample();
@@ -222,7 +222,7 @@ public class CadreEduService extends BaseMapper {
         }
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
         record.setStatus(SystemConstants.RECORD_STATUS_MODIFY);

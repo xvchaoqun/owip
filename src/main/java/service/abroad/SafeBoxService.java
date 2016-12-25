@@ -45,13 +45,8 @@ public class SafeBoxService extends BaseMapper {
     public int insertSelective(SafeBox record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()));
-        safeBoxMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        SafeBox _record = new SafeBox();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return safeBoxMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("abroad_safe_box", "1=1"));
+        return safeBoxMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="SafeBox:ALL", allEntries = true)

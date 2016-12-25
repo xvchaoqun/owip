@@ -156,7 +156,7 @@ public class ApplySelfController extends BaseController {
 
         if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
-            Cadre cadre = cadreService.findByUserId(userId);
+            Cadre cadre = cadreService.dbFindByUserId(userId);
             Integer applyId = applySelfFile.getApplyId();
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId); // 本人有下载权限
             if (applySelf.getCadreId().intValue() != cadre.getId().intValue()) {

@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.abroad.*;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -71,7 +70,7 @@ public class UserPassportController extends BaseController {
 
         modelMap.put("type", type);
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         List<Passport> keepPassports = new ArrayList<>();
         {
             PassportExample example = new PassportExample();
@@ -108,7 +107,7 @@ public class UserPassportController extends BaseController {
     public String passport_useLogs(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         if (passport.getCadreId().intValue() != cadre.getId()) {
@@ -130,7 +129,7 @@ public class UserPassportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         if (passport.getCadreId().intValue() != cadre.getId()) {
             throw new UnauthorizedException();
@@ -146,7 +145,7 @@ public class UserPassportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         if (passport.getCadreId().intValue() != cadre.getId()) {
             throw new UnauthorizedException();
@@ -163,7 +162,7 @@ public class UserPassportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         if (passport.getCadreId().intValue() != cadre.getId()) {
             throw new UnauthorizedException();
@@ -193,7 +192,7 @@ public class UserPassportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         if (passport.getCadreId().intValue() != cadre.getId()) {
             throw new UnauthorizedException();

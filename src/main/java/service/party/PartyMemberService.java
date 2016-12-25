@@ -76,13 +76,8 @@ public class PartyMemberService extends BaseMapper {
     public int insertSelective(PartyMember record, boolean autoAdmin){
 
         record.setIsAdmin(false);
+        record.setSortOrder(getNextSortOrder("ow_party_member", "group_id=" + record.getGroupId()));
         partyMemberMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        PartyMember _record = new PartyMember();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        partyMemberMapper.updateByPrimaryKeySelective(_record);
 
         if(autoAdmin){
             partyMemberAdminService.toggleAdmin(record);
@@ -176,9 +171,9 @@ public class PartyMemberService extends BaseMapper {
             PartyMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder_partyMember(groupId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("ow_party_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder_partyMember(groupId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("ow_party_member", "group_id=" + groupId, baseSortOrder, targetEntity.getSortOrder());
 
             PartyMember record = new PartyMember();
             record.setId(id);

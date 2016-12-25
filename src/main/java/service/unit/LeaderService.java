@@ -52,13 +52,8 @@ public class LeaderService extends BaseMapper {
     })
     public int insertSelective(Leader record) {
 
-        leaderMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        Leader _record = new Leader();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return leaderMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("unit_leader", "1=1"));
+        return leaderMapper.insertSelective(record);
     }
 
     @Transactional

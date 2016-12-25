@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -47,7 +46,7 @@ public class UserPassportApplyController extends BaseController {
         PassportApply record = new PassportApply();
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         record.setCadreId(cadre.getId());
         record.setClassId(classId);
@@ -72,7 +71,7 @@ public class UserPassportApplyController extends BaseController {
     public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             if(passportApply.getStatus()==SystemConstants.PASSPORT_APPLY_STATUS_INIT
@@ -135,7 +134,7 @@ public class UserPassportApplyController extends BaseController {
         criteria.andIsDeletedEqualTo(false);
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
 
         int count = passportApplyMapper.countByExample(example);

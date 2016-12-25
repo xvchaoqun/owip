@@ -41,13 +41,8 @@ public class ApproverService extends BaseMapper {
     public int insertSelective(Approver record){
 
         Assert.isTrue(!idDuplicate(null, record.getCadreId()));
-        approverMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        Approver _record = new Approver();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return approverMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("abroad_approver", "1=1"));
+        return approverMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="Approver:ALL", allEntries = true)

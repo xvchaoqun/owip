@@ -43,34 +43,12 @@ public class FileController extends BaseController {
                 attachFile.getFilename() + attachFile.getExt());
     }
 
-    @RequestMapping(value = "/attach/cadre")
-    public void cadreXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        String path = FileController.class.getResource("/").getPath() + "xlsx/cadre.xlsx";
-        DownloadUtils.download(request, response, path, "干部录入样表.xlsx");
-    }
-
-    @RequestMapping(value = "/attach/cadreReserve")
-    public void cadreReserveXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        String path = FileController.class.getResource("/").getPath() + "xlsx/cadreReserve.xlsx";
-        DownloadUtils.download(request, response, path, "后备干部录入样表.xlsx");
-    }
-
-    @RequestMapping(value = "/attach/passport")
-    public void passportXlsx(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        String path = FileController.class.getResource("/").getPath() + "xlsx/passport.xlsx";
-        DownloadUtils.download(request, response, path, "证件录入样表.xlsx");
-    }
-
     @RequestMapping(value = "/attach/download")
     public void download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
 
         if(!FileUtils.exists(springProps.uploadPath + path)){
             throw new RuntimeException("文件不存在："+ path);
         }
-
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 

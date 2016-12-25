@@ -110,13 +110,8 @@ public class BranchMemberGroupService extends BaseMapper {
             clearPresentGroup(record.getBranchId());
         }
         record.setIsDeleted(false);
-        branchMemberGroupMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        BranchMemberGroup _record = new BranchMemberGroup();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return branchMemberGroupMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("ow_branch_member_group", "1=1"));
+        return branchMemberGroupMapper.insertSelective(record);
     }
    /* @Transactional
     public void del(Integer id){

@@ -5,7 +5,6 @@ import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.cadre.Cadre;
 import domain.sys.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -46,7 +45,7 @@ public class UserPassportDrawController extends BaseController {
     public Map do_passportDraw_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             if(passportDraw.getStatus()==0 && passportDraw.getCadreId().intValue() == cadre.getId().intValue()) {
@@ -67,7 +66,7 @@ public class UserPassportDrawController extends BaseController {
     public String passportDraw_select(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         int cadreId = cadre.getId();
 
         List<Passport> passports = passportService.findByCadreId(cadreId);
@@ -92,7 +91,7 @@ public class UserPassportDrawController extends BaseController {
         example.setOrderByClause("create_time desc");
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
         // 未出行
         criteria.andStartDateGreaterThan(new Date());
@@ -123,7 +122,7 @@ public class UserPassportDrawController extends BaseController {
         request.setAttribute("isView", false);
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         List<Passport> passports = passportService.findByCadreId(cadre.getId());
         modelMap.put("passports", passports);
 
@@ -136,7 +135,7 @@ public class UserPassportDrawController extends BaseController {
                                          Integer passportId, Integer id, ModelMap modelMap) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         if(passport==null || passport.getCadreId().intValue() != cadre.getId().intValue()) throw new UnauthorizedException();
@@ -178,7 +177,7 @@ public class UserPassportDrawController extends BaseController {
         request.setAttribute("isView", false);
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         List<Passport> passports = passportService.findByCadreId(cadre.getId());
         modelMap.put("passports", passports);
 
@@ -199,7 +198,7 @@ public class UserPassportDrawController extends BaseController {
     public String passportDraw_tw_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
 
         Passport passportTw = null;
         MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
@@ -218,7 +217,7 @@ public class UserPassportDrawController extends BaseController {
     public String passportDraw_other(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         List<Passport> passports = passportService.findByCadreId(cadre.getId());
         modelMap.put("passports", passports);
 
@@ -274,7 +273,7 @@ public class UserPassportDrawController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
 
         int count = passportDrawMapper.countByExample(example);
@@ -324,7 +323,7 @@ public class UserPassportDrawController extends BaseController {
                                   HttpServletRequest request) {
 
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         int cadreId = cadre.getId();
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
@@ -371,7 +370,7 @@ public class UserPassportDrawController extends BaseController {
             throw new RuntimeException("请选择证件");
         }
 
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         int cadreId = cadre.getId();
         Passport passportTw = null;
         if(type == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
@@ -453,7 +452,7 @@ public class UserPassportDrawController extends BaseController {
                                      HttpServletRequest request) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.findByUserId(userId);
+        Cadre cadre = cadreService.dbFindByUserId(userId);
         int cadreId = cadre.getId();
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);

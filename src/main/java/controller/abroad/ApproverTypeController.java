@@ -42,7 +42,7 @@ public class ApproverTypeController extends BaseController {
 
         if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职
 
-            resultMap.put("tree", cadreService.getMainPostCadreTree());
+            resultMap.put("tree", cadreCommonService.getMainPostCadreTree());
 
         }else if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
 
@@ -65,14 +65,14 @@ public class ApproverTypeController extends BaseController {
                     selectCadreSet.add(cadre.getId());
             }
 
-            TreeNode tree = cadreService.getTree(cadreSet, selectCadreSet, null, true, true);
+            TreeNode tree = cadreCommonService.getTree(cadreSet, selectCadreSet, null, true, true);
             resultMap.put("tree", tree);
         }else{ // 其他审批身份
 
             Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
             //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
+            TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
             resultMap.put("tree", tree);
         }
 

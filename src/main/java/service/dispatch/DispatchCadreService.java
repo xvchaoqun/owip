@@ -30,17 +30,12 @@ public class DispatchCadreService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
-    public int insertSelective(DispatchCadre record){
+    public void insertSelective(DispatchCadre record){
 
+        record.setSortOrder(getNextSortOrder("dispatch_cadre", "1=1"));
         dispatchCadreMapper.insertSelective(record);
 
         dispatchService.update_dispatch_real_count();
-
-        Integer id = record.getId();
-        DispatchCadre _record = new DispatchCadre();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return dispatchCadreMapper.updateByPrimaryKeySelective(_record);
     }
     @Transactional
     @CacheEvict(value="DispatchCadre:ALL", allEntries = true)

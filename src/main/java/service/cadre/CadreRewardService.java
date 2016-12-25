@@ -18,13 +18,8 @@ public class CadreRewardService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreReward record){
 
-        cadreRewardMapper.insertSelective(record);
-
-        Integer id = record.getId();
-        CadreReward _record = new CadreReward();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return cadreRewardMapper.updateByPrimaryKeySelective(_record);
+        record.setSortOrder(getNextSortOrder("cadre_teach_reward", "1=1"));
+        return cadreRewardMapper.insertSelective(record);
     }
     @Transactional
     public void del(Integer id){

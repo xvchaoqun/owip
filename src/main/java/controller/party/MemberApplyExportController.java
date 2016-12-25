@@ -2,9 +2,6 @@ package controller.party;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.ext.ExtBks;
-import domain.ext.ExtJzg;
-import domain.ext.ExtYjs;
 import domain.member.*;
 import domain.member.MemberApplyExample.Criteria;
 import domain.party.Branch;
@@ -250,7 +247,7 @@ public class MemberApplyExportController extends BaseController {
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
-            Cadre cadre = cadreService.findByUserId(memberApply.getUserId());
+            Cadre cadre = cadreService.dbFindByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null){
@@ -334,7 +331,7 @@ public class MemberApplyExportController extends BaseController {
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
-            Cadre cadre = cadreService.findByUserId(memberApply.getUserId());
+            Cadre cadre = cadreService.dbFindByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null){
