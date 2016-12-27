@@ -2,9 +2,7 @@ package sys.constants;
 
 import sys.utils.DateUtils;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SystemConstants {
 
@@ -668,6 +666,7 @@ public class SystemConstants {
     public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
     public final static byte CADRE_STATUS_RESERVE = 5;
     public final static Map<Byte, String> CADRE_STATUS_MAP = new LinkedHashMap<>();
+    public final static Set<Byte> CADRE_STATUS_SET = new HashSet<>(); // 干部角色对应的所有状态
 
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_NOW, "现任干部库");
@@ -675,6 +674,10 @@ public class SystemConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEAVE, "离任中层干部库");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导干部库");
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
+
+        CADRE_STATUS_SET.add(CADRE_STATUS_NOW);
+        CADRE_STATUS_SET.add(CADRE_STATUS_TEMP);
+        CADRE_STATUS_SET.add(CADRE_STATUS_LEAVE);
     }
 
     // 后备干部库类别
@@ -686,12 +689,19 @@ public class SystemConstants {
     public final static Map<Byte, String> CADRE_RESERVE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_SCHOOL, "校级");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_CHIEF, "机关正处级");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "学院正级");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "学院副处级");
+    }
+    /*static {
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_SCHOOL, "校级后备干部库");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_CHIEF, "机关正处级后备干部库");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级后备干部库");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "学院正级后备干部库");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "学院副处级后备干部库");
-    }
+    }*/
 
     // 后备干部库状态 1 后备干部 2 后备干部已使用 3 已撤销资格
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;
@@ -703,7 +713,8 @@ public class SystemConstants {
     static {
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "后备干部");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_FROM_TEMP, "已列为考察对象");
-        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "后备干部已使用");
+        //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "后备干部已使用");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
     }
 
