@@ -18,7 +18,7 @@ public class CadreRewardService extends BaseMapper {
     @Transactional
     public int insertSelective(CadreReward record){
 
-        record.setSortOrder(getNextSortOrder("cadre_teach_reward", "1=1"));
+        record.setSortOrder(getNextSortOrder("cadre_reward", "1=1"));
         return cadreRewardMapper.insertSelective(record);
     }
     @Transactional
@@ -94,9 +94,9 @@ public class CadreRewardService extends BaseMapper {
             CadreReward targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cadre_teach_reward", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_reward", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre_teach_reward", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_reward", null, baseSortOrder, targetEntity.getSortOrder());
 
             CadreReward record = new CadreReward();
             record.setId(id);
