@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:if test="${param._auth!='self'}">
     <h4 class="widget-title lighter smaller"
-        style="position:absolute; top: -50px; left:180px; float: left; margin-bottom:0px; margin-left: 50px;">
+        style="position:absolute; top: -50px; left:480px; float: left; margin-bottom:0px; margin-left: 50px;">
         <a href="javascript:" class="closeView btn btn-xs btn-success">
             <i class="ace-icon fa fa-backward"></i>
             返回</a>
