@@ -132,20 +132,8 @@ public class DemocraticPartyController extends BaseController {
     public Map do_democraticParty_au(Integer cadreId, Integer dpTypeId, String _dpAddTime,
                                      String dpPost, String dpRemark, HttpServletRequest request) {
 
-        Cadre record = new Cadre();
-        record.setId(cadreId);
-        record.setDpTypeId(dpTypeId);
-        if(StringUtils.isNotBlank(_dpAddTime)){
-            record.setDpAddTime(DateUtils.parseDate(_dpAddTime, DateUtils.YYYY_MM_DD));
-        }
-        record.setDpPost(dpPost);
-        record.setDpRemark(dpRemark);
-        record.setIsDp(true);
-
-        record.setUserId(null); // 不能修改账号、干部类别
-        record.setStatus(null);
-        cadreService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新民主党派干部：%s", record.getId()));
+        cadreService.addDemocraticParty(cadreId, dpTypeId, _dpAddTime, dpPost, dpRemark);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新民主党派干部：%s", cadreId));
 
         return success(FormUtils.SUCCESS);
     }

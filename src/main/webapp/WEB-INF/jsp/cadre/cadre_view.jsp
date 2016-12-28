@@ -12,7 +12,7 @@
                         返回</a>
                 </h4>
                 </c:if>
-                <div class="jqgrid-vertical-offset widget-toolbar no-border">
+                <div class="jqgrid-vertical-offset widget-toolbar no-border" style="${hasDirectModifyCadreAuth?'float:left;':''}">
                     <ul class="nav nav-tabs">
                         <li class="${to=='cadre_base'?'active':''}">
                             <a href="javascript:" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
@@ -92,10 +92,13 @@
                             <a href="javascript:" data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
                         </li>
                         </shiro:hasPermission>
+                        <li>
+                            <a href="javascript:" data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}">信息修改说明</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="widget-body">
+            <div class="widget-body" style="${hasDirectModifyCadreAuth?'clear:both':''}">
                 <div class="widget-main padding-4">
                     <div class="tab-content padding-8">
                         <c:import url="/${to}"/>

@@ -46,10 +46,10 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">行政职务或者专技职务</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="post" value="${cadreWork.post}">
+                        <input class="form-control" type="text" name="post" value="${cadreWork.post}">
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-4 control-label">行政级别</label>
 				<div class="col-xs-6">
                     <select data-rel="select2" name="typeId" data-placeholder="请选择">
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
                         $("#modal form select[name=typeId]").val(${cadreWork.typeId});
                     </script>
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">工作类型</label>
 				<div class="col-xs-6">
@@ -74,7 +74,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">干部任职</label>
+            <label class="col-xs-4 control-label">是否担任领导职务</label>
             <div class="col-xs-6">
                 <label>
                     <input name="isCadre" ${cadreEdu.isCadre?"checked":""}  type="checkbox" />

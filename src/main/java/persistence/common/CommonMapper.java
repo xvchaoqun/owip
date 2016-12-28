@@ -19,6 +19,7 @@ import org.apache.ibatis.session.RowBounds;
 import sys.constants.SystemConstants;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by fafa on 2015/11/16.
@@ -102,16 +103,22 @@ public interface CommonMapper {
                               @Param("targetSortOrder") int targetSortOrder);
 
     // 根据账号、姓名、学工号查找干部
-    List<Cadre> selectCadreList(@Param("search") String search, RowBounds rowBounds);
-    int countCadre(@Param("search") String search);
+    List<Cadre> selectCadreList(@Param("search") String search,
+                                @Param("cadreStatusList")Set<Byte> cadreStatusList, RowBounds rowBounds);
+    int countCadre(@Param("search") String search,
+                   @Param("cadreStatusList")Set<Byte> cadreStatusList);
 
-    // 根据账号、姓名、学工号 查找所在单位和兼职单位 都关联该单位的干部
-    List<Cadre> selectCadreByUnitIdList(@Param("search") String search, @Param("unitId")int unitId, RowBounds rowBounds);
-    int countCadreByUnitId(@Param("search") String searchint, @Param("unitId")int unitId);
+   /* // 根据账号、姓名、学工号 查找所在单位和兼职单位 都关联该单位的干部
+    List<Cadre> selectCadreByUnitIdList(@Param("search") String search,
+                                        @Param("cadreStatusList")List<Byte> cadreStatusList, @Param("unitId")int unitId, RowBounds rowBounds);
+    int countCadreByUnitId(@Param("search") String search,
+                           @Param("cadreStatusList")List<Byte> cadreStatusList, @Param("unitId")int unitId);*/
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
-    List<SysUserView> selectNotCadreList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
-    int countNotCadre(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
+    List<SysUserView> selectNotCadreList(@Param("search") String search,
+                                         @Param("cadreStatusList")Set<Byte> cadreStatusList, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    int countNotCadre(@Param("search") String search,
+                      @Param("cadreStatusList")Set<Byte> cadreStatusList, @Param("regRoleStr") String regRoleStr);
 
     // 根据账号、姓名、学工号查找 不是 党员的用户
     List<SysUserView> selectNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);

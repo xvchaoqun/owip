@@ -3,14 +3,10 @@
 <%@ include file="taglibs.jsp"%>
 <script>var ctx="${ctx}";</script>
 <!--[if lt IE 9]>
-<script type="text/javascript">
-location.href="${ctx}/extend/unsupport.html"
-</script>
+<script type="text/javascript">location.href="${ctx}/extend/unsupport.html";</script>
 <![endif]-->
 <script src="${ctx}/js/main.js"></script>
-<script type="text/javascript">
-	if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
-</script>
+<script type="text/javascript">if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");</script>
 <script src="${ctx}/js/ui.js"></script>
 <script src="${ctx}/js/extend.js"></script>
 <script type="text/javascript" src="${ctx}/location_JSON"></script>

@@ -66,7 +66,7 @@
                                 <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
                                     <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
                                     <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
-                                    ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":""}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
+                                    ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
                                     &nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
                                 </c:forEach>
                             </c:if>
@@ -132,14 +132,7 @@
     </button>
 </script>
 <script type="text/template" id="dispatch_select_tpl">
-    <button class="popupBtn btn btn-warning btn-xs"
-            data-url="${ctx}/cadreWork_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
-            data-width="1000"><i class="fa fa-link"></i>
-        关联任免文件
-    </button>
-</script>
-<script type="text/template" id="dispatch_show_tpl">
-    <button class="popupBtn btn btn-success btn-xs"
+    <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
             data-url="${ctx}/cadreWork_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
             data-width="1000"><i class="fa fa-link"></i>
         任免文件({{=count}})
@@ -221,17 +214,19 @@
                     return cellvalue ? "是" : "否"
                 }
                 },
-                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                {label: '备注', name: 'remark', width: 150},
+
                 {
-                    label: '关联任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
+                    label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
                     var count = cellvalue.length;
-                    return count > 0 ? _.template($("#dispatch_show_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, cadreId: rowObject.cadreId, count: count})
-                            : _.template($("#dispatch_select_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, cadreId: rowObject.cadreId});
+                    <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+                    if(count==0) return ''
+                    </shiro:lacksPermission>
+                    return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+                    ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 }, width: 120
                 }
-                </shiro:hasPermission>
+
             ],
             rowattr: function (rowData, currentObj, rowId) {
                 //console.log(currentObj)
@@ -320,20 +315,20 @@
                         return cellvalue ? "是" : "否"
                     }
                     },
-                    <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                    {label: '备注', name: 'remark', width: 150},
                     {
-                        label: '关联任免文件',
+                        label: '干部任免文件',
                         name: 'dispatchCadreRelates',
                         formatter: function (cellvalue, options, rowObject) {
                             var count = cellvalue.length;
-                            return count > 0 ? _.template($("#dispatch_show_tpl").html().NoMultiSpace())
-                            ({id: rowObject.id, cadreId: rowObject.cadreId, count: count})
-                                    : _.template($("#dispatch_select_tpl").html().NoMultiSpace())
-                            ({id: rowObject.id, cadreId: rowObject.cadreId});
+                            <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+                            if(count==0) return ''
+                            </shiro:lacksPermission>
+                            return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+                            ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                         },
                         width: 120
                     },
-                    </shiro:hasPermission>
                     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {

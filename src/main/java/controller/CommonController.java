@@ -32,6 +32,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
@@ -212,10 +213,11 @@ public class CommonController extends BaseController{
         return resultMap;
     }
 
-    // 根据账号或姓名或学工号选择干部
+    // 根据账号或姓名或学工号选择干部（现任干部、离任干部）
     @RequestMapping("/cadre_selects")
     @ResponseBody
-    public Map cadre_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map cadre_selects(@RequestParam(defaultValue = "1", required = false)boolean formal, // formal=false时包括后备干部、考察对象
+                             Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -228,12 +230,14 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countCadre(searchStr);
+
+        int count = commonMapper.countCadre(searchStr, formal?SystemConstants.CADRE_STATUS_SET:null);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, formal?SystemConstants.CADRE_STATUS_SET:null,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != cadres && cadres.size()>0){
@@ -276,12 +280,14 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countNotCadre(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
+        int count = commonMapper.countNotCadre(searchStr, SystemConstants.CADRE_STATUS_SET,
+                sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<SysUserView> uvs = commonMapper.selectNotCadreList(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUserView> uvs = commonMapper.selectNotCadreList(searchStr, SystemConstants.CADRE_STATUS_SET,
+                sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != uvs && uvs.size()>0){
@@ -340,12 +346,12 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countCadreByUnitId(searchStr, unitId);
+        int count = commonMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreByUnitIdList(searchStr, unitId, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != cadres && cadres.size()>0){

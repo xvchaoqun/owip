@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.common.CommonMapper;
+import sys.constants.SystemConstants;
 
 import java.util.List;
 
@@ -25,10 +26,10 @@ public class CommonMapperTest {
 	@Test
 	public void list() {
 
-		List<Cadre> cadres = commonMapper.selectCadreList("%sd%", new RowBounds(0, 2));
+		List<Cadre> cadres = commonMapper.selectCadreList("%sd%", SystemConstants.CADRE_STATUS_SET, new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
-		int sd = commonMapper.countCadre("sd");
+		int sd = commonMapper.countCadre("sd", SystemConstants.CADRE_STATUS_SET);
 		System.out.println(sd);
 	}
 }

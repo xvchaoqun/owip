@@ -5,9 +5,11 @@
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 任现职情况</a>
     </li>
+    <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <li class="${type==2?"active":""}">
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 任职经历</a>
     </li>
+    </shiro:hasPermission>
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>
     </li>
@@ -51,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="widget-box collapsed">
+    <div class="widget-box ${empty subCadrePosts?'collapsed':''}">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
                 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">

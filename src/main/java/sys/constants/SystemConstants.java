@@ -705,14 +705,14 @@ public class SystemConstants {
 
     // 后备干部库状态 1 后备干部 2 后备干部已使用 3 已撤销资格
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;
-    public final static byte CADRE_RESERVE_STATUS_FROM_TEMP = 2;
+    public final static byte CADRE_RESERVE_STATUS_TO_TEMP = 2;
     public final static byte CADRE_RESERVE_STATUS_ASSIGN = 3;
     public final static byte CADRE_RESERVE_STATUS_ABOLISH = 4;
     public final static Map<Byte, String> CADRE_RESERVE_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "后备干部");
-        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_FROM_TEMP, "已列为考察对象");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_TO_TEMP, "已列为考察对象");
         //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "后备干部已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");

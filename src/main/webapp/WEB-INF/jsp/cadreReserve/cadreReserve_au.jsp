@@ -10,10 +10,31 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cadreReserve_au" id="modalForm" method="post">
         <input type="hidden" name="reserveId" value="${cadreReserve.id}">
         <input type="hidden" name="reserveType" value="${reserveType}"/>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">类别</label>
+            <div class="col-xs-6">
+                <input  name="_isCadre"type="radio" value="0" class="big" ${CADRE_STATUS_SET.get(cadre.status)==null?'checked':''}> 非干部&nbsp;
+                <input name="_isCadre" type="radio" value="1" class="big" ${CADRE_STATUS_SET.get(cadre.status)!=null?'checked':''}> 干部
+            </div>
+        </div>
+        <div id="_isCadreDiv" style="${CADRE_STATUS_SET.get(cadre.status)==null?'display: none':''}">
+            <div class="form-group">
+                <label class="col-xs-4 control-label">选择干部</label>
+                <div class="col-xs-6">
+                    <select ${CADRE_STATUS_SET.get(cadre.status)!=null?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                            name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                        <c:if test="${CADRE_STATUS_SET.get(cadre.status)!=null}">
+                        <option value="${cadre.user.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                        </c:if>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="_notCadreDiv" style="${CADRE_STATUS_SET.get(cadre.status)!=null?'display: none':''}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">账号</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                    <select ${CADRE_STATUS_SET.get(cadre.status)==null?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${cadre.user.id}">${cadre.user.realname}-${cadre.user.code}</option>
                     </select>
@@ -75,6 +96,7 @@ pageEncoding="UTF-8"%>
                     <textarea class="form-control limited" name="reserveRemark" rows="5">${cadreReserve.remark}</textarea>
 				</div>
 			</div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -83,6 +105,23 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+
+    $("input[name=_isCadre]").click(function(){
+        var val = $(this).val();
+        if(val==0){
+            $("select[name=cadreId]").removeAttr("required");
+            $("select[name=userId]").attr("required", "required");
+            $("#_isCadreDiv").hide();
+            $("#_notCadreDiv").show();
+        }
+        if(val==1){
+            $("select[name=userId]").removeAttr("required");
+            $("select[name=cadreId]").attr("required", "required");
+            $("#_isCadreDiv").show();
+            $("#_notCadreDiv").hide();
+        }
+    });
+
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();

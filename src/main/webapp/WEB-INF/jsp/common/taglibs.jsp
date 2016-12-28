@@ -83,7 +83,9 @@
 
 <c:set value="<%=SystemConstants.CADRE_RESERVE_TYPE_SCHOOL%>" var="CADRE_RESERVE_TYPE_SCHOOL"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_TYPE_MAP%>" var="CADRE_RESERVE_TYPE_MAP"/>
+
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_NORMAL%>" var="CADRE_RESERVE_STATUS_NORMAL"/>
+<c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_MAP%>" var="CADRE_RESERVE_STATUS_MAP"/>
 
 <c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_NORMAL%>" var="CADRE_TEMP_STATUS_NORMAL"/>

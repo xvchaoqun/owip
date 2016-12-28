@@ -24,6 +24,7 @@ import shiro.ShiroHelper;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 
 import java.util.*;
 
@@ -202,17 +203,24 @@ public class CadreService extends BaseMapper {
         // 检查
         directAddCheck(null, userId);
 
+        Assert.isTrue(record.getStatus()!=null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
+                && record.getStatus() != SystemConstants.CADRE_STATUS_TEMP); // 非后备干部、考察对象
+
         SysUserView uv = sysUserService.findById(userId);
         // 添加干部身份
         sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
 
-        record.setIsDp(false);// 初次添加标记为非民主党派
-        Assert.isTrue(record.getStatus()!=null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                && record.getStatus() != SystemConstants.CADRE_STATUS_TEMP); // 非后备干部、考察对象
-
-        //if(record.getStatus()!=null)
-        record.setSortOrder(getNextSortOrder("cadre", "status="+record.getStatus()));
-        cadreMapper.insertSelective(record);
+        record.setSortOrder(getNextSortOrder("cadre", "status=" + record.getStatus()));
+        Cadre cadre = dbFindByUserId(userId);
+        if(cadre==null) {
+            record.setIsDp(false);// 初次添加标记为非民主党派
+            //if(record.getStatus()!=null)
+            cadreMapper.insertSelective(record);
+        }else{
+            // 考察对象或后备干部被撤销时，干部信息仍然在库中，现在是覆盖更新
+            record.setId(cadre.getId());
+            cadreMapper.updateByPrimaryKeySelective(record);
+        }
 
         // 记录任免日志
         cadreAdLogService.addLog(record.getId(), "添加干部",
@@ -273,6 +281,28 @@ public class CadreService extends BaseMapper {
             cadreMapper.deleteByPrimaryKey(id);
         }
     }*/
+
+    @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void addDemocraticParty(int cadreId, int dpTypeId, String _dpAddTime, String dpPost, String dpRemark){
+
+        Cadre record = new Cadre();
+        record.setId(cadreId);
+        record.setDpTypeId(dpTypeId);
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(_dpAddTime)){
+            record.setDpAddTime(DateUtils.parseDate(_dpAddTime, DateUtils.YYYY_MM_DD));
+        }
+        record.setDpPost(dpPost);
+        record.setDpRemark(dpRemark);
+        record.setIsDp(true);
+
+        record.setUserId(null); // 不能修改账号、干部类别
+        record.setStatus(null);
+        updateByPrimaryKeySelective(record);
+    }
 
     @Transactional
     @Caching(evict= {

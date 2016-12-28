@@ -171,9 +171,14 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:edit")
     @RequestMapping(value = "/cadreReserve_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreReserve_au(int userId, Integer reserveId, Byte reserveType, String reserveRemark,
+    public Map do_cadreReserve_au(boolean _isCadre,
+                                  Integer cadreId,
+                                  Integer userId, Integer reserveId, Byte reserveType, String reserveRemark,
                                   Cadre cadreRecord, HttpServletRequest request) {
-
+        if(_isCadre){
+            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            userId = cadre.getUserId();
+        }
         CadreReserve record = new CadreReserve();
         record.setId(reserveId);
         record.setType(reserveType);
@@ -257,6 +262,18 @@ public class CadreReserveController extends BaseController {
         cadreReserveService.abolish(id);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "撤销后备干部：%s", id));
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreReserve:del")
+    @RequestMapping(value = "/cadreReserve_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids){
+            cadreReserveService.batchDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除已撤销后备干部：%s", StringUtils.join(ids, ",")));
+        }
         return success(FormUtils.SUCCESS);
     }
 

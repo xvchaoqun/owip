@@ -24,11 +24,11 @@ pageEncoding="UTF-8"%>
                     </select>
 				</div>
 			</div>
-            <div class="form-group">
+            <%--<div class="form-group">
                 <div class="col-xs-offset-3 col-xs-6">
                     * 此处显示的是“所在单位”或“兼职单位”为当前单位的干部
                     </div>
-            </div>
+            </div>--%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">

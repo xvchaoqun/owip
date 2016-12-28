@@ -1,6 +1,11 @@
 package service.modify;
 
 import domain.cadre.Cadre;
+import domain.cadre.CadreExample;
+import domain.cadreReserve.CadreReserve;
+import domain.cadreReserve.CadreReserveExample;
+import domain.cadreTemp.CadreTemp;
+import domain.cadreTemp.CadreTempExample;
 import domain.modify.ModifyCadreAuth;
 import domain.modify.ModifyCadreAuthExample;
 import domain.sys.MetaType;
@@ -49,9 +54,11 @@ public class ModifyCadreAuthService extends BaseMapper {
         // 后备干部库
         List<Cadre> reserveCadres = new ArrayList<>();
 
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
-        for (Cadre cadre : cadreMap.values()) {
-            if(cadre.getStatus()== SystemConstants.CADRE_STATUS_NOW) {
+        {
+            CadreExample example = new CadreExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+            List<Cadre> cadres = cadreMapper.selectByExample(example);
+            for (Cadre cadre : cadres) {
                 List<Cadre> list = null;
                 MetaType postType = postMap.get(cadre.getPostId());
                 int postId = postType.getId();
@@ -61,14 +68,31 @@ public class ModifyCadreAuthService extends BaseMapper {
                 if (null == list) list = new ArrayList<>();
                 list.add(cadre);
                 postIdCadresMap.put(postId, list);
-            }else if(cadre.getStatus()== SystemConstants.CADRE_STATUS_TEMP) {
+            }
+        }
 
+        {
+            CadreTempExample example = new CadreTempExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_TEMP_STATUS_NORMAL);
+            List<CadreTemp> cadreTemps = cadreTempMapper.selectByExample(example);
+            for (CadreTemp cadreTemp : cadreTemps) {
+                Cadre cadre = cadreMapper.selectByPrimaryKey(cadreTemp.getCadreId());
                 tempCadres.add(cadre);
-            }else if(cadre.getStatus()== SystemConstants.CADRE_STATUS_RESERVE) {
+            }
+        }
 
+        {
+            CadreReserveExample example = new CadreReserveExample();
+            example.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_RESERVE_STATUS_NORMAL,
+                    SystemConstants.CADRE_RESERVE_STATUS_TO_TEMP));
+            List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
+            for (CadreReserve cadreReserve : cadreReserves) {
+                Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
                 reserveCadres.add(cadre);
             }
         }
+
+
         // 按职务属性排序
         Map<String, List<Cadre>> postCadresMap = new LinkedHashMap<>();
         for (MetaType metaType : postMap.values()) {

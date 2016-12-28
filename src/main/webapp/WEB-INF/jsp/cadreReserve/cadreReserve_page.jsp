@@ -16,7 +16,7 @@
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="dropdown ${status==CADRE_RESERVE_STATUS_NORMAL?'active':''}">
+                        <%--<li class="dropdown ${status==CADRE_RESERVE_STATUS_NORMAL?'active':''}">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-flag"></i> ${empty reserveType?CADRE_RESERVE_TYPE_MAP.get(CADRE_RESERVE_TYPE_SCHOOL)
                                 :CADRE_RESERVE_TYPE_MAP.get(reserveType)}&nbsp;
@@ -31,7 +31,15 @@
                                     </li>
                                 </c:forEach>
                             </ul>
-                        </li>
+                        </li>--%>
+                        <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
+                            <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
+                                <a href="?reserveType=${_type.key}">
+                                    <i class="fa fa-flag"></i>
+                                        ${_type.value}</a>
+                            </li>
+                        </c:forEach>
+
                         <c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
@@ -83,6 +91,10 @@
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom"
                                    title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
+
+                                <c:if test="${status==CADRE_RESERVE_STATUS_ABOLISH}">
+                                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                                </c:if>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
