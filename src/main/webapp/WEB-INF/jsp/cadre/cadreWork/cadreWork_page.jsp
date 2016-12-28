@@ -297,7 +297,7 @@
                 colModel: [
                     {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
                     {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                    {label: '工作单位', name: 'unit', width: 280},
+                    {label: '工作单位', name: 'unit', width: 200, align:'left'},
                     {label: '担任职务或者专技职务', name: 'post', width: 180},
                     /*{
                         label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
@@ -311,7 +311,7 @@
                     }, width: 120
                     },
                     {
-                        label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: function (cellvalue, options, rowObject) {
+                        label: '是否担任领导职务', name: 'isCadre', width: 140, formatter: function (cellvalue, options, rowObject) {
                         return cellvalue ? "是" : "否"
                     }
                     },
