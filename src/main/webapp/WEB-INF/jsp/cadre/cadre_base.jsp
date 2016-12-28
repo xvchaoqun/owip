@@ -440,7 +440,7 @@ pageEncoding="UTF-8"%>
 						${cadreView.actualEnrolTime}
 					</td>
 				</tr>
-				<tr>
+				<%--<tr>
 
 					<td>基层工作经历</td>
 					<td colspan="5">
@@ -453,7 +453,7 @@ pageEncoding="UTF-8"%>
 					<td colspan="5">
 						${cadreView.actualEnrolTime}
 					</td>
-				</tr>
+				</tr>--%>
 				</tbody>
 			</table>
 		</div></div></div>
