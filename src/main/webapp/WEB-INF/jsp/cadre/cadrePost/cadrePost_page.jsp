@@ -136,32 +136,29 @@
 </c:if>
 <div class="footer-margin"/>
 <script type="text/template" id="dispatch_select_tpl">
-    <button class="popupBtn btn btn-warning btn-xs"
+    <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
             data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
             data-width="1000"><i class="fa fa-link"></i>
-        关联任命文件
-    </button>
-</script>
-<script type="text/template" id="dispatch_show_tpl">
-    <button class="popupBtn btn btn-success btn-xs"
-            data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
-            data-width="1000"><i class="fa fa-link"></i>
-        任命文件({{=count}})
+        任免文件({{=count}})
     </button>
 </script>
 <script type="text/template" id="dispatch_adminLevel_tpl">
-    <button class="popupBtn btn btn-xs btn-{{=!hasStart?'success':'primary'}}"
+    {{if(isAdmin || hasStart){}}
+    <button class="popupBtn btn btn-xs btn-{{=!hasStart?'success':'warning'}}"
             data-url="${ctx}/cadreAdminLevel_addDispatchs?cls=start&id={{=id}}&cadreId={{=cadreId}}"
             data-width="1000">
         <i class="fa fa-link"></i>
-        {{=!hasStart?"关联始任文件":"修改始任文件"}}
+        始任文件{{=!hasStart?'(0)':'(1)'}}
     </button>
-    <button class="popupBtn btn btn-xs btn-{{=!hasEnd?'success':'primary'}}"
+    {{}}}
+    {{if(isAdmin || hasEnd){}}
+    <button class="popupBtn btn btn-xs btn-{{=!hasEnd?'success':'warning'}}"
             data-url="${ctx}/cadreAdminLevel_addDispatchs?cls=end&id={{=id}}&cadreId={{=cadreId}}"
             data-width="1000">
         <i class="fa fa-link"></i>
-        {{=!hasEnd?"关联结束文件":"修改结束文件"}}
+        结束文件{{=!hasEnd?'(0)':'(1)'}}
     </button>
+    {{}}}
 </script>
 
 <style>
@@ -267,20 +264,20 @@
                     else return dispatchCode;
                 }
             },
-            <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
             {
-                label: '关联任命文件',
+                label: '干部任免文件',
                 name: 'dispatchCadreRelateBean.all',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
                     var count = cellvalue.length;
-                    return count > 0 ? _.template($("#dispatch_show_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, cadreId: rowObject.cadreId, count: count})
-                            : _.template($("#dispatch_select_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, cadreId: rowObject.cadreId});
+                    <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+                    if(count==0) return ''
+                    </shiro:lacksPermission>
+                    return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+                    ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 },
                 width: 120
-            },</shiro:hasPermission>
+            },
             {
                 label: '是否双肩挑', name: 'isDouble', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
@@ -371,20 +368,19 @@
                     else return dispatchCode;
                 }
             },
-            <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
             {
-                label: '关联任命文件',
+                label: '干部任免文件',
                 name: 'dispatchCadreRelateBean.all',
                 formatter: function (cellvalue, options, rowObject) {
                     var count = cellvalue.length;
-                    return count > 0 ? _.template($("#dispatch_show_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, cadreId: rowObject.cadreId, count: count})
-                            : _.template($("#dispatch_select_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, cadreId: rowObject.cadreId});
+                    <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+                    if(count==0) return ''
+                    </shiro:lacksPermission>
+                    return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+                    ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 },
                 width: 120
             }
-                </shiro:hasPermission>
         ]
     });
 
@@ -504,16 +500,20 @@
                     return year == 0 ? "未满一年" : year;
                 }
             },
-            <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
             {
-                label: '关联任免文件', name: 'selectDispatch', formatter: function (cellvalue, options, rowObject) {
+                label: '干部任免文件', name: 'selectDispatch', formatter: function (cellvalue, options, rowObject) {
 
                 var hasStart = rowObject.startDispatchCadreId > 0;
                 var hasEnd = rowObject.endDispatchCadreId > 0;
+                <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                var isAdmin = true;
+                </shiro:hasPermission>
+                <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+                var isAdmin = false;
+                </shiro:lacksPermission>
                 return _.template($("#dispatch_adminLevel_tpl").html().NoMultiSpace())
-                ({id: rowObject.id, hasStart: hasStart, hasEnd: hasEnd, cadreId: rowObject.cadreId});
+                ({id: rowObject.id, hasStart: hasStart, hasEnd: hasEnd, isAdmin:isAdmin, cadreId: rowObject.cadreId});
             }, width: 250 },
-            </shiro:hasPermission>
             {label: '备注', name: 'remark', width: 250}
         ]
     });

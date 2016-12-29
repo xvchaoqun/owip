@@ -71,6 +71,7 @@ pageEncoding="UTF-8" %>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <c:if test="${type=='edit'}">
         <input type="button" onclick="addDispatch()" class="btn btn-primary" value="保存"/>
     </c:if>
@@ -80,19 +81,20 @@ pageEncoding="UTF-8" %>
                 data-width="1000"><i class="fa fa-reply"></i>
             重新编辑</button>
     </c:if>
-</div>
-<script>
-    function addDispatch(){
+    <script>
+        function addDispatch(){
 
-        var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
-            return $(item).val();
-        });
-        $.post("${ctx}/cadrePost_addDispatchs",{id:'${param.id}',ids:ids},function(ret){
-            if(ret.success) {
-                //$("#modal").modal('hide');
-                _reload();
-            }
-        });
-    }
-</script>
+            var ids = $.map($("#modal .table td :checkbox:checked"),function(item, index){
+                return $(item).val();
+            });
+            $.post("${ctx}/cadrePost_addDispatchs",{id:'${param.id}',ids:ids},function(ret){
+                if(ret.success) {
+                    //$("#modal").modal('hide');
+                    _reload();
+                }
+            });
+        }
+    </script>
+    </shiro:hasPermission>
+</div>
 </div>
