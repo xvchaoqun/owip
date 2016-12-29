@@ -96,11 +96,11 @@ public class CadreReserveController extends BaseController {
                 Byte type = crc.getType();
                 Integer count = normalCountMap.get(type);
                 if(count==null) count = 0; // 不可能的情况
-                normalCountMap.put(type, count+1);
+                normalCountMap.put(type, count+crc.getNum());
             }
             Integer stCount = statusCountMap.get(st);
             if(stCount==null) stCount = 0;
-            statusCountMap.put(st, stCount+1);
+            statusCountMap.put(st, stCount+crc.getNum());
         }
         modelMap.put("statusCountMap", statusCountMap);
         modelMap.put("normalCountMap", normalCountMap);

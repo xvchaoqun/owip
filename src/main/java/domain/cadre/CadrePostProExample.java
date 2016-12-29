@@ -372,6 +372,76 @@ public class CadrePostProExample {
             return (Criteria) this;
         }
 
+        public Criteria andPostLevelIsNull() {
+            addCriterion("post_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelIsNotNull() {
+            addCriterion("post_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelEqualTo(String value) {
+            addCriterion("post_level =", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelNotEqualTo(String value) {
+            addCriterion("post_level <>", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelGreaterThan(String value) {
+            addCriterion("post_level >", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("post_level >=", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelLessThan(String value) {
+            addCriterion("post_level <", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelLessThanOrEqualTo(String value) {
+            addCriterion("post_level <=", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelLike(String value) {
+            addCriterion("post_level like", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelNotLike(String value) {
+            addCriterion("post_level not like", value, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelIn(List<String> values) {
+            addCriterion("post_level in", values, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelNotIn(List<String> values) {
+            addCriterion("post_level not in", values, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelBetween(String value1, String value2) {
+            addCriterion("post_level between", value1, value2, "postLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostLevelNotBetween(String value1, String value2) {
+            addCriterion("post_level not between", value1, value2, "postLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andPostIsNull() {
             addCriterion("post is null");
             return (Criteria) this;

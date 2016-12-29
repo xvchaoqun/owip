@@ -12,6 +12,8 @@ public class CadrePostPro implements Serializable {
 
     private Integer type;
 
+    private String postLevel;
+
     private Integer post;
 
     private Date holdTime;
@@ -54,6 +56,14 @@ public class CadrePostPro implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getPostLevel() {
+        return postLevel;
+    }
+
+    public void setPostLevel(String postLevel) {
+        this.postLevel = postLevel == null ? null : postLevel.trim();
     }
 
     public Integer getPost() {

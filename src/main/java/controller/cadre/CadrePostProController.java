@@ -2,6 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.*;
+import domain.sys.MetaType;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,38 @@ import java.util.Map;
 public class CadrePostProController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequestMapping("/cadrePostPro_metaTypes")
+    @ResponseBody
+    public Map cadrePostPro_metaTypes(String postLevel) {
+
+        // 专业技术职务
+        List<Map<String, Object>> options1 = new ArrayList<Map<String, Object>>();
+        for (MetaType metaType : metaTypeService.metaTypes("mc_post_pro_post").values()) {
+            if(StringUtils.equals(postLevel, metaType.getExtraAttr())){
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", metaType.getId() + "");
+                option.put("text", metaType.getName());
+                options1.add(option);
+            }
+        }
+        // 专技岗位等级
+        List<Map<String, Object>> options2 = new ArrayList<Map<String, Object>>();
+        for (MetaType metaType : metaTypeService.metaTypes("mc_post_pro_level").values()) {
+            if(StringUtils.equals(postLevel, metaType.getExtraAttr())){
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", metaType.getId() + "");
+                option.put("text", metaType.getName());
+                options2.add(option);
+            }
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("options1", options1);
+        resultMap.put("options2", options2);
+
+        return resultMap;
+    }
 
     @RequiresPermissions("cadrePostInfo:list")
     @RequestMapping("/cadrePostPro_data")

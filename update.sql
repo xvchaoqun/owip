@@ -1,4 +1,10 @@
 
+-- 2016-12-29-3
+ALTER TABLE `cadre_post_pro`
+	ADD COLUMN `post_level` VARCHAR(20) NOT NULL COMMENT '元数据附加属性，（专业技术职务、专技岗位等级）' AFTER `type`;
+
+
+
 -- 2016-12-29-2
 ALTER TABLE `ext_jzg`
 	ADD COLUMN `szzdw1` VARCHAR(255) NULL DEFAULT NULL COMMENT '所在子单位1' AFTER `basic_active_type`,

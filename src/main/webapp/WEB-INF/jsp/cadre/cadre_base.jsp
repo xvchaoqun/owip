@@ -88,8 +88,8 @@ pageEncoding="UTF-8"%>
 				</td>
 
 				<td>国家/地区</td>
-				<td >
-					${teacherInfo.country}
+				<td>
+				${extJzg.gj}
 				</td>
 			</tr>
 			<tr>
@@ -291,7 +291,7 @@ pageEncoding="UTF-8"%>
 						转正定级时间
 					</td>
 					<td colspan="3">
-					${extJzg.zzdjsj}
+							${fn:substringBefore(extJzg.zzdjsj, ' ')}
 					</td>
 
 				</tr>
@@ -336,7 +336,9 @@ pageEncoding="UTF-8"%>
 						是否双肩挑
 					</td>
 					<td  style="min-width: 80px">
-						${mainCadrePost.isDouble?"是":"否"}
+						<c:if test="${not empty mainCadrePost}">
+							${mainCadrePost.isDouble?"是":"否"}
+						</c:if>
 					</td>
 
 				</tr>
@@ -415,7 +417,7 @@ pageEncoding="UTF-8"%>
 					<td>${cm:formatDate(subCadrePost2.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}
 					</td>
 				</tr>
-				<tr>
+				<%--<tr>
 
 					<td>党委委员</td>
 					<td >
@@ -434,7 +436,7 @@ pageEncoding="UTF-8"%>
 					<td colspan="5">
 						${cadreView.actualEnrolTime}
 					</td>
-				</tr>
+				</tr>--%>
 				<%--<tr>
 
 					<td>基层工作经历</td>

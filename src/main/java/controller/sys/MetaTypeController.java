@@ -33,9 +33,7 @@ import sys.utils.MSUtils;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MetaTypeController extends BaseController {
@@ -43,9 +41,20 @@ public class MetaTypeController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/metaTypes")
-    public String metaTypes(String __code, ModelMap modelMap) {
+    public String metaTypes(String __code, String extraAttr, ModelMap modelMap) {
 
-        modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
+        if(StringUtils.isNotBlank(extraAttr)){
+            List<MetaType> metaTypes = new ArrayList<>();
+            for (MetaType metaType : metaTypeService.metaTypes(__code).values()) {
+                if(StringUtils.equals(extraAttr, metaType.getExtraAttr())){
+                    metaTypes.add(metaType);
+                }
+            }
+            modelMap.put("metaTypes", metaTypes);
+        }else{
+            modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
+        }
+
         return "sys/metaType/metaTypes";
     }
 

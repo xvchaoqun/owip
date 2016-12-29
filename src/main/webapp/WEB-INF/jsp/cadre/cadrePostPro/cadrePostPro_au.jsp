@@ -41,17 +41,28 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">专业技术职务</label>
-
+            <label class="col-xs-4 control-label">职级</label>
             <div class="col-xs-6">
-                <select required data-rel="select2" name="post"
+                <select required data-rel="select2" name="postLevel"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:import url="/metaTypes?__code=mc_post_pro_post"/>
+                    <option value="正高">正高</option>
+                    <option value="副高">副高</option>
+                    <option value="中级">中级</option>
+                    <option value="初级">初级</option>
                 </select>
                 <script type="text/javascript">
-                    $("#modal form select[name=post]").val(${cadrePostPro.post});
+                    $("#modal form select[name=postLevel]").val('${cadrePostPro.postLevel}');
                 </script>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">专业技术职务</label>
+            <div class="col-xs-6">
+                <c:set value="${cm:getMetaType(cadrePostPro.post)}" var="post"/>
+                <select required data-rel="select2" name="post" data-placeholder="请选择">
+                    <option value="${post.id}">${post.name}</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -69,14 +80,10 @@
             <label class="col-xs-4 control-label">专技岗位等级</label>
 
             <div class="col-xs-6">
-                <select required data-rel="select2" name="level"
-                        data-placeholder="请选择">
-                    <option></option>
-                    <c:import url="/metaTypes?__code=mc_post_pro_level"/>
+                <c:set value="${cm:getMetaType(cadrePostPro.level)}" var="level"/>
+                <select required data-rel="select2" name="level" data-placeholder="请选择">
+                    <option value="${level.id}">${level.name}</option>
                 </select>
-                <script type="text/javascript">
-                    $("#modal form select[name=level]").val(${cadrePostPro.level});
-                </script>
             </div>
         </div>
         <div class="form-group">
@@ -106,6 +113,27 @@
 </div>
 
 <script>
+    function postLevelChange(){
+
+        var postLevel = $('select[name=postLevel]').val();
+        $.getJSON("${ctx}/cadrePostPro_metaTypes",{postLevel:postLevel},function(ret){
+            $("select[name=post]").select2({
+                data: ret.options1
+            })
+            $("select[name=level]").select2({
+                data: ret.options2
+            })
+        });
+    }
+
+    $('select[name=postLevel]').select2().on("change", function () {
+        $('select[name=post], select[name=level]').html('<option></option>');
+        $('select[name=post], select[name=level]').val(null).trigger("change");
+        postLevelChange();
+    });
+
+    postLevelChange();
+
     register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
