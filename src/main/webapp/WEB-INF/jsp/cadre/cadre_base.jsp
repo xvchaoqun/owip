@@ -214,30 +214,29 @@ pageEncoding="UTF-8"%>
 					<td style="min-width: 80px">
 						${extJzg.dwmc}
 					</td>
-					<td>
-						所在子单位1
-					</td>
-					<td style="min-width: 80px">
-						--
-					</td>
-
-					<td>
-						所在子单位2
-					</td>
-					<td  style="min-width: 80px">
-						--
-					</td>
-				</tr>
-				<tr>
 					<td>编制类别</td>
 					<td >
-						${extJzg.bzlx}
+							${extJzg.bzlx}
 					</td>
 					<td>
 						人员分类
 					</td>
 					<td>
-						${extJzg.rylx}
+							${extJzg.rylx}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						人员状态
+					</td>
+					<td>
+							${extJzg.ryzt}
+					</td>
+					<td >
+						在岗情况
+					</td>
+					<td>
+							${extJzg.sfzg}
 					</td>
 					<td >
 						人事转否
@@ -277,10 +276,9 @@ pageEncoding="UTF-8"%>
 						--
 					</td>
 					<td>
-						人员状态
+						到校时间
 					</td>
-					<td>
-					   ${extJzg.ryzt}
+					<td>${teacherInfo.arriveTime}
 					</td>
 				</tr>
 				<tr>
@@ -289,25 +287,13 @@ pageEncoding="UTF-8"%>
 					<td >
 						--
 					</td>
-					<td>
-						到校时间
-					</td>
-					<td>${teacherInfo.arriveTime}
-					</td>
-					<td >
-						在岗情况
-					</td>
-					<td>
-							${extJzg.sfzg}
-					</td>
-				</tr>
-				<tr>
 					<td >
 						转正定级时间
 					</td>
-					<td colspan="5">
+					<td colspan="3">
 						--
 					</td>
+
 				</tr>
 
 				</tbody>

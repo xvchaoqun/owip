@@ -10,9 +10,9 @@ public class CadrePostWork implements Serializable {
 
     private Boolean isCurrent;
 
-    private String type;
+    private Integer type;
 
-    private String level;
+    private Integer level;
 
     private Date gradeTime;
 
@@ -44,20 +44,20 @@ public class CadrePostWork implements Serializable {
         this.isCurrent = isCurrent;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level == null ? null : level.trim();
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public Date getGradeTime() {

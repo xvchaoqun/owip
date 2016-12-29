@@ -320,6 +320,13 @@
                                                                         <i class="fa fa-reply-all"></i> 打回申请（批量）
                                                                     </button>
                                                                 </c:if>
+                                                                <c:if test="${stage==APPLY_STAGE_POSITIVE}">
+                                                                    <button class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                                                                            data-url="${ctx}/memberApply_back"
+                                                                            data-querystr="&stage=${stage}">
+                                                                        <i class="fa fa-reply-all"></i> 打回至预备党员（批量）
+                                                                    </button>
+                                                                </c:if>
                                                             </shiro:hasAnyRoles>
                                                         </div>
                                                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

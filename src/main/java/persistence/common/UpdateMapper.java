@@ -59,6 +59,12 @@ public interface UpdateMapper {
                                     @Param("lastPrintUserId") Integer lastPrintUserId);
     // 入党申请打回至状态
     //====================start
+
+    @Update("update ow_member_apply set stage="+SystemConstants.APPLY_STAGE_GROW
+            +", positive_status=null, positive_time=null " +
+            "where user_id=#{userId} and stage="+ SystemConstants.APPLY_STAGE_POSITIVE)
+    int memberApplyBackToGrow(@Param("userId") int userId);
+
     @Update("update ow_member_apply set stage="+SystemConstants.APPLY_STAGE_PLAN
             +", grow_status=null, grow_time=null"
             +", draw_status=null, draw_time=null " +

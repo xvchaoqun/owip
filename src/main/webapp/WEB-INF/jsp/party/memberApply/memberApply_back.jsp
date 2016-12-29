@@ -15,20 +15,30 @@ pageEncoding="UTF-8"%>
                 ${fn:length(fn:split(param['ids[]'],","))} 条
             </div>
         </div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">打回至状态</label>
-				<div class="col-xs-6">
-                    <div class="input-group">
-                        <select name="stage" data-rel="select2">
-                            <c:forEach var="_stage" items="${cm:inverseMap(APPLY_STAGE_MAP)}">
-                                <c:if test="${_stage.key>=APPLY_STAGE_INIT && _stage.key<=param.stage}">
-                                <option value="${_stage.key}">${_stage.value}</option>
-                                </c:if>
-                            </c:forEach>
-                        </select>
-                    </div>
-				</div>
+
+                    <c:if test="${param.stage!=APPLY_STAGE_POSITIVE}">
+                <div class="col-xs-6">
+                    <select name="stage" data-rel="select2">
+                        <c:forEach var="_stage" items="${cm:inverseMap(APPLY_STAGE_MAP)}">
+                            <c:if test="${_stage.key>=APPLY_STAGE_INIT && _stage.key<=param.stage}">
+                            <option value="${_stage.key}">${_stage.value}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
+                    </c:if>
+                    <c:if test="${param.stage==APPLY_STAGE_POSITIVE}">
+                <div class="col-xs-6 label-text">
+                        ${APPLY_STAGE_MAP.get(APPLY_STAGE_GROW)}
+                        <input type="hidden" name="stage" value="${APPLY_STAGE_GROW}">
+                </div>
+                    </c:if>
+
 			</div>
+
         <div class="form-group">
             <label class="col-xs-3 control-label">打回原因</label>
             <div class="col-xs-6">

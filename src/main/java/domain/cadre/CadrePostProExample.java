@@ -322,62 +322,52 @@ public class CadrePostProExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(String value) {
+        public Criteria andTypeEqualTo(Integer value) {
             addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(String value) {
+        public Criteria andTypeNotEqualTo(Integer value) {
             addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(String value) {
+        public Criteria andTypeGreaterThan(Integer value) {
             addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(String value) {
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(String value) {
+        public Criteria andTypeLessThan(Integer value) {
             addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(String value) {
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
             addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLike(String value) {
-            addCriterion("type like", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeNotLike(String value) {
-            addCriterion("type not like", value, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIn(List<String> values) {
+        public Criteria andTypeIn(List<Integer> values) {
             addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<String> values) {
+        public Criteria andTypeNotIn(List<Integer> values) {
             addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(String value1, String value2) {
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
             addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(String value1, String value2) {
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
@@ -512,62 +502,52 @@ public class CadrePostProExample {
             return (Criteria) this;
         }
 
-        public Criteria andLevelEqualTo(String value) {
+        public Criteria andLevelEqualTo(Integer value) {
             addCriterion("level =", value, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelNotEqualTo(String value) {
+        public Criteria andLevelNotEqualTo(Integer value) {
             addCriterion("level <>", value, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelGreaterThan(String value) {
+        public Criteria andLevelGreaterThan(Integer value) {
             addCriterion("level >", value, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelGreaterThanOrEqualTo(String value) {
+        public Criteria andLevelGreaterThanOrEqualTo(Integer value) {
             addCriterion("level >=", value, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelLessThan(String value) {
+        public Criteria andLevelLessThan(Integer value) {
             addCriterion("level <", value, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelLessThanOrEqualTo(String value) {
+        public Criteria andLevelLessThanOrEqualTo(Integer value) {
             addCriterion("level <=", value, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelLike(String value) {
-            addCriterion("level like", value, "level");
-            return (Criteria) this;
-        }
-
-        public Criteria andLevelNotLike(String value) {
-            addCriterion("level not like", value, "level");
-            return (Criteria) this;
-        }
-
-        public Criteria andLevelIn(List<String> values) {
+        public Criteria andLevelIn(List<Integer> values) {
             addCriterion("level in", values, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelNotIn(List<String> values) {
+        public Criteria andLevelNotIn(List<Integer> values) {
             addCriterion("level not in", values, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelBetween(String value1, String value2) {
+        public Criteria andLevelBetween(Integer value1, Integer value2) {
             addCriterion("level between", value1, value2, "level");
             return (Criteria) this;
         }
 
-        public Criteria andLevelNotBetween(String value1, String value2) {
+        public Criteria andLevelNotBetween(Integer value1, Integer value2) {
             addCriterion("level not between", value1, value2, "level");
             return (Criteria) this;
         }

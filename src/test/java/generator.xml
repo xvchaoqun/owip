@@ -193,8 +193,8 @@
              enableDeleteByExample="false">
       </table>-->
 
-      <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog">
-      </table>
+      <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog">
+      </table>-->
 
       <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
       </table>-->
@@ -251,12 +251,12 @@
       </table>
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
        </table>-->
-     <!-- <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
+      <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
       </table>
       <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
       </table>
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
-      </table>-->
+      </table>
 
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
       </table>-->

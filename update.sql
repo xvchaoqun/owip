@@ -1,5 +1,26 @@
 
 
+-- 2016-12-29
+ALTER TABLE `cadre_post_pro`
+	CHANGE COLUMN `type` `type` INT NULL DEFAULT NULL COMMENT '岗位类别，关联元数据' AFTER `is_current`,
+	CHANGE COLUMN `post` `post` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '专业技术职务，关联元数据' AFTER `type`,
+	CHANGE COLUMN `level` `level` VARCHAR(200) NULL DEFAULT NULL COMMENT '专技岗位等级，关联元数据' AFTER `hold_time`;
+ALTER TABLE `cadre_post_pro`
+	CHANGE COLUMN `type` `type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '岗位类别，关联元数据' AFTER `is_current`,
+	CHANGE COLUMN `level` `level` INT UNSIGNED NULL DEFAULT NULL COMMENT '专技岗位等级，关联元数据' AFTER `hold_time`;
+
+	ALTER TABLE `cadre_post_admin`
+	CHANGE COLUMN `type` `type` INT NULL DEFAULT NULL COMMENT '管理岗位类型，关联元数据' AFTER `is_current`,
+	CHANGE COLUMN `level` `level` INT NULL DEFAULT NULL COMMENT '管理岗位等级，关联元数据' AFTER `type`;
+ALTER TABLE `cadre_post_admin`
+	CHANGE COLUMN `type` `type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '管理岗位类型，关联元数据' AFTER `is_current`,
+	CHANGE COLUMN `level` `level` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '管理岗位等级，关联元数据' AFTER `type`;
+
+ALTER TABLE `cadre_post_work`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NULL DEFAULT NULL COMMENT '工勤岗位类型，关联元数据' AFTER `is_current`,
+	CHANGE COLUMN `level` `level` INT UNSIGNED NULL DEFAULT NULL COMMENT '工勤岗位等级，关联元数据' AFTER `type`;
+
+-- 2016-12-27
 select id, sort_order,status from cadre group by status, sort_order having count(*)>1;
 select id, sort_order,title, status from cadre where sort_order = 411 and status=1;
 select * from cadre where sort_order = 202 and status=3;
