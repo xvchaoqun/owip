@@ -122,13 +122,17 @@
                 return cellvalue ? "是" : "否";
             }},
             {label: '岗位类别', width: 120, name: 'type', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined|| _cMap.metaTypeMap[cellvalue]==undefined) return ''
                 return _cMap.metaTypeMap[cellvalue].name
             }},
+            {label: '职级', name: 'postLevel'},
             {label: '专业技术职务', name: 'post', width: 250, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined || _cMap.metaTypeMap[cellvalue]==undefined) return ''
                 return _cMap.metaTypeMap[cellvalue].name
             }},
             {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '专技岗位等级', name: 'level', width: 120, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined || _cMap.metaTypeMap[cellvalue]==undefined) return ''
                 return _cMap.metaTypeMap[cellvalue].name
             }},
             {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
