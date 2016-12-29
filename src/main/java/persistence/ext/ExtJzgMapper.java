@@ -17,6 +17,10 @@ public interface ExtJzgMapper {
 
     int insertSelective(ExtJzg record);
 
+    List<ExtJzg> selectByExampleWithBLOBsWithRowbounds(ExtJzgExample example, RowBounds rowBounds);
+
+    List<ExtJzg> selectByExampleWithBLOBs(ExtJzgExample example);
+
     List<ExtJzg> selectByExampleWithRowbounds(ExtJzgExample example, RowBounds rowBounds);
 
     List<ExtJzg> selectByExample(ExtJzgExample example);
@@ -25,9 +29,13 @@ public interface ExtJzgMapper {
 
     int updateByExampleSelective(@Param("record") ExtJzg record, @Param("example") ExtJzgExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") ExtJzg record, @Param("example") ExtJzgExample example);
+
     int updateByExample(@Param("record") ExtJzg record, @Param("example") ExtJzgExample example);
 
     int updateByPrimaryKeySelective(ExtJzg record);
+
+    int updateByPrimaryKeyWithBLOBs(ExtJzg record);
 
     int updateByPrimaryKey(ExtJzg record);
 }

@@ -20,8 +20,8 @@ public class ExtJzgImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtJzgMapper extJzgMapper;
-    public String schema = "licdc_zg";
-    public String tableName = "v_jzg_rs_jzg_jbxx";
+    public String schema = "ICDC_VIEW";
+    public String tableName = "V_JZG_RS_JZG_JBXX_NEW";
 
     public void excute(String code) {
 

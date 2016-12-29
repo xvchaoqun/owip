@@ -36,14 +36,24 @@
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
                                 <a href="?reserveType=${_type.key}">
                                     <i class="fa fa-flag"></i>
-                                        ${_type.value}</a>
+                                        ${_type.value}(${normalCountMap.get(_type.key)})</a>
                             </li>
                         </c:forEach>
 
                         <c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
-                                    <a href="?status=${_status.key}"><i class="fa fa-flag"></i> ${_status.value}</a>
+                                    <a href="?status=${_status.key}">
+                                        <c:if test="${_status.key==CADRE_RESERVE_STATUS_ABOLISH}">
+                                        <i class="fa fa-times"></i>
+                                        </c:if>
+                                        <c:if test="${_status.key==CADRE_RESERVE_STATUS_ASSIGN}">
+                                            <i class="fa fa-check"></i>
+                                        </c:if>
+                                        <c:if test="${_status.key==CADRE_RESERVE_STATUS_TO_TEMP}">
+                                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                                        </c:if>
+                                        ${_status.value}(${statusCountMap.get(_status.key)})</a>
                                 </li>
                             </c:if>
                         </c:forEach>

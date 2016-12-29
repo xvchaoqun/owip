@@ -149,9 +149,6 @@
             {label: '是否当前管理岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
             }},
-            {label: '管理岗位类型', width: 120, name: 'type', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }},
             {label: '管理岗位等级', name: 'level', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name
             }},
@@ -172,9 +169,6 @@
         colModel: [
             {label: '是否当前工勤岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
-            }},
-            {label: '工勤岗位类型', width: 120, name: 'type', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
             }},
             {label: '工勤岗位等级', name: 'level', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name

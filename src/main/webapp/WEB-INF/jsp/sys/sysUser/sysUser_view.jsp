@@ -174,9 +174,8 @@
         $("#item-content").load("${ctx}/sysUser_view?userId=${sysUser.id}&_="+new Date().getTime());
     }
     function sync_user(userId, btn){
-
         var $btn = $(btn).button('loading')
-        var $container = $("#item-content .loading");
+        var $container = $("#item-content");
         $container.showLoading({'afterShow':
                 function() {
                     setTimeout( function(){

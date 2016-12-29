@@ -86,6 +86,8 @@
 
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_NORMAL%>" var="CADRE_RESERVE_STATUS_NORMAL"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
+<c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_TO_TEMP%>" var="CADRE_RESERVE_STATUS_TO_TEMP"/>
+<c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_ASSIGN%>" var="CADRE_RESERVE_STATUS_ASSIGN"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_MAP%>" var="CADRE_RESERVE_STATUS_MAP"/>
 
 <c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_NORMAL%>" var="CADRE_TEMP_STATUS_NORMAL"/>

@@ -139,10 +139,6 @@
     </div>
 </div>
 <style>
-    .avatar{
-        width: 16px;
-        cursor: pointer;
-    }
     .ace-file-name{
         text-align: center!important;
     }

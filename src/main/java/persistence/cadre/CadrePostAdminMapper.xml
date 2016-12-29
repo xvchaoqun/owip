@@ -5,7 +5,6 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="is_current" property="isCurrent" jdbcType="BIT" />
-    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="grade_time" property="gradeTime" jdbcType="DATE" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
@@ -69,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, is_current, type, level, grade_time, remark
+    id, cadre_id, is_current, level, grade_time, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadrePostAdminExample" >
     select
@@ -103,11 +102,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cadre.CadrePostAdmin" >
     insert into cadre_post_admin (id, cadre_id, is_current, 
-      type, level, grade_time, 
-      remark)
+      level, grade_time, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, 
-      #{type,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{gradeTime,jdbcType=DATE}, 
-      #{remark,jdbcType=VARCHAR})
+      #{level,jdbcType=INTEGER}, #{gradeTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePostAdmin" >
     insert into cadre_post_admin
@@ -120,9 +119,6 @@
       </if>
       <if test="isCurrent != null" >
         is_current,
-      </if>
-      <if test="type != null" >
-        type,
       </if>
       <if test="level != null" >
         level,
@@ -143,9 +139,6 @@
       </if>
       <if test="isCurrent != null" >
         #{isCurrent,jdbcType=BIT},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=INTEGER},
       </if>
       <if test="level != null" >
         #{level,jdbcType=INTEGER},
@@ -176,9 +169,6 @@
       <if test="record.isCurrent != null" >
         is_current = #{record.isCurrent,jdbcType=BIT},
       </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
       <if test="record.level != null" >
         level = #{record.level,jdbcType=INTEGER},
       </if>
@@ -198,7 +188,6 @@
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       is_current = #{record.isCurrent,jdbcType=BIT},
-      type = #{record.type,jdbcType=INTEGER},
       level = #{record.level,jdbcType=INTEGER},
       grade_time = #{record.gradeTime,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR}
@@ -214,9 +203,6 @@
       </if>
       <if test="isCurrent != null" >
         is_current = #{isCurrent,jdbcType=BIT},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="level != null" >
         level = #{level,jdbcType=INTEGER},
@@ -234,7 +220,6 @@
     update cadre_post_admin
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       is_current = #{isCurrent,jdbcType=BIT},
-      type = #{type,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
       grade_time = #{gradeTime,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR}

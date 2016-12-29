@@ -18,7 +18,17 @@ pageEncoding="UTF-8" %>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="_status" items="${CADRE_TEMP_STATUS_MAP}">
                     <li class="<c:if test="${status==_status.key}">active</c:if>">
-                        <a href="?status=${_status.key}"><i class="fa fa-flag"></i> ${_status.value}</a>
+                        <a href="?status=${_status.key}">
+                            <c:if test="${_status.key==CADRE_TEMP_STATUS_ABOLISH}">
+                                <i class="fa fa-times"></i>
+                            </c:if>
+                            <c:if test="${_status.key==CADRE_TEMP_STATUS_ASSIGN}">
+                                <i class="fa fa-check"></i>
+                            </c:if>
+                            <c:if test="${_status.key==CADRE_TEMP_STATUS_NORMAL}">
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                            </c:if>
+                            ${_status.value}</a>
                     </li>
                 </c:forEach>
             </ul>

@@ -1,5 +1,6 @@
 package persistence.common;
 
+import bean.CadreReserveCount;
 import bean.MemberApplyCount;
 import domain.cadre.Cadre;
 import domain.dispatch.DispatchCadre;
@@ -173,4 +174,7 @@ public interface CommonMapper {
     @Select("select distinct du.* from dispatch_unit du, dispatch d " +
             "where du.dispatch_id=d.id and du.unit_id=#{unitId} order by d.pub_time desc")
     List<DispatchUnit> selectDispatchUnitList(@Param("unitId") int unitId);
+
+    @Select("select  type, status, count(*) as num from cadre_reserve group by type, status")
+    List<CadreReserveCount> selectCadreReserveCount();
 }

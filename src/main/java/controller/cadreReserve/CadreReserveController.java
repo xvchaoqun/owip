@@ -1,5 +1,6 @@
 package controller.cadreReserve;
 
+import bean.CadreReserveCount;
 import bean.XlsCadre;
 import bean.XlsCadreReserve;
 import bean.XlsUpload;
@@ -79,6 +80,30 @@ public class CadreReserveController extends BaseController {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
+
+        Map<Byte, Integer> statusCountMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_STATUS_MAP.entrySet()) {
+            statusCountMap.put(entry.getKey(), 0);
+        }
+        Map<Byte, Integer> normalCountMap = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
+            normalCountMap.put(entry.getKey(), 0);
+        }
+        List<CadreReserveCount> cadreReserveCounts = commonMapper.selectCadreReserveCount();
+        for (CadreReserveCount crc : cadreReserveCounts) {
+            Byte st = crc.getStatus();
+            if(st==SystemConstants.CADRE_RESERVE_STATUS_NORMAL){
+                Byte type = crc.getType();
+                Integer count = normalCountMap.get(type);
+                if(count==null) count = 0; // 不可能的情况
+                normalCountMap.put(type, count+1);
+            }
+            Integer stCount = statusCountMap.get(st);
+            if(stCount==null) stCount = 0;
+            statusCountMap.put(st, stCount+1);
+        }
+        modelMap.put("statusCountMap", statusCountMap);
+        modelMap.put("normalCountMap", normalCountMap);
 
         return "cadreReserve/cadreReserve_page";
     }

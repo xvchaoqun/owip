@@ -26,20 +26,7 @@
                 </label>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-4 control-label">管理岗位类型</label>
 
-            <div class="col-xs-6">
-                <select required data-rel="select2" name="type"
-                        data-placeholder="请选择">
-                    <option></option>
-                    <c:import url="/metaTypes?__code=mc_post_admin_type"/>
-                </select>
-                <script type="text/javascript">
-                    $("#modal form select[name=type]").val(${cadrePostAdmin.type});
-                </script>
-            </div>
-        </div>
         <div class="form-group">
             <label class="col-xs-4 control-label">管理岗位等级</label>
 
@@ -60,7 +47,7 @@
             <div class="col-xs-6">
                 <div class="input-group" style="width: 130px">
                     <input class="form-control date-picker" name="_gradeTime" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadrePostAdmin.gradeTime,'yyyy-MM-dd')}"/>
+                           data-date-format="yyyy.mm" value="${cm:formatDate(cadrePostAdmin.gradeTime,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

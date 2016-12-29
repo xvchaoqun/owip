@@ -17,9 +17,11 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
-            <a class="popupBtn btn btn-warning btn-sm"
-               data-url="${ctx}/cadreEdu_rule?cadreId=${param.cadreId}"><i class="fa fa-search"></i>
-                学历学位的认定规则</a>
+            <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                <a class="popupBtn btn btn-warning btn-sm"
+                   data-url="${ctx}/cadreEdu_rule?cadreId=${param.cadreId}"><i class="fa fa-search"></i>
+                    学历学位的认定规则</a>
+            </shiro:hasPermission>
             <a class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreEdu_au?cadreId=${param.cadreId}"
                data-width="900"><i class="fa fa-plus"></i>

@@ -68,12 +68,6 @@
         </div>
     </div>
 </div>
-<style>
-    .avatar{
-        width: 16px;
-        cursor: pointer;
-    }
-</style>
 <script>
     //序号、申请时间、工作证号、姓名、所在单位及职务、修改方式、申请内容、组织部审核
     $("#jqGrid").jqGrid({
@@ -83,7 +77,12 @@
             { label: '序号', name: 'id', width: 50,frozen:true },
             {label: '申请时间', width: 150, name: 'createTime'/*,formatter:'date',formatoptions: {newformat:'Y-m-d'}*/},
             { label: '工作证号', name: 'cadre.user.code', width: 80,frozen:true },
-            { label: '姓名', name: 'cadre.user.realname', width: 80,frozen:true },
+            {
+                label: '姓名', name: 'cadre.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
+            }, frozen: true
+            },
             { label: '所在单位及职务', name: 'cadre.title', width: 250},
             { label: '修改方式', name: 'type',formatter:function(cellvalue, options, rowObject){
 

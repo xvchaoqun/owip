@@ -255,13 +255,13 @@ pageEncoding="UTF-8"%>
 						岗位子类别
 					</td>
 					<td>
-							${teacherInfo.postType}
+						${extJzg.gwzlbmc}
 					</td>
 					<td >
 						主岗等级
 					</td>
 					<td>
-							--
+							${extJzg.zgdjmmc}
 					</td>
 				</tr>
 				<tr>
@@ -269,11 +269,11 @@ pageEncoding="UTF-8"%>
 						工龄起算日期
 					</td>
 					<td>
-							--
+							${fn:substringBefore(extJzg.glqsrq, ' ')}
 					</td>
 					<td>间断工龄</td>
 					<td >
-						--
+							${extJzg.jdgl}
 					</td>
 					<td>
 						到校时间
@@ -291,7 +291,7 @@ pageEncoding="UTF-8"%>
 						转正定级时间
 					</td>
 					<td colspan="3">
-						--
+					${extJzg.zzdjsj}
 					</td>
 
 				</tr>
@@ -486,7 +486,7 @@ pageEncoding="UTF-8"%>
 						专业技术职务评定时间
 					</td>
 					<td  style="min-width: 80px"  class="bg-left">
-						--
+							${fn:substringBefore(extJzg.zyjszwpdsj, ' ')}
 					</td>
 				</tr>
 				<tr>
@@ -498,7 +498,7 @@ pageEncoding="UTF-8"%>
 						专业技术职务分级时间
 					</td>
 					<td>
-						--
+							${fn:substringBefore(extJzg.zjgwfjsj, ' ')}
 					</td>
 
 				</tr>
@@ -524,7 +524,7 @@ pageEncoding="UTF-8"%>
 						管理岗位分级时间
 					</td>
 					<td  class="bg-left">
-						--
+							${fn:substringBefore(extJzg.glgwfjsj, ' ')}
 					</td>
 				</tr>
 
@@ -544,13 +544,13 @@ pageEncoding="UTF-8"%>
 						工勤岗位等级
 					</td>
 					<td  class="bg-left">
-						--
+							${extJzg.gqgwdjmc}
 					</td>
 					<td  class="bg-right">
 						工勤岗位分级时间
 					</td>
 					<td  class="bg-left">
-						--
+							${fn:substringBefore(extJzg.gqgwfjsj, ' ')}
 					</td>
 				</tr>
 				<%--<tr>

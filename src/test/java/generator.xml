@@ -251,10 +251,13 @@
       </table>
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
        </table>-->
-      <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
+
+      <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
+      </table>-->
+
+     <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
       </table>
-      <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
-      </table>
+
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>
 
@@ -356,8 +359,8 @@
       <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
       </table>-->
       <!--<table tableName="ext_jzg" domainObjectName="ext.ExtJzg">
-      </table>
-      <table tableName="ext_yjs" domainObjectName="ext.ExtYjs">
+      </table>-->
+      <!--<table tableName="ext_yjs" domainObjectName="ext.ExtYjs">
       </table>-->
       <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
       </table>-->

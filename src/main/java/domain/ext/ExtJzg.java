@@ -42,8 +42,6 @@ public class ExtJzg implements Serializable {
 
     private String rcchm;
 
-    private String rcch;
-
     private String xyjgm;
 
     private String xyjg;
@@ -153,6 +151,44 @@ public class ExtJzg implements Serializable {
     private String domainCode;
 
     private String basicActiveType;
+
+    private String szzdw1;
+
+    private String szzdw2;
+
+    private String glqsrq;
+
+    private String jdgl;
+
+    private String gwzlbm;
+
+    private String gwzlbmc;
+
+    private String zgdjm;
+
+    private String zgdjmmc;
+
+    private String zzdjsj;
+
+    private String zjgwdjm;
+
+    private String zjgwdjmc;
+
+    private String zyjszwpdsj;
+
+    private String zjgwfjsj;
+
+    private String glgwdjm;
+
+    private String glgwfjsj;
+
+    private String gqgwdjm;
+
+    private String gqgwfjsj;
+
+    private String gqgwdjmc;
+
+    private String rcch;
 
     private static final long serialVersionUID = 1L;
 
@@ -306,14 +342,6 @@ public class ExtJzg implements Serializable {
 
     public void setRcchm(String rcchm) {
         this.rcchm = rcchm == null ? null : rcchm.trim();
-    }
-
-    public String getRcch() {
-        return rcch;
-    }
-
-    public void setRcch(String rcch) {
-        this.rcch = rcch == null ? null : rcch.trim();
     }
 
     public String getXyjgm() {
@@ -754,5 +782,157 @@ public class ExtJzg implements Serializable {
 
     public void setBasicActiveType(String basicActiveType) {
         this.basicActiveType = basicActiveType == null ? null : basicActiveType.trim();
+    }
+
+    public String getSzzdw1() {
+        return szzdw1;
+    }
+
+    public void setSzzdw1(String szzdw1) {
+        this.szzdw1 = szzdw1 == null ? null : szzdw1.trim();
+    }
+
+    public String getSzzdw2() {
+        return szzdw2;
+    }
+
+    public void setSzzdw2(String szzdw2) {
+        this.szzdw2 = szzdw2 == null ? null : szzdw2.trim();
+    }
+
+    public String getGlqsrq() {
+        return glqsrq;
+    }
+
+    public void setGlqsrq(String glqsrq) {
+        this.glqsrq = glqsrq == null ? null : glqsrq.trim();
+    }
+
+    public String getJdgl() {
+        return jdgl;
+    }
+
+    public void setJdgl(String jdgl) {
+        this.jdgl = jdgl == null ? null : jdgl.trim();
+    }
+
+    public String getGwzlbm() {
+        return gwzlbm;
+    }
+
+    public void setGwzlbm(String gwzlbm) {
+        this.gwzlbm = gwzlbm == null ? null : gwzlbm.trim();
+    }
+
+    public String getGwzlbmc() {
+        return gwzlbmc;
+    }
+
+    public void setGwzlbmc(String gwzlbmc) {
+        this.gwzlbmc = gwzlbmc == null ? null : gwzlbmc.trim();
+    }
+
+    public String getZgdjm() {
+        return zgdjm;
+    }
+
+    public void setZgdjm(String zgdjm) {
+        this.zgdjm = zgdjm == null ? null : zgdjm.trim();
+    }
+
+    public String getZgdjmmc() {
+        return zgdjmmc;
+    }
+
+    public void setZgdjmmc(String zgdjmmc) {
+        this.zgdjmmc = zgdjmmc == null ? null : zgdjmmc.trim();
+    }
+
+    public String getZzdjsj() {
+        return zzdjsj;
+    }
+
+    public void setZzdjsj(String zzdjsj) {
+        this.zzdjsj = zzdjsj == null ? null : zzdjsj.trim();
+    }
+
+    public String getZjgwdjm() {
+        return zjgwdjm;
+    }
+
+    public void setZjgwdjm(String zjgwdjm) {
+        this.zjgwdjm = zjgwdjm == null ? null : zjgwdjm.trim();
+    }
+
+    public String getZjgwdjmc() {
+        return zjgwdjmc;
+    }
+
+    public void setZjgwdjmc(String zjgwdjmc) {
+        this.zjgwdjmc = zjgwdjmc == null ? null : zjgwdjmc.trim();
+    }
+
+    public String getZyjszwpdsj() {
+        return zyjszwpdsj;
+    }
+
+    public void setZyjszwpdsj(String zyjszwpdsj) {
+        this.zyjszwpdsj = zyjszwpdsj == null ? null : zyjszwpdsj.trim();
+    }
+
+    public String getZjgwfjsj() {
+        return zjgwfjsj;
+    }
+
+    public void setZjgwfjsj(String zjgwfjsj) {
+        this.zjgwfjsj = zjgwfjsj == null ? null : zjgwfjsj.trim();
+    }
+
+    public String getGlgwdjm() {
+        return glgwdjm;
+    }
+
+    public void setGlgwdjm(String glgwdjm) {
+        this.glgwdjm = glgwdjm == null ? null : glgwdjm.trim();
+    }
+
+    public String getGlgwfjsj() {
+        return glgwfjsj;
+    }
+
+    public void setGlgwfjsj(String glgwfjsj) {
+        this.glgwfjsj = glgwfjsj == null ? null : glgwfjsj.trim();
+    }
+
+    public String getGqgwdjm() {
+        return gqgwdjm;
+    }
+
+    public void setGqgwdjm(String gqgwdjm) {
+        this.gqgwdjm = gqgwdjm == null ? null : gqgwdjm.trim();
+    }
+
+    public String getGqgwfjsj() {
+        return gqgwfjsj;
+    }
+
+    public void setGqgwfjsj(String gqgwfjsj) {
+        this.gqgwfjsj = gqgwfjsj == null ? null : gqgwfjsj.trim();
+    }
+
+    public String getGqgwdjmc() {
+        return gqgwdjmc;
+    }
+
+    public void setGqgwdjmc(String gqgwdjmc) {
+        this.gqgwdjmc = gqgwdjmc == null ? null : gqgwdjmc.trim();
+    }
+
+    public String getRcch() {
+        return rcch;
+    }
+
+    public void setRcch(String rcch) {
+        this.rcch = rcch == null ? null : rcch.trim();
     }
 }
