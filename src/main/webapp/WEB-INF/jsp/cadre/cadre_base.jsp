@@ -502,14 +502,14 @@ pageEncoding="UTF-8"%>
 					</td>
 
 				</tr>
-				<tr>
+				<%--<tr>
 					<td colspan="2" class="bg-right">
 						专技岗位备注：
 					</td>
 					<td colspan="3"  class="bg-left">
 						--
 					</td>
-				</tr>
+				</tr>--%>
 				<tr>
 
 					<td  class="bg-right" style="text-align: center">管理岗位</td>
@@ -528,14 +528,14 @@ pageEncoding="UTF-8"%>
 					</td>
 				</tr>
 
-				<tr>
+				<%--<tr>
 					<td colspan="2" class="bg-right">
 						管理岗位备注：
 					</td>
 					<td colspan="3"  class="bg-left">
 						--
 					</td>
-				</tr>
+				</tr>--%>
 				<tr>
 
 					<td  class="bg-right" style="text-align: center">工勤岗位</td>
@@ -553,14 +553,14 @@ pageEncoding="UTF-8"%>
 						--
 					</td>
 				</tr>
-				<tr>
+				<%--<tr>
 					<td colspan="2" class="bg-right">
 						工勤岗位备注：
 					</td>
 					<td colspan="3"  class="bg-left">
 						--
 					</td>
-				</tr>
+				</tr>--%>
 				</tbody>
 			</table>
 		</div></div></div>
