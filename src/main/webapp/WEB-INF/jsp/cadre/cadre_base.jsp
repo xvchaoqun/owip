@@ -218,14 +218,14 @@ pageEncoding="UTF-8"%>
 						所在子单位1
 					</td>
 					<td style="min-width: 80px">
-						${extJzg.jzdw1}
+						--
 					</td>
 
 					<td>
 						所在子单位2
 					</td>
 					<td  style="min-width: 80px">
-						${extJzg.jzdw2}
+						--
 					</td>
 				</tr>
 				<tr>
@@ -240,20 +240,39 @@ pageEncoding="UTF-8"%>
 						${extJzg.rylx}
 					</td>
 					<td >
-						人员身份
+						人事转否
 					</td>
 					<td>
-						--
+							${extJzg.rszf}
+					</td>
+				</tr>
+				<tr>
+
+					<td>岗位类别</td>
+					<td >
+							${teacherInfo.postClass}
+					</td>
+					<td>
+						岗位子类别
+					</td>
+					<td>
+							${teacherInfo.postType}
+					</td>
+					<td >
+						主岗等级
+					</td>
+					<td>
+							--
 					</td>
 				</tr>
 				<tr>
 					<td>
-						人事转否
+						工龄起算日期
 					</td>
 					<td>
-						${extJzg.rszf}
+							--
 					</td>
-					<td>人事转入时间</td>
+					<td>间断工龄</td>
 					<td >
 						--
 					</td>
@@ -261,26 +280,7 @@ pageEncoding="UTF-8"%>
 						人员状态
 					</td>
 					<td>
-						${extJzg.ryzt}
-					</td>
-				</tr>
-				<tr>
-
-					<td>岗位类别</td>
-					<td >
-						${teacherInfo.postClass}
-					</td>
-					<td>
-						岗位子类别
-					</td>
-					<td>
-						${teacherInfo.postType}
-					</td>
-					<td >
-						在岗情况
-					</td>
-					<td>
-						${extJzg.sfzg}
+					   ${extJzg.ryzt}
 					</td>
 				</tr>
 				<tr>
@@ -295,12 +295,21 @@ pageEncoding="UTF-8"%>
 					<td>${teacherInfo.arriveTime}
 					</td>
 					<td >
-						转正定级时间
+						在岗情况
 					</td>
 					<td>
+							${extJzg.sfzg}
+					</td>
+				</tr>
+				<tr>
+					<td >
+						转正定级时间
+					</td>
+					<td colspan="5">
 						--
 					</td>
 				</tr>
+
 				</tbody>
 			</table>
 		</div></div></div>
@@ -508,10 +517,12 @@ pageEncoding="UTF-8"%>
 
 				</tr>
 				<tr>
-					<td colspan="5" class="bg-left">
+					<td colspan="2" class="bg-right">
 						专技岗位备注：
 					</td>
-
+					<td colspan="3"  class="bg-left">
+						--
+					</td>
 				</tr>
 				<tr>
 
@@ -524,27 +535,20 @@ pageEncoding="UTF-8"%>
 						${teacherInfo.manageLevel}
 					</td>
 					<td class="bg-right">
-						管理岗位分级
+						管理岗位分级时间
 					</td>
 					<td  class="bg-left">
 						--
 					</td>
 				</tr>
+
 				<tr>
-
-
-					<td colspan="4" class="bg-right">
-						管理岗位分级时间
+					<td colspan="2" class="bg-right">
+						管理岗位备注：
 					</td>
-					<td>
+					<td colspan="3"  class="bg-left">
 						--
 					</td>
-				</tr>
-				<tr>
-					<td colspan="5" class="bg-left">
-						管理岗位备注：--
-					</td>
-
 				</tr>
 				<tr>
 
@@ -564,10 +568,12 @@ pageEncoding="UTF-8"%>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="5" class="bg-left">
-						工勤岗位备注：--
+					<td colspan="2" class="bg-right">
+						工勤岗位备注：
 					</td>
-
+					<td colspan="3"  class="bg-left">
+						--
+					</td>
 				</tr>
 				</tbody>
 			</table>
@@ -894,7 +900,6 @@ pageEncoding="UTF-8"%>
 		</div>
 	</form>
 </c:if>
-	<div class="footer-margin"/>
 <script>
 	function _innerPage(type) {
 		if(type==undefined){
@@ -954,3 +959,4 @@ pageEncoding="UTF-8"%>
 	</c:if>
 </script>
 	</c:if>
+<div class="footer-margin"/>
