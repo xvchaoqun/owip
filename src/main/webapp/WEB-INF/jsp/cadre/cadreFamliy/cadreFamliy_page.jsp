@@ -113,8 +113,7 @@
                 name: 'birthday',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var year = yearOffNow(cellvalue);
-                    return year;
+                    return calAge(cellvalue);
                 }
             },
             {

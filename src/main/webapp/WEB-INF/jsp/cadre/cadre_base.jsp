@@ -799,11 +799,11 @@ pageEncoding="UTF-8"%>
 								籍贯
 							</td>
 							<td style="min-width: 100px">
-								<input type="text" name="nativePlace" value="${uv.nativePlace}">
+								<input required type="text" name="nativePlace" value="${uv.nativePlace}">
 							</td>
 							<td>出生地</td>
 							<td>
-								<input type="text" name="homeplace" value="${uv.homeplace}">
+								<input required type="text" name="homeplace" value="${uv.homeplace}">
 								<div class="inline-block">
 									格式：“**省**市”或者“北京市***区”
 								</div>
@@ -812,7 +812,7 @@ pageEncoding="UTF-8"%>
 								户籍地
 							</td>
 							<td>
-								<input type="text" name="household" value="${uv.household}">
+								<input required type="text" name="household" value="${uv.household}">
 								<div class="inline-block">
 									格式：“**省**市”或者“北京市***区”
 								</div>
@@ -821,13 +821,13 @@ pageEncoding="UTF-8"%>
 						<tr>
 							<td>健康状况</td>
 							<td>
-								<input type="text" name="health" value="${uv.health}">
+								<input required type="text" name="health" value="${uv.health}">
 							</td>
 							<td>
 								熟悉专业有何专长
 							</td>
 							<td colspan="3">
-								<input type="text" name="specialty" value="${uv.specialty}" style="width: 500px">
+								<input required type="text" name="specialty" value="${uv.specialty}" style="width: 500px">
 							</td>
 						</tr>
 						</tbody>
@@ -852,20 +852,20 @@ pageEncoding="UTF-8"%>
 								手机号
 							</td>
 							<td style="min-width: 80px">
-								<input type="text" name="mobile" value="${uv.mobile}">
+								<input required type="text" name="mobile" value="${uv.mobile}">
 							</td>
 							<td>
 								办公电话
 							</td>
 							<td style="min-width: 80px">
-								<input type="text" name="phone" value="${uv.phone}">
+								<input required type="text" name="phone" value="${uv.phone}">
 							</td>
 
 							<td>
 								电子邮箱
 							</td>
 							<td style="min-width: 80px">
-								<input type="text" name="email" value="${uv.email}">
+								<input required class="email" type="text" name="email" value="${uv.email}">
 							</td>
 						</tr>
 

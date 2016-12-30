@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
             }},
-            { label: '所在单位及职务', name: 'cadre.title', width: 250},
+            { label: '所在单位及职务', name: 'cadre.title', width: 250, align:'left'},
             { label: '所属干部库', name: 'cadre.status', width: 250, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.CADRE_STATUS_MAP[cellvalue];

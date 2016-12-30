@@ -370,7 +370,7 @@
             </td>
             <td class="td14 center">
                 <c:if test="${f.birthday!=null}">
-                ${cm:intervalYearsUntilNow(f.birthday)}岁
+                ${cm:calAge(f.birthday)}
                 </c:if>
             </td>
             <td class="td2 center" colspan="2">

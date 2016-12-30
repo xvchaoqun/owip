@@ -18,8 +18,8 @@ pageEncoding="UTF-8"%>
         </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">称谓</label>
-				<div class="col-xs-6">
-                    <select data-rel="select2" name="title" data-placeholder="请选择">
+				<div class="col-xs-3">
+                    <select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
                         <option></option>
                         <c:forEach var="famliyTitle" items="${CADRE_FAMLIY_TITLE_MAP}">
                             <option value="${famliyTitle.key}">${famliyTitle.value}</option>
@@ -32,15 +32,15 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
-				<div class="col-xs-6">
+				<div class="col-xs-3">
                         <input required class="form-control" type="text" name="realname" value="${cadreFamliy.realname}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">出生年月</label>
-				<div class="col-xs-6">
+				<div class="col-xs-3">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_birthday" type="text"
+                        <input required class="form-control date-picker" name="_birthday" type="text"
                                data-date-min-view-mode="1"
                                data-date-format="yyyy-mm" value="${cm:formatDate(cadreFamliy.birthday,'yyyy-MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">政治面貌</label>
 				<div class="col-xs-6">
 
-                    <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择">
+                    <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择" data-width="125">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_political_status"/>
                     </select>

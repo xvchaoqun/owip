@@ -6,6 +6,7 @@ import domain.cadre.CadreFamliyExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 
@@ -16,8 +17,46 @@ public class CadreFamliyService extends BaseMapper {
 
         return cadreFamliyMapper.selectByPrimaryKey(id);
     }
+
+    public void addCheck(int cadreId, byte title){
+
+        if(title== SystemConstants.CADRE_FAMLIY_TITLE_FATHER
+                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER) {
+            CadreFamliyExample example = new CadreFamliyExample();
+            CadreFamliyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
+            criteria.andCadreIdEqualTo(cadreId);
+
+            if(cadreFamliyMapper.countByExample(example)>0){
+                throw new RuntimeException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+            }
+        }
+
+        CadreFamliyExample example = new CadreFamliyExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId);
+        if(cadreFamliyMapper.countByExample(example)>=6){
+            throw new RuntimeException("最多只允许添加6个家庭成员");
+        }
+    }
+
+    public void updateCheck(int id, int cadreId, byte title){
+
+        if(title== SystemConstants.CADRE_FAMLIY_TITLE_FATHER
+                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER) {
+            CadreFamliyExample example = new CadreFamliyExample();
+            CadreFamliyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
+            criteria.andCadreIdEqualTo(cadreId);
+            criteria.andIdNotEqualTo(id);
+
+            if(cadreFamliyMapper.countByExample(example)>0){
+                throw new RuntimeException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+            }
+        }
+    }
+
     @Transactional
     public int insertSelective(CadreFamliy record){
+
+        addCheck(record.getCadreId(), record.getTitle());
 
         return cadreFamliyMapper.insertSelective(record);
     }
@@ -55,6 +94,11 @@ public class CadreFamliyService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(CadreFamliy record){
+
+        if(record.getTitle()!=null)
+            updateCheck(record.getId(), record.getCadreId(), record.getTitle());
+
+        record.setCadreId(null);
         return cadreFamliyMapper.updateByPrimaryKeySelective(record);
     }
 

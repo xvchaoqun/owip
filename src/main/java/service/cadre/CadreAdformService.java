@@ -179,7 +179,7 @@ public class CadreAdformService extends BaseMapper{
 
         String fage = "";
         if(cf!=null && cf.getBirthday()!=null){
-            fage = DateUtils.intervalYearsUntilNow(cf.getBirthday()) + "岁";
+            fage = DateUtils.calAge(cf.getBirthday());
         }
         dataMap.put("fage", fage);
 

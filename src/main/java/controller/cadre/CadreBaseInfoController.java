@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -54,6 +55,10 @@ public class CadreBaseInfoController extends BaseController {
         if(BooleanUtils.isFalse(cadre.getIsDp()) && member==null) {
             if(dpTypeId!=null && _dpAddTime!=null)
                 cadreService.addDemocraticParty(cadreId, dpTypeId, _dpAddTime, null, "干部本人添加");
+        }
+
+        if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            throw new RuntimeException("手机号码有误："+ mobile);
         }
 
         String avatar = avatarService.uploadAvatar(_avatar);

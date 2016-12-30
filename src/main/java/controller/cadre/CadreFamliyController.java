@@ -165,6 +165,7 @@ public class CadreFamliyController extends BaseController {
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
+            record.setCadreId(_record.getCadreId());
             cadreFamliyService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
         }

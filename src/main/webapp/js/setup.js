@@ -1531,11 +1531,27 @@ $(document).on("click", "a.change-order",function(){
     }).draggable({handle :".modal-header"});
 });
 
-// 距离现在多少年
-function yearOffNow(date){
-    var month = MonthDiff(date, new Date().format("yyyy-MM-dd"));
-    return Math.floor(month / 12);
+// 距离现在多少月，date格式：yyyy-MM-dd
+function monthOffNow(date){
+    return MonthDiff(date, new Date().format("yyyy-MM-dd"));
 }
+
+// 距离现在多少年，date格式：yyyy-MM-dd
+function yearOffNow(date){
+    return Math.floor(monthOffNow(date) / 12);
+}
+
+// 计算年龄，date格式：yyyy-MM-dd
+function calAge(date){
+    var year = yearOffNow(date);
+    if(year==0){
+        var month = monthOffNow(date);
+        if(month==0) return "未满月";
+        return month+"个月";
+    }
+    return year+"岁";
+}
+
 // 显示组织名称
 function displayParty(partyId, branchId){
 

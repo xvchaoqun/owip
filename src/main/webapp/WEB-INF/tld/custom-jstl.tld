@@ -45,6 +45,11 @@
 	  	<function-signature>java.lang.String  formatDate(java.util.Date,java.lang.String)</function-signature>
   	</function>
 	<function>
+		<name>calAge</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.String calAge(java.util.Date)</function-signature>
+	</function>
+	<function>
 		<name>intervalYearsUntilNow</name>
 		<function-class>sys.utils.DateUtils</function-class>
 		<function-signature>java.lang.Integer  intervalYearsUntilNow(java.util.Date)</function-signature>
