@@ -131,7 +131,7 @@
                 return _cMap.metaTypeMap[cellvalue].name
             }},
             {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '专技岗位等级', name: 'level', width: 120, formatter: function (cellvalue, options, rowObject) {
+            {label: '专技岗位等级', name: 'level', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined || _cMap.metaTypeMap[cellvalue]==undefined) return ''
                 return _cMap.metaTypeMap[cellvalue].name
             }},
@@ -153,7 +153,7 @@
             {label: '是否当前管理岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
             }},
-            {label: '管理岗位等级', name: 'level', width: 120, formatter: function (cellvalue, options, rowObject) {
+            {label: '管理岗位等级', name: 'level', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name
             }},
             {label: '管理岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -174,7 +174,7 @@
             {label: '是否当前工勤岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
             }},
-            {label: '工勤岗位等级', name: 'level', width: 120, formatter: function (cellvalue, options, rowObject) {
+            {label: '工勤岗位等级', name: 'level', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name
             }},
             {label: '工勤岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
