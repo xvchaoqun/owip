@@ -108,8 +108,12 @@
                     </li>
                 </shiro:hasPermission>
                 <li>
+
                     <a href="javascript:"
-                       data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}">信息修改说明</a>
+                       data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}">
+                        <span class="label label-info">
+                            <i class="fa fa-info-circle"></i> 说 明</span></a>
+
                 </li>
             </ul>
 
