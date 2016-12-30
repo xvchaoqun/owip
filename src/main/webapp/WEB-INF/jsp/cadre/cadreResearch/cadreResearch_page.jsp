@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
-<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY?"active":""}">
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}')"><i
                 class="fa fa-flag"></i> 主持科研项目</a>
@@ -29,7 +29,7 @@
     </li>
     </shiro:hasPermission>
 </ul>
-
+<c:if test="${type!=CADRE_INFO_TYPE_RESEARCH_REWARD}">
 <div class="row two-frames">
     <div class="left">
         <div class="widget-box">
@@ -52,10 +52,7 @@
 
                         <p>${researchRewardInfo.content}</p>
                     </c:if>
-                    <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
-                        <c:import url="/cadreReward_fragment"/>
-                    </c:if>
-                    <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH && type!=CADRE_INFO_TYPE_RESEARCH_REWARD}">
+                    <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH}">
                         ${htmlFragment.content}
                     </c:if>
                 </div>
@@ -93,7 +90,7 @@
         </div>
     </div>
 </div>
-
+</c:if>
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     <div class="space-4"></div>
     <div class="widget-box collapsed">
@@ -271,48 +268,32 @@
     </div>
 </c:if>
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
-    <div class="space-4"></div>
-    <div class="widget-box collapsed">
-        <div class="widget-header">
-            <h4 class="widget-title"><i class="fa fa-history"></i> 科研成果及获奖情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                <div class="buttons">
-                    <a class="popupBtn btn  btn-sm btn-info"
-                       data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}"><i
-                            class="fa fa-plus"></i>
-                        添加</a>
-                    <button class="jqOpenViewBtn btn  btn-sm btn-warning"
-                            data-url="${ctx}/cadreReward_au"
-                            data-grid-id="#jqGrid_cadreReward"
-                            data-querystr="&rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}">
-                        <i class="fa fa-edit"></i> 修改
-                    </button>
-                    <button data-url="${ctx}/cadreReward_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid_cadreReward"
-                            data-callback="_reload"
-                            data-querystr="cadreId=${param.cadreId}"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-times"></i> 删除
-                    </button>
-                </div>
-        </c:if>
-            </h4>
-
-            <div class="widget-toolbar">
-                <a href="#" data-action="collapse">
-                    <i class="ace-icon fa fa-chevron-up"></i>
-                </a>
-            </div>
+        <div class="space-4"></div>
+        <div class="jqgrid-vertical-offset buttons">
+            <a class="popupBtn btn  btn-sm btn-info"
+               data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}"><i
+                    class="fa fa-plus"></i>
+                添加</a>
+            <button class="jqOpenViewBtn btn  btn-sm btn-warning"
+                    data-url="${ctx}/cadreReward_au"
+                    data-grid-id="#jqGrid_cadreReward"
+                    data-querystr="&rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}">
+                <i class="fa fa-edit"></i> 修改
+            </button>
+            <button data-url="${ctx}/cadreReward_batchDel"
+                    data-title="删除"
+                    data-msg="确定删除这{0}条数据？"
+                    data-grid-id="#jqGrid_cadreReward"
+                    data-querystr="cadreId=${param.cadreId}"
+                    class="jqBatchBtn btn btn-danger btn-sm">
+                <i class="fa fa-times"></i> 删除
+            </button>
         </div>
-        <div class="widget-body">
-            <div class="widget-main">
-                <table id="jqGrid_cadreReward" data-width-reduce="50" class="jqGrid4"></table>
-                <div id="jqGridPager_cadreReward"></div>
-            </div>
-        </div>
-    </div>
+    </c:if>
+    <div class="space-4"></div>
+    <table id="jqGrid_cadreReward" data-width-reduce="60" class="jqGrid2"></table>
+    <div id="jqGridPager_cadreReward"></div>
 </c:if>
 
 <div class="footer-margin"/>
@@ -509,7 +490,7 @@
             {label: '备注', name: 'remark', width: 350}
         ]
     }).on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid4');
+        $(window).triggerHandler('resize.jqGrid2');
     });
     </c:if>
 
