@@ -35,9 +35,10 @@ public class CadrePostProController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("cadrePostInfo:list")
     @RequestMapping("/cadrePostPro_metaTypes")
     @ResponseBody
-    public Map cadrePostPro_metaTypes(String postLevel) {
+    public Map cadrePostPro_metaTypes(Integer cadreId, String postLevel) {
 
         // 专业技术职务
         List<Map<String, Object>> options1 = new ArrayList<Map<String, Object>>();

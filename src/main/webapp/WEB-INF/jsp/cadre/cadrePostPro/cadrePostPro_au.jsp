@@ -116,7 +116,7 @@
     function postLevelChange(){
 
         var postLevel = $('select[name=postLevel]').val();
-        $.getJSON("${ctx}/cadrePostPro_metaTypes",{postLevel:postLevel},function(ret){
+        $.getJSON("${ctx}/cadrePostPro_metaTypes?cadreId=${cadre.id}",{postLevel:postLevel},function(ret){
             $("select[name=post]").select2({
                 data: ret.options1
             })
