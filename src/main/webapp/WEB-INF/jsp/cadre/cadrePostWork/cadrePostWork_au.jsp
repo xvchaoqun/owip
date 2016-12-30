@@ -46,6 +46,7 @@
             <div class="col-xs-6">
                 <div class="input-group" style="width: 130px">
                     <input class="form-control date-picker" name="_gradeTime" type="text"
+                           data-date-min-view-mode="1"
                            data-date-format="yyyy.mm" value="${cm:formatDate(cadrePostWork.gradeTime,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
