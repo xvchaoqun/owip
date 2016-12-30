@@ -347,7 +347,10 @@
                 <span>姓  名</span>
         </td>
         <td class="td2 center bolder">
-                <span>年龄</span>
+            <span>出生</span>
+            <div>
+                <span>年月</span>
+            </div>
         </td>
         <td class="td2 center bolder" colspan="2">
                 <span>政  治</span>
@@ -370,7 +373,7 @@
             </td>
             <td class="td14 center">
                 <c:if test="${f.birthday!=null}">
-                ${cm:calAge(f.birthday)}
+                    ${cm:formatDate(f.birthday, "yyyy.MM")}
                 </c:if>
             </td>
             <td class="td2 center" colspan="2">
@@ -512,6 +515,7 @@
     </tbody>
 </table>
 </div>
+    <div class="footer-margin lower"/>
 <div class="clearfix form-actions center bolder">
     <a class="btn btn-success" href="${ctx}/cadreAdform_download?cadreId=${param.cadreId}">
         <i class="ace-icon fa fa-download "></i>

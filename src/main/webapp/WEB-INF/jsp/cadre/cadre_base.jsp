@@ -9,6 +9,7 @@ pageEncoding="UTF-8"%>
 	<li class="${param.type==1?"active":""}">
 		<a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 修改基本信息</a>
 	</li>
+
 </ul>
 </c:if>
 <c:if test="${empty param.type}">
@@ -875,6 +876,11 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="clearfix form-actions center">
+			<a class="popupBtn btn btn-warning"
+			   data-width="800"
+			   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_BASE_INFO}">
+				<i class="fa fa-info-circle"></i> 填写说明</a>
+			&nbsp; &nbsp; &nbsp;
 			<button class="btn btn-info" type="submit">
 				<i class="ace-icon fa fa-check bigger-110"></i>
 				保存

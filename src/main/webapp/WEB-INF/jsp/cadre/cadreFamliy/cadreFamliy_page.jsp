@@ -8,6 +8,10 @@
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员信息
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
             <div class="buttons">
+                <a class="popupBtn btn btn-warning btn-sm"
+                   data-width="800"
+                   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_FAMLIY}">
+                    <i class="fa fa-info-circle"></i> 填写说明</a>
                 <shiro:hasPermission name="cadreFamliy:edit">
                     <a class="popupBtn btn btn-success btn-sm"
                        data-url="${ctx}/cadreFamliy_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -47,7 +51,7 @@
 </div>
 
 <div class="space-4"></div>
-<div class="widget-box collapsed">
+<div class="widget-box ${cadreFamliyAbroadCount==0?'collapsed':''}">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
@@ -108,14 +112,14 @@
             },
             {label: '姓名', width: 120, name: 'realname'},
             {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-            {
+            /*{
                 label: '年龄',
                 name: 'birthday',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
                     return calAge(cellvalue);
                 }
-            },
+            },*/
             {
                 label: '政治面貌', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';

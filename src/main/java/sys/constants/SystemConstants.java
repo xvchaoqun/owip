@@ -868,15 +868,17 @@ public class SystemConstants {
         CADRE_BOOK_TYPE_MAP.put(CADRE_BOOK_TYPE_COAUTHOR, "合著");
     }
 
-    // 称谓，1父亲，2母亲， 3配偶， 4儿子， 5女儿
+    // 称谓，1父亲，2母亲， 3配偶， 4儿子， 5女儿 6本人
     public final static byte CADRE_FAMLIY_TITLE_FATHER = 1;
     public final static byte CADRE_FAMLIY_TITLE_MOTHER = 2;
     public final static byte CADRE_FAMLIY_TITLE_MATE = 3;
     public final static byte CADRE_FAMLIY_TITLE_SON = 4;
     public final static byte CADRE_FAMLIY_TITLE_DAUGHTER = 5;
+    public final static byte CADRE_FAMLIY_TITLE_SELF = 6;
     public final static Map<Byte, String> CADRE_FAMLIY_TITLE_MAP = new LinkedHashMap<>();
 
     static {
+        CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_SELF, "本人");
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_FATHER, "父亲");
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_MOTHER, "母亲");
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_MATE, "配偶");

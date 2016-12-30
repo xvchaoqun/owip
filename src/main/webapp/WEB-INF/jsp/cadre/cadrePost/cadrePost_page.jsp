@@ -13,6 +13,12 @@
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>
     </li>
+    <div class="buttons" style="position:absolute;left: 360px;">
+        <a class="popupBtn btn btn-warning btn-sm"
+           data-width="800"
+           data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_POST}">
+            <i class="fa fa-info-circle"></i> 填写说明</a>
+    </div>
 </ul>
 <div class="space-4"></div>
 <c:if test="${type==1}">

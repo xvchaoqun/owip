@@ -60,6 +60,13 @@ public class CadreFamliyController extends BaseController {
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
+
+        {
+            CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId);
+            modelMap.put("cadreFamliyAbroadCount", cadreFamliyAbroadMapper.countByExample(example));
+        }
+
         modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
         return "cadre/cadreFamliy/cadreFamliy_page";
     }

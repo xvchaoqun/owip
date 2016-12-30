@@ -17,6 +17,10 @@
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
+            <a class="popupBtn btn btn-warning btn-sm"
+               data-width="800"
+               data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_EDU}">
+                <i class="fa fa-info-circle"></i> 填写说明</a>
             <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-url="${ctx}/cadreEdu_rule?cadreId=${param.cadreId}"><i class="fa fa-search"></i>
@@ -98,6 +102,7 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
+            cssPath:"${ctx}/css/ke.css",
             items: ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'

@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">发表日期</label>
             <div class="col-xs-6">
-                <div class="input-group" style="width: 120px">
+                <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_pubTime" type="text"
                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadrePaper.pubTime,'yyyy-MM-dd')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

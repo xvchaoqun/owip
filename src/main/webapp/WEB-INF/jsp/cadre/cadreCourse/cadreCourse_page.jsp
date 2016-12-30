@@ -14,6 +14,12 @@
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 预览</a>
     </li>
     </shiro:hasPermission>
+    <div class="buttons" style="position:absolute;left: 500px;">
+        <a class="popupBtn btn btn-warning btn-sm"
+           data-width="800"
+           data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_COURSE}">
+            <i class="fa fa-info-circle"></i> 填写说明</a>
+    </div>
 </ul>
 
 <c:if test="${type==1}">
@@ -147,6 +153,7 @@
     <script>
 
         var ke = KindEditor.create('#content', {
+            cssPath:"${ctx}/css/ke.css",
             items: ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'

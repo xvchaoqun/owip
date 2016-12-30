@@ -63,7 +63,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">报批单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="reportUnit" value="${cadreCompany.reportUnit}">
+                        <input class="form-control" type="text" name="reportUnit" value="${cadreCompany.reportUnit}">
 				</div>
 			</div>
             <div class="form-group">

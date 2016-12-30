@@ -11,6 +11,12 @@
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage2(3)"><i class="fa fa-flag"></i> 工勤岗位过程信息</a>
     </li>
+    <div class="buttons" style="position:absolute;left: 520px;">
+    <a class="popupBtn btn btn-warning btn-sm"
+       data-width="800"
+       data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_POST_INFO}">
+        <i class="fa fa-info-circle"></i> 填写说明</a>
+    </div>
 </ul>
 
 <c:if test="${type==1}">

@@ -2768,6 +2768,37 @@
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
+								<w:t>出</w:t>
+							</w:r>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>  </w:t>
+							</w:r>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>生</w:t>
+							</w:r>
+						</w:p>
+						<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419">
+							<w:pPr>
+								<w:jc w:val="center"/>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<w:rFonts w:hint="fareast"/>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
 								<w:t>年</w:t>
 							</w:r>
 							<w:r>
@@ -2783,7 +2814,7 @@
 									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>龄</w:t>
+								<w:t>月</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>

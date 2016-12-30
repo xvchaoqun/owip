@@ -21,7 +21,8 @@ public class CadreFamliyService extends BaseMapper {
     public void addCheck(int cadreId, byte title){
 
         if(title== SystemConstants.CADRE_FAMLIY_TITLE_FATHER
-                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER) {
+                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER
+                || title == SystemConstants.CADRE_FAMLIY_TITLE_SELF) {
             CadreFamliyExample example = new CadreFamliyExample();
             CadreFamliyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
             criteria.andCadreIdEqualTo(cadreId);
@@ -41,7 +42,8 @@ public class CadreFamliyService extends BaseMapper {
     public void updateCheck(int id, int cadreId, byte title){
 
         if(title== SystemConstants.CADRE_FAMLIY_TITLE_FATHER
-                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER) {
+                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER
+                || title == SystemConstants.CADRE_FAMLIY_TITLE_SELF) {
             CadreFamliyExample example = new CadreFamliyExample();
             CadreFamliyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
             criteria.andCadreIdEqualTo(cadreId);

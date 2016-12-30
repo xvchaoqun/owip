@@ -115,8 +115,8 @@ public class CadrePaperController extends BaseController {
 
         if(_file!=null){
             String ext = FileUtils.getExtention(_file.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")){
-                throw new RuntimeException("[发表论文情况]文件格式错误，请上传word文档");
+            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                throw new RuntimeException("[发表论文情况]文件格式错误，请上传pdf文档");
             }
 
             String originalFilename = _file.getOriginalFilename();
@@ -126,13 +126,13 @@ public class CadrePaperController extends BaseController {
                     + "paper" + FILE_SEPARATOR
                     + fileName;
             String savePath =  realPath + FileUtils.getExtention(originalFilename);
-            String pdfPath = realPath + ".pdf";
+            //String pdfPath = realPath + ".pdf";
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
+            //FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
 
             try {
                 String swfPath = realPath + ".swf";
-                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
             } catch (IOException | InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

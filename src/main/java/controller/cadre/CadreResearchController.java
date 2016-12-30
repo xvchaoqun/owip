@@ -77,18 +77,36 @@ public class CadreResearchController extends BaseController {
         } else {
             String key = null;
             switch (type) {
-                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY:
+                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
                     key = "hf_cadre_research_in_summary";
-                    break;
-                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY:
+                    CadreResearchExample example = new CadreResearchExample();
+                    example.createCriteria().andCadreIdEqualTo(cadreId)
+                            .andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_IN);
+                    modelMap.put("count", cadreResearchMapper.countByExample(example));
+                }
+                break;
+                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
                     key = "hf_cadre_research_direct_summary";
-                    break;
-                case SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY:
+                    CadreResearchExample example = new CadreResearchExample();
+                    example.createCriteria().andCadreIdEqualTo(cadreId)
+                            .andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_DIRECT);
+                    modelMap.put("count", cadreResearchMapper.countByExample(example));
+                }
+                break;
+                case SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY: {
                     key = "hf_cadre_book_summary";
-                    break;
-                case SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY:
+                    CadreBookExample example = new CadreBookExample();
+                    example.createCriteria().andCadreIdEqualTo(cadreId);
+                    modelMap.put("count", cadreBookMapper.countByExample(example));
+                }
+                break;
+                case SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY: {
                     key = "hf_cadre_paper_summary";
-                    break;
+                    CadrePaperExample example = new CadrePaperExample();
+                    example.createCriteria().andCadreIdEqualTo(cadreId);
+                    modelMap.put("count", cadrePaperMapper.countByExample(example));
+                }
+                break;
                 /*case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD:
                     key = "hf_cadre_research_reward";
                     break;*/
@@ -109,9 +127,10 @@ public class CadreResearchController extends BaseController {
         }*/
         return "cadre/cadreResearch/cadreResearch_page";
     }
+
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreReward_fragment")
-    public String cadreReward_fragment(Integer cadreId, ModelMap modelMap){
+    public String cadreReward_fragment(Integer cadreId, ModelMap modelMap) {
 
         CadreRewardExample example = new CadreRewardExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
@@ -192,7 +211,7 @@ public class CadreResearchController extends BaseController {
         } else {
             // 干部信息本人直接修改数据校验
             CadreResearch _record = cadreResearchMapper.selectByPrimaryKey(id);
-            if(_record.getCadreId().intValue() != record.getCadreId()){
+            if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
             cadreResearchService.updateByPrimaryKeySelective(record);

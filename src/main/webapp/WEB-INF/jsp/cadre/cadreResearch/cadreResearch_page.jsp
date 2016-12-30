@@ -28,6 +28,12 @@
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
     </shiro:hasPermission>
+    <div class="buttons" style="position:absolute;left: 700px;">
+        <a class="popupBtn btn btn-warning btn-sm"
+           data-width="800"
+           data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_RESEARCH}">
+            <i class="fa fa-info-circle"></i> 填写说明</a>
+    </div>
 </ul>
 <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH_REWARD}">
 <div class="row two-frames">
@@ -93,7 +99,7 @@
 </c:if>
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     <div class="space-4"></div>
-    <div class="widget-box collapsed">
+    <div class="widget-box ${count==0?'collapsed':''}">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主持科研项目情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
@@ -139,7 +145,7 @@
 </c:if>
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     <div class="space-4"></div>
-    <div class="widget-box collapsed">
+    <div class="widget-box  ${count==0?'collapsed':''}">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 参与科研项目情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
@@ -185,7 +191,7 @@
 </c:if>
 <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     <div class="space-4"></div>
-    <div class="widget-box collapsed">
+    <div class="widget-box  ${count==0?'collapsed':''}">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 出版著作情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
@@ -227,7 +233,7 @@
 </c:if>
 <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     <div class="space-4"></div>
-    <div class="widget-box collapsed">
+    <div class="widget-box  ${count==0?'collapsed':''}">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 发表论文情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
@@ -306,6 +312,7 @@
     readonlyMode = true;
     </c:if>
     var ke = KindEditor.create('#content', {
+        cssPath:"${ctx}/css/ke.css",
         items: ["source", "|", "fullscreen"],
         height: ke_height + 'px',
         width: '700px',
@@ -446,13 +453,16 @@
         url: '${ctx}/cadrePaper_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '发表日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '论文', name: 'fileName', width: 750},
             {
-                label: '论文', name: 'filePath', width: 250,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.filePath == undefined) return '-';
-                    return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.filePath), rowObject.fileName);
-                }
+                label: '预览', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.fileName && rowObject.fileName != '')
+                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">预览</a>'
+                                    .format(encodeURI(rowObject.filePath), rowObject.fileName)
+                           + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+                                 .format(encodeURI(rowObject.filePath), rowObject.fileName);
+                else return '';
+            }
             },
             {label: '备注', name: 'remark', width: 350}
         ]
