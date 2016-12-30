@@ -878,7 +878,7 @@ pageEncoding="UTF-8"%>
 		<div class="clearfix form-actions center">
 			<a class="popupBtn btn btn-warning"
 			   data-width="800"
-			   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_BASE_INFO}">
+			   data-url="${ctx}/hf_content?code=${HF_CADRE_BASE_INFO}">
 				<i class="fa fa-info-circle"></i> 填写说明</a>
 			&nbsp; &nbsp; &nbsp;
 			<button class="btn btn-info" type="submit">

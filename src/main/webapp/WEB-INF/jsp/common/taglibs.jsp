@@ -68,12 +68,7 @@
 
 <c:set var="LOGIN_TYPE_MAP" value="<%=SystemConstants.LOGIN_TYPE_MAP%>"/>
 
-<c:set var="HTML_FRAGMENT_APPLY_SELF_NOTE" value="<%=SystemConstants.HTML_FRAGMENT_APPLY_SELF_NOTE%>"/>
-<c:set var="HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE" value="<%=SystemConstants.HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE%>"/>
-<c:set var="HTML_FRAGMENT_PASSPORT_DRAW_NOTE" value="<%=SystemConstants.HTML_FRAGMENT_PASSPORT_DRAW_NOTE%>"/>
-<c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER%>"/>
-<c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT%>"/>
-<c:set var="HTML_FRAGMENT_MEMBER_IN_NOTE_BACK" value="<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>"/>
+<%@ include file="taglibs-html-fragment.jsp" %>
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>

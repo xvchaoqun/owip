@@ -17,7 +17,7 @@
     <div class="jqgrid-vertical-offset buttons">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_PARTTIME}">
+           data-url="${ctx}/hf_content?code=${HF_CADRE_PARTTIME}">
             <i class="fa fa-info-circle"></i> 填写说明</a>
         <shiro:hasPermission name="cadreParttime:edit">
             <a class="popupBtn btn btn-success btn-sm"

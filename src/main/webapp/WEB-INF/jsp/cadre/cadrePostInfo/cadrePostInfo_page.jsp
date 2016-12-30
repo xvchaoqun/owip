@@ -14,7 +14,7 @@
     <div class="buttons" style="position:absolute;left: 520px;">
     <a class="popupBtn btn btn-warning btn-sm"
        data-width="800"
-       data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_CADRE_POST_INFO}">
+       data-url="${ctx}/hf_content?code=${HF_CADRE_POST_INFO}">
         <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
 </ul>
