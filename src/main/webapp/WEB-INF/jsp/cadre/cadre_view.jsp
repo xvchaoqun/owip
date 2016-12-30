@@ -110,7 +110,7 @@
                 <li>
 
                     <a href="javascript:"
-                       data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}">
+                       data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}" style="padding-bottom: 5px;">
                         <span class="label label-info">
                             <i class="fa fa-info-circle"></i> 说 明</span></a>
 
