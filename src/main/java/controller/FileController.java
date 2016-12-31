@@ -113,7 +113,7 @@ public class FileController extends BaseController {
 
         if(FileUtils.exists(imagepath)) {
             BufferedImage bi = ImageIO.read(new File(imagepath));
-            if(bi!=null) {
+            if(bi!=null) { // 不是图片
                 int srcWidth = bi.getWidth();      // 源图宽度
                 int srcHeight = bi.getHeight();    // 源图高度
 
