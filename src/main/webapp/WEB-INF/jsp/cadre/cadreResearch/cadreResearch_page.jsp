@@ -28,7 +28,7 @@
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
     </shiro:hasPermission>
-    <div class="buttons" style="position:absolute;left: 700px;">
+    <div class="buttons" style="position:absolute;left: 750px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=${HF_CADRE_RESEARCH}">
