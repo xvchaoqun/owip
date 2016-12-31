@@ -7,29 +7,33 @@ import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import shiro.CurrentUser;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.tool.qrcode.QRCodeUtil;
-import sys.utils.ConfigUtil;
-import sys.utils.DownloadUtils;
-import sys.utils.FileUtils;
-import sys.utils.ImageUtils;
+import sys.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.text.MessageFormat;
 
 /**
  * Created by fafa on 2015/12/8.
  */
 @Controller
 public class FileController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/attach")
     public void attach(String code,
@@ -103,21 +107,32 @@ public class FileController extends BaseController {
 
     // 图片
     @RequestMapping("/pic")
-    public void pic(String path, HttpServletResponse response) throws IOException {
+    public void pic(String path, HttpServletResponse response, HttpServletRequest request) throws IOException {
 
         String imagepath = springProps.uploadPath + path;
 
-        BufferedImage bi = ImageIO.read(new File(imagepath));
-        int srcWidth = bi.getWidth();      // 源图宽度
-        int srcHeight = bi.getHeight();    // 源图高度
+        if(FileUtils.exists(imagepath)) {
+            BufferedImage bi = ImageIO.read(new File(imagepath));
+            int srcWidth = bi.getWidth();      // 源图宽度
+            int srcHeight = bi.getHeight();    // 源图高度
 
-        if(srcWidth>800 || srcHeight>800) {
-            Thumbnails.of(imagepath)
-                    .size(800, 800)
-                    .keepAspectRatio(true)
-                    .toOutputStream(response.getOutputStream());
-        }else {
-            ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
+            if (srcWidth > 800 || srcHeight > 800) {
+                Thumbnails.of(imagepath)
+                        .size(800, 800)
+                        .keepAspectRatio(true)
+                        .toOutputStream(response.getOutputStream());
+            } else {
+                ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
+            }
+        }else{
+            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            String username = (shiroUser!=null)?shiroUser.getUsername():null;
+
+            logger.warn(MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                    username, "图片" + imagepath + "不存在", request.getRequestURI(),
+                    request.getMethod(),
+                    JSONUtils.toString(request.getParameterMap(), false),
+                    RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)));
         }
     }
 
