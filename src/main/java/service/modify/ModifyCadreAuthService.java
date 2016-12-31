@@ -37,6 +37,17 @@ public class ModifyCadreAuthService extends BaseMapper {
     // 干部库类别-职务属性-干部
     public TreeNode getTree(){
 
+        // 已经设置为永久生效的干部，不可选
+        Set disabledCadreIdSet = new HashSet();
+        {
+            ModifyCadreAuthExample example = new ModifyCadreAuthExample();
+            example.createCriteria().andIsUnlimitedEqualTo(true);
+            List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthMapper.selectByExample(example);
+            for (ModifyCadreAuth modifyCadreAuth : modifyCadreAuths) {
+                disabledCadreIdSet.add(modifyCadreAuth.getCadreId());
+            }
+        }
+
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
 
         TreeNode root = new TreeNode();
@@ -51,8 +62,11 @@ public class ModifyCadreAuthService extends BaseMapper {
         Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
         // 考察对象
         List<Cadre> tempCadres = new ArrayList<>();
-        // 后备干部库
-        List<Cadre> reserveCadres = new ArrayList<>();
+        // 类别-后备干部库
+        Map<Byte, List<Cadre>> typeReserveCadresMap = new LinkedHashMap<>();
+        for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
+            typeReserveCadresMap.put(entry.getKey(), new ArrayList<Cadre>());
+        }
 
         {
             CadreExample example = new CadreExample();
@@ -74,6 +88,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         {
             CadreTempExample example = new CadreTempExample();
             example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_TEMP_STATUS_NORMAL);
+            example.setOrderByClause("sort_order asc");
             List<CadreTemp> cadreTemps = cadreTempMapper.selectByExample(example);
             for (CadreTemp cadreTemp : cadreTemps) {
                 Cadre cadre = cadreMapper.selectByPrimaryKey(cadreTemp.getCadreId());
@@ -85,10 +100,18 @@ public class ModifyCadreAuthService extends BaseMapper {
             CadreReserveExample example = new CadreReserveExample();
             example.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_RESERVE_STATUS_NORMAL,
                     SystemConstants.CADRE_RESERVE_STATUS_TO_TEMP));
+            example.setOrderByClause("sort_order asc");
             List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
             for (CadreReserve cadreReserve : cadreReserves) {
                 Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
-                reserveCadres.add(cadre);
+                List<Cadre> cadres = null;
+                Byte type = cadreReserve.getType();
+                if(typeReserveCadresMap.containsKey(type)) {
+                    cadres = typeReserveCadresMap.get(type);
+                }
+                if(null == cadres) cadres = new ArrayList<>();
+                cadres.add(cadre);
+                typeReserveCadresMap.put(type, cadres);
             }
         }
 
@@ -104,7 +127,6 @@ public class ModifyCadreAuthService extends BaseMapper {
         cadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_NOW);
         cadreRoot.expand = true;
         cadreRoot.isFolder = true;
-        cadreRoot.hideCheckbox = true;
         List<TreeNode> cadreRootChildren = new ArrayList<TreeNode>();
         cadreRoot.children = cadreRootChildren;
         rootChildren.add(cadreRoot);
@@ -124,6 +146,9 @@ public class ModifyCadreAuthService extends BaseMapper {
                 TreeNode node = new TreeNode();
                 node.title = cadre.getUser().getRealname() + (title!=null?("-" + title):"");
                 node.key =  cadre.getId() + "";
+                if(disabledCadreIdSet.contains(cadre.getId())){
+                    node.hideCheckbox = true;
+                }
                 titleChildren.add(node);
             }
             cadreRootChildren.add(titleNode);
@@ -134,7 +159,6 @@ public class ModifyCadreAuthService extends BaseMapper {
             tempCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_TEMP);
             tempCadreRoot.expand = false;
             tempCadreRoot.isFolder = true;
-            tempCadreRoot.hideCheckbox = true;
             List<TreeNode> tempCadreRootChildren = new ArrayList<TreeNode>();
             tempCadreRoot.children = tempCadreRootChildren;
             rootChildren.add(tempCadreRoot);
@@ -144,28 +168,43 @@ public class ModifyCadreAuthService extends BaseMapper {
                 TreeNode node = new TreeNode();
                 node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
                 node.key = cadre.getId() + "";
+                if(disabledCadreIdSet.contains(cadre.getId())){
+                    node.hideCheckbox = true;
+                }
                 tempCadreRootChildren.add(node);
             }
         }
 
-        if(reserveCadres.size()>0) {
-            TreeNode reserveCadreRoot = new TreeNode();
-            reserveCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_RESERVE);
-            reserveCadreRoot.expand = false;
-            reserveCadreRoot.isFolder = true;
-            reserveCadreRoot.hideCheckbox = true;
-            List<TreeNode> reserveCadreRootChildren = new ArrayList<TreeNode>();
-            reserveCadreRoot.children = reserveCadreRootChildren;
-            rootChildren.add(reserveCadreRoot);
-            for (Cadre cadre : reserveCadres) {
+
+        TreeNode reserveCadreRoot = new TreeNode();
+        reserveCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_RESERVE);
+        reserveCadreRoot.expand = false;
+        reserveCadreRoot.isFolder = true;
+        List<TreeNode> reserveCadreRootChildren = new ArrayList<TreeNode>();
+        reserveCadreRoot.children = reserveCadreRootChildren;
+        rootChildren.add(reserveCadreRoot);
+        for(Map.Entry<Byte, List<Cadre>> entry : typeReserveCadresMap.entrySet()) {
+            List<Cadre> entryValue = entry.getValue();
+            TreeNode titleNode = new TreeNode();
+            titleNode.title = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(entry.getKey());
+            titleNode.expand = false;
+            titleNode.isFolder = true;
+            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+            titleNode.children = titleChildren;
+            for (Cadre cadre : entryValue) {
 
                 String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
                 node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
                 node.key = cadre.getId() + "";
-                reserveCadreRootChildren.add(node);
+                if(disabledCadreIdSet.contains(cadre.getId())){
+                    node.hideCheckbox = true;
+                }
+               titleChildren.add(node);
             }
+            reserveCadreRootChildren.add(titleNode);
         }
+
 
         return root;
     }

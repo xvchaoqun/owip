@@ -329,7 +329,7 @@ public class CadreTempService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
 
         CadreTempExample example = new CadreTempExample();
-        if (addNum > 0) {
+        if (addNum < 0) {
 
             example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_TEMP_STATUS_NORMAL)
                     .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
@@ -346,7 +346,7 @@ public class CadreTempService extends BaseMapper {
 
             CadreTemp targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum > 0)
+            if (addNum < 0)
                 commonMapper.downOrder(TABLE_NAME,
                         "status=" + SystemConstants.CADRE_TEMP_STATUS_NORMAL + " and type=" + type,
                         baseSortOrder, targetEntity.getSortOrder());

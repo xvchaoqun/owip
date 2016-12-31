@@ -148,7 +148,7 @@ public class CadreReserveController extends BaseController {
         if (status == null || status == SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
             criteria.andReserveTypeEqualTo(reserveType);
 
-        example.setOrderByClause("reserve_sort_order desc");
+        example.setOrderByClause("reserve_sort_order asc");
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

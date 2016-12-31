@@ -88,7 +88,7 @@ public class CadreTempController extends BaseController {
         CadreTempViewExample example = new CadreTempViewExample();
         CadreTempViewExample.Criteria criteria = example.createCriteria()
                 .andTempStatusEqualTo(status);
-        example.setOrderByClause("temp_sort_order desc");
+        example.setOrderByClause("temp_sort_order asc");
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);

@@ -362,7 +362,7 @@ public class CadreReserveService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
 
         CadreReserveExample example = new CadreReserveExample();
-        if (addNum > 0) {
+        if (addNum < 0) { // 正序
 
             example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
                     .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
@@ -379,7 +379,7 @@ public class CadreReserveService extends BaseMapper {
 
             CadreReserve targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum > 0)
+            if (addNum < 0) // 正序
                 commonMapper.downOrder(TABLE_NAME,
                         "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+type,
                         baseSortOrder, targetEntity.getSortOrder());
