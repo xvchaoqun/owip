@@ -4,6 +4,8 @@ import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
 import domain.sys.SysUserView;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.stereotype.Controller;
@@ -103,7 +105,20 @@ public class FileController extends BaseController {
     @RequestMapping("/pic")
     public void pic(String path, HttpServletResponse response) throws IOException {
 
-        ImageUtils.displayImage(FileUtils.getBytes(springProps.uploadPath + path), response);
+        String imagepath = springProps.uploadPath + path;
+
+        BufferedImage bi = ImageIO.read(new File(imagepath));
+        int srcWidth = bi.getWidth();      // 源图宽度
+        int srcHeight = bi.getHeight();    // 源图高度
+
+        if(srcWidth>800 || srcHeight>800) {
+            Thumbnails.of(imagepath)
+                    .size(800, 800)
+                    .keepAspectRatio(true)
+                    .toOutputStream(response.getOutputStream());
+        }else {
+            ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
+        }
     }
 
     // 手写签名
