@@ -3,6 +3,12 @@
 <!-- Configuration file for UrlRewriteFilter http://www.tuckey.org/urlrewrite/ -->
 <urlrewrite>
 	<rule>
+		<note>头像</note>
+		<condition type="method">GET</condition>
+		<from>^/m/avatar</from>
+		<to>/avatar</to>
+	</rule>
+	<rule>
 		<note>因私出访短信通知弹出框</note>
 		<condition type="method">GET</condition>
 		<from>^/m/shortMsg_view$</from>

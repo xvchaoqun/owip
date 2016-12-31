@@ -68,7 +68,7 @@
       }},
       {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
         if($.trim(cellvalue)=='') return ''
-        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'.format(encodeURI(cellvalue), rowObject.modifyProofFileName);
+        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'.format(encodeURI(cellvalue), encodeURI(rowObject.modifyProofFileName));
       }},
       {label: '备注', name: 'remark', width: 500}
     ],

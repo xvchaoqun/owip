@@ -458,9 +458,9 @@
                 label: '预览', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.fileName && rowObject.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">预览</a>'
-                                    .format(encodeURI(rowObject.filePath), rowObject.fileName)
+                                    .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
                            + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
-                                 .format(encodeURI(rowObject.filePath), rowObject.fileName);
+                                 .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
                 else return '';
             }
             },
@@ -488,7 +488,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.proof == undefined) return '-';
                     return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.proof), rowObject.proofFilename);
+                            .format(encodeURI(rowObject.proof), encodeURI(rowObject.proofFilename));
                 }
             },
             {

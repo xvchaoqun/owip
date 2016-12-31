@@ -38,14 +38,10 @@ public class ModifyCadreAuthService extends BaseMapper {
     public TreeNode getTree(){
 
         // 已经设置为永久生效的干部，不可选
-        Set disabledCadreIdSet = new HashSet();
+        Set<Integer> disabledCadreIdSet = new HashSet();
         {
-            ModifyCadreAuthExample example = new ModifyCadreAuthExample();
-            example.createCriteria().andIsUnlimitedEqualTo(true);
-            List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthMapper.selectByExample(example);
-            for (ModifyCadreAuth modifyCadreAuth : modifyCadreAuths) {
-                disabledCadreIdSet.add(modifyCadreAuth.getCadreId());
-            }
+            List<Integer> validCadreIds = selectMapper.selectValidModifyCadreAuth();
+            disabledCadreIdSet.addAll(validCadreIds);
         }
 
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
@@ -125,7 +121,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         TreeNode cadreRoot = new TreeNode();
         cadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_NOW);
-        cadreRoot.expand = true;
+        cadreRoot.expand = false;
         cadreRoot.isFolder = true;
         List<TreeNode> cadreRootChildren = new ArrayList<TreeNode>();
         cadreRoot.children = cadreRootChildren;
@@ -157,7 +153,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         if(tempCadres.size()>0) {
             TreeNode tempCadreRoot = new TreeNode();
             tempCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_TEMP);
-            tempCadreRoot.expand = false;
+            tempCadreRoot.expand = true;
             tempCadreRoot.isFolder = true;
             List<TreeNode> tempCadreRootChildren = new ArrayList<TreeNode>();
             tempCadreRoot.children = tempCadreRootChildren;
@@ -176,34 +172,38 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
 
 
+        int count = 0;
         TreeNode reserveCadreRoot = new TreeNode();
         reserveCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_RESERVE);
-        reserveCadreRoot.expand = false;
+        reserveCadreRoot.expand = true;
         reserveCadreRoot.isFolder = true;
         List<TreeNode> reserveCadreRootChildren = new ArrayList<TreeNode>();
         reserveCadreRoot.children = reserveCadreRootChildren;
-        rootChildren.add(reserveCadreRoot);
         for(Map.Entry<Byte, List<Cadre>> entry : typeReserveCadresMap.entrySet()) {
             List<Cadre> entryValue = entry.getValue();
-            TreeNode titleNode = new TreeNode();
-            titleNode.title = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(entry.getKey());
-            titleNode.expand = false;
-            titleNode.isFolder = true;
-            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
-            titleNode.children = titleChildren;
-            for (Cadre cadre : entryValue) {
+            if(entryValue.size()>0) {
+                count += entryValue.size();
+                TreeNode titleNode = new TreeNode();
+                titleNode.title = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(entry.getKey());
+                titleNode.expand = false;
+                titleNode.isFolder = true;
+                List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+                titleNode.children = titleChildren;
+                for (Cadre cadre : entryValue) {
 
-                String title = cadre.getTitle();
-                TreeNode node = new TreeNode();
-                node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
-                node.key = cadre.getId() + "";
-                if(disabledCadreIdSet.contains(cadre.getId())){
-                    node.hideCheckbox = true;
+                    String title = cadre.getTitle();
+                    TreeNode node = new TreeNode();
+                    node.title = cadre.getUser().getRealname() + (title != null ? ("-" + title) : "");
+                    node.key = cadre.getId() + "";
+                    if (disabledCadreIdSet.contains(cadre.getId())) {
+                        node.hideCheckbox = true;
+                    }
+                    titleChildren.add(node);
                 }
-               titleChildren.add(node);
+                reserveCadreRootChildren.add(titleNode);
             }
-            reserveCadreRootChildren.add(titleNode);
         }
+        if(count>0) rootChildren.add(reserveCadreRoot);
 
 
         return root;

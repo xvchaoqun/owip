@@ -38,7 +38,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="${ctx}/extend/img/default.png" width="90" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="${ctx}/m/avatar/${_user.username}?m=1" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>

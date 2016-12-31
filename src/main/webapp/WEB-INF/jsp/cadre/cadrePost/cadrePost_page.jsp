@@ -266,7 +266,7 @@
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
+                            .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -370,7 +370,7 @@
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
+                            .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -466,7 +466,7 @@
                     var dispatchCode = cellvalue.dispatchCode;
                     if (cellvalue.fileName && cellvalue.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
+                            .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
                     else return dispatchCode;
                 }
             },
@@ -483,7 +483,7 @@
                 var dispatchCode = cellvalue.dispatchCode;
                 if (cellvalue.fileName && cellvalue.fileName != '')
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                        .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
+                        .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
                 else return dispatchCode;
             }
             },

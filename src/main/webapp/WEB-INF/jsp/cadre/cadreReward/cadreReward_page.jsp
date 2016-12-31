@@ -143,8 +143,11 @@
                 {label: '获奖证书', name: 'proof', width: 250,
                     formatter: function (cellvalue, options, rowObject) {
                         if(rowObject.proof==undefined) return '-';
-                        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                                .format(encodeURI(rowObject.proof),rowObject.proofFilename);
+                        return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">{1}</a>'
+                                .format(encodeURI(rowObject.proof), encodeURI(rowObject.proofFilename));
+
+                        /*return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
+                                .format(encodeURI(rowObject.proof),encodeURI(rowObject.proofFilename));*/
                     }},
                 {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
                     if(cellvalue==0) return '-';
@@ -162,5 +165,11 @@
 
         $('#searchForm [data-rel="select2"]').select2();
         $('[data-rel="tooltip"]').tooltip();
+
+        register_fancybox(function () {
+            //console.log(this)
+            this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+                            .format($(this.element).data('path'));
+        });
     </script>
 </c:if>

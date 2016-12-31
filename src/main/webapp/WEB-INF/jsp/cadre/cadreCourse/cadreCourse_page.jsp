@@ -239,7 +239,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.proof == undefined) return '-';
                     return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.proof), rowObject.proofFilename);
+                            .format(encodeURI(rowObject.proof), encodeURI(rowObject.proofFilename));
                 }
             },
             {

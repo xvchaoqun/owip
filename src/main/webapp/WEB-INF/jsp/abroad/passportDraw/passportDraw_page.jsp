@@ -377,7 +377,7 @@
                 if(rowObject.attachment && rowObject.attachment!='')
                     return '<a href="javascript:void(0)" class="popupBtn" ' +
                             'data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                                    .format(rowObject.attachment, encodeURI(rowObject.attachmentFilename));
+                                    .format(encodeURI(rowObject.attachment), encodeURI(rowObject.attachmentFilename));
                 else return '';
             }},{hidden:true, name:'drawStatus'}
         ],

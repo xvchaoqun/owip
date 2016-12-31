@@ -5,6 +5,7 @@ import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
 import domain.dispatch.DispatchCadre;
+import domain.modify.ModifyCadreAuth;
 import domain.unit.Leader;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -17,6 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface SelectMapper {
+
+    @Select("select cadre_id from modify_cadre_auth where is_unlimited=1 or " +
+            "(is_unlimited=0 and ( (curdate() between start_time and end_time) " +
+            "or (start_time is null and curdate() <= end_time) " +
+            "or (end_time is null and curdate() >= start_time)))")
+    List<Integer> selectValidModifyCadreAuth();
 
     @ResultMap("persistence.abroad.ApprovalOrderMapper.BaseResultMap")
     @Select("select aao.* from abroad_approval_order aao, abroad_approver_type aat " +

@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
                 formatter: function (cellvalue, options, rowObject) {
                     if(rowObject.paper==undefined) return '-';
                     return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.paper),rowObject.paperFilename);
+                            .format(encodeURI(rowObject.paper),encodeURI(rowObject.paperFilename));
                 }},
             {label: '备注', name: 'remark', width: 350}
         ]
