@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">论文</label>
 				<div class="col-xs-6">
-                    <input class="form-control" type="file" name="_file" />
+                    <input required class="form-control" type="file" name="_file" />
 				</div>
 			</div>
         <div class="form-group">
@@ -46,7 +46,7 @@ pageEncoding="UTF-8"%>
 <script>
     register_date($('.date-picker'));
     $('#modalForm input[type=file]').ace_file_input({
-        no_file:'请选择文件 ...',
+        no_file:'请上传pdf文件 ...',
         btn_choose:'选择',
         btn_change:'更改',
         droppable:false,
