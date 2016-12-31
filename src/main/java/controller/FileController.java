@@ -113,16 +113,18 @@ public class FileController extends BaseController {
 
         if(FileUtils.exists(imagepath)) {
             BufferedImage bi = ImageIO.read(new File(imagepath));
-            int srcWidth = bi.getWidth();      // 源图宽度
-            int srcHeight = bi.getHeight();    // 源图高度
+            if(bi!=null) {
+                int srcWidth = bi.getWidth();      // 源图宽度
+                int srcHeight = bi.getHeight();    // 源图高度
 
-            if (srcWidth > 800 || srcHeight > 800) {
-                Thumbnails.of(imagepath)
-                        .size(800, 800)
-                        .keepAspectRatio(true)
-                        .toOutputStream(response.getOutputStream());
-            } else {
-                ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
+                if (srcWidth > 800 || srcHeight > 800) {
+                    Thumbnails.of(imagepath)
+                            .size(800, 800)
+                            .keepAspectRatio(true)
+                            .toOutputStream(response.getOutputStream());
+                } else {
+                    ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
+                }
             }
         }else{
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
