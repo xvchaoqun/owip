@@ -1,4 +1,10 @@
 
+-- 2016-12-31
+ALTER TABLE `cadre_paper`
+	DROP INDEX `cadre_id`;
+
+	ALTER TABLE `cadre_book`
+	DROP INDEX `cadre_id`;
 -- 2016-12-29-3
 ALTER TABLE `cadre_post_pro`
 	ADD COLUMN `post_level` VARCHAR(20) NOT NULL COMMENT '元数据附加属性，（专业技术职务、专技岗位等级）' AFTER `type`;
