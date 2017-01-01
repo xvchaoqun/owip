@@ -24,7 +24,7 @@ public class ModifyCadreEduController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 左侧菜单
+    // 系统菜单
     @RequiresPermissions("modifyCadreEdu:list")
     @RequestMapping("/modifyCadreEdu")
     public String modifyCadreEdu() {
