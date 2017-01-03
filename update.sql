@@ -1,5 +1,5 @@
 
-
+-- 2017-1-3
 ALTER TABLE `cadre_work`
 	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
 ALTER TABLE `cadre_work`
