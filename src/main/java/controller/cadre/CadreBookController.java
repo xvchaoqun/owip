@@ -71,7 +71,8 @@ public class CadreBookController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreBookExample example = new CadreBookExample();
-        CadreBookExample.Criteria criteria = example.createCriteria();
+        CadreBookExample.Criteria criteria = example.createCriteria()
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("pub_time desc");
 
         if (cadreId!=null) {
@@ -107,7 +108,14 @@ public class CadreBookController extends BaseController {
     @RequiresPermissions("cadreBook:edit")
     @RequestMapping(value = "/cadreBook_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreBook_au(CadreBook record, String _pubTime,  HttpServletRequest request) {
+    public Map do_cadreBook_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+            CadreBook record, String _pubTime,  HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -116,16 +124,35 @@ public class CadreBookController extends BaseController {
         }
 
         if (id == null) {
-            cadreBookService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部出版著作：%s", record.getId()));
+
+            if(!toApply) {
+                cadreBookService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部出版著作：%s", record.getId()));
+            }else{
+                cadreBookService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部出版著作：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreBook _record = cadreBookMapper.selectByPrimaryKey(id);
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
-            cadreBookService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部出版著作：%s", record.getId()));
+
+            if(!toApply) {
+                cadreBookService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部出版著作：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreBookService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部出版著作：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreBookService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部出版著作：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);

@@ -12,6 +12,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="rank" property="rank" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
     <result column="reward_type" property="rewardType" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, reward_time, name, unit, proof, proof_filename, remark, rank, sort_order, 
-    reward_type
+    status, reward_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreRewardExample" >
     select
@@ -110,11 +111,13 @@
     insert into cadre_reward (id, cadre_id, reward_time, 
       name, unit, proof, 
       proof_filename, remark, rank, 
-      sort_order, reward_type)
+      sort_order, status, reward_type
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{rewardTime,jdbcType=DATE}, 
       #{name,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{proof,jdbcType=VARCHAR}, 
       #{proofFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{rewardType,jdbcType=TINYINT})
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{rewardType,jdbcType=TINYINT}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreReward" >
     insert into cadre_reward
@@ -148,6 +151,9 @@
       </if>
       <if test="sortOrder != null" >
         sort_order,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="rewardType != null" >
         reward_type,
@@ -183,6 +189,9 @@
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="rewardType != null" >
         #{rewardType,jdbcType=TINYINT},
@@ -228,6 +237,9 @@
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
       <if test="record.rewardType != null" >
         reward_type = #{record.rewardType,jdbcType=TINYINT},
       </if>
@@ -248,6 +260,7 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       rank = #{record.rank,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
       reward_type = #{record.rewardType,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,6 +296,9 @@
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
       <if test="rewardType != null" >
         reward_type = #{rewardType,jdbcType=TINYINT},
       </if>
@@ -300,6 +316,7 @@
       remark = #{remark,jdbcType=VARCHAR},
       rank = #{rank,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
       reward_type = #{rewardType,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

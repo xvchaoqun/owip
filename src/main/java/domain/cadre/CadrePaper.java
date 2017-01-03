@@ -16,6 +16,8 @@ public class CadrePaper implements Serializable {
 
     private String remark;
 
+    private Byte status;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -64,5 +66,13 @@ public class CadrePaper implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

@@ -220,7 +220,7 @@
       </table>
       <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
       </table>-->
-     <!-- <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
+      <!--<table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
       </table>-->
       <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
@@ -232,18 +232,18 @@
       </table>
       <table tableName="cadre_reward" domainObjectName="cadre.CadreReward">
         <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <table tableName="cadre_book" domainObjectName="cadre.CadreBook">
       </table>
-      <table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
+      <!--<table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
       </table>
       <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper">
+      </table>-->
+      <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
       </table>
-       <table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
-       </table>
-      <table tableName="cadre_post" domainObjectName="cadre.CadrePost">
-      </table>
-       <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
+     <table tableName="cadre_post" domainObjectName="cadre.CadrePost">
+     </table>-->
+      <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
        </table>-->
       <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
       </table>-->
@@ -252,8 +252,8 @@
         <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
        </table>-->
 
-      <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
-      </table>
+      <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
+      </table>-->
 
      <!--<table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
       </table>

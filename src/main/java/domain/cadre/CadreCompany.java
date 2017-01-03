@@ -8,7 +8,7 @@ public class CadreCompany implements Serializable {
 
     private Integer cadreId;
 
-    private Integer type;
+    private Byte type;
 
     private String typeOther;
 
@@ -25,6 +25,8 @@ public class CadreCompany implements Serializable {
     private String paperFilename;
 
     private String remark;
+
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -44,11 +46,11 @@ public class CadreCompany implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Integer getType() {
+    public Byte getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(Byte type) {
         this.type = type;
     }
 
@@ -114,5 +116,13 @@ public class CadreCompany implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

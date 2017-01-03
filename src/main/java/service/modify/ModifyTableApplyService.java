@@ -1,6 +1,5 @@
 package service.modify;
 
-import domain.cadre.CadreEdu;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
-import service.cadre.CadreEduService;
-import sys.utils.ContextHelper;
-import shiro.ShiroHelper;
+import service.cadre.*;
 import service.sys.AvatarService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +26,25 @@ public class ModifyTableApplyService extends BaseMapper {
     protected AvatarService avatarService;
     @Autowired
     protected CadreEduService cadreEduService;
+    @Autowired
+    protected CadreCompanyService cadreCompanyService;
+    @Autowired
+    protected CadreRewardService cadreRewardService;
+    @Autowired
+    protected CadreBookService cadreBookService;
+    @Autowired
+    protected CadreResearchService cadreResearchService;
+    @Autowired
+    protected CadrePaperService cadrePaperService;
+    @Autowired
+    protected CadreParttimeService cadreParttimeService;
+    @Autowired
+    protected CadreTrainService cadreTrainService;
+    @Autowired
+    protected CadreCourseService cadreCourseService;
+    @Autowired
+    protected CadreWorkService cadreWorkService;
+
 
     // 本人删除（真删除）
     @Transactional
@@ -73,44 +90,44 @@ public class ModifyTableApplyService extends BaseMapper {
     public void approval(int id, Boolean status, String checkRemark, String checkReason) {
 
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(id);
-        Integer originalId = mta.getOriginalId();
-        Integer modifyId = mta.getModifyId();
-        Byte type = mta.getType();
 
         ModifyTableApply record = new ModifyTableApply();
         record.setId(mta.getId());
 
         if (status) { // 审核通过，需要更新对应的信息
             switch (mta.getModule()) {
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU: // 学习经历
-                    if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
-
-                        CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
-                        modify.setId(null);
-                        modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-
-                        cadreEduService.checkUpdate(modify);
-
-                        cadreEduMapper.insertSelective(modify); // 插入新纪录
-                        record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
-
-                    } else if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
-
-                        CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
-                        modify.setId(originalId);
-                        modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-
-                        cadreEduService.checkUpdate(modify);
-
-                        cadreEduMapper.updateByPrimaryKey(modify); // 覆盖原纪录
-
-                    } else if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
-
-                        // 更新最后删除的记录内容
-                        record.setOriginalJson(JSONUtils.toString(cadreEduMapper.selectByPrimaryKey(originalId), false));
-                        // 删除原纪录
-                        cadreEduMapper.deleteByPrimaryKey(originalId);
-                    }
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
+                    cadreEduService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
+                    cadreWorkService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
+                    cadreBookService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
+                    cadreCompanyService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
+                    cadreCourseService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
+                    cadrePaperService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
+                    cadreParttimeService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
+                    cadreResearchService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
+                    cadreRewardService.approval(mta, record);
+                    break;
+                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
+                    cadreTrainService.approval(mta, record);
                     break;
                 default:
                     break;

@@ -6,9 +6,10 @@
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="pub_time" property="pubTime" jdbcType="DATE" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
     <result column="publisher" property="publisher" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, pub_time, name, type, publisher, remark
+    id, cadre_id, pub_time, name, type, publisher, remark, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreBookExample" >
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="domain.cadre.CadreBook" >
     insert into cadre_book (id, cadre_id, pub_time, 
       name, type, publisher, 
-      remark)
+      remark, status)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{pubTime,jdbcType=DATE}, 
-      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{publisher,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreBook" >
     insert into cadre_book
@@ -133,6 +134,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,13 +152,16 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="publisher != null" >
         #{publisher,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -180,13 +187,16 @@
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null" >
-        type = #{record.type,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.publisher != null" >
         publisher = #{record.publisher,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -199,9 +209,10 @@
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       pub_time = #{record.pubTime,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
       publisher = #{record.publisher,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -219,13 +230,16 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="publisher != null" >
         publisher = #{publisher,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -235,9 +249,10 @@
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       pub_time = #{pubTime,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
       publisher = #{publisher,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreBookExample" id="selectByExampleWithRowbounds" >

@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">期间</c:if>工作经历</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreWork_au?cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreWork_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
+            <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+            <input type="hidden" name="applyId" value="${param.applyId}">
             <input type="hidden" name="id" value="${cadreWork.id}">
             <input  type="hidden" name="fid" value="${empty cadreWork?param.fid:cadreWork.fid}">
 			<div class="form-group">
@@ -116,7 +118,6 @@ pageEncoding="UTF-8"%>
                         <c:if test="${not empty param.fid}">
                         currentExpandRows.push(${param.fid});
                         </c:if>
-                        $("#jqGrid_cadreWork").trigger("reloadGrid");
 
                         <%--<c:if test="${topCadreWork.subWorkCount==0 || empty param.fid}">
                             $("#jqGrid_cadreWork").trigger("reloadGrid");
@@ -125,6 +126,18 @@ pageEncoding="UTF-8"%>
                         <c:if test="${topCadreWork.subWorkCount>0 && not empty param.fid}">
                             _reloadSubGrid(${param.fid});
                         </c:if>--%>
+
+                        <c:if test="${param.toApply!=1}">
+                        $("#jqGrid_cadreWork").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.toApply==1}">
+                        <c:if test="${param._isUpdate==1}">
+                        $("#item-content").load("${ctx}/modifyCadreWork_detail?applyId=${param.applyId}&_="+new Date().getTime())
+                        </c:if>
+                        <c:if test="${param._isUpdate!=1}">
+                        location.href='?cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_WORK}';
+                        </c:if>
+                        </c:if>
                     }
                 }
             });

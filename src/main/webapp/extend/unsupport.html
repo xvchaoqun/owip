@@ -3,24 +3,24 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
-    <title>当前浏览器不被支持</title>
-    <meta name="Keywords" content="组工系统">
-    <meta name="Description" content="专注组工系统">
-    <!--[if lt IE 9]>
+    <title>推荐浏览器</title>
+    <meta name="Keywords" content="干部考核,ganbu,kaohe,测评，事业单位">
+    <meta name="Description" content="北京骥贤科技有限公司-专注事业单位干部考核">
+    <!--[if lt IE 8]>
     <script type="text/javascript">
         var unsupport = true;
     </script>
     <![endif]-->
-    <SCRIPT type=text/javascript>
+    <!--<SCRIPT type=text/javascript>
         if(typeof unsupport == "undefined"){
             location.href = "/";
         }
-    </SCRIPT>
+    </SCRIPT>-->
     <link rel="stylesheet" href="css/unsupport.css">
 </head>
 <body>
 <div id="container">
-    <h1>为了您正常使用当前系统，建议安装IE9以上的浏览器或以下现代浏览器</h1>
+    <h1>为了您正常使用本系统，建议安装以下现代浏览器</h1>
     <table class="browsers">
         <tr>
             <td>
@@ -35,6 +35,8 @@
                     <img src="img/360.png" alt="Download 360浏览器">
                     <p>360浏览器</p>
                 </a>
+                <p>（<a href="360.html" target="_blank" style="text-decoration: none;">
+                    安装后请选择“<span style="font-weight: bolder;color: green">极速模式</span>”，点击查看如何设置极速模式</a>）</p>
             </td>
             <!--<td>
                 <a class="clearfix" href="http://browser.qq.com/" target="_blank">
@@ -51,22 +53,15 @@
         </tr>
     </table>
 
-    <div class="footer">
-        <p>&copy; Copyright 2016  组织工作管理与服务一体化平台</p>
-    </div>
+    <!--<div class="footer">
+        <p>&copy; Copyright 2015  longtor.com </p>
+    </div>-->
 </div>
-<!--[if !IE]> -->
+
+<script src="/js/DD_belatedPNG.js"></script>
+
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='/assets/js/jquery.js'>"+"<"+"/script>");
-</script>
-<!-- <![endif]-->
-<!--[if IE]>
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='/assets/js/jquery1x.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
-<script>
-    $.post("/monitor",{type:'unsupport'});
+    DD_belatedPNG.fix('img');
 </script>
 </body>
 </html>

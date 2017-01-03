@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cadre.CadreCompany" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
     <result column="type_other" property="typeOther" jdbcType="VARCHAR" />
     <result column="has_pay" property="hasPay" jdbcType="BIT" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
@@ -13,6 +13,7 @@
     <result column="paper" property="paper" jdbcType="VARCHAR" />
     <result column="paper_filename" property="paperFilename" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, cadre_id, type, type_other, has_pay, start_time, unit, report_unit, paper, paper_filename, 
-    remark
+    remark, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreCompanyExample" >
     select
@@ -106,17 +107,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadreCompany" >
+  <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreCompany" >
     insert into cadre_company (id, cadre_id, type, 
       type_other, has_pay, start_time, 
       unit, report_unit, paper, 
-      paper_filename, remark)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      paper_filename, remark, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{typeOther,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{startTime,jdbcType=DATE}, 
       #{unit,jdbcType=VARCHAR}, #{reportUnit,jdbcType=VARCHAR}, #{paper,jdbcType=VARCHAR}, 
-      #{paperFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{paperFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadreCompany" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreCompany" >
     insert into cadre_company
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -152,6 +155,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -161,7 +167,7 @@
         #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=INTEGER},
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="typeOther != null" >
         #{typeOther,jdbcType=VARCHAR},
@@ -187,6 +193,9 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cadre.CadreCompanyExample" resultType="java.lang.Integer" >
@@ -205,7 +214,7 @@
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null" >
-        type = #{record.type,jdbcType=INTEGER},
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.typeOther != null" >
         type_other = #{record.typeOther,jdbcType=VARCHAR},
@@ -231,6 +240,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -240,7 +252,7 @@
     update cadre_company
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
       type_other = #{record.typeOther,jdbcType=VARCHAR},
       has_pay = #{record.hasPay,jdbcType=BIT},
       start_time = #{record.startTime,jdbcType=DATE},
@@ -248,7 +260,8 @@
       report_unit = #{record.reportUnit,jdbcType=VARCHAR},
       paper = #{record.paper,jdbcType=VARCHAR},
       paper_filename = #{record.paperFilename,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -260,7 +273,7 @@
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="typeOther != null" >
         type_other = #{typeOther,jdbcType=VARCHAR},
@@ -286,13 +299,16 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreCompany" >
     update cadre_company
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
       type_other = #{typeOther,jdbcType=VARCHAR},
       has_pay = #{hasPay,jdbcType=BIT},
       start_time = #{startTime,jdbcType=DATE},
@@ -300,7 +316,8 @@
       report_unit = #{reportUnit,jdbcType=VARCHAR},
       paper = #{paper,jdbcType=VARCHAR},
       paper_filename = #{paperFilename,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreCompanyExample" id="selectByExampleWithRowbounds" >

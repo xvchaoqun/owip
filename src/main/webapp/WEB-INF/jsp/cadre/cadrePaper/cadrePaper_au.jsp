@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadrePaper!=null}">编辑</c:if><c:if test="${cadrePaper==null}">添加</c:if>发表论文情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadrePaper_au?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/cadrePaper_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+        <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadrePaper.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
@@ -27,7 +29,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">论文</label>
 				<div class="col-xs-6">
-                    <input required class="form-control" type="file" name="_file" />
+                    <input ${cadrePaper==null?'required':''} class="form-control" type="file" name="_file" />
 				</div>
 			</div>
         <div class="form-group">
@@ -64,7 +66,17 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
+                        <c:if test="${param.toApply!=1}">
                         $("#jqGrid_cadrePaper").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.toApply==1}">
+                        <c:if test="${param._isUpdate==1}">
+                        $("#item-content").load("${ctx}/modifyCadrePaper_detail?applyId=${param.applyId}&_="+new Date().getTime())
+                        </c:if>
+                        <c:if test="${param._isUpdate!=1}">
+                        location.href='?cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER}';
+                        </c:if>
+                        </c:if>
                     }
                 }
             });

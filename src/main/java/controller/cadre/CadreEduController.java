@@ -127,7 +127,14 @@ public class CadreEduController extends BaseController {
     @RequiresPermissions("cadreEdu:edit")
     @RequestMapping(value = "/cadreEdu_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEdu_au(CadreEdu record, String _enrolTime,
+    public Map do_cadreEdu_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+                              CadreEdu record, String _enrolTime,
                               String _finishTime,
                               String _degreeTime,
                               @RequestParam(value = "_files[]") MultipartFile[] _files,
@@ -177,8 +184,15 @@ public class CadreEduController extends BaseController {
 
 
         if (id == null) {
-            cadreEduService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
+
+            if(!toApply) {
+                cadreEduService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
+            }else{
+                cadreEduService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部学习经历：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreEdu _record = cadreEduMapper.selectByPrimaryKey(id);
@@ -186,8 +200,19 @@ public class CadreEduController extends BaseController {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            cadreEduService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
+            if(!toApply) {
+                cadreEduService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreEduService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部学习经历：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreEduService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部学习经历：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);

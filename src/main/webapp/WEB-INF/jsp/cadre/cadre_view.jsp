@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:if test="${param._auth!='self'}">
     <h4 class="widget-title lighter smaller"
         style="position:absolute; top: -50px; left:480px; float: left; margin-bottom:0px; margin-left: 50px;">

@@ -11,7 +11,7 @@
 </div>
 <div class="jqgrid-vertical-offset widget-box">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="ace-icon fa fa-list blue "></i> 学习经历列表</h4>
+        <h4 class="widget-title"><i class="ace-icon fa fa-list blue "></i> ${MODIFY_TABLE_APPLY_MODULE_MAP.get(mta.module)}列表</h4>
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-down"></i>
@@ -20,7 +20,8 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <table id="jqGrid_cadreEdu" class="jqGrid4"></table>
+            <table id="jqGrid_records" class="jqGrid4"></table>
+            <div id="jqGridPager_cadreEdu"></div>
         </div>
     </div>
 </div>
@@ -28,7 +29,7 @@
 <div class="jqgrid-vertical-offset widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-edit blue "></i>
-        ${MODIFY_TABLE_APPLY_TYPE_MAP.get(mta.type)}学习经历内容（申请时间：${cm:formatDate(mta.createTime, "yyyy-MM-dd")}）</h4>
+        ${MODIFY_TABLE_APPLY_TYPE_MAP.get(mta.type)}${MODIFY_TABLE_APPLY_MODULE_MAP.get(mta.module)}内容（申请时间：${cm:formatDate(mta.createTime, "yyyy-MM-dd")}）</h4>
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-down"></i>
@@ -148,7 +149,7 @@
     <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary"
-                data-url="${ctx}/user/cadreEdu_au?_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
+                data-url="${ctx}/cadreEdu_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
                 data-width="900"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
@@ -206,101 +207,13 @@
         }
     });
 
-    $("#jqGrid_cadreEdu").jqGrid({
-        pager: null,
+    $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },
-        datatype: "local",
-        data:${cm:toJSONArray(cadreEdus)},
+        pager: "#jqGridPager_cadreEdu",
+        url: '${ctx}/cadreEdu_data?cadreId=${cadre.id}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         multiselect: false,
-        colModel: [
-            {
-                label: '学历', name: 'eduId', frozen: true, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }
-            },
-            {
-                label: '毕业/在读', width: 90, name: 'isGraduated', formatter: function (cellvalue, options, rowObject) {
-                return cellvalue ? "毕业" : "在读";
-            }
-            },
-            {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-            {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-            {
-                label: '是否最高学历', width: 110, name: 'isHighEdu', formatter: function (cellvalue, options, rowObject) {
-                return cellvalue ? "是" : "否";
-            }
-            },
-            {label: '毕业/在读学校', name: 'school', width: 280},
-            {label: '院系', name: 'dep', width: 380},
-            {label: '所学专业', name: 'major', width: 380},
-            {
-                label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
-            }, width: 80
-            },
-
-            //{label: '学制', name: 'schoolLen', width:50},
-            {
-                label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }
-            },
-            {
-                label: '学位', name: 'degree', formatter: function (cellvalue, options, rowObject) {
-                return rowObject.hasDegree ? cellvalue : "-";
-            }
-            },
-            {
-                label: '是否最高学位', name: 'isHighDegree', formatter: function (cellvalue, options, rowObject) {
-                if (!rowObject.hasDegree) return "-";
-                return cellvalue ? "是" : "否";
-            }, width: 110
-            },
-            {
-                label: '学位授予国家',
-                name: 'degreeCountry',
-                width: 110,
-                formatter: function (cellvalue, options, rowObject) {
-                    return rowObject.hasDegree ? cellvalue : "-";
-                }
-            },
-            {
-                label: '学位授予单位', name: 'degreeUnit', width: 150, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.hasDegree ? cellvalue : "-";
-            }
-            },
-            {label: '学位授予日期', name: 'degreeTime', width: 110, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {
-                label: '导师姓名', name: 'tutorName', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
-                    return cellvalue == undefined ? '' : cellvalue;
-                } else return '-'
-            }
-            },
-            {
-                label: '导师现所在单位及职务（或职称）', name: 'tutorTitle', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
-                    return cellvalue == undefined ? '' : cellvalue;
-                } else return '-'
-            }, width: 250
-            },
-            {
-                label: '学历学位证书',
-                name: 'certificate',
-                width: 150,
-                formatter: function (cellvalue, options, rowObject) {
-                    var filesArray = [];
-                    if (cellvalue != undefined) {
-                        var filePaths = cellvalue.split(",");
-                        filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'.format(encodeURI(filePaths[0]), 1, rowObject.id));
-                        if (filePaths.length == 2)
-                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'.format(encodeURI(filePaths[1]), 2, rowObject.id));
-                    }
-
-                    return filesArray.join("，");
-                }
-            }, {label: '备注', name: 'remark', width: 180},{hidden:true, name:'id'}],
+        colModel:colModels.cadreEdu,
         rowattr: function(rowData, currentObj, rowId)
         {
             //console.log(rowData.id + '-${mta.originalId}')

@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 public class CadreWork implements Serializable {
-
     public List<DispatchCadreRelate> getDispatchCadreRelates(){
         return CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
     }
@@ -48,6 +47,8 @@ public class CadreWork implements Serializable {
     private Boolean isCadre;
 
     private String remark;
+
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -153,5 +154,13 @@ public class CadreWork implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

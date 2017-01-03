@@ -60,7 +60,8 @@ public class CadreRewardController extends BaseController {
         if (type == 2) {
 
             CadreRewardExample example = new CadreRewardExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_OTHER);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_OTHER)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             example.setOrderByClause("reward_time asc");
             List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
             modelMap.put("cadreRewards", cadreRewards);
@@ -87,7 +88,8 @@ public class CadreRewardController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreRewardExample example = new CadreRewardExample();
-        Criteria criteria = example.createCriteria().andRewardTypeEqualTo(rewardType);
+        Criteria criteria = example.createCriteria().andRewardTypeEqualTo(rewardType)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("reward_time desc");
 
         if (cadreId!=null) {
@@ -123,8 +125,13 @@ public class CadreRewardController extends BaseController {
     @RequiresPermissions("cadreReward:edit")
     @RequestMapping(value = "/cadreReward_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreReward_au(CadreReward record,
-                                 String _rewardTime,MultipartFile _proof, HttpServletRequest request) {
+    public Map do_cadreReward_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+            CadreReward record, String _rewardTime,MultipartFile _proof, HttpServletRequest request) {
 
         Integer id = record.getId();
         Assert.isTrue(record.getRewardType()!=null);
@@ -149,16 +156,35 @@ public class CadreRewardController extends BaseController {
         }
 
         if (id == null) {
-            cadreRewardService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
+
+            if(!toApply) {
+                cadreRewardService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部教学奖励：%s", record.getId()));
+            }else{
+                cadreRewardService.modifyApply(record, null, record.getRewardType(), false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部教学奖励：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreReward _record = cadreRewardMapper.selectByPrimaryKey(id);
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
-            cadreRewardService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
+
+            if(!toApply) {
+                cadreRewardService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学奖励：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreRewardService.modifyApply(record, id, record.getRewardType(), false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部教学奖励：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreRewardService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部教学奖励：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);
@@ -179,20 +205,6 @@ public class CadreRewardController extends BaseController {
         return "cadre/cadreReward/cadreReward_au";
     }
 
-    /*@RequiresPermissions("cadreReward:del")
-    @RequestMapping(value = "/cadreReward_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreReward_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cadreRewardService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部教学奖励：%s", id));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
-
     @RequiresPermissions("cadreReward:del")
     @RequestMapping(value = "/cadreReward_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -207,7 +219,7 @@ public class CadreRewardController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreReward:changeOrder")
+   /* @RequiresPermissions("cadreReward:changeOrder")
     @RequestMapping(value = "/cadreReward_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreReward_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -215,7 +227,7 @@ public class CadreRewardController extends BaseController {
         cadreRewardService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "干部教学奖励调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void cadreReward_export(CadreRewardExample example, HttpServletResponse response) {
 

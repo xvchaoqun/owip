@@ -12,11 +12,13 @@ public class CadreBook implements Serializable {
 
     private String name;
 
-    private String type;
+    private Byte type;
 
     private String publisher;
 
     private String remark;
+
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -52,12 +54,12 @@ public class CadreBook implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getType() {
+    public Byte getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public String getPublisher() {
@@ -74,5 +76,13 @@ public class CadreBook implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

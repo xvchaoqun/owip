@@ -1,6 +1,8 @@
 package shiro.filter;
 
 import domain.cadre.Cadre;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -23,7 +25,10 @@ public class CadreAuthFilter extends AuthorizationFilter{
 
     @Autowired
     private CadreService cadreService;
+    // 拥有[干部本人修改权限]的角色的请求（/cadre*），必须带此参数；且值为当前用户的干部ID
     private final static String PARAM_CADERID = "cadreId";
+    // 拥有[干部本人修改权限],但是没有直接修改的权限的角色的POST请求，必须携带此参数；且值为1
+    private final static String PARAM_TOAPPLY = "toApply";
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
@@ -40,9 +45,9 @@ public class CadreAuthFilter extends AuthorizationFilter{
 
             Integer userId = ShiroHelper.getCurrentUserId();
             Cadre cadre = cadreService.dbFindByUserId(userId);
-            String cleanParam = WebUtils.getCleanParam(request, PARAM_CADERID);
-            if(!NumberUtils.isDigits(cleanParam)) return false;
-            Integer cadreId = Integer.valueOf(cleanParam);
+            String _cadreId = WebUtils.getCleanParam(request, PARAM_CADERID);
+            if(!NumberUtils.isDigits(_cadreId)) return false;
+            Integer cadreId = Integer.valueOf(_cadreId);
             if(cadre==null || cadre.getId().intValue()!=cadreId){
                 return false;
             }
@@ -51,9 +56,11 @@ public class CadreAuthFilter extends AuthorizationFilter{
             request.setAttribute("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
             if(!hasDirectModifyCadreAuth){
                 HttpServletRequest req = (HttpServletRequest) request;
-                // 如果没有直接修改权限，则POST修改数据都是不合法的
+                // 如果没有直接修改权限，则POST直接修改数据是不合法的，必须携带修改申请参数toApply=1
                 if(req.getMethod().equalsIgnoreCase("POST")){
-                    return false;
+
+                    String _toApply = WebUtils.getCleanParam(request, PARAM_TOAPPLY);
+                    return StringUtils.equals(_toApply, "1");
                 }
             }
         }

@@ -35,7 +35,8 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
-                                        <input type="hidden" name="status" value="${status}">
+                                        <input type="hidden" name="cls" value="${cls}">
+                                        <input type="hidden" name="module" value="${module}">
 
                                         <div class="form-group">
                                             <label>账号</label>
@@ -49,7 +50,8 @@
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
+                                                <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                                        data-querystr="module=${module}&cls=${cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -76,11 +78,11 @@
         colModel: [
             { label: '序号', name: 'id', width: 50,frozen:true },
             {label: '申请时间', width: 150, name: 'createTime'/*,formatter:'date',formatoptions: {newformat:'Y-m-d'}*/},
-            { label: '工作证号', name: 'cadre.user.code', width: 80,frozen:true },
+            { label: '工作证号', name: 'cadre.user.code', width: 120,frozen:true },
             {
                 label: '姓名', name: 'cadre.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                        .format(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
             { label: '所在单位及职务', name: 'cadre.title', width: 250},
@@ -152,3 +154,4 @@
         $("#jqGrid").trigger("reloadGrid");
     }
 </script>
+<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>

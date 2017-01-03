@@ -133,13 +133,7 @@
             },
             pager: "#jqGridPager_cadreTrain",
             url: '${ctx}/cadreTrain_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: [
-                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'},frozen:true },
-                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'},frozen:true },
-                {label: '培训内容', name: 'content', width: 350},
-                {label: '主办单位', name: 'unit', width: 280},
-                {label: '备注', name: 'remark', width: 350}
-            ]
+            colModel:colModels.cadreTrain
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid2');
         });

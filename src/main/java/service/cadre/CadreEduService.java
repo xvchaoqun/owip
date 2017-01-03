@@ -140,6 +140,7 @@ public class CadreEduService extends BaseMapper {
 
         checkUpdate(record);
 
+        record.setStatus(null);
         cadreEduMapper.updateByPrimaryKeySelective(record);
 
         if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
@@ -242,5 +243,42 @@ public class CadreEduService extends BaseMapper {
         _record.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
         _record.setStatus(SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
         modifyTableApplyMapper.insert(_record);
+    }
+
+    // 审核修改申请
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+
+        Integer originalId = mta.getOriginalId();
+        Integer modifyId = mta.getModifyId();
+        byte type = mta.getType();
+
+        if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+
+            CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
+            modify.setId(null);
+            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+
+            checkUpdate(modify);
+            cadreEduMapper.insertSelective(modify); // 插入新纪录
+            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+
+        } else if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+
+            CadreEdu modify = cadreEduMapper.selectByPrimaryKey(modifyId);
+            modify.setId(originalId);
+            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+
+            checkUpdate(modify);
+            cadreEduMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+
+        } else if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+
+            // 更新最后删除的记录内容
+            record.setOriginalJson(JSONUtils.toString(cadreEduMapper.selectByPrimaryKey(originalId), false));
+            // 删除原纪录
+            cadreEduMapper.deleteByPrimaryKey(originalId);
+        }
+
+        return record;
     }
 }

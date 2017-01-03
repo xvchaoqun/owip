@@ -357,28 +357,7 @@
         },
         pager: "#jqGridPager_cadreResearch_in",
         url: '${ctx}/cadreResearch_data?researchType=${CADRE_RESEARCH_TYPE_IN}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {
-                label: '项目起始时间',
-                width: 120,
-                name: 'startTime',
-                formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'},
-                frozen: true
-            },
-            {
-                label: '项目结题时间',
-                width: 120,
-                name: 'endTime',
-                formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'},
-                frozen: true
-            },
-            {label: '项目名称', name: 'name', width: 250},
-            {label: '项目类型', name: 'type', width: 250},
-            {label: '委托单位', name: 'unit', width: 250},
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreResearch
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid4');
     });
@@ -392,28 +371,7 @@
         },
         pager: "#jqGridPager_cadreResearch_direct",
         url: '${ctx}/cadreResearch_data?researchType=${CADRE_RESEARCH_TYPE_DIRECT}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {
-                label: '项目起始时间',
-                width: 120,
-                name: 'startTime',
-                formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'},
-                frozen: true
-            },
-            {
-                label: '项目结题时间',
-                width: 120,
-                name: 'endTime',
-                formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'},
-                frozen: true
-            },
-            {label: '项目名称', name: 'name', width: 250},
-            {label: '项目类型', name: 'type', width: 250},
-            {label: '委托单位', name: 'unit', width: 250},
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreResearch
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid4');
     });
@@ -427,17 +385,7 @@
         },
         pager: "#jqGridPager_cadreBook",
         url: '${ctx}/cadreBook_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '出版日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            {label: '著作名称', name: 'name', width: 350},
-            {label: '出版社', name: 'publisher', width: 280},
-            {
-                label: '类型', name: 'type', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CADRE_BOOK_TYPE_MAP[cellvalue]
-            }
-            },
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreBook
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid4');
     });
@@ -451,21 +399,7 @@
         },
         pager: "#jqGridPager_cadrePaper",
         url: '${ctx}/cadrePaper_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '发表日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            {label: '论文', name: 'fileName', width: 750},
-            {
-                label: '预览', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.fileName && rowObject.fileName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">预览</a>'
-                                    .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
-                           + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
-                                 .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
-                else return '';
-            }
-            },
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadrePaper
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid4');
     });
@@ -479,26 +413,7 @@
         },
         pager: "#jqGridPager_cadreReward",
         url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
-            {label: '获得奖项', name: 'name', width: 350},
-            {label: '颁奖单位', name: 'unit', width: 280},
-            {
-                label: '获奖证书', name: 'proof', width: 250,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.proof == undefined) return '-';
-                    return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.proof), encodeURI(rowObject.proofFilename));
-                }
-            },
-            {
-                label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == 0) return '-';
-                return '第{0}'.format(cellvalue);
-            }
-            },
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreReward
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid2');
     });
@@ -506,4 +421,9 @@
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    register_fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'));
+    });
 </script>

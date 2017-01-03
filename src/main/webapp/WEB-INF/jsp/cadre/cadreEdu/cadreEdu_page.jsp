@@ -136,109 +136,11 @@
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
             multiselect:false,
             </c:if>
-            pager: "#jqGridPager_cadreEdu",
             ondblClickRow: function () {
             },
+            pager: "#jqGridPager_cadreEdu",
             url: '${ctx}/cadreEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: [
-                {
-                    label: '学历', name: 'eduId', frozen: true, formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.metaTypeMap[cellvalue].name
-                }
-                },
-                {
-                    label: '毕业/在读',
-                    width: 90,
-                    name: 'isGraduated',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue ? "毕业" : "在读";
-                    }
-                },
-                {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-                {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-                {
-                    label: '是否最高学历',
-                    width: 110,
-                    name: 'isHighEdu',
-                    formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue ? "是" : "否";
-                    }
-                },
-                {label: '毕业/在读学校', name: 'school', width: 280},
-                {label: '院系', name: 'dep', width: 380},
-                {label: '所学专业', name: 'major', width: 380},
-                {
-                    label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
-                }, width: 80
-                },
-
-                //{label: '学制', name: 'schoolLen', width:50},
-                {
-                    label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.metaTypeMap[cellvalue].name
-                }
-                },
-                {
-                    label: '学位', name: 'degree', formatter: function (cellvalue, options, rowObject) {
-                    return rowObject.hasDegree ? cellvalue : "-";
-                }
-                },
-                {
-                    label: '是否最高学位', name: 'isHighDegree', formatter: function (cellvalue, options, rowObject) {
-                    if (!rowObject.hasDegree) return "-";
-                    return cellvalue ? "是" : "否";
-                }, width: 110
-                },
-                {
-                    label: '学位授予国家',
-                    name: 'degreeCountry',
-                    width: 110,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return rowObject.hasDegree ? cellvalue : "-";
-                    }
-                },
-                {
-                    label: '学位授予单位',
-                    name: 'degreeUnit',
-                    width: 150,
-                    formatter: function (cellvalue, options, rowObject) {
-                        return rowObject.hasDegree ? cellvalue : "-";
-                    }
-                },
-                {label: '学位授予日期', name: 'degreeTime', width: 110, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                {
-                    label: '导师姓名', name: 'tutorName', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
-                        return cellvalue == undefined ? '' : cellvalue;
-                    } else return '-'
-                }
-                },
-                {
-                    label: '导师现所在单位及职务（或职称）', name: 'tutorTitle', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
-                        return cellvalue == undefined ? '' : cellvalue;
-                    } else return '-'
-                }, width: 250
-                },
-                {
-                    label: '学历学位证书',
-                    name: 'certificate',
-                    width: 150,
-                    formatter: function (cellvalue, options, rowObject) {
-                        var filesArray = [];
-                        if (cellvalue != undefined) {
-                            var filePaths = cellvalue.split(",");
-                            filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}" href="${ctx}/pic?path={0}">证件{1}</a>'
-                                    .format(encodeURI(filePaths[0]), 1, rowObject.id));
-                            if (filePaths.length == 2)
-                                filesArray.push('<a class="various" rel="group{2}" title="证件{1}" data-fancybox-type="image" data-path="{0}"  href="${ctx}/pic?path={0}">证件{1}</a>'
-                                        .format(encodeURI(filePaths[1]), 2, rowObject.id));
-                        }
-
-                        return filesArray.join("，");
-                    }
-                }, {label: '备注', name: 'remark', width: 180}]
+            colModel: colModels.cadreEdu
         }).jqGrid("setFrozenColumns").on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid2');
         });

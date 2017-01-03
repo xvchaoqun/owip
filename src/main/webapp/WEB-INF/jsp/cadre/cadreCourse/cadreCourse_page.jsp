@@ -203,22 +203,7 @@
         },
         pager: "#jqGridPager_cadreCourse",
         url: '${ctx}/cadreCourse_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {
-                label: '类型', name: 'type', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CADRE_COURSE_TYPE_MAP[cellvalue]
-            }
-            },
-            {label: '课程名称', name: 'name', width: 250},
-            <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-            {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
-            }, frozen: true
-            },
-            </c:if>
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreCourse
     });
     </c:if>
     <c:if test="${type==2}">
@@ -230,26 +215,7 @@
         },
         pager: "#jqGridPager_cadreReward",
         url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_TEACH}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
-            {label: '获得奖项', name: 'name', width: 350},
-            {label: '颁奖单位', name: 'unit', width: 280},
-            {
-                label: '获奖证书', name: 'proof', width: 250,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.proof == undefined) return '-';
-                    return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.proof), encodeURI(rowObject.proofFilename));
-                }
-            },
-            {
-                label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == 0) return '-';
-                return '第{0}'.format(cellvalue);
-            }
-            },
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreReward
     });
     </c:if>
     $(window).triggerHandler('resize.jqGrid2');
@@ -260,4 +226,9 @@
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    register_fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'));
+    });
 </script>

@@ -136,6 +136,10 @@ $.jgrid.defaults.gridComplete = function(){
     }
 };
 
+var _getEvent = function () {
+    return window.event || arguments.callee.caller.arguments[0];
+};
+
 $(window).on('resize.jqGrid0', function () {
 
     $(".jqGrid0").jqGrid( 'setGridWidth', $(window).width()-$(".nav-list").width()-60-180 );

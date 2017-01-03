@@ -10,6 +10,7 @@
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, start_time, end_time, content, unit, remark, sort_order
+    id, cadre_id, start_time, end_time, content, unit, remark, sort_order, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreTrainExample" >
     select
@@ -105,10 +106,12 @@
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreTrain" >
     insert into cadre_train (id, cadre_id, start_time, 
       end_time, content, unit, 
-      remark, sort_order)
+      remark, sort_order, status
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
       #{endTime,jdbcType=DATE}, #{content,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreTrain" >
     insert into cadre_train
@@ -137,6 +140,9 @@
       <if test="sortOrder != null" >
         sort_order,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -162,6 +168,9 @@
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -198,6 +207,9 @@
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +224,8 @@
       content = #{record.content,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER}
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +254,9 @@
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -252,7 +268,8 @@
       content = #{content,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      sort_order = #{sortOrder,jdbcType=INTEGER}
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreTrainExample" id="selectByExampleWithRowbounds" >

@@ -6,9 +6,11 @@
 	<h3><c:if test="${cadreEdu!=null}">编辑</c:if><c:if test="${cadreEdu==null}">添加</c:if>学习经历</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" action="${ctx}/cadreEdu_au?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" action="${ctx}/cadreEdu_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-xs-5">
+				<input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+				<input type="hidden" name="applyId" value="${param.applyId}">
 				<input type="hidden" name="id" value="${cadreEdu.id}">
 				<div class="form-group">
 					<label class="col-xs-5 control-label">姓名</label>
@@ -206,8 +208,12 @@
 		droppable:false,
 		onchange:null,
 		thumbnail:false, //| true | large
+		maxSize:${_uploadMaxSize},
 		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
 		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+	}).off('file.error.ace').on("file.error.ace",function(e, info){
+		var size = info.error_list['size'];
+		if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size))
 	});
 	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){
@@ -219,9 +225,11 @@
 
 			var finishTime = $("input[name=_finishTime]").val();
 			//alert(finishTime)
-			var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
-			$("input[name=_degreeTime]").val(degreeTime)
-					.prop("disabled", false).attr("required", "required");
+			if($.trim($("input[name=_degreeTime]").val())==''){
+				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
+				$("input[name=_degreeTime]").val(degreeTime);
+			}
+			$("input[name=_degreeTime]").prop("disabled", false).attr("required", "required");
 
 			$("input[name=school]").trigger("keyup");
 		}else{
@@ -322,7 +330,17 @@
 				success:function(ret){
 					if(ret.success){
 						$("#modal").modal("hide");
+						<c:if test="${param.toApply!=1}">
 						$("#jqGrid_cadreEdu").trigger("reloadGrid");
+						</c:if>
+						<c:if test="${param.toApply==1}">
+							<c:if test="${param._isUpdate==1}">
+							$("#item-content").load("${ctx}/modifyCadreEdu_detail?applyId=${param.applyId}&_="+new Date().getTime())
+							</c:if>
+							<c:if test="${param._isUpdate!=1}">
+							location.href='?cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_EDU}';
+							</c:if>
+						</c:if>
 					}
 				}
 			});

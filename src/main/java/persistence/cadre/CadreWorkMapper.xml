@@ -15,6 +15,7 @@
     <result column="work_type" property="workType" jdbcType="INTEGER" />
     <result column="is_cadre" property="isCadre" jdbcType="BIT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, fid, sub_work_count, cadre_id, start_time, end_time, unit, unit_id, post, type_id, 
-    work_type, is_cadre, remark
+    work_type, is_cadre, remark, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreWorkExample" >
     select
@@ -113,12 +114,12 @@
       cadre_id, start_time, end_time, 
       unit, unit_id, post, 
       type_id, work_type, is_cadre, 
-      remark)
+      remark, status)
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{subWorkCount,jdbcType=INTEGER}, 
       #{cadreId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
       #{unit,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
       #{typeId,jdbcType=INTEGER}, #{workType,jdbcType=INTEGER}, #{isCadre,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreWork" >
     insert into cadre_work
@@ -162,6 +163,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -202,6 +206,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -253,6 +260,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,7 +282,8 @@
       type_id = #{record.typeId,jdbcType=INTEGER},
       work_type = #{record.workType,jdbcType=INTEGER},
       is_cadre = #{record.isCadre,jdbcType=BIT},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -316,6 +327,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -332,7 +346,8 @@
       type_id = #{typeId,jdbcType=INTEGER},
       work_type = #{workType,jdbcType=INTEGER},
       is_cadre = #{isCadre,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreWorkExample" id="selectByExampleWithRowbounds" >

@@ -63,7 +63,7 @@ public class CadreParttimeController extends BaseController {
         if (type == 2) {
 
             CadreParttimeExample example = new CadreParttimeExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             example.setOrderByClause("start_time asc");
             List<CadreParttime> cadreParttimes = cadreParttimeMapper.selectByExample(example);
             modelMap.put("cadreParttimes", cadreParttimes);
@@ -91,7 +91,7 @@ public class CadreParttimeController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreParttimeExample example = new CadreParttimeExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -127,7 +127,14 @@ public class CadreParttimeController extends BaseController {
     @RequiresPermissions("cadreParttime:edit")
     @RequestMapping(value = "/cadreParttime_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreParttime_au(CadreParttime record, String _startTime, String _endTime, HttpServletRequest request) {
+    public Map do_cadreParttime_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+            CadreParttime record, String _startTime, String _endTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -139,16 +146,35 @@ public class CadreParttimeController extends BaseController {
         }
 
         if (id == null) {
-            cadreParttimeService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
+
+            if(!toApply) {
+                cadreParttimeService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
+            }else{
+                cadreParttimeService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreParttime _record = cadreParttimeMapper.selectByPrimaryKey(id);
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
-            cadreParttimeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
+
+            if(!toApply) {
+                cadreParttimeService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreParttimeService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreParttimeService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部社会或学术兼职：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);
@@ -170,19 +196,6 @@ public class CadreParttimeController extends BaseController {
 
         return "cadre/cadreParttime/cadreParttime_au";
     }
-
-    /*@RequiresPermissions("cadreParttime:del")
-    @RequestMapping(value = "/cadreParttime_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreParttime_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cadreParttimeService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部社会或学术兼职：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions("cadreParttime:del")
     @RequestMapping(value = "/cadreParttime_batchDel", method = RequestMethod.POST)

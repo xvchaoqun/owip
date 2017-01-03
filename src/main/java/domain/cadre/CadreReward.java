@@ -24,6 +24,8 @@ public class CadreReward implements Serializable {
 
     private Integer sortOrder;
 
+    private Byte status;
+
     private Byte rewardType;
 
     private static final long serialVersionUID = 1L;
@@ -106,6 +108,14 @@ public class CadreReward implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public Byte getRewardType() {

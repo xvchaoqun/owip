@@ -260,10 +260,6 @@
                 $("#jqGrid_cadreWork").expandSubGridRow(currentExpandRows[i])
         });
 
-        var getEvent = function () {
-            return window.event || arguments.callee.caller.arguments[0];
-        };
-
         function _swtich(id, btn) {
 
             if (!$("i", btn).hasClass("fa-folder-open-o")) {
@@ -271,7 +267,7 @@
             } else {
                 $("#jqGrid_cadreWork").collapseSubGridRow(id)
             }
-            getEvent().stopPropagation();
+            _getEvent().stopPropagation();
         }
 
         var currentExpandRows = [];

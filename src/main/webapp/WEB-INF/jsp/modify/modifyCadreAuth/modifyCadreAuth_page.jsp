@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/modifyCadreAuth_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '设置时间',name: 'addTime', width: 150},
-            { label: '工作证号', name: 'cadre.user.code', width: 80,frozen:true },
+            { label: '工作证号', name: 'cadre.user.code', width: 120,frozen:true },
             { label: '姓名', name: 'cadre.user.realname', width: 120,frozen:true , formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);

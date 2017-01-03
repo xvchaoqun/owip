@@ -134,8 +134,46 @@ public class ModifyTableApplyController extends BaseController {
     public String modifyCadreEdu_detail(byte module, int applyId, ModelMap modelMap) {
 
         if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU){
-
             return "forward:/modifyCadreEdu_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK){
+            return "forward:/modifyCadreWork_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK){
+            return "forward:/modifyCadreBook_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY){
+            return "forward:/modifyCadreCompany_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE){
+            return "forward:/modifyCadreCourse_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER){
+            return "forward:/modifyCadrePaper_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME){
+            return "forward:/modifyCadreParttime_detail?applyId=" + applyId;
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT){
+
+            return "forward:/modifyCadreResearch_detail?applyId=" + applyId
+                    +"&researchType=" + SystemConstants.CADRE_RESEARCH_TYPE_DIRECT;
+
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN){
+
+            return "forward:/modifyCadreResearch_detail?applyId=" + applyId
+                    +"&researchType=" + SystemConstants.CADRE_RESEARCH_TYPE_IN;
+
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH){
+
+            return "forward:/modifyCadreReward_detail?applyId=" + applyId
+                    + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_TEACH;
+
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH){
+
+            return "forward:/modifyCadreReward_detail?applyId=" + applyId
+                    + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_RESEARCH;
+
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER){
+
+            return "forward:/modifyCadreReward_detail?applyId=" + applyId
+                    + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_OTHER;
+
+        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN){
+            return "forward:/modifyCadreTrain_detail?applyId=" + applyId;
         }
 
         return null;

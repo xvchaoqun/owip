@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>组织工作管理与服务一体化平台</title>
   <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
+  <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
   <link href="${ctx}/extend/css/docs.min.css" rel="stylesheet">
   <link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
 </head>
@@ -44,14 +45,14 @@
       </ul>
     </div>
   </div>
-<div style="padding-top: 100px"></div>
+<div style="padding-top: 20px"></div>
 <div class="container">
   </c:if>
 <div class="row">
   <div class="col-xs-12">
     <!-- PAGE CONTENT BEGINS -->
     <!-- #section:pages/error -->
-    <div class="error-container">
+    <div class="error-container" >
       <div class="well">
         <h1 class="grey lighter smaller">
 					<span class="blue bigger-125">
@@ -64,13 +65,18 @@
         <div class="space"></div>
         <div class="center">
 
+          <a href="javascript:history.go(-1)" class="btn btn-success">
+            <i class="ace-icon fa fa-reply"></i>
+            返回
+          </a>
+
           <a href="${ctx}/" class="btn btn-primary">
             <i class="ace-icon fa fa-home"></i>
             回到首页
           </a>
 
-          <a href="${ctx}/logout" class="btn btn-success">
-            <i class="ace-icon fa fa-home"></i>
+          <a href="${ctx}/logout" class="btn btn-danger">
+            <i class="ace-icon fa fa-power-off"></i>
             安全退出
           </a>
         </div>

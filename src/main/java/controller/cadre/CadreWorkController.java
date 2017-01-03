@@ -95,7 +95,7 @@ public class CadreWorkController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreWorkExample example = new CadreWorkExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("start_time asc");
         if (fid != null) {
             if (fid > 0)
@@ -145,7 +145,14 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreWork_au(CadreWork record, String _startTime, String _endTime, HttpServletRequest request) {
+    public Map do_cadreWork_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+            CadreWork record, String _startTime, String _endTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -157,8 +164,15 @@ public class CadreWorkController extends BaseController {
         }
 
         if (id == null) {
-            cadreWorkService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
+
+            if(!toApply) {
+                cadreWorkService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
+            }else{
+                cadreWorkService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-工作经历：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
@@ -166,8 +180,19 @@ public class CadreWorkController extends BaseController {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            cadreWorkService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
+            if(!toApply) {
+                cadreWorkService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreWorkService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-工作经历：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreWorkService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-工作经历：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);

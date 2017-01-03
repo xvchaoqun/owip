@@ -69,7 +69,7 @@ public class CadrePaperController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
        CadrePaperExample example = new CadrePaperExample();
-       CadrePaperExample.Criteria criteria = example.createCriteria();
+       CadrePaperExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("pub_time desc");
 
         if (cadreId!=null) {
@@ -104,8 +104,14 @@ public class CadrePaperController extends BaseController {
     @RequiresPermissions("cadrePaper:edit")
     @RequestMapping(value = "/cadrePaper_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadrePaper_au(CadrePaper record,
-                                   MultipartFile _file, String _pubTime, HttpServletRequest request) {
+    public Map do_cadrePaper_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+            CadrePaper record, MultipartFile _file, String _pubTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -143,50 +149,39 @@ public class CadrePaperController extends BaseController {
         }
 
         if (id == null) {
-            cadrePaperService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发表论文情况：%s", record.getId()));
+
+            if(!toApply) {
+                cadrePaperService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发表论文情况：%s", record.getId()));
+            }else{
+                cadrePaperService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-发表论文情况：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadrePaper _record = cadrePaperMapper.selectByPrimaryKey(id);
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
-            cadrePaperService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发表论文情况：%s", record.getId()));
+
+            if(!toApply) {
+                cadrePaperService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发表论文情况：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadrePaperService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-发表论文情况：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadrePaperService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-发表论文情况：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);
     }
-
-    /*@RequestMapping("/cadrePaper_swf")
-    public void cadrePaper_swf(Integer id, @RequestParam(required = false,defaultValue = "chair")String type
-            , HttpServletResponse response) throws IOException{
-
-        CadrePaper cadrePaper = cadrePaperMapper.selectByPrimaryKey(id);
-        String filePath = cadrePaper.getFilePath();
-        filePath = springProps.uploadPath + FileUtils.getFileName(filePath) + ".swf";
-
-        byte[] bytes = FileUtils.getBytes(filePath);
-        if(bytes==null) return ;
-
-        response.reset();
-        response.addHeader("Content-Length", "" + bytes.length);
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(bytes);
-        outputStream.flush();
-        outputStream.close();
-    }
-
-    @RequestMapping("/cadrePaper_swf_preview")
-    public String cadrePaper_swf_preview(Integer id, ModelMap modelMap) {
-
-        CadrePaper cadrePaper = cadrePaperMapper.selectByPrimaryKey(id);
-        String filePath = cadrePaper.getFilePath();
-        modelMap.put("cadrePaper", cadrePaper);
-        modelMap.put("filePath", filePath);
-        return "cadre/cadrePaper/cadrePaper_swf_preview";
-    }*/
 
     @RequiresPermissions("cadrePaper:edit")
     @RequestMapping("/cadrePaper_au")
@@ -202,19 +197,6 @@ public class CadrePaperController extends BaseController {
         modelMap.put("sysUser", sysUser);
         return "cadre/cadrePaper/cadrePaper_au";
     }
-
-    /*@RequiresPermissions("cadrePaper:del")
-    @RequestMapping(value = "/cadrePaper_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadrePaper_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cadrePaperService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除发表论文情况：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     @RequiresPermissions("cadrePaper:del")
     @RequestMapping(value = "/cadrePaper_batchDel", method = RequestMethod.POST)

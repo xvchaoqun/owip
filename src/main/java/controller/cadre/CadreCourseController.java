@@ -59,7 +59,9 @@ public class CadreCourseController extends BaseController {
             modelMap.put("bsCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_BS));
             {
                 CadreRewardExample example = new CadreRewardExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_TEACH);
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_TEACH)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 example.setOrderByClause("reward_time asc");
                 List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
                 modelMap.put("cadreRewards", cadreRewards);
@@ -86,7 +88,8 @@ public class CadreCourseController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreCourseExample example = new CadreCourseExample();
-        CadreCourseExample.Criteria criteria = example.createCriteria();
+        CadreCourseExample.Criteria criteria = example.createCriteria()
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         // 先按照课程类型排序，依次为“本科生课程、硕士生课程、博士生课程”。然后每种类型中课程的顺序按照添加时的排序。
         example.setOrderByClause("type asc, sort_order asc");
 
@@ -122,21 +125,48 @@ public class CadreCourseController extends BaseController {
     @RequiresPermissions("cadreCourse:edit")
     @RequestMapping(value = "/cadreCourse_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreCourse_au(CadreCourse record, String names,  HttpServletRequest request) {
+    public Map do_cadreCourse_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+            CadreCourse record, String names,  HttpServletRequest request) {
 
         Integer id = record.getId();
+
         if (id == null) {
-            cadreCourseService.batchAdd(record, names);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加干部教学课程：%s, %s",
-                    SystemConstants.CADRE_COURSE_TYPE_MAP.get(record.getType()), names));
+
+            if(!toApply) {
+                cadreCourseService.batchAdd(record, names);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加干部教学课程：%s, %s",
+                        SystemConstants.CADRE_COURSE_TYPE_MAP.get(record.getType()), names));
+            }else{
+                cadreCourseService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部教学课程：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreCourse _record = cadreCourseMapper.selectByPrimaryKey(id);
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
-            cadreCourseService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
+
+            if(!toApply) {
+                cadreCourseService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreCourseService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部教学课程：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreCourseService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部教学课程：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);

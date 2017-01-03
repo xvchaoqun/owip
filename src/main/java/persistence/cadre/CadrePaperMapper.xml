@@ -8,6 +8,7 @@
     <result column="file_path" property="filePath" jdbcType="VARCHAR" />
     <result column="file_name" property="fileName" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, pub_time, file_path, file_name, remark
+    id, cadre_id, pub_time, file_path, file_name, remark, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadrePaperExample" >
     select
@@ -100,15 +101,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadrePaper" >
+  <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadrePaper" >
     insert into cadre_paper (id, cadre_id, pub_time, 
-      file_path, file_name, remark
-      )
+      file_path, file_name, remark, 
+      status)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{pubTime,jdbcType=DATE}, 
-      #{filePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+      #{filePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadrePaper" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadrePaper" >
     insert into cadre_paper
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -129,6 +130,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       pub_time = #{record.pubTime,jdbcType=DATE},
       file_path = #{record.filePath,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       pub_time = #{pubTime,jdbcType=DATE},
       file_path = #{filePath,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="domain.cadre.CadrePaperExample" id="selectByExampleWithRowbounds" >

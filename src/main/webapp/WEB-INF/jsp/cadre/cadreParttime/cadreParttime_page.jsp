@@ -134,13 +134,7 @@
             },
             pager: "#jqGridPager_cadreParttime",
             url: '${ctx}/cadreParttime_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: [
-                {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
-                {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
-                {label: '兼职单位', name: 'unit', width: 280},
-                {label: '兼任职务', name: 'post', width: 280},
-                {label: '备注', name: 'remark', width: 350}
-            ]
+            colModel: colModels.cadreParttime
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid2');
         });

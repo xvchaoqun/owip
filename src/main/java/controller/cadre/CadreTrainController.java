@@ -63,7 +63,8 @@ public class CadreTrainController extends BaseController {
         if (type == 2) {
 
             CadreTrainExample example = new CadreTrainExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             example.setOrderByClause("start_time asc");
             List<CadreTrain> cadreTrains = cadreTrainMapper.selectByExample(example);
             modelMap.put("cadreTrains", cadreTrains);
@@ -91,7 +92,7 @@ public class CadreTrainController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreTrainExample example = new CadreTrainExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -126,7 +127,14 @@ public class CadreTrainController extends BaseController {
     @RequiresPermissions("cadreTrain:edit")
     @RequestMapping(value = "/cadreTrain_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTrain_au(CadreTrain record, String _startTime, String _endTime, HttpServletRequest request) {
+    public Map do_cadreTrain_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+
+            CadreTrain record, String _startTime, String _endTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -138,16 +146,35 @@ public class CadreTrainController extends BaseController {
         }
 
         if (id == null) {
-            cadreTrainService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
+
+            if(!toApply) {
+                cadreTrainService.insertSelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部培训情况：%s", record.getId()));
+            }else{
+                cadreTrainService.modifyApply(record, null, false);
+                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部培训情况：%s", record.getId()));
+            }
+
         } else {
             // 干部信息本人直接修改数据校验
             CadreTrain _record = cadreTrainMapper.selectByPrimaryKey(id);
             if(_record.getCadreId().intValue() != record.getCadreId()){
                 throw new IllegalArgumentException("数据异常");
             }
-            cadreTrainService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
+
+            if(!toApply) {
+                cadreTrainService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部培训情况：%s", record.getId()));
+            }else{
+                if(_isUpdate==false) {
+                    cadreTrainService.modifyApply(record, id, false);
+                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部培训情况：%s", record.getId()));
+                }else{
+                    // 更新修改申请的内容
+                    cadreTrainService.updateModify(record, applyId);
+                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部培训情况：%s", record.getId()));
+                }
+            }
         }
 
         return success(FormUtils.SUCCESS);
@@ -170,19 +197,6 @@ public class CadreTrainController extends BaseController {
         return "cadre/cadreTrain/cadreTrain_au";
     }
 
-   /* @RequiresPermissions("cadreTrain:del")
-    @RequestMapping(value = "/cadreTrain_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreTrain_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cadreTrainService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部社会或学术兼职：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
-
     @RequiresPermissions("cadreTrain:del")
     @RequestMapping(value = "/cadreTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -193,22 +207,12 @@ public class CadreTrainController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreTrainService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部培训情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresPermissions("cadreTrain:changeOrder")
-    @RequestMapping(value = "/cadreTrain_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadreTrain_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
-
-        CadreTrain cadreTrain = cadreTrainMapper.selectByPrimaryKey(id);
-        cadreTrainService.changeOrder(id, cadreTrain.getCadreId(), addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部社会或学术兼职调序：%s,%s", id, addNum));
-        return success(FormUtils.SUCCESS);
-    }*/
 
     public void cadreTrain_export(CadreTrainExample example, HttpServletResponse response) {
 
@@ -244,7 +248,7 @@ public class CadreTrainController extends BaseController {
             }
         }
         try {
-            String fileName = "干部社会或学术兼职_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            String fileName = "干部培训情况_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");

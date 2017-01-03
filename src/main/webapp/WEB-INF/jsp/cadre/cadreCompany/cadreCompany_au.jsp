@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreCompany!=null}">编辑</c:if><c:if test="${cadreCompany==null}">添加</c:if>干部企业兼职情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreCompany_au?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/cadreCompany_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+        <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreCompany.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
@@ -96,7 +98,17 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
+                        <c:if test="${param.toApply!=1}">
                         $("#jqGrid_cadreCompany").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.toApply==1}">
+                        <c:if test="${param._isUpdate==1}">
+                        $("#item-content").load("${ctx}/modifyCadreCompany_detail?applyId=${param.applyId}&_="+new Date().getTime())
+                        </c:if>
+                        <c:if test="${param._isUpdate!=1}">
+                        location.href='?cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY}';
+                        </c:if>
+                        </c:if>
                     }
                 }
             });

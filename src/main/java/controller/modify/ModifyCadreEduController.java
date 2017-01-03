@@ -34,7 +34,7 @@ public class ModifyCadreEduController extends BaseController {
 
     @RequiresPermissions("modifyCadreEdu:list")
     @RequestMapping("/modifyCadreEdu_page")
-    public String modifyCadreEdu_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 学习经历列表 1 修改申请 2 完成审核 3 删除
+    public String modifyCadreEdu_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
@@ -52,14 +52,14 @@ public class ModifyCadreEduController extends BaseController {
         byte module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU;
         modelMap.put("module", module);
         if (cls == 0) {
-
-            CadreEduExample example = new CadreEduExample();
-            Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             // 干部只能看到自己的
             Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
+            modelMap.put("cadre", cadre);
+            /*CadreEduExample example = new CadreEduExample();
+            Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             criteria.andCadreIdEqualTo(cadre.getId());
             List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
-            modelMap.put("cadreEdus", cadreEdus);
+            modelMap.put("cadreEdus", cadreEdus);*/
 
             return "modify/modifyCadreEdu/modifyCadreEdu_page";
         } else {
@@ -78,12 +78,13 @@ public class ModifyCadreEduController extends BaseController {
         int userId = mta.getUserId();
 
         // 正式数据
-        CadreEduExample example = new CadreEduExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         Cadre cadre = cadreService.dbFindByUserId(userId);
+        modelMap.put("cadre", cadre);
+        /*CadreEduExample example = new CadreEduExample();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         criteria.andCadreIdEqualTo(cadre.getId());
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
-        modelMap.put("cadreEdus", cadreEdus);
+        modelMap.put("cadreEdus", cadreEdus);*/
 
         // 修改记录
         Integer modifyId = mta.getModifyId();

@@ -1,4 +1,48 @@
 
+
+ALTER TABLE `cadre_work`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+ALTER TABLE `cadre_work`
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据，（2016.12.20已删除）' AFTER `post`;
+
+ALTER TABLE `cadre_work`
+	DROP FOREIGN KEY `FK_base_cadre_work_base_cadre_work`;
+ALTER TABLE `cadre_work`
+	ADD CONSTRAINT `FK_base_cadre_work_base_cadre_work` FOREIGN KEY (`fid`) REFERENCES `cadre_work` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `cadre_parttime`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;
+
+	ALTER TABLE `cadre_train`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;
+
+
+	ALTER TABLE `cadre_course`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;
+
+
+	ALTER TABLE `cadre_reward`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `sort_order`;
+
+	ALTER TABLE `cadre_company`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+
+	ALTER TABLE `cadre_book`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+
+	ALTER TABLE `cadre_research`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+
+	ALTER TABLE `cadre_paper`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+
+
+ALTER TABLE `cadre_company`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '兼职类型，1企业兼职 2社团兼职 3其他' AFTER `cadre_id`;
+
+ALTER TABLE `cadre_book`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '类型，独著、译著、合著' AFTER `name`;
+
 -- 2016-12-31
 ALTER TABLE `cadre_paper`
 	DROP INDEX `cadre_id`;

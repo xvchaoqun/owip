@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreBook!=null}">编辑</c:if><c:if test="${cadreBook==null}">添加</c:if>出版著作情况</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreBook_au?cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreBook_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
+        <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+        <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreBook.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
@@ -85,7 +87,17 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
+                        <c:if test="${param.toApply!=1}">
                         $("#jqGrid_cadreBook").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.toApply==1}">
+                        <c:if test="${param._isUpdate==1}">
+                        $("#item-content").load("${ctx}/modifyCadreBook_detail?applyId=${param.applyId}&_="+new Date().getTime())
+                        </c:if>
+                        <c:if test="${param._isUpdate!=1}">
+                        location.href='?cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK}';
+                        </c:if>
+                        </c:if>
                     }
                 }
             });

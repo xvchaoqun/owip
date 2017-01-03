@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreReward!=null}">编辑</c:if><c:if test="${cadreReward==null}">添加</c:if></h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreReward_au?cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/cadreReward_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+        <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreReward.id}">
         <input type="hidden" name="rewardType" value="${param.rewardType}">
         <div class="form-group">
@@ -73,10 +75,20 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
+                        <c:if test="${param.toApply!=1}">
                         <c:if test="${param.rewardType==CADRE_REWARD_TYPE_RESEARCH}">
-                            $("#orginal").load("${ctx}/cadreReward_fragment?cadreId=${cadre.id}")
+                        $("#orginal").load("${ctx}/cadreReward_fragment?cadreId=${cadre.id}")
                         </c:if>
                         $("#jqGrid_cadreReward").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.toApply==1}">
+                        <c:if test="${param._isUpdate==1}">
+                        $("#item-content").load("${ctx}/modifyCadreReward_detail?applyId=${param.applyId}&rewardType=${param.rewardType}&_="+new Date().getTime())
+                        </c:if>
+                        <c:if test="${param._isUpdate!=1}">
+                        location.href='?cls=1&rewardType=${param.rewardType}&module=${param.module}';
+                        </c:if>
+                        </c:if>
                     }
                 }
             });

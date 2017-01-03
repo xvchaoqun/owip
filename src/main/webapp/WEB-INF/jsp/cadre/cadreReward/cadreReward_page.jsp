@@ -136,25 +136,7 @@
             },
             pager: "#jqGridPager_cadreReward",
             url: '${ctx}/cadreReward_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: [
-                {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-                {label: '获得奖项', name: 'name', width: 350},
-                {label: '颁奖单位', name: 'unit', width: 280},
-                {label: '获奖证书', name: 'proof', width: 250,
-                    formatter: function (cellvalue, options, rowObject) {
-                        if(rowObject.proof==undefined) return '-';
-                        return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">{1}</a>'
-                                .format(encodeURI(rowObject.proof), rowObject.proofFilename);
-
-                        /*return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                                .format(encodeURI(rowObject.proof),encodeURI(rowObject.proofFilename));*/
-                    }},
-                {label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==0) return '-';
-                    return '第{0}'.format(cellvalue);
-                }},
-                {label: '备注', name: 'remark', width: 350}
-            ]
+            colModel: colModels.cadreReward
         }).on("initGrid", function () {
             $(window).triggerHandler('resize.jqGrid2');
         });

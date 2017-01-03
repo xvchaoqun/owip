@@ -421,7 +421,9 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:forEach begin="0" end="${2-fn:length(bean.cadreCompanies)}">
+        <c:set var="cadreCompaniesCount" value="${fn:length(bean.cadreCompanies)}"/>
+        <c:if test="${cadreCompaniesCount<2}">
+        <c:forEach begin="0" end="${2-cadreCompaniesCount}">
         <tr class="r4">
             <td class="td13" colspan="6">
                 <p class="p18"></p>
@@ -432,7 +434,7 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
-
+        </c:if>
         <tr class="r4">
             <td class="td12 center bolder" colspan="12">
                     <span>企业兼职包括：企业领导职务、顾问等名誉职务、外部董事、独立董事、独立监事等。</span>

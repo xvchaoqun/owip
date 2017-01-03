@@ -35,7 +35,6 @@ pageEncoding="UTF-8" %>
 <div id="jqGridPager_cadreCompany"></div>
 <div class="footer-margin"/>
 <script>
-
     $("#jqGrid_cadreCompany").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
@@ -44,32 +43,7 @@ pageEncoding="UTF-8" %>
         },
         pager: "#jqGridPager_cadreCompany",
         url: '${ctx}/cadreCompany_data?${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            { label:'兼职类型', name: 'type', width: 140, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
-                var ret = _cMap.CADRE_COMPANY_TYPE_MAP[cellvalue];
-                if(cellvalue=='${CADRE_COMPANY_TYPE_OTHER}'){
-                    if(rowObject.typeOther!=''){
-                        ret = ret + ":"+  rowObject.typeOther;
-                    }
-                }
-                return ret;
-            },frozen:true},
-            {label: '是否取酬', name: 'hasPay', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return "";
-                return cellvalue?"是":"否";
-            }, width:80,frozen:true},
-            {label: '兼职起始时间', name: 'startTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-            {label: '兼职单位及职务', name: 'unit', width: 350},
-            {label: '报批单位', name: 'reportUnit', width: 280},
-            {label: '批复文件', name: 'paper', width: 250,
-                formatter: function (cellvalue, options, rowObject) {
-                    if(rowObject.paper==undefined) return '-';
-                    return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'
-                            .format(encodeURI(rowObject.paper),encodeURI(rowObject.paperFilename));
-                }},
-            {label: '备注', name: 'remark', width: 350}
-        ]
+        colModel: colModels.cadreCompany
     }).on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid2');
     });
