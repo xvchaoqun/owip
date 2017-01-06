@@ -1,5 +1,6 @@
 package controller;
 
+import bean.UserBean;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.abroad.ApproverType;
 import domain.base.Location;
 import domain.cadre.Cadre;
+import domain.cadreReserve.CadreReserveView;
+import domain.cadreReserve.CadreReserveViewExample;
 import domain.dispatch.DispatchType;
 import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
@@ -328,8 +331,6 @@ public class CommonController extends BaseController{
         return resultMap;
     }
 
-
-
     // 根据账号或姓名或学工号选择 所在单位和兼职单位 都关联该单位的干部
     @RequestMapping("/unitCadre_selects")
     @ResponseBody
@@ -393,6 +394,90 @@ public class CommonController extends BaseController{
         return resultMap;
     }
 
+
+    // 根据账号或姓名或学工号选择后备干部
+    @RequestMapping("/cadreReserve_selects")
+    @ResponseBody
+    public Map sysUser_selects(Integer pageSize, Integer pageNo,
+                               Byte reserveStatus,
+                               Byte reserveType, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CadreReserveViewExample example = new CadreReserveViewExample();
+        example.setOrderByClause("reserve_sort_order desc");
+        if(StringUtils.isNotBlank(searchStr)){
+            CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike("%" + searchStr + "%");
+            CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike("%" + searchStr + "%");
+            CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike("%" + searchStr + "%");
+            if(reserveStatus!=null) {
+                criteria1.andReserveStatusEqualTo(reserveStatus);
+                criteria2.andReserveStatusEqualTo(reserveStatus);
+                criteria3.andReserveStatusEqualTo(reserveStatus);
+            }
+            if(reserveType!=null) {
+                criteria1.andReserveTypeEqualTo(reserveType);
+                criteria2.andReserveTypeEqualTo(reserveType);
+                criteria3.andReserveTypeEqualTo(reserveType);
+            }
+        }else{
+            CadreReserveViewExample.Criteria criteria = example.createCriteria();
+            if(reserveStatus!=null) criteria.andReserveStatusEqualTo(reserveStatus);
+            if(reserveType!=null) criteria.andReserveTypeEqualTo(reserveType);
+        }
+
+        int count = cadreReserveViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<CadreReserveView> crvs = cadreReserveViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+        if(null != crvs && crvs.size()>0){
+            for(CadreReserveView crv:crvs){
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", crv.getId() + "");  // cadreId
+                option.put("text", crv.getRealname());
+                UserBean userBean = userBeanService.get(crv.getUserId());
+                option.put("user", userBean);
+
+                if(StringUtils.isNotBlank(userBean.getCode())) {
+                    option.put("code", userBean.getCode());
+                    if(userBean.getType()== SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(userBean.getCode());
+                        if (extJzg != null) {
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if(userBean.getType()== SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(userBean.getCode());
+                        if (extBks != null) {
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if(userBean.getType()== SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(userBean.getCode());
+                        if (extYjs != null) {
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
 
     // 根据类别、状态、账号或姓名或学工号 查询 党员
     @RequestMapping("/member_selects")

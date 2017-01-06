@@ -198,11 +198,11 @@
 
       <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
       </table>-->
-      <!--<table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+      <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
       <!--<table tableName="cadre_temp" domainObjectName="cadreTemp.CadreTemp">
       </table>
@@ -233,8 +233,8 @@
       <table tableName="cadre_reward" domainObjectName="cadre.CadreReward">
         <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <table tableName="cadre_book" domainObjectName="cadre.CadreBook">
-      </table>
+      <!--<table tableName="cadre_book" domainObjectName="cadre.CadreBook">
+      </table>-->
       <!--<table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
       </table>
       <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper">

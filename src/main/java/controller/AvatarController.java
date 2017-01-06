@@ -44,7 +44,7 @@ public class AvatarController extends BaseController{
 
     @RequestMapping("/avatar/{username}")
     public void avatar(@PathVariable String username,
-                       @RequestParam(defaultValue = "0", required = false)boolean m,
+                       @RequestParam(defaultValue = "0", required = false)boolean m,// m=1 移动端
                        HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         StringBuffer requestURL = request.getRequestURL();

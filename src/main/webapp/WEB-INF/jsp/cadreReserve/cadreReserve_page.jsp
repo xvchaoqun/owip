@@ -11,7 +11,7 @@
                  data-url-co="${ctx}/cadreReserve_changeOrder"
                  data-url-export="${ctx}/cadreReserve_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.typeId
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
 
                 <div class="tabbable">
@@ -57,6 +57,10 @@
                                 </li>
                             </c:if>
                         </c:forEach>
+                            <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                                <a class="popupBtn btn btn-danger btn-sm"
+                                   data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属后备干部库</a>
+                            </div>
                     </ul>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active rownumbers">
@@ -127,8 +131,8 @@
 
                                                 <div class="input-group">
                                                     <select data-rel="select2-ajax"
-                                                            data-ajax-url="${ctx}/sysUser_selects"
-                                                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                            data-ajax-url="${ctx}/cadreReserve_selects?reserveStatus=${status}&reserveType=${reserveType}"
+                                                            name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                                                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                     </select>
                                                 </div>
@@ -424,5 +428,5 @@
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
-    register_user_select($('#searchForm select[name=userId]'));
+    register_user_select($('#searchForm select[name=cadreId]'));
 </script>

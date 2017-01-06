@@ -48,6 +48,44 @@ public class CadreReserveController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
+    @RequiresPermissions("cadreReserve:list")
+    @RequestMapping("/cadreReserve/search")
+    public String search(){
+
+        return "cadreReserve/cadreReserve_search";
+    }
+    @RequiresPermissions("cadreReserve:list")
+    @RequestMapping(value = "/cadreReserve/search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_search(String code) {
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        String msg = "";
+        SysUserView sysUser = sysUserService.findByCode(code);
+        if(sysUser==null){
+            msg = "该用户不存在";
+        }else {
+            resultMap.put("realname", sysUser.getRealname());
+            Cadre cadre = cadreService.dbFindByUserId(sysUser.getId());
+
+            if(cadre==null){
+                msg = "该用户不是后备干部";
+            }else{
+                CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadre.getId());
+                if(cadreReserve==null){
+                    msg = "该用户不是后备干部";
+                }else {
+                    resultMap.put("cadreId", cadre.getId());
+                    resultMap.put("reserveType", cadreReserve.getType());
+                }
+            }
+        }
+        resultMap.put("msg", msg);
+
+        return resultMap;
+    }
+
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
     public String cadreReserve() {
@@ -58,7 +96,7 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve_page")
     public String cadreReserve_page(Byte status, Byte reserveType,
-                                    Integer userId, ModelMap modelMap) {
+                                    Integer cadreId, ModelMap modelMap) {
 
         if (status == null && reserveType == null) {
             // 默认页面
@@ -76,9 +114,9 @@ public class CadreReserveController extends BaseController {
         modelMap.put("status", status);
         modelMap.put("reserveType", reserveType);
 
-        if (userId != null) {
-            SysUserView sysUser = sysUserService.findById(userId);
-            modelMap.put("sysUser", sysUser);
+        if (cadreId != null) {
+            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            modelMap.put("sysUser", cadre.getUser());
         }
 
         Map<Byte, Integer> statusCountMap = new HashMap<>();
@@ -111,7 +149,7 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve_data")
     public void cadreReserve_data(HttpServletResponse response, Byte status, Byte reserveType,
-                                  Integer userId,
+                                  Integer cadreId,
                                   Integer typeId,
                                   Integer postId,
                                   String title,
@@ -150,8 +188,8 @@ public class CadreReserveController extends BaseController {
 
         example.setOrderByClause("reserve_sort_order asc");
 
-        if (userId != null) {
-            criteria.andUserIdEqualTo(userId);
+        if (cadreId != null) {
+            criteria.andIdEqualTo(cadreId);
         }
 
         if (typeId != null) {

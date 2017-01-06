@@ -1,4 +1,10 @@
 
+-- 2017-1-6
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_reserve_view` AS select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
+cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, u.code,cv.*
+from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys_user u on u.id=cv.user_id ;
+
+
 -- 2017-1-3
 ALTER TABLE `cadre_work`
 	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;

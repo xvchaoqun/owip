@@ -31,6 +31,8 @@ import java.util.*;
 @Service
 public class CadreService extends BaseMapper {
 
+    public static final String TABLE_NAME = "cadre";
+
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -134,7 +136,7 @@ public class CadreService extends BaseMapper {
         if(StringUtils.isNotBlank(title))
             record.setTitle(title);
         record.setDispatchCadreId(dispatchCadreId);
-        record.setSortOrder(getNextSortOrder("cadre", "status="+status));
+        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status="+status));
 
         CadreExample example = new CadreExample();
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
@@ -210,7 +212,7 @@ public class CadreService extends BaseMapper {
         // 添加干部身份
         sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
 
-        record.setSortOrder(getNextSortOrder("cadre", "status=" + record.getStatus()));
+        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
         Cadre cadre = dbFindByUserId(userId);
         if(cadre==null) {
             record.setIsDp(false);// 初次添加标记为非民主党派
@@ -398,9 +400,9 @@ public class CadreService extends BaseMapper {
             Cadre targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cadre", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder(TABLE_NAME, "status=" + status, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder(TABLE_NAME, "status=" + status, baseSortOrder, targetEntity.getSortOrder());
 
             Cadre record = new Cadre();
             record.setId(id);

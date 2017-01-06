@@ -7,6 +7,8 @@
     <result column="reserve_status" property="reserveStatus" jdbcType="TINYINT" />
     <result column="reserve_remark" property="reserveRemark" jdbcType="VARCHAR" />
     <result column="reserve_sort_order" property="reserveSortOrder" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
@@ -81,12 +83,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    reserve_id, reserve_type, reserve_status, reserve_remark, reserve_sort_order, id, 
-    user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, dp_add_time, 
-    dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, phone, 
-    home_phone, email, realname, gender, nation, native_place, idcard, birth, party_id, 
-    branch_id, grow_time, arrive_time, edu_id, finish_time, learn_style, school, dep, 
-    school_type, major, post_class, pro_post_level, pro_post, manage_level, degree
+    reserve_id, reserve_type, reserve_status, reserve_remark, reserve_sort_order, username, 
+    code, id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, 
+    dp_add_time, dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, 
+    phone, home_phone, email, realname, gender, nation, native_place, idcard, birth, 
+    party_id, branch_id, grow_time, arrive_time, edu_id, finish_time, learn_style, school, 
+    dep, school_type, major, post_class, pro_post_level, pro_post, manage_level, degree
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadreReserve.CadreReserveViewExample" >
     select

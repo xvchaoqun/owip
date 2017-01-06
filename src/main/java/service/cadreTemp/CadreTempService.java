@@ -251,6 +251,7 @@ public class CadreTempService extends BaseMapper {
         cadreRecord.setId(cadreId);
         cadreRecord.setStatus(SystemConstants.CADRE_STATUS_NOW);
         cadreRecord.setUserId(null);
+        cadreRecord.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + SystemConstants.CADRE_STATUS_NOW));
         cadreService.updateByPrimaryKeySelective(cadreRecord);
 
         // 如果原来是后备干部发展过来的，此时肯定有一条记录在后备干部【列为考察对象列表中】，需要这条记录的状态更改为【后备干部已使用】

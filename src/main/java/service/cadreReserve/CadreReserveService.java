@@ -183,7 +183,7 @@ public class CadreReserveService extends BaseMapper {
         CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(record.getId());
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
         if(cadre.getStatus()==SystemConstants.CADRE_STATUS_RESERVE){
-
+            // 如果原来就在干部库中【后备干部】，则更新其中的信息
             cadreRecord.setId(cadre.getId());
             cadreRecord.setUserId(null);
             cadreRecord.setStatus(cadre.getStatus());

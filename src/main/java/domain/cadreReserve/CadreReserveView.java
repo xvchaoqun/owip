@@ -59,6 +59,10 @@ public class CadreReserveView implements Serializable {
 
     private Integer reserveSortOrder;
 
+    private String username;
+
+    private String code;
+
     private Integer id;
 
     private Integer userId;
@@ -185,6 +189,22 @@ public class CadreReserveView implements Serializable {
 
     public void setReserveSortOrder(Integer reserveSortOrder) {
         this.reserveSortOrder = reserveSortOrder;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public Integer getId() {
