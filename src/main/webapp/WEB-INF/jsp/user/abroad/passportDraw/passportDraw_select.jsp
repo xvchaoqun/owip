@@ -36,6 +36,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-footer center">
     <input id="cancel" class="btn btn-default" value="返回"/>
 </div>
+<div class="footer-margin"/>
 <script>
     $("#cancel").click(function(){
         page_reload();

@@ -136,7 +136,7 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 </div>
-
+<div class="footer-margin"/>
 <style>
 	#applyForm input[type=radio], #applyForm input[type=checkbox]{
 		width: 20px;
