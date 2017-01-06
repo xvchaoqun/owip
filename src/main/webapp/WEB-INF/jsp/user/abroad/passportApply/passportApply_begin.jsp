@@ -11,3 +11,4 @@ pageEncoding="UTF-8"%>
 <div id="apply-content">
 <c:import url="/user/passportApply_select"/>
 </div>
+<div class="footer-margin"/>

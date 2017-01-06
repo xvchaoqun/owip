@@ -108,7 +108,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${passportDraw!=null}">确定</c:if><c:if test="${passportDraw==null}">添加</c:if>"/>
 </div>
-
+<div class="footer-margin"/>
 <script>
     $("#modalForm").validate({
         submitHandler: function (form) {

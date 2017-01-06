@@ -119,6 +119,7 @@
   </div>
 <div id="item-content">
 </div>
+<div class="footer-margin"/>
 <style>
   input[type=radio], input[type=checkbox]{
     width: 20px;

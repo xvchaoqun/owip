@@ -78,6 +78,7 @@
   <input class="closeView btn btn-default" value="返回"/>
 </div>
       </div></div></div>
+<div class="footer-margin"/>
 <style>
 
   input[type=radio], input[type=checkbox]{
