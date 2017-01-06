@@ -149,22 +149,18 @@
     </button>
 </script>
 <script type="text/template" id="dispatch_adminLevel_tpl">
-    {{if(isAdmin || hasStart){}}
-    <button class="popupBtn btn btn-xs btn-{{=!hasStart?'success':'warning'}}"
+    {{if(isAdmin || hasStart){}}<button class="popupBtn btn btn-xs btn-{{=!hasStart?'success':'warning'}}"
             data-url="${ctx}/cadreAdminLevel_addDispatchs?cls=start&id={{=id}}&cadreId={{=cadreId}}"
             data-width="1000">
         <i class="fa fa-link"></i>
         始任文件{{=!hasStart?'(0)':'(1)'}}
-    </button>
-    {{}}}
-    {{if(isAdmin || hasEnd){}}
-    <button class="popupBtn btn btn-xs btn-{{=!hasEnd?'success':'warning'}}"
+    </button>{{}}}
+    {{if(isAdmin || hasEnd){}}<button class="popupBtn btn btn-xs btn-{{=!hasEnd?'success':'warning'}}"
             data-url="${ctx}/cadreAdminLevel_addDispatchs?cls=end&id={{=id}}&cadreId={{=cadreId}}"
             data-width="1000">
         <i class="fa fa-link"></i>
         结束文件{{=!hasEnd?'(0)':'(1)'}}
-    </button>
-    {{}}}
+    </button>{{}}}
 </script>
 
 <style>

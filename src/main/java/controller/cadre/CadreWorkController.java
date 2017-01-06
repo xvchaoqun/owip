@@ -12,6 +12,7 @@ import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -162,7 +163,7 @@ public class CadreWorkController extends BaseController {
         if (StringUtils.isNotBlank(_endTime)) {
             record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
         }
-
+        record.setIsCadre(BooleanUtils.isTrue(record.getIsCadre()));
         if (id == null) {
 
             if(!toApply) {

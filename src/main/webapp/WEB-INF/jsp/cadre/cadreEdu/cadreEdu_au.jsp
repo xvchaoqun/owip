@@ -184,6 +184,7 @@
 								<input class="form-control" type="file" name="_files[]"/>
 								<input class="form-control" type="file" name="_files[]" />
 							</div>
+							<span class="help-block">*每张图片大小不能超过${_uploadMaxSize/(2*1024*1024)}M</span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -208,12 +209,12 @@
 		droppable:false,
 		onchange:null,
 		thumbnail:false, //| true | large
-		maxSize:${_uploadMaxSize},
+		maxSize:${_uploadMaxSize/2},
 		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
 		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 	}).off('file.error.ace').on("file.error.ace",function(e, info){
 		var size = info.error_list['size'];
-		if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size))
+		if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(2*1024*1024)}M大小".format(size))
 	});
 	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){

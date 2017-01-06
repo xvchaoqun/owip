@@ -79,7 +79,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-4 control-label">是否担任领导职务</label>
             <div class="col-xs-6">
                 <label>
-                    <input name="isCadre" ${cadreEdu.isCadre?"checked":""}  type="checkbox" />
+                    <input name="isCadre" ${cadreWork.isCadre?"checked":""}  type="checkbox" />
                     <span class="lbl"></span>
                 </label>
             </div>

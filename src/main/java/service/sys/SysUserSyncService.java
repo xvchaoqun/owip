@@ -5,7 +5,6 @@ import domain.sys.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import service.source.ExtJzgImport;
 import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
 import shiro.SaltPassword;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
@@ -79,8 +79,7 @@ public class SysUserSyncService extends BaseMapper {
 
         SysUserSync sysUserSync = new SysUserSync();
         if (!autoStart) {
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            sysUserSync.setUserId(shiroUser.getId());
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
         }
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
@@ -149,8 +148,7 @@ public class SysUserSyncService extends BaseMapper {
 
         SysUserSync sysUserSync = new SysUserSync();
         if (!autoStart) {
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            sysUserSync.setUserId(shiroUser.getId());
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
         }
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
@@ -275,8 +273,7 @@ public class SysUserSyncService extends BaseMapper {
 
         SysUserSync sysUserSync = new SysUserSync();
         if (!autoStart) {
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            sysUserSync.setUserId(shiroUser.getId());
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
         }
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
@@ -404,8 +401,7 @@ public class SysUserSyncService extends BaseMapper {
 
         SysUserSync sysUserSync = new SysUserSync();
         if (!autoStart) {
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            sysUserSync.setUserId(shiroUser.getId());
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
         }
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
@@ -699,6 +695,19 @@ public class SysUserSyncService extends BaseMapper {
         SysUserSyncExample example = new SysUserSyncExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         sysUserSyncMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    public void stopSync(byte type){
+
+        SysUserSync record = new SysUserSync();
+        record.setIsStop(true);
+        record.setEndTime(new Date());
+        record.setAutoStop(false);
+
+        SysUserSyncExample example = new SysUserSyncExample();
+        example.createCriteria().andTypeEqualTo(type).andIsStopEqualTo(false);
+        sysUserSyncMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
