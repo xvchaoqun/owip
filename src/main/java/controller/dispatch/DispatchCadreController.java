@@ -127,6 +127,7 @@ public class DispatchCadreController extends BaseController {
                                     /*String name,*/
                                     Integer adminLevelId,
                                     Integer unitId,
+                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -179,6 +180,8 @@ public class DispatchCadreController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             dispatchCadre_export(example, response);
             return;
         }
@@ -293,20 +296,33 @@ public class DispatchCadreController extends BaseController {
 
         List<DispatchCadreView> records = dispatchCadreViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"发文号","任免方式","任免程序","工作证号","姓名","行政级别","所属单位","备注"};
+        String[] titles = {"年份", "发文号","任免日期","类别", "任免方式","任免程序",
+                "干部类型","工作证号", "姓名", "职务", "职务属性", "行政级别","所属单位","单位类型",
+                "发文类型","党委常委会日期", "发文日期", "是否复核", "备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchCadreView record = records.get(i);
             Dispatch dispatch = record.getDispatch();
             SysUserView uv =  record.getUser();
             String[] values = {
+                    record.getYear()+"",
                     CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()),
+                    DateUtils.formatDate(dispatch.getWorkTime(), DateUtils.YYYY_MM_DD),
+                    SystemConstants.DISPATCH_CADRE_TYPE_MAP.get(record.getType()),
                     metaTypeService.getName(record.getWayId()),
                     metaTypeService.getName(record.getProcedureId()),
+                    metaTypeService.getName(record.getCadreTypeId()),
                     uv.getCode(),
                     uv.getRealname(),
+                    record.getPost(),
+                    metaTypeService.getName(record.getPostId()),
                     metaTypeService.getName(record.getAdminLevelId()),
                     record.getUnitId()==null?"":record.getUnit().getName(),
+                    record.getUnitId()==null?"":metaTypeService.getName(record.getUnit().getTypeId()),
+                    dispatch.getDispatchType().getName(),
+                    DateUtils.formatDate(dispatch.getMeetingTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(dispatch.getPubTime(), DateUtils.YYYY_MM_DD),
+                    dispatch.getHasChecked()?"已复核":"否",
                     record.getRemark()
             };
             valuesList.add(values);

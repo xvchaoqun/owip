@@ -47,6 +47,11 @@
         <div class="space"></div>
         <div class="center">
 
+          <a href="javascript:history.go(-1)" class="btn btn-success">
+            <i class="ace-icon fa fa-reply"></i>
+            返回
+          </a>
+
           <a href="${ctx}/" class="btn btn-primary">
             <i class="ace-icon fa fa-home"></i>
             回到首页

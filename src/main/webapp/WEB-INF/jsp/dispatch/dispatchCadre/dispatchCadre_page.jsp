@@ -212,7 +212,8 @@
             }},{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasChecked==undefined) return 0;
                 return rowObject.hasChecked?1:0;
-            }}
+            }},
+            { label:'备注', width: 250, name: 'remark'}
         ], onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             var ids = $(this).getGridParam("selarrrow");

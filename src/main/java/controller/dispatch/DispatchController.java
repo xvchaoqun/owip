@@ -75,6 +75,7 @@ public class DispatchController extends BaseController {
                                     String _pubTime,
                                     String _workTime,
                                     String _meetingTime,
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -131,6 +132,8 @@ public class DispatchController extends BaseController {
         }
 
         if (export == 1) {
+            if(ids!=null && ids.length>0)
+                criteria.andIdIn(Arrays.asList(ids));
             dispatch_export(example, response);
             return;
         }
@@ -485,10 +488,15 @@ public class DispatchController extends BaseController {
 
         List<DispatchView> records = dispatchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年份","发文类型","发文号","党委常委会日期","发文日期","任免日期","备注"};
+        String[] titles = {"年份","发文类型","发文号","党委常委会日期","发文日期","任免日期","任命人数","录入任命人数",
+                "免职人数", "录入免职人数", "是否全部录入", "是否复核", "备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchView record = records.get(i);
+            int realAppointCount = record.getRealAppointCount()==null?0:record.getRealAppointCount();
+            int realDismissCount = record.getRealDismissCount()==null?0:record.getRealDismissCount();
+            int appointCount = record.getAppointCount()==null?0:record.getAppointCount();
+            int dismissCount = record.getDismissCount()== null?0:record.getDismissCount();
             String[] values = {
                     record.getYear()+"",
                     record.getDispatchTypeId()==null?"":dispatchTypeService.findAll().get(record.getDispatchTypeId()).getName(),
@@ -496,8 +504,14 @@ public class DispatchController extends BaseController {
                     DateUtils.formatDate(record.getMeetingTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getPubTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYY_MM_DD),
-                    record.getFile(),
-                    record.getPpt(),
+                    appointCount + "",
+                    realAppointCount + "",
+                    dismissCount + "",
+                    realDismissCount + "",
+                    ((realAppointCount + realDismissCount) > 0
+                            && appointCount == realAppointCount
+                            && dismissCount == realDismissCount)?"是":"否",
+                    record.getHasChecked()?"已复核":"否",
                     record.getRemark()
             };
             valuesList.add(values);
