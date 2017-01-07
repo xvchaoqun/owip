@@ -8,6 +8,6 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {})
 public class ShortMsgMixin {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    public Date createTime;
+    /*@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    public Date createTime;*/
 }

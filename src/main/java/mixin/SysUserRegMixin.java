@@ -16,8 +16,8 @@ public class SysUserRegMixin {
     @JsonSerialize(using = PartySerializer.class,nullsUsing=PartySerializer.class)
     public Integer partyId;*/
 
-    @JsonFormat(pattern = "yyyy-MM-dd mm:HH:ss",timezone="GMT+8")
+    /*@JsonFormat(pattern = "yyyy-MM-dd mm:HH:ss",timezone="GMT+8")
     public Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd mm:HH:ss",timezone="GMT+8")
-    public Date checkTime;
+    public Date checkTime;*/
 }
