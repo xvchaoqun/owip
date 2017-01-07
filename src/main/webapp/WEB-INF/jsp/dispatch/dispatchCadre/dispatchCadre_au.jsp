@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任免方式</label>
 				<div class="col-xs-6">
-                    <select required data-rel="select2" name="wayId" data-placeholder="请选择任免方式">
+                    <select data-rel="select2" name="wayId" data-placeholder="请选择任免方式">
                         <option></option>
                         <c:forEach var="way" items="${wayMap}">
                             <option value="${way.value.id}">${way.value.name}</option>
@@ -62,7 +62,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任免程序</label>
 				<div class="col-xs-6">
-                    <select required class="form-control" data-rel="select2" name="procedureId" data-placeholder="请选择任免程序">
+                    <select class="form-control" data-rel="select2" name="procedureId" data-placeholder="请选择任免程序">
                         <option></option>
                         <c:forEach var="procedure" items="${procedureMap}">
                             <option value="${procedure.value.id}">${procedure.value.name}</option>
