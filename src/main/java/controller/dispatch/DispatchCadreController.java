@@ -214,8 +214,8 @@ public class DispatchCadreController extends BaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(record.getDispatchId());
-            if(dispatchCadre!=null && dispatchCadre.getDispatch().getHasChecked()){
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(record.getDispatchId());
+            if(dispatch!=null && dispatch.getHasChecked()){
                 return failed("已经复核，不可添加。");
             }
             dispatchCadreService.insertSelective(record);
@@ -225,6 +225,7 @@ public class DispatchCadreController extends BaseController {
             if(dispatchCadre!=null && dispatchCadre.getDispatch().getHasChecked()){
                 return failed("已经复核，不可修改。");
             }
+            record.setDispatchId(null);
             dispatchCadreService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
         }
