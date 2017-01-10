@@ -36,6 +36,12 @@
                                    data-querystr="&check=1">
                                     <i class="fa fa-check"></i> 复核
                                 </button>
+                                <button id="reCheckBtn" class="jqItemBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/dispatch_reset_check"
+                                        data-title="重新复核"
+                                        data-msg="确定重新复核吗？">
+                                    <i class="fa fa-reply"></i> 重新复核
+                                </button>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
@@ -259,17 +265,17 @@
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
-                $("#checkBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", true);
+                $("#checkBtn,#reCheckBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", true);
             } else if (ids.length == 1) {
 
                 var rowData = $(this).getRowData(ids[0]);
                 $("#checkBtn").prop("disabled", !isFinished(parseInt(rowData.appointCount), parseInt(rowData.dismissCount),
                         parseInt(rowData.realAppointCount), parseInt(rowData.realDismissCount)) || rowData._hasChecked==1);
-
+                $("#reCheckBtn").prop("disabled", rowData._hasChecked!=1);
                 //console.log(rowData._hasChecked==1)
                 $("#addDipatchCadreBtn, #editBtn").prop("disabled", rowData._hasChecked==1)
             } else {
-                $("#checkBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", false);
+                $("#checkBtn, #reCheckBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", false);
             }
         }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {

@@ -16,14 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,14 +45,14 @@ public class DispatchController extends BaseController {
     @RequiresPermissions("dispatch:list")
     @RequestMapping("/dispatch_page")
     public String dispatch_page(@RequestParam(defaultValue = "1") Integer cls,
-                                Integer dispatchTypeId,ModelMap modelMap) {
+                                Integer dispatchTypeId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        if(cls==2){
+        if (cls == 2) {
             return "forward:/dispatchCadre_page";
         }
 
-        if (dispatchTypeId!=null) {
+        if (dispatchTypeId != null) {
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatchTypeId));
         }
@@ -69,15 +65,15 @@ public class DispatchController extends BaseController {
     public void dispatch_data(HttpServletResponse response,
                                  /*@SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
-                                    Integer year,
-                                    Integer dispatchTypeId,
-                                    Integer code,
-                                    String _pubTime,
-                                    String _workTime,
-                                    String _meetingTime,
+                              Integer year,
+                              Integer dispatchTypeId,
+                              Integer code,
+                              String _pubTime,
+                              String _workTime,
+                              String _meetingTime,
                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -90,17 +86,17 @@ public class DispatchController extends BaseController {
         DispatchViewExample example = new DispatchViewExample();
         DispatchViewExample.Criteria criteria = example.createCriteria();
 
-        if (year!=null) {
+        if (year != null) {
             criteria.andYearEqualTo(year);
         }
-        if (dispatchTypeId!=null) {
+        if (dispatchTypeId != null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
         }
-        if (code!=null) {
+        if (code != null) {
             criteria.andCodeEqualTo(code);
         }
 
-        if(StringUtils.isNotBlank(_pubTime)) {
+        if (StringUtils.isNotBlank(_pubTime)) {
             String pubTimeStart = _pubTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String pubTimeEnd = _pubTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(pubTimeStart)) {
@@ -110,7 +106,7 @@ public class DispatchController extends BaseController {
                 criteria.andPubTimeLessThanOrEqualTo(DateUtils.parseDate(pubTimeEnd, DateUtils.YYYY_MM_DD));
             }
         }
-        if(StringUtils.isNotBlank(_workTime)) {
+        if (StringUtils.isNotBlank(_workTime)) {
             String workTimeStart = _workTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String workTimeEnd = _workTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(workTimeStart)) {
@@ -120,7 +116,7 @@ public class DispatchController extends BaseController {
                 criteria.andWorkTimeLessThanOrEqualTo(DateUtils.parseDate(workTimeEnd, DateUtils.YYYY_MM_DD));
             }
         }
-        if(StringUtils.isNotBlank(_meetingTime)) {
+        if (StringUtils.isNotBlank(_meetingTime)) {
             String meetingTimeStart = _meetingTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String meetingTimeEnd = _meetingTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(meetingTimeStart)) {
@@ -132,7 +128,7 @@ public class DispatchController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             dispatch_export(example, response);
             return;
@@ -182,7 +178,7 @@ public class DispatchController extends BaseController {
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
         }
 
-        if(year == null) {
+        if (year == null) {
             year = DateUtils.getCurrentYear();
         }
         modelMap.put("year", year);
@@ -190,18 +186,18 @@ public class DispatchController extends BaseController {
         return "dispatch/dispatch_au";
     }
 
-    private String uploadFile(MultipartFile _file){
+    private String uploadFile(MultipartFile _file) {
 
         String originalFilename = _file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
-        if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
             throw new RuntimeException("任免文件格式错误，请上传pdf文件");
         }
 
         String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
 
         String fileName = UUID.randomUUID().toString();
-        String realPath =  FILE_SEPARATOR
+        String realPath = FILE_SEPARATOR
                 + "dispatch" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
                 + "file" + FILE_SEPARATOR
                 + fileName;
@@ -220,6 +216,7 @@ public class DispatchController extends BaseController {
 
         return savePath;
     }
+
     @RequiresPermissions("dispatch:edit")
     @RequestMapping(value = "/dispatch_upload", method = RequestMethod.POST)
     @ResponseBody
@@ -249,8 +246,8 @@ public class DispatchController extends BaseController {
 
         Integer id = record.getId();
 
-        if (record.getCode()!=null
-                && dispatchService.idDuplicate(id,record.getDispatchTypeId(), record.getYear(), record.getCode())) {
+        if (record.getCode() != null
+                && dispatchService.idDuplicate(id, record.getDispatchTypeId(), record.getYear(), record.getCode())) {
             return failed("发文号重复");
         }
 
@@ -268,10 +265,10 @@ public class DispatchController extends BaseController {
         record.setFileName(StringUtils.trimToNull(fileName));
         record.setFile(StringUtils.trimToNull(file));
 
-        if(_ppt!=null){
+        if (_ppt != null) {
             String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
             String ext = FileUtils.getExtention(_ppt.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx")){
+            if (!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx")) {
                 throw new RuntimeException("上会ppt文件格式错误，请上传ppt文件");
             }
 
@@ -281,10 +278,10 @@ public class DispatchController extends BaseController {
                     + "dispatch" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
                     + "ppt" + FILE_SEPARATOR
                     + _fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
             String pdfPath = realPath + ".pdf";
             FileUtils.copyFile(_ppt, new File(springProps.uploadPath + savePath));
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
+            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
 
             try {
                 String swfPath = realPath + ".swf";
@@ -303,26 +300,26 @@ public class DispatchController extends BaseController {
         record.setMeetingTime(DateUtils.parseDate(_meetingTime, DateUtils.YYYY_MM_DD));
 
         if (id == null) {
-            if(record.getCode()==null)
+            if (record.getCode() == null)
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             dispatchService.insertSelective(record);
             id = record.getId(); // 新ID
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发文：%s", id));
-        }else {
+        } else {
 
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
-            if(dispatch!=null && dispatch.getHasChecked()){
+            if (dispatch != null && dispatch.getHasChecked()) {
                 return failed("已经复核，不可修改。");
             }
 
-            if(StringUtils.isNotBlank(file) && StringUtils.isNotBlank(record.getFile())){
+            if (StringUtils.isNotBlank(file) && StringUtils.isNotBlank(record.getFile())) {
                 FileUtils.delFile(springProps.uploadPath + dispatch.getFile()); // 删除原文件
             }
-            if(_ppt!=null && StringUtils.isNotBlank(record.getPpt())){
+            if (_ppt != null && StringUtils.isNotBlank(record.getPpt())) {
                 FileUtils.delFile(springProps.uploadPath + dispatch.getPpt()); // 删除原ppt
             }
 
-            if(dispatch.getDispatchTypeId().intValue() != record.getDispatchTypeId()){ // 修改了类型，要修改发文号
+            if (dispatch.getDispatchTypeId().intValue() != record.getDispatchTypeId()) { // 修改了类型，要修改发文号
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             }
             dispatchService.updateByPrimaryKeySelective(record);
@@ -387,16 +384,16 @@ public class DispatchController extends BaseController {
     @RequiresPermissions("dispatch:download")
     @RequestMapping("/dispatch_download")
     public void dispatch_download(Integer id,
-                                  @RequestParam(required = false,defaultValue = "file")String type,
-                                  HttpServletResponse response) throws IOException{
+                                  @RequestParam(required = false, defaultValue = "file") String type,
+                                  HttpServletResponse response) throws IOException {
 
         Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
         String filePath = springProps.uploadPath +
-                (StringUtils.equalsIgnoreCase(type, "file")?dispatch.getFile():dispatch.getPpt());
+                (StringUtils.equalsIgnoreCase(type, "file") ? dispatch.getFile() : dispatch.getPpt());
         byte[] bytes = FileUtils.getBytes(filePath);
 
-        String fileName = URLEncoder.encode(StringUtils.equalsIgnoreCase(type, "file")?
-                dispatch.getFileName():dispatch.getPptName(), "UTF-8");
+        String fileName = URLEncoder.encode(StringUtils.equalsIgnoreCase(type, "file") ?
+                dispatch.getFileName() : dispatch.getPptName(), "UTF-8");
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
         response.addHeader("Content-Length", "" + bytes.length);
@@ -411,25 +408,39 @@ public class DispatchController extends BaseController {
     @RequiresPermissions("dispatch:check")
     @RequestMapping(value = "/dispatch_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map dispatch_check(Integer id){
+    public Map dispatch_check(Integer id) {
 
         Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
 
-        int realAppointCount = dispatch.getRealAppointCount()==null?0:dispatch.getRealAppointCount();
-        int realDismissCount = dispatch.getRealDismissCount()==null?0:dispatch.getRealDismissCount();
-        int appointCount = dispatch.getAppointCount()==null?0:dispatch.getAppointCount();
-        int dismissCount = dispatch.getDismissCount()==null?0:dispatch.getDismissCount();
+        int realAppointCount = dispatch.getRealAppointCount() == null ? 0 : dispatch.getRealAppointCount();
+        int realDismissCount = dispatch.getRealDismissCount() == null ? 0 : dispatch.getRealDismissCount();
+        int appointCount = dispatch.getAppointCount() == null ? 0 : dispatch.getAppointCount();
+        int dismissCount = dispatch.getDismissCount() == null ? 0 : dispatch.getDismissCount();
 
-        if((realAppointCount + realDismissCount) > 0
+        if ((realAppointCount + realDismissCount) > 0
                 && appointCount == realAppointCount
                 && dismissCount == realDismissCount) {
             Dispatch record = new Dispatch();
             record.setId(id);
             record.setHasChecked(true);
             dispatchService.updateByPrimaryKeySelective(record);
-        }else{
+        } else {
             throw new RuntimeException("还未全部录入，不能进行复核操作");
         }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 重新复核
+    @RequiresPermissions("dispatch:check")
+    @RequestMapping(value = "/dispatch_reset_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dispatch_reset_check(Integer id) {
+
+        Dispatch record = new Dispatch();
+        record.setId(id);
+        record.setHasChecked(false);
+        dispatchService.updateByPrimaryKeySelective(record);
 
         return success(FormUtils.SUCCESS);
     }
@@ -437,11 +448,11 @@ public class DispatchController extends BaseController {
     @RequiresPermissions("dispatch:del")
     @RequestMapping(value = "/dispatch_del_file", method = RequestMethod.POST)
     @ResponseBody
-    public Map dispatch_del_file(Integer id, @RequestParam String type){
+    public Map dispatch_del_file(Integer id, @RequestParam String type) {
 
-        if(StringUtils.equalsIgnoreCase(type, "file")){
+        if (StringUtils.equalsIgnoreCase(type, "file")) {
             dispatchService.delFile(id);
-        } else if(StringUtils.equalsIgnoreCase(type, "ppt")){
+        } else if (StringUtils.equalsIgnoreCase(type, "ppt")) {
             dispatchService.delPpt(id);
         }
         return success(FormUtils.SUCCESS);
@@ -466,7 +477,7 @@ public class DispatchController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             dispatchService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除发文：%s", StringUtils.join(ids, ",")));
         }
@@ -488,18 +499,18 @@ public class DispatchController extends BaseController {
 
         List<DispatchView> records = dispatchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年份","发文类型","发文号","党委常委会日期","发文日期","任免日期","任命人数","录入任命人数",
+        String[] titles = {"年份", "发文类型", "发文号", "党委常委会日期", "发文日期", "任免日期", "任命人数", "录入任命人数",
                 "免职人数", "录入免职人数", "是否全部录入", "是否复核", "备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchView record = records.get(i);
-            int realAppointCount = record.getRealAppointCount()==null?0:record.getRealAppointCount();
-            int realDismissCount = record.getRealDismissCount()==null?0:record.getRealDismissCount();
-            int appointCount = record.getAppointCount()==null?0:record.getAppointCount();
-            int dismissCount = record.getDismissCount()== null?0:record.getDismissCount();
+            int realAppointCount = record.getRealAppointCount() == null ? 0 : record.getRealAppointCount();
+            int realDismissCount = record.getRealDismissCount() == null ? 0 : record.getRealDismissCount();
+            int appointCount = record.getAppointCount() == null ? 0 : record.getAppointCount();
+            int dismissCount = record.getDismissCount() == null ? 0 : record.getDismissCount();
             String[] values = {
-                    record.getYear()+"",
-                    record.getDispatchTypeId()==null?"":dispatchTypeService.findAll().get(record.getDispatchTypeId()).getName(),
+                    record.getYear() + "",
+                    record.getDispatchTypeId() == null ? "" : dispatchTypeService.findAll().get(record.getDispatchTypeId()).getName(),
                     CmTag.getDispatchCode(record.getCode(), record.getDispatchTypeId(), record.getYear()),
                     DateUtils.formatDate(record.getMeetingTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getPubTime(), DateUtils.YYYY_MM_DD),
@@ -510,8 +521,8 @@ public class DispatchController extends BaseController {
                     realDismissCount + "",
                     ((realAppointCount + realDismissCount) > 0
                             && appointCount == realAppointCount
-                            && dismissCount == realDismissCount)?"是":"否",
-                    record.getHasChecked()?"已复核":"否",
+                            && dismissCount == realDismissCount) ? "是" : "否",
+                    record.getHasChecked() ? "已复核" : "否",
                     record.getRemark()
             };
             valuesList.add(values);
@@ -520,7 +531,7 @@ public class DispatchController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-   @RequestMapping("/dispatch_selects")
+    @RequestMapping("/dispatch_selects")
     @ResponseBody
     public Map dispatch_selects(Integer pageSize, Integer pageNo, Integer dispatchTypeId, String searchStr) throws IOException {
 
@@ -534,27 +545,27 @@ public class DispatchController extends BaseController {
 
         DispatchExample example = new DispatchExample();
         Criteria criteria = example.createCriteria();
-       if(dispatchTypeId!=null)
-           criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
+        if (dispatchTypeId != null)
+            criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
 
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
+        if (StringUtils.isNotBlank(searchStr)) {
             criteria.andCodeEqualTo(Integer.parseInt(searchStr));
         }
 
         int count = dispatchMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<Dispatch> dispatchs = dispatchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<Dispatch> dispatchs = dispatchMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-       Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+        Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         List<Map<String, Object>> options = new ArrayList<>();
-        if(null != dispatchs && dispatchs.size()>0){
+        if (null != dispatchs && dispatchs.size() > 0) {
 
-            for(Dispatch dispatch:dispatchs){
+            for (Dispatch dispatch : dispatchs) {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()));
                 option.put("id", dispatch.getId());

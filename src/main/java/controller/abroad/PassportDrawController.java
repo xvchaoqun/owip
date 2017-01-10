@@ -15,6 +15,7 @@ import interceptor.SortParam;
 import mixin.ApplySelfMixin;
 import mixin.PassportDrawMixin;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -207,6 +208,15 @@ public class PassportDrawController extends BaseController {
         sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
+    }
+
+    // 管理员添加申请
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping("/passportDraw_au")
+    public String passportDraw_au(Byte type, ModelMap modelMap) {
+
+        modelMap.put("type", type);
+        return "abroad/passportDraw/passportDraw_au";
     }
 
     @RequiresPermissions("passportDraw:edit")
@@ -432,15 +442,17 @@ public class PassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    // 逻辑删除
+    // 删除（默认逻辑删除）
     @RequiresPermissions("passportDraw:del")
     @RequestMapping(value = "/passportDraw_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request,
+                        Boolean isReal, // 是否真删除
+                        @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            passportDrawService.batchDel(ids);
+            passportDrawService.batchDel(ids, BooleanUtils.isTrue(isReal));
             logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除领取证件申请：%s", StringUtils.join(ids, ",")));
         }
 

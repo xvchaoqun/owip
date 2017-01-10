@@ -103,9 +103,9 @@
       return;
     }
     if($passportId.data("sign"))
-        $("#item-content").load("${ctx}/user/passportDraw_self_sign?type=new&applyId=${param.applyId}&passportId="+passportId);
+        $("#item-content").load("${ctx}/user/passportDraw_self_sign?auth=${param.auth}&cadreId=${param.cadreId}&type=new&applyId=${param.applyId}&passportId="+passportId);
     else
-      $("#item-content").load("${ctx}/user/passportDraw_self_confirm?applyId=${param.applyId}&passportId="+passportId);
+      $("#item-content").load("${ctx}/user/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId="+passportId);
   });
   $('form [data-rel="select2"]').select2();
 </script>

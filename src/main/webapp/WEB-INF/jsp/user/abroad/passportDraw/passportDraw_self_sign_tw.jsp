@@ -14,7 +14,7 @@
 <div class="modal-body">
     <div class="row passport_apply">
         <div class="preview">
-            <img data-src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${_user.id}" src="${ctx}/img/loading.gif"
+            <img data-src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${passport.user.id}" src="${ctx}/img/loading.gif"
                  onload="lzld(this)"/>
         </div>
 

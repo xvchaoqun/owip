@@ -73,7 +73,7 @@
         </c:if>
         <c:if test="${commonList.recNum==0}">
           <div class="well well-lg center">
-            <h4 class="green lighter">没有未出行的因私出国申请，<a href="${ctx}/user/applySelf">现在去申请</a></h4>
+            <h4 class="green lighter">没有未出行的因私出国申请<c:if test="${param.auth!='admin'}">，<a href="${ctx}/user/applySelf">现在去申请</a></c:if></h4>
           </div>
         </c:if>
     </div><!-- /.widget-main -->
@@ -81,7 +81,13 @@
 </div>
 <div class="modal-footer center" style="margin-top: 20px">
   <input id="apply" class="btn btn-success" value="申请使用证件"/>
-  <input data-url="${ctx}/user/passportDraw_select" class="openView  btn btn-default" value="返回"/>
+  <c:if test="${param.auth=='admin'}">
+    <input type="button" class="closeView btn btn-default" value="返回"/>
+  </c:if>
+  <c:if test="${param.auth!='admin'}">
+    <input data-url="${ctx}/user/passportDraw_select" class="openView  btn btn-default" value="返回"/>
+  </c:if>
+
 </div>
 <script>
   $("input[type=checkbox]").click(function(){
@@ -96,6 +102,6 @@ $("#apply").click(function(){
       SysMsg.info("请选择一个行程");
       return;
     }
-    $("#item-content").load("${ctx}/user/passportDraw_self_select?applyId="+applyId);
+    $("#item-content").load("${ctx}/user/passportDraw_self_select?auth=${param.auth}&cadreId=${param.cadreId}&applyId="+applyId);
 });
 </script>

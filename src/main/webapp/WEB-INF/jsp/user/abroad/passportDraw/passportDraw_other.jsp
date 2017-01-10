@@ -17,6 +17,7 @@
   <div class="tab-content">
     <div id="home4" class="tab-pane in active">
 <form class="form-horizontal" action="${ctx}/user/passportDraw_other_au" id="applyForm" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="cadreId" value="${param.cadreId}">
   <div class="form-group">
     <label class="col-xs-3 control-label">所需证件</label>
     <div class="col-xs-6">
@@ -148,7 +149,13 @@
         success:function(ret){
           if(ret.success){
             SysMsg.success('操作成功。', '成功', function(){
+              <c:if test="${param.auth=='admin'}">
+              $("#modal").modal('hide');
+              $(".closeView").click();
+              </c:if>
+              <c:if test="${param.auth!='admin'}">
               location.href = "${ctx}/user/passportDraw?type=3";
+              </c:if>
             });
           }
         }

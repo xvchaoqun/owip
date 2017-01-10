@@ -96,13 +96,16 @@ public class CadreAdminLevelController extends BaseController {
     @RequestMapping("/cadreAdminLevel_addDispatchs")
     public String cadreAdminLevel_addDispatchs(HttpServletResponse response, String cls,  String type, int id, int cadreId, ModelMap modelMap) {
 
-        byte dispatchCadreType = SystemConstants.DISPATCH_CADRE_TYPE_APPOINT;
+        Byte dispatchCadreType = null;
 
-        Set<Integer> dispatchCadreIdSet = new HashSet<>();
+        Set<Integer> dispatchCadreIdSet = new HashSet<>(); // 已选择的干部发文ID
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>();
         Map<Integer, DispatchCadre> dispatchCadreMap = dispatchCadreService.findAll();
         CadreAdminLevel cadreAdminLevel = cadreAdminLevelMapper.selectByPrimaryKey(id);
         if (StringUtils.equalsIgnoreCase(cls, "start")) {
+
+            dispatchCadreType = SystemConstants.DISPATCH_CADRE_TYPE_APPOINT;
+
             if (cadreAdminLevel.getStartDispatchCadreId() != null) {
                 Integer startDispatchCadreId = cadreAdminLevel.getStartDispatchCadreId();
                 dispatchCadreIdSet.add(startDispatchCadreId);
@@ -110,12 +113,13 @@ public class CadreAdminLevelController extends BaseController {
             }
         } else if (StringUtils.equalsIgnoreCase(cls, "end")) {
 
-            dispatchCadreType = SystemConstants.DISPATCH_CADRE_TYPE_DISMISS;
+            //dispatchCadreType = SystemConstants.DISPATCH_CADRE_TYPE_DISMISS;
             if (cadreAdminLevel.getEndDispatchCadreId() != null) {
                 Integer endDispatchCadreId = cadreAdminLevel.getEndDispatchCadreId();
                 dispatchCadreIdSet.add(endDispatchCadreId);
                 relateDispatchCadres.add(dispatchCadreMap.get(endDispatchCadreId));
             }
+            dispatchCadreType = null; // 结束文件不限制，可以在全部干部发文中选择
         }else{
             throw new IllegalArgumentException("cls 参数有误");
         }
@@ -126,10 +130,11 @@ public class CadreAdminLevelController extends BaseController {
             modelMap.put("type", "edit");
             List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId, dispatchCadreType);
             modelMap.put("dispatchCadres", dispatchCadres);
-
-            // 已被选
-            Set<Integer> otherDispatchCadreRelateSet = cadreAdminLevelService.findOtherDispatchCadreRelateSet(cadreId, id);
-            modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
+            if (StringUtils.equalsIgnoreCase(cls, "start")) { // 只有始任文件有限制
+                // 已被选
+                Set<Integer> otherDispatchCadreRelateSet = cadreAdminLevelService.findOtherDispatchCadreRelateSet(cadreId, id);
+                modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
+            }
         }else{
             modelMap.put("type", "add");
             modelMap.put("dispatchCadres", relateDispatchCadres);

@@ -1,9 +1,8 @@
-<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12" id="adminPassportDrawPage">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="tabbable">
@@ -25,6 +24,12 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
+                            <c:if test="${type!=-1}">
+                            <button data-url="${ctx}/passportDraw_au?type=${type}"
+                                    class="popupBtn btn btn-primary btn-sm">
+                                <i class="fa fa-plus"></i> 申请
+                            </button>
+                            </c:if>
                             <button data-url="${ctx}/passportDraw_view" data-open-by="page"
                                     class="jqOpenViewBtn btn btn-success btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
@@ -54,6 +59,13 @@
                                     <a class="jqBatchBtn btn btn-success btn-sm"
                                        data-url="${ctx}/passportDraw_batchUnDel" data-title="找回已删除申请使用证件申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
+                                </shiro:hasPermission>
+
+                                <shiro:hasPermission name="passportDraw:del">
+                                    <button id="realDelBtn" class="jqBatchBtn btn btn-danger btn-sm"
+                                            data-rel="tooltip" data-placement="top" title="未审批的记录可以删除"
+                                            data-url="${ctx}/passportDraw_batchDel?isReal=1" data-title="删除申请使用证件申请"
+                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                         </div>

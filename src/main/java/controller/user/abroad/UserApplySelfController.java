@@ -187,6 +187,11 @@ public class UserApplySelfController extends BaseController {
                 if(passportDrawMapper.countByExample(example)>0){
                     return failed("该行程已经申请使用证件，不允许撤销");
                 }
+
+               /* // 删除行程下面的申请使用证件
+                PassportDrawExample example = new PassportDrawExample();
+                example.createCriteria().andApplyIdEqualTo(id);
+                passportDrawMapper.deleteByExample(example);*/
             }
 
             ApplySelfFileExample example = new ApplySelfFileExample();

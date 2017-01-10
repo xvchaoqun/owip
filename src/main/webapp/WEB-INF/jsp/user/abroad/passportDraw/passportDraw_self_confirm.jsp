@@ -131,14 +131,22 @@
         }
 
         $.post("${ctx}/user/passportDraw_self_au",
-                {applyId:"${applySelf.id}",
+                {
+                    cadreId:"${param.cadreId}",
+                    applyId:"${applySelf.id}",
                     passportId:"${param.passportId}",
                     needSign:"${param.sign}",
                     useType:useType,
                     remark:$("#remark").val()},function(ret){
             if(ret.success){
                 SysMsg.success('您的申请已提交，谢谢！', '提示', function(){
+                    <c:if test="${param.auth=='admin'}">
+                    $("#modal").modal('hide');
+                    $(".closeView").click();
+                    </c:if>
+                    <c:if test="${param.auth!='admin'}">
                     location.href = "${ctx}/user/passportDraw?type=1";
+                    </c:if>
                 });
             }
         });

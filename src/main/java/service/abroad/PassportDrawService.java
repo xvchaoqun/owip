@@ -104,18 +104,35 @@ public class PassportDrawService extends BaseMapper {
         passportDrawMapper.deleteByPrimaryKey(id);
     }
 
-    // 逻辑删除
+    // 删除（默认逻辑删除），真删除只有在逻辑删除之后
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids, boolean isReal){
 
         if(ids==null || ids.length==0) return;
 
-        PassportDrawExample example = new PassportDrawExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        if(isReal){ // 删除已经[逻辑删除]，且未审批的记录
+            for (Integer id : ids) {
+                PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+                if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_INIT
+                        && passportDraw.getIsDeleted()){
 
-        PassportDraw record = new PassportDraw();
-        record.setIsDeleted(true);
-        passportDrawMapper.updateByExampleSelective(record, example);
+                    PassportDrawFileExample example = new PassportDrawFileExample();
+                    example.createCriteria().andDrawIdEqualTo(id);
+                    passportDrawFileMapper.deleteByExample(example); // 先删除相关材料
+
+                    passportDrawMapper.deleteByPrimaryKey(id);
+                }else{
+                    throw new RuntimeException("该记录已经审批，不可以删除");
+                }
+            }
+        }else {
+            PassportDrawExample example = new PassportDrawExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+
+            PassportDraw record = new PassportDraw();
+            record.setIsDeleted(true);
+            passportDrawMapper.updateByExampleSelective(record, example);
+        }
     }
     @Transactional
     public void batchUnDel(Integer[] ids){

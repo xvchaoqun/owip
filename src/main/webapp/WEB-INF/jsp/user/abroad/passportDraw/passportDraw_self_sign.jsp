@@ -14,7 +14,7 @@
 <div class="modal-body">
   <div class="row passport_apply">
     <div class="preview">
-      <img data-src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${_user.id}&id=${param.id}"
+      <img data-src="${ctx}/report/passportSign?classId=${passportType.id}&userId=${passport.user.id}&id=${param.id}"
            src="${ctx}/img/loading.gif"
            onload="lzld(this)" />
     </div>
@@ -35,10 +35,12 @@
         <div class="center" style="margin-top: 40px">
           <button id="notSign" class="btn btn-info btn-block" style="font-size: 30px">不需要签注</button>
         </div>
+            <c:if test="${param.auth!='admin'}">
         <div class="center" style="margin-top: 40px">
             <button  data-url="${ctx}/user/passportDraw_self_select?applyId=${param.applyId}"
                     class="openView btn btn-default btn-block" style="font-size: 30px">返回选择证件</button>
         </div>
+            </c:if>
         </c:if>
         <c:if test="${param.type=='view'}">
             <div class="center" style="margin-top: 40px">
@@ -63,7 +65,7 @@
             return false;
         }
 
-        $("#item-content").load("${ctx}/user/passportDraw_self_confirm?applyId=${param.applyId}&passportId=${passport.id}&sign=0");
+        $("#item-content").load("${ctx}/user/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=0");
     });
     $("#needSign").click(function(){
         if($("#agree").is(":checked") == false){
@@ -71,7 +73,7 @@
             return false;
         }
 
-        $("#item-content").load("${ctx}/user/passportDraw_self_confirm?applyId=${param.applyId}&passportId=${passport.id}&sign=1");
+        $("#item-content").load("${ctx}/user/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=1");
     });
 </c:if>
 <c:if test="${param.type=='view'}">
