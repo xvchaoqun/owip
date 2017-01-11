@@ -12,7 +12,7 @@ public class TeacherInfo implements Serializable {
 
     private String degree;
 
-    private String degreeTime;
+    private Date degreeTime;
 
     private String major;
 
@@ -22,7 +22,13 @@ public class TeacherInfo implements Serializable {
 
     private String degreeSchool;
 
-    private String arriveTime;
+    private Date arriveTime;
+
+    private Date workStartTime;
+
+    private String workBreak;
+
+    private Date regularTime;
 
     private String authorizedType;
 
@@ -32,7 +38,9 @@ public class TeacherInfo implements Serializable {
 
     private String postClass;
 
-    private String postType;
+    private String subPostClass;
+
+    private String mainPostLevel;
 
     private String country;
 
@@ -44,11 +52,17 @@ public class TeacherInfo implements Serializable {
 
     private String proPost;
 
+    private Date proPostTime;
+
     private String proPostLevel;
+
+    private Date proPostLevelTime;
 
     private String titleLevel;
 
     private String manageLevel;
+
+    private Date manageLevelTime;
 
     private String officeLevel;
 
@@ -104,12 +118,12 @@ public class TeacherInfo implements Serializable {
         this.degree = degree == null ? null : degree.trim();
     }
 
-    public String getDegreeTime() {
+    public Date getDegreeTime() {
         return degreeTime;
     }
 
-    public void setDegreeTime(String degreeTime) {
-        this.degreeTime = degreeTime == null ? null : degreeTime.trim();
+    public void setDegreeTime(Date degreeTime) {
+        this.degreeTime = degreeTime;
     }
 
     public String getMajor() {
@@ -144,12 +158,36 @@ public class TeacherInfo implements Serializable {
         this.degreeSchool = degreeSchool == null ? null : degreeSchool.trim();
     }
 
-    public String getArriveTime() {
+    public Date getArriveTime() {
         return arriveTime;
     }
 
-    public void setArriveTime(String arriveTime) {
-        this.arriveTime = arriveTime == null ? null : arriveTime.trim();
+    public void setArriveTime(Date arriveTime) {
+        this.arriveTime = arriveTime;
+    }
+
+    public Date getWorkStartTime() {
+        return workStartTime;
+    }
+
+    public void setWorkStartTime(Date workStartTime) {
+        this.workStartTime = workStartTime;
+    }
+
+    public String getWorkBreak() {
+        return workBreak;
+    }
+
+    public void setWorkBreak(String workBreak) {
+        this.workBreak = workBreak == null ? null : workBreak.trim();
+    }
+
+    public Date getRegularTime() {
+        return regularTime;
+    }
+
+    public void setRegularTime(Date regularTime) {
+        this.regularTime = regularTime;
     }
 
     public String getAuthorizedType() {
@@ -184,12 +222,20 @@ public class TeacherInfo implements Serializable {
         this.postClass = postClass == null ? null : postClass.trim();
     }
 
-    public String getPostType() {
-        return postType;
+    public String getSubPostClass() {
+        return subPostClass;
     }
 
-    public void setPostType(String postType) {
-        this.postType = postType == null ? null : postType.trim();
+    public void setSubPostClass(String subPostClass) {
+        this.subPostClass = subPostClass == null ? null : subPostClass.trim();
+    }
+
+    public String getMainPostLevel() {
+        return mainPostLevel;
+    }
+
+    public void setMainPostLevel(String mainPostLevel) {
+        this.mainPostLevel = mainPostLevel == null ? null : mainPostLevel.trim();
     }
 
     public String getCountry() {
@@ -232,12 +278,28 @@ public class TeacherInfo implements Serializable {
         this.proPost = proPost == null ? null : proPost.trim();
     }
 
+    public Date getProPostTime() {
+        return proPostTime;
+    }
+
+    public void setProPostTime(Date proPostTime) {
+        this.proPostTime = proPostTime;
+    }
+
     public String getProPostLevel() {
         return proPostLevel;
     }
 
     public void setProPostLevel(String proPostLevel) {
         this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
+    }
+
+    public Date getProPostLevelTime() {
+        return proPostLevelTime;
+    }
+
+    public void setProPostLevelTime(Date proPostLevelTime) {
+        this.proPostLevelTime = proPostLevelTime;
     }
 
     public String getTitleLevel() {
@@ -254,6 +316,14 @@ public class TeacherInfo implements Serializable {
 
     public void setManageLevel(String manageLevel) {
         this.manageLevel = manageLevel == null ? null : manageLevel.trim();
+    }
+
+    public Date getManageLevelTime() {
+        return manageLevelTime;
+    }
+
+    public void setManageLevelTime(Date manageLevelTime) {
+        this.manageLevelTime = manageLevelTime;
     }
 
     public String getOfficeLevel() {

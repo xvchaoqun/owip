@@ -22,7 +22,13 @@ import java.util.*;
 public class MetaTypeService extends BaseMapper {
 
     public String getName(Integer id){
-        return id==null?"":findAll().get(id).getName();
+
+        if(id==null)return "";
+
+        MetaType metaType = findAll().get(id);
+        if(metaType==null) return "";
+
+        return metaType.getName();
     }
 
     // Set<MetaTypeId>

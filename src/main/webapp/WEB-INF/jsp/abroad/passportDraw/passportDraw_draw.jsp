@@ -176,9 +176,10 @@
             });
         }
     });
-    $('.date-picker').datepicker({
+    register_date($('.date-picker'))
+    /*$('.date-picker').datepicker({
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    })*/
 </script>

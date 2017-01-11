@@ -1,4 +1,61 @@
 
+
+
+
+
+
+
+-- 2017-1-11
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `post_type` `main_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '主岗等级' AFTER `post_class`;
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `pro_post` `pro_post` VARCHAR(50) NULL DEFAULT NULL COMMENT '专业技术职务' AFTER `on_job`,
+	ADD COLUMN `pro_post_time` DATE NULL DEFAULT NULL COMMENT '专技职务评定时间' AFTER `pro_post`,
+	ADD COLUMN `pro_post_level_time` DATE NULL DEFAULT NULL COMMENT '专技岗位分级时间' AFTER `pro_post_level`,
+	CHANGE COLUMN `title_level` `title_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '职称级别，应该是专技岗位等级（龙老师）（弃用）' AFTER `pro_post_level_time`,
+	ADD COLUMN `manage_level_time` DATE NULL DEFAULT NULL COMMENT '管理岗位分级时间' AFTER `manage_level`;
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `sub_post_class` VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位子类别' AFTER `post_class`;
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `work_start_time` VARCHAR(50) NULL DEFAULT NULL COMMENT '工龄起算时间' AFTER `arrive_time`,
+	ADD COLUMN `work_break` VARCHAR(50) NULL DEFAULT NULL COMMENT '间断工龄' AFTER `work_start_time`;
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `regular_time` VARCHAR(50) NULL DEFAULT NULL COMMENT '转正定级时间' AFTER `work_break`;
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `work_start_time` `work_start_time` DATE NULL DEFAULT NULL COMMENT '工龄起算时间' AFTER `arrive_time`,
+	CHANGE COLUMN `regular_time` `regular_time` DATE NULL DEFAULT NULL COMMENT '转正定级时间' AFTER `work_break`;
+
+update sys_teacher_info set degree_time=null  where degree_time ='';
+update sys_teacher_info set arrive_time=null  where arrive_time ='';
+
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `degree_time` `degree_time` DATE NULL DEFAULT NULL COMMENT '学位授予日期' AFTER `degree`,
+	CHANGE COLUMN `arrive_time` `arrive_time` DATE NULL DEFAULT NULL COMMENT '到校日期' AFTER `degree_school`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_member_teacher` AS select t.*,`m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,
+`m`.`source` AS `member_source`,`u`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,
+`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`u`.`code` AS `code`,`ui`.`gender` AS `gender`,`ui`.`nation` AS `nation`,`ui`.`email` AS `email`,`ui`.`mobile` AS `mobile`,`ui`.`birth` AS `birth`,`ui`.`realname` AS `realname`,`ui`.`native_place` AS `native_place`,`ui`.`phone` AS `phone`,`ui`.`idcard` AS `idcard`,`p`.`unit_id` AS `unit_id` from ((`ow_member` `m` join `ow_party` `p`) join (`sys_user` `u` join `sys_teacher_info` `t`))
+join sys_user_info ui where ((`m`.`user_id` = `t`.`user_id`) and (`m`.`party_id` = `p`.`id`) and (`m`.`user_id` = `u`.`id`)) and ui.user_id=u.id  ;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS select `c`.*,`ui`.`msg_title`,`ui`.`mobile` AS `mobile`,`ui`.`phone`,`ui`.`home_phone` AS `home_phone`,`ui`.`email` AS `email`,
+ui.`realname` AS `realname`,ui.`gender` AS `gender`,ui.`nation` AS `nation`,ui.`native_place` AS `native_place`,ui.`idcard` AS `idcard`,
+ui.`birth` AS `birth`,`om`.`party_id` AS `party_id`,`om`.`branch_id` AS `branch_id`,`om`.`grow_time` AS `grow_time`,
+`t`.`arrive_time` AS `arrive_time`,`max_ce`.`edu_id` AS `edu_id`,`max_ce`.`finish_time` AS `finish_time`,
+`max_ce`.`learn_style` AS `learn_style`,`max_ce`.`school` AS `school`,`max_ce`.`dep` AS `dep`,`max_ce`.`school_type` AS `school_type`,
+`max_ce`.`major` AS `major`,`t`.`post_class` AS `post_class`, t.sub_post_class,  t.main_post_level, t.pro_post_time,
+  `t`.`pro_post_level` AS `pro_post_level`, t.pro_post_level_time,  `t`.`pro_post` AS `pro_post`,
+`t`.`manage_level` AS `manage_level`, t.manage_level_time, `max_degree`.`degree` AS `degree` from ((((`cadre` `c`
+left join sys_user_info ui on ui.user_id=c.user_id left join `sys_teacher_info` `t` on((`t`.`user_id` = `c`.`user_id`)))
+ left join `ow_member` `om` on((`om`.`user_id` = `c`.`user_id`)))
+ left join `cadre_edu` `max_ce` on(((`max_ce`.`cadre_id` = `c`.`id`) and (`max_ce`.`is_high_edu` = 1))))
+ left join `cadre_edu` `max_degree` on(((`max_degree`.`cadre_id` = `c`.`id`) and (`max_degree`.`is_high_degree` = 1))))  ;
+
+
 -- 2017-1-6
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_reserve_view` AS select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
 cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, u.code,cv.*

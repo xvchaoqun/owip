@@ -2082,63 +2082,53 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeEqualTo(String value) {
-            addCriterion("arrive_time =", value, "arriveTime");
+        public Criteria andArriveTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time =", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeNotEqualTo(String value) {
-            addCriterion("arrive_time <>", value, "arriveTime");
+        public Criteria andArriveTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time <>", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeGreaterThan(String value) {
-            addCriterion("arrive_time >", value, "arriveTime");
+        public Criteria andArriveTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("arrive_time >", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeGreaterThanOrEqualTo(String value) {
-            addCriterion("arrive_time >=", value, "arriveTime");
+        public Criteria andArriveTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time >=", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeLessThan(String value) {
-            addCriterion("arrive_time <", value, "arriveTime");
+        public Criteria andArriveTimeLessThan(Date value) {
+            addCriterionForJDBCDate("arrive_time <", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeLessThanOrEqualTo(String value) {
-            addCriterion("arrive_time <=", value, "arriveTime");
+        public Criteria andArriveTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time <=", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeLike(String value) {
-            addCriterion("arrive_time like", value, "arriveTime");
+        public Criteria andArriveTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("arrive_time in", values, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeNotLike(String value) {
-            addCriterion("arrive_time not like", value, "arriveTime");
+        public Criteria andArriveTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("arrive_time not in", values, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeIn(List<String> values) {
-            addCriterion("arrive_time in", values, "arriveTime");
+        public Criteria andArriveTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("arrive_time between", value1, value2, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeNotIn(List<String> values) {
-            addCriterion("arrive_time not in", values, "arriveTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andArriveTimeBetween(String value1, String value2) {
-            addCriterion("arrive_time between", value1, value2, "arriveTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andArriveTimeNotBetween(String value1, String value2) {
-            addCriterion("arrive_time not between", value1, value2, "arriveTime");
+        public Criteria andArriveTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("arrive_time not between", value1, value2, "arriveTime");
             return (Criteria) this;
         }
 
@@ -2662,6 +2652,206 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andSubPostClassIsNull() {
+            addCriterion("sub_post_class is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassIsNotNull() {
+            addCriterion("sub_post_class is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassEqualTo(String value) {
+            addCriterion("sub_post_class =", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassNotEqualTo(String value) {
+            addCriterion("sub_post_class <>", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassGreaterThan(String value) {
+            addCriterion("sub_post_class >", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassGreaterThanOrEqualTo(String value) {
+            addCriterion("sub_post_class >=", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassLessThan(String value) {
+            addCriterion("sub_post_class <", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassLessThanOrEqualTo(String value) {
+            addCriterion("sub_post_class <=", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassLike(String value) {
+            addCriterion("sub_post_class like", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassNotLike(String value) {
+            addCriterion("sub_post_class not like", value, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassIn(List<String> values) {
+            addCriterion("sub_post_class in", values, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassNotIn(List<String> values) {
+            addCriterion("sub_post_class not in", values, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassBetween(String value1, String value2) {
+            addCriterion("sub_post_class between", value1, value2, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPostClassNotBetween(String value1, String value2) {
+            addCriterion("sub_post_class not between", value1, value2, "subPostClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelIsNull() {
+            addCriterion("main_post_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelIsNotNull() {
+            addCriterion("main_post_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelEqualTo(String value) {
+            addCriterion("main_post_level =", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelNotEqualTo(String value) {
+            addCriterion("main_post_level <>", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelGreaterThan(String value) {
+            addCriterion("main_post_level >", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("main_post_level >=", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelLessThan(String value) {
+            addCriterion("main_post_level <", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelLessThanOrEqualTo(String value) {
+            addCriterion("main_post_level <=", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelLike(String value) {
+            addCriterion("main_post_level like", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelNotLike(String value) {
+            addCriterion("main_post_level not like", value, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelIn(List<String> values) {
+            addCriterion("main_post_level in", values, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelNotIn(List<String> values) {
+            addCriterion("main_post_level not in", values, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelBetween(String value1, String value2) {
+            addCriterion("main_post_level between", value1, value2, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainPostLevelNotBetween(String value1, String value2) {
+            addCriterion("main_post_level not between", value1, value2, "mainPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeIsNull() {
+            addCriterion("pro_post_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeIsNotNull() {
+            addCriterion("pro_post_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_time =", value, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_time <>", value, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("pro_post_time >", value, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_time >=", value, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeLessThan(Date value) {
+            addCriterionForJDBCDate("pro_post_time <", value, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_time <=", value, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("pro_post_time in", values, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("pro_post_time not in", values, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pro_post_time between", value1, value2, "proPostTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pro_post_time not between", value1, value2, "proPostTime");
+            return (Criteria) this;
+        }
+
         public Criteria andProPostLevelIsNull() {
             addCriterion("pro_post_level is null");
             return (Criteria) this;
@@ -2729,6 +2919,66 @@ public class CadreViewExample {
 
         public Criteria andProPostLevelNotBetween(String value1, String value2) {
             addCriterion("pro_post_level not between", value1, value2, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeIsNull() {
+            addCriterion("pro_post_level_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeIsNotNull() {
+            addCriterion("pro_post_level_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_level_time =", value, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_level_time <>", value, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("pro_post_level_time >", value, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_level_time >=", value, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeLessThan(Date value) {
+            addCriterionForJDBCDate("pro_post_level_time <", value, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("pro_post_level_time <=", value, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("pro_post_level_time in", values, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("pro_post_level_time not in", values, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pro_post_level_time between", value1, value2, "proPostLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("pro_post_level_time not between", value1, value2, "proPostLevelTime");
             return (Criteria) this;
         }
 
@@ -2869,6 +3119,66 @@ public class CadreViewExample {
 
         public Criteria andManageLevelNotBetween(String value1, String value2) {
             addCriterion("manage_level not between", value1, value2, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeIsNull() {
+            addCriterion("manage_level_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeIsNotNull() {
+            addCriterion("manage_level_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("manage_level_time =", value, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("manage_level_time <>", value, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("manage_level_time >", value, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("manage_level_time >=", value, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeLessThan(Date value) {
+            addCriterionForJDBCDate("manage_level_time <", value, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("manage_level_time <=", value, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("manage_level_time in", values, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("manage_level_time not in", values, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("manage_level_time between", value1, value2, "manageLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("manage_level_time not between", value1, value2, "manageLevelTime");
             return (Criteria) this;
         }
 

@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
 						学位授予日期
 					</td>
 					<td class="bg-left">
-						${teacher.degreeTime}
+						${cm:formatDate(teacher.degreeTime, "yyyy-MM-dd")}
 					</td>
 					<td class="bg-right">所学专业</td>
 					<td  class="bg-left">
@@ -98,7 +98,7 @@ pageEncoding="UTF-8"%>
 
 					<td class="bg-right">到校日期</td>
 					<td class="bg-left" >
-						${teacher.arriveTime}
+						${cm:formatDate(teacher.arriveTime, "yyyy-MM-dd")}
 					</td>
 					<td class="bg-right">
 						编制类别
@@ -124,10 +124,10 @@ pageEncoding="UTF-8"%>
 						${teacher.postClass}
 					</td>
 					<td class="bg-right">
-						岗位子类别
+						主岗等级
 					</td>
 					<td class="bg-left">
-						${teacher.postType}
+						${teacher.mainPostLevel}
 					</td>
 					<td  class="bg-right">
 						在岗情况

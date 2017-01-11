@@ -325,7 +325,7 @@ public class MemberTeacherController extends BaseController {
                     record.getStaffStatus(), // 人员状态
                     record.getOnJob(), // 在岗情况
                     record.getPostClass(), // 岗位类别
-                    record.getPostType(), // 主岗等级--岗位级别
+                    record.getMainPostLevel(), // 主岗等级
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
@@ -338,7 +338,7 @@ public class MemberTeacherController extends BaseController {
                     branchId==null?"":branchMap.get(branchId).getName(),
                     record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
-                    record.getArriveTime(), // 到校日期
+                    DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务
                     record.getProPostLevel(), //专技岗位等级
                     record.getManageLevel(), // 管理岗位等级

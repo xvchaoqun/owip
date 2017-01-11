@@ -8,9 +8,12 @@
 <div class="modal-body">
   <form>
   <div class="form-group">
-      <label class="col-xs-4 control-label" style="text-align: right; line-height: 34px">工号</label>
+      <label class="col-xs-3 control-label" style="text-align: right; line-height: 34px">选择干部</label>
       <div class="col-xs-6">
-        <input type="text" name="code">
+        <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects" data-width="350"
+                name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+          <option></option>
+        </select>
       </div>
     </div>
   </form>
@@ -39,9 +42,12 @@
   }
 </style>
 <script>
+  register_user_select($('#modal select[name=cadreId]'));
+
   $("#modal #search").click(function(){
-    var code = $("#modal input[name=code]").val();
-    $.post("${ctx}/cadre/search",{code:code},function(ret){
+    var cadreId = $("#modal select[name=cadreId]").val();
+    if(cadreId=='') return;
+    $.post("${ctx}/cadre/search",{cadreId:cadreId},function(ret){
         if(ret.success){
           $("#modal #result").show();
           //$("#modal #msg").hide();

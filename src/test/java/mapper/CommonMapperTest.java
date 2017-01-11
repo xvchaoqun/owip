@@ -26,10 +26,10 @@ public class CommonMapperTest {
 	@Test
 	public void list() {
 
-		List<Cadre> cadres = commonMapper.selectCadreList("%sd%", SystemConstants.CADRE_STATUS_SET, new RowBounds(0, 2));
+		List<Cadre> cadres = commonMapper.selectCadreList("%sd%", null, SystemConstants.CADRE_STATUS_SET, new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
-		int sd = commonMapper.countCadre("sd", SystemConstants.CADRE_STATUS_SET);
+		int sd = commonMapper.countCadre("sd", null, SystemConstants.CADRE_STATUS_SET);
 		System.out.println(sd);
 	}
 }

@@ -105,7 +105,7 @@
       </table>-->
      <!-- <table tableName="ow_member_student" domainObjectName="member.MemberStudent">
       </table>-->
-      <!--<table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher"
+     <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
@@ -186,23 +186,23 @@
       </table>-->
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
-       </table>
+       </table>-->
       <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
       <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog">
       </table>-->
 
       <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
       </table>-->
-      <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+     <!-- <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
       <!--<table tableName="cadre_temp" domainObjectName="cadreTemp.CadreTemp">
       </table>

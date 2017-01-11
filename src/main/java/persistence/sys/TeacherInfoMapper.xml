@@ -6,25 +6,32 @@
     <result column="ext_phone" property="extPhone" jdbcType="VARCHAR" />
     <result column="education" property="education" jdbcType="VARCHAR" />
     <result column="degree" property="degree" jdbcType="VARCHAR" />
-    <result column="degree_time" property="degreeTime" jdbcType="VARCHAR" />
+    <result column="degree_time" property="degreeTime" jdbcType="DATE" />
     <result column="major" property="major" jdbcType="VARCHAR" />
     <result column="school" property="school" jdbcType="VARCHAR" />
     <result column="school_type" property="schoolType" jdbcType="VARCHAR" />
     <result column="degree_school" property="degreeSchool" jdbcType="VARCHAR" />
-    <result column="arrive_time" property="arriveTime" jdbcType="VARCHAR" />
+    <result column="arrive_time" property="arriveTime" jdbcType="DATE" />
+    <result column="work_start_time" property="workStartTime" jdbcType="DATE" />
+    <result column="work_break" property="workBreak" jdbcType="VARCHAR" />
+    <result column="regular_time" property="regularTime" jdbcType="DATE" />
     <result column="authorized_type" property="authorizedType" jdbcType="VARCHAR" />
     <result column="staff_type" property="staffType" jdbcType="VARCHAR" />
     <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
     <result column="post_class" property="postClass" jdbcType="VARCHAR" />
-    <result column="post_type" property="postType" jdbcType="VARCHAR" />
+    <result column="sub_post_class" property="subPostClass" jdbcType="VARCHAR" />
+    <result column="main_post_level" property="mainPostLevel" jdbcType="VARCHAR" />
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="from_type" property="fromType" jdbcType="VARCHAR" />
     <result column="ext_unit" property="extUnit" jdbcType="VARCHAR" />
     <result column="on_job" property="onJob" jdbcType="VARCHAR" />
     <result column="pro_post" property="proPost" jdbcType="VARCHAR" />
+    <result column="pro_post_time" property="proPostTime" jdbcType="DATE" />
     <result column="pro_post_level" property="proPostLevel" jdbcType="VARCHAR" />
+    <result column="pro_post_level_time" property="proPostLevelTime" jdbcType="DATE" />
     <result column="title_level" property="titleLevel" jdbcType="VARCHAR" />
     <result column="manage_level" property="manageLevel" jdbcType="VARCHAR" />
+    <result column="manage_level_time" property="manageLevelTime" jdbcType="DATE" />
     <result column="office_level" property="officeLevel" jdbcType="VARCHAR" />
     <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="post_level" property="postLevel" jdbcType="VARCHAR" />
@@ -96,10 +103,11 @@
   </sql>
   <sql id="Base_Column_List" >
     user_id, ext_phone, education, degree, degree_time, major, school, school_type, degree_school, 
-    arrive_time, authorized_type, staff_type, staff_status, post_class, post_type, country, 
-    from_type, ext_unit, on_job, pro_post, pro_post_level, title_level, manage_level, 
-    office_level, post, post_level, talent_type, talent_title, address, marital_status, 
-    is_retire, retire_time, is_honor_retire
+    arrive_time, work_start_time, work_break, regular_time, authorized_type, staff_type, 
+    staff_status, post_class, sub_post_class, main_post_level, country, from_type, ext_unit, 
+    on_job, pro_post, pro_post_time, pro_post_level, pro_post_level_time, title_level, 
+    manage_level, manage_level_time, office_level, post, post_level, talent_type, talent_title, 
+    address, marital_status, is_retire, retire_time, is_honor_retire
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.TeacherInfoExample" >
     select
@@ -135,27 +143,31 @@
     insert into sys_teacher_info (user_id, ext_phone, education, 
       degree, degree_time, major, 
       school, school_type, degree_school, 
-      arrive_time, authorized_type, staff_type, 
-      staff_status, post_class, post_type, 
-      country, from_type, ext_unit, 
-      on_job, pro_post, pro_post_level, 
-      title_level, manage_level, office_level, 
-      post, post_level, talent_type, 
-      talent_title, address, marital_status, 
-      is_retire, retire_time, is_honor_retire
-      )
+      arrive_time, work_start_time, work_break, 
+      regular_time, authorized_type, staff_type, 
+      staff_status, post_class, sub_post_class, 
+      main_post_level, country, from_type, 
+      ext_unit, on_job, pro_post, 
+      pro_post_time, pro_post_level, pro_post_level_time, 
+      title_level, manage_level, manage_level_time, 
+      office_level, post, post_level, 
+      talent_type, talent_title, address, 
+      marital_status, is_retire, retire_time, 
+      is_honor_retire)
     values (#{userId,jdbcType=INTEGER}, #{extPhone,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
-      #{degree,jdbcType=VARCHAR}, #{degreeTime,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=VARCHAR}, #{degreeTime,jdbcType=DATE}, #{major,jdbcType=VARCHAR}, 
       #{school,jdbcType=VARCHAR}, #{schoolType,jdbcType=VARCHAR}, #{degreeSchool,jdbcType=VARCHAR}, 
-      #{arriveTime,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, 
-      #{staffStatus,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}, #{postType,jdbcType=VARCHAR}, 
-      #{country,jdbcType=VARCHAR}, #{fromType,jdbcType=VARCHAR}, #{extUnit,jdbcType=VARCHAR}, 
-      #{onJob,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{proPostLevel,jdbcType=VARCHAR}, 
-      #{titleLevel,jdbcType=VARCHAR}, #{manageLevel,jdbcType=VARCHAR}, #{officeLevel,jdbcType=VARCHAR}, 
-      #{post,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, #{talentType,jdbcType=VARCHAR}, 
-      #{talentTitle,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, 
-      #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, #{isHonorRetire,jdbcType=BIT}
-      )
+      #{arriveTime,jdbcType=DATE}, #{workStartTime,jdbcType=DATE}, #{workBreak,jdbcType=VARCHAR}, 
+      #{regularTime,jdbcType=DATE}, #{authorizedType,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, 
+      #{staffStatus,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}, #{subPostClass,jdbcType=VARCHAR}, 
+      #{mainPostLevel,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{fromType,jdbcType=VARCHAR}, 
+      #{extUnit,jdbcType=VARCHAR}, #{onJob,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, 
+      #{proPostTime,jdbcType=DATE}, #{proPostLevel,jdbcType=VARCHAR}, #{proPostLevelTime,jdbcType=DATE}, 
+      #{titleLevel,jdbcType=VARCHAR}, #{manageLevel,jdbcType=VARCHAR}, #{manageLevelTime,jdbcType=DATE}, 
+      #{officeLevel,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{postLevel,jdbcType=VARCHAR}, 
+      #{talentType,jdbcType=VARCHAR}, #{talentTitle,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{maritalStatus,jdbcType=VARCHAR}, #{isRetire,jdbcType=BIT}, #{retireTime,jdbcType=DATE}, 
+      #{isHonorRetire,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.TeacherInfo" >
     insert into sys_teacher_info
@@ -190,6 +202,15 @@
       <if test="arriveTime != null" >
         arrive_time,
       </if>
+      <if test="workStartTime != null" >
+        work_start_time,
+      </if>
+      <if test="workBreak != null" >
+        work_break,
+      </if>
+      <if test="regularTime != null" >
+        regular_time,
+      </if>
       <if test="authorizedType != null" >
         authorized_type,
       </if>
@@ -202,8 +223,11 @@
       <if test="postClass != null" >
         post_class,
       </if>
-      <if test="postType != null" >
-        post_type,
+      <if test="subPostClass != null" >
+        sub_post_class,
+      </if>
+      <if test="mainPostLevel != null" >
+        main_post_level,
       </if>
       <if test="country != null" >
         country,
@@ -220,14 +244,23 @@
       <if test="proPost != null" >
         pro_post,
       </if>
+      <if test="proPostTime != null" >
+        pro_post_time,
+      </if>
       <if test="proPostLevel != null" >
         pro_post_level,
+      </if>
+      <if test="proPostLevelTime != null" >
+        pro_post_level_time,
       </if>
       <if test="titleLevel != null" >
         title_level,
       </if>
       <if test="manageLevel != null" >
         manage_level,
+      </if>
+      <if test="manageLevelTime != null" >
+        manage_level_time,
       </if>
       <if test="officeLevel != null" >
         office_level,
@@ -274,7 +307,7 @@
         #{degree,jdbcType=VARCHAR},
       </if>
       <if test="degreeTime != null" >
-        #{degreeTime,jdbcType=VARCHAR},
+        #{degreeTime,jdbcType=DATE},
       </if>
       <if test="major != null" >
         #{major,jdbcType=VARCHAR},
@@ -289,7 +322,16 @@
         #{degreeSchool,jdbcType=VARCHAR},
       </if>
       <if test="arriveTime != null" >
-        #{arriveTime,jdbcType=VARCHAR},
+        #{arriveTime,jdbcType=DATE},
+      </if>
+      <if test="workStartTime != null" >
+        #{workStartTime,jdbcType=DATE},
+      </if>
+      <if test="workBreak != null" >
+        #{workBreak,jdbcType=VARCHAR},
+      </if>
+      <if test="regularTime != null" >
+        #{regularTime,jdbcType=DATE},
       </if>
       <if test="authorizedType != null" >
         #{authorizedType,jdbcType=VARCHAR},
@@ -303,8 +345,11 @@
       <if test="postClass != null" >
         #{postClass,jdbcType=VARCHAR},
       </if>
-      <if test="postType != null" >
-        #{postType,jdbcType=VARCHAR},
+      <if test="subPostClass != null" >
+        #{subPostClass,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPostLevel != null" >
+        #{mainPostLevel,jdbcType=VARCHAR},
       </if>
       <if test="country != null" >
         #{country,jdbcType=VARCHAR},
@@ -321,14 +366,23 @@
       <if test="proPost != null" >
         #{proPost,jdbcType=VARCHAR},
       </if>
+      <if test="proPostTime != null" >
+        #{proPostTime,jdbcType=DATE},
+      </if>
       <if test="proPostLevel != null" >
         #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPostLevelTime != null" >
+        #{proPostLevelTime,jdbcType=DATE},
       </if>
       <if test="titleLevel != null" >
         #{titleLevel,jdbcType=VARCHAR},
       </if>
       <if test="manageLevel != null" >
         #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevelTime != null" >
+        #{manageLevelTime,jdbcType=DATE},
       </if>
       <if test="officeLevel != null" >
         #{officeLevel,jdbcType=VARCHAR},
@@ -384,7 +438,7 @@
         degree = #{record.degree,jdbcType=VARCHAR},
       </if>
       <if test="record.degreeTime != null" >
-        degree_time = #{record.degreeTime,jdbcType=VARCHAR},
+        degree_time = #{record.degreeTime,jdbcType=DATE},
       </if>
       <if test="record.major != null" >
         major = #{record.major,jdbcType=VARCHAR},
@@ -399,7 +453,16 @@
         degree_school = #{record.degreeSchool,jdbcType=VARCHAR},
       </if>
       <if test="record.arriveTime != null" >
-        arrive_time = #{record.arriveTime,jdbcType=VARCHAR},
+        arrive_time = #{record.arriveTime,jdbcType=DATE},
+      </if>
+      <if test="record.workStartTime != null" >
+        work_start_time = #{record.workStartTime,jdbcType=DATE},
+      </if>
+      <if test="record.workBreak != null" >
+        work_break = #{record.workBreak,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regularTime != null" >
+        regular_time = #{record.regularTime,jdbcType=DATE},
       </if>
       <if test="record.authorizedType != null" >
         authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
@@ -413,8 +476,11 @@
       <if test="record.postClass != null" >
         post_class = #{record.postClass,jdbcType=VARCHAR},
       </if>
-      <if test="record.postType != null" >
-        post_type = #{record.postType,jdbcType=VARCHAR},
+      <if test="record.subPostClass != null" >
+        sub_post_class = #{record.subPostClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainPostLevel != null" >
+        main_post_level = #{record.mainPostLevel,jdbcType=VARCHAR},
       </if>
       <if test="record.country != null" >
         country = #{record.country,jdbcType=VARCHAR},
@@ -431,14 +497,23 @@
       <if test="record.proPost != null" >
         pro_post = #{record.proPost,jdbcType=VARCHAR},
       </if>
+      <if test="record.proPostTime != null" >
+        pro_post_time = #{record.proPostTime,jdbcType=DATE},
+      </if>
       <if test="record.proPostLevel != null" >
         pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPostLevelTime != null" >
+        pro_post_level_time = #{record.proPostLevelTime,jdbcType=DATE},
       </if>
       <if test="record.titleLevel != null" >
         title_level = #{record.titleLevel,jdbcType=VARCHAR},
       </if>
       <if test="record.manageLevel != null" >
         manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageLevelTime != null" >
+        manage_level_time = #{record.manageLevelTime,jdbcType=DATE},
       </if>
       <if test="record.officeLevel != null" >
         office_level = #{record.officeLevel,jdbcType=VARCHAR},
@@ -481,25 +556,32 @@
       ext_phone = #{record.extPhone,jdbcType=VARCHAR},
       education = #{record.education,jdbcType=VARCHAR},
       degree = #{record.degree,jdbcType=VARCHAR},
-      degree_time = #{record.degreeTime,jdbcType=VARCHAR},
+      degree_time = #{record.degreeTime,jdbcType=DATE},
       major = #{record.major,jdbcType=VARCHAR},
       school = #{record.school,jdbcType=VARCHAR},
       school_type = #{record.schoolType,jdbcType=VARCHAR},
       degree_school = #{record.degreeSchool,jdbcType=VARCHAR},
-      arrive_time = #{record.arriveTime,jdbcType=VARCHAR},
+      arrive_time = #{record.arriveTime,jdbcType=DATE},
+      work_start_time = #{record.workStartTime,jdbcType=DATE},
+      work_break = #{record.workBreak,jdbcType=VARCHAR},
+      regular_time = #{record.regularTime,jdbcType=DATE},
       authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
       staff_type = #{record.staffType,jdbcType=VARCHAR},
       staff_status = #{record.staffStatus,jdbcType=VARCHAR},
       post_class = #{record.postClass,jdbcType=VARCHAR},
-      post_type = #{record.postType,jdbcType=VARCHAR},
+      sub_post_class = #{record.subPostClass,jdbcType=VARCHAR},
+      main_post_level = #{record.mainPostLevel,jdbcType=VARCHAR},
       country = #{record.country,jdbcType=VARCHAR},
       from_type = #{record.fromType,jdbcType=VARCHAR},
       ext_unit = #{record.extUnit,jdbcType=VARCHAR},
       on_job = #{record.onJob,jdbcType=VARCHAR},
       pro_post = #{record.proPost,jdbcType=VARCHAR},
+      pro_post_time = #{record.proPostTime,jdbcType=DATE},
       pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      pro_post_level_time = #{record.proPostLevelTime,jdbcType=DATE},
       title_level = #{record.titleLevel,jdbcType=VARCHAR},
       manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      manage_level_time = #{record.manageLevelTime,jdbcType=DATE},
       office_level = #{record.officeLevel,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
       post_level = #{record.postLevel,jdbcType=VARCHAR},
@@ -527,7 +609,7 @@
         degree = #{degree,jdbcType=VARCHAR},
       </if>
       <if test="degreeTime != null" >
-        degree_time = #{degreeTime,jdbcType=VARCHAR},
+        degree_time = #{degreeTime,jdbcType=DATE},
       </if>
       <if test="major != null" >
         major = #{major,jdbcType=VARCHAR},
@@ -542,7 +624,16 @@
         degree_school = #{degreeSchool,jdbcType=VARCHAR},
       </if>
       <if test="arriveTime != null" >
-        arrive_time = #{arriveTime,jdbcType=VARCHAR},
+        arrive_time = #{arriveTime,jdbcType=DATE},
+      </if>
+      <if test="workStartTime != null" >
+        work_start_time = #{workStartTime,jdbcType=DATE},
+      </if>
+      <if test="workBreak != null" >
+        work_break = #{workBreak,jdbcType=VARCHAR},
+      </if>
+      <if test="regularTime != null" >
+        regular_time = #{regularTime,jdbcType=DATE},
       </if>
       <if test="authorizedType != null" >
         authorized_type = #{authorizedType,jdbcType=VARCHAR},
@@ -556,8 +647,11 @@
       <if test="postClass != null" >
         post_class = #{postClass,jdbcType=VARCHAR},
       </if>
-      <if test="postType != null" >
-        post_type = #{postType,jdbcType=VARCHAR},
+      <if test="subPostClass != null" >
+        sub_post_class = #{subPostClass,jdbcType=VARCHAR},
+      </if>
+      <if test="mainPostLevel != null" >
+        main_post_level = #{mainPostLevel,jdbcType=VARCHAR},
       </if>
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
@@ -574,14 +668,23 @@
       <if test="proPost != null" >
         pro_post = #{proPost,jdbcType=VARCHAR},
       </if>
+      <if test="proPostTime != null" >
+        pro_post_time = #{proPostTime,jdbcType=DATE},
+      </if>
       <if test="proPostLevel != null" >
         pro_post_level = #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPostLevelTime != null" >
+        pro_post_level_time = #{proPostLevelTime,jdbcType=DATE},
       </if>
       <if test="titleLevel != null" >
         title_level = #{titleLevel,jdbcType=VARCHAR},
       </if>
       <if test="manageLevel != null" >
         manage_level = #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevelTime != null" >
+        manage_level_time = #{manageLevelTime,jdbcType=DATE},
       </if>
       <if test="officeLevel != null" >
         office_level = #{officeLevel,jdbcType=VARCHAR},
@@ -621,25 +724,32 @@
     set ext_phone = #{extPhone,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       degree = #{degree,jdbcType=VARCHAR},
-      degree_time = #{degreeTime,jdbcType=VARCHAR},
+      degree_time = #{degreeTime,jdbcType=DATE},
       major = #{major,jdbcType=VARCHAR},
       school = #{school,jdbcType=VARCHAR},
       school_type = #{schoolType,jdbcType=VARCHAR},
       degree_school = #{degreeSchool,jdbcType=VARCHAR},
-      arrive_time = #{arriveTime,jdbcType=VARCHAR},
+      arrive_time = #{arriveTime,jdbcType=DATE},
+      work_start_time = #{workStartTime,jdbcType=DATE},
+      work_break = #{workBreak,jdbcType=VARCHAR},
+      regular_time = #{regularTime,jdbcType=DATE},
       authorized_type = #{authorizedType,jdbcType=VARCHAR},
       staff_type = #{staffType,jdbcType=VARCHAR},
       staff_status = #{staffStatus,jdbcType=VARCHAR},
       post_class = #{postClass,jdbcType=VARCHAR},
-      post_type = #{postType,jdbcType=VARCHAR},
+      sub_post_class = #{subPostClass,jdbcType=VARCHAR},
+      main_post_level = #{mainPostLevel,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
       from_type = #{fromType,jdbcType=VARCHAR},
       ext_unit = #{extUnit,jdbcType=VARCHAR},
       on_job = #{onJob,jdbcType=VARCHAR},
       pro_post = #{proPost,jdbcType=VARCHAR},
+      pro_post_time = #{proPostTime,jdbcType=DATE},
       pro_post_level = #{proPostLevel,jdbcType=VARCHAR},
+      pro_post_level_time = #{proPostLevelTime,jdbcType=DATE},
       title_level = #{titleLevel,jdbcType=VARCHAR},
       manage_level = #{manageLevel,jdbcType=VARCHAR},
+      manage_level_time = #{manageLevelTime,jdbcType=DATE},
       office_level = #{officeLevel,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
       post_level = #{postLevel,jdbcType=VARCHAR},

@@ -133,7 +133,7 @@
                                                     <select data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/cadreReserve_selects?reserveStatus=${status}&reserveType=${reserveType}"
                                                             name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                        <option value="${cadre.id}">${cadre.user.realname}-${cadre.user.code}</option>
                                                     </select>
                                                 </div>
                                             </div>

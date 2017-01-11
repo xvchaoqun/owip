@@ -104,7 +104,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<div class="input-group" style="width: 150px">
 							<input  class="form-control date-picker" name="_degreeTime" type="text"
-									data-date-format="yyyy-mm-dd" value="${teacher.degreeTime}" />
+									data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacher.degreeTime, "yyyy-MM-dd")}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						</div>
 					</div>
@@ -141,7 +141,7 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<div class="input-group" style="width: 150px">
 								<input  class="form-control date-picker" name="_arriveTime" type="text"
-										data-date-format="yyyy-mm-dd" value="${teacher.arriveTime}" />
+										data-date-format="yyyy-mm-dd" value="${cm:formatDate(teacher.arriveTime, "yyyy-MM-dd")}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
 						</div>
@@ -173,7 +173,7 @@ pageEncoding="UTF-8"%>
 					<div class="form-group">
 						<label class="col-xs-3 control-label">主岗等级</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="postType" value="${teacher.postType}">
+							<input class="form-control" type="text" name="mainPostLevel" value="${teacher.mainPostLevel}">
 						</div>
 					</div>
 					<div class="form-group">

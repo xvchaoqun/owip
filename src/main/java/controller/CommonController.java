@@ -220,6 +220,7 @@ public class CommonController extends BaseController{
     @RequestMapping("/cadre_selects")
     @ResponseBody
     public Map cadre_selects(@RequestParam(defaultValue = "1", required = false)boolean formal, // formal=false时包括后备干部、考察对象
+                             Byte status,
                              Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -234,12 +235,12 @@ public class CommonController extends BaseController{
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
 
-        int count = commonMapper.countCadre(searchStr, formal?SystemConstants.CADRE_STATUS_SET:null);
+        int count = commonMapper.countCadre(searchStr, status, (status==null && formal)?SystemConstants.CADRE_STATUS_SET:null);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, formal?SystemConstants.CADRE_STATUS_SET:null,
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, status, (status==null && formal)?SystemConstants.CADRE_STATUS_SET:null,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
@@ -347,12 +348,12 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET);
+        int count = commonMapper.countCadre(searchStr, null, SystemConstants.CADRE_STATUS_SET);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, null, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != cadres && cadres.size()>0){

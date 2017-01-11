@@ -106,7 +106,7 @@ public class CadreView implements Serializable {
 
     private Date growTime;
 
-    private String arriveTime;
+    private Date arriveTime;
 
     private Integer eduId;
 
@@ -124,11 +124,21 @@ public class CadreView implements Serializable {
 
     private String postClass;
 
+    private String subPostClass;
+
+    private String mainPostLevel;
+
+    private Date proPostTime;
+
     private String proPostLevel;
+
+    private Date proPostLevelTime;
 
     private String proPost;
 
     private String manageLevel;
+
+    private Date manageLevelTime;
 
     private String degree;
 
@@ -374,12 +384,12 @@ public class CadreView implements Serializable {
         this.growTime = growTime;
     }
 
-    public String getArriveTime() {
+    public Date getArriveTime() {
         return arriveTime;
     }
 
-    public void setArriveTime(String arriveTime) {
-        this.arriveTime = arriveTime == null ? null : arriveTime.trim();
+    public void setArriveTime(Date arriveTime) {
+        this.arriveTime = arriveTime;
     }
 
     public Integer getEduId() {
@@ -446,12 +456,44 @@ public class CadreView implements Serializable {
         this.postClass = postClass == null ? null : postClass.trim();
     }
 
+    public String getSubPostClass() {
+        return subPostClass;
+    }
+
+    public void setSubPostClass(String subPostClass) {
+        this.subPostClass = subPostClass == null ? null : subPostClass.trim();
+    }
+
+    public String getMainPostLevel() {
+        return mainPostLevel;
+    }
+
+    public void setMainPostLevel(String mainPostLevel) {
+        this.mainPostLevel = mainPostLevel == null ? null : mainPostLevel.trim();
+    }
+
+    public Date getProPostTime() {
+        return proPostTime;
+    }
+
+    public void setProPostTime(Date proPostTime) {
+        this.proPostTime = proPostTime;
+    }
+
     public String getProPostLevel() {
         return proPostLevel;
     }
 
     public void setProPostLevel(String proPostLevel) {
         this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
+    }
+
+    public Date getProPostLevelTime() {
+        return proPostLevelTime;
+    }
+
+    public void setProPostLevelTime(Date proPostLevelTime) {
+        this.proPostLevelTime = proPostLevelTime;
     }
 
     public String getProPost() {
@@ -468,6 +510,14 @@ public class CadreView implements Serializable {
 
     public void setManageLevel(String manageLevel) {
         this.manageLevel = manageLevel == null ? null : manageLevel.trim();
+    }
+
+    public Date getManageLevelTime() {
+        return manageLevelTime;
+    }
+
+    public void setManageLevelTime(Date manageLevelTime) {
+        this.manageLevelTime = manageLevelTime;
     }
 
     public String getDegree() {

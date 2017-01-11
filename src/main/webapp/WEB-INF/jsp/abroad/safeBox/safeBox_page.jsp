@@ -5,7 +5,6 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/passport_page"
              data-url-au="${ctx}/safeBox_au"
              data-url-del="${ctx}/safeBox_del"
              data-url-bd="${ctx}/safeBox_batchDel"
@@ -30,7 +29,8 @@
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
                             <shiro:hasPermission name="safeBox:del">
-                                <a class="exportBtn btn btn-primary btn-sm tooltip-success"
+                                <a class="jqExportBtn btn btn-primary btn-sm tooltip-success"
+                                   data-url="${ctx}/safeBox_data"
                                    data-rel="tooltip" data-placement="top" title="导出所有证件"><i class="fa fa-download"></i> 导出</a>
                                 <a class="batchDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>

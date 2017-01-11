@@ -50,10 +50,10 @@ public class MemberTeacherInfoController extends BaseController {
         }
 
         if(StringUtils.isNotBlank(_degreeTime)){
-            teacherInfo.setDegreeTime(_degreeTime);
+            teacherInfo.setDegreeTime(DateUtils.parseDate(_degreeTime, DateUtils.YYYY_MM_DD));
         }
         if (StringUtils.isNotBlank(_arriveTime)){
-            teacherInfo.setArriveTime(_arriveTime);
+            teacherInfo.setArriveTime(DateUtils.parseDate(_arriveTime, DateUtils.YYYY_MM_DD));
         }
         if (StringUtils.isNotBlank(_retireTime)){
             teacherInfo.setRetireTime(DateUtils.parseDate(_retireTime, DateUtils.YYYY_MM_DD));

@@ -40,6 +40,10 @@
                                 </button>
                             </c:if>
                             <c:if test="${type>=0}">
+                                <button id="resetReturnDateBtn" data-url="${ctx}/reset_passportDraw_returnDate"
+                                        class="jqOpenViewBtn btn btn-info btn-sm">
+                                    <i class="fa fa-edit"></i> 修改归还日期
+                                </button>
                                 <button id="resetDrawStatusBtn" data-url="${ctx}/reset_passportDraw_return"
                                         data-title="重置归还状态"
                                         data-msg="确认重置该证件为未归还状态？"
@@ -397,6 +401,7 @@
             saveJqgridSelected("#"+this.id, id, status);
 
             var rowData = $(this).getRowData(id);
+            $("#resetReturnDateBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}'));
             $("#resetDrawStatusBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
             $("#delBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
         }

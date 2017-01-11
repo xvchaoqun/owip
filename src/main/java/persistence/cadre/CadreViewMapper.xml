@@ -32,7 +32,7 @@
     <result column="party_id" property="partyId" jdbcType="INTEGER" />
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="grow_time" property="growTime" jdbcType="DATE" />
-    <result column="arrive_time" property="arriveTime" jdbcType="VARCHAR" />
+    <result column="arrive_time" property="arriveTime" jdbcType="DATE" />
     <result column="edu_id" property="eduId" jdbcType="INTEGER" />
     <result column="finish_time" property="finishTime" jdbcType="DATE" />
     <result column="learn_style" property="learnStyle" jdbcType="INTEGER" />
@@ -41,9 +41,14 @@
     <result column="school_type" property="schoolType" jdbcType="TINYINT" />
     <result column="major" property="major" jdbcType="VARCHAR" />
     <result column="post_class" property="postClass" jdbcType="VARCHAR" />
+    <result column="sub_post_class" property="subPostClass" jdbcType="VARCHAR" />
+    <result column="main_post_level" property="mainPostLevel" jdbcType="VARCHAR" />
+    <result column="pro_post_time" property="proPostTime" jdbcType="DATE" />
     <result column="pro_post_level" property="proPostLevel" jdbcType="VARCHAR" />
+    <result column="pro_post_level_time" property="proPostLevelTime" jdbcType="DATE" />
     <result column="pro_post" property="proPost" jdbcType="VARCHAR" />
     <result column="manage_level" property="manageLevel" jdbcType="VARCHAR" />
+    <result column="manage_level_time" property="manageLevelTime" jdbcType="DATE" />
     <result column="degree" property="degree" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -80,9 +85,9 @@
     dp_add_time, dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, 
     phone, home_phone, email, realname, gender, nation, native_place, idcard, birth, 
     party_id, branch_id, grow_time, arrive_time, edu_id, finish_time, learn_style, school, 
-    dep, school_type, major, post_class, pro_post_level, pro_post, manage_level, degree
+    dep, school_type, major, post_class, sub_post_class, main_post_level, pro_post_time, 
+    pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, degree
   </sql>
-
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />

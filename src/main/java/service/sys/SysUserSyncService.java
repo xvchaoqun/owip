@@ -528,17 +528,29 @@ public class SysUserSyncService extends BaseMapper {
             teacher.setDegreeSchool(extJzg.getXwsyxx()); // 学位授予学校
             //teacher.setSchoolType(); 毕业学校类型
             if(extJzg.getLxrq()!=null)
-                teacher.setArriveTime(DateUtils.formatDate(extJzg.getLxrq(), DateUtils.YYYY_MM_DD));
+                teacher.setArriveTime(extJzg.getLxrq());
             teacher.setAuthorizedType(extJzg.getBzlx());
             teacher.setStaffType(extJzg.getRylx());
             teacher.setStaffStatus(extJzg.getRyzt());
-            teacher.setPostClass(extJzg.getGwlb());
-            teacher.setPostType(extJzg.getGwjb());
+            teacher.setPostClass(extJzg.getGwlb()); // 岗位类别
+            teacher.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
+            teacher.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
+            if(StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
+                teacher.setWorkStartTime(DateUtils.parseDate(extJzg.getGlqsrq(), DateUtils.YYYY_MM_DD));
+            teacher.setWorkBreak(extJzg.getJdgl()); // 间断工龄
+            if(StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
+                teacher.setRegularTime(DateUtils.parseDate(extJzg.getZzdjsj(), DateUtils.YYYY_MM_DD));
             teacher.setOnJob(extJzg.getSfzg());
             teacher.setProPost(extJzg.getZc()); //专业技术职务
+            if(StringUtils.isNotBlank(extJzg.getZyjszwpdsj())) // 专技职务评定时间
+                teacher.setProPostTime(DateUtils.parseDate(extJzg.getZyjszwpdsj(), DateUtils.YYYY_MM_DD));
             teacher.setProPostLevel(extJzg.getZjgwdj()); // 专技岗位等级
+            if(StringUtils.isNotBlank(extJzg.getZjgwfjsj())) // 专技岗位分级时间
+                teacher.setProPostLevelTime(DateUtils.parseDate(extJzg.getZjgwfjsj(), DateUtils.YYYY_MM_DD));
             //teacher.setTitleLevel(extJzg.get); // 职称级别
             teacher.setManageLevel(extJzg.getGlgwdj()); // 管理岗位等级
+            if(StringUtils.isNotBlank(extJzg.getGlgwfjsj()))// 管理岗位分级时间
+                teacher.setManageLevelTime(DateUtils.parseDate(extJzg.getGlgwfjsj(), DateUtils.YYYY_MM_DD));
             teacher.setOfficeLevel(extJzg.getGqgwdjmc());  // 工勤岗位等级
             //teacher.setPost(extJzg.getXzjb());  行政职务
             // teacher.setPostLevel(); 任职级别

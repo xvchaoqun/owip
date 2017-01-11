@@ -77,7 +77,7 @@
 						学位授予日期
 					</td>
 					<td class="bg-left">
-						${memberTeacher.degreeTime}
+						${cm:formatDate(memberTeacher.degreeTime, "yyyy-MM-dd")}
 					</td>
 					<td class="bg-right">所学专业</td>
 					<td  class="bg-left">
@@ -100,7 +100,7 @@
 
 					<td class="bg-right">到校日期</td>
 					<td class="bg-left" >
-						${memberTeacher.arriveTime}
+							${cm:formatDate(memberTeacher.arriveTime, "yyyy-MM-dd")}
 					</td>
 					<td class="bg-right">
 						编制类别
@@ -126,10 +126,10 @@
 						${memberTeacher.postClass}
 					</td>
 					<td class="bg-right">
-						岗位子类别
+						主岗等级
 					</td>
 					<td class="bg-left">
-						${memberTeacher.postType}
+						${memberTeacher.mainPostLevel}
 					</td>
 					<td  class="bg-right">
 						在岗情况

@@ -263,7 +263,7 @@ public class MemberApplyExportController extends BaseController {
                     record==null?"":record.getStaffStatus(), // 人员状态
                     record==null?"":record.getOnJob(), // 在岗情况
                     record==null?"":record.getPostClass(), // 岗位类别
-                    record==null?"":record.getPostType(), // 主岗等级--岗位级别
+                    record==null?"":record.getMainPostLevel(), // 主岗等级
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
@@ -278,7 +278,7 @@ public class MemberApplyExportController extends BaseController {
                     DateUtils.formatDate(memberApply.getApplyTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(memberApply.getActiveTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD),
-                    record==null?"":record.getArriveTime(), // 到校日期
+                    record==null?"":DateUtils.formatDate(record.getArriveTime(),DateUtils.YYYY_MM_DD), // 到校日期
                     record==null?"":record.getProPost(),
                     record==null?"":record.getProPostLevel(), //专技岗位等级
                     record==null?"":record.getManageLevel(), // 管理岗位等级
@@ -347,7 +347,7 @@ public class MemberApplyExportController extends BaseController {
                     record==null?"":record.getStaffStatus(), // 人员状态
                     record==null?"":record.getOnJob(), // 在岗情况
                     record==null?"":record.getPostClass(), // 岗位类别
-                    record==null?"":record.getPostType(), // 主岗等级--岗位级别
+                    record==null?"":record.getMainPostLevel(), // 主岗等级
                     gender==null?"":SystemConstants.GENDER_MAP.get(gender),
                     DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
@@ -361,7 +361,7 @@ public class MemberApplyExportController extends BaseController {
                     branchId==null?"":branchMap.get(branchId).getName(),
                     record==null?"":record.getExtUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
-                    record==null?"":record.getArriveTime(), // 到校日期
+                    record==null?"":DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record==null?"":record.getProPost(),
                     record==null?"":record.getProPostLevel(), //专技岗位等级
                     record==null?"":record.getManageLevel(), // 管理岗位等级

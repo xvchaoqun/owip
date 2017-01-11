@@ -279,7 +279,8 @@ pageEncoding="UTF-8"%>
 					<td>
 						到校时间
 					</td>
-					<td>${teacherInfo.arriveTime}
+					<td>
+							${cm:formatDate(teacherInfo.arriveTime, "yyyy-MM-dd")}
 					</td>
 				</tr>
 				<tr>

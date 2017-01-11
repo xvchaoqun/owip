@@ -676,8 +676,8 @@ public class SystemConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
 
         CADRE_STATUS_SET.add(CADRE_STATUS_NOW);
-        CADRE_STATUS_SET.add(CADRE_STATUS_TEMP);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEAVE);
+        CADRE_STATUS_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
     // 后备干部库类别

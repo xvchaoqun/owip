@@ -58,16 +58,16 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping(value = "/cadreReserve/search", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_search(String code) {
+    public Map do_search(int cadreId) {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        SysUserView sysUser = sysUserService.findByCode(code);
+        Cadre cadre = cadreService.findAll().get(cadreId);
+        SysUserView sysUser = cadre.getUser();
         if(sysUser==null){
             msg = "该用户不存在";
         }else {
             resultMap.put("realname", sysUser.getRealname());
-            Cadre cadre = cadreService.dbFindByUserId(sysUser.getId());
 
             if(cadre==null){
                 msg = "该用户不是后备干部";
@@ -116,7 +116,7 @@ public class CadreReserveController extends BaseController {
 
         if (cadreId != null) {
             Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
-            modelMap.put("sysUser", cadre.getUser());
+            modelMap.put("cadre", cadre);
         }
 
         Map<Byte, Integer> statusCountMap = new HashMap<>();

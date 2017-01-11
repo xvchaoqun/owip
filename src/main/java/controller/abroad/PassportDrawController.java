@@ -396,11 +396,39 @@ public class PassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 修改归还日期
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping("/reset_passportDraw_returnDate")
+    public String reset_passportDraw_returnDate( Integer id, ModelMap modelMap) {
+
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+        modelMap.put("passportDraw", passportDraw);
+
+        return "abroad/passportDraw/reset_passportDraw_returnDate";
+    }
+
+    @RequiresPermissions("passportDraw:edit")
+    @RequestMapping(value = "/reset_passportDraw_returnDate", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_reset_passportDraw_returnDate(Integer id, String _returnDate) throws IOException {
+
+        PassportDraw record = new PassportDraw();
+        record.setReturnDate(DateUtils.parseDate(_returnDate, DateUtils.YYYY_MM_DD));
+
+        PassportDrawExample example = new PassportDrawExample();
+        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.PASSPORT_DRAW_STATUS_PASS)
+                .andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW);
+        passportDrawMapper.updateByExampleSelective(record, example);
+
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "修改归还日期：%s", id));
+        return success(FormUtils.SUCCESS);
+    }
+
     // 重置归还状态
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/reset_passportDraw_return", method = RequestMethod.POST)
     @ResponseBody
-    public Map reset_passportDraw_return(@CurrentUser SysUserView loginUser, Integer id) throws IOException {
+    public Map do_reset_passportDraw_return(@CurrentUser SysUserView loginUser, Integer id) throws IOException {
 
         passportDrawService.resetReturnPassport(id);
 

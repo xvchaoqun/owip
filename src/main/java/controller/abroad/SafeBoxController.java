@@ -66,7 +66,14 @@ public class SafeBoxController extends BaseController {
                                  // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理
                                  @RequestParam(required = false, defaultValue = "5") byte status,
                                     String code,
+                             @RequestParam(required = false, defaultValue = "0") int export,
+                             @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
+
+        if (export == 1) {
+            safeBoxService.safeBoxPassport_export(response, ids);
+            return;
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
