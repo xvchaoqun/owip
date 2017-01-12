@@ -74,7 +74,9 @@ public class CadreResearchController extends BaseController {
             modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
             modelMap.put("bookInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY));
             modelMap.put("paperInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY));
-            modelMap.put("researchRewardInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD));
+            //modelMap.put("researchRewardInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD));
+
+
         } else {
             String key = null;
             switch (type) {

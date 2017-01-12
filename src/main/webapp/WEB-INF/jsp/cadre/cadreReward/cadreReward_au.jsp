@@ -18,12 +18,12 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">日期</label>
+				<label class="col-xs-3 control-label">获奖年份</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
                         <input required class="form-control date-picker" name="_rewardTime" type="text"
-                               data-date-min-view-mode="1"
-                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreReward.rewardTime,'yyyy.MM')}" />
+                               data-date-min-view-mode="2"
+                               data-date-format="yyyy" value="${cm:formatDate(cadreReward.rewardTime,'yyyy')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">颁奖单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreReward.unit}">
+                        <input class="form-control" type="text" name="unit" value="${cadreReward.unit}">
 				</div>
 			</div>
             <div class="form-group">

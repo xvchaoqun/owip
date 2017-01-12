@@ -57,7 +57,7 @@
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
                         <c:forEach items="${cadreRewards}" var="cadreReward">
-                            <p>${cm:formatDate(cadreReward.rewardTime, "yyyy.MM")}
+                            <p>${cm:formatDate(cadreReward.rewardTime, "yyyy")}年
                                 &nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
                         </c:forEach>
                     </div>

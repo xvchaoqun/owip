@@ -170,7 +170,7 @@
             </div>
         </td>
         <td class="td7 center" colspan="3">
-            ${bean.professinal}
+            ${bean.specialty}
         </td>
     </tr>
     <tr>
@@ -379,7 +379,7 @@
             <td class="td2 center" colspan="2">
                 ${politicalStatusMap.get(f.getPoliticalStatus()).name}
             </td>
-            <td class="td15 center" colspan="2">
+            <td class="td15" colspan="2">
                 ${f.unit}
             </td>
         </tr>
@@ -429,7 +429,7 @@
             </p>
 
             <p class="p14">
-                <span>年  月  日</span>
+                <span>${cm:formatDate(now, "yyyy年MM月dd日")}</span>
             </p>
         </td>
         <td class="td17" colspan="4">

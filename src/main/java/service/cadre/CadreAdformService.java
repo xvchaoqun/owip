@@ -21,10 +21,7 @@ import sys.utils.ImageUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,6 +66,12 @@ public class CadreAdformService extends BaseMapper{
         bean.setNation(cadre.getNation());
         bean.setNativePlace(cadre.getNativePlace());
 
+        bean.setHomeplace(uv.getHomeplace());
+        //bean.setWorkTime();
+        bean.setHealth(uv.getHealth());
+        bean.setProPost(cadre.getProPost());
+        bean.setSpecialty(uv.getSpecialty());
+
         if(cadre.getIsDp()){
             bean.setGrowTime(cadre.getDpAddTime());
         }else{
@@ -93,6 +96,11 @@ public class CadreAdformService extends BaseMapper{
         // 工作经历
         CadreInfo work = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
         bean.setWorkDesc(work==null?null:work.getContent());
+
+        //年度考核结果
+        Integer currentYear = DateUtils.getCurrentYear();
+        bean.setCes((currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "、"+ "年年度考核均为合格。");
+
         // 培训情况
         CadreInfo train = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TRAIN);
         bean.setTrainDesc(train==null?null:train.getContent());
@@ -119,13 +127,13 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("avatar", bean.getAvatar());
         dataMap.put("nation", bean.getNation());
         dataMap.put("nativePlace", bean.getNativePlace());
-        dataMap.put("birthCountry", bean.getHomeplace());
+        dataMap.put("homeplace", bean.getHomeplace());
         dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 
         dataMap.put("health", bean.getHealth());
         dataMap.put("proPost", bean.getProPost());
-        dataMap.put("professinal", bean.getProfessinal());
+        dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("degree", bean.getDegree());
         dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
@@ -162,6 +170,10 @@ public class CadreAdformService extends BaseMapper{
         SysUserView currentUser = ShiroHelper.getCurrentUser();
         if(currentUser!=null)
             dataMap.put("admin", currentUser.getRealname());
+
+        dataMap.put("y1", DateUtils.getCurrentYear());
+        dataMap.put("m1", DateUtils.getMonth(new Date()));
+        dataMap.put("d1", DateUtils.getDay(new Date()));
 
         freemarkerService.process("/adform/cadre.ftl", dataMap, out);
     }

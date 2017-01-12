@@ -56,11 +56,12 @@
 
                         <p>${paperInfo.content}</p>
 
-                        <p>${researchRewardInfo.content}</p>
+                        <p><c:import url="/cadreReward_fragment"/></p>
                     </c:if>
-                    <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH}">
+                    <%--<c:if test="${type!=CADRE_INFO_TYPE_RESEARCH}">
                         ${htmlFragment.content}
-                    </c:if>
+                    </c:if>--%>
+
                 </div>
             </div>
         </div>

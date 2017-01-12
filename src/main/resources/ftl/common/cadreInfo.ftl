@@ -5,7 +5,7 @@
         <w:ind w:left="2041" w:hanging="2041"/>
         <w:rPr>
             <w:b/>
-            <w:sz w:val="22"/>
+            <w:sz w:val="24"/>
         </w:rPr>
     </w:pPr>
     <w:r wsp:rsidRPr="00B62C14">
@@ -13,7 +13,7 @@
             <w:rFonts w:hint="fareast"/>
             <wx:font wx:val="宋体"/>
             <w:b/>
-            <w:sz w:val="22"/>
+            <w:sz w:val="24"/>
         </w:rPr>
         <w:t>${title}：</w:t>
     </w:r>
@@ -26,7 +26,7 @@
         <w:spacing w:line="400" w:line-rule="exact"/>
         <w:ind w:left="2041" w:hanging="2041"/>
         <w:rPr>
-            <w:sz w:val="22"/>
+            <w:sz w:val="24"/>
         </w:rPr>
     </w:pPr>
     </#if>
@@ -39,7 +39,7 @@
                 <w:spacing w:line="400" w:line-rule="exact"/>
                 <w:ind w:left-chars="50" w:left="105" w:first-line-chars="100" w:first-line="220"/>
                 <w:rPr>
-                    <w:sz w:val="22"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
             </w:pPr>
             <#break>
@@ -48,7 +48,7 @@
                 <w:spacing w:line="400" w:line-rule="exact"/>
                 <w:ind w:left-chars="50" w:left="105" w:first-line-chars="400" w:first-line="880"/>
                 <w:rPr>
-                    <w:sz w:val="22"/>
+                    <w:sz w:val="24"/>
                 </w:rPr>
             </w:pPr>
             <#break>
@@ -57,7 +57,7 @@
     <#if col_index!=0>
     <w:r>
         <w:rPr>
-            <w:sz w:val="22"/>
+            <w:sz w:val="24"/>
         </w:rPr>
         <w:t>${col}</w:t>
     </w:r>
@@ -65,7 +65,7 @@
     <w:r wsp:rsidR="00E759EF" wsp:rsidRPr="00B62C14">
         <w:rPr>
             <w:rFonts w:hint="fareast"/>
-            <w:sz w:val="22"/>
+            <w:sz w:val="24"/>
         </w:rPr>
         <w:t>  </w:t>
     </w:r>
@@ -79,7 +79,7 @@
     <w:pPr>
         <w:spacing w:line="400" w:line-rule="exact"/>
         <w:rPr>
-            <w:sz w:val="22"/>
+            <w:sz w:val="24"/>
         </w:rPr>
     </w:pPr>
 </w:p>-->

@@ -137,7 +137,7 @@ public class CadreRewardController extends BaseController {
         Assert.isTrue(record.getRewardType()!=null);
 
         if(StringUtils.isNotBlank(_rewardTime)){
-            record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy.MM"));
+            record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy"));
         }
 
         if(_proof!=null){

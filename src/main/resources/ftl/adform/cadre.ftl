@@ -1213,7 +1213,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${birthCountry!}</w:t>
+								<w:t>${homeplace!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -1561,7 +1561,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${professinal!}</w:t>
+								<w:t>${specialty!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>

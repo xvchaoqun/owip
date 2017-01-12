@@ -121,7 +121,7 @@
     ];
 
     colModels.cadreReward = [
-        {label: '日期', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
+        {label: '获奖年份', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y'}, frozen: true},
         {label: '获得奖项', name: 'name', width: 350},
         {label: '颁奖单位', name: 'unit', width: 280},
         {

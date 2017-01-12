@@ -75,6 +75,12 @@ public class CadreInfoFormService extends BaseMapper{
         bean.setNativePlace(cadre.getNativePlace());
         //bean.setHousehold();
 
+        bean.setHomeplace(uv.getHomeplace());
+        //bean.setWorkTime();
+        bean.setHealth(uv.getHealth());
+        bean.setProPost(cadre.getProPost());
+        bean.setSpecialty(uv.getSpecialty());
+
         if(cadre.getIsDp()){
             bean.setGrowTime(cadre.getDpAddTime());
         }else{
