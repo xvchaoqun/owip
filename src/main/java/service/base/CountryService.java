@@ -1,4 +1,4 @@
-package service.sys;
+package service.base;
 
 import domain.base.Country;
 import domain.base.CountryExample;

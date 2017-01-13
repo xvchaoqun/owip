@@ -1,7 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.unit.HistoryUnit;
 import domain.unit.HistoryUnitExample;
 import domain.unit.Unit;

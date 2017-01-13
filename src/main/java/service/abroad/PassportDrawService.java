@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.utils.ContextHelper;
 import shiro.ShiroHelper;
-import service.sys.ShortMsgService;
+import service.base.ShortMsgService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;

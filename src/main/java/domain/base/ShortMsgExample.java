@@ -1,4 +1,4 @@
-package domain.sys;
+package domain.base;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -752,76 +752,6 @@ public class ShortMsgExample {
 
         public Criteria andStatusNotBetween(Boolean value1, Boolean value2) {
             addCriterion("status not between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetIsNull() {
-            addCriterion("ret is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetIsNotNull() {
-            addCriterion("ret is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetEqualTo(String value) {
-            addCriterion("ret =", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetNotEqualTo(String value) {
-            addCriterion("ret <>", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetGreaterThan(String value) {
-            addCriterion("ret >", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetGreaterThanOrEqualTo(String value) {
-            addCriterion("ret >=", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetLessThan(String value) {
-            addCriterion("ret <", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetLessThanOrEqualTo(String value) {
-            addCriterion("ret <=", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetLike(String value) {
-            addCriterion("ret like", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetNotLike(String value) {
-            addCriterion("ret not like", value, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetIn(List<String> values) {
-            addCriterion("ret in", values, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetNotIn(List<String> values) {
-            addCriterion("ret not in", values, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetBetween(String value1, String value2) {
-            addCriterion("ret between", value1, value2, "ret");
-            return (Criteria) this;
-        }
-
-        public Criteria andRetNotBetween(String value1, String value2) {
-            addCriterion("ret not between", value1, value2, "ret");
             return (Criteria) this;
         }
     }

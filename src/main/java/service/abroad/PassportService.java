@@ -3,7 +3,7 @@ package service.abroad;
 import bean.XlsPassport;
 import domain.abroad.*;
 import domain.cadre.Cadre;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;

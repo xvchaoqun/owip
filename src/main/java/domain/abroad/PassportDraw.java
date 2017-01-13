@@ -1,7 +1,7 @@
 package domain.abroad;
 
+import domain.base.MetaType;
 import domain.cadre.Cadre;
-import domain.sys.MetaType;
 import domain.sys.SysUserView;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;

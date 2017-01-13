@@ -7,7 +7,7 @@ import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
 import domain.member.MemberTeacherExample.Criteria;
 import domain.party.Party;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;

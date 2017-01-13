@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import mixin.OptionMixin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.base.LocationMapper;
-import service.sys.MetaTypeService;
+import service.base.MetaTypeService;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
@@ -37,7 +37,7 @@ public class JacksonTest {
 
         Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
         sourceMixins.put(MetaType.class, OptionMixin.class);
-        mapper.setMixInAnnotations(sourceMixins);
+        mapper.setMixIns(sourceMixins);
 
         Map cMap = new HashMap();
 

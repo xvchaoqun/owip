@@ -1,7 +1,7 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.party.PartyMember;
 import domain.party.PartyMemberExample;
 import domain.party.PartyMemberExample.Criteria;

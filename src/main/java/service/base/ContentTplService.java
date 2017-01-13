@@ -2,23 +2,48 @@ package service.base;
 
 import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
+import domain.base.ShortMsgReceiver;
+import domain.base.ShortMsgReceiverExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.base.ShortMsgReceiverMapper;
 import service.BaseMapper;
+import service.sys.SysUserService;
+import sys.constants.SystemConstants;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ContentTplService extends BaseMapper {
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    // 获取短信接收人手机号
+    public List<SysUserView> getShorMsgReceivers(int tplId){
+
+        ShortMsgReceiverExample example = new ShortMsgReceiverExample();
+        example.createCriteria().andTplIdEqualTo(tplId)
+                .andStatusEqualTo(SystemConstants.SHORT_MSG_RECEIVER_STATUS_NORMAL);
+
+        List<ShortMsgReceiver> shortMsgReceivers = shortMsgReceiverMapper.selectByExample(example);
+        List<SysUserView> receivers = new ArrayList<>();
+        for (ShortMsgReceiver shortMsgReceiver : shortMsgReceivers) {
+            Integer userId = shortMsgReceiver.getUserId();
+            SysUserView uv = sysUserService.findById(userId);
+            receivers.add(uv);
+        }
+
+        return  receivers;
+    }
 
     public String genCode() {
 

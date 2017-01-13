@@ -1,8 +1,9 @@
-package controller.sys;
+package controller.base;
 
 import controller.BaseController;
-import domain.sys.*;
-import domain.sys.MetaClassExample.Criteria;
+import domain.base.*;
+import domain.base.MetaClassExample.Criteria;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +50,7 @@ public class MetaClassController extends BaseController {
     @RequestMapping("/metaClass_page")
     public String metaClass_page() {
 
-        return "sys/metaClass/metaClass_page";
+        return "base/metaClass/metaClass_page";
     }
     @RequiresPermissions("metaClass:list")
     @RequestMapping("/metaClass_data")
@@ -146,7 +147,7 @@ public class MetaClassController extends BaseController {
             MetaClass metaClass = metaClassMapper.selectByPrimaryKey(id);
             modelMap.put("metaClass", metaClass);
         }
-        return "sys/metaClass/metaClass_au";
+        return "base/metaClass/metaClass_au";
     }
 
     @RequiresPermissions("metaClass:del")
@@ -213,7 +214,7 @@ public class MetaClassController extends BaseController {
         TreeNode tree = sysRoleService.getTree(selectIdSet, false);
         modelMap.put("tree", JSONUtils.toString(tree));
 
-        return "sys/metaClass/metaClassRole";
+        return "base/metaClass/metaClassRole";
     }
 
     public void metaClass_export(MetaClassExample example, HttpServletResponse response) {
@@ -322,6 +323,6 @@ public class MetaClassController extends BaseController {
             modelMap.put("metaClassMap", metaClassService.findAll());
         }
 
-        return "sys/metaClass/metaClass_type";
+        return "base/metaClass/metaClass_type";
     }
 }

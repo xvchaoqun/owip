@@ -3,14 +3,14 @@ package service.party;
 import domain.party.OrgAdmin;
 import domain.party.PartyMember;
 import domain.party.PartyMemberExample;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.sys.MetaTypeService;
+import service.base.MetaTypeService;
 
 import java.util.Arrays;
 import java.util.List;

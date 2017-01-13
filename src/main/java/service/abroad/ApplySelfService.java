@@ -4,7 +4,7 @@ import bean.*;
 import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.cadre.*;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.unit.Leader;
 import org.apache.commons.beanutils.BeanUtils;
@@ -18,13 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
+import service.base.ContentTplService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import sys.utils.ContextHelper;
 import sys.utils.ExportHelper;
 import shiro.ShiroHelper;
-import service.sys.MetaTypeService;
-import service.sys.ShortMsgService;
+import service.base.MetaTypeService;
+import service.base.ShortMsgService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroUser;
@@ -61,6 +62,8 @@ public class ApplySelfService extends BaseMapper {
     @Autowired
     protected ShortMsgService shortMsgService;
     @Autowired
+    protected ContentTplService contentTplService;
+    @Autowired
     protected UserBeanService userBeanService;
     @Autowired
     protected SpringProps springProps;
@@ -70,8 +73,17 @@ public class ApplySelfService extends BaseMapper {
 
         // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
         if (approvalTypeId <= 0) { // 查找干部管理员
-            List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
-            return cadreAdmin;
+            /*List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
+            return cadreAdmin;*/
+            if(approvalTypeId==-1) { // 组织部初审
+                ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
+                return contentTplService.getShorMsgReceivers(tpl.getId());
+            }else if(approvalTypeId==0){ // 组织部终审
+                ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
+                return contentTplService.getShorMsgReceivers(tpl.getId());
+            }
+
+            return new ArrayList<>();
         } else {
 
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();

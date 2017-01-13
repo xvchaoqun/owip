@@ -1,4 +1,4 @@
-package domain.sys;
+package domain.base;
 
 import java.util.ArrayList;
 import java.util.List;

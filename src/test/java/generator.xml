@@ -11,7 +11,7 @@
 	    <property name="suppressAllComments" value="true"/>
 	  </commentGenerator>
     <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
-    connectionURL="jdbc:mysql://localhost:3306/owip20160919?useUnicode=true&amp;characterEncoding=UTF8"
+    connectionURL="jdbc:mysql://localhost:3306/owip?useUnicode=true&amp;characterEncoding=UTF8"
     userId="root" password="123" />
     <javaModelGenerator targetPackage="domain" targetProject="src/main/java" >
     	<property name="trimStrings" value="true" />
@@ -174,24 +174,24 @@
         -->
       <!--<table tableName="base_location" domainObjectName="base.Location">
       </table>-->
-      <!--<table tableName="base_meta_class" domainObjectName="sys.MetaClass">
-    </table>-->
-      <!--
-    <table tableName="base_meta_type" domainObjectName="sys.MetaType">
+   <!--   <table tableName="base_meta_class" domainObjectName="base.MetaClass">
     </table>
-      <table tableName="base_short_msg" domainObjectName="sys.ShortMsg">
+    <table tableName="base_meta_type" domainObjectName="base.MetaType">
+    </table>
+      <table tableName="base_short_msg" domainObjectName="base.ShortMsg">
       </table>-->
-
+      <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
+      </table>
       <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+    <!--  <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
       <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog">
       </table>-->

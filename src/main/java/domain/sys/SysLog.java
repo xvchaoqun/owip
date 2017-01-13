@@ -1,5 +1,6 @@
 package domain.sys;
 
+import domain.base.MetaType;
 import sys.tags.CmTag;
 
 import java.io.Serializable;

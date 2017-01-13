@@ -1,7 +1,7 @@
-package persistence.sys;
+package persistence.base;
 
-import domain.sys.ShortMsg;
-import domain.sys.ShortMsgExample;
+import domain.base.ShortMsg;
+import domain.base.ShortMsgExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -17,6 +17,10 @@ public interface ShortMsgMapper {
 
     int insertSelective(ShortMsg record);
 
+    List<ShortMsg> selectByExampleWithBLOBsWithRowbounds(ShortMsgExample example, RowBounds rowBounds);
+
+    List<ShortMsg> selectByExampleWithBLOBs(ShortMsgExample example);
+
     List<ShortMsg> selectByExampleWithRowbounds(ShortMsgExample example, RowBounds rowBounds);
 
     List<ShortMsg> selectByExample(ShortMsgExample example);
@@ -25,9 +29,13 @@ public interface ShortMsgMapper {
 
     int updateByExampleSelective(@Param("record") ShortMsg record, @Param("example") ShortMsgExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") ShortMsg record, @Param("example") ShortMsgExample example);
+
     int updateByExample(@Param("record") ShortMsg record, @Param("example") ShortMsgExample example);
 
     int updateByPrimaryKeySelective(ShortMsg record);
+
+    int updateByPrimaryKeyWithBLOBs(ShortMsg record);
 
     int updateByPrimaryKey(ShortMsg record);
 }

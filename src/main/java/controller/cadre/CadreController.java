@@ -9,7 +9,7 @@ import domain.dispatch.Dispatch;
 import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;

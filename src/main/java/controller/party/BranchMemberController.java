@@ -5,7 +5,7 @@ import domain.party.Branch;
 import domain.party.BranchMember;
 import domain.party.BranchMemberExample;
 import domain.party.BranchMemberExample.Criteria;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;

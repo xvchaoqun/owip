@@ -1,6 +1,6 @@
 package bean;
 
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import sys.tags.CmTag;
 
 import java.util.Map;

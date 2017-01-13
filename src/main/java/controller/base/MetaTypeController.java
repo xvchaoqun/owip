@@ -1,10 +1,10 @@
-package controller.sys;
+package controller.base;
 
 import controller.BaseController;
-import domain.sys.MetaClass;
-import domain.sys.MetaType;
-import domain.sys.MetaTypeExample;
-import domain.sys.MetaTypeExample.Criteria;
+import domain.base.MetaClass;
+import domain.base.MetaType;
+import domain.base.MetaTypeExample;
+import domain.base.MetaTypeExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +55,7 @@ public class MetaTypeController extends BaseController {
             modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
         }
 
-        return "sys/metaType/metaTypes";
+        return "base/metaType/metaTypes";
     }
 
     @RequiresPermissions("metaType:list")
@@ -131,7 +131,7 @@ public class MetaTypeController extends BaseController {
 
         modelMap.put("metaClassMap", metaClassService.findAll());
 
-        return "sys/metaType/metaType_page";
+        return "base/metaType/metaType_page";
     }
 
     @RequiresPermissions("metaType:edit")
@@ -188,7 +188,7 @@ public class MetaTypeController extends BaseController {
             modelMap.put("metaClass", metaClass);
         }*/
         modelMap.put("metaClassMap", metaClassService.findAll());
-        return "sys/metaType/metaType_au";
+        return "base/metaType/metaType_au";
     }
 
     @RequiresPermissions("metaType:del")

@@ -6,7 +6,7 @@ import domain.member.*;
 import domain.member.MemberApplyExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;

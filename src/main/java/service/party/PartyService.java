@@ -1,7 +1,7 @@
 package service.party;
 
 import domain.party.*;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.sys.MetaTypeService;
+import service.base.MetaTypeService;
 
 import java.util.*;
 

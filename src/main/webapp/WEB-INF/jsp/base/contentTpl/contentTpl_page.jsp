@@ -25,6 +25,9 @@
                             data-url="${ctx}/contentTpl_au">
                         <i class="fa fa-edit"></i> 修改
                     </button>
+                    <button data-url="${ctx}/contentTpl_receivers" class="jqOpenViewBtn btn btn-warning btn-sm">
+                        <i class="fa fa-user"></i> 设置短信接收人
+                    </button>
                 </shiro:hasPermission>
                 <shiro:hasRole name="${ROLE_ADMIN}">
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"

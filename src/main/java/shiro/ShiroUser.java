@@ -3,7 +3,7 @@ package shiro;
 import bean.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import domain.cadre.Cadre;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 

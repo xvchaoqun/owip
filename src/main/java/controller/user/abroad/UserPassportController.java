@@ -3,7 +3,7 @@ package controller.user.abroad;
 import controller.BaseController;
 import domain.abroad.*;
 import domain.cadre.Cadre;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;

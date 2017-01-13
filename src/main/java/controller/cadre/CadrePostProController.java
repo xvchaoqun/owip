@@ -2,7 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.*;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;

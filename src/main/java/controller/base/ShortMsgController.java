@@ -1,10 +1,10 @@
-package controller.sys;
+package controller.base;
 
 import bean.ShortMsgBean;
 import controller.BaseController;
-import domain.sys.ShortMsg;
-import domain.sys.ShortMsgExample;
-import domain.sys.ShortMsgExample.Criteria;
+import domain.base.ShortMsg;
+import domain.base.ShortMsgExample;
+import domain.base.ShortMsgExample.Criteria;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import mixin.ShortMsgMixin;
@@ -46,7 +46,7 @@ public class ShortMsgController extends BaseController {
         ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
         modelMap.put("shortMsgBean", shortMsgBean);
 
-        return "sys/shortMsg/short_msg_view";
+        return "base/shortMsg/short_msg_view";
     }
 
     @RequiresPermissions("ShortMsg:send")
@@ -81,7 +81,7 @@ public class ShortMsgController extends BaseController {
             if(senderId!=null)
                 modelMap.put("sender", sysUserService.findById(senderId));
         }
-        return "sys/shortMsg/shortMsg_page";
+        return "base/shortMsg/shortMsg_page";
     }
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg_data")

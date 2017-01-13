@@ -1,4 +1,4 @@
-package service.sys;
+package service.base;
 
 import bean.ApprovalResult;
 import bean.ShortMsgBean;
@@ -10,10 +10,10 @@ import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportDraw;
 import domain.base.ContentTpl;
+import domain.base.MetaType;
+import domain.base.ShortMsg;
+import domain.base.ShortMsgExample;
 import domain.cadre.Cadre;
-import domain.sys.MetaType;
-import domain.sys.ShortMsg;
-import domain.sys.ShortMsgExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -36,15 +36,12 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
 import service.abroad.ApplySelfService;
-import service.base.ContentTplService;
 import service.cadre.CadreService;
-import sys.utils.ContextHelper;
+import service.sys.SysUserService;
+import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -130,11 +127,11 @@ public class ShortMsgService extends BaseMapper {
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
-        List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
+        //List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
         ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
+        List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
-
-        for (SysUserView uv : cadreAdmin) {
+        for (SysUserView uv : receivers) {
             try {
                 int userId = uv.getId();
                 String mobile = userBeanService.getMsgMobile(userId);
@@ -168,10 +165,11 @@ public class ShortMsgService extends BaseMapper {
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
-        List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin-menu1");
+        //List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin-menu1");
         ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
+        List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
-        for (SysUserView uv : cadreAdmin) {
+        for (SysUserView uv : receivers) {
             try {
                 int userId = uv.getId();
                 String mobile = userBeanService.getMsgMobile(userId);
@@ -192,6 +190,53 @@ public class ShortMsgService extends BaseMapper {
             }catch (Exception ex){
                 ex.printStackTrace();
                 logger.error("干部提交因私出国，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {}, {}", new Object[]{
+                        applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
+                });
+            }
+        }
+    }
+
+    // 干部提交领取证件申请，给干部管理员发短信提醒
+    @Async
+    public void sendPassportDrawSubmitMsgToCadreAdmin(int passportDrawId, String ip){
+
+        /*try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("发送短信开始。。。");*/
+
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawId);
+        SysUserView applyUser = passportDraw.getCadre().getUser();
+
+        //List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
+        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO);
+        List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
+
+        for (SysUserView uv : receivers) {
+            try {
+                int userId = uv.getId();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
+
+                Cadre cadre = cadreService.dbFindByUserId(applyUser.getId());
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                        cadre.getUnit().getName(),applyUser.getRealname(),
+                        passportDraw.getPassportClass().getName(),
+                        SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()));
+
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(applyUser.getId());
+                bean.setReceiver(userId);
+                bean.setMobile(mobile);
+                bean.setContent(msg);
+                bean.setType(tpl.getName());
+
+                send(bean, ip);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                logger.error("干部提交因私出国，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
                         applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
                 });
             }

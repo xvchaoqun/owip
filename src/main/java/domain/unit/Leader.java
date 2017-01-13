@@ -1,7 +1,7 @@
 package domain.unit;
 
 import domain.cadre.Cadre;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import sys.tags.CmTag;
 

@@ -153,7 +153,7 @@ public class CadreTplTest {
 
 
         String marshaltoString = XmlUtils.marshaltoString(wordMLPackage
-                .getMainDocumentPart().getJaxbElement(), true, true);
+                .getMainDocumentPart().getContents(), true, true);
 
         System.out.println(marshaltoString);
 

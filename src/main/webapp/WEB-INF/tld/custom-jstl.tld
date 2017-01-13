@@ -112,17 +112,17 @@
 	<function>
 		<name>getMetaType</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.MetaType getMetaType(java.lang.Integer)</function-signature>
+		<function-signature>domain.base.MetaType getMetaType(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getMetaTypeByCode</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.MetaType getMetaTypeByCode(java.lang.String)</function-signature>
+		<function-signature>domain.base.MetaType getMetaTypeByCode(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>getMetaClassByCode</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
+		<function-signature>domain.base.MetaClass getMetaClassByCode(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>displayParty</name>
@@ -157,7 +157,7 @@
 	<function>
 		<name>getApplyStatus</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.String getApplyStatus(domain.member.MemberApply)</function-signature>
+		<function-signature>java.lang.String getApplyStatus(domain.member.MemberApplyView)</function-signature>
 	</function>
 
 	<!--<function>

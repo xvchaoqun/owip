@@ -6,7 +6,7 @@ import domain.member.MemberReturnExample;
 import domain.member.MemberReturnExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;

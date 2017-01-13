@@ -4,7 +4,8 @@ import controller.BaseController;
 import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
 import domain.base.ContentTplExample.Criteria;
-import domain.sys.SysUser;
+import domain.base.ShortMsgReceiver;
+import domain.base.ShortMsgReceiverExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -18,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -213,7 +214,7 @@ public class ContentTplController extends BaseController {
         TreeNode tree = sysRoleService.getTree(selectIdSet, false);
         modelMap.put("tree", JSONUtils.toString(tree));
 
-        return "sys/contentTpl/contentTplRole";
+        return "base/contentTpl/contentTplRole";
     }
     
 
@@ -241,5 +242,48 @@ public class ContentTplController extends BaseController {
         }
         String fileName = "内容模板_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+
+    @RequiresPermissions("contentTpl:list")
+    @RequestMapping("/contentTpl_receivers")
+    public String contentTpl_receivers(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
+
+        if (id != null) {
+            if (null == pageSize) {
+                pageSize = springProps.pageSize;
+            }
+            if (null == pageNo) {
+                pageNo = 1;
+            }
+            pageNo = Math.max(1, pageNo);
+
+            ShortMsgReceiverExample example = new ShortMsgReceiverExample();
+            ShortMsgReceiverExample.Criteria criteria = example.createCriteria().andTplIdEqualTo(id);
+
+            int count = shortMsgReceiverMapper.countByExample(example);
+            if ((pageNo - 1) * pageSize >= count) {
+
+                pageNo = Math.max(1, pageNo - 1);
+            }
+            List<ShortMsgReceiver> records = shortMsgReceiverMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            modelMap.put("records", records);
+
+            CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+            String searchStr = "&pageSize=" + pageSize;
+
+            if (id!=null) {
+                searchStr += "&id=" + id;
+            }
+
+            commonList.setSearchStr(searchStr);
+            modelMap.put("commonList", commonList);
+
+            ContentTpl contentTpl = contentTplMapper.selectByPrimaryKey(id);
+            modelMap.put("contentTpl", contentTpl);
+        }
+
+        return "base/contentTpl/contentTpl_receivers";
     }
 }

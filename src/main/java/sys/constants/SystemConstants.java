@@ -1154,6 +1154,15 @@ public class SystemConstants {
         CONTENT_TPL_CONTENT_TYPE_MAP.put(CONTENT_TPL_CONTENT_TYPE_HTML, "HTML");
     }
 
+    // 短信接收人状态
+    public final static byte SHORT_MSG_RECEIVER_STATUS_NORMAL = 0;
+    public final static byte SHORT_MSG_RECEIVER_STATUS_DELETE = 1;
+    public final static Map<Byte, String> SHORT_MSG_RECEIVER_STATUS_MAP = new LinkedHashMap<>();
+    static {
+        SHORT_MSG_RECEIVER_STATUS_MAP.put(SHORT_MSG_RECEIVER_STATUS_NORMAL, "正常接收");
+        SHORT_MSG_RECEIVER_STATUS_MAP.put(SHORT_MSG_RECEIVER_STATUS_DELETE, "已失效");
+    }
+
     // 内容模板引擎  1 MessageFormat
     public final static byte CONTENT_TPL_ENGINE_MESSAGEFORMAT = 1;
     public final static Map<Byte, String> CONTENT_TPL_ENGINE_MAP = new LinkedHashMap<>();
@@ -1167,6 +1176,7 @@ public class SystemConstants {
 
     public final static String CONTENT_TPL_APPLYSELF_SUBMIT_INFO = "ct_applyself_submit_info"; // 干部提交因私申请，通知管理员
     public final static String CONTENT_TPL_APPLYSELF_PASS_INFO = "ct_applyself_pass_info"; // 干部因私申请通过全部领导审批，通知管理员
+    public final static String CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO = "ct_passportDraw_submit_info"; // 干部提交领取证件，通知管理员
     public final static String CONTENT_TPL_PASSPORT_EXPIRE = "ct_passport_expire";
     public final static String CONTENT_TPL_PASSPORT_DISMISS = "ct_passport_dismiss";
     public final static String CONTENT_TPL_PASSPORT_ABOLISH = "ct_passport_abolish";

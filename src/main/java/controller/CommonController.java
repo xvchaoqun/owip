@@ -18,7 +18,7 @@ import domain.member.Member;
 import domain.member.MemberInflow;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
@@ -136,7 +136,7 @@ public class CommonController extends BaseController{
 
         sourceMixins.put(SysRole.class, OptionMixin.class);
 
-        mapper.setMixInAnnotations(sourceMixins);
+        mapper.setMixIns(sourceMixins);
 
         // 删除目前不需要的
         cMap.remove("dispatchMap");

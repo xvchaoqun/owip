@@ -1,12 +1,12 @@
-package domain.sys;
+package domain.base;
 
+import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class ShortMsg implements Serializable {
-
     public SysUserView getUser(){
         return CmTag.getUserById(receiverId);
     }

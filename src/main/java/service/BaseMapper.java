@@ -4,9 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.abroad.*;
-import persistence.base.ContentTplMapper;
-import persistence.base.CountryMapper;
-import persistence.base.LocationMapper;
+import persistence.base.*;
 import persistence.cadre.*;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
@@ -360,6 +358,8 @@ public class BaseMapper {
 	protected CountryMapper countryMapper;
 	@Autowired
 	protected ShortMsgMapper shortMsgMapper;
+	@Autowired
+	protected ShortMsgReceiverMapper shortMsgReceiverMapper;
 	@Autowired
 	protected ContentTplMapper contentTplMapper;
 }

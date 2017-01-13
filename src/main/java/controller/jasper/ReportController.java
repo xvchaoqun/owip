@@ -9,7 +9,7 @@ import domain.abroad.PassportApply;
 import domain.abroad.PassportDraw;
 import domain.cadre.Cadre;
 import domain.member.MemberOut;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;

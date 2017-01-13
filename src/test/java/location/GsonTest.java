@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.base.LocationMapper;
-import service.sys.LocationService;
+import service.base.LocationService;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

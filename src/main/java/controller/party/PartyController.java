@@ -3,7 +3,7 @@ package controller.party;
 import controller.BaseController;
 import domain.party.*;
 import domain.party.PartyExample.Criteria;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;

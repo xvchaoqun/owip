@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.sys.ShortMsgMapper" >
-  <resultMap id="BaseResultMap" type="domain.sys.ShortMsg" >
+<mapper namespace="persistence.base.ShortMsgMapper" >
+  <resultMap id="BaseResultMap" type="domain.base.ShortMsg" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="sender_id" property="senderId" jdbcType="INTEGER" />
     <result column="receiver_id" property="receiverId" jdbcType="INTEGER" />
@@ -12,7 +12,9 @@
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="BIT" />
-    <result column="ret" property="ret" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="domain.base.ShortMsg" extends="BaseResultMap" >
+    <result column="ret" property="ret" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,10 +75,28 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, sender_id, receiver_id, type, mobile, content, create_time, ip, remark, status, 
+    id, sender_id, receiver_id, type, mobile, content, create_time, ip, remark, status
+  </sql>
+  <sql id="Blob_Column_List" >
     ret
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.ShortMsgExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="domain.base.ShortMsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_short_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.base.ShortMsgExample" >
     select
     <if test="distinct" >
       distinct
@@ -90,9 +110,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from base_short_msg
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -100,13 +122,13 @@
     delete from base_short_msg
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.sys.ShortMsgExample" >
+  <delete id="deleteByExample" parameterType="domain.base.ShortMsgExample" >
     delete from base_short_msg
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.sys.ShortMsg" >
+  <insert id="insert" parameterType="domain.base.ShortMsg" >
     insert into base_short_msg (id, sender_id, receiver_id, 
       type, mobile, content, 
       create_time, ip, remark, 
@@ -114,9 +136,9 @@
     values (#{id,jdbcType=INTEGER}, #{senderId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, 
       #{type,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=BIT}, #{ret,jdbcType=VARCHAR})
+      #{status,jdbcType=BIT}, #{ret,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.sys.ShortMsg" >
+  <insert id="insertSelective" parameterType="domain.base.ShortMsg" >
     insert into base_short_msg
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,11 +207,11 @@
         #{status,jdbcType=BIT},
       </if>
       <if test="ret != null" >
-        #{ret,jdbcType=VARCHAR},
+        #{ret,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.sys.ShortMsgExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.base.ShortMsgExample" resultType="java.lang.Integer" >
     select count(*) from base_short_msg
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -229,9 +251,26 @@
         status = #{record.status,jdbcType=BIT},
       </if>
       <if test="record.ret != null" >
-        ret = #{record.ret,jdbcType=VARCHAR},
+        ret = #{record.ret,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update base_short_msg
+    set id = #{record.id,jdbcType=INTEGER},
+      sender_id = #{record.senderId,jdbcType=INTEGER},
+      receiver_id = #{record.receiverId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=BIT},
+      ret = #{record.ret,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -247,13 +286,12 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=BIT},
-      ret = #{record.ret,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.sys.ShortMsg" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.base.ShortMsg" >
     update base_short_msg
     <set >
       <if test="senderId != null" >
@@ -284,12 +322,12 @@
         status = #{status,jdbcType=BIT},
       </if>
       <if test="ret != null" >
-        ret = #{ret,jdbcType=VARCHAR},
+        ret = #{ret,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.sys.ShortMsg" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.base.ShortMsg" >
     update base_short_msg
     set sender_id = #{senderId,jdbcType=INTEGER},
       receiver_id = #{receiverId,jdbcType=INTEGER},
@@ -300,10 +338,39 @@
       ip = #{ip,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=BIT},
-      ret = #{ret,jdbcType=VARCHAR}
+      ret = #{ret,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.sys.ShortMsgExample" id="selectByExampleWithRowbounds" >
+  <update id="updateByPrimaryKey" parameterType="domain.base.ShortMsg" >
+    update base_short_msg
+    set sender_id = #{senderId,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="domain.base.ShortMsgExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_short_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="domain.base.ShortMsgExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct

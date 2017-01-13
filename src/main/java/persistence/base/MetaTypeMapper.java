@@ -1,7 +1,7 @@
-package persistence.sys;
+package persistence.base;
 
-import domain.sys.MetaType;
-import domain.sys.MetaTypeExample;
+import domain.base.MetaType;
+import domain.base.MetaTypeExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

@@ -1,4 +1,4 @@
-package service.sys;
+package service.base;
 
 import domain.base.Location;
 import domain.base.LocationExample;

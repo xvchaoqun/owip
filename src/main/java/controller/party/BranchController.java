@@ -5,7 +5,7 @@ import domain.ext.ExtJzg;
 import domain.member.Member;
 import domain.party.*;
 import domain.party.BranchExample.Criteria;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;

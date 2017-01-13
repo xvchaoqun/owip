@@ -13,7 +13,7 @@ import service.SpringProps;
 import service.common.FreemarkerService;
 import shiro.ShiroHelper;
 import service.party.MemberService;
-import service.sys.MetaTypeService;
+import service.base.MetaTypeService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.ImageUtils;
@@ -99,7 +99,7 @@ public class CadreAdformService extends BaseMapper{
 
         //年度考核结果
         Integer currentYear = DateUtils.getCurrentYear();
-        bean.setCes((currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "、"+ "年年度考核均为合格。");
+        bean.setCes((currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "年年度考核均为合格。");
 
         // 培训情况
         CadreInfo train = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TRAIN);

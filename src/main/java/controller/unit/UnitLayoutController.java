@@ -3,7 +3,7 @@ package controller.unit;
 import controller.BaseController;
 import domain.unit.Leader;
 import domain.unit.LeaderUnit;
-import domain.sys.MetaType;
+import domain.base.MetaType;
 import domain.unit.Unit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;

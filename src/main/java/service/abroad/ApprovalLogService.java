@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.utils.ContextHelper;
-import service.sys.ShortMsgService;
+import service.base.ShortMsgService;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
 

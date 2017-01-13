@@ -1,4 +1,4 @@
-package controller.sys;
+package controller.base;
 
 import controller.BaseController;
 import domain.base.Location;
@@ -40,7 +40,7 @@ public class LocationController extends BaseController {
     @RequestMapping("/location_page")
     public String location_page() {
 
-        return "sys/location/location_page";
+        return "base/location/location_page";
     }
 
     @RequestMapping("/location_node")
@@ -90,7 +90,7 @@ public class LocationController extends BaseController {
         }
 
         modelMap.put("location", location);
-        return "sys/location/location_au";
+        return "base/location/location_au";
     }
 
     @RequiresPermissions("location:del")
