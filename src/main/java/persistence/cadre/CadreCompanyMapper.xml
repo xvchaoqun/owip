@@ -9,6 +9,7 @@
     <result column="has_pay" property="hasPay" jdbcType="BIT" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
     <result column="report_unit" property="reportUnit" jdbcType="VARCHAR" />
     <result column="paper" property="paper" jdbcType="VARCHAR" />
     <result column="paper_filename" property="paperFilename" jdbcType="VARCHAR" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cadre_id, type, type_other, has_pay, start_time, unit, report_unit, paper, paper_filename, 
-    remark, status
+    id, cadre_id, type, type_other, has_pay, start_time, unit, post, report_unit, paper, 
+    paper_filename, remark, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreCompanyExample" >
     select
@@ -110,14 +111,14 @@
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreCompany" >
     insert into cadre_company (id, cadre_id, type, 
       type_other, has_pay, start_time, 
-      unit, report_unit, paper, 
-      paper_filename, remark, status
-      )
+      unit, post, report_unit, 
+      paper, paper_filename, remark, 
+      status)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{typeOther,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{startTime,jdbcType=DATE}, 
-      #{unit,jdbcType=VARCHAR}, #{reportUnit,jdbcType=VARCHAR}, #{paper,jdbcType=VARCHAR}, 
-      #{paperFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
-      )
+      #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{reportUnit,jdbcType=VARCHAR}, 
+      #{paper,jdbcType=VARCHAR}, #{paperFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreCompany" >
     insert into cadre_company
@@ -142,6 +143,9 @@
       </if>
       <if test="unit != null" >
         unit,
+      </if>
+      <if test="post != null" >
+        post,
       </if>
       <if test="reportUnit != null" >
         report_unit,
@@ -180,6 +184,9 @@
       </if>
       <if test="unit != null" >
         #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
       </if>
       <if test="reportUnit != null" >
         #{reportUnit,jdbcType=VARCHAR},
@@ -228,6 +235,9 @@
       <if test="record.unit != null" >
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
       <if test="record.reportUnit != null" >
         report_unit = #{record.reportUnit,jdbcType=VARCHAR},
       </if>
@@ -257,6 +267,7 @@
       has_pay = #{record.hasPay,jdbcType=BIT},
       start_time = #{record.startTime,jdbcType=DATE},
       unit = #{record.unit,jdbcType=VARCHAR},
+      post = #{record.post,jdbcType=VARCHAR},
       report_unit = #{record.reportUnit,jdbcType=VARCHAR},
       paper = #{record.paper,jdbcType=VARCHAR},
       paper_filename = #{record.paperFilename,jdbcType=VARCHAR},
@@ -287,6 +298,9 @@
       <if test="unit != null" >
         unit = #{unit,jdbcType=VARCHAR},
       </if>
+      <if test="post != null" >
+        post = #{post,jdbcType=VARCHAR},
+      </if>
       <if test="reportUnit != null" >
         report_unit = #{reportUnit,jdbcType=VARCHAR},
       </if>
@@ -313,6 +327,7 @@
       has_pay = #{hasPay,jdbcType=BIT},
       start_time = #{startTime,jdbcType=DATE},
       unit = #{unit,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
       report_unit = #{reportUnit,jdbcType=VARCHAR},
       paper = #{paper,jdbcType=VARCHAR},
       paper_filename = #{paperFilename,jdbcType=VARCHAR},

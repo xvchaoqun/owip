@@ -18,6 +18,8 @@ public class CadreCompany implements Serializable {
 
     private String unit;
 
+    private String post;
+
     private String reportUnit;
 
     private String paper;
@@ -84,6 +86,14 @@ public class CadreCompany implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
     }
 
     public String getReportUnit() {

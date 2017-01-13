@@ -20,10 +20,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -368,7 +367,7 @@ public class CadreController extends BaseController {
         List<CadreView> records = cadreViewMapper.selectByExample(example);
 
         int rowNum = 0;
-        XSSFWorkbook wb = new XSSFWorkbook();
+        SXSSFWorkbook wb = new SXSSFWorkbook();
         Sheet sheet = wb.createSheet();
         //sheet.setDefaultColumnWidth(12);
         //sheet.setDefaultRowHeight((short)(20*60));
@@ -376,12 +375,12 @@ public class CadreController extends BaseController {
             Row titleRow = sheet.createRow(rowNum);
             titleRow.setHeight((short) (35.7 * 30));
             Cell headerCell = titleRow.createCell(0);
-            XSSFCellStyle cellStyle = wb.createCellStyle();
+            CellStyle cellStyle = wb.createCellStyle();
             // 设置单元格居中对齐
             cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
             // 设置单元格垂直居中对齐
             cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-            XSSFFont font = wb.createFont();
+            Font font = wb.createFont();
             // 设置字体加粗
             font.setFontName("宋体");
             font.setFontHeight((short) 350);
@@ -675,9 +674,9 @@ public class CadreController extends BaseController {
         }
     }
 
-    public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
+    public static CellStyle getBodyStyle(Workbook wb) {
         // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
+        CellStyle cellStyle = wb.createCellStyle();
         // 设置单元格居中对齐
         cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
         // 设置单元格垂直居中对齐
@@ -685,7 +684,7 @@ public class CadreController extends BaseController {
         // 创建单元格内容显示不下时自动换行
         cellStyle.setWrapText(true);
         // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
+        Font font = wb.createFont();
         // 设置字体加粗
         //font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
         font.setFontName("宋体");
@@ -694,9 +693,9 @@ public class CadreController extends BaseController {
         return cellStyle;
     }
 
-    public static XSSFCellStyle getHeadStyle(XSSFWorkbook wb) {
+    public static CellStyle getHeadStyle(Workbook wb) {
         // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
+        CellStyle cellStyle = wb.createCellStyle();
         // 设置单元格居中对齐
         cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
         // 设置单元格垂直居中对齐
@@ -704,7 +703,7 @@ public class CadreController extends BaseController {
         // 创建单元格内容显示不下时自动换行
         cellStyle.setWrapText(true);
         // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
+        Font font = wb.createFont();
         // 设置字体加粗
         font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
         font.setFontName("宋体");

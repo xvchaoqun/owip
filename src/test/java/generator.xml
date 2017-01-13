@@ -180,8 +180,8 @@
     </table>
       <table tableName="base_short_msg" domainObjectName="base.ShortMsg">
       </table>-->
-      <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
-      </table>
+     <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
+      </table>-->
       <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
@@ -220,8 +220,8 @@
       </table>
       <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
       </table>-->
-      <!--<table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
-      </table>-->
+      <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
+      </table>
       <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>

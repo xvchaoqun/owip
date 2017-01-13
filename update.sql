@@ -1,7 +1,10 @@
 
 
 
-
+-- 2017-1-13
+ALTER TABLE `cadre_company`
+	CHANGE COLUMN `unit` `unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '兼职单位' AFTER `start_time`,
+	ADD COLUMN `post` VARCHAR(100) NULL DEFAULT NULL COMMENT '兼职职务' AFTER `unit`;
 
 
 

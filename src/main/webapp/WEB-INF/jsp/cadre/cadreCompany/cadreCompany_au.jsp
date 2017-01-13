@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group" id="typeOtherDiv">
             <label class="col-xs-3 control-label">其他兼职类型</label>
             <div class="col-xs-6">
-                <input  type="text" name="typeOther" placeholder="请输入其他兼职类型">
+                <input  type="text" name="typeOther" placeholder="请输入其他兼职类型" value="${cadreCompany.typeOther}">
             </div>
         </div>
         <div class="form-group">
@@ -57,11 +57,17 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">兼职单位及职务</label>
+				<label class="col-xs-3 control-label">兼职单位</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreCompany.unit}">
+                        <input class="form-control" type="text" name="unit" value="${cadreCompany.unit}">
 				</div>
 			</div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">兼职职务</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="post" value="${cadreCompany.post}">
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">报批单位</label>
 				<div class="col-xs-6">

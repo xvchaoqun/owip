@@ -2,6 +2,7 @@ package controller.cadre;
 
 import bean.CadreAdform;
 import controller.BaseController;
+import domain.cadre.Cadre;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import service.cadre.CadreAdformService;
+import sys.utils.DateUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by fafa on 2016/10/29.
@@ -41,8 +44,9 @@ public class CadreAdformController extends BaseController {
     @RequestMapping("/cadreAdform_download")
     public void adform(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
 
+        Cadre cadre = cadreService.findAll().get(cadreId);
         //输出文件
-        String filename = "干部任免审批表";
+        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));

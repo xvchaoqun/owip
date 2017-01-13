@@ -213,7 +213,8 @@
             return cellvalue?"是":"否";
         }, width:80,frozen:true},
         {label: '兼职起始时间', name: 'startTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'},frozen:true },
-        {label: '兼职单位及职务', name: 'unit', width: 350},
+        {label: '兼职单位', name: 'unit', width: 250},
+        {label: '兼职职务', name: 'post', width: 150},
         {label: '报批单位', name: 'reportUnit', width: 280},
         {label: '批复文件', name: 'paper', width: 250,
             formatter: function (cellvalue, options, rowObject) {

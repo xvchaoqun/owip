@@ -57,7 +57,7 @@
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
                         <c:forEach items="${cadreTrains}" var="cadreTrain">
-                            <p>${cm:formatDate(cadreTrain.startTime, "yyyy.MM")}${(cadreTrain.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreTrain.endTime, "yyyy.MM")}，${cadreTrain.content}，${cadreTrain.unit}主办</p>
+                            <p>${cm:formatDate(cadreTrain.startTime, "yyyy.MM")}${(cadreTrain.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreTrain.endTime, "yyyy.MM")}，参加${cadreTrain.content}，${cadreTrain.unit}主办</p>
                         </c:forEach>
                     </div>
                 </div>
