@@ -1,8 +1,8 @@
-package domain.unit;
+package domain.cadre;
 
 import java.io.Serializable;
 
-public class LeaderUnit implements Serializable {
+public class CadreLeaderUnit implements Serializable {
     private Integer id;
 
     private Integer leaderId;

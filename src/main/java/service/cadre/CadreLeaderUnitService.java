@@ -1,7 +1,7 @@
-package service.unit;
+package service.cadre;
 
-import domain.unit.LeaderUnit;
-import domain.unit.LeaderUnitExample;
+import domain.cadre.CadreLeaderUnit;
+import domain.cadre.CadreLeaderUnitExample;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -14,27 +14,27 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class LeaderUnitService extends BaseMapper {
+public class CadreLeaderUnitService extends BaseMapper {
 
     public boolean idDuplicate(int leaderId, int unitId, int typeId){
 
-        LeaderUnitExample example = new LeaderUnitExample();
+        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
         example.createCriteria().andLeaderIdEqualTo(leaderId).andUnitIdEqualTo(unitId).andTypeIdEqualTo(typeId);
 
-        return leaderUnitMapper.countByExample(example) > 0;
+        return cadreLeaderUnitMapper.countByExample(example) > 0;
     }
 
     @Transactional
     @CacheEvict(value="LeaderUnit:ALL", allEntries = true)
-    public int insertSelective(LeaderUnit record){
+    public int insertSelective(CadreLeaderUnit record){
 
-        return leaderUnitMapper.insertSelective(record);
+        return cadreLeaderUnitMapper.insertSelective(record);
     }
     @Transactional
     @CacheEvict(value="LeaderUnit:ALL", allEntries = true)
     public void del(Integer id){
 
-        leaderUnitMapper.deleteByPrimaryKey(id);
+        cadreLeaderUnitMapper.deleteByPrimaryKey(id);
     }
     @Transactional
     @CacheEvict(value="LeaderUnit:ALL", allEntries = true)
@@ -42,26 +42,26 @@ public class LeaderUnitService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        LeaderUnitExample example = new LeaderUnitExample();
+        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        leaderUnitMapper.deleteByExample(example);
+        cadreLeaderUnitMapper.deleteByExample(example);
     }
 
     @Transactional
     @CacheEvict(value="LeaderUnit:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(LeaderUnit record){
-        return leaderUnitMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(CadreLeaderUnit record){
+        return cadreLeaderUnitMapper.updateByPrimaryKeySelective(record);
     }
 
     @Cacheable(value="LeaderUnit:ALL")
-    public Map<Integer, LeaderUnit> findAll() {
+    public Map<Integer, CadreLeaderUnit> findAll() {
 
-        LeaderUnitExample example = new LeaderUnitExample();
+        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
         example.setOrderByClause("sort_order desc");
-        List<LeaderUnit> leaderUnites = leaderUnitMapper.selectByExample(example);
-        Map<Integer, LeaderUnit> map = new LinkedHashMap<>();
-        for (LeaderUnit leaderUnit : leaderUnites) {
-            map.put(leaderUnit.getId(), leaderUnit);
+        List<CadreLeaderUnit> cadreLeaderUnites = cadreLeaderUnitMapper.selectByExample(example);
+        Map<Integer, CadreLeaderUnit> map = new LinkedHashMap<>();
+        for (CadreLeaderUnit cadreLeaderUnit : cadreLeaderUnites) {
+            map.put(cadreLeaderUnit.getId(), cadreLeaderUnit);
         }
 
         return map;

@@ -21,9 +21,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -45,7 +47,7 @@ import sys.tool.tree.TreeNode;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -95,7 +97,7 @@ public class CadreController extends BaseController {
     }
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre_page")
-    public String cadre_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+    public String cadre_page(@RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE+"")Byte status,
                              Integer cadreId,ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -116,7 +118,7 @@ public class CadreController extends BaseController {
     public void cadre_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order",tableName = "cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                 @RequestParam(required = false, defaultValue = "1")Byte status,
+                                 @RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE+"")Byte status,
                                     Integer cadreId,
                                     Integer typeId,
                                     Integer postId,
@@ -239,7 +241,7 @@ public class CadreController extends BaseController {
 
     @RequiresPermissions("cadre:edit")
     @RequestMapping("/cadre_leave")
-    public String cadre_leave(int id, HttpServletResponse response,  ModelMap modelMap) {
+    public String cadre_leave(int id, ModelMap modelMap) {
 
         Cadre cadre = cadreService.findAll().get(id);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
@@ -255,14 +257,17 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:edit")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_leave(int id, Byte status, String title, Integer dispatchCadreId, HttpServletRequest request) {
+    public Map do_cadre_leave(int id, String title, Integer dispatchCadreId, HttpServletRequest request) {
 
-        if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
+        //if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
 
-        cadreService.leave(id, status, StringUtils.trimToNull(title), dispatchCadreId);
+        byte status = cadreService.leave(id, StringUtils.trimToNull(title), dispatchCadreId);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部离任：%s，%s", id, SystemConstants.CADRE_STATUS_MAP.get(status)));
-        return success(FormUtils.SUCCESS);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部离任：%s", id));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("status", status);
+
+        return resultMap;
     }
 
     // 在“离任中层干部库”和“离任校领导干部库”中加一个按钮“重新任用”，点击这个按钮，可以转移到“考察对象”中去。
@@ -324,7 +329,7 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
-        if(id!=null && (status==SystemConstants.CADRE_STATUS_LEAVE || status==SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
+        if(id!=null && (status==SystemConstants.CADRE_STATUS_MIDDLE_LEAVE || status==SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
             TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
@@ -405,10 +410,10 @@ public class CadreController extends BaseController {
                 "所属党组织","备注"};
 
         int columnCount = titles.length;
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(rowNum++);
+        Row firstRow = sheet.createRow(rowNum++);
         firstRow.setHeight((short) (35.7 * 12));
         for (int i = 0; i < columnCount; i++) {
-            XSSFCell cell = firstRow.createCell(i);
+            Cell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
             cell.setCellStyle(getHeadStyle(wb));
         }
@@ -654,7 +659,7 @@ public class CadreController extends BaseController {
             row.setHeight((short) (35.7 * 18));
             for (int j = 0; j < columnCount; j++) {
 
-                XSSFCell cell = (XSSFCell) row.createCell(j);
+                Cell cell = row.createCell(j);
                 String value = values[j];
                 if(StringUtils.isBlank(value)) value="-";
                 cell.setCellValue(value);

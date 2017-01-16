@@ -51,8 +51,7 @@ public class CadreService extends BaseMapper {
 
         CadreExample example = new CadreExample();
         CadreExample.Criteria criteria = example.createCriteria()
-                .andUserIdEqualTo(userId).andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_NOW,
-                        SystemConstants.CADRE_STATUS_LEAVE, SystemConstants.CADRE_STATUS_LEADER_LEAVE));
+                .andUserIdEqualTo(userId).andStatusIn(new ArrayList<Byte>(SystemConstants.CADRE_STATUS_SET));
         if(id!=null) criteria.andIdNotEqualTo(id);
         int count = cadreMapper.countByExample(example);
         if( count > 0){
@@ -87,13 +86,24 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public void leave(int id, byte status, String title, Integer dispatchCadreId){
+    public byte leave(int id, String title, Integer dispatchCadreId){
+
+        Byte status = null;
+        Cadre cadre = cadreMapper.selectByPrimaryKey(id);
+        byte orgStatus = cadre.getStatus();
+        if(orgStatus==SystemConstants.CADRE_STATUS_MIDDLE){
+            status = SystemConstants.CADRE_STATUS_MIDDLE_LEAVE;
+        }else if(orgStatus==SystemConstants.CADRE_STATUS_LEADER){
+            status = SystemConstants.CADRE_STATUS_LEADER_LEAVE;
+        }
+
+        if(status==null) return -1;
 
         // 记录任免日志
         cadreAdLogService.addLog(id, "干部离任",
                 SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
-        if(status == SystemConstants.CADRE_STATUS_LEAVE){
+        if(status == SystemConstants.CADRE_STATUS_MIDDLE_LEAVE){
 
             /**2016.11.08
              *
@@ -139,9 +149,11 @@ public class CadreService extends BaseMapper {
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status="+status));
 
         CadreExample example = new CadreExample();
-        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(orgStatus);
 
         cadreMapper.updateByExampleSelective(record, example);
+
+        return status;
     }
 
     // 重新任用， 离任->考察对象
@@ -160,7 +172,7 @@ public class CadreService extends BaseMapper {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             int userId = cadre.getUserId();
-            if(cadre.getStatus()!=SystemConstants.CADRE_STATUS_LEAVE
+            if(cadre.getStatus()!=SystemConstants.CADRE_STATUS_MIDDLE_LEAVE
                     && cadre.getStatus()!=SystemConstants.CADRE_STATUS_LEADER_LEAVE){
                 throw new IllegalArgumentException("干部["+cadre.getUser().getRealname()+"]状态异常：" + cadre.getStatus());
             }

@@ -54,9 +54,17 @@
           //$("#modal #status").hide();
 
           var msg = ret.msg;
-          if($.trim(ret.status)!=''){
-            msg = _cMap.CADRE_STATUS_MAP[ret.status]
-                    + '&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="${ctx}/cadre?status='+ret.status+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
+          var status = $.trim(ret.status);
+          var url = ''
+          if(status!=''){
+
+            if(status=='${CADRE_STATUS_MIDDLE}' || status=='${CADRE_STATUS_MIDDLE_LEAVE}')
+              url='${ctx}/cadre?status='+status;
+            if(status=='${CADRE_STATUS_LEADER}' || status=='${CADRE_STATUS_LEADER_LEAVE}')
+              url='${ctx}/cadreLeaderInfo?status='+status;
+
+            msg = _cMap.CADRE_STATUS_MAP[ret.status];
+            if(url!='') msg += '&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="'+url+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
           }
           $("#modal #msg").show().find("span").html(msg);
 

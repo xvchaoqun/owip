@@ -1,14 +1,9 @@
-package controller.unit;
+package controller.cadre;
 
 import controller.BaseController;
-import domain.sys.SysUser;
+import domain.cadre.*;
+import domain.cadre.CadreLeaderExample.Criteria;
 import domain.sys.SysUserView;
-import domain.unit.Leader;
-import domain.unit.LeaderExample;
-import domain.unit.LeaderExample.Criteria;
-import domain.cadre.Cadre;
-import domain.unit.LeaderUnit;
-import domain.unit.LeaderUnitExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.CadreMixin;
@@ -45,20 +40,47 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class LeaderController extends BaseController {
+public class CadreLeaderController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("leader:list")
-    @RequestMapping("/leader")
-    public String leader() {
+    @RequiresPermissions("cadreLeader:list")
+    @RequestMapping("/cadreLeaderInfo")
+    public String cadreLeaderInfo() {
 
         return "index";
     }
-    @RequiresPermissions("leader:list")
-    @RequestMapping("/leader_page")
-    public String leader_page(HttpServletResponse response,
-                              @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_leader") String sort,
+    @RequiresPermissions("cadreLeader:list")
+    @RequestMapping("/cadreLeaderInfo_page")
+    public String cadreLeaderInfo_page(@RequestParam(required = false,
+            defaultValue = SystemConstants.CADRE_STATUS_LEADER+"")Byte status,
+                             Integer cadreId,ModelMap modelMap) {
+
+        modelMap.put("status", status);
+
+        if (cadreId!=null) {
+            Cadre cadre = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadre);
+            if(cadre!=null) {
+                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
+                modelMap.put("sysUser", sysUser);
+            }
+        }
+
+        return "cadre/cadreLeader/cadreLeaderInfo_page";
+    }
+
+
+    @RequiresPermissions("cadreLeader:list")
+    @RequestMapping("/cadreLeader")
+    public String cadreLeader() {
+
+        return "index";
+    }
+    @RequiresPermissions("cadreLeader:list")
+    @RequestMapping("/cadreLeader_page")
+    public String cadreLeader_page(HttpServletResponse response,
+                              @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_leader") String sort,
                               @OrderParam(required = false, defaultValue = "desc") String order,
                               Integer cadreId,
                               Integer typeId,
@@ -74,13 +96,13 @@ public class LeaderController extends BaseController {
             }
         }
 
-        return "unit/leader/leader_page";
+        return "cadre/cadreLeader/cadreLeader_page";
     }
-    @RequiresPermissions("leader:list")
-    @RequestMapping("/leader_data")
+    @RequiresPermissions("cadreLeader:list")
+    @RequestMapping("/cadreLeader_data")
     @ResponseBody
-    public void leader_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_leader") String sort,
+    public void cadreLeader_data(HttpServletResponse response,
+                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_leader") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer typeId,
@@ -96,7 +118,7 @@ public class LeaderController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        LeaderExample example = new LeaderExample();
+        CadreLeaderExample example = new CadreLeaderExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -111,16 +133,16 @@ public class LeaderController extends BaseController {
         }
 
         if (export == 1) {
-            leader_export(example, response);
+            cadreLeader_export(example, response);
             return ;
         }
 
-        int count = leaderMapper.countByExample(example);
+        int count = cadreLeaderMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Leader> Leaders = leaderMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreLeader> Leaders = cadreLeaderMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -136,84 +158,84 @@ public class LeaderController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("leader:edit")
-    @RequestMapping(value = "/leader_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeader:edit")
+    @RequestMapping(value = "/cadreLeader_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_leader_au(Leader record, ModelMap modelMap, HttpServletRequest request) {
+    public Map do_cadreLeader_au(CadreLeader record, ModelMap modelMap, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (leaderService.idDuplicate(id, record.getCadreId(), record.getTypeId())) {
+        if (cadreLeaderService.idDuplicate(id, record.getCadreId(), record.getTypeId())) {
             return failed("添加重复");
         }
 
         if (id == null) {
-            leaderService.insertSelective(record);
+            cadreLeaderService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加校领导：%s", record.getId()));
         } else {
 
-            leaderService.updateByPrimaryKeySelective(record);
+            cadreLeaderService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新校领导：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("leader:edit")
-    @RequestMapping("/leader_au")
-    public String leader_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cadreLeader:edit")
+    @RequestMapping("/cadreLeader_au")
+    public String cadreLeader_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            Leader leader = leaderMapper.selectByPrimaryKey(id);
-            modelMap.put("leader", leader);
-            Cadre cadre = cadreService.findAll().get(leader.getCadreId());
+            CadreLeader cadreLeader = cadreLeaderMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreLeader", cadreLeader);
+            Cadre cadre = cadreService.findAll().get(cadreLeader.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
-        return "unit/leader/leader_au";
+        return "cadre/cadreLeader/cadreLeader_au";
     }
 
-    @RequiresPermissions("leader:del")
-    @RequestMapping(value = "/leader_del", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeader:del")
+    @RequestMapping(value = "/cadreLeader_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_leader_del(Integer id, HttpServletRequest request) {
+    public Map do_cadreLeader_del(Integer id, HttpServletRequest request) {
 
         if (id != null) {
 
-            leaderService.del(id);
+            cadreLeaderService.del(id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除校领导：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("leader:del")
-    @RequestMapping(value = "/leader_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeader:del")
+    @RequestMapping(value = "/cadreLeader_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids){
-            leaderService.batchDel(ids);
+            cadreLeaderService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除校领导：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("leader:changeOrder")
-    @RequestMapping(value = "/leader_changeOrder", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeader:changeOrder")
+    @RequestMapping(value = "/cadreLeader_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_leader_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cadreLeader_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        leaderService.changeOrder(id, addNum);
+        cadreLeaderService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "校领导调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void leader_export(LeaderExample example, HttpServletResponse response) {
+    public void cadreLeader_export(CadreLeaderExample example, HttpServletResponse response) {
 
-        List<Leader> leaders = leaderMapper.selectByExample(example);
-        int rownum = leaderMapper.countByExample(example);
+        List<CadreLeader> cadreLeaders = cadreLeaderMapper.selectByExample(example);
+        int rownum = cadreLeaderMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -228,11 +250,11 @@ public class LeaderController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            Leader leader = leaders.get(i);
+            CadreLeader cadreLeader = cadreLeaders.get(i);
             String[] values = {
-                        leader.getCadreId()+"",
-                                            leader.getTypeId()+"",
-                                            leader.getJob()
+                        cadreLeader.getCadreId()+"",
+                                            cadreLeader.getTypeId()+"",
+                                            cadreLeader.getJob()
                     };
 
             Row row = sheet.createRow(i + 1);
@@ -255,8 +277,8 @@ public class LeaderController extends BaseController {
         }
     }
 
-    @RequiresPermissions("leader:unit")
-    @RequestMapping("/leader_unit")
+    @RequiresPermissions("cadreLeader:unit")
+    @RequestMapping("/cadreLeader_unit")
     public String unit_history(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (id != null) {
@@ -268,17 +290,17 @@ public class LeaderController extends BaseController {
             }
             pageNo = Math.max(1, pageNo);
 
-            LeaderUnitExample example = new LeaderUnitExample();
-            LeaderUnitExample.Criteria criteria = example.createCriteria().andLeaderIdEqualTo(id);
+            CadreLeaderUnitExample example = new CadreLeaderUnitExample();
+            CadreLeaderUnitExample.Criteria criteria = example.createCriteria().andLeaderIdEqualTo(id);
             example.setOrderByClause(String.format("%s %s", "id", "desc"));
 
-            int count = leaderUnitMapper.countByExample(example);
+            int count = cadreLeaderUnitMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
 
                 pageNo = Math.max(1, pageNo - 1);
             }
-            List<LeaderUnit> leaderUnits = leaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-            modelMap.put("leaderUnits", leaderUnits);
+            List<CadreLeaderUnit> cadreLeaderUnits = cadreLeaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            modelMap.put("cadreLeaderUnits", cadreLeaderUnits);
 
             CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -291,10 +313,10 @@ public class LeaderController extends BaseController {
             commonList.setSearchStr(searchStr);
             modelMap.put("commonList", commonList);
 
-            Leader leader = leaderMapper.selectByPrimaryKey(id);
-            modelMap.put("leader", leader);
+            CadreLeader cadreLeader = cadreLeaderMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreLeader", cadreLeader);
         }
 
-        return "unit/leader/leader_unit";
+        return "cadre/cadreLeader/cadreLeader_unit";
     }
 }

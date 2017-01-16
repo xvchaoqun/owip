@@ -1,8 +1,8 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.unit.Leader;
-import domain.unit.LeaderUnit;
+import domain.cadre.CadreLeader;
+import domain.cadre.CadreLeaderUnit;
 import domain.base.MetaType;
 import domain.unit.Unit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,21 +55,21 @@ public class UnitLayoutController extends BaseController {
         Map<Integer, MetaType> leaderTypeMap = metaTypeService.metaTypes("mc_leader_type");
 
         // key: leader.id
-        Map<Integer, List<LeaderUnit>> contactLeaderUnitMap = new LinkedHashMap<>();
-        Map<Integer, List<LeaderUnit>> managerLeaderUnitMap = new LinkedHashMap<>();
+        Map<Integer, List<CadreLeaderUnit>> contactLeaderUnitMap = new LinkedHashMap<>();
+        Map<Integer, List<CadreLeaderUnit>> managerLeaderUnitMap = new LinkedHashMap<>();
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
 
-        Map<MetaType, List<Leader>> resultMap = new LinkedHashMap<>();
+        Map<MetaType, List<CadreLeader>> resultMap = new LinkedHashMap<>();
         for (MetaType leaderType : leaderTypeMap.values()) {
 
-            List<Leader> leaders = leaderService.findLeaderByType(leaderType.getId());
+            List<CadreLeader> leaders = cadreLeaderService.findLeaderByType(leaderType.getId());
             resultMap.put(leaderType, leaders);
 
-            for (Leader leader : leaders) {
+            for (CadreLeader leader : leaders) {
                 // 根据校领导id，类别获取关联单位
-                contactLeaderUnitMap.put(leader.getId(), leaderService.findLeaderUnitByType(leader.getId(),
+                contactLeaderUnitMap.put(leader.getId(), cadreLeaderService.findLeaderUnitByType(leader.getId(),
                         codeKeyMap.get("mt_leader_contact").getId()));
-                managerLeaderUnitMap.put(leader.getId(), leaderService.findLeaderUnitByType(leader.getId(),
+                managerLeaderUnitMap.put(leader.getId(), cadreLeaderService.findLeaderUnitByType(leader.getId(),
                         codeKeyMap.get("mt_leader_manager").getId()));
             }
         }

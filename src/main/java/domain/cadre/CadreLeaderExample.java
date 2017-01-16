@@ -1,16 +1,16 @@
-package domain.unit;
+package domain.cadre;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderUnitExample {
+public class CadreLeaderExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public LeaderUnitExample() {
+    public CadreLeaderExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -164,123 +164,63 @@ public class LeaderUnitExample {
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdIsNull() {
-            addCriterion("leader_id is null");
+        public Criteria andCadreIdIsNull() {
+            addCriterion("cadre_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdIsNotNull() {
-            addCriterion("leader_id is not null");
+        public Criteria andCadreIdIsNotNull() {
+            addCriterion("cadre_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdEqualTo(Integer value) {
-            addCriterion("leader_id =", value, "leaderId");
+        public Criteria andCadreIdEqualTo(Integer value) {
+            addCriterion("cadre_id =", value, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdNotEqualTo(Integer value) {
-            addCriterion("leader_id <>", value, "leaderId");
+        public Criteria andCadreIdNotEqualTo(Integer value) {
+            addCriterion("cadre_id <>", value, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdGreaterThan(Integer value) {
-            addCriterion("leader_id >", value, "leaderId");
+        public Criteria andCadreIdGreaterThan(Integer value) {
+            addCriterion("cadre_id >", value, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("leader_id >=", value, "leaderId");
+        public Criteria andCadreIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id >=", value, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdLessThan(Integer value) {
-            addCriterion("leader_id <", value, "leaderId");
+        public Criteria andCadreIdLessThan(Integer value) {
+            addCriterion("cadre_id <", value, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdLessThanOrEqualTo(Integer value) {
-            addCriterion("leader_id <=", value, "leaderId");
+        public Criteria andCadreIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id <=", value, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdIn(List<Integer> values) {
-            addCriterion("leader_id in", values, "leaderId");
+        public Criteria andCadreIdIn(List<Integer> values) {
+            addCriterion("cadre_id in", values, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdNotIn(List<Integer> values) {
-            addCriterion("leader_id not in", values, "leaderId");
+        public Criteria andCadreIdNotIn(List<Integer> values) {
+            addCriterion("cadre_id not in", values, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdBetween(Integer value1, Integer value2) {
-            addCriterion("leader_id between", value1, value2, "leaderId");
+        public Criteria andCadreIdBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id between", value1, value2, "cadreId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("leader_id not between", value1, value2, "leaderId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNull() {
-            addCriterion("unit_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNotNull() {
-            addCriterion("unit_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdEqualTo(Integer value) {
-            addCriterion("unit_id =", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotEqualTo(Integer value) {
-            addCriterion("unit_id <>", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThan(Integer value) {
-            addCriterion("unit_id >", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_id >=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThan(Integer value) {
-            addCriterion("unit_id <", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_id <=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIn(List<Integer> values) {
-            addCriterion("unit_id in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotIn(List<Integer> values) {
-            addCriterion("unit_id not in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id not between", value1, value2, "unitId");
+        public Criteria andCadreIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id not between", value1, value2, "cadreId");
             return (Criteria) this;
         }
 
@@ -341,6 +281,136 @@ public class LeaderUnitExample {
 
         public Criteria andTypeIdNotBetween(Integer value1, Integer value2) {
             addCriterion("type_id not between", value1, value2, "typeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobIsNull() {
+            addCriterion("job is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobIsNotNull() {
+            addCriterion("job is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobEqualTo(String value) {
+            addCriterion("job =", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotEqualTo(String value) {
+            addCriterion("job <>", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobGreaterThan(String value) {
+            addCriterion("job >", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobGreaterThanOrEqualTo(String value) {
+            addCriterion("job >=", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobLessThan(String value) {
+            addCriterion("job <", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobLessThanOrEqualTo(String value) {
+            addCriterion("job <=", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobLike(String value) {
+            addCriterion("job like", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotLike(String value) {
+            addCriterion("job not like", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobIn(List<String> values) {
+            addCriterion("job in", values, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotIn(List<String> values) {
+            addCriterion("job not in", values, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBetween(String value1, String value2) {
+            addCriterion("job between", value1, value2, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotBetween(String value1, String value2) {
+            addCriterion("job not between", value1, value2, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Integer value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Integer value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Integer value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Integer value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Integer> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Integer> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
     }

@@ -90,9 +90,10 @@
 <c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_ABOLISH%>" var="CADRE_TEMP_STATUS_ABOLISH"/>
 <c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_MAP%>" var="CADRE_TEMP_STATUS_MAP"/>
 
-<c:set value="<%=SystemConstants.CADRE_STATUS_NOW%>" var="CADRE_STATUS_NOW"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_MIDDLE%>" var="CADRE_STATUS_MIDDLE"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_LEADER%>" var="CADRE_STATUS_LEADER"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>
-<c:set value="<%=SystemConstants.CADRE_STATUS_LEAVE%>" var="CADRE_STATUS_LEAVE"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_MIDDLE_LEAVE%>" var="CADRE_STATUS_MIDDLE_LEAVE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>
 

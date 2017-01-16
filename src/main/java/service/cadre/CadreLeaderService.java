@@ -1,9 +1,9 @@
-package service.unit;
+package service.cadre;
 
-import domain.unit.Leader;
-import domain.unit.LeaderExample;
-import domain.unit.LeaderUnit;
-import domain.unit.LeaderUnitExample;
+import domain.cadre.CadreLeader;
+import domain.cadre.CadreLeaderExample;
+import domain.cadre.CadreLeaderUnit;
+import domain.cadre.CadreLeaderUnitExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,31 +18,31 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class LeaderService extends BaseMapper {
+public class CadreLeaderService extends BaseMapper {
 
     // 根据校领导类别查询校领导
-    public List<Leader> findLeaderByType(int type){
+    public List<CadreLeader> findLeaderByType(int type){
 
-        LeaderExample example = new LeaderExample();
+        CadreLeaderExample example = new CadreLeaderExample();
         example.createCriteria().andTypeIdEqualTo(type);
         example.setOrderByClause("sort_order desc");
-        return leaderMapper.selectByExample(example);
+        return cadreLeaderMapper.selectByExample(example);
     }
     // 根据校领导id和关联单位类别获取所有关联单位IDs
-    public List<LeaderUnit> findLeaderUnitByType(int leaderId, int type){
+    public List<CadreLeaderUnit> findLeaderUnitByType(int leaderId, int type){
 
-        LeaderUnitExample example = new LeaderUnitExample();
+        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
         example.createCriteria().andLeaderIdEqualTo(leaderId).andTypeIdEqualTo(type);
-        return leaderUnitMapper.selectByExample(example);
+        return cadreLeaderUnitMapper.selectByExample(example);
     }
 
     public boolean idDuplicate(Integer id, int cadreId, int typeId) {
 
-        LeaderExample example = new LeaderExample();
-        LeaderExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andTypeIdEqualTo(typeId);
+        CadreLeaderExample example = new CadreLeaderExample();
+        CadreLeaderExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andTypeIdEqualTo(typeId);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
-        return leaderMapper.countByExample(example) > 0;
+        return cadreLeaderMapper.countByExample(example) > 0;
     }
 
     @Transactional
@@ -50,10 +50,10 @@ public class LeaderService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
             @CacheEvict(value = "Leader:ALL", allEntries = true)
     })
-    public int insertSelective(Leader record) {
+    public int insertSelective(CadreLeader record) {
 
-        record.setSortOrder(getNextSortOrder("unit_leader", "1=1"));
-        return leaderMapper.insertSelective(record);
+        record.setSortOrder(getNextSortOrder("cadre_leader", "1=1"));
+        return cadreLeaderMapper.insertSelective(record);
     }
 
     @Transactional
@@ -63,7 +63,7 @@ public class LeaderService extends BaseMapper {
     })
     public void del(Integer id) {
 
-        leaderMapper.deleteByPrimaryKey(id);
+        cadreLeaderMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -75,9 +75,9 @@ public class LeaderService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        LeaderExample example = new LeaderExample();
+        CadreLeaderExample example = new CadreLeaderExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        leaderMapper.deleteByExample(example);
+        cadreLeaderMapper.deleteByExample(example);
     }
 
     @Transactional
@@ -85,19 +85,19 @@ public class LeaderService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
             @CacheEvict(value = "Leader:ALL", allEntries = true)
     })
-    public int updateByPrimaryKeySelective(Leader record) {
-        return leaderMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(CadreLeader record) {
+        return cadreLeaderMapper.updateByPrimaryKeySelective(record);
     }
 
     @Cacheable(value = "Leader:ALL")
-    public Map<Integer, Leader> findAll() {
+    public Map<Integer, CadreLeader> findAll() {
 
-        LeaderExample example = new LeaderExample();
+        CadreLeaderExample example = new CadreLeaderExample();
         example.setOrderByClause("sort_order desc");
-        List<Leader> leaderes = leaderMapper.selectByExample(example);
-        Map<Integer, Leader> map = new LinkedHashMap<>();
-        for (Leader leader : leaderes) {
-            map.put(leader.getId(), leader);
+        List<CadreLeader> cadreLeaderes = cadreLeaderMapper.selectByExample(example);
+        Map<Integer, CadreLeader> map = new LinkedHashMap<>();
+        for (CadreLeader cadreLeader : cadreLeaderes) {
+            map.put(cadreLeader.getId(), cadreLeader);
         }
 
         return map;
@@ -116,10 +116,10 @@ public class LeaderService extends BaseMapper {
 
         if (addNum == 0) return;
 
-        Leader entity = leaderMapper.selectByPrimaryKey(id);
+        CadreLeader entity = cadreLeaderMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
-        LeaderExample example = new LeaderExample();
+        CadreLeaderExample example = new CadreLeaderExample();
         if (addNum > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
@@ -130,20 +130,20 @@ public class LeaderService extends BaseMapper {
             example.setOrderByClause("sort_order desc");
         }
 
-        List<Leader> overEntities = leaderMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        List<CadreLeader> overEntities = cadreLeaderMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
         if (overEntities.size() > 0) {
 
-            Leader targetEntity = overEntities.get(overEntities.size() - 1);
+            CadreLeader targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("unit_leader", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_leader", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("unit_leader", null, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_leader", null, baseSortOrder, targetEntity.getSortOrder());
 
-            Leader record = new Leader();
+            CadreLeader record = new CadreLeader();
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
-            leaderMapper.updateByPrimaryKeySelective(record);
+            cadreLeaderMapper.updateByPrimaryKeySelective(record);
         }
     }
 }

@@ -193,6 +193,10 @@
              enableDeleteByExample="false">
       </table>-->
 
+      <table tableName="cadre_leader" domainObjectName="cadre.CadreLeader">
+      </table>
+      <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit">
+      </table>
       <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog">
       </table>-->
 
@@ -220,8 +224,8 @@
       </table>
       <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
       </table>-->
-      <table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
-      </table>
+      <!--<table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
+      </table>-->
       <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>
@@ -310,10 +314,7 @@
       </table>
       <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
       </table>
-      <table tableName="unit_leader" domainObjectName="unit.Leader">
-      </table>
-      <table tableName="unit_leader_unit" domainObjectName="unit.LeaderUnit">
-      </table>
+
       -->
 
 

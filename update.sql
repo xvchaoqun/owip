@@ -1,6 +1,22 @@
 
 
 
+
+RENAME TABLE `unit_leader` TO `cadre_leader`;
+
+RENAME TABLE `unit_leader_unit` TO `cadre_leader_unit`;
+
+ALTER TABLE `cadre`
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL COMMENT '状态，1现任中层干部  2 考察对象 3 离任中层干部 4 离任校领导 5 后备干部 6现任校领导 （2、5 用于标记当前用户还不是干部，但是拥有全部的干部属性）' AFTER `sort_order`;
+
+
+-- 修改资源 leader:* ->cadreLeader:*
+-- leaderUnit:*->cadreLeaderUnit:*
+
+update cadre set status=6 where id in(select cadre_id from cadre_leader);
+
+
+
 -- 2017-1-13
 ALTER TABLE `cadre_company`
 	CHANGE COLUMN `unit` `unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '兼职单位' AFTER `start_time`,

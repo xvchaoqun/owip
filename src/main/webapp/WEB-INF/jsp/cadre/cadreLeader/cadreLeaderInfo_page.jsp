@@ -16,13 +16,13 @@
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
-                            <a href="?status=${CADRE_STATUS_MIDDLE}"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
+                        <li class="<c:if test="${status==CADRE_STATUS_LEADER}">active</c:if>">
+                            <a href="?status=${CADRE_STATUS_LEADER}"><i
+                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER)}</a>
                         </li>
-                        <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
-                            <a href="?status=${CADRE_STATUS_MIDDLE_LEAVE}"><i
-                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
+                        <li class="<c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">active</c:if>">
+                            <a href="?status=${CADRE_STATUS_LEADER_LEAVE}"><i
+                                    class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER_LEAVE)}</a>
                         </li>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                             <a class="popupBtn btn btn-danger btn-sm"
@@ -33,19 +33,11 @@
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
-                                <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
-                                    <button class="jqBatchBtn btn btn-warning btn-sm"
-                                            data-title="重新任用"
-                                            data-msg="确定重新任用这{0}个干部吗？（添加到考察对象中）"
-                                            data-url="${ctx}/cadre_re_assign" data-callback="_reAssignCallback">
-                                        <i class="fa fa-reply"></i> 重新任用
-                                    </button>
-                                </c:if>
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
                                        data-url="${ctx}/cadre_au?status=${status}"><i class="fa fa-plus"></i>
-                                        <c:if test="${status==CADRE_STATUS_MIDDLE}">添加现任中层干部</c:if>
-                                        <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">添加离任中层干部</c:if>
+                                        <c:if test="${status==CADRE_STATUS_LEADER}">添加现任校领导</c:if>
+                                        <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导</c:if>
                                     </a>
                                 </shiro:hasPermission>
 
@@ -54,15 +46,12 @@
                                         data-querystr="&status=${status}">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
-
-                                <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                <c:if test="${status==CADRE_STATUS_LEADER}">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-width="700"
-                                            data-url="${ctx}/cadre_leave" data-querystr="&status=${CADRE_STATUS_MIDDLE_LEAVE}">
+                                            data-url="${ctx}/cadre_leave">
                                         <i class="fa fa-edit"></i> 离任
                                     </button>
-                                </c:if>
-                                <c:if test="${status==CADRE_STATUS_MIDDLE}">
                                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/cadre_additional_post" data-rel="tooltip"
                                             data-placement="bottom"
@@ -170,22 +159,22 @@
     function _reAssignCallback(){
         location.href='${ctx}/cadreTemp';
     }
-    <c:if test="${status==CADRE_STATUS_MIDDLE}">
+    <c:if test="${status==CADRE_STATUS_MIDDLE || status==CADRE_STATUS_LEADER}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
-        url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadre_data?status=${status}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadre
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });
     </c:if>
 
-    <c:if test="${status!=CADRE_STATUS_MIDDLE}">
+    <c:if test="${status!=CADRE_STATUS_MIDDLE && status!=CADRE_STATUS_LEADER}">
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
-        url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadre_data?status=${status}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModels.cadreLeave
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();

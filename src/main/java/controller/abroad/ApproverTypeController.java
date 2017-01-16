@@ -6,7 +6,7 @@ import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
 import domain.abroad.ApproverTypeExample.Criteria;
 import domain.cadre.Cadre;
-import domain.unit.Leader;
+import domain.cadre.CadreLeader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -57,8 +57,8 @@ public class ApproverTypeController extends BaseController {
 
             Set<Cadre> cadreSet = new LinkedHashSet<>();
             Set<Integer> selectCadreSet = new HashSet<>();
-            Map<Integer, Leader> leaderMap = leaderService.findAll();
-            for (Leader leader : leaderMap.values()) {
+            Map<Integer, CadreLeader> leaderMap = cadreLeaderService.findAll();
+            for (CadreLeader leader : leaderMap.values()) {
                 Cadre cadre = leader.getCadre();
                 cadreSet.add(cadre);
                 if(!unselectCadreSet.contains(cadre.getId()))

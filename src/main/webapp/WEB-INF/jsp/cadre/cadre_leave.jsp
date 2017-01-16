@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -10,14 +9,6 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadre_leave" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadre.id}">
-        <input type="hidden" name="status">
-        <div class="form-group">
-            <label class="col-xs-3 control-label">类别</label>
-            <div class="col-xs-8 label-text"  style="font-size: 15px;">
-                <input type="checkbox" class="big" value="1"/> 中层干部离任
-                <input type="checkbox"  class="big" value="2"/> 校领导离任
-            </div>
-        </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">离任文件</label>
             <div class="col-xs-9 label-text">
@@ -67,15 +58,6 @@ pageEncoding="UTF-8"%>
     });
     $("#modal form").validate({
         submitHandler: function (form) {
-            var type = $('#modal input[type=checkbox]:checked').val();
-            if(type==1){
-                $("#modal input[name=status]").val('${CADRE_STATUS_LEAVE}');
-            }else if(type==2){
-                $("#modal input[name=status]").val('${CADRE_STATUS_LEADER_LEAVE}');
-            }else {
-                SysMsg.warning("请选择离任类别");
-                return;
-            }
 
             var dispatchCadreId = -1;
             if(treeNode.children.length>0) {
@@ -95,7 +77,10 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         //SysMsg.success('操作成功。', '成功',function(){
-                                location.href='${ctx}/cadre?status='+$("#modal input[name=status]").val()
+                        if(ret.status=='${CADRE_STATUS_MIDDLE_LEAVE}')
+                                location.href='${ctx}/cadre?status='+ret.status;
+                        if(ret.status=='${CADRE_STATUS_LEADER_LEAVE}')
+                            location.href='${ctx}/cadreLeaderInfo?status='+ret.status;
                         //});
                     }
                 }

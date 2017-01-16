@@ -1,9 +1,9 @@
-package controller.unit;
+package controller.cadre;
 
 import controller.BaseController;
-import domain.unit.LeaderUnit;
-import domain.unit.LeaderUnitExample;
-import domain.unit.LeaderUnitExample.Criteria;
+import domain.cadre.CadreLeaderUnit;
+import domain.cadre.CadreLeaderUnitExample;
+import domain.cadre.CadreLeaderUnitExample.Criteria;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -33,19 +33,19 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class LeaderUnitController extends BaseController {
+public class CadreLeaderUnitController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("leaderUnit:list")
-    @RequestMapping("/leaderUnit")
-    public String leaderUnit() {
+   /* @RequiresPermissions("cadreLeaderUnit:list")
+    @RequestMapping("/cadreLeaderUnit")
+    public String cadreLeaderUnit() {
 
         return "index";
     }
-    @RequiresPermissions("leaderUnit:list")
-    @RequestMapping("/leaderUnit_page")
-    public String leaderUnit_page(HttpServletResponse response,
+    @RequiresPermissions("cadreLeaderUnit:list")
+    @RequestMapping("/cadreLeaderUnit_page")
+    public String cadreLeaderUnit_page(HttpServletResponse response,
                                  //@RequestParam(required = false, defaultValue = "sort_order") String sort,
                                  //@RequestParam(required = false, defaultValue = "asc") String order,
                                     Integer leaderId,
@@ -62,7 +62,7 @@ public class LeaderUnitController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        LeaderUnitExample example = new LeaderUnitExample();
+        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("typeId desc, sort_order asc");
 
@@ -77,17 +77,17 @@ public class LeaderUnitController extends BaseController {
         }
 
         if (export == 1) {
-            leaderUnit_export(example, response);
+            cadreLeaderUnit_export(example, response);
             return null;
         }
 
-        int count = leaderUnitMapper.countByExample(example);
+        int count = cadreLeaderUnitMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<LeaderUnit> LeaderUnits = leaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("leaderUnits", LeaderUnits);
+        List<CadreLeaderUnit> LeaderUnits = cadreLeaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        modelMap.put("cadreLeaderUnits", LeaderUnits);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -102,81 +102,81 @@ public class LeaderUnitController extends BaseController {
         if (typeId!=null) {
             searchStr += "&typeId=" + typeId;
         }
-       /* if (StringUtils.isNotBlank(sort)) {
+       *//* if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
-        }*/
+        }*//*
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
-        return "unit/leaderUnit/leaderUnit_page";
-    }
+        return "cadre/cadreLeaderUnit/cadreLeaderUnit_page";
+    }*/
 
-    @RequiresPermissions("leaderUnit:edit")
-    @RequestMapping(value = "/leaderUnit_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeaderUnit:edit")
+    @RequestMapping(value = "/cadreLeaderUnit_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_leaderUnit_au(LeaderUnit record, HttpServletRequest request) {
+    public Map do_cadreLeaderUnit_au(CadreLeaderUnit record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (leaderUnitService.idDuplicate(record.getLeaderId(), record.getUnitId(), record.getTypeId())) {
+        if (cadreLeaderUnitService.idDuplicate(record.getLeaderId(), record.getUnitId(), record.getTypeId())) {
             return failed("添加重复");
         }
         if (id == null) {
-            leaderUnitService.insertSelective(record);
+            cadreLeaderUnitService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加校领导单位：%s", record.getId()));
         } else {
 
-            leaderUnitService.updateByPrimaryKeySelective(record);
+            cadreLeaderUnitService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新校领导单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("leaderUnit:edit")
-    @RequestMapping("/leaderUnit_au")
-    public String leaderUnit_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cadreLeaderUnit:edit")
+    @RequestMapping("/cadreLeaderUnit_au")
+    public String cadreLeaderUnit_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            LeaderUnit leaderUnit = leaderUnitMapper.selectByPrimaryKey(id);
-            modelMap.put("leaderUnit", leaderUnit);
+            CadreLeaderUnit cadreLeaderUnit = cadreLeaderUnitMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreLeaderUnit", cadreLeaderUnit);
         }
-        return "unit/leaderUnit/leaderUnit_au";
+        return "cadre/cadreLeaderUnit/cadreLeaderUnit_au";
     }
 
-    @RequiresPermissions("leaderUnit:del")
-    @RequestMapping(value = "/leaderUnit_del", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeaderUnit:del")
+    @RequestMapping(value = "/cadreLeaderUnit_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_leaderUnit_del(HttpServletRequest request, Integer id) {
+    public Map do_cadreLeaderUnit_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            leaderUnitService.del(id);
+            cadreLeaderUnitService.del(id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除校领导单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("leaderUnit:del")
-    @RequestMapping(value = "/leaderUnit_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreLeaderUnit:del")
+    @RequestMapping(value = "/cadreLeaderUnit_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            leaderUnitService.batchDel(ids);
+            cadreLeaderUnitService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除校领导单位：%s", new Object[]{ids}));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    public void leaderUnit_export(LeaderUnitExample example, HttpServletResponse response) {
+    public void cadreLeaderUnit_export(CadreLeaderUnitExample example, HttpServletResponse response) {
 
-        List<LeaderUnit> leaderUnits = leaderUnitMapper.selectByExample(example);
-        int rownum = leaderUnitMapper.countByExample(example);
+        List<CadreLeaderUnit> cadreLeaderUnits = cadreLeaderUnitMapper.selectByExample(example);
+        int rownum = cadreLeaderUnitMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -191,11 +191,11 @@ public class LeaderUnitController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            LeaderUnit leaderUnit = leaderUnits.get(i);
+            CadreLeaderUnit cadreLeaderUnit = cadreLeaderUnits.get(i);
             String[] values = {
-                        leaderUnit.getLeaderId()+"",
-                                            leaderUnit.getUnitId()+"",
-                                            leaderUnit.getTypeId()+""
+                        cadreLeaderUnit.getLeaderId()+"",
+                                            cadreLeaderUnit.getUnitId()+"",
+                                            cadreLeaderUnit.getTypeId()+""
                     };
 
             Row row = sheet.createRow(i + 1);

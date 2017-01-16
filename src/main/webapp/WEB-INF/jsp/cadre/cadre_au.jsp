@@ -1,13 +1,10 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cadre!=null}">编辑</c:if><c:if test="${cadre==null}">添加</c:if>
-        <c:if test="${status==CADRE_STATUS_NOW}">现任干部</c:if>
-        <c:if test="${status==CADRE_STATUS_LEAVE}">离任中层干部</c:if>
-        <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">离任校领导干部</c:if>
+        ${CADRE_STATUS_MAP.get(status)}
     </h3>
 </div>
 <div class="modal-body">
@@ -73,7 +70,7 @@ pageEncoding="UTF-8"%>
                     <input  class="form-control" type="text" name="post" value="${cadre.post}">
                 </div>
             </div>
-    <c:if test="${cadre.id!=null && (status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+    <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
     <div class="form-group">
         <label class="col-xs-4 control-label">离任文件</label>
         <div class="col-xs-8 label-text">
@@ -83,7 +80,7 @@ pageEncoding="UTF-8"%>
     </div>
     </c:if>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><c:if test="${status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
+				<label class="col-xs-4 control-label"><c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
 				<div class="col-xs-6">
                         <input  class="form-control" type="text" name="title" value="${cadre.title}">
 				</div>
@@ -102,7 +99,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    <c:if test="${cadre.id!=null && (status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+    <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
     var treeNode = ${tree};
     if(treeNode.children.length==0){
         $("#tree3").html("没有发文");
@@ -129,7 +126,7 @@ pageEncoding="UTF-8"%>
     $('textarea.limited').inputlimiter();
     $("#modal form").validate({
         submitHandler: function (form) {
-            <c:if test="${cadre.id!=null && (status==CADRE_STATUS_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
+            <c:if test="${cadre.id!=null && (status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE)}">
             if(treeNode.children.length>0) {
                 var selectIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
                     return node.data.key;

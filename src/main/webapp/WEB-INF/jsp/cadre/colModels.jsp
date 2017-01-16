@@ -3,6 +3,273 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <script>
     var colModels = function(){};
+    colModels.cadre = [
+        {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+        {
+            label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+            return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
+                    .format(rowObject.id, cellvalue);
+        }, frozen: true
+        },
+        {
+            label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
+            return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
+        }, frozen: true
+        },
+        {label: '部门属性', name: 'unit.unitType.name', width: 150},
+        {label: '所在单位', name: 'unit.name', width: 200},
+        {label: '现任职务', name: 'post', align: 'left', width: 350},
+        {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
+        {
+            label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.adminLevelMap[cellvalue].name;
+        }
+        },
+        {
+            label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.postMap[cellvalue].name;
+        }
+        },
+        {
+            label: '是否正职', name: 'mainCadrePost.postId', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.postMap[cellvalue].boolAttr ? "是" : "否"
+        }
+        },
+        {
+            label: '性别', name: 'gender', width: 50, formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.GENDER_MAP[cellvalue];
+        }
+        },
+        {label: '民族', name: 'nation', width: 60},
+        {label: '籍贯', name: 'nativePlace', width: 120},
+        {label: '出生地', name: 'user.homeplace', width: 120},
+        {label: '身份证号', name: 'idcard', width: 170},
+        {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {
+            label: '年龄', name: 'birth', width: 50,
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return yearOffNow(cellvalue);
+            }
+        },
+        {
+            label: '党派', name: 'isDp', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+            if (!rowObject.isDp && rowObject.growTime != undefined) return "中共党员";
+            if (rowObject.isDp) return _cMap.metaTypeMap[rowObject.dpTypeId].name;
+            return "-";
+        }
+        },
+        {
+            label: '党派加入时间', name: 'growTime', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+            if (rowObject.isDp && rowObject.dpAddTime != undefined) return rowObject.dpAddTime.substr(0, 10);
+            if (rowObject.growTime != undefined) return rowObject.growTime.substr(0, 10);
+            return "-"
+        }
+        },
+        {
+            label: '参加工作时间', width: 120, formatter: function (cellvalue, options, rowObject) {
+            return "-"
+        }
+        },
+        {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {
+            label: '最高学历', name: 'eduId', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.metaTypeMap[cellvalue].name
+        }
+        },
+        {label: '最高学位', name: 'degree'},
+        {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+        {
+            label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.metaTypeMap[cellvalue].name
+        }
+        },
+        {label: '毕业学校', name: 'school', width: 150},
+        {
+            label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
+        }
+        },
+        {label: '所学专业', name: 'major'},
+        {label: '岗位类别', name: 'postClass'},
+        {label: '主岗等级', name: 'mainPostLevel', width: 150},
+        {label: '专业技术职务', name: 'proPost', width: 120},
+        {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {label: '专技岗位等级', name: 'proPostLevel', width: 150},
+        {label: '专技岗位分级时间', name: 'proPostLevelTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {label: '管理岗位等级', name: 'manageLevel', width: 150},
+        {label: '管理岗位分级时间', name: 'manageLevelTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {
+            label: '现职务任命文件',
+            width: 150,
+            name: 'mainCadrePost.dispatchCadreRelateBean.first',
+            formatter: function (cellvalue, options, rowObject) {
+                if (!cellvalue || cellvalue.id == undefined) return '';
+                var dispatchCode = cellvalue.dispatchCode;
+                if (cellvalue.fileName && cellvalue.fileName != '')
+                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
+                            .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
+                else return dispatchCode;
+            }
+        },
+        {
+            label: '任现职时间',
+            name: 'mainCadrePost.dispatchCadreRelateBean.last.workTime',
+            formatter: 'date',
+            formatoptions: {newformat: 'Y-m-d'}
+        },
+        {
+            label: '现职务始任时间',
+            width: 150,
+            name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+            formatter: 'date',
+            formatoptions: {newformat: 'Y-m-d'}
+        },
+        {
+            label: '现职务始任年限',
+            width: 120,
+            name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '';
+                var year = yearOffNow(cellvalue);
+                return year == 0 ? "未满一年" : year;
+            }
+        },
+        {
+            label: '现职级始任时间',
+            width: 120,
+            name: 'presentAdminLevel.startDispatch.workTime',
+            formatter: 'date',
+            formatoptions: {newformat: 'Y-m-d'}
+        },
+        {
+            label: '任现职级年限',
+            width: 120,
+            name: 'workYear',
+            formatter: function (cellvalue, options, rowObject) {
+                //console.log(rowObject.endDispatch)
+                if (rowObject.presentAdminLevel == undefined || rowObject.presentAdminLevel.startDispatch == undefined) return '';
+
+                var end;
+                if (rowObject.presentAdminLevel.endDispatch != undefined)
+                    end = rowObject.presentAdminLevel.endDispatch.workTime;
+                if (rowObject.presentAdminLevel.adminLevelId == rowObject.mainCadrePost.adminLevelId)
+                    end = new Date().format("yyyy-MM-dd");
+                if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '';
+
+                var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
+                var year = Math.floor(month / 12);
+                return year == 0 ? "未满一年" : year;
+            }
+        },
+        {
+            label: '是否双肩挑', name: 'mainCadrePost.isDouble', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return cellvalue ? "是" : "否";
+        }
+        },
+        {
+            label: '双肩挑单位',
+            name: 'mainCadrePost.doubleUnitId',
+            width: 150,
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return _cMap.unitMap[cellvalue].name
+            }
+        },
+        {label: '联系方式', name: 'mobile'},
+        /*{ label: '办公电话', name: 'phone' },
+         { label: '家庭电话', name: 'homePhone' },*/
+        {label: '电子邮箱', name: 'email', width: 150},
+        {
+            label: '所属党组织',
+            name: 'partyId',
+            align: 'left',
+            width: 550,
+            formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.partyId == undefined) return '';
+                var party = _cMap.partyMap[rowObject.partyId].name;
+                if (rowObject.branchId != undefined)
+                    var branch = _cMap.branchMap[rowObject.branchId].name;
+                return party + (($.trim(branch) == '') ? '' : '-' + branch);
+            }
+        },
+        {
+            label: '因私出国境兼审单位',
+            width: 150,
+            name: 'additional',
+            formatter: function (cellvalue, options, rowObject) {
+                var cadreAdditionalPosts = rowObject.cadreAdditionalPosts;
+                if (cadreAdditionalPosts.length == 0) return '-';
+                return '<button class="popupBtn btn btn-xs btn-warning"' +
+                        'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</button>'
+                                .format(rowObject.id);
+            }
+        },
+        {
+            label: '短信称谓', name: 'msgTitle', width: 80, formatter: function (cellvalue, options, rowObject) {
+            // 短信称谓
+            var msgTitle = $.trim(cellvalue);
+            if (msgTitle == '' || msgTitle == rowObject.user.realname) {
+                msgTitle = '无'
+            }
+            return msgTitle;
+        }
+        },
+        {label: '备注', name: 'remark', width: 150}
+    ];
+
+    colModels.cadreLeave = [
+        {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+        {
+            label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+            return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
+                    .format(rowObject.id, cellvalue);
+        }, frozen: true
+        },
+        {
+            label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
+            return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
+        }, frozen: true
+        },
+        {label: '原所在单位', name: 'unit.name', width: 200},
+        {label: '原职务', name: 'post', width: 350},
+        {label: '离任后所在单位及职务', name: 'title', width: 350},
+        <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
+        {
+            label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '';
+            return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
+                    .format(encodeURI(cellvalue.file), cellvalue.fileName, cellvalue.dispatchCode);
+        }, frozen: true
+        },
+        {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
+        </c:if>
+        {
+            label: '原行政级别',
+            name: 'typeId',
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '';
+                return _cMap.adminLevelMap[cellvalue].name;
+            }
+        },
+        {label: '原职务属性', name: 'postType.name', width: 150},
+        {label: '手机号', name: 'mobile'},
+        {label: '办公电话', name: 'phone'},
+        {label: '家庭电话', name: 'homePhone'},
+        {label: '电子邮箱', name: 'email', width: 150},
+        {label: '备注', name: 'remark', width: 150}
+    ];
+
     colModels.cadreEdu = [
         {
             label: '学历', name: 'eduId', frozen: true, formatter: function (cellvalue, options, rowObject) {

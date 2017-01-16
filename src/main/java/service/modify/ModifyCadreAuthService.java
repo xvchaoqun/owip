@@ -66,7 +66,8 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         {
             CadreExample example = new CadreExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+            example.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_MIDDLE,
+                    SystemConstants.CADRE_STATUS_LEADER));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 List<Cadre> list = null;
@@ -120,7 +121,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
 
         TreeNode cadreRoot = new TreeNode();
-        cadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_NOW);
+        cadreRoot.title = "现任干部";
         cadreRoot.expand = false;
         cadreRoot.isFolder = true;
         List<TreeNode> cadreRootChildren = new ArrayList<TreeNode>();

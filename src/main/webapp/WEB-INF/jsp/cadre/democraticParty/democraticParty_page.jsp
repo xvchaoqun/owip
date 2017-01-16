@@ -143,10 +143,8 @@ pageEncoding="UTF-8" %>
             }  },
             { label: '在任情况', name: 'status',formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                if(cellvalue=='${CADRE_STATUS_NOW}') return '现任干部';
-                if(cellvalue=='${CADRE_STATUS_TEMP}') return '考察对象';
-                if(cellvalue=='${CADRE_STATUS_LEAVE}') return '离任中层干部';
-                if(cellvalue=='${CADRE_STATUS_LEADER_LEAVE}') return '离任校领导'
+
+                return _cMap.CADRE_STATUS_MAP[cellvalue];
             } },
 
             { label: '备注', name: 'dpRemark', width: 350 }

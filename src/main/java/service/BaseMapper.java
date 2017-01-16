@@ -268,9 +268,9 @@ public class BaseMapper {
 	@Autowired
 	protected DispatchUnitRelateMapper dispatchUnitRelateMapper;
 	@Autowired
-	protected LeaderMapper leaderMapper;
+	protected CadreLeaderMapper cadreLeaderMapper;
 	@Autowired
-	protected LeaderUnitMapper leaderUnitMapper;
+	protected CadreLeaderUnitMapper cadreLeaderUnitMapper;
 	@Autowired
 	protected CadreAdditionalPostMapper cadreAdditionalPostMapper;
 	@Autowired

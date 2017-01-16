@@ -158,7 +158,8 @@ public class CadreCommonService extends BaseMapper {
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
         for (Cadre cadre : cadreList) {
-            if(cadre.getStatus()== SystemConstants.CADRE_STATUS_NOW) {
+            if(cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER) {
                 List<Cadre> list = null;
                 MetaType postType = postMap.get(cadre.getPostId());
                 int postId = postType.getId();
@@ -269,7 +270,8 @@ public class CadreCommonService extends BaseMapper {
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
         for (Cadre cadre : cadreMap.values()) {
-            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
+            if((cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cadre.getUnitId();
@@ -286,7 +288,8 @@ public class CadreCommonService extends BaseMapper {
         Map<String, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
         for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
             Cadre cadre = cadreMap.get(cPost.getCadreId());
-            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW
+            if((cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cPost.getUnitId();

@@ -3,14 +3,14 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${cm:getUserById(cadreMap.get(leader.cadreId).userId).realname}-联系单位</h3>
+    <h3>${cm:getUserById(cadreMap.get(cadreLeader.cadreId).userId).realname}-联系单位</h3>
 </div>
 <div class="modal-body">
-<shiro:hasPermission name="leaderUnit:edit">
+<shiro:hasPermission name="cadreLeaderUnit:edit">
 
-    <form class="form-inline" action="${ctx}/leaderUnit_au" id="modalForm" method="post">
+    <form class="form-inline" action="${ctx}/cadreLeaderUnit_au" id="modalForm" method="post">
         <div class="form-group">
-            <input type="hidden" name="leaderId" value="${leader.id}">
+            <input type="hidden" name="leaderId" value="${cadreLeader.id}">
             <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects?status=1"
                     name="unitId" data-placeholder="请选择单位">
                 <option></option>
@@ -27,8 +27,8 @@ pageEncoding="UTF-8"%>
     <div class="space-10"></div>
 </shiro:hasPermission>
     <div class="popTableDiv"
-         data-url-page="${ctx}/leader_unit?id=${leader.id}"
-         data-url-del="${ctx}/leaderUnit_del">
+         data-url-page="${ctx}/cadreLeader_unit?id=${cadreLeader.id}"
+         data-url-del="${ctx}/cadreLeaderUnit_del">
         <c:if test="${commonList.recNum>0}">
             <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
@@ -39,15 +39,15 @@ pageEncoding="UTF-8"%>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${leaderUnits}" var="leaderUnit" varStatus="st">
+                <c:forEach items="${cadreLeaderUnits}" var="cadreLeaderUnit" varStatus="st">
                     <tr>
-                        <td nowrap>${unitMap.get(leaderUnit.unitId).name}</td>
-                        <td nowrap>${leaderUnitTypeMap.get(leaderUnit.typeId).name}</td>
+                        <td nowrap>${unitMap.get(cadreLeaderUnit.unitId).name}</td>
+                        <td nowrap>${leaderUnitTypeMap.get(cadreLeaderUnit.typeId).name}</td>
                          
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <shiro:hasPermission name="leaderUnit:del">
-                                    <button class="delBtn btn btn-danger btn-xs" data-id="${leaderUnit.id}">
+                                <shiro:hasPermission name="cadreLeaderUnit:del">
+                                    <button class="delBtn btn btn-danger btn-xs" data-id="${cadreLeaderUnit.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
@@ -59,9 +59,9 @@ pageEncoding="UTF-8"%>
                                     </button>
 
                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                        <shiro:hasPermission name="leaderUnit:del">
+                                        <shiro:hasPermission name="cadreLeaderUnit:del">
                                             <li>
-                                                <a href="#" data-id="${leaderUnit.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="#" data-id="${cadreLeaderUnit.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -77,7 +77,7 @@ pageEncoding="UTF-8"%>
                 </tbody>
             </table>
                     <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                        <wo:page commonList="${commonList}" uri="${ctx}/leaderUnit_page" target="#modal .modal-content" pageNum="5"
+                        <wo:page commonList="${commonList}" uri="${ctx}/cadreLeaderUnit_page" target="#modal .modal-content" pageNum="5"
                                  model="3"/>
                     </c:if>
         </c:if>

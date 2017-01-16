@@ -6,28 +6,28 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-au="${ctx}/leader_au"
-                 data-url-page="${ctx}/leader_page"
-                 data-url-del="${ctx}/leader_del"
-                 data-url-bd="${ctx}/leader_batchDel"
-                 data-url-co="${ctx}/leader_changeOrder"
+                 data-url-au="${ctx}/cadreLeader_au"
+                 data-url-page="${ctx}/cadreLeader_page"
+                 data-url-del="${ctx}/cadreLeader_del"
+                 data-url-bd="${ctx}/cadreLeader_batchDel"
+                 data-url-co="${ctx}/cadreLeader_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
                 ||not empty param.job || not empty param.code}"/>
                 <div class="jqgrid-vertical-offset buttons">
-                    <shiro:hasPermission name="leader:edit">
+                    <shiro:hasPermission name="cadreLeader:edit">
                         <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 修改信息</a>
 
-                    <shiro:hasPermission name="leaderUnit:list">
+                    <shiro:hasPermission name="cadreLeaderUnit:list">
                         <button  class="jqOpenViewBtn btn btn-sm btn-warning"
-                                 data-url="${ctx}/leader_unit">
+                                 data-url="${ctx}/cadreLeader_unit">
                             <i class="fa fa-sitemap"></i> 编辑联系单位
                         </button>
                     </shiro:hasPermission>
-                    <shiro:hasPermission name="leader:del">
+                    <shiro:hasPermission name="cadreLeader:del">
                         <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                 </div>
@@ -97,7 +97,7 @@
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/leader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreLeader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '工作证号',  name: 'user.code', width: 100 ,frozen:true},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){

@@ -86,7 +86,8 @@ public class ShiroUser implements Serializable {
             Cadre cadre = CmTag.getCadreByUserId(id);
 
             //考察对象和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
-            if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW
+            if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER
                     && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
                 userPermissions.remove("abroad:user"); // 因私出国境申请（干部目录）
                 userPermissions.remove("userApplySelf:*"); // 申请因私出国境（干部）
@@ -104,7 +105,8 @@ public class ShiroUser implements Serializable {
             }
 
             // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
-            if (cadre==null || cadre.getStatus() != SystemConstants.CADRE_STATUS_NOW || approverTypeBean == null ||
+            if (cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER) || approverTypeBean == null ||
                     !(approverTypeBean.getMainPostUnitIds().size()>0
                             || approverTypeBean.isManagerLeader()
                             || approverTypeBean.isApprover())) {

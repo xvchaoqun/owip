@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.unit.LeaderUnitMapper" >
-  <resultMap id="BaseResultMap" type="domain.unit.LeaderUnit" >
+<mapper namespace="persistence.cadre.CadreLeaderUnitMapper" >
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreLeaderUnit" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="leader_id" property="leaderId" jdbcType="INTEGER" />
     <result column="unit_id" property="unitId" jdbcType="INTEGER" />
@@ -68,13 +68,13 @@
   <sql id="Base_Column_List" >
     id, leader_id, unit_id, type_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.unit.LeaderUnitExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreLeaderUnitExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from unit_leader_unit
+    from cadre_leader_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,27 +85,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from unit_leader_unit
+    from cadre_leader_unit
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from unit_leader_unit
+    delete from cadre_leader_unit
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.unit.LeaderUnitExample" >
-    delete from unit_leader_unit
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreLeaderUnitExample" >
+    delete from cadre_leader_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.unit.LeaderUnit" >
-    insert into unit_leader_unit (id, leader_id, unit_id, 
+  <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreLeaderUnit" >
+    insert into cadre_leader_unit (id, leader_id, unit_id, 
       type_id)
     values (#{id,jdbcType=INTEGER}, #{leaderId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
       #{typeId,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.unit.LeaderUnit" >
-    insert into unit_leader_unit
+  <insert id="insertSelective" parameterType="domain.cadre.CadreLeaderUnit" >
+    insert into cadre_leader_unit
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -135,14 +135,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.unit.LeaderUnitExample" resultType="java.lang.Integer" >
-    select count(*) from unit_leader_unit
+  <select id="countByExample" parameterType="domain.cadre.CadreLeaderUnitExample" resultType="java.lang.Integer" >
+    select count(*) from cadre_leader_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update unit_leader_unit
+    update cadre_leader_unit
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -162,7 +162,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update unit_leader_unit
+    update cadre_leader_unit
     set id = #{record.id,jdbcType=INTEGER},
       leader_id = #{record.leaderId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
@@ -171,8 +171,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.unit.LeaderUnit" >
-    update unit_leader_unit
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreLeaderUnit" >
+    update cadre_leader_unit
     <set >
       <if test="leaderId != null" >
         leader_id = #{leaderId,jdbcType=INTEGER},
@@ -186,20 +186,20 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.unit.LeaderUnit" >
-    update unit_leader_unit
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreLeaderUnit" >
+    update cadre_leader_unit
     set leader_id = #{leaderId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.unit.LeaderUnitExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreLeaderUnitExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from unit_leader_unit
+    from cadre_leader_unit
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

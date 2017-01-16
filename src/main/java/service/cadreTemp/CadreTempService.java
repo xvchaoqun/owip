@@ -247,11 +247,15 @@ public class CadreTempService extends BaseMapper {
         cadreAdLogService.addLog(cadreId, "通过常委会任命",
                 SystemConstants.CADRE_AD_LOG_MODULE_TEMP, cadreTemp.getId());
 
+        Byte status = SystemConstants.CADRE_STATUS_MIDDLE;
+        if(cadre.getStatus()==SystemConstants.CADRE_STATUS_LEADER_LEAVE){// 如果原来是离任校领导，重新任命之后也是离任校领导？
+            status = SystemConstants.CADRE_STATUS_LEADER;
+        }
         // 覆盖干部库
         cadreRecord.setId(cadreId);
-        cadreRecord.setStatus(SystemConstants.CADRE_STATUS_NOW);
+        cadreRecord.setStatus(status);
         cadreRecord.setUserId(null);
-        cadreRecord.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + SystemConstants.CADRE_STATUS_NOW));
+        cadreRecord.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
         cadreService.updateByPrimaryKeySelective(cadreRecord);
 
         // 如果原来是后备干部发展过来的，此时肯定有一条记录在后备干部【列为考察对象列表中】，需要这条记录的状态更改为【后备干部已使用】

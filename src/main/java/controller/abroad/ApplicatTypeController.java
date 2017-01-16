@@ -283,7 +283,8 @@ public class ApplicatTypeController extends BaseController {
         modelMap.put("commonList", commonList);
 
         CadreExample cadreExample = new CadreExample();
-        cadreExample.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+        cadreExample.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_MIDDLE,
+                SystemConstants.CADRE_STATUS_LEADER));
         modelMap.put("escapeCount", cadreMapper.countByExample(cadreExample)- applicatCadreMapper.countByExample(new ApplicatCadreExample()));
 
 

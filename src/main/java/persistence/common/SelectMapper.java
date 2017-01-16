@@ -6,7 +6,7 @@ import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
 import domain.dispatch.DispatchCadre;
 import domain.modify.ModifyCadreAuth;
-import domain.unit.Leader;
+import domain.cadre.CadreLeader;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -33,15 +33,15 @@ public interface SelectMapper {
     int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
 
     //查询校领导的分管单位
-    @Select("select blu.unit_id from unit_leader_unit blu, unit_leader bl " +
+    @Select("select blu.unit_id from cadre_leader_unit blu, cadre_leader bl " +
             "where  bl.cadre_id = #{cadreId} and blu.leader_id = bl.id and blu.type_id=#{leaderTypeId}")
     List<Integer> getLeaderManagerUnitId(@Param("cadreId") Integer cadreId, @Param("leaderTypeId") Integer leaderTypeId);
 
     //查询分管当前单位的校领导
-    @ResultMap("persistence.unit.LeaderMapper.BaseResultMap")
-    @Select("select bl.* from unit_leader_unit blu, unit_leader bl " +
+    @ResultMap("persistence.cadre.CadreLeaderMapper.BaseResultMap")
+    @Select("select bl.* from cadre_leader_unit blu, cadre_leader bl " +
             "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
-    List<Leader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
+    List<CadreLeader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
 
     @ResultType(bean.ApplySelfModifyBean.class)
     @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from abroad_apply_self_modify " +
