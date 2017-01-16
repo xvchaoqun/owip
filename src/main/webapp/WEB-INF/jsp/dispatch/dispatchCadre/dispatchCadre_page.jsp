@@ -162,7 +162,7 @@
             { label:'发文号',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                        .format(encodeURI(rowObject.dispatch.file), rowObject.dispatch.fileName, cellvalue);
+                        .format(encodeURI(rowObject.dispatch.file), encodeURI(rowObject.dispatch.fileName), cellvalue);
                 else return cellvalue;
             },frozen:true },
             { label: '任免日期',  name: 'dispatch.workTime', width: 100,frozen:true  },
@@ -197,13 +197,13 @@
             { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                        .format(encodeURI(rowObject.dispatch.file), rowObject.dispatch.fileName);
+                        .format(encodeURI(rowObject.dispatch.file), encodeURI(rowObject.dispatch.fileName));
                 else return '';
             }},
             { label:'上会ppt', name: 'pptName', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.dispatch.pptName && rowObject.dispatch.pptName!='')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                        .format(encodeURI(rowObject.dispatch.ppt), rowObject.dispatch.pptName);
+                        .format(encodeURI(rowObject.dispatch.ppt), encodeURI(rowObject.dispatch.pptName));
                 else return '';
             }},
             { label: '是否复核', name: 'hasChecked', formatter:function(cellvalue, options, rowObject){

@@ -200,7 +200,7 @@
                 label: '发文号', name: 'dispatchCode', width: 180, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.fileName && rowObject.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(rowObject.file), rowObject.fileName, cellvalue);
+                            .format(encodeURI(rowObject.file), encodeURI(rowObject.fileName), cellvalue);
                 else return cellvalue;
             }, frozen: true
             },
@@ -234,7 +234,7 @@
                 label: '任免文件', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.fileName && rowObject.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                        .format(encodeURI(rowObject.file), rowObject.fileName)
+                        .format(encodeURI(rowObject.file), encodeURI(rowObject.fileName))
                             + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
                             + 'data-id="{0}" data-type="file">删除</a>'.format(rowObject.id);
                 else return '';
@@ -244,7 +244,7 @@
                 label: '上会ppt', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pptName && rowObject.pptName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                        .format(encodeURI(rowObject.ppt), rowObject.pptName)
+                        .format(encodeURI(rowObject.ppt), encodeURI(rowObject.pptName))
                 + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
                             + 'data-id="{0}" data-type="ppt">删除</a>'.format(rowObject.id);
                 else return '';
