@@ -126,7 +126,7 @@
                 return _cMap.politicalStatusMap[cellvalue].name
             }
             },
-            {label: '工作单位及职务', name: 'unit', width: 250}
+            {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid4');
