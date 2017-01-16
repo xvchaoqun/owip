@@ -44,13 +44,13 @@ public class CadreLeaderController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreLeader:list")
+    @RequiresPermissions("cadreLeaderInfo:list")
     @RequestMapping("/cadreLeaderInfo")
     public String cadreLeaderInfo() {
 
         return "index";
     }
-    @RequiresPermissions("cadreLeader:list")
+    @RequiresPermissions("cadreLeaderInfo:list")
     @RequestMapping("/cadreLeaderInfo_page")
     public String cadreLeaderInfo_page(@RequestParam(required = false,
             defaultValue = SystemConstants.CADRE_STATUS_LEADER+"")Byte status,
