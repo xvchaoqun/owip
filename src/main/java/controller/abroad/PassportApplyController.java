@@ -75,9 +75,9 @@ public class PassportApplyController extends BaseController {
         PassportApply record = new PassportApply();
         record.setId(id);
         Date date = DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD_CHINA);
-        if(date==null || date.before(new Date())){
+        /*if(date==null || date.before(new Date())){
             throw new RuntimeException("证件应交回日期有误");
-        }
+        }*/
         record.setExpectDate(date);
 
         record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_PASS);
@@ -215,62 +215,13 @@ public class PassportApplyController extends BaseController {
         return;
     }
 
-   /* @RequiresPermissions("passportApply:edit")
-    @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_passportApply_au(PassportApply record,String _applyDate, String _expectDate, String _handleDate, HttpServletRequest request) {
-
-        Integer id = record.getId();
-        if(StringUtils.isNotBlank(_applyDate)){
-            record.setApplyDate(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
-        }
-        if(StringUtils.isNotBlank(_expectDate)){
-            record.setExpectDate(DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD));
-        }
-        if(StringUtils.isNotBlank(_handleDate)) {
-            record.setHandleDate(DateUtils.parseDate(_handleDate, DateUtils.YYYY_MM_DD));
-        }
-        if (id == null) {
-            record.setCreateTime(new Date());
-            passportApplyService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加申请办理因私出国证件：%s", record.getId()));
-        } else {
-
-           *//* passportApplyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新申请办理因私出国证件：%s", record.getId()));*//*
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
+    // 管理员添加申请
     @RequiresPermissions("passportApply:edit")
     @RequestMapping("/passportApply_au")
-    public String passportApply_au(Integer id, ModelMap modelMap) {
+    public String passportApply_au() {
 
-        if (id != null) {
-            PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            modelMap.put("passportApply", passportApply);
-
-            Cadre cadre = cadreService.findAll().get(passportApply.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUser sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
-        }
         return "abroad/passportApply/passportApply_au";
     }
-
-    @RequiresPermissions("passportApply:del")
-    @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_passportApply_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            passportApplyService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }*/
 
     // 逻辑删除
     @RequiresPermissions("passportApply:del")
@@ -286,6 +237,7 @@ public class PassportApplyController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+    // 恢复申请
     @RequiresPermissions("passportApply:del")
     @RequestMapping(value = "/passportApply_batchUnDel", method = RequestMethod.POST)
     @ResponseBody

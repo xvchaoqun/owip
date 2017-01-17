@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row passport_apply">
     <div class="preview">
-        <img data-src="${ctx}/report/passportApply?classId=${param.classId}&userId=${_user.id}&id=${param.id}"
+        <img data-src="${ctx}/report/passportApply?classId=${param.classId}&userId=${cadre.userId}&id=${param.id}"
              src="${ctx}/img/loading.gif"
              onload="lzld(this)" />
     </div>
@@ -33,9 +33,8 @@ pageEncoding="UTF-8"%>
 </div>
 <script>
     $("#back").click(function(){
-        $("#apply-content").load("${ctx}/user/passportApply_select");
+        $("#apply-content").load("${ctx}/user/passportApply_select?cadreId=${param.cadreId}&auth=${param.auth}");
     });
-
 
     $("#submit").click(function(){
         if($("#agree").is(":checked") == false){
@@ -43,33 +42,16 @@ pageEncoding="UTF-8"%>
             return false;
         }
 
-        $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}"},function(ret){
+        $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}", cadreId:"${param.cadreId}"},function(ret){
             if(ret.success){
+                <c:if test="${param.auth!='admin'}">
                 loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));
                 page_reload();
+                </c:if>
+                <c:if test="${param.auth=='admin'}">
+                _closeView();
+                </c:if>
             }
         });
     });
-
-    $("#modalForm").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success:function(ret){
-                    if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                }
-            });
-        }
-    });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
-    $('.date-picker').datepicker({
-        language:"zh-CN",
-        autoclose: true,
-        todayHighlight: true
-    });
-    register_user_select($('[data-rel="select2-ajax"]'));
-    $('textarea.limited').inputlimiter();
 </script>

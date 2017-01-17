@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
             SysMsg.info("请选择证件名称");
             return;
         }
-        $("#apply-content").load("${ctx}/user/passportApply_confirm?classId="+classId);
+        $("#apply-content").load("${ctx}/user/passportApply_confirm?classId="+classId + "&cadreId=${param.cadreId}&auth=${param.auth}");
     });
     $('form [data-rel="select2"]').select2();
 </script>

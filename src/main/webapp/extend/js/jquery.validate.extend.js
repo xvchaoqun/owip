@@ -38,7 +38,7 @@ jQuery.validator.setDefaults({
 		if(element.is(':file')){
 
 			var $uploaderdiv = element.closest('.uploader');
-			error.insertAfter($uploaderdiv.parent())
+			error.appendTo($uploaderdiv)
 			return;
 		}
 

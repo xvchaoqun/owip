@@ -486,8 +486,16 @@
         {label: '批复文件', name: 'paper', width: 250,
             formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.paper==undefined) return '-';
-                return '<a href="${ctx}/attach/download?path={0}&filename={1}">{2}</a>'
-                        .format(encodeURI(rowObject.paper),encodeURI(rowObject.paperFilename), rowObject.paperFilename);
+                /*return '<a href="${ctx}/attach/download?path={0}&filename={1}">{2}</a>'
+                        .format(encodeURI(rowObject.paper),encodeURI(rowObject.paperFilename), rowObject.paperFilename);*/
+
+                if (rowObject.paperFilename && rowObject.paperFilename != '')
+                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">预览</a>'
+                                    .format(encodeURI(rowObject.paper), encodeURI(rowObject.paperFilename))
+                            + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+                                    .format(encodeURI(rowObject.paper), encodeURI(rowObject.paperFilename));
+                else return '';
+
             }},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];

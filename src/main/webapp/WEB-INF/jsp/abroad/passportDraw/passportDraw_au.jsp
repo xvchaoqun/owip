@@ -6,6 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>领取证件申请（${PASSPORT_DRAW_TYPE_MAP.get(type)}）</h3>
 </div>
 <div class="modal-body">
+	<form  class="form-horizontal">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">选择干部</label>
 			<div class="col-xs-6">
@@ -15,14 +16,15 @@ pageEncoding="UTF-8"%>
 				</select>
 			</div>
 		</div>
+	</form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="确定"/>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
 	register_user_select($('#modal select[name=cadreId]'));
-    $("#modal input[type=submit]").click(function(){
+    $("#modal #submitBtn").click(function(){
 
 		var cadreId = $("#modal select[name=cadreId]").val();
 		if(cadreId=="") return;

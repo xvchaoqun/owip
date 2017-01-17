@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
         </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">论文</label>
-				<div class="col-xs-6">
+				<div class="col-xs-6 uploader">
                     <input ${cadrePaper==null?'required':''} class="form-control" type="file" name="_file" />
 				</div>
 			</div>
@@ -53,11 +53,15 @@ pageEncoding="UTF-8"%>
         btn_change:'更改',
         droppable:false,
         onchange:null,
-        thumbnail:false //| true | large
-        //whitelist:'gif|png|jpg|jpeg'
-        //blacklist:'exe|php'
-        //onchange:''
-        //
+        thumbnail:false, //| true | large
+        allowExt: ['pdf']
+    }).off('file.error.ace').on("file.error.ace",function(e, info){
+        var size = info.error_list['size'];
+        if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size));
+        var ext = info.error_count['ext'];
+        var mime = info.error_count['mime'];
+        if(ext!=undefined||mime!=undefined) alert("请上传pdf文件".format(ext));
+        e.preventDefault();
     });
 
     $("#modal form").validate({

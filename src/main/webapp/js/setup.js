@@ -1047,19 +1047,23 @@ $(document).on("click", "#item-content .openView", function(){
         $(this).removeAttr("disabled");
     })
 });
-$(document).on("click", "#item-content .closeView", function(){
-    var $this = $(this);
-    $("#item-content").fadeOut("fast",function(){
 
-        if($this.hasClass("reload")) {
+function _closeView(reload){
+    $("#item-content").fadeOut("fast",function(){
+        if(reload) {
             page_reload(function () {
                 $("#body-content").show()
             });
-        } else
-            $("#body-content").show(0,function(){
+        } else {
+            $("#body-content").show(0, function () {
                 $(window).resize(); // 解决jqgrid不显示的问题
             });
+        }
     });
+}
+$(document).on("click", "#item-content .closeView", function(){
+    var $this = $(this);
+    _closeView($this.hasClass("reload"))
 });
 
 // 分党委、党支部select2联动

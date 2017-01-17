@@ -119,7 +119,7 @@ public class CadreCompanyController extends BaseController {
             record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
         }
 
-        if(_paper!=null){
+      /*  if(_paper!=null){
             //String ext = FileUtils.getExtention(_proof.getOriginalFilename());
             String originalFilename = _paper.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
@@ -129,6 +129,35 @@ public class CadreCompanyController extends BaseController {
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_paper, new File(springProps.uploadPath + savePath));
+
+            record.setPaperFilename(originalFilename);
+            record.setPaper(savePath);
+        }*/
+
+        if(_paper!=null){
+            String ext = FileUtils.getExtention(_paper.getOriginalFilename());
+            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                throw new RuntimeException("文件格式错误，请上传pdf文档");
+            }
+
+            String originalFilename = _paper.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = FILE_SEPARATOR
+                    + "cadre" + FILE_SEPARATOR
+                    + "file" + FILE_SEPARATOR
+                    + fileName;
+            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            //String pdfPath = realPath + ".pdf";
+            FileUtils.copyFile(_paper, new File(springProps.uploadPath + savePath));
+            //FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
             record.setPaperFilename(originalFilename);
             record.setPaper(savePath);
