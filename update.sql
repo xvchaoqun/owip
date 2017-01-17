@@ -1,7 +1,111 @@
 
 
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS SELECT `c`.`id` AS `id`
+	,`c`.`user_id` AS `user_id`
+	,`c`.`type_id` AS `type_id`
+	,`c`.`post_id` AS `post_id`
+	,`c`.`unit_id` AS `unit_id`
+	,`c`.`title` AS `title`
+	,`c`.`dispatch_cadre_id` AS `dispatch_cadre_id`
+	,`c`.`post` AS `post`
+	,`c`.`dp_type_id` AS `dp_type_id`
+	,`c`.`dp_add_time` AS `dp_add_time`
+	,`c`.`dp_post` AS `dp_post`
+	,`c`.`dp_remark` AS `dp_remark`
+	,`c`.`is_dp` AS `is_dp`
+	,`c`.`remark` AS `remark`
+	,`c`.`sort_order` AS `sort_order`
+	,`c`.`status` AS `status`
+	,`ui`.`msg_title` AS `msg_title`
+	,`ui`.`mobile` AS `mobile`
+	,`ui`.`phone` AS `phone`
+	,`ui`.`home_phone` AS `home_phone`
+	,`ui`.`email` AS `email`
+	,`ui`.`realname` AS `realname`
+	,`ui`.`gender` AS `gender`
+	,`ui`.`nation` AS `nation`
+	,`ui`.`native_place` AS `native_place`
+	,`ui`.`idcard` AS `idcard`
+	,`ui`.`birth` AS `birth`
+	,`om`.`party_id` AS `party_id`
+	,`om`.`branch_id` AS `branch_id`
+	,`om`.`grow_time` AS `grow_time`
+	,`om`.`status` AS `member_status`
+	,`max_ce`.`edu_id` AS `edu_id`
+	,`max_ce`.`finish_time` AS `finish_time`
+	,`max_ce`.`learn_style` AS `learn_style`
+	,`max_ce`.`school` AS `school`
+	,`max_ce`.`dep` AS `dep`
+	,`max_ce`.`school_type` AS `school_type`
+	,`max_ce`.`major` AS `major`
+	,`max_degree`.`degree` AS `degree`
+	,`t`.`post_class` AS `post_class`
+	,`t`.`sub_post_class` AS `sub_post_class`
+	,`t`.`main_post_level` AS `main_post_level`
+	,`t`.`pro_post_time` AS `pro_post_time`
+	,`t`.`pro_post_level` AS `pro_post_level`
+	,`t`.`pro_post_level_time` AS `pro_post_level_time`
+	,`t`.`pro_post` AS `pro_post`
+	,`t`.`manage_level` AS `manage_level`
+	,`t`.`manage_level_time` AS `manage_level_time`
+	,`t`.`arrive_time` AS `arrive_time`
+	,main_cadre_post.id as main_cadre_post_id
+	,main_cadre_post.is_double
+	,main_cadre_post.double_unit_id
+
+FROM (
+	(
+		(
+			(
+				(
+					`cadre` `c` LEFT JOIN `sys_user_info` `ui` ON ((`ui`.`user_id` = `c`.`user_id`))
+					) LEFT JOIN `sys_teacher_info` `t` ON ((`t`.`user_id` = `c`.`user_id`))
+				) LEFT JOIN `ow_member` `om` ON ((`om`.`user_id` = `c`.`user_id`))
+			) LEFT JOIN `cadre_edu` `max_ce` ON (
+				(
+					(`max_ce`.`cadre_id` = `c`.`id`)
+					AND (`max_ce`.`is_high_edu` = 1)
+					)
+				)
+		) LEFT JOIN `cadre_edu` `max_degree` ON (
+			(
+				(`max_degree`.`cadre_id` = `c`.`id`)
+				AND (`max_degree`.`is_high_degree` = 1)
+				)
+			)left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
 
 
+	);
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_reserve_view` AS
+SELECT `cr`.`id` AS `reserve_id`
+	,`cr`.`type` AS `reserve_type`
+	,`cr`.`status` AS `reserve_status`
+	,`cr`.`remark` AS `reserve_remark`
+	,`cr`.`sort_order` AS `reserve_sort_order`
+	,`u`.`username` AS `username`
+	,`u`.`code` AS `code`
+	,`cv`.*
+FROM (
+	(
+		`cadre_reserve` `cr` LEFT JOIN `cadre_view` `cv` ON ((`cr`.`cadre_id` = `cv`.`id`))
+		) LEFT JOIN `sys_user` `u` ON ((`u`.`id` = `cv`.`user_id`))
+	);
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_temp_view` AS
+SELECT `ct`.`id` AS `temp_id`
+	,`ct`.`type` AS `temp_type`
+	,`ct`.`status` AS `temp_status`
+	,`ct`.`remark` AS `temp_remark`
+	,`ct`.`sort_order` AS `temp_sort_order`
+	,`cv`.*
+FROM (
+	`cadre_temp` `ct` LEFT JOIN `cadre_view` `cv` ON ((`ct`.`cadre_id` = `cv`.`id`))
+	);
+
+-- 2017-1-16
 RENAME TABLE `unit_leader` TO `cadre_leader`;
 
 RENAME TABLE `unit_leader_unit` TO `cadre_leader_unit`;

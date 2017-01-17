@@ -2072,63 +2072,63 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeIsNull() {
-            addCriterion("arrive_time is null");
+        public Criteria andMemberStatusIsNull() {
+            addCriterion("member_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeIsNotNull() {
-            addCriterion("arrive_time is not null");
+        public Criteria andMemberStatusIsNotNull() {
+            addCriterion("member_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("arrive_time =", value, "arriveTime");
+        public Criteria andMemberStatusEqualTo(Byte value) {
+            addCriterion("member_status =", value, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("arrive_time <>", value, "arriveTime");
+        public Criteria andMemberStatusNotEqualTo(Byte value) {
+            addCriterion("member_status <>", value, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("arrive_time >", value, "arriveTime");
+        public Criteria andMemberStatusGreaterThan(Byte value) {
+            addCriterion("member_status >", value, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("arrive_time >=", value, "arriveTime");
+        public Criteria andMemberStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("member_status >=", value, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeLessThan(Date value) {
-            addCriterionForJDBCDate("arrive_time <", value, "arriveTime");
+        public Criteria andMemberStatusLessThan(Byte value) {
+            addCriterion("member_status <", value, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("arrive_time <=", value, "arriveTime");
+        public Criteria andMemberStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("member_status <=", value, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("arrive_time in", values, "arriveTime");
+        public Criteria andMemberStatusIn(List<Byte> values) {
+            addCriterion("member_status in", values, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("arrive_time not in", values, "arriveTime");
+        public Criteria andMemberStatusNotIn(List<Byte> values) {
+            addCriterion("member_status not in", values, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("arrive_time between", value1, value2, "arriveTime");
+        public Criteria andMemberStatusBetween(Byte value1, Byte value2) {
+            addCriterion("member_status between", value1, value2, "memberStatus");
             return (Criteria) this;
         }
 
-        public Criteria andArriveTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("arrive_time not between", value1, value2, "arriveTime");
+        public Criteria andMemberStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("member_status not between", value1, value2, "memberStatus");
             return (Criteria) this;
         }
 
@@ -2579,6 +2579,76 @@ public class CadreViewExample {
 
         public Criteria andMajorNotBetween(String value1, String value2) {
             addCriterion("major not between", value1, value2, "major");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeIsNull() {
+            addCriterion("degree is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeIsNotNull() {
+            addCriterion("degree is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeEqualTo(String value) {
+            addCriterion("degree =", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeNotEqualTo(String value) {
+            addCriterion("degree <>", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeGreaterThan(String value) {
+            addCriterion("degree >", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeGreaterThanOrEqualTo(String value) {
+            addCriterion("degree >=", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeLessThan(String value) {
+            addCriterion("degree <", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeLessThanOrEqualTo(String value) {
+            addCriterion("degree <=", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeLike(String value) {
+            addCriterion("degree like", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeNotLike(String value) {
+            addCriterion("degree not like", value, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeIn(List<String> values) {
+            addCriterion("degree in", values, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeNotIn(List<String> values) {
+            addCriterion("degree not in", values, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeBetween(String value1, String value2) {
+            addCriterion("degree between", value1, value2, "degree");
+            return (Criteria) this;
+        }
+
+        public Criteria andDegreeNotBetween(String value1, String value2) {
+            addCriterion("degree not between", value1, value2, "degree");
             return (Criteria) this;
         }
 
@@ -3182,73 +3252,243 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andDegreeIsNull() {
-            addCriterion("degree is null");
+        public Criteria andArriveTimeIsNull() {
+            addCriterion("arrive_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeIsNotNull() {
-            addCriterion("degree is not null");
+        public Criteria andArriveTimeIsNotNull() {
+            addCriterion("arrive_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeEqualTo(String value) {
-            addCriterion("degree =", value, "degree");
+        public Criteria andArriveTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time =", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeNotEqualTo(String value) {
-            addCriterion("degree <>", value, "degree");
+        public Criteria andArriveTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time <>", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeGreaterThan(String value) {
-            addCriterion("degree >", value, "degree");
+        public Criteria andArriveTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("arrive_time >", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeGreaterThanOrEqualTo(String value) {
-            addCriterion("degree >=", value, "degree");
+        public Criteria andArriveTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time >=", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeLessThan(String value) {
-            addCriterion("degree <", value, "degree");
+        public Criteria andArriveTimeLessThan(Date value) {
+            addCriterionForJDBCDate("arrive_time <", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeLessThanOrEqualTo(String value) {
-            addCriterion("degree <=", value, "degree");
+        public Criteria andArriveTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("arrive_time <=", value, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeLike(String value) {
-            addCriterion("degree like", value, "degree");
+        public Criteria andArriveTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("arrive_time in", values, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeNotLike(String value) {
-            addCriterion("degree not like", value, "degree");
+        public Criteria andArriveTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("arrive_time not in", values, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeIn(List<String> values) {
-            addCriterion("degree in", values, "degree");
+        public Criteria andArriveTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("arrive_time between", value1, value2, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeNotIn(List<String> values) {
-            addCriterion("degree not in", values, "degree");
+        public Criteria andArriveTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("arrive_time not between", value1, value2, "arriveTime");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeBetween(String value1, String value2) {
-            addCriterion("degree between", value1, value2, "degree");
+        public Criteria andMainCadrePostIdIsNull() {
+            addCriterion("main_cadre_post_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andDegreeNotBetween(String value1, String value2) {
-            addCriterion("degree not between", value1, value2, "degree");
+        public Criteria andMainCadrePostIdIsNotNull() {
+            addCriterion("main_cadre_post_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdEqualTo(Integer value) {
+            addCriterion("main_cadre_post_id =", value, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdNotEqualTo(Integer value) {
+            addCriterion("main_cadre_post_id <>", value, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdGreaterThan(Integer value) {
+            addCriterion("main_cadre_post_id >", value, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("main_cadre_post_id >=", value, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdLessThan(Integer value) {
+            addCriterion("main_cadre_post_id <", value, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("main_cadre_post_id <=", value, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdIn(List<Integer> values) {
+            addCriterion("main_cadre_post_id in", values, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdNotIn(List<Integer> values) {
+            addCriterion("main_cadre_post_id not in", values, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdBetween(Integer value1, Integer value2) {
+            addCriterion("main_cadre_post_id between", value1, value2, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMainCadrePostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("main_cadre_post_id not between", value1, value2, "mainCadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIsNull() {
+            addCriterion("is_double is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIsNotNull() {
+            addCriterion("is_double is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleEqualTo(Boolean value) {
+            addCriterion("is_double =", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotEqualTo(Boolean value) {
+            addCriterion("is_double <>", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleGreaterThan(Boolean value) {
+            addCriterion("is_double >", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_double >=", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLessThan(Boolean value) {
+            addCriterion("is_double <", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_double <=", value, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleIn(List<Boolean> values) {
+            addCriterion("is_double in", values, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotIn(List<Boolean> values) {
+            addCriterion("is_double not in", values, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDoubleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_double not between", value1, value2, "isDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdIsNull() {
+            addCriterion("double_unit_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdIsNotNull() {
+            addCriterion("double_unit_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdEqualTo(Integer value) {
+            addCriterion("double_unit_id =", value, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdNotEqualTo(Integer value) {
+            addCriterion("double_unit_id <>", value, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdGreaterThan(Integer value) {
+            addCriterion("double_unit_id >", value, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("double_unit_id >=", value, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdLessThan(Integer value) {
+            addCriterion("double_unit_id <", value, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdLessThanOrEqualTo(Integer value) {
+            addCriterion("double_unit_id <=", value, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdIn(List<Integer> values) {
+            addCriterion("double_unit_id in", values, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdNotIn(List<Integer> values) {
+            addCriterion("double_unit_id not in", values, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdBetween(Integer value1, Integer value2) {
+            addCriterion("double_unit_id between", value1, value2, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("double_unit_id not between", value1, value2, "doubleUnitId");
             return (Criteria) this;
         }
     }

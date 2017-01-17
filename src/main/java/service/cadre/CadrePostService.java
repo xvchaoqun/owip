@@ -22,13 +22,13 @@ public class CadrePostService extends BaseMapper {
     @Autowired
     private DispatchCadreRelateService dispatchCadreRelateService;
 
-    public void insertSelective(CadrePost record){
+    public void insertSelective(CadrePost record) {
 
         // 如果是主职提交，则判断是否重复
-        if(BooleanUtils.isTrue(record.getIsMainPost())){
+        if (BooleanUtils.isTrue(record.getIsMainPost())) {
             CadrePost cadreMainCadrePost = getCadreMainCadrePost(record.getCadreId());
-            if(cadreMainCadrePost!=null){
-                if(record.getId()==null || cadreMainCadrePost.getId()!=record.getId() ){
+            if (cadreMainCadrePost != null) {
+                if (record.getId() == null || cadreMainCadrePost.getId() != record.getId()) {
                     throw new RuntimeException("主职重复");
                 }
             }
@@ -38,26 +38,33 @@ public class CadrePostService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         CadrePostExample example = new CadrePostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         cadrePostMapper.deleteByExample(example);
 
         // 同时删除关联的任免文件
-        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids),  SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
     }
 
-    public void updateByPrimaryKeySelective(CadrePost record){
+    public void updateByPrimaryKeySelective(CadrePost record) {
 
-        if(BooleanUtils.isFalse(record.getIsDouble())){ // 不是双肩挑
+        if (BooleanUtils.isFalse(record.getIsDouble())) { // 不是双肩挑
             updateMapper.del_cadrePost_doubleUnitId(record.getId());
         }
 
         record.setIsMainPost(null); // 不改变是否是主职字段
         cadrePostMapper.updateByPrimaryKeySelective(record);
+    }
+
+    public CadrePost getCadreMainCadrePostById(Integer id) {
+
+        if (id == null) return null;
+
+        return cadrePostMapper.selectByPrimaryKey(id);
     }
 
     public CadrePost getCadreMainCadrePost(int cadreId) {

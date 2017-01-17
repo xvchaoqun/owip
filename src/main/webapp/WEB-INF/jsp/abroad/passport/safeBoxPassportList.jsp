@@ -38,7 +38,10 @@
                         .format(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
-            { label: '职位属性', align:'center', name: 'cadre.postType.name', width: 200 },
+            { label: '职位属性', align:'center', name: 'cadre.postId', width: 200, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return _cMap.postMap[cellvalue].name;
+            } },
             { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
             { label: '证件号码', align:'center', name: 'code', width: 100 },
             { label:'发证日期', align:'center', name: 'issueDate', width: 100 },

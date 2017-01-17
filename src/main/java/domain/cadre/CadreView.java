@@ -1,8 +1,8 @@
 package domain.cadre;
 
+import domain.base.MetaType;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
-import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CadreView implements Serializable {
+
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -21,16 +22,11 @@ public class CadreView implements Serializable {
     }
     // 主职
     public CadrePost getMainCadrePost(){
-        return CmTag.getCadreMainCadrePost(id);
+        return CmTag.getCadreMainCadrePostById(mainCadrePostId);
     }
     // 现任职务
     public CadreAdminLevel getPresentAdminLevel() {
         return CmTag.getPresentByCadreId(id);
-    }
-    public MetaType getPostType(){
-
-        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
-        return postMap.get(postId);
     }
     // 兼审单位
     public List<CadreAdditionalPost> getCadreAdditionalPosts(){
@@ -46,6 +42,7 @@ public class CadreView implements Serializable {
         }
         return null;
     }
+
     private Integer id;
 
     private Integer userId;
@@ -106,7 +103,7 @@ public class CadreView implements Serializable {
 
     private Date growTime;
 
-    private Date arriveTime;
+    private Byte memberStatus;
 
     private Integer eduId;
 
@@ -121,6 +118,8 @@ public class CadreView implements Serializable {
     private Byte schoolType;
 
     private String major;
+
+    private String degree;
 
     private String postClass;
 
@@ -140,7 +139,13 @@ public class CadreView implements Serializable {
 
     private Date manageLevelTime;
 
-    private String degree;
+    private Date arriveTime;
+
+    private Integer mainCadrePostId;
+
+    private Boolean isDouble;
+
+    private Integer doubleUnitId;
 
     private static final long serialVersionUID = 1L;
 
@@ -384,12 +389,12 @@ public class CadreView implements Serializable {
         this.growTime = growTime;
     }
 
-    public Date getArriveTime() {
-        return arriveTime;
+    public Byte getMemberStatus() {
+        return memberStatus;
     }
 
-    public void setArriveTime(Date arriveTime) {
-        this.arriveTime = arriveTime;
+    public void setMemberStatus(Byte memberStatus) {
+        this.memberStatus = memberStatus;
     }
 
     public Integer getEduId() {
@@ -446,6 +451,14 @@ public class CadreView implements Serializable {
 
     public void setMajor(String major) {
         this.major = major == null ? null : major.trim();
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
     }
 
     public String getPostClass() {
@@ -520,11 +533,35 @@ public class CadreView implements Serializable {
         this.manageLevelTime = manageLevelTime;
     }
 
-    public String getDegree() {
-        return degree;
+    public Date getArriveTime() {
+        return arriveTime;
     }
 
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
+    public void setArriveTime(Date arriveTime) {
+        this.arriveTime = arriveTime;
+    }
+
+    public Integer getMainCadrePostId() {
+        return mainCadrePostId;
+    }
+
+    public void setMainCadrePostId(Integer mainCadrePostId) {
+        this.mainCadrePostId = mainCadrePostId;
+    }
+
+    public Boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public Integer getDoubleUnitId() {
+        return doubleUnitId;
+    }
+
+    public void setDoubleUnitId(Integer doubleUnitId) {
+        this.doubleUnitId = doubleUnitId;
     }
 }

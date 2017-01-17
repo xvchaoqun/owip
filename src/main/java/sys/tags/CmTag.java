@@ -262,6 +262,9 @@ public class CmTag {
         return cadreAdditionalPostService.findCadrePosts(cadreId);
     }
     // 主职
+    public static CadrePost getCadreMainCadrePostById(Integer id){
+        return cadrePostService.getCadreMainCadrePostById(id);
+    }
     public static CadrePost getCadreMainCadrePost(int caderId){
         return cadrePostService.getCadreMainCadrePost(caderId);
     }

@@ -66,7 +66,8 @@ public class ExceptionHandlerController {
             if(StringUtils.contains(ex.getCause().getMessage(), "Duplicate"))
                 resultMap.put("msg", "添加重复");
             else if(StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
-                resultMap.put("msg", "请先删除关联表的所有数据");
+                //resultMap.put("msg", "请先删除关联表的所有数据");
+                resultMap.put("msg", "数据已在别的地方使用，不可以删除");
                 logger.debug(getMsg(request, ex));
             }else {
                 resultMap.put("msg", "数据异常，请联系管理员");

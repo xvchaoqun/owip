@@ -17,8 +17,12 @@ public interface UpdateMapper {
     void excuteSql(@Param("sql") String sql);
 
     // 更新发文提交的干部任免数量
-    @Update("update dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
+    /*@Update("update dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
             "bd.real_dismiss_count=bdc.real_dismiss_count where bd.id=bdc.dispatch_id")
+    void update_dispatch_real_count();*/
+    @Update("update dispatch d left join (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, "+
+            "sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) dc on dc.dispatch_id=d.id "+
+            "set d.real_appoint_count=dc.real_appoint_count, d.real_dismiss_count=dc.real_dismiss_count")
     void update_dispatch_real_count();
 
     @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")

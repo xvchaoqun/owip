@@ -1,11 +1,11 @@
 package domain.cadreReserve;
 
+import domain.base.MetaType;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
-import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;
@@ -24,16 +24,11 @@ public class CadreReserveView implements Serializable {
     }
     // 主职
     public CadrePost getMainCadrePost(){
-        return CmTag.getCadreMainCadrePost(id);
+        return CmTag.getCadreMainCadrePostById(mainCadrePostId);
     }
     // 现任职务
     public CadreAdminLevel getPresentAdminLevel() {
         return CmTag.getPresentByCadreId(id);
-    }
-    public MetaType getPostType(){
-
-        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
-        return postMap.get(postId);
     }
     // 兼审单位
     public List<CadreAdditionalPost> getCadreAdditionalPosts(){
@@ -123,7 +118,7 @@ public class CadreReserveView implements Serializable {
 
     private Date growTime;
 
-    private String arriveTime;
+    private Byte memberStatus;
 
     private Integer eduId;
 
@@ -139,15 +134,33 @@ public class CadreReserveView implements Serializable {
 
     private String major;
 
+    private String degree;
+
     private String postClass;
 
+    private String subPostClass;
+
+    private String mainPostLevel;
+
+    private Date proPostTime;
+
     private String proPostLevel;
+
+    private Date proPostLevelTime;
 
     private String proPost;
 
     private String manageLevel;
 
-    private String degree;
+    private Date manageLevelTime;
+
+    private Date arriveTime;
+
+    private Integer mainCadrePostId;
+
+    private Boolean isDouble;
+
+    private Integer doubleUnitId;
 
     private static final long serialVersionUID = 1L;
 
@@ -447,12 +460,12 @@ public class CadreReserveView implements Serializable {
         this.growTime = growTime;
     }
 
-    public String getArriveTime() {
-        return arriveTime;
+    public Byte getMemberStatus() {
+        return memberStatus;
     }
 
-    public void setArriveTime(String arriveTime) {
-        this.arriveTime = arriveTime == null ? null : arriveTime.trim();
+    public void setMemberStatus(Byte memberStatus) {
+        this.memberStatus = memberStatus;
     }
 
     public Integer getEduId() {
@@ -511,6 +524,14 @@ public class CadreReserveView implements Serializable {
         this.major = major == null ? null : major.trim();
     }
 
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree == null ? null : degree.trim();
+    }
+
     public String getPostClass() {
         return postClass;
     }
@@ -519,12 +540,44 @@ public class CadreReserveView implements Serializable {
         this.postClass = postClass == null ? null : postClass.trim();
     }
 
+    public String getSubPostClass() {
+        return subPostClass;
+    }
+
+    public void setSubPostClass(String subPostClass) {
+        this.subPostClass = subPostClass == null ? null : subPostClass.trim();
+    }
+
+    public String getMainPostLevel() {
+        return mainPostLevel;
+    }
+
+    public void setMainPostLevel(String mainPostLevel) {
+        this.mainPostLevel = mainPostLevel == null ? null : mainPostLevel.trim();
+    }
+
+    public Date getProPostTime() {
+        return proPostTime;
+    }
+
+    public void setProPostTime(Date proPostTime) {
+        this.proPostTime = proPostTime;
+    }
+
     public String getProPostLevel() {
         return proPostLevel;
     }
 
     public void setProPostLevel(String proPostLevel) {
         this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
+    }
+
+    public Date getProPostLevelTime() {
+        return proPostLevelTime;
+    }
+
+    public void setProPostLevelTime(Date proPostLevelTime) {
+        this.proPostLevelTime = proPostLevelTime;
     }
 
     public String getProPost() {
@@ -543,11 +596,43 @@ public class CadreReserveView implements Serializable {
         this.manageLevel = manageLevel == null ? null : manageLevel.trim();
     }
 
-    public String getDegree() {
-        return degree;
+    public Date getManageLevelTime() {
+        return manageLevelTime;
     }
 
-    public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
+    public void setManageLevelTime(Date manageLevelTime) {
+        this.manageLevelTime = manageLevelTime;
+    }
+
+    public Date getArriveTime() {
+        return arriveTime;
+    }
+
+    public void setArriveTime(Date arriveTime) {
+        this.arriveTime = arriveTime;
+    }
+
+    public Integer getMainCadrePostId() {
+        return mainCadrePostId;
+    }
+
+    public void setMainCadrePostId(Integer mainCadrePostId) {
+        this.mainCadrePostId = mainCadrePostId;
+    }
+
+    public Boolean getIsDouble() {
+        return isDouble;
+    }
+
+    public void setIsDouble(Boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    public Integer getDoubleUnitId() {
+        return doubleUnitId;
+    }
+
+    public void setDoubleUnitId(Integer doubleUnitId) {
+        this.doubleUnitId = doubleUnitId;
     }
 }
