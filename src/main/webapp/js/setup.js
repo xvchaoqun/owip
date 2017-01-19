@@ -623,16 +623,25 @@ $(document).on("click", ".confirm", function(e){
     var _this = this;
     var url = $(this).data("url");
     var msg = $(this).data("msg");
+    var loading = $(this).data("loading");
     var callback = $.trim($(this).data("callback"));
 
+    var $loading = $(loading||"#main-container");
     bootbox.confirm(msg, function (result) {
         if (result) {
+            $loading.showLoading({'afterShow':
+                function() {
+                    setTimeout( function(){
+                        $loading.hideLoading();
+                    }, 10000 );
+            }});
             $.post(url, {}, function (ret) {
                 if (ret.success) {
                      if(callback){
                         // console.log(_this)
                         window[callback](_this);
                      }
+                    $loading.hideLoading();
                 }
             });
         }

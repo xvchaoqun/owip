@@ -67,4 +67,7 @@ public class SpringProps {
 	public Boolean applySelfSendApprovalMsg;
 	@Value("${switch.applyself.approval.next}")
 	public Boolean applySelfSendNextApprovalMsg;
+
+	@Value("${switch.cadreStatHistory}")
+	public Boolean cadreStatHistory;
 }

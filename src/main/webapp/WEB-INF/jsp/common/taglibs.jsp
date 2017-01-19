@@ -23,6 +23,7 @@
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
 <fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
+<fmt:message key="site.school" bundle="${spring}" var="_school"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
@@ -67,6 +68,13 @@
 <c:set var="SYNC_TYPE_ABROAD" value="<%=SystemConstants.SYNC_TYPE_ABROAD%>"/>
 
 <c:set var="LOGIN_TYPE_MAP" value="<%=SystemConstants.LOGIN_TYPE_MAP%>"/>
+
+<c:set var="UNIT_TYPE_ATTR_XY" value="<%=SystemConstants.UNIT_TYPE_ATTR_XY%>"/>
+<c:set var="UNIT_TYPE_ATTR_JG" value="<%=SystemConstants.UNIT_TYPE_ATTR_JG%>"/>
+<c:set var="UNIT_TYPE_ATTR_FS" value="<%=SystemConstants.UNIT_TYPE_ATTR_FS%>"/>
+<c:set var="UNIT_TYPE_ATTR_MAP" value="<%=SystemConstants.UNIT_TYPE_ATTR_MAP%>"/>
+
+<c:set var="CADRE_STAT_HISTORY_TYPE_MAP" value="<%=SystemConstants.CADRE_STAT_HISTORY_TYPE_MAP%>"/>
 
 <%@ include file="taglibs-html-fragment.jsp" %>
 

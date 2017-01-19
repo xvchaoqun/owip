@@ -159,6 +159,18 @@ public class SystemConstants {
     public static final byte UNIT_STATUS_RUN = 1;
     public static final byte UNIT_STATUS_HISTORY = 2;
 
+    // 单位类型附加属性
+    public final static String UNIT_TYPE_ATTR_XY = "xy";
+    public final static String UNIT_TYPE_ATTR_JG = "jg";
+    public final static String UNIT_TYPE_ATTR_FS = "fs";
+    public final static Map<String, String> UNIT_TYPE_ATTR_MAP = new LinkedHashMap<>();
+    static {
+        UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_XY, "学部、院、系所");
+        UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_JG, "机关部处及直属、教辅单位");
+        UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_FS, "附属单位");
+    }
+
+
     // 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
     public final static byte USER_REG_STATUS_APPLY = 0;
     public final static byte USER_REG_STATUS_DENY = -1;
@@ -681,6 +693,16 @@ public class SystemConstants {
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEADER);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEADER_LEAVE);
+    }
+
+    // 干部历史数据类别
+    public final static byte CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE = 1;
+    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE = 2;
+    public final static Map<Byte, String> CADRE_STAT_HISTORY_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE, "中层干部信息表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE, "中层干部情况统计表");
+
     }
 
     // 后备干部库类别

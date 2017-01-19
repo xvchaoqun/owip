@@ -287,6 +287,11 @@ public class BaseMapper {
 	protected CadreReserveMapper cadreReserveMapper;
 	@Autowired
 	protected CadreReserveViewMapper cadreReserveViewMapper;
+	@Autowired
+	protected CadreStatHistoryMapper cadreStatHistoryMapper;
+
+	@Autowired
+	protected StatCadreMapper statCadreMapper;
 
 	@Autowired
 	protected HistoryUnitMapper historyUnitMapper;

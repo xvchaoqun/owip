@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import service.abroad.ApplySelfService;
 import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
+import service.cadre.CadreStatHistoryService;
 import service.sys.SysOnlineStaticService;
 import service.sys.SysUserSyncService;
 
@@ -29,6 +30,25 @@ public class SycnTask {
 	private ApplySelfService applySelfService;
 	@Autowired
 	private SpringProps springProps;
+	@Autowired
+	private CadreStatHistoryService cadreStatHistoryService;
+
+	@Scheduled(cron = "${cron.sync.cadreStatHistory}")
+	public void cadreStatHistory() {
+
+		if(BooleanUtils.isFalse(springProps.cadreStatHistory)){
+			return;
+		}
+
+		logger.info("备份干部历史数据文件...");
+		try {
+			cadreStatHistoryService.saveCadreExport();
+
+			cadreStatHistoryService.saveStatCadreExport();
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
+	}
 
 	/**
 	 * 因私审批自动通知审批人
