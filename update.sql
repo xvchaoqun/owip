@@ -1,5 +1,5 @@
 
-
+-- 2017-1-19
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS SELECT `c`.`id` AS `id`
 	,`c`.`user_id` AS `user_id`
 	,`c`.`type_id` AS `type_id`
