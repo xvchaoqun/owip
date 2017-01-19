@@ -30,7 +30,7 @@
     <!-- 行政级别 -->
     <select id="cadre_stat_adminLevel" resultMap="BaseResultMap" parameterType="map">
        select admin_level_code, count(*) as num from cadre_view where status=1
-        <include refid="andSql" />
+        <include refid="andSql" /> and admin_level_code is not null
        group by admin_level_code
     </select>
     <!-- 性别 -->
@@ -43,7 +43,7 @@
     <select id="cadre_stat_adminLevel_gender" resultMap="BaseResultMap" parameterType="map">
         select admin_level_code, gender, count(*) as num from cadre_view  where status=1
         <include refid="andSql" />
-        and gender is not null group by admin_level_code, gender
+        and gender is not null and admin_level_code is not null group by admin_level_code, gender
     </select>
     <!-- 民族 -->
     <select id="cadre_stat_nation" resultMap="BaseResultMap" parameterType="map">
@@ -55,7 +55,7 @@
     <select id="cadre_stat_nation_adminLevel" resultMap="BaseResultMap" parameterType="map">
         select nation, admin_level_code,  count(*) as num from cadre_view  where status=1
         <include refid="andSql" />
-        and nation is not null and nation!='' group by nation, admin_level_code
+        and nation is not null and nation!='' and admin_level_code is not null group by nation, admin_level_code
     </select>
     <!-- 民族-性别 -->
     <select id="cadre_stat_nation_gender" resultMap="BaseResultMap" parameterType="map">
@@ -71,7 +71,7 @@
     <!-- 党派-行政级别 -->
     <select id="cadre_stat_dp_adminLevel" resultMap="BaseResultMap" parameterType="map">
        select admin_level_code, sum(if(is_dp=1, 1,0)) as num_1, sum(if(is_dp=0 and member_status=1, 1,0)) as num_2 from cadre_view  where status=1
-        <include refid="andSql" />
+        <include refid="andSql" /> and admin_level_code is not null
         group by admin_level_code
     </select>
     <!-- 党派-性别 -->
@@ -114,7 +114,7 @@
          from (
         select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, admin_level_code, count(*) as num from cadre_view  where status=1
         <include refid="andSql" />
-         and birth is not null group by age,admin_level_code
+         and birth is not null and admin_level_code is not null group by age,admin_level_code
         ) tmp group by admin_level_code
 
     </select>
@@ -193,13 +193,13 @@
     <select id="cadre_stat_edu_adminLevel" resultMap="BaseResultMap" parameterType="map">
         select max_ce_edu_attr, admin_level_code, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_attr is not null  group by max_ce_edu_attr, admin_level_code
+         and max_ce_edu_attr is not null and admin_level_code is not null  group by max_ce_edu_attr, admin_level_code
     </select>
     <!-- 学历-性别 -->
     <select id="cadre_stat_edu_gender" resultMap="BaseResultMap" parameterType="map">
         select max_ce_edu_attr, gender, count(*) as num from cadre_view where status=1
         <include refid="andSql" />
-         and max_ce_edu_attr is not null  group by max_ce_edu_attr, gender
+         and max_ce_edu_attr is not null and gender is not null  group by max_ce_edu_attr, gender
     </select>
     <!-- 专职 -->
     <select id="cadre_stat_double" resultMap="BaseResultMap" parameterType="map">
