@@ -2,8 +2,8 @@ package service.abroad;
 
 import bean.XlsPassport;
 import domain.abroad.*;
-import domain.cadre.Cadre;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,8 +15,8 @@ import org.springframework.util.Assert;
 import persistence.common.PassportSearchBean;
 import service.BaseMapper;
 import service.cadre.CadreService;
-import shiro.ShiroHelper;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -33,20 +33,21 @@ public class PassportService extends BaseMapper {
     private CadreService cadreService;
     @Autowired
     private SafeBoxService safeBoxService;
+
     @Transactional
     public int importPassports(final List<XlsPassport> passports, byte type) {
 
         //int duplicate = 0;
         int success = 0;
-        for(XlsPassport uRow: passports){
+        for (XlsPassport uRow : passports) {
 
             Passport record = new Passport();
 
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
-            if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
+            if (uv == null) throw new RuntimeException("工作证号：" + userCode + "不存在");
             Cadre cadre = cadreService.dbFindByUserId(uv.getId());
-            if(cadre== null) throw  new RuntimeException("工作证号：" +userCode +" 姓名："+uv.getRealname() +"不是干部");
+            if (cadre == null) throw new RuntimeException("工作证号：" + userCode + " 姓名：" + uv.getRealname() + "不是干部");
             record.setCadreId(cadre.getId());
             record.setType(type);
 
@@ -63,16 +64,16 @@ public class PassportService extends BaseMapper {
 
             //
             SafeBox safeBox = safeBoxService.getByCode(uRow.getSafeCode());
-            if(safeBox==null)
-                if(uv== null) throw  new RuntimeException("保险柜："+safeBox.getCode()+"不存在");
+            if (safeBox == null)
+                if (uv == null) throw new RuntimeException("保险柜：" + safeBox.getCode() + "不存在");
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);
             record.setCancelConfirm(false);
 
-            if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode())>0) {
+            if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()) > 0) {
                 MetaType mcPassportType = CmTag.getMetaType(passportType);
-                throw  new RuntimeException("导入失败，工作证号："+uRow.getUserCode() + "["+ mcPassportType.getName() + "]重复");
+                throw new RuntimeException("导入失败，工作证号：" + uRow.getUserCode() + "[" + mcPassportType.getName() + "]重复");
             }
 
             add(record, null);
@@ -82,16 +83,17 @@ public class PassportService extends BaseMapper {
 
         return success;
     }
-    public List<Passport> findByCadreId(int cadreId){
+
+    public List<Passport> findByCadreId(int cadreId) {
 
         PassportSearchBean bean = new PassportSearchBean(null, cadreId, null, null,
                 SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
 
-       return selectMapper.selectPassportList(bean, new RowBounds());
+        return selectMapper.selectPassportList(bean, new RowBounds());
     }
 
-    // 0 不重复  1证件号码重复 2证件类别重复
-    public int idDuplicate(Integer id, Byte type, int cadreId, int classId, String code){
+    // 判断是否重复（更新时，不修改类别） 0 不重复  1证件号码重复 2证件类别重复
+    public int idDuplicate(Integer id, Byte type, int cadreId, int classId, String code) {
         //Assert.isTrue(StringUtils.isNotBlank(code));
 
         if (id != null) {
@@ -102,15 +104,21 @@ public class PassportService extends BaseMapper {
                 type = SystemConstants.PASSPORT_TYPE_KEEP; // 默认存入集中保管
         }
 
-        if(StringUtils.isNotBlank(code)) {
+        return updateIdDuplicate(id, type, cadreId, classId, code);
+    }
+
+    // 判断是否重复（修改类别） 0 不重复  1证件号码重复 2证件类别重复
+    public int updateIdDuplicate(Integer id, Byte type, int cadreId, int classId, String code) {
+
+        if (StringUtils.isNotBlank(code)) {
             // 证件号码不允许重复
             PassportExample example = new PassportExample();
             PassportExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-            if(id!=null) criteria.andIdNotEqualTo(id);
+            if (id != null) criteria.andIdNotEqualTo(id);
             if (passportMapper.countByExample(example) > 0) return 1;
         }
 
-        if(type==SystemConstants.PASSPORT_TYPE_KEEP) {
+        if (type == SystemConstants.PASSPORT_TYPE_KEEP) {
             //“集中管理证件”中不存在同一个人有两本护照（或者港澳通行证、台湾通行证）就可以。
             // 其他三个“取消集中管理、丢失证件、作废证件”中，一个人可以有两本护照。
             PassportExample example2 = new PassportExample();
@@ -119,18 +127,18 @@ public class PassportService extends BaseMapper {
                             .andClassIdEqualTo(classId);
             if (id != null) criteria2.andIdNotEqualTo(id);
 
-            if(passportMapper.countByExample(example2) > 0) return 2;
+            if (passportMapper.countByExample(example2) > 0) return 2;
         }
 
         return 0;
     }
 
     @Transactional
-    public int add(Passport record, Integer applyId){
+    public int add(Passport record, Integer applyId) {
 
-        Assert.isTrue(0==idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+        Assert.isTrue(0 == idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
 
-        if(applyId!=null){ // 交证件
+        if (applyId != null) { // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
             Assert.isTrue(_passportApply.getCadreId().intValue() == record.getCadreId().intValue());
             Assert.isTrue(_passportApply.getClassId().intValue() == record.getClassId().intValue());
@@ -148,19 +156,20 @@ public class PassportService extends BaseMapper {
 
         return passportMapper.insertSelective(record);
     }
+
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         passportMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
     public void abolish(Integer id, Byte cancelType,
-                        String cancelTypeOther){
+                        String cancelTypeOther) {
 
-        if(id!=null && cancelType!=null
-                && (cancelType==SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH
-                || cancelType==SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)) {
+        if (id != null && cancelType != null
+                && (cancelType == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH
+                || cancelType == SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)) {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
 
@@ -169,11 +178,11 @@ public class PassportService extends BaseMapper {
             record.setId(id);
             record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
             record.setCancelType(cancelType);
-            if(cancelType==SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)
+            if (cancelType == SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)
                 record.setCancelTypeOther(cancelTypeOther);
 
             // “借出”状态下取消集中管理，转移到已确认，并加备注
-            if(BooleanUtils.isTrue(passport.getIsLent())){
+            if (BooleanUtils.isTrue(passport.getIsLent())) {
                 record.setCancelConfirm(true);
                 record.setCancelTime(new Date());
                 record.setCancelRemark("在证件借出的情况下取消集中管理");
@@ -185,9 +194,40 @@ public class PassportService extends BaseMapper {
     }
 
     @Transactional
-    public void lost(Integer[] ids){
+    public Passport unabolish(Integer id) {
 
-        if(ids==null || ids.length==0) return;
+        if (id != null) {
+            Passport passport = passportMapper.selectByPrimaryKey(id);
+
+            if (updateIdDuplicate(id, SystemConstants.PASSPORT_TYPE_KEEP,
+                    passport.getCadreId(), passport.getClassId(), passport.getCode()) > 0) {
+                MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
+                throw new RuntimeException("返回集中管理失败，" + passport.getUser().getRealname()
+                        + "[" + mcPassportType.getName() + "]证件重复");
+            }
+
+            passport.setType(SystemConstants.PASSPORT_TYPE_KEEP);
+            passport.setCancelType(null);
+            passport.setCancelTypeOther(null);
+            passport.setCancelConfirm(false);
+            passport.setCancelPic(null);
+            passport.setCancelTime(null);
+            passport.setCancelRemark(null);
+            passport.setCancelUserId(null);
+
+            PassportExample example = new PassportExample();
+            example.createCriteria().andIdEqualTo(id).andTypeEqualTo(SystemConstants.PASSPORT_TYPE_CANCEL);
+            passportMapper.updateByExample(passport, example);
+
+            return passport;
+        }
+        return null;
+    }
+
+    @Transactional
+    public void lost(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
 
         PassportExample example = new PassportExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -197,17 +237,18 @@ public class PassportService extends BaseMapper {
 
         passportMapper.updateByExampleSelective(record, example);
     }
-    @Transactional
-    public void batchDel(Integer[] ids){
 
-        if(ids==null || ids.length==0) return;
+    @Transactional
+    public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
 
         for (Integer id : ids) {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            if(!(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
-                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_LOST
-                    && passport.getLostType()==SystemConstants.PASSPORT_LOST_TYPE_ADD))){
+            if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
+                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
+                    && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
                 // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
                 throw new RuntimeException("只有集中管理库或后台添加的丢失证件可以进行删除操作");
             }
@@ -219,23 +260,25 @@ public class PassportService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(Passport record){
-        if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(0==idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+    public int updateByPrimaryKeySelective(Passport record) {
+        if (StringUtils.isNotBlank(record.getCode()))
+            Assert.isTrue(0 == idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+        record.setType(null);
         return passportMapper.updateByPrimaryKeySelective(record);
     }
 
     //证件找回
     @Transactional
-    public int back(Passport record){
-        if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(0==idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+    public int back(Passport record) {
+        if (StringUtils.isNotBlank(record.getCode()))
+            Assert.isTrue(0 == updateIdDuplicate(record.getId(), SystemConstants.PASSPORT_TYPE_KEEP,
+                    record.getCadreId(), record.getClassId(), record.getCode()));
 
         Passport passport = passportMapper.selectByPrimaryKey(record.getId());
-        Assert.isTrue(passport.getType()==SystemConstants.PASSPORT_TYPE_LOST);
+        Assert.isTrue(passport.getType() == SystemConstants.PASSPORT_TYPE_LOST);
 
         // 如果该证件找回之前被借出了，则找回时，应该修改借出状态为已归还
-        if(passport.getIsLent()){
+        if (passport.getIsLent()) {
 
             PassportDrawExample example = new PassportDrawExample();
             example.createCriteria().andPassportIdEqualTo(passport.getId());
@@ -272,7 +315,7 @@ public class PassportService extends BaseMapper {
 
     // 证件过期扫描， 过期的证件转移到取消集中管理证件数据库
     @Transactional
-    public void expire(){
+    public void expire() {
 
         Date now = new Date();
 
@@ -282,7 +325,7 @@ public class PassportService extends BaseMapper {
         List<Passport> passports = selectMapper.selectPassportList(bean, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
-            if(expiryDate.before(now)){
+            if (expiryDate.before(now)) {
 
                 // 未借出状态，转移到取消未确认
                 Passport record = new Passport();
@@ -290,7 +333,7 @@ public class PassportService extends BaseMapper {
                 record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
                 record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE);
 
-                if(BooleanUtils.isTrue(passport.getIsLent())) {
+                if (BooleanUtils.isTrue(passport.getIsLent())) {
                     // 借出状态，转移到取消已确认，并加备注
                     record.setCancelTime(new Date());
                     record.setCancelConfirm(true);

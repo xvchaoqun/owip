@@ -360,12 +360,11 @@ public class PassportController extends BaseController {
 
         if (_cancelPic != null && !_cancelPic.isEmpty()) {
             String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
+            String savePath = FILE_SEPARATOR
                     + "passport_cancel" + FILE_SEPARATOR
-                    + fileName;
-            String ext = FileUtils.getExtention(_cancelPic.getOriginalFilename());
-            String savePath = realPath + ext;
-            //FileUtils.copyFile(_cancelPic, new File(springProps.uploadPath + savePath));
+                    + fileName + FileUtils.getExtention(_cancelPic.getOriginalFilename());
+
+            FileUtils.mkdirs(springProps.uploadPath + savePath);
             Thumbnails.of(_cancelPic.getInputStream())
                     .scale(1f)
                     .rotate(_rotate).toFile(springProps.uploadPath + savePath);
@@ -373,16 +372,16 @@ public class PassportController extends BaseController {
             record.setCancelPic(savePath);
         }else if(StringUtils.isNotBlank(_base64)){
 
-            String fileName = UUID.randomUUID().toString() + ".jpg";
-            String realPath = FILE_SEPARATOR
-                    + "passport_cancel" + FILE_SEPARATOR;
+            String savePath = FILE_SEPARATOR
+                    + "passport_cancel" + FILE_SEPARATOR + UUID.randomUUID().toString() + ".jpg";
 
+            FileUtils.mkdirs(springProps.uploadPath + savePath);
             Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_base64.split("base64,")[1]))
                     .scale(1f)
-                    .rotate(_rotate).toFile(springProps.uploadPath + realPath + fileName);
+                    .rotate(_rotate).toFile(springProps.uploadPath + savePath);
             //ImageUtils.decodeBase64ToImage(_base64.split("base64,")[1], springProps.uploadPath + realPath, fileName);
 
-            record.setCancelPic(realPath + fileName);
+            record.setCancelPic(savePath);
         }
 
         passportService.updateByPrimaryKeySelective(record);
@@ -765,6 +764,21 @@ public class PassportController extends BaseController {
         passportService.abolish(id,cancelType, cancelTypeOther);
         logger.info(addLog(SystemConstants.LOG_ABROAD,
                 "取消证件集中管理：%s, %s", id, cancelType, cancelTypeOther));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("passport:abolish")
+    @RequestMapping(value = "/passport_unabolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passport_unabolish(HttpServletRequest request, Integer id) {
+
+        Passport passport = passportService.unabolish(id);
+        if(passport!=null) {
+            MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "已取消集中管理证件返回集中管理：%s, %s",
+                    passport.getUser().getRealname(), mcPassportType.getName()));
+        }
 
         return success(FormUtils.SUCCESS);
     }

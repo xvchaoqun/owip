@@ -11,6 +11,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
 import sys.constants.SystemConstants;
+import sys.utils.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,11 +50,9 @@ public class CadreStatHistoryService extends BaseMapper {
         SXSSFWorkbook wb = cadreExportService.export(status, example);
         String savePath = FILE_SEPARATOR + "cadre_stat_history" + FILE_SEPARATOR
                 + UUID.randomUUID().toString() + ".xlsx";
-        File saveFile = new File(springProps.uploadPath + savePath);
-        if(!saveFile.getParentFile().exists()){
-            saveFile.getParentFile().mkdirs();
-        }
-        FileOutputStream output = new FileOutputStream(saveFile);
+
+        FileUtils.mkdirs(springProps.uploadPath + savePath);
+        FileOutputStream output = new FileOutputStream(savePath);
         wb.write(output);
         output.close();
 

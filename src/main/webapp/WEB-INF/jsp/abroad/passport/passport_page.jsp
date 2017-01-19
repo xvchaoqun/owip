@@ -46,12 +46,21 @@ pageEncoding="UTF-8" %>
                                    data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 导入</a>
                             </c:if>
 
-                            <c:if test="${status==PASSPORT_TYPE_CANCEL}">
+                            <c:if test="${status==PASSPORT_TYPE_CANCEL || status==4}">
+                                <button data-url="${ctx}/passport_unabolish"
+                                        data-title="返回集中管理"
+                                        data-msg="确定将该证件返回集中管理？"
+                                        class="jqItemBtn btn btn-info btn-sm">
+                                    <i class="fa fa-reply"></i> 返回集中管理
+                                </button>
                                 <shiro:hasPermission name="passport:edit">
                                     <button class="jqEditBtn btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
                                 </shiro:hasPermission>
+                            </c:if>
+                            <c:if test="${status==PASSPORT_TYPE_CANCEL}">
+
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/shortMsg_view" data-querystr="&type=passport">
                                     <i class="fa fa-info-circle"></i> 短信通知
@@ -62,11 +71,6 @@ pageEncoding="UTF-8" %>
                                 </a>
                             </c:if>
                             <c:if test="${status==4}">
-                                <shiro:hasPermission name="passport:edit">
-                                    <button class="jqEditBtn btn btn-primary btn-sm">
-                                        <i class="fa fa-edit"></i> 修改信息
-                                    </button>
-                                </shiro:hasPermission>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-open-by="page" data-url="${ctx}/passport_cancel_view">
                                     <i class="fa fa-check-circle-o"></i> 取消集中管理证明

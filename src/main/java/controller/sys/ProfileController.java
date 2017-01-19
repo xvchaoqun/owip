@@ -20,6 +20,7 @@ import shiro.SaltPassword;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
 
@@ -56,11 +57,9 @@ public class ProfileController extends BaseController {
 
         String savePath =null;
         if(sign!=null && !sign.isEmpty()) {
-            savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR;
-            File path = new File(springProps.uploadPath + savePath);
-            if (!path.exists()) path.mkdirs();
-            savePath += loginUser.getId() + ".jpg";
+            savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR + loginUser.getId() + ".jpg";
 
+            FileUtils.mkdirs(springProps.uploadPath + savePath);
             Thumbnails.of(sign.getInputStream())
                     .size(750, 500)
                     .outputFormat("jpg")

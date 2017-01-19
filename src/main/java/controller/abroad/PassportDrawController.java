@@ -359,13 +359,11 @@ public class PassportDrawController extends BaseController {
 
         if (_useRecord != null && !_useRecord.isEmpty()) {
             String originalFilename = _useRecord.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
+            String savePath = FILE_SEPARATOR
                     + "draw" + FILE_SEPARATOR + "use" + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + FileUtils.getExtention(originalFilename);
-            //FileUtils.copyFile(_useRecord, new File(springProps.uploadPath + savePath));
+                    + UUID.randomUUID().toString() + FileUtils.getExtention(originalFilename);
 
+            FileUtils.mkdirs(springProps.uploadPath + savePath);
             Thumbnails.of(_useRecord.getInputStream())
                     .scale(1f)
                     .rotate(_rotate).toFile(springProps.uploadPath + savePath);
@@ -373,16 +371,16 @@ public class PassportDrawController extends BaseController {
             record.setUseRecord(savePath);
         }else if(StringUtils.isNotBlank(_base64)){
 
-            String fileName = UUID.randomUUID().toString() + ".jpg";
-            String realPath = FILE_SEPARATOR
-                    + "draw" + FILE_SEPARATOR + "use" + FILE_SEPARATOR;
+            String savePath = FILE_SEPARATOR
+                    + "draw" + FILE_SEPARATOR + "use" + FILE_SEPARATOR + UUID.randomUUID().toString() + ".jpg";
 
+            FileUtils.mkdirs(springProps.uploadPath + savePath);
             Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_base64.split("base64,")[1]))
                     .scale(1f)
-                    .rotate(_rotate).toFile(springProps.uploadPath + realPath + fileName);
+                    .rotate(_rotate).toFile(springProps.uploadPath + savePath);
             //ImageUtils.decodeBase64ToImage(_base64.split("base64,")[1], springProps.uploadPath + realPath, fileName);
 
-            record.setUseRecord(realPath + fileName);
+            record.setUseRecord(savePath);
         }
 
         record.setReturnRemark(remark);

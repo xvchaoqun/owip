@@ -55,11 +55,9 @@ public class AvatarService extends BaseMapper{
         if(_avatar!=null && !_avatar.isEmpty()){
             //String originalFilename = _avatar.getOriginalFilename();
             avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
-                    + FILE_SEPARATOR + "upload" + FILE_SEPARATOR;
-            File path = new File(springProps.avatarFolder + avatar);
-            if(!path.exists()) path.mkdirs();
-            avatar += System.currentTimeMillis() +".jpg";
+                    + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + System.currentTimeMillis() +".jpg";
 
+            FileUtils.mkdirs(springProps.uploadPath + avatar);
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)
                     .outputFormat("jpg")
@@ -76,13 +74,11 @@ public class AvatarService extends BaseMapper{
         SysUserView uv = sysUserService.findById(userId);
         String avatar =  uv.getAvatar();
         String backup = FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD) +
-                FILE_SEPARATOR + "backup" + FILE_SEPARATOR;
-        File path = new File(springProps.avatarFolder + backup);
-        if(!path.exists()) path.mkdirs();
-        backup += System.currentTimeMillis() +".jpg";
+                FILE_SEPARATOR + "backup" + FILE_SEPARATOR + System.currentTimeMillis() +".jpg";
 
         if(FileUtils.exists(springProps.avatarFolder + avatar)){
             try {
+                FileUtils.mkdirs(springProps.uploadPath + backup);
                 Thumbnails.of(springProps.avatarFolder + avatar).scale(1f).toFile(springProps.avatarFolder + backup);
             }catch (Exception ex){
                 throw new RuntimeException("图片保存失败：" + ex.getMessage());
