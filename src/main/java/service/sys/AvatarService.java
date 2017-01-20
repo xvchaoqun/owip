@@ -57,7 +57,7 @@ public class AvatarService extends BaseMapper{
             avatar =  FILE_SEPARATOR + DateUtils.getCurrentDateTime(DateUtils.YYYYMMDD)
                     + FILE_SEPARATOR + "upload" + FILE_SEPARATOR + System.currentTimeMillis() +".jpg";
 
-            FileUtils.mkdirs(springProps.uploadPath + avatar);
+            FileUtils.mkdirs(springProps.avatarFolder + avatar);
             Thumbnails.of(_avatar.getInputStream())
                     .size(143, 198)
                     .outputFormat("jpg")
@@ -78,7 +78,7 @@ public class AvatarService extends BaseMapper{
 
         if(FileUtils.exists(springProps.avatarFolder + avatar)){
             try {
-                FileUtils.mkdirs(springProps.uploadPath + backup);
+                FileUtils.mkdirs(springProps.avatarFolder + backup);
                 Thumbnails.of(springProps.avatarFolder + avatar).scale(1f).toFile(springProps.avatarFolder + backup);
             }catch (Exception ex){
                 throw new RuntimeException("图片保存失败：" + ex.getMessage());

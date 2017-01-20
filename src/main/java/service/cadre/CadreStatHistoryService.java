@@ -52,7 +52,7 @@ public class CadreStatHistoryService extends BaseMapper {
                 + UUID.randomUUID().toString() + ".xlsx";
 
         FileUtils.mkdirs(springProps.uploadPath + savePath);
-        FileOutputStream output = new FileOutputStream(savePath);
+        FileOutputStream output = new FileOutputStream(springProps.uploadPath + savePath);
         wb.write(output);
         output.close();
 
