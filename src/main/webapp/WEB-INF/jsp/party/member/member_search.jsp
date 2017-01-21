@@ -9,9 +9,12 @@
 <div class="modal-body">
   <form>
   <div class="form-group">
-      <label class="col-xs-4 control-label" style="text-align: right; line-height: 34px">学工号</label>
+      <label class="col-xs-3 control-label" style="text-align: right; line-height: 34px">选择账号</label>
       <div class="col-xs-6">
-        <input type="text" name="code">
+        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="350"
+                name="userId" data-placeholder="请输入账号或姓名或学工号">
+          <option></option>
+        </select>
       </div>
     </div>
   </form>
@@ -46,9 +49,11 @@
   }
 </style>
 <script>
+  register_user_select($('#modal select[name=userId]'));
   $("#modal #search").click(function(){
-    var code = $("#modal input[name=code]").val();
-    $.post("${ctx}/member/search",{code:code},function(ret){
+    var userId = $("#modal select[name=userId]").val();
+    if(userId=='') return;
+    $.post("${ctx}/member/search",{userId:userId},function(ret){
         if(ret.success){
           $("#modal #result").show();
           $("#modal #msg").hide();

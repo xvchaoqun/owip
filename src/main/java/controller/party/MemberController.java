@@ -47,13 +47,13 @@ public class MemberController extends BaseController {
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/member/search", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_search(String code) {
+    public Map do_search(int userId) {
 
         String realname = "";
         String unit = "";
         String msg = "";
         String status = "";
-        SysUserView sysUser = sysUserService.findByCode(StringUtils.trimToEmpty(code));
+        SysUserView sysUser = sysUserService.findById(userId);
         if(sysUser==null){
             msg = "该用户不存在";
         }else {
