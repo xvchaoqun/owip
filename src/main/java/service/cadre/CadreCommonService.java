@@ -81,7 +81,7 @@ public class CadreCommonService extends BaseMapper {
             CadreExample example = new CadreExample();
             example.createCriteria().andUnitIdEqualTo(unitId)
                     .andStatusNotIn(Arrays.asList(SystemConstants.CADRE_STATUS_RESERVE,
-                            SystemConstants.CADRE_STATUS_TEMP));
+                            SystemConstants.CADRE_STATUS_INSPECT));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 MetaType postType = metaTypeMap.get(cadre.getPostId());

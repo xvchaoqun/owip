@@ -52,7 +52,7 @@ public class SystemConstants {
     public static final String ROLE_REG = "reg"; // 注册用户，未审核通过
     public static final String ROLE_CADRE = "cadre";
     public static final String ROLE_CADRERESERVE = "cadreReserve"; // 后备干部
-    public static final String ROLE_CADRETEMP = "cadreTemp"; // 考察对象
+    public static final String ROLE_CADREINSPECT = "cadreInspect"; // 考察对象
     public static final String ROLE_MEMBER = "member";
     public static final String ROLE_INFLOWMEMBER = "inflowMember";
     public static final String ROLE_PARTYADMIN = "partyAdmin";
@@ -67,7 +67,7 @@ public class SystemConstants {
         ROLE_MAP.put(ROLE_REG, "注册用户");
         ROLE_MAP.put(ROLE_CADRE, "干部");
         ROLE_MAP.put(ROLE_CADRERESERVE, "后备干部");
-        ROLE_MAP.put(ROLE_CADRETEMP, "考察对象");
+        ROLE_MAP.put(ROLE_CADREINSPECT, "考察对象");
         ROLE_MAP.put(ROLE_MEMBER, "党员");
         ROLE_MAP.put(ROLE_INFLOWMEMBER, "流入党员");
         ROLE_MAP.put(ROLE_PARTYADMIN, "分党委管理员");
@@ -673,7 +673,7 @@ public class SystemConstants {
 
     // 干部库类别
     public final static byte CADRE_STATUS_MIDDLE = 1;
-    public final static byte CADRE_STATUS_TEMP = 2;
+    public final static byte CADRE_STATUS_INSPECT = 2;
     public final static byte CADRE_STATUS_MIDDLE_LEAVE = 3;
     public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
     public final static byte CADRE_STATUS_RESERVE = 5;
@@ -684,7 +684,7 @@ public class SystemConstants {
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_TEMP, "考察对象"); // 非干部角色
+        CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任中层干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
@@ -730,14 +730,14 @@ public class SystemConstants {
 
     // 后备干部库状态 1 后备干部 2 后备干部已使用 3 已撤销资格
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;
-    public final static byte CADRE_RESERVE_STATUS_TO_TEMP = 2;
+    public final static byte CADRE_RESERVE_STATUS_TO_INSPECT = 2;
     public final static byte CADRE_RESERVE_STATUS_ASSIGN = 3;
     public final static byte CADRE_RESERVE_STATUS_ABOLISH = 4;
     public final static Map<Byte, String> CADRE_RESERVE_STATUS_MAP = new LinkedHashMap<>();
 
     static {
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_NORMAL, "后备干部");
-        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_TO_TEMP, "已列为考察对象");
+        CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_TO_INSPECT, "已列为考察对象");
         //CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "后备干部已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ASSIGN, "已使用");
         CADRE_RESERVE_STATUS_MAP.put(CADRE_RESERVE_STATUS_ABOLISH, "已撤销资格");
@@ -745,29 +745,29 @@ public class SystemConstants {
 
     // 干部任免操作类别
     public final static byte CADRE_AD_LOG_MODULE_CADRE = 1;
-    public final static byte CADRE_AD_LOG_MODULE_TEMP = 2;
+    public final static byte CADRE_AD_LOG_MODULE_INSPECT = 2;
     public final static byte CADRE_AD_LOG_MODULE_RESERVE = 3;
     public final static Map<Byte, String> CADRE_AD_LOG_MODULE_MAP = new LinkedHashMap<>();
 
     static {
         CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_CADRE, "干部库");
-        CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_TEMP, "考察对象");
+        CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_INSPECT, "考察对象");
         CADRE_AD_LOG_MODULE_MAP.put(CADRE_AD_LOG_MODULE_RESERVE, "后备干部");
     }
 
     // 考察对象类别，保留字段
-    public final static byte CADRE_TEMP_TYPE_DEFAULT = 1;
+    public final static byte CADRE_INSPECT_TYPE_DEFAULT = 1;
 
     // 考察对象状态 1考察对象 2 考察对象已任命 3 已撤销资格
-    public final static byte CADRE_TEMP_STATUS_NORMAL = 1;
-    public final static byte CADRE_TEMP_STATUS_ASSIGN = 2;
-    public final static byte CADRE_TEMP_STATUS_ABOLISH = 3;
-    public final static Map<Byte, String> CADRE_TEMP_STATUS_MAP = new LinkedHashMap<>();
+    public final static byte CADRE_INSPECT_STATUS_NORMAL = 1;
+    public final static byte CADRE_INSPECT_STATUS_ASSIGN = 2;
+    public final static byte CADRE_INSPECT_STATUS_ABOLISH = 3;
+    public final static Map<Byte, String> CADRE_INSPECT_STATUS_MAP = new LinkedHashMap<>();
 
     static {
-        CADRE_TEMP_STATUS_MAP.put(CADRE_TEMP_STATUS_NORMAL, "考察对象");
-        CADRE_TEMP_STATUS_MAP.put(CADRE_TEMP_STATUS_ASSIGN, "通过常委会任命");
-        CADRE_TEMP_STATUS_MAP.put(CADRE_TEMP_STATUS_ABOLISH, "已撤销资格");
+        CADRE_INSPECT_STATUS_MAP.put(CADRE_INSPECT_STATUS_NORMAL, "考察对象");
+        CADRE_INSPECT_STATUS_MAP.put(CADRE_INSPECT_STATUS_ASSIGN, "通过常委会任命");
+        CADRE_INSPECT_STATUS_MAP.put(CADRE_INSPECT_STATUS_ABOLISH, "已撤销资格");
     }
 
     // 干部任免类别

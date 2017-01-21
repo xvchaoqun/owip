@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -204,16 +205,6 @@ public class MemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 后台添加预备党员，可能需要加入入党申请（预备党员阶段）
-    @RequestMapping(value = "/member_addGrowApply", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_addGrowApply(int userId) {
-
-        SecurityUtils.getSubject().checkPermission("member:edit");
-        memberApplyService.addGrowApply(userId);
-
-        return success(FormUtils.SUCCESS);
-    }
     //@RequiresPermissions("member:edit")
     @RequestMapping("/member_au")
     public String member_au(Integer userId, Integer partyId, Integer branchId, ModelMap modelMap) {
@@ -257,6 +248,36 @@ public class MemberController extends BaseController {
         modelMap.put("member", member);
 
         return "party/member/member_au";
+    }
+
+    // 后台添加预备党员，可能需要加入入党申请（预备党员阶段）
+    @RequestMapping(value = "/member_addGrowApply", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_addGrowApply(int userId) {
+
+        SecurityUtils.getSubject().checkPermission("member:edit");
+        memberApplyService.addOrChangeToGrowApply(userId);
+
+        return success(FormUtils.SUCCESS);
+    }
+    // 修改党籍状态
+    @RequiresPermissions("member:modifyStatus")
+    @RequestMapping("/member_modify_status")
+    public String member_modify_status(int userId, ModelMap modelMap) {
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        modelMap.put("member", member);
+
+        return "party/member/member_modify_status";
+    }
+    @RequiresPermissions("member:modifyStatus")
+    @RequestMapping(value = "/member_modify_status", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_member_modify_status(int userId, byte politicalStatus, String remark) {
+
+        memberService.modifyStatus(userId, politicalStatus, remark);
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)

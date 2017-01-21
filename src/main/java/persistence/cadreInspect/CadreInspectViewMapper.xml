@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadreTemp.CadreTempViewMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadreTemp.CadreTempView" >
-    <result column="temp_id" property="tempId" jdbcType="INTEGER" />
-    <result column="temp_type" property="tempType" jdbcType="TINYINT" />
-    <result column="temp_status" property="tempStatus" jdbcType="TINYINT" />
-    <result column="temp_remark" property="tempRemark" jdbcType="VARCHAR" />
-    <result column="temp_sort_order" property="tempSortOrder" jdbcType="INTEGER" />
+<mapper namespace="persistence.cadreInspect.CadreInspectViewMapper" >
+  <resultMap id="BaseResultMap" type="domain.cadreInspect.CadreInspectView" >
+    <result column="inspect_id" property="inspectId" jdbcType="INTEGER" />
+    <result column="inspect_type" property="inspectType" jdbcType="TINYINT" />
+    <result column="inspect_status" property="inspectStatus" jdbcType="TINYINT" />
+    <result column="inspect_remark" property="inspectRemark" jdbcType="VARCHAR" />
+    <result column="inspect_sort_order" property="inspectSortOrder" jdbcType="INTEGER" />
     <result column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
@@ -59,6 +59,16 @@
     <result column="main_cadre_post_id" property="mainCadrePostId" jdbcType="INTEGER" />
     <result column="is_double" property="isDouble" jdbcType="BIT" />
     <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
+    <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
+    <result column="admin_level_name" property="adminLevelName" jdbcType="VARCHAR" />
+    <result column="max_ce_edu_attr" property="maxCeEduAttr" jdbcType="VARCHAR" />
+    <result column="max_ce_edu_code" property="maxCeEduCode" jdbcType="VARCHAR" />
+    <result column="max_ce_edu_name" property="maxCeEduName" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="unit_type_id" property="unitTypeId" jdbcType="INTEGER" />
+    <result column="unit_type_code" property="unitTypeCode" jdbcType="VARCHAR" />
+    <result column="unit_type_name" property="unitTypeName" jdbcType="VARCHAR" />
+    <result column="unit_type_attr" property="unitTypeAttr" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -90,22 +100,24 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    temp_id, temp_type, temp_status, temp_remark, temp_sort_order, id, user_id, type_id, 
-    post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, dp_add_time, dp_post, 
-    dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, phone, home_phone, 
-    email, realname, gender, nation, native_place, idcard, birth, party_id, branch_id, 
-    grow_time, member_status, edu_id, finish_time, learn_style, school, dep, school_type, 
-    major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
-    pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, main_cadre_post_id, 
-    is_double, double_unit_id
+    inspect_id, inspect_type, inspect_status, inspect_remark, inspect_sort_order, id, 
+    user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, dp_add_time, 
+    dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, phone, 
+    home_phone, email, realname, gender, nation, native_place, idcard, birth, party_id, 
+    branch_id, grow_time, member_status, edu_id, finish_time, learn_style, school, dep, 
+    school_type, major, degree, post_class, sub_post_class, main_post_level, pro_post_time, 
+    pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, 
+    main_cadre_post_id, is_double, double_unit_id, admin_level_code, admin_level_name, 
+    max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
+    unit_type_name, unit_type_attr
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadreTemp.CadreTempViewExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadreInspect.CadreInspectViewExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre_temp_view
+    from cadre_inspect_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,19 +125,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.cadreTemp.CadreTempViewExample" resultType="java.lang.Integer" >
-    select count(*) from cadre_temp_view
+  <select id="countByExample" parameterType="domain.cadreInspect.CadreInspectViewExample" resultType="java.lang.Integer" >
+    select count(*) from cadre_inspect_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select resultMap="BaseResultMap" parameterType="domain.cadreTemp.CadreTempViewExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.cadreInspect.CadreInspectViewExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre_temp_view
+    from cadre_inspect_view
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -42,14 +42,14 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserPassportController extends BaseController {
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport")
     public String passport() {
 
         return "index";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_page")
     public String passport_page(HttpServletResponse response,
                                 // 1证件列表 2申请证件列表
@@ -63,7 +63,7 @@ public class UserPassportController extends BaseController {
         return "forward:/user/passportApply_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passportList_page")
     public String passportApply_page(@CurrentUser SysUserView loginUser,
                                      // 1证件列表 2申请证件列表
@@ -103,7 +103,7 @@ public class UserPassportController extends BaseController {
         return "user/abroad/passport/passportList_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_useLogs")
     public String passport_useLogs(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
@@ -124,7 +124,7 @@ public class UserPassportController extends BaseController {
     }
 
     // 取消集中管理确认单
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_cancel")
     public String passport_cancel(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
@@ -140,7 +140,7 @@ public class UserPassportController extends BaseController {
         return "abroad/passport/passport_cancel";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_lost_view")
     public String passport_lost_view(@CurrentUser SysUserView loginUser,int id, ModelMap modelMap) {
 
@@ -156,7 +156,7 @@ public class UserPassportController extends BaseController {
         return "abroad/passport/passport_lost_view";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_lostProof_download")
     public void passport_lostProof_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request,
                                             HttpServletResponse response) throws IOException {
@@ -182,7 +182,7 @@ public class UserPassportController extends BaseController {
     }
 
     // 使用记录
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRETEMP}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passportDraw_data")
     public void passportDraw_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,

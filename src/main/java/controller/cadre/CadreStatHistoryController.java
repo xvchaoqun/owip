@@ -38,7 +38,7 @@ public class CadreStatHistoryController extends BaseController {
     @ResponseBody
     public Map do_cadreStatHistory() throws IOException {
 
-        cadreStatHistoryService.asyncStatAll();
+        cadreStatHistoryService.statAll();
 
         return success(FormUtils.SUCCESS);
     }

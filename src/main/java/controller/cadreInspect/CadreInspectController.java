@@ -1,12 +1,12 @@
-package controller.cadreTemp;
+package controller.cadreInspect;
 
-import bean.XlsCadreTemp;
+import bean.XlsCadreInspect;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.cadreTemp.CadreTemp;
-import domain.cadreTemp.CadreTempView;
-import domain.cadreTemp.CadreTempViewExample;
+import domain.cadreInspect.CadreInspect;
+import domain.cadreInspect.CadreInspectView;
+import domain.cadreInspect.CadreInspectViewExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -38,22 +38,22 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class CadreTempController extends BaseController {
+public class CadreInspectController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreTemp:list")
-    @RequestMapping("/cadreTemp")
-    public String cadreTemp() {
+    @RequiresPermissions("cadreInspect:list")
+    @RequestMapping("/cadreInspect")
+    public String cadreInspect() {
 
         return "index";
     }
 
-    @RequiresPermissions("cadreTemp:list")
-    @RequestMapping("/cadreTemp_page")
-    public String cadreTemp_page(
+    @RequiresPermissions("cadreInspect:list")
+    @RequestMapping("/cadreInspect_page")
+    public String cadreInspect_page(
             @RequestParam(required = false, defaultValue =
-                    SystemConstants.CADRE_TEMP_STATUS_NORMAL + "")Byte status,
+                    SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "")Byte status,
             Integer userId, ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -62,13 +62,13 @@ public class CadreTempController extends BaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        return "cadreTemp/cadreTemp_page";
+        return "cadreInspect/cadreInspect_page";
     }
-    @RequiresPermissions("cadreTemp:list")
-    @RequestMapping("/cadreTemp_data")
-    public void cadreTemp_data(HttpServletResponse response,
+    @RequiresPermissions("cadreInspect:list")
+    @RequestMapping("/cadreInspect_data")
+    public void cadreInspect_data(HttpServletResponse response,
                                @RequestParam(required = false, defaultValue =
-                                       SystemConstants.CADRE_TEMP_STATUS_NORMAL + "")Byte status,
+                                       SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "")Byte status,
                                     Integer userId,
                                     Integer typeId,
                                     Integer postId,
@@ -85,10 +85,10 @@ public class CadreTempController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreTempViewExample example = new CadreTempViewExample();
-        CadreTempViewExample.Criteria criteria = example.createCriteria()
-                .andTempStatusEqualTo(status);
-        example.setOrderByClause("temp_sort_order asc");
+        CadreInspectViewExample example = new CadreInspectViewExample();
+        CadreInspectViewExample.Criteria criteria = example.createCriteria()
+                .andInspectStatusEqualTo(status);
+        example.setOrderByClause("inspect_sort_order asc");
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
@@ -108,16 +108,16 @@ public class CadreTempController extends BaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cadreTemp_export(example, response);
+            cadreInspect_export(example, response);
             return;
         }
 
-        int count = cadreTempViewMapper.countByExample(example);
+        int count = cadreInspectViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreTempView> Cadres = cadreTempViewMapper.
+        List<CadreInspectView> Cadres = cadreInspectViewMapper.
                 selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -133,100 +133,100 @@ public class CadreTempController extends BaseController {
 
 
     // 只有干部库中类型为考察对象时，才可以修改干部库的信息
-    @RequiresPermissions("cadreTemp:edit")
-    @RequestMapping(value = "/cadreTemp_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping(value = "/cadreInspect_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTemp_au(int userId, Integer tempId, String tempRemark,
+    public Map do_cadreInspect_au(int userId, Integer inspectId, String inspectRemark,
                                   Cadre cadreRecord, HttpServletRequest request) {
 
-        CadreTemp record = new CadreTemp();
-        record.setId(tempId);
-        record.setRemark(tempRemark);
-        if (tempId == null) {
-            cadreTempService.insertSelective(userId, record, cadreRecord);
+        CadreInspect record = new CadreInspect();
+        record.setId(inspectId);
+        record.setRemark(inspectRemark);
+        if (inspectId == null) {
+            cadreInspectService.insertSelective(userId, record, cadreRecord);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加考察对象：%s", record.getId()));
         } else {
-            cadreTempService.updateByPrimaryKeySelective(record, cadreRecord);
+            cadreInspectService.updateByPrimaryKeySelective(record, cadreRecord);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新考察对象：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreTemp:edit")
-    @RequestMapping("/cadreTemp_au")
-    public String cadreTemp_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping("/cadreInspect_au")
+    public String cadreInspect_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CadreTemp cadreTemp = cadreTempMapper.selectByPrimaryKey(id);
-            modelMap.put("cadreTemp", cadreTemp);
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreTemp.getCadreId());
+            CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreInspect", cadreInspect);
+            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
             modelMap.put("cadre", cadre);
         }
 
-        return "cadreTemp/cadreTemp_au";
+        return "cadreInspect/cadreInspect_au";
     }
 
-    @RequiresPermissions("cadreTemp:edit")
-    @RequestMapping("/cadreTemp_pass")
-    public String cadreTemp_pass(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping("/cadreInspect_pass")
+    public String cadreInspect_pass(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CadreTemp cadreTemp = cadreTempMapper.selectByPrimaryKey(id);
-            Cadre cadre = cadreService.findAll().get(cadreTemp.getCadreId());
-            modelMap.put("cadreTemp", cadreTemp);
+            CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
+            Cadre cadre = cadreService.findAll().get(cadreInspect.getCadreId());
+            modelMap.put("cadreInspect", cadreInspect);
             modelMap.put("cadre", cadre);
         }
-        return "cadreTemp/cadreTemp_pass";
+        return "cadreInspect/cadreInspect_pass";
     }
 
     // 通过常委会任命
-    @RequiresPermissions("cadreTemp:edit")
-    @RequestMapping(value = "/cadreTemp_pass", method = RequestMethod.POST)
+    @RequiresPermissions("cadreInspect:edit")
+    @RequestMapping(value = "/cadreInspect_pass", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTemp_pass(Integer tempId, String tempRemark,
+    public Map do_cadreInspect_pass(Integer inspectId, String inspectRemark,
                                  Cadre cadreRecord, HttpServletRequest request) {
 
-        CadreTemp record = new CadreTemp();
-        record.setId(tempId);
-        record.setRemark(tempRemark);
+        CadreInspect record = new CadreInspect();
+        record.setId(inspectId);
+        record.setRemark(inspectRemark);
 
-        Cadre cadre = cadreTempService.pass(record, cadreRecord);
+        Cadre cadre = cadreInspectService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
         logger.info(addLog(SystemConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreTemp:abolish")
-    @RequestMapping(value = "/cadreTemp_abolish", method = RequestMethod.POST)
+    @RequiresPermissions("cadreInspect:abolish")
+    @RequestMapping(value = "/cadreInspect_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map cadreTemp_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
+    public Map cadreInspect_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
-        cadreTempService.abolish(id);
+        cadreInspectService.abolish(id);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "撤销考察对象：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreTemp:changeOrder")
-    @RequestMapping(value = "/cadreTemp_changeOrder", method = RequestMethod.POST)
+    @RequiresPermissions("cadreInspect:changeOrder")
+    @RequestMapping(value = "/cadreInspect_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTemp_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cadreInspect_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        cadreTempService.changeOrder(id, addNum);
+        cadreInspectService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "考察对象调序：%s, %s", id ,addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreTemp_export(CadreTempViewExample example, HttpServletResponse response) {
+    public void cadreInspect_export(CadreInspectViewExample example, HttpServletResponse response) {
 
-        List<CadreTempView> records = cadreTempViewMapper.selectByExample(example);
+        List<CadreInspectView> records = cadreInspectViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"工号","姓名","行政级别","职务属性","职务","所在单位及职务","手机号","办公电话","家庭电话","电子邮箱","备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CadreTempView record = records.get(i);
+            CadreInspectView record = records.get(i);
             SysUserView sysUser =  record.getUser();
             String[] values = {
                     sysUser.getCode(),
@@ -248,32 +248,32 @@ public class CadreTempController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequiresPermissions("cadreTemp:import")
-    @RequestMapping("/cadreTemp_import")
-    public String cadreTemp_import() {
+    @RequiresPermissions("cadreInspect:import")
+    @RequestMapping("/cadreInspect_import")
+    public String cadreInspect_import() {
 
-        return "cadreTemp/cadreTemp_import";
+        return "cadreInspect/cadreInspect_import";
     }
 
-    @RequiresPermissions("cadreTemp:import")
-    @RequestMapping(value="/cadreTemp_import", method=RequestMethod.POST)
+    @RequiresPermissions("cadreInspect:import")
+    @RequestMapping(value="/cadreInspect_import", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreTemp_import( HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_cadreInspect_import( HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
 
-        List<XlsCadreTemp> cadreTemps = new ArrayList<XlsCadreTemp>();
+        List<XlsCadreInspect> cadreInspects = new ArrayList<XlsCadreInspect>();
 
         OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        cadreTemps.addAll(XlsUpload.fetchCadreTemps(sheet));
+        cadreInspects.addAll(XlsUpload.fetchCadreInspects(sheet));
 
-        int successCount = cadreTempService.importCadreTemps(cadreTemps);
+        int successCount = cadreInspectService.importCadreInspects(cadreInspects);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
-        resultMap.put("total", cadreTemps.size());
+        resultMap.put("total", cadreInspects.size());
 
         return resultMap;
     }

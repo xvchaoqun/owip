@@ -42,9 +42,17 @@ public class MemberApplyService extends BaseMapper {
         return memberApplyMapper.insertSelective(record);
     }*/
 
-    // 添加预备党员，需要加入入党申请（预备党员阶段）
-    public void addGrowApply(int userId){
+    /**
+     * 已经是预备党员[正常党员]的情况下，修改相关的入党申请记录
+     *
+     * 1、添加预备党员，需要加入入党申请（预备党员阶段）;
+     * 2、入党申请已经存在，则修改为预备党员阶段
+     * @param userId
+     */
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void addOrChangeToGrowApply(int userId){
         Member member = memberService.get(userId);
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL
                 && member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW){
             Date now = new Date();
@@ -62,18 +70,21 @@ public class MemberApplyService extends BaseMapper {
                 record.setFillTime(now);
                 record.setCreateTime(now);
                 record.setStage(SystemConstants.APPLY_STAGE_GROW);
-
                 memberApplyMapper.insertSelective(record);
 
-                Integer currentUserId = ShiroHelper.getCurrentUserId();
-                applyApprovalLogService.add(userId,
-                        member.getPartyId(), member.getBranchId(), userId,
-                        currentUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                        "后台添加预备党员");
+            }else if(memberApply.getStage()!=SystemConstants.APPLY_STAGE_GROW){
+
+                updateMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
+                updateMapper.memberApplyBackToGrow(userId);
             }
+
+            applyApprovalLogService.add(userId,
+                    member.getPartyId(), member.getBranchId(), userId,
+                    currentUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    "后台添加或修改为预备党员阶段");
         }
     }
 
@@ -254,6 +265,33 @@ public class MemberApplyService extends BaseMapper {
         }
     }
 
+    // 修改预备党员为正式党员之后，需要相应的修改入党申请信息（如果存在的话）
+    @Transactional
+    @CacheEvict(value = "MemberApply", key = "#userId")
+    public void modifyMemberToPositiveStatus(int userId) {
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if(member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
+            MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if (_memberApply != null) {
+
+                MemberApply record = new MemberApply();
+                record.setUserId(userId);
+                record.setPositiveTime(member.getPositiveTime());
+                record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
+                memberApplyMapper.updateByPrimaryKeySelective(record);
+
+                applyApprovalLogService.add(_memberApply.getUserId(),
+                        _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
+                        ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        "更新",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "修改党员为正式党员");
+            }
+        }
+    }
+
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
     public int updateByExampleSelective(int userId, MemberApply record, MemberApplyExample example) {
@@ -350,7 +388,7 @@ public class MemberApplyService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "MemberApply", key = "#userId")
-    public void denywhenDeleteMember(int userId){
+    public void denyWhenDeleteMember(int userId){
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
         if(_memberApply!=null && _memberApply.getStage()!=SystemConstants.APPLY_STAGE_DENY) {
             // 状态检查

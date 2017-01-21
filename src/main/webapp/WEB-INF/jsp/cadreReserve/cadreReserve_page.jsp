@@ -50,7 +50,7 @@
                                         <c:if test="${_status.key==CADRE_RESERVE_STATUS_ASSIGN}">
                                             <i class="fa fa-check"></i>
                                         </c:if>
-                                        <c:if test="${_status.key==CADRE_RESERVE_STATUS_TO_TEMP}">
+                                        <c:if test="${_status.key==CADRE_RESERVE_STATUS_TO_INSPECT}">
                                             <i class="fa fa-circle-o-notch fa-spin"></i>
                                         </c:if>
                                         ${_status.value}(${statusCountMap.get(_status.key)})</a>

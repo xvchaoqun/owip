@@ -6,7 +6,7 @@
     <h3>导入考察对象</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/cadreTemp_import" method="post">
+    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/cadreInspect_import" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label">Excel文件</label>
 			<div class="col-xs-4">
@@ -15,7 +15,7 @@
 		</div>
         </form>
         <div class="well">
-        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cadreTemp" target="_blank">考察对象录入样表.xlsx</a>（点击下载）的数据格式</span>
+        <span class="help-inline">导入的文件请严格按照<a href="${ctx}/attach?code=sample_cadreInspect" target="_blank">考察对象录入样表.xlsx</a>（点击下载）的数据格式</span>
         </div>
   </div>
   <div class="modal-footer">

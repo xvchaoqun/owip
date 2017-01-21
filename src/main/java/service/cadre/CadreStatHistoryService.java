@@ -29,7 +29,7 @@ public class CadreStatHistoryService extends BaseMapper {
     @Autowired
     protected SpringProps springProps;
 
-    public void asyncStatAll() throws IOException {
+    public void statAll() throws IOException {
         try {
             saveCadreExport();
             saveStatCadreExport();

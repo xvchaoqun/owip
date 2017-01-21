@@ -1,6 +1,6 @@
 package bean;
 
-public class XlsCadreTemp {
+public class XlsCadreInspect {
 
     public String userCode;
     public int adminLevel;
@@ -8,7 +8,7 @@ public class XlsCadreTemp {
     public String unitCode;
     public String post;
     public String title;
-    public String tempRemark;
+    public String inspectRemark;
 
     public String getUserCode() {
         return userCode;
@@ -58,11 +58,11 @@ public class XlsCadreTemp {
         this.title = title;
     }
 
-    public String getTempRemark() {
-        return tempRemark;
+    public String getInspectRemark() {
+        return inspectRemark;
     }
 
-    public void setTempRemark(String tempRemark) {
-        this.tempRemark = tempRemark;
+    public void setInspectRemark(String inspectRemark) {
+        this.inspectRemark = inspectRemark;
     }
 }

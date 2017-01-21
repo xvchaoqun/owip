@@ -1,4 +1,24 @@
 
+
+-- 2017-1-21
+RENAME TABLE `cadre_temp` TO `cadre_inspect`;
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_temp_view` AS SELECT `ci`.`id` AS `inspect_id`
+	,`ci`.`type` AS `inspect_type`
+	,`ci`.`status` AS `inspect_status`
+	,`ci`.`remark` AS `inspect_remark`
+	,`ci`.`sort_order` AS `inspect_sort_order`
+	,`cv`.*
+FROM (
+	`cadre_inspect` `ci` LEFT JOIN `cadre_view` `cv` ON ((`ci`.`cadre_id` = `cv`.`id`))
+	)  ;
+RENAME TABLE `cadre_temp_view` TO `cadre_inspect_view`;
+
+update sys_resource set permission=replace(permission, 'cadreTemp', 'cadreInspect') where permission like '%cadreTemp%';
+update sys_resource set url=replace(url, 'cadreTemp', 'cadreInspect') where url like '%cadreTemp%';
+update sys_resource set name='考察情况',  permission ='cadreInspectInfo:*' where permission ='cadreInspect:*';
+update sys_role set role='cadreInspect' where role='cadreTemp';
+update sys_attach_file set code='sample_cadreInspect' where code='sample_cadreTemp';
+
 -- 2017-1-19
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS SELECT `c`.`id` AS `id`
 	,`c`.`user_id` AS `user_id`

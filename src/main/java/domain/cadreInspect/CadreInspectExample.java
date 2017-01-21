@@ -1,16 +1,16 @@
-package domain.cadreTemp;
+package domain.cadreInspect;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CadreTempExample {
+public class CadreInspectExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CadreTempExample() {
+    public CadreInspectExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

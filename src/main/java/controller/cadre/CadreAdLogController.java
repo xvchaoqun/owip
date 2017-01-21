@@ -4,7 +4,7 @@ import controller.BaseController;
 import domain.cadre.CadreAdLog;
 import domain.cadre.CadreAdLogExample;
 import domain.cadreReserve.CadreReserve;
-import domain.cadreTemp.CadreTemp;
+import domain.cadreInspect.CadreInspect;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -29,12 +29,12 @@ public class CadreAdLogController extends BaseController {
 
     @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
     @RequestMapping("/cadreAdLog_page")
-    public String cadreAdLog_page(Integer tempId, Integer reserveId, Integer cadreId, ModelMap modelMap) {
+    public String cadreAdLog_page(Integer inspectId, Integer reserveId, Integer cadreId, ModelMap modelMap) {
 
         if (cadreId == null) {
-            if (tempId != null) {
-                CadreTemp cadreTemp = cadreTempMapper.selectByPrimaryKey(tempId);
-                cadreId = cadreTemp.getCadreId();
+            if (inspectId != null) {
+                CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(inspectId);
+                cadreId = cadreInspect.getCadreId();
             } else if (reserveId != null) {
                 CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(reserveId);
                 cadreId = cadreReserve.getCadreId();

@@ -4,8 +4,8 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveExample;
-import domain.cadreTemp.CadreTemp;
-import domain.cadreTemp.CadreTempExample;
+import domain.cadreInspect.CadreInspect;
+import domain.cadreInspect.CadreInspectExample;
 import domain.modify.ModifyCadreAuth;
 import domain.modify.ModifyCadreAuthExample;
 import domain.base.MetaType;
@@ -57,7 +57,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         // 职务属性-现任干部
         Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
         // 考察对象
-        List<Cadre> tempCadres = new ArrayList<>();
+        List<Cadre> inspectCadres = new ArrayList<>();
         // 类别-后备干部库
         Map<Byte, List<Cadre>> typeReserveCadresMap = new LinkedHashMap<>();
         for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
@@ -83,20 +83,20 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
 
         {
-            CadreTempExample example = new CadreTempExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_TEMP_STATUS_NORMAL);
+            CadreInspectExample example = new CadreInspectExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
             example.setOrderByClause("sort_order asc");
-            List<CadreTemp> cadreTemps = cadreTempMapper.selectByExample(example);
-            for (CadreTemp cadreTemp : cadreTemps) {
-                Cadre cadre = cadreMapper.selectByPrimaryKey(cadreTemp.getCadreId());
-                tempCadres.add(cadre);
+            List<CadreInspect> cadreInspects = cadreInspectMapper.selectByExample(example);
+            for (CadreInspect cadreInspect : cadreInspects) {
+                Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
+                inspectCadres.add(cadre);
             }
         }
 
         {
             CadreReserveExample example = new CadreReserveExample();
             example.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_RESERVE_STATUS_NORMAL,
-                    SystemConstants.CADRE_RESERVE_STATUS_TO_TEMP));
+                    SystemConstants.CADRE_RESERVE_STATUS_TO_INSPECT));
             example.setOrderByClause("sort_order asc");
             List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
             for (CadreReserve cadreReserve : cadreReserves) {
@@ -151,15 +151,15 @@ public class ModifyCadreAuthService extends BaseMapper {
             cadreRootChildren.add(titleNode);
         }
 
-        if(tempCadres.size()>0) {
-            TreeNode tempCadreRoot = new TreeNode();
-            tempCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_TEMP);
-            tempCadreRoot.expand = true;
-            tempCadreRoot.isFolder = true;
-            List<TreeNode> tempCadreRootChildren = new ArrayList<TreeNode>();
-            tempCadreRoot.children = tempCadreRootChildren;
-            rootChildren.add(tempCadreRoot);
-            for (Cadre cadre : tempCadres) {
+        if(inspectCadres.size()>0) {
+            TreeNode inspectCadreRoot = new TreeNode();
+            inspectCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_INSPECT);
+            inspectCadreRoot.expand = true;
+            inspectCadreRoot.isFolder = true;
+            List<TreeNode> children = new ArrayList<TreeNode>();
+            inspectCadreRoot.children = children;
+            rootChildren.add(inspectCadreRoot);
+            for (Cadre cadre : inspectCadres) {
 
                 String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
@@ -168,7 +168,7 @@ public class ModifyCadreAuthService extends BaseMapper {
                 if(disabledCadreIdSet.contains(cadre.getId())){
                     node.hideCheckbox = true;
                 }
-                tempCadreRootChildren.add(node);
+                children.add(node);
             }
         }
 

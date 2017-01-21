@@ -31,11 +31,16 @@
       </li>
     </ul>
   </li>
-  <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
   <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+    <shiro:hasPermission name="member:add">
+      <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
+        <i class="fa fa-plus"></i> 添加党员</a>
+    </shiro:hasPermission>
+    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
     <a class="popupBtn btn btn-danger btn-sm"
        data-rel="tooltip" data-placement="bottom" title="可查询所有教职工和学生的组织关系状态"
             data-url="${ctx}/member/search"><i class="fa fa-search"></i> 全校组织关系查询</a>
+    </shiro:hasAnyRoles>
   </div>
-  </shiro:hasAnyRoles>
+
 </ul>

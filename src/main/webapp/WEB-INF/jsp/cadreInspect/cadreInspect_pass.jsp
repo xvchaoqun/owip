@@ -6,8 +6,8 @@ pageEncoding="UTF-8"%>
     <h3>通过常委会任命</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreTemp_pass" id="modalForm" method="post">
-        <input type="hidden" name="tempId" value="${cadreTemp.id}">
+    <form class="form-horizontal" action="${ctx}/cadreInspect_pass" id="modalForm" method="post">
+        <input type="hidden" name="inspectId" value="${cadreInspect.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">账号</label>
 				<div class="col-xs-6 label-text">
@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                    <textarea class="form-control limited" name="tempRemark" rows="5">${cadreTemp.remark}</textarea>
+                    <textarea class="form-control limited" name="inspectRemark" rows="5">${cadreInspect.remark}</textarea>
 				</div>
 			</div>
     </form>

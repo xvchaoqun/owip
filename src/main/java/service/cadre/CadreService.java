@@ -5,7 +5,7 @@ import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
-import domain.cadreTemp.CadreTemp;
+import domain.cadreInspect.CadreInspect;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadreReserve.CadreReserveService;
-import service.cadreTemp.CadreTempService;
+import service.cadreInspect.CadreInspectService;
 import shiro.ShiroHelper;
 import service.sys.SysUserService;
 import service.unit.UnitService;
@@ -40,7 +40,7 @@ public class CadreService extends BaseMapper {
     @Autowired
     private CadreReserveService cadreReserveService;
     @Autowired
-    private CadreTempService cadreTempService;
+    private CadreInspectService cadreInspectService;
     @Autowired
     private CadreAdLogService cadreAdLogService;
 
@@ -65,7 +65,7 @@ public class CadreService extends BaseMapper {
             if(cadre!=null){
                 Integer cadreId = cadre.getId();
                 String realname = cadre.getUser().getRealname();
-                if(cadreTempService.getNormalRecord(cadreId)!=null){
+                if(cadreInspectService.getNormalRecord(cadreId)!=null){
                     throw new RuntimeException( realname + "已经是考察对象");
                 }
 
@@ -179,19 +179,19 @@ public class CadreService extends BaseMapper {
 
             SysUserView uv = sysUserService.findById(userId);
             // 添加考察对象角色
-            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRETEMP, uv.getUsername(), uv.getCode());
+            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADREINSPECT, uv.getUsername(), uv.getCode());
 
             // 检查
-            cadreTempService.directAddCheck(null, userId);
+            cadreInspectService.directAddCheck(null, userId);
 
             // 添加到考察对象中
-            CadreTemp record = new CadreTemp();
-            record.setSortOrder(getNextSortOrder(CadreTempService.TABLE_NAME, "status=" + SystemConstants.CADRE_TEMP_STATUS_NORMAL));
+            CadreInspect record = new CadreInspect();
+            record.setSortOrder(getNextSortOrder(CadreInspectService.TABLE_NAME, "status=" + SystemConstants.CADRE_INSPECT_STATUS_NORMAL));
             record.setCadreId(cadre.getId());
-            record.setStatus(SystemConstants.CADRE_TEMP_STATUS_NORMAL);
-            record.setType(SystemConstants.CADRE_TEMP_TYPE_DEFAULT);
+            record.setStatus(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
+            record.setType(SystemConstants.CADRE_INSPECT_TYPE_DEFAULT);
             record.setRemark(SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "重新任用");
-            cadreTempMapper.insertSelective(record);
+            cadreInspectMapper.insertSelective(record);
 
         }
     }
@@ -218,7 +218,7 @@ public class CadreService extends BaseMapper {
         directAddCheck(null, userId);
 
         Assert.isTrue(record.getStatus()!=null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                && record.getStatus() != SystemConstants.CADRE_STATUS_TEMP); // 非后备干部、考察对象
+                && record.getStatus() != SystemConstants.CADRE_STATUS_INSPECT); // 非后备干部、考察对象
 
         SysUserView uv = sysUserService.findById(userId);
         // 添加干部身份
@@ -287,7 +287,7 @@ public class CadreService extends BaseMapper {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             Assert.isTrue(cadre.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_TEMP); // 非后备干部、考察对象
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_INSPECT); // 非后备干部、考察对象
 
             SysUserView uv = sysUserService.findById(cadre.getUserId());
             // 删除干部身份
@@ -338,7 +338,7 @@ public class CadreService extends BaseMapper {
         example.createCriteria()
                 .andIdIn(Arrays.asList(ids))
                 .andStatusNotIn(Arrays.asList(SystemConstants.CADRE_STATUS_RESERVE,
-                        SystemConstants.CADRE_STATUS_TEMP))
+                        SystemConstants.CADRE_STATUS_INSPECT))
                 .andIsDpEqualTo(true);
         Cadre record = new Cadre();
         record.setIsDp(false);

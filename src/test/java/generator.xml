@@ -193,8 +193,8 @@
              enableDeleteByExample="false">
       </table>-->
 
-      <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
-      </table>
+    <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
+      </table>-->
      <!-- <table tableName="cadre_leader" domainObjectName="cadre.CadreLeader">
       </table>
       <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit">
@@ -210,13 +210,13 @@
              enableDeleteByExample="false">
       </table>-->
 
-      <!--<table tableName="cadre_temp" domainObjectName="cadreTemp.CadreTemp">
-      </table>-->
-     <!-- <table tableName="cadre_temp_view" domainObjectName="cadreTemp.CadreTempView"
+      <table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
+      </table>
+      <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">

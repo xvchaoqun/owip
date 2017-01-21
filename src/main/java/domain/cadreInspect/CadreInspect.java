@@ -1,8 +1,8 @@
-package domain.cadreTemp;
+package domain.cadreInspect;
 
 import java.io.Serializable;
 
-public class CadreTemp implements Serializable {
+public class CadreInspect implements Serializable {
     private Integer id;
 
     private Integer cadreId;

@@ -6,26 +6,26 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
-                  data-url-page="${ctx}/cadreTemp_page"
-                  data-url-bd="${ctx}/cadreTemp_batchDel"
-                  data-url-co="${ctx}/cadreTemp_changeOrder"
-                  data-url-export="${ctx}/cadreTemp_data"
+                  data-url-page="${ctx}/cadreInspect_page"
+                  data-url-bd="${ctx}/cadreInspect_batchDel"
+                  data-url-co="${ctx}/cadreInspect_changeOrder"
+                  data-url-export="${ctx}/cadreInspect_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
 
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <c:forEach var="_status" items="${CADRE_TEMP_STATUS_MAP}">
+                <c:forEach var="_status" items="${CADRE_INSPECT_STATUS_MAP}">
                     <li class="<c:if test="${status==_status.key}">active</c:if>">
                         <a href="?status=${_status.key}">
-                            <c:if test="${_status.key==CADRE_TEMP_STATUS_ABOLISH}">
+                            <c:if test="${_status.key==CADRE_INSPECT_STATUS_ABOLISH}">
                                 <i class="fa fa-times"></i>
                             </c:if>
-                            <c:if test="${_status.key==CADRE_TEMP_STATUS_ASSIGN}">
+                            <c:if test="${_status.key==CADRE_INSPECT_STATUS_ASSIGN}">
                                 <i class="fa fa-check"></i>
                             </c:if>
-                            <c:if test="${_status.key==CADRE_TEMP_STATUS_NORMAL}">
+                            <c:if test="${_status.key==CADRE_INSPECT_STATUS_NORMAL}">
                                 <i class="fa fa-circle-o-notch fa-spin"></i>
                             </c:if>
                             ${_status.value}</a>
@@ -36,36 +36,36 @@ pageEncoding="UTF-8" %>
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active rownumbers">
                     <div class="jqgrid-vertical-offset buttons">
-                        <c:if test="${status==CADRE_TEMP_STATUS_NORMAL}">
-                        <shiro:hasPermission name="cadreTemp:edit">
+                        <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
+                        <shiro:hasPermission name="cadreInspect:edit">
                             <a class="popupBtn btn btn-info btn-sm btn-success"
-                               data-url="${ctx}/cadreTemp_au"><i class="fa fa-plus"></i>
+                               data-url="${ctx}/cadreInspect_au"><i class="fa fa-plus"></i>
                                 提任干部
                             </a>
                         </shiro:hasPermission>
                         <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                data-url="${ctx}/cadreTemp_au">
+                                data-url="${ctx}/cadreInspect_au">
                             <i class="fa fa-edit"></i> 修改信息
                         </button>
                         <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                data-url="${ctx}/cadreTemp_pass">
+                                data-url="${ctx}/cadreInspect_pass">
                             <i class="fa fa-check"></i> 通过常委会任命
                         </button>
-                        <button data-url="${ctx}/cadreTemp_abolish"
+                        <button data-url="${ctx}/cadreInspect_abolish"
                                 data-title="撤销考察对象"
                                 data-msg="确认撤销该考察对象？"
                                 class="jqItemBtn btn btn-danger btn-sm">
                             <i class="fa fa-reply"></i> 撤销
                         </button>
-                        <shiro:hasPermission name="cadreTemp:edit">
+                        <shiro:hasPermission name="cadreInspect:edit">
                         <a class="popupBtn btn btn-primary btn-sm tooltip-success"
-                           data-url="${ctx}/cadreTemp_import"
+                           data-url="${ctx}/cadreInspect_import"
                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
                         </shiro:hasPermission>
                         </c:if>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                 data-url="${ctx}/cadreAdLog_page"
-                                data-id-name="tempId"
+                                data-id-name="inspectId"
                                 data-open-by="page">
                             <i class="fa fa-search"></i> 任免操作记录
                         </button>
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
-        url: '${ctx}/cadreTemp_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreInspect_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
             {
@@ -165,10 +165,10 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.id, cellvalue);
             }, frozen: true
             },
-            <c:if test="${status==CADRE_TEMP_STATUS_NORMAL}">
+            <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.tempId})
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.inspectId})
             }, frozen: true
             },
             </c:if>
@@ -188,7 +188,7 @@ pageEncoding="UTF-8" %>
             {label: '办公电话', name: 'phone'},
             {label: '家庭电话', name: 'homePhone'},
             {label: '电子邮箱', name: 'email', width: 150},
-            {label: '备注', name: 'tempRemark', width: 150}, {hidden: true, key: true, name: 'tempId'}
+            {label: '备注', name: 'inspectRemark', width: 150}, {hidden: true, key: true, name: 'inspectId'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $('[data-rel="tooltip"]').tooltip();

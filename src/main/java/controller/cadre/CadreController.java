@@ -350,8 +350,6 @@ public class CadreController extends BaseController {
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
 
-        if(status==SystemConstants.CADRE_STATUS_TEMP)
-            return "cadre/cadre_temp_au";
         return "cadre/cadre_au";
     }
 

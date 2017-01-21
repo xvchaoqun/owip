@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        location.href='${ctx}/cadreTemp';
+                        location.href='${ctx}/cadreInspect';
                     }
                 }
             });

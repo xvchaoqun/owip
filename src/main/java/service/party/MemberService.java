@@ -9,6 +9,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,7 +176,7 @@ public class MemberService extends BaseMapper {
         }else throw new RuntimeException("数据异常，入党失败。"+ uv.getCode() + "," + uv.getRealname());
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
-        memberApplyService.addGrowApply(userId);
+        memberApplyService.addOrChangeToGrowApply(userId);
 
         // 更新系统角色  访客->党员
         sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
@@ -263,7 +264,7 @@ public class MemberService extends BaseMapper {
         // 删除入党申请（预备党员、正式党员)
         for (Integer userId : userIds) {
 
-            memberApplyService.denywhenDeleteMember(userId);
+            memberApplyService.denyWhenDeleteMember(userId);
         }
 
         // 删除组织关系转出、出国党员暂留、校内转接、党员流出
@@ -364,5 +365,29 @@ public class MemberService extends BaseMapper {
         modify.setOpTime(new Date());
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
         memberModifyMapper.insertSelective(modify);
+    }
+
+    // 修改党籍状态
+    @Transactional
+    public void modifyStatus(int userId, byte politicalStatus, String remark) {
+
+        Member member = memberMapper.selectByPrimaryKey(userId);
+        if(member!=null && member.getPoliticalStatus()!=politicalStatus &&
+                SystemConstants.MEMBER_POLITICAL_STATUS_MAP.containsKey(politicalStatus)){
+            Member record = new Member();
+            record.setUserId(userId);
+            record.setPoliticalStatus(politicalStatus);
+            updateByPrimaryKeySelective(record, StringUtils.defaultIfBlank(remark, "修改党籍状态为"
+                    + SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(politicalStatus)));
+
+
+            if(politicalStatus==SystemConstants.MEMBER_POLITICAL_STATUS_GROW){
+                // 正式->预备，需要同时修改或添加入党申请【6.预备党员】阶段
+                memberApplyService.addOrChangeToGrowApply(userId);
+            }else{
+                // 预备->正式，需要同时修改入党申请【6.预备党员】阶段->【7.正式党员】阶段
+                memberApplyService.modifyMemberToPositiveStatus(userId);
+            }
+        }
     }
 }

@@ -3,12 +3,12 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreTemp!=null}">编辑</c:if><c:if test="${cadreTemp==null}">添加</c:if>考察对象
+    <h3><c:if test="${cadreInspect!=null}">编辑</c:if><c:if test="${cadreInspect==null}">添加</c:if>考察对象
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreTemp_au" id="modalForm" method="post">
-        <input type="hidden" name="tempId" value="${cadreTemp.id}">
+    <form class="form-horizontal" action="${ctx}/cadreInspect_au" id="modalForm" method="post">
+        <input type="hidden" name="inspectId" value="${cadreInspect.id}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">账号</label>
                 <div class="col-xs-6 ${cadre!=null?'label-text':''}">
@@ -77,14 +77,14 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">备注</label>
 				<div class="col-xs-6">
-                    <textarea class="form-control limited" name="tempRemark" rows="5">${cadreTemp.remark}</textarea>
+                    <textarea class="form-control limited" name="inspectRemark" rows="5">${cadreInspect.remark}</textarea>
 				</div>
 			</div>
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreTemp!=null}">确定</c:if><c:if test="${cadreTemp==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreInspect!=null}">确定</c:if><c:if test="${cadreInspect==null}">添加</c:if>"/>
 </div>
 
 <script>

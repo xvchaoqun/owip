@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import persistence.abroad.*;
 import persistence.base.*;
 import persistence.cadre.*;
+import persistence.cadreInspect.CadreInspectMapper;
+import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
-import persistence.cadreTemp.CadreTempMapper;
-import persistence.cadreTemp.CadreTempViewMapper;
+
 import persistence.common.*;
 import persistence.dispatch.*;
 import persistence.ext.ExtAbroadMapper;
@@ -280,9 +281,9 @@ public class BaseMapper {
 	@Autowired
 	protected CadreAdLogMapper cadreAdLogMapper;
 	@Autowired
-	protected CadreTempMapper cadreTempMapper;
+	protected CadreInspectMapper cadreInspectMapper;
 	@Autowired
-	protected CadreTempViewMapper cadreTempViewMapper;
+	protected CadreInspectViewMapper cadreInspectViewMapper;
 	@Autowired
 	protected CadreReserveMapper cadreReserveMapper;
 	@Autowired

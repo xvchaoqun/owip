@@ -6,12 +6,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class XlsUpload {
 
@@ -237,9 +235,9 @@ public class XlsUpload {
 	}
 
 
-	public static List<XlsCadreTemp> fetchCadreTemps(XSSFSheet sheet){
+	public static List<XlsCadreInspect> fetchCadreInspects(XSSFSheet sheet){
 
-		List<XlsCadreTemp> rows = new ArrayList<XlsCadreTemp>();
+		List<XlsCadreInspect> rows = new ArrayList<XlsCadreInspect>();
 		XSSFRow rowTitle = sheet.getRow(0);
 		if(null == rowTitle)
 			return rows;
@@ -254,7 +252,7 @@ public class XlsUpload {
 				continue;
 			}
 
-			XlsCadreTemp bean = new XlsCadreTemp();
+			XlsCadreInspect bean = new XlsCadreInspect();
 			XSSFCell cell = row.getCell(0);
 			if (null != cell){
 				String userCode = getCell(cell);
@@ -297,7 +295,7 @@ public class XlsUpload {
 
 			cell = row.getCell(6);
 			if (null != cell){
-				bean.setTempRemark(getCell(cell));
+				bean.setInspectRemark(getCell(cell));
 			}
 
 			rows.add(bean);

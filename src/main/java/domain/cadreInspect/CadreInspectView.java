@@ -1,6 +1,5 @@
-package domain.cadreTemp;
+package domain.cadreInspect;
 
-import domain.base.MetaType;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
@@ -13,9 +12,8 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-public class CadreTempView implements Serializable {
+public class CadreInspectView implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -44,15 +42,15 @@ public class CadreTempView implements Serializable {
         }
         return null;
     }
-    private Integer tempId;
+    private Integer inspectId;
 
-    private Byte tempType;
+    private Byte inspectType;
 
-    private Byte tempStatus;
+    private Byte inspectStatus;
 
-    private String tempRemark;
+    private String inspectRemark;
 
-    private Integer tempSortOrder;
+    private Integer inspectSortOrder;
 
     private Integer id;
 
@@ -158,46 +156,66 @@ public class CadreTempView implements Serializable {
 
     private Integer doubleUnitId;
 
+    private String adminLevelCode;
+
+    private String adminLevelName;
+
+    private String maxCeEduAttr;
+
+    private String maxCeEduCode;
+
+    private String maxCeEduName;
+
+    private String unitName;
+
+    private Integer unitTypeId;
+
+    private String unitTypeCode;
+
+    private String unitTypeName;
+
+    private String unitTypeAttr;
+
     private static final long serialVersionUID = 1L;
 
-    public Integer getTempId() {
-        return tempId;
+    public Integer getInspectId() {
+        return inspectId;
     }
 
-    public void setTempId(Integer tempId) {
-        this.tempId = tempId;
+    public void setInspectId(Integer inspectId) {
+        this.inspectId = inspectId;
     }
 
-    public Byte getTempType() {
-        return tempType;
+    public Byte getInspectType() {
+        return inspectType;
     }
 
-    public void setTempType(Byte tempType) {
-        this.tempType = tempType;
+    public void setInspectType(Byte inspectType) {
+        this.inspectType = inspectType;
     }
 
-    public Byte getTempStatus() {
-        return tempStatus;
+    public Byte getInspectStatus() {
+        return inspectStatus;
     }
 
-    public void setTempStatus(Byte tempStatus) {
-        this.tempStatus = tempStatus;
+    public void setInspectStatus(Byte inspectStatus) {
+        this.inspectStatus = inspectStatus;
     }
 
-    public String getTempRemark() {
-        return tempRemark;
+    public String getInspectRemark() {
+        return inspectRemark;
     }
 
-    public void setTempRemark(String tempRemark) {
-        this.tempRemark = tempRemark == null ? null : tempRemark.trim();
+    public void setInspectRemark(String inspectRemark) {
+        this.inspectRemark = inspectRemark == null ? null : inspectRemark.trim();
     }
 
-    public Integer getTempSortOrder() {
-        return tempSortOrder;
+    public Integer getInspectSortOrder() {
+        return inspectSortOrder;
     }
 
-    public void setTempSortOrder(Integer tempSortOrder) {
-        this.tempSortOrder = tempSortOrder;
+    public void setInspectSortOrder(Integer inspectSortOrder) {
+        this.inspectSortOrder = inspectSortOrder;
     }
 
     public Integer getId() {
@@ -614,5 +632,85 @@ public class CadreTempView implements Serializable {
 
     public void setDoubleUnitId(Integer doubleUnitId) {
         this.doubleUnitId = doubleUnitId;
+    }
+
+    public String getAdminLevelCode() {
+        return adminLevelCode;
+    }
+
+    public void setAdminLevelCode(String adminLevelCode) {
+        this.adminLevelCode = adminLevelCode == null ? null : adminLevelCode.trim();
+    }
+
+    public String getAdminLevelName() {
+        return adminLevelName;
+    }
+
+    public void setAdminLevelName(String adminLevelName) {
+        this.adminLevelName = adminLevelName == null ? null : adminLevelName.trim();
+    }
+
+    public String getMaxCeEduAttr() {
+        return maxCeEduAttr;
+    }
+
+    public void setMaxCeEduAttr(String maxCeEduAttr) {
+        this.maxCeEduAttr = maxCeEduAttr == null ? null : maxCeEduAttr.trim();
+    }
+
+    public String getMaxCeEduCode() {
+        return maxCeEduCode;
+    }
+
+    public void setMaxCeEduCode(String maxCeEduCode) {
+        this.maxCeEduCode = maxCeEduCode == null ? null : maxCeEduCode.trim();
+    }
+
+    public String getMaxCeEduName() {
+        return maxCeEduName;
+    }
+
+    public void setMaxCeEduName(String maxCeEduName) {
+        this.maxCeEduName = maxCeEduName == null ? null : maxCeEduName.trim();
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName == null ? null : unitName.trim();
+    }
+
+    public Integer getUnitTypeId() {
+        return unitTypeId;
+    }
+
+    public void setUnitTypeId(Integer unitTypeId) {
+        this.unitTypeId = unitTypeId;
+    }
+
+    public String getUnitTypeCode() {
+        return unitTypeCode;
+    }
+
+    public void setUnitTypeCode(String unitTypeCode) {
+        this.unitTypeCode = unitTypeCode == null ? null : unitTypeCode.trim();
+    }
+
+    public String getUnitTypeName() {
+        return unitTypeName;
+    }
+
+    public void setUnitTypeName(String unitTypeName) {
+        this.unitTypeName = unitTypeName == null ? null : unitTypeName.trim();
+    }
+
+    public String getUnitTypeAttr() {
+        return unitTypeAttr;
+    }
+
+    public void setUnitTypeAttr(String unitTypeAttr) {
+        this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
     }
 }

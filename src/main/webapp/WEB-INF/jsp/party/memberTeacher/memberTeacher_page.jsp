@@ -24,9 +24,11 @@
             <div class="tab-content">
                 <div id="home4" class="tab-pane in active">
                     <div class="jqgrid-vertical-offset buttons">
-                        <shiro:hasPermission name="member:add">
-                        <a href="javascript:" class="openView btn btn-info btn-sm" data-url="${ctx}/member_au">
-                            <i class="fa fa-plus"></i> 添加党员</a>
+                        <shiro:hasPermission name="member:modifyStatus">
+                            <a href="javascript:" class="jqEditBtn btn btn-info btn-sm"
+                               data-url="${ctx}/member_modify_status"
+                               data-id-name="userId">
+                                <i class="fa fa-edit"></i> 修改党籍状态</a>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="member:edit">
                         <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"

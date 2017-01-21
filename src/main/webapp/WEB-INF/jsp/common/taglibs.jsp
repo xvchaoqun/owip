@@ -89,18 +89,18 @@
 
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_NORMAL%>" var="CADRE_RESERVE_STATUS_NORMAL"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
-<c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_TO_TEMP%>" var="CADRE_RESERVE_STATUS_TO_TEMP"/>
+<c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_TO_INSPECT%>" var="CADRE_RESERVE_STATUS_TO_INSPECT"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_ASSIGN%>" var="CADRE_RESERVE_STATUS_ASSIGN"/>
 <c:set value="<%=SystemConstants.CADRE_RESERVE_STATUS_MAP%>" var="CADRE_RESERVE_STATUS_MAP"/>
 
-<c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_NORMAL%>" var="CADRE_TEMP_STATUS_NORMAL"/>
-<c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_ASSIGN%>" var="CADRE_TEMP_STATUS_ASSIGN"/>
-<c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_ABOLISH%>" var="CADRE_TEMP_STATUS_ABOLISH"/>
-<c:set value="<%=SystemConstants.CADRE_TEMP_STATUS_MAP%>" var="CADRE_TEMP_STATUS_MAP"/>
+<c:set value="<%=SystemConstants.CADRE_INSPECT_STATUS_NORMAL%>" var="CADRE_INSPECT_STATUS_NORMAL"/>
+<c:set value="<%=SystemConstants.CADRE_INSPECT_STATUS_ASSIGN%>" var="CADRE_INSPECT_STATUS_ASSIGN"/>
+<c:set value="<%=SystemConstants.CADRE_INSPECT_STATUS_ABOLISH%>" var="CADRE_INSPECT_STATUS_ABOLISH"/>
+<c:set value="<%=SystemConstants.CADRE_INSPECT_STATUS_MAP%>" var="CADRE_INSPECT_STATUS_MAP"/>
 
 <c:set value="<%=SystemConstants.CADRE_STATUS_MIDDLE%>" var="CADRE_STATUS_MIDDLE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_LEADER%>" var="CADRE_STATUS_LEADER"/>
-<c:set value="<%=SystemConstants.CADRE_STATUS_TEMP%>" var="CADRE_STATUS_TEMP"/>
+<c:set value="<%=SystemConstants.CADRE_STATUS_INSPECT%>" var="CADRE_STATUS_INSPECT"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_MIDDLE_LEAVE%>" var="CADRE_STATUS_MIDDLE_LEAVE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_LEADER_LEAVE%>" var="CADRE_STATUS_LEADER_LEAVE"/>
 <c:set value="<%=SystemConstants.CADRE_STATUS_MAP%>" var="CADRE_STATUS_MAP"/>

@@ -14,7 +14,7 @@ import service.analysis.StatService;
 import service.base.*;
 import service.cadre.*;
 import service.cadreReserve.CadreReserveService;
-import service.cadreTemp.CadreTempService;
+import service.cadreInspect.CadreInspectService;
 import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
@@ -200,7 +200,7 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreCommonService cadreCommonService;
     @Autowired
-    protected CadreTempService cadreTempService;
+    protected CadreInspectService cadreInspectService;
     @Autowired
     protected CadreReserveService cadreReserveService;
     @Autowired

@@ -157,7 +157,7 @@
 </script>
 <script>
     function _reAssignCallback(){
-        location.href='${ctx}/cadreTemp';
+        location.href='${ctx}/cadreInspect';
     }
     <c:if test="${status==CADRE_STATUS_MIDDLE || status==CADRE_STATUS_LEADER}">
     $("#jqGrid").jqGrid({

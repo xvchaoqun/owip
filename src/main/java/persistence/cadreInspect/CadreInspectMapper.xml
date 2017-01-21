@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadreTemp.CadreTempMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadreTemp.CadreTemp" >
+<mapper namespace="persistence.cadreInspect.CadreInspectMapper" >
+  <resultMap id="BaseResultMap" type="domain.cadreInspect.CadreInspect" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
@@ -70,13 +70,13 @@
   <sql id="Base_Column_List" >
     id, cadre_id, type, status, remark, sort_order
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadreTemp.CadreTempExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadreInspect.CadreInspectExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre_temp
+    from cadre_inspect
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,29 +87,29 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from cadre_temp
+    from cadre_inspect
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from cadre_temp
+    delete from cadre_inspect
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadreTemp.CadreTempExample" >
-    delete from cadre_temp
+  <delete id="deleteByExample" parameterType="domain.cadreInspect.CadreInspectExample" >
+    delete from cadre_inspect
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.cadreTemp.CadreTemp" >
-    insert into cadre_temp (id, cadre_id, type, 
+  <insert keyProperty="id" id="insert" parameterType="domain.cadreInspect.CadreInspect" >
+    insert into cadre_inspect (id, cadre_id, type, 
       status, remark, sort_order
       )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
       )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadreTemp.CadreTemp" >
-    insert into cadre_temp
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadreInspect.CadreInspect" >
+    insert into cadre_inspect
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -151,14 +151,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadreTemp.CadreTempExample" resultType="java.lang.Integer" >
-    select count(*) from cadre_temp
+  <select id="countByExample" parameterType="domain.cadreInspect.CadreInspectExample" resultType="java.lang.Integer" >
+    select count(*) from cadre_inspect
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update cadre_temp
+    update cadre_inspect
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -184,7 +184,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update cadre_temp
+    update cadre_inspect
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
@@ -195,8 +195,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadreTemp.CadreTemp" >
-    update cadre_temp
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadreInspect.CadreInspect" >
+    update cadre_inspect
     <set >
       <if test="cadreId != null" >
         cadre_id = #{cadreId,jdbcType=INTEGER},
@@ -216,8 +216,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadreTemp.CadreTemp" >
-    update cadre_temp
+  <update id="updateByPrimaryKey" parameterType="domain.cadreInspect.CadreInspect" >
+    update cadre_inspect
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
@@ -225,13 +225,13 @@
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadreTemp.CadreTempExample" id="selectByExampleWithRowbounds" >
+  <select resultMap="BaseResultMap" parameterType="domain.cadreInspect.CadreInspectExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre_temp
+    from cadre_inspect
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
