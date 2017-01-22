@@ -53,8 +53,8 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/safeBox_data?callback=?&',
         colModel: [
-            { label: '保险柜编号', align:'center', name: 'code', width: 100,frozen:true },
-            { label: '证件总数量', align:'center', name: 'totalCount', width: 100 , formatter:function(cellvalue, options, rowObject){
+            { label: '保险柜编号', name: 'code', width: 100,frozen:true },
+            { label: '证件总数量', name: 'totalCount', width: 100 , formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}">{1}</a>'
                         .format(rowObject.id, rowObject.totalCount)
             },frozen:true},
@@ -62,7 +62,7 @@
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/safeBoxPassportList?safeBoxId={0}&type=1">{1}</a>'
                         .format(rowObject.id, rowObject.keepCount)
             },frozen:true},
-            { label: '取消集中管理证件数量（未确认）', align:'center', name: 'cancelCount', width: 250 ,
+            { label: '取消集中管理证件数量（未确认）', name: 'cancelCount', width: 250 ,
                 formatter:function(cellvalue, options, rowObject){
                     var count = rowObject.totalCount - rowObject.keepCount;
                     if(count<=0) return '0';
@@ -73,7 +73,7 @@
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             { label: '证件所属单位', name: 'units', width: 500 },
-            { label: '备注', align:'center', name: 'remark', width: 250 }
+            { label: '备注', name: 'remark', width: 250 }
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 </script>

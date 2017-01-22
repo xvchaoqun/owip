@@ -7,8 +7,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content">
-            <div id="body-content" class="myTableDiv"
+        <div id="body-content" class="myTableDiv"
                  data-url-page="&{ctx}/${tableName}_page"
                  data-url-export="&{ctx}/${tableName}_data"
                  data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">

@@ -47,11 +47,11 @@ pageEncoding="UTF-8" %>
         data:classBeans,
         colModel: [
             { label: '证件名称', name: 'passportClass.name', width: 180 },
-            { label: '数量',   align:'center',name: 'num', width: 50 },
-            { label: '集中管理',   align:'center',name: 'keepNum', width: 100 },
-            { label: '丢失',   align:'center',name: 'lostNum', width: 60 },
-            { label: '作废',   align:'center',name: 'abolishNum', width: 60 },
-            { label: '取消集中管理（未确认）', align:'center', name: 'unconfirmNum', width: 180 }
+            { label: '数量',  name: 'num', width: 50 },
+            { label: '集中管理',  name: 'keepNum', width: 100 },
+            { label: '丢失',  name: 'lostNum', width: 60 },
+            { label: '作废',  name: 'abolishNum', width: 60 },
+            { label: '取消集中管理（未确认）', name: 'unconfirmNum', width: 180 }
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid3');
@@ -80,11 +80,11 @@ pageEncoding="UTF-8" %>
         data:lentBeans,
         colModel: [
             { label: '证件名称', name: 'passportClass.name', width: 180 },
-            { label: '集中管理总数量',   align:'center',name: 'num', width: 150 },
-            { label: '未借出',   align:'center',name: 'unlentNum', width: 80 ,formatter:function(cellvalue, options, rowObject) {
+            { label: '集中管理总数量',  name: 'num', width: 150 },
+            { label: '未借出',  name: 'unlentNum', width: 80 ,formatter:function(cellvalue, options, rowObject) {
                 return rowObject.num - rowObject.lentNum;
             }},
-            { label: '借出',   align:'center',name: 'lentNum', width: 80 }
+            { label: '借出',  name: 'lentNum', width: 80 }
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid3');
@@ -109,12 +109,12 @@ pageEncoding="UTF-8" %>
         data:postBeans,
         colModel: [
             { label: '职务属性', name: 'post.name', width: 340 },
-            { label: '因私普通护照',   align:'center',name: 'selfNum', width: 200 },
-            { label: '内地居民往来港澳通行证', align:'center', name: 'hkNum',width: 200,formatter:function(cellvalue, options, rowObject) {
+            { label: '因私普通护照',  name: 'selfNum', width: 200 },
+            { label: '内地居民往来港澳通行证', name: 'hkNum',width: 200,formatter:function(cellvalue, options, rowObject) {
                 return rowObject.num - rowObject.selfNum - rowObject.twNum;
             }},
-            { label: '大陆居民往来台湾通行证', align:'center', name: 'twNum', width: 200 },
-            { label: '合计', align:'center', name: 'num', width: 200 }
+            { label: '大陆居民往来台湾通行证', name: 'twNum', width: 200 },
+            { label: '合计', name: 'num', width: 200 }
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid3');

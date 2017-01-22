@@ -39,20 +39,20 @@
         pager:"jqGridPager2",
         url: "${ctx}/applySelf_yearLogs_data?callback=?&cadreId=${applySelf.cadreId}&year=${currentYear}",
         colModel: [
-            { label: '序号', align:'center', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
+            { label: '序号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', align:'center', name: 'applyDate', width: 100,frozen:true },
-            { label: '出发时间', align:'center', name: 'startDate', width: 100 },
-            { label: '回国时间', align:'center', name: 'endDate', width: 100 },
-            { label: '出行天数', align:'center', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
+            { label: '申请日期', name: 'applyDate', width: 100,frozen:true },
+            { label: '出发时间', name: 'startDate', width: 100 },
+            { label: '回国时间', name: 'endDate', width: 100 },
+            { label: '出行天数', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
                 return DateDiff(rowObject.startDate, rowObject.endDate);
             }},
-            { label:'前往国家或地区', align:'center',name: 'toCountry', width: 180},
-            { label:'因私出国（境）事由', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
+            { label:'前往国家或地区',name: 'toCountry', width: 180},
+            { label:'因私出国（境）事由', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
-            { label: '审批情况', align:'center', name: 'status', width: 100 , formatter:function(cellvalue, options, rowObject){
+            { label: '审批情况', name: 'status', width: 100 , formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return (function(tdBean){
                     var type = tdBean.tdType;
@@ -70,7 +70,7 @@
                     return html;
                 })(tdBean);
             }},
-            { label:'备注', align:'center', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
+            { label:'备注', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.usePassport==undefined) return "";
                 if(rowObject.usePassport==0)
                     return "取消行程，未持证件出国（境）";

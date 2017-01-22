@@ -37,8 +37,8 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        SysMsg.success('操作成功。', '成功');
+                        $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });
@@ -47,24 +47,4 @@ pageEncoding="UTF-8"%>
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('#modalForm [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 200,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
 </script>

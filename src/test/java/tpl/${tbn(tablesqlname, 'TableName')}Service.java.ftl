@@ -35,17 +35,13 @@ public class ${TableName}Service extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
-    public int insertSelective(${TableName} record){
+    public void insertSelective(${TableName} record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()));
+        record.setSortOrder(getNextSortOrder("${tablesqlname}", "1=1"));
         ${tableName}Mapper.insertSelective(record);
-
-        Integer id = record.getId();
-        ${TableName} _record = new ${TableName}();
-        _record.setId(id);
-        _record.setSortOrder(id);
-        return ${tableName}Mapper.updateByPrimaryKeySelective(_record);
     }
+
     @Transactional
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
     public void del(Integer ${tbn(key, "tableName")}){

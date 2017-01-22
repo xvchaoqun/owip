@@ -1,0 +1,59 @@
+{
+  "schema": "owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "cis",
+  "tables": [
+    {
+      "table": "cis_evaluate",
+      "key": "id",
+      "searchColumns": "cadre_id,type",
+      "showColumns": "create_date,cadre_id,type,file_path,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "cis_inspector",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "user_id,sort_order",
+      "excludeEditColumns": "id,status",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "cis_inspect_obj",
+      "key": "id",
+      "searchColumns": "cadre_id,type_id,inspect_date,seq",
+      "showColumns": "type_id,cadre_id,inspect_date,seq,inspector_type,other_inspector_type,chief_cadre_id,talk_user_count,summary,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "cis_obj_inspector",
+      "key": "id",
+      "searchColumns": "obj_id",
+      "showColumns": "obj_id,inspector_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "cis_obj_unit",
+      "key": "id",
+      "searchColumns": "obj_id",
+      "showColumns": "obj_id,unit_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "cis_type",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,year,sort_order",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    }
+  ]
+}

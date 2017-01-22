@@ -31,21 +31,21 @@
             { label: '类型',align:'center', name: 'type', width: 200, formatter:function(cellvalue, options, rowObject){
                 return _cMap.SYNC_TYPE_MAP[cellvalue];
             },frozen:true},
-            { label: '触发方式', align:'center', name: 'autoStart', width: 80 , formatter:function(cellvalue, options, rowObject){
+            { label: '触发方式', name: 'autoStart', width: 80 , formatter:function(cellvalue, options, rowObject){
                 return rowObject.autoStart?"系统自动":"功能按钮";
             },frozen:true},
-            { label: '是否结束', align:'center', name: 'isStop', width: 80 , formatter:function(cellvalue, options, rowObject){
+            { label: '是否结束', name: 'isStop', width: 80 , formatter:function(cellvalue, options, rowObject){
                 return rowObject.isStop?"是":"否";
             },frozen:true},
-            { label: '是否自动结束', align:'center', name: 'autoStop', width: 120, formatter:function(cellvalue, options, rowObject){
+            { label: '是否自动结束', name: 'autoStop', width: 120, formatter:function(cellvalue, options, rowObject){
                 return rowObject.autoStop?"是":"否";
             }},
-            { label: '当前记录数', align:'center', name: 'currentCount', width: 100},
-            { label: '总记录数', align:'center', name: 'totalCount', width: 100},
-            { label: '开始时间', align:'center', name: 'startTime', width: 150},
-            { label: '结束时间', align:'center', name: 'endTime', width: 150},
-            { label: '更新时间', align:'center', name: 'updateTime', width: 150},
-            { label: '操作', align:'center', name: 'stopBtn', width: 150, formatter:function(cellvalue, options, rowObject){
+            { label: '当前记录数', name: 'currentCount', width: 100},
+            { label: '总记录数', name: 'totalCount', width: 100},
+            { label: '开始时间', name: 'startTime', width: 150},
+            { label: '结束时间', name: 'endTime', width: 150},
+            { label: '更新时间', name: 'updateTime', width: 150},
+            { label: '操作', name: 'stopBtn', width: 150, formatter:function(cellvalue, options, rowObject){
 
                 return rowObject.isStop?'':'<button class="btn btn-danger btn-xs" onclick="_stop({0})">'.format(rowObject.id)
                         +'<i class="fa fa-stop-circle-o"></i> 强制结束</button>';

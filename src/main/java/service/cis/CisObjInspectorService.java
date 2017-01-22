@@ -1,0 +1,94 @@
+package service.cis;
+
+import domain.cis.CisInspectorView;
+import domain.cis.CisObjInspector;
+import domain.cis.CisObjInspectorExample;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import service.BaseMapper;
+import sys.tool.tree.TreeNode;
+
+import java.util.*;
+
+@Service
+public class CisObjInspectorService extends BaseMapper {
+
+    @Autowired
+    private CisInspectorService cisInspectorService;
+
+    public TreeNode getTree(Set<Integer> selectIdSet) {
+
+        if (null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "请选择考察组成员";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors();
+
+        for (CisInspectorView inspector : nowInspectors) {
+
+            TreeNode node = new TreeNode();
+            node.title = inspector.getRealname() + "-" + inspector.getCode();
+            node.key = inspector.getId() + "";
+
+            if (selectIdSet.contains(inspector.getId())) {
+                node.select = true;
+            }
+            rootChildren.add(node);
+        }
+
+        return root;
+    }
+
+    @Transactional
+    public void updateInspectIds(int objId, Integer[] inspectorIds){
+
+        CisObjInspectorExample example = new CisObjInspectorExample();
+        example.createCriteria().andObjIdEqualTo(objId);
+        cisObjInspectorMapper.deleteByExample(example);
+
+        if(inspectorIds==null || inspectorIds.length==0) return ;
+
+        for (Integer inspectorId : inspectorIds) {
+
+            CisObjInspector record = new CisObjInspector();
+            record.setObjId(objId);
+            record.setInspectorId(inspectorId);
+            cisObjInspectorMapper.insert(record);
+        }
+    }
+
+    @Transactional
+    public void insertSelective(CisObjInspector record) {
+
+        cisObjInspectorMapper.insertSelective(record);
+    }
+
+    @Transactional
+    public void del(Integer id) {
+
+        cisObjInspectorMapper.deleteByPrimaryKey(id);
+    }
+
+    @Transactional
+    public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        CisObjInspectorExample example = new CisObjInspectorExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cisObjInspectorMapper.deleteByExample(example);
+    }
+
+    @Transactional
+    public int updateByPrimaryKeySelective(CisObjInspector record) {
+
+        return cisObjInspectorMapper.updateByPrimaryKeySelective(record);
+    }
+}

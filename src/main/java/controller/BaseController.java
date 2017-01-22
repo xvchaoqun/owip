@@ -13,8 +13,9 @@ import service.analysis.StatCadreService;
 import service.analysis.StatService;
 import service.base.*;
 import service.cadre.*;
-import service.cadreReserve.CadreReserveService;
 import service.cadreInspect.CadreInspectService;
+import service.cadreReserve.CadreReserveService;
+import service.cis.*;
 import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
@@ -172,6 +173,37 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreTutorService cadreTutorService;
     @Autowired
+    protected CadreReportService cadreReportService;
+
+    @Autowired
+    protected CadreLeaderService cadreLeaderService;
+    @Autowired
+    protected CadreLeaderUnitService cadreLeaderUnitService;
+    @Autowired
+    protected CadreStatHistoryService cadreStatHistoryService;
+    @Autowired
+    protected CadreService cadreService;
+    @Autowired
+    protected CadreCommonService cadreCommonService;
+    @Autowired
+    protected CadreInspectService cadreInspectService;
+    @Autowired
+    protected CadreReserveService cadreReserveService;
+    @Autowired
+    protected CadreAdditionalPostService cadreAdditionalPostService;
+
+    @Autowired
+    protected CisEvaluateService cisEvaluateService;
+    @Autowired
+    protected CisInspectObjService cisInspectObjService;
+    @Autowired
+    protected CisInspectorService cisInspectorService;
+    @Autowired
+    protected CisObjInspectorService cisObjInspectorService;
+    @Autowired
+    protected CisObjUnitService cisObjUnitService;
+
+    @Autowired
     protected UnitTransferService unitTransferService;
     @Autowired
     protected UnitCadreTransferService unitCadreTransferService;
@@ -189,22 +221,7 @@ public class BaseController extends BaseMapper {
     protected DispatchUnitRelateService dispatchUnitRelateService;
     @Autowired
     protected DispatchUnitService dispatchUnitService;
-    @Autowired
-    protected CadreLeaderService cadreLeaderService;
-    @Autowired
-    protected CadreLeaderUnitService cadreLeaderUnitService;
-    @Autowired
-    protected CadreStatHistoryService cadreStatHistoryService;
-    @Autowired
-    protected CadreService cadreService;
-    @Autowired
-    protected CadreCommonService cadreCommonService;
-    @Autowired
-    protected CadreInspectService cadreInspectService;
-    @Autowired
-    protected CadreReserveService cadreReserveService;
-    @Autowired
-    protected CadreAdditionalPostService cadreAdditionalPostService;
+
     @Autowired
     protected HistoryUnitService historyUnitService;
     @Autowired
@@ -275,7 +292,7 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected Environment evironment;
 
-    public Map<Class<?>, Class<?>> sourceMixins(){
+    public Map<Class<?>, Class<?>> sourceMixins() {
 
         Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
         sourceMixins.put(SysUser.class, SysUserMixin.class);
@@ -283,36 +300,36 @@ public class BaseController extends BaseMapper {
         return sourceMixins;
     }
 
-    public String addLog(String logType, String content, Object...params){
+    public String addLog(String logType, String content, Object... params) {
 
-        if(params!=null && params.length>0)
+        if (params != null && params.length > 0)
             content = String.format(content, params);
 
         return logService.log(logType, content);
     }
 
-	public Map<String, Object> success(){
+    public Map<String, Object> success() {
 
-		return success(null);
-	}
+        return success(null);
+    }
 
-	public static Map<String, Object> success(String msg){
+    public static Map<String, Object> success(String msg) {
 
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("success", true);
-		resultMap.put("msg", StringUtils.defaultIfBlank(msg, "success"));
-		return resultMap;
-	}
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", true);
+        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "success"));
+        return resultMap;
+    }
 
-	public static Map<String, Object> failed(String msg){
+    public static Map<String, Object> failed(String msg) {
 
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("success", false);
-		resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
-		return resultMap;
-	}
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", false);
+        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
+        return resultMap;
+    }
 
-    public static Map<String, Object> ret(int ret, String msg){
+    public static Map<String, Object> ret(int ret, String msg) {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("ret", ret);
@@ -320,7 +337,7 @@ public class BaseController extends BaseMapper {
         return resultMap;
     }
 
-    public Map getMetaMap(){
+    public Map getMetaMap() {
 
         Map map = new HashMap<>();
 

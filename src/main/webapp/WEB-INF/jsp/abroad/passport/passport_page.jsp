@@ -145,7 +145,7 @@ pageEncoding="UTF-8" %>
                                         <label>姓名</label>
                                             <div class="input-group">
                                                 <input type="hidden" name="status" value="${status}">
-                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?formal=0"
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
                                                         name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>

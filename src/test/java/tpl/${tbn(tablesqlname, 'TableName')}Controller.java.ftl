@@ -112,11 +112,11 @@ public class ${TableName}Controller extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<${TableName}> ${tableName}s = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<${TableName}> records= ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", ${tableName}s);
+        resultMap.put("rows", records);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);

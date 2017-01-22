@@ -176,7 +176,7 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.approvalUser.id, cellvalue);
             }},
-            { label:'审批日期', align:'center',name: 'approveTime'},
+            { label:'审批日期',name: 'approveTime'},
                 </c:if>
             <c:if test="${status==PASSPORT_APPLY_STATUS_PASS ||status==3}">
             { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {

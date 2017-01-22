@@ -43,10 +43,7 @@ import sys.utils.JSONUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fafa on 2015/11/27.
@@ -219,7 +216,9 @@ public class CommonController extends BaseController{
     // 根据账号或姓名或学工号选择干部（现任干部、离任干部）
     @RequestMapping("/cadre_selects")
     @ResponseBody
-    public Map cadre_selects(@RequestParam(defaultValue = "1", required = false)boolean formal, // formal=false时包括后备干部、考察对象
+    public Map cadre_selects(
+                             // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库
+                             @RequestParam(defaultValue = "1", required = false)Byte type,
                              Byte status,
                              Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
@@ -234,14 +233,25 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
+        Set<Byte> cadreStatusSet = new HashSet<>();
+        if(status!=null){
+            cadreStatusSet.add(status);
+        }else{
+            if(type==1){
+                cadreStatusSet = SystemConstants.CADRE_STATUS_SET;
+            }else if(type==2){
+                cadreStatusSet = SystemConstants.CADRE_STATUS_NOW_SET;
+            }else if(type==3){
+                cadreStatusSet = SystemConstants.CADRE_STATUS_LEAVE_SET;
+            }
+        }
 
-        int count = commonMapper.countCadre(searchStr, status, (status==null && formal)?SystemConstants.CADRE_STATUS_SET:null);
+        int count = commonMapper.countCadre(searchStr, cadreStatusSet);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, status, (status==null && formal)?SystemConstants.CADRE_STATUS_SET:null,
-                new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, cadreStatusSet, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != cadres && cadres.size()>0){
@@ -348,12 +358,12 @@ public class CommonController extends BaseController{
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countCadre(searchStr, null, SystemConstants.CADRE_STATUS_SET);
+        int count = commonMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, null, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != cadres && cadres.size()>0){

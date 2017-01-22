@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">干部</label>
 				<div class="col-xs-6">
                     <select required ${not empty param.applyId?"disabled":""} data-rel="select2-ajax"
-                            data-ajax-url="${ctx}/cadre_selects?formal=0"
+                            data-ajax-url="${ctx}/cadre_selects?type=0"
                             name="cadreId" data-placeholder="请选择干部">
                         <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>

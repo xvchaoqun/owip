@@ -140,8 +140,14 @@
 <c:set value="<%=SystemConstants.CADRE_COMPANY_TYPE_OTHER%>" var="CADRE_COMPANY_TYPE_OTHER"/>
 <c:set value="<%=SystemConstants.CADRE_COMPANY_TYPE_MAP%>" var="CADRE_COMPANY_TYPE_MAP"/>
 
-
 <c:set value="<%=SystemConstants.CADRE_TUTOR_TYPE_MAP%>" var="CADRE_TUTOR_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_NOW%>" var="CIS_INSPECTOR_STATUS_NOW"/>
+<c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_HISTORY%>" var="CIS_INSPECTOR_STATUS_HISTORY"/>
+<c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_DELETE%>" var="CIS_INSPECTOR_STATUS_DELETE"/>
+
+<c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_OTHER%>" var="CIS_INSPECTOR_TYPE_OTHER"/>
+<c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_MAP%>" var="CIS_INSPECTOR_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>" var="ENTER_APPLY_TYPE_MAP"/>
 <c:set value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>" var="ENTER_APPLY_STATUS_MAP"/>

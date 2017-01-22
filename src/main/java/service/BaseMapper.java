@@ -10,7 +10,7 @@ import persistence.cadreInspect.CadreInspectMapper;
 import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
-
+import persistence.cis.*;
 import persistence.common.*;
 import persistence.dispatch.*;
 import persistence.ext.ExtAbroadMapper;
@@ -247,27 +247,8 @@ public class BaseMapper {
 	@Autowired
 	protected CadreTutorMapper cadreTutorMapper;
 	@Autowired
-	protected UnitTransferMapper unitTransferMapper;
-	@Autowired
-	protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;
-	@Autowired
-	protected UnitCadreTransferMapper unitCadreTransferMapper;
-	@Autowired
-	protected DispatchMapper dispatchMapper;
-	@Autowired
-	protected DispatchViewMapper dispatchViewMapper;
-	@Autowired
-	protected DispatchTypeMapper dispatchTypeMapper;
-	@Autowired
-	protected DispatchCadreMapper dispatchCadreMapper;
-	@Autowired
-	protected DispatchCadreViewMapper dispatchCadreViewMapper;
-	@Autowired
-	protected DispatchCadreRelateMapper dispatchCadreRelateMapper;
-	@Autowired
-	protected DispatchUnitMapper dispatchUnitMapper;
-	@Autowired
-	protected DispatchUnitRelateMapper dispatchUnitRelateMapper;
+	protected CadreReportMapper cadreReportMapper;
+
 	@Autowired
 	protected CadreLeaderMapper cadreLeaderMapper;
 	@Autowired
@@ -290,6 +271,43 @@ public class BaseMapper {
 	protected CadreReserveViewMapper cadreReserveViewMapper;
 	@Autowired
 	protected CadreStatHistoryMapper cadreStatHistoryMapper;
+
+	@Autowired
+	protected CisEvaluateMapper cisEvaluateMapper;
+	@Autowired
+	protected CisInspectObjMapper cisInspectObjMapper;
+	@Autowired
+	protected CisInspectorMapper cisInspectorMapper;
+	@Autowired
+	protected CisInspectorViewMapper cisInspectorViewMapper;
+	@Autowired
+	protected CisObjInspectorMapper cisObjInspectorMapper;
+	@Autowired
+	protected CisObjUnitMapper cisObjUnitMapper;
+
+	@Autowired
+	protected UnitTransferMapper unitTransferMapper;
+	@Autowired
+	protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;
+	@Autowired
+	protected UnitCadreTransferMapper unitCadreTransferMapper;
+	@Autowired
+	protected DispatchMapper dispatchMapper;
+	@Autowired
+	protected DispatchViewMapper dispatchViewMapper;
+	@Autowired
+	protected DispatchTypeMapper dispatchTypeMapper;
+	@Autowired
+	protected DispatchCadreMapper dispatchCadreMapper;
+	@Autowired
+	protected DispatchCadreViewMapper dispatchCadreViewMapper;
+	@Autowired
+	protected DispatchCadreRelateMapper dispatchCadreRelateMapper;
+	@Autowired
+	protected DispatchUnitMapper dispatchUnitMapper;
+	@Autowired
+	protected DispatchUnitRelateMapper dispatchUnitRelateMapper;
+
 
 	@Autowired
 	protected StatCadreMapper statCadreMapper;

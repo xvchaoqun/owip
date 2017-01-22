@@ -1,0 +1,19 @@
+{
+  "schema": "owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "cadre",
+  "tables": [
+    {
+      "table": "cadre_report",
+      "key": "id",
+      "searchColumns": "create_date,cadre_id",
+      "showColumns": "create_date,cadre_id,file_path,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    }
+  ]
+}

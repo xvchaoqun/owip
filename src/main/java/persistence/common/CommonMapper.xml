@@ -121,9 +121,7 @@
     <if test="search != null" >
     and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
     </if>
-    <if test="status != null" >
-    and c.status = #{status}
-    </if>
+
     <if test="cadreStatusList!=null and cadreStatusList.size>0">
       and  c.status in
       <foreach collection="cadreStatusList" item="st"
@@ -138,9 +136,7 @@
     <if test="search != null" >
       and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
     </if>
-    <if test="status != null" >
-      and c.status = #{status}
-    </if>
+
     <if test="cadreStatusList!=null and cadreStatusList.size>0">
       and  c.status in
       <foreach collection="cadreStatusList" item="st"

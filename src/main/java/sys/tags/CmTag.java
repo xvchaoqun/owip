@@ -6,6 +6,8 @@ import domain.abroad.*;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
+import domain.cis.CisInspector;
+import domain.cis.CisInspectorView;
 import domain.dispatch.*;
 import domain.member.MemberApplyView;
 import domain.modify.ModifyCadreAuth;
@@ -27,6 +29,7 @@ import service.abroad.SafeBoxService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.*;
+import service.cis.CisInspectObjService;
 import service.dispatch.*;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
@@ -73,6 +76,8 @@ public class CmTag {
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
     static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
+
+    static CisInspectObjService cisInspectObjService = (CisInspectObjService) context.getBean("cisInspectObjService");
 
     public static String toJSONObject(Object obj){
 
@@ -478,4 +483,8 @@ public class CmTag {
         return false;
     }
 
+    public static List<CisInspectorView> getCisInspectors(Integer id) {
+
+        return cisInspectObjService.getInspectors(id);
+    }
 }

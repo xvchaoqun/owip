@@ -210,13 +210,13 @@
              enableDeleteByExample="false">
       </table>-->
 
-      <table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
+      <!--<table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
       </table>
       <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
@@ -266,6 +266,29 @@
 
       <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
       </table>-->
+      <!--<table tableName="cadre_report" domainObjectName="cadre.CadreReport">
+      </table>
+
+      <table tableName="cis_type" domainObjectName="cis.CisType">
+      </table>
+      <table tableName="cis_evaluate" domainObjectName="cis.CisEvaluate">
+      </table>
+      <table tableName="cis_inspector" domainObjectName="cis.CisInspector">
+      </table>-->
+      <table tableName="cis_inspector_view" domainObjectName="cis.CisInspectorView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+      <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
+          <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
+      </table>-->
+      <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
+      </table>
+      <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
+      </table>-->
+
+
 
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
       </table>-->

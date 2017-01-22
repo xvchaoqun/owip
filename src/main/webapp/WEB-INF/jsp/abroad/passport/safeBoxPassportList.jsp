@@ -32,23 +32,23 @@
         pager:"#jqGridPager2",
         url: '${ctx}/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}&type=${param.type}&cancelConfirm=${param.cancelConfirm}',
         colModel: [
-            { label: '工作证号', align:'center', name: 'user.code', width: 100,frozen:true },
+            { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
-            { label: '职位属性', align:'center', name: 'cadre.postId', width: 200, formatter: function (cellvalue, options, rowObject) {
+            { label: '职位属性', name: 'cadre.postId', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.postMap[cellvalue].name;
             } },
-            { label: '证件名称', align:'center', name: 'passportClass.name', width: 200 },
-            { label: '证件号码', align:'center', name: 'code', width: 100 },
-            { label:'发证日期', align:'center', name: 'issueDate', width: 100 },
-            { label:'有效期', align:'center', name: 'expiryDate', width: 100 },
-            { label:'集中保管日期', align:'center', name: 'keepDate', width: 120 },
-            { label:'证件状态', align:'center', name: 'passportType', width: 130 },
-            { label:'是否借出', align:'center', name: 'isLent', width: 100, formatter:function(cellvalue){
+            { label: '证件名称', name: 'passportClass.name', width: 200 },
+            { label: '证件号码', name: 'code', width: 100 },
+            { label:'发证日期', name: 'issueDate', width: 100 },
+            { label:'有效期', name: 'expiryDate', width: 100 },
+            { label:'集中保管日期', name: 'keepDate', width: 120 },
+            { label:'证件状态', name: 'passportType', width: 130 },
+            { label:'是否借出', name: 'isLent', width: 100, formatter:function(cellvalue){
                 return cellvalue?"借出":"-";
             } }
         ]

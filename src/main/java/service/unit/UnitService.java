@@ -20,10 +20,12 @@ import java.util.Map;
 @Service
 public class UnitService extends BaseMapper {
 
-    public List<Unit> findUnitByTypeAndStatus(int type, byte status){
+    public List<Unit> findUnitByTypeAndStatus(Integer type, byte status){
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andTypeIdEqualTo(type).andStatusEqualTo(status);
+        UnitExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        if(type!=null)
+            criteria.andTypeIdEqualTo(type);
         example.setOrderByClause(" sort_order desc");
         return unitMapper.selectByExample(example);
     }

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.cis.CisInspectObjMapper" >
+  <resultMap id="BaseResultMap" type="domain.cis.CisInspectObj" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="inspect_date" property="inspectDate" jdbcType="DATE" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="inspector_type" property="inspectorType" jdbcType="TINYINT" />
+    <result column="other_inspector_type" property="otherInspectorType" jdbcType="VARCHAR" />
+    <result column="chief_cadre_id" property="chiefCadreId" jdbcType="INTEGER" />
+    <result column="talk_user_count" property="talkUserCount" jdbcType="INTEGER" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, year, type_id, seq, inspect_date, cadre_id, inspector_type, other_inspector_type, 
+    chief_cadre_id, talk_user_count, summary, remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cis.CisInspectObjExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cis_inspect_obj
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cis_inspect_obj
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cis_inspect_obj
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cis.CisInspectObjExample" >
+    delete from cis_inspect_obj
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cis.CisInspectObj" >
+    insert into cis_inspect_obj (id, year, type_id, 
+      seq, inspect_date, cadre_id, 
+      inspector_type, other_inspector_type, chief_cadre_id, 
+      talk_user_count, summary, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{seq,jdbcType=INTEGER}, #{inspectDate,jdbcType=DATE}, #{cadreId,jdbcType=INTEGER}, 
+      #{inspectorType,jdbcType=TINYINT}, #{otherInspectorType,jdbcType=VARCHAR}, #{chiefCadreId,jdbcType=INTEGER}, 
+      #{talkUserCount,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cis.CisInspectObj" >
+    insert into cis_inspect_obj
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="inspectDate != null" >
+        inspect_date,
+      </if>
+      <if test="cadreId != null" >
+        cadre_id,
+      </if>
+      <if test="inspectorType != null" >
+        inspector_type,
+      </if>
+      <if test="otherInspectorType != null" >
+        other_inspector_type,
+      </if>
+      <if test="chiefCadreId != null" >
+        chief_cadre_id,
+      </if>
+      <if test="talkUserCount != null" >
+        talk_user_count,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="inspectDate != null" >
+        #{inspectDate,jdbcType=DATE},
+      </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorType != null" >
+        #{inspectorType,jdbcType=TINYINT},
+      </if>
+      <if test="otherInspectorType != null" >
+        #{otherInspectorType,jdbcType=VARCHAR},
+      </if>
+      <if test="chiefCadreId != null" >
+        #{chiefCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="talkUserCount != null" >
+        #{talkUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cis.CisInspectObjExample" resultType="java.lang.Integer" >
+    select count(*) from cis_inspect_obj
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cis_inspect_obj
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null" >
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.seq != null" >
+        seq = #{record.seq,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectDate != null" >
+        inspect_date = #{record.inspectDate,jdbcType=DATE},
+      </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectorType != null" >
+        inspector_type = #{record.inspectorType,jdbcType=TINYINT},
+      </if>
+      <if test="record.otherInspectorType != null" >
+        other_inspector_type = #{record.otherInspectorType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chiefCadreId != null" >
+        chief_cadre_id = #{record.chiefCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.talkUserCount != null" >
+        talk_user_count = #{record.talkUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.summary != null" >
+        summary = #{record.summary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cis_inspect_obj
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      seq = #{record.seq,jdbcType=INTEGER},
+      inspect_date = #{record.inspectDate,jdbcType=DATE},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      inspector_type = #{record.inspectorType,jdbcType=TINYINT},
+      other_inspector_type = #{record.otherInspectorType,jdbcType=VARCHAR},
+      chief_cadre_id = #{record.chiefCadreId,jdbcType=INTEGER},
+      talk_user_count = #{record.talkUserCount,jdbcType=INTEGER},
+      summary = #{record.summary,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cis.CisInspectObj" >
+    update cis_inspect_obj
+    <set >
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="inspectDate != null" >
+        inspect_date = #{inspectDate,jdbcType=DATE},
+      </if>
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectorType != null" >
+        inspector_type = #{inspectorType,jdbcType=TINYINT},
+      </if>
+      <if test="otherInspectorType != null" >
+        other_inspector_type = #{otherInspectorType,jdbcType=VARCHAR},
+      </if>
+      <if test="chiefCadreId != null" >
+        chief_cadre_id = #{chiefCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="talkUserCount != null" >
+        talk_user_count = #{talkUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cis.CisInspectObj" >
+    update cis_inspect_obj
+    set year = #{year,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      seq = #{seq,jdbcType=INTEGER},
+      inspect_date = #{inspectDate,jdbcType=DATE},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      inspector_type = #{inspectorType,jdbcType=TINYINT},
+      other_inspector_type = #{otherInspectorType,jdbcType=VARCHAR},
+      chief_cadre_id = #{chiefCadreId,jdbcType=INTEGER},
+      talk_user_count = #{talkUserCount,jdbcType=INTEGER},
+      summary = #{summary,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.cis.CisInspectObjExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cis_inspect_obj
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -374,7 +374,7 @@
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
              <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-            { label: '打印', align:'center', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '打印', width: 100, formatter:function(cellvalue, options, rowObject){
 
                 if(rowObject.type=="${MEMBER_INOUT_TYPE_INSIDE}"){
                     var html = '<button class="openView btn btn-primary btn-xs"'

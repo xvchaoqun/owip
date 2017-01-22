@@ -680,6 +680,8 @@ public class SystemConstants {
     public final static byte CADRE_STATUS_LEADER = 6;
     public final static Map<Byte, String> CADRE_STATUS_MAP = new LinkedHashMap<>();
     public final static Set<Byte> CADRE_STATUS_SET = new HashSet<>(); // 干部角色对应的所有状态
+    public final static Set<Byte> CADRE_STATUS_NOW_SET = new HashSet<>(); // 现任干部角色对应的所有状态
+    public final static Set<Byte> CADRE_STATUS_LEAVE_SET = new HashSet<>(); // 离任干部角色对应的所有状态
 
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
@@ -693,6 +695,12 @@ public class SystemConstants {
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEADER);
         CADRE_STATUS_SET.add(CADRE_STATUS_LEADER_LEAVE);
+
+        CADRE_STATUS_NOW_SET.add(CADRE_STATUS_MIDDLE);
+        CADRE_STATUS_NOW_SET.add(CADRE_STATUS_LEADER);
+
+        CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
+        CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
     // 干部历史数据类别
@@ -907,6 +915,27 @@ public class SystemConstants {
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_MATE, "配偶");
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_SON, "儿子");
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_DAUGHTER, "女儿");
+    }
+
+    // 干部考察，考察组成员类别
+    public final static byte CIS_INSPECTOR_STATUS_NOW = 1;
+    public final static byte CIS_INSPECTOR_STATUS_HISTORY = 2;
+    public final static byte CIS_INSPECTOR_STATUS_DELETE = 3;
+    public final static Map<Byte, String> CIS_INSPECTOR_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_NOW, "现任考察组成员");
+        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_HISTORY, "过去考察组成员 ");
+        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_DELETE, "已删除考察组成员 ");
+    }
+    // 干部考察 考察主体
+    public final static byte CIS_INSPECTOR_TYPE_OW = 1;
+    public final static byte CIS_INSPECTOR_TYPE_OTHER = 2;
+    public final static Map<Byte, String> CIS_INSPECTOR_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CIS_INSPECTOR_TYPE_MAP.put(CIS_INSPECTOR_TYPE_OW, "党委组织部");
+        CIS_INSPECTOR_TYPE_MAP.put(CIS_INSPECTOR_TYPE_OTHER, "其他 ");
     }
 
     // 基本信息修改请求 审核状态，0 待审核 1 部分审核 2 全部审核 3管理员删除（待审核时才可以删除）

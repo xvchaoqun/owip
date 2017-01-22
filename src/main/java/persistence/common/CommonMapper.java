@@ -104,9 +104,9 @@ public interface CommonMapper {
                               @Param("targetSortOrder") int targetSortOrder);
 
     // 根据账号、姓名、学工号查找干部
-    List<Cadre> selectCadreList(@Param("search") String search, @Param("status") Byte status,
+    List<Cadre> selectCadreList(@Param("search") String search,
                                 @Param("cadreStatusList")Set<Byte> cadreStatusList, RowBounds rowBounds);
-    int countCadre(@Param("search") String search, @Param("status") Byte status,
+    int countCadre(@Param("search") String search,
                    @Param("cadreStatusList")Set<Byte> cadreStatusList);
 
    /* // 根据账号、姓名、学工号 查找所在单位和兼职单位 都关联该单位的干部

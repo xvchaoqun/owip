@@ -214,28 +214,28 @@
             { label: '所属分党委', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
             }},
-            { label:'党员总数', align:'center', name: 'memberCount', width: 70, formatter:function(cellvalue, options, rowObject){
+            { label:'党员总数', name: 'memberCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'在职教职工', align:'center', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 return '<a href="${ctx}/member?cls=2&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
-            { label:'离退休党员', align:'center', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'离退休党员', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 return '<a href="${ctx}/member?cls=3&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
-            { label:'学生', align:'center', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
+            { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined || cellvalue==0) return 0;
                 return '<a href="${ctx}/member?cls=1&partyId={0}&branchId={1}" target="_blank">{2}</a>'.format(rowObject.partyId, rowObject.id, cellvalue);
             }},
-            { label:'委员会总数', align:'center', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
+            { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
-            { label:'是否已设立现任委员会', align:'center', name: 'presentGroupCount', width: 160, formatter:function(cellvalue, options, rowObject){
+            { label:'是否已设立现任委员会', name: 'presentGroupCount', width: 160, formatter:function(cellvalue, options, rowObject){
                 return cellvalue>=1?"是":"否";
             }},
-            { label:'类别', align:'center', name: 'typeId', width: 150, formatter:function(cellvalue, options, rowObject){
+            { label:'类别', name: 'typeId', width: 150, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?"":_cMap.metaTypeMap[cellvalue].name;
             }},
             { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:function(cellvalue, options, rowObject){
@@ -247,13 +247,13 @@
             { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?"是":"否";
             }},
-            { label:'单位属性', align:'center', name: 'unitTypeId', width: 150, formatter:function(cellvalue, options, rowObject){
+            { label:'单位属性', name: 'unitTypeId', width: 150, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?"":_cMap.metaTypeMap[cellvalue].name;
             }},
-            { label: '联系电话', align:'center', name: 'phone', width: 130 },
-            { label: '传真', align:'center', name: 'fax', width: 100 },
-            { label: '邮箱', align:'center', name: 'email', width: 100 },
-            { label: '成立时间', align:'center', name: 'foundTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
+            { label: '联系电话', name: 'phone', width: 130 },
+            { label: '传真', name: 'fax', width: 100 },
+            { label: '邮箱', name: 'email', width: 100 },
+            { label: '成立时间', name: 'foundTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

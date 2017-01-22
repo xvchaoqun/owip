@@ -97,9 +97,9 @@
         //forceFit:true,
         url: '${ctx}/metaClass_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称', align:'center', name: 'name', width: 250,frozen:true },
-            { label: '所属一级目录', align:'center', name: 'firstLevel', width: 200,frozen:true },
-            { label: '所属二级目录', align:'center', name: 'secondLevel', width: 200,frozen:true },
+            { label: '名称', name: 'name', width: 250,frozen:true },
+            { label: '所属一级目录', name: 'firstLevel', width: 200,frozen:true },
+            { label: '所属二级目录', name: 'secondLevel', width: 200,frozen:true },
             <shiro:hasRole name="${ROLE_ADMIN}">
             <c:if test="${!_query}">
             { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
@@ -107,11 +107,11 @@
             },frozen:true },
             </c:if>
             </shiro:hasRole>
-            { label: '布尔属性名称', align:'center',  name: 'boolAttr', width: 150 },
+            { label: '布尔属性名称',  name: 'boolAttr', width: 150 },
             <shiro:hasRole name="${ROLE_ADMIN}">
-            { label: '代码', align:'center', name: 'code', width: 200 },
+            { label: '代码', name: 'code', width: 200 },
 
-            { label: '附加属性名称', align:'center',  name: 'extraAttr', width: 150 }
+            { label: '附加属性名称',  name: 'extraAttr', width: 150 }
                 </shiro:hasRole>
         ]
     }).jqGrid("setFrozenColumns");
