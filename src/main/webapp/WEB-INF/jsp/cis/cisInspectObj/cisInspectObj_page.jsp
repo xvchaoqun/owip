@@ -116,7 +116,7 @@
             }, width:180, frozen: true},
             {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {label: '考察对象', name: 'cadre.user.realname', frozen: true},
-            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
+            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
             {label: '考察主体', name: 'inspectorType', formatter: function (cellvalue, options, rowObject) {
                 var type = _cMap.CIS_INSPECTOR_TYPE_MAP[cellvalue];
                 if(cellvalue=='${CIS_INSPECTOR_TYPE_OTHER}'){
@@ -124,7 +124,7 @@
                 }
                 return type;
             }, width:200},
-            {label: '考察组负责人', name: 'chiefCadre.user.realname'},
+            {label: '考察组负责人', name: 'chiefCadre.user.realname', width:120},
             {label: '考察组成员', name: 'inspectors', formatter:function(cellvalue, options, rowObject){
 
                 if(cellvalue==undefined || cellvalue.length==0) return '';
@@ -141,7 +141,7 @@
                 if (rowObject.summary && rowObject.summary != '')
                     return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">查看</a>'
                                     .format(rowObject.id)
-                            + '&nbsp;&nbsp;<a href="${ctx}/cisInspectObj_summary_export?id={0}">导出</a>'
+                            + '&nbsp;<a href="${ctx}/cisInspectObj_summary_export?id={0}">导出</a>'
                                     .format(rowObject.id);
                 else return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">编辑</a>'
                         .format(rowObject.id)
