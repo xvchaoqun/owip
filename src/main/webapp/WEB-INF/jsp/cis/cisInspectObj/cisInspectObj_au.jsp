@@ -77,7 +77,7 @@
                 </script>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="otherInspectorTypeDiv" style="display: none">
             <label class="col-xs-3 control-label">其他考察主体</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="otherInspectorType"
@@ -116,6 +116,20 @@
 </div>
 
 <script>
+    function inspectorTypeChange(){
+        var $inspectorType = $("select[name=inspectorType]");
+        if($inspectorType.val()=="${CIS_INSPECTOR_TYPE_OTHER}"){
+            $("#otherInspectorTypeDiv").show();
+            $("input[name=otherInspectorType]").attr("required", "required");
+        }else{
+            $("#otherInspectorTypeDiv").hide();
+            $("input[name=otherInspectorType]").removeAttr("required");
+        }
+    }
+    $("select[name=inspectorType]").change(function(){
+        inspectorTypeChange();
+    });
+    inspectorTypeChange();
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

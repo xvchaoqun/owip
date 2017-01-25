@@ -59,8 +59,8 @@
     </div>
     <div class="clearfix form-actions center">
         <button class="btn btn-info" type="submit">
-            <i class="ace-icon fa fa-check bigger-110"></i>
-            提交
+            <i class="ace-icon fa fa-save bigger-110"></i>
+            保存
         </button>
     </div>
 </div>

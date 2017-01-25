@@ -1,9 +1,15 @@
 package domain.cadre;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreReport implements Serializable {
+    public Cadre getCadre(){
+
+        return CmTag.getCadreById(cadreId);
+    }
     private Integer id;
 
     private Date createDate;

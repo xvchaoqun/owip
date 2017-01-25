@@ -121,7 +121,11 @@
         url: '${ctx}/cisInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '考察组成员', name: 'realname'},
-            {label: '工号', name: 'code'},
+            {label: '工作证号', name: 'code'},
+            {label: '考察干部', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
+                    return '<a href="${ctx}/cis?cls=1&inspectorId={0}" target="_blank">查看</a>'
+                                    .format(encodeURI(rowObject.id));
+            }},
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})

@@ -925,8 +925,8 @@ public class SystemConstants {
 
     static {
         CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_NOW, "现任考察组成员");
-        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_HISTORY, "过去考察组成员 ");
-        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_DELETE, "已删除考察组成员 ");
+        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_HISTORY, "过去考察组成员");
+        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_DELETE, "已删除考察组成员");
     }
     // 干部考察 考察主体
     public final static byte CIS_INSPECTOR_TYPE_OW = 1;
@@ -935,7 +935,17 @@ public class SystemConstants {
 
     static {
         CIS_INSPECTOR_TYPE_MAP.put(CIS_INSPECTOR_TYPE_OW, "党委组织部");
-        CIS_INSPECTOR_TYPE_MAP.put(CIS_INSPECTOR_TYPE_OTHER, "其他 ");
+        CIS_INSPECTOR_TYPE_MAP.put(CIS_INSPECTOR_TYPE_OTHER, "其他");
+    }
+
+    // 干部考察材料 材料类型
+    public final static byte CIS_EVALUATE_TYPE_SHOW = 1; // 现实表现材料
+    public final static byte CIS_EVALUATE_TYPE_EVA = 2; // 工作评价
+    public final static Map<Byte, String> CIS_EVALUATE_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CIS_EVALUATE_TYPE_MAP.put(CIS_EVALUATE_TYPE_SHOW, "现实表现材料");
+        CIS_EVALUATE_TYPE_MAP.put(CIS_EVALUATE_TYPE_EVA, "工作评价");
     }
 
     // 基本信息修改请求 审核状态，0 待审核 1 部分审核 2 全部审核 3管理员删除（待审核时才可以删除）

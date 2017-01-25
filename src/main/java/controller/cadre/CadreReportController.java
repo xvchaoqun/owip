@@ -1,6 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.cadre.CadreReport;
 import domain.cadre.CadreReportExample;
 import domain.cadre.CadreReportExample.Criteria;
@@ -17,17 +18,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class CadreReportController extends BaseController {
@@ -43,8 +49,14 @@ public class CadreReportController extends BaseController {
 
     @RequiresPermissions("cadreReport:list")
     @RequestMapping("/cadreReport_page")
-    public String cadreReport_page(HttpServletResponse response, ModelMap modelMap) {
+    public String cadreReport_page(HttpServletResponse response,
+                                   Integer cadreId,
+                                   ModelMap modelMap) {
 
+        if(cadreId!=null) {
+            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            modelMap.put("cadre", cadreMap.get(cadreId));
+        }
         return "cadre/cadreReport/cadreReport_page";
     }
 
@@ -95,10 +107,40 @@ public class CadreReportController extends BaseController {
     @RequiresPermissions("cadreReport:edit")
     @RequestMapping(value = "/cadreReport_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreReport_au(CadreReport record, HttpServletRequest request) {
+    public Map do_cadreReport_au(CadreReport record,
+                                 String _createDate,
+                                 MultipartFile _file,
+                                 HttpServletRequest request) {
 
         Integer id = record.getId();
+        if (StringUtils.isNotBlank(_createDate)) {
+            record.setCreateDate(DateUtils.parseDate(_createDate, DateUtils.YYYY_MM_DD));
+        }
+        if(_file!=null){
+            String ext = FileUtils.getExtention(_file.getOriginalFilename());
+            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                throw new RuntimeException("文件格式错误，请上传pdf文档");
+            }
 
+            String originalFilename = _file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = FILE_SEPARATOR
+                    + "cis" + FILE_SEPARATOR
+                    + fileName;
+            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            record.setFileName(originalFilename);
+            record.setFilePath(savePath);
+        }
         if (id == null) {
             cadreReportService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部工作总结：%s", record.getId()));
@@ -117,6 +159,8 @@ public class CadreReportController extends BaseController {
 
         if (id != null) {
             CadreReport cadreReport = cadreReportMapper.selectByPrimaryKey(id);
+            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            modelMap.put("cadre", cadreMap.get(cadreReport.getCadreId()));
             modelMap.put("cadreReport", cadreReport);
         }
         return "cadre/cadreReport/cadreReport_au";

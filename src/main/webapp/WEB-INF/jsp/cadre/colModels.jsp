@@ -499,4 +499,80 @@
             }},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
+
+    colModels.cisInspectObj =  [
+        {label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
+            var type = _cMap.metaTypeMap[rowObject.typeId].name;
+            return type+"["+rowObject.year + "]"+rowObject.seq + "号";
+
+        }, width:180, frozen: true},
+        {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '工作证号', name: 'cadre.user.code', frozen: true},
+        {label: '考察对象', name: 'cadre.user.realname', frozen: true},
+        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
+        {label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
+            var type = _cMap.CIS_INSPECTOR_TYPE_MAP[rowObject.inspectorType];
+            if(rowObject.inspectorType=='${CIS_INSPECTOR_TYPE_OTHER}'){
+                type +="："+rowObject.otherInspectorType;
+            }
+            return type;
+        }, width:200},
+        {label: '考察组负责人', name: 'chiefCadre.user.realname', width:120},
+        {label: '考察组成员', name: 'inspectors', formatter:function(cellvalue, options, rowObject){
+            if(rowObject.inspectorType=='${CIS_INSPECTOR_TYPE_OTHER}') return '-'
+            if(cellvalue==undefined || cellvalue.length==0) return '';
+            var names = []
+            for(var i in cellvalue){
+                var inspector = cellvalue[i];
+                if(inspector.realname)
+                    names.push(inspector.realname)
+            }
+            return names.join("，")
+        }, width:150},
+        {label: '谈话人数', name: 'talkUserCount'},
+        {label: '考察材料', name: 'summary', formatter: function (cellvalue, options, rowObject) {
+            if (rowObject.summary && rowObject.summary != '')
+                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">查看</a>'
+                                .format(rowObject.id)
+                        + '&nbsp;<a href="${ctx}/cisInspectObj_summary_export?objId={0}">导出</a>'
+                                .format(rowObject.id);
+            else return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">编辑</a>'
+                    .format(rowObject.id)
+        }
+        },
+        {label: '备注', name: 'remark'},{hidden: true, name: 'inspectorType'}
+    ];
+    colModels.cadreReport=[
+        {label: '形成日期', name: 'createDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '工作证号', name: 'cadre.user.code', frozen: true},
+        {label: '姓名', name: 'cadre.user.realname', frozen: true},
+        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
+        {label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
+            if (rowObject.fileName && rowObject.fileName != '')
+                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
+                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
+                        + '&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
+            else return '';
+        }},
+        {label: '备注', name: 'remark'}
+    ];
+    colModels.cisEvaluate=[
+        {label: '形成日期', name: 'createDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+        {label: '工作证号', name: 'cadre.user.code', frozen: true},
+        {label: '考察对象', name: 'cadre.user.realname', frozen: true},
+        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
+        {label: '材料类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
+            return _cMap.CIS_EVALUATE_TYPE_MAP[cellvalue];
+        }},
+        {label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
+            if (rowObject.fileName && rowObject.fileName != '')
+                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
+                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
+                        + '&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
+                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
+            else return '';
+        }},
+        {label: '备注', name: 'remark'}
+    ];
 </script>

@@ -1,9 +1,17 @@
 package domain.cis;
 
+import domain.cadre.Cadre;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CisEvaluate implements Serializable {
+
+    public Cadre getCadre(){
+
+        return CmTag.getCadreById(cadreId);
+    }
     private Integer id;
 
     private Date createDate;

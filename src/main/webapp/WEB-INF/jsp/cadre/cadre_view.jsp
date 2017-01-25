@@ -91,9 +91,9 @@
                            data-url="${ctx}/cadreConcat_page?cadreId=${param.cadreId}&_auth=${param._auth}">联系方式</a>
                     </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreInspect:*">
+                <shiro:hasPermission name="cadreInspectInfo:*">
                     <li>
-                        <a href="javascript:" data-url="">考察记录</a>
+                        <a href="javascript:" data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreAdform:*">

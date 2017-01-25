@@ -18,8 +18,7 @@ pageEncoding="UTF-8" %>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="&{ctx}/${tableName}_au"
                        data-grid-id="#jqGrid"
-                       data-querystr="&"
-                       data-width="900"><i class="fa fa-edit"></i>
+                       data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="${tableName}:del">

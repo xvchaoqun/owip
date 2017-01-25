@@ -2,9 +2,9 @@ package controller.cis;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
-import domain.cis.CisInspectObj;
-import domain.cis.CisInspectObjExample;
+import domain.cis.*;
 import domain.cis.CisInspectObjExample.Criteria;
+import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,9 +25,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CisInspectObjController extends BaseController {
@@ -43,7 +41,16 @@ public class CisInspectObjController extends BaseController {
 
     @RequiresPermissions("cisInspectObj:list")
     @RequestMapping("/cisInspectObj_page")
-    public String cisInspectObj_page(HttpServletResponse response, ModelMap modelMap) {
+    public String cisInspectObj_page(HttpServletResponse response,
+                                     Integer cadreId,
+                                     ModelMap modelMap) {
+
+        if(cadreId!=null) {
+            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            modelMap.put("cadre", cadreMap.get(cadreId));
+        }
+        List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors();
+        modelMap.put("inspectors", nowInspectors);
 
         return "cis/cisInspectObj/cisInspectObj_page";
     }
@@ -51,9 +58,12 @@ public class CisInspectObjController extends BaseController {
     @RequiresPermissions("cisInspectObj:list")
     @RequestMapping("/cisInspectObj_data")
     public void cisInspectObj_data(HttpServletResponse response,
-                                   Integer cadreId,
+                                   Integer year,
                                    Integer typeId,
                                    Integer seq,
+                                   Integer cadreId,
+                                   String _inspectDate,
+                                   Integer inspectorId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo) throws IOException {
@@ -70,15 +80,43 @@ public class CisInspectObjController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("inspect_date desc");
 
-        if (cadreId != null) {
-            criteria.andCadreIdEqualTo(cadreId);
+        if (year != null) {
+            criteria.andYearEqualTo(year);
         }
+
         if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
 
         if (seq != null) {
             criteria.andSeqEqualTo(seq);
+        }
+        if (cadreId != null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+        if (StringUtils.isNotBlank(_inspectDate)) {
+            String start = _inspectDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _inspectDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andInspectDateGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andInspectDateLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
+        }
+
+        if(inspectorId!=null){
+            CisObjInspectorExample example1 = new CisObjInspectorExample();
+            example1.createCriteria().andInspectorIdEqualTo(inspectorId);
+            List<CisObjInspector> cisObjInspectors = cisObjInspectorMapper.selectByExample(example1);
+            List<Integer> objIds = new ArrayList<>();
+            for (CisObjInspector cisObjInspector : cisObjInspectors) {
+                Integer objId = cisObjInspector.getObjId();
+                objIds.add(objId);
+            }
+            if(objIds.size()>0){
+                criteria.andIdIn(objIds);
+            }
         }
 
         int count = cisInspectObjMapper.countByExample(example);
@@ -173,6 +211,22 @@ public class CisInspectObjController extends BaseController {
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位：%s",objId));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 考察材料导出
+    @RequiresPermissions("cisInspectObj:export")
+    @RequestMapping("/cisInspectObj_summary_export")
+    public void cisInspectObj_summary_export(int objId, HttpServletResponse response) throws IOException, TemplateException {
+
+        CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
+        //输出文件
+        String filename = cisInspectObj.getCadre().getUser().getRealname() + "同志考察材料（"+DateUtils.formatDate(new Date(), "yyyy.MM.dd")+"）";
+        response.reset();
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+        response.setContentType("application/msword;charset=UTF-8");
+
+        cisInspectObjService.process(objId, response.getWriter());
     }
 
     @RequiresPermissions("cisInspectObj:del")

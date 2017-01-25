@@ -5,15 +5,14 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/cisEvaluate_page"
-             data-url-export="${ctx}/cisEvaluate_data"
+             data-url-page="${ctx}/cis_page"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.cadreId ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/cis/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div id="home4" class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cisEvaluate:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cisEvaluate_au"><i
@@ -21,8 +20,7 @@
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cisEvaluate_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"
-                                   data-width="900"><i class="fa fa-edit"></i>
+                                   data-querystr="&"><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="cisEvaluate:del">
@@ -34,9 +32,9 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                            <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出</a>
+                                <i class="fa fa-download"></i> 导出</a>--%>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -51,24 +49,31 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
+                                        <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>考察对象</label>
-                                            <input class="form-control search-query" name="cadreId" type="text"
-                                                   value="${param.cadreId}"
-                                                   placeholder="请输入考察对象">
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
+                                                    name="cadreId" data-placeholder="请输入账号或姓名或学工号">
+                                                <option value="${cadre.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label>材料类型</label>
-                                            <input class="form-control search-query" name="type" type="text"
-                                                   value="${param.type}"
-                                                   placeholder="请输入材料类型">
+                                            <select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="270">
+                                                <option></option>
+                                                <c:forEach items="${CIS_EVALUATE_TYPE_MAP}" var="type">
+                                                    <option value="${type.key}">${type.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=type]").val(${param.type});
+                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
-
                                             <c:if test="${_query}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                                <button type="button" class="resetBtn btn btn-warning btn-sm"  data-querystr="cls=${cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -87,16 +92,13 @@
         <div id="item-content"></div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <script>
+    register_user_select($('#searchForm select[name=cadreId]'))
     $("#jqGrid").jqGrid({
+        rownumbers: true,
         url: '${ctx}/cisEvaluate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '形成日期', name: 'createDate'},
-            {label: '考察对象', name: 'cadreId'},
-            {label: '材料类型', name: 'type'},
-            {label: '材料内容', name: 'filePath'},
-            {label: '备注', name: 'remark'}
-        ]
+        colModel: colModels.cisEvaluate
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');
     })

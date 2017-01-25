@@ -1,6 +1,7 @@
 package controller.cis;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.cis.CisEvaluate;
 import domain.cis.CisEvaluateExample;
 import domain.cis.CisEvaluateExample.Criteria;
@@ -17,17 +18,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class CisEvaluateController extends BaseController {
@@ -43,8 +49,14 @@ public class CisEvaluateController extends BaseController {
 
     @RequiresPermissions("cisEvaluate:list")
     @RequestMapping("/cisEvaluate_page")
-    public String cisEvaluate_page(HttpServletResponse response,ModelMap modelMap) {
+    public String cisEvaluate_page(HttpServletResponse response,
+                                   Integer cadreId,
+                                   ModelMap modelMap) {
 
+        if(cadreId!=null) {
+            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            modelMap.put("cadre", cadreMap.get(cadreId));
+        }
         return "cis/cisEvaluate/cisEvaluate_page";
     }
 
@@ -99,10 +111,40 @@ public class CisEvaluateController extends BaseController {
     @RequiresPermissions("cisEvaluate:edit")
     @RequestMapping(value = "/cisEvaluate_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cisEvaluate_au(CisEvaluate record, HttpServletRequest request) {
+    public Map do_cisEvaluate_au(CisEvaluate record,
+                                 String _createDate,
+                                 MultipartFile _file,
+                                 HttpServletRequest request) {
 
         Integer id = record.getId();
+        if (StringUtils.isNotBlank(_createDate)) {
+            record.setCreateDate(DateUtils.parseDate(_createDate, DateUtils.YYYY_MM_DD));
+        }
+        if(_file!=null){
+            String ext = FileUtils.getExtention(_file.getOriginalFilename());
+            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+                throw new RuntimeException("文件格式错误，请上传pdf文档");
+            }
 
+            String originalFilename = _file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString();
+            String realPath = FILE_SEPARATOR
+                    + "cis" + FILE_SEPARATOR
+                    + fileName;
+            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            record.setFileName(originalFilename);
+            record.setFilePath(savePath);
+        }
         if (id == null) {
             cisEvaluateService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加现实表现材料和评价：%s", record.getId()));
@@ -121,6 +163,8 @@ public class CisEvaluateController extends BaseController {
 
         if (id != null) {
             CisEvaluate cisEvaluate = cisEvaluateMapper.selectByPrimaryKey(id);
+            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            modelMap.put("cadre", cadreMap.get(cisEvaluate.getCadreId()));
             modelMap.put("cisEvaluate", cisEvaluate);
         }
         return "cis/cisEvaluate/cisEvaluate_au";
