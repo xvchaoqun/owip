@@ -18,15 +18,17 @@ pageEncoding="UTF-8" %>
                             </label>
                         </th>
                         </c:if>
-							<th>年份</th>
-							<th>发文号</th>
-							<th>任命方式</th>
-							<th>姓名</th>
-                            <th>所在单位及职务</th>
-                            <th>职务属性</th>
-							<th>行政级别</th>
-							<th>所属单位</th>
-                        <th>任免文件</th>
+                        <th nowrap>年份</th>
+                        <th nowrap>发文号</th>
+                        <th nowrap>类别</th>
+                        <th nowrap>任免方式</th>
+                        <th nowrap>任免日期</th>
+                        <th nowrap>姓名</th>
+                        <th nowrap>所在单位及职务</th>
+                        <th nowrap>职务属性</th>
+                        <th nowrap>行政级别</th>
+                        <th nowrap>所属单位</th>
+                        <th nowrap>任免文件</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,7 +48,9 @@ pageEncoding="UTF-8" %>
                                 <c:set value="${dispatchMap.get(dispatchCadre.dispatchId)}" var="dispatch"/>
 								<td nowrap>${dispatch.year}</td>
 								<td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
-								<td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
+                                <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
+                                <td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
+                                <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
                                 <td nowrap>${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId).realname}</td>
                                 <td nowrap>${dispatchCadre.post}</td>
                                 <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>
