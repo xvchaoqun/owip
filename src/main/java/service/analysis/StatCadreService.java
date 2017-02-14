@@ -332,10 +332,10 @@ public class StatCadreService extends BaseMapper {
         List row8 = new ArrayList<>();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_dp(unitTypeAttr);
-        row7.add(totalBean.getNum1());
-        row7.add(percent(totalBean.getNum1(), count));
-        row8.add(totalBean.getNum2());
-        row8.add(percent(totalBean.getNum2(), count));
+        row8.add(totalBean.getNum1());
+        row8.add(percent(totalBean.getNum1(), count));
+        row7.add(totalBean.getNum2());
+        row7.add(percent(totalBean.getNum2(), count));
 
         List<StatCadreBean> adminLevelList = statCadreMapper.cadre_stat_dp_adminLevel(unitTypeAttr);
 
@@ -353,19 +353,19 @@ public class StatCadreService extends BaseMapper {
                 noneCount2 += bean.getNum2();
             }
         }
-        row7.add(mainCount1);
-        row7.add(percent(mainCount1, row7));
-        row7.add(viceCount1);
-        row7.add(percent(viceCount1, row7));
-        row7.add(noneCount1);
-        row7.add(percent(noneCount1, row7));
+        row8.add(mainCount1);
+        row8.add(percent(mainCount1, row8));
+        row8.add(viceCount1);
+        row8.add(percent(viceCount1, row8));
+        row8.add(noneCount1);
+        row8.add(percent(noneCount1, row8));
 
-        row8.add(mainCount2);
-        row8.add(percent(mainCount2, row8));
-        row8.add(viceCount2);
-        row8.add(percent(viceCount2, row8));
-        row8.add(noneCount2);
-        row8.add(percent(noneCount2, row8));
+        row7.add(mainCount2);
+        row7.add(percent(mainCount2, row7));
+        row7.add(viceCount2);
+        row7.add(percent(viceCount2, row7));
+        row7.add(noneCount2);
+        row7.add(percent(noneCount2, row7));
 
         List<StatCadreBean> genderList = statCadreMapper.cadre_stat_dp_gender(unitTypeAttr);
         int male1 = 0, female1 = 0;
@@ -379,15 +379,15 @@ public class StatCadreService extends BaseMapper {
                 female2 += bean.getNum2();
             }
         }
-        row7.add(male1);
-        row7.add(percent(male1, row7));
-        row7.add(female1);
-        row7.add(percent(female1, row7));
+        row8.add(male1);
+        row8.add(percent(male1, row8));
+        row8.add(female1);
+        row8.add(percent(female1, row8));
 
-        row8.add(male2);
-        row8.add(percent(male2, row8));
-        row8.add(female2);
-        row8.add(percent(female2, row8));
+        row7.add(male2);
+        row7.add(percent(male2, row7));
+        row7.add(female2);
+        row7.add(percent(female2, row7));
 
         result.put("row7", row7);
         result.put("row8", row8);

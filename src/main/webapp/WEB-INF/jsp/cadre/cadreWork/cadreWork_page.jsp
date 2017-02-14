@@ -282,6 +282,7 @@
 
             $(".switchBtn i", '#' + parentRowKey).addClass("fa-folder-open-o");
             $(".switchBtn span", '#' + parentRowKey).html("隐藏期间工作");
+            currentExpandRows.remove(parentRowKey);
             currentExpandRows.push(parentRowKey);
 
             var childGridID = parentRowID + "_table";

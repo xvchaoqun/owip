@@ -21,6 +21,26 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
+      <table tableName="train" domainObjectName="train.Train">
+          <columnOverride column="note" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="train_course" domainObjectName="train.TrainCourse">
+
+      </table>
+      <table tableName="train_inspector" domainObjectName="train.TrainInspector">
+      </table>
+      <table tableName="train_inspector_course" domainObjectName="train.TrainInspectorCourse">
+          <columnOverride column="tempdata" jdbcType="VARCHAR"></columnOverride>
+          <columnOverride column="feedback" jdbcType="VARCHAR"></columnOverride>
+      </table>
+      <table tableName="train_eva_norm" domainObjectName="train.TrainEvaNorm">
+      </table>
+      <table tableName="train_eva_rank" domainObjectName="train.TrainEvaRank">
+      </table>
+      <table tableName="train_eva_result" domainObjectName="train.TrainEvaResult">
+      </table>
+      <table tableName="train_eva_table" domainObjectName="train.TrainEvaTable">
+      </table>
      <!-- <table tableName="abroad_applicat_type" domainObjectName="abroad.ApplicatType">
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
@@ -275,11 +295,11 @@
       </table>
       <table tableName="cis_inspector" domainObjectName="cis.CisInspector">
       </table>-->
-      <table tableName="cis_inspector_view" domainObjectName="cis.CisInspectorView"
+      <!--<table tableName="cis_inspector_view" domainObjectName="cis.CisInspectorView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
       <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
       </table>-->
@@ -390,5 +410,9 @@
       </table>-->
       <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
       </table>-->
+
+
+
+
   </context>
 </generatorConfiguration>

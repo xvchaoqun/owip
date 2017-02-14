@@ -29,14 +29,14 @@
 						<i class="ace-icon fa fa-sitemap"></i>
 						500
 					</span>
-          系统错误${exception}
+          系统错误
         </h1>
         <hr />
-        <div style="padding-left: 50px">
+        <div style="/*padding-left: 50px*/">
           <div class="space"></div>
           <ul class="list-unstyled spaced inline bigger-110 margin-15 ">
 
-
+            <li>${exception}</li>
             <li>
               <h3><i class="ace-icon fa fa-hand-o-right blue"></i> 请联系系统管理员</h3>
             </li>
@@ -47,18 +47,18 @@
         <div class="space"></div>
         <div class="center">
 
-          <a href="javascript:history.go(-1)" class="btn btn-success">
+          <a href="javascript:history.go(-1)" class="btn btn-primary">
             <i class="ace-icon fa fa-reply"></i>
             返回
           </a>
 
-          <a href="${ctx}/" class="btn btn-primary">
+          <%--<a href="${ctx}/" class="btn btn-primary">
             <i class="ace-icon fa fa-home"></i>
             回到首页
-          </a>
+          </a>--%>
 
-          <a href="${ctx}/logout" class="btn btn-success">
-            <i class="ace-icon fa fa-home"></i>
+          <a href="logout" class="btn btn-success">
+            <i class="ace-icon fa fa-power-off"></i>
             安全退出
           </a>
         </div>

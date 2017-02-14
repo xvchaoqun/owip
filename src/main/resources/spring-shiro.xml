@@ -128,6 +128,8 @@
         <property name="filterChainDefinitions">
             <value>
                 /test/** = anon
+                /front/** = anon
+                /train/** = anon
                 /api/** = anon
                 /faq = anon
                 /find_pass = anon

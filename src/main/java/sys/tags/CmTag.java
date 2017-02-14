@@ -15,6 +15,8 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
 import domain.sys.*;
+import domain.train.TrainEvaNorm;
+import domain.train.TrainEvaRank;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +36,9 @@ import service.dispatch.*;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
 import service.sys.*;
+import service.train.TrainCourseService;
+import service.train.TrainEvaNormService;
+import service.train.TrainEvaRankService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
@@ -78,6 +83,9 @@ public class CmTag {
     static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
 
     static CisInspectObjService cisInspectObjService = (CisInspectObjService) context.getBean("cisInspectObjService");
+    static TrainEvaNormService trainEvaNormService = (TrainEvaNormService) context.getBean("trainEvaNormService");
+    static TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
+    static TrainCourseService trainCourseService = (TrainCourseService) context.getBean("trainCourseService");
 
     public static String toJSONObject(Object obj){
 
@@ -486,5 +494,19 @@ public class CmTag {
     public static List<CisInspectorView> getCisInspectors(Integer id) {
 
         return cisInspectObjService.getInspectors(id);
+    }
+
+    public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId){
+
+        return trainEvaNormService.findAll(evaTableId);
+    }
+    public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId){
+
+        return trainEvaRankService.findAll(evaTableId);
+    }
+
+    public static Integer evaIsClosed(Integer courseId){
+
+        return trainCourseService.evaIsClosed(courseId);
     }
 }

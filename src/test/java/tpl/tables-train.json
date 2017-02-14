@@ -1,0 +1,59 @@
+{
+  "schema": "owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "train",
+  "tables": [
+    {
+      "table": "train",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,summary,start_date,end_date,remark,create_time",
+      "excludeEditColumns": "id,status",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },{
+      "table": "train_course",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "train_id,name,teacher,start_time,end_time,eva_table_id,total_count,finish_count,is_closed,open_time,close_time,note",
+      "excludeEditColumns": "id,status",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },{
+      "table": "train_eva_norm",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "eva_table_id,fid,name,remark,sort_order",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },{
+      "table": "train_eva_rank",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "eva_table_id,name,score,score_show,remark,sort_order",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },{
+      "table": "train_eva_table",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,remark,sort_order,status",
+      "excludeEditColumns": "id,sort_order,status",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },{
+      "table": "train_inspector",
+      "key": "id",
+      "searchColumns": "username",
+      "showColumns": "course_id,username,passwd,passwd_change_type,type,tempdata,feedback,score,submit_time,submit_ip,create_time,status",
+      "excludeEditColumns": "id,status",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    }
+  ]
+}

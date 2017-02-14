@@ -67,6 +67,41 @@ public class SysLoginLogService extends BaseMapper {
         return String.format("账号：%s %s登录,结果：%s, %s, %s", username, SystemConstants.LOGIN_TYPE_MAP.get(type), isSuccess, remark, userAgent);
     }
 
+    // 记录评课用户登录日记 , 如果没登录成功，那么userId=null
+    public String trainInspectorLoginlog(Integer userId, String username, boolean isSuccess, String remark){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        /*  ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();*/
+
+        String userAgent = RequestUtils.getUserAgent(request);
+        String ip = IpUtils.getRealIp(request);
+
+        byte type = SystemConstants.LOGIN_TYPE_TRAIN_INSPECTOR;
+        SysLoginLog _loginLog = new SysLoginLog();
+        _loginLog.setUserId(userId);
+        _loginLog.setUsername(ContentUtils.substr(username, 0, 50, "..."));
+        _loginLog.setAgent(userAgent);
+        _loginLog.setLoginIp(ip);
+        _loginLog.setType(type);
+        _loginLog.setSuccess(isSuccess);
+        _loginLog.setRemark(remark);
+        _loginLog.setLoginTime(new Date());
+
+        SysLoginLogExample example = new SysLoginLogExample();
+        example.createCriteria().andTypeEqualTo(type).andUsernameEqualTo(username);
+        example.setOrderByClause("login_time desc");
+        List<SysLoginLog> sysLoginLogs = sysLoginLogMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(sysLoginLogs.size()==1){
+            SysLoginLog lastLoginLog = sysLoginLogs.get(0);
+            _loginLog.setLastLoginIp(lastLoginLog.getLoginIp());
+            _loginLog.setLastLoginTime(lastLoginLog.getLoginTime());
+        }
+
+        sysLoginLogMapper.insertSelective(_loginLog);
+
+        return String.format("账号：%s %s登录,结果：%s, %s, %s", username, SystemConstants.LOGIN_TYPE_MAP.get(type), isSuccess, remark, userAgent);
+    }
+
     // 获取当前在线用户
     public List<LoginUser> getLoginUsers(){
 

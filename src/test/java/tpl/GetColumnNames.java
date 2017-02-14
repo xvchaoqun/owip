@@ -32,4 +32,17 @@ public class GetColumnNames {
         }
         System.out.println(tmp);
     }
+
+    @Test
+    public void getColumnList() throws Exception {
+
+        Map<String, ColumnBean> tableColumnsMap = dbOperator.getTableColumnsMap("train_course", "owip");
+
+        String tmp = "";
+        for (ColumnBean columnBean : tableColumnsMap.values()) {
+
+            tmp += "," +columnBean.getName();
+        }
+        System.out.println(tmp);
+    }
 }

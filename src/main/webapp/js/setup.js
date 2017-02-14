@@ -805,7 +805,7 @@ $(document).on("click", ".myTableDiv .exportBtn", function(){
     location.href = $div.data("url-page") +"?export=1&" + $("div.myTableDiv #searchForm").serialize();
 });
 // 导出 for jqgrid
-$(document).on("click", ".myTableDiv .jqExportBtn", function(){
+$(document).on("click", ".jqExportBtn", function(){
 
     var _this = $(this);
     var gridId = _this.data("grid-id") || "#jqGrid";
@@ -1306,6 +1306,17 @@ function register_date($date, params){
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true,
+        clearBtn:true
+    }, params))
+}
+
+// 日历时间
+function register_datetime($date, params){
+    $date.datetimepicker($.extend({
+        language:"zh-CN",
+        autoclose: true,
+        todayHighlight: true,
+        //todayBtn: true,
         clearBtn:true
     }, params))
 }

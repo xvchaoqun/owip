@@ -205,4 +205,10 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.sys.HtmlFragment getHtmlFragment(java.lang.String)</function-signature>
 	</function>
+	<!--train -->
+	<function>
+		<name>evaIsClosed</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Integer evaIsClosed(java.lang.Integer)</function-signature>
+	</function>
 </taglib>

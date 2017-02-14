@@ -1,6 +1,7 @@
 package interceptor;
 
 import controller.BaseController;
+import domain.train.TrainInspector;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import sys.SessionUtils;
 import sys.utils.HttpRequestDeviceUtils;
 import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
@@ -36,6 +38,21 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                 request.getContentType(),
                 request.getHeader("Cookie")
         });
+
+        String servletPath = request.getServletPath();
+        if(servletPath.startsWith("/train/")){
+
+            if(StringUtils.equalsIgnoreCase(servletPath, "/train/login")){
+                return true;
+            }else{
+                TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+                if(trainInspector==null){
+                    WebUtils.issueRedirect(request, response, "/train/login");
+                    return false;
+                }
+                return true;
+            }
+        }
 
         if (handler instanceof HandlerMethod) {
 
@@ -75,7 +92,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
         }
 
         //String _commonUrls = PropertiesUtils.getString("sys.commonUrls");
-        String servletPath = request.getServletPath();
+
         if(request.getDispatcherType() == DispatcherType.REQUEST) {
             /*if (servletPath.startsWith("/WEB-INF")) {
                 servletPath = (String) request.getAttribute("javax.servlet.forward.request_uri");

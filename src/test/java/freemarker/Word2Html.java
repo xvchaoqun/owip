@@ -46,9 +46,17 @@ import org.w3c.dom.Document;
  */
 public class Word2Html {
 
+	//public static String ENCODING = "GB2312";
+	public static String ENCODING = "UTF-8";
 	public static void main(String argv[]) {
-		try {
+		/*try {
 			convert2Html("D://tmp//【干部信息采集表2015版】样表.doc","D://tmp/【干部信息采集表2015版】样表.html");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+
+		try {
+			convert2Html("E:\\软件开发\\寒假\\培训\\专题班评估表.doc","E:\\软件开发\\寒假\\培训\\专题班评估表.html");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,7 +68,7 @@ public class Word2Html {
 		try {
 			File file = new File(path);
 			fos = new FileOutputStream(file);
-			bw = new BufferedWriter(new OutputStreamWriter(fos,"GB2312"));
+			bw = new BufferedWriter(new OutputStreamWriter(fos,ENCODING));
 			bw.write(content);
 		} catch (FileNotFoundException fnfe) {
 			fnfe.printStackTrace();
@@ -115,7 +123,7 @@ public class Word2Html {
 
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer serializer = tf.newTransformer();
-		serializer.setOutputProperty(OutputKeys.ENCODING, "GB2312");
+		serializer.setOutputProperty(OutputKeys.ENCODING, ENCODING);
 		serializer.setOutputProperty(OutputKeys.INDENT, "yes");
 		serializer.setOutputProperty(OutputKeys.METHOD, "html");
 		serializer.transform(domSource, streamResult);

@@ -24,6 +24,7 @@ import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
 import persistence.party.*;
 import persistence.sys.*;
+import persistence.train.*;
 import persistence.unit.*;
 import shiro.ShiroUser;
 import sys.tags.CmTag;
@@ -284,6 +285,23 @@ public class BaseMapper {
 	protected CisObjInspectorMapper cisObjInspectorMapper;
 	@Autowired
 	protected CisObjUnitMapper cisObjUnitMapper;
+
+	@Autowired
+	protected TrainMapper trainMapper;
+	@Autowired
+	protected TrainCourseMapper trainCourseMapper;
+	@Autowired
+	protected TrainEvaNormMapper trainEvaNormMapper;
+	@Autowired
+	protected TrainEvaRankMapper trainEvaRankMapper;
+	@Autowired
+	protected TrainEvaTableMapper trainEvaTableMapper;
+	@Autowired
+	protected TrainEvaResultMapper trainEvaResultMapper;
+	@Autowired
+	protected TrainInspectorMapper trainInspectorMapper;
+	@Autowired
+	protected TrainInspectorCourseMapper trainInspectorCourseMapper;
 
 	@Autowired
 	protected UnitTransferMapper unitTransferMapper;

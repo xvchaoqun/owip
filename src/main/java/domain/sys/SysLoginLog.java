@@ -1,6 +1,7 @@
 package domain.sys;
 
 import org.apache.commons.lang.StringUtils;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,7 +11,8 @@ public class SysLoginLog implements Serializable {
 
     public SysUserView getUser(){
 
-        if(StringUtils.isBlank(username)) return null;
+        if(type== SystemConstants.LOGIN_TYPE_TRAIN_INSPECTOR
+        || StringUtils.isBlank(username)) return null;
 
         return CmTag.getUserByUsername(username);
     }

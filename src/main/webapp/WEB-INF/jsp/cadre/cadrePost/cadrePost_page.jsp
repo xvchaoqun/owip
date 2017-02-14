@@ -190,7 +190,7 @@
         datatype: "local",
         data: [${mainCadrePost==null?"":mainCadrePostStr}], // 防止出现[{}]，造成空行
         colModel: [
-            {label: '职务', name: 'post', frozen: true},
+            {label: '职务', name: 'post', width: 180, frozen: true},
             {
                 label: '职务属性', width: 180, name: 'postId', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name
@@ -351,6 +351,19 @@
                     if (cellvalue == undefined) return '';
                     var year = yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
+                }
+            },
+            {
+                label: '兼任职务任职文件',
+                width: 150,
+                name: 'dispatchCadreRelateBean.last',
+                formatter: function (cellvalue, options, rowObject) {
+                    if (!cellvalue || cellvalue.id == undefined) return '';
+                    var dispatchCode = cellvalue.dispatchCode;
+                    if (cellvalue.fileName && cellvalue.fileName != '')
+                        return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
+                                .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
+                    else return dispatchCode;
                 }
             },
             {

@@ -26,6 +26,7 @@ import service.modify.ModifyCadreAuthService;
 import service.modify.ModifyTableApplyService;
 import service.party.*;
 import service.sys.*;
+import service.train.*;
 import service.unit.*;
 import shiro.PasswordHelper;
 
@@ -202,6 +203,21 @@ public class BaseController extends BaseMapper {
     protected CisObjInspectorService cisObjInspectorService;
     @Autowired
     protected CisObjUnitService cisObjUnitService;
+
+    @Autowired
+    protected TrainService trainService;
+    @Autowired
+    protected TrainCourseService trainCourseService;
+    @Autowired
+    protected TrainEvaNormService trainEvaNormService;
+    @Autowired
+    protected TrainEvaRankService trainEvaRankService;
+    @Autowired
+    protected TrainEvaTableService trainEvaTableService;
+    @Autowired
+    protected TrainInspectorService trainInspectorService;
+    @Autowired
+    protected TrainInspectorCourseService trainInspectorCourseService;
 
     @Autowired
     protected UnitTransferService unitTransferService;
@@ -399,6 +415,8 @@ public class BaseController extends BaseMapper {
         map.put("safeBoxMap", safeBoxService.findAll());
 
         map.put("approverTypeMap", approverTypeService.findAll());
+
+        map.put("trainEvaTableMap", trainEvaTableService.findAll());
 
         map.put("locationMap", locationService.codeMap());
         map.put("countryMap", countryService.findAll());

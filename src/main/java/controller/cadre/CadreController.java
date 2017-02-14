@@ -353,7 +353,7 @@ public class CadreController extends BaseController {
         return "cadre/cadre_au";
     }
 
-    /*@RequiresPermissions("cadre:del")
+    @RequiresPermissions("cadre:del")
     @RequestMapping(value = "/cadre_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -363,7 +363,7 @@ public class CadreController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     @RequiresPermissions("cadre:changeOrder")
     @RequestMapping(value = "/cadre_changeOrder", method = RequestMethod.POST)

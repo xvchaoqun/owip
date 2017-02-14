@@ -15,6 +15,16 @@ public interface UpdateMapper {
 
     @Update("${sql}")
     void excuteSql(@Param("sql") String sql);
+    @Update("update train_course c, train_inspector_course ic set c.finish_count=c.finish_count-1 " +
+            "where ic.inspector_id=#{inspectorId} and ic.status=1 and c.id=ic.course_id and c.status=1 and c.finish_count>1")
+    void abolishTrainInspector(Integer inspectorId);
+
+    @Update("update train t left join (select train_id, sum(IF(status=1, 1, 0)) as course_num from train_course) tc " +
+            "on tc.train_id=t.id set t.course_num=tc.course_num")
+    void update_train_courseNum();
+
+    //update train_eva_norm t1 left join (select fid, count(id) as norm_num from train_eva_norm group by fid) t2
+    //on t2.fid=t1.id set t1.norm_num=t2.norm_num
 
     // 更新发文提交的干部任免数量
     /*@Update("update dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
@@ -175,4 +185,6 @@ public interface UpdateMapper {
             "apd.real_to_country=null, apd.return_remark=null," +
             "apd.use_passport=null, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")
     int resetReturnPassport(@Param("id") int id);
+
+
 }

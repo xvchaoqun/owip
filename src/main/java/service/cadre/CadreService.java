@@ -274,7 +274,7 @@ public class CadreService extends BaseMapper {
         return success;
     }
 
-    /*@Transactional
+    @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
@@ -289,12 +289,13 @@ public class CadreService extends BaseMapper {
             Assert.isTrue(cadre.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
                     && cadre.getStatus() != SystemConstants.CADRE_STATUS_INSPECT); // 非后备干部、考察对象
 
+            cadreMapper.deleteByPrimaryKey(id);
+
             SysUserView uv = sysUserService.findById(cadre.getUserId());
             // 删除干部身份
             sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
-            cadreMapper.deleteByPrimaryKey(id);
         }
-    }*/
+    }
 
     @Transactional
     @Caching(evict= {

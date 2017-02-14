@@ -22,6 +22,7 @@ import domain.base.MetaType;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
+import domain.train.TrainEvaTable;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
@@ -130,6 +131,8 @@ public class CommonController extends BaseController{
         sourceMixins.put(ApproverType.class, OptionMixin.class);
         sourceMixins.put(Location.class, OptionMixin.class);
         //sourceMixins.put(Country.class, OptionMixin.class);
+
+        sourceMixins.put(TrainEvaTable.class, OptionMixin.class);
 
         sourceMixins.put(SysRole.class, OptionMixin.class);
 
