@@ -68,7 +68,7 @@ public class ExceptionHandlerController {
             else if(StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
                 //resultMap.put("msg", "请先删除关联表的所有数据");
                 resultMap.put("msg", "数据已在别的地方使用，不可以删除");
-                logger.debug(getMsg(request, ex));
+                logger.warn(getMsg(request, ex));
             }else {
                 resultMap.put("msg", "数据异常，请联系管理员");
                 logger.error(getMsg(request, ex));
@@ -106,7 +106,7 @@ public class ExceptionHandlerController {
         view.setAttributesMap(attributes);
         mav.setView(view);
 
-        logger.warn(getMsg(request, ex));
+        logger.error(getMsg(request, ex));
 
         return mav;
     }
@@ -118,7 +118,7 @@ public class ExceptionHandlerController {
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.error(getMsg(request, ex));
+            logger.warn(getMsg(request, ex));
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("unauthorized");
@@ -144,7 +144,7 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveNullPointerException(HttpServletRequest request, Exception ex) {
 
-        logger.warn(getMsg(request, ex));
+        logger.error(getMsg(request, ex));
 
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {

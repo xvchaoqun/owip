@@ -68,7 +68,7 @@ public abstract class Source {
             for (int i = 0; i <= pageNo; i++) {
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
                 String sql = getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
-                stat = conn.createStatement();
+                //stat = conn.createStatement();
                 rs = stat.executeQuery(sql);
                 while (rs != null && rs.next()) {
 
