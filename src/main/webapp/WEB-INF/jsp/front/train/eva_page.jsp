@@ -37,7 +37,7 @@
             <c:forEach items="${ranks}" var="rank" varStatus="vs">
                 <tr>
                     <c:if test="${vs.first}">
-                        <td rowspan="${rankNum}" width="80" style="font-size: 25pt;padding: 10px; text-align: center">
+                        <td rowspan="${rankNum}" width="70" style="font-size: 20pt;padding: 10px; text-align: center">
                             评估等级
                         </td>
                     </c:if>
