@@ -37,7 +37,7 @@ public class FrontTrainLoginController extends BaseController {
 				}
 				logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
 				SessionUtils.setTrainInspector(request, trainInspector);
-			}catch (TrainInspectorAbolishException ex){
+			}catch (Exception ex){
 
 				modelMap.put("error", ex.getMessage());
 				return "front/train/login";

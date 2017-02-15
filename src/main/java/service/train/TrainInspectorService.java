@@ -169,6 +169,10 @@ public class TrainInspectorService extends BaseMapper {
             if(trainInspector.getStatus()==SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH){
                 throw new TrainInspectorAbolishException("该账号已经作废");
             }
+            if(trainService.evaIsClosed(trainInspector.getTrainId())!=0){
+                throw new TrainInspectorAbolishException("测评已经结束");
+            }
+
             return trainInspector;
         }
 

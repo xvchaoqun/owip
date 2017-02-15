@@ -40,9 +40,9 @@ table tr td.title{
 </div>--%>
 <div style="width: 1200px" id="printArea">
 <c:forEach items="${trainInspectors}" var="inspector" varStatus="vs">
-<table style="width: 550px;float: left;margin: 10px;padding-right:22px; <c:if test='${(vs.index+1)%2==1}'> padding-right:21px; border-right: 1px dashed;</c:if>">
+<table style="width: 580px;float: left;margin: 10px;padding-right:22px; <c:if test='${(vs.index+1)%2==1}'> padding-right:21px; border-right: 1px dashed;</c:if>">
 	<tr>
-		<td colspan="2">
+		<td colspan="3">
 			${train.note}
 		</td>
 	</tr>

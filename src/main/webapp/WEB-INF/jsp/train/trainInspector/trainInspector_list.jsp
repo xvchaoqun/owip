@@ -62,7 +62,8 @@
                             </c:when>
                         </c:choose>
                         <span class="label ${labelCss}">${TRAIN_INSPECTOR_STATUS_MAP.get(inspector.status)}
-                            <c:if test="${inspector.status==TRAIN_INSPECTOR_STATUS_PART_FINISH}">
+                            <c:if test="${inspector.status==TRAIN_INSPECTOR_STATUS_PART_FINISH
+                            || inspector.status==TRAIN_INSPECTOR_STATUS_ALL_FINISH}">
                                 （${inspector.finishCourseNum}/${fn:length(trainCourses)}）
                                  </c:if>
 

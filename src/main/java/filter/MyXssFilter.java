@@ -25,6 +25,7 @@ public class MyXssFilter implements Filter {
                 || StringUtils.equals(requestURI, "/contentTpl_au")
                 || StringUtils.equals(requestURI, "/cadreInfo_updateContent")
                 || StringUtils.equals(requestURI, "/cisInspectObj_summary")
+                || StringUtils.equals(requestURI, "/train_note")
                 ){  // 不需要XSS参数编码的资源
             filterChain.doFilter(request, response);
             return;
