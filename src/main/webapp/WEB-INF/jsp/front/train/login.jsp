@@ -78,6 +78,9 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
+			<c:if test="${not empty error}">
+			alert('${error}');
+			</c:if>
 			$("#login_btn").click(function(){
 				var $username = $("input[name=username]");
 				var $passwd = $("input[name=passwd]");

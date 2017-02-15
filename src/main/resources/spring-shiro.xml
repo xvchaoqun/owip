@@ -129,10 +129,10 @@
             <value>
                 /test/** = anon
                 /front/** = anon
+                /train = kickout, user, currentUser
                 /train/** = anon
                 /api/** = anon
                 /faq = anon
-                /find_pass = anon
                 /find_pass/** = anon
                 /monitor = anon
                 /cas = anon

@@ -49,4 +49,27 @@ public class LogService extends BaseMapper {
         return String.format("账号：%s, 类别：%s, %s", shiroUser.getUsername(),
                 SystemConstants.USER_TYPE_MAP.get(shiroUser.getType()), content );
     }
+
+    public String trainInspectorLog(Integer userId, String username, String logType, String content){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+
+        SysLog record = new SysLog();
+        record.setUserId(userId);
+        record.setOperator(username);
+        record.setContent(content);
+        record.setCreateTime(new Date());
+        record.setIp(IpUtils.getRealIp(request));
+        record.setAgent(RequestUtils.getUserAgent(request));
+        String api = request.getRequestURI().substring(1);
+        record.setApi(api);
+        MetaType metaType = metaTypeService.codeKeyMap().get(logType);
+        if(metaType!=null)
+            record.setTypeId(metaType.getId());
+        record.setStatus(SystemConstants.AVAILABLE);
+
+        sysLogMapper.insertSelective(record );
+
+        return String.format("账号：%s, 类别：评课账号, %s", username, content );
+    }
 }

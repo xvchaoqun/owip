@@ -1,9 +1,6 @@
 package service.train;
 
-import domain.train.Train;
-import domain.train.TrainEvaResultExample;
-import domain.train.TrainInspector;
-import domain.train.TrainInspectorExample;
+import domain.train.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +22,30 @@ public class TrainInspectorService extends BaseMapper {
     private TrainService trainService;
 
     @Transactional
-    public void del(Integer id) {
+    public void delAbolished(Integer id) {
 
-        trainInspectorMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] ids) {
-
-        if (ids == null || ids.length == 0) return;
+        {
+            TrainInspectorCourseExample example = new TrainInspectorCourseExample();
+            example.createCriteria().andInspectorIdEqualTo(id);
+            trainInspectorCourseMapper.deleteByExample(example);
+        }
 
         TrainInspectorExample example = new TrainInspectorExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        trainInspectorMapper.deleteByExample(example);
+        example.createCriteria().andIdEqualTo(id)
+                .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+
+        trainInspectorMapper.deleteByPrimaryKey(id);
+
     }
+
+/*    @Transactional
+    public int delAllAbolished(int trainId) {
+
+        TrainInspectorExample example = new TrainInspectorExample();
+        example.createCriteria().andTrainIdEqualTo(trainId)
+                .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+        return trainInspectorMapper.deleteByExample(example);
+    }*/
 
     /**
      * @param trainId
@@ -123,16 +130,17 @@ public class TrainInspectorService extends BaseMapper {
         Train _train = new Train();
         _train.setId(trainId);
         _train.setTotalCount(Math.max(0, train.getTotalCount() - 1));
-        if (trainMapper.updateByPrimaryKey(_train) != 1)
+        if (trainMapper.updateByPrimaryKeySelective(_train) != 1)
             throw new DBErrorException("abolish error2.");
 
         // 已完成的测评人，所有关联课程的总完成数量要减一
         updateMapper.abolishTrainInspector(inspectorId);
 
-        TrainEvaResultExample example = new TrainEvaResultExample();
-        example.createCriteria().andInspectorIdEqualTo(inspectorId);
-
-        trainEvaResultMapper.deleteByExample(example);
+        {
+            TrainEvaResultExample example = new TrainEvaResultExample();
+            example.createCriteria().andInspectorIdEqualTo(inspectorId);
+            trainEvaResultMapper.deleteByExample(example);
+        }
     }
 
     @Transactional
@@ -153,9 +161,16 @@ public class TrainInspectorService extends BaseMapper {
         if(username==null || password==null) return null;
 
         TrainInspectorExample example = new TrainInspectorExample();
-        example.createCriteria().andUsernameEqualTo(username).andPasswdEqualTo(password);
+        example.createCriteria().andUsernameEqualTo(username)
+                .andPasswdEqualTo(password);
         List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
-        if(trainInspectors.size()==1) return trainInspectors.get(0);
+        if(trainInspectors.size()==1){
+            TrainInspector trainInspector = trainInspectors.get(0);
+            if(trainInspector.getStatus()==SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH){
+                throw new TrainInspectorAbolishException("该账号已经作废");
+            }
+            return trainInspector;
+        }
 
         return null;
     }

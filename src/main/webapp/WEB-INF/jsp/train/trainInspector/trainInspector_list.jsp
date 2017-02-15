@@ -61,7 +61,12 @@
                                 <c:set var="labelCss" value="label-info"/>
                             </c:when>
                         </c:choose>
-                        <span class="label ${labelCss}">${TRAIN_INSPECTOR_STATUS_MAP.get(inspector.status)}</span>
+                        <span class="label ${labelCss}">${TRAIN_INSPECTOR_STATUS_MAP.get(inspector.status)}
+                            <c:if test="${inspector.status==TRAIN_INSPECTOR_STATUS_PART_FINISH}">
+                                （${inspector.finishCourseNum}/${fn:length(trainCourses)}）
+                                 </c:if>
+
+                        </span>
                 </td>
                 <c:if test="${param.type!=1 }">
                     <td nowrap="">

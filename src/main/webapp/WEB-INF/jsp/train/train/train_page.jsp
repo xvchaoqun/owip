@@ -78,6 +78,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    function print_inspector(trainId){
+        printWindow("${ctx}/trainInspector_list?export=2&trainId="+ trainId)
+    }
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -110,9 +113,12 @@ pageEncoding="UTF-8" %>
             }},
             {label: '打印账号', name: '_print', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.totalCount==0) return '-'
-                return '<a href="javascript:void(0)" class="linkBtn" data-target="_blank"' +
+                /*return '<a href="javascript:void(0)" class="linkBtn" data-target="_blank"' +
                         'data-url="${ctx}/trainInspector_list?export=2&trainId={0}">打印</a>'
-                                .format(rowObject.id);
+                                .format(rowObject.id);*/
+
+                return '<a href="javascript:void(0)" onclick="print_inspector({0})">打印</a>'
+                        .format(rowObject.id);
             }},
             {label: '是否关闭评课', name: 'isClosed', width:110, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return ''

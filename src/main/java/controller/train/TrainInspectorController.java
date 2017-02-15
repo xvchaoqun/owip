@@ -46,6 +46,7 @@ public class TrainInspectorController extends BaseController {
                                       HttpServletRequest request) throws IOException {
 
         modelMap.put("train", trainMapper.selectByPrimaryKey(trainId));
+        modelMap.put("trainCourses", trainCourseService.findAll(trainId));
 
         if(export == 2){
             TrainInspectorExample example = new TrainInspectorExample();
@@ -239,24 +240,22 @@ public class TrainInspectorController extends BaseController {
     public Map trainInspector_del(int id, HttpServletRequest request){
 
         TrainInspector trainInspector = trainInspectorMapper.selectByPrimaryKey(id);
-        trainInspectorMapper.deleteByPrimaryKey(id);
+        trainInspectorService.delAbolished(id);
 
         logger.info(addLog( SystemConstants.LOG_ADMIN, String.format("删除已作废的参评人账号%s", trainInspector.getUsername())));
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    /*@RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value="/trainInspector_delAllAbolished", method=RequestMethod.POST)
     @ResponseBody
-    public Map trainInspector_delAllAbolished(HttpServletRequest request){
+    public Map trainInspector_delAllAbolished(int trainId, HttpServletRequest request){
 
-        TrainInspectorExample example = new TrainInspectorExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
-        int count = trainInspectorMapper.deleteByExample(example);
+        int count = trainInspectorService.delAllAbolished(trainId);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, String.format("删除所有的已作废的参评人账号，总共%s个", count)));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("trainInspector:edit")
     @RequestMapping(value = "/trainInspector_gen", method = RequestMethod.POST)
@@ -268,7 +267,7 @@ public class TrainInspectorController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("trainInspector:edit")
+  /*  @RequiresPermissions("trainInspector:edit")
     @RequestMapping("/trainInspector_au")
     public String trainInspector_au(Integer id, ModelMap modelMap) {
 
@@ -279,31 +278,5 @@ public class TrainInspectorController extends BaseController {
         return "train/trainInspector/trainInspector_au";
     }
 
-    @RequiresPermissions("trainInspector:del")
-    @RequestMapping(value = "/trainInspector_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_trainInspector_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            trainInspectorService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除参评账号：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("trainInspector:del")
-    @RequestMapping(value = "/trainInspector_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length>0){
-            trainInspectorService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除参评账号：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
+*/
 }

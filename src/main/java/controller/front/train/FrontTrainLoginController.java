@@ -2,12 +2,15 @@ package controller.front.train;
 
 import controller.BaseController;
 import domain.train.TrainInspector;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.train.TrainInspectorAbolishException;
 import sys.SessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +25,24 @@ public class FrontTrainLoginController extends BaseController {
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/login")
-	public String login(HttpServletRequest request) {
+	public String login(String u, String p, HttpServletRequest request, ModelMap modelMap) {
+
+		if(StringUtils.isNotBlank(u)) {
+			try {
+				TrainInspector trainInspector = trainInspectorService.tryLogin(u, p);
+				if (trainInspector == null) {
+					logger.info(sysLoginLogService.trainInspectorLoginlog(null, u, false, "扫码登录失败，账号或密码错误"));
+					modelMap.put("error", "扫码登录失败，账号或密码错误");
+					return "front/train/login";
+				}
+				logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
+				SessionUtils.setTrainInspector(request, trainInspector);
+			}catch (TrainInspectorAbolishException ex){
+
+				modelMap.put("error", ex.getMessage());
+				return "front/train/login";
+			}
+		}
 
 		TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
 		if(trainInspector!=null){

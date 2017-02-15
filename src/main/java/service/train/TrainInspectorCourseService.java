@@ -4,15 +4,17 @@ import bean.TrainTempData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import domain.train.TrainInspectorCourse;
-import domain.train.TrainInspectorCourseExample;
+import domain.train.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +23,74 @@ import java.util.Map;
 public class TrainInspectorCourseService extends BaseMapper {
 
     @Autowired
-    private TrainService trainService;
+    private TrainEvaTableService trainEvaTableService;
+    @Autowired
+    private TrainCourseService trainCourseService;
 
-    // 测评人某课程测评结果
+    @Transactional
+    public void doEva(int id, int score, String feedback){
+
+        TrainInspectorCourse tic = trainInspectorCourseMapper.selectByPrimaryKey(id);
+        TrainCourse trainCourse = trainCourseMapper.selectByPrimaryKey(tic.getCourseId());
+        TrainTempData tempdata = getTempdata(tic.getTempdata());
+        Map<Integer, TrainEvaResult> trainEvaResultMap = tempdata.getTrainEvaResultMap();
+
+        Map<Integer, TrainEvaTable> evaTableMap = trainEvaTableService.findAll();
+        TrainEvaTable trainEvaTable = evaTableMap.get(trainCourse.getEvaTableId());
+        List<TrainEvaNorm> normList = trainEvaTable.getNormList();
+        int normSize = normList.size();
+
+        for (int i=0; i<normSize; i++) {
+            TrainEvaNorm norm = normList.get(i);
+            TrainEvaNorm topNorm = norm.getTopNorm();
+            if(!trainEvaResultMap.containsKey(norm.getId())){
+                throw  new RuntimeException(String.format("未完成指标（第%s/%s步:%s)", (i+1), normSize+1,
+                        (topNorm!=null?topNorm.getName()+"-":"") + norm.getName()));
+            }
+
+            TrainEvaResult trainEvaResult = trainEvaResultMap.get(norm.getId());
+            trainEvaResultMapper.insertSelective(trainEvaResult);
+        }
+        {
+            TrainInspectorCourse record = new TrainInspectorCourse();
+            record.setId(id);
+            record.setSubmitTime(new Date());
+            record.setSubmitIp(ContextHelper.getRealIp());
+            record.setFeedback(feedback);
+            record.setScore(score);
+            record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
+            trainInspectorCourseMapper.updateByPrimaryKeySelective(record);
+        }
+        {
+            Map<Integer, TrainCourse> trainCourseMap = trainCourseService.findAll(trainCourse.getTrainId());
+            int finishCourseNum = getFinishCourseNum(tic.getInspectorId());
+            TrainInspector record = new TrainInspector();
+            record.setId(tic.getInspectorId());
+            record.setFinishCourseNum(finishCourseNum);
+            if(finishCourseNum==trainCourseMap.size())
+                record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_ALL_FINISH);
+            else
+                record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_PART_FINISH);
+
+            trainInspectorMapper.updateByPrimaryKeySelective(record);
+        }
+
+        {
+            TrainCourse record = new TrainCourse();
+            record.setId(trainCourse.getId());
+            record.setFinishCount((trainCourse.getFinishCount()==null?0:trainCourse.getFinishCount())+1);
+            trainCourseMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
+    public int getFinishCourseNum(int inspectorId){
+        TrainInspectorCourseExample example = new TrainInspectorCourseExample();
+        example.createCriteria().andInspectorIdEqualTo(inspectorId)
+                .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
+        return trainInspectorCourseMapper.countByExample(example);
+    }
+
+    // 测评人某课程的测评暂存结果
     @Transactional
     public TrainInspectorCourse get(int inspectorId, int courseId) {
 
@@ -34,7 +101,7 @@ public class TrainInspectorCourseService extends BaseMapper {
         return trainInspectorCourses.size()==0?null:trainInspectorCourses.get(0);
     }
 
-    // 测评人结果情况 <课程ID，结果>
+    // 测评人暂存结果情况 <课程ID，结果>
     @Transactional
     public Map<Integer, TrainInspectorCourse> get(int inspectorId) {
 

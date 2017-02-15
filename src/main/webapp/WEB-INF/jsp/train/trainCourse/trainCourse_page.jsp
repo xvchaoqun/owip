@@ -79,7 +79,7 @@
                         .format(cellvalue, _cMap.trainEvaTableMap[cellvalue].name);
             }},
 
-            {label: '评课情况（已测评/总数）', name: '_eva', width: 180, formatter: function (cellvalue, options, rowObject) {
+            {label: '评课情况（已测评/总数）', name: '_eva', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if('${train.totalCount}'=='') return '-'
                 return '{0}/${train.totalCount}'.format(rowObject.finishCount);
             }}

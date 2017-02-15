@@ -16,7 +16,7 @@ public interface UpdateMapper {
     @Update("${sql}")
     void excuteSql(@Param("sql") String sql);
     @Update("update train_course c, train_inspector_course ic set c.finish_count=c.finish_count-1 " +
-            "where ic.inspector_id=#{inspectorId} and ic.status=1 and c.id=ic.course_id and c.status=1 and c.finish_count>1")
+            "where ic.inspector_id=#{inspectorId} and ic.status=1 and c.id=ic.course_id and c.status=1 and c.finish_count>=1")
     void abolishTrainInspector(Integer inspectorId);
 
     @Update("update train t left join (select train_id, sum(IF(status=1, 1, 0)) as course_num from train_course) tc " +

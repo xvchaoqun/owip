@@ -29,6 +29,8 @@ table tr td.title{
 }
 
 </style>
+	<script type="text/javascript" src="${ctx}/assets/js/jquery.js"></script>
+	<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
 </head>
 <body>
 <%--<div style="width: 850px;text-align: right;font-size: 20pt">
@@ -41,11 +43,11 @@ table tr td.title{
 <table style="width: 550px;float: left;margin: 10px;padding-right:22px; <c:if test='${(vs.index+1)%2==1}'> padding-right:21px; border-right: 1px dashed;</c:if>">
 	<tr>
 		<td colspan="2">
-			${trainCourse.note}
+			${train.note}
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2" style="text-align:center;
+		<td colspan="3" style="text-align:center;
 	font-size: 18pt; 
 	font-weight: bolder;
 	padding-bottom: 20px;
@@ -57,8 +59,12 @@ table tr td.title{
 	text-align: right;
 	vertical-align: middle;
 	font-weight: bolder;
-	padding-left: 0px;">评课系统网址：</td>
+	padding-left: 0px;" >评课系统网址：</td>
 		<td><fmt:message key="site.train.login" bundle="${spring}"/></td>
+		<td rowspan="4">
+			<div class="qrcode" data-url="http://192.168.1.6:8080/train/login?u=${inspector.username}&p=${inspector.passwd}"
+				 style="width:100px; height:100px;"></div>
+		</td>
 	</tr>
 	<tr>
 		<td style="
@@ -68,6 +74,7 @@ table tr td.title{
 	font-weight: bolder;
 	padding-left: 0px;">培训班次：</td>
 		<td>${train.name}</td>
+
 	</tr>
 	<tr>
 		<td style="
@@ -102,5 +109,14 @@ table tr td.title{
 </c:if>
 </c:forEach>
 </div>
+<script type="text/javascript">
+	$(".qrcode").each(function(){
+		var qrcode = new QRCode(this, {
+			width : 100,
+			height : 100
+		});
+		qrcode.makeCode($(this).data("url"));
+	})
+</script>
 </body>
 </html>

@@ -8,11 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import shiro.ShiroHelper;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import sys.SessionUtils;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
+import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -66,22 +67,24 @@ public class FrontTrainEvaController extends BaseController {
         }
         modelMap.put("tempdata", tempdata);
 
-        if (step == null || step <= stepNum) {
+        //if (step == null || step <= stepNum) {
             step = step == null ? 1 : step;
             modelMap.put("step", step);
-            TrainEvaNorm norm = normList.get(step - 1);
-            modelMap.put("norm", norm);
+            if(step <= stepNum) {
+                TrainEvaNorm norm = normList.get(step - 1);
+                modelMap.put("norm", norm); // 准备下一步要显示的指标
 
-            modelMap.put("rankNum", trainEvaTable.getRankNum());
-            modelMap.put("ranks", trainEvaTable.getRanks());
+                modelMap.put("rankNum", trainEvaTable.getRankNum());
+                modelMap.put("ranks", trainEvaTable.getRanks());
+            }
 
-            if (lastStep != null && lastStep <= stepNum) {
-                if (tempdata == null) {
-                    tempdata = new TrainTempData();
-                }
-                tempdata.setStepNum(stepNum);
-                tempdata.setStopStep(step);
-                if (lastStep > 0 && lastRankId > 0) {
+        if (tempdata == null) {
+            tempdata = new TrainTempData();
+        }
+        tempdata.setStepNum(stepNum);
+        tempdata.setStopStep(step);
+
+                if (lastStep != null && lastStep > 0 && lastStep<=stepNum && lastRankId > 0) { // 更新暂存结果
 
                     TrainEvaNorm lastNorm = normList.get(lastStep - 1);
                     Map<Integer, TrainEvaResult> trainEvaResultMap = tempdata.getTrainEvaResultMap();
@@ -96,29 +99,39 @@ public class FrontTrainEvaController extends BaseController {
 
                     trainEvaResultMap.put(lastNorm.getId(), trainEvaResult);
                 }
+
                 String tempdataToString = trainInspectorCourseService.tempdataToString(tempdata);
-                boolean insert = false;
+                TrainInspectorCourse record = new TrainInspectorCourse();
+                record.setInspectorId(trainInspector.getId());
+                record.setCourseId(courseId);
+                record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE);
+                record.setSubmitIp(ContextHelper.getRealIp());
+                record.setSubmitTime(new Date());
+                record.setTempdata(tempdataToString);
                 if (tic == null) {
-                    tic = new TrainInspectorCourse();
-                    insert = true;
-                }
-                tic.setInspectorId(trainInspector.getId());
-                tic.setCourseId(courseId);
-                tic.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE);
-                tic.setSubmitIp(ContextHelper.getRealIp());
-                tic.setSubmitTime(new Date());
-                tic.setTempdata(tempdataToString);
-                if (insert) {
-                    trainInspectorCourseMapper.insertSelective(tic);
+                    trainInspectorCourseMapper.insertSelective(record);
                 } else {
-                    trainInspectorCourseMapper.updateByPrimaryKeySelective(tic);
+                    record.setId(tic.getId());
+                    trainInspectorCourseMapper.updateByPrimaryKeySelective(record);
                 }
-            }
-        }else{
+
+        /*}else{
             modelMap.put("step", step);
-        }
+        }*/
 
         return "front/train/eva_page";
     }
 
+    @RequestMapping(value = "/eva", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_eva(int id, int score, String feedback, HttpServletRequest request) {
+
+        trainInspectorCourseService.doEva(id, score, feedback);
+
+        TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+        logger.info(logService.trainInspectorLog(trainInspector.getId(), trainInspector.getUsername(),
+                SystemConstants.LOG_USER, "提交评课：" + id));
+
+        return success(FormUtils.SUCCESS);
+    }
 }

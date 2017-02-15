@@ -6,8 +6,8 @@
     ${tc.name}
     <div class="buttons pull-right" style="margin-bottom: 8px;margin-left: 10px; ">
         <a href="${ctx}/train/index" class="btn btn-xs btn-success">
-            <i class="ace-icon fa fa-backward"></i>
-            返回全部课程
+            <i class="ace-icon fa fa-list"></i>
+            全部课程
         </a>
     </div>
 </ul>
@@ -28,7 +28,7 @@
             <c:if test="${not empty norm.topNorm}">${norm.topNorm.name} - </c:if>${norm.name}
             </c:if>
             <c:if test="${step==maxStep}">
-            意见建议
+            评估总分和意见建议
             </c:if>
         </div>
         <c:if test="${step<=maxStep-1}">
@@ -51,9 +51,23 @@
         </table>
         </c:if>
         <c:if test="${step==maxStep}">
-            <div style="margin-bottom: 20px;">
-            <textarea id="feedback" placeholder="请在此输入意见或建议" class="form-control limited" rows="8">${tempdata.feedback}</textarea>
-            </div>
+        <table class="table">
+            <tr>
+                <td align="right" style="border-top: none; vertical-align: middle;
+                width: 80px;white-space: nowrap; padding-right: 0">评估总分：</td>
+                <td style="border-top: none; vertical-align: middle">
+                    <span id="score" class="ui-slider-red"></span>
+                </td>
+                <td style="border-top: none; vertical-align: middle;width: 20px;">
+                    <span id="scoreShow">80</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="border-top: none">
+                    <textarea id="feedback" placeholder="请在此输入意见或建议" class="form-control limited" rows="8">${tempdata.feedback}</textarea>
+                </td>
+            </tr>
+            </table>
         </c:if>
         <div class="clearfix center nowrap">
             <button ${step==1?"disabled":""} class="first-step btn btn-info" style="padding-left:5px;padding-right: 5px;" type="button">
@@ -66,7 +80,7 @@
             <button style="${step==maxStep?"display:none":""}" class="next-step btn btn-info" type="button">
                 下一步
             </button>
-            <button style="${step==maxStep?"":"display:none"}" class="submit btn btn-success" type="button">
+            <button style="${step==maxStep?"":"display:none"}" id="submitBtn" class="btn btn-success" type="button">
                 完<span style="visibility: hidden">一</span>成
             </button>
             <button ${step==maxStep?"disabled":""} class="max-step btn btn-info" style="padding-left:5px;padding-right: 5px;" type="button">
@@ -76,7 +90,37 @@
         </div>
     </div>
 </div>
+<link rel="stylesheet" href="${ctx}/assets/css/jquery-ui.custom.css" />
+<script src="${ctx}/assets/js/jquery-ui.custom.js"></script>
+<script src="${ctx}/assets/js/jquery.ui.touch-punch.js"></script>
 <script>
+    function refreshScore() {
+        var score = $( "#score" ).slider( "value" );
+        $("#scoreShow").text( score);
+    }
+    $("#score").css({width:'100%', 'float':'left'}).empty().slider({
+        value: $("#scoreShow").text(),
+        range: "min",
+        animate: true,
+        slide: refreshScore,
+        change: refreshScore
+    });
+
+    $("#submitBtn").click(function(){
+
+        var feedback = $.trim($("textarea#feedback").val());
+        if(feedback==''){
+            $("textarea#feedback").val('').focus();
+            return;
+        }
+        var score = $( "#score" ).slider( "value" );
+        $.post("${ctx}/train/eva",{score:score,feedback:feedback, id:'${tic.id}'},function(ret){
+            if(ret.success){
+                location.href="${ctx}/train/index";
+            }
+        });
+    });
+
     function getSelectedRankId(){
 
         var $i = $("#rank-table").find("i:visible");
