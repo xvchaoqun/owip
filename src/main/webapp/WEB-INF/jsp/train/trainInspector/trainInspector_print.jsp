@@ -62,7 +62,7 @@ table tr td.title{
 	padding-left: 0px;" >评课系统网址：</td>
 		<td><fmt:message key="site.train.login" bundle="${spring}"/></td>
 		<td rowspan="4">
-			<div class="qrcode" data-url="http://192.168.1.6:8080/train/login?u=${inspector.username}&p=${inspector.passwd}"
+			<div class="qrcode" data-url="<fmt:message key="site.train.login" bundle="${spring}"/>?u=${inspector.username}&p=${inspector.passwd}"
 				 style="width:100px; height:100px;"></div>
 		</td>
 	</tr>
