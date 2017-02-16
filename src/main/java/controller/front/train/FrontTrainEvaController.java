@@ -56,11 +56,6 @@ public class FrontTrainEvaController extends BaseController {
         if (step != null && step > maxStep) step = maxStep;
         modelMap.put("maxStep", maxStep);
 
-        if(step>stepNum){
-            List<TrainEvaNorm> norms = trainEvaTable.getNorms();
-            modelMap.put("topNorms", norms);
-        }
-
         TrainInspectorCourse tic = trainInspectorCourseService.get(trainInspector.getId(), courseId);
         modelMap.put("tic", tic);
         TrainTempData tempdata = null;
@@ -81,6 +76,9 @@ public class FrontTrainEvaController extends BaseController {
 
             modelMap.put("rankNum", trainEvaTable.getRankNum());
             modelMap.put("ranks", trainEvaTable.getRanks());
+        }else {
+            List<TrainEvaNorm> norms = trainEvaTable.getNorms();
+            modelMap.put("topNorms", norms);
         }
 
         if (tempdata == null) {
