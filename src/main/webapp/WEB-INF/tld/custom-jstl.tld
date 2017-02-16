@@ -211,4 +211,10 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Integer evaIsClosed(java.lang.Integer)</function-signature>
 	</function>
+
+	<function>
+		<name>toHanStr</name>
+		<function-class>sys.utils.NumberUtils</function-class>
+		<function-signature>java.lang.String toHanStr(java.lang.Integer)</function-signature>
+	</function>
 </taglib>

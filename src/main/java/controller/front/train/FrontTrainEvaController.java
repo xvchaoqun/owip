@@ -56,6 +56,11 @@ public class FrontTrainEvaController extends BaseController {
         if (step != null && step > maxStep) step = maxStep;
         modelMap.put("maxStep", maxStep);
 
+        if(step>stepNum){
+            List<TrainEvaNorm> norms = trainEvaTable.getNorms();
+            modelMap.put("topNorms", norms);
+        }
+
         TrainInspectorCourse tic = trainInspectorCourseService.get(trainInspector.getId(), courseId);
         modelMap.put("tic", tic);
         TrainTempData tempdata = null;
@@ -68,15 +73,15 @@ public class FrontTrainEvaController extends BaseController {
         modelMap.put("tempdata", tempdata);
 
         //if (step == null || step <= stepNum) {
-            step = step == null ? 1 : step;
-            modelMap.put("step", step);
-            if(step <= stepNum) {
-                TrainEvaNorm norm = normList.get(step - 1);
-                modelMap.put("norm", norm); // 准备下一步要显示的指标
+        step = step == null ? 1 : step;
+        modelMap.put("step", step);
+        if (step <= stepNum) {
+            TrainEvaNorm norm = normList.get(step - 1);
+            modelMap.put("norm", norm); // 准备下一步要显示的指标
 
-                modelMap.put("rankNum", trainEvaTable.getRankNum());
-                modelMap.put("ranks", trainEvaTable.getRanks());
-            }
+            modelMap.put("rankNum", trainEvaTable.getRankNum());
+            modelMap.put("ranks", trainEvaTable.getRanks());
+        }
 
         if (tempdata == null) {
             tempdata = new TrainTempData();
@@ -84,36 +89,36 @@ public class FrontTrainEvaController extends BaseController {
         tempdata.setStepNum(stepNum);
         tempdata.setStopStep(step);
 
-                if (lastStep != null && lastStep > 0 && lastStep<=stepNum && lastRankId > 0) { // 更新暂存结果
+        if (lastStep != null && lastStep > 0 && lastStep <= stepNum && lastRankId > 0) { // 更新暂存结果
 
-                    TrainEvaNorm lastNorm = normList.get(lastStep - 1);
-                    Map<Integer, TrainEvaResult> trainEvaResultMap = tempdata.getTrainEvaResultMap();
-                    TrainEvaResult trainEvaResult = trainEvaResultMap.get(lastNorm.getId());
-                    if (trainEvaResult == null) trainEvaResult = new TrainEvaResult();
-                    trainEvaResult.setInspectorId(trainInspector.getId());
-                    trainEvaResult.setTrainId(trainId);
-                    trainEvaResult.setCourseId(courseId);
-                    trainEvaResult.setEvaTableId(trainEvaTable.getId());
-                    trainEvaResult.setNormId(lastNorm.getId());
-                    trainEvaResult.setRankId(lastRankId);
+            TrainEvaNorm lastNorm = normList.get(lastStep - 1);
+            Map<Integer, TrainEvaResult> trainEvaResultMap = tempdata.getTrainEvaResultMap();
+            TrainEvaResult trainEvaResult = trainEvaResultMap.get(lastNorm.getId());
+            if (trainEvaResult == null) trainEvaResult = new TrainEvaResult();
+            trainEvaResult.setInspectorId(trainInspector.getId());
+            trainEvaResult.setTrainId(trainId);
+            trainEvaResult.setCourseId(courseId);
+            trainEvaResult.setEvaTableId(trainEvaTable.getId());
+            trainEvaResult.setNormId(lastNorm.getId());
+            trainEvaResult.setRankId(lastRankId);
 
-                    trainEvaResultMap.put(lastNorm.getId(), trainEvaResult);
-                }
+            trainEvaResultMap.put(lastNorm.getId(), trainEvaResult);
+        }
 
-                String tempdataToString = trainInspectorCourseService.tempdataToString(tempdata);
-                TrainInspectorCourse record = new TrainInspectorCourse();
-                record.setInspectorId(trainInspector.getId());
-                record.setCourseId(courseId);
-                record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE);
-                record.setSubmitIp(ContextHelper.getRealIp());
-                record.setSubmitTime(new Date());
-                record.setTempdata(tempdataToString);
-                if (tic == null) {
-                    trainInspectorCourseMapper.insertSelective(record);
-                } else {
-                    record.setId(tic.getId());
-                    trainInspectorCourseMapper.updateByPrimaryKeySelective(record);
-                }
+        String tempdataToString = trainInspectorCourseService.tempdataToString(tempdata);
+        TrainInspectorCourse record = new TrainInspectorCourse();
+        record.setInspectorId(trainInspector.getId());
+        record.setCourseId(courseId);
+        record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE);
+        record.setSubmitIp(ContextHelper.getRealIp());
+        record.setSubmitTime(new Date());
+        record.setTempdata(tempdataToString);
+        if (tic == null) {
+            trainInspectorCourseMapper.insertSelective(record);
+        } else {
+            record.setId(tic.getId());
+            trainInspectorCourseMapper.updateByPrimaryKeySelective(record);
+        }
 
         /*}else{
             modelMap.put("step", step);

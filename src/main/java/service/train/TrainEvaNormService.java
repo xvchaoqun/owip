@@ -106,15 +106,20 @@ public class TrainEvaNormService extends BaseMapper {
         }
 
         Map<Integer, TrainEvaNorm> map = new LinkedHashMap<>();
+        int topIndex=0;
         for (TrainEvaNorm trainEvaNorm : trainEvaNormes) {
 
             TrainEvaNormExample example = new TrainEvaNormExample();
             example.createCriteria().andEvaTableIdEqualTo(evaTableId).andFidEqualTo(trainEvaNorm.getId());
             example.setOrderByClause("sort_order desc");
             List<TrainEvaNorm> subNorms = trainEvaNormMapper.selectByExample(example);
+            int subIndex = 0;
             for (TrainEvaNorm subNorm : subNorms) {
                 subNorm.setTopNorm(trainEvaNorm);
+                subNorm.setTopIndex(topIndex);
+                subNorm.setSubIndex(subIndex++);
             }
+            topIndex++;
             trainEvaNorm.setSubNorms(subNorms);
 
             map.put(trainEvaNorm.getId(), trainEvaNorm);

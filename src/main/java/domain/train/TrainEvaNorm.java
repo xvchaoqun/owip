@@ -11,6 +11,10 @@ public class TrainEvaNorm implements Serializable {
 
     @JsonIgnore
     private TrainEvaNorm topNorm;
+    @JsonIgnore
+    private int topIndex;
+    @JsonIgnore
+    private int subIndex;
 
     public List<TrainEvaNorm> getSubNorms() {
         return subNorms;
@@ -26,6 +30,22 @@ public class TrainEvaNorm implements Serializable {
 
     public void setTopNorm(TrainEvaNorm topNorm) {
         this.topNorm = topNorm;
+    }
+
+    public int getTopIndex() {
+        return topIndex;
+    }
+
+    public void setTopIndex(int topIndex) {
+        this.topIndex = topIndex;
+    }
+
+    public int getSubIndex() {
+        return subIndex;
+    }
+
+    public void setSubIndex(int subIndex) {
+        this.subIndex = subIndex;
     }
 
     public static long getSerialVersionUID() {
