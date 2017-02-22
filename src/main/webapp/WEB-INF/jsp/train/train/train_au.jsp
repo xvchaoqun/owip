@@ -20,7 +20,7 @@
             <label class="col-xs-3 control-label">简介</label>
 
             <div class="col-xs-6">
-                <textarea class="form-control" name="summary">${train.summary}</textarea>
+                <textarea class="form-control" name="summary" rows="8">${train.summary}</textarea>
             </div>
         </div>
         <div class="form-group">
