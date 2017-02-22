@@ -1,5 +1,97 @@
 
 
+-- 2017-2-22
+ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NOT NULL COMMENT '职务，关联元数据（书记、副书记、各类委员）' AFTER `user_id`,
+	ADD COLUMN `job` INT(10) UNSIGNED NOT NULL COMMENT '分工，关联元数据' AFTER `type_id`,
+	ADD COLUMN `assign_date` INT(10) UNSIGNED NOT NULL COMMENT '任职时间，具体到月' AFTER `job`,
+	ADD COLUMN `office_phone` VARCHAR(50) NOT NULL COMMENT '办公电话' AFTER `assign_date`,
+	ADD COLUMN `mobile` VARCHAR(11) NOT NULL COMMENT '手机号' AFTER `office_phone`;
+	ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `job` `job` INT(10) UNSIGNED NULL COMMENT '分工，关联元数据' AFTER `type_id`;
+
+ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `assign_date` `assign_date` INT(10) UNSIGNED NULL COMMENT '任职时间，具体到月' AFTER `job`,
+	CHANGE COLUMN `office_phone` `office_phone` VARCHAR(50) NULL COMMENT '办公电话' AFTER `assign_date`,
+	CHANGE COLUMN `mobile` `mobile` VARCHAR(11) NULL COMMENT '手机号' AFTER `office_phone`;
+
+update ow_party_member set assign_date=null;
+
+ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `assign_date` `assign_date` DATE NULL DEFAULT NULL COMMENT '任职时间，具体到月' AFTER `job`;
+
+ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NOT NULL COMMENT '职务，关联元数据（书记、副书记、委员）' AFTER `user_id`,
+	CHANGE COLUMN `job` `job` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '分工，关联元数据（组织委员、宣传委员、纪检委员、青年委员等）' AFTER `type_id`;
+
+	ALTER TABLE `ow_party_member`
+	COMMENT='分党委委员',
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NOT NULL COMMENT '分工，关联元数据（组织委员、宣传委员、纪检委员、青年委员等）' AFTER `user_id`,
+	CHANGE COLUMN `job` `post_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '职务，关联元数据（书记、副书记、委员）' AFTER `type_id`;
+
+update ow_party_member set type_id=null;
+update ow_party_member set type_id=300, post_id=151 where type_id=65;
+ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NULL COMMENT '分工，关联元数据（组织委员、宣传委员、纪检委员、青年委员等）' AFTER `user_id`;
+
+update ow_party_member set post_id = type_id , type_id=null where post_id is null;
+
+ALTER TABLE `ow_party_member` ADD CONSTRAINT `FK_ow_party_member_base_meta_type_2` FOREIGN KEY (`post_id`) REFERENCES `base_meta_type` (`id`);
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_party_member_view` AS select opm.*,
+`ui`.`msg_title` AS `msg_title`
+	,`ui`.`email` AS `email`
+	,`ui`.`realname` AS `realname`
+	,`ui`.`gender` AS `gender`
+	,`ui`.`nation` AS `nation`
+	,`ui`.`native_place` AS `native_place`
+	,`ui`.`idcard` AS `idcard`
+	,`ui`.`birth` AS `birth`
+	,`om`.`party_id` AS `party_id`
+	,`om`.`branch_id` AS `branch_id`
+	,`om`.`grow_time` AS `grow_time`
+	,`om`.`status` AS `member_status`
+	, opmg.party_id as group_party_id
+	, op.unit_id
+	,`t`.`post_class` AS `post_class`
+	,`t`.`sub_post_class` AS `sub_post_class`
+	,`t`.`main_post_level` AS `main_post_level`
+	,`t`.`pro_post_time` AS `pro_post_time`
+	,`t`.`pro_post_level` AS `pro_post_level`
+	,`t`.`pro_post_level_time` AS `pro_post_level_time`
+	,`t`.`pro_post` AS `pro_post`
+	,`t`.`manage_level` AS `manage_level`
+	,`t`.`manage_level_time` AS `manage_level_time`
+	,`t`.`arrive_time` AS `arrive_time`
+	, c.is_dp
+	,`c`.`dp_type_id` AS `dp_type_id`
+	,`c`.`dp_add_time` AS `dp_add_time`
+	 from  ow_party_member opm  join ow_party_member_group opmg on opmg.is_present=1 and opmg.is_deleted=0 and opm.group_id=opmg.id
+ left join sys_user_info ui on opm.user_id=ui.user_id
+ left join ow_member om on opm.user_id=om.user_id
+ left join ow_party op on opmg.party_id=op.id
+ left join sys_teacher_info t on opm.user_id=t.user_id
+ left join cadre c on opm.user_id=c.user_id ;
+
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ext_branch_view` AS SELECT ob.code as branch_code, ob.name as branch_name, op.name as party_name, u.code as dep_code, u.name as dep_name, count1.member_count, tmp.user_id, tmp.realname,tmp.code from ow_branch ob
+left join
+(select party_id, branch_id, count(om.user_id) as member_count from ow_member om where branch_id is not null group by party_id, branch_id) count1
+on count1.branch_id=ob.id  left join (
+select obm.user_id, obm.type_id, ob.id as branch_id, su.realname, su.code from
+ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
+ where obmg.is_present=1 and obm.group_id=obmg.id and obmg.branch_id=ob.id and bmt.code='mt_branch_secretary' and obm.type_id = bmt.id and obm.user_id=su.id) tmp on tmp.branch_id=ob.id,  ow_party op , unit u
+where ob.party_id=op.id and op.unit_id=u.id
+union all
+SELECT op.code as branch_code, op.name as branch_name, op.name as party_name, u.code as dep_code, u.name as dep_name, count2.member_count, tmp.user_id, tmp.realname,tmp.code from ow_party op left join (select om.party_id, count(om.user_id) as member_count from ow_member om where om.branch_id is null group by om.party_id) count2 on  count2.party_id=op.id
+ left join (
+ select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
+ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
+ where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary' and opm.post_id = bmt.id and opm.user_id=su.id
+ )tmp on tmp.party_id=op.id, unit u, base_meta_type bmt
+where op.unit_id=u.id and bmt.code='mt_direct_branch' and op.class_id = bmt.id;
+
+
 -- 2017-1-21
 RENAME TABLE `cadre_temp` TO `cadre_inspect`;
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_temp_view` AS SELECT `ci`.`id` AS `inspect_id`

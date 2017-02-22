@@ -9,22 +9,12 @@
                  data-url-au="${ctx}/partyMemberGroup_au"
                  data-url-page="${ctx}/partyMemberGroup_page"
                  data-url-export="${ctx}/partyMemberGroup_data"
-                 data-url-del="${ctx}/partyMemberGroup_del"
-                 data-url-bd="${ctx}/partyMemberGroup_batchDel"
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.partyId ||not empty param.name || not empty param.code || not empty param.sort}"/>
 
                 <div class="tabbable">
-                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li  class="<c:if test="${status==1}">active</c:if>">
-                            <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 领导班子</a>
-                        </li>
-                        <li  class="<c:if test="${status==-1}">active</c:if>">
-                            <a href="?status=-1"><i class="fa fa-trash"></i> 已删除领导班子</a>
-                        </li>
-                    </ul>
-
+                   <jsp:include page="menu.jsp"/>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
@@ -32,9 +22,6 @@
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm" >
                         <i class="fa fa-edit"></i> 修改信息</a>
 
-                    <button data-url="${ctx}/party_member" class="jqOpenViewBtn btn btn-warning btn-sm">
-                        <i class="fa fa-user"></i> 编辑委员
-                    </button>
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                     <c:if test="${status>=0}">
@@ -92,7 +79,7 @@
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
                                     <c:if test="${_query || not empty param.sort}">&nbsp;
-                                        <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                        <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="status=${status}">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>
@@ -116,14 +103,17 @@
     <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
-
     $("#jqGrid").jqGrid({
         url: '${ctx}/partyMemberGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '名称',  name: 'name', align:'left', width: 400,formatter:function(cellvalue, options, rowObject){
-                var str = '<span class="label label-sm label-primary arrowed-in arrowed-in-right" style="display: inline!important;"> 现任班子</span>&nbsp;';
+                var str = '<span class="label label-sm label-primary" style="display: inline!important;"> 现任班子</span>&nbsp;';
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             },frozen:true},
+            {label: '查看委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
+                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/partyMember_page?groupId={0}">查看委员</a>'
+                        .format(rowObject.id);
+            }},
             { label:'所属分党委', name: 'party', width: 280},
             { label: '应换届时间', name: 'tranTime', width: 130 },
             { label: '实际换届时间', name: 'actualTranTime', width: 130 },
@@ -131,14 +121,14 @@
             {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
                 return (rowObject.isPresent)?1:0;
             }}
-        ],
+        ]/*,
         rowattr: function(rowData, currentObj, rowId)
         {
             if(rowData.isPresent) {
                 //console.log(rowData)
                 return {'class':'success'}
             }
-        }
+        }*/
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
     })

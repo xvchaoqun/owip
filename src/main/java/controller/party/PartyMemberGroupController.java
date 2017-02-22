@@ -5,6 +5,7 @@ import domain.party.*;
 import domain.party.PartyMemberGroupExample.Criteria;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.PartyMemberGroupMixin;
@@ -63,6 +64,9 @@ public class PartyMemberGroupController extends BaseController {
     public String partyMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status, ModelMap modelMap) {
 
         modelMap.put("status", status);
+        if(status==2)
+            return "party/partyMemberGroup/partyMember";
+
         return "party/partyMemberGroup/partyMemberGroup_page";
     }
     @RequiresPermissions("partyMemberGroup:list")
@@ -311,7 +315,7 @@ public class PartyMemberGroupController extends BaseController {
     }
 
 
-    @RequiresPermissions("partyMember:list")
+    /*@RequiresPermissions("partyMember:list")
     @RequestMapping("/party_member")
     public String party_member(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -353,4 +357,20 @@ public class PartyMemberGroupController extends BaseController {
 
         return "party/partyMemberGroup/party_member";
     }
+
+    @RequiresPermissions("partyMember:list")
+    @RequestMapping("/party_member_form")
+    public String party_member_form(Integer partyMemberId, ModelMap modelMap) {
+
+
+        if (partyMemberId != null) {
+
+            PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(partyMemberId);
+            modelMap.put("partyMember", partyMember);
+            SysUserView uv = sysUserService.findById(partyMember.getUserId());
+            modelMap.put("uv", uv);
+        }
+
+        return "party/partyMemberGroup/party_member_form";
+    }*/
 }

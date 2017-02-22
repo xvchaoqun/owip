@@ -117,9 +117,12 @@ public class DispatchCadreController extends BaseController {
                                  /*@SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
                                    Integer year,
+                                   Integer startYear,
+                                   Integer endYear,
                                    Integer dispatchTypeId,
                                    Integer code,
                                     Integer dispatchId,
+                                    Byte type,
                                     /*Integer typeId,*/
                                     Integer wayId,
                                     Integer procedureId,
@@ -147,6 +150,12 @@ public class DispatchCadreController extends BaseController {
             criteria.andDispatchIdEqualTo(dispatchId);
         }
 
+        if (startYear!=null) {
+            criteria.andYearGreaterThanOrEqualTo(startYear);
+        }
+        if (endYear!=null) {
+            criteria.andYearLessThanOrEqualTo(endYear);
+        }
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
@@ -155,6 +164,9 @@ public class DispatchCadreController extends BaseController {
         }
         if (code!=null) {
             criteria.andCodeEqualTo(code);
+        }
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
         }
 
         /*if (typeId!=null) {

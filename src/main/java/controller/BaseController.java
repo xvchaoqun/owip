@@ -363,6 +363,7 @@ public class BaseController extends BaseMapper {
         map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
         map.put("partyUnitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
         map.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
+        map.put("partyMemberPostMap", metaTypeService.metaTypes("mc_party_member_post"));
         map.put("partyMemberTypeMap", metaTypeService.metaTypes("mc_party_member_type"));
         map.put("partyTypeMap", metaTypeService.metaTypes("mc_part_type"));
 
