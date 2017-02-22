@@ -31,6 +31,7 @@
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
     </div>
+<div class="footer-margin"/>
 <script>
     $("#jqGrid").setSelection('${param.id}', true);
 </script>
