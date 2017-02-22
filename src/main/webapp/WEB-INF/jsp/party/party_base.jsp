@@ -101,7 +101,11 @@ pageEncoding="UTF-8"%>
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>
-					<th>类别</th>
+					<th width="100">职务</th>
+					<th width="100">分工</th>
+					<th width="100">任职时间</th>
+					<th width="100">办公电话</th>
+					<th>手机号</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -110,9 +114,15 @@ pageEncoding="UTF-8"%>
 						<td ><c:if test="${partyMember.isAdmin}">
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
 						</c:if>${cm:getUserById(partyMember.userId).realname}</td>
-						<td >
+						<td class="bg-left">
+								${partyMemberPostMap.get(partyMember.postId).name}
+						</td>
+						<td class="bg-left">
 								${partyMemberTypeMap.get(partyMember.typeId).name}
 						</td>
+						<td class="bg-left">${cm:formatDate(partyMember.assignDate, "yyyy.MM")}</td>
+						<td class="bg-left">${partyMember.officePhone}</td>
+						<td class="bg-left">${partyMember.mobile}</td>
 					</tr>
 				</c:forEach>
 				</tbody>
