@@ -17,7 +17,7 @@ public class PartyMemberView implements Serializable {
 
     private Integer userId;
 
-    private Integer typeId;
+    private String typeIds;
 
     private Integer postId;
 
@@ -58,6 +58,8 @@ public class PartyMemberView implements Serializable {
     private Integer groupPartyId;
 
     private Integer unitId;
+
+    private Integer partySortOrder;
 
     private String postClass;
 
@@ -111,12 +113,12 @@ public class PartyMemberView implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public String getTypeIds() {
+        return typeIds;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setTypeIds(String typeIds) {
+        this.typeIds = typeIds == null ? null : typeIds.trim();
     }
 
     public Integer getPostId() {
@@ -277,6 +279,14 @@ public class PartyMemberView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
     }
 
     public String getPostClass() {

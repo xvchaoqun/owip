@@ -38,7 +38,9 @@ public class PartyMemberController extends BaseController {
 
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember_page")
-    public String partyMember_page(Integer groupId, Integer userId, ModelMap modelMap) {
+    public String partyMember_page(Integer groupId,
+                                   //@RequestParam(required = false, value = "typeIds")Integer[] typeIds,
+                                   Integer userId, ModelMap modelMap) {
 
         if(groupId!=null) {
             PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
@@ -48,6 +50,11 @@ public class PartyMemberController extends BaseController {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
+        /*if (typeIds!=null) {
+            List<Integer> _typeIds = Arrays.asList(typeIds);
+            modelMap.put("selectedTypeIds", _typeIds);
+        }*/
+
         return "party/partyMember/partyMember_page";
     }
 
@@ -56,7 +63,7 @@ public class PartyMemberController extends BaseController {
     public void partyMember_data(HttpServletResponse response,
                                     Integer groupId,
                                     Integer userId,
-                                    Integer typeId,
+                                 @RequestParam(required = false, value = "typeIds")Integer[] typeIds,
                                     Integer postId,
                                  Integer unitId,
                                  Integer partyId,
@@ -75,7 +82,7 @@ public class PartyMemberController extends BaseController {
 
         PartyMemberViewExample example = new PartyMemberViewExample();
         PartyMemberViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("group_id desc, sort_order desc");
+        example.setOrderByClause("party_sort_order desc, sort_order desc");
 
         if (groupId!=null) {
             criteria.andGroupIdEqualTo(groupId);
@@ -89,8 +96,9 @@ public class PartyMemberController extends BaseController {
         if (postId!=null) {
             criteria.andPostIdEqualTo(postId);
         }
-        if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if (typeIds!=null) {
+            List<Integer> selectedTypeIds = Arrays.asList(typeIds);
+            criteria.andTypeIdsIn(selectedTypeIds);
         }
         if (partyId!=null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -128,6 +136,7 @@ public class PartyMemberController extends BaseController {
     @RequestMapping(value = "/partyMember_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyMember_au(PartyMember record,
+                                 @RequestParam(required = false, value = "_typeIds")Integer[] _typeIds,
                                  String _assignDate,
                                  HttpServletRequest request) {
 
@@ -145,13 +154,17 @@ public class PartyMemberController extends BaseController {
                 autoAdmin = true;
             }
         }
-        if(record.getTypeId()!=null) {
-            Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_party_member_type");
-            MetaType type = typeMap.get(record.getTypeId());
-            Boolean boolAttr = type.getBoolAttr();
-            if (boolAttr != null && boolAttr) {
-                autoAdmin = true;
+        if(_typeIds!=null) {
+            for (Integer typeId : _typeIds) {
+                Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_party_member_type");
+                MetaType type = typeMap.get(typeId);
+                Boolean boolAttr = type.getBoolAttr();
+                if (boolAttr != null && boolAttr) {
+                    autoAdmin = true;
+                    break;
+                }
             }
+            record.setTypeIds(StringUtils.join(_typeIds, ","));
         }
 
         if (id == null) {
@@ -174,6 +187,10 @@ public class PartyMemberController extends BaseController {
         if (id != null) {
             PartyMember partyMember = partyMemberMapper.selectByPrimaryKey(id);
             modelMap.put("partyMember", partyMember);
+           /* if (partyMember.getTypeIds()!=null) {
+                List<Integer> _typeIds = Arrays.asList();
+                modelMap.put("selectedTypeIds", _typeIds);
+            }*/
             SysUserView uv = sysUserService.findById(partyMember.getUserId());
             modelMap.put("uv", uv);
             groupId = partyMember.getGroupId();

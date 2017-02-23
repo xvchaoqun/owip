@@ -61,19 +61,25 @@ public class PartyMemberGroupController extends BaseController {
 
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_page")
-    public String partyMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status, ModelMap modelMap) {
+    public String partyMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+                                        @RequestParam(required = false, value = "typeIds")Integer[] typeIds,
+                                        ModelMap modelMap) {
 
         modelMap.put("status", status);
-        if(status==2)
+        if(status==2){
+            if (typeIds!=null) {
+                List<Integer> _typeIds = Arrays.asList(typeIds);
+                modelMap.put("selectedTypeIds", _typeIds);
+            }
             return "party/partyMemberGroup/partyMember";
+        }
 
         return "party/partyMemberGroup/partyMemberGroup_page";
     }
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_data")
     public void partyMemberGroup_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_party_member_group") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
+
                                       @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String name,
                                     Integer partyId,
@@ -89,9 +95,9 @@ public class PartyMemberGroupController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PartyMemberGroupExample example = new PartyMemberGroupExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        PartyMemberGroupViewExample example = new PartyMemberGroupViewExample();
+        PartyMemberGroupViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("party_sort_order desc");
 
         criteria.andIsDeletedEqualTo(status==-1);
 
@@ -109,12 +115,12 @@ public class PartyMemberGroupController extends BaseController {
             return;
         }
 
-        int count = partyMemberGroupMapper.countByExample(example);
+        int count = partyMemberGroupViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartyMemberGroup> PartyMemberGroups = partyMemberGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PartyMemberGroupView> PartyMemberGroups = partyMemberGroupViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -242,14 +248,14 @@ public class PartyMemberGroupController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void partyMemberGroup_export(PartyMemberGroupExample example, HttpServletResponse response) {
+    public void partyMemberGroup_export(PartyMemberGroupViewExample example, HttpServletResponse response) {
 
-        List<PartyMemberGroup> records = partyMemberGroupMapper.selectByExample(example);
+        List<PartyMemberGroupView> records = partyMemberGroupViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"名称","所属分党委", "是否现任班子","应换届时间","实际换届时间","任命时间","发文"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            PartyMemberGroup record = records.get(i);
+            PartyMemberGroupView record = records.get(i);
             DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
             Dispatch dispatch = dispatchUnit.getDispatch();
             Integer partyId = record.getPartyId();

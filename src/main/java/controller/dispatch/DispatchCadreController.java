@@ -86,6 +86,9 @@ public class DispatchCadreController extends BaseController {
     public String dispatchCadre_page(@RequestParam(defaultValue = "1") Integer cls,
                                      Integer dispatchId,
                                      Integer dispatchTypeId,
+                                     @RequestParam(required = false, value = "wayId")Integer[] wayId,
+                                     @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
+                                     @RequestParam(required = false, value = "adminLevelId")Integer[] adminLevelId,
                                     Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -107,6 +110,18 @@ public class DispatchCadreController extends BaseController {
                 modelMap.put("sysUser", sysUser);
             }
         }
+        if (wayId!=null) {
+            List<Integer> selectedWayIds = Arrays.asList(wayId);
+            modelMap.put("selectedWayIds", selectedWayIds);
+        }
+        if (procedureId!=null) {
+            List<Integer> selectedProcedureIds = Arrays.asList(procedureId);
+            modelMap.put("selectedProcedureIds", selectedProcedureIds);
+        }
+        if (adminLevelId!=null) {
+            List<Integer> selectedAdminLevelIds = Arrays.asList(adminLevelId);
+            modelMap.put("selectedAdminLevelIds", selectedAdminLevelIds);
+        }
 
         return "dispatch/dispatchCadre/dispatchCadre_page";
     }
@@ -124,11 +139,11 @@ public class DispatchCadreController extends BaseController {
                                     Integer dispatchId,
                                     Byte type,
                                     /*Integer typeId,*/
-                                    Integer wayId,
-                                    Integer procedureId,
+                                   @RequestParam(required = false, value = "wayId")Integer[] wayId,
+                                   @RequestParam(required = false, value = "procedureId")Integer[] procedureId,
+                                   @RequestParam(required = false, value = "adminLevelId")Integer[] adminLevelId,
                                     Integer cadreId,
                                     /*String name,*/
-                                    Integer adminLevelId,
                                     Integer unitId,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -173,10 +188,12 @@ public class DispatchCadreController extends BaseController {
             criteria.andTypeIdEqualTo(typeId);
         }*/
         if (wayId!=null) {
-            criteria.andWayIdEqualTo(wayId);
+            List<Integer> selects = Arrays.asList(wayId);
+            criteria.andWayIdIn(selects);
         }
         if (procedureId!=null) {
-            criteria.andProcedureIdEqualTo(procedureId);
+            List<Integer> selects = Arrays.asList(procedureId);
+            criteria.andProcedureIdIn(selects);
         }
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -185,7 +202,8 @@ public class DispatchCadreController extends BaseController {
             criteria.andNameLike("%" + name + "%");
         }*/
         if (adminLevelId!=null) {
-            criteria.andAdminLevelIdEqualTo(adminLevelId);
+            List<Integer> selects = Arrays.asList(adminLevelId);
+            criteria.andAdminLevelIdIn(selects);
         }
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);

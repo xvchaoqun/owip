@@ -1,4 +1,47 @@
 
+-- 2017-2-23
+ALTER TABLE `ow_party_member`
+	CHANGE COLUMN `type_id` `type_ids` VARCHAR(100) NULL DEFAULT NULL COMMENT '分工，关联元数据（组织委员、宣传委员、纪检委员、青年委员等）' AFTER `user_id`,
+	DROP INDEX `FK_ow_party_member_base_meta_type`,
+	DROP FOREIGN KEY `FK_ow_party_member_base_meta_type`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_party_member_view` AS select opm.*,
+`ui`.`msg_title` AS `msg_title`
+	,`ui`.`email` AS `email`
+	,`ui`.`realname` AS `realname`
+	,`ui`.`gender` AS `gender`
+	,`ui`.`nation` AS `nation`
+	,`ui`.`native_place` AS `native_place`
+	,`ui`.`idcard` AS `idcard`
+	,`ui`.`birth` AS `birth`
+	,`om`.`party_id` AS `party_id`
+	,`om`.`branch_id` AS `branch_id`
+	,`om`.`grow_time` AS `grow_time`
+	,`om`.`status` AS `member_status`
+	, opmg.party_id as group_party_id
+	, op.unit_id
+	, op.sort_order as party_sort_order
+	,`t`.`post_class` AS `post_class`
+	,`t`.`sub_post_class` AS `sub_post_class`
+	,`t`.`main_post_level` AS `main_post_level`
+	,`t`.`pro_post_time` AS `pro_post_time`
+	,`t`.`pro_post_level` AS `pro_post_level`
+	,`t`.`pro_post_level_time` AS `pro_post_level_time`
+	,`t`.`pro_post` AS `pro_post`
+	,`t`.`manage_level` AS `manage_level`
+	,`t`.`manage_level_time` AS `manage_level_time`
+	,`t`.`arrive_time` AS `arrive_time`
+	, c.is_dp
+	,`c`.`dp_type_id` AS `dp_type_id`
+	,`c`.`dp_add_time` AS `dp_add_time`
+	 from  ow_party_member opm  join ow_party_member_group opmg on opmg.is_present=1 and opmg.is_deleted=0 and opm.group_id=opmg.id
+ left join sys_user_info ui on opm.user_id=ui.user_id
+ left join ow_member om on opm.user_id=om.user_id
+ left join ow_party op on opmg.party_id=op.id
+ left join sys_teacher_info t on opm.user_id=t.user_id
+ left join cadre c on opm.user_id=c.user_id ;
+
+CREATE ALGORITHM = UNDEFINED VIEW `ow_party_member_group_view` AS select opmg.*, op.sort_order as party_sort_order from ow_party_member_group opmg, ow_party op where opmg.party_id=op.id ;
 
 -- 2017-2-22
 ALTER TABLE `ow_party_member`

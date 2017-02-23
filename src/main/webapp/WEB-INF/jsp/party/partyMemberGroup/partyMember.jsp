@@ -9,7 +9,7 @@
              data-url-export="${ctx}/partyMember_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
-                ||not empty param.postId || not empty param.typeId}"/>
+                ||not empty param.postId || not empty param.typeIds}"/>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
 
@@ -76,13 +76,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>分工</label>
-                                    <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
-                                        <option></option>
+                                    <select name="typeIds" class="multiselect" multiple="" data-placeholder="请选择"> 
                                           <c:forEach items="${partyMemberTypeMap}" var="type"> 
                                             <option value="${type.key}">${type.value.name}</option>
                                               </c:forEach>  </select> 
-                                    <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
-                                     
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -106,7 +103,10 @@
         <div id="item-content"></div>
     </div>
 </div>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
+    register_multiselect($('#searchForm select[name=typeIds]'), ${cm:toJSONArray(selectedTypeIds)});
     register_user_select($('#searchForm select[name=userId]'));
     function _adminCallback(){
         $("#modal").modal("hide")
@@ -144,9 +144,18 @@
             }
             },
             {
-                label: '分工', name: 'typeId', width: 150, formatter: function (cellvalue, options, rowObject) {
+                label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return _cMap.partyMemberTypeMap[cellvalue].name;
+                var typeIdStrs = [];
+                var typeIds = cellvalue.split(",");
+                for(i in typeIds){
+                    var typeId = typeIds[i];
+                    //console.log(typeId)
+                    if(typeId instanceof Function == false)
+                        typeIdStrs.push(_cMap.partyMemberTypeMap[typeId].name);
+                }
+                //console.log(typeIdStrs)
+                return typeIdStrs.join(",");
             }
             },
             {label: '任职时间', name: 'assignDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},

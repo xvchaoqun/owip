@@ -32,13 +32,11 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">分工</label>
     <div class="col-xs-6">
-      <select  data-rel="select2" name="typeId" data-placeholder="请选择"  data-width="260">
-        <option></option>
-        <jsp:include page="/metaTypes?__code=mc_party_member_type"/>
-      </select>
-      <script>
-        $("#modal select[name=typeId]").val('${partyMember.typeId}');
-      </script>
+      <select name="_typeIds" class="multiselect" multiple="" data-placeholder="请选择"> 
+          <c:forEach items="${partyMemberTypeMap}" var="type"> 
+          <option value="${type.key}">${type.value.name}</option>
+            </c:forEach> 
+      </select> 
     </div>
   </div>
   <div class="form-group">
@@ -72,8 +70,9 @@
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="<c:if test="${partyMember!=null}">确定</c:if><c:if test="${partyMember==null}">添加</c:if>"/>
 </div>
+
 <script>
-  $("#modal :checkbox").bootstrapSwitch();
+  register_multiselect($('#modal select[name=_typeIds]'), [${partyMember.typeIds}]);
   register_date($('.date-picker'));
   $("#modal form").validate({
     submitHandler: function (form) {

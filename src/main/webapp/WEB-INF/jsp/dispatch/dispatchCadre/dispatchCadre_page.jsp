@@ -87,39 +87,27 @@
                                         </div>
                                         <div class="form-group">
                                             <label>任免方式</label>
-                                                <select data-rel="select2" name="wayId" data-placeholder="请选择">
-                                                    <option></option>
+                                                <select class="multiselect" multiple="" name="wayId" data-placeholder="请选择">
                                                     <c:forEach var="way" items="${wayMap}">
                                                         <option value="${way.value.id}">${way.value.name}</option>
                                                     </c:forEach>
                                                 </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=wayId]").val('${param.wayId}');
-                                                </script>
                                         </div>
                                         <div class="form-group">
                                             <label>任免程序</label>
-                                                <select data-rel="select2" name="procedureId" data-placeholder="请选择">
-                                                    <option></option>
+                                                <select class="multiselect" multiple="" name="procedureId" data-placeholder="请选择">
                                                     <c:forEach var="procedure" items="${procedureMap}">
                                                         <option value="${procedure.value.id}">${procedure.value.name}</option>
                                                     </c:forEach>
                                                 </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=procedureId]").val('${param.procedureId}');
-                                                </script>
                                         </div>
                                         <div class="form-group">
                                             <label>行政级别</label>
-                                                <select data-rel="select2" name="adminLevelId" data-placeholder="请选择">
-                                                    <option></option>
+                                                <select class="multiselect" multiple="" name="adminLevelId" data-placeholder="请选择">
                                                     <c:forEach var="adminLevel" items="${adminLevelMap}">
                                                         <option value="${adminLevel.value.id}">${adminLevel.value.name}</option>
                                                     </c:forEach>
                                                 </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=adminLevelId]").val('${param.adminLevelId}');
-                                                </script>
                                         </div>
                                         <div class="form-group">
                                             <label>所属单位</label>
@@ -157,6 +145,9 @@
         <div id="item-content"> </div>
     </div>
 </div>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
+
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <link rel="stylesheet" href="${ctx}/extend/css/jquery.webui-popover.min.css" type="text/css" />
 <script src="${ctx}/extend/js/jquery.webui-popover.min.js"></script>
@@ -166,6 +157,10 @@
     <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-trash"></i> 取消</a>
 </script>
 <script>
+    register_multiselect($('#searchForm select[name=wayId]'), ${cm:toJSONArray(selectedWayIds)});
+    register_multiselect($('#searchForm select[name=procedureId]'), ${cm:toJSONArray(selectedProcedureIds)});
+    register_multiselect($('#searchForm select[name=adminLevelId]'), ${cm:toJSONArray(selectedAdminLevelIds)});
+
     register_date($('.date-picker'));
     register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 

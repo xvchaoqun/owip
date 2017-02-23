@@ -89,6 +89,7 @@ public class PartyMemberGroupService extends BaseMapper {
             clearPresentGroup(record.getPartyId());
         }
         record.setIsDeleted(false);
+        // 排序还未用
         record.setSortOrder(getNextSortOrder("ow_party_member_group", "1=1"));
         return partyMemberGroupMapper.insertSelective(record);
     }

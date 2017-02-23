@@ -5,7 +5,7 @@
     <result column="id" property="id" jdbcType="INTEGER" />
     <result column="group_id" property="groupId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_ids" property="typeIds" jdbcType="VARCHAR" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="assign_date" property="assignDate" jdbcType="DATE" />
     <result column="office_phone" property="officePhone" jdbcType="VARCHAR" />
@@ -26,6 +26,7 @@
     <result column="member_status" property="memberStatus" jdbcType="TINYINT" />
     <result column="group_party_id" property="groupPartyId" jdbcType="INTEGER" />
     <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+    <result column="party_sort_order" property="partySortOrder" jdbcType="INTEGER" />
     <result column="post_class" property="postClass" jdbcType="VARCHAR" />
     <result column="sub_post_class" property="subPostClass" jdbcType="VARCHAR" />
     <result column="main_post_level" property="mainPostLevel" jdbcType="VARCHAR" />
@@ -70,10 +71,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, group_id, user_id, type_id, post_id, assign_date, office_phone, mobile, is_admin, 
+    id, group_id, user_id, type_ids, post_id, assign_date, office_phone, mobile, is_admin, 
     sort_order, msg_title, email, realname, gender, nation, native_place, idcard, birth, 
-    party_id, branch_id, grow_time, member_status, group_party_id, unit_id, post_class, 
-    sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 
+    party_id, branch_id, grow_time, member_status, group_party_id, unit_id, party_sort_order, 
+    post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 
     pro_post, manage_level, manage_level_time, arrive_time, is_dp, dp_type_id, dp_add_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.PartyMemberViewExample" >

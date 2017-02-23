@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="group_id" property="groupId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_ids" property="typeIds" jdbcType="VARCHAR" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="assign_date" property="assignDate" jdbcType="DATE" />
     <result column="office_phone" property="officePhone" jdbcType="VARCHAR" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, group_id, user_id, type_id, post_id, assign_date, office_phone, mobile, is_admin, 
+    id, group_id, user_id, type_ids, post_id, assign_date, office_phone, mobile, is_admin, 
     sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.PartyMemberExample" >
@@ -107,11 +107,11 @@
   </delete>
   <insert id="insert" keyProperty="id" parameterType="domain.party.PartyMember" >
     insert into ow_party_member (id, group_id, user_id, 
-      type_id, post_id, assign_date, 
+      type_ids, post_id, assign_date, 
       office_phone, mobile, is_admin, 
       sort_order)
     values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{typeId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, 
+      #{typeIds,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{assignDate,jdbcType=DATE}, 
       #{officePhone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{isAdmin,jdbcType=BIT}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
@@ -127,8 +127,8 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="typeId != null" >
-        type_id,
+      <if test="typeIds != null" >
+        type_ids,
       </if>
       <if test="postId != null" >
         post_id,
@@ -159,8 +159,8 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null" >
-        #{typeId,jdbcType=INTEGER},
+      <if test="typeIds != null" >
+        #{typeIds,jdbcType=VARCHAR},
       </if>
       <if test="postId != null" >
         #{postId,jdbcType=INTEGER},
@@ -200,8 +200,8 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null" >
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.typeIds != null" >
+        type_ids = #{record.typeIds,jdbcType=VARCHAR},
       </if>
       <if test="record.postId != null" >
         post_id = #{record.postId,jdbcType=INTEGER},
@@ -231,7 +231,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       group_id = #{record.groupId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
+      type_ids = #{record.typeIds,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
       assign_date = #{record.assignDate,jdbcType=DATE},
       office_phone = #{record.officePhone,jdbcType=VARCHAR},
@@ -251,8 +251,8 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null" >
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="typeIds != null" >
+        type_ids = #{typeIds,jdbcType=VARCHAR},
       </if>
       <if test="postId != null" >
         post_id = #{postId,jdbcType=INTEGER},
@@ -279,7 +279,7 @@
     update ow_party_member
     set group_id = #{groupId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
+      type_ids = #{typeIds,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},
       assign_date = #{assignDate,jdbcType=DATE},
       office_phone = #{officePhone,jdbcType=VARCHAR},

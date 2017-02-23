@@ -10,7 +10,7 @@ public class PartyMember implements Serializable {
 
     private Integer userId;
 
-    private Integer typeId;
+    private String typeIds;
 
     private Integer postId;
 
@@ -50,12 +50,12 @@ public class PartyMember implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public String getTypeIds() {
+        return typeIds;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setTypeIds(String typeIds) {
+        this.typeIds = typeIds == null ? null : typeIds.trim();
     }
 
     public Integer getPostId() {

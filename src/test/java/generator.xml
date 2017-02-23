@@ -159,8 +159,12 @@
     </table>
       <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
       </table>-->
-       <!--<table tableName="ow_party_member" domainObjectName="party.PartyMember">
-      </table>-->
+      <table tableName="ow_party_member_group_view" domainObjectName="party.PartyMemberGroupView"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false"></table>
+       <table tableName="ow_party_member" domainObjectName="party.PartyMember">
+      </table>
       <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

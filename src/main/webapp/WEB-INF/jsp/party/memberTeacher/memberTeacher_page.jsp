@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -124,7 +122,7 @@
                                             <div class="form-group">
                                                 <label>民族</label>
                                                 <div class="input-group">
-                                                    <select class="multiselect" name="nation" multiple="">
+                                                    <select class="multiselect" multiple="" name="nation">
                                                         <c:forEach items="${teacherNations}" var="nation">
                                                             <option value="${nation}">${nation}</option>
                                                         </c:forEach>
@@ -268,6 +266,8 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
     $('#searchForm [data-rel="select2"]').select2();
 

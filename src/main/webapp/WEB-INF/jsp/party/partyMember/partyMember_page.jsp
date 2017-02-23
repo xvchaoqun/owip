@@ -56,6 +56,8 @@
        title="修改操作步长">
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
     function _adminCallback(){
         $("#modal").modal("hide")
@@ -102,9 +104,18 @@
             }
             },
             {
-                label: '分工', name: 'typeId', width: 150, formatter: function (cellvalue, options, rowObject) {
+                label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return _cMap.partyMemberTypeMap[cellvalue].name;
+                var typeIdStrs = [];
+                var typeIds = cellvalue.split(",");
+                for(i in typeIds){
+                    var typeId = typeIds[i];
+                    //console.log(typeId)
+                    if(typeId instanceof Function == false)
+                        typeIdStrs.push(_cMap.partyMemberTypeMap[typeId].name);
+                }
+                //console.log(typeIdStrs)
+                return typeIdStrs.join(",");
             }
             },
             {label: '任职时间', name: 'assignDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},

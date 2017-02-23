@@ -22,6 +22,7 @@ import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.PropertiesUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +99,7 @@ public class PartyMemberService extends BaseMapper {
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 400));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
 
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 分工
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200)); // 分工
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 50));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
@@ -148,6 +149,14 @@ public class PartyMemberService extends BaseMapper {
                 }
             }
 
+            List<String> typeNames = new ArrayList();
+            String[] _typeIds = StringUtils.split(record.getTypeIds(), ",");
+            if(_typeIds!=null && _typeIds.length>0){
+                for (String typeId : _typeIds) {
+                    MetaType metaType = metaTypeMap.get(Integer.valueOf(typeId));
+                    if(metaType!=null) typeNames.add(metaType.getName());
+                }
+            }
             Unit unit = unitMap.get(record.getUnitId());
             String[] values = {
                     sysUser.getCode(),
@@ -156,7 +165,7 @@ public class PartyMemberService extends BaseMapper {
                     partyMap.get(record.getGroupPartyId()).getName(),
                     metaTypeService.getName(record.getPostId()),
 
-                    metaTypeService.getName(record.getTypeId()),
+                    StringUtils.join(typeNames, ","),
                     DateUtils.formatDate(record.getAssignDate(), "yyyy.MM"),
                     record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
                     record.getNation(),
@@ -231,7 +240,7 @@ public class PartyMemberService extends BaseMapper {
             // 每个委员会只有一个书记
             PartyMemberExample example = new PartyMemberExample();
             PartyMemberExample.Criteria criteria = example.createCriteria()
-                    .andGroupIdEqualTo(groupId).andTypeIdEqualTo(postId);
+                    .andGroupIdEqualTo(groupId).andPostIdEqualTo(postId);
             if (id != null) criteria.andIdNotEqualTo(id);
 
             if (partyMemberMapper.countByExample(example) > 0) return true;

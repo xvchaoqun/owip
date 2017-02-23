@@ -199,6 +199,8 @@ public class BaseMapper {
 	@Autowired
 	protected PartyMemberGroupMapper partyMemberGroupMapper;
 	@Autowired
+	protected PartyMemberGroupViewMapper partyMemberGroupViewMapper;
+	@Autowired
 	protected BranchMapper branchMapper;
 	@Autowired
 	protected BranchViewMapper branchViewMapper;
