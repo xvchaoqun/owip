@@ -149,7 +149,7 @@
                 return _cMap.partyMemberTypeMap[cellvalue].name;
             }
             },
-            {label: '任职时间', name: 'assginDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '任职时间', name: 'assignDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {
                 label: '性别', name: 'gender', width: 50, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
