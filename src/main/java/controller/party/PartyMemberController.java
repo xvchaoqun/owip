@@ -8,9 +8,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -126,7 +124,6 @@ public class PartyMemberController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -170,7 +167,6 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping("/partyMember_au")
     public String partyMember_au(Integer groupId, Integer id, ModelMap modelMap) {
@@ -188,7 +184,6 @@ public class PartyMemberController extends BaseController {
         return "party/partyMember/partyMember_au";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyMember_admin", method = RequestMethod.POST)
     @ResponseBody
@@ -209,7 +204,6 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:edit")
     @RequestMapping(value = "/partyAdmin_del", method = RequestMethod.POST)
     @ResponseBody
@@ -220,7 +214,6 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -234,7 +227,6 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:del")
     @RequestMapping(value = "/partyMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -249,7 +241,6 @@ public class PartyMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("partyMember:changeOrder")
     @RequestMapping(value = "/partyMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
