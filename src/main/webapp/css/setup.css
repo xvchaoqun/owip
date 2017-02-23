@@ -853,8 +853,8 @@ input[type=radio].bigger {
     display: none;
     position: fixed;
     padding-right: 0px !important;
-    width: 510px;
-    height: 818px;
+    width: 675px;
+    height: 660px;
     background-color: #fff;
     z-index: 9999;
     left: 50%;

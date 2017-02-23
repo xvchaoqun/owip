@@ -59,10 +59,11 @@
     </div>
 </div>
 <style>
-    .ace-file-multiple .ace-file-container{
+    /*.ace-file-multiple .ace-file-container{
         height: 840px;
-    }
+    }*/
     .ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
+        margin-top: -80px;
         line-height: 380px;
     }
     .ace-file-multiple .ace-file-container:before{
@@ -107,8 +108,8 @@
     function opencam(){
 
         Webcam.set({
-            width: 480,
-            height: 640,
+            width: 640,
+            height: 480,
             //force_flash: true,
             //flip_horiz:true,
             image_format: 'jpeg',
@@ -147,8 +148,8 @@
         no_icon:'ace-icon fa fa-picture-o',
         thumbnail:'large',
         droppable:true,
-        previewWidth: 560,
-        previewHeight: 840,
+        previewWidth: 840,
+        previewHeight: 560,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
         before_change:function(){

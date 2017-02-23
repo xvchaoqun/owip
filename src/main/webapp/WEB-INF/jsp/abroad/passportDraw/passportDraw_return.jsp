@@ -11,6 +11,57 @@
     <h3>归还证件</h3>
 </div>
 <div class="modal-body">
+    <c:if test="${not empty applySelf}">
+    <div class="widget-box transparent">
+        <div class="widget-header widget-header-flat">
+            <h4 class="widget-title lighter">
+                <i class="ace-icon fa fa-plane green"></i>
+                因私出国（境）行程
+            </h4>
+            <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body" style="display: block;">
+            <div class="widget-main no-padding">
+                <table class="table table-actived table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>申请日期</th>
+                        <th>出行时间</th>
+                        <th>出发时间</th>
+                        <th>返回时间</th>
+                        <th>出行天数</th>
+                        <th>前往国家或地区</th>
+                        <th>事由</th>
+                        <th>审批情况</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
+                    <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
+                    <tr>
+                        <td>S${applySelf.id}</td>
+                        <td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
+                        <td>${APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
+                        <td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
+                        <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
+                        <td>${cm:getDayCountBetweenDate(applySelf.startDate,applySelf.endDate)}</td>
+                        <td>${applySelf.toCountry}</td>
+                        <td>${fn:replace(applySelf.reason, '+++', ',')}</td>
+                        <td>
+                            ${applySelf.isFinish?(cm:getMapValue(0, applySelf.approvalTdBeanMap).tdType==6?"通过":"未通过"):"未完成审批"}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!-- /.widget-main -->
+        </div><!-- /.widget-body -->
+    </div>
+    </c:if>
     <div class="widget-box transparent">
         <div class="widget-header widget-header-flat">
             <h4 class="widget-title lighter">
@@ -178,15 +229,17 @@
         <a href="javascript:" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
     </div>
 </div>
+<div class="footer-margin"/>
 <style>
-    .ace-file-multiple .ace-file-container{
-        height: 420px;
-    }
+    /*.ace-file-multiple .ace-file-container{
+        height: 350px;
+    }*/
     .tags{
         width: 300px;
     }
     .ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
-        line-height: 160px;
+        line-height: 260px;
+        margin-top: -50px;
     }
     .ace-file-multiple .ace-file-container:before{
         line-height: 120px;
@@ -232,8 +285,8 @@
     function opencam(){
 
         Webcam.set({
-            width: 480,
-            height: 640,
+            width: 640,
+            height: 480,
             //force_flash: true,
             //flip_horiz:true,
             image_format: 'jpeg',
@@ -267,8 +320,8 @@
         no_icon:'ace-icon fa fa-picture-o',
         thumbnail:'large',
         droppable:true,
-        previewWidth: 280,
-        previewHeight: 420,
+        previewWidth: 420,
+        previewHeight: 280,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
         before_change:function(){

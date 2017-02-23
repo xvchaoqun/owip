@@ -195,7 +195,9 @@
             },
             {label: '所在单位及职务', name: 'cadre.title', width: 250},
             {label: '申请领取证件名称', align: 'center', name: 'passportClass.name', width: 180},
-            {label: '证号号码', align: 'center', name: 'passport.code'},
+            {label: '证号号码', align: 'center', name: 'passport.code', title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                return 'data-tooltip="tooltip" data-container="body" data-html="true" data-original-title="所在保险柜：' + rawObject.passport.safeBox.code + '<br> (过期时间：' + rawObject.passport.expiryDate.substr(0,10) + ')"';
+            }},
             <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
             {
                 label: '因私出国（境）行程',
@@ -205,8 +207,11 @@
                 formatter: function (cellvalue, options, rowObject) {
                     return '<a class="openView" href="javascript:;" ' +
                             'data-url="${ctx}/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
-                }
-            },
+                }, title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                return 'data-tooltip="tooltip" data-container="body" data-html="true" data-original-title="出行时间：'
+                        + rawObject.applySelf.startDate + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
+                        + '<br> 出国境事由：'+ rawObject.applySelf.reason.replace(/\+\+\+/g, ',') +'"';
+            }},
             </c:if>
             <c:if test="${type==PASSPORT_DRAW_TYPE_TW || type==PASSPORT_DRAW_TYPE_OTHER}">
             {label: '${type==PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100},
@@ -405,7 +410,11 @@
             $("#resetDrawStatusBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}'));
             $("#delBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}'));
         }
-    }).jqGrid("setFrozenColumns");
+    }).jqGrid("setFrozenColumns").on("initGrid", function () {
+        $('[data-tooltip="tooltip"]').tooltip({html:true});
+    });
+
+
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
 

@@ -273,7 +273,7 @@ public class PassportDrawController extends BaseController {
 
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping("/passportDraw_return")
-    public String passportDraw_return(Integer id, ModelMap modelMap) {
+    public String passportDraw_return(Integer id, HttpServletRequest request, ModelMap modelMap) {
 
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
         modelMap.put("passportDraw", passportDraw);
@@ -282,6 +282,7 @@ public class PassportDrawController extends BaseController {
 
         if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
 
+            request.setAttribute("isView", true);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
             modelMap.put("applySelf", applySelf);
         }
