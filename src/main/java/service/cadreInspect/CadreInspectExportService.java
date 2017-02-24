@@ -1,11 +1,11 @@
-package service.cadre;
+package service.cadreInspect;
 
 import bean.DispatchCadreRelateBean;
 import domain.base.MetaType;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
+import domain.cadreInspect.CadreInspectView;
+import domain.cadreInspect.CadreInspectViewExample;
 import domain.dispatch.Dispatch;
 import domain.party.Branch;
 import domain.party.Party;
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.cadre.CadrePostService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.unit.UnitService;
@@ -33,11 +34,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by fafa on 2017/1/19.
- */
 @Service
-public class CadreExportService extends BaseMapper {
+public class CadreInspectExportService extends BaseMapper {
 
     @Autowired
     protected MetaTypeService metaTypeService;
@@ -50,15 +48,14 @@ public class CadreExportService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
 
-    public SXSSFWorkbook export(Byte status, CadreViewExample example) {
+    public SXSSFWorkbook export(CadreInspectViewExample example) {
 
-        String cadreType = SystemConstants.CADRE_STATUS_MAP.get(status);
 
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
-        List<CadreView> records = cadreViewMapper.selectByExample(example);
+        List<CadreInspectView> records = cadreInspectViewMapper.selectByExample(example);
 
         int rowNum = 0;
         SXSSFWorkbook wb = new SXSSFWorkbook();
@@ -80,7 +77,7 @@ public class CadreExportService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + cadreType +"一览表");
+            headerCell.setCellValue(PropertiesUtils.getString("site.school") +"考察对象一览表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }
@@ -172,7 +169,7 @@ public class CadreExportService extends BaseMapper {
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 500));
 
         for (int i = 0; i < count; i++) {
-            CadreView record = records.get(i);
+            CadreInspectView record = records.get(i);
             SysUserView sysUser =  record.getUser();
 
             String isPositive = ""; // 是否正职

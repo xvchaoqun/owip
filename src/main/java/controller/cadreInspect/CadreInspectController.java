@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,13 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -219,7 +221,24 @@ public class CadreInspectController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreInspect_export(CadreInspectViewExample example, HttpServletResponse response) {
+    private void cadreInspect_export(CadreInspectViewExample example, HttpServletResponse response) {
+
+        SXSSFWorkbook wb = cadreInspectExportService.export(example);
+
+        String fileName = PropertiesUtils.getString("site.school") + "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+            fileName = new String(fileName.getBytes(), "ISO8859_1");
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+            wb.write(outputStream);
+            outputStream.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /*public void cadreInspect_export(CadreInspectViewExample example, HttpServletResponse response) {
 
         List<CadreInspectView> records = cadreInspectViewMapper.selectByExample(example);
         int rownum = records.size();
@@ -246,7 +265,7 @@ public class CadreInspectController extends BaseController {
 
         String fileName = "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
+    }*/
 
     @RequiresPermissions("cadreInspect:import")
     @RequestMapping("/cadreInspect_import")

@@ -13,7 +13,9 @@ import service.analysis.StatCadreService;
 import service.analysis.StatService;
 import service.base.*;
 import service.cadre.*;
+import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
+import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
 import service.cis.*;
 import service.dispatch.*;
@@ -189,7 +191,11 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CadreInspectService cadreInspectService;
     @Autowired
+    protected CadreInspectExportService cadreInspectExportService;
+    @Autowired
     protected CadreReserveService cadreReserveService;
+    @Autowired
+    protected CadreReserveExportService cadreReserveExportService;
     @Autowired
     protected CadreAdditionalPostService cadreAdditionalPostService;
 

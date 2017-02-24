@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,13 +32,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.utils.ExportHelper;
+import sys.utils.*;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,10 +50,11 @@ public class CadreReserveController extends BaseController {
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve/search")
-    public String search(){
+    public String search() {
 
         return "cadreReserve/cadreReserve_search";
     }
+
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping(value = "/cadreReserve/search", method = RequestMethod.POST)
     @ResponseBody
@@ -64,18 +64,18 @@ public class CadreReserveController extends BaseController {
         String msg = "";
         Cadre cadre = cadreService.findAll().get(cadreId);
         SysUserView sysUser = cadre.getUser();
-        if(sysUser==null){
+        if (sysUser == null) {
             msg = "该用户不存在";
-        }else {
+        } else {
             resultMap.put("realname", sysUser.getRealname());
 
-            if(cadre==null){
+            if (cadre == null) {
                 msg = "该用户不是后备干部";
-            }else{
+            } else {
                 CadreReserve cadreReserve = cadreReserveService.getNormalRecord(cadre.getId());
-                if(cadreReserve==null){
+                if (cadreReserve == null) {
                     msg = "该用户不是后备干部";
-                }else {
+                } else {
                     resultMap.put("cadreId", cadre.getId());
                     resultMap.put("reserveType", cadreReserve.getType());
                 }
@@ -130,15 +130,15 @@ public class CadreReserveController extends BaseController {
         List<CadreReserveCount> cadreReserveCounts = commonMapper.selectCadreReserveCount();
         for (CadreReserveCount crc : cadreReserveCounts) {
             Byte st = crc.getStatus();
-            if(st==SystemConstants.CADRE_RESERVE_STATUS_NORMAL){
+            if (st == SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
                 Byte type = crc.getType();
                 Integer count = normalCountMap.get(type);
-                if(count==null) count = 0; // 不可能的情况
-                normalCountMap.put(type, count+crc.getNum());
+                if (count == null) count = 0; // 不可能的情况
+                normalCountMap.put(type, count + crc.getNum());
             }
             Integer stCount = statusCountMap.get(st);
-            if(stCount==null) stCount = 0;
-            statusCountMap.put(st, stCount+crc.getNum());
+            if (stCount == null) stCount = 0;
+            statusCountMap.put(st, stCount + crc.getNum());
         }
         modelMap.put("statusCountMap", statusCountMap);
         modelMap.put("normalCountMap", normalCountMap);
@@ -206,7 +206,7 @@ public class CadreReserveController extends BaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cadreReserve_export(example, response);
+            cadreReserve_export(reserveType, example, response);
             return;
         }
 
@@ -238,7 +238,7 @@ public class CadreReserveController extends BaseController {
                                   Integer cadreId,
                                   Integer userId, Integer reserveId, Byte reserveType, String reserveRemark,
                                   Cadre cadreRecord, HttpServletRequest request) {
-        if(_isCadre){
+        if (_isCadre) {
             Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
             userId = cadre.getUserId();
         }
@@ -304,7 +304,7 @@ public class CadreReserveController extends BaseController {
     @RequestMapping(value = "/cadreReserve_pass", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreReserve_pass(Integer reserveId, String reserveRemark,
-                                 Cadre cadreRecord, HttpServletRequest request) {
+                                    Cadre cadreRecord, HttpServletRequest request) {
 
         CadreReserve record = new CadreReserve();
         record.setId(reserveId);
@@ -333,7 +333,7 @@ public class CadreReserveController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
             cadreReserveService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除已撤销后备干部：%s", StringUtils.join(ids, ",")));
         }
@@ -350,7 +350,28 @@ public class CadreReserveController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreReserve_export(CadreReserveViewExample example, HttpServletResponse response) {
+    private void cadreReserve_export(Byte reserveType, CadreReserveViewExample example, HttpServletResponse response) {
+
+        SXSSFWorkbook wb = cadreReserveExportService.export(reserveType, example);
+
+        String cadreReserveType = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(reserveType);
+        String fileName = PropertiesUtils.getString("site.school") + "后备干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+
+        if (cadreReserveType != null)
+            fileName = PropertiesUtils.getString("site.school") + "后备干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+            fileName = new String(fileName.getBytes(), "ISO8859_1");
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+            wb.write(outputStream);
+            outputStream.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /*public void cadreReserve_export(CadreReserveViewExample example, HttpServletResponse response) {
 
         List<CadreReserveView> records = cadreReserveViewMapper.selectByExample(example);
         int rownum = records.size();
@@ -378,7 +399,7 @@ public class CadreReserveController extends BaseController {
         String fileName = "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
-
+*/
     @RequiresPermissions("cadreReserve:import")
     @RequestMapping("/cadreReserve_import")
     public String cadreReserve_import(byte reserveType, ModelMap modelMap) {
