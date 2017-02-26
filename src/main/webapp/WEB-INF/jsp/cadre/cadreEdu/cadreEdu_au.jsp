@@ -275,7 +275,7 @@
 			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
 
 		}else {
-			$("input[name=hasDegree]").bootstrapSwitch('disabled', false).bootstrapSwitch("state", true);
+			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
 			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
 			$("input[name='_files[]']").prop("disabled", false);
 
@@ -318,7 +318,8 @@
 		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
 			var $_degreeTime = $("input[name=_degreeTime]");
 			if ($_degreeTime.val() == '') {
-				$_degreeTime.val(ev.date.format("yyyy.MM"));
+				//$_degreeTime.val(ev.date.format("yyyy.MM"));
+				$_degreeTime.datepicker('update', ev.date.format("yyyy.MM"));
 			}
 		}
 	});

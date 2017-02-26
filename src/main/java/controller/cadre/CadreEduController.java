@@ -201,7 +201,12 @@ public class CadreEduController extends BaseController {
             }
 
             if(!toApply) {
-                cadreEduService.updateByPrimaryKeySelective(record);
+                record.setSortOrder(_record.getSortOrder());
+                record.setStatus(_record.getStatus());
+                if(record.getCertificate()==null){
+                    record.setCertificate(_record.getCertificate());
+                }
+                cadreEduService.updateByPrimaryKey(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {

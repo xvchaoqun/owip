@@ -264,9 +264,10 @@ public class CadreExportService extends BaseMapper {
             List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(record.getId());
             if(subCadrePosts.size()>0){
                 CadrePost cadrePost = subCadrePosts.get(0);
-                Unit unit = unitMap.get(cadrePost.getUnitId());
-                MetaType metaType = metaTypeMap.get(cadrePost.getPostId());
-                subPost = unit.getName() + ((metaType==null)?"":metaType.getName());
+                //Unit unit = unitMap.get(cadrePost.getUnitId());
+                //MetaType metaType = metaTypeMap.get(cadrePost.getPostId());
+                //subPost = unit.getName() + ((metaType==null)?"":metaType.getName());
+                subPost = cadrePost.getPost();
 
                 DispatchCadreRelateBean dispatchCadreRelateBean = cadrePost.getDispatchCadreRelateBean();
                 if(dispatchCadreRelateBean!=null){
