@@ -337,7 +337,9 @@
 
                     if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
                         return '-';
-                    if(rowObject.passport.type=='${PASSPORT_TYPE_LOST}')
+
+                    if(rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
+                            rowObject.passport.type=='${PASSPORT_TYPE_LOST}')
                         return '证件丢失';
 
                     if (rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow) {
@@ -374,7 +376,8 @@
             },
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
 
-                if(rowObject.passport.type=='${PASSPORT_TYPE_LOST}'){
+                if(rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
+                        rowObject.passport.type=='${PASSPORT_TYPE_LOST}'){
 
                     return '证件丢失'
                 }
