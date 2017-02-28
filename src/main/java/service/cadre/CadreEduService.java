@@ -136,16 +136,16 @@ public class CadreEduService extends BaseMapper {
 
     // 更新一条正式记录， 或者更新 添加或修改申请 的记录
     @Transactional
-    public void updateByPrimaryKeySelective(CadreEdu record){
+    public void updateByPrimaryKey(CadreEdu record){
 
         checkUpdate(record);
 
-        record.setStatus(null);
-        cadreEduMapper.updateByPrimaryKeySelective(record);
+        //record.setStatus(null);
+        cadreEduMapper.updateByPrimaryKey(record);
 
-        if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
+        /*if(!record.getHasDegree()){ // 没有获得学位，清除学位名称等字段
             updateMapper.del_caderEdu_hasDegree(record.getId());
-        }
+        }*/
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
