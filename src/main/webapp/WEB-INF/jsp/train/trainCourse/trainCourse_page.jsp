@@ -72,7 +72,7 @@
             {label: '开始时间', name: 'startTime', width: 130, formatter: 'date', formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}, frozen: true},
             {label: '结束时间', name: 'endTime', width: 130, formatter: 'date', formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}, frozen: true},
 
-            {label: '评估表', name: 'evaTableId', width: 130, formatter: function (cellvalue, options, rowObject) {
+            {label: '评估表', name: 'evaTableId', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
 
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="700" data-url="${ctx}/trainEvaTable_preview?id={0}">{1}</a>'

@@ -152,7 +152,7 @@
     <tr>
         <td colspan="${2+rankNum}">
             <p class="p1">
-                <span class="s1">专题班评估表</span>
+                <span class="s1">${trainEvaTable.name}</span>
             </p>
         </td>
     </tr>
