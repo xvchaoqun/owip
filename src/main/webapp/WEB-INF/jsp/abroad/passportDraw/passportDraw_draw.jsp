@@ -109,10 +109,10 @@
         btn_choose:'请选择证件拍照',
         btn_change:null,
         no_icon:'ace-icon fa fa-picture-o',
-        thumbnail:'large',
+        thumbnail:'fit',
         droppable:true,
-        previewWidth: 100,
-        previewHeight: 75,
+        //previewWidth: 100,
+        //previewHeight: 75,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
     }).end().find('button[type=reset]').on(ace.click_event, function(){

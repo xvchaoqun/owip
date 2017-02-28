@@ -146,10 +146,10 @@
         btn_choose:'请选择签字拍照',
         btn_change:null,
         no_icon:'ace-icon fa fa-picture-o',
-        thumbnail:'large',
+        thumbnail:'fit',
         droppable:true,
-        previewWidth: 840,
-        previewHeight: 560,
+        //previewWidth: 840,
+        //previewHeight: 560,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
         before_change:function(){

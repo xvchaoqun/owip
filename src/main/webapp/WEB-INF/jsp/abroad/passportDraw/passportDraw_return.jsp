@@ -318,10 +318,10 @@
         btn_choose:'请点击选择证件使用记录拍照',
         btn_change:null,
         no_icon:'ace-icon fa fa-picture-o',
-        thumbnail:'large',
+        thumbnail:'fit',
         droppable:true,
-        previewWidth: 420,
-        previewHeight: 280,
+        //previewWidth: 420,
+        //previewHeight: 280,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
         before_change:function(){

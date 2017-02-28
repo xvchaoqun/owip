@@ -263,7 +263,7 @@ public class PassportService extends BaseMapper {
     public int updateByPrimaryKeySelective(Passport record) {
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(0 == idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
-        record.setType(null);
+        //record.setType(null);
         return passportMapper.updateByPrimaryKeySelective(record);
     }
 
