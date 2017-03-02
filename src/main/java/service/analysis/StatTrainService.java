@@ -374,7 +374,7 @@ public class StatTrainService extends BaseMapper {
         }
         Cell cell = row.createCell(column);
         cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-        cell.setCellValue(num);
+        cell.setCellValue(((int)(num*10))*1.0/10); // 保留1位小数
         cell.setCellStyle(style);
     }
 
@@ -391,14 +391,16 @@ public class StatTrainService extends BaseMapper {
         // 课程评价列表 <courseId, List<String>>
         Map<Integer, List<String>> courseFeedbackMap = new LinkedHashMap<>();
         // 测评账号列表
-        Set<Integer> inspectorIdSet = new HashSet<>();
+        Map<Integer, Integer> courseInspectorNumMap = new HashMap<>();
 
         for (StatTrainBean statTrainBean : statTrainBeans) {
             Integer _courseId = statTrainBean.getCourseId();
-            Integer _inspectorId = statTrainBean.getInspectorId();
             Double _totalScore = statTrainBean.getTotalScore();
 
-            inspectorIdSet.add(_inspectorId);
+            Integer inspectorNum = courseInspectorNumMap.get(_courseId);
+            if (inspectorNum == null) inspectorNum = 0;
+            inspectorNum++;
+            courseInspectorNumMap.put(_courseId, inspectorNum);
 
             Double totalScore = courseTotalScoreMap.get(_courseId);
             if (totalScore == null) totalScore = 0.0;
@@ -414,12 +416,12 @@ public class StatTrainService extends BaseMapper {
                 feedbacks.add(statTrainBean.getFeedback());
         }
 
-        int inspectorCount = inspectorIdSet.size();
+
         for (Map.Entry<Integer, Double> entry : courseTotalScoreMap.entrySet()) {
             Integer _courseId = entry.getKey();
             Double totalScore = entry.getValue();
 
-            courseScoreMap.put(_courseId, ((int) ((totalScore / inspectorCount) * 100)) * 1.0 / 100);
+            courseScoreMap.put(_courseId, ((int) ((totalScore / courseInspectorNumMap.get(_courseId)) * 100)) * 1.0 / 100);
         }
 
         resultMap.put("courseScoreMap", courseScoreMap);

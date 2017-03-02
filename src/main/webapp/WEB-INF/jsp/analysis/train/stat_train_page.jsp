@@ -41,7 +41,8 @@
                             <tr>
                                 <td>${tc.name}</td>
                                 <td>${tc.isGlobal?'-':tc.teacher}</td>
-                                <td>${courseScoreMap.get(tc.id)}</td>
+                                <fmt:formatNumber var="_score" type="number" value="${courseScoreMap.get(tc.id)}" maxFractionDigits="1"/>
+                                <td>${_score}</td>
                                 <td style="text-align: left">
                                     <c:forEach items="${courseFeedbackMap.get(tc.id)}" var="feedback" varStatus="vs">
                                        ${vs.index+1}、${feedback}

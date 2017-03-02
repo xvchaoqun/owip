@@ -158,7 +158,7 @@
 <c:set var="normNum" value="${trainEvaTable.normNum}"></c:set>
 <c:set var="rankNum" value="${trainEvaTable.rankNum}"></c:set>
 <c:set var="inspectorNum" value="${fn:length(inspectorTotalScoreMap)}"></c:set>
-<c:set var="score" value="${inspectorNum>0?score/inspectorNum:''}"></c:set>
+<fmt:formatNumber var="score" type="number" value="${inspectorNum>0?score/inspectorNum:''}" maxFractionDigits="1"/>
 <table class="t1">
     <tbody>
     <tr>
@@ -235,7 +235,8 @@
                     </td>
                 </c:forEach>
                 <td class="td4">
-                    <p class="p4">${normTotalScoreMap.get(norm.id)/inspectorNum}</p>
+                    <fmt:formatNumber var="_score" type="number" value="${normTotalScoreMap.get(norm.id)/inspectorNum}" maxFractionDigits="1"/>
+                    <p class="p4">${_score}</p>
                 </td>
                 <td class="td4">
                     <p class="p4"></p>
@@ -264,11 +265,13 @@
                     </td>
                 </c:forEach>
                 <td class="td41 stat">
-                    <p class="p4">${inspectorNum>0?normTotalScoreMap.get(subNorm.id)/inspectorNum:''}</p>
+                    <fmt:formatNumber var="_score" type="number" value="${inspectorNum>0?normTotalScoreMap.get(subNorm.id)/inspectorNum:''}" maxFractionDigits="1"/>
+                    <p class="p4">${_score}</p>
                 </td>
                 <c:if test="${vs.first}">
                 <td class="td41 stat" rowspan="${norm.normNum}" >
-                    <p class="p4">${inspectorNum>0?topNormTotalScoreMap.get(norm.id)/inspectorNum:''}</p>
+                    <fmt:formatNumber var="_score" type="number" value="${inspectorNum>0?topNormTotalScoreMap.get(norm.id)/inspectorNum:''}" maxFractionDigits="1"/>
+                    <p class="p4">${_score}</p>
                 </td>
                 </c:if>
             </tr>
