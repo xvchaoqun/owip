@@ -15,23 +15,33 @@ pageEncoding="UTF-8"%>
 					${train.name}
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">名称</label>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">是否专题班测评</label>
+
+			<div class="col-xs-6">
+				<label>
+					<input name="isGlobal" ${trainCourse.isGlobal?"checked":""} type="checkbox"/>
+					<span class="lbl"></span>
+				</label>
+			</div>
+		</div>
+			<div class="form-group" id="_name">
+				<label class="col-xs-3 control-label">课程名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${trainCourse.name}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">教师名称</label>
+			<div class="form-group" id="_teacher">
+				<label class="col-xs-3 control-label">教师姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="teacher" value="${trainCourse.teacher}">
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group" id="_startTime">
 				<label class="col-xs-3 control-label">开始时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input class="form-control datetime-picker required" type="text"  name="_startTime"
+						<input class="form-control datetime-picker" required type="text"  name="_startTime"
 							   value="${cm:formatDate(trainCourse.startTime, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
@@ -39,11 +49,11 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group" id="_endTime">
 				<label class="col-xs-3 control-label">结束时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<input class="form-control datetime-picker required" type="text"  name="_endTime"
+						<input class="form-control datetime-picker" required type="text"  name="_endTime"
 							   value="${cm:formatDate(trainCourse.endTime, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
@@ -59,6 +69,32 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	function isGlobalChanged(){
+		if($('#modalForm input[name=isGlobal]').bootstrapSwitch("state")) {
+
+			$("#_name label").html("测评标题");
+			$("#_name input").val("专题班");
+			$("#_teacher").hide();
+			$("#_teacher input").removeAttr("required");
+			$("#_startTime label").html("测评开始时间");
+			$("#_endTime").hide();
+			$("#_endTime input").removeAttr("required");
+		}else{
+
+			$("#_name label").html("课程名称");
+			$("#_name input").val("${trainCourse.name}");
+			$("#_teacher").show();
+			$("#_teacher input").attr("required", "required");
+			$("#_startTime label").html("开始时间");
+			$("#_endTime").show();
+			$("#_endTime input").attr("required", "required");
+		}
+	}
+	$('#modalForm input[name=isGlobal]').on('switchChange.bootstrapSwitch', function(event, state) {
+		isGlobalChanged()
+	});
+	isGlobalChanged()
+
 	register_datetime($('.datetime-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {

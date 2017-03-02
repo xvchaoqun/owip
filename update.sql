@@ -1,4 +1,23 @@
 
+
+-- 2017-3-3
+ALTER TABLE `train_inspector_course`
+	CHANGE COLUMN `score` `score` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '评估总分，未用' AFTER `feedback`;
+
+ALTER TABLE `train_course`
+	ADD COLUMN `is_global` INT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否针对专题班测评，如果是，则评课针对整个培训班次，而不是某个课程；此时没有教师名称。' AFTER `end_time`;
+
+ALTER TABLE `train_course`
+	CHANGE COLUMN `teacher` `teacher` VARCHAR(50) NULL COMMENT '教师名称' AFTER `name`,
+	CHANGE COLUMN `end_time` `end_time` DATETIME NULL COMMENT '结束时间，不一定是评课结束时间' AFTER `start_time`;
+
+ALTER TABLE `train`
+	ADD COLUMN `is_anonymous` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT ' 是否匿名测评，如果是实名测评，则导入学员手机号等信息关联测评账号。' AFTER `total_count`;
+
+ALTER TABLE `train_inspector`
+	ADD COLUMN `mobile` VARCHAR(11) NULL COMMENT '手机号，实名测评时，需要绑定手机号和姓名；登录时验证手机号直接登录' AFTER `passwd`,
+	ADD COLUMN `realname` VARCHAR(20) NULL COMMENT '姓名' AFTER `mobile`;
+
 -- 2017-2-23
 ALTER TABLE `ow_party_member`
 	CHANGE COLUMN `type_id` `type_ids` VARCHAR(100) NULL DEFAULT NULL COMMENT '分工，关联元数据（组织委员、宣传委员、纪检委员、青年委员等）' AFTER `user_id`,

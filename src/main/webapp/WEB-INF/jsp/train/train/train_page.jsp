@@ -19,8 +19,8 @@ pageEncoding="UTF-8" %>
                         修改</a>
                     <a class="jqOpenViewBtn btn btn-info btn-sm"
                        data-url="${ctx}/train_evaCloseTime"
-                       data-querystr="&"><i class="fa fa-clock-o"></i>
-                        修改评课时间</a>
+                       data-querystr="&"><i class="fa fa-gear"></i>
+                        评课设置</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/train_inspectors"
                        data-querystr="&"><i class="fa fa-user-plus"></i>
@@ -84,7 +84,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称',name: 'name', width: 300, frozen: true},
+            { label: '名称',name: 'name', width: 300, align:'left', frozen: true},
             { label: '开始日期',name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '结束日期',name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '培训课程', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
@@ -96,7 +96,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, cellvalue);
             }, width: 200},
             {label: '评课说明', name: '_note', formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/train_note?id={0}">查看</a>'
+                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/train_note?id={0}">编辑</a>'
                         .format(rowObject.id);
             }},
             {label: '评课账号（总数）', name: '_eva', width: 130, formatter: function (cellvalue, options, rowObject) {
@@ -111,15 +111,25 @@ pageEncoding="UTF-8" %>
                         'data-url="${ctx}/trainInspector_list?export=1&trainId={0}">导出</a>'
                                 .format(rowObject.id);
             }},
-            {label: '打印账号', name: '_print', formatter: function (cellvalue, options, rowObject) {
+            {label: '打印', name: '_print', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.totalCount==0) return '-'
                 /*return '<a href="javascript:void(0)" class="linkBtn" data-target="_blank"' +
                         'data-url="${ctx}/trainInspector_list?export=2&trainId={0}">打印</a>'
                                 .format(rowObject.id);*/
+                if(rowObject.isAnonymous)
+                    return '<a href="javascript:void(0)" onclick="print_inspector({0})">打印账号</a>'
+                        .format(rowObject.id);
 
-                return '<a href="javascript:void(0)" onclick="print_inspector({0})">打印</a>'
+                return '<a href="javascript:void(0)" onclick="print_inspector({0})">打印二维码</a>'
                         .format(rowObject.id);
             }},
+            <shiro:hasPermission name="statTrain:list">
+            {label: '测评结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
+
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/stat_train_page?trainId={0}"><i class="fa fa-line-chart"></i> 查看</button>'
+                            .format(rowObject.id);
+            }},
+            </shiro:hasPermission>
             {label: '是否关闭评课', name: 'isClosed', width:110, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return ''
                 return cellvalue?"是":"否"

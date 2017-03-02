@@ -28,7 +28,7 @@ public class TrainInspectorCourseService extends BaseMapper {
     private TrainCourseService trainCourseService;
 
     @Transactional
-    public void doEva(int id, int score, String feedback){
+    public void doEva(int id, String feedback){
 
         TrainInspectorCourse tic = trainInspectorCourseMapper.selectByPrimaryKey(id);
         TrainCourse trainCourse = trainCourseMapper.selectByPrimaryKey(tic.getCourseId());
@@ -57,7 +57,6 @@ public class TrainInspectorCourseService extends BaseMapper {
             record.setSubmitTime(new Date());
             record.setSubmitIp(ContextHelper.getRealIp());
             record.setFeedback(feedback);
-            record.setScore(score);
             record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
             trainInspectorCourseMapper.updateByPrimaryKeySelective(record);
         }

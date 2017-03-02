@@ -8,6 +8,7 @@
     <result column="teacher" property="teacher" jdbcType="VARCHAR" />
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="is_global" property="isGlobal" jdbcType="BIT" />
     <result column="eva_table_id" property="evaTableId" jdbcType="INTEGER" />
     <result column="finish_count" property="finishCount" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, train_id, name, teacher, start_time, end_time, eva_table_id, finish_count, sort_order, 
-    status
+    id, train_id, name, teacher, start_time, end_time, is_global, eva_table_id, finish_count, 
+    sort_order, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.train.TrainCourseExample" >
     select
@@ -108,12 +109,12 @@
   <insert id="insert" parameterType="domain.train.TrainCourse" >
     insert into train_course (id, train_id, name, 
       teacher, start_time, end_time, 
-      eva_table_id, finish_count, sort_order, 
-      status)
+      is_global, eva_table_id, finish_count, 
+      sort_order, status)
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{teacher,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{evaTableId,jdbcType=INTEGER}, #{finishCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{isGlobal,jdbcType=BIT}, #{evaTableId,jdbcType=INTEGER}, #{finishCount,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.train.TrainCourse" >
     insert into train_course
@@ -135,6 +136,9 @@
       </if>
       <if test="endTime != null" >
         end_time,
+      </if>
+      <if test="isGlobal != null" >
+        is_global,
       </if>
       <if test="evaTableId != null" >
         eva_table_id,
@@ -167,6 +171,9 @@
       </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGlobal != null" >
+        #{isGlobal,jdbcType=BIT},
       </if>
       <if test="evaTableId != null" >
         #{evaTableId,jdbcType=INTEGER},
@@ -209,6 +216,9 @@
       <if test="record.endTime != null" >
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isGlobal != null" >
+        is_global = #{record.isGlobal,jdbcType=BIT},
+      </if>
       <if test="record.evaTableId != null" >
         eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
       </if>
@@ -234,6 +244,7 @@
       teacher = #{record.teacher,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_global = #{record.isGlobal,jdbcType=BIT},
       eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
       finish_count = #{record.finishCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -260,6 +271,9 @@
       <if test="endTime != null" >
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isGlobal != null" >
+        is_global = #{isGlobal,jdbcType=BIT},
+      </if>
       <if test="evaTableId != null" >
         eva_table_id = #{evaTableId,jdbcType=INTEGER},
       </if>
@@ -282,6 +296,7 @@
       teacher = #{teacher,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_global = #{isGlobal,jdbcType=BIT},
       eva_table_id = #{evaTableId,jdbcType=INTEGER},
       finish_count = #{finishCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},

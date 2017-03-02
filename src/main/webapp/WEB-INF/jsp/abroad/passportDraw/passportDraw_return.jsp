@@ -120,7 +120,7 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div>
-    <div class="well" style="margin-top: 20px; font-size: 20px">
+    <div class="well" style="margin-top: 20px;/* font-size: 20px*/">
 
             <form class="form-horizontal" action="${ctx}/passportDraw_return"
                   id="modalForm" method="post" enctype="multipart/form-data">
@@ -150,7 +150,7 @@
                     <label class="col-xs-4 control-label">实际出发时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 300px">
-                            <input class="form-control date-picker" name="_realStartDate" type="text"
+                            <input class="form-control" name="_realStartDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
@@ -160,10 +160,16 @@
                     <label class="col-xs-4 control-label">实际返回时间</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 300px">
-                            <input class="form-control date-picker" name="_realEndDate" type="text"
+                            <input class="form-control" name="_realEndDate" type="text"
                                    data-date-format="yyyy-mm-dd"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">实际出国（境）天数</label>
+                    <div class="col-xs-6 label-text">
+                        <span id="_realDayCount"></span>
                     </div>
                 </div>
                 <c:if test="${not empty applySelf}">
@@ -409,9 +415,14 @@
             });
         }
     });
-    $('.date-picker').datepicker({
+    register_date($('.date-picker'))
+    register_date($('input[name=_realStartDate], input[name=_realEndDate]'))
+            .on("changeDate", function(e){
+                $("#_realDayCount").html(DateDiff($('input[name=_realStartDate]').val(), $('input[name=_realEndDate]').val()))
+            })
+/*    $('.date-picker').datepicker({
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true
-    })
+    })*/
 </script>

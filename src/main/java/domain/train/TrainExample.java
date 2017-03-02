@@ -572,6 +572,66 @@ public class TrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsAnonymousIsNull() {
+            addCriterion("is_anonymous is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousIsNotNull() {
+            addCriterion("is_anonymous is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousEqualTo(Boolean value) {
+            addCriterion("is_anonymous =", value, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousNotEqualTo(Boolean value) {
+            addCriterion("is_anonymous <>", value, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousGreaterThan(Boolean value) {
+            addCriterion("is_anonymous >", value, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_anonymous >=", value, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousLessThan(Boolean value) {
+            addCriterion("is_anonymous <", value, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_anonymous <=", value, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousIn(List<Boolean> values) {
+            addCriterion("is_anonymous in", values, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousNotIn(List<Boolean> values) {
+            addCriterion("is_anonymous not in", values, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_anonymous between", value1, value2, "isAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsAnonymousNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_anonymous not between", value1, value2, "isAnonymous");
+            return (Criteria) this;
+        }
+
         public Criteria andNoteIsNull() {
             addCriterion("note is null");
             return (Criteria) this;

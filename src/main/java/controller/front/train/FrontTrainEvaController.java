@@ -127,9 +127,9 @@ public class FrontTrainEvaController extends BaseController {
 
     @RequestMapping(value = "/eva", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_eva(int id, int score, String feedback, HttpServletRequest request) {
+    public Map do_eva(int id, String feedback, HttpServletRequest request) {
 
-        trainInspectorCourseService.doEva(id, score, feedback);
+        trainInspectorCourseService.doEva(id, feedback);
 
         TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
         logger.info(logService.trainInspectorLog(trainInspector.getId(), trainInspector.getUsername(),

@@ -36,6 +36,7 @@
 
 											<form>
 												<fieldset>
+													<c:if test="${empty train}">
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" name="username" class="form-control" placeholder="账号" />
@@ -49,7 +50,21 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
+													</c:if>
+													<c:if test="${not empty train}">
+														<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															${train.name}
+														</span>
+														</label>
 
+														<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="number" name="mobile" class="form-control" placeholder="请输入手机号" />
+															<i class="ace-icon fa fa-lock"></i>
+														</span>
+														</label>
+													</c:if>
 													<div class="space"></div>
 
 													<div class="center">
@@ -82,6 +97,8 @@
 			alert('${error}');
 			</c:if>
 			$("#login_btn").click(function(){
+
+				<c:if test="${empty train}">
 				var $username = $("input[name=username]");
 				var $passwd = $("input[name=passwd]");
 				if($.trim($username.val())==""){
@@ -98,6 +115,20 @@
 						location.href = "${ctx}/train/index";
 					}
 				});
+				</c:if>
+				<c:if test="${not empty train}">
+				var $mobile = $("input[name=mobile]");
+				if($.trim($mobile.val())==""){
+					$mobile.focus();
+					return;
+				}
+				$.post("${ctx}/train/login",{mobile:$.trim($mobile.val()), trainId:'${train.id}'},function(data){
+
+					if(data.success){
+						location.href = "${ctx}/train/index";
+					}
+				});
+				</c:if>
 			})
 		</script>
 	</body>

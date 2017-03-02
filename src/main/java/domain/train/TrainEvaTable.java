@@ -9,14 +9,14 @@ import java.util.Map;
 
 public class TrainEvaTable implements Serializable {
 
-    // 返回树状结构
+    // 返回有序的评估内容列表，即一级指标列表
     public List<TrainEvaNorm> getNorms(){
 
         Map<Integer, TrainEvaNorm> trainEvaTableNorms = CmTag.getTrainEvaNorms(id);
         return new ArrayList<>(trainEvaTableNorms.values());
     }
 
-    // 返回链表结构
+    // 返回有序的二级指标列表（如果评估内容下无二级指标，则该评估内容也包含在此列表内）
     public List<TrainEvaNorm> getNormList(){
 
         List<TrainEvaNorm> normList = new ArrayList<>();

@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class XlsUpload {
@@ -17,6 +18,7 @@ public class XlsUpload {
 	public final static int cadreXLSColumnCount = 6;
 	public final static int cadreReserveXLSColumnCount = 7;
 	public final static int userXLSColumnCount = 4;
+	public final static int trainCourseXLSColumnCount = 4;
 
 	public static List<XlsPassport> fetchPassports(XSSFSheet sheet){
 		
@@ -357,6 +359,120 @@ public class XlsUpload {
 
 			cell = row.getCell(3);
 			dataRow.setUnit( getCell(cell));
+
+			rows.add(dataRow);
+		}
+
+		return rows;
+	}
+
+	public static List<XlsTrainCourse> fetchTrainCourses(XSSFSheet sheet){
+
+		List<XlsTrainCourse> rows = new ArrayList<XlsTrainCourse>();
+		XSSFRow rowTitle = sheet.getRow(0);
+		if(null == rowTitle)
+			return rows;
+		int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
+		if(cellCount != trainCourseXLSColumnCount)
+			return rows;
+
+		for (int i = sheet.getFirstRowNum() + 1 ; i <= sheet.getLastRowNum(); i++) {
+
+			XSSFRow row = sheet.getRow(i);
+			if (row == null) {// 如果为空，不处理
+				continue;
+			}
+
+			XlsTrainCourse dataRow = new XlsTrainCourse();
+			XSSFCell cell = row.getCell(0);
+			if (null != cell){
+				String name = getCell(cell);
+				if(StringUtils.isBlank(name)) {
+					continue;
+				}
+				dataRow.setName(name);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(1);
+			if (null != cell){
+				String teacher = getCell(cell);
+				if(StringUtils.isBlank(teacher)) {
+					continue;
+				}
+				dataRow.setTeacher(teacher);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(2);
+			if (null != cell){
+				Date startTime = cell.getDateCellValue();
+				if(startTime==null) {
+					continue;
+				}
+				dataRow.setStartTime(startTime);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(3);
+			if (null != cell){
+				Date endTime = cell.getDateCellValue();
+				if(endTime==null) {
+					continue;
+				}
+				dataRow.setEndTime(endTime);
+			}else{
+				continue;
+			}
+
+			rows.add(dataRow);
+		}
+
+		return rows;
+	}
+
+	public static List<XlsTrainInspector> fetchTrainInspectors(XSSFSheet sheet){
+
+		List<XlsTrainInspector> rows = new ArrayList<XlsTrainInspector>();
+		XSSFRow rowTitle = sheet.getRow(0);
+		if(null == rowTitle)
+			return rows;
+		int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
+		if(cellCount != 2)
+			return rows;
+
+		for (int i = sheet.getFirstRowNum() + 1 ; i <= sheet.getLastRowNum(); i++) {
+
+			XSSFRow row = sheet.getRow(i);
+			if (row == null) {// 如果为空，不处理
+				continue;
+			}
+
+			XlsTrainInspector dataRow = new XlsTrainInspector();
+			XSSFCell cell = row.getCell(0);
+			if (null != cell){
+				String mobile = getCell(cell);
+				if(StringUtils.isBlank(mobile)) {
+					continue;
+				}
+				dataRow.setMobile(mobile);
+			}else{
+				continue;
+			}
+
+			cell = row.getCell(1);
+			if (null != cell){
+				String realname = getCell(cell);
+				if(StringUtils.isBlank(realname)) {
+					continue;
+				}
+				dataRow.setRealname(realname);
+			}else{
+				continue;
+			}
 
 			rows.add(dataRow);
 		}

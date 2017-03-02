@@ -2,14 +2,8 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
 <ul class="preview title nav nav-tabs tab-color-blue background-blue"
-    style="padding-right: 10px;margin-bottom: 10px!important; padding-left: 10px!important;">
+    style="padding: 10px;margin-bottom: 10px!important; font-size: larger;font-weight: bolder">
     ${tc.name}
-    <div class="buttons pull-right" style="margin-bottom: 8px;margin-left: 10px; ">
-        <a href="${ctx}/train/index" class="btn btn-xs btn-success">
-            <i class="ace-icon fa fa-list"></i>
-            全部课程
-        </a>
-    </div>
 </ul>
 <div class="tabbable">
     <ul class="nav nav-tabs" id="myTab">
@@ -19,6 +13,12 @@
                 课程评价
             </a>
         </li>
+        <div class="buttons pull-right" style="margin-bottom: 8px;margin-left: 10px; ">
+            <a href="${ctx}/train/index" class="btn btn-xs btn-success">
+                <i class="ace-icon fa fa-reply"></i>
+                返回
+            </a>
+        </div>
     </ul>
     <c:set var="trainEvaResult" value="${tempdata.trainEvaResultMap.get(norm.id)}"/>
     <div class="tab-content">
@@ -33,9 +33,8 @@
         </div>--%>
         <c:if test="${step<=maxStep-1}">
             <c:if test="${not empty norm.topNorm}">
-                <div class="alert alert-block alert-success" style="font-size: 18pt;
-    margin-bottom: 5px;">
-                        ${cm:toHanStr(norm.topIndex+1)}、${norm.topNorm.name}
+                <div class="alert alert-block alert-success" style="margin-bottom: 0px;font-size: 18px">
+                    ${cm:toHanStr(norm.topIndex+1)}、${norm.topNorm.name}
                 </div>
                 <span class="text-primary">
                        <h4>${norm.subIndex+1}. ${norm.name}</h4>
@@ -48,8 +47,8 @@
             </c:if>
         </c:if>
         <c:if test="${step==maxStep}">
-            <div class="alert alert-block alert-success" style="font-size: 18pt;">
-                    ${cm:toHanStr(fn:length(topNorms)+1)}、评估总分和意见建议
+            <div class="alert alert-block alert-success" style="margin-bottom: 0px; font-size: 18px">
+                ${cm:toHanStr(fn:length(topNorms)+1)}、意见建议
             </div>
         </c:if>
         <c:if test="${step<=maxStep-1}">
@@ -58,12 +57,12 @@
                 <c:forEach items="${ranks}" var="rank" varStatus="vs">
                     <tr>
                         <c:if test="${vs.first}">
-                            <td rowspan="${rankNum}" width="60" class="title-td">
+                            <td rowspan="${rankNum}" class="title-td">
                                 评估等级
                             </td>
                         </c:if>
-                        <td style="border-right: none;" class="rank-name ${trainEvaResult.rankId==rank.id?'selected-td':''}">${rank.name}（${rank.scoreShow}）</td>
-                        <td style="border-left: none;width: 50px" class="rank-check ${trainEvaResult.rankId==rank.id?'selected-td':''}">
+                        <td class="rank-name ${trainEvaResult.rankId==rank.id?'selected-td':''}">${rank.name}（${rank.scoreShow}）</td>
+                        <td style="border-left: none;width: 20px" class="rank-check ${trainEvaResult.rankId==rank.id?'selected-td':''}">
                             <i class="fa fa-check fa-lg green"
                                style="${trainEvaResult.rankId==rank.id?'':'display: none'}"
                                data-rank-id="${rank.id}"></i>
@@ -75,7 +74,7 @@
         </c:if>
         <c:if test="${step==maxStep}">
             <table class="table">
-                <tr>
+                <%--<tr>
                     <td align="right" style="border-top: none; vertical-align: middle;
                 width: 80px;white-space: nowrap; padding-right: 0">评估总分：
                     </td>
@@ -85,7 +84,7 @@
                     <td style="border-top: none; vertical-align: middle;width: 20px;">
                         <span id="scoreShow">80</span>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td colspan="3" style="border-top: none">
                         <textarea id="feedback" placeholder="请在此输入意见或建议" class="form-control limited"
@@ -119,11 +118,20 @@
 </div>
 <style>
     .title-td{
-        font-size: 18pt;padding: 10px; text-align: center;vertical-align: middle;
+        font-size: 12pt;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        width: 30px;
+        vertical-align: middle!important;
     }
     .selected-td{
-        background: #dff0d8;
+        background: #FFCCCC;
         font-weight: bold;
+    }
+    .rank-name{
+        border-right: none!important;
+        font-size: 12pt;
     }
 </style>
 <link rel="stylesheet" href="${ctx}/assets/css/jquery-ui.custom.css"/>
@@ -145,12 +153,13 @@
     $("#submitBtn").click(function () {
 
         var feedback = $.trim($("textarea#feedback").val());
-        if (feedback == '') {
+        /*if (feedback == '') {
             $("textarea#feedback").val('').focus();
             return;
-        }
-        var score = $("#score").slider("value");
-        $.post("${ctx}/train/eva", {score: score, feedback: feedback, id: '${tic.id}'}, function (ret) {
+        }*/
+        //alert(feedback)
+        //var score = $("#score").slider("value");
+        $.post("${ctx}/train/eva", {feedback: feedback,id:'${tic.id}'}, function (ret) {
             if (ret.success) {
                 location.href = "${ctx}/train/index";
             }

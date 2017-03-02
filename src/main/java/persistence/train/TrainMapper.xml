@@ -9,6 +9,7 @@
     <result column="end_date" property="endDate" jdbcType="DATE" />
     <result column="course_num" property="courseNum" jdbcType="INTEGER" />
     <result column="total_count" property="totalCount" jdbcType="INTEGER" />
+    <result column="is_anonymous" property="isAnonymous" jdbcType="BIT" />
     <result column="note" property="note" jdbcType="VARCHAR" />
     <result column="is_closed" property="isClosed" jdbcType="BIT" />
     <result column="close_time" property="closeTime" jdbcType="TIMESTAMP" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, summary, start_date, end_date, course_num, total_count, note, is_closed, 
-    close_time, remark, create_time, status
+    id, name, summary, start_date, end_date, course_num, total_count, is_anonymous, note, 
+    is_closed, close_time, remark, create_time, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.train.TrainExample" >
     select
@@ -111,14 +112,14 @@
   <insert id="insert" parameterType="domain.train.Train" >
     insert into train (id, name, summary, 
       start_date, end_date, course_num, 
-      total_count, note, is_closed, 
-      close_time, remark, create_time, 
-      status)
+      total_count, is_anonymous, note, 
+      is_closed, close_time, remark, 
+      create_time, status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{courseNum,jdbcType=INTEGER}, 
-      #{totalCount,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{isClosed,jdbcType=BIT}, 
-      #{closeTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=TINYINT})
+      #{totalCount,jdbcType=INTEGER}, #{isAnonymous,jdbcType=BIT}, #{note,jdbcType=VARCHAR}, 
+      #{isClosed,jdbcType=BIT}, #{closeTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.train.Train" >
     insert into train
@@ -143,6 +144,9 @@
       </if>
       <if test="totalCount != null" >
         total_count,
+      </if>
+      <if test="isAnonymous != null" >
+        is_anonymous,
       </if>
       <if test="note != null" >
         note,
@@ -184,6 +188,9 @@
       </if>
       <if test="totalCount != null" >
         #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="isAnonymous != null" >
+        #{isAnonymous,jdbcType=BIT},
       </if>
       <if test="note != null" >
         #{note,jdbcType=VARCHAR},
@@ -235,6 +242,9 @@
       <if test="record.totalCount != null" >
         total_count = #{record.totalCount,jdbcType=INTEGER},
       </if>
+      <if test="record.isAnonymous != null" >
+        is_anonymous = #{record.isAnonymous,jdbcType=BIT},
+      </if>
       <if test="record.note != null" >
         note = #{record.note,jdbcType=VARCHAR},
       </if>
@@ -267,6 +277,7 @@
       end_date = #{record.endDate,jdbcType=DATE},
       course_num = #{record.courseNum,jdbcType=INTEGER},
       total_count = #{record.totalCount,jdbcType=INTEGER},
+      is_anonymous = #{record.isAnonymous,jdbcType=BIT},
       note = #{record.note,jdbcType=VARCHAR},
       is_closed = #{record.isClosed,jdbcType=BIT},
       close_time = #{record.closeTime,jdbcType=TIMESTAMP},
@@ -298,6 +309,9 @@
       <if test="totalCount != null" >
         total_count = #{totalCount,jdbcType=INTEGER},
       </if>
+      <if test="isAnonymous != null" >
+        is_anonymous = #{isAnonymous,jdbcType=BIT},
+      </if>
       <if test="note != null" >
         note = #{note,jdbcType=VARCHAR},
       </if>
@@ -327,6 +341,7 @@
       end_date = #{endDate,jdbcType=DATE},
       course_num = #{courseNum,jdbcType=INTEGER},
       total_count = #{totalCount,jdbcType=INTEGER},
+      is_anonymous = #{isAnonymous,jdbcType=BIT},
       note = #{note,jdbcType=VARCHAR},
       is_closed = #{isClosed,jdbcType=BIT},
       close_time = #{closeTime,jdbcType=TIMESTAMP},

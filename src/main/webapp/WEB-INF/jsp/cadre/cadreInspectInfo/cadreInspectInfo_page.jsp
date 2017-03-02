@@ -26,7 +26,7 @@
         $("#view-box .tab-content").load("${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&type=" + type, null, fn)
     }
     <c:if test="${type==1}">
-    var url='${ctx}/cadreInspectObj_data?${cm:encodeQueryString(pageContext.request.queryString)}';
+    var url='${ctx}/cisInspectObj_data?${cm:encodeQueryString(pageContext.request.queryString)}';
     var colModel = colModels.cisInspectObj;
     </c:if>
     <c:if test="${type==2}">

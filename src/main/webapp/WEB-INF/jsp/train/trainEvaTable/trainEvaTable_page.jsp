@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/trainEvaTable_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '评估表名称',name: 'name', width: 300, frozen: true},
+            { label: '评估表名称',name: 'name', width: 300, align:'left', frozen: true},
 
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {

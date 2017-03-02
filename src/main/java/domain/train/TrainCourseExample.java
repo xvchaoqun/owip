@@ -485,6 +485,66 @@ public class TrainCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsGlobalIsNull() {
+            addCriterion("is_global is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalIsNotNull() {
+            addCriterion("is_global is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalEqualTo(Boolean value) {
+            addCriterion("is_global =", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalNotEqualTo(Boolean value) {
+            addCriterion("is_global <>", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalGreaterThan(Boolean value) {
+            addCriterion("is_global >", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_global >=", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalLessThan(Boolean value) {
+            addCriterion("is_global <", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_global <=", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalIn(List<Boolean> values) {
+            addCriterion("is_global in", values, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalNotIn(List<Boolean> values) {
+            addCriterion("is_global not in", values, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_global between", value1, value2, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_global not between", value1, value2, "isGlobal");
+            return (Criteria) this;
+        }
+
         public Criteria andEvaTableIdIsNull() {
             addCriterion("eva_table_id is null");
             return (Criteria) this;

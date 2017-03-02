@@ -18,6 +18,8 @@ public class Train implements Serializable {
 
     private Integer totalCount;
 
+    private Boolean isAnonymous;
+
     private String note;
 
     private Boolean isClosed;
@@ -86,6 +88,14 @@ public class Train implements Serializable {
 
     public void setTotalCount(Integer totalCount) {
         this.totalCount = totalCount;
+    }
+
+    public Boolean getIsAnonymous() {
+        return isAnonymous;
+    }
+
+    public void setIsAnonymous(Boolean isAnonymous) {
+        this.isAnonymous = isAnonymous;
     }
 
     public String getNote() {

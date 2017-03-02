@@ -94,6 +94,7 @@ public class TrainEvaNormService extends BaseMapper {
         return trainEvaNormMapper.updateByPrimaryKeySelective(record);
     }
 
+    // <评估内容ID， 评估内容> ，其中评估内容下可能有二级指标
     @Cacheable(value="TrainEvaNorms")
     public Map<Integer, TrainEvaNorm> findAll(int evaTableId) {
 
@@ -115,12 +116,12 @@ public class TrainEvaNormService extends BaseMapper {
             List<TrainEvaNorm> subNorms = trainEvaNormMapper.selectByExample(example);
             int subIndex = 0;
             for (TrainEvaNorm subNorm : subNorms) {
-                subNorm.setTopNorm(trainEvaNorm);
+                subNorm.setTopNorm(trainEvaNorm); // 上级指标，即评估内容
                 subNorm.setTopIndex(topIndex);
                 subNorm.setSubIndex(subIndex++);
             }
             topIndex++;
-            trainEvaNorm.setSubNorms(subNorms);
+            trainEvaNorm.setSubNorms(subNorms);  // 评估内容包含的二级指标
 
             map.put(trainEvaNorm.getId(), trainEvaNorm);
         }

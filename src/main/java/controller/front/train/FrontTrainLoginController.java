@@ -1,6 +1,7 @@
 package controller.front.train;
 
 import controller.BaseController;
+import domain.train.Train;
 import domain.train.TrainInspector;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,61 +23,83 @@ import java.util.Map;
 public class FrontTrainLoginController extends BaseController {
 
 
-	public Logger logger = LoggerFactory.getLogger(getClass());
+    public Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("/login")
-	public String login(String u, String p, HttpServletRequest request, ModelMap modelMap) {
+    @RequestMapping("/login")
+    public String login(String u, String p, // 匿名测评
+                        Integer trainId, // 实名测评
+                        HttpServletRequest request, ModelMap modelMap) {
 
-		if(StringUtils.isNotBlank(u)) {
-			try {
-				TrainInspector trainInspector = trainInspectorService.tryLogin(u, p);
-				if (trainInspector == null) {
-					logger.info(sysLoginLogService.trainInspectorLoginlog(null, u, false, "扫码登录失败，账号或密码错误"));
-					modelMap.put("error", "扫码登录失败，账号或密码错误");
-					return "front/train/login";
-				}
-				logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
-				SessionUtils.setTrainInspector(request, trainInspector);
-			}catch (Exception ex){
+        try {
+            if (StringUtils.isNotBlank(u)) {
+                TrainInspector trainInspector = trainInspectorService.tryLogin(u, p);
+                if (trainInspector == null) {
+                    logger.info(sysLoginLogService.trainInspectorLoginlog(null, u, false, "扫码登录失败，账号或密码错误"));
+                    modelMap.put("error", "扫码登录失败，账号或密码错误");
+                    return "front/train/login";
+                }
+                logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
+                SessionUtils.setTrainInspector(request, trainInspector);
+            } else if (trainId != null) {
 
-				modelMap.put("error", ex.getMessage());
-				return "front/train/login";
-			}
-		}
+                Train train = trainMapper.selectByPrimaryKey(trainId);
+                modelMap.put("train", train);
+                return "front/train/login";
+            }
 
-		TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
-		if(trainInspector!=null){
-			return "redirect:/train/index";
-		}
-		return "front/train/login";
-	}
+        } catch (Exception ex) {
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> do_login(String username, String password,
-										HttpServletRequest request) throws IOException {
+            modelMap.put("error", ex.getMessage());
+            return "front/train/login";
+        }
 
-		TrainInspector trainInspector = trainInspectorService.tryLogin(username, password);
-		if(trainInspector==null){
-			logger.info(sysLoginLogService.trainInspectorLoginlog(null, username,  false, "登录失败，账号或密码错误"));
-			return failed("账号或密码错误");
-		}
+        TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+        if (trainInspector != null) {
+            return "redirect:/train/index";
+        }
+        return "front/train/login";
+    }
 
-		logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), username,  true, "登录成功"));
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> do_login(String username, String password,
 
-		SessionUtils.setTrainInspector(request, trainInspector);
+                                        Integer trainId, String mobile, // 实名测评
+                                        HttpServletRequest request) throws IOException {
 
-		return success("登入成功");
-	}
+        if (StringUtils.isNotBlank(username)) {
+            TrainInspector trainInspector = trainInspectorService.tryLogin(username, password);
+            if (trainInspector == null) {
+                logger.info(sysLoginLogService.trainInspectorLoginlog(null, username, false, "登录失败，账号或密码错误"));
+                return failed("账号或密码错误");
+            }
 
-	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request) {
+            SessionUtils.setTrainInspector(request, trainInspector);
+            logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), username, true, "登录成功"));
+        }else if (trainId != null) {
+            Train train = trainMapper.selectByPrimaryKey(trainId);
+            TrainInspector trainInspector = trainInspectorService.tryLogin(trainId, mobile);
+            if (trainInspector == null) {
+                logger.info(sysLoginLogService.trainInspectorLoginlog(null, mobile, false,
+                        String.format("【%s】登录失败，手机号码【%s】不存在", train.getName(), mobile)));
+                return failed("该手机号码不存在");
+            }
+            logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), mobile, true,
+                    String.format("【%s】，手机号码【%s】登录成功", train.getName(), mobile)));
+            SessionUtils.setTrainInspector(request, trainInspector);
+        }
 
-		TrainInspector trainInspector = SessionUtils.trainInspector_logout(request);
+        return success("登入成功");
+    }
 
-		logger.debug("logout success. {}", (trainInspector != null) ? trainInspector.getUsername() : "");
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
 
-		return "redirect:/train/index";
-	}
+        TrainInspector trainInspector = SessionUtils.trainInspector_logout(request);
+
+        logger.debug("logout success. {}", (trainInspector != null) ? trainInspector.getUsername() : "");
+
+        return "redirect:/train/index";
+    }
 
 }

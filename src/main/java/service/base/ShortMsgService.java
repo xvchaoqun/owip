@@ -413,8 +413,8 @@ public class ShortMsgService extends BaseMapper {
             String msgTitle = userBeanService.getMsgTitle(uv.getId());
             String mobile = userBeanService.getMsgMobile(uv.getId());
 
-            String realReturnDate = DateUtils.formatDate(passportDraw.getRealReturnDate(), "yyyy年MM月dd日");
-            String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportDraw.getPassportClass().getName(), realReturnDate);
+            //String realReturnDate = DateUtils.formatDate(passportDraw.getRealReturnDate(), "yyyy年MM月dd日");
+            String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportDraw.getPassportClass().getName());
             bean.setContent(msg);
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportDrawApply")){

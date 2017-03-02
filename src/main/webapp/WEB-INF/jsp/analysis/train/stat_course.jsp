@@ -1,9 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>评估表预览</h3>
-</div>
 <div class="modal-body">
 <style type="text/css">
     .b1 {
@@ -39,7 +35,7 @@
 
     .p3 {
         /*text-indent: 2.6409721in;*/
-        margin-top: 0.25in;
+        /*margin-top: 0.25in;*/
         margin-bottom: 0.108333334in;
         text-align: end;
         hyphenate: auto;
@@ -76,7 +72,7 @@
     }
 
     .td1 {
-        width: 0.64375in;
+        width: 0.34375in;
         padding-start: 0.075in;
         padding-end: 0.075in;
         border-bottom: thin solid black;
@@ -115,7 +111,15 @@
         border-right: thin solid black;
         border-top: thin solid black;
     }
-
+    .td41 {
+        width: 0.3875in;
+        padding-start: 0.075in;
+        padding-end: 0.075in;
+        border-bottom: thin solid black;
+        border-left: thin solid black;
+        border-right: thin solid black;
+        border-top: thin solid black;
+    }
     .td5 {
         width: 1.0458333in;
         padding-start: 0.075in;
@@ -145,9 +149,16 @@
         border-collapse: collapse;
         border-spacing: 0;
     }
+    .stat{
+        background-color: #CCFFCC;
+        font-weight: bolder;
+        font-size: 18px
+    }
 </style>
 <c:set var="normNum" value="${trainEvaTable.normNum}"></c:set>
 <c:set var="rankNum" value="${trainEvaTable.rankNum}"></c:set>
+<c:set var="inspectorNum" value="${fn:length(inspectorTotalScoreMap)}"></c:set>
+<c:set var="score" value="${inspectorNum>0?score/inspectorNum:''}"></c:set>
 <table class="t1">
     <tbody>
     <tr>
@@ -160,8 +171,8 @@
     <tr>
         <td colspan="${2+rankNum}">
             <p class="p3">
-                <span class="s1">评估总分 : </span><span class="s2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="s1">评估总分 : </span><span class="s2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${score}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </p>
         </td>
     </tr>
@@ -183,6 +194,11 @@
         <td class="td3" colspan="${rankNum}">
             <p class="p4">
                 <span>评估等级</span>
+            </p>
+        </td>
+        <td class="td3 stat" colspan="2" rowspan="3">
+            <p class="p4">
+                <span>各项平均</span>
             </p>
         </td>
     </tr>
@@ -212,11 +228,18 @@
                         <span>${norm.name}</span>
                     </p>
                 </td>
-                <c:forEach begin="1" end="${rankNum}">
+                <c:forEach items="${trainEvaTable.ranks}" var="rank">
+                    <c:set var="_key" value="${norm.id}_${rank.id}"></c:set>
                     <td class="td4">
-                        <p class="p4"></p>
+                        <p class="p4">${normRankNumMap.get(_key)}</p>
                     </td>
                 </c:forEach>
+                <td class="td4">
+                    <p class="p4">${normTotalScoreMap.get(norm.id)/inspectorNum}</p>
+                </td>
+                <td class="td4">
+                    <p class="p4"></p>
+                </td>
             </tr>
         </c:if>
         <c:if test="${norm.normNum>0}">
@@ -234,15 +257,39 @@
                         <span>${subNorm.name}</span>
                     </p>
                 </td>
-                <c:forEach begin="1" end="${rankNum}">
+                <c:forEach items="${trainEvaTable.ranks}" var="rank">
+                    <c:set var="_key" value="${subNorm.id}_${rank.id}"></c:set>
                     <td class="td4">
-                        <p class="p4"></p>
+                        <p class="p4">${normRankNumMap.get(_key)}</p>
                     </td>
                 </c:forEach>
+                <td class="td41 stat">
+                    <p class="p4">${inspectorNum>0?normTotalScoreMap.get(subNorm.id)/inspectorNum:''}</p>
+                </td>
+                <c:if test="${vs.first}">
+                <td class="td41 stat" rowspan="${norm.normNum}" >
+                    <p class="p4">${inspectorNum>0?topNormTotalScoreMap.get(norm.id)/inspectorNum:''}</p>
+                </td>
+                </c:if>
             </tr>
         </c:forEach>
         </c:if>
     </c:forEach>
+    <tr class="r1 stat">
+        <td class="td1" colspan="2">
+            <p class="p4">
+                <span>汇总</span>
+            </p>
+        </td>
+        <c:forEach items="${trainEvaTable.ranks}" var="rank">
+            <td class="td4">
+                <p class="p4">${rankNumMap.get(rank.id)}</p>
+            </td>
+        </c:forEach>
+        <td class="td41" colspan="2" style="background-color: #FFFFCC;">
+            <p class="p4">${score}</p>
+        </td>
+    </tr>
     <tr class="r1">
         <td class="td1">
             <p class="p4">
@@ -253,14 +300,16 @@
                 <span>建议</span>
             </p>
         </td>
-        <td class="td6" colspan="${1+rankNum}">
-            <p class="p6"></p>
+        <td class="td6" colspan="${3+rankNum}" style="padding: 15px;">
+            <p class="p6">
+                <c:forEach items="${feedbackMap}" var="entity" varStatus="vs">
+                    ${vs.index+1}、${entity.value}
+                    ${vs.last?'':'<br/>'}
+                </c:forEach>
+            </p>
         </td>
     </tr>
     </tbody>
 </table>
 <p class="p7"></p>
-</div>
-<div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
-</div>
+    </div>

@@ -40,6 +40,9 @@
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=SystemConstants.PERMISSION_CADREADMINSELF%>"/>
 
+<c:set var="UNAVAILABLE" value="<%=SystemConstants.UNAVAILABLE%>"/>
+<c:set var="AVAILABLE" value="<%=SystemConstants.AVAILABLE%>"/>
+
 <c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
 
 <c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>
@@ -150,7 +153,6 @@
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_MAP%>" var="CIS_INSPECTOR_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.CIS_EVALUATE_TYPE_MAP%>" var="CIS_EVALUATE_TYPE_MAP"/>
-
 
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_MAP%>" var="TRAIN_INSPECTOR_STATUS_MAP"/>
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_INIT%>" var="TRAIN_INSPECTOR_STATUS_INIT"/>

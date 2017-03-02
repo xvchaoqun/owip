@@ -5,9 +5,11 @@ import domain.train.Train;
 import domain.train.TrainInspector;
 import domain.train.TrainInspectorExample;
 import domain.train.TrainInspectorExample.Criteria;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
@@ -45,18 +48,26 @@ public class TrainInspectorController extends BaseController {
                                       @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                       HttpServletRequest request) throws IOException {
 
-        modelMap.put("train", trainMapper.selectByPrimaryKey(trainId));
+        Train train = trainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("train", train);
         modelMap.put("trainCourses", trainCourseService.findAll(trainId));
 
         if(export == 2){
-            TrainInspectorExample example = new TrainInspectorExample();
-            Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
-                    .andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
-            if(ids!=null && ids.length>0) criteria.andIdIn(Arrays.asList(ids));
-            example.setOrderByClause(" type asc, create_time desc");
-            List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
-            modelMap.put("trainInspectors", trainInspectors);
-            return "train/trainInspector/trainInspector_print";
+
+            if(train.getIsAnonymous()) {
+                TrainInspectorExample example = new TrainInspectorExample();
+                Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
+                        .andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+                if (ids != null && ids.length > 0) criteria.andIdIn(Arrays.asList(ids));
+                example.setOrderByClause(" type asc, create_time desc");
+                List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
+                modelMap.put("trainInspectors", trainInspectors);
+
+                return "train/trainInspector/trainInspector_print";
+            }else{
+
+                return "train/train/train_print";
+            }
         }
 
         if (null == pageSize) {
@@ -74,7 +85,7 @@ public class TrainInspectorController extends BaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            trainInspector_export(example, response);
+            trainInspector_export(trainId, example, response);
             return null;
         }
 
@@ -175,31 +186,43 @@ public class TrainInspectorController extends BaseController {
         return;
     }*/
 
-    public void trainInspector_export(TrainInspectorExample example, HttpServletResponse response) throws IOException {
+    public void trainInspector_export(int trainId, TrainInspectorExample example, HttpServletResponse response) throws IOException {
 
-        String[] titles ={"账号","密码", "培训班次", "是否已完成测评"};
+        Train train = trainMapper.selectByPrimaryKey(trainId);
+
+        String[] titles ={"账号","密码", "培训班次", "测评状态"};
+        if(!train.getIsAnonymous()) {
+            titles[0] = "手机号";
+            titles[1] = "姓名";
+        }
         List<String[]> valuesList = new ArrayList<>();
         List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
         for(TrainInspector trainInspector:trainInspectors){
 
-            String passwd = trainInspector.getPasswd();
-            if(!SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)){
-                if(trainInspector.getPasswdChangeType()!=null){
-                    passwd="******"; // 本人修改过密码或者管理员重置过密码，则单位管理员不可以看到
-                }
-            }else{
-                // 本人修改了密码，管理员也不能看到
-                if(trainInspector.getPasswdChangeType()!=null &&
-                        trainInspector.getPasswdChangeType()==SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF){
-                    passwd="******";
-                }
-            }
-            Train train = trainMapper.selectByPrimaryKey(trainInspector.getTrainId());
-
-            String[] values ={trainInspector.getUsername(),
-                    passwd,
+            String[] values ={"",
+                    "",
                     train.getName(),
                     SystemConstants.TRAIN_INSPECTOR_STATUS_MAP.get(trainInspector.getStatus())};
+
+            if(train.getIsAnonymous()) {
+                String passwd = trainInspector.getPasswd();
+                if (!SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)) {
+                    if (trainInspector.getPasswdChangeType() != null) {
+                        passwd = "******"; // 本人修改过密码或者管理员重置过密码，则单位管理员不可以看到
+                    }
+                } else {
+                    // 本人修改了密码，管理员也不能看到
+                    if (trainInspector.getPasswdChangeType() != null &&
+                            trainInspector.getPasswdChangeType() == SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF) {
+                        passwd = "******";
+                    }
+                }
+                values[0] = trainInspector.getUsername();
+                values[1] = passwd;
+            }else{
+                values[0] = trainInspector.getMobile();
+                values[1] = trainInspector.getRealname();
+            }
 
             valuesList.add(values);
         }
@@ -261,9 +284,14 @@ public class TrainInspectorController extends BaseController {
     @RequiresPermissions("trainInspector:edit")
     @RequestMapping(value = "/trainInspector_gen", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_trainInspector_gen(int trainId, int count, byte type,  HttpServletRequest request) {
+    public Map do_trainInspector_gen(int trainId,
+                                     byte type,
+                                     Boolean isAnonymous,
+                                     Integer count, // 匿名测评账号数量
+                                     MultipartFile xlsx,  // 实名测评人员信息
+                                     HttpServletRequest request) throws IOException, InvalidFormatException {
 
-        trainInspectorService.generateInspector(trainId, type, count);
+        trainInspectorService.generateInspector(trainId, type, BooleanUtils.isTrue(isAnonymous), count, xlsx);
 
         return success(FormUtils.SUCCESS);
     }

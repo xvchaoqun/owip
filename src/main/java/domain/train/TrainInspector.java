@@ -12,6 +12,10 @@ public class TrainInspector implements Serializable {
 
     private String passwd;
 
+    private String mobile;
+
+    private String realname;
+
     private Byte passwdChangeType;
 
     private Byte type;
@@ -54,6 +58,22 @@ public class TrainInspector implements Serializable {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd == null ? null : passwd.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 
     public Byte getPasswdChangeType() {

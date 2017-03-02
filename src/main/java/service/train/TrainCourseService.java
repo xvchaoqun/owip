@@ -1,5 +1,6 @@
 package service.train;
 
+import bean.XlsTrainCourse;
 import domain.train.Train;
 import domain.train.TrainCourse;
 import domain.train.TrainCourseExample;
@@ -162,5 +163,27 @@ public class TrainCourseService extends BaseMapper {
         }
 
         return 0;
+    }
+
+
+    @Transactional
+    @CacheEvict(value="TrainCourses", key = "#trainId")
+    public int imports(final List<XlsTrainCourse> beans, int trainId) {
+
+        int success = 0;
+        for (XlsTrainCourse uRow : beans) {
+
+            TrainCourse record = new TrainCourse();
+            record.setName(uRow.getName());
+            record.setTeacher(uRow.getTeacher());
+            record.setStartTime(uRow.getStartTime());
+            record.setEndTime(uRow.getEndTime());
+            record.setTrainId(trainId);
+
+            insertSelective(record);
+            success++;
+        }
+
+        return success;
     }
 }

@@ -1302,7 +1302,7 @@ function register_party_select($select){
 
 // 日历
 function register_date($date, params){
-    $date.datepicker($.extend({
+    return $date.datepicker($.extend({
         language:"zh-CN",
         autoclose: true,
         todayHighlight: true,

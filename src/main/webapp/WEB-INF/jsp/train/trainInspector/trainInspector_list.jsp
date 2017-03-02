@@ -10,28 +10,27 @@
         <thead>
         <tr>
             <th width="20">序号</th>
+            <c:if test="${train.isAnonymous}">
             <th width="50">账号</th>
-            <c:if test="${param.type!=1 }">
                 <th width="50">密码</th>
             </c:if>
-            <c:if test="${param.type!=1 }">
-                <th width="50">生成方式</th>
+            <c:if test="${!train.isAnonymous}">
+                <th width="50">手机号</th>
+                <th width="50">姓名</th>
             </c:if>
+                <%--<th width="50">生成方式</th>--%>
+
             <th width="30">测评状态</th>
-            <c:if test="${param.type!=1 }">
+
                 <th style="width: 100px"></th>
-            </c:if>
-            <c:if test="${param.type==1 }">
-                <th>备注</th>
-            </c:if>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${inspectors}" var="inspector" varStatus="vs">
             <tr>
                 <td>${vs.index+1+commonList.pageSize*(commonList.pageNo-1)}</td>
+                <c:if test="${train.isAnonymous}">
                 <td>${inspector.username}</td>
-                <c:if test="${param.type!=1 }">
                     <td class="${inspector.passwdChangeType==TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET?'text-danger':''}"
                         title="${inspector.passwdChangeType==TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET?'管理员重置了密码':''}
                         ${inspector.passwdChangeType==TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF?'本人修改了密码':''}">
@@ -43,9 +42,13 @@
                         </c:if>
                     </td>
                 </c:if>
-                <c:if test="${param.type!=1 }">
-                    <td>${inspector.type==1?"列表生成":(inspector.type==2?"个别生成":"")}</td>
+                <c:if test="${!train.isAnonymous}">
+                    <td>${inspector.mobile}</td>
+                    <td>${inspector.realname}</td>
                 </c:if>
+
+                <%--<td>${inspector.type==1?"列表生成":(inspector.type==2?"个别生成":"")}</td>--%>
+
                 <td>
                         <c:choose>
                             <c:when test="${inspector.status==TRAIN_INSPECTOR_STATUS_INIT}">
@@ -69,9 +72,9 @@
 
                         </span>
                 </td>
-                <c:if test="${param.type!=1 }">
+
                     <td nowrap="">
-                        <c:if test="${inspector.passwdChangeType==TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF &&
+                        <c:if test="${train.isAnonymous && inspector.passwdChangeType==TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF &&
                         inspector.status!=TRAIN_INSPECTOR_STATUS_ABOLISH}">
                             <button onclick="passwdReset(${inspector.id}, this)" class="btn btn-xs btn-primary"><i
                                     class="icon-white fa fa-refresh"></i> 重置密码
@@ -89,10 +92,6 @@
                         </c:if>
 
                     </td>
-                </c:if>
-                <c:if test="${param.type==1 }">
-                    <td>${inspector.type==2?"补发":""}</td>
-                </c:if>
             </tr>
         </c:forEach>
         </tbody>

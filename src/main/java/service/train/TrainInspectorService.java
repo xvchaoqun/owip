@@ -1,16 +1,24 @@
 package service.train;
 
+import bean.XlsTrainInspector;
+import bean.XlsUpload;
 import domain.train.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.DBErrorException;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -50,12 +58,19 @@ public class TrainInspectorService extends BaseMapper {
     /**
      * @param trainId
      * @param type       1列表生成 2个别生成
-     * @param totalCount
+     * @param isAnonymous 是否匿名测评
+     * @param totalCount isAnonymous=true, 匿名测评账号数量
+     * @param xlsx isAnonymous=false, 实名测评名单
      */
     @Transactional
-    public void generateInspector(int trainId, byte type, int totalCount) {
+    public void generateInspector(int trainId, byte type,
+                                  boolean isAnonymous,
+                                  Integer totalCount, MultipartFile xlsx) throws IOException, InvalidFormatException {
 
         Train train = trainMapper.selectByPrimaryKey(trainId);
+        if(train.getTotalCount()>0) // 第一次生成时，已经确定了是匿名还是实名测评，后面不允许改变
+            isAnonymous = train.getIsAnonymous();
+
         int closed = trainService.evaIsClosed(trainId);
         if (closed == 1) {
             throw new RuntimeException("评课已关闭。");
@@ -63,37 +78,72 @@ public class TrainInspectorService extends BaseMapper {
             throw new RuntimeException("评课已结束于" + DateUtils.formatDate(train.getCloseTime(), DateUtils.YYYY_MM_DD_HH_MM));
         }
 
-        int newCount = totalCount;
         Date now = new Date();
 
+        if(isAnonymous) {
+            int newCount = totalCount;
 
-        if (type == 1) { // 列表生成
-            newCount = totalCount - train.getTotalCount() > 0 ? totalCount - train.getTotalCount() : 0;
-        }
-
-        if (newCount > 0) {
-            for (int i = 0; i < newCount; i++) {
-
-                TrainInspector record = new TrainInspector();
-                record.setTrainId(trainId);
-                record.setUsername(buildUsername());
-                record.setPasswd(RandomStringUtils.randomNumeric(6));
-                record.setType(type);
-                record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_INIT);
-                record.setCreateTime(now);
-
-                trainInspectorMapper.insert(record);
+            if (type == 1) { // 列表生成，目前都是默认此类别
+                newCount = totalCount - train.getTotalCount() > 0 ? totalCount - train.getTotalCount() : 0;
             }
 
-            TrainInspectorExample _example = new TrainInspectorExample();
-            _example.createCriteria().andTrainIdEqualTo(trainId).andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
-            int count = trainInspectorMapper.countByExample(_example);
+            if (newCount > 0) {
+                for (int i = 0; i < newCount; i++) {
 
-            Train record = new Train();
-            record.setId(trainId);
-            record.setTotalCount(count);
-            trainMapper.updateByPrimaryKeySelective(record);
+                    TrainInspector record = new TrainInspector();
+                    record.setTrainId(trainId);
+                    record.setUsername(buildUsername());
+                    record.setPasswd(RandomStringUtils.randomNumeric(6));
+                    record.setType(type);
+                    record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_INIT);
+                    record.setCreateTime(now);
+
+                    trainInspectorMapper.insert(record);
+                }
+            }
+        }else{
+
+            OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+            XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            List<XlsTrainInspector> rowBeans = XlsUpload.fetchTrainInspectors(sheet);
+
+            for (XlsTrainInspector rowBean : rowBeans) {
+
+                String mobile = rowBean.getMobile();
+                TrainInspector trainInspector = tryLogin(trainId, mobile);
+                if(trainInspector!=null){
+                    // 手机号存在则进行更新操作
+                    TrainInspector record = new TrainInspector();
+                    record.setId(trainInspector.getId());
+                    record.setRealname(rowBean.getRealname());
+                    trainInspectorMapper.updateByPrimaryKey(record);
+                }else{
+
+                    TrainInspector record = new TrainInspector();
+                    record.setTrainId(trainId);
+                    record.setUsername(buildUsername());
+                    record.setPasswd(RandomStringUtils.randomNumeric(6));
+                    record.setMobile(mobile);
+                    record.setRealname(rowBean.getRealname());
+                    record.setType(type);
+                    record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_INIT);
+                    record.setCreateTime(now);
+
+                    trainInspectorMapper.insert(record);
+                }
+            }
         }
+
+        TrainInspectorExample _example = new TrainInspectorExample();
+        _example.createCriteria().andTrainIdEqualTo(trainId).andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+        int count = trainInspectorMapper.countByExample(_example);
+
+        Train record = new Train();
+        record.setId(trainId);
+        record.setTotalCount(count);
+        record.setIsAnonymous(isAnonymous);
+        trainMapper.updateByPrimaryKeySelective(record);
     }
 
     public String buildUsername() {
@@ -154,6 +204,7 @@ public class TrainInspectorService extends BaseMapper {
         trainInspectorMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 匿名测评 登录
     public TrainInspector tryLogin(String username, String password) {
 
         username = StringUtils.trimToNull(username);
@@ -163,6 +214,24 @@ public class TrainInspectorService extends BaseMapper {
         TrainInspectorExample example = new TrainInspectorExample();
         example.createCriteria().andUsernameEqualTo(username)
                 .andPasswdEqualTo(password);
+
+        return get(example);
+    }
+
+    // 实名测评 登录
+    public TrainInspector tryLogin(int trainId, String mobile) {
+
+        mobile = StringUtils.trimToNull(mobile);
+        if( mobile==null) return null;
+
+        TrainInspectorExample example = new TrainInspectorExample();
+        example.createCriteria().andTrainIdEqualTo(trainId).andMobileEqualTo(mobile);
+
+        return get(example);
+    }
+
+    private TrainInspector get(TrainInspectorExample example){
+
         List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
         if(trainInspectors.size()==1){
             TrainInspector trainInspector = trainInspectors.get(0);

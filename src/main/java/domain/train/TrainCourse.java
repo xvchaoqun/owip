@@ -16,6 +16,8 @@ public class TrainCourse implements Serializable {
 
     private Date endTime;
 
+    private Boolean isGlobal;
+
     private Integer evaTableId;
 
     private Integer finishCount;
@@ -72,6 +74,14 @@ public class TrainCourse implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean getIsGlobal() {
+        return isGlobal;
+    }
+
+    public void setIsGlobal(Boolean isGlobal) {
+        this.isGlobal = isGlobal;
     }
 
     public Integer getEvaTableId() {

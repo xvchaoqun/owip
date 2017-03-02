@@ -1,16 +1,20 @@
 package controller.train;
 
+import bean.XlsTrainCourse;
+import bean.XlsUpload;
 import controller.BaseController;
 import domain.train.Train;
 import domain.train.TrainCourse;
 import domain.train.TrainCourseExample;
 import domain.train.TrainCourseExample.Criteria;
 import domain.train.TrainEvaTable;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -109,12 +115,16 @@ public class TrainCourseController extends BaseController {
     @RequestMapping(value = "/trainCourse_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_trainCourse_au(TrainCourse record,
-                                 String _startTime, String _endTime,
+                                 String _startTime,
+                                 String _endTime,
+                                 Boolean isGlobal,
                                  HttpServletRequest request) {
 
         Integer id = record.getId();
         record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD_HH_MM));
         record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD_HH_MM));
+        record.setIsGlobal(BooleanUtils.isTrue(isGlobal));
+
         if(record.getStartTime()!=null && record.getEndTime()!=null
                 && record.getStartTime().after(record.getEndTime())){
             return failed("开始时间不能晚于结束时间");
@@ -275,6 +285,36 @@ public class TrainCourseController extends BaseController {
         Map resultMap = success();
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
+        return resultMap;
+    }
+
+    @RequiresPermissions("trainCourse:import")
+    @RequestMapping("/trainCourse_import")
+    public String trainCourse_import() {
+
+        return "train/trainCourse/trainCourse_import";
+    }
+
+    @RequiresPermissions("trainCourse:import")
+    @RequestMapping(value="/trainCourse_import", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_trainCourse_import( int trainId, HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        List<XlsTrainCourse> records = new ArrayList<XlsTrainCourse>();
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        records.addAll(XlsUpload.fetchTrainCourses(sheet));
+
+        int successCount = trainCourseService.imports(records, trainId);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
         return resultMap;
     }
 }

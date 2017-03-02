@@ -29,8 +29,8 @@ table tr td.title{
 }
 
 </style>
-	<script type="text/javascript" src="${ctx}/assets/js/jquery.js"></script>
-	<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+<script type="text/javascript" src="${ctx}/assets/js/jquery.js"></script>
+<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
 </head>
 <body>
 <%--<div style="width: 850px;text-align: right;font-size: 20pt">

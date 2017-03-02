@@ -6,6 +6,8 @@
     <result column="train_id" property="trainId" jdbcType="INTEGER" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="passwd" property="passwd" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
     <result column="passwd_change_type" property="passwdChangeType" jdbcType="TINYINT" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -71,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, train_id, username, passwd, passwd_change_type, type, create_time, finish_course_num, 
-    status
+    id, train_id, username, passwd, mobile, realname, passwd_change_type, type, create_time, 
+    finish_course_num, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.train.TrainInspectorExample" >
     select
@@ -106,13 +108,13 @@
   </delete>
   <insert id="insert" parameterType="domain.train.TrainInspector" >
     insert into train_inspector (id, train_id, username, 
-      passwd, passwd_change_type, type, 
-      create_time, finish_course_num, status
-      )
+      passwd, mobile, realname, 
+      passwd_change_type, type, create_time, 
+      finish_course_num, status)
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
-      #{passwd,jdbcType=VARCHAR}, #{passwdChangeType,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{finishCourseNum,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
-      )
+      #{passwd,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{passwdChangeType,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{finishCourseNum,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.train.TrainInspector" >
     insert into train_inspector
@@ -128,6 +130,12 @@
       </if>
       <if test="passwd != null" >
         passwd,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="realname != null" >
+        realname,
       </if>
       <if test="passwdChangeType != null" >
         passwd_change_type,
@@ -157,6 +165,12 @@
       </if>
       <if test="passwd != null" >
         #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
       </if>
       <if test="passwdChangeType != null" >
         #{passwdChangeType,jdbcType=TINYINT},
@@ -196,6 +210,12 @@
       <if test="record.passwd != null" >
         passwd = #{record.passwd,jdbcType=VARCHAR},
       </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
       <if test="record.passwdChangeType != null" >
         passwd_change_type = #{record.passwdChangeType,jdbcType=TINYINT},
       </if>
@@ -222,6 +242,8 @@
       train_id = #{record.trainId,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
       passwd = #{record.passwd,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
       passwd_change_type = #{record.passwdChangeType,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -242,6 +264,12 @@
       </if>
       <if test="passwd != null" >
         passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
       </if>
       <if test="passwdChangeType != null" >
         passwd_change_type = #{passwdChangeType,jdbcType=TINYINT},
@@ -266,6 +294,8 @@
     set train_id = #{trainId,jdbcType=INTEGER},
       username = #{username,jdbcType=VARCHAR},
       passwd = #{passwd,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
       passwd_change_type = #{passwdChangeType,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

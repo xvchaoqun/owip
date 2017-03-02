@@ -19,8 +19,8 @@ public interface UpdateMapper {
             "where ic.inspector_id=#{inspectorId} and ic.status=1 and c.id=ic.course_id and c.status=1 and c.finish_count>=1")
     void abolishTrainInspector(Integer inspectorId);
 
-    @Update("update train t left join (select train_id, sum(IF(status=1, 1, 0)) as course_num from train_course) tc " +
-            "on tc.train_id=t.id set t.course_num=tc.course_num")
+    @Update("update train t , (select train_id, sum(IF(status=1, 1, 0)) as course_num from train_course where is_global=0 group by train_id) tc " +
+            "set t.course_num=tc.course_num where tc.train_id=t.id")
     void update_train_courseNum();
 
     //update train_eva_norm t1 left join (select fid, count(id) as norm_num from train_eva_norm group by fid) t2

@@ -85,7 +85,7 @@
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!-- #section:basics/content.breadcrumbs -->
-					<div class="breadcrumbs" id="breadcrumbs">
+					<%--<div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
 							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 						</script>
@@ -106,7 +106,7 @@
 								</li>
 							</c:forEach>
 						</ul><!-- /.breadcrumb -->
-					</div>
+					</div>--%>
 					<div class="page-content" id="page-content">
 						<c:import url="${_path}_page">
 							<c:param name="__includePage" value="true"/>

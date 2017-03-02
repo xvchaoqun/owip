@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>设置评课时间</h3>
+    <h3>评课设置</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/train_evaCloseTime" id="modalForm" method="post">
@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">是否关闭</label>
+				<label class="col-xs-3 control-label">是否关闭评课</label>
 
 				<div class="col-xs-6">
 					<label>
@@ -26,9 +26,9 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">结束时间</label>
+				<label class="col-xs-3 control-label">评课结束时间</label>
 				<div class="col-xs-6">
-					<div class="input-group">
+					<div class="input-group" style="width: 200px">
 						<input class="form-control datetime-picker required" type="text"  name="_closeTime"
 							   value="${cm:formatDate(train.closeTime, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
@@ -49,7 +49,8 @@ pageEncoding="UTF-8"%>
 		if($('#modalForm input[name=isClosed]').bootstrapSwitch("state")) {
 			$("#modalForm input[name=_closeTime]").val('').prop("disabled", true);
 		}else{
-			$("#modalForm input[name=_closeTime]").prop("disabled", false);
+			$("#modalForm input[name=_closeTime]").prop("disabled", false)
+					.datetimepicker('update', '${cm:formatDate(train.closeTime, "yyyy-MM-dd HH:mm")}');
 		}
 	}
 	$('#modalForm input[name=isClosed]').on('switchChange.bootstrapSwitch', function(event, state) {

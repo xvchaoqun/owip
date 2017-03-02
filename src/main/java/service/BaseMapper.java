@@ -333,6 +333,8 @@ public class BaseMapper {
 
 	@Autowired
 	protected StatCadreMapper statCadreMapper;
+	@Autowired
+	protected StatTrainMapper statTrainMapper;
 
 	@Autowired
 	protected HistoryUnitMapper historyUnitMapper;
