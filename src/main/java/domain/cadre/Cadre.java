@@ -43,6 +43,12 @@ public class Cadre implements Serializable {
         }
         return null;
     }
+
+    public CadreEdu[] getCadreEdus(){
+
+        return CmTag.getCadreEdus(id);
+    }
+
     private Integer id;
 
     private Integer userId;

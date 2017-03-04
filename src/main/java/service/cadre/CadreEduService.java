@@ -1,5 +1,6 @@
 package service.cadre;
 
+import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreEduExample;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.modify.ModifyTableApplyMapper;
 import service.BaseMapper;
+import service.base.MetaTypeService;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -22,6 +25,7 @@ import sys.utils.JSONUtils;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CadreEduService extends BaseMapper {
@@ -30,6 +34,33 @@ public class CadreEduService extends BaseMapper {
     private ModifyTableApplyMapper modifyTableApplyMapper;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private MetaTypeService metaTypeService;
+
+    // 获取全日制教育、在职教育
+    public CadreEdu[] getByLearnStyle(int cadreId){
+
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId);
+        example.setOrderByClause("enrol_time asc"); // 按时间顺序排序，取时间最晚的
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
+
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        MetaType fullltimeType = metaTypeMap.get("mt_fullltime");
+        MetaType onjobType = metaTypeMap.get("mt_onjob");
+
+        CadreEdu[] result = new CadreEdu[2];
+        for (CadreEdu cadreEdu : cadreEdus) {
+
+            Integer learnStyle = cadreEdu.getLearnStyle();
+            if(learnStyle.intValue()==fullltimeType.getId()){
+                result[0] = cadreEdu; // fullltimeEdu
+            }else if(learnStyle.intValue()==onjobType.getId()){
+                result[1] = cadreEdu; // onjobEdu
+            }
+        }
+        return result;
+    }
 
     public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu){
 

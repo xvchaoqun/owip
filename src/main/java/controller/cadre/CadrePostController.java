@@ -3,12 +3,16 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
+import domain.cadre.CadrePostExample;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
+import interceptor.OrderParam;
+import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -58,6 +65,47 @@ public class CadrePostController extends BaseController {
         return "cadre/cadrePost/cadrePost_page";
     }
 
+    @RequiresPermissions("cadrePost:list")
+    @RequestMapping("/cadrePost_data")
+    public void cadrePost_data(HttpServletResponse response,
+                                    int cadreId,
+                                    @RequestParam(required = false, defaultValue = "0") Boolean isMainPost,
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CadrePostExample example = new CadrePostExample();
+        CadrePostExample.Criteria criteria = example.createCriteria()
+                .andCadreIdEqualTo(cadreId).andIsMainPostEqualTo(isMainPost);
+        example.setOrderByClause("sort_order desc");
+
+        int count = cadrePostMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadrePost> CadrePosts = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+        Map resultMap = new HashMap();
+        resultMap.put("rows", CadrePosts);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
+        //sourceMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
+
+    }
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping(value = "/cadrePost_au", method = RequestMethod.POST)
     @ResponseBody
@@ -174,6 +222,17 @@ public class CadrePostController extends BaseController {
 
         dispatchCadreRelateService.updateDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST, ids);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "修改现任职务%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadrePost:changeOrder")
+    @RequestMapping(value = "/cadrePost_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadrePost_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
+        cadrePostService.changeOrder(id, cadrePost.getCadreId(), addNum);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部职务调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

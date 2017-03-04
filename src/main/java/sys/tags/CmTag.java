@@ -79,6 +79,7 @@ public class CmTag {
     static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
     static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
+    static CadreEduService cadreEduService = (CadreEduService) context.getBean("cadreEduService");
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
     static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
 
@@ -489,6 +490,10 @@ public class CmTag {
         }
 
         return false;
+    }
+
+    public static CadreEdu[] getCadreEdus(Integer cadreId){
+        return cadreEduService.getByLearnStyle(cadreId);
     }
 
     public static List<CisInspectorView> getCisInspectors(Integer id) {

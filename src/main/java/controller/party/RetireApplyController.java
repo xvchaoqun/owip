@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
 
-// 党员退休
-@Controller
+// 党员退休（弃用）
+//@Controller
 public class RetireApplyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

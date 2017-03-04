@@ -356,6 +356,12 @@ public class PassportDrawController extends BaseController {
         record.setRealReturnDate(DateUtils.parseDate(_realReturnDate, DateUtils.YYYY_MM_DD));
         record.setRealStartDate(DateUtils.parseDate(_realStartDate, DateUtils.YYYY_MM_DD));
         record.setRealEndDate(DateUtils.parseDate(_realEndDate, DateUtils.YYYY_MM_DD));
+
+        if(record.getRealStartDate()!=null && record.getRealEndDate()!=null
+                && record.getRealStartDate().after(record.getRealEndDate())){
+            return failed("实际出行时间有误。");
+        }
+
         record.setRealToCountry(StringUtils.trimToNull(realToCountry));
 
         if (_useRecord != null && !_useRecord.isEmpty()) {

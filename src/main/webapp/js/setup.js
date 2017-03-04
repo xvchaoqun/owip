@@ -1268,9 +1268,9 @@ function register_user_select($select, ts){
     });
 }
 // 选择分党委
-function register_party_select($select){
+function register_party_select($select, width){
     return $select.select2({
-        width:350,
+        width:width||350,
         templateResult: function(state) {
 
             return '<span class="{0}">{1}</span>'.format(state.del||state.title=='true'?"delete":"", state.text);

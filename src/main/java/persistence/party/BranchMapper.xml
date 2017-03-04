@@ -19,6 +19,7 @@
     <result column="fax" property="fax" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="found_time" property="foundTime" jdbcType="DATE" />
+    <result column="transfer_count" property="transferCount" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List" >
     id, code, name, short_name, party_id, type_id, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
-    email, found_time, sort_order, create_time, is_deleted
+    email, found_time, transfer_count, sort_order, create_time, is_deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.BranchExample" >
     select
@@ -116,23 +117,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.party.Branch" >
+  <insert id="insert" keyProperty="id" parameterType="domain.party.Branch" >
     insert into ow_branch (id, code, name, 
       short_name, party_id, type_id, 
       is_staff, is_prefessional, is_base_team, 
       unit_type_id, is_enterprise_big, is_enterprise_nationalized, 
       is_union, phone, fax, email, 
-      found_time, sort_order, create_time, 
-      is_deleted)
+      found_time, transfer_count, sort_order, 
+      create_time, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{shortName,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{isStaff,jdbcType=BIT}, #{isPrefessional,jdbcType=BIT}, #{isBaseTeam,jdbcType=BIT}, 
       #{unitTypeId,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, 
       #{isUnion,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=BIT})
+      #{foundTime,jdbcType=DATE}, #{transferCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.party.Branch" >
+  <insert id="insertSelective" keyProperty="id" parameterType="domain.party.Branch" >
     insert into ow_branch
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,6 +186,9 @@
       </if>
       <if test="foundTime != null" >
         found_time,
+      </if>
+      <if test="transferCount != null" >
+        transfer_count,
       </if>
       <if test="sortOrder != null" >
         sort_order,
@@ -247,6 +251,9 @@
       </if>
       <if test="foundTime != null" >
         #{foundTime,jdbcType=DATE},
+      </if>
+      <if test="transferCount != null" >
+        #{transferCount,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
@@ -319,6 +326,9 @@
       <if test="record.foundTime != null" >
         found_time = #{record.foundTime,jdbcType=DATE},
       </if>
+      <if test="record.transferCount != null" >
+        transfer_count = #{record.transferCount,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -352,6 +362,7 @@
       fax = #{record.fax,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       found_time = #{record.foundTime,jdbcType=DATE},
+      transfer_count = #{record.transferCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
@@ -410,6 +421,9 @@
       <if test="foundTime != null" >
         found_time = #{foundTime,jdbcType=DATE},
       </if>
+      <if test="transferCount != null" >
+        transfer_count = #{transferCount,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -440,6 +454,7 @@
       fax = #{fax,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       found_time = #{foundTime,jdbcType=DATE},
+      transfer_count = #{transferCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT}

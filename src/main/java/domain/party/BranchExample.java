@@ -1,10 +1,5 @@
 package domain.party;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import sys.constants.SystemConstants;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1217,6 +1212,66 @@ public class BranchExample {
             return (Criteria) this;
         }
 
+        public Criteria andTransferCountIsNull() {
+            addCriterion("transfer_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountIsNotNull() {
+            addCriterion("transfer_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountEqualTo(Integer value) {
+            addCriterion("transfer_count =", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountNotEqualTo(Integer value) {
+            addCriterion("transfer_count <>", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountGreaterThan(Integer value) {
+            addCriterion("transfer_count >", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("transfer_count >=", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountLessThan(Integer value) {
+            addCriterion("transfer_count <", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountLessThanOrEqualTo(Integer value) {
+            addCriterion("transfer_count <=", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountIn(List<Integer> values) {
+            addCriterion("transfer_count in", values, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountNotIn(List<Integer> values) {
+            addCriterion("transfer_count not in", values, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_count between", value1, value2, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_count not between", value1, value2, "transferCount");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;
@@ -1402,27 +1457,6 @@ public class BranchExample {
 
         protected Criteria() {
             super();
-        }
-        public Criteria addPermits(List<Integer> partyIdList, List<Integer> branchIdList) {
-
-            Subject subject = SecurityUtils.getSubject();
-            if(subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    || subject.hasRole(SystemConstants.ROLE_ODADMIN))
-                return this;
-
-            if(partyIdList==null) partyIdList = new ArrayList<>();
-            if(branchIdList==null) branchIdList = new ArrayList<>();
-
-            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
-                addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") OR id in(" + StringUtils.join(branchIdList, ",") + "))");
-            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
-                andIdIn(branchIdList);
-            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
-                andPartyIdIn(partyIdList);
-            if(branchIdList.isEmpty() && partyIdList.isEmpty())
-                andIdIsNull();
-
-            return this;
         }
     }
 

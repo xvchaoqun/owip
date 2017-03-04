@@ -94,6 +94,7 @@
         <div class="widget-body">
             <div class="widget-main">
                 <table id="jqGrid_subCadrePosts" data-width-reduce="50" class="jqGrid4"></table>
+                <div id="jqGridPager_subCadrePosts"></div>
             </div>
         </div>
     </div>
@@ -173,6 +174,12 @@
         background-color: inherit !important;
     }
 </style>
+<script type="text/template" id="sub_sort_tpl">
+<a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_subCadrePosts" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
+       title="修改操作步长">
+<a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_subCadrePosts" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+</script>
 <c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>
     function _innerPage(type) {
@@ -313,12 +320,11 @@
         <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
         multiselect:false,
         </shiro:lacksPermission>
-        pager: null,
+        pager: "#jqGridPager_subCadrePosts",
         ondblClickRow: function () {
         },
-        datatype: "local",
         height: 120,
-        data:${cm:toJSONArray(subCadrePosts)},
+        url: '${ctx}/cadrePost_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '兼任单位', width: 200, name: 'unitId', formatter: function (cellvalue, options, rowObject) {
@@ -326,6 +332,11 @@
             }, frozen: true
             },
             {label: '兼任职务', name: 'post', frozen: true},
+            {
+                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
+                return _.template($("#sub_sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/cadrePost_changeOrder"})
+            }, frozen: true
+            },
             {
                 label: '职务属性', width: 120, name: 'postId', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name

@@ -39,6 +39,8 @@ public class BranchView implements Serializable {
 
     private Date foundTime;
 
+    private Integer transferCount;
+
     private Integer sortOrder;
 
     private Date createTime;
@@ -195,6 +197,14 @@ public class BranchView implements Serializable {
 
     public void setFoundTime(Date foundTime) {
         this.foundTime = foundTime;
+    }
+
+    public Integer getTransferCount() {
+        return transferCount;
+    }
+
+    public void setTransferCount(Integer transferCount) {
+        this.transferCount = transferCount;
     }
 
     public Integer getSortOrder() {

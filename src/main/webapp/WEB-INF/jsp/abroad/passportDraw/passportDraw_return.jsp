@@ -418,7 +418,9 @@
     register_date($('.date-picker'))
     register_date($('input[name=_realStartDate], input[name=_realEndDate]'))
             .on("changeDate", function(e){
-                $("#_realDayCount").html(DateDiff($('input[name=_realStartDate]').val(), $('input[name=_realEndDate]').val()))
+                var _realStartDate = $('input[name=_realStartDate]').val();
+                var _realEndDate = $('input[name=_realEndDate]').val();
+                $("#_realDayCount").html((_realStartDate>_realEndDate)?"日期选择错误":DateDiff(_realStartDate, _realEndDate))
             })
 /*    $('.date-picker').datepicker({
         language:"zh-CN",

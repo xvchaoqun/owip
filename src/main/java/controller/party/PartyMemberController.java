@@ -8,6 +8,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +40,14 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember_page")
     public String partyMember_page(Integer groupId,
-                                   //@RequestParam(required = false, value = "typeIds")Integer[] typeIds,
-                                   Integer userId, ModelMap modelMap) {
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   HttpServletResponse response,
+                                   Integer userId, ModelMap modelMap) throws IOException {
+
+        if(export==1){
+            partyMember_export(groupId, response);
+            return null;
+        }
 
         if(groupId!=null) {
             PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
@@ -266,6 +273,24 @@ public class PartyMemberController extends BaseController {
         partyMemberService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_OW, "基层党组织成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
+    }
+
+    public void partyMember_export(int groupId, HttpServletResponse response) throws IOException {
+
+        PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
+        Party party = partyService.findAll().get(partyMemberGroup.getPartyId());
+
+        XSSFWorkbook wb = statPartyMemberService.toXlsx(groupId);
+        String fileName = party.getName()  +"委员及分工统计表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+            fileName = new String(fileName.getBytes(), "ISO8859_1");
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+            wb.write(outputStream);
+            outputStream.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void partyMember_export(PartyMemberViewExample example, HttpServletResponse response) {

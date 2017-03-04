@@ -3,6 +3,7 @@ package service.cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,8 @@ public class CadrePostService extends BaseMapper {
             }
         }
 
+        record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
+                +" and is_main_post="+record.getIsMainPost()));
         cadrePostMapper.insertSelective(record);
     }
 
@@ -82,7 +85,49 @@ public class CadrePostService extends BaseMapper {
         CadrePostExample example = new CadrePostExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andIsMainPostEqualTo(false);
 
+        example.setOrderByClause("sort_order desc");
+
         List<CadrePost> subCadrePosts = cadrePostMapper.selectByExample(example);
         return subCadrePosts;
+    }
+
+    @Transactional
+    public void changeOrder(int id, int cadreId, int addNum) {
+
+        if(addNum == 0) return ;
+
+        CadrePost entity = cadrePostMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+        Boolean isMainPost = entity.getIsMainPost();
+
+        CadrePostExample example = new CadrePostExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderGreaterThan(baseSortOrder)
+                    .andIsMainPostEqualTo(isMainPost) ;
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderLessThan(baseSortOrder)
+                    .andIsMainPostEqualTo(isMainPost) ;
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<CadrePost> overEntities = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            CadrePost targetEntity = overEntities.get(overEntities.size()-1);
+            if (addNum > 0)
+                commonMapper.downOrder("cadre_post", "cadre_id=" + cadreId +" and is_main_post="+isMainPost,
+                        baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("cadre_post", "cadre_id=" + cadreId+" and is_main_post="+isMainPost,
+                        baseSortOrder, targetEntity.getSortOrder());
+
+            CadrePost record = new CadrePost();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            cadrePostMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

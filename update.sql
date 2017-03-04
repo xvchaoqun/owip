@@ -1,4 +1,21 @@
 
+ALTER TABLE `ow_branch`
+	ADD COLUMN `transfer_count` INT UNSIGNED NULL COMMENT '支部转移次数' AFTER `found_time`;
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ow_branch_view` AS select b.*,  mtmp.num as member_count,mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count from ow_branch b
+left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group group by branch_id) gtmp on gtmp.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_present=1 group by  branch_id) gtmp2 on gtmp2.branch_id=b.id
+
+ALTER TABLE `cadre_post`
+	ADD COLUMN `sort_order` INT UNSIGNED NOT NULL COMMENT '排序，某干部的主职或兼职内部排序' AFTER `is_main_post`;
+
+update cadre_post set  sort_order =id;
+
+
 
 -- 2017-3-3
 ALTER TABLE `train_inspector_course`

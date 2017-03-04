@@ -19,6 +19,7 @@
     <result column="fax" property="fax" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="found_time" property="foundTime" jdbcType="DATE" />
+    <result column="transfer_count" property="transferCount" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -62,8 +63,9 @@
   <sql id="Base_Column_List" >
     id, code, name, short_name, party_id, type_id, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
-    email, found_time, sort_order, create_time, update_time, is_deleted, member_count, 
-    student_member_count, teacher_member_count, retire_member_count, group_count, present_group_count
+    email, found_time, transfer_count, sort_order, create_time, update_time, is_deleted, 
+    member_count, student_member_count, teacher_member_count, retire_member_count, group_count, 
+    present_group_count
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.party.BranchViewExample" >
     select

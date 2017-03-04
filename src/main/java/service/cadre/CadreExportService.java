@@ -2,10 +2,7 @@ package service.cadre;
 
 import bean.DispatchCadreRelateBean;
 import domain.base.MetaType;
-import domain.cadre.CadreAdminLevel;
-import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
+import domain.cadre.*;
 import domain.dispatch.Dispatch;
 import domain.party.Branch;
 import domain.party.Party;
@@ -91,7 +88,8 @@ public class CadreExportService extends BaseMapper {
                 "民族","籍贯","出生地","身份证号","出生时间",
                 "年龄","党派","党派加入时间","参加工作时间","到校时间",
                 "最高学历","最高学位","毕业时间","学习方式","毕业学校",
-                "学校类型","所学专业","岗位类别", "主岗等级","专业技术职务",
+                "学校类型","所学专业","全日制教育学历学位","全日制教育毕业院校系及专业","在职教育学历学位","在职教育毕业院系及专业",
+                "岗位类别", "主岗等级","专业技术职务",
                 "专技职务评定时间","专技职务等级","专技岗位分级时间","管理岗位等级", "管理岗位分级时间",
                 "现职务任命文件","任现职时间","现职务始任时间","现职务始任年限","现职级始任时间",
                 "任现职级年限","兼任单位及职务", "兼任职务现任时间", "兼任职务始任时间", "是否双肩挑",
@@ -140,6 +138,12 @@ public class CadreExportService extends BaseMapper {
 
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 学校类型
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
+
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 400));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
+        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 400));
+
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 160));
         sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
@@ -279,6 +283,26 @@ public class CadreExportService extends BaseMapper {
                 }
             }
 
+            String _fulltimeEdu = "";
+            String _fulltimeMajor = "";
+            String _onjobEdu = "";
+            String _onjobMajor = "";
+            CadreEdu[] cadreEdus = record.getCadreEdus();
+            CadreEdu fulltimeEdu = cadreEdus[0];
+            CadreEdu onjobEdu = cadreEdus[1];
+            if(fulltimeEdu!=null){
+                Integer eduId = fulltimeEdu.getEduId();
+                String degree = fulltimeEdu.getDegree();
+                _fulltimeEdu = metaTypeMap.get(eduId).getName() + (degree!=null?degree:"");
+                _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor();
+            }
+            if(onjobEdu!=null){
+                Integer eduId = onjobEdu.getEduId();
+                String degree = onjobEdu.getDegree();
+                _onjobEdu = metaTypeMap.get(eduId).getName() + (degree!=null?degree:"");
+                _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor();
+            }
+
             Unit unit = record.getUnit();
             String[] values = {
                     sysUser.getCode(),
@@ -311,8 +335,13 @@ public class CadreExportService extends BaseMapper {
                     metaTypeService.getName(record.getLearnStyle()),
                     record.getSchool(),
 
+                    // 学校类型
                     record.getSchoolType()==null?"":SystemConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     record.getMajor(),
+                    _fulltimeEdu,
+                    _fulltimeMajor,
+                    _onjobEdu,
+                    _onjobMajor,
                     record.getPostClass(),
                     record.getMainPostLevel(),
                     record.getProPost(),

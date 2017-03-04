@@ -336,6 +336,25 @@ public class BranchController extends BaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
+    @RequiresPermissions("branch:transfer")
+    @RequestMapping(value = "/branch_batchTransfer")
+    public String branch_batchTransfer(){
+
+        return "party/branch/branch_batchTransfer";
+    }
+
+    //批量转移支部
+    @RequiresPermissions("branch:transfer")
+    @RequestMapping(value = "/branch_batchTransfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_branch_batchTransfer(@RequestParam(value = "ids[]") Integer[] ids,
+                                       int partyId,
+                                       String remark) {
+
+        branchService.batchTransfer(ids, partyId, remark);
+        return success();
+    }
+
     public void branch_export(BranchViewExample example, HttpServletResponse response) {
 
         List<BranchView> records = branchViewMapper.selectByExample(example);

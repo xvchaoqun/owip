@@ -55,6 +55,10 @@
     </c:if>
                 <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"  data-width="900">
                     <i class="fa fa-edit"></i> 修改信息</a>
+                <shiro:hasPermission name="branch:transfer">
+                <a href="javascript:" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/branch_batchTransfer">
+                    <i class="fa fa-random"></i> 支部转移</a>
+                </shiro:hasPermission>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
@@ -213,6 +217,10 @@
             }, frozen:true },
             { label: '所属分党委', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
+            }},
+            { label:'支部转移记录', name: 'transferCount', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined||cellvalue==0) return '-';
+                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/branchTransferLog_page?branchId={0}" class="openView">查看({1})</a>'.format(rowObject.id, cellvalue);
             }},
             { label:'党员总数', name: 'memberCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;

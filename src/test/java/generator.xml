@@ -27,9 +27,9 @@
       <!--<table tableName="train_course" domainObjectName="train.TrainCourse">
       </table>-->
 
-
+<!--
       <table tableName="train_inspector" domainObjectName="train.TrainInspector">
-      </table>
+      </table>-->
       <!--
       <table tableName="train_inspector_course" domainObjectName="train.TrainInspectorCourse">
           <columnOverride column="tempdata" jdbcType="VARCHAR"></columnOverride>
@@ -176,12 +176,14 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-   <!-- <table tableName="ow_branch" domainObjectName="party.Branch">
+    <!--<table tableName="ow_branch" domainObjectName="party.Branch">
     <ignoreColumn column="update_time"/>
-    </table>
-      <table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
+    </table>-->
+      <!--<table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
       </table>-->
 
+      <!--<table tableName="ow_branch_transfer_log" domainObjectName="party.BranchTransferLog">
+      </table>-->
       <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -276,9 +278,9 @@
       <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper">
       </table>-->
       <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
-      </table>
+      </table>-->
      <table tableName="cadre_post" domainObjectName="cadre.CadrePost">
-     </table>-->
+     </table>
       <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
        </table>-->
       <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">

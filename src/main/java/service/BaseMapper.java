@@ -203,6 +203,8 @@ public class BaseMapper {
 	@Autowired
 	protected BranchMapper branchMapper;
 	@Autowired
+	protected BranchTransferLogMapper branchTransferLogMapper;
+	@Autowired
 	protected BranchViewMapper branchViewMapper;
 	@Autowired
 	protected OrgAdminMapper orgAdminMapper;

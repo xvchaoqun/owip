@@ -1,7 +1,7 @@
 package service.party;
 
 import domain.party.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -9,12 +9,15 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 
 import java.util.*;
 
@@ -27,6 +30,62 @@ public class BranchService extends BaseMapper {
     private BranchMemberGroupService branchMemberGroupService;
     @Autowired
     private OrgAdminService orgAdminService;
+
+    // 批量转移支部到新的分党委
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "Branch:ALL", allEntries = true),
+            @CacheEvict(value = "MemberApply", allEntries = true)
+    })
+    public void batchTransfer(Integer[] ids, int partyId, String remark){
+
+        if(ids==null || ids.length==0) return;
+
+        // 记录转移日志
+        Date now = new Date();
+        for (Integer id : ids) {
+
+            Branch branch = branchMapper.selectByPrimaryKey(id);
+
+            BranchTransferLog log = new BranchTransferLog();
+            log.setBranchId(id);
+            log.setPartyId(branch.getPartyId());
+            log.setToPartyId(partyId);
+            log.setCreateTime(now);
+            log.setUserId(ShiroHelper.getCurrentUserId());
+            log.setIp(ContextHelper.getRealIp());
+            log.setRemark(remark);
+            branchTransferLogMapper.insertSelective(log);
+        }
+
+        BranchExample example = new BranchExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        Branch record = new Branch();
+        record.setPartyId(partyId);
+        branchMapper.updateByExampleSelective(record, example);
+
+        String branchIds = StringUtils.join(ids, ",");
+
+        String[] tableNameList = {"ow_apply_approval_log",
+                "ow_apply_open_time", "ow_graduate_abroad",
+                "ow_member", "ow_member_abroad", "ow_member_apply",
+                "ow_member_in", "ow_member_inflow",
+                /*"ow_member_in_modify", "ow_member_modify",*/
+                "ow_member_out", "ow_member_outflow", "ow_member_quit",
+                "ow_member_return", "ow_member_stay", "ow_member_transfer", "ow_org_admin"/*, "ow_retire_apply"*/};
+
+        for (String tableName : tableNameList) {
+
+            updateMapper.batchTransfer(tableName, branchIds);
+        }
+
+        // 校内转接特殊处理 to_party_id
+        updateMapper.batchTransfer2(branchIds);
+
+        // 更新支部转移次数
+        updateMapper.updateBranchTransferCount(branchIds);
+    }
 
     public boolean idDuplicate(Integer id, String code) {
 

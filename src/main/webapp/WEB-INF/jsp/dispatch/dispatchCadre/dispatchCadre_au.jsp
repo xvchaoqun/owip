@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">工作证号</label>
 				<div class="col-xs-8">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
                             name="cadreId" data-placeholder="请选择干部">
                         <option value="${cadre.id}">${sysUser.code}</option>
                     </select>

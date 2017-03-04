@@ -1213,6 +1213,66 @@ public class BranchViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andTransferCountIsNull() {
+            addCriterion("transfer_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountIsNotNull() {
+            addCriterion("transfer_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountEqualTo(Integer value) {
+            addCriterion("transfer_count =", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountNotEqualTo(Integer value) {
+            addCriterion("transfer_count <>", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountGreaterThan(Integer value) {
+            addCriterion("transfer_count >", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("transfer_count >=", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountLessThan(Integer value) {
+            addCriterion("transfer_count <", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountLessThanOrEqualTo(Integer value) {
+            addCriterion("transfer_count <=", value, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountIn(List<Integer> values) {
+            addCriterion("transfer_count in", values, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountNotIn(List<Integer> values) {
+            addCriterion("transfer_count not in", values, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_count between", value1, value2, "transferCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransferCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_count not between", value1, value2, "transferCount");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

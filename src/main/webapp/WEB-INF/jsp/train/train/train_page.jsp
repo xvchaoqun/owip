@@ -84,7 +84,10 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称',name: 'name', width: 300, align:'left', frozen: true},
+            { label: '名称',name: 'name', width: 300, align:'left', frozen: true,formatter:function(cellvalue, options, rowObject){
+                var str = '<i class="fa fa-id-card-o red" title="实名测评"></i>&nbsp;';
+                return (rowObject.totalCount>0&&!rowObject.isAnonymous)?str+cellvalue:cellvalue;
+            }},
             { label: '开始日期',name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '结束日期',name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '培训课程', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {

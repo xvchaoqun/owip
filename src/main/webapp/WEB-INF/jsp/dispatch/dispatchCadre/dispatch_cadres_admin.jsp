@@ -71,7 +71,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">工作证号</label>
           <div class="col-xs-8">
-            <select required data-ajax-url="${ctx}/cadre_selects"
+            <select required data-ajax-url="${ctx}/cadre_selects?type=0"
                     name="cadreId" data-placeholder="请选择干部">
               <option value="${dispatchCadre.cadre.id}">${dispatchCadre.user.code}</option>
             </select>

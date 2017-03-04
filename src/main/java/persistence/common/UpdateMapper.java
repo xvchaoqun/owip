@@ -186,5 +186,14 @@ public interface UpdateMapper {
             "apd.use_passport=null, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")
     int resetReturnPassport(@Param("id") int id);
 
-
+    // 支部整建转移之后，需要修改关联表的支部所属分党委id
+    @Update("update ${tableName} tmp, ow_branch ob set tmp.party_id=ob.party_id where ob.id in (${brachIds}) and tmp.branch_id=ob.id")
+    void batchTransfer(@Param("tableName") String tableName, @Param("brachIds") String brachIds);
+    // 单独用于校内转接
+    @Update("update ow_member_transfer tmp, ow_branch ob set tmp.to_party_id=ob.party_id where ob.id in (${brachIds}) and tmp.to_branch_id=ob.id")
+    void batchTransfer2(@Param("brachIds") String brachIds);
+    // 更新支部转移次数
+    @Update("update ow_branch ob , (select branch_id, count(*) num from ow_branch_transfer_log " +
+            "where branch_id in(${brachIds}) group by branch_id) tmp set ob.transfer_count=tmp.num where ob.id=tmp.branch_id")
+    void updateBranchTransferCount(@Param("brachIds") String brachIds);
 }

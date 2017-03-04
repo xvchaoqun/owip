@@ -10,6 +10,7 @@ import service.LoginUserService;
 import service.SpringProps;
 import service.abroad.*;
 import service.analysis.StatCadreService;
+import service.analysis.StatPartyMemberService;
 import service.analysis.StatService;
 import service.analysis.StatTrainService;
 import service.base.*;
@@ -305,6 +306,8 @@ public class BaseController extends BaseMapper {
     protected CadreExportService cadreExportService;
     @Autowired
     protected StatCadreService statCadreService;
+    @Autowired
+    protected StatPartyMemberService statPartyMemberService;
     @Autowired
     protected StatService statService;
 

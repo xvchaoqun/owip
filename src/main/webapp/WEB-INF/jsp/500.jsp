@@ -36,7 +36,7 @@
           <div class="space"></div>
           <ul class="list-unstyled spaced inline bigger-110 margin-15 ">
 
-            <li>${exception}</li>
+            <li style="color: red;font-weight: bolder">${exception}</li>
             <li>
               <h3><i class="ace-icon fa fa-hand-o-right blue"></i> 请联系系统管理员</h3>
             </li>

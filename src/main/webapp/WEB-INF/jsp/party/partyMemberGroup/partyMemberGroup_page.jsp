@@ -114,6 +114,12 @@
                 return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/partyMember_page?groupId={0}">查看委员</a>'
                         .format(rowObject.id);
             }},
+            {label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.isPresent)
+                return '<a href="${ctx}/partyMember_page?export=1&groupId={0}" target="_blank"><i class="fa fa-file-excel-o"></i> 导出委员</a>'
+                        .format(rowObject.id);
+                return '-'
+            }},
             { label:'所属分党委', name: 'party', width: 280},
             { label: '应换届时间', name: 'tranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '实际换届时间', name: 'actualTranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
