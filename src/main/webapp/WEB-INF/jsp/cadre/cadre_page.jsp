@@ -56,26 +56,34 @@
                                 </button>
 
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                    <shiro:hasPermission name="cadre:leave">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-width="700"
                                             data-url="${ctx}/cadre_leave" data-querystr="&status=${CADRE_STATUS_MIDDLE_LEAVE}">
                                         <i class="fa fa-edit"></i> 离任
                                     </button>
+                                    </shiro:hasPermission>
                                 </c:if>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                    <shiro:hasPermission name="cadreAdditionalPost:edit">
                                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/cadre_additional_post" data-rel="tooltip"
                                             data-placement="bottom"
                                             title="添加职务——仅用于因私出国（境）审批人身份设定">
                                         <i class="fa fa-plus"></i> 因私出国境兼审单位
                                     </button>
+                                    </shiro:hasPermission>
                                 </c:if>
+                                <shiro:hasPermission name="cadre:import">
                                 <a class="popupBtn btn btn-primary btn-sm tooltip-success"
                                    data-url="${ctx}/cadre_import?status=${status}"
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
+                                </shiro:hasPermission>
+                                <shiro:hasPermission name="cadre:export">
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
+                                </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"

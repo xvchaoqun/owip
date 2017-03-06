@@ -6,6 +6,7 @@
     <h3>${cm:getUserById(cadre.userId).realname}-兼审单位</h3>
 </div>
 <div class="modal-body">
+<shiro:hasPermission name="cadreAdditionalPost:edit">
     <div class="widget-box">
         <div class="widget-header">
             <h4 class="smaller">
@@ -24,7 +25,7 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label">职务属性</label>
                         <div class="col-xs-6">
-                            <select  data-rel="select2" name="postId" data-placeholder="请选择职务属性">
+                            <select required data-rel="select2" name="postId" data-placeholder="请选择职务属性">
                                 <option></option>
                                 <jsp:include page="/metaTypes?__code=mc_post"/>
                             </select>
@@ -33,7 +34,7 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label">所属单位</label>
                         <div class="col-xs-8">
-                            <select  class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                            <select required class="form-control" name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
                                 <option></option>
                                 <c:forEach items="${unitMap}" var="unit">
                                     <option value="${unit.key}">${unit.value.name}</option>
@@ -65,6 +66,7 @@
             </div>
         </div>
     </div>
+    </shiro:hasPermission>
     <div class="space-10"></div>
     <div class="popTableDiv"
          data-url-page="${ctx}/cadre_additional_post?id=${cadre.id}"

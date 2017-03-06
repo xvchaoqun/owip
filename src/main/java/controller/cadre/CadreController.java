@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import shiro.ShiroHelper;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.*;
 import sys.constants.SystemConstants;
@@ -153,6 +155,9 @@ public class CadreController extends BaseController {
         }
 
         if (export == 1) {
+            // 判断导出权限
+            SecurityUtils.getSubject().checkPermission("cadre:export");
+
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
             cadre_export(status, example, response);
@@ -255,7 +260,7 @@ public class CadreController extends BaseController {
         return "cadre/cadre_base";
     }
 
-    @RequiresPermissions("cadre:edit")
+    @RequiresPermissions("cadre:leave")
     @RequestMapping("/cadre_leave")
     public String cadre_leave(int id, ModelMap modelMap) {
 
@@ -270,7 +275,7 @@ public class CadreController extends BaseController {
         return "cadre/cadre_leave";
     }
 
-    @RequiresPermissions("cadre:edit")
+    @RequiresPermissions("cadre:leave")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadre_leave(int id, String title, Integer dispatchCadreId, HttpServletRequest request) {
