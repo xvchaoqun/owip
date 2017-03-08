@@ -55,7 +55,7 @@
                                                                 <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
                                                              </c:if>
 
-                                                    <c:if test="${stageCount>0}">
+                                                    <c:if test="${stageCount>0&&stage!=APPLY_STAGE_POSITIVE}">
                                                     <span class="badge badge-success pull-right"
                                                           data-rel="tooltip" title="${stageCount}条待处理审批">${stageCount}</span>
                                                     </c:if>

@@ -216,7 +216,7 @@
                 },
                 {
                     label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: function (cellvalue, options, rowObject) {
-                    return cellvalue ? "是" : "否"
+                    return cellvalue ? "是" : ""
                 }
                 },
                 {label: '备注', name: 'remark', width: 150},
