@@ -279,8 +279,8 @@
       </table>-->
       <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
       </table>-->
-     <table tableName="cadre_post" domainObjectName="cadre.CadrePost">
-     </table>
+     <!--<table tableName="cadre_post" domainObjectName="cadre.CadrePost">
+     </table>-->
       <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
        </table>-->
       <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
@@ -312,9 +312,9 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
+      <table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
+      </table>
       <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
       </table>
       <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">

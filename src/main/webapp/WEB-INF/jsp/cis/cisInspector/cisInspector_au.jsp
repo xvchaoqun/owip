@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">请选择</label>
 				<div class="col-xs-6">
-                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="350"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}" data-width="350"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>

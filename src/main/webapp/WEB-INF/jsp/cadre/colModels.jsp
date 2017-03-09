@@ -11,11 +11,13 @@
                     .format(rowObject.id, cellvalue);
         }, frozen: true
         },
+        <shiro:hasPermission name="cadre:changeOrder">
         {
             label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
             return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
         }, frozen: true
         },
+        </shiro:hasPermission>
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unit.name', width: 200},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
@@ -224,6 +226,7 @@
                 return party + (($.trim(branch) == '') ? '' : '-' + branch);
             }
         },
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
         {
             label: '因私出国境兼审单位',
             width: 150,
@@ -246,6 +249,7 @@
             return msgTitle;
         }
         },
+        </shiro:lacksRole>
         {label: '备注', name: 'remark', width: 150}
     ];
 
@@ -530,7 +534,7 @@
         {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {label: '工作证号', name: 'cadre.user.code', frozen: true},
         {label: '考察对象', name: 'cadre.user.realname', frozen: true},
-        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
+        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200},
         {label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
             var type = _cMap.CIS_INSPECTOR_TYPE_MAP[rowObject.inspectorType];
             if(rowObject.inspectorType=='${CIS_INSPECTOR_TYPE_OTHER}'){
@@ -538,7 +542,7 @@
             }
             return type;
         }, width:200},
-        {label: '考察组负责人', name: 'chiefCadre.user.realname', width:120},
+        {label: '考察组负责人', name: 'chiefInspector.realname', width:120},
         {label: '考察组成员', name: 'inspectors', formatter:function(cellvalue, options, rowObject){
             if(rowObject.inspectorType=='${CIS_INSPECTOR_TYPE_OTHER}') return '-'
             if(cellvalue==undefined || cellvalue.length==0) return '';
@@ -549,8 +553,8 @@
                     names.push(inspector.realname)
             }
             return names.join("，")
-        }, width:150},
-        {label: '谈话人数', name: 'talkUserCount'},
+        }, width:250},
+        /*{label: '谈话人数', name: 'talkUserCount'},*/
         {label: '考察材料', name: 'summary', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.summary && rowObject.summary != '')
                 return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">查看</a>'

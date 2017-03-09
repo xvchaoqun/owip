@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
@@ -22,25 +23,36 @@ public class CisObjInspectorService extends BaseMapper {
         if (null == selectIdSet) selectIdSet = new HashSet<>();
 
         TreeNode root = new TreeNode();
-        root.title = "请选择考察组成员";
+        root.title = "请选择";
         root.expand = true;
         root.isFolder = true;
         root.hideCheckbox = true;
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
+        for (Map.Entry<Byte, String> entry : SystemConstants.CIS_INSPECTOR_STATUS_MAP.entrySet()) {
+            TreeNode groupNode = new TreeNode();
+            groupNode.title = entry.getValue();
+            groupNode.expand = true;
+            groupNode.isFolder = true;
+            groupNode.hideCheckbox = true;
+            List<TreeNode> children = new ArrayList<TreeNode>();
+            groupNode.children = children;
 
-        List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors();
+            List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors(entry.getKey());
 
-        for (CisInspectorView inspector : nowInspectors) {
+            for (CisInspectorView inspector : nowInspectors) {
 
-            TreeNode node = new TreeNode();
-            node.title = inspector.getRealname() + "-" + inspector.getCode();
-            node.key = inspector.getId() + "";
+                TreeNode node = new TreeNode();
+                node.title = inspector.getRealname() + "-" + inspector.getCode();
+                node.key = inspector.getId() + "";
 
-            if (selectIdSet.contains(inspector.getId())) {
-                node.select = true;
+                if (selectIdSet.contains(inspector.getId())) {
+                    node.select = true;
+                }
+                children.add(node);
             }
-            rootChildren.add(node);
+
+            rootChildren.add(groupNode);
         }
 
         return root;

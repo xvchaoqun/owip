@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
 	<li class="${empty param.type?"active":""}">
@@ -12,6 +13,7 @@ pageEncoding="UTF-8"%>
 
 </ul>
 </c:if>
+</shiro:lacksRole>
 <c:if test="${empty param.type}">
 <div class="widget-box transparent">
 	<div class="widget-header widget-header-flat">
@@ -285,9 +287,9 @@ pageEncoding="UTF-8"%>
 				</tr>
 				<tr>
 
-					<td>参加工作时间</td>
+					<td>参加工作时间</td><!--（临时）工龄起算日期-->
 					<td >
-						--
+							${fn:substringBefore(extJzg.glqsrq, ' ')}
 					</td>
 					<td >
 						转正定级时间

@@ -15,7 +15,7 @@
                 <div class="input-group">
                     <input required class="form-control date-picker" placeholder="请选择年份" name="year"
                            type="text"
-                           data-date-format="yyyy" data-date-min-view-mode="2" value="${cisInspectObj.year}"/>
+                           data-date-format="yyyy" data-date-min-view-mode="2" value="${cisInspectObj==null?_thisYear:cisInspectObj.year}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <c:import url="/metaTypes?__code=mc_cis_type"/>
                 </select>
                 <script type="text/javascript">
-                    $("#modal form select[name=typeId]").val(${cisInspectObj.typeId});
+                    $("#modal form select[name=typeId]").val(${cisInspectObj==null?(cm:getMetaTypeByCode("mt_cis_type_assign").id):cisInspectObj.typeId});
                 </script>
             </div>
         </div>
@@ -73,7 +73,7 @@
                     </c:forEach>
                 </select>
                 <script type="text/javascript">
-                    $("#modal form select[name=inspectorType]").val(${cisInspectObj.inspectorType});
+                    $("#modal form select[name=inspectorType]").val(${cisInspectObj==null?CIS_INSPECTOR_TYPE_OW:cisInspectObj.inspectorType});
                 </script>
             </div>
         </div>
@@ -87,19 +87,19 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">考察组负责人</label>
             <div class="col-xs-6">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=2"
-                        name="chiefCadreId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
-                    <option value="${chiefCadre.id}">${chiefCadre.user.realname}-${chiefCadre.user.code}</option>
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cisInspector_selects"
+                        name="chiefInspectorId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
+                    <option value="${chiefInspector.id}">${chiefInspector.realname}-${chiefInspector.code}</option>
                 </select>
             </div>
         </div>
-        <div class="form-group">
+        <%--<div class="form-group">
             <label class="col-xs-3 control-label">谈话人数</label>
             <div class="col-xs-6">
                 <input required class="form-control digits" type="text" name="talkUserCount"
                        value="${cisInspectObj.talkUserCount}">
             </div>
-        </div>
+        </div>--%>
         <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
 
@@ -145,6 +145,6 @@
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_date($('.date-picker'));
-    register_user_select($('#modalForm select[name=cadreId], #modalForm select[name=chiefCadreId]'));
+    register_user_select($('#modalForm select[name=cadreId], #modalForm select[name=chiefInspectorId]'));
 
 </script>

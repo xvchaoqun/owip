@@ -212,9 +212,10 @@ public class CisInspectorController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
+    // <cisInspector.id, realname>
     @RequestMapping("/cisInspector_selects")
     @ResponseBody
-    public Map cisInspector_selects(Integer pageSize, Byte status, Integer pageNo, String searchStr) throws IOException {
+    public Map cisInspector_selects(Byte status, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -225,15 +226,20 @@ public class CisInspectorController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CisInspectorViewExample example = new CisInspectorViewExample();
-        CisInspectorViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if (status != null) {
-            criteria.andStatusEqualTo(status);
+        if (StringUtils.isNotBlank(searchStr)) {
+            CisInspectorViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
+            CisInspectorViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
+            CisInspectorViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
+            if (status != null) {
+                criteria.andStatusEqualTo(status);
+                criteria1.andStatusEqualTo(status);
+                criteria2.andStatusEqualTo(status);
+            }
+        }else if (status != null) {
+            example.createCriteria().andStatusEqualTo(status);
         }
-       /* if(StringUtils.isNotBlank(searchStr)){
-            criteria.andRealNameLike("%"+searchStr+"%");
-        }*/
 
         int count = cisInspectorViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

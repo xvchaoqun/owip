@@ -55,9 +55,9 @@
                                                                 <c:set var="stageCount" value="${stageCountMap[applyStage.key]}"/>
                                                              </c:if>
 
-                                                    <c:if test="${stageCount>0&&applyStage.stage!=APPLY_STAGE_POSITIVE}">
+                                                    <c:if test="${stageCount>0}">
                                                     <span class="badge badge-success pull-right"
-                                                          data-rel="tooltip" title="${stageCount}条待处理审批">${stageCount}</span>
+                                                        <c:if test="${applyStage.key!=APPLY_STAGE_POSITIVE}"> data-rel="tooltip" title="${stageCount}条待处理审批" </c:if> >${stageCount}</span>
                                                     </c:if>
                                                 </a>
                                             </li>
@@ -83,7 +83,7 @@
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"
                                                                       data-placement="right"
-                                                                      data-rel="tooltip" title="${stageTypeCount}条待处理审批">${stageTypeCount}</span>
+                                                                <c:if test="${stage!=APPLY_STAGE_POSITIVE}">data-rel="tooltip" title="${stageTypeCount}条待处理审批"</c:if>>${stageTypeCount}</span>
                                                             </c:if>
                                                         </a>
                                                     </li>
@@ -104,7 +104,7 @@
                                                             <c:if test="${stageTypeCount>0}">
                                                                 <span class="badge badge-success"
                                                                       data-placement="right"
-                                                                      data-rel="tooltip" title="${stageTypeCount}条待处理审批">${stageTypeCount}</span>
+                                                                <c:if test="${stage!=APPLY_STAGE_POSITIVE}">  data-rel="tooltip" title="${stageTypeCount}条待处理审批" </c:if>>${stageTypeCount}</span>
                                                             </c:if>
                                                         </a>
                                                     </li>

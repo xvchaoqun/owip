@@ -52,15 +52,15 @@ public class CisInspectObjService extends BaseMapper {
 
         dataMap.put("info", genSegment(null, cisInspectObj.getSummary(), "/common/cadreInfo.ftl"));
 
-        Cadre chiefCadre = cisInspectObj.getChiefCadre();
-        dataMap.put("chief", chiefCadre.getUser().getRealname());
+        CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
+        dataMap.put("chief", chiefInspector.getRealname());
         dataMap.put("remark", cisInspectObj.getRemark());
         dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         freemarkerService.process("/cis/eva.ftl", dataMap, out);
     }
 
-    private String genSegment(String title, String conent, String ftlPath) throws IOException, TemplateException {
+    private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
 
         /*String conent = "<p>\n" +
                 "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
@@ -72,21 +72,28 @@ public class CisInspectObjService extends BaseMapper {
         List rows = new ArrayList();
 
         Pattern p = Pattern.compile("<p(.*)>([^/]*)</p>");
-        Matcher matcher = p.matcher(conent);
-        while(matcher.find()){
-            int type = 0;
-            if(StringUtils.contains(matcher.group(1), "2em"))
-                type=1;
-            if(StringUtils.contains(matcher.group(1), "5em"))
-                type=2;
-            String group = matcher.group(2);
+        Matcher matcher = p.matcher(content);
+        if(!matcher.matches()){
             List cols = new ArrayList();
-            cols.add(type);
-
-            for (String col : group.trim().split("&nbsp;")) {
-                cols.add(col.trim());
-            }
+            cols.add(0);
+            cols.add(content);
             rows.add(cols);
+        }else {
+            while (matcher.find()) {
+                int type = 0;
+                if (StringUtils.contains(matcher.group(1), "2em"))
+                    type = 1;
+                if (StringUtils.contains(matcher.group(1), "5em"))
+                    type = 2;
+                String group = matcher.group(2);
+                List cols = new ArrayList();
+                cols.add(type);
+
+                for (String col : group.trim().split("&nbsp;")) {
+                    cols.add(col.trim());
+                }
+                rows.add(cols);
+            }
         }
 
         Map<String,Object> dataMap = new HashMap<>();
@@ -172,12 +179,13 @@ public class CisInspectObjService extends BaseMapper {
     }
 
     @Transactional
-    public void updateSummary(int objId, String summary, Integer[] unitIds) {
+    public void updateSummary(int objId, String summary, Integer[] unitIds, Integer talkUserCount) {
 
         {
             CisInspectObj record = new CisInspectObj();
             record.setId(objId);
             record.setSummary(summary);
+            record.setTalkUserCount(talkUserCount);
             cisInspectObjMapper.updateByPrimaryKeySelective(record);
         }
 

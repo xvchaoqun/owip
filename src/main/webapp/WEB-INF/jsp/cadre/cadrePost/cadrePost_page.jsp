@@ -13,12 +13,14 @@
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>
     </li>
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="buttons" style="position:absolute;left: 360px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=${HF_CADRE_POST}">
             <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
+    </shiro:lacksRole>
 </ul>
 <div class="space-4"></div>
 <c:if test="${type==1}">
@@ -26,6 +28,7 @@
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主职
                 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                 <div class="buttons">
                     <c:if test="${empty mainCadrePost}">
                         <a class="popupBtn btn btn-info btn-sm"
@@ -44,6 +47,7 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </div>
+                   </shiro:lacksRole>
                 </shiro:hasPermission>
             </h4>
 
@@ -63,6 +67,7 @@
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-half"></i> 兼职
                 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+                    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadrePost_au?isMainPost=0&cadreId=${param.cadreId}"><i
@@ -82,6 +87,7 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+                    </shiro:lacksRole>
                 </shiro:hasPermission>
             </h4>
 
@@ -101,6 +107,7 @@
 </c:if>
 <c:if test="${type==2}">
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
@@ -110,6 +117,7 @@
             <i class="fa fa-edit"></i> 修改对应现运行单位
         </button>
     </div>
+        </shiro:lacksRole>
     </shiro:hasPermission>
     <div class="space-4"></div>
     <table id="jqGrid_cadreWork" data-width-reduce="60" class="jqGrid2"></table>
@@ -117,6 +125,7 @@
 </c:if>
 <c:if test="${type==3}">
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <a class="popupBtn btn  btn-sm btn-info"
@@ -137,6 +146,7 @@
             <i class="fa fa-times"></i> 删除
         </button>
     </div>
+        </shiro:lacksRole>
     </shiro:hasPermission>
     <div class="space-4"></div>
     <table id="jqGrid_cadreAdminLevels" data-width-reduce="60" class="jqGrid2"></table>
@@ -332,11 +342,13 @@
             }, frozen: true
             },
             {label: '兼任职务', name: 'post', frozen: true},
+            <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sub_sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/cadrePost_changeOrder"})
             }, frozen: true
             },
+            </shiro:lacksRole>
             {
                 label: '职务属性', width: 120, name: 'postId', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[cellvalue].name

@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cis.*;
 import domain.cis.CisInspectObjExample.Criteria;
+import domain.unit.Unit;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -49,7 +50,7 @@ public class CisInspectObjController extends BaseController {
             Map<Integer, Cadre> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cadreId));
         }
-        List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors();
+        List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
         modelMap.put("inspectors", nowInspectors);
 
         return "cis/cisInspectObj/cisInspectObj_page";
@@ -182,7 +183,7 @@ public class CisInspectObjController extends BaseController {
             modelMap.put("cisInspectObj", cisInspectObj);
             Map<Integer, Cadre> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cisInspectObj.getCadreId()));
-            modelMap.put("chiefCadre", cadreMap.get(cisInspectObj.getChiefCadreId()));
+            modelMap.put("chiefInspector", cisInspectObj.getChiefInspector());
         }
 
         return "cis/cisInspectObj/cisInspectObj_au";
@@ -195,7 +196,18 @@ public class CisInspectObjController extends BaseController {
         if (objId != null) {
             CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
             modelMap.put("cisInspectObj", cisInspectObj);
+
+            List<Unit> units = cisInspectObjService.getUnits(objId);
+            Set<Integer> selectIdSet = new HashSet<>();
+            for (Unit unit : units) {
+                selectIdSet.add(unit.getId());
+            }
+            modelMap.put("selectIds", new ArrayList<>(selectIdSet));
         }
+
+
+        List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
+        modelMap.put("runUnits", runUnits);
 
         return "cis/cisInspectObj/cisInspectObj_summary";
     }
@@ -204,10 +216,11 @@ public class CisInspectObjController extends BaseController {
     @RequestMapping(value = "/cisInspectObj_summary", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cisInspectObj_summary(int objId, String summary,
+                                        Integer talkUserCount,
                                         @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
                                    HttpServletRequest request) {
 
-        cisInspectObjService.updateSummary(objId, summary, unitIds);
+        cisInspectObjService.updateSummary(objId, summary, unitIds, talkUserCount);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位：%s",objId));
 
         return success(FormUtils.SUCCESS);

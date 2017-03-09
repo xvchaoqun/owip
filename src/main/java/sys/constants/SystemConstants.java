@@ -928,7 +928,7 @@ public class SystemConstants {
     static {
         CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_NOW, "现任考察组成员");
         CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_HISTORY, "过去考察组成员");
-        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_DELETE, "已删除考察组成员");
+        CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_DELETE, "已删除");
     }
     // 干部考察 考察主体
     public final static byte CIS_INSPECTOR_TYPE_OW = 1;

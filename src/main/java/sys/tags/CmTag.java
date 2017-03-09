@@ -32,6 +32,7 @@ import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.*;
 import service.cis.CisInspectObjService;
+import service.cis.CisInspectorService;
 import service.dispatch.*;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
@@ -83,6 +84,7 @@ public class CmTag {
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
     static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
 
+    static CisInspectorService cisInspectorService = (CisInspectorService) context.getBean("cisInspectorService");
     static CisInspectObjService cisInspectObjService = (CisInspectObjService) context.getBean("cisInspectObjService");
     static TrainEvaNormService trainEvaNormService = (TrainEvaNormService) context.getBean("trainEvaNormService");
     static TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
@@ -496,9 +498,13 @@ public class CmTag {
         return cadreEduService.getByLearnStyle(cadreId);
     }
 
-    public static List<CisInspectorView> getCisInspectors(Integer id) {
+    public static List<CisInspectorView> getCisInspectors(Integer objId) {
 
-        return cisInspectObjService.getInspectors(id);
+        return cisInspectObjService.getInspectors(objId);
+    }
+    public static CisInspectorView getCisInspector(Integer id) {
+
+        return cisInspectorService.getInspector(id);
     }
 
     public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId){

@@ -10,20 +10,25 @@
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 教学成果及获奖情况</a>
     </li>
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 预览</a>
     </li>
+    </shiro:lacksRole>
     </shiro:hasPermission>
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="buttons" style="position:absolute;left: 500px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=${HF_CADRE_COURSE}">
             <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
+</shiro:lacksRole>
 </ul>
 
 <c:if test="${type==1}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreCourse:edit">
@@ -47,6 +52,7 @@
             </button>
         </shiro:hasPermission>
     </div>
+        </shiro:lacksRole>
         </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreCourse" data-width-reduce="60" class="jqGrid2"></table>
@@ -54,6 +60,7 @@
 </c:if>
 <c:if test="${type==2}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <a class="popupBtn btn  btn-sm btn-info"
@@ -75,6 +82,7 @@
             <i class="fa fa-times"></i> 删除
         </button>
     </div>
+    </shiro:lacksRole>
         </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreReward" data-width-reduce="60" class="jqGrid2"></table>

@@ -13,9 +13,9 @@ public class CisInspectObj implements Serializable {
 
         return CmTag.getCadreById(cadreId);
     }
-    public Cadre getChiefCadre(){
+    public CisInspectorView getChiefInspector(){
 
-        return CmTag.getCadreById(chiefCadreId);
+        return CmTag.getCisInspector(chiefInspectorId);
     }
 
     public List<CisInspectorView> getInspectors(){
@@ -39,7 +39,7 @@ public class CisInspectObj implements Serializable {
 
     private String otherInspectorType;
 
-    private Integer chiefCadreId;
+    private Integer chiefInspectorId;
 
     private Integer talkUserCount;
 
@@ -113,12 +113,12 @@ public class CisInspectObj implements Serializable {
         this.otherInspectorType = otherInspectorType == null ? null : otherInspectorType.trim();
     }
 
-    public Integer getChiefCadreId() {
-        return chiefCadreId;
+    public Integer getChiefInspectorId() {
+        return chiefInspectorId;
     }
 
-    public void setChiefCadreId(Integer chiefCadreId) {
-        this.chiefCadreId = chiefCadreId;
+    public void setChiefInspectorId(Integer chiefInspectorId) {
+        this.chiefInspectorId = chiefInspectorId;
     }
 
     public Integer getTalkUserCount() {

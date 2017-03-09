@@ -16,6 +16,7 @@
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="<%=DateUtils.getDateBeforeOrAfterYears(new Date(), -1)%>" var="yearAgo"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="today"/>
+<c:set value="${cm:formatDate(now,'yyyy')}" var="_thisYear"/>
 <c:set value="${cm:formatDate(yearAgo,'yyyy-MM-dd')}" var="yearAgo"/>
 
 <fmt:setBundle basename="spring" var="spring"/>
@@ -35,6 +36,7 @@
 <c:set var="ROLE_CADREADMIN" value="<%=SystemConstants.ROLE_CADREADMIN%>"/>
 <c:set var="ROLE_CADRE" value="<%=SystemConstants.ROLE_CADRE%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=SystemConstants.ROLE_CADRERESERVE%>"/>
+<c:set var="ROLE_ONLY_CADRE_VIEW" value="role_cadre_view"/>
 
 
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
@@ -149,6 +151,7 @@
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_HISTORY%>" var="CIS_INSPECTOR_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_DELETE%>" var="CIS_INSPECTOR_STATUS_DELETE"/>
 
+<c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_OW%>" var="CIS_INSPECTOR_TYPE_OW"/>
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_OTHER%>" var="CIS_INSPECTOR_TYPE_OTHER"/>
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_MAP%>" var="CIS_INSPECTOR_TYPE_MAP"/>
 

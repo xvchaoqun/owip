@@ -15,11 +15,13 @@
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
 
                 <div class="tabbable">
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="<c:if test="${status==CADRE_STATUS_MIDDLE}">active</c:if>">
                             <a href="?status=${CADRE_STATUS_MIDDLE}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE)}</a>
                         </li>
+
                         <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
                             <a href="?status=${CADRE_STATUS_MIDDLE_LEAVE}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
@@ -28,8 +30,9 @@
                             <a class="popupBtn btn btn-danger btn-sm"
                                data-url="${ctx}/cadre/search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
                         </div>
-                    </ul>
 
+                    </ul>
+</shiro:lacksRole>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
@@ -47,14 +50,12 @@
                                         <c:if test="${status==CADRE_STATUS_MIDDLE}">添加现任中层干部</c:if>
                                         <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">添加离任中层干部</c:if>
                                     </a>
-                                </shiro:hasPermission>
-
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/cadre_au"
                                         data-querystr="&status=${status}">
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
-
+                                </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
                                     <shiro:hasPermission name="cadre:leave">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"

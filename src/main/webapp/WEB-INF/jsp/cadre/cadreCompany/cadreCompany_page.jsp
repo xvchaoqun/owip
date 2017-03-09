@@ -2,6 +2,7 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
     <a class="popupBtn btn btn-warning btn-sm"
@@ -29,6 +30,7 @@ pageEncoding="UTF-8" %>
         </button>
     </shiro:hasPermission>
 </div>
+    </shiro:lacksRole>
     </c:if>
 <div class="space-4"></div>
 <table id="jqGrid_cadreCompany" class="jqGrid2"></table>

@@ -622,63 +622,63 @@ public class CisInspectObjExample {
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdIsNull() {
-            addCriterion("chief_cadre_id is null");
+        public Criteria andChiefInspectorIdIsNull() {
+            addCriterion("chief_inspector_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdIsNotNull() {
-            addCriterion("chief_cadre_id is not null");
+        public Criteria andChiefInspectorIdIsNotNull() {
+            addCriterion("chief_inspector_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdEqualTo(Integer value) {
-            addCriterion("chief_cadre_id =", value, "chiefCadreId");
+        public Criteria andChiefInspectorIdEqualTo(Integer value) {
+            addCriterion("chief_inspector_id =", value, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdNotEqualTo(Integer value) {
-            addCriterion("chief_cadre_id <>", value, "chiefCadreId");
+        public Criteria andChiefInspectorIdNotEqualTo(Integer value) {
+            addCriterion("chief_inspector_id <>", value, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdGreaterThan(Integer value) {
-            addCriterion("chief_cadre_id >", value, "chiefCadreId");
+        public Criteria andChiefInspectorIdGreaterThan(Integer value) {
+            addCriterion("chief_inspector_id >", value, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("chief_cadre_id >=", value, "chiefCadreId");
+        public Criteria andChiefInspectorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("chief_inspector_id >=", value, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdLessThan(Integer value) {
-            addCriterion("chief_cadre_id <", value, "chiefCadreId");
+        public Criteria andChiefInspectorIdLessThan(Integer value) {
+            addCriterion("chief_inspector_id <", value, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdLessThanOrEqualTo(Integer value) {
-            addCriterion("chief_cadre_id <=", value, "chiefCadreId");
+        public Criteria andChiefInspectorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("chief_inspector_id <=", value, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdIn(List<Integer> values) {
-            addCriterion("chief_cadre_id in", values, "chiefCadreId");
+        public Criteria andChiefInspectorIdIn(List<Integer> values) {
+            addCriterion("chief_inspector_id in", values, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdNotIn(List<Integer> values) {
-            addCriterion("chief_cadre_id not in", values, "chiefCadreId");
+        public Criteria andChiefInspectorIdNotIn(List<Integer> values) {
+            addCriterion("chief_inspector_id not in", values, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdBetween(Integer value1, Integer value2) {
-            addCriterion("chief_cadre_id between", value1, value2, "chiefCadreId");
+        public Criteria andChiefInspectorIdBetween(Integer value1, Integer value2) {
+            addCriterion("chief_inspector_id between", value1, value2, "chiefInspectorId");
             return (Criteria) this;
         }
 
-        public Criteria andChiefCadreIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("chief_cadre_id not between", value1, value2, "chiefCadreId");
+        public Criteria andChiefInspectorIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("chief_inspector_id not between", value1, value2, "chiefInspectorId");
             return (Criteria) this;
         }
 

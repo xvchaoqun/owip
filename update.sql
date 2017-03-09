@@ -1,4 +1,17 @@
 
+-- 2017-3-9
+ALTER TABLE `cis_inspect_obj`
+	CHANGE COLUMN `talk_user_count` `talk_user_count` INT(10) UNSIGNED NULL COMMENT '谈话人数' AFTER `chief_cadre_id`;
+
+
+ALTER TABLE `cis_inspect_obj`
+	CHANGE COLUMN `chief_cadre_id` `chief_inspector_id` INT(10) UNSIGNED NOT NULL COMMENT '考察组负责人，从考察组成员中选取' AFTER `other_inspector_type`,
+	DROP FOREIGN KEY `FK_cis_inspect_obj_cadre_2`;
+
+	ALTER TABLE `cis_inspect_obj`
+	ADD CONSTRAINT `FK_cis_inspect_obj_cis_inspector` FOREIGN KEY (`chief_inspector_id`) REFERENCES `cis_inspector` (`id`);
+
+-- 2017-3-5
 ALTER TABLE `ow_branch`
 	ADD COLUMN `transfer_count` INT UNSIGNED NULL COMMENT '支部转移次数' AFTER `found_time`;
 
@@ -14,9 +27,6 @@ ALTER TABLE `cadre_post`
 	ADD COLUMN `sort_order` INT UNSIGNED NOT NULL COMMENT '排序，某干部的主职或兼职内部排序' AFTER `is_main_post`;
 
 update cadre_post set  sort_order =id;
-
-
-
 -- 2017-3-3
 ALTER TABLE `train_inspector_course`
 	CHANGE COLUMN `score` `score` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '评估总分，未用' AFTER `feedback`;

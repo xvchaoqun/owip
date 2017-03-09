@@ -16,11 +16,16 @@ import java.util.List;
 @Service
 public class CisInspectorService extends BaseMapper {
 
+    public CisInspectorView getInspector(int id){
 
-    public List<CisInspectorView> getNowInspectors(){
+        return cisInspectorViewMapper.selectByPrimaryKey(id);
+    }
+
+    public List<CisInspectorView> getNowInspectors(byte status){
 
         CisInspectorViewExample example = new CisInspectorViewExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        example.createCriteria().andStatusEqualTo(status);
+        example.setOrderByClause("sort_order desc");
         return cisInspectorViewMapper.selectByExample(example);
     }
 

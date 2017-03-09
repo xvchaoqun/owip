@@ -24,16 +24,20 @@
             科研成果及获奖</a>
     </li>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH?"active":""}">
         <a href="javascript:" onclick="_innerPage('${CADRE_INFO_TYPE_RESEARCH}')"><i class="fa fa-flag"></i> 预览</a>
     </li>
+</shiro:lacksRole>
     </shiro:hasPermission>
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="buttons" style="position:absolute;left: 750px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=${HF_CADRE_RESEARCH}">
             <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
+</shiro:lacksRole>
 </ul>
 <c:if test="${type!=CADRE_INFO_TYPE_RESEARCH_REWARD}">
 <div class="row two-frames">
@@ -81,6 +85,7 @@
                     <input type="hidden" name="content">
                 </div>
                 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+                    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                     <div class="modal-footer center">
                         <c:if test="${type==CADRE_INFO_TYPE_RESEARCH || type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
                             <a href="javascript:" onclick="copyOrginal()" class="btn btn-success">
@@ -92,6 +97,7 @@
                                value="保存"/>
 
                     </div>
+                    </shiro:lacksRole>
                 </c:if>
             </div>
         </div>
@@ -104,6 +110,7 @@
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 主持科研项目情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                 <div class="buttons">
                     <shiro:hasPermission name="cadreResearch:edit">
                         <a class="popupBtn btn btn-success btn-sm"
@@ -128,6 +135,7 @@
                         </button>
                     </shiro:hasPermission>
                 </div>
+        </shiro:lacksRole>
         </c:if>
             </h4>
             <div class="widget-toolbar">
@@ -150,6 +158,7 @@
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-battery-full"></i> 参与科研项目情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                 <div class="buttons">
                     <shiro:hasPermission name="cadreResearch:edit">
                         <a class="popupBtn btn btn-success btn-sm"
@@ -174,6 +183,7 @@
                         </button>
                     </shiro:hasPermission>
                 </div>
+        </shiro:lacksRole>
         </c:if>
             </h4>
             <div class="widget-toolbar">
@@ -196,6 +206,7 @@
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 出版著作情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                 <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadreBook_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -215,6 +226,7 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+        </shiro:lacksRole>
         </c:if>
             </h4>
 
@@ -238,7 +250,8 @@
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-history"></i> 发表论文情况
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                <div class="buttons">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <div class="buttons">
                     <a class="popupBtn btn  btn-sm btn-info"
                        data-url="${ctx}/cadrePaper_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加</a>
@@ -257,6 +270,7 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </div>
+    </shiro:lacksRole>
         </c:if>
             </h4>
 
@@ -276,6 +290,7 @@
 </c:if>
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
         <div class="space-4"></div>
         <div class="jqgrid-vertical-offset buttons">
             <a class="popupBtn btn  btn-sm btn-info"
@@ -297,6 +312,7 @@
                 <i class="fa fa-times"></i> 删除
             </button>
         </div>
+        </shiro:lacksRole>
     </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreReward" data-width-reduce="60" class="jqGrid2"></table>

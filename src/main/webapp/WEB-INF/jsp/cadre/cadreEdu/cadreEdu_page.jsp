@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 学习经历</a>
@@ -10,10 +11,11 @@
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
     </li>
 </ul>
-
-    </shiro:hasPermission>
+    </shiro:lacksRole>
+</shiro:hasPermission>
 <c:if test="${type==1}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
@@ -48,6 +50,7 @@
             </button>
         </shiro:hasPermission>
     </div>
+        </shiro:lacksRole>
     </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreEdu" class="jqGrid2"></table>

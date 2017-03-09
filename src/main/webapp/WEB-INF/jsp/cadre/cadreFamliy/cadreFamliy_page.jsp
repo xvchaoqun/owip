@@ -7,6 +7,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员信息
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <div class="buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
@@ -33,6 +34,7 @@
                     </button>
                 </shiro:hasPermission>
             </div>
+    </shiro:lacksRole>
     </c:if>
         </h4>
 
@@ -55,6 +57,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamliy:edit">
                     <a class="popupBtn btn btn-success btn-sm"
@@ -77,6 +80,7 @@
                     </button>
                 </shiro:hasPermission>
             </div>
+    </shiro:lacksRole>
     </c:if>
         </h4>
 

@@ -39,7 +39,8 @@ public class SysRoleService {
 			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="Menus", allEntries=true),
 			@CacheEvict(value="SysRole", key = "#role"),
-			@CacheEvict(value="Permissions", allEntries=true)
+			@CacheEvict(value="Permissions", allEntries=true),
+			@CacheEvict(value = "UserRoles", allEntries=true)
 	})
 	public void del(Integer id, String role){
 
@@ -63,7 +64,8 @@ public class SysRoleService {
 			@CacheEvict(value="Menus", allEntries=true),
 			@CacheEvict(value="SysRole", key = "#role"),
 			@CacheEvict(value="SysRole", key = "#oldRole"),
-			@CacheEvict(value="SysRoles", allEntries=true)
+			@CacheEvict(value="SysRoles", allEntries=true),
+			@CacheEvict(value = "UserRoles", allEntries=true)
 	})
 	public int updateByPrimaryKeySelective(SysRole sysRole, String role, String oldRole){
 

@@ -10,7 +10,7 @@
     <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
     <result column="inspector_type" property="inspectorType" jdbcType="TINYINT" />
     <result column="other_inspector_type" property="otherInspectorType" jdbcType="VARCHAR" />
-    <result column="chief_cadre_id" property="chiefCadreId" jdbcType="INTEGER" />
+    <result column="chief_inspector_id" property="chiefInspectorId" jdbcType="INTEGER" />
     <result column="talk_user_count" property="talkUserCount" jdbcType="INTEGER" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
@@ -75,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, year, type_id, seq, inspect_date, cadre_id, inspector_type, other_inspector_type, 
-    chief_cadre_id, talk_user_count, summary, remark
+    chief_inspector_id, talk_user_count, summary, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cis.CisInspectObjExample" >
     select
@@ -110,12 +110,12 @@
   <insert id="insert" parameterType="domain.cis.CisInspectObj" >
     insert into cis_inspect_obj (id, year, type_id, 
       seq, inspect_date, cadre_id, 
-      inspector_type, other_inspector_type, chief_cadre_id, 
+      inspector_type, other_inspector_type, chief_inspector_id, 
       talk_user_count, summary, remark
       )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{seq,jdbcType=INTEGER}, #{inspectDate,jdbcType=DATE}, #{cadreId,jdbcType=INTEGER}, 
-      #{inspectorType,jdbcType=TINYINT}, #{otherInspectorType,jdbcType=VARCHAR}, #{chiefCadreId,jdbcType=INTEGER}, 
+      #{inspectorType,jdbcType=TINYINT}, #{otherInspectorType,jdbcType=VARCHAR}, #{chiefInspectorId,jdbcType=INTEGER}, 
       #{talkUserCount,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
@@ -146,8 +146,8 @@
       <if test="otherInspectorType != null" >
         other_inspector_type,
       </if>
-      <if test="chiefCadreId != null" >
-        chief_cadre_id,
+      <if test="chiefInspectorId != null" >
+        chief_inspector_id,
       </if>
       <if test="talkUserCount != null" >
         talk_user_count,
@@ -184,8 +184,8 @@
       <if test="otherInspectorType != null" >
         #{otherInspectorType,jdbcType=VARCHAR},
       </if>
-      <if test="chiefCadreId != null" >
-        #{chiefCadreId,jdbcType=INTEGER},
+      <if test="chiefInspectorId != null" >
+        #{chiefInspectorId,jdbcType=INTEGER},
       </if>
       <if test="talkUserCount != null" >
         #{talkUserCount,jdbcType=INTEGER},
@@ -231,8 +231,8 @@
       <if test="record.otherInspectorType != null" >
         other_inspector_type = #{record.otherInspectorType,jdbcType=VARCHAR},
       </if>
-      <if test="record.chiefCadreId != null" >
-        chief_cadre_id = #{record.chiefCadreId,jdbcType=INTEGER},
+      <if test="record.chiefInspectorId != null" >
+        chief_inspector_id = #{record.chiefInspectorId,jdbcType=INTEGER},
       </if>
       <if test="record.talkUserCount != null" >
         talk_user_count = #{record.talkUserCount,jdbcType=INTEGER},
@@ -258,7 +258,7 @@
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       inspector_type = #{record.inspectorType,jdbcType=TINYINT},
       other_inspector_type = #{record.otherInspectorType,jdbcType=VARCHAR},
-      chief_cadre_id = #{record.chiefCadreId,jdbcType=INTEGER},
+      chief_inspector_id = #{record.chiefInspectorId,jdbcType=INTEGER},
       talk_user_count = #{record.talkUserCount,jdbcType=INTEGER},
       summary = #{record.summary,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
@@ -290,8 +290,8 @@
       <if test="otherInspectorType != null" >
         other_inspector_type = #{otherInspectorType,jdbcType=VARCHAR},
       </if>
-      <if test="chiefCadreId != null" >
-        chief_cadre_id = #{chiefCadreId,jdbcType=INTEGER},
+      <if test="chiefInspectorId != null" >
+        chief_inspector_id = #{chiefInspectorId,jdbcType=INTEGER},
       </if>
       <if test="talkUserCount != null" >
         talk_user_count = #{talkUserCount,jdbcType=INTEGER},
@@ -314,7 +314,7 @@
       cadre_id = #{cadreId,jdbcType=INTEGER},
       inspector_type = #{inspectorType,jdbcType=TINYINT},
       other_inspector_type = #{otherInspectorType,jdbcType=VARCHAR},
-      chief_cadre_id = #{chiefCadreId,jdbcType=INTEGER},
+      chief_inspector_id = #{chiefInspectorId,jdbcType=INTEGER},
       talk_user_count = #{talkUserCount,jdbcType=INTEGER},
       summary = #{summary,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}

@@ -26,23 +26,13 @@
                             <div class="widget-box" style="width: 400px;">
                                 <div class="widget-header">
                                     <h4 class="smaller">
-                                        考察基本情况
+                                        请选择单位
                                     </h4>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main" style="margin-bottom: 10px">
-                                        <div>
-                                            考察单位：
-                                        <select class="multiselect" name="unitIds[]" multiple="" >
-                                            <c:forEach items="${runUnits}" var="unit">
-                                                <option value="${unit.id}">${unit.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                        </div>
-                                        <div>
-                                            谈话人数：
-                                                <input class="form-control digits" type="text" name="talkUserCount"
-                                                       value="${cisInspectObj.talkUserCount}">
+                                        <div id="tree3" style="height: 550px;">
+                                            <div class="block-loading"/>
                                         </div>
                                     </div>
                                 </div>
@@ -76,11 +66,7 @@
 </div>
 <div class="footer-margin"/>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
-
-    register_multiselect($('#modalFrom select[name="unitIds[]"]'), ${selectIds});
 
     var ke = KindEditor.create('#content', {
         cssPath: "${ctx}/css/ke.css",
@@ -90,7 +76,7 @@
     });
 
     $(function () {
-       /* $.getJSON("${ctx}/cisObjUnits_tree", {objId: "${param.objId}"}, function (data) {
+        $.getJSON("${ctx}/cisObjUnits_tree", {objId: "${param.objId}"}, function (data) {
             var treeData = data.tree.children;
             $("#tree3").dynatree({
                 checkbox: true,
@@ -103,7 +89,7 @@
                 cookieId: "dynatree-Cb3",
                 idPrefix: "dynatree-Cb3-"
             });
-        });*/
+        });
 
         $("#item-content button[type=submit]").click(function () {
             $("#modalFrom").submit();
@@ -111,13 +97,13 @@
         });
         $("#modalFrom").validate({
             submitHandler: function (form) {
-                /*var unitIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
+                var unitIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
                     if (!node.data.isFolder && !node.data.hideCheckbox)
                         return node.data.key;
-                });*/
+                });
 
                 $(form).ajaxSubmit({
-                    data: {/*unitIds: unitIds, */objId: "${param.objId}", summary: ke.html()},
+                    data: {unitIds: unitIds, objId: "${param.objId}", summary: ke.html()},
                     success: function (data) {
                         if (data.success) {
                             _closeView()
