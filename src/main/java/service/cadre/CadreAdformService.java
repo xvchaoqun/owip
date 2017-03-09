@@ -147,7 +147,8 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
-        dataMap.put("reward", bean.getReward());
+        if(bean.getReward()!=null)
+            dataMap.put("reward", genSegment(null, bean.getReward(), "/common/cadreInfo.ftl"));
         dataMap.put("ces", bean.getCes());
         dataMap.put("reason", bean.getReason());
 
