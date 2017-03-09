@@ -58,9 +58,20 @@
     <result column="manage_level" property="manageLevel" jdbcType="VARCHAR" />
     <result column="manage_level_time" property="manageLevelTime" jdbcType="DATE" />
     <result column="arrive_time" property="arriveTime" jdbcType="DATE" />
+    <result column="work_start_time" property="workStartTime" jdbcType="DATE" />
     <result column="main_cadre_post_id" property="mainCadrePostId" jdbcType="INTEGER" />
     <result column="is_double" property="isDouble" jdbcType="BIT" />
     <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
+    <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
+    <result column="admin_level_name" property="adminLevelName" jdbcType="VARCHAR" />
+    <result column="max_ce_edu_attr" property="maxCeEduAttr" jdbcType="VARCHAR" />
+    <result column="max_ce_edu_code" property="maxCeEduCode" jdbcType="VARCHAR" />
+    <result column="max_ce_edu_name" property="maxCeEduName" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="unit_type_id" property="unitTypeId" jdbcType="INTEGER" />
+    <result column="unit_type_code" property="unitTypeCode" jdbcType="VARCHAR" />
+    <result column="unit_type_name" property="unitTypeName" jdbcType="VARCHAR" />
+    <result column="unit_type_attr" property="unitTypeAttr" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -99,7 +110,9 @@
     party_id, branch_id, grow_time, member_status, edu_id, finish_time, learn_style, 
     school, dep, school_type, major, degree, post_class, sub_post_class, main_post_level, 
     pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, 
-    arrive_time, main_cadre_post_id, is_double, double_unit_id
+    arrive_time, work_start_time, main_cadre_post_id, is_double, double_unit_id, admin_level_code, 
+    admin_level_name, max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, 
+    unit_type_code, unit_type_name, unit_type_attr
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadreReserve.CadreReserveViewExample" >
     select

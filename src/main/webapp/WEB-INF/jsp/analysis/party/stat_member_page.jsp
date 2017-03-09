@@ -13,7 +13,7 @@
             <i class="ace-icon fa fa-check green"></i>
             欢迎使用组织工作管理与服务一体化平台
           </div>--%>
-
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
           <div class="row">
             <div class="col-sm-12">
               <div class="widget-box transparent">
@@ -114,6 +114,7 @@
             </div>
             <!-- /.col -->
           </div>
+    </shiro:lacksRole>
           <!-- /.row -->
 
           <div class="row">

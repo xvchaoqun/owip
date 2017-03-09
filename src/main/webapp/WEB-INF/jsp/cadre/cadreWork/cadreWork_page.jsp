@@ -196,7 +196,7 @@
             colModel: [
                 {
                     label: '期间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.subWorkCount == 0) return '';
+                    if (rowObject.subWorkCount == 0) return '-';
                     return _.template($("#switch_tpl").html().NoMultiSpace())({
                         id: rowObject.id,
                         count: rowObject.subWorkCount

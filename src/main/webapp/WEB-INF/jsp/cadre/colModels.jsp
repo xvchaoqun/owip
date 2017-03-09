@@ -75,9 +75,7 @@
         }
         },
         {
-            label: '参加工作时间', width: 120, formatter: function (cellvalue, options, rowObject) {
-            return "-"
-        }
+            label: '参加工作时间', name: 'workStartTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
         },
         {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {
@@ -102,7 +100,7 @@
         }
         },
         {label: '所学专业', name: 'major', width: 180, align:'left'},
-        {label: '全日制教育学历', name: 'fulltimeEdu', width: 110, formatter: function (cellvalue, options, rowObject) {
+        {label: '全日制教育学历', name: 'fulltimeEdu', width: 130, formatter: function (cellvalue, options, rowObject) {
             var cadreEdus = rowObject.cadreEdus;
             if (cadreEdus == undefined || cadreEdus == null|| cadreEdus[0]==undefined) return '-';
             return _cMap.metaTypeMap[cadreEdus[0].eduId].name/* + ((cadreEdus[0].degree==undefined)?'':cadreEdus[0].degree)*/;
@@ -113,7 +111,7 @@
             if (cadreEdus == undefined || cadreEdus == null || cadreEdus[0]==undefined) return '';
             return cadreEdus[0].school + cadreEdus[0].dep + cadreEdus[0].major;
         }},
-        {label: '在职教育学历', name: 'onjobEdu', width: 100, formatter: function (cellvalue, options, rowObject) {
+        {label: '在职教育学历', name: 'onjobEdu', width: 120, formatter: function (cellvalue, options, rowObject) {
             var cadreEdus = rowObject.cadreEdus;
             if (cadreEdus == undefined || cadreEdus == null || cadreEdus[1]==undefined) return '-';
             return _cMap.metaTypeMap[cadreEdus[1].eduId].name/* + ((cadreEdus[1].degree==undefined)?'':cadreEdus[1].degree)*/;

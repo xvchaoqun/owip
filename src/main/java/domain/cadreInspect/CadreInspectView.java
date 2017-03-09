@@ -150,6 +150,8 @@ public class CadreInspectView implements Serializable {
 
     private Date arriveTime;
 
+    private Date workStartTime;
+
     private Integer mainCadrePostId;
 
     private Boolean isDouble;
@@ -608,6 +610,14 @@ public class CadreInspectView implements Serializable {
 
     public void setArriveTime(Date arriveTime) {
         this.arriveTime = arriveTime;
+    }
+
+    public Date getWorkStartTime() {
+        return workStartTime;
+    }
+
+    public void setWorkStartTime(Date workStartTime) {
+        this.workStartTime = workStartTime;
     }
 
     public Integer getMainCadrePostId() {

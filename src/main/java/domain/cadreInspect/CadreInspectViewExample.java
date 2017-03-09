@@ -3622,6 +3622,66 @@ public class CadreInspectViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andWorkStartTimeIsNull() {
+            addCriterion("work_start_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeIsNotNull() {
+            addCriterion("work_start_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("work_start_time =", value, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("work_start_time <>", value, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("work_start_time >", value, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("work_start_time >=", value, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeLessThan(Date value) {
+            addCriterionForJDBCDate("work_start_time <", value, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("work_start_time <=", value, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("work_start_time in", values, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("work_start_time not in", values, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("work_start_time between", value1, value2, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkStartTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("work_start_time not between", value1, value2, "workStartTime");
+            return (Criteria) this;
+        }
+
         public Criteria andMainCadrePostIdIsNull() {
             addCriterion("main_cadre_post_id is null");
             return (Criteria) this;

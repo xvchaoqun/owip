@@ -17,15 +17,12 @@
       </h4>
       <div class="widget-toolbar no-border">
         <ul class="nav nav-tabs">
-          <li <shiro:lacksRole name="${ROLE_ADMIN}">
-  <shiro:lacksRole name="${ROLE_ODADMIN}">
-          class="active"
-            </shiro:lacksRole>
-            </shiro:lacksRole>
+          <li
+          class="${(!cm:hasRole(ROLE_ADMIN) && !cm:hasRole(ROLE_ODADMIN) && !cm:hasRole(ROLE_ONLY_CADRE_VIEW))?'active':''}"
                   >
             <a href="javascript:" data-url="${ctx}/user_base">个人基本信息</a>
           </li>
-          <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+          <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_ONLY_CADRE_VIEW}">
           <li class="active">
               <a href="javascript:" data-url="${ctx}/stat_member_page">党建统计信息</a>
           </li>
@@ -39,14 +36,12 @@
     <div class="widget-body">
       <div class="widget-main padding-4">
         <div class="tab-content padding-8">
-          <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+          <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_ONLY_CADRE_VIEW}">
           <c:import url="/stat_member_page"/>
           </shiro:hasAnyRoles>
-          <shiro:lacksRole name="${ROLE_ADMIN}">
-            <shiro:lacksRole name="${ROLE_ODADMIN}">
+            <c:if test="${!cm:hasRole(ROLE_ADMIN) && !cm:hasRole(ROLE_ODADMIN) && !cm:hasRole(ROLE_ONLY_CADRE_VIEW)}">
           <c:import url="/user_base"/>
-              </shiro:lacksRole>
-           </shiro:lacksRole>
+            </c:if>
         </div>
       </div><!-- /.widget-main -->
     </div><!-- /.widget-body -->

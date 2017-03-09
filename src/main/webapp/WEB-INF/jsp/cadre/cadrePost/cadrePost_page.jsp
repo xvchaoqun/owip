@@ -6,9 +6,11 @@
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 任现职情况</a>
     </li>
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <li class="${type==2?"active":""}">
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 任职经历</a>
     </li>
+        </shiro:lacksRole>
     </shiro:hasPermission>
     <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 任职级经历</a>

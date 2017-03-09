@@ -156,11 +156,33 @@ public class CadreReserveView implements Serializable {
 
     private Date arriveTime;
 
+    private Date workStartTime;
+
     private Integer mainCadrePostId;
 
     private Boolean isDouble;
 
     private Integer doubleUnitId;
+
+    private String adminLevelCode;
+
+    private String adminLevelName;
+
+    private String maxCeEduAttr;
+
+    private String maxCeEduCode;
+
+    private String maxCeEduName;
+
+    private String unitName;
+
+    private Integer unitTypeId;
+
+    private String unitTypeCode;
+
+    private String unitTypeName;
+
+    private String unitTypeAttr;
 
     private static final long serialVersionUID = 1L;
 
@@ -612,6 +634,14 @@ public class CadreReserveView implements Serializable {
         this.arriveTime = arriveTime;
     }
 
+    public Date getWorkStartTime() {
+        return workStartTime;
+    }
+
+    public void setWorkStartTime(Date workStartTime) {
+        this.workStartTime = workStartTime;
+    }
+
     public Integer getMainCadrePostId() {
         return mainCadrePostId;
     }
@@ -634,5 +664,85 @@ public class CadreReserveView implements Serializable {
 
     public void setDoubleUnitId(Integer doubleUnitId) {
         this.doubleUnitId = doubleUnitId;
+    }
+
+    public String getAdminLevelCode() {
+        return adminLevelCode;
+    }
+
+    public void setAdminLevelCode(String adminLevelCode) {
+        this.adminLevelCode = adminLevelCode == null ? null : adminLevelCode.trim();
+    }
+
+    public String getAdminLevelName() {
+        return adminLevelName;
+    }
+
+    public void setAdminLevelName(String adminLevelName) {
+        this.adminLevelName = adminLevelName == null ? null : adminLevelName.trim();
+    }
+
+    public String getMaxCeEduAttr() {
+        return maxCeEduAttr;
+    }
+
+    public void setMaxCeEduAttr(String maxCeEduAttr) {
+        this.maxCeEduAttr = maxCeEduAttr == null ? null : maxCeEduAttr.trim();
+    }
+
+    public String getMaxCeEduCode() {
+        return maxCeEduCode;
+    }
+
+    public void setMaxCeEduCode(String maxCeEduCode) {
+        this.maxCeEduCode = maxCeEduCode == null ? null : maxCeEduCode.trim();
+    }
+
+    public String getMaxCeEduName() {
+        return maxCeEduName;
+    }
+
+    public void setMaxCeEduName(String maxCeEduName) {
+        this.maxCeEduName = maxCeEduName == null ? null : maxCeEduName.trim();
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName == null ? null : unitName.trim();
+    }
+
+    public Integer getUnitTypeId() {
+        return unitTypeId;
+    }
+
+    public void setUnitTypeId(Integer unitTypeId) {
+        this.unitTypeId = unitTypeId;
+    }
+
+    public String getUnitTypeCode() {
+        return unitTypeCode;
+    }
+
+    public void setUnitTypeCode(String unitTypeCode) {
+        this.unitTypeCode = unitTypeCode == null ? null : unitTypeCode.trim();
+    }
+
+    public String getUnitTypeName() {
+        return unitTypeName;
+    }
+
+    public void setUnitTypeName(String unitTypeName) {
+        this.unitTypeName = unitTypeName == null ? null : unitTypeName.trim();
+    }
+
+    public String getUnitTypeAttr() {
+        return unitTypeAttr;
+    }
+
+    public void setUnitTypeAttr(String unitTypeAttr) {
+        this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
     }
 }

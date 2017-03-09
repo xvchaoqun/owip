@@ -219,11 +219,11 @@
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-    <!--  <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->
@@ -236,19 +236,19 @@
 
       <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
       </table>-->
-     <!-- <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+      <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
       <!--<table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
-      </table>
+      </table>-->
       <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
       <!--
       <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
@@ -312,9 +312,9 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
+      <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
       </table>
       <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
