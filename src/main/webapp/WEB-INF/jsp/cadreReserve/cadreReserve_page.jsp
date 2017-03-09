@@ -33,14 +33,16 @@
                             </ul>
                         </li>--%>
                         <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
+                            <c:if test="${!cm:hasRole(ROLE_ONLY_CADRE_VIEW) || _type.key!=CADRE_RESERVE_TYPE_SCHOOL}">
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
                                 <a href="?reserveType=${_type.key}">
                                     <i class="fa fa-flag"></i>
                                         ${_type.value}(${normalCountMap.get(_type.key)})</a>
                             </li>
+                            </c:if>
                         </c:forEach>
-
-                        <c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
+<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+<c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
                                     <a href="?status=${_status.key}">
@@ -61,10 +63,12 @@
                                 <a class="popupBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属后备干部库</a>
                             </div>
+</shiro:lacksRole>
                     </ul>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
+                                <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                                 <c:if test="${status==CADRE_RESERVE_STATUS_NORMAL}">
                                     <shiro:hasPermission name="cadreReserve:edit">
                                         <a class="popupBtn btn btn-info btn-sm btn-success"
@@ -102,13 +106,14 @@
                                         data-open-by="page">
                                     <i class="fa fa-search"></i> 任免操作记录
                                 </button>
-                                <a class="jqExportBtn btn btn-success btn-sm"
-                                   data-rel="tooltip" data-placement="bottom"
-                                   title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
                                 <c:if test="${status==CADRE_RESERVE_STATUS_ABOLISH}">
                                     <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
                                 </c:if>
+                                </shiro:lacksRole>
+                                <a class="jqExportBtn btn btn-success btn-sm"
+                                   data-rel="tooltip" data-placement="bottom"
+                                   title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                                 <div class="widget-header">
@@ -212,6 +217,7 @@
                         .format(rowObject.id, cellvalue);
             }, frozen: true
             },
+            <shiro:hasPermission name="cadreReserve:changeOrder">
             <c:if test="${status==CADRE_RESERVE_STATUS_NORMAL}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
@@ -219,6 +225,7 @@
             }, frozen: true
             },
             </c:if>
+                </shiro:hasPermission>
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
             {label: '所在单位', name: 'unit.name', width: 200},
             {label: '现任职务', name: 'post', align: 'left', width: 350},
@@ -397,6 +404,7 @@
                     return party + (($.trim(branch) == '') ? '' : '-' + branch);
                 }
             },
+            <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             {
                 label: '因私出国境兼审单位',
                 width: 150,
@@ -419,6 +427,7 @@
                 return msgTitle;
             }
             },
+            </shiro:lacksRole>
             {label: '备注', name: 'reserveRemark', width: 150}, {hidden: true, key: true, name: 'reserveId'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {

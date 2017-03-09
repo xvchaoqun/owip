@@ -100,7 +100,7 @@ public class CadreReserveController extends BaseController {
 
         if (status == null && reserveType == null) {
             // 默认页面
-            reserveType = SystemConstants.CADRE_RESERVE_TYPE_SCHOOL;
+            reserveType = SystemConstants.CADRE_RESERVE_TYPE_ADMIN_CHIEF;
         }
         if (reserveType != null) {
             // 正常状态的后备干部库，读取指定的类别
