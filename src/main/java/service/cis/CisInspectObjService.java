@@ -50,7 +50,7 @@ public class CisInspectObjService extends BaseMapper {
             dataMap.put("inspectors", StringUtils.join(names, "，"));
         }
 
-        dataMap.put("info", genSegment(null, cisInspectObj.getSummary(), "/common/cadreInfo.ftl"));
+        dataMap.put("info", freemarkerService.genSegment(null, cisInspectObj.getSummary(), "/common/cadreInfo.ftl"));
 
         CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
         dataMap.put("chief", chiefInspector.getRealname());
@@ -60,40 +60,41 @@ public class CisInspectObjService extends BaseMapper {
         freemarkerService.process("/cis/eva.ftl", dataMap, out);
     }
 
-    private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
+    /*private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
 
-        /*String conent = "<p>\n" +
+        *//*String conent = "<p>\n" +
                 "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
                 "</p>\n" +
                 "<p>\n" +
                 "\t1994.09-1997.07&nbsp;北京师范大学资源与环境学院自然地理学&nbsp;管理学博士\n" +
-                "</p>";*/
+                "</p>";*//*
         //System.out.println(getStringNoBlank(info));
         List rows = new ArrayList();
 
         Pattern p = Pattern.compile("<p(.*)>([^/]*)</p>");
         Matcher matcher = p.matcher(content);
-        if(!matcher.matches()){
+        int matchCount = 0;
+        while (matcher.find()) {
+            matchCount++;
+            int type = 0;
+            if (StringUtils.contains(matcher.group(1), "2em"))
+                type = 1;
+            if (StringUtils.contains(matcher.group(1), "5em"))
+                type = 2;
+            String group = matcher.group(2);
+            List cols = new ArrayList();
+            cols.add(type);
+
+            for (String col : group.trim().split("&nbsp;")) {
+                cols.add(col.trim());
+            }
+            rows.add(cols);
+        }
+        if(matchCount==0){
             List cols = new ArrayList();
             cols.add(0);
             cols.add(content);
             rows.add(cols);
-        }else {
-            while (matcher.find()) {
-                int type = 0;
-                if (StringUtils.contains(matcher.group(1), "2em"))
-                    type = 1;
-                if (StringUtils.contains(matcher.group(1), "5em"))
-                    type = 2;
-                String group = matcher.group(2);
-                List cols = new ArrayList();
-                cols.add(type);
-
-                for (String col : group.trim().split("&nbsp;")) {
-                    cols.add(col.trim());
-                }
-                rows.add(cols);
-            }
         }
 
         Map<String,Object> dataMap = new HashMap<>();
@@ -101,7 +102,7 @@ public class CisInspectObjService extends BaseMapper {
         dataMap.put("dataList", rows);
 
         return freemarkerService.process(ftlPath, dataMap);
-    }
+    }*/
 
     // 生成编号
     public int genSeq(int typeId, int year){

@@ -2411,7 +2411,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${reward!}</w:t>
+								${reward!}
 							</w:r>
 						</w:p>
 					</w:tc>

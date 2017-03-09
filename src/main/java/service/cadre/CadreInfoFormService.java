@@ -47,6 +47,8 @@ public class CadreInfoFormService extends BaseMapper{
     // 获取干部信息采集表属性值
     public CadreInfoForm getCadreInfoForm(int cadreId){
 
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         SysUserView uv = cadre.getUser();
 
@@ -89,15 +91,42 @@ public class CadreInfoFormService extends BaseMapper{
         }
 
         // 最高学历
-        CadreEdu highEdu = cadreEduService.getHighEdu(cadreId);
+        /*CadreEdu highEdu = cadreEduService.getHighEdu(cadreId);
         bean.setDegree(highEdu == null ? null : metaTypeService.getName(highEdu.getEduId()));
         bean.setSchoolDepMajor(highEdu == null ? null :
                 StringUtils.trimToEmpty(highEdu.getSchool())+
                         StringUtils.trimToEmpty(highEdu.getDep())
-                        +StringUtils.trimToEmpty(highEdu.getMajor()));
+                        +StringUtils.trimToEmpty(highEdu.getMajor()));*/
+        String _fulltimeEdu = "";
+        String _fulltimeMajor = "";
+        String _onjobEdu = "";
+        String _onjobMajor = "";
+        CadreEdu[] cadreEdus = cadre.getCadreEdus();
+        CadreEdu fulltimeEdu = cadreEdus[0];
+        CadreEdu onjobEdu = cadreEdus[1];
+        if(fulltimeEdu!=null){
+            Integer eduId = fulltimeEdu.getEduId();
+            //String degree = fulltimeEdu.getDegree();
+            _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor();
+        }
+        if(onjobEdu!=null){
+            Integer eduId = onjobEdu.getEduId();
+            //String degree = onjobEdu.getDegree();
+            _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor();
+        }
+        // 全日制最高学历
+        bean.setDegree(_fulltimeEdu);
+        bean.setSchoolDepMajor(_fulltimeMajor);
+        bean.setInDegree(_onjobEdu);
+        bean.setInSchoolDepMajor(_onjobMajor);
+
         // 主职,现任职务
-        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
-        bean.setPost(mainCadrePost==null?null:mainCadrePost.getPost());
+        /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
+        bean.setPost(mainCadrePost==null?null:mainCadrePost.getPost());*/
+        // 现任职务
+        bean.setPost(cadre.getPost());
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
@@ -197,17 +226,17 @@ public class CadreInfoFormService extends BaseMapper{
         dataMap.put("parttime", "");
 
         dataMap.put("learnDesc", bean.getLearnDesc()==null?"":
-                    genSegment("学习经历", bean.getLearnDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genSegment("学习经历", bean.getLearnDesc(), "/common/cadreInfo.ftl"));
         dataMap.put("workDesc", bean.getWorkDesc()==null?"":
-                genSegment("工作经历", bean.getWorkDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genSegment("工作经历", bean.getWorkDesc(), "/common/cadreInfo.ftl"));
         dataMap.put("trainDesc", bean.getTrainDesc()==null?"":
-                    genSegment(null, bean.getTrainDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genSegment(null, bean.getTrainDesc(), "/common/cadreInfo.ftl"));
         dataMap.put("teachDesc", bean.getTeachDesc()==null?"":
-                genSegment(null, bean.getTeachDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genSegment(null, bean.getTeachDesc(), "/common/cadreInfo.ftl"));
         dataMap.put("researchDesc", bean.getResearchDesc()==null?"":
-                genSegment(null, bean.getResearchDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genSegment(null, bean.getResearchDesc(), "/common/cadreInfo.ftl"));
         dataMap.put("otherRewardDesc", bean.getOtherRewardDesc()==null?"":
-                genSegment(null, bean.getOtherRewardDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genSegment(null, bean.getOtherRewardDesc(), "/common/cadreInfo.ftl"));
 
         dataMap.put("mobile", bean.getMobile());
         dataMap.put("phone", bean.getPhone());
@@ -315,40 +344,41 @@ public class CadreInfoFormService extends BaseMapper{
 
         return freemarkerService.process(ftlPath, dataMap);
     }
-    private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
+    /*private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
 
-        /*String conent = "<p>\n" +
+        *//*String conent = "<p>\n" +
                 "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
                 "</p>\n" +
                 "<p>\n" +
                 "\t1994.09-1997.07&nbsp;北京师范大学资源与环境学院自然地理学&nbsp;管理学博士\n" +
-                "</p>";*/
+                "</p>";*//*
         //System.out.println(getStringNoBlank(info));
         List rows = new ArrayList();
 
         Pattern p = Pattern.compile("<p(.*)>([^/]*)</p>");
         Matcher matcher = p.matcher(content);
-        if(!matcher.matches()){
+        int matchCount = 0;
+        while (matcher.find()) {
+            matchCount++;
+            int type = 0;
+            if (StringUtils.contains(matcher.group(1), "2em"))
+                type = 1;
+            if (StringUtils.contains(matcher.group(1), "5em"))
+                type = 2;
+            String group = matcher.group(2);
+            List cols = new ArrayList();
+            cols.add(type);
+
+            for (String col : group.trim().split("&nbsp;")) {
+                cols.add(col.trim());
+            }
+            rows.add(cols);
+        }
+        if(matchCount==0){
             List cols = new ArrayList();
             cols.add(0);
             cols.add(content);
             rows.add(cols);
-        }else {
-            while (matcher.find()) {
-                int type = 0;
-                if (StringUtils.contains(matcher.group(1), "2em"))
-                    type = 1;
-                if (StringUtils.contains(matcher.group(1), "5em"))
-                    type = 2;
-                String group = matcher.group(2);
-                List cols = new ArrayList();
-                cols.add(type);
-
-                for (String col : group.trim().split("&nbsp;")) {
-                    cols.add(col.trim());
-                }
-                rows.add(cols);
-            }
         }
 
         Map<String,Object> dataMap = new HashMap<>();
@@ -356,5 +386,5 @@ public class CadreInfoFormService extends BaseMapper{
         dataMap.put("dataList", rows);
 
         return freemarkerService.process(ftlPath, dataMap);
-    }
+    }*/
 }
