@@ -76,7 +76,7 @@ public class CadreInfoFormService extends BaseMapper{
         //bean.setHousehold();
 
         bean.setHomeplace(uv.getHomeplace());
-        //bean.setWorkTime();
+        bean.setWorkTime(cadre.getWorkStartTime()); // 参加工作时间
         bean.setHealth(uv.getHealth());
         bean.setProPost(cadre.getProPost());
         bean.setSpecialty(uv.getSpecialty());

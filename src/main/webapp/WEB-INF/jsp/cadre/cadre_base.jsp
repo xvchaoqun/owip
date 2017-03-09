@@ -856,20 +856,20 @@ pageEncoding="UTF-8"%>
 								手机号
 							</td>
 							<td style="min-width: 80px">
-								<input required type="text" name="mobile" value="${uv.mobile}">
+								<input type="text" name="mobile" value="${uv.mobile}">
 							</td>
 							<td>
 								办公电话
 							</td>
 							<td style="min-width: 80px">
-								<input required type="text" name="phone" value="${uv.phone}">
+								<input type="text" name="phone" value="${uv.phone}">
 							</td>
 
 							<td>
 								电子邮箱
 							</td>
 							<td style="min-width: 80px">
-								<input required class="email" type="text" name="email" value="${uv.email}">
+								<input class="email" type="text" name="email" value="${uv.email}">
 							</td>
 						</tr>
 

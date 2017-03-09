@@ -67,7 +67,7 @@ public class CadreAdformService extends BaseMapper{
         bean.setNativePlace(cadre.getNativePlace());
 
         bean.setHomeplace(uv.getHomeplace());
-        //bean.setWorkTime();
+        bean.setWorkTime(cadre.getWorkStartTime()); // 参加工作时间
         bean.setHealth(uv.getHealth());
         bean.setProPost(cadre.getProPost());
         bean.setSpecialty(uv.getSpecialty());
@@ -88,11 +88,15 @@ public class CadreAdformService extends BaseMapper{
                         +StringUtils.trimToEmpty(highEdu.getMajor()));
         // 主职,现任职务
         CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
-        bean.setPost(mainCadrePost==null?null:mainCadrePost.getPost());
+        bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
         bean.setLearnDesc(edu==null?null:edu.getContent());
+        // 奖惩情况，暂时同步其他奖励
+        CadreInfo reward = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER);
+        bean.setReward(reward == null ? null : reward.getContent());
+
         // 工作经历
         CadreInfo work = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
         bean.setWorkDesc(work==null?null:work.getContent());

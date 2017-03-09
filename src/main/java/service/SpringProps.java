@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringProps {
 
+	@Value("${site.school}")
+	public String school;
+
 	@Value("${db.schema}")
 	public String schema;
 
