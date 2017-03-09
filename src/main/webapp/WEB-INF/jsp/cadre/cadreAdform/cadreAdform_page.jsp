@@ -107,7 +107,7 @@
         <div><span>（  岁）</span></div>
         </td>
         <td class="td3 center">
-            ${cm:formatDate(bean.birth, "yyyy年MM月")}
+            ${cm:formatDate(bean.birth, "yyyy.MM")}
                 <div><span>（${bean.age}岁）</span></div>
         </td>
         <td class="td5 center" rowspan="4">
