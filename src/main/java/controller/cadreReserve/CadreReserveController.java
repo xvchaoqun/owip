@@ -205,7 +205,7 @@ public class CadreReserveController extends BaseController {
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
-                criteria.andIdIn(Arrays.asList(ids));
+                criteria.andReserveIdIn(Arrays.asList(ids));
             cadreReserve_export(reserveType, example, response);
             return;
         }

@@ -109,7 +109,7 @@ public class CadreInspectController extends BaseController {
 
         if (export == 1) {
             if(ids!=null && ids.length>0)
-                criteria.andIdIn(Arrays.asList(ids));
+                criteria.andInspectIdIn(Arrays.asList(ids));
             cadreInspect_export(example, response);
             return;
         }
