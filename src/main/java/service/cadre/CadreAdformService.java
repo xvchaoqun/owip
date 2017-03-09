@@ -119,7 +119,7 @@ public class CadreAdformService extends BaseMapper{
         /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
         bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());*/
         // 现任职务
-        bean.setPost(cadre.getPost());
+        bean.setPost(cadre.getTitle());
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
@@ -157,7 +157,7 @@ public class CadreAdformService extends BaseMapper{
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", bean.getRealname());
         dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
-        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy年MM月"));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy.MM"));
         dataMap.put("age", bean.getAge());
         dataMap.put("avatar", bean.getAvatar());
         dataMap.put("nation", bean.getNation());

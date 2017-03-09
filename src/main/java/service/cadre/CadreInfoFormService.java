@@ -126,7 +126,7 @@ public class CadreInfoFormService extends BaseMapper{
         /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
         bean.setPost(mainCadrePost==null?null:mainCadrePost.getPost());*/
         // 现任职务
-        bean.setPost(cadre.getPost());
+        bean.setPost(cadre.getTitle());
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
