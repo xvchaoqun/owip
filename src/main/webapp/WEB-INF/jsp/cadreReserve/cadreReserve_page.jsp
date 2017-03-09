@@ -208,7 +208,7 @@
     $("#jqGrid").jqGrid({
         //forceFit:true,
         rownumbers: true,
-        url: '${ctx}/cadreReserve_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreReserve_data?reserveType=${reserveType}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
             {
