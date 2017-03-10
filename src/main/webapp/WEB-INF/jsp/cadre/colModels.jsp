@@ -555,13 +555,13 @@
         /*{label: '谈话人数', name: 'talkUserCount'},*/
         {label: '考察材料', name: 'summary', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.summary && rowObject.summary != '')
-                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">查看</a>'
+                return '<button class="openView btn btn-info btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id)
-                        + '&nbsp;<a href="${ctx}/cisInspectObj_summary_export?objId={0}">导出</a>'
+                        + '&nbsp;<button class="linkBtn btn btn-success btn-xs" data-url="${ctx}/cisInspectObj_summary_export?objId={0}"><i class="fa fa-download"></i> 导出</button>'
                                 .format(rowObject.id);
-            else return '<a href="javascript:void(0)" class="openView" data-url="${ctx}cisInspectObj_summary?objId={0}">编辑</a>'
+            else return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-edit"></i> 编辑</button>'
                     .format(rowObject.id)
-        }
+        }, width:150
         },
         {label: '备注', name: 'remark'},{hidden: true, name: 'inspectorType'}
     ];

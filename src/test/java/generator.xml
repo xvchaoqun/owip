@@ -312,13 +312,14 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
+      <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
+          <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
       </table>
       <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
       </table>

@@ -102,10 +102,10 @@ public class FreemarkerService {
         Elements ps = doc.getElementsByTag("p");
         int size = ps.size();
         for (int i = 0; i < size; i++) {
-            rows.add(ps.get(i).text());
+            rows.add(StringUtils.trimToEmpty(ps.get(i).text()));
         }
         if(size==0){
-            rows.add(doc.text());
+            rows.add(StringUtils.trimToEmpty(doc.text()));
         }
 
         Map<String,Object> dataMap = new HashMap<>();

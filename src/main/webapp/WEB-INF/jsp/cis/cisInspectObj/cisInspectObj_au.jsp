@@ -36,7 +36,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">编号</label>
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="seq" value="${cisInspectObj.seq}">
+                <input class="form-control digits" type="text" name="seq" value="${cisInspectObj.seq}">
                 <span class="label-inline"> * 留空自动生成</span>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">考察对象</label>
             <div class="col-xs-6">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
+                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
                     <option value="${cadre.id}">${cadre.user.realname}-${cadre.user.code}</option>
                 </select>
@@ -87,7 +87,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">考察组负责人</label>
             <div class="col-xs-6">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/cisInspector_selects"
+                <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cisInspector_selects"
                         name="chiefInspectorId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
                     <option value="${chiefInspector.id}">${chiefInspector.realname}-${chiefInspector.code}</option>
                 </select>
