@@ -12,6 +12,8 @@
     <result column="other_inspector_type" property="otherInspectorType" jdbcType="VARCHAR" />
     <result column="chief_inspector_id" property="chiefInspectorId" jdbcType="INTEGER" />
     <result column="talk_user_count" property="talkUserCount" jdbcType="INTEGER" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="assign_post" property="assignPost" jdbcType="VARCHAR" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
@@ -75,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, year, type_id, seq, inspect_date, cadre_id, inspector_type, other_inspector_type, 
-    chief_inspector_id, talk_user_count, summary, remark
+    chief_inspector_id, talk_user_count, post, assign_post, summary, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cis.CisInspectObjExample" >
     select
@@ -111,13 +113,13 @@
     insert into cis_inspect_obj (id, year, type_id, 
       seq, inspect_date, cadre_id, 
       inspector_type, other_inspector_type, chief_inspector_id, 
-      talk_user_count, summary, remark
-      )
+      talk_user_count, post, assign_post, 
+      summary, remark)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{seq,jdbcType=INTEGER}, #{inspectDate,jdbcType=DATE}, #{cadreId,jdbcType=INTEGER}, 
       #{inspectorType,jdbcType=TINYINT}, #{otherInspectorType,jdbcType=VARCHAR}, #{chiefInspectorId,jdbcType=INTEGER}, 
-      #{talkUserCount,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+      #{talkUserCount,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{assignPost,jdbcType=VARCHAR}, 
+      #{summary,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cis.CisInspectObj" >
     insert into cis_inspect_obj
@@ -151,6 +153,12 @@
       </if>
       <if test="talkUserCount != null" >
         talk_user_count,
+      </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="assignPost != null" >
+        assign_post,
       </if>
       <if test="summary != null" >
         summary,
@@ -189,6 +197,12 @@
       </if>
       <if test="talkUserCount != null" >
         #{talkUserCount,jdbcType=INTEGER},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="assignPost != null" >
+        #{assignPost,jdbcType=VARCHAR},
       </if>
       <if test="summary != null" >
         #{summary,jdbcType=VARCHAR},
@@ -237,6 +251,12 @@
       <if test="record.talkUserCount != null" >
         talk_user_count = #{record.talkUserCount,jdbcType=INTEGER},
       </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assignPost != null" >
+        assign_post = #{record.assignPost,jdbcType=VARCHAR},
+      </if>
       <if test="record.summary != null" >
         summary = #{record.summary,jdbcType=VARCHAR},
       </if>
@@ -260,6 +280,8 @@
       other_inspector_type = #{record.otherInspectorType,jdbcType=VARCHAR},
       chief_inspector_id = #{record.chiefInspectorId,jdbcType=INTEGER},
       talk_user_count = #{record.talkUserCount,jdbcType=INTEGER},
+      post = #{record.post,jdbcType=VARCHAR},
+      assign_post = #{record.assignPost,jdbcType=VARCHAR},
       summary = #{record.summary,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -296,6 +318,12 @@
       <if test="talkUserCount != null" >
         talk_user_count = #{talkUserCount,jdbcType=INTEGER},
       </if>
+      <if test="post != null" >
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="assignPost != null" >
+        assign_post = #{assignPost,jdbcType=VARCHAR},
+      </if>
       <if test="summary != null" >
         summary = #{summary,jdbcType=VARCHAR},
       </if>
@@ -316,6 +344,8 @@
       other_inspector_type = #{otherInspectorType,jdbcType=VARCHAR},
       chief_inspector_id = #{chiefInspectorId,jdbcType=INTEGER},
       talk_user_count = #{talkUserCount,jdbcType=INTEGER},
+      post = #{post,jdbcType=VARCHAR},
+      assign_post = #{assignPost,jdbcType=VARCHAR},
       summary = #{summary,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

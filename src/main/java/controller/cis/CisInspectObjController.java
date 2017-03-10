@@ -3,7 +3,6 @@ package controller.cis;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cis.*;
-import domain.cis.CisInspectObjExample.Criteria;
 import domain.unit.Unit;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
@@ -77,9 +76,13 @@ public class CisInspectObjController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CisInspectObjExample example = new CisInspectObjExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("inspect_date desc");
+        /**
+         * 考察报告要排序，规则：先按年份，新的在上，老的在下；
+         * 再按考察类型，选拔任用在上，后备干部在下；
+         * 最后按编号，数字大的在上，数字小的在下。基本上和发文的排序差不多。
+         */
+        CisInspectObjViewExample example = new CisInspectObjViewExample();
+        CisInspectObjViewExample.Criteria criteria = example.createCriteria();
 
         if (year != null) {
             criteria.andYearEqualTo(year);
@@ -120,16 +123,16 @@ public class CisInspectObjController extends BaseController {
             }
         }
 
-        int count = cisInspectObjMapper.countByExample(example);
+        int count = cisInspectObjViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CisInspectObj> cisInspectObjs = cisInspectObjMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CisInspectObjView> records = cisInspectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", cisInspectObjs);
+        resultMap.put("rows", records);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
@@ -215,13 +218,12 @@ public class CisInspectObjController extends BaseController {
     @RequiresPermissions("cisInspectObj:edit")
     @RequestMapping(value = "/cisInspectObj_summary", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cisInspectObj_summary(int objId, String summary,
-                                        Integer talkUserCount,
+    public Map do_cisInspectObj_summary(CisInspectObj record,
                                         @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
                                    HttpServletRequest request) {
 
-        cisInspectObjService.updateSummary(objId, summary, unitIds, talkUserCount);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位：%s",objId));
+        cisInspectObjService.updateSummary( unitIds, record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位：%s",record.getId()));
 
         return success(FormUtils.SUCCESS);
     }

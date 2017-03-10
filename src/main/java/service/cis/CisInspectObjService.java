@@ -38,7 +38,7 @@ public class CisInspectObjService extends BaseMapper {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("realname", uv.getRealname());
         dataMap.put("code", uv.getCode());
-        dataMap.put("title", cadre.getTitle());
+        dataMap.put("unit", cadre.getUnit().getName());
 
         dataMap.put("inspectDate", DateUtils.formatDate(cisInspectObj.getInspectDate(), DateUtils.YYYY_MM_DD_CHINA));
         List<String> names = new ArrayList<>();
@@ -50,7 +50,7 @@ public class CisInspectObjService extends BaseMapper {
             dataMap.put("inspectors", StringUtils.join(names, "，"));
         }
 
-        dataMap.put("info", freemarkerService.genSegment(null, cisInspectObj.getSummary(), "/common/cadreInfo.ftl"));
+        dataMap.put("info", freemarkerService.genSegment2(cisInspectObj.getSummary(), "/common/seg.ftl"));
 
         CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
         dataMap.put("chief", chiefInspector.getRealname());
@@ -154,12 +154,20 @@ public class CisInspectObjService extends BaseMapper {
         List<CisInspectorView> inspectors = new ArrayList<>();
         CisObjInspectorExample example = new CisObjInspectorExample();
         example.createCriteria().andObjIdEqualTo(id);
+
         List<CisObjInspector> cisObjInspectors = cisObjInspectorMapper.selectByExample(example);
         for (CisObjInspector cisObjInspector : cisObjInspectors) {
             Integer inspectorId = cisObjInspector.getInspectorId();
             CisInspectorView cisInspector = cisInspectorViewMapper.selectByPrimaryKey(inspectorId);
             inspectors.add(cisInspector);
         }
+
+        Collections.sort(inspectors, new Comparator<CisInspectorView>() {
+            @Override
+            public int compare(CisInspectorView o1, CisInspectorView o2) {
+                return o2.getSortOrder().compareTo(o1.getSortOrder());
+            }
+        });
 
         return inspectors;
     }
@@ -180,16 +188,10 @@ public class CisInspectObjService extends BaseMapper {
     }
 
     @Transactional
-    public void updateSummary(int objId, String summary, Integer[] unitIds, Integer talkUserCount) {
+    public void updateSummary(Integer[] unitIds, CisInspectObj record) {
 
-        {
-            CisInspectObj record = new CisInspectObj();
-            record.setId(objId);
-            record.setSummary(summary);
-            record.setTalkUserCount(talkUserCount);
-            cisInspectObjMapper.updateByPrimaryKeySelective(record);
-        }
-
+        cisInspectObjMapper.updateByPrimaryKeySelective(record);
+        int objId = record.getId();
         CisObjUnitExample example = new CisObjUnitExample();
         example.createCriteria().andObjIdEqualTo(objId);
         cisObjUnitMapper.deleteByExample(example);
@@ -198,10 +200,10 @@ public class CisInspectObjService extends BaseMapper {
 
         for (Integer unitId : unitIds) {
 
-            CisObjUnit record = new CisObjUnit();
-            record.setObjId(objId);
-            record.setUnitId(unitId);
-            cisObjUnitMapper.insertSelective(record);
+            CisObjUnit _record = new CisObjUnit();
+            _record.setObjId(objId);
+            _record.setUnitId(unitId);
+            cisObjUnitMapper.insertSelective(_record);
         }
 
     }

@@ -11,7 +11,6 @@
                    value="${not empty param.cadreId ||not empty param.year ||not empty param.typeId ||not empty param._inspectDate
                    ||not empty param.seq || not empty param.inspectorId}"/>
             <div class="tabbable">
-                <jsp:include page="/WEB-INF/jsp/cis/menu.jsp"/>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">

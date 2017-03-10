@@ -284,6 +284,8 @@ public class BaseMapper {
 	@Autowired
 	protected CisInspectObjMapper cisInspectObjMapper;
 	@Autowired
+	protected CisInspectObjViewMapper cisInspectObjViewMapper;
+	@Autowired
 	protected CisInspectorMapper cisInspectorMapper;
 	@Autowired
 	protected CisInspectorViewMapper cisInspectorViewMapper;

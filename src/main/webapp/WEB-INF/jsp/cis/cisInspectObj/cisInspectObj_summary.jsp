@@ -20,10 +20,10 @@
     <div class="widget-body">
         <div class="widget-main">
             <div class="tab-content">
-                <form action="${ctx}/cisInspectObj_summary" id="modalFrom" method="post">
+
                     <div class="row dispatch_cadres" style="width: 1250px">
                         <div class="dispatch" style="width: 450px;">
-                            <div class="widget-box" style="width: 400px;">
+                            <div class="widget-box" style="width: 430px;">
                                 <div class="widget-header">
                                     <h4 class="smaller">
                                         考察基本情况
@@ -31,19 +31,40 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main" style="margin-bottom: 10px">
-                                        <div>
-                                            考察单位：
-                                        <select class="multiselect" name="unitIds[]" multiple="" >
-                                            <c:forEach items="${runUnits}" var="unit">
-                                                <option value="${unit.id}">${unit.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                        </div>
-                                        <div>
-                                            谈话人数：
-                                                <input class="form-control digits" type="text" name="talkUserCount"
-                                                       value="${cisInspectObj.talkUserCount}">
-                                        </div>
+                                        <form class="form-horizontal" action="${ctx}/cisInspectObj_summary" id="modalFrom" method="post">
+                                            <input type="hidden" name="id" value="${param.objId}">
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">考察单位</label>
+                                                <div class="col-xs-6">
+                                                    <select class="multiselect" name="unitIds[]" multiple="" >
+                                                        <c:forEach items="${runUnits}" var="unit">
+                                                            <option value="${unit.id}">${unit.name}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">谈话人数</label>
+                                                <div class="col-xs-6">
+                                                    <input class="form-control digits" type="text" name="talkUserCount"
+                                                           value="${cisInspectObj.talkUserCount}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">考察对象时任职务</label>
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" type="text" name="post"
+                                                           value="${cisInspectObj.post}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">考察对象拟任职务</label>
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" type="text" name="assignPost"
+                                                           value="${cisInspectObj.assignPost}">
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+
             </div>
         </div>
     </div>
@@ -117,7 +138,7 @@
                 });*/
 
                 $(form).ajaxSubmit({
-                    data: {/*unitIds: unitIds, */objId: "${param.objId}", summary: ke.html()},
+                    data: { summary: ke.html()},
                     success: function (data) {
                         if (data.success) {
                             _closeView()

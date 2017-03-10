@@ -1,3 +1,11 @@
+
+
+-- 2017-3-10
+ALTER TABLE `cis_inspect_obj`
+	ADD COLUMN `post` VARCHAR(200) NULL DEFAULT NULL COMMENT '考察对象时任职务' AFTER `talk_user_count`,
+	ADD COLUMN `assign_post` VARCHAR(200) NULL DEFAULT NULL COMMENT '考察对象拟任职务' AFTER `post`;
+CREATE ALGORITHM = UNDEFINED VIEW `cis_inspect_obj_view` AS select cio.* from cis_inspect_obj cio, base_meta_type bmt where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq desc ;
+
 -- 2017-3-9
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS SELECT `c`.`id` AS `id`
 	,`c`.`user_id` AS `user_id`

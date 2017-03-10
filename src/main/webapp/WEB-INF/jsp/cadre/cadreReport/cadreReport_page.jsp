@@ -9,7 +9,6 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${ not empty param.cadreId || not empty param.sort}"/>
             <div class="tabbable">
-                <jsp:include page="/WEB-INF/jsp/cis/menu.jsp"/>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">

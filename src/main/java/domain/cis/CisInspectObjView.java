@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class CisInspectObj implements Serializable {
+public class CisInspectObjView implements Serializable {
 
     public Cadre getCadre(){
 
@@ -47,9 +47,9 @@ public class CisInspectObj implements Serializable {
 
     private String assignPost;
 
-    private String summary;
-
     private String remark;
+
+    private String summary;
 
     private static final long serialVersionUID = 1L;
 
@@ -149,19 +149,19 @@ public class CisInspectObj implements Serializable {
         this.assignPost = assignPost == null ? null : assignPost.trim();
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
-    }
-
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 }
