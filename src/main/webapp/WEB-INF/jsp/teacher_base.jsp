@@ -179,16 +179,10 @@ pageEncoding="UTF-8"%>
 					<td class="bg-left">
 						${teacher.postLevel}
 					</td>
-					<td  class="bg-right">
-						人才/荣誉称号
-					</td>
-					<td class="bg-left">
-						${teacher.talentTitle}
-					</td>
 					<td class="bg-right">
 						居住地址
 					</td>
-					<td class="bg-left">
+					<td class="bg-left" colspan="3">
 						${teacher.address}
 					</td>
 				</tr>
@@ -238,6 +232,15 @@ pageEncoding="UTF-8"%>
 					<td class="bg-left">
 						${memberTeacher.status==null?"-":MEMBER_STATUS_MAP.get(memberTeacher.status)}
 					</td>
+				</tr>
+				<tr>
+					<td  class="bg-right" colspan="2">
+						人才/荣誉称号
+					</td>
+					<td class="bg-left" colspan="7">
+						${teacher.talentTitle}
+					</td>
+
 				</tr>
 				</tbody>
 			</table>

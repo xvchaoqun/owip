@@ -184,14 +184,8 @@
 					<td  class="bg-right">
 						人才类型
 					</td>
-					<td class="bg-left" width="200">
+					<td class="bg-left" colspan="3">
 						${memberTeacher.talentType}
-					</td>
-					<td  class="bg-right">
-						人才/荣誉称号
-					</td>
-					<td class="bg-left" width="200">
-						${memberTeacher.talentTitle}
 					</td>
 
 				</tr>
@@ -247,6 +241,15 @@
 					<td class="bg-left" colspan="3">
 						${memberTeacher.onJob}
 					</td>
+				</tr>
+				<tr>
+					<td  class="bg-right" colspan="2">
+						人才/荣誉称号
+					</td>
+					<td class="bg-left" colspan="7">
+						${memberTeacher.talentTitle}
+					</td>
+
 				</tr>
 				</tbody>
 			</table>
