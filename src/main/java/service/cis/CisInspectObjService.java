@@ -38,7 +38,14 @@ public class CisInspectObjService extends BaseMapper {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("realname", uv.getRealname());
         dataMap.put("code", uv.getCode());
-        dataMap.put("unit", cadre.getUnit().getName());
+        dataMap.put("post", cisInspectObj.getPost());
+
+        // 主体
+        Byte inspectorType = cisInspectObj.getInspectorType();
+        if(inspectorType==SystemConstants.CIS_INSPECTOR_TYPE_OW)
+            dataMap.put("inspectorType", "党委组织部");
+        else
+            dataMap.put("inspectorType", cisInspectObj.getOtherInspectorType());
 
         dataMap.put("inspectDate", DateUtils.formatDate(cisInspectObj.getInspectDate(), DateUtils.YYYY_MM_DD_CHINA));
         List<String> names = new ArrayList<>();
@@ -55,7 +62,7 @@ public class CisInspectObjService extends BaseMapper {
         CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
         dataMap.put("chief", chiefInspector.getRealname());
         dataMap.put("remark", cisInspectObj.getRemark());
-        dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+        //dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         freemarkerService.process("/cis/eva.ftl", dataMap, out);
     }
