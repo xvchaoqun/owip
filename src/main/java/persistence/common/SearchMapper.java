@@ -34,13 +34,13 @@ public interface SearchMapper {
     @Select("select distinct education from ow_member_teacher where education is not null and education!='' order by education asc")
     List<String> teacherEducationTypes();
 
-    // 岗位类别
-    @Select("select distinct post_class from ow_member_teacher where post_class is not null and post_class!='' order by post_class asc")
+    // 干部岗位类别
+    @Select("select distinct post_class from cadre_view where post_class is not null and post_class!='' order by post_class asc")
     List<String> teacherPostClasses();
-    // 专业技术职务
-    @Select("select distinct pro_post from ow_member_teacher where pro_post is not null and pro_post!='' order by pro_post asc")
+    // 干部专业技术职务
+    @Select("select distinct pro_post from cadre_view where pro_post is not null and pro_post!='' order by pro_post asc")
     List<String> teacherProPosts();
-    // 专技岗位等级
-    @Select("select distinct pro_post_level from ow_member_teacher where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
+    // 干部专技岗位等级
+    @Select("select distinct pro_post_level from cadre_view where pro_post_level is not null and pro_post_level!='' order by pro_post_level asc")
     List<String> teacherProPostLevels();
 }
