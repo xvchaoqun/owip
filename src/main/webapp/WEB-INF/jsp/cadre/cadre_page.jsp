@@ -125,9 +125,8 @@
                                                     <td class="input">
                                                         <select name="gender" data-width="100" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
-                                                            <c:forEach items="${GENDER_MAP}" var="entity">
-                                                                <option value="${entity.key}">${entity.value}</option>
-                                                            </c:forEach>
+                                                            <option value="${GENDER_MALE}">男</option>
+                                                            <option value="${GENDER_FEMALE}">女</option>
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=gender]").val('${param.gender}');
@@ -136,6 +135,7 @@
                                                     <td class="name">党派 </td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="dpTypes" style="width: 250px;">
+                                                            <option value="-1">非党干部</option>
                                                             <option value="0">中共党员</option>
                                                             <c:forEach var="entry" items="${democraticPartyMap}">
                                                                 <option value="${entry.key}">${entry.value.name}</option>

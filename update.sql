@@ -65,7 +65,7 @@ SELECT `c`.`id` AS `id`
 	,`om`.`grow_time` AS `grow_time`
 	,`om`.`status` AS `member_status`
 	, if(c.is_dp, c.dp_add_time, om.grow_time) as cadre_grow_time
-	, if(c.is_dp, c.dp_type_id, if(isnull(om.grow_time), null, 0)) as cadre_dp_type
+	, if(c.is_dp, c.dp_type_id, if(isnull(om.grow_time), -1, 0)) as cadre_dp_type
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`
 	,`max_ce`.`learn_style` AS `learn_style`
