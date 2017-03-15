@@ -39,7 +39,7 @@
                         <tbody>
                         <c:forEach items="${trainCourses}" var="tc">
                             <tr>
-                                <td>${tc.name}</td>
+                                <td nowrap style="text-align: left">${tc.name}</td>
                                 <td>${tc.isGlobal?'-':tc.teacher}</td>
                                 <fmt:formatNumber var="_score" type="number" value="${courseScoreMap.get(tc.id)}" maxFractionDigits="1"/>
                                 <td>${_score}</td>

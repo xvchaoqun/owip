@@ -1,4 +1,37 @@
 -- 2017-3-15
+
+ALTER TABLE `train_eva_result`
+	DROP FOREIGN KEY `FK_train_eva_result_train` ;
+ALTER TABLE `train_eva_result`
+	DROP FOREIGN KEY `FK_train_eva_result_train_course` ;
+ALTER TABLE `train_eva_result`
+	DROP FOREIGN KEY `FK_train_eva_result_train_inspector` ;
+ALTER TABLE `train_inspector`
+	DROP FOREIGN KEY `FK_train_inspector_train` ;
+ALTER TABLE `train_inspector_course`
+	DROP FOREIGN KEY `FK_train_inspector_course_train_course` ;
+ALTER TABLE `train_inspector_course`
+	DROP FOREIGN KEY `FK_train_inspector_course_train_inspector` ;
+
+ALTER TABLE `train_eva_result`
+	ADD CONSTRAINT `FK_train_eva_result_train` FOREIGN KEY (`train_id`) REFERENCES `train` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `FK_train_eva_result_train_course` FOREIGN KEY (`course_id`) REFERENCES `train_course` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `FK_train_eva_result_train_inspector` FOREIGN KEY (`inspector_id`) REFERENCES `train_inspector` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `train_inspector`
+	ADD CONSTRAINT `FK_train_inspector_train` FOREIGN KEY (`train_id`) REFERENCES `train` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `train_inspector_course`
+	ADD CONSTRAINT `FK_train_inspector_course_train_course` FOREIGN KEY (`course_id`) REFERENCES `train_course` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `FK_train_inspector_course_train_inspector` FOREIGN KEY (`inspector_id`) REFERENCES `train_inspector` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `train_course`
+	DROP FOREIGN KEY `FK_train_course_train`, DROP FOREIGN KEY `FK_train_course_train_eva_table`;
+ALTER TABLE `train_course`
+	ADD CONSTRAINT `FK_train_course_train` FOREIGN KEY (`train_id`) REFERENCES `train` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `FK_train_course_train_eva_table` FOREIGN KEY (`eva_table_id`) REFERENCES `train_eva_table` (`id`) ON DELETE RESTRICT;
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
 SELECT `c`.`id` AS `id`
 	,`c`.`user_id` AS `user_id`
