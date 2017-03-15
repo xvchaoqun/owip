@@ -22,7 +22,7 @@
             <div class="tab-content">
 
                     <div class="row dispatch_cadres" style="width: 1250px">
-                        <div class="dispatch" style="width: 450px;">
+                        <div class="dispatch" style="width: 450px;margin-right: 0">
                             <div class="widget-box" style="width: 430px;">
                                 <div class="widget-header">
                                     <h4 class="smaller">
@@ -30,16 +30,48 @@
                                     </h4>
                                 </div>
                                 <div class="widget-body">
-                                    <div class="widget-main" style="margin-bottom: 10px">
-                                        <form class="form-horizontal" action="${ctx}/cisInspectObj_summary" id="modalFrom" method="post">
+                                    <div class="widget-main" style="margin-bottom: 10px; height: 425px;">
+                                        <form class="form-horizontal" action="${ctx}/cisInspectObj_summary"
+                                              id="modalFrom" method="post">
                                             <input type="hidden" name="id" value="${param.objId}">
+                                            <c:if test="${cisInspectObj.inspectorType==CIS_INSPECTOR_TYPE_OW}">
+                                            <div class="form-group">
+                                                <label class="col-xs-4 control-label">考察组成员</label>
+                                                <div class="col-xs-6">
+                                                    <select class="multiselect" name="inspectorIds[]" multiple="" >
+                                                        <optgroup label="现任考察组成员">
+                                                            <c:forEach items="${nowInspectors}" var="record">
+                                                                <option value="${record.id}">${record.realname}</option>
+                                                            </c:forEach>
+                                                        </optgroup>
+                                                        <optgroup label="过去考察组成员">
+                                                            <c:forEach items="${historyInspectors}" var="record">
+                                                                <option value="${record.id}">${record.realname}</option>
+                                                            </c:forEach>
+                                                        </optgroup>
+                                                        <optgroup label="已删除">
+                                                            <c:forEach items="${deleteInspectors}" var="record">
+                                                                <option value="${record.id}">${record.realname}</option>
+                                                            </c:forEach>
+                                                        </optgroup>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            </c:if>
                                             <div class="form-group">
                                                 <label class="col-xs-4 control-label">考察单位</label>
                                                 <div class="col-xs-6">
                                                     <select class="multiselect" name="unitIds[]" multiple="" >
-                                                        <c:forEach items="${runUnits}" var="unit">
-                                                            <option value="${unit.id}">${unit.name}</option>
-                                                        </c:forEach>
+                                                        <optgroup label="正在运转单位">
+                                                            <c:forEach items="${runUnits}" var="unit">
+                                                                <option value="${unit.id}">${unit.name}</option>
+                                                            </c:forEach>
+                                                        </optgroup>
+                                                        <optgroup label="历史单位">
+                                                            <c:forEach items="${historyUnits}" var="unit">
+                                                                <option value="${unit.id}">${unit.name}</option>
+                                                            </c:forEach>
+                                                        </optgroup>
                                                     </select>
                                                 </div>
                                             </div>
@@ -101,13 +133,14 @@
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
-    register_multiselect($('#modalFrom select[name="unitIds[]"]'), ${selectIds});
+    register_multiselect($('#modalFrom select[name="unitIds[]"]'), ${selectUnitIds});
+    register_multiselect($('#modalFrom select[name="inspectorIds[]"]'), ${selectInspectorIds});
 
     var ke = KindEditor.create('#content', {
         cssPath: "${ctx}/css/ke.css",
         items: ["source", "|", "fullscreen"],
-        height: '550px',
-        width: '700px'
+        height: '400px',
+        width: '720px'
     });
 
     $(function () {

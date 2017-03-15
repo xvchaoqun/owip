@@ -78,7 +78,7 @@ public class TrainCourseController extends BaseController {
         TrainCourseExample example = new TrainCourseExample();
         Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
                 .andStatusEqualTo(SystemConstants.AVAILABLE);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
@@ -159,22 +159,19 @@ public class TrainCourseController extends BaseController {
 
     @RequiresPermissions("trainCourse:edit")
     @RequestMapping("/trainCourse_evaTable")
-    public String trainCourse_evaTable(Integer id, ModelMap modelMap) {
+    public String trainCourse_evaTable(int trainId, ModelMap modelMap) {
 
-        if (id != null) {
-            TrainCourse trainCourse = trainCourseMapper.selectByPrimaryKey(id);
-            modelMap.put("trainCourse", trainCourse);
-            modelMap.put("train", trainMapper.selectByPrimaryKey(trainCourse.getTrainId()));
-        }
+        modelMap.put("train", trainMapper.selectByPrimaryKey(trainId));
+
         return "train/trainCourse/trainCourse_evaTable";
     }
 
     @RequiresPermissions("trainCourse:edit")
     @RequestMapping(value = "/trainCourse_evaTable", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_trainCourse_evaTable(int id, int evaTableId) {
+    public Map do_trainCourse_evaTable(int trainId, @RequestParam(value = "ids[]") Integer[] ids, int evaTableId) {
 
-        trainCourseService.evaTable(id, evaTableId);
+        trainCourseService.evaTable(trainId, ids, evaTableId);
         //logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训课程评估表：%s", id));
 
         return success(FormUtils.SUCCESS);
@@ -256,7 +253,7 @@ public class TrainCourseController extends BaseController {
 
         TrainCourseExample example = new TrainCourseExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.AVAILABLE);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andNameLike("%" + searchStr + "%");

@@ -100,6 +100,15 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre_page")
     public String cadre_page(@RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE+"")Byte status,
+
+                             @RequestParam(required = false, value = "dpTypes")Integer[] dpTypes,
+                             @RequestParam(required = false, value = "unitIds")Integer[] unitIds,
+                             @RequestParam(required = false, value = "unitTypes")Integer[] unitTypes,
+                             @RequestParam(required = false, value = "adminLevels")Integer[] adminLevels,
+                             @RequestParam(required = false, value = "maxEdus")Integer[] maxEdus,
+                             @RequestParam(required = false, value = "postIds")Integer[] postIds,
+                             @RequestParam(required = false, value = "proPosts")String[] proPosts,
+                             @RequestParam(required = false, value = "proPostLevels")String[] proPostLevels,
                              Integer cadreId,ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -113,6 +122,36 @@ public class CadreController extends BaseController {
             }
         }
 
+
+        if (dpTypes!=null) {
+            modelMap.put("selectDpTypes", Arrays.asList(dpTypes));
+        }
+        if (unitIds!=null) {
+            modelMap.put("selectUnitIds", Arrays.asList(unitIds));
+        }
+        if (unitTypes!=null) {
+            modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+        }
+        if (adminLevels!=null) {
+            modelMap.put("selectAdminLevels", Arrays.asList(adminLevels));
+        }
+
+        if (maxEdus!=null) {
+            modelMap.put("selectMaxEdus", Arrays.asList(maxEdus));
+        }
+        if (postIds!=null) {
+            modelMap.put("selectPostIds", Arrays.asList(postIds));
+        }
+
+        modelMap.put("proPosts", searchMapper.teacherProPosts());
+        modelMap.put("proPostLevels", searchMapper.teacherProPostLevels());
+        if (proPosts!=null) {
+            modelMap.put("selectProPosts", Arrays.asList(proPosts));
+        }
+        if (proPostLevels!=null) {
+            modelMap.put("selectProPostLevels", Arrays.asList(proPostLevels));
+        }
+
         return "cadre/cadre_page";
     }
     @RequiresPermissions("cadre:list")
@@ -121,11 +160,24 @@ public class CadreController extends BaseController {
                                  @SortParam(required = false, defaultValue = "sort_order",tableName = "cadre") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE+"")Byte status,
-                                    Integer cadreId,
-                                    Integer typeId,
-                                    Integer postId,
-                                    String title,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                       Integer cadreId,
+                                       Byte gender,
+                           Byte age,
+                           Byte dpAge, // 党龄
+                           @RequestParam(required = false, value = "dpTypes")Long[] dpTypes, // 党派
+
+                           String _birth,
+                           String _cadreGrowTime,
+                                @RequestParam(required = false, value = "unitIds")Integer[] unitIds, // 所在单位
+                                @RequestParam(required = false, value = "unitTypes")Integer[] unitTypes, // 部门属性
+                               @RequestParam(required = false, value = "adminLevels")Integer[] adminLevels, // 行政级别
+                               @RequestParam(required = false, value = "maxEdus")Integer[] maxEdus, // 最高学历
+                               @RequestParam(required = false, value = "postIds")Integer[] postIds, // 职务属性
+                               @RequestParam(required = false, value = "proPosts")String[] proPosts, // 专业技术职务
+                               @RequestParam(required = false, value = "proPostLevels")String[] proPostLevels, // 专技岗位等级
+                               Boolean isPrincipalPost, // 是否正职
+                               Boolean isDouble, // 是否双肩挑
+                               @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -144,15 +196,114 @@ public class CadreController extends BaseController {
         if (cadreId!=null) {
             criteria.andIdEqualTo(cadreId);
         }
-        if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
+        if(gender!=null){
+            criteria.andGenderEqualTo(gender);
         }
-        if (postId!=null) {
-            criteria.andPostIdEqualTo(postId);
+        if (StringUtils.isNotBlank(_birth)) {
+            String start = _birth.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _birth.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andBirthGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andBirthLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
-        if (StringUtils.isNotBlank(title)) {
-            criteria.andTitleLike("%" + title + "%");
+        if (StringUtils.isNotBlank(_cadreGrowTime)) {
+            String start = _cadreGrowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
+            String end = _cadreGrowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
+            if (StringUtils.isNotBlank(start)) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
+            }
+            if (StringUtils.isNotBlank(end)) {
+                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
+            }
         }
+
+        if(age!=null){
+            switch (age){
+                case SystemConstants.MEMBER_AGE_20: // 20岁以下
+                    criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
+                    break;
+                case SystemConstants.MEMBER_AGE_21_30:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
+                    break;
+                case SystemConstants.MEMBER_AGE_31_40:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
+                    break;
+                case SystemConstants.MEMBER_AGE_41_50:
+                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
+                    break;
+                case SystemConstants.MEMBER_AGE_51:
+                    criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
+                    break;
+                case SystemConstants.MEMBER_AGE_0:
+                    criteria.andBirthIsNull();
+                    break;
+            }
+        }
+
+        if(dpAge!=null){
+            switch (dpAge){
+                case SystemConstants.MEMBER_AGE_20: // 20岁以下
+                    criteria.andCadreGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
+                    break;
+                case SystemConstants.MEMBER_AGE_21_30:
+                    criteria.andCadreGrowTimeBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
+                    break;
+                case SystemConstants.MEMBER_AGE_31_40:
+                    criteria.andCadreGrowTimeBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
+                    break;
+                case SystemConstants.MEMBER_AGE_41_50:
+                    criteria.andCadreGrowTimeBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
+                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
+                    break;
+                case SystemConstants.MEMBER_AGE_51:
+                    criteria.andCadreGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
+                    break;
+                case SystemConstants.MEMBER_AGE_0:
+                    criteria.andCadreGrowTimeIsNull();
+                    break;
+            }
+        }
+
+        if (unitIds!=null) {
+            criteria.andUnitIdIn(Arrays.asList(unitIds));
+        }
+        if (unitTypes!=null) {
+            criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
+        }
+        if (adminLevels!=null) {
+            criteria.andTypeIdIn(Arrays.asList(adminLevels));
+        }
+        if (maxEdus!=null) {
+            criteria.andEduIdIn(Arrays.asList(maxEdus));
+        }
+        if (postIds!=null) {
+            criteria.andPostIdIn(Arrays.asList(postIds));
+        }
+        if (proPosts!=null) {
+            criteria.andProPostIn(Arrays.asList(proPosts));
+        }
+        if (proPostLevels!=null) {
+            criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
+        }
+        if(dpTypes != null){
+            criteria.andCadreDpTypeIn(Arrays.asList(dpTypes));
+        }
+
+        if(isPrincipalPost!=null){
+            criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
+        }
+        if(isDouble!=null){
+            criteria.andIsDoubleEqualTo(isDouble);
+        }
+
 
         if (export == 1) {
             // 判断导出权限

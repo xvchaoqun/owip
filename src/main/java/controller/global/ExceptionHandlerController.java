@@ -1,4 +1,4 @@
-package controller;
+package controller.global;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import interceptor.SignParamsException;

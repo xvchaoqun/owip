@@ -21,7 +21,7 @@ public class CisInspectorService extends BaseMapper {
         return cisInspectorViewMapper.selectByPrimaryKey(id);
     }
 
-    public List<CisInspectorView> getNowInspectors(byte status){
+    public List<CisInspectorView> getInspectors(byte status){
 
         CisInspectorViewExample example = new CisInspectorViewExample();
         example.createCriteria().andStatusEqualTo(status);

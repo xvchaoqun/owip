@@ -2132,6 +2132,126 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCadreGrowTimeIsNull() {
+            addCriterion("cadre_grow_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeIsNotNull() {
+            addCriterion("cadre_grow_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("cadre_grow_time =", value, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("cadre_grow_time <>", value, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("cadre_grow_time >", value, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("cadre_grow_time >=", value, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("cadre_grow_time <", value, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("cadre_grow_time <=", value, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("cadre_grow_time in", values, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("cadre_grow_time not in", values, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("cadre_grow_time between", value1, value2, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("cadre_grow_time not between", value1, value2, "cadreGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeIsNull() {
+            addCriterion("cadre_dp_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeIsNotNull() {
+            addCriterion("cadre_dp_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeEqualTo(Long value) {
+            addCriterion("cadre_dp_type =", value, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeNotEqualTo(Long value) {
+            addCriterion("cadre_dp_type <>", value, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeGreaterThan(Long value) {
+            addCriterion("cadre_dp_type >", value, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeGreaterThanOrEqualTo(Long value) {
+            addCriterion("cadre_dp_type >=", value, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeLessThan(Long value) {
+            addCriterion("cadre_dp_type <", value, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeLessThanOrEqualTo(Long value) {
+            addCriterion("cadre_dp_type <=", value, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeIn(List<Long> values) {
+            addCriterion("cadre_dp_type in", values, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeNotIn(List<Long> values) {
+            addCriterion("cadre_dp_type not in", values, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeBetween(Long value1, Long value2) {
+            addCriterion("cadre_dp_type between", value1, value2, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreDpTypeNotBetween(Long value1, Long value2) {
+            addCriterion("cadre_dp_type not between", value1, value2, "cadreDpType");
+            return (Criteria) this;
+        }
+
         public Criteria andEduIdIsNull() {
             addCriterion("edu_id is null");
             return (Criteria) this;
@@ -3549,6 +3669,66 @@ public class CadreViewExample {
 
         public Criteria andDoubleUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("double_unit_id not between", value1, value2, "doubleUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostIsNull() {
+            addCriterion("is_principal_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostIsNotNull() {
+            addCriterion("is_principal_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostEqualTo(Boolean value) {
+            addCriterion("is_principal_post =", value, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostNotEqualTo(Boolean value) {
+            addCriterion("is_principal_post <>", value, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostGreaterThan(Boolean value) {
+            addCriterion("is_principal_post >", value, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_principal_post >=", value, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostLessThan(Boolean value) {
+            addCriterion("is_principal_post <", value, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_principal_post <=", value, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostIn(List<Boolean> values) {
+            addCriterion("is_principal_post in", values, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostNotIn(List<Boolean> values) {
+            addCriterion("is_principal_post not in", values, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_principal_post between", value1, value2, "isPrincipalPost");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrincipalPostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_principal_post not between", value1, value2, "isPrincipalPost");
             return (Criteria) this;
         }
 

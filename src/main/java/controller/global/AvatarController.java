@@ -1,6 +1,7 @@
-package controller;
+package controller.global;
 
 import bean.AvatarImportResult;
+import controller.BaseController;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
@@ -29,7 +30,7 @@ import java.io.IOException;
  * Created by fafa on 2016/5/23.
  */
 @Controller
-public class AvatarController extends BaseController{
+public class AvatarController extends BaseController {
 
     // 头像
     @RequestMapping("/avatar")

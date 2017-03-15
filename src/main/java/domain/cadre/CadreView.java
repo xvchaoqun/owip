@@ -1,6 +1,5 @@
 package domain.cadre;
 
-import domain.base.MetaType;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
@@ -10,10 +9,8 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class CadreView implements Serializable {
-
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
@@ -47,7 +44,6 @@ public class CadreView implements Serializable {
 
         return CmTag.getCadreEdus(id);
     }
-
     private Integer id;
 
     private Integer userId;
@@ -110,6 +106,10 @@ public class CadreView implements Serializable {
 
     private Byte memberStatus;
 
+    private Date cadreGrowTime;
+
+    private Long cadreDpType;
+
     private Integer eduId;
 
     private Date finishTime;
@@ -153,6 +153,8 @@ public class CadreView implements Serializable {
     private Boolean isDouble;
 
     private Integer doubleUnitId;
+
+    private Boolean isPrincipalPost;
 
     private String adminLevelCode;
 
@@ -424,6 +426,22 @@ public class CadreView implements Serializable {
         this.memberStatus = memberStatus;
     }
 
+    public Date getCadreGrowTime() {
+        return cadreGrowTime;
+    }
+
+    public void setCadreGrowTime(Date cadreGrowTime) {
+        this.cadreGrowTime = cadreGrowTime;
+    }
+
+    public Long getCadreDpType() {
+        return cadreDpType;
+    }
+
+    public void setCadreDpType(Long cadreDpType) {
+        this.cadreDpType = cadreDpType;
+    }
+
     public Integer getEduId() {
         return eduId;
     }
@@ -598,6 +616,14 @@ public class CadreView implements Serializable {
 
     public void setDoubleUnitId(Integer doubleUnitId) {
         this.doubleUnitId = doubleUnitId;
+    }
+
+    public Boolean getIsPrincipalPost() {
+        return isPrincipalPost;
+    }
+
+    public void setIsPrincipalPost(Boolean isPrincipalPost) {
+        this.isPrincipalPost = isPrincipalPost;
     }
 
     public String getAdminLevelCode() {

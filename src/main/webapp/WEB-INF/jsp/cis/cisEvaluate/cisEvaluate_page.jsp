@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/cis_page"
+             data-url-page="${ctx}/cisEvaluate_page"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.cadreId ||not empty param.type || not empty param.code || not empty param.sort}"/>

@@ -33,6 +33,8 @@
     <result column="branch_id" property="branchId" jdbcType="INTEGER" />
     <result column="grow_time" property="growTime" jdbcType="DATE" />
     <result column="member_status" property="memberStatus" jdbcType="TINYINT" />
+    <result column="cadre_grow_time" property="cadreGrowTime" jdbcType="DATE" />
+    <result column="cadre_dp_type" property="cadreDpType" jdbcType="DECIMAL" />
     <result column="edu_id" property="eduId" jdbcType="INTEGER" />
     <result column="finish_time" property="finishTime" jdbcType="DATE" />
     <result column="learn_style" property="learnStyle" jdbcType="INTEGER" />
@@ -55,6 +57,7 @@
     <result column="main_cadre_post_id" property="mainCadrePostId" jdbcType="INTEGER" />
     <result column="is_double" property="isDouble" jdbcType="BIT" />
     <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
+    <result column="is_principal_post" property="isPrincipalPost" jdbcType="BIT" />
     <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
     <result column="admin_level_name" property="adminLevelName" jdbcType="VARCHAR" />
     <result column="max_ce_edu_attr" property="maxCeEduAttr" jdbcType="VARCHAR" />
@@ -99,12 +102,12 @@
     id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, 
     dp_add_time, dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, 
     phone, home_phone, email, realname, gender, nation, native_place, idcard, birth, 
-    party_id, branch_id, grow_time, member_status, edu_id, finish_time, learn_style, 
-    school, dep, school_type, major, degree, post_class, sub_post_class, main_post_level, 
-    pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, manage_level_time, 
-    arrive_time, work_start_time, main_cadre_post_id, is_double, double_unit_id, admin_level_code, 
-    admin_level_name, max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, 
-    unit_type_code, unit_type_name, unit_type_attr
+    party_id, branch_id, grow_time, member_status, cadre_grow_time, cadre_dp_type, edu_id, 
+    finish_time, learn_style, school, dep, school_type, major, degree, post_class, sub_post_class, 
+    main_post_level, pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, 
+    manage_level_time, arrive_time, work_start_time, main_cadre_post_id, is_double, double_unit_id, 
+    is_principal_post, admin_level_code, admin_level_name, max_ce_edu_attr, max_ce_edu_code, 
+    max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, unit_type_attr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select

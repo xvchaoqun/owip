@@ -1,5 +1,6 @@
-package controller;
+package controller.global;
 
+import controller.BaseController;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;

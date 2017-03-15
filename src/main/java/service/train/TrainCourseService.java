@@ -62,7 +62,7 @@ public class TrainCourseService extends BaseMapper {
 
         TrainCourseExample example = new TrainCourseExample();
         example.createCriteria().andTrainIdEqualTo(trainId).andStatusEqualTo(SystemConstants.AVAILABLE);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
         List<TrainCourse> trainCoursees = trainCourseMapper.selectByExample(example);
         Map<Integer, TrainCourse> map = new LinkedHashMap<>();
         for (TrainCourse trainCourse : trainCoursees) {
@@ -88,7 +88,7 @@ public class TrainCourseService extends BaseMapper {
         Integer trainId = entity.getTrainId();
 
         TrainCourseExample example = new TrainCourseExample();
-        if (addNum > 0) {
+        if (addNum < 0) { // 正序
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder)
             .andTrainIdEqualTo(trainId).andStatusEqualTo(SystemConstants.AVAILABLE);
@@ -105,7 +105,7 @@ public class TrainCourseService extends BaseMapper {
 
             TrainCourse targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum > 0)
+            if (addNum < 0)
                 commonMapper.downOrder("train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
@@ -119,27 +119,29 @@ public class TrainCourseService extends BaseMapper {
 
     // 关联评估表
     @Transactional
-    @CacheEvict(value="TrainCourses", key = "#result.trainId")
-    public TrainCourse evaTable(int id, int evaTableId) {
+    @CacheEvict(value="TrainCourses", key = "#trainId")
+    public void evaTable(int trainId, Integer[] ids, int evaTableId) {
 
-        TrainCourse trainCourse = trainCourseMapper.selectByPrimaryKey(id);
-        if(trainCourse.getEvaTableId()==null || trainCourse.getEvaTableId().intValue()!=evaTableId) {
+        if(ids.length==0) return;
+        for (Integer id : ids) {
+            TrainCourse trainCourse = trainCourseMapper.selectByPrimaryKey(id);
+            if(trainCourse.getTrainId().intValue()==trainId
+            && (trainCourse.getEvaTableId()==null || trainCourse.getEvaTableId().intValue()!=evaTableId)) {
 
-            {
-                TrainEvaResultExample example = new TrainEvaResultExample();
-                example.createCriteria().andCourseIdEqualTo(id);
-                if (trainEvaResultMapper.countByExample(example) > 0) {
-                    throw new RuntimeException("该课程已经产生了评估结果，不可以修改评估表");
+                {
+                    TrainEvaResultExample example = new TrainEvaResultExample();
+                    example.createCriteria().andCourseIdEqualTo(id);
+                    if (trainEvaResultMapper.countByExample(example) > 0) {
+                        throw new RuntimeException(String.format("课程[%s]已经产生了评估结果，不可以修改评估表", trainCourse.getName()));
+                    }
                 }
+
+                TrainCourse record = new TrainCourse();
+                record.setId(id);
+                record.setEvaTableId(evaTableId);
+                trainCourseMapper.updateByPrimaryKeySelective(record);
             }
-
-            TrainCourse record = new TrainCourse();
-            record.setId(id);
-            record.setEvaTableId(evaTableId);
-            trainCourseMapper.updateByPrimaryKeySelective(record);
         }
-
-        return trainCourse;
     }
 
     // 0：评课进行中 1:已关闭评课 2：评课未开始（未上课） 3：评课已结束

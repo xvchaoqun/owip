@@ -1,5 +1,6 @@
-package controller;
+package controller.global;
 
+import controller.BaseController;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.RandomStringUtils;
@@ -26,7 +27,7 @@ import java.util.Map;
  * Created by fafa on 2016/9/21.
  */
 @Controller
-public class FindPassController extends BaseController{
+public class FindPassController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -294,6 +294,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected ContentTplService contentTplService;
     @Autowired
+    protected SitemapService sitemapService;
+    @Autowired
     protected LogService logService;
     @Autowired
     protected AttachFileService attachFileService;

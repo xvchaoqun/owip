@@ -7,7 +7,7 @@
  *
  * License: www.highcharts.com/license
  */
-package controller;
+package controller.global;
 
 import com.highcharts.export.util.MimeType;
 import org.apache.batik.transcoder.Transcoder;

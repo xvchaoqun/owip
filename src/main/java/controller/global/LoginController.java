@@ -1,4 +1,4 @@
-package controller;
+package controller.global;
 
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;

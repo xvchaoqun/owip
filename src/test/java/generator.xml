@@ -196,6 +196,10 @@
       <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
       </table>-->
 
+      <!--<table tableName="base_sitemap" domainObjectName="base.Sitemap">
+      </table>-->
+     <!-- <table tableName="base_sitemap_role" domainObjectName="base.SitemapRole">
+      </table>-->
 
       <!--<table tableName="base_country" domainObjectName="base.Country">
       </table>-->
@@ -219,11 +223,11 @@
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-      <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->
@@ -315,12 +319,12 @@
       <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView"
+     <!-- <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
       </table>
       <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
@@ -418,6 +422,7 @@
 
       <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
       </table>-->
+
 
 
       <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">

@@ -414,4 +414,8 @@ public class BaseMapper {
 	protected ShortMsgReceiverMapper shortMsgReceiverMapper;
 	@Autowired
 	protected ContentTplMapper contentTplMapper;
+	@Autowired
+	protected SitemapMapper sitemapMapper;
+	@Autowired
+	protected SitemapRoleMapper sitemapRoleMapper;
 }

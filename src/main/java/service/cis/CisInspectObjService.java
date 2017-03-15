@@ -27,6 +27,8 @@ public class CisInspectObjService extends BaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;
+    @Autowired
+    private CisObjInspectorService cisObjInspectorService;
 
     // 输出考察报告
     public void process(int objId, Writer out) throws IOException, TemplateException {
@@ -153,6 +155,9 @@ public class CisInspectObjService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CisInspectObj record) {
 
+        if(record.getInspectorType()==SystemConstants.CIS_INSPECTOR_TYPE_OTHER){
+            updateMapper.excuteSql("delete from cis_obj_inspector where obj_id="+record.getId());
+        }
         return cisInspectObjMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -195,7 +200,7 @@ public class CisInspectObjService extends BaseMapper {
     }
 
     @Transactional
-    public void updateSummary(Integer[] unitIds, CisInspectObj record) {
+    public void updateSummary(Integer[] unitIds, Integer[] inspectorIds, CisInspectObj record) {
 
         cisInspectObjMapper.updateByPrimaryKeySelective(record);
         int objId = record.getId();
@@ -213,5 +218,6 @@ public class CisInspectObjService extends BaseMapper {
             cisObjUnitMapper.insertSelective(_record);
         }
 
+        cisObjInspectorService.updateInspectIds(objId, inspectorIds);
     }
 }

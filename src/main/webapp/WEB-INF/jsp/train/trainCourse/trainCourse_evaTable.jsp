@@ -7,19 +7,24 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/trainCourse_evaTable" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${trainCourse.id}">
+		<input type="hidden" name="ids[]" value="${param['ids[]']}">
+		<input type="hidden" name="trainId" value="${param.trainId}">
+		<c:set var="count" value="${fn:length(fn:split(param['ids[]'],\",\"))}"/>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训班次</label>
 				<div class="col-xs-6 label-text">
 					${train.name}
 				</div>
 			</div>
+		<c:if test="${count>1}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训课程</label>
-				<div class="col-xs-6 label-text">
-					${trainCourse.name}
+				<div class="col-xs-4 label-text">
+						${count} 个
 				</div>
 			</div>
+		</c:if>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">评估表</label>
@@ -31,9 +36,6 @@ pageEncoding="UTF-8"%>
 								<option value="${entity.key}">${entity.value.name}</option>
 							</c:forEach>
 						</select>
-						<script type="text/javascript">
-							$("#modal form select[name=evaTableId]").val(${trainCourse.evaTableId});
-						</script>
 					</div>
 				</div>
 			</div>
@@ -41,7 +43,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${trainCourse!=null}">确定</c:if><c:if test="${trainCourse==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 
 <script>

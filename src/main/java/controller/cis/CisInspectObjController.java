@@ -49,7 +49,7 @@ public class CisInspectObjController extends BaseController {
             Map<Integer, Cadre> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cadreId));
         }
-        List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
         modelMap.put("inspectors", nowInspectors);
 
         return "cis/cisInspectObj/cisInspectObj_page";
@@ -201,16 +201,34 @@ public class CisInspectObjController extends BaseController {
             modelMap.put("cisInspectObj", cisInspectObj);
 
             List<Unit> units = cisInspectObjService.getUnits(objId);
-            Set<Integer> selectIdSet = new HashSet<>();
+            Set<Integer> selectUnitIds = new HashSet<>();
             for (Unit unit : units) {
-                selectIdSet.add(unit.getId());
+                selectUnitIds.add(unit.getId());
             }
-            modelMap.put("selectIds", new ArrayList<>(selectIdSet));
+            modelMap.put("selectUnitIds", new ArrayList<>(selectUnitIds));
+
+
+            List<CisInspectorView> inspectors = cisInspectObjService.getInspectors(objId);
+            Set<Integer> selectInspectorIds = new HashSet<>();
+            for (CisInspectorView inspector : inspectors) {
+                selectInspectorIds.add(inspector.getId());
+            }
+            modelMap.put("selectInspectorIds", new ArrayList<>(selectInspectorIds));
         }
 
 
         List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
         modelMap.put("runUnits", runUnits);
+        List<Unit> historyUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_HISTORY);
+        modelMap.put("historyUnits", historyUnits);
+
+        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        modelMap.put("nowInspectors", nowInspectors);
+        List<CisInspectorView> historyInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_HISTORY);
+        modelMap.put("historyInspectors", historyInspectors);
+        List<CisInspectorView> deleteInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_DELETE);
+        modelMap.put("deleteInspectors", deleteInspectors);
+
 
         return "cis/cisInspectObj/cisInspectObj_summary";
     }
@@ -220,10 +238,11 @@ public class CisInspectObjController extends BaseController {
     @ResponseBody
     public Map do_cisInspectObj_summary(CisInspectObj record,
                                         @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
+                                        @RequestParam(value = "inspectorIds[]", required = false) Integer[] inspectorIds,
                                    HttpServletRequest request) {
 
-        cisInspectObjService.updateSummary( unitIds, record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位：%s",record.getId()));
+        cisInspectObjService.updateSummary( unitIds, inspectorIds, record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位、考察组成员：%s",record.getId()));
 
         return success(FormUtils.SUCCESS);
     }

@@ -1,5 +1,6 @@
-package controller;
+package controller.global;
 
+import controller.BaseController;
 import domain.sys.SysResource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;

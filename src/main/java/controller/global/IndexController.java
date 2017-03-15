@@ -1,5 +1,6 @@
-package controller;
+package controller.global;
 
+import controller.BaseController;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.HtmlFragment;

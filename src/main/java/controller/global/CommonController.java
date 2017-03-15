@@ -1,10 +1,11 @@
-package controller;
+package controller.global;
 
 import bean.UserBean;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import controller.BaseController;
 import domain.abroad.ApproverType;
 import domain.base.Location;
 import domain.cadre.Cadre;

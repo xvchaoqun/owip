@@ -28,10 +28,10 @@
                        data-grid-id="#jqGrid2"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
-                    <a class="jqOpenViewBtn btn btn-warning btn-sm"
+                    <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                        data-url="${ctx}/trainCourse_evaTable"
                        data-grid-id="#jqGrid2"
-                       data-querystr="&"><i class="fa fa-table"></i>
+                       data-querystr="&trainId=${train.id}"><i class="fa fa-table"></i>
                         设置评估表</a>
 
                 </shiro:hasPermission>

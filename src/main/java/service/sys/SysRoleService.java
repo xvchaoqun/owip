@@ -138,7 +138,7 @@ public class SysRoleService {
 			node2.expand = false;
 			node2.isFolder = false;
 			node2.hideCheckbox = false;
-			if(BooleanUtils.isTrue(sysRole.getIsSysHold())) {
+			if(checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
 				node2.unselectable = true;
 				node2.addClass = "unselectable";
 			}

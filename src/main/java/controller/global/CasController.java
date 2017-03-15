@@ -1,4 +1,4 @@
-package controller;
+package controller.global;
 
 import domain.sys.SysUser;
 import domain.sys.SysUserView;

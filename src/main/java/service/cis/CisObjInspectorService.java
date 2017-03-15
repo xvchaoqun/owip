@@ -38,9 +38,9 @@ public class CisObjInspectorService extends BaseMapper {
             List<TreeNode> children = new ArrayList<TreeNode>();
             groupNode.children = children;
 
-            List<CisInspectorView> nowInspectors = cisInspectorService.getNowInspectors(entry.getKey());
+            List<CisInspectorView> inspectors = cisInspectorService.getInspectors(entry.getKey());
 
-            for (CisInspectorView inspector : nowInspectors) {
+            for (CisInspectorView inspector : inspectors) {
 
                 TreeNode node = new TreeNode();
                 node.title = inspector.getRealname() + "-" + inspector.getCode();
