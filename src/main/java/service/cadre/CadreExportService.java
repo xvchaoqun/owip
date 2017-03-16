@@ -323,7 +323,7 @@ public class CadreExportService extends BaseMapper {
                     record.getIdcard(),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
 
-                    DateUtils.calAge(record.getBirth()),
+                    record.getBirth()==null?"":DateUtils.calAge(record.getBirth()),
                     partyName,
                     partyAddTime,
                     DateUtils.formatDate(record.getWorkStartTime(), DateUtils.YYYY_MM_DD), //参加工作时间

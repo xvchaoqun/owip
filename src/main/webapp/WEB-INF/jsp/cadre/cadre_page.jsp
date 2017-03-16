@@ -11,13 +11,13 @@
                  data-url-co="${ctx}/cadre_changeOrder?status=${status}"
                  data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-               <%-- <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender
+                <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender
                 ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
                 ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postIds ||not empty param.proPostLevels
-                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>--%>
+                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>
 
                 <div class="tabbable">
 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
@@ -100,13 +100,13 @@
                                     </button>
                                 </shiro:hasPermission>
                             </div>
-                            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                            <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
                                         <a href="#" data-action="collapse">
-                                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                            <i class="ace-icon fa fa-chevron-down"></i>
                                         </a>
                                     </div>
                                 </div>
