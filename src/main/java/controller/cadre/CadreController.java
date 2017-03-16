@@ -162,8 +162,14 @@ public class CadreController extends BaseController {
                                  @RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE+"")Byte status,
                                        Integer cadreId,
                                        Byte gender,
-                           Byte age,
-                           Byte dpAge, // 党龄
+                           Integer startAge,
+                           Integer endAge,
+                           Integer startDpAge, // 党龄
+                           Integer endDpAge, // 党龄
+                           Long startNowPostAge,
+                           Long endNowPostAge,
+                           Long startNowLevelAge,
+                           Long endNowLevelAge,
                            @RequestParam(required = false, value = "dpTypes")Long[] dpTypes, // 党派
 
                            String _birth,
@@ -220,56 +226,31 @@ public class CadreController extends BaseController {
             }
         }
 
-        if(age!=null){
-            switch (age){
-                case SystemConstants.MEMBER_AGE_20: // 20岁以下
-                    criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
-                    break;
-                case SystemConstants.MEMBER_AGE_21_30:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
-                    break;
-                case SystemConstants.MEMBER_AGE_31_40:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
-                    break;
-                case SystemConstants.MEMBER_AGE_41_50:
-                    criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
-                    break;
-                case SystemConstants.MEMBER_AGE_51:
-                    criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
-                    break;
-                case SystemConstants.MEMBER_AGE_0:
-                    criteria.andBirthIsNull();
-                    break;
-            }
+
+        if(endAge!=null){
+            criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1*endAge));
+        }
+        if(startAge!=null){
+            criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1*startAge));
+        }
+        if(endDpAge!=null){
+            criteria.andCadreGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * endDpAge));
+        }
+        if(startDpAge!=null){
+            criteria.andCadreGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1*startDpAge));
         }
 
-        if(dpAge!=null){
-            switch (dpAge){
-                case SystemConstants.MEMBER_AGE_20: // 20岁以下
-                    criteria.andCadreGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
-                    break;
-                case SystemConstants.MEMBER_AGE_21_30:
-                    criteria.andCadreGrowTimeBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
-                    break;
-                case SystemConstants.MEMBER_AGE_31_40:
-                    criteria.andCadreGrowTimeBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
-                    break;
-                case SystemConstants.MEMBER_AGE_41_50:
-                    criteria.andCadreGrowTimeBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
-                            DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
-                    break;
-                case SystemConstants.MEMBER_AGE_51:
-                    criteria.andCadreGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
-                    break;
-                case SystemConstants.MEMBER_AGE_0:
-                    criteria.andCadreGrowTimeIsNull();
-                    break;
-            }
+        if(endNowPostAge!=null){
+            criteria.andCadrePostYearLessThanOrEqualTo(endNowPostAge);
+        }
+        if(startNowPostAge!=null){
+            criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+        }
+        if(endNowLevelAge!=null){
+            criteria.andAdminLevelYearLessThanOrEqualTo(endNowLevelAge);
+        }
+        if(startNowLevelAge!=null){
+            criteria.andAdminLevelYearGreaterThanOrEqualTo(startNowLevelAge);
         }
 
         if (unitIds!=null) {

@@ -1302,6 +1302,16 @@ function register_party_select($select, width){
     });
 }
 
+// 数字输入框
+$(document).on("blur", "input.num", function(){
+    var str = $(this).val();
+    var num = parseInt(str);
+    //console.log(parseInt(str))
+    if(isNaN(num)){
+        $(this).val('');
+    }
+});
+
 // 日历
 function register_date($date, params){
     return $date.datepicker($.extend({

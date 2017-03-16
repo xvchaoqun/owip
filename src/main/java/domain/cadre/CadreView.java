@@ -156,6 +156,42 @@ public class CadreView implements Serializable {
 
     private Boolean isPrincipalPost;
 
+    private Long cadrePostYear;
+
+    private Long adminLevelYear;
+
+    private Integer npRelateId;
+
+    private Integer npId;
+
+    private String npFileName;
+
+    private String npFile;
+
+    private Date npWorkTime;
+
+    private Integer lpRelateId;
+
+    private Integer lpId;
+
+    private String lpFileName;
+
+    private String lpFile;
+
+    private Date lpWorkTime;
+
+    private Integer cadreId;
+
+    private Integer adminLevelId;
+
+    private Integer sDispatchId;
+
+    private Date sWorkTime;
+
+    private Integer eDispatchId;
+
+    private Date eWorkTime;
+
     private String adminLevelCode;
 
     private String adminLevelName;
@@ -624,6 +660,150 @@ public class CadreView implements Serializable {
 
     public void setIsPrincipalPost(Boolean isPrincipalPost) {
         this.isPrincipalPost = isPrincipalPost;
+    }
+
+    public Long getCadrePostYear() {
+        return cadrePostYear;
+    }
+
+    public void setCadrePostYear(Long cadrePostYear) {
+        this.cadrePostYear = cadrePostYear;
+    }
+
+    public Long getAdminLevelYear() {
+        return adminLevelYear;
+    }
+
+    public void setAdminLevelYear(Long adminLevelYear) {
+        this.adminLevelYear = adminLevelYear;
+    }
+
+    public Integer getNpRelateId() {
+        return npRelateId;
+    }
+
+    public void setNpRelateId(Integer npRelateId) {
+        this.npRelateId = npRelateId;
+    }
+
+    public Integer getNpId() {
+        return npId;
+    }
+
+    public void setNpId(Integer npId) {
+        this.npId = npId;
+    }
+
+    public String getNpFileName() {
+        return npFileName;
+    }
+
+    public void setNpFileName(String npFileName) {
+        this.npFileName = npFileName == null ? null : npFileName.trim();
+    }
+
+    public String getNpFile() {
+        return npFile;
+    }
+
+    public void setNpFile(String npFile) {
+        this.npFile = npFile == null ? null : npFile.trim();
+    }
+
+    public Date getNpWorkTime() {
+        return npWorkTime;
+    }
+
+    public void setNpWorkTime(Date npWorkTime) {
+        this.npWorkTime = npWorkTime;
+    }
+
+    public Integer getLpRelateId() {
+        return lpRelateId;
+    }
+
+    public void setLpRelateId(Integer lpRelateId) {
+        this.lpRelateId = lpRelateId;
+    }
+
+    public Integer getLpId() {
+        return lpId;
+    }
+
+    public void setLpId(Integer lpId) {
+        this.lpId = lpId;
+    }
+
+    public String getLpFileName() {
+        return lpFileName;
+    }
+
+    public void setLpFileName(String lpFileName) {
+        this.lpFileName = lpFileName == null ? null : lpFileName.trim();
+    }
+
+    public String getLpFile() {
+        return lpFile;
+    }
+
+    public void setLpFile(String lpFile) {
+        this.lpFile = lpFile == null ? null : lpFile.trim();
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+
+    public Integer getAdminLevelId() {
+        return adminLevelId;
+    }
+
+    public void setAdminLevelId(Integer adminLevelId) {
+        this.adminLevelId = adminLevelId;
+    }
+
+    public Integer getsDispatchId() {
+        return sDispatchId;
+    }
+
+    public void setsDispatchId(Integer sDispatchId) {
+        this.sDispatchId = sDispatchId;
+    }
+
+    public Date getsWorkTime() {
+        return sWorkTime;
+    }
+
+    public void setsWorkTime(Date sWorkTime) {
+        this.sWorkTime = sWorkTime;
+    }
+
+    public Integer geteDispatchId() {
+        return eDispatchId;
+    }
+
+    public void seteDispatchId(Integer eDispatchId) {
+        this.eDispatchId = eDispatchId;
+    }
+
+    public Date geteWorkTime() {
+        return eWorkTime;
+    }
+
+    public void seteWorkTime(Date eWorkTime) {
+        this.eWorkTime = eWorkTime;
     }
 
     public String getAdminLevelCode() {

@@ -11,11 +11,13 @@
                  data-url-co="${ctx}/cadre_changeOrder?status=${status}"
                  data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender||not empty param.age||not empty param.dpAge
+               <%-- <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender
+                ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
+                ||not empty param.startNowPostAge||not empty param.endNowPostAge||not empty param.startNowLevelAge||not empty param.endNowLevelAge
                 ||not empty param._birth||not empty param._cadreGrowTime
                 ||not empty param.dpTypes||not empty param.unitIds||not empty param.unitTypes||not empty param.adminLevels||not empty param.maxEdus
                 ||not empty param.proPosts ||not empty param.postIds ||not empty param.proPostLevels
-                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>
+                ||not empty param.isPrincipalPost ||not empty param.isDouble || not empty param.code }"/>--%>
 
                 <div class="tabbable">
 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
@@ -184,27 +186,13 @@
                                                     </td>
                                                     <td class="name">年龄 </td>
                                                     <td class="input">
-                                                        <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <c:forEach items="${MEMBER_AGE_MAP}" var="age">
-                                                                <option value="${age.key}">${age.value}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=age]").val('${param.age}');
-                                                        </script>
+                                                        <input class="num" type="text" name="startAge" value="${param.startAge}"> 至 <input  class="num" type="text" name="endAge" value="${param.endAge}">
+
                                                     </td>
                                                     <td class="name">党龄 </td>
                                                     <td class="input">
-                                                        <select name="dpAge" data-width="150" data-rel="select2" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <c:forEach items="${MEMBER_AGE_MAP}" var="age">
-                                                                <option value="${age.key}">${age.value}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=dpAge]").val('${param.dpAge}');
-                                                        </script>
+                                                        <input  class="num" type="text" name="startDpAge" value="${param.startDpAge}"> 至 <input  class="num" type="text" name="endDpAge" value="${param.endDpAge}">
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -242,18 +230,11 @@
                                                             </c:forEach>
                                                         </select>
                                                     </td>
-                                                    <%--<td class="name">现职务始任年限 </td>
+                                                    <td class="name">现职务始任年限 </td>
                                                     <td class="input">
-                                                        <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
-                                                            <option></option>
-                                                            <c:forEach items="${MEMBER_AGE_MAP}" var="age">
-                                                                <option value="${age.key}">${age.value}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                        <script>
-                                                            $("#searchForm select[name=age]").val('${param.age}');
-                                                        </script>
-                                                    </td>--%>
+                                                        <input  class="num" type="text" name="startNowPostAge" value="${param.startNowPostAge}"> 至 <input  class="num" type="text" name="endNowPostAge" value="${param.endNowPostAge}">
+
+                                                    </td>
                                                     <td class="name">专技岗位等级 </td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="proPostLevels">
@@ -274,6 +255,11 @@
                                                         <script>
                                                             $("#searchForm select[name=isPrincipalPost]").val('${param.isPrincipalPost}');
                                                         </script>
+                                                    </td>
+                                                    <td class="name">现职级始任年限 </td>
+                                                    <td class="input">
+                                                        <input  class="num" type="text" name="startNowLevelAge" value="${param.startNowLevelAge}"> 至 <input  class="num" type="text" name="endNowLevelAge" value="${param.endNowLevelAge}">
+
                                                     </td>
                                                     <%--<td class="name">现职级始任年限 </td>
                                                     <td class="input">
@@ -346,6 +332,9 @@
     #searchForm .input{
         width: 250px;
         text-align: left;
+    }
+    #searchForm .num{
+        width: 50px;
     }
 </style>
 <script type="text/template" id="sort_tpl">

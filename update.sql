@@ -1,3 +1,113 @@
+
+-- 2017-3-16
+SELECT `c`.`id` AS `id`
+	,`c`.`user_id` AS `user_id`
+	,`c`.`type_id` AS `type_id`
+	,`c`.`post_id` AS `post_id`
+	,`c`.`unit_id` AS `unit_id`
+	,`c`.`title` AS `title`
+	,`c`.`dispatch_cadre_id` AS `dispatch_cadre_id`
+	,`c`.`post` AS `post`
+	,`c`.`dp_type_id` AS `dp_type_id`
+	,`c`.`dp_add_time` AS `dp_add_time`
+	,`c`.`dp_post` AS `dp_post`
+	,`c`.`dp_remark` AS `dp_remark`
+	,`c`.`is_dp` AS `is_dp`
+	,`c`.`remark` AS `remark`
+	,`c`.`sort_order` AS `sort_order`
+	,`c`.`status` AS `status`
+	,`ui`.`msg_title` AS `msg_title`
+	,`ui`.`mobile` AS `mobile`
+	,`ui`.`phone` AS `phone`
+	,`ui`.`home_phone` AS `home_phone`
+	,`ui`.`email` AS `email`
+	,`ui`.`realname` AS `realname`
+	,`ui`.`gender` AS `gender`
+	,`ui`.`nation` AS `nation`
+	,`ui`.`native_place` AS `native_place`
+	,`ui`.`idcard` AS `idcard`
+	,`ui`.`birth` AS `birth`
+	,`om`.`party_id` AS `party_id`
+	,`om`.`branch_id` AS `branch_id`
+	,`om`.`grow_time` AS `grow_time`
+	,`om`.`status` AS `member_status`
+	, if(c.is_dp, c.dp_add_time, om.grow_time) as cadre_grow_time
+	, if(c.is_dp, c.dp_type_id, if(isnull(om.grow_time), -1, 0)) as cadre_dp_type
+	,`max_ce`.`edu_id` AS `edu_id`
+	,`max_ce`.`finish_time` AS `finish_time`
+	,`max_ce`.`learn_style` AS `learn_style`
+	,`max_ce`.`school` AS `school`
+	,`max_ce`.`dep` AS `dep`
+	,`max_ce`.`school_type` AS `school_type`
+	,`max_ce`.`major` AS `major`
+	,`max_degree`.`degree` AS `degree`
+	,`t`.`post_class` AS `post_class`
+	,`t`.`sub_post_class` AS `sub_post_class`
+	,`t`.`main_post_level` AS `main_post_level`
+	,`t`.`pro_post_time` AS `pro_post_time`
+	,`t`.`pro_post_level` AS `pro_post_level`
+	,`t`.`pro_post_level_time` AS `pro_post_level_time`
+	,`t`.`pro_post` AS `pro_post`
+	,`t`.`manage_level` AS `manage_level`
+	,`t`.`manage_level_time` AS `manage_level_time`
+	,`t`.`arrive_time` AS `arrive_time`
+	,`t`.`work_start_time` AS `work_start_time`
+	,main_cadre_post.id as main_cadre_post_id
+	,main_cadre_post.is_double
+	,main_cadre_post.double_unit_id
+	,main_cadre_post_type.bool_attr as is_principal_post
+	,TIMESTAMPDIFF(YEAR,np_work_time,now()) as cadre_post_year
+	,TIMESTAMPDIFF(YEAR,s_work_time,e_work_time) as admin_level_year
+	,np.* ,lp.*, nl.*
+	,admin_level.code as admin_level_code
+   ,admin_level.name as admin_level_name
+   ,max_ce_edu.extra_attr as max_ce_edu_attr
+   ,max_ce_edu.code as max_ce_edu_code
+   ,max_ce_edu.name as max_ce_edu_name
+   ,u.name as unit_name
+   ,u.type_id as unit_type_id
+   ,unit_type.code as unit_type_code
+   ,unit_type.name as unit_type_name
+   ,unit_type.extra_attr as unit_type_attr
+FROM (
+	(
+		(
+			(
+				(
+					`cadre` `c` LEFT JOIN `sys_user_info` `ui` ON ((`ui`.`user_id` = `c`.`user_id`))
+					) LEFT JOIN `sys_teacher_info` `t` ON ((`t`.`user_id` = `c`.`user_id`))
+				) LEFT JOIN `ow_member` `om` ON ((`om`.`user_id` = `c`.`user_id`))
+			) LEFT JOIN `cadre_edu` `max_ce` ON (
+				(
+					(`max_ce`.`cadre_id` = `c`.`id`)
+					AND (`max_ce`.`is_high_edu` = 1)
+					)
+				)
+		) LEFT JOIN `cadre_edu` `max_degree` ON (
+			(
+				(`max_degree`.`cadre_id` = `c`.`id`)
+				AND (`max_degree`.`is_high_degree` = 1)
+				)
+			)left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
+			left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_id)
+			left join base_meta_type admin_level on(c.type_id=admin_level.id)
+			left join base_meta_type max_ce_edu on(max_ce.edu_id=max_ce_edu.id)
+			left join unit u on(c.unit_id=u.id)
+			left join base_meta_type unit_type on(u.type_id=unit_type.id)
+	) left join
+(select * from (select distinct dcr.relate_id as np_relate_id, d.id as np_id, d.file_name as np_file_name, d.file as np_file, d.work_time as np_work_time  from dispatch_cadre_relate dcr,
+dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time asc)t group by np_relate_id) np  on np.np_relate_id=main_cadre_post.id
+left join
+(select * from (select distinct dcr.relate_id as lp_relate_id, d.id as lp_id, d.file_name as lp_file_name, d.file as lp_file, d.work_time as lp_work_time  from dispatch_cadre_relate dcr,
+dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time desc)t group by lp_relate_id) lp on lp.lp_relate_id=main_cadre_post.id
+
+left join
+(select cal.cadre_id, cal.admin_level_id , sdc.dispatch_id as s_dispatch_id , sd.work_time as s_work_time, edc.dispatch_id as e_dispatch_id, if(isnull(ed.work_time),now(),ed.work_time) as e_work_time  from cadre_admin_level cal
+left join dispatch_cadre sdc on sdc.id=cal.start_dispatch_cadre_id
+left join dispatch sd on sd.id=sdc.dispatch_id
+left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
+left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level_id=main_cadre_post.admin_level_id
+
 -- 2017-3-15
 
 ALTER TABLE `train_eva_result`

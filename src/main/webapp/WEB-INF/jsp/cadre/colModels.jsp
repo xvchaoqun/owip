@@ -178,18 +178,18 @@
         },
         {
             label: '任现职时间',
-            name: 'mainCadrePost.dispatchCadreRelateBean.last.workTime',
+            name: 'lpWorkTime',
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
             label: '现职务始任时间',
             width: 150,
-            name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
+            name: 'npWorkTime',
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        {
+        /*{
             label: '现职务始任年限',
             width: 120,
             name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
@@ -197,6 +197,15 @@
                 if (cellvalue == undefined) return '';
                 var year = yearOffNow(cellvalue);
                 return year == 0 ? "未满一年" : year;
+            }
+        },*/
+        {
+            label: '现职务始任年限',
+            width: 120,
+            name: 'cadrePostYear',
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '';
+                return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
         {
@@ -206,7 +215,7 @@
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        {
+        /*{
             label: '任现职级年限',
             width: 120,
             name: 'workYear',
@@ -224,6 +233,15 @@
                 var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
                 var year = Math.floor(month / 12);
                 return year == 0 ? "未满一年" : year;
+            }
+        },*/
+        {
+            label: '任现职级年限',
+            width: 120,
+            name: 'adminLevelYear',
+            formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '';
+                return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
         {

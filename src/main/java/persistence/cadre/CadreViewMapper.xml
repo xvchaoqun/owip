@@ -58,6 +58,24 @@
     <result column="is_double" property="isDouble" jdbcType="BIT" />
     <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
     <result column="is_principal_post" property="isPrincipalPost" jdbcType="BIT" />
+    <result column="cadre_post_year" property="cadrePostYear" jdbcType="BIGINT" />
+    <result column="admin_level_year" property="adminLevelYear" jdbcType="BIGINT" />
+    <result column="np_relate_id" property="npRelateId" jdbcType="INTEGER" />
+    <result column="np_id" property="npId" jdbcType="INTEGER" />
+    <result column="np_file_name" property="npFileName" jdbcType="VARCHAR" />
+    <result column="np_file" property="npFile" jdbcType="VARCHAR" />
+    <result column="np_work_time" property="npWorkTime" jdbcType="DATE" />
+    <result column="lp_relate_id" property="lpRelateId" jdbcType="INTEGER" />
+    <result column="lp_id" property="lpId" jdbcType="INTEGER" />
+    <result column="lp_file_name" property="lpFileName" jdbcType="VARCHAR" />
+    <result column="lp_file" property="lpFile" jdbcType="VARCHAR" />
+    <result column="lp_work_time" property="lpWorkTime" jdbcType="DATE" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
+    <result column="s_dispatch_id" property="sDispatchId" jdbcType="INTEGER" />
+    <result column="s_work_time" property="sWorkTime" jdbcType="DATE" />
+    <result column="e_dispatch_id" property="eDispatchId" jdbcType="INTEGER" />
+    <result column="e_work_time" property="eWorkTime" jdbcType="TIMESTAMP" />
     <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
     <result column="admin_level_name" property="adminLevelName" jdbcType="VARCHAR" />
     <result column="max_ce_edu_attr" property="maxCeEduAttr" jdbcType="VARCHAR" />
@@ -106,8 +124,11 @@
     finish_time, learn_style, school, dep, school_type, major, degree, post_class, sub_post_class, 
     main_post_level, pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, 
     manage_level_time, arrive_time, work_start_time, main_cadre_post_id, is_double, double_unit_id, 
-    is_principal_post, admin_level_code, admin_level_name, max_ce_edu_attr, max_ce_edu_code, 
-    max_ce_edu_name, unit_name, unit_type_id, unit_type_code, unit_type_name, unit_type_attr
+    is_principal_post, cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, 
+    np_file, np_work_time, lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, 
+    cadre_id, admin_level_id, s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, 
+    admin_level_code, admin_level_name, max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, 
+    unit_name, unit_type_id, unit_type_code, unit_type_name, unit_type_attr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
