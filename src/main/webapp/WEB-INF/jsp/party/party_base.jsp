@@ -118,7 +118,9 @@ pageEncoding="UTF-8"%>
 								${partyMemberPostMap.get(partyMember.postId).name}
 						</td>
 						<td class="bg-left">
-								${partyMemberTypeMap.get(partyMember.typeId).name}
+							<c:forEach items="${fn:split(type_ids, ',')}" var="typeId">
+								${partyMemberTypeMap.get(typeId).name}
+							</c:forEach>
 						</td>
 						<td class="bg-left">${cm:formatDate(partyMember.assignDate, "yyyy.MM")}</td>
 						<td class="bg-left">${partyMember.officePhone}</td>
