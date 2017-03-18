@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     function print_inspector(trainId){
-        printWindow("${ctx}/trainInspector_list?export=2&trainId="+ trainId)
+        printWindow("${ctx}/trainInspector_list?export=2&pagesize=4&trainId="+ trainId)
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

@@ -102,8 +102,8 @@ table tr td.title{
 		</td>
 	</tr>
 </table>
-<fmt:message key="site.train.export.pagesize" bundle="${spring}" var="pagesize"/>
-<c:if test='${(vs.index+1)%pagesize==0}'>
+<%--<fmt:message key="site.train.export.pagesize" bundle="${spring}" var="pagesize"/>--%>
+<c:if test='${(vs.index+1)%param.pagesize==0}'>
 <div style="page-break-after: always; clear: left;"></div>
 	<div class="PageNext"></div>
 </c:if>
