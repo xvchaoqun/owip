@@ -51,7 +51,7 @@ table tr td.title{
 	font-size: 18pt; 
 	font-weight: bolder;
 	padding-bottom: 20px;
-	vertical-align: bottom;">账号信息</td>
+	vertical-align: bottom;">评课账号信息</td>
 	</tr>
 	<tr>
 		<td style="

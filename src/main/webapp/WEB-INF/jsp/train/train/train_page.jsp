@@ -78,8 +78,22 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    function print_inspector(trainId){
-        printWindow("${ctx}/trainInspector_list?export=2&pagesize=4&trainId="+ trainId)
+    function to_print_inspector(trainId){
+
+        bootbox.prompt({
+            size:'small',
+            title: "设置每页打印数量",
+            value:'2',
+            inputType: 'number',
+            callback: function (result) {
+                if(result!=null) {
+                    print_inspector(trainId, result)
+                }
+            }
+        })
+    }
+    function print_inspector(trainId, result){
+        printWindow("${ctx}/trainInspector_list?export=2&pagesize="+result+"&trainId="+ trainId)
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -120,7 +134,7 @@ pageEncoding="UTF-8" %>
                         'data-url="${ctx}/trainInspector_list?export=2&trainId={0}">打印</a>'
                                 .format(rowObject.id);*/
                 if(rowObject.isAnonymous)
-                    return '<a href="javascript:void(0)" onclick="print_inspector({0})">打印账号</a>'
+                    return '<a href="javascript:void(0)" onclick="to_print_inspector({0})">打印账号</a>'
                         .format(rowObject.id);
 
                 return '<a href="javascript:void(0)" onclick="print_inspector({0})">打印二维码</a>'
