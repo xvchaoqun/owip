@@ -1603,11 +1603,11 @@ function displayParty(partyId, branchId){
 }
 
 // 下拉多选
-function register_multiselect($select, selected){
+function register_multiselect($select, selected, params){
 
-    $select.multiselect({
+    $select.multiselect($.extend({
         enableFiltering: true,
-        enableHTML: true,
+        /*enableHTML: true,*/
         buttonClass: 'btn btn-default',
         filterPlaceholder: '查找',
         nonSelectedText: '请选择',
@@ -1616,7 +1616,8 @@ function register_multiselect($select, selected){
         selectAllText:'全选/取消全选',
         allSelectedText: '全部已选择',
         maxHeight:300,
-        templates: {
+        buttonWidth:'200px'
+       /* templates: {
             button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
             ul: '<ul class="multiselect-container dropdown-menu"></ul>',
             filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
@@ -1624,8 +1625,8 @@ function register_multiselect($select, selected){
             li: '<li><a tabindex="0"><label></label></a></li>',
             divider: '<li class="multiselect-item divider"></li>',
             liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-        }
-    });
+        }*/
+    }, params));
 
     if(selected!=undefined && selected instanceof Array && selected.length>0)
         $select.multiselect('select', selected);

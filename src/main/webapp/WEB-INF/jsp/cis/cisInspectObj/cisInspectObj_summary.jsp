@@ -133,8 +133,10 @@
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
-    register_multiselect($('#modalFrom select[name="unitIds[]"]'), ${selectUnitIds});
-    register_multiselect($('#modalFrom select[name="inspectorIds[]"]'), ${selectInspectorIds});
+    register_multiselect($('#modalFrom select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true});
+    register_multiselect($('#modalFrom select[name="inspectorIds[]"]'), ${selectInspectorIds},{enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true});
 
     var ke = KindEditor.create('#content', {
         cssPath: "${ctx}/css/ke.css",

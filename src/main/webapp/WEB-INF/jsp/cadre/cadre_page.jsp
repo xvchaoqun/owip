@@ -179,8 +179,13 @@
                                                     <td class="name">所在单位 </td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="unitIds">
-                                                            <c:forEach items="${unitMap}" var="unit">
-                                                                <option value="${unit.key}">${unit.value.name}</option>
+                                                            <c:forEach var="unitType" items="${unitTypeMap}">
+                                                                <optgroup label="${unitType.value.name}">
+                                                                    <c:forEach items="${unitListMap.get(unitType.value.id)}" var="unitId">
+                                                                        <c:set var="unit" value="${unitMap.get(unitId)}"></c:set>
+                                                                        <option value="${unit.id}">${unit.name}</option>
+                                                                    </c:forEach>
+                                                                </optgroup>
                                                             </c:forEach>
                                                         </select>
                                                     </td>
@@ -348,7 +353,8 @@
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
     register_multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
-    register_multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)});
+    register_multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)},{enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true});
     register_multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
     register_multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     register_multiselect($('#searchForm select[name=maxEdus]'), ${cm:toJSONArray(selectMaxEdus)});
