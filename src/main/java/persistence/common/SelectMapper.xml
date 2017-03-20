@@ -1,169 +1,184 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.SelectMapper" >
- <!-- <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
-      select  p.* from abroad_passport p, base_meta_type mt where p.cadre_id=#{cadreId} and p.class_id=mt.id order by mt.sort_order desc
-  </select>-->
+<mapper namespace="persistence.common.SelectMapper">
+    <!-- <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
+         select  p.* from abroad_passport p, base_meta_type mt where p.cadre_id=#{cadreId} and p.class_id=mt.id order by mt.sort_order desc
+     </select>-->
 
-  <!-- 以下是根据指定的排序规则，读取证件列表-->
-  <sql id="where_selectPassportList">
-    <where>
-        <if test="bean.unitId!=null">
-            and c.unit_id =#{bean.unitId}
+    <!-- 以下是根据指定的排序规则，读取证件列表-->
+    <sql id="where_selectPassportList">
+        <where>
+            <if test="bean.unitId!=null">
+                and c.unit_id =#{bean.unitId}
+            </if>
+            <if test="bean.cadreId!=null">
+                and p.cadre_id =#{bean.cadreId}
+            </if>
+            <if test="bean.classId!=null">
+                and p.class_id =#{bean.classId}
+            </if>
+            <if test="bean.code!=null">
+                and p.code =#{bean.code}
+            </if>
+            <if test="bean.type!=null">
+                and p.type =#{bean.type}
+            </if>
+            <if test="bean.isLent!=null">
+                and p.is_lent =#{bean.isLent}
+            </if>
+            <if test="bean.safeBoxId!=null">
+                <if test="bean.safeBoxId==0">
+                    and p.safe_box_id is not null
+                </if>
+                <if test="bean.safeBoxId!=0">
+                    and p.safe_box_id =#{bean.safeBoxId}
+                    and (p.type=1 or (p.type=2 and p.cancel_confirm=0)) <!-- 集中保管或 未确认的取消集中保管，才在保险柜里-->
+                </if>
+            </if>
+            <if test="bean.cancelConfirm!=null">
+                and p.cancel_confirm = #{bean.cancelConfirm}
+            </if>
+            and p.cadre_id=c.id and p.class_id=mt.id
+        </where>
+    </sql>
+    <select id="getCadreFamliys" resultMap="persistence.cadre.CadreFamliyMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_famliy cf, cadre c where cf.cadre_id=c.id
+        <if test="cadreIds != null">
+            and c.id IN
+            <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
+                #{cadreId}
+            </foreach>
         </if>
-      <if test="bean.cadreId!=null">
-        and p.cadre_id =#{bean.cadreId}
-      </if>
-      <if test="bean.classId!=null">
-        and p.class_id =#{bean.classId}
-      </if>
-      <if test="bean.code!=null">
-        and p.code =#{bean.code}
-      </if>
-      <if test="bean.type!=null">
-        and p.type =#{bean.type}
-      </if>
-        <if test="bean.isLent!=null">
-            and p.is_lent =#{bean.isLent}
+        <if test="status != null">
+            and c.status = #{status}
         </if>
-      <if test="bean.safeBoxId!=null">
-        <if test="bean.safeBoxId==0">
-          and p.safe_box_id is not null
-        </if>
-        <if test="bean.safeBoxId!=0">
-        and p.safe_box_id =#{bean.safeBoxId}
-          and (p.type=1 or (p.type=2 and p.cancel_confirm=0)) <!-- 集中保管或 未确认的取消集中保管，才在保险柜里-->
-        </if>
-      </if>
-      <if test="bean.cancelConfirm!=null">
-        and p.cancel_confirm = #{bean.cancelConfirm}
-      </if>
-      and p.cadre_id=c.id and p.class_id=mt.id
-    </where>
-  </sql>
-  <select id="selectPassportList" resultMap="persistence.abroad.PassportMapper.BaseResultMap" parameterType="map">
-    select  p.* from abroad_passport p, cadre c, base_meta_type mt
-    <include refid="where_selectPassportList"/>
-    order by
-      <if test="bean.type==1">
-          c.status asc,
-      </if>
-      c.sort_order desc, mt.sort_order desc
-  </select>
+        order by c.sort_order desc
+    </select>
 
-  <select id="countPassport" parameterType="map" resultType="java.lang.Integer" >
-    select  count(p.id) from abroad_passport p, cadre c, base_meta_type mt
-    <include refid="where_selectPassportList"/>
-  </select>
+    <select id="selectPassportList" resultMap="persistence.abroad.PassportMapper.BaseResultMap" parameterType="map">
+        select p.* from abroad_passport p, cadre c, base_meta_type mt
+        <include refid="where_selectPassportList"/>
+        order by
+        <if test="bean.type==1">
+            c.status asc,
+        </if>
+        c.sort_order desc, mt.sort_order desc
+    </select>
 
-  <!-- 以下是有审核权限的干部读取因私出访申请列表， 分为待审批、已审批-->
-  <sql id="Where_selectNotApproval" >
-    where
-      aas.is_deleted=0 and
-    <if test="approverTypeUnitIdListMap == null and approverTypePostIdListMap == null">
-     aas.id=-1
-    </if>
-    <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
-      aas.cadre_id=bc.id and aas.status=1 and aas.is_finish=0 and (
-    <if test="approverTypeUnitIdListMap != null"> <!--当前审批身份为本单位正职，则查询当前操作人所属单位可以审批的记录-->
-      <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
-        ( aas.flow_node = #{approverTypeId} and bc.unit_id in
-        <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
-          #{unitId}
-        </foreach>
-        )
-      </foreach>
-    </if>
-    <if test="approverTypePostIdListMap != null">
-      <if test="approverTypeUnitIdListMap != null"> or </if> <!--根据后台设定的审批身份顺序，则查询当前操作人的职务属性所属身份可以审批的记录-->
-      <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
-        (aas.flow_node = #{approverTypeId} and bc.post_id in
-        <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
-          #{postId}
-        </foreach>
-        )
-      </foreach>
-    </if>
-      )
-    </if>
-      <if test="searchBean!=null">
-          <if test="searchBean.cadreId!=null">
-              and aas.cadre_id=#{searchBean.cadreId}
-          </if>
-          <if test="searchBean.type!=null">
-              and aas.type=#{searchBean.type}
-          </if>
-          <if test="searchBean.applyDateStart!=null">
-              and aas.apply_date>=#{searchBean.applyDateStart}
-          </if>
-          <if test="searchBean.applyDateEnd!=null">
-              and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
-          </if>
-      </if>
- </sql>
-  <!--待审批-->
-  <select id="selectNotApprovalList" resultMap="persistence.abroad.ApplySelfMapper.BaseResultMap" parameterType="map">
-    select aas.* from abroad_apply_self aas, cadre bc
-    <include refid="Where_selectNotApproval" />
-    order by aas.create_time desc
-  </select>
-  <select id="countNotApproval" parameterType="map" resultType="java.lang.Integer" >
-    select count(aas.id) from abroad_apply_self aas, cadre bc
-    <include refid="Where_selectNotApproval" />
-  </select>
-  <sql id="Where_hasApprovalList">
-    where aas.is_deleted=0 and aas.cadre_id=bc.id  and aas.status=1
-    and (
-    concat(',',aas.flow_users,',') like '%,${flowUserId},%'
-    <if test="approverTypeUnitIdListMap != null">
-      or
-      <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
-        ( concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.unit_id in
-        <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
-          #{unitId}
-        </foreach>
-        )
-      </foreach>
-    </if>
-    <if test="approverTypePostIdListMap != null">
-      or
-      <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
-        (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.post_id in
-        <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
-          #{postId}
-        </foreach>
-        )
-      </foreach>
-    </if>
-    )
-      <if test="searchBean!=null">
-          <if test="searchBean.cadreId!=null">
-              and aas.cadre_id=#{searchBean.cadreId}
-          </if>
-          <if test="searchBean.type!=null">
-              and aas.type=#{searchBean.type}
-          </if>
-          <if test="searchBean.applyDateStart!=null">
-              and aas.apply_date>=#{searchBean.applyDateStart}
-          </if>
-          <if test="searchBean.applyDateEnd!=null">
-              and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
-          </if>
-      </if>
-  </sql>
-  <!-- 已审批 -->
-  <select id="selectHasApprovalList" resultMap="persistence.abroad.ApplySelfMapper.BaseResultMap" parameterType="map">
-    select aas.* from abroad_apply_self aas, cadre bc
-    <include refid="Where_hasApprovalList" />
-    order by aas.create_time desc
-  </select>
-  <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer" >
-    select count(aas.id) from abroad_apply_self aas, cadre bc
-    <include refid="Where_hasApprovalList" />
-  </select>
+    <select id="countPassport" parameterType="map" resultType="java.lang.Integer">
+        select count(p.id) from abroad_passport p, cadre c, base_meta_type mt
+        <include refid="where_selectPassportList"/>
+    </select>
 
-  <!-- 根据保险柜编号，读取统计 集中管理证件和未确认取消管理证件-->
-  <select id="listSafeBoxs" resultType="bean.SafeBoxBean">
+    <!-- 以下是有审核权限的干部读取因私出访申请列表， 分为待审批、已审批-->
+    <sql id="Where_selectNotApproval">
+        where
+        aas.is_deleted=0 and
+        <if test="approverTypeUnitIdListMap == null and approverTypePostIdListMap == null">
+            aas.id=-1
+        </if>
+        <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
+            aas.cadre_id=bc.id and aas.status=1 and aas.is_finish=0 and (
+            <if test="approverTypeUnitIdListMap != null"> <!--当前审批身份为本单位正职，则查询当前操作人所属单位可以审批的记录-->
+                <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
+                    ( aas.flow_node = #{approverTypeId} and bc.unit_id in
+                    <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
+                        #{unitId}
+                    </foreach>
+                    )
+                </foreach>
+            </if>
+            <if test="approverTypePostIdListMap != null">
+                <if test="approverTypeUnitIdListMap != null">or</if>
+                <!--根据后台设定的审批身份顺序，则查询当前操作人的职务属性所属身份可以审批的记录-->
+                <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
+                    (aas.flow_node = #{approverTypeId} and bc.post_id in
+                    <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
+                        #{postId}
+                    </foreach>
+                    )
+                </foreach>
+            </if>
+            )
+        </if>
+        <if test="searchBean!=null">
+            <if test="searchBean.cadreId!=null">
+                and aas.cadre_id=#{searchBean.cadreId}
+            </if>
+            <if test="searchBean.type!=null">
+                and aas.type=#{searchBean.type}
+            </if>
+            <if test="searchBean.applyDateStart!=null">
+                and aas.apply_date>=#{searchBean.applyDateStart}
+            </if>
+            <if test="searchBean.applyDateEnd!=null">
+                and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
+            </if>
+        </if>
+    </sql>
+    <!--待审批-->
+    <select id="selectNotApprovalList" resultMap="persistence.abroad.ApplySelfMapper.BaseResultMap" parameterType="map">
+        select aas.* from abroad_apply_self aas, cadre bc
+        <include refid="Where_selectNotApproval"/>
+        order by aas.create_time desc
+    </select>
+    <select id="countNotApproval" parameterType="map" resultType="java.lang.Integer">
+        select count(aas.id) from abroad_apply_self aas, cadre bc
+        <include refid="Where_selectNotApproval"/>
+    </select>
+    <sql id="Where_hasApprovalList">
+        where aas.is_deleted=0 and aas.cadre_id=bc.id and aas.status=1
+        and (
+        concat(',',aas.flow_users,',') like '%,${flowUserId},%'
+        <if test="approverTypeUnitIdListMap != null">
+            or
+            <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
+                ( concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.unit_id in
+                <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
+                    #{unitId}
+                </foreach>
+                )
+            </foreach>
+        </if>
+        <if test="approverTypePostIdListMap != null">
+            or
+            <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
+                (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.post_id in
+                <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
+                    #{postId}
+                </foreach>
+                )
+            </foreach>
+        </if>
+        )
+        <if test="searchBean!=null">
+            <if test="searchBean.cadreId!=null">
+                and aas.cadre_id=#{searchBean.cadreId}
+            </if>
+            <if test="searchBean.type!=null">
+                and aas.type=#{searchBean.type}
+            </if>
+            <if test="searchBean.applyDateStart!=null">
+                and aas.apply_date>=#{searchBean.applyDateStart}
+            </if>
+            <if test="searchBean.applyDateEnd!=null">
+                and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
+            </if>
+        </if>
+    </sql>
+    <!-- 已审批 -->
+    <select id="selectHasApprovalList" resultMap="persistence.abroad.ApplySelfMapper.BaseResultMap" parameterType="map">
+        select aas.* from abroad_apply_self aas, cadre bc
+        <include refid="Where_hasApprovalList"/>
+        order by aas.create_time desc
+    </select>
+    <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer">
+        select count(aas.id) from abroad_apply_self aas, cadre bc
+        <include refid="Where_hasApprovalList"/>
+    </select>
+
+    <!-- 根据保险柜编号，读取统计 集中管理证件和未确认取消管理证件-->
+    <select id="listSafeBoxs" resultType="bean.SafeBoxBean">
     /*select asb.id as id, asb.code as code, asb.remark as remark,
     count(ap.id) as totalCount, group_concat(bc.unit_id) as unitIds,
     sum(if(ap.type=1, 1, 0)) as keepCount from abroad_safe_box asb ,
@@ -185,26 +200,26 @@
     on aap.safe_box_id=asb.id group by asb.id order by asb.sort_order desc
   </select>
 
-  <select id="passportCount" resultType="java.lang.Integer">
+    <select id="passportCount" resultType="java.lang.Integer">
     select count(ap.id) from abroad_passport ap where (ap.type=1 or (ap.type=2 and ap.cancel_confirm=0))
   </select>
     <!-- 证件的类型和状态统计-->
     <!-- 证件类型 数量 集中管理  丢失  作废  取消集中管理（未确认）-->
-  <select id="passportStatByClass" resultType="bean.PassportStatByClassBean">
+    <select id="passportStatByClass" resultType="bean.PassportStatByClassBean">
 select ap.class_id as classId, count(*) as num, sum(if(ap.type=1, 1, 0)) as keepNum,
     sum(if(ap.type=3, 1, 0)) as lostNum, sum(if((<![CDATA[ap.type=2&&ap.cancel_type=3]]>), 1, 0)) as abolishNum,
     sum(if((<![CDATA[ap.type=2&&ap.cancel_confirm=0]]>), 1, 0)) as unconfirmNum from abroad_passport ap, base_meta_type bmt where ap.class_id=bmt.id
     group by ap.class_id order by bmt.sort_order desc
   </select>
-<!--集中管理证件库的借出情况统计-->
+    <!--集中管理证件库的借出情况统计-->
     <!-- 证件类型 集中管理  未借出 借出-->
-<select id="passportStatByLent" resultType="bean.PassportStatByLentBean">
+    <select id="passportStatByLent" resultType="bean.PassportStatByLentBean">
 select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as lentNum from abroad_passport ap,
  base_meta_type bmt where ap.type=1 and ap.class_id=bmt.id  group by ap.class_id  order by bmt.sort_order desc
 </select>
     <!--集中管理证件库按照职务属性统计-->
     <!-- 职务属性  因私  港澳 台湾 合计-->
-  <select id="passportStatByPost" resultType="bean.PassportStatByPostBean" parameterType="map">
+    <select id="passportStatByPost" resultType="bean.PassportStatByPostBean" parameterType="map">
     select bc.post_id as postId, count(*) as num, sum(if(class_id=#{selfPassportTypeId}, 1, 0)) as selfNum,
     sum(if(class_id=#{twPassportTypeId}, 1, 0)) as twNum from abroad_passport ap, cadre bc where
     ap.type=1 and ap.cadre_id = bc.id

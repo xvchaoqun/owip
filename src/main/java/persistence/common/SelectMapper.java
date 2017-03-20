@@ -4,8 +4,7 @@ import bean.*;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
-import domain.dispatch.DispatchCadre;
-import domain.modify.ModifyCadreAuth;
+import domain.cadre.CadreFamliy;
 import domain.cadre.CadreLeader;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -31,6 +30,9 @@ public interface SelectMapper {
     List<ApprovalOrder> selectApprovalOrderList(@Param("applicatTypeId") int applicatTypeId, RowBounds rowBounds);
     @Select("select count(*) from abroad_approval_order where applicat_type_id=#{applicatTypeId}")
     int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
+
+    // 查询干部家庭成员
+    List<CadreFamliy> getCadreFamliys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 
     //查询校领导的分管单位
     @Select("select blu.unit_id from cadre_leader_unit blu, cadre_leader bl " +

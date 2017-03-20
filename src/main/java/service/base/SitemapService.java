@@ -93,6 +93,7 @@ public class SitemapService extends BaseMapper{
 	}
 
 	@Transactional
+	@CacheEvict(value="_Sitemaps", allEntries=true)
 	public void updateRoles(int sitemapId, Integer[] roleIds){
 
 		SitemapRoleExample example = new SitemapRoleExample();

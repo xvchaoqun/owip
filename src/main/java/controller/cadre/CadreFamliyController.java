@@ -76,7 +76,10 @@ public class CadreFamliyController extends BaseController {
     public void cadreFamliy_data(HttpServletResponse response,
                                  Integer cadreId,
                                  Integer pageSize, Integer pageNo,
-                                 @RequestParam(required = false, defaultValue = "0") int export) throws IOException {
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, value = "ids[]") Integer[] ids // 导出的记录（干部id)
+
+    ) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -95,7 +98,9 @@ public class CadreFamliyController extends BaseController {
         }
 
         if (export == 1) {
-            cadreFamliy_export(example, response);
+            if(ids!=null && ids.length>0)
+                criteria.andCadreIdIn(Arrays.asList(ids));
+            cadreFamliy_export(ids, SystemConstants.CADRE_STATUS_MIDDLE, response);
             return;
         }
 
@@ -225,16 +230,16 @@ public class CadreFamliyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreFamliy_export(CadreFamliyExample example, HttpServletResponse response) {
+    public void cadreFamliy_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
 
-        List<CadreFamliy> cadreFamliys = cadreFamliyMapper.selectByExample(example);
-        int rownum = cadreFamliyMapper.countByExample(example);
+        List<CadreFamliy> cadreFamliys = selectMapper.getCadreFamliys(cadreIds, status);
+        int rownum = cadreFamliys.size();
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"称谓","姓名","政治面貌","工作单位及职务"};
+        String[] titles = {"工号", "干部", "所在单位及职务", "称谓","姓名","政治面貌","工作单位及职务"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -244,11 +249,16 @@ public class CadreFamliyController extends BaseController {
         for (int i = 0; i < rownum; i++) {
 
             CadreFamliy cadreFamliy = cadreFamliys.get(i);
+            CadreView cv = cadreViewMapper.selectByPrimaryKey(cadreFamliy.getCadreId());
+            SysUserView uv = cv.getUser();
             String[] values = {
-                        cadreFamliy.getTitle()+"",
+                        uv.getCode(),
+                        uv.getRealname(),
+                        cv.getTitle(),
+                    cadreFamliy.getTitle()==null?"":SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(cadreFamliy.getTitle()),
                                             cadreFamliy.getRealname(),
-                                            cadreFamliy.getPoliticalStatus()+"",
-                                            cadreFamliy.getUnit()
+                    cadreFamliy.getPoliticalStatus()==null?"":metaTypeService.getName(cadreFamliy.getPoliticalStatus()),
+                    cadreFamliy.getUnit()
                     };
 
             Row row = sheet.createRow(i + 1);
