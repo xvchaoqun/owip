@@ -1,6 +1,7 @@
 package service.party;
 
 import domain.base.MetaType;
+import domain.member.Member;
 import domain.party.*;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -42,6 +43,8 @@ public class PartyMemberService extends BaseMapper {
     protected PartyService partyService;
     @Autowired
     protected BranchService branchService;
+    @Autowired
+    protected MemberService memberService;
 
     public SXSSFWorkbook export(PartyMemberViewExample example) {
 
@@ -123,12 +126,15 @@ public class PartyMemberService extends BaseMapper {
         for (int i = 0; i < count; i++) {
             PartyMemberView record = records.get(i);
             SysUserView sysUser = record.getUser();
+            Member member = memberService.get(record.getUserId());
 
             String partyName = "";// 党派
             String partyAddTime = "";
-            if (BooleanUtils.isNotTrue(record.getIsDp()) && record.getGrowTime() != null) {
+            if (BooleanUtils.isNotTrue(record.getIsDp()) &&
+                    (member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL) ) {
                 partyName = "中共党员";
-                partyAddTime = DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD);
+                if(record.getGrowTime() != null)
+                    partyAddTime = DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD);
             } else if (BooleanUtils.isTrue(record.getIsDp())) {
                 partyName = metaTypeMap.get(record.getDpTypeId()).getName();
                 partyAddTime = DateUtils.formatDate(record.getDpAddTime(), DateUtils.YYYY_MM_DD);
