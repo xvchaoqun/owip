@@ -423,7 +423,7 @@ public class MemberOutController extends BaseController {
                 MemberOut _memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
                 if (_memberOut.getStatus() == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) { // 转出之后，如果还有修改，则需要保存记录
 
-                    if(BooleanUtils.isFalse(before.getIsModify())){ // 第一次修改
+                    if(BooleanUtils.isNotTrue(before.getIsModify())){ // 第一次修改
                         MemberOut _record = new MemberOut();
                         _record.setId(before.getId());
                         _record.setIsModify(true);

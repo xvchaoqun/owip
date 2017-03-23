@@ -36,7 +36,7 @@ public class SycnTask {
 	@Scheduled(cron = "${cron.sync.cadreStatHistory}")
 	public void cadreStatHistory() {
 
-		if(BooleanUtils.isFalse(springProps.cadreStatHistory)){
+		if(BooleanUtils.isNotTrue(springProps.cadreStatHistory)){
 			return;
 		}
 
@@ -97,7 +97,7 @@ public class SycnTask {
 	@Scheduled(cron = "${cron.sync.abroad}")
 	public void syncAbroad() {
 
-		if(BooleanUtils.isFalse(springProps.sycnAbroad)){
+		if(BooleanUtils.isNotTrue(springProps.sycnAbroad)){
 			return;
 		}
 
@@ -114,7 +114,7 @@ public class SycnTask {
 	@Scheduled(cron = "${cron.sync.JZG}")
 	public void syncJZG() {
 
-		if(BooleanUtils.isFalse(springProps.sycnJZG)){
+		if(BooleanUtils.isNotTrue(springProps.sycnJZG)){
 			return;
 		}
 
@@ -129,7 +129,7 @@ public class SycnTask {
 	@Scheduled(cron = "${cron.sync.YJS}")
 	public void syncYJS() {
 
-		if(BooleanUtils.isFalse(springProps.sycnYJS)){
+		if(BooleanUtils.isNotTrue(springProps.sycnYJS)){
 			return;
 		}
 
@@ -144,7 +144,7 @@ public class SycnTask {
 	@Scheduled(cron = "${cron.sync.BKS}")
 	public void syncBks() {
 
-		if(BooleanUtils.isFalse(springProps.sycnBKS)){
+		if(BooleanUtils.isNotTrue(springProps.sycnBKS)){
 			return;
 		}
 

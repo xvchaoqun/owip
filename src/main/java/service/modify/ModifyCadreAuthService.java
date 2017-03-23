@@ -226,7 +226,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         ModifyCadreAuth record = new ModifyCadreAuth();
         record.setIsUnlimited(isUnlimited);
-        if(BooleanUtils.isFalse(record.getIsUnlimited())) {
+        if(BooleanUtils.isNotTrue(record.getIsUnlimited())) {
             record.setStartTime(start);
             record.setEndTime(end);
         }

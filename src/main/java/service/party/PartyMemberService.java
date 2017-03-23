@@ -126,7 +126,7 @@ public class PartyMemberService extends BaseMapper {
 
             String partyName = "";// 党派
             String partyAddTime = "";
-            if (BooleanUtils.isFalse(record.getIsDp()) && record.getGrowTime() != null) {
+            if (BooleanUtils.isNotTrue(record.getIsDp()) && record.getGrowTime() != null) {
                 partyName = "中共党员";
                 partyAddTime = DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD);
             } else if (BooleanUtils.isTrue(record.getIsDp())) {

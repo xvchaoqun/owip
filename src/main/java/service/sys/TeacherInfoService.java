@@ -50,7 +50,7 @@ public class TeacherInfoService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(TeacherInfo record){
 
-        if(BooleanUtils.isFalse(record.getIsRetire())){
+        if(BooleanUtils.isNotTrue(record.getIsRetire())){
             record.setRetireTime(null);
             updateMapper.del_retireTime(record.getUserId());
         }

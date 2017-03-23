@@ -137,7 +137,7 @@ public class ModifyBaseItemService extends BaseMapper {
         }
 
         // 没审核通过或者不需要更新数据的，则不更新缓存
-        if(BooleanUtils.isFalse(status) || StringUtils.isBlank(tableName)) return null;
+        if(BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return null;
 
         // 返回更新缓存对象
         return sysUser;

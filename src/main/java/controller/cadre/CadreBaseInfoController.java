@@ -52,7 +52,7 @@ public class CadreBaseInfoController extends BaseController {
 
         Cadre cadre = cadreService.findAll().get(cadreId);
         Member member = memberService.get(cadre.getUserId());
-        if(BooleanUtils.isFalse(cadre.getIsDp()) && member==null) {
+        if(BooleanUtils.isNotTrue(cadre.getIsDp()) && member==null) {
             if(dpTypeId!=null && _dpAddTime!=null)
                 cadreService.addDemocraticParty(cadreId, dpTypeId, _dpAddTime, null, "干部本人添加");
         }
