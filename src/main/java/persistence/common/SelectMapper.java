@@ -6,6 +6,8 @@ import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
 import domain.cadre.CadreFamliy;
 import domain.cadre.CadreLeader;
+import domain.cadre.CadreView;
+import domain.dispatch.DispatchCadreView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -17,6 +19,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface SelectMapper {
+    // 获取2013年以来离任干部
+    /*@ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
+    @Select("select cv.* from cadre_view cv, dispatch_cadre_view dcv where cv.id=dcv.cadre_id and cv.status=3 and cv.unit_id=#{unitId} and dcv.type=2 and dcv.year between 2013 and 2017")
+    List<CadreView> leaveCadres(@Param("unitId")int unitId);*/
+    @ResultMap("persistence.dispatch.DispatchCadreViewMapper.BaseResultMap")
+    @Select("select dcv.* from dispatch_cadre_view dcv left join cadre_view cv on cv.id=dcv.cadre_id where dcv.unit_id=#{unitId} and dcv.type=2 and dcv.year between 2013 and 2017 order by  dcv.year desc, cv.sort_order desc")
+    List<DispatchCadreView> leaveDispatchCadres(@Param("unitId")int unitId);
 
     @Select("select cadre_id from modify_cadre_auth where is_unlimited=1 or " +
             "(is_unlimited=0 and ( (curdate() between start_time and end_time) " +
