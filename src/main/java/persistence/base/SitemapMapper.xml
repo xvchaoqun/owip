@@ -7,6 +7,7 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="resource_id" property="resourceId" jdbcType="INTEGER" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, fid, title, url, remark, sort_order
+    id, fid, title, url, remark, resource_id, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.base.SitemapExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="domain.base.Sitemap" >
     insert into base_sitemap (id, fid, title, 
-      url, remark, sort_order
-      )
+      url, remark, resource_id, 
+      sort_order)
     values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{url,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{resourceId,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.base.Sitemap" >
     insert into base_sitemap
@@ -125,6 +126,9 @@
       </if>
       <if test="remark != null" >
         remark,
+      </if>
+      <if test="resourceId != null" >
+        resource_id,
       </if>
       <if test="sortOrder != null" >
         sort_order,
@@ -145,6 +149,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null" >
         #{sortOrder,jdbcType=INTEGER},
@@ -175,6 +182,9 @@
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.resourceId != null" >
+        resource_id = #{record.resourceId,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null" >
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -190,6 +200,7 @@
       title = #{record.title,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
+      resource_id = #{record.resourceId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +221,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="resourceId != null" >
+        resource_id = #{resourceId,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null" >
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -222,6 +236,7 @@
       title = #{title,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      resource_id = #{resourceId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

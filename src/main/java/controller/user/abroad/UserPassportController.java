@@ -217,7 +217,7 @@ public class UserPassportController extends BaseController {
         }
 
         if (export == 1) {
-            passportDrawService.passportDraw_export(example, response);
+            passportDrawService.passportDraw_export(SystemConstants.PASSPORT_DRAW_TYPE_SELF, example, response);
             return;
         }
 

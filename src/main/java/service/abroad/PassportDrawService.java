@@ -2,8 +2,11 @@ package service.abroad;
 
 import bean.ShortMsgBean;
 import domain.abroad.*;
+import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import shiro.ShiroHelper;
 import service.base.ShortMsgService;
@@ -201,7 +205,16 @@ public class PassportDrawService extends BaseMapper {
     }
 
     // 使用记录导出
-    public void passportDraw_export(PassportDrawExample example, HttpServletResponse response) {
+    public void passportDraw_export(byte exportType, PassportDrawExample example, HttpServletResponse response) {
+
+        String type = "因私出国（境）";
+        if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_TW){
+            type="因公赴台、长期因公出国";
+        }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+            type="处理其他事务";
+        }else{
+            exportType = SystemConstants.PASSPORT_DRAW_TYPE_SELF;
+        }
 
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
         int rownum = passportDrawMapper.countByExample(example);
@@ -224,37 +237,95 @@ public class PassportDrawService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "中层干部因私出国（境）证件使用记录");
+            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "中层干部"+type+"证件使用记录");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 14));
             rowNum++;
         }
 
         XSSFRow firstRow = (XSSFRow) sheet.createRow(rowNum++);
+        String[] titles = null;
+        if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
+           titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
+                "证件号码", "申请日期", "申请编码", "因私出国（境）行程", /*"是否签注",*/
+                   "出行时间", "回国时间", "前往国家或地区", "因私出国境事由", "借出日期",
+                   "归还日期"};
 
-        String[] titles = {"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
-                "证件号码", "申请日期", "申请编码", "因私出国（境）行程"
-                , "出行时间", "回国时间", "前往国家或地区", "因私出国境事由", "借出日期", "归还日期"};
+            sheet.setColumnWidth(0, (short) (35.7 * 50));
+            sheet.setColumnWidth(1, (short) (35.7 * 100));
+            sheet.setColumnWidth(2, (short) (35.7 * 50));
+            sheet.setColumnWidth(3, (short) (35.7 * 250));
+            sheet.setColumnWidth(4, (short) (35.7 * 150));
+
+            sheet.setColumnWidth(5, (short) (35.7 * 100));
+            sheet.setColumnWidth(6, (short) (35.7 * 100));
+            sheet.setColumnWidth(7, (short) (35.7 * 100));
+            sheet.setColumnWidth(8, (short) (35.7 * 180));
+            //sheet.setColumnWidth(9, (short) (35.7 * 100));
+
+            sheet.setColumnWidth(9, (short) (35.7 * 100));
+            sheet.setColumnWidth(10, (short) (35.7 * 100));
+            sheet.setColumnWidth(11, (short) (35.7 * 150));
+            sheet.setColumnWidth(12, (short) (35.7 * 150));
+            sheet.setColumnWidth(13, (short) (35.7 * 100));
+
+            sheet.setColumnWidth(14, (short) (35.7 * 100));
+
+        }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_TW){
+            titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
+                    "证件号码", "申请日期", "申请编码", "申请类型", "出行时间",
+                    "回国时间", "出行天数", "因公事由", "费用来源", "是否签注",
+                    "借出日期", "归还日期"};
+
+            sheet.setColumnWidth(0, (short) (35.7 * 50));
+            sheet.setColumnWidth(1, (short) (35.7 * 100));
+            sheet.setColumnWidth(2, (short) (35.7 * 50));
+            sheet.setColumnWidth(3, (short) (35.7 * 250));
+            sheet.setColumnWidth(4, (short) (35.7 * 150));
+
+            sheet.setColumnWidth(5, (short) (35.7 * 100));
+            sheet.setColumnWidth(6, (short) (35.7 * 100));
+            sheet.setColumnWidth(7, (short) (35.7 * 100));
+            sheet.setColumnWidth(8, (short) (35.7 * 130));
+            sheet.setColumnWidth(9, (short) (35.7 * 100));
+
+            sheet.setColumnWidth(10, (short) (35.7 * 100));
+            sheet.setColumnWidth(11, (short) (35.7 * 100));
+            sheet.setColumnWidth(12, (short) (35.7 * 180));
+            sheet.setColumnWidth(13, (short) (35.7 * 180));
+            sheet.setColumnWidth(14, (short) (35.7 * 100));
+
+            sheet.setColumnWidth(15, (short) (35.7 * 100));
+            sheet.setColumnWidth(16, (short) (35.7 * 100));
+
+        }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+            titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
+                    "证件号码", "申请日期", "申请编码", "使用时间", "归还时间",
+                    "使用天数", "事由",  "借出日期", "归还日期"};
+
+            sheet.setColumnWidth(0, (short) (35.7 * 50));
+            sheet.setColumnWidth(1, (short) (35.7 * 100));
+            sheet.setColumnWidth(2, (short) (35.7 * 50));
+            sheet.setColumnWidth(3, (short) (35.7 * 250));
+            sheet.setColumnWidth(4, (short) (35.7 * 150));
+
+            sheet.setColumnWidth(5, (short) (35.7 * 100));
+            sheet.setColumnWidth(6, (short) (35.7 * 100));
+            sheet.setColumnWidth(7, (short) (35.7 * 100));
+            sheet.setColumnWidth(8, (short) (35.7 * 100));
+            sheet.setColumnWidth(9, (short) (35.7 * 100));
+
+            sheet.setColumnWidth(10, (short) (35.7 * 100));
+            sheet.setColumnWidth(11, (short) (35.7 * 150));
+            sheet.setColumnWidth(12, (short) (35.7 * 100));
+            sheet.setColumnWidth(13, (short) (35.7 * 100));
+        }
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
             cell.setCellStyle(getHeadStyle(wb));
         }
-        sheet.setColumnWidth(0, (short) (35.7 * 50));
-        sheet.setColumnWidth(1, (short) (35.7 * 100));
-        sheet.setColumnWidth(2, (short) (35.7 * 50));
-        sheet.setColumnWidth(3, (short) (35.7 * 250));
-        sheet.setColumnWidth(4, (short) (35.7 * 150));
-        sheet.setColumnWidth(5, (short) (35.7 * 100));
-        sheet.setColumnWidth(6, (short) (35.7 * 100));
-        sheet.setColumnWidth(7, (short) (35.7 * 100));
-        sheet.setColumnWidth(8, (short) (35.7 * 180));
-        sheet.setColumnWidth(9, (short) (35.7 * 100));
-        sheet.setColumnWidth(10, (short) (35.7 * 100));
-        sheet.setColumnWidth(11, (short) (35.7 * 150));
-        sheet.setColumnWidth(12, (short) (35.7 * 150));
-        sheet.setColumnWidth(13, (short) (35.7 * 100));
-        sheet.setColumnWidth(14, (short) (35.7 * 100));
 
+        MetaType normalPassport = CmTag.getMetaTypeByCode("mt_passport_normal");
         for (int i = 0; i < rownum; i++) {
             PassportDraw passportDraw = passportDraws.get(i);
             Cadre cadre = passportDraw.getCadre();
@@ -262,6 +333,7 @@ public class PassportDrawService extends BaseMapper {
             Passport passport = passportDraw.getPassport();
             ApplySelf applySelf = passportDraw.getApplySelf();
             String xingcheng = "";
+            String needSign = "";
             String startDate = "";
             String endDate = "";
             String toCountry = "";
@@ -269,34 +341,95 @@ public class PassportDrawService extends BaseMapper {
 
             if(passportDraw.getType()== SystemConstants.PASSPORT_DRAW_TYPE_SELF){
                 xingcheng = "S"+applySelf.getId();
+                if(passport.getClassId().intValue()!=normalPassport.getId()){
+                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign())?"是":"否";
+                }
                 startDate = DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD);
                 toCountry = applySelf.getToCountry();
                 reason = applySelf.getReason();
             }else if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_TW){
-                xingcheng = "T"+passportDraw.getId();
-                startDate = DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD);
+                //xingcheng = "T"+passportDraw.getId();
+                if(passport.getClassId().intValue()!=normalPassport.getId()){
+                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign())?"是":"否";
+                }
+                startDate = DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD);
-                toCountry="台湾";
+                //toCountry="台湾";
             }else if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
-                xingcheng = "Q"+passportDraw.getId();
+                //xingcheng = "Q"+passportDraw.getId();
+                startDate = DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD);
+                endDate = DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD);
             }
+            String[] values = null;
+            if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+                 values = new String[]{
+                        String.valueOf(i + 1),
+                        uv.getCode(),
+                        uv.getRealname(),
+                        cadre.getTitle(),
+                        passport.getPassportClass().getName(),
 
+                        passport.getCode(),
+                        DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
+                        String.format("D%s", passportDraw.getId()),
+                        xingcheng,
+                        // needSign,
 
-            String[] values = {
-                    String.valueOf(i+1),
-                    uv.getCode(),
-                    uv.getRealname(),
-                    cadre.getTitle(),
-                    passport.getPassportClass().getName(),
-                    passport.getCode(),
-                    DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
-                    String.format("A%s", passportDraw.getId()),
-                    xingcheng,
-                    startDate, endDate, toCountry, reason,
-                    DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
-            };
+                        startDate,
+                        endDate, toCountry, StringUtils.replace(reason, "+++", ","),
+                        DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
+
+                        DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
+                };
+            }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_TW){
+                /*titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
+                        "证件号码", "申请日期", "申请编码", "申请类型", "出行时间",
+                        "回国时间", "出行天数", "因公事由", "费用来源", "是否签注",
+                        "借出日期", "归还日期"};*/
+                values = new String[]{
+                        String.valueOf(i + 1),
+                        uv.getCode(),
+                        uv.getRealname(),
+                        cadre.getTitle(),
+                        passport.getPassportClass().getName(),
+
+                        passport.getCode(),
+                        DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
+                        String.format("D%s", passportDraw.getId()),
+                        SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()),
+                        startDate,
+
+                        endDate, DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate())+"",
+                        reason, passportDraw.getCostSource(), needSign,
+
+                        DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
+                        DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
+                };
+            }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+
+                /*titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
+                        "证件号码", "申请日期", "申请编码", "使用时间", "归还时间",
+                        "使用天数", "事由",  "借出日期", "归还日期"};*/
+                values = new String[]{
+                        String.valueOf(i + 1),
+                        uv.getCode(),
+                        uv.getRealname(),
+                        cadre.getTitle(),
+                        passport.getPassportClass().getName(),
+
+                        passport.getCode(),
+                        DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
+                        String.format("D%s", passportDraw.getId()),
+                        startDate,
+                        endDate,
+
+                        DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate())+"",
+                        reason,
+                        DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
+                        DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
+                };
+            }
 
             Row row = sheet.createRow(rowNum++);
 
@@ -307,7 +440,7 @@ public class PassportDrawService extends BaseMapper {
             }
         }
         try {
-            String fileName = "因私出国（境）证件使用记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+            String fileName = type+"证件使用记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
             ServletOutputStream outputStream = response.getOutputStream();
             fileName = new String(fileName.getBytes(), "ISO8859_1");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");

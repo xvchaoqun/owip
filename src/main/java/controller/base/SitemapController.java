@@ -3,6 +3,7 @@ package controller.base;
 import controller.BaseController;
 import domain.base.Sitemap;
 import domain.base.SitemapExample;
+import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -13,19 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
-import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SitemapController extends BaseController {
@@ -84,6 +85,12 @@ public class SitemapController extends BaseController {
             sitemap = sitemapMapper.selectByPrimaryKey(id);
             modelMap.put("sitemap", sitemap);
             modelMap.addAttribute("op", "修改");
+
+            Integer resourceId = sitemap.getResourceId();
+            if(resourceId!=null) {
+                SysResource sysResource = sysResourceMapper.selectByPrimaryKey(resourceId);
+                modelMap.addAttribute("sysResource", sysResource);
+            }
 
             Integer _fid = sitemap.getFid();
             if(_fid!=null&&_fid>0){
@@ -164,7 +171,7 @@ public class SitemapController extends BaseController {
         return resultMap;
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    /*@RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sitemapRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sitemapRole(int id,
@@ -190,5 +197,5 @@ public class SitemapController extends BaseController {
         modelMap.put("tree", JSONUtils.toString(tree));
 
         return "base/sitemap/sitemapRole";
-    }
+    }*/
 }

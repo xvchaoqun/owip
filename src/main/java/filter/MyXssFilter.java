@@ -2,6 +2,8 @@ package filter;
 
 import org.apache.commons.lang3.StringUtils;
 import sys.filter.XssHttpServletRequestWrapper;
+import sys.utils.PatternUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +23,8 @@ public class MyXssFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         String requestURI = ((HttpServletRequest) request).getRequestURI();
-        if(StringUtils.equals(requestURI, "/htmlFragment_au")
-                || StringUtils.equals(requestURI, "/contentTpl_au")
-                || StringUtils.equals(requestURI, "/cadreInfo_updateContent")
-                || StringUtils.equals(requestURI, "/cisInspectObj_summary")
-                || StringUtils.equals(requestURI, "/train_note")
-                ){  // 不需要XSS参数编码的资源
+
+        if(PatternUtils.match(PropertiesUtils.getString("xss.ignoreUrIs"), requestURI)){  // 不需要XSS参数编码的资源
             filterChain.doFilter(request, response);
             return;
         }

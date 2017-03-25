@@ -1219,9 +1219,9 @@ function templateSelection(state){
     return $state;
 }
 
-function register_ajax_select($select){
+function register_ajax_select($select, params){
 
-    $($select).select2({
+    $($select).select2($.extend({
         ajax: {
             dataType: 'json',
             delay: 300,
@@ -1241,8 +1241,8 @@ function register_ajax_select($select){
                 };
             },
             cache: true
-        }
-    });
+        }}, params)
+    );
 }
 // 选择账号
 function register_user_select($select, ts){

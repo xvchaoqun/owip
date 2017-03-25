@@ -24,6 +24,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -124,7 +125,7 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_selects")
 	@ResponseBody
-	public Map sysResource_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+	public Map sysResource_selects(Integer pageSize, String[] type, Integer pageNo,String searchStr) throws IOException {
 
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -136,8 +137,10 @@ public class SysResourceController extends BaseController {
 
 		SysResourceExample example = new SysResourceExample();
 		SysResourceExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(SystemConstants.AVAILABLE);
-		criteria.andTypeNotEqualTo(SystemConstants.RESOURCE_TYPE_FUNCTION);
-		example.setOrderByClause(" sort_order desc");
+		//criteria.andTypeNotEqualTo(SystemConstants.RESOURCE_TYPE_FUNCTION);
+		if(type!=null && type.length>0)
+			criteria.andTypeIn(Arrays.asList(type));
+		example.setOrderByClause("parent_id asc, sort_order desc");
 
 		if(StringUtils.isNotBlank(searchStr)){
 			criteria.andNameLike("%" + searchStr + "%");
@@ -150,11 +153,24 @@ public class SysResourceController extends BaseController {
 		}
 		List<SysResource> sysResources = sysResourceMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
+		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
 		List<Select2Option> options = new ArrayList<Select2Option>();
 		for(SysResource sysResource:sysResources){
+			String text = "";
+			String parentIds = sysResource.getParentIds();
+
+			if(sysResource.getId()==1) continue;// 不包含顶级节点
+
+			for (String _parentId : parentIds.split("/")) {
+				Integer parentId = Integer.valueOf(_parentId);
+				if(parentId>1) { // 不包含顶级节点
+					SysResource _sysResource = resourceMap.get(parentId);
+					if(_sysResource!=null) text += _sysResource.getName() + "-";
+				}
+			}
 
 			Select2Option option = new Select2Option();
-			option.setText(sysResource.getName());
+			option.setText(text + sysResource.getName() + "(" + sysResource.getPermission() + ")");
 			option.setId(sysResource.getId() + "");
 
 			options.add(option);

@@ -196,8 +196,8 @@
       <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
       </table>-->
 
-      <!--<table tableName="base_sitemap" domainObjectName="base.Sitemap">
-      </table>-->
+      <table tableName="base_sitemap" domainObjectName="base.Sitemap">
+      </table>
      <!-- <table tableName="base_sitemap_role" domainObjectName="base.SitemapRole">
       </table>-->
 
@@ -223,11 +223,11 @@
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+     <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->

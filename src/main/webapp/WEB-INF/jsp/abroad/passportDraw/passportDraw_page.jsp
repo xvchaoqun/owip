@@ -72,6 +72,12 @@
                                             data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
+                        <c:if test="${type!=-1}">
+                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                               data-url="${ctx}/passportDraw_data?export=1&exportType=${type}"
+                               data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
+                                    class="fa fa-download"></i> 导出</a>
+                        </c:if>
                         </div>
                         <div class="myTableDiv"
                              data-url-page="${ctx}/passportDraw_page"

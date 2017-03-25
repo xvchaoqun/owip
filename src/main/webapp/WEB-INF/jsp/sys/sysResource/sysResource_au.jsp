@@ -22,7 +22,7 @@
 				父节点
 			</label>
 			<div class="col-xs-6 ">
-				<select name="parentId"  data-width="275">
+				<select name="parentId"  data-width="275" data-ajax-url="${ctx}/sysResource_selects?type=${RESOURCE_TYPE_MENU},${RESOURCE_TYPE_URL}">
 					<option value="${parent.id}">${parent.name}</option>
 				</select>
 			</div>
@@ -33,7 +33,7 @@
 					<c:if test="${param.parentId>0}">子</c:if>节点名称
 				</label>
 				<div class="col-xs-6 ">
-					<form:input path="name"  class="form-control"/>
+					<form:input path="name" class="form-control"/>
 				</div>
 		</div>
 		<div class="form-group">
@@ -121,29 +121,8 @@
 		$(".menuNeeded").show();
 	}*/
 
-	$("#modal select[name=parentId]").select2({
-		ajax: {
-			url: "${ctx}/sysResource_selects",
-			dataType: 'json',
-			delay: 300,
-			data: function (params) {
-				return {
-					searchStr: params.term,
-					pageSize: 10,
-					pageNo: params.page
-				};
-			},
-			processResults: function (data, params) {
-				params.page = params.page || 1;
-				return {results: data.options,  pagination: {
-					more: (params.page * 10) < data.totalCount
-				}};
-			},
-			cache: true
-		},
-		dropdownCssClass: "bigdrop",
-		placeholder: "请选择上级对象"
-	});
+	register_ajax_select($("#modal select[name=parentId]"),
+			{dropdownCssClass: "bigdrop", placeholder: "请选择上级对象"})
 
 	$("#typeSelect").select2({ theme: "classic",width:'180px',allowClear:true })/*.on("select2:select",function(e){
 

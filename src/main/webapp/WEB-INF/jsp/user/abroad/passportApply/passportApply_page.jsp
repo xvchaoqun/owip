@@ -102,6 +102,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    if('${param._go}'=='apply'){
+        _openView("${ctx}/user/passportApply_begin");
+    }
     function _delCallback(target){
         SysMsg.success('撤销成功。', '成功',function(){
             page_reload();

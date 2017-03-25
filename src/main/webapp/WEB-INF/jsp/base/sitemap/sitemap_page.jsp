@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<a href="javascript:;" onclick="_appendChild('')"
-   class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加</a>
+
 <div class="row footer-margin" style="padding-bottom: 20px;">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
+            <a href="javascript:;" onclick="_appendChild('')"
+               class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加</a>
+            <div class="space-4"></div>
             <table class="table table-actived tree table-bordered table-striped">
                 <thead>
                 <tr>
                     <th class="col-xs-3">标题</th>
                     <th>排序</th>
                     <th>URL路径</th>
+                    <th>关联资源</th>
                     <th>备注</th>
                     <th></th>
                 </tr>
@@ -23,19 +26,23 @@
                         <td>${sitemap.title}</td>
                         <td>${sitemap.sortOrder}</td>
                         <td>${sitemap.url}</td>
+                        <td>
+                            <c:forEach items="${cm:getSysResourcePath(sitemap.resourceId)}" var="sysResource" varStatus="vs">
+                                ${sysResource.name}
+                                -
+                                ${vs.last?sysResource.permission:""}
+                            </c:forEach>
+                        </td>
+
                         <td>${sitemap.remark}</td>
                         <td nowrap>
                                 <%--<shiro:hasPermission name="sitemap:create">--%>
-
+                                    <c:if test="${empty sitemap.fid}">
                                 <a href="javascript:;" onclick="_appendChild(${sitemap.id})"
                                    class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加子节点</a>
-
-
+                                </c:if>
                             <a href="javascript:;" onclick="_update(${sitemap.id})"
                                class="btn btn-info btn-xs"><i class="fa fa-pencil-square-o"></i> 修改</a>
-
-                                    <a href="javascript:;" data-url="${ctx}/sitemapRole?id=${sitemap.id}"
-                                       class="popupBtn btn btn-warning btn-xs"><i class="fa fa-pencil-square-o"></i> 分配角色</a>
 
                             <c:if test="${sitemap.fid!=0}">
                                 <a href="javascript:;" onclick="_del(${sitemap.id})" class="btn btn-danger btn-xs">

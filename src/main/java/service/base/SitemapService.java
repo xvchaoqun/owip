@@ -2,10 +2,10 @@ package service.base;
 
 import domain.base.Sitemap;
 import domain.base.SitemapExample;
-import domain.base.SitemapRole;
-import domain.base.SitemapRoleExample;
+import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,6 +13,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.sys.SysResourceService;
+import service.sys.SysRoleService;
 import service.sys.SysUserService;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,6 +25,8 @@ public class SitemapService extends BaseMapper{
 
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private SysResourceService sysResourceService;
 
 	@Transactional
 	@Caching(evict={
@@ -84,15 +88,22 @@ public class SitemapService extends BaseMapper{
 		List<Sitemap> menuList = new ArrayList<Sitemap>();
 		menuLoop(menuList, null);
 
+		//Map<Integer, SysRole> roleMap = sysRoleService.findAll();
 		Map<Integer, Sitemap> map = new LinkedHashMap<>();
 		for (Sitemap sitemap : menuList) {
+			/*List<SysRole> sysRoles = new ArrayList<>();
+			Set<Integer> roleIdSet = getRoleIdSet(sitemap.getId());
+			for (Integer roleId : roleIdSet) {
+				sysRoles.add(roleMap.get(roleId));
+			}
+			sitemap.setSysRoles(sysRoles);*/
 			map.put(sitemap.getId(), sitemap);
 		}
 
 		return map;
 	}
 
-	@Transactional
+	/*@Transactional
 	@CacheEvict(value="_Sitemaps", allEntries=true)
 	public void updateRoles(int sitemapId, Integer[] roleIds){
 
@@ -121,10 +132,10 @@ public class SitemapService extends BaseMapper{
 			idSet.add(sitemapRole.getRoleId());
 		}
 		return idSet;
-	}
+	}*/
 
 	// 根据用户角色，得到对应的一组导航Id
-	public Set<Integer> userSitemapIdSet(int userId){
+	/*public Set<Integer> userSitemapIdSet(int userId){
 
 		SysUserView sysUser = sysUserService.findById(userId);
 		Set roleIds = sysUserService.getUserRoleIdSet(sysUser.getRoleIds());
@@ -136,39 +147,54 @@ public class SitemapService extends BaseMapper{
 			idSet.add(sitemapRole.getSitemapId());
 		}
 		return idSet;
-	}
+	}*/
 
-	// 用户的导航列表
+	// 用户的导航列表（两级列表）
 	public List<Sitemap> getUserTopSitemap(int userId) {
+
+		SysUserView sysUser = sysUserService.findById(userId);
+		Set<String> permissions = sysUserService.findPermissions(sysUser.getUsername());
+		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
 
 		List<Sitemap> topSitemap = new ArrayList<>();
 
 		Map<Integer, Sitemap> sortedSitemaps = getSortedSitemaps();
-		Set<Integer> userSitemapIdSet = userSitemapIdSet(userId);
+		//Set<Integer> userSitemapIdSet = userSitemapIdSet(userId);
 
+		Set<Integer> usedSitemapIdSet = new HashSet<>();
 		for (Sitemap sitemap : sortedSitemaps.values()) {
 
-			Integer sitemapId = sitemap.getId();
-			if(sitemap.getFid()==null && userSitemapIdSet.contains(sitemapId.intValue())){
+			if(usedSitemapIdSet.contains(sitemap.getId())) continue;
 
-				Sitemap _siteMap = new Sitemap();
-				try {
-					BeanUtils.copyProperties(_siteMap, sitemap);
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-					continue;
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-					continue;
-				}
+ 			Sitemap _siteMap = new Sitemap();
+			try {
+				BeanUtils.copyProperties(_siteMap, sitemap);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				continue;
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+				continue;
+			}
+
+			Integer resourceId = sitemap.getResourceId();
+			SysResource sysResource = resourceId!=null?resourceMap.get(resourceId):null;
+			String permission = (sysResource == null)?null:sysResource.getPermission();
+			if (sitemap.getFid() == null &&
+					// 一级节点可能没有权限要求
+					(permission == null || permissions.contains(permission))) {
 
 				List<Sitemap> _subSitemaps = new ArrayList<>();
 				List<Sitemap> subSitemaps = sitemap.getSubSitemaps();
-				if(subSitemaps!=null && subSitemaps.size()>0){
+				if (subSitemaps != null && subSitemaps.size() > 0) {
 
 					for (Sitemap subSitemap : subSitemaps) {
 
-						if(userSitemapIdSet.contains(subSitemap.getId().intValue())){
+						Integer _resourceId = subSitemap.getResourceId();
+						if (_resourceId == null) continue;
+						SysResource _sysResource = resourceMap.get(_resourceId);
+						if (_sysResource != null && permissions.contains(_sysResource.getPermission())) {
+							usedSitemapIdSet.add(subSitemap.getId());
 							_subSitemaps.add(subSitemap);
 						}
 					}
@@ -176,6 +202,7 @@ public class SitemapService extends BaseMapper{
 					_siteMap.setSubSitemaps(_subSitemaps);
 				}
 
+				usedSitemapIdSet.add(_siteMap.getId());
 				topSitemap.add(_siteMap);
 			}
 		}

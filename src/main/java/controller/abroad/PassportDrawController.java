@@ -133,6 +133,8 @@ public class PassportDrawController extends BaseController {
                                     @RequestParam(required = false, defaultValue = "1") byte type,
                                     String _applyDate,
                                     @RequestParam(required = false, defaultValue = "0") int export,
+                                    // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
+                                    @RequestParam(required = false, defaultValue = "1") byte exportType,
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -184,7 +186,7 @@ public class PassportDrawController extends BaseController {
         }
 
         if (export == 1) {
-            passportDrawService.passportDraw_export(example, response);
+            passportDrawService.passportDraw_export(exportType, example, response);
             return;
         }
 

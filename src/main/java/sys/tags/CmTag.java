@@ -6,7 +6,6 @@ import domain.abroad.*;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.*;
-import domain.cis.CisInspector;
 import domain.cis.CisInspectorView;
 import domain.dispatch.*;
 import domain.member.MemberApplyView;
@@ -14,7 +13,9 @@ import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
-import domain.sys.*;
+import domain.sys.HtmlFragment;
+import domain.sys.SysResource;
+import domain.sys.SysUserView;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaRank;
 import domain.unit.Unit;
@@ -36,7 +37,9 @@ import service.cis.CisInspectorService;
 import service.dispatch.*;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
-import service.sys.*;
+import service.sys.HtmlFragmentService;
+import service.sys.SysResourceService;
+import service.sys.SysUserService;
 import service.train.TrainCourseService;
 import service.train.TrainEvaNormService;
 import service.train.TrainEvaRankService;
@@ -199,6 +202,27 @@ public class CmTag {
                 break;
         }
         return stage;
+    }
+
+    public static List<SysResource> getSysResourcePath(Integer id) {
+
+        List<SysResource> sysResources = new ArrayList<>();
+        if(id!=null && id>1) { // 不包含顶级节点
+            Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+            SysResource sysResource = resourceMap.get(id);
+            String parentIds = sysResource.getParentIds();
+            if(StringUtils.isNotBlank(parentIds)) {
+                for (String _parentId : parentIds.split("/")) {
+                    Integer parentId = Integer.valueOf(_parentId);
+                    if(parentId>1) { // 不包含顶级节点
+                        SysResource _sysResource = resourceMap.get(parentId);
+                        if (_sysResource != null) sysResources.add(_sysResource);
+                    }
+                }
+            }
+            if (sysResource != null) sysResources.add(sysResource);
+        }
+        return sysResources;
     }
 
     public static SysResource getSysResource(Integer id) {

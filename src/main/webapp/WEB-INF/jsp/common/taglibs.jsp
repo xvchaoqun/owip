@@ -72,6 +72,10 @@
 <c:set var="SYNC_TYPE_YJS" value="<%=SystemConstants.SYNC_TYPE_YJS%>"/>
 <c:set var="SYNC_TYPE_ABROAD" value="<%=SystemConstants.SYNC_TYPE_ABROAD%>"/>
 
+<c:set var="RESOURCE_TYPE_MENU" value="<%=SystemConstants.RESOURCE_TYPE_MENU%>"/>
+<c:set var="RESOURCE_TYPE_URL" value="<%=SystemConstants.RESOURCE_TYPE_URL%>"/>
+<c:set var="RESOURCE_TYPE_FUNCTION" value="<%=SystemConstants.RESOURCE_TYPE_FUNCTION%>"/>
+
 <c:set var="LOGIN_TYPE_MAP" value="<%=SystemConstants.LOGIN_TYPE_MAP%>"/>
 
 <c:set var="UNIT_TYPE_ATTR_XY" value="<%=SystemConstants.UNIT_TYPE_ATTR_XY%>"/>

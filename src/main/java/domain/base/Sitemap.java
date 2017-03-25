@@ -1,5 +1,7 @@
 package domain.base;
 
+import domain.sys.SysRole;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,6 +17,16 @@ public class Sitemap implements Serializable {
         this.subSitemaps = subSitemaps;
     }
 
+    /*public List<SysRole> sysRoles;
+
+    public List<SysRole> getSysRoles() {
+        return sysRoles;
+    }
+
+    public void setSysRoles(List<SysRole> sysRoles) {
+        this.sysRoles = sysRoles;
+    }*/
+
     private Integer id;
 
     private Integer fid;
@@ -24,6 +36,8 @@ public class Sitemap implements Serializable {
     private String url;
 
     private String remark;
+
+    private Integer resourceId;
 
     private Integer sortOrder;
 
@@ -67,6 +81,14 @@ public class Sitemap implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
     }
 
     public Integer getSortOrder() {
