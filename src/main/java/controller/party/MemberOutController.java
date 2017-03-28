@@ -355,7 +355,10 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:edit")
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberOut_au(@CurrentUser SysUserView loginUser, MemberOut record, String _payTime, String _handleTime, HttpServletRequest request) {
+    public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
+                               MemberOut record, String _payTime,
+                               Boolean reapply,
+                               String _handleTime, HttpServletRequest request) {
 
         Integer userId = record.getUserId();
         Member member = memberService.get(userId);
@@ -414,8 +417,22 @@ public class MemberOutController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转出：%s", record.getId()));
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
+            // 重新提交未通过的申请
+            if(BooleanUtils.isTrue(reapply) && before.getStatus()<SystemConstants.MEMBER_OUT_STATUS_APPLY){
 
-            if (hasModified(before, record)) {
+                record.setApplyTime(new Date());
+                record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+                record.setIsBack(false);
+                memberOutService.updateByPrimaryKeySelective(record);
+
+                applyApprovalLogService.add(record.getId(),
+                        record.getPartyId(), record.getBranchId(), record.getUserId(),
+                        loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                        "后台添加",
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        "重新提交组织关系转出申请");
+            } else if (hasModified(before, record)) {
 
                 memberOutService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));

@@ -71,10 +71,17 @@
                                         <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls!=2 &&cls!=5}">
-                                    <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
+                                    <button class="jqEditBtn btn btn-primary btn-sm"
                                             data-open-by="page">
                                         <i class="fa fa-edit"></i> 修改信息
                                     </button>
+                                    </c:if>
+                                    <c:if test="${cls==2}">
+                                        <button class="jqEditBtn btn btn-primary btn-sm"
+                                                data-querystr="&reapply=1"
+                                                data-open-by="page">
+                                            <i class="fa fa-edit"></i> 重新申请
+                                        </button>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

@@ -7,6 +7,7 @@ pageEncoding="UTF-8"%>
 
     <form class="form-horizontal" action="${ctx}/memberOut_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${memberOut.id}">
+        <input type="hidden" name="reapply" value="${param.reapply}">
 		<div class="row">
 			<div class="col-xs-4">
 			<div class="form-group">
@@ -188,7 +189,8 @@ pageEncoding="UTF-8"%>
 
 <div class="modal-footer center">
     <a href="#" class="btn btn-default closeView">返回</a>
-    <input type="submit" class="btn btn-primary" value="${memberOut!=null?"确定":"添加"}"/>
+
+    <input type="submit" class="btn btn-primary" value="${param.reapply==1?"重新申请":"确定"}"/>
 </div>
 
 <script>
@@ -204,6 +206,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+						<c:if test="${param.reapply==1}">
+						location.href="${ctx}/memberOut?cls=1";
+						</c:if>
 						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
 							$(".closeView").click();
