@@ -9,8 +9,8 @@
 <title>登录二维码</title>
 </head>
 <body>
-<div style="width: 1200px;" id="printArea">
-	<table style="width: 1000px;padding-left: 120px;padding-right: 80px;">
+<div style="width: 1200px; " id="printArea">
+	<table style="width: 1100px;padding-left: 80px;padding-right: 80px;font-size: 20pt">
 		<tr>
 			<td colspan="2">
 				${train.note}
@@ -21,14 +21,38 @@
 			<td align="left">
 				<fmt:message key="site.train.login" bundle="${spring}" var="loginUrl"/>
 				<c:set var="loginUrl" value="${loginUrl}?trainId=${train.id}"></c:set>
-				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}"/>
+				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}" style="width: 400px;margin: 20px"/>
 			</td>
 		</tr>
-		<tr style="height: 100px;font-size: 20pt;font-weight: bolder">
+		<tr>
 			<td align="right">培训班次：</td>
 			<td align="left">${train.name}</td>
 		</tr>
-		<tr style="font-size: 20pt;font-weight: bolder">
+		<tr>
+			<td align="right">说明：</td>
+			<td align="left">请用手机扫描以上二维码进行登录</td>
+		</tr>
+	</table>
+	<hr  style="height:1px;border-top:1px dashed; border-bottom:none;margin: 20px"/>
+	<table style="width: 1100px;padding-left: 80px;padding-right: 80px;font-size: 20pt">
+		<tr>
+			<td colspan="2">
+				${train.note}
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td align="left">
+				<fmt:message key="site.train.login" bundle="${spring}" var="loginUrl"/>
+				<c:set var="loginUrl" value="${loginUrl}?trainId=${train.id}"></c:set>
+				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}"  style="width: 400px;margin: 20px"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">培训班次：</td>
+			<td align="left">${train.name}</td>
+		</tr>
+		<tr>
 			<td align="right">说明：</td>
 			<td align="left">请用手机扫描以上二维码进行登录</td>
 		</tr>
