@@ -59,7 +59,7 @@ public class TrainInspectorController extends BaseController {
                 Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
                         .andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
                 if (ids != null && ids.length > 0) criteria.andIdIn(Arrays.asList(ids));
-                example.setOrderByClause(" type asc, create_time desc");
+                //example.setOrderByClause(" type asc, create_time desc");
                 List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
                 modelMap.put("trainInspectors", trainInspectors);
 
@@ -80,7 +80,7 @@ public class TrainInspectorController extends BaseController {
 
         TrainInspectorExample example = new TrainInspectorExample();
         Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
-        example.setOrderByClause(" type asc, create_time desc");
+        //example.setOrderByClause(" type asc, create_time desc");
 
         if (export == 1) {
             if(ids!=null && ids.length>0)

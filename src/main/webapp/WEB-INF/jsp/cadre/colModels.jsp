@@ -35,12 +35,7 @@
             return _cMap.postMap[cellvalue].name;
         }
         },
-        {
-            label: '是否正职', name: 'isPrincipalPost', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return cellvalue ? "是" : "否"
-        }
-        },
+        {label: '是否正职', name: 'isPrincipalPost', formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '性别', name: 'gender', width: 50, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '-';
@@ -244,12 +239,7 @@
                 return cellvalue == 0 ? "未满一年" : cellvalue;
             }
         },
-        {
-            label: '是否双肩挑', name: 'isDouble', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return cellvalue ? "是" : "否";
-        }
-        },
+        {label: '是否双肩挑', name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '双肩挑单位',
             name: 'doubleUnitId',
@@ -358,11 +348,7 @@
         },
         {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
         {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-        {
-            label: '是否最高学历', width: 110, name: 'isHighEdu', formatter: function (cellvalue, options, rowObject) {
-            return cellvalue ? "是" : "否";
-        }
-        },
+        {label: '是否最高学历', width: 110, name: 'isHighEdu', formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '毕业/在读学校', name: 'school', width: 280},
         {label: '院系', name: 'dep', width: 380},
         {label: '所学专业', name: 'major', width: 380},

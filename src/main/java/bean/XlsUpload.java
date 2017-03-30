@@ -441,7 +441,7 @@ public class XlsUpload {
 		if(null == rowTitle)
 			return rows;
 		int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
-		if(cellCount != 2)
+		if(cellCount < 2)
 			return rows;
 
 		for (int i = sheet.getFirstRowNum() + 1 ; i <= sheet.getLastRowNum(); i++) {

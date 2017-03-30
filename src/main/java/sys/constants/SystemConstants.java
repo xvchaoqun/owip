@@ -987,6 +987,40 @@ public class SystemConstants {
         TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP.put(TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET, "管理员重置");
     }
 
+    // 干部招聘 岗位状态，1正在招聘、2完成招聘、3已删除
+    public final static byte RECRUIT_POST_STATUS_NORMAL = 1;
+    public final static byte RECRUIT_POST_STATUS_FINISH = 2;
+    public final static byte RECRUIT_POST_STATUS_DELETE = 3;
+    public static Map<Byte, String> RECRUIT_POST_STATUS_MAP = new LinkedHashMap<Byte, String>();
+    static {
+
+        RECRUIT_POST_STATUS_MAP.put(RECRUIT_POST_STATUS_NORMAL, "正在招聘");
+        RECRUIT_POST_STATUS_MAP.put(RECRUIT_POST_STATUS_FINISH, "完成招聘");
+        RECRUIT_POST_STATUS_MAP.put(RECRUIT_POST_STATUS_DELETE, "已删除");
+    }
+
+    // 干部招聘 岗位报名情况 未启动报名、正在报名、报名结束
+    public final static byte RECRUIT_POST_SIGN_STATUS_INIT = 1;
+    public final static byte RECRUIT_POST_SIGN_STATUS_NORMAL = 2;
+    public final static byte RECRUIT_POST_SIGN_STATUS_FINISH = 3;
+    public static Map<Byte, String> RECRUIT_POST_SIGN_STATUS_MAP = new LinkedHashMap<Byte, String>();
+    static {
+
+        RECRUIT_POST_SIGN_STATUS_MAP.put(RECRUIT_POST_SIGN_STATUS_INIT, "未启动报名");
+        RECRUIT_POST_SIGN_STATUS_MAP.put(RECRUIT_POST_SIGN_STATUS_NORMAL, "正在报名");
+        RECRUIT_POST_SIGN_STATUS_MAP.put(RECRUIT_POST_SIGN_STATUS_FINISH, "报名结束");
+    }
+
+    // 干部招聘 招聘条件通用模板 类别
+    public final static byte RECRUIT_TEMPLATE_TYPE_BASE = 1;
+    public final static byte RECRUIT_TEMPLATE_TYPE_POST = 2;
+    public static Map<Byte, String> RECRUIT_TEMPLATE_TYPE_MAP = new LinkedHashMap<Byte, String>();
+    static {
+
+        RECRUIT_TEMPLATE_TYPE_MAP.put(RECRUIT_TEMPLATE_TYPE_BASE, "基本条件");
+        RECRUIT_TEMPLATE_TYPE_MAP.put(RECRUIT_TEMPLATE_TYPE_POST, "任职资格");
+    }
+
     // 基本信息修改请求 审核状态，0 待审核 1 部分审核 2 全部审核 3管理员删除（待审核时才可以删除）
     public final static byte MODIFY_BASE_APPLY_STATUS_APPLY = 0;
     public final static byte MODIFY_BASE_APPLY_STATUS_PART_CHECK = 1;

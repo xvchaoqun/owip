@@ -23,6 +23,8 @@ import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
 import persistence.party.*;
+import persistence.recruit.RecruitPostMapper;
+import persistence.recruit.RecruitTemplateMapper;
 import persistence.sys.*;
 import persistence.train.*;
 import persistence.unit.*;
@@ -310,6 +312,12 @@ public class BaseMapper {
 	protected TrainInspectorMapper trainInspectorMapper;
 	@Autowired
 	protected TrainInspectorCourseMapper trainInspectorCourseMapper;
+
+
+	@Autowired
+	protected RecruitPostMapper recruitPostMapper;
+	@Autowired
+	protected RecruitTemplateMapper recruitTemplateMapper;
 
 	@Autowired
 	protected UnitTransferMapper unitTransferMapper;

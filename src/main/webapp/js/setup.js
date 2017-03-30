@@ -42,6 +42,11 @@ $.extend($.jgrid.defaults, {
 function _initNavGrid(gridId, pagerId){
     $("#" + gridId).navGrid('#' + pagerId,{refresh: true, refreshstate:'current',refreshtitle:'获取最新数据', edit:false,add:false,del:false,search:false});
 }
+$.jgrid.formatter = {};
+$.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
+    if (cellvalue == undefined) return '-';
+    return cellvalue ? "是" : "否";
+};
 
 /*$.jgrid.defaults.onSelectRow = function(ids) {
     sid = ids;
@@ -1221,7 +1226,7 @@ function templateSelection(state){
 
 function register_ajax_select($select, params){
 
-    $($select).select2($.extend({
+    return $($select).select2($.extend({
         ajax: {
             dataType: 'json',
             delay: 300,

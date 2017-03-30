@@ -4,6 +4,15 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        <diskStore path="D:\ehcache\owip"/>
 <!-- service 缓存 -->
 
+       <cache name="RecruitTemplate:ALL"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU" />
+
        <cache name="_Sitemaps"
               eternal="false"
               maxElementsInMemory="2000"

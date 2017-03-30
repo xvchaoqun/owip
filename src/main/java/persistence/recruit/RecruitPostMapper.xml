@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.recruit.RecruitPostMapper" >
+  <resultMap id="BaseResultMap" type="domain.recruit.RecruitPost" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="admin_level" property="adminLevel" jdbcType="INTEGER" />
+    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+    <result column="requirement" property="requirement" jdbcType="VARCHAR" />
+    <result column="qualification" property="qualification" jdbcType="VARCHAR" />
+    <result column="sign_status" property="signStatus" jdbcType="TINYINT" />
+    <result column="meeting_status" property="meetingStatus" jdbcType="BIT" />
+    <result column="committee_status" property="committeeStatus" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_publish" property="isPublish" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, year, name, admin_level, unit_id, requirement, qualification, sign_status, meeting_status, 
+    committee_status, remark, create_time, is_publish, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.recruit.RecruitPostExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recruit_post
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recruit_post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recruit_post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.recruit.RecruitPostExample" >
+    delete from recruit_post
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.recruit.RecruitPost" >
+    insert into recruit_post (id, year, name, 
+      admin_level, unit_id, requirement, 
+      qualification, sign_status, meeting_status, 
+      committee_status, remark, create_time, 
+      is_publish, status)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{adminLevel,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{requirement,jdbcType=VARCHAR}, 
+      #{qualification,jdbcType=VARCHAR}, #{signStatus,jdbcType=TINYINT}, #{meetingStatus,jdbcType=BIT}, 
+      #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isPublish,jdbcType=BIT}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.recruit.RecruitPost" >
+    insert into recruit_post
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="adminLevel != null" >
+        admin_level,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="requirement != null" >
+        requirement,
+      </if>
+      <if test="qualification != null" >
+        qualification,
+      </if>
+      <if test="signStatus != null" >
+        sign_status,
+      </if>
+      <if test="meetingStatus != null" >
+        meeting_status,
+      </if>
+      <if test="committeeStatus != null" >
+        committee_status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isPublish != null" >
+        is_publish,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLevel != null" >
+        #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="requirement != null" >
+        #{requirement,jdbcType=VARCHAR},
+      </if>
+      <if test="qualification != null" >
+        #{qualification,jdbcType=VARCHAR},
+      </if>
+      <if test="signStatus != null" >
+        #{signStatus,jdbcType=TINYINT},
+      </if>
+      <if test="meetingStatus != null" >
+        #{meetingStatus,jdbcType=BIT},
+      </if>
+      <if test="committeeStatus != null" >
+        #{committeeStatus,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublish != null" >
+        #{isPublish,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.recruit.RecruitPostExample" resultType="java.lang.Integer" >
+    select count(*) from recruit_post
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update recruit_post
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminLevel != null" >
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.requirement != null" >
+        requirement = #{record.requirement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qualification != null" >
+        qualification = #{record.qualification,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signStatus != null" >
+        sign_status = #{record.signStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.meetingStatus != null" >
+        meeting_status = #{record.meetingStatus,jdbcType=BIT},
+      </if>
+      <if test="record.committeeStatus != null" >
+        committee_status = #{record.committeeStatus,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isPublish != null" >
+        is_publish = #{record.isPublish,jdbcType=BIT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update recruit_post
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      requirement = #{record.requirement,jdbcType=VARCHAR},
+      qualification = #{record.qualification,jdbcType=VARCHAR},
+      sign_status = #{record.signStatus,jdbcType=TINYINT},
+      meeting_status = #{record.meetingStatus,jdbcType=BIT},
+      committee_status = #{record.committeeStatus,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_publish = #{record.isPublish,jdbcType=BIT},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.recruit.RecruitPost" >
+    update recruit_post
+    <set >
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLevel != null" >
+        admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="requirement != null" >
+        requirement = #{requirement,jdbcType=VARCHAR},
+      </if>
+      <if test="qualification != null" >
+        qualification = #{qualification,jdbcType=VARCHAR},
+      </if>
+      <if test="signStatus != null" >
+        sign_status = #{signStatus,jdbcType=TINYINT},
+      </if>
+      <if test="meetingStatus != null" >
+        meeting_status = #{meetingStatus,jdbcType=BIT},
+      </if>
+      <if test="committeeStatus != null" >
+        committee_status = #{committeeStatus,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublish != null" >
+        is_publish = #{isPublish,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.recruit.RecruitPost" >
+    update recruit_post
+    set year = #{year,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      requirement = #{requirement,jdbcType=VARCHAR},
+      qualification = #{qualification,jdbcType=VARCHAR},
+      sign_status = #{signStatus,jdbcType=TINYINT},
+      meeting_status = #{meetingStatus,jdbcType=BIT},
+      committee_status = #{committeeStatus,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_publish = #{isPublish,jdbcType=BIT},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.recruit.RecruitPostExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recruit_post
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

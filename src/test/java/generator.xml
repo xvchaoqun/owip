@@ -21,6 +21,14 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
+      <!--<table tableName="recruit_post" domainObjectName="recruit.RecruitPost">
+          <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
+          <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
+      </table>-->
+    <table tableName="recruit_template" domainObjectName="recruit.RecruitTemplate">
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      </table>
+
       <!--<table tableName="train" domainObjectName="train.Train">
           <columnOverride column="note" jdbcType="VARCHAR"></columnOverride>
       </table>-->
@@ -196,8 +204,8 @@
       <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
       </table>-->
 
-      <table tableName="base_sitemap" domainObjectName="base.Sitemap">
-      </table>
+      <!--<table tableName="base_sitemap" domainObjectName="base.Sitemap">
+      </table>-->
      <!-- <table tableName="base_sitemap_role" domainObjectName="base.SitemapRole">
       </table>-->
 

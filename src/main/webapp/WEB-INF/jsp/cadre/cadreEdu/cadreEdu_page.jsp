@@ -105,8 +105,12 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
+            filterMode:true,
+            htmlTags:{
+                p : ['style']
+            },
             cssPath:"${ctx}/css/ke.css",
-            items: ["source", "|", "fullscreen"],
+            items: ["source", "|", "fullscreen", "|", 'preview'],
             height: '550px',
             width: '700px'
         });

@@ -175,6 +175,14 @@
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH%>" var="TRAIN_INSPECTOR_COURSE_STATUS_FINISH"/>
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_MAP%>" var="TRAIN_INSPECTOR_COURSE_STATUS_MAP"/>
 
+
+<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_MAP%>" var="RECRUIT_POST_STATUS_MAP"/>
+<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_NORMAL%>" var="RECRUIT_POST_STATUS_NORMAL"/>
+<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_FINISH%>" var="RECRUIT_POST_STATUS_FINISH"/>
+<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_DELETE%>" var="RECRUIT_POST_STATUS_DELETE"/>
+
+<c:set value="<%=SystemConstants.RECRUIT_TEMPLATE_TYPE_MAP%>" var="RECRUIT_TEMPLATE_TYPE_MAP"/>
+
 <c:set value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>" var="ENTER_APPLY_TYPE_MAP"/>
 <c:set value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>" var="ENTER_APPLY_STATUS_MAP"/>
 

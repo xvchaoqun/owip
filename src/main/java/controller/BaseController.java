@@ -29,6 +29,8 @@ import service.modify.ModifyBaseItemService;
 import service.modify.ModifyCadreAuthService;
 import service.modify.ModifyTableApplyService;
 import service.party.*;
+import service.recruit.RecruitPostService;
+import service.recruit.RecruitTemplateService;
 import service.sys.*;
 import service.train.*;
 import service.unit.*;
@@ -226,6 +228,11 @@ public class BaseController extends BaseMapper {
     protected TrainInspectorService trainInspectorService;
     @Autowired
     protected TrainInspectorCourseService trainInspectorCourseService;
+
+    @Autowired
+    protected RecruitPostService recruitPostService;
+    @Autowired
+    protected RecruitTemplateService recruitTemplateService;
 
     @Autowired
     protected UnitTransferService unitTransferService;
