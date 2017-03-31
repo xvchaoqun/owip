@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.recruit.RecruitPost;
 import domain.recruit.RecruitPostExample;
 import domain.recruit.RecruitPostExample.Criteria;
+import domain.recruit.RecruitTemplate;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -41,9 +42,10 @@ public class RecruitPostController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("recruitPost:list")
     @RequestMapping("/recruitPost_page")
-    public String recruitPost_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+    public String recruitPost_page(@RequestParam(required = false, defaultValue = "1") Byte status,
                                    ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -53,12 +55,12 @@ public class RecruitPostController extends BaseController {
     @RequiresPermissions("recruitPost:list")
     @RequestMapping("/recruitPost_data")
     public void recruitPost_data(HttpServletResponse response,
-                                    Integer year,
-                                    String name,
-                                 @RequestParam(required = false, defaultValue = "1")Byte status,
+                                 Integer year,
+                                 String name,
+                                 @RequestParam(required = false, defaultValue = "1") Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -74,7 +76,7 @@ public class RecruitPostController extends BaseController {
 
         criteria.andStatusEqualTo(status);
 
-        if (year!=null) {
+        if (year != null) {
             criteria.andYearEqualTo(year);
         }
         if (StringUtils.isNotBlank(name)) {
@@ -82,7 +84,7 @@ public class RecruitPostController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             recruitPost_export(example, response);
             return;
@@ -93,7 +95,7 @@ public class RecruitPostController extends BaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<RecruitPost> records= recruitPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<RecruitPost> records = recruitPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -123,11 +125,11 @@ public class RecruitPostController extends BaseController {
             record.setIsPublish(false);
             record.setStatus(SystemConstants.RECRUIT_POST_STATUS_NORMAL);
             recruitPostService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加岗位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加岗位：%s", record.getId()));
         } else {
 
             recruitPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新岗位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -146,6 +148,60 @@ public class RecruitPostController extends BaseController {
         return "recruit/recruitPost/recruitPost_au";
     }
 
+    @RequiresPermissions("recruitPost:edit")
+    @RequestMapping(value = "/recruitPost_requirement", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_recruitPost_requirement(Integer id, String requirement, HttpServletRequest request) {
+
+        RecruitPost record = new RecruitPost();
+        record.setId(id);
+        record.setRequirement(requirement);
+        recruitPostService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位基本条件：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("recruitPost:edit")
+    @RequestMapping("/recruitPost_requirement")
+    public String recruitPost_requirement(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            RecruitPost recruitPost = recruitPostMapper.selectByPrimaryKey(id);
+            modelMap.put("recruitPost", recruitPost);
+            Map<Integer, RecruitTemplate> templateMap
+                    = recruitTemplateService.findAll(SystemConstants.RECRUIT_TEMPLATE_TYPE_BASE);
+            modelMap.put("templateMap", templateMap);
+        }
+        return "recruit/recruitPost/recruitPost_requirement";
+    }
+    @RequiresPermissions("recruitPost:edit")
+    @RequestMapping(value = "/recruitPost_qualification", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_recruitPost_qualification(Integer id, String qualification, HttpServletRequest request) {
+
+        RecruitPost record = new RecruitPost();
+        record.setId(id);
+        record.setQualification(qualification);
+        recruitPostService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位任职资格：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("recruitPost:edit")
+    @RequestMapping("/recruitPost_qualification")
+    public String recruitPost_qualification(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            RecruitPost recruitPost = recruitPostMapper.selectByPrimaryKey(id);
+            modelMap.put("recruitPost", recruitPost);
+            Map<Integer, RecruitTemplate> templateMap
+                    = recruitTemplateService.findAll(SystemConstants.RECRUIT_TEMPLATE_TYPE_POST);
+            modelMap.put("templateMap", templateMap);
+        }
+        return "recruit/recruitPost/recruitPost_qualification";
+    }
 
     @RequiresPermissions("recruitPost:del")
     @RequestMapping(value = "/recruitPost_batchDel", method = RequestMethod.POST)
@@ -153,9 +209,9 @@ public class RecruitPostController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             recruitPostService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除岗位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除岗位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,22 +222,22 @@ public class RecruitPostController extends BaseController {
 
         List<RecruitPost> records = recruitPostMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度","招聘岗位","行政级别","所属单位","基本条件","任职资格","报名情况","招聘会情况","常委会情况","备注","状态"};
+        String[] titles = {"年度", "招聘岗位", "行政级别", "所属单位", "基本条件", "任职资格", "报名情况", "招聘会情况", "常委会情况", "备注", "状态"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             RecruitPost record = records.get(i);
             String[] values = {
-                record.getYear()+"",
-                            record.getName(),
-                            record.getAdminLevel()+"",
-                            record.getUnitId()+"",
-                            record.getRequirement(),
-                            record.getQualification(),
-                            record.getSignStatus() +"",
-                            record.getMeetingStatus() +"",
-                            record.getCommitteeStatus() +"",
-                            record.getRemark(),
-                            record.getStatus() +""
+                    record.getYear() + "",
+                    record.getName(),
+                    record.getAdminLevel() + "",
+                    record.getUnitId() + "",
+                    record.getRequirement(),
+                    record.getQualification(),
+                    record.getSignStatus() + "",
+                    record.getMeetingStatus() + "",
+                    record.getCommitteeStatus() + "",
+                    record.getRemark(),
+                    record.getStatus() + ""
             };
             valuesList.add(values);
         }

@@ -1,9 +1,16 @@
 package domain.recruit;
 
+import domain.unit.Unit;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class RecruitPost implements Serializable {
+
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
+    }
     private Integer id;
 
     private Integer year;

@@ -17,14 +17,14 @@ import java.util.Map;
 public class RecruitTemplateService extends BaseMapper {
 
     @Transactional
-    @CacheEvict(value="RecruitTemplate:ALL", allEntries = true)
+    @CacheEvict(value="RecruitTemplates", allEntries = true)
     public void insertSelective(RecruitTemplate record){
 
         recruitTemplateMapper.insertSelective(record);
     }
 
     @Transactional
-    @CacheEvict(value="RecruitTemplate:ALL", allEntries = true)
+    @CacheEvict(value="RecruitTemplates", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -35,15 +35,16 @@ public class RecruitTemplateService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="RecruitTemplate:ALL", allEntries = true)
+    @CacheEvict(value="RecruitTemplates", allEntries = true)
     public int updateByPrimaryKeySelective(RecruitTemplate record){
         return recruitTemplateMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="RecruitTemplate:ALL")
-    public Map<Integer, RecruitTemplate> findAll() {
+    @Cacheable(value="RecruitTemplates", key = "#type")
+    public Map<Integer, RecruitTemplate> findAll(byte type) {
 
         RecruitTemplateExample example = new RecruitTemplateExample();
+        example.createCriteria().andTypeEqualTo(type);
         List<RecruitTemplate> recruitTemplatees = recruitTemplateMapper.selectByExample(example);
         Map<Integer, RecruitTemplate> map = new LinkedHashMap<>();
         for (RecruitTemplate recruitTemplate : recruitTemplatees) {

@@ -158,7 +158,7 @@ pageEncoding="UTF-8" %>
             }},
             { label: '简介',name: 'summary', align: 'left', width: 300},
             { label: '备注',name: 'remark'},
-            { label: '创建时间',name: 'createTime'}
+            { label: '创建时间',name: 'createTime', width: 200}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');

@@ -4,7 +4,7 @@ xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="fals
        <diskStore path="D:\ehcache\owip"/>
 <!-- service 缓存 -->
 
-       <cache name="RecruitTemplate:ALL"
+       <cache name="RecruitTemplates"
               eternal="false"
               maxElementsInMemory="2000"
               overflowToDisk="false"

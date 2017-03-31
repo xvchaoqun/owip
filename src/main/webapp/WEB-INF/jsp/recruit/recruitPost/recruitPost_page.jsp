@@ -27,7 +27,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div id="home4" class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="recruitPost:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/recruitPost_au"><i
@@ -102,9 +102,13 @@
 </div>
 <script>
     $("#jqGrid").jqGrid({
+        rownumbers: true,
         url: '${ctx}/recruitPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '年度', name: 'year'},
+            {label: '年度', name: 'year', width:'60'},
+            {label: '编号', name: 'id', width:'60', formatter: function (cellvalue, options, rowObject) {
+                return 'P{0}'.format(cellvalue);
+            }},
             {label: '招聘岗位', name: 'name', width:'300'},
             {
                 label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
@@ -112,10 +116,19 @@
                 return _cMap.adminLevelMap[cellvalue].name;
             }
             },
-            {label: '所属单位', name: 'unitId', width: 200, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.unitMap[cellvalue].name;
+            {label: '所属单位', name: 'unit.name', width: 200},
+            {label: '部门属性', name: 'unit.unitType.name', width: 150},
+            {label: '基本条件', name: 'requirement', formatter: function (cellvalue, options, rowObject) {
+                var op=($.trim(cellvalue)=='') ?'编辑':'查看'
+                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/recruitPost_requirement?id={0}">{1}</a>'
+                        .format(rowObject.id, op);
             }},
+            {label: '任职资格', name: 'qualification', formatter: function (cellvalue, options, rowObject) {
+                var op=($.trim(cellvalue)=='') ?'编辑':'查看'
+                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/recruitPost_qualification?id={0}">{1}</a>'
+                        .format(rowObject.id, op);
+            }},
+
             {label: '报名情况', name: 'signStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.RECRUIT_POST_SIGN_STATUS_MAP[cellvalue];
