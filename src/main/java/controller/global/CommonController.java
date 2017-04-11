@@ -53,25 +53,6 @@ import java.util.*;
 @Controller
 public class CommonController extends BaseController {
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
-    @RequestMapping("/cache/clear")
-    @ResponseBody
-    public Map clearCache() {
-        /*CacheManager manager = CacheManager.getInstance();
-        String[] names = manager.getCacheNames();
-        for (String name : names)
-        {
-            Cache cache = manager.getCache(name);
-            cache.removeAll();
-        }*/
-        CacheManager.create().clearAll();
-        /*CacheManager cacheManager = CacheManager.create();
-        Ehcache cache = cacheManager.getEhcache(cacheConfiguration.getName());
-        cache.removeAll();*/
-
-        return success();
-    }
-
 /*    public static void main(String[] args) throws IllegalAccessException {
 
         Field[] fields = SystemConstants.class.getFields();
@@ -82,73 +63,6 @@ public class CommonController extends BaseController {
             }
         }
     }*/
-
-    @RequestMapping("/metadata")
-    @ResponseBody
-    public void metadata_JSON(PrintWriter writer) throws JsonProcessingException {
-
-        /*Map map = new HashMap();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        for (MetaType metaType : metaTypeMap.values()) {
-            map.put(metaType.getId(), metaType.getName());
-        }
-        modelMap.put("metaTypeMap", JSONUtils.toString(map));*/
-
-        Map cMap = new HashMap();
-
-        Map constantMap = new HashMap();
-        Field[] fields = SystemConstants.class.getFields();
-        for (Field field : fields) {
-            if (StringUtils.equals(field.getType().getName(), "java.util.Map")) {
-                try {
-                    constantMap.put(field.getName(), field.get(null));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        cMap.putAll(constantMap);
-
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        cMap.put("metaTypeMap", metaTypeMap);
-
-        Map metaMap = getMetaMap();
-        cMap.putAll(metaMap);
-
-
-        ObjectMapper mapper = JSONUtils.buildObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-
-        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
-        sourceMixins.put(MetaType.class, MetaTypeOptionMixin.class);
-        sourceMixins.put(Party.class, PartyOptionMixin.class);
-        sourceMixins.put(Branch.class, PartyOptionMixin.class);
-        //sourceMixins.put(Dispatch.class, OptionMixin.class);
-        //sourceMixins.put(DispatchUnit.class, OptionMixin.class);
-        sourceMixins.put(Unit.class, OptionMixin.class);
-        //sourceMixins.put(Cadre.class, OptionMixin.class);
-        sourceMixins.put(DispatchType.class, OptionMixin.class);
-        //sourceMixins.put(SafeBox.class, OptionMixin.class);
-        sourceMixins.put(ApproverType.class, OptionMixin.class);
-        sourceMixins.put(Location.class, OptionMixin.class);
-        //sourceMixins.put(Country.class, OptionMixin.class);
-
-        sourceMixins.put(TrainEvaTable.class, OptionMixin.class);
-
-        sourceMixins.put(SysRole.class, OptionMixin.class);
-
-        mapper.setMixIns(sourceMixins);
-
-        // 删除目前不需要的
-        cMap.remove("dispatchMap");
-        cMap.remove("cadreMap");
-        cMap.remove("countryMap");
-        cMap.remove("dispatchCadreMap");
-        cMap.remove("safeBoxMap");
-
-        writer.write("var _cMap=" + mapper.writeValueAsString(cMap));
-        //return "common/metadata_JSON";
-    }
 
     // 根据账号或姓名或学工号选择用户
     @RequestMapping("/sysUser_selects")
@@ -167,14 +81,14 @@ public class CommonController extends BaseController {
         example.setOrderByClause("create_time desc");
         if (StringUtils.isNotBlank(searchStr)) {
             SysUserViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
-            SysUserViewExample.Criteria criteria1= example.or().andCodeLike("%" + searchStr + "%");
-            SysUserViewExample.Criteria criteria2= example.or().andRealnameLike("%" + searchStr + "%");
-            if (type != null && type.length>0) {
+            SysUserViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
+            SysUserViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
+            if (type != null && type.length > 0) {
                 criteria.andTypeIn(Arrays.asList(type));
                 criteria1.andTypeIn(Arrays.asList(type));
                 criteria2.andTypeIn(Arrays.asList(type));
             }
-        }else if (type != null && type.length>0) {
+        } else if (type != null && type.length > 0) {
             example.createCriteria().andTypeIn(Arrays.asList(type));
         }
 

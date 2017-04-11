@@ -9,6 +9,6 @@
 <script type="text/javascript">if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");</script>
 <script src="${ctx}/js/ui.js"></script>
 <script src="${ctx}/js/extend.js"></script>
-<script type="text/javascript" src="${ctx}/location_JSON"></script>
-<script type="text/javascript" src="${ctx}/metadata"></script>
+<script type="text/javascript" src="${ctx}/js/location.js"></script>
+<script type="text/javascript" src="${ctx}/js/metadata.js"></script>
 <script src="${ctx}/js/setup.js"></script>

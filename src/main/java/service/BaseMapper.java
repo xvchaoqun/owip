@@ -28,6 +28,8 @@ import persistence.recruit.RecruitTemplateMapper;
 import persistence.sys.*;
 import persistence.train.*;
 import persistence.unit.*;
+import persistence.verify.VerifyAgeMapper;
+import persistence.verify.VerifyWorkTimeMapper;
 import shiro.ShiroUser;
 import sys.tags.CmTag;
 
@@ -318,6 +320,11 @@ public class BaseMapper {
 	protected RecruitPostMapper recruitPostMapper;
 	@Autowired
 	protected RecruitTemplateMapper recruitTemplateMapper;
+
+	@Autowired
+	protected VerifyAgeMapper verifyAgeMapper;
+	@Autowired
+	protected VerifyWorkTimeMapper verifyWorkTimeMapper;
 
 	@Autowired
 	protected UnitTransferMapper unitTransferMapper;

@@ -24,6 +24,7 @@ import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
+import service.global.CacheService;
 import service.modify.ModifyBaseApplyService;
 import service.modify.ModifyBaseItemService;
 import service.modify.ModifyCadreAuthService;
@@ -34,6 +35,8 @@ import service.recruit.RecruitTemplateService;
 import service.sys.*;
 import service.train.*;
 import service.unit.*;
+import service.verify.VerifyAgeService;
+import service.verify.VerifyWorkTimeService;
 import shiro.PasswordHelper;
 
 import java.util.HashMap;
@@ -235,6 +238,11 @@ public class BaseController extends BaseMapper {
     protected RecruitTemplateService recruitTemplateService;
 
     @Autowired
+    protected VerifyAgeService verifyAgeService;
+    @Autowired
+    protected VerifyWorkTimeService verifyWorkTimeService;
+
+    @Autowired
     protected UnitTransferService unitTransferService;
     @Autowired
     protected UnitCadreTransferService unitCadreTransferService;
@@ -322,6 +330,9 @@ public class BaseController extends BaseMapper {
 
     @Autowired
     protected StatTrainService statTrainService;
+
+    @Autowired
+    protected CacheService cacheService;
 
     @Autowired
     protected PasswordHelper passwordHelper;

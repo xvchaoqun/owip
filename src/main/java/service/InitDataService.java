@@ -16,9 +16,13 @@ public class InitDataService extends BaseController implements ApplicationListen
 
         if(event.getApplicationContext().getParent() == null) {//root application context 没有parent
 
-            locationService.toJSON();
+            //locationService.toJSON();
             sysResourceService.getSortedSysResources();
-            getMetaMap();
+            //getMetaMap();
+
+            // 刷新数据文件
+            cacheService.flushLocation();
+            cacheService.flushMetadata();
         }
     }
 }

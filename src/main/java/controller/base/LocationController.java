@@ -23,13 +23,6 @@ public class LocationController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequestMapping("/location_JSON")
-    public String location_JSON(ModelMap modelMap) {
-
-        modelMap.put("JSON", locationService.toJSON());
-        return "common/location_json";
-    }
-
     @RequiresPermissions("location:list")
     @RequestMapping("/location")
     public String location() {

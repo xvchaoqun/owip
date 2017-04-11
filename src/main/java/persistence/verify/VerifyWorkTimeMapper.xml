@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.verify.VerifyWorkTimeMapper" >
+  <resultMap id="BaseResultMap" type="domain.verify.VerifyWorkTime" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="old_work_time" property="oldWorkTime" jdbcType="DATE" />
+    <result column="verify_work_time" property="verifyWorkTime" jdbcType="DATE" />
+    <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+    <result column="material_time" property="materialTime" jdbcType="DATE" />
+    <result column="material_work_time" property="materialWorkTime" jdbcType="DATE" />
+    <result column="ad_time" property="adTime" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="submit_user_id" property="submitUserId" jdbcType="INTEGER" />
+    <result column="submit_ip" property="submitIp" jdbcType="VARCHAR" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_ip" property="updateIp" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cadre_id, type, old_work_time, verify_work_time, material_name, material_time, 
+    material_work_time, ad_time, remark, status, submit_user_id, submit_ip, submit_time, 
+    update_user_id, update_ip, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.verify.VerifyWorkTimeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from verify_work_time
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from verify_work_time
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from verify_work_time
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.verify.VerifyWorkTimeExample" >
+    delete from verify_work_time
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.verify.VerifyWorkTime" >
+    insert into verify_work_time (id, cadre_id, type, 
+      old_work_time, verify_work_time, material_name, 
+      material_time, material_work_time, ad_time, 
+      remark, status, submit_user_id, 
+      submit_ip, submit_time, update_user_id, 
+      update_ip, update_time)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{oldWorkTime,jdbcType=DATE}, #{verifyWorkTime,jdbcType=DATE}, #{materialName,jdbcType=VARCHAR}, 
+      #{materialTime,jdbcType=DATE}, #{materialWorkTime,jdbcType=DATE}, #{adTime,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{submitUserId,jdbcType=INTEGER}, 
+      #{submitIp,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateIp,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.verify.VerifyWorkTime" >
+    insert into verify_work_time
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cadreId != null" >
+        cadre_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="oldWorkTime != null" >
+        old_work_time,
+      </if>
+      <if test="verifyWorkTime != null" >
+        verify_work_time,
+      </if>
+      <if test="materialName != null" >
+        material_name,
+      </if>
+      <if test="materialTime != null" >
+        material_time,
+      </if>
+      <if test="materialWorkTime != null" >
+        material_work_time,
+      </if>
+      <if test="adTime != null" >
+        ad_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="submitUserId != null" >
+        submit_user_id,
+      </if>
+      <if test="submitIp != null" >
+        submit_ip,
+      </if>
+      <if test="submitTime != null" >
+        submit_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateIp != null" >
+        update_ip,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null" >
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="oldWorkTime != null" >
+        #{oldWorkTime,jdbcType=DATE},
+      </if>
+      <if test="verifyWorkTime != null" >
+        #{verifyWorkTime,jdbcType=DATE},
+      </if>
+      <if test="materialName != null" >
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="materialTime != null" >
+        #{materialTime,jdbcType=DATE},
+      </if>
+      <if test="materialWorkTime != null" >
+        #{materialWorkTime,jdbcType=DATE},
+      </if>
+      <if test="adTime != null" >
+        #{adTime,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="submitUserId != null" >
+        #{submitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="submitIp != null" >
+        #{submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateIp != null" >
+        #{updateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.verify.VerifyWorkTimeExample" resultType="java.lang.Integer" >
+    select count(*) from verify_work_time
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update verify_work_time
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null" >
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.oldWorkTime != null" >
+        old_work_time = #{record.oldWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.verifyWorkTime != null" >
+        verify_work_time = #{record.verifyWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.materialName != null" >
+        material_name = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialTime != null" >
+        material_time = #{record.materialTime,jdbcType=DATE},
+      </if>
+      <if test="record.materialWorkTime != null" >
+        material_work_time = #{record.materialWorkTime,jdbcType=DATE},
+      </if>
+      <if test="record.adTime != null" >
+        ad_time = #{record.adTime,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.submitUserId != null" >
+        submit_user_id = #{record.submitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.submitIp != null" >
+        submit_ip = #{record.submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitTime != null" >
+        submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateIp != null" >
+        update_ip = #{record.updateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update verify_work_time
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      old_work_time = #{record.oldWorkTime,jdbcType=DATE},
+      verify_work_time = #{record.verifyWorkTime,jdbcType=DATE},
+      material_name = #{record.materialName,jdbcType=VARCHAR},
+      material_time = #{record.materialTime,jdbcType=DATE},
+      material_work_time = #{record.materialWorkTime,jdbcType=DATE},
+      ad_time = #{record.adTime,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      submit_user_id = #{record.submitUserId,jdbcType=INTEGER},
+      submit_ip = #{record.submitIp,jdbcType=VARCHAR},
+      submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_ip = #{record.updateIp,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.verify.VerifyWorkTime" >
+    update verify_work_time
+    <set >
+      <if test="cadreId != null" >
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="oldWorkTime != null" >
+        old_work_time = #{oldWorkTime,jdbcType=DATE},
+      </if>
+      <if test="verifyWorkTime != null" >
+        verify_work_time = #{verifyWorkTime,jdbcType=DATE},
+      </if>
+      <if test="materialName != null" >
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="materialTime != null" >
+        material_time = #{materialTime,jdbcType=DATE},
+      </if>
+      <if test="materialWorkTime != null" >
+        material_work_time = #{materialWorkTime,jdbcType=DATE},
+      </if>
+      <if test="adTime != null" >
+        ad_time = #{adTime,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="submitUserId != null" >
+        submit_user_id = #{submitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="submitIp != null" >
+        submit_ip = #{submitIp,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateIp != null" >
+        update_ip = #{updateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.verify.VerifyWorkTime" >
+    update verify_work_time
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      old_work_time = #{oldWorkTime,jdbcType=DATE},
+      verify_work_time = #{verifyWorkTime,jdbcType=DATE},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      material_time = #{materialTime,jdbcType=DATE},
+      material_work_time = #{materialWorkTime,jdbcType=DATE},
+      ad_time = #{adTime,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      submit_user_id = #{submitUserId,jdbcType=INTEGER},
+      submit_ip = #{submitIp,jdbcType=VARCHAR},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_ip = #{updateIp,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="domain.verify.VerifyWorkTimeExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from verify_work_time
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

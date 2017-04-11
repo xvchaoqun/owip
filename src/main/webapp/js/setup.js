@@ -186,9 +186,9 @@ $(window).on('resize.jqGrid', function () {
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 });
 $(window).on('resize.jqGrid2', function () {
-    if( $("#item-content").is(":hidden")){
+    /*if( $("#item-content").is(":hidden")){
         return;
-    }
+    }*/
     var gridWidth = $(window).width()-70;
     if($("#menu-toggler").is(":hidden")){ // 手机屏幕
         gridWidth -= $(".nav-list").width()

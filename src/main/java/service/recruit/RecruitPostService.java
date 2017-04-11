@@ -29,7 +29,7 @@ public class RecruitPostService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
         RecruitPost record = new RecruitPost();
         record.setStatus(SystemConstants.RECRUIT_POST_STATUS_DELETE);
-        recruitPostMapper.updateByExample(record, example);
+        recruitPostMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional

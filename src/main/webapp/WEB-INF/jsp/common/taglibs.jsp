@@ -183,6 +183,12 @@
 
 <c:set value="<%=SystemConstants.RECRUIT_TEMPLATE_TYPE_MAP%>" var="RECRUIT_TEMPLATE_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.VERIFY_STATUS_DEL%>" var="VERIFY_STATUS_DEL"/>
+
+<c:set value="<%=SystemConstants.VERIFY_AGE_TYPE_MAP%>" var="VERIFY_AGE_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.VERIFY_WORK_TIME_TYPE_MAP%>" var="VERIFY_WORK_TIME_TYPE_MAP"/>
+
 <c:set value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>" var="ENTER_APPLY_TYPE_MAP"/>
 <c:set value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>" var="ENTER_APPLY_STATUS_MAP"/>
 

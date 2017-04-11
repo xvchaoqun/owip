@@ -19,7 +19,7 @@
                         <a href="?status=${RECRUIT_POST_STATUS_FINISH}"><i class="fa fa-check"></i> 完成招聘</a>
                     </li>
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_DELETE}">active</c:if>">
-                        <a href="?status=${RECRUIT_POST_STATUS_DELETE}"><i class="fa fa-check"></i> 已删除</a>
+                        <a href="?status=${RECRUIT_POST_STATUS_DELETE}"><i class="fa fa-times"></i> 已删除</a>
                     </li>
                     <li class="">
                         <a href="javascript:;"><i class="fa fa-exclamation-circle"></i> 报名规则</a>
