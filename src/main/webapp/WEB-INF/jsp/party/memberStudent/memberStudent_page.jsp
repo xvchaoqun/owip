@@ -49,12 +49,12 @@
                             </a>
                             </shiro:hasAnyRoles>
                             </div>
-                        <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="jqgrid-vertical-offset widget-box collapsed<%--${_query?'':'collapsed'}--%> hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                        <i class="ace-icon fa fa-chevron-up<%--${_query?'up':'down'}--%>"></i>
                                     </a>
                                 </div>
                             </div>
