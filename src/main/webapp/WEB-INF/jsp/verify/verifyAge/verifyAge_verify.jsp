@@ -11,7 +11,7 @@
                 <form class="form-horizontal" action="${ctx}/verifyAge_verify" id="modalForm" method="post">
                     <input type="hidden" name="id" value="${verifyAge.id}">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">认定类别</label>
+                        <label class="col-xs-4 control-label">认定类别</label>
                         <div class="col-xs-6">
                             <select required name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
                                 <option></option>
@@ -27,13 +27,13 @@
                         <fieldset>
                             <legend>档案中最早的材料</legend>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">材料名称</label>
+                                <label class="col-xs-4 control-label">材料名称</label>
                                 <div class="col-xs-6">
                                     <input class="form-control" type="text" name="materialName" value="${verifyAge.materialName}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">形成时间</label>
+                                <label class="col-xs-4 control-label">形成时间</label>
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <input class="form-control date-picker" name="_materialTime" type="text"
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-xs-3 control-label">记载的出生时间</label>
+                                <label class="col-xs-4 control-label">记载的出生时间</label>
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <input class="form-control date-picker" name="_materialBirth" type="text"
@@ -56,7 +56,7 @@
                     <fieldset>
                         <legend>档案中最新干部任免审批表</legend>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">形成时间</label>
+                            <label class="col-xs-4 control-label">形成时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input class="form-control date-picker" name="_adTime" type="text"
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">记载的出生时间</label>
+                            <label class="col-xs-4 control-label">记载的出生时间</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input class="form-control date-picker" name="_adBirth" type="text"
@@ -77,7 +77,7 @@
                         </div>
                     </fieldset>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">身份证出生时间</label>
+                        <label class="col-xs-4 control-label">身份证出生时间</label>
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <input class="form-control date-picker" name="_oldBirth" type="text"
@@ -86,8 +86,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-3 control-label">组织认定出生时间</label>
+                    <div class="form-group well" style="margin: 10px;">
+                        <label class="col-xs-4 control-label" style="font-weight: bolder; font-size: large">组织认定出生时间</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">备注</label>
+                        <label class="col-xs-4 control-label">备注</label>
 
                         <div class="col-xs-6">
                             <textarea class="form-control limited" type="text"
@@ -132,7 +132,7 @@
     legend{
 
         text-align: left;
-        margin-left: 30px;
+        margin-left: 50px;
         width:auto!important;
         border-bottom:none!important;
     }
