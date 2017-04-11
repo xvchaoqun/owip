@@ -7,6 +7,7 @@ import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -156,7 +157,7 @@ public class ApplySelfController extends BaseController {
 
         if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
-            Cadre cadre = cadreService.dbFindByUserId(userId);
+            CadreView cadre = cadreService.dbFindByUserId(userId);
             Integer applyId = applySelfFile.getApplyId();
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId); // 本人有下载权限
             if (applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
@@ -180,7 +181,7 @@ public class ApplySelfController extends BaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             if(cadre.getId().intValue()!=cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
@@ -189,7 +190,7 @@ public class ApplySelfController extends BaseController {
             }
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", uv);
@@ -226,7 +227,7 @@ public class ApplySelfController extends BaseController {
 
         // 判断一下查看权限++++++++++++++++++++???
         if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             if(cadre.getId().intValue()!=cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
@@ -289,7 +290,7 @@ public class ApplySelfController extends BaseController {
 
         modelMap.put("status", status);
         if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -371,7 +372,7 @@ public class ApplySelfController extends BaseController {
         modelMap.put("status", status);
 
         if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -471,7 +472,7 @@ public class ApplySelfController extends BaseController {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
 
-            Cadre cadre = cadreService.findAll().get(applySelf.getCadreId());
+            CadreView cadre = cadreService.findAll().get(applySelf.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

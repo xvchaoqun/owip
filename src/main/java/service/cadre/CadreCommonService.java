@@ -2,10 +2,7 @@ package service.cadre;
 
 import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
-import domain.cadre.Cadre;
-import domain.cadre.CadreAdditionalPost;
-import domain.cadre.CadreAdditionalPostExample;
-import domain.cadre.CadreExample;
+import domain.cadre.*;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.base.MetaType;
@@ -55,10 +52,10 @@ public class CadreCommonService extends BaseMapper {
     private CadreReserveService cadreReserveService;
 
     // 获取某个单位下的兼审正职
-    public List<Cadre> findAdditionalPost(int unitId){
+    public List<CadreView> findAdditionalPost(int unitId){
 
-        List<Cadre> cadreList = new ArrayList<>();
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        List<CadreView> cadreList = new ArrayList<>();
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         CadreAdditionalPostExample example = new CadreAdditionalPostExample();
         example.createCriteria().andUnitIdEqualTo(unitId);
@@ -129,13 +126,13 @@ public class CadreCommonService extends BaseMapper {
         return root;
     }
 
-    public TreeNode getTree( Set<Cadre> cadreList, Set<Integer> selectIdSet, Set<Integer> disabledIdSet){
+    public TreeNode getTree( Set<CadreView> cadreList, Set<Integer> selectIdSet, Set<Integer> disabledIdSet){
 
         return getTree(cadreList, selectIdSet, disabledIdSet, true, false);
     }
 
     // 职务属性-干部 Set<cadreId> , 用于审批人身份时disabledIdSet=null
-    public TreeNode getTree( Set<Cadre> cadreList, Set<Integer> selectIdSet,
+    public TreeNode getTree( Set<CadreView> cadreList, Set<Integer> selectIdSet,
                              Set<Integer> disabledIdSet, boolean enableSelect, boolean defExpand){
 
         if(null == selectIdSet) selectIdSet = new HashSet<>();
@@ -151,16 +148,16 @@ public class CadreCommonService extends BaseMapper {
 
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         // 职务属性-干部
-        Map<Integer, List<Cadre>> postIdCadresMap = new LinkedHashMap<>();
+        Map<Integer, List<CadreView>> postIdCadresMap = new LinkedHashMap<>();
 
         /*CadreExample example = new CadreExample();
         example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
-        for (Cadre cadre : cadreList) {
+        for (CadreView cadre : cadreList) {
             if(cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER) {
-                List<Cadre> list = null;
+                List<CadreView> list = null;
                 MetaType postType = postMap.get(cadre.getPostId());
                 int postId = postType.getId();
                 if (postIdCadresMap.containsKey(postId)) {
@@ -174,16 +171,16 @@ public class CadreCommonService extends BaseMapper {
         }
 
         // 排序
-        Map<String, List<Cadre>> postCadresMap = new LinkedHashMap<>();
+        Map<String, List<CadreView>> postCadresMap = new LinkedHashMap<>();
         for (MetaType metaType : postMap.values()) {
             if(postIdCadresMap.containsKey(metaType.getId()))
                 postCadresMap.put(metaType.getName(), postIdCadresMap.get(metaType.getId()));
         }
 
         int i = 0;
-        for (Map.Entry<String, List<Cadre>> entry : postCadresMap.entrySet()) {
+        for (Map.Entry<String, List<CadreView>> entry : postCadresMap.entrySet()) {
 
-            List<Cadre> entryValue = entry.getValue();
+            List<CadreView> entryValue = entry.getValue();
             TreeNode titleNode = new TreeNode();
 
             titleNode.expand = defExpand;
@@ -194,7 +191,7 @@ public class CadreCommonService extends BaseMapper {
                 titleNode.hideCheckbox = true;
 
             int selectCount = 0;
-            for (Cadre cadre : entryValue) {
+            for (CadreView cadre : entryValue) {
 
                 int cadreId = cadre.getId();
                 String title = cadre.getTitle();
@@ -264,12 +261,12 @@ public class CadreCommonService extends BaseMapper {
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
 
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         // 职务属性-干部
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
-        for (Cadre cadre : cadreMap.values()) {
+        for (CadreView cadre : cadreMap.values()) {
             if((cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
@@ -287,7 +284,7 @@ public class CadreCommonService extends BaseMapper {
         }
         Map<String, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
         for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
-            Cadre cadre = cadreMap.get(cPost.getCadreId());
+            CadreView cadre = cadreMap.get(cPost.getCadreId());
             if((cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
                     || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
@@ -333,7 +330,7 @@ public class CadreCommonService extends BaseMapper {
 
                 int cadreId = bean.getCadreId();
                 TreeNode node = new TreeNode();
-                Cadre cadre = cadreMap.get(cadreId);
+                CadreView cadre = cadreMap.get(cadreId);
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
                         (bean.additional?"(兼审单位)":"");

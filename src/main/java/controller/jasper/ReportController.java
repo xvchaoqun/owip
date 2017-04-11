@@ -8,6 +8,7 @@ import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportDraw;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.member.MemberOut;
 import domain.base.MetaType;
 import domain.sys.SysUserView;
@@ -167,7 +168,7 @@ public class ReportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
         SysUserView user = sysUserService.findById(cadre.getUserId());
         //String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String title = cadre.getTitle();
@@ -238,12 +239,12 @@ public class ReportController extends BaseController {
             Integer passportId = passportDraw.getPassportId();
             Passport passport = passportMapper.selectByPrimaryKey(passportId);
             classId = passport.getClassId();
-            Cadre cadre = cadreService.findAll().get(passportDraw.getCadreId());
+            CadreView cadre = cadreService.findAll().get(passportDraw.getCadreId());
             userId = cadre.getUserId();
         }
 
         SysUserView user = sysUserService.findById(userId);
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String post = cadre.getPost();
 
@@ -304,12 +305,12 @@ public class ReportController extends BaseController {
         if (id != null) { // 以id为准
             passportApply = passportApplyMapper.selectByPrimaryKey(id);
             classId = passportApply.getClassId();
-            Cadre cadre = cadreService.findAll().get(passportApply.getCadreId());
+            CadreView cadre = cadreService.findAll().get(passportApply.getCadreId());
             userId = cadre.getUserId();
         }
 
         SysUserView user = sysUserService.findById(userId);
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String post = cadre.getPost();
 
@@ -398,7 +399,7 @@ public class ReportController extends BaseController {
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
 
         Integer cadreId = passportDraw.getCadreId();
-        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         SysUserView sysUser = cadre.getUser();
         String realname = sysUser.getRealname();
         String code = sysUser.getCode();

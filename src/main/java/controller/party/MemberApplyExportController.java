@@ -1,12 +1,15 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.member.*;
+import domain.base.MetaType;
+import domain.cadre.CadreView;
+import domain.member.MemberApply;
+import domain.member.MemberApplyExample;
 import domain.member.MemberApplyExample.Criteria;
+import domain.member.MemberStudent;
+import domain.member.MemberTeacher;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.base.MetaType;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -19,9 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -247,7 +250,7 @@ public class MemberApplyExportController extends BaseController {
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
-            Cadre cadre = cadreService.dbFindByUserId(memberApply.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null){
@@ -331,7 +334,7 @@ public class MemberApplyExportController extends BaseController {
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
-            Cadre cadre = cadreService.dbFindByUserId(memberApply.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null){

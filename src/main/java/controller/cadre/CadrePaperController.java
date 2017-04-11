@@ -191,7 +191,7 @@ public class CadrePaperController extends BaseController {
             CadrePaper cadrePaper = cadrePaperMapper.selectByPrimaryKey(id);
             modelMap.put("cadrePaper", cadrePaper);
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

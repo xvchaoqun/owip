@@ -1,11 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreEduExample;
 import domain.cadre.CadreEduExample.Criteria;
 import domain.cadre.CadreInfo;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +67,7 @@ public class CadreEduController extends BaseController {
 
         if (cadreId!=null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -232,7 +232,7 @@ public class CadreEduController extends BaseController {
             modelMap.put("cadreEdu", cadreEdu);
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

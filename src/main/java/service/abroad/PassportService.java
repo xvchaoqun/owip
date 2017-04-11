@@ -3,7 +3,7 @@ package service.abroad;
 import bean.XlsPassport;
 import domain.abroad.*;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -46,7 +46,7 @@ public class PassportService extends BaseMapper {
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null) throw new RuntimeException("工作证号：" + userCode + "不存在");
-            Cadre cadre = cadreService.dbFindByUserId(uv.getId());
+            CadreView cadre = cadreService.dbFindByUserId(uv.getId());
             if (cadre == null) throw new RuntimeException("工作证号：" + userCode + " 姓名：" + uv.getRealname() + "不是干部");
             record.setCadreId(cadre.getId());
             record.setType(type);

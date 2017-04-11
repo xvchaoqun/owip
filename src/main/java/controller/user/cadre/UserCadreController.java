@@ -1,7 +1,7 @@
 package controller.user.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class UserCadreController extends BaseController {
     public String cadre_page(@CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
 
         boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
         request.setAttribute("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);

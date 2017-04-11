@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class CadreReport implements Serializable {
-    public Cadre getCadre(){
+    public CadreView getCadre(){
 
         return CmTag.getCadreById(cadreId);
     }

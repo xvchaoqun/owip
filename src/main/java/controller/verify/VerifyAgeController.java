@@ -1,7 +1,7 @@
 package controller.verify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.verify.VerifyAge;
 import domain.verify.VerifyAgeExample;
 import domain.verify.VerifyAgeExample.Criteria;
@@ -203,7 +203,7 @@ public class VerifyAgeController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             VerifyAge record = records.get(i);
-            Cadre cadre = record.getCadre();
+            CadreView cadre = record.getCadre();
             String[] values = {
                     cadre.getUser().getCode(),
                     cadre.getUser().getRealname(),

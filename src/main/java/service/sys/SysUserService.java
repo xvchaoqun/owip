@@ -2,7 +2,7 @@ package service.sys;
 
 import bean.ApproverTypeBean;
 import domain.base.MetaType;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
@@ -22,8 +22,8 @@ import service.abroad.ApplySelfService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
-import shiro.ShiroHelper;
 import service.party.EnterApplyService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -520,7 +520,7 @@ public class SysUserService extends BaseMapper {
         ApproverTypeBean approverTypeBean =  applySelfService.getApproverTypeBean(userId);
 
         if (userRoles.contains(SystemConstants.ROLE_CADRE)) {
-            Cadre cadre = CmTag.getCadreByUserId(userId);
+            CadreView cadre = CmTag.getCadreByUserId(userId);
 
             //考察对象和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
             if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE

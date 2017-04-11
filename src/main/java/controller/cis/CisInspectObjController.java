@@ -2,6 +2,7 @@ package controller.cis;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.cis.*;
 import domain.unit.Unit;
 import freemarker.template.TemplateException;
@@ -46,7 +47,7 @@ public class CisInspectObjController extends BaseController {
                                      ModelMap modelMap) {
 
         if(cadreId!=null) {
-            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            Map<Integer, CadreView> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cadreId));
         }
         List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
@@ -184,7 +185,7 @@ public class CisInspectObjController extends BaseController {
         if (id != null) {
             CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(id);
             modelMap.put("cisInspectObj", cisInspectObj);
-            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            Map<Integer, CadreView> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cisInspectObj.getCadreId()));
             modelMap.put("chiefInspector", cisInspectObj.getChiefInspector());
         }

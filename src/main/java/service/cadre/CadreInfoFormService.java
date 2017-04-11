@@ -57,8 +57,8 @@ public class CadreInfoFormService extends BaseMapper{
         bean.setCode(uv.getCode());
         bean.setRealname(uv.getRealname());
         bean.setGender(uv.getGender());
-        bean.setBirth(uv.getBirth());
-        bean.setAge(DateUtils.intervalYearsUntilNow(uv.getBirth()));
+        bean.setBirth(cadre.getBirth());
+        bean.setAge(DateUtils.intervalYearsUntilNow(cadre.getBirth()));
         // 行政级别
         bean.setAdminLevel(cadre.getTypeId());
         bean.setIdCard(uv.getIdcard());
@@ -79,6 +79,7 @@ public class CadreInfoFormService extends BaseMapper{
 
         bean.setHomeplace(uv.getHomeplace());
         bean.setWorkTime(cadre.getWorkStartTime()); // 参加工作时间
+        //bean.setWorkTime(cadre.getWorkTime());
         bean.setHealth(uv.getHealth());
         bean.setProPost(cadre.getProPost());
         bean.setSpecialty(uv.getSpecialty());

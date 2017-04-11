@@ -1,9 +1,9 @@
 package service.cadre;
 
 import domain.base.MetaType;
-import domain.cadre.Cadre;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreEduExample;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang.BooleanUtils;
@@ -15,10 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.modify.ModifyTableApplyMapper;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import sys.tags.CmTag;
-import sys.utils.ContextHelper;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
@@ -194,7 +193,7 @@ public class CadreEduService extends BaseMapper {
             throw new RuntimeException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
-        Cadre cadre = cadreService.dbFindByUserId(currentUserId);
+        CadreView cadre = cadreService.dbFindByUserId(currentUserId);
 
         int id = record.getId();
         CadreEduExample example = new CadreEduExample();
@@ -254,7 +253,7 @@ public class CadreEduService extends BaseMapper {
         }
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
         record.setStatus(SystemConstants.RECORD_STATUS_MODIFY);

@@ -4,8 +4,8 @@ import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.abroad.SafeBox;
 import domain.abroad.SafeBoxExample;
-import domain.cadre.Cadre;
 import domain.base.MetaType;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.common.PassportSearchBean;
 import service.BaseMapper;
-import service.cadre.CadreService;
 import service.base.MetaTypeService;
+import service.cadre.CadreService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
@@ -160,7 +160,7 @@ public class SafeBoxService extends BaseMapper {
 
     public void safeBoxPassport_export(HttpServletResponse response, Integer[] ids) {
 
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> passportType = metaTypeService.metaTypes("mc_passport_type");
         //Map<Integer, SafeBox> safeBoxMap = findAll();
         List<SafeBox> safeBoxes = new ArrayList<>();
@@ -247,7 +247,7 @@ public class SafeBoxService extends BaseMapper {
 
             for (int i = 0; i < size; i++) {
                 Passport passport = passports.get(i);
-                Cadre cadre = cadreMap.get(passport.getCadreId());
+                CadreView cadre = cadreMap.get(passport.getCadreId());
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
 
                 String[] values = {

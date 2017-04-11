@@ -1,6 +1,6 @@
 package domain.modify;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class ModifyBaseApply implements Serializable {
 
-    public Cadre getCadre(){
+    public CadreView getCadre(){
         return CmTag.getCadreByUserId(userId);
     }
     private Integer id;

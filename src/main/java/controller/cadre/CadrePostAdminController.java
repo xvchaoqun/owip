@@ -115,7 +115,7 @@ public class CadrePostAdminController extends BaseController {
             modelMap.put("cadrePostAdmin", cadrePostAdmin);
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

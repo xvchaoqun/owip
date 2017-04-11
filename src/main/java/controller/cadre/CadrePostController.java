@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
+import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.sys.SysUser;
@@ -142,7 +143,7 @@ public class CadrePostController extends BaseController {
             if (cadrePost.getDoubleUnitId() != null)
                 modelMap.put("doubleUnit", unitService.findAll().get(cadrePost.getDoubleUnitId()));
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

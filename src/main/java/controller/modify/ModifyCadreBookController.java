@@ -1,9 +1,7 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreBook;
-import domain.cadre.CadreBookExample;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-
-import java.util.List;
 
 @Controller
 public class ModifyCadreBookController extends BaseController {
@@ -42,7 +38,7 @@ public class ModifyCadreBookController extends BaseController {
         modelMap.put("cls", cls);
         if (cadreId != null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -53,7 +49,7 @@ public class ModifyCadreBookController extends BaseController {
         if (cls == 0) {
 
             // 干部只能看到自己的
-            Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             modelMap.put("cadre", cadre);
             /*CadreBookExample example = new CadreBookExample();
             CadreBookExample.Criteria criteria = example.createCriteria()
@@ -79,7 +75,7 @@ public class ModifyCadreBookController extends BaseController {
         int userId = mta.getUserId();
 
         // 正式数据
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
         /*CadreBookExample example = new CadreBookExample();
         CadreBookExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);

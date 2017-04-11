@@ -152,7 +152,7 @@
                         <td height=23 class=xl70>51-55岁
                         </td>
                         <jsp:include page="row.jsp">
-                            <jsp:param name="row" value="13"/>
+                            <jsp:param name="row" value="14"/>
                         </jsp:include>
                     </tr>
                     <tr>

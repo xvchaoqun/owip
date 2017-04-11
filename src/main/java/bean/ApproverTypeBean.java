@@ -1,6 +1,7 @@
 package bean;
 
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 public class ApproverTypeBean {
 
-    public Cadre cadre;
+    public CadreView cadre;
 
     public List<Integer> mainPostUnitIds; // 主职单位ID列表，包括兼任职务所在单位
 
@@ -23,11 +24,11 @@ public class ApproverTypeBean {
 
     public Set<Integer> approvalCadreIdSet; // 需要审批的干部
 
-    public Cadre getCadre() {
+    public CadreView getCadre() {
         return cadre;
     }
 
-    public void setCadre(Cadre cadre) {
+    public void setCadre(CadreView cadre) {
         this.cadre = cadre;
     }
 

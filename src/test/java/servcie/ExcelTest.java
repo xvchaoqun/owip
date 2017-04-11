@@ -68,7 +68,7 @@ public class ExcelTest {
         // 输入批注信息
         comment5.setString(cellComment5.getString());*/
 
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
         int leaveCount = 0;
         for (Unit unit : unitMap.values()) {
@@ -118,7 +118,7 @@ public class ExcelTest {
             List<DispatchCadreView> leaveCadres = selectMapper.leaveDispatchCadres(unit.getId());
             List<DispatchCadreView> filterLeaveCadres = new ArrayList<>();
             for (DispatchCadreView leaveCadre : leaveCadres) {
-                Cadre cadre = cadreMap.get(leaveCadre.getCadreId());
+                CadreView cadre = cadreMap.get(leaveCadre.getCadreId());
                 if(cadre.getStatus()!=SystemConstants.CADRE_STATUS_MIDDLE){
                     filterLeaveCadres.add(leaveCadre);
                 }

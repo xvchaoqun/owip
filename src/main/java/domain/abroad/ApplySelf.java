@@ -1,6 +1,6 @@
 package domain.abroad;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -16,10 +16,10 @@ public class ApplySelf implements Serializable {
     }
 
     public SysUserView getUser(){
-        Cadre cadre = getCadre();
+        CadreView cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public Cadre getCadre(){
+    public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
     }
 

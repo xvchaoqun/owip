@@ -1,7 +1,7 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.modify.ModifyCadreAuth;
 import domain.modify.ModifyCadreAuthExample;
 import domain.modify.ModifyCadreAuthExample.Criteria;
@@ -51,7 +51,7 @@ public class ModifyCadreAuthController extends BaseController {
     public String modifyCadreAuth_page(Integer cadreId, ModelMap modelMap) {
 
         if(cadreId!=null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
         }
@@ -131,7 +131,7 @@ public class ModifyCadreAuthController extends BaseController {
         if (id != null) {
             ModifyCadreAuth modifyCadreAuth = modifyCadreAuthMapper.selectByPrimaryKey(id);
             modelMap.put("modifyCadreAuth", modifyCadreAuth);
-            Cadre cadre = cadreService.findAll().get(modifyCadreAuth.getCadreId());
+            CadreView cadre = cadreService.findAll().get(modifyCadreAuth.getCadreId());
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
         }

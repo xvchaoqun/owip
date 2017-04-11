@@ -5,7 +5,7 @@ import controller.BaseController;
 import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +46,7 @@ public class UserApplySelfController extends BaseController {
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
         
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         Integer applyId = applySelfFile.getApplyId();
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         if(applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
@@ -62,7 +62,7 @@ public class UserApplySelfController extends BaseController {
     public String applySelf_view(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
         if(applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
             throw new UnauthorizedException();
@@ -127,7 +127,7 @@ public class UserApplySelfController extends BaseController {
         example.setOrderByClause("create_time desc");
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
 
         if (StringUtils.isNotBlank(_applyDate)) {
@@ -172,7 +172,7 @@ public class UserApplySelfController extends BaseController {
     public Map do_applySelf_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
 
@@ -244,7 +244,7 @@ public class UserApplySelfController extends BaseController {
             throw new RuntimeException("出发日期不能晚于回国日期");
         }
         if(record.getId()==null) {
-            Cadre cadre = cadreService.dbFindByUserId(userId);
+            CadreView cadre = cadreService.dbFindByUserId(userId);
             record.setCadreId(cadre.getId());
             record.setCreateTime(new Date());
             record.setIp(IpUtils.getRealIp(request));
@@ -259,7 +259,7 @@ public class UserApplySelfController extends BaseController {
             shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
         }else{
-            Cadre cadre = cadreService.dbFindByUserId(userId);
+            CadreView cadre = cadreService.dbFindByUserId(userId);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(record.getId());
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
@@ -296,7 +296,7 @@ public class UserApplySelfController extends BaseController {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfFile.getApplyId());
 
         Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
@@ -319,7 +319,7 @@ public class UserApplySelfController extends BaseController {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
 
-            Cadre cadre = cadreService.dbFindByUserId(loginUser.getId());
+            CadreView cadre = cadreService.dbFindByUserId(loginUser.getId());
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(id);
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新

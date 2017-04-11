@@ -1,10 +1,7 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreReward;
-import domain.cadre.CadreRewardExample;
-import domain.cadre.CadreRewardExample.Criteria;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,7 +15,6 @@ import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class ModifyCadreRewardController extends BaseController {
@@ -53,7 +49,7 @@ public class ModifyCadreRewardController extends BaseController {
     @RequiresPermissions("modifyCadreReward:list")
     @RequestMapping({"/modifyCadreReward_teach_page", "/modifyCadreReward_research_page", "/modifyCadreReward_other_page"})
     public String modifyCadreReward_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
-                                      Integer cadreId,
+                                         Integer cadreId,
                                          HttpServletRequest request,
                                          ModelMap modelMap) {
 
@@ -66,7 +62,7 @@ public class ModifyCadreRewardController extends BaseController {
         modelMap.put("rewardType", rewardType);
         if (cadreId != null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -83,7 +79,7 @@ public class ModifyCadreRewardController extends BaseController {
         modelMap.put("module", module);
         if (cls == 0) {
             // 干部只能看到自己的
-            Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             modelMap.put("cadre", cadre);
             /*CadreRewardExample example = new CadreRewardExample();
             Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -108,7 +104,7 @@ public class ModifyCadreRewardController extends BaseController {
         int userId = mta.getUserId();
 
         // 正式数据
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
         /*CadreRewardExample example = new CadreRewardExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);

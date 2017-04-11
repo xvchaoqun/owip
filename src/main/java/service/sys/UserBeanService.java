@@ -1,6 +1,7 @@
 package service.sys;
 
 import bean.UserBean;
+import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
+import service.cadre.CadreService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -30,6 +32,8 @@ public class UserBeanService extends BaseMapper {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private CadreService cadreService;
 
     // 获取接收短信的称谓。如果没有设定短信称谓，则使用姓名
     public String getMsgTitle(int userId){
@@ -69,6 +73,11 @@ public class UserBeanService extends BaseMapper {
         userBean.setGender(sysUser.getGender());
         userBean.setIdcard(sysUser.getIdcard());
         userBean.setRealname(sysUser.getRealname());
+
+        CadreView cadre = cadreService.findAll().get(userId);
+        if(cadre!=null){
+            userBean.setBirth(cadre.getBirth());
+        }
 
         Member member = memberService.get(userId);
         if (member != null) { // 如果是党员

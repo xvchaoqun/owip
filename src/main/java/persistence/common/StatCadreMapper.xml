@@ -90,7 +90,7 @@
         ,sum(if(age>=41 and age<=45, num,0)) as num_4
         ,sum(if(age>=46 and age<=50, num,0)) as num_5
         ,sum(if(age>=51 and age<=55, num,0)) as num_6
-        ,sum(if(age>55, 1,0)) as num_7
+        ,sum(if(age>55, num,0)) as num_7
         ]]>
         from (
         select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, count(*) as num from cadre_view  where status=1
@@ -109,7 +109,7 @@
         ,sum(if(age>=41 and age<=45, num,0)) as num_4
         ,sum(if(age>=46 and age<=50, num,0)) as num_5
         ,sum(if(age>=51 and age<=55, num,0)) as num_6
-        ,sum(if(age>55, 1,0)) as num_7
+        ,sum(if(age>55, num,0)) as num_7
         ]]>
          from (
         select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, admin_level_code, count(*) as num from cadre_view  where status=1
@@ -129,7 +129,7 @@
         ,sum(if(age>=41 and age<=45, num,0)) as num_4
         ,sum(if(age>=46 and age<=50, num,0)) as num_5
         ,sum(if(age>=51 and age<=55, num,0)) as num_6
-        ,sum(if(age>55, 1,0)) as num_7
+        ,sum(if(age>55, num,0)) as num_7
         ]]>
          from (
         select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, gender, count(*) as num from cadre_view  where status=1

@@ -1,8 +1,8 @@
 package service.cadre;
 
-import domain.cadre.Cadre;
 import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyExample;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.StringUtils;
@@ -69,7 +69,7 @@ public class CadreCompanyService extends BaseMapper {
             throw new RuntimeException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
-        Cadre cadre = cadreService.dbFindByUserId(currentUserId);
+        CadreView cadre = cadreService.dbFindByUserId(currentUserId);
 
         int id = record.getId();
         CadreCompanyExample example = new CadreCompanyExample();
@@ -127,7 +127,7 @@ public class CadreCompanyService extends BaseMapper {
         }
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
         record.setStatus(SystemConstants.RECORD_STATUS_MODIFY);

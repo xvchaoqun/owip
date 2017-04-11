@@ -2,6 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.sys.SysUserInfo;
 import org.apache.commons.lang3.BooleanUtils;
@@ -50,7 +51,7 @@ public class CadreBaseInfoController extends BaseController {
                                   String email,
                                   HttpServletRequest request) throws IOException {
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         Member member = memberService.get(cadre.getUserId());
         if(BooleanUtils.isNotTrue(cadre.getIsDp()) && member==null) {
             if(dpTypeId!=null && _dpAddTime!=null)

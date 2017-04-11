@@ -1,10 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreInfo;
-import domain.cadre.CadreTrain;
-import domain.cadre.CadreTrainExample;
+import domain.cadre.*;
 import domain.cadre.CadreTrainExample.Criteria;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
@@ -189,7 +186,7 @@ public class CadreTrainController extends BaseController {
             modelMap.put("cadreTrain", cadreTrain);
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

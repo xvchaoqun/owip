@@ -1,6 +1,6 @@
 package domain.dispatch;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;
@@ -16,10 +16,10 @@ public class DispatchCadre implements Serializable {
         return CmTag.getUnit(unitId);
     }
     public SysUserView getUser(){
-        Cadre cadre = getCadre();
+        CadreView cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public Cadre getCadre(){
+    public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
     }
 

@@ -1,6 +1,6 @@
 package domain.verify;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class VerifyAge implements Serializable {
 
-    public Cadre getCadre(){
+    public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
     }
     public SysUserView getSubmitUser(){

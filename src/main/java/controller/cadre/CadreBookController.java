@@ -1,9 +1,9 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreBook;
 import domain.cadre.CadreBookExample;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -166,7 +166,7 @@ public class CadreBookController extends BaseController {
             CadreBook cadreBook = cadreBookMapper.selectByPrimaryKey(id);
             modelMap.put("cadreBook", cadreBook);
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

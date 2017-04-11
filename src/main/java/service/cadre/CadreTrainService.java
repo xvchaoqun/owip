@@ -1,12 +1,10 @@
 package service.cadre;
 
-import domain.cadre.Cadre;
 import domain.cadre.CadreTrain;
 import domain.cadre.CadreTrainExample;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +15,9 @@ import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CadreTrainService extends BaseMapper {
@@ -70,7 +70,7 @@ public class CadreTrainService extends BaseMapper {
             throw new RuntimeException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
-        Cadre cadre = cadreService.dbFindByUserId(currentUserId);
+        CadreView cadre = cadreService.dbFindByUserId(currentUserId);
 
         int id = record.getId();
         CadreTrainExample example = new CadreTrainExample();
@@ -123,7 +123,7 @@ public class CadreTrainService extends BaseMapper {
         }
 
         Integer userId = ShiroHelper.getCurrentUserId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
         record.setStatus(SystemConstants.RECORD_STATUS_MODIFY);

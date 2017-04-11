@@ -1,12 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreParttime;
 import domain.cadre.CadreParttimeExample;
 import domain.cadre.CadreParttimeExample.Criteria;
-import domain.sys.SysUser;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -189,7 +188,7 @@ public class CadreParttimeController extends BaseController {
             modelMap.put("cadreParttime", cadreParttime);
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

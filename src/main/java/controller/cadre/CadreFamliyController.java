@@ -1,10 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyAbroadExample;
-import domain.cadre.CadreFamliyExample;
+import domain.cadre.*;
 import domain.cadre.CadreFamliyExample.Criteria;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +47,7 @@ public class CadreFamliyController extends BaseController {
 
         if (cadreId!=null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -184,7 +181,7 @@ public class CadreFamliyController extends BaseController {
     @RequestMapping("/cadreFamliy_au")
     public String cadreFamliy_au(Integer id, int cadreId, ModelMap modelMap) {
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -234,7 +231,7 @@ public class CadreFamliyController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreFamliy cadreFamliy = cadreFamliys.get(i);
-            Cadre cadre = CmTag.getCadreById(cadreFamliy.getCadreId());
+            CadreView cadre = CmTag.getCadreById(cadreFamliy.getCadreId());
             SysUserView uv = cadre.getUser();
             String[] values = {
                     uv.getCode(),

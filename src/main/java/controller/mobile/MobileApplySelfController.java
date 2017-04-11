@@ -8,6 +8,7 @@ import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfFile;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -80,7 +81,7 @@ public class MobileApplySelfController extends BaseController {
 		modelMap.put("commonList", commonList);
 
 		if (cadreId != null) {
-			Cadre cadre = cadreService.findAll().get(cadreId);
+			CadreView cadre = cadreService.findAll().get(cadreId);
 			modelMap.put("cadre", cadre);
 			SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 			modelMap.put("sysUser", sysUser);
@@ -137,7 +138,7 @@ public class MobileApplySelfController extends BaseController {
 
 		// 判断一下查看权限++++++++++++++++++++???
 		if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
-			Cadre cadre = cadreService.findAll().get(cadreId);
+			CadreView cadre = cadreService.findAll().get(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 				ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
@@ -146,7 +147,7 @@ public class MobileApplySelfController extends BaseController {
 			}
 		}
 
-		Cadre cadre = cadreService.findAll().get(cadreId);
+		CadreView cadre = cadreService.findAll().get(cadreId);
 		SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
 		modelMap.put("sysUser", sysUser);

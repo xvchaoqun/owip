@@ -1,13 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.party.Branch;
+import domain.base.MetaType;
+import domain.cadre.CadreView;
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;
 import domain.member.MemberTeacherExample.Criteria;
+import domain.party.Branch;
 import domain.party.Party;
-import domain.base.MetaType;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -19,10 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -310,7 +310,7 @@ public class MemberTeacherController extends BaseController {
                 if(memberAgeRange>0)
                     ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
-            Cadre cadre = cadreService.dbFindByUserId(record.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && (cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE

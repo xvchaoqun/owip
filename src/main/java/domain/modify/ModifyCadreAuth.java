@@ -1,6 +1,6 @@
 package domain.modify;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ModifyCadreAuth implements Serializable {
-    public Cadre getCadre(){
+    public CadreView getCadre(){
         return CmTag.getCadreById(cadreId);
     }
     public SysUserView getAddUser(){

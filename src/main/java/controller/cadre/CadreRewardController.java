@@ -1,10 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreInfo;
-import domain.cadre.CadreReward;
-import domain.cadre.CadreRewardExample;
+import domain.cadre.*;
 import domain.cadre.CadreRewardExample.Criteria;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
@@ -198,7 +195,7 @@ public class CadreRewardController extends BaseController {
             CadreReward cadreReward = cadreRewardMapper.selectByPrimaryKey(id);
             modelMap.put("cadreReward", cadreReward);
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

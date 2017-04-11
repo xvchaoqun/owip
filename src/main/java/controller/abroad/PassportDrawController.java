@@ -9,6 +9,7 @@ import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
 import domain.base.Country;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -113,7 +114,7 @@ public class PassportDrawController extends BaseController {
                                     ModelMap modelMap) {
         modelMap.put("type", type);
         if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -448,7 +449,7 @@ public class PassportDrawController extends BaseController {
     public String passportDraw_view( Integer id, ModelMap modelMap) {
 
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-        Cadre cadre = cadreService.findAll().get(passportDraw.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passportDraw.getCadreId());
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
         modelMap.put("sysUser", sysUser);

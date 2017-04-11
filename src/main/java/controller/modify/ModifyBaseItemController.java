@@ -1,7 +1,7 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.modify.ModifyBaseItemExample;
@@ -50,7 +50,7 @@ public class ModifyBaseItemController extends BaseController{
         Integer userId = apply.getUserId();
         SysUserView uv = sysUserService.findById(userId);
         modelMap.put("uv", uv);
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
 
         return "modify/modifyBaseItem/modifyBaseItem_page";

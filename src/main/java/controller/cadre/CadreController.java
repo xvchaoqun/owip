@@ -72,7 +72,7 @@ public class CadreController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         SysUserView sysUser = cadre.getUser();
         if(sysUser==null){
             msg = "该用户不存在";
@@ -114,7 +114,7 @@ public class CadreController extends BaseController {
         modelMap.put("status", status);
 
         if (cadreId!=null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
@@ -363,7 +363,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_base")
     public String cadre_base(Integer cadreId, ModelMap modelMap) {
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
 
         SysUserView uv = sysUserService.findById(cadre.getUserId());
@@ -411,7 +411,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_leave")
     public String cadre_leave(int id, ModelMap modelMap) {
 
-        Cadre cadre = cadreService.findAll().get(id);
+        CadreView cadre = cadreService.findAll().get(id);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
@@ -456,8 +456,8 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_addAllCadreRole() {
 
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
-        for (Cadre cadre : cadreMap.values()) {
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
+        for (CadreView cadre : cadreMap.values()) {
             SysUserView sysUser = cadre.getUser();
             // 添加干部身份
             sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());

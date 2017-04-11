@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdditionalPostExample;
 import domain.cadre.CadreAdditionalPostExample.Criteria;
+import domain.cadre.CadreView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,7 @@ public class CadreAdditionalPostController extends BaseController {
     public String cadre_additional_post(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (id!=null) {
-            Cadre cadre = cadreService.findAll().get(id);
+            CadreView cadre = cadreService.findAll().get(id);
             modelMap.put("cadre", cadre);
 
             if (null == pageSize) {

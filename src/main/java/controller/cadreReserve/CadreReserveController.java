@@ -62,7 +62,7 @@ public class CadreReserveController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         SysUserView sysUser = cadre.getUser();
         if (sysUser == null) {
             msg = "该用户不存在";
@@ -292,7 +292,7 @@ public class CadreReserveController extends BaseController {
 
         if (id != null) {
             CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
-            Cadre cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            CadreView cadre = cadreService.findAll().get(cadreReserve.getCadreId());
             modelMap.put("cadreReserve", cadreReserve);
             modelMap.put("cadre", cadre);
         }

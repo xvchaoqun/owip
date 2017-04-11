@@ -1,13 +1,11 @@
 package controller.user.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;
 import domain.sys.SysUserView;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +34,7 @@ public class UserModifyBaseApplyController extends BaseController{
         modelMap.put("uv", loginUser);
 
         int userId = loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
 
         // 人事信息

@@ -1,14 +1,13 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreInfo;
+import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
 import domain.cadre.CadreWorkExample.Criteria;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.DBErrorException;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -212,7 +210,7 @@ public class CadreWorkController extends BaseController {
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(fid);
             modelMap.put("topCadreWork", cadreWork);
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -253,7 +251,7 @@ public class CadreWorkController extends BaseController {
                 modelMap.put("unit", unitService.findAll().get(cadreWork.getUnitId()));
             }
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

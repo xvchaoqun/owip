@@ -6,6 +6,7 @@ import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.cadre.Cadre;
 import domain.base.MetaType;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -120,7 +121,7 @@ public class PassportController extends BaseController {
             modelMap.put("unit", unitService.findAll().get(unitId));
         }*/
         if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -209,7 +210,7 @@ public class PassportController extends BaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView sysUser = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String[] values = {
                         sysUser.getCode(),
                         sysUser.getRealname(),
@@ -239,7 +240,7 @@ public class PassportController extends BaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String[] values = {
                         uv.getCode(),
                         uv.getRealname(),
@@ -270,7 +271,7 @@ public class PassportController extends BaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String[] values = {
                         uv.getCode(),
                         uv.getRealname(),
@@ -300,7 +301,7 @@ public class PassportController extends BaseController {
             for (int i = 0; i < rownum; i++) {
                 Passport record = records.get(i);
                 SysUserView uv = record.getUser();
-                Cadre cadre = record.getCadre();
+                CadreView cadre = record.getCadre();
                 String keepDate = "";
                 if(!record.getKeepDate().after(record.getLostTime())){
                     keepDate=record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"";
@@ -332,7 +333,7 @@ public class PassportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
-        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -612,7 +613,7 @@ public class PassportController extends BaseController {
         String filePath = springProps.uploadPath + cancelPic;
 
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         String fileName = URLEncoder.encode(uv.getRealname() + "-" + passportType.getName()
@@ -631,7 +632,7 @@ public class PassportController extends BaseController {
         String filePath = springProps.uploadPath + lostProof;
 
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         String fileName = URLEncoder.encode(uv.getRealname() + "-" + passportType.getName()
@@ -663,7 +664,7 @@ public class PassportController extends BaseController {
 
             modelMap.put("passport", passport);
 
-            Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+            CadreView cadre = cadreService.findAll().get(passport.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -675,7 +676,7 @@ public class PassportController extends BaseController {
             passport.setClassId(passportApply.getClassId());
             modelMap.put("passport", passport);
 
-            Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+            CadreView cadre = cadreService.findAll().get(passport.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -691,7 +692,7 @@ public class PassportController extends BaseController {
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
 
-        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -746,7 +747,7 @@ public class PassportController extends BaseController {
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
 
-        Cadre cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

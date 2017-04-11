@@ -2,9 +2,10 @@ package service.cadreInspect;
 
 import bean.XlsCadreInspect;
 import domain.cadre.Cadre;
-import domain.cadreReserve.CadreReserve;
+import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectExample;
+import domain.cadreReserve.CadreReserve;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.ibatis.session.RowBounds;
@@ -43,7 +44,7 @@ public class CadreInspectService extends BaseMapper {
     public void directAddCheck(Integer id, int userId) {
 
         // 不在干部库中，肯定可以添加
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         if (cadre == null) return;
 
         int cadreId = cadre.getId();
@@ -82,7 +83,7 @@ public class CadreInspectService extends BaseMapper {
         List<CadreInspect> cadreInspects = cadreInspectMapper.selectByExample(example);
         if(cadreInspects.size()>1){
             CadreInspect cadreInspect = cadreInspects.get(0);
-            Cadre cadre = cadreService.findAll().get(cadreInspect.getCadreId());
+            CadreView cadre = cadreService.findAll().get(cadreInspect.getCadreId());
             throw new IllegalArgumentException("考察对象"+cadre.getUser().getRealname()
                     +"状态异常，存在多条记录");
         }
@@ -107,7 +108,7 @@ public class CadreInspectService extends BaseMapper {
 
         Integer cadreId = null;
         {
-            Cadre cadre = cadreService.dbFindByUserId(userId);
+            CadreView cadre = cadreService.dbFindByUserId(userId);
             if (cadre == null) { // 不在干部库的情况
 
                 if (cadreRecord == null) cadreRecord = new Cadre();

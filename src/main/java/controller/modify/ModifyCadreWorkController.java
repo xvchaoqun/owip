@@ -1,7 +1,7 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
 import domain.modify.ModifyTableApply;
@@ -42,7 +42,7 @@ public class ModifyCadreWorkController extends BaseController {
         modelMap.put("cls", cls);
         if (cadreId != null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -52,7 +52,7 @@ public class ModifyCadreWorkController extends BaseController {
         modelMap.put("module", module);
         if (cls == 0) {
 
-            Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             modelMap.put("cadre", cadre);
 
             return "modify/modifyCadreWork/modifyCadreWork_page";
@@ -75,7 +75,7 @@ public class ModifyCadreWorkController extends BaseController {
         CadreWorkExample example = new CadreWorkExample();
         CadreWorkExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("start_time asc");
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
         criteria.andCadreIdEqualTo(cadre.getId());
         List<CadreWork> cadreWorks = cadreWorkMapper.selectByExample(example);

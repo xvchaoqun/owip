@@ -1,7 +1,6 @@
 package shiro.filter;
 
-import domain.cadre.Cadre;
-import org.apache.commons.lang3.BooleanUtils;
+import domain.cadre.CadreView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
@@ -44,7 +43,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
                 ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
 
             Integer userId = ShiroHelper.getCurrentUserId();
-            Cadre cadre = cadreService.dbFindByUserId(userId);
+            CadreView cadre = cadreService.dbFindByUserId(userId);
             String _cadreId = WebUtils.getCleanParam(request, PARAM_CADERID);
             if(!NumberUtils.isDigits(_cadreId)) return false;
             Integer cadreId = Integer.valueOf(_cadreId);

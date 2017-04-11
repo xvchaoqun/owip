@@ -1,10 +1,9 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyExample;
-import domain.sys.SysUser;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -208,7 +207,7 @@ public class CadreCompanyController extends BaseController {
             CadreCompany cadreCompany = cadreCompanyMapper.selectByPrimaryKey(id);
             modelMap.put("cadreCompany", cadreCompany);
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

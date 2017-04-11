@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import domain.base.MetaType;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
@@ -9,6 +11,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CadreView implements Serializable {
     public SysUserView getUser(){
@@ -22,8 +25,14 @@ public class CadreView implements Serializable {
         return CmTag.getCadreMainCadrePostById(mainCadrePostId);
     }
     // 现任职务
+    @JsonIgnore
     public CadreAdminLevel getPresentAdminLevel() {
         return CmTag.getPresentByCadreId(id);
+    }
+    public MetaType getPostType(){
+
+        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
+        return postMap.get(postId);
     }
     // 兼审单位
     public List<CadreAdditionalPost> getCadreAdditionalPosts(){
@@ -146,6 +155,8 @@ public class CadreView implements Serializable {
 
     private Date arriveTime;
 
+    private Date workTime;
+
     private Date workStartTime;
 
     private Integer mainCadrePostId;
@@ -211,6 +222,10 @@ public class CadreView implements Serializable {
     private String unitTypeName;
 
     private String unitTypeAttr;
+
+    private Date verifyBirth;
+
+    private Date verifyWorkTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -622,6 +637,14 @@ public class CadreView implements Serializable {
         this.arriveTime = arriveTime;
     }
 
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
     public Date getWorkStartTime() {
         return workStartTime;
     }
@@ -884,5 +907,21 @@ public class CadreView implements Serializable {
 
     public void setUnitTypeAttr(String unitTypeAttr) {
         this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
+    }
+
+    public Date getVerifyBirth() {
+        return verifyBirth;
+    }
+
+    public void setVerifyBirth(Date verifyBirth) {
+        this.verifyBirth = verifyBirth;
+    }
+
+    public Date getVerifyWorkTime() {
+        return verifyWorkTime;
+    }
+
+    public void setVerifyWorkTime(Date verifyWorkTime) {
+        this.verifyWorkTime = verifyWorkTime;
     }
 }

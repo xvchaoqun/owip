@@ -53,7 +53,7 @@ public class DemocraticPartyController extends BaseController {
     public String cadre_page(Integer cadreId,ModelMap modelMap) {
 
         if (cadreId!=null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());

@@ -2,6 +2,7 @@ package controller.dispatch;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.dispatch.*;
 import domain.dispatch.DispatchCadreExample.Criteria;
 import domain.sys.SysUserView;
@@ -103,7 +104,7 @@ public class DispatchCadreController extends BaseController {
         }
         if (cadreId!=null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
@@ -275,7 +276,7 @@ public class DispatchCadreController extends BaseController {
             modelMap.put("dispatchCadre", dispatchCadre);
             if(dispatchCadre!=null) {
                 modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId()));
-                Cadre cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
+                CadreView cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
                 modelMap.put("cadre", cadre);
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);

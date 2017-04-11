@@ -1,10 +1,7 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreEduExample;
-import domain.cadre.CadreEduExample.Criteria;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -13,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import shiro.ShiroHelper;
 import shiro.CurrentUser;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-
-import java.util.List;
 
 @Controller
 public class ModifyCadreEduController extends BaseController {
@@ -43,7 +38,7 @@ public class ModifyCadreEduController extends BaseController {
         modelMap.put("cls", cls);
         if (cadreId != null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -53,7 +48,7 @@ public class ModifyCadreEduController extends BaseController {
         modelMap.put("module", module);
         if (cls == 0) {
             // 干部只能看到自己的
-            Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             modelMap.put("cadre", cadre);
             /*CadreEduExample example = new CadreEduExample();
             Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -78,7 +73,7 @@ public class ModifyCadreEduController extends BaseController {
         int userId = mta.getUserId();
 
         // 正式数据
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
         /*CadreEduExample example = new CadreEduExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);

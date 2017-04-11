@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class CadreLeader implements Serializable {
     public SysUserView getUser(){
-        Cadre cadre = getCadre();
+        CadreView cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public Cadre getCadre(){
+    public CadreView getCadre(){
 
         return CmTag.getCadreById(cadreId);
     }

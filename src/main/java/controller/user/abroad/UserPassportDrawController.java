@@ -5,6 +5,7 @@ import domain.abroad.*;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.cadre.Cadre;
 import domain.base.MetaType;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -47,7 +48,7 @@ public class UserPassportDrawController extends BaseController {
     public Map do_passportDraw_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_INIT
@@ -69,7 +70,7 @@ public class UserPassportDrawController extends BaseController {
     public String passportDraw_select(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         int cadreId = cadre.getId();
 
         List<Passport> passports = passportService.findByCadreId(cadreId);
@@ -95,7 +96,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -130,7 +131,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -148,7 +149,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -193,7 +194,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -258,7 +259,7 @@ public class UserPassportDrawController extends BaseController {
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
 
         int count = passportDrawMapper.countByExample(example);
@@ -309,7 +310,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -350,7 +351,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -383,7 +384,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -395,7 +396,7 @@ public class UserPassportDrawController extends BaseController {
             throw new RuntimeException("请选择证件");
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         Passport passportTw = null;
         if(type == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
 
@@ -472,7 +473,7 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -496,10 +497,10 @@ public class UserPassportDrawController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         if(passport.getCadreId() != cadreId.intValue()) throw new UnauthorizedException();

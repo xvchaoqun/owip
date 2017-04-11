@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -49,7 +50,7 @@ public class UserPassportApplyController extends BaseController {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
-            Cadre cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
@@ -76,7 +77,7 @@ public class UserPassportApplyController extends BaseController {
     public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             if(passportApply.getStatus()==SystemConstants.PASSPORT_APPLY_STATUS_INIT
@@ -106,7 +107,7 @@ public class UserPassportApplyController extends BaseController {
     @RequestMapping("/passportApply_confirm")
     public String passportApply_confirm(Integer cadreId, ModelMap modelMap) {
 
-        Cadre cadre = null;
+        CadreView cadre = null;
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
@@ -148,7 +149,7 @@ public class UserPassportApplyController extends BaseController {
         criteria.andIsDeletedEqualTo(false);
 
         int userId= loginUser.getId();
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
 
         int count = passportApplyMapper.countByExample(example);

@@ -17,10 +17,11 @@ public class Cadre implements Serializable {
 
         return CmTag.getUserById(userId);
     }
+    /*
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
-    public MetaType getAdminLevelType(){
+   public MetaType getAdminLevelType(){
         Map<Integer, MetaType> adminLevelMap = CmTag.getMetaTypes("mc_admin_level");
         return adminLevelMap.get(typeId);
     }
@@ -47,7 +48,7 @@ public class Cadre implements Serializable {
     public CadreEdu[] getCadreEdus(){
 
         return CmTag.getCadreEdus(id);
-    }
+    }*/
 
     private Integer id;
 

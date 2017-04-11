@@ -1,12 +1,10 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreReport;
 import domain.cadre.CadreReportExample;
 import domain.cadre.CadreReportExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import domain.cadre.CadreView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -54,7 +52,7 @@ public class CadreReportController extends BaseController {
                                    ModelMap modelMap) {
 
         if(cadreId!=null) {
-            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            Map<Integer, CadreView> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cadreId));
         }
         return "cadre/cadreReport/cadreReport_page";
@@ -159,7 +157,7 @@ public class CadreReportController extends BaseController {
 
         if (id != null) {
             CadreReport cadreReport = cadreReportMapper.selectByPrimaryKey(id);
-            Map<Integer, Cadre> cadreMap = cadreService.findAll();
+            Map<Integer, CadreView> cadreMap = cadreService.findAll();
             modelMap.put("cadre", cadreMap.get(cadreReport.getCadreId()));
             modelMap.put("cadreReport", cadreReport);
         }

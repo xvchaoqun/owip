@@ -1,6 +1,7 @@
 package domain.cis;
 
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class CisInspectObj implements Serializable {
 
-    public Cadre getCadre(){
+    public CadreView getCadre(){
 
         return CmTag.getCadreById(cadreId);
     }

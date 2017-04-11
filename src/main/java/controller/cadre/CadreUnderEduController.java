@@ -1,11 +1,10 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreUnderEdu;
 import domain.cadre.CadreUnderEduExample;
 import domain.cadre.CadreUnderEduExample.Criteria;
-import domain.sys.SysUser;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -63,7 +62,7 @@ public class CadreUnderEduController extends BaseController {
 
         if (cadreId!=null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -154,7 +153,7 @@ public class CadreUnderEduController extends BaseController {
             modelMap.put("cadreUnderEdu", cadreUnderEdu);
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

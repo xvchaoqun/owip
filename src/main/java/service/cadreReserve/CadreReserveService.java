@@ -2,9 +2,10 @@ package service.cadreReserve;
 
 import bean.XlsCadreReserve;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
+import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveExample;
-import domain.cadreInspect.CadreInspect;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.ibatis.session.RowBounds;
@@ -44,7 +45,7 @@ public class CadreReserveService extends BaseMapper {
     public void directAddCheck(Integer id, int userId){
 
         // 不在干部库中，肯定可以添加
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         if(cadre == null) return;
 
         int cadreId = cadre.getId();
@@ -91,7 +92,7 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            Cadre cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            CadreView cadre = cadreService.findAll().get(cadreReserve.getCadreId());
             throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条记录");
         }
@@ -108,7 +109,7 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            Cadre cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            CadreView cadre = cadreService.findAll().get(cadreReserve.getCadreId());
             throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条后备干部[已列为考察对象]记录");
         }
@@ -133,7 +134,7 @@ public class CadreReserveService extends BaseMapper {
 
         Integer cadreId = null;
         {
-            Cadre cadre = cadreService.dbFindByUserId(userId);
+            CadreView cadre = cadreService.dbFindByUserId(userId);
             if(cadre==null) { // 不在干部库的情况
 
                 if(cadreRecord==null) cadreRecord = new Cadre();

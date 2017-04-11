@@ -2,6 +2,7 @@ package controller.unit;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.unit.UnitAdmin;
@@ -87,7 +88,7 @@ public class UnitAdminController extends BaseController {
             UnitAdmin unitAdmin = unitAdminMapper.selectByPrimaryKey(id);
             modelMap.put("unitAdmin", unitAdmin);
             groupId = unitAdmin.getGroupId();
-            Cadre cadre = cadreService.findAll().get(unitAdmin.getCadreId());
+            CadreView cadre = cadreService.findAll().get(unitAdmin.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

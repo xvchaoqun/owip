@@ -2,6 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CadreInfoFormController extends BaseController {
     @RequestMapping("/cadreInfoForm_download")
     public void adform(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         //输出文件
         String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部信息采集表 " + cadre.getUser().getRealname();
         response.reset();

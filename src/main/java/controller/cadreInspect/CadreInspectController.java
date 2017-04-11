@@ -4,6 +4,7 @@ import bean.XlsCadreInspect;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
@@ -175,7 +176,7 @@ public class CadreInspectController extends BaseController {
 
         if (id != null) {
             CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
-            Cadre cadre = cadreService.findAll().get(cadreInspect.getCadreId());
+            CadreView cadre = cadreService.findAll().get(cadreInspect.getCadreId());
             modelMap.put("cadreInspect", cadreInspect);
             modelMap.put("cadre", cadre);
         }

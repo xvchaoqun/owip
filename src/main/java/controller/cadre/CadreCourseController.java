@@ -181,7 +181,7 @@ public class CadreCourseController extends BaseController {
             modelMap.put("cadreCourse", cadreCourse);
         }
 
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

@@ -1,7 +1,7 @@
 package controller.verify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.verify.VerifyWorkTime;
 import domain.verify.VerifyWorkTimeExample;
 import domain.verify.VerifyWorkTimeExample.Criteria;
@@ -198,7 +198,7 @@ public class VerifyWorkTimeController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             VerifyWorkTime record = records.get(i);
-            Cadre cadre = record.getCadre();
+            CadreView cadre = record.getCadre();
             String[] values = {
                     cadre.getUser().getCode(),
                     cadre.getUser().getRealname(),

@@ -5,6 +5,8 @@ import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -18,11 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.cadreReserve.CadreReserveService;
 import service.cadreInspect.CadreInspectService;
-import shiro.ShiroHelper;
+import service.cadreReserve.CadreReserveService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 
@@ -55,13 +57,13 @@ public class CadreService extends BaseMapper {
         if(id!=null) criteria.andIdNotEqualTo(id);
         int count = cadreMapper.countByExample(example);
         if( count > 0){
-            Cadre cadre = dbFindByUserId(userId);
+            CadreView cadre = dbFindByUserId(userId);
             throw new RuntimeException(cadre.getUser().getRealname()
                     + "已经在" + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }
 
         if(id==null && count==0){ // 新添加干部的时候，判断一下是否在后备干部库或考察对象库中
-            Cadre cadre = dbFindByUserId(userId);
+            CadreView cadre = dbFindByUserId(userId);
             if(cadre!=null){
                 Integer cadreId = cadre.getId();
                 String realname = cadre.getUser().getRealname();
@@ -196,11 +198,11 @@ public class CadreService extends BaseMapper {
         }
     }
 
-    public Cadre dbFindByUserId(int userId){
+    public CadreView dbFindByUserId(int userId){
 
-        CadreExample example = new CadreExample();
+        CadreViewExample example = new CadreViewExample();
         example.createCriteria().andUserIdEqualTo(userId);
-        List<Cadre> cadres = cadreMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        List<CadreView> cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(cadres.size()>0) return cadres.get(0);
 
         return null;
@@ -225,7 +227,7 @@ public class CadreService extends BaseMapper {
         sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
-        Cadre cadre = dbFindByUserId(userId);
+        CadreView cadre = dbFindByUserId(userId);
         if(cadre==null) {
             record.setIsDp(false);// 初次添加标记为非民主党派
             //if(record.getStatus()!=null)
@@ -367,7 +369,7 @@ public class CadreService extends BaseMapper {
     }
 
     // 干部列表（包含后备干部、考察对象）
-    @Cacheable(value="Cadre:ALL")
+    /*@Cacheable(value="Cadre:ALL")
     public Map<Integer, Cadre> findAll() {
 
         CadreExample example = new CadreExample();
@@ -375,6 +377,19 @@ public class CadreService extends BaseMapper {
         List<Cadre> cadrees = cadreMapper.selectByExample(example);
         Map<Integer, Cadre> map = new LinkedHashMap<>();
         for (Cadre cadre : cadrees) {
+            map.put(cadre.getId(), cadre);
+        }
+
+        return map;
+    }*/
+    @Cacheable(value="Cadre:ALL")
+    public Map<Integer, CadreView> findAll() {
+
+        CadreViewExample example = new CadreViewExample();
+        example.setOrderByClause("sort_order desc");
+        List<CadreView> cadrees = cadreViewMapper.selectByExample(example);
+        Map<Integer, CadreView> map = new LinkedHashMap<>();
+        for (CadreView cadre : cadrees) {
             map.put(cadre.getId(), cadre);
         }
 

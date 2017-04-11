@@ -7,6 +7,7 @@ import domain.abroad.ApproverTypeExample;
 import domain.abroad.ApproverTypeExample.Criteria;
 import domain.cadre.Cadre;
 import domain.cadre.CadreLeader;
+import domain.cadre.CadreView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,11 +56,11 @@ public class ApproverTypeController extends BaseController {
                 unselectCadreSet.add(approverBlackList.getCadreId());
             }
 
-            Set<Cadre> cadreSet = new LinkedHashSet<>();
+            Set<CadreView> cadreSet = new LinkedHashSet<>();
             Set<Integer> selectCadreSet = new HashSet<>();
             Map<Integer, CadreLeader> leaderMap = cadreLeaderService.findAll();
             for (CadreLeader leader : leaderMap.values()) {
-                Cadre cadre = leader.getCadre();
+                CadreView cadre = leader.getCadre();
                 cadreSet.add(cadre);
                 if(!unselectCadreSet.contains(cadre.getId()))
                     selectCadreSet.add(cadre.getId());
@@ -72,7 +73,7 @@ public class ApproverTypeController extends BaseController {
             Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
             //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, null);
+            TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()), selectIdSet, null);
             resultMap.put("tree", tree);
         }
 

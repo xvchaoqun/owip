@@ -1,6 +1,6 @@
 package service.cis;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.cis.*;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -12,15 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.common.FreemarkerService;
-import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class CisInspectObjService extends BaseMapper {
@@ -34,7 +31,7 @@ public class CisInspectObjService extends BaseMapper {
     public void process(int objId, Writer out) throws IOException, TemplateException {
 
         CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
-        Cadre cadre = cisInspectObj.getCadre();
+        CadreView cadre = cisInspectObj.getCadre();
         SysUserView uv = cadre.getUser();
 
         Map<String, Object> dataMap = new HashMap<String, Object>();

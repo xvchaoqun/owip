@@ -1,6 +1,6 @@
 package domain.abroad;
 
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
@@ -9,10 +9,10 @@ import java.io.Serializable;
 public class Approver implements Serializable {
 
     public SysUserView getUser(){
-        Cadre cadre = getCadre();
+        CadreView cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
     }
-    public Cadre getCadre(){
+    public CadreView getCadre(){
 
         return CmTag.getCadreById(cadreId);
     }

@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadreAdminLevel;
+import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
@@ -57,7 +58,7 @@ public class CadreAdminLevelController extends BaseController {
             CadreAdminLevel cadreAdminLevel = cadreAdminLevelMapper.selectByPrimaryKey(id);
             modelMap.put("cadreAdminLevel", cadreAdminLevel);
         }
-        Cadre cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

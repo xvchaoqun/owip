@@ -287,12 +287,12 @@ public class CmTag {
         return parentIdSet;
     }
 
-    public static Cadre getCadreById(Integer id) {
+    public static CadreView getCadreById(Integer id) {
 
-        Map<Integer, Cadre> cadreMap = cadreService.findAll();
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
     }
-    public static Cadre getCadreByUserId(Integer userId) {
+    public static CadreView getCadreByUserId(Integer userId) {
 
         return cadreService.dbFindByUserId(userId);
     }

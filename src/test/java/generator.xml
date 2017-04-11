@@ -21,10 +21,10 @@
     <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER" >
     </javaClientGenerator>
 
-      <table tableName="verify_age" domainObjectName="verify.VerifyAge">
+      <!--<table tableName="verify_age" domainObjectName="verify.VerifyAge">
       </table>
       <table tableName="verify_work_time" domainObjectName="verify.VerifyWorkTime">
-      </table>
+      </table>-->
 
       <!--<table tableName="recruit_post" domainObjectName="recruit.RecruitPost">
           <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
@@ -236,11 +236,11 @@
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-     <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->

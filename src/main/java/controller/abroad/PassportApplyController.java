@@ -5,6 +5,7 @@ import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyView;
 import domain.abroad.PassportApplyViewExample;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
@@ -128,7 +129,7 @@ public class PassportApplyController extends BaseController {
         modelMap.put("status", status);
 
         if (cadreId != null) {
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

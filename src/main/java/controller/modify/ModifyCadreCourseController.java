@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreCourse;
 import domain.cadre.CadreCourseExample;
 import domain.cadre.CadreCourseExample.Criteria;
+import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -43,7 +44,7 @@ public class ModifyCadreCourseController extends BaseController {
         modelMap.put("cls", cls);
         if (cadreId != null) {
 
-            Cadre cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -54,7 +55,7 @@ public class ModifyCadreCourseController extends BaseController {
         if (cls == 0) {
 
             // 干部只能看到自己的
-            Cadre cadre = cadreService.dbFindByUserId(loginUser.getUserId());
+            CadreView cadre = cadreService.dbFindByUserId(loginUser.getUserId());
             modelMap.put("cadre", cadre);
            /* CadreCourseExample example = new CadreCourseExample();
             Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -79,7 +80,7 @@ public class ModifyCadreCourseController extends BaseController {
         int userId = mta.getUserId();
 
         // 正式数据
-        Cadre cadre = cadreService.dbFindByUserId(userId);
+        CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
         /*CadreCourseExample example = new CadreCourseExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);

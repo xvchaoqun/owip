@@ -8,6 +8,7 @@ import domain.abroad.ApplicatTypeExample.Criteria;
 import domain.abroad.ApprovalOrder;
 import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
+import domain.cadre.CadreView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -51,9 +52,9 @@ public class ApplicatTypeController extends BaseController {
     public Map selectCadresEscapse_tree() throws IOException {
 
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
-        Set<Cadre> cadreSet = new LinkedHashSet<>();
+        Set<CadreView> cadreSet = new LinkedHashSet<>();
         Set<Integer> cadreIdSet = new HashSet<>();
-        for (Cadre cadre : cadreService.findAll().values()) {
+        for (CadreView cadre : cadreService.findAll().values()) {
 
             if(!disabledIdSet.contains(cadre.getId().intValue())){
                 cadreSet.add(cadre);
@@ -85,7 +86,7 @@ public class ApplicatTypeController extends BaseController {
         Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<Cadre>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
