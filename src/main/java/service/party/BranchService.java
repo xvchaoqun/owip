@@ -117,7 +117,8 @@ public class BranchService extends BaseMapper {
         int num;
         BranchExample example = new BranchExample();
         example.createCriteria().andPartyIdEqualTo(partyId);
-        example.setOrderByClause("code desc");
+        //example.setOrderByClause("code desc");
+        example.setOrderByClause("right(code,3) desc"); // 支部转移之后，party.code还是原来的
         List<Branch> branchs = branchMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if (branchs.size() > 0) {
             String code = branchs.get(0).getCode();
