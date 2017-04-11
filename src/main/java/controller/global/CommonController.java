@@ -142,6 +142,7 @@ public class CommonController extends BaseController {
     @RequestMapping("/cadre_selects")
     @ResponseBody
     public Map cadre_selects(
+            @RequestParam(required = false, value = "types") Byte[] types, // 指定类别
             // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库
             @RequestParam(defaultValue = "1", required = false) Byte type,
             Byte status,
@@ -162,12 +163,16 @@ public class CommonController extends BaseController {
         if (status != null) {
             cadreStatusSet.add(status);
         } else {
-            if (type == 1) {
-                cadreStatusSet = SystemConstants.CADRE_STATUS_SET;
-            } else if (type == 2) {
-                cadreStatusSet = SystemConstants.CADRE_STATUS_NOW_SET;
-            } else if (type == 3) {
-                cadreStatusSet = SystemConstants.CADRE_STATUS_LEAVE_SET;
+            if(types==null) {
+                if (type == 1) {
+                    cadreStatusSet = SystemConstants.CADRE_STATUS_SET;
+                } else if (type == 2) {
+                    cadreStatusSet = SystemConstants.CADRE_STATUS_NOW_SET;
+                } else if (type == 3) {
+                    cadreStatusSet = SystemConstants.CADRE_STATUS_LEAVE_SET;
+                }
+            }else{
+                cadreStatusSet = new HashSet<>(Arrays.asList(types));
             }
         }
 

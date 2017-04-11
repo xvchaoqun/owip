@@ -42,8 +42,11 @@ public class VerifyWorkTimeController extends BaseController {
 
     @RequiresPermissions("verifyWorkTime:list")
     @RequestMapping("/verifyWorkTime_page")
-    public String verifyWorkTime_page(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String verifyWorkTime_page(@RequestParam(defaultValue = "1") Integer cls,Integer cadreId, ModelMap modelMap) {
         modelMap.put("cls", cls);
+        if(cadreId!=null){
+            modelMap.put("cadre", cadreService.findAll().get(cadreId));
+        }
         return "verify/verifyWorkTime/verifyWorkTime_page";
     }
 
@@ -51,6 +54,7 @@ public class VerifyWorkTimeController extends BaseController {
     @RequestMapping("/verifyWorkTime_data")
     public void verifyWorkTime_data(HttpServletResponse response,
                                     Byte type,
+                                    Integer cadreId,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                     Integer pageSize, Integer pageNo) throws IOException {
@@ -69,6 +73,9 @@ public class VerifyWorkTimeController extends BaseController {
 
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if(cadreId!=null){
+            criteria.andCadreIdEqualTo(cadreId);
         }
 
         if (export == 1) {

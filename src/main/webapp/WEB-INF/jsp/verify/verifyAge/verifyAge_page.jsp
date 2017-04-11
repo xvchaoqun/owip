@@ -8,7 +8,7 @@
              data-url-page="${ctx}/verifyAge_page"
              data-url-export="${ctx}/verifyAge_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.type || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.type || not empty param.cadreId || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/verify/verify_menu.jsp"/>
 
@@ -50,18 +50,31 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
+                                        <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
+                                            <label>选择干部</label>
+                                            <select data-rel="select2-ajax"
+                                                    data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_INSPECT},${CADRE_STATUS_MIDDLE},${CADRE_STATUS_MIDDLE_LEAVE},${CADRE_STATUS_LEADER},${CADRE_STATUS_LEADER_LEAVE}"
+                                                    name="cadreId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
+                                                <option value="${cadre.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                                            </select>
                                             <label>认定类别</label>
-                                            <input class="form-control search-query" name="type" type="text"
-                                                   value="${param.type}"
-                                                   placeholder="请输入认定类别">
+                                            <select name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
+                                                <option></option>
+                                                <c:forEach items="${VERIFY_AGE_TYPE_MAP}" var="entity">
+                                                    <option value="${entity.key}">${entity.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=type]").val('${param.type}');
+                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
 
                                             <c:if test="${_query}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                                <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -81,6 +94,7 @@
     </div>
 </div>
 <script>
+    register_user_select($('[data-rel="select2-ajax"]'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/verifyAge_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

@@ -42,8 +42,13 @@ public class VerifyAgeController extends BaseController {
 
     @RequiresPermissions("verifyAge:list")
     @RequestMapping("/verifyAge_page")
-    public String verifyAge_page(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String verifyAge_page(@RequestParam(defaultValue = "1") Integer cls,
+                                 Integer cadreId,
+                                 ModelMap modelMap) {
         modelMap.put("cls", cls);
+        if(cadreId!=null){
+            modelMap.put("cadre", cadreService.findAll().get(cadreId));
+        }
         return "verify/verifyAge/verifyAge_page";
     }
 
@@ -51,6 +56,7 @@ public class VerifyAgeController extends BaseController {
     @RequestMapping("/verifyAge_data")
     public void verifyAge_data(HttpServletResponse response,
                                Byte type,
+                               Integer cadreId,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
@@ -69,6 +75,9 @@ public class VerifyAgeController extends BaseController {
 
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if(cadreId!=null){
+            criteria.andCadreIdEqualTo(cadreId);
         }
 
         if (export == 1) {
