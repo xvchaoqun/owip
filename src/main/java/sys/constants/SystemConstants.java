@@ -674,24 +674,25 @@ public class SystemConstants {
 
 
     // 干部库类别
-    public final static byte CADRE_STATUS_MIDDLE = 1;
     public final static byte CADRE_STATUS_INSPECT = 2;
-    public final static byte CADRE_STATUS_MIDDLE_LEAVE = 3;
-    public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
     public final static byte CADRE_STATUS_RESERVE = 5;
+    public final static byte CADRE_STATUS_MIDDLE_LEAVE = 3;
+    public final static byte CADRE_STATUS_MIDDLE = 1;
+    public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
     public final static byte CADRE_STATUS_LEADER = 6;
+
     public final static Map<Byte, String> CADRE_STATUS_MAP = new LinkedHashMap<>();
     public final static Set<Byte> CADRE_STATUS_SET = new HashSet<>(); // 干部角色对应的所有状态
     public final static Set<Byte> CADRE_STATUS_NOW_SET = new HashSet<>(); // 现任干部角色对应的所有状态
     public final static Set<Byte> CADRE_STATUS_LEAVE_SET = new HashSet<>(); // 离任干部角色对应的所有状态
 
     static {
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
-        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任中层干部");
-        CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
+        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任中层干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
 
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE);
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE_LEAVE);

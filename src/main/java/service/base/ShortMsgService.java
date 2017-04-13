@@ -458,13 +458,15 @@ public class ShortMsgService extends BaseMapper {
     public boolean send(ShortMsgBean shortMsgBean, String ip){
 
         Integer sender = shortMsgBean.getSender();
-        int receiver = shortMsgBean.getReceiver();
+        Integer receiver = shortMsgBean.getReceiver();
         String content = shortMsgBean.getContent();
         String type = shortMsgBean.getType();
 
-        SysUserView uv = sysUserService.findById(receiver);
-        if(uv==null){
-            throw new RuntimeException("用户不存在。");
+        if(receiver!=null) {
+            SysUserView uv = sysUserService.findById(receiver);
+            if (uv == null) {
+                throw new RuntimeException("用户不存在。");
+            }
         }
         String mobile = shortMsgBean.getMobile();
         if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){

@@ -1,5 +1,5 @@
 {
-  "schema": "owip20160314",
+  "schema": "owip_tmp",
   "cpath": "\\src\\main\\java\\controller\\",
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
@@ -21,7 +21,7 @@
       "showColumns": "user_id,party_id,username,type,code,realname,gender,birth,idcard,phone,email,create_time,ip,status,check_user_id,check_time,check_ip",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     }
   ]
 }

@@ -1,4 +1,11 @@
 
+-- 2017-4-12
+ALTER TABLE `base_short_msg`
+	COMMENT='发送短信日志';
+ALTER TABLE `base_short_msg_receiver`
+	COMMENT='短信模板指定的接收方';
+
+
 -- 2017-4-11
 ALTER TABLE `sys_teacher_info`
 	ADD COLUMN `work_time` DATE NULL DEFAULT NULL COMMENT '参加工作时间' AFTER `arrive_time`;

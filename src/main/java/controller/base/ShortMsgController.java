@@ -5,7 +5,6 @@ import controller.BaseController;
 import domain.base.ShortMsg;
 import domain.base.ShortMsgExample;
 import domain.base.ShortMsgExample.Criteria;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -149,62 +148,4 @@ public class ShortMsgController extends BaseController {
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
-
-   /* @RequiresPermissions("shortMsg:edit")
-    @RequestMapping(value = "/shortMsg_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_shortMsg_au(ShortMsg record, HttpServletRequest request) {
-
-        Integer id = record.getId();
-
-        if (id == null) {
-            record.setStatus(true);
-            shortMsgService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加短信：%s", record.getId()));
-        } else {
-
-            shortMsgService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新短信：%s", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("shortMsg:edit")
-    @RequestMapping("/shortMsg_au")
-    public String shortMsg_au(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            ShortMsg shortMsg = shortMsgMapper.selectByPrimaryKey(id);
-            modelMap.put("shortMsg", shortMsg);
-        }
-        return "sys/shortMsg/shortMsg_au";
-    }*/
-/*
-    @RequiresPermissions("shortMsg:del")
-    @RequestMapping(value = "/shortMsg_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_shortMsg_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            shortMsgService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除短信：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("shortMsg:del")
-    @RequestMapping(value = "/shortMsg_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length>0){
-            shortMsgService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除短信：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
 }

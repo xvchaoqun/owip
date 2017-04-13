@@ -397,6 +397,8 @@ public class BaseMapper {
 	protected HtmlFragmentMapper htmlFragmentMapper;
 	@Autowired
 	protected SysOnlineStaticMapper sysOnlineStaticMapper;
+	@Autowired
+	protected FeedbackMapper feedbackMapper;
 
 	@Autowired
 	protected CommonUnitMapper commonUnitMapper;
@@ -433,4 +435,6 @@ public class BaseMapper {
 	protected SitemapMapper sitemapMapper;
 	@Autowired
 	protected SitemapRoleMapper sitemapRoleMapper;
+	@Autowired
+	protected ShortMsgTplMapper shortMsgTplMapper;
 }

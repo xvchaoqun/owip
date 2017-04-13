@@ -1,5 +1,5 @@
 {
-  "schema": "owip20160314",
+  "schema": "owip_tmp",
   "cpath": "\\src\\main\\java\\controller\\",
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
@@ -13,6 +13,14 @@
       "showColumns": "user_id,type,path,filename,remark,create_time",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },{
+      "table": "feedback",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "user_id,content,create_time,ip",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_USER",
       "ignore": false
     }
   ]

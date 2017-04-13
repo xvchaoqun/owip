@@ -269,6 +269,8 @@ public class BaseController extends BaseMapper {
     protected MetaClassService metaClassService;
     @Autowired
     protected MetaTypeService metaTypeService;
+    @Autowired
+    protected ShortMsgTplService shortMsgTplService;
 
     @Autowired
     protected ModifyCadreAuthService modifyCadreAuthService;
@@ -318,6 +320,8 @@ public class BaseController extends BaseMapper {
     protected HtmlFragmentService htmlFragmentService;
     @Autowired
     protected SysLoginLogService sysLoginLogService;
+    @Autowired
+    protected FeedbackService feedbackService;
 
     @Autowired
     protected CadreExportService cadreExportService;

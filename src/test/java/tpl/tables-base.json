@@ -1,0 +1,18 @@
+{
+  "schema": "owip_tmp",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "base_",
+  "folder": "base",
+  "tables": [{
+      "table": "short_msg_tpl",
+      "key": "id",
+      "searchColumns": "content",
+      "showColumns": "name,content,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    }
+  ]
+}
