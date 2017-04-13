@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${commonList.recNum>0}">
 <div class="message-container">
     <div id="id-message-list-navbar" class="message-navbar clearfix">
         <div class="message-bar">
@@ -30,6 +31,7 @@
     </div>
     <wo:page commonList="${commonList}" uri="${ctx}/user/feedback_list" target="#feedbacks" pageNum="5"
              model="3"/>
+
     <%--<div class="message-footer clearfix">
         <div class="pull-left"> 总共${commonList.recNum}条记录</div>
         <div class="pull-right">
@@ -70,3 +72,4 @@
     </div>--%>
 
 </div>
+</c:if>
