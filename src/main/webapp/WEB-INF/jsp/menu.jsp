@@ -9,6 +9,7 @@
 %>
 <ul class="nav nav-list">
 <c:forEach items="${menus}" var="menu" varStatus="vs">
+    <c:set var="cacheCount" value="${cm:getMenuCacheCount(menu.countCacheKeys)}"></c:set>
     <%
         SysResource menu = (SysResource) pageContext.getAttribute("menu");
         while (!menuStack.isEmpty() && menu.getParentId().intValue() != menuStack.peek().getId().intValue()) {
@@ -26,8 +27,12 @@
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>"></i>
             <span class="menu-text"> ${menu.name} </span>
+            <c:if test="${cacheCount>0}">
+            <span class="badge badge-danger">${cacheCount}</span>
+            </c:if>
             <b class="arrow fa fa-angle-down"></b>
         </a>
+
         <b class="arrow"></b>
         <ul class="submenu">
     </c:if>
@@ -36,6 +41,9 @@
             <a href="${menu.url}">
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>
                 <span class="menu-text"> ${menu.name} </span>
+                <c:if test="${cacheCount>0}">
+                    <span class="badge badge-warning">${cacheCount}</span>
+                </c:if>
             </a>
             <b class="arrow"></b>
         </li>

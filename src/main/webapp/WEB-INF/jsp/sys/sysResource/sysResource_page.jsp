@@ -54,6 +54,8 @@
 <link rel="stylesheet" href="${ctx}/extend/css/jquery.treegrid.css">
 <script type="text/javascript" src="${ctx}/extend/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="${ctx}/extend/js/jquery.treegrid.min.js"></script>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
     $('.tree').treegrid({

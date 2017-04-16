@@ -23,6 +23,9 @@ public class InitDataService extends BaseController implements ApplicationListen
             // 刷新数据文件
             cacheService.flushLocation();
             cacheService.flushMetadata();
+
+            // 刷新菜单数量缓存
+            cacheService.refreshCacheCounts();
         }
     }
 }

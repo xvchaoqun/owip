@@ -10,13 +10,14 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.sys.SysResourceMapper;
+import service.BaseMapper;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.*;
 
 @Service
-public class SysResourceService {
+public class SysResourceService extends BaseMapper{
 
 	@Autowired
 	private SysResourceMapper sysResourceMapper;
@@ -38,9 +39,13 @@ public class SysResourceService {
 			@CacheEvict(value="Menus", allEntries=true),
 			@CacheEvict(value="Permissions", allEntries=true)
 	})
-	public int updateByPrimaryKeySelective(SysResource sysResource){
-		
-		return  sysResourceMapper.updateByPrimaryKeySelective(sysResource);
+	public int updateByPrimaryKeySelective(SysResource record){
+
+		if(StringUtils.isBlank(record.getCountCacheKeys())){
+			updateMapper.excuteSql("update sys_resource set count_cache_keys=null where id="+ record.getId());
+		}
+
+		return  sysResourceMapper.updateByPrimaryKeySelective(record);
 	}
 	
 	@Transactional
@@ -50,7 +55,10 @@ public class SysResourceService {
 			@CacheEvict(value="Permissions", allEntries=true)
 	})
 	public void del(Integer id){
-		
+
+		// 顶级节点不可删除
+		if(id==1) return ;
+
 		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(id);
 		sysResourceMapper.deleteByPrimaryKey(id);
 		

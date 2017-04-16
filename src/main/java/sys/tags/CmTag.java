@@ -35,6 +35,7 @@ import service.cadre.*;
 import service.cis.CisInspectObjService;
 import service.cis.CisInspectorService;
 import service.dispatch.*;
+import service.global.CacheService;
 import service.modify.ModifyCadreAuthService;
 import service.party.*;
 import service.sys.HtmlFragmentService;
@@ -56,6 +57,7 @@ import java.util.*;
 public class CmTag {
 
     static ApplicationContext context = ApplicationContextSupport.getContext();
+    static CacheService cacheService = (CacheService) context.getBean("cacheService");
     static HtmlFragmentService htmlFragmentService = (HtmlFragmentService) context.getBean("htmlFragmentService");
     static HtmlFragmentMapper htmlFragmentMapper = (HtmlFragmentMapper) context.getBean("htmlFragmentMapper");
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
@@ -107,6 +109,12 @@ public class CmTag {
         String jsonStr = JSONUtils.toString(list);
 
         return StringUtils.isBlank(jsonStr)?"[]":jsonStr;
+    }
+
+    // 获取菜单显示处理数量
+    public static Integer getMenuCacheCount(String countCacheKeys){
+
+        return cacheService.getCacheCount(countCacheKeys);
     }
 
     public static HtmlFragment getHtmlFragment(String code){

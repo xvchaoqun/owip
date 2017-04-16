@@ -21,6 +21,8 @@ public class SysResource implements Serializable {
 
     private String permission;
 
+    private String countCacheKeys;
+
     private Byte available;
 
     private Integer sortOrder;
@@ -97,6 +99,14 @@ public class SysResource implements Serializable {
 
     public void setPermission(String permission) {
         this.permission = permission == null ? null : permission.trim();
+    }
+
+    public String getCountCacheKeys() {
+        return countCacheKeys;
+    }
+
+    public void setCountCacheKeys(String countCacheKeys) {
+        this.countCacheKeys = countCacheKeys == null ? null : countCacheKeys.trim();
     }
 
     public Byte getAvailable() {

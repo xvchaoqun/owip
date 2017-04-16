@@ -1398,4 +1398,56 @@ public class SystemConstants {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS, "申请使用证件-不通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN, "申请使用证件（需要签注）-不通过");
 	}*/
+
+
+
+    // 菜单关联缓存数量( cache name: cache_counts)
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_EDU = 1;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_WORK = 2;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK = 3;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY = 4;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE = 5;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER = 6;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME = 7;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH = 9;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH = 11;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER = 12;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN = 10;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT = 8;
+    public final static byte CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN = 13;
+    public final static byte CACHEKEY_MODIFY_BASE_APPLY = 14;
+    public final static byte CACHEKEY_ABROAD_PASSPORT_APPLY = 15;
+    public final static byte CACHEKEY_ABROAD_APPLY_SELF = 16;
+
+    public final static byte CACHEKEY_PASSPORT_DRAW_TYPE_SELF = 17;
+    public final static byte CACHEKEY_PASSPORT_DRAW_TYPE_TW = 18;
+    public final static byte CACHEKEY_PASSPORT_DRAW_TYPE_OTHER = 19;
+    public final static byte CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF = 20;
+
+    public final static Map<Byte, String> CACHEKEY_MAP = new LinkedHashMap<>();
+
+    static {
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_EDU, "学习经历-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_WORK, "工作经历-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK, "出版著作情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY, "企业兼职情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE, "教学课程-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER, "发表论文情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME, "社会或学术兼职-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT, "主持科研项目情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN, "参与科研项目情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH, "教学成果及获奖情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH, "科研成果及获奖情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER, "其他奖励情况-干部信息修改申请");
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN, "培训情况-干部信息修改申请");
+
+        CACHEKEY_MAP.put(CACHEKEY_MODIFY_BASE_APPLY, "干部基本信息修改");
+        CACHEKEY_MAP.put(CACHEKEY_ABROAD_PASSPORT_APPLY, "办理证件审批");
+        CACHEKEY_MAP.put(CACHEKEY_ABROAD_APPLY_SELF, "因私出国境审批（管理员）");
+
+        CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_SELF, "因私出国（境）-领取证件");
+        CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_TW, "因公赴台-领取证件");
+        CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_OTHER, "其他事务-领取证件");
+        CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国-领取证件");
+    }
 }

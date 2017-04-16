@@ -20,6 +20,11 @@
 		<function-class>shiro.ShiroHelper</function-class>
 		<function-signature>java.lang.Boolean hasRole(java.lang.String)</function-signature>
 	</function>
+	<function>
+		<name>getMenuCacheCount</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Integer getMenuCacheCount(java.lang.String)</function-signature>
+	</function>
 
 	<!--获得MAP KEY VALUE-->
 	<function>

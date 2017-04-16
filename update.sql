@@ -1,4 +1,9 @@
 
+-- 2017-4-13
+
+ALTER TABLE `sys_resource`
+	ADD COLUMN `count_cache_keys` VARCHAR(100) NULL DEFAULT NULL COMMENT '数量缓存key，逗号分隔' AFTER `permission`;
+
 -- 2017-4-12
 ALTER TABLE `base_short_msg`
 	COMMENT='发送短信日志';

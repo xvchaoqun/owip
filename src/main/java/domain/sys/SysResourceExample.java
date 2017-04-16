@@ -714,6 +714,76 @@ public class SysResourceExample {
             return (Criteria) this;
         }
 
+        public Criteria andCountCacheKeysIsNull() {
+            addCriterion("count_cache_keys is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysIsNotNull() {
+            addCriterion("count_cache_keys is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysEqualTo(String value) {
+            addCriterion("count_cache_keys =", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysNotEqualTo(String value) {
+            addCriterion("count_cache_keys <>", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysGreaterThan(String value) {
+            addCriterion("count_cache_keys >", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysGreaterThanOrEqualTo(String value) {
+            addCriterion("count_cache_keys >=", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysLessThan(String value) {
+            addCriterion("count_cache_keys <", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysLessThanOrEqualTo(String value) {
+            addCriterion("count_cache_keys <=", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysLike(String value) {
+            addCriterion("count_cache_keys like", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysNotLike(String value) {
+            addCriterion("count_cache_keys not like", value, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysIn(List<String> values) {
+            addCriterion("count_cache_keys in", values, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysNotIn(List<String> values) {
+            addCriterion("count_cache_keys not in", values, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysBetween(String value1, String value2) {
+            addCriterion("count_cache_keys between", value1, value2, "countCacheKeys");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheKeysNotBetween(String value1, String value2) {
+            addCriterion("count_cache_keys not between", value1, value2, "countCacheKeys");
+            return (Criteria) this;
+        }
+
         public Criteria andAvailableIsNull() {
             addCriterion("available is null");
             return (Criteria) this;

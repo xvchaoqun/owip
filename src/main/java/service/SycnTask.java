@@ -10,6 +10,7 @@ import service.abroad.ApplySelfService;
 import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
 import service.cadre.CadreStatHistoryService;
+import service.global.CacheService;
 import service.sys.SysOnlineStaticService;
 import service.sys.SysUserSyncService;
 
@@ -28,6 +29,8 @@ public class SycnTask {
 	private PassportDrawService passportDrawService;
 	@Autowired
 	private ApplySelfService applySelfService;
+	@Autowired
+	private CacheService cacheService;
 	@Autowired
 	private SpringProps springProps;
 	@Autowired
@@ -63,6 +66,9 @@ public class SycnTask {
 
 	@Scheduled(cron = "${cron.online.static}")
 	public void onlineStatic(){
+
+		// 刷新菜单数量统计（临时放这里2017-4-15）
+		cacheService.refreshCacheCounts();
 
 		if(springProps.onlineStatic) {
 			logger.debug("在线用户数量统计...");

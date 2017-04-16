@@ -102,6 +102,16 @@
 				</div>
 		</div>
 		<div class="form-group">
+			<label class="col-xs-3 control-label">关联数量缓存</label>
+			<div class="col-xs-6 ">
+				<select class="multiselect" multiple="" name="countCacheKeys">
+					<c:forEach items="${CACHEKEY_MAP}" var="entity">
+						<option value="${entity.key}">${entity.value}</option>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-xs-3 control-label">备注</label>
 			<div class="col-xs-6">
 				<form:textarea path="remark" class="form-control limited"/>
@@ -112,8 +122,13 @@
 <div class="modal-footer">
 	<a href="#" class="btn btn-default" data-dismiss="modal">取消</a> <input type="submit" class="btn btn-primary" value="${op}"/>
 </div>
-
+<style>
+	.modal .modal-body{
+		overflow: visible;
+	}
+</style>
 <script>
+	register_multiselect($('#modalForm select[name=countCacheKeys]'), [${sysResource.countCacheKeys}]);
 
 	/*if('${sysResource.type}'=="function"){
 		$(".menuNeeded").hide();

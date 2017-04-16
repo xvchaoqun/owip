@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -49,32 +50,38 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysResource_au(@CurrentUser SysUserView loginUser, SysResource sysResource, HttpServletRequest request) {
+	public Map do_sysResource_au(@CurrentUser SysUserView loginUser,
+								 @RequestParam(required = false, value = "countCacheKeys")Byte[] countCacheKeys,
+								 SysResource record, HttpServletRequest request) {
+
+		if(countCacheKeys!=null && countCacheKeys.length>0){
+			record.setCountCacheKeys(StringUtils.join(countCacheKeys, ","));
+		}
 
 		SysResourceExample example = new SysResourceExample();
-		example.createCriteria().andNameEqualTo(sysResource.getPermission());
+		example.createCriteria().andNameEqualTo(record.getPermission());
 		List<SysResource> byExample = sysResourceMapper.selectByExample(example);
 		if(byExample!=null && byExample.size()>0){
 			
-			if(sysResource.getId() == null ||
-					byExample.get(0).getId().intValue() != sysResource.getId())
+			if(record.getId() == null ||
+					byExample.get(0).getId().intValue() != record.getId())
 				return failed(FormUtils.DUPLICATE);
 		}
 
-		Integer parentId = sysResource.getParentId();
+		Integer parentId = record.getParentId();
 		SysResource parent = sysResourceMapper.selectByPrimaryKey(parentId);
-		sysResource.setParentIds(parent.getParentIds() + parentId + "/");
+		record.setParentIds(parent.getParentIds() + parentId + "/");
 
-		if(sysResource.getId() == null){
+		if(record.getId() == null){
 			
-			sysResource.setAvailable(SystemConstants.AVAILABLE);
-			sysResourceService.insert(sysResource);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(sysResource, false)));
+			record.setAvailable(SystemConstants.AVAILABLE);
+			sysResourceService.insert(record);
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(record, false)));
 			
 		}else{
 			
-			sysResourceService.updateByPrimaryKeySelective(sysResource);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(sysResource, false)));
+			sysResourceService.updateByPrimaryKeySelective(record);
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(record, false)));
 		}
 		
 		return success(FormUtils.SUCCESS);
@@ -112,9 +119,9 @@ public class SysResourceController extends BaseController {
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
-		
+
 		if(id!=null){
-			
+
 			sysResourceService.del(id);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除资源：%s", id));
 		}

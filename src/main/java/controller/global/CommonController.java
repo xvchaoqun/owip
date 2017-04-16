@@ -1,50 +1,28 @@
 package controller.global;
 
 import bean.UserBean;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.BaseController;
-import domain.abroad.ApproverType;
-import domain.base.Location;
 import domain.cadre.Cadre;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
-import domain.dispatch.DispatchType;
 import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
 import domain.member.Member;
 import domain.member.MemberInflow;
-import domain.party.Branch;
-import domain.party.Party;
-import domain.base.MetaType;
-import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
-import domain.train.TrainEvaTable;
-import domain.unit.Unit;
-import mixin.MetaTypeOptionMixin;
-import mixin.OptionMixin;
-import mixin.PartyOptionMixin;
-import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.utils.JSONUtils;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**

@@ -1,20 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+
 <div class="row">
     <div class="col-xs-12" id="adminPassportDrawPage">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_SELF}"/>
+                    <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a href="?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）</a>
+                        <a href="?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
+                            <c:if test="${cacheCount>0}">
+                                <span class="badge badge-warning">${cacheCount}</span>
+                            </c:if>
+                        </a>
                     </li>
+                    <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_TW},${CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
+                    <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a href="?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国</a>
+                        <a href="?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
+                            <c:if test="${cacheCount>0}">
+                                <span class="badge badge-warning">${cacheCount}</span>
+                            </c:if>
+                        </a>
                     </li>
+                    <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_OTHER}"/>
+                    <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a href="?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务</a>
+                        <a href="?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务
+                            <c:if test="${cacheCount>0}">
+                                <span class="badge badge-warning">${cacheCount}</span>
+                            </c:if>
+                        </a>
                     </li>
                     <li class="<c:if test="${type==-1}">active</c:if>">
                         <a href="?type=-1"><i class="fa fa-trash"></i> 已删除</a>

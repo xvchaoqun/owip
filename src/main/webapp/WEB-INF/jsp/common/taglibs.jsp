@@ -45,6 +45,13 @@
 <c:set var="UNAVAILABLE" value="<%=SystemConstants.UNAVAILABLE%>"/>
 <c:set var="AVAILABLE" value="<%=SystemConstants.AVAILABLE%>"/>
 
+<c:set var="CACHEKEY_MAP" value="<%=SystemConstants.CACHEKEY_MAP%>"/>
+
+<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_SELF" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_SELF%>"/>
+<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_TW" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_TW%>"/>
+<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_OTHER" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_OTHER%>"/>
+
 <c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
 
 <c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>
