@@ -1,4 +1,23 @@
 
+-- 2017-4-20
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ext_branch_view` AS SELECT ob.code as branch_code, ob.name as branch_name, op.code as party_code, op.name as party_name, u.code as dep_code, u.name as dep_name, count1.member_count,tmp.code as sid, tmp.realname from ow_branch ob
+left join
+(select party_id, branch_id, count(om.user_id) as member_count from ow_member om where branch_id is not null group by party_id, branch_id) count1
+on count1.branch_id=ob.id  left join (
+select obm.user_id, obm.type_id, ob.id as branch_id, su.realname, su.code from
+ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
+ where obmg.is_present=1 and obm.group_id=obmg.id and obmg.branch_id=ob.id and bmt.code='mt_branch_secretary' and obm.type_id = bmt.id and obm.user_id=su.id) tmp on tmp.branch_id=ob.id,  ow_party op , unit u
+where ob.party_id=op.id and op.unit_id=u.id and ob.is_deleted=0 and op.is_deleted=0
+union all
+SELECT op.code as branch_code,  op.name as branch_name, op.code as party_code, op.name as party_name, u.code as dep_code, u.name as dep_name, count2.member_count,tmp.code as sid, tmp.realname from ow_party op
+left join (select om.party_id, count(om.user_id) as member_count from ow_member om where om.branch_id is null group by om.party_id) count2 on  count2.party_id=op.id
+ left join (
+ select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
+ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
+ where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary' and opm.post_id = bmt.id and opm.user_id=su.id
+ )tmp on tmp.party_id=op.id, unit u, base_meta_type bmt
+where op.is_deleted=0 and op.unit_id=u.id and bmt.code='mt_direct_branch' and op.class_id = bmt.id;
+ ;
 -- 2017-4-13
 
 ALTER TABLE `sys_resource`
