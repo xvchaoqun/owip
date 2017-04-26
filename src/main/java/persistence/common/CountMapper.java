@@ -17,7 +17,7 @@ public interface CountMapper {
     public List<Map> modifyTableApply();
 
     // 干部基本信息修改数量
-    @Select("select count(*) as num from modify_base_apply where status=0")
+    @Select("select count(*) as num from modify_base_apply where status in(0,1)")
     public int modifyBaseApply();
 
     // 领取证件申请数量
