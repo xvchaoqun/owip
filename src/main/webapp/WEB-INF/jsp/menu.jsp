@@ -27,7 +27,7 @@
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>"></i>
             <span class="menu-text"> ${menu.name} </span>
-            <c:if test="${cacheCount>0}">
+            <c:if test="${cacheCount>0 && cm:hasRole(ROLE_CADREADMIN)}">
             <span class="badge badge-danger">${cacheCount}</span>
             </c:if>
             <b class="arrow fa fa-angle-down"></b>
