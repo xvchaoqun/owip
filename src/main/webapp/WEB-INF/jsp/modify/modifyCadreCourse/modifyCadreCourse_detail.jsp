@@ -118,7 +118,7 @@
     </button>
 </div>
 <div class="footer-margin"/>
-<script type="text/template" id="sort_tpl">
+<%--<script type="text/template" id="sort_tpl">
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_records"
        data-url="${ctx}/cadreCourse_changeOrder?cadreId=${cadre.id}" data-id="{{=id}}"
        data-direction="-1" title="上升"><i class="fa fa-arrow-up"></i></a>
@@ -127,7 +127,7 @@
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_records"
        data-url="${ctx}/cadreCourse_changeOrder?cadreId=${cadre.id}"
        data-id="{{=id}}" data-direction="1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
+</script>--%>
 <script>
     <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
     var modify = ${cm:toJSONObject(modify)};

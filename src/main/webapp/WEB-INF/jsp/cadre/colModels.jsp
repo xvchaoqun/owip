@@ -515,7 +515,7 @@
         }
         },
         {label: '课程名称', name: 'name', width: 250},
-        <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <c:if test="${param._sort ne 'no' && (cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth)}">
         {
             label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
             return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})

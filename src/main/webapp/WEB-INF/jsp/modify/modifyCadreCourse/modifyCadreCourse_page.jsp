@@ -36,7 +36,17 @@
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
+<%--<script type="text/template" id="sort_tpl">
+<a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
+       data-url="${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}" data-id="{{=id}}"
+       data-direction="-1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
+           title="修改操作步长">
+<a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
+       data-url="${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"
+       data-id="{{=id}}" data-direction="1" title="下降"><i class="fa fa-arrow-down"></i></a>
+</script>--%>
+<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp?_sort=no"/>
 <script>
     function _delCallback(type) {
         $("#modal").modal("hide");

@@ -154,4 +154,4 @@
         $("#jqGrid").trigger("reloadGrid");
     }
 </script>
-<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
+<jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp?_sort=no"/>
