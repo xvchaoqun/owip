@@ -23,11 +23,11 @@
                data-width="800"
                data-url="${ctx}/hf_content?code=${HF_CADRE_EDU}">
                 <i class="fa fa-info-circle"></i> 填写说明</a>
-            <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+            <%--<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-url="${ctx}/cadreEdu_rule?cadreId=${param.cadreId}"><i class="fa fa-search"></i>
                     学历学位的认定规则</a>
-            </shiro:hasPermission>
+            </shiro:hasPermission>--%>
             <a class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreEdu_au?cadreId=${param.cadreId}"
                data-width="900"><i class="fa fa-plus"></i>
