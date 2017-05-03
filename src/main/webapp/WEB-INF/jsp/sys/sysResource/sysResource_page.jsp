@@ -8,12 +8,14 @@
             <table class="table table-actived tree table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th class="col-xs-3">名称</th>
-                    <th class="col-xs-1">类型</th>
+                    <th>名称</th>
+                    <th >类型</th>
                     <th>排序</th>
                     <th>菜单样式</th>
-                    <th>URL路径</th>
-                    <th>权限字符串</th>
+                    <th >URL路径</th>
+                    <th >权限字符串</th>
+                    <th>缓存数量</th>
+                    <th>缓存数量所属角色</th>
                     <th>备注</th>
                     <th></th>
                 </tr>
@@ -23,14 +25,16 @@
                     <tr class='treegrid-${sysResource.id}<c:if test="${sysResource.parentId!=0}"> treegrid-parent-${sysResource.parentId}</c:if>'>
                         <td>${sysResource.name}</td>
                         <td>${sysResource.type}</td>
-                        <td>${sysResource.sortOrder}</td>
-                        <td>
+                        <td width="20">${sysResource.sortOrder}</td>
+                        <td width="30">
                             <i class="${sysResource.menuCss}"></i>
                         </td>
                         <td>${sysResource.url}</td>
                         <td>${sysResource.permission}</td>
+                        <td>${sysResource.countCacheKeys}</td>
+                        <td>${sysResource.countCacheRoles}</td>
                         <td>${sysResource.remark}</td>
-                        <td nowrap>
+                        <td>
                                 <%--<shiro:hasPermission name="sysResource:create">--%>
 
                                 <a href="javascript:;" onclick="_appendChild(${sysResource.id})"

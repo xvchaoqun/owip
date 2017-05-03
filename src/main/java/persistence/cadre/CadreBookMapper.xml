@@ -102,7 +102,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadreBook" >
+  <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreBook" >
     insert into cadre_book (id, cadre_id, pub_time, 
       name, type, publisher, 
       remark, status)
@@ -110,7 +110,7 @@
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{publisher,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadreBook" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreBook" >
     insert into cadre_book
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

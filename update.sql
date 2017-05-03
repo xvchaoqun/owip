@@ -1,3 +1,11 @@
+-- 2017-5-3
+ALTER TABLE `sys_resource`
+	ADD COLUMN `count_cache_roles` VARCHAR(200) NULL DEFAULT NULL COMMENT '数量缓存所属角色' AFTER `count_cache_keys`;
+
+ALTER TABLE `modify_table_apply`
+	CHANGE COLUMN `modify_id` `modify_id` INT(10) UNSIGNED NOT NULL COMMENT '修改记录ID，永久保留，添加、修改生成新的数据，删除时复制原来的数据' AFTER `original_id`;
+
+
 
 -- 2017-4-20
 ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `ext_branch_view` AS SELECT ob.code as branch_code, ob.name as branch_name, op.code as party_code, op.name as party_name, u.code as dep_code, u.name as dep_name, count1.member_count,tmp.code as sid, tmp.realname from ow_branch ob

@@ -12,6 +12,7 @@
     <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
     <result column="permission" property="permission" jdbcType="VARCHAR" />
     <result column="count_cache_keys" property="countCacheKeys" jdbcType="VARCHAR" />
+    <result column="count_cache_roles" property="countCacheRoles" jdbcType="VARCHAR" />
     <result column="available" property="available" jdbcType="TINYINT" />
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
   </resultMap>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, remark, type, menu_css, url, parent_id, parent_ids, permission, count_cache_keys, 
-    available, sort_order
+    count_cache_roles, available, sort_order
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.sys.SysResourceExample" >
     select
@@ -107,19 +108,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.sys.SysResource" >
+  <insert id="insert" parameterType="domain.sys.SysResource" >
     insert into sys_resource (id, name, remark, 
       type, menu_css, url, 
       parent_id, parent_ids, permission, 
-      count_cache_keys, available, sort_order
-      )
+      count_cache_keys, count_cache_roles, available, 
+      sort_order)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{menuCss,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, 
-      #{countCacheKeys,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{countCacheKeys,jdbcType=VARCHAR}, #{countCacheRoles,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.sys.SysResource" >
+  <insert id="insertSelective" parameterType="domain.sys.SysResource" >
     insert into sys_resource
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -151,6 +152,9 @@
       </if>
       <if test="countCacheKeys != null" >
         count_cache_keys,
+      </if>
+      <if test="countCacheRoles != null" >
+        count_cache_roles,
       </if>
       <if test="available != null" >
         available,
@@ -189,6 +193,9 @@
       </if>
       <if test="countCacheKeys != null" >
         #{countCacheKeys,jdbcType=VARCHAR},
+      </if>
+      <if test="countCacheRoles != null" >
+        #{countCacheRoles,jdbcType=VARCHAR},
       </if>
       <if test="available != null" >
         #{available,jdbcType=TINYINT},
@@ -237,6 +244,9 @@
       <if test="record.countCacheKeys != null" >
         count_cache_keys = #{record.countCacheKeys,jdbcType=VARCHAR},
       </if>
+      <if test="record.countCacheRoles != null" >
+        count_cache_roles = #{record.countCacheRoles,jdbcType=VARCHAR},
+      </if>
       <if test="record.available != null" >
         available = #{record.available,jdbcType=TINYINT},
       </if>
@@ -260,6 +270,7 @@
       parent_ids = #{record.parentIds,jdbcType=VARCHAR},
       permission = #{record.permission,jdbcType=VARCHAR},
       count_cache_keys = #{record.countCacheKeys,jdbcType=VARCHAR},
+      count_cache_roles = #{record.countCacheRoles,jdbcType=VARCHAR},
       available = #{record.available,jdbcType=TINYINT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -296,6 +307,9 @@
       <if test="countCacheKeys != null" >
         count_cache_keys = #{countCacheKeys,jdbcType=VARCHAR},
       </if>
+      <if test="countCacheRoles != null" >
+        count_cache_roles = #{countCacheRoles,jdbcType=VARCHAR},
+      </if>
       <if test="available != null" >
         available = #{available,jdbcType=TINYINT},
       </if>
@@ -316,6 +330,7 @@
       parent_ids = #{parentIds,jdbcType=VARCHAR},
       permission = #{permission,jdbcType=VARCHAR},
       count_cache_keys = #{countCacheKeys,jdbcType=VARCHAR},
+      count_cache_roles = #{countCacheRoles,jdbcType=VARCHAR},
       available = #{available,jdbcType=TINYINT},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

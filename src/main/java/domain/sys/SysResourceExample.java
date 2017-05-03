@@ -784,6 +784,76 @@ public class SysResourceExample {
             return (Criteria) this;
         }
 
+        public Criteria andCountCacheRolesIsNull() {
+            addCriterion("count_cache_roles is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesIsNotNull() {
+            addCriterion("count_cache_roles is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesEqualTo(String value) {
+            addCriterion("count_cache_roles =", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesNotEqualTo(String value) {
+            addCriterion("count_cache_roles <>", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesGreaterThan(String value) {
+            addCriterion("count_cache_roles >", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesGreaterThanOrEqualTo(String value) {
+            addCriterion("count_cache_roles >=", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesLessThan(String value) {
+            addCriterion("count_cache_roles <", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesLessThanOrEqualTo(String value) {
+            addCriterion("count_cache_roles <=", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesLike(String value) {
+            addCriterion("count_cache_roles like", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesNotLike(String value) {
+            addCriterion("count_cache_roles not like", value, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesIn(List<String> values) {
+            addCriterion("count_cache_roles in", values, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesNotIn(List<String> values) {
+            addCriterion("count_cache_roles not in", values, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesBetween(String value1, String value2) {
+            addCriterion("count_cache_roles between", value1, value2, "countCacheRoles");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountCacheRolesNotBetween(String value1, String value2) {
+            addCriterion("count_cache_roles not between", value1, value2, "countCacheRoles");
+            return (Criteria) this;
+        }
+
         public Criteria andAvailableIsNull() {
             addCriterion("available is null");
             return (Criteria) this;

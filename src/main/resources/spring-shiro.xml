@@ -166,6 +166,7 @@
         <property name="arguments">
             <list>
                 <ref bean="sysUserService"/>
+                <ref bean="sysRoleService"/>
                 <ref bean="sessionDAO"/>
             </list>
         </property>

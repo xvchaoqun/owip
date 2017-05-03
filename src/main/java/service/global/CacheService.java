@@ -77,6 +77,8 @@ public class CacheService extends BaseController{
 
         Cache<Object, Object> countCache = cacheManager.getCache(MENU_COUNT_CACHE_NAME);
 
+        countCache.clear();
+
         countCache.put(SystemConstants.CACHEKEY_MODIFY_BASE_APPLY, countMapper.modifyBaseApply());
         countCache.put(SystemConstants.CACHEKEY_ABROAD_PASSPORT_APPLY, countMapper.abroadPassportApply());
         countCache.put(SystemConstants.CACHEKEY_ABROAD_APPLY_SELF, countMapper.abroadApplySelf());

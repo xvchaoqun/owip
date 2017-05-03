@@ -18,7 +18,7 @@
 
 		<c:if test="${not empty parent}">
 		<div class="form-group">
-			<label class="col-xs-3 control-label">
+			<label class="col-xs-4 control-label">
 				父节点
 			</label>
 			<div class="col-xs-6 ">
@@ -29,7 +29,7 @@
 		</div>
 		</c:if>
 		<div class="form-group">
-				<label class="col-xs-3 control-label">
+				<label class="col-xs-4 control-label">
 					<c:if test="${param.parentId>0}">子</c:if>节点名称
 				</label>
 				<div class="col-xs-6 ">
@@ -37,7 +37,7 @@
 				</div>
 		</div>
 		<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
+				<label class="col-xs-4 control-label">类型</label>
 				<div class="col-xs-6 ">
 					<select id="typeSelect" name="type" data-placeholder="请选择资源类型"  data-width="275"
 							>
@@ -52,13 +52,13 @@
 				</div>
 		</div>
 		<div class="form-group menuNeeded">
-				<label class="col-xs-3 control-label">排序</label>
+				<label class="col-xs-4 control-label">排序</label>
 				<div class="col-xs-6 ">
 					<form:input path="sortOrder"  class="form-control" />
 				</div>
 		</div>
 		<div class="form-group menuNeeded">
-				<label class="col-xs-3 control-label">菜单样式</label>
+				<label class="col-xs-4 control-label">菜单样式</label>
 
 			<div class="col-xs-6">
 				<form:input path="menuCss"  class="form-control" cssStyle="margin-bottom: 5px;"/>
@@ -89,22 +89,22 @@
 			</div>
 		</div>
 		<div class="form-group menuNeeded">
-				<label class="col-xs-3 control-label">URL路径</label>
+				<label class="col-xs-4 control-label">URL路径</label>
 				<div class="col-xs-6 ">
 					<form:input path="url"  class="form-control" />
 				</div>
 		</div>
 		<div class="form-group">
-				<label class="col-xs-3 control-label">权限字符串</label>
+				<label class="col-xs-4 control-label">权限字符串</label>
 				<div class="col-xs-6 ">
 					<form:input path="permission"  class="form-control" />
 					<div class="help-inline">由系统开发者维护</div>
 				</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">关联数量缓存</label>
+			<label class="col-xs-4 control-label">关联数量缓存</label>
 			<div class="col-xs-6 ">
-				<select class="multiselect" multiple="" name="countCacheKeys">
+				<select class="multiselect" multiple="" name="countCacheKeys" >
 					<c:forEach items="${CACHEKEY_MAP}" var="entity">
 						<option value="${entity.key}">${entity.value}</option>
 					</c:forEach>
@@ -112,7 +112,17 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">备注</label>
+			<label class="col-xs-4 control-label">关联数量缓存所属角色</label>
+			<div class="col-xs-6 ">
+				<select class="multiselect" multiple="" name="countCacheRoles">
+					<c:forEach items="${roleMap}" var="entity">
+						<option value="${entity.key}">${entity.value.description}</option>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label">备注</label>
 			<div class="col-xs-6">
 				<form:textarea path="remark" class="form-control limited"/>
 			</div>
@@ -128,7 +138,8 @@
 	}
 </style>
 <script>
-	register_multiselect($('#modalForm select[name=countCacheKeys]'), [${sysResource.countCacheKeys}]);
+	register_multiselect($('#modalForm select[name=countCacheKeys]'), [${sysResource.countCacheKeys}], {buttonWidth:'270px'});
+	register_multiselect($('#modalForm select[name=countCacheRoles]'), [${sysResource.countCacheRoles}], {buttonWidth:'270px'});
 
 	/*if('${sysResource.type}'=="function"){
 		$(".menuNeeded").hide();

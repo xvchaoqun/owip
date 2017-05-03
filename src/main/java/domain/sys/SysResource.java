@@ -23,6 +23,8 @@ public class SysResource implements Serializable {
 
     private String countCacheKeys;
 
+    private String countCacheRoles;
+
     private Byte available;
 
     private Integer sortOrder;
@@ -107,6 +109,14 @@ public class SysResource implements Serializable {
 
     public void setCountCacheKeys(String countCacheKeys) {
         this.countCacheKeys = countCacheKeys == null ? null : countCacheKeys.trim();
+    }
+
+    public String getCountCacheRoles() {
+        return countCacheRoles;
+    }
+
+    public void setCountCacheRoles(String countCacheRoles) {
+        this.countCacheRoles = countCacheRoles == null ? null : countCacheRoles.trim();
     }
 
     public Byte getAvailable() {

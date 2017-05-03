@@ -80,7 +80,7 @@
 	<import resource="classpath:spring-freemarker.xml"/>
 
     <context:component-scan base-package="service,sys.service"/>
-	<context:annotation-config />
+	<!--<context:annotation-config />-->
 
 	<task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />

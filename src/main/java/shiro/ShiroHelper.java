@@ -1,5 +1,6 @@
 package shiro;
 
+import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -10,11 +11,10 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.sys.SysRoleService;
 import service.sys.SysUserService;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 public class ShiroHelper {
 
@@ -22,6 +22,7 @@ public class ShiroHelper {
 
 	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
+	private static SysRoleService roleService;
 
 
 	public static Boolean isPermitted(String permission){
@@ -37,6 +38,20 @@ public class ShiroHelper {
 	public static Boolean hasRole(String role){
 
 		return SecurityUtils.getSubject().hasRole(role);
+	}
+	public static Boolean hasAnyRoles(String roleIds){
+
+		if(StringUtils.isBlank(roleIds)) return false;
+		String[] roleIdStrs = roleIds.split(",");
+		Map<Integer, SysRole> roleMap = roleService.findAll();
+		List<String> roles = new ArrayList<>();
+		for (String roleIdStr : roleIdStrs) {
+			SysRole sysRole = roleMap.get(Integer.valueOf(roleIdStr));
+			roles.add(sysRole.getRole());
+		}
+
+		String[] _roles = new String[roles.size()];
+		return hasAnyRoles(roles.toArray(_roles));
 	}
 
 	public static Boolean hasAnyRoles(String... roles){
@@ -171,10 +186,14 @@ public class ShiroHelper {
 
 	/**
 	 * @param userService
+	 * @param roleService
 	 * @param sessionDAO
 	 */
-	public static void initStaticField(SysUserService userService,SessionDAO sessionDAO){
+	public static void initStaticField(SysUserService userService,
+									   SysRoleService roleService,
+									   SessionDAO sessionDAO){
 		ShiroHelper.userService = userService;
+		ShiroHelper.roleService = roleService;
 		ShiroHelper.sessionDAO = sessionDAO;
 	}
 	
