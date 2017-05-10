@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.sys.Feedback;
 import domain.sys.FeedbackExample;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -47,7 +46,6 @@ public class UserFeedbackController extends BaseController {
         return "user/sys/feedback/feedback_page";
     }
 
-    @RequiresPermissions("feedback:list")
     @RequestMapping("/feedback_list")
     public String feedback_list(Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -84,7 +82,6 @@ public class UserFeedbackController extends BaseController {
         return "user/sys/feedback/feedback_list";
     }
 
-    @RequiresPermissions("feedback:edit")
     @RequestMapping(value = "/feedback_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_feedback_au(String content, HttpServletRequest request) {
