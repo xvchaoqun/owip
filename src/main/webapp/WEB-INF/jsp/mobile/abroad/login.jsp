@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<shiro:user>
+	<c:redirect url="/m/index"/>
+</shiro:user>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-	<jsp:include page="/WEB-INF/jsp/m/common/head.jsp"></jsp:include>
-		<link rel="stylesheet" href="${ctx}/extend/css/m/main.css" />
+	<jsp:include page="/WEB-INF/jsp/mobile/head.jsp"></jsp:include>
 	</head>
+
 	<body class="login-layout blue-login">
 		<div class="main-container">
 			<div class="main-content">
@@ -18,7 +21,7 @@
 								</div>
 								<h1 class="white">
 									组织工作一体化平台
-									<div style="font-size:smaller">（培训课程）</div>
+									<div style="font-size:smaller">（因私出国境审批）</div>
 								</h1>
 							</div>
 
@@ -29,14 +32,13 @@
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i>
-												请使用评课账号密码登录
+												请使用信息门户账号密码登录
 											</h4>
 
 											<div class="space-6"></div>
 
 											<form>
 												<fieldset>
-													<c:if test="${empty train}">
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" name="username" class="form-control" placeholder="账号" />
@@ -50,21 +52,7 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
-													</c:if>
-													<c:if test="${not empty train}">
-														<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															${train.name}
-														</span>
-														</label>
 
-														<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="number" name="mobile" class="form-control" placeholder="请输入手机号" />
-															<i class="ace-icon fa fa-lock"></i>
-														</span>
-														</label>
-													</c:if>
 													<div class="space"></div>
 
 													<div class="center">
@@ -93,12 +81,7 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
-			<c:if test="${not empty error}">
-			alert('${error}');
-			</c:if>
 			$("#login_btn").click(function(){
-
-				<c:if test="${empty train}">
 				var $username = $("input[name=username]");
 				var $passwd = $("input[name=passwd]");
 				if($.trim($username.val())==""){
@@ -109,26 +92,16 @@
 					$passwd.focus();
 					return;
 				}
-				$.post("${ctx}/train/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
-
+				$.post("${ctx}/m/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
+					/*try {
+					 data = JSON.parse(data)
+					 }catch(e){
+					 location.reload();
+					 }*/
 					if(data.success){
-						location.href = "${ctx}/train/index";
+						location.href = data.url;
 					}
 				});
-				</c:if>
-				<c:if test="${not empty train}">
-				var $mobile = $("input[name=mobile]");
-				if($.trim($mobile.val())==""){
-					$mobile.focus();
-					return;
-				}
-				$.post("${ctx}/train/login",{mobile:$.trim($mobile.val()), trainId:'${train.id}'},function(data){
-
-					if(data.success){
-						location.href = "${ctx}/train/index";
-					}
-				});
-				</c:if>
 			})
 		</script>
 	</body>

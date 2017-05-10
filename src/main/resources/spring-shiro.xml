@@ -128,16 +128,18 @@
         <property name="filterChainDefinitions">
             <value>
                 /test/** = anon
-                /front/** = anon
-                /train = kickout, user, currentUser
-                /train/** = anon
+
+                /mobile/js/** = anon
+                /mobile/css/** = anon
+                /m_train/** = anon
+                /m/login = anon
+                /m/logout = anon
+
                 /api/** = anon
                 /faq = anon
                 /find_pass/** = anon
                 /monitor = anon
                 /cas = anon
-                /m/login = anon
-                /m/logout = anon
                 /reg = anon
                 /login = authc
                 /logout = logout

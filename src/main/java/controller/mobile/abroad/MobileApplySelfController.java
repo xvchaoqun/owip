@@ -1,4 +1,4 @@
-package controller.mobile;
+package controller.mobile.abroad;
 
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
@@ -48,7 +48,7 @@ public class MobileApplySelfController extends BaseController {
 		breadcumbs.add(new Breadcrumb("审批管理"));
 		modelMap.put("breadcumbs", breadcumbs);
 
-		return "m/index";
+		return "mobile/abroad/index";
 	}
 
 	@RequiresPermissions("applySelf:list")
@@ -87,7 +87,7 @@ public class MobileApplySelfController extends BaseController {
 			modelMap.put("sysUser", sysUser);
 		}
 
-		return "m/applySelf/applySelf_page";
+		return "mobile/abroad/applySelf/applySelf_page";
 	}
 
 
@@ -102,7 +102,7 @@ public class MobileApplySelfController extends BaseController {
 		breadcumbs.add(new Breadcrumb("审批管理"));
 		modelMap.put("breadcumbs", breadcumbs);
 
-		return "m/index";
+		return "mobile/abroad/index";
 	}
 
 	@RequiresRoles(SystemConstants.ROLE_CADRE)
@@ -126,7 +126,7 @@ public class MobileApplySelfController extends BaseController {
 		commonList.setSearchStr(searchStr);
 		modelMap.put("commonList", commonList);
 
-		return "m/applySelf/applySelfList_page";
+		return "mobile/abroad/applySelf/applySelfList_page";
 	}
 
 	@RequiresPermissions("applySelf:view")
@@ -172,7 +172,7 @@ public class MobileApplySelfController extends BaseController {
 		List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
 		modelMap.put("applySelfs", applySelfs);
 
-		return "m/applySelf/applySelf_view";
+		return "mobile/abroad/applySelf/applySelf_view";
 	}
 
 	@RequiresPermissions("applySelf:approval")
@@ -182,7 +182,7 @@ public class MobileApplySelfController extends BaseController {
 		ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
 		modelMap.put("applySelf", applySelf);
 
-		return "m/applySelf/applySelf_approval";
+		return "mobile/abroad/applySelf/applySelf_approval";
 	}
 
 	@RequiresPermissions("applySelf:approval")
@@ -194,6 +194,6 @@ public class MobileApplySelfController extends BaseController {
 		ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
 		modelMap.put("applySelf", applySelf);
 
-		return "m/applySelf/applySelf_detail";
+		return "mobile/abroad/applySelf/applySelf_detail";
 	}
 }

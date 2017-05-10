@@ -32,7 +32,7 @@
                                             </c:if>
                                             <c:if test="${tic.status!=TRAIN_INSPECTOR_COURSE_STATUS_FINISH}">
                                                 <c:if test="${evaIsClosed==0}">
-                                                    <button class="ahref btn btn-success btn-xs"  data-url="${ctx}/train/eva?courseId=${tc.id}"><i class="fa fa-hand-o-right"></i> 测评</button>
+                                                    <button class="ahref btn btn-success btn-xs"  data-url="${ctx}/m_train/eva?courseId=${tc.id}"><i class="fa fa-hand-o-right"></i> 测评</button>
                                                 </c:if>
                                                 <c:if test="${evaIsClosed==1}">
                                                     已关闭评课

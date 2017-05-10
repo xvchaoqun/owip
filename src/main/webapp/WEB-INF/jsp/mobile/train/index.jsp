@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<jsp:include page="common/head.jsp"></jsp:include>
-	<link rel="stylesheet" href="${ctx}/extend/css/m/main.css" />
+	<jsp:include page="/WEB-INF/jsp/mobile/head.jsp"></jsp:include>
+
 	</head>
 	<body class="no-skin">
 		<!-- #section:basics/navbar.layout -->
@@ -38,20 +38,13 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="${ctx}/m/avatar/${_user.username}?m=1" width="90" alt="头像" />
+								<img class="nav-user-photo" src="${ctx}/extend/img/default.png" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="${ctx}/m/cadre_base">
-										<i class="ace-icon fa fa-cog"></i>
-										个人资料
-									</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a href="javascript:;" onclick="_logout()">
+									<a href="${ctx}/m_train/logout">
 										<i class="ace-icon fa fa-power-off"></i>
 										安全退出
 									</a>
@@ -76,7 +69,7 @@
 				</script>
 
 				<!-- /.sidebar-shortcuts -->
-				<jsp:include page="common/menu.jsp"/>
+				<jsp:include page="menu.jsp"/>
 				<!-- /.nav-list -->
 
 				<!-- #section:basics/sidebar.layout.minimize -->
@@ -92,7 +85,7 @@
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!-- #section:basics/content.breadcrumbs -->
-					<div class="breadcrumbs" id="breadcrumbs">
+					<%--<div class="breadcrumbs" id="breadcrumbs">
 						<script type="text/javascript">
 							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 						</script>
@@ -100,7 +93,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="${ctx}/m/index">首页</a>
+								<a href="${ctx}/m_train/index">首页</a>
 							</li>
 							<c:forEach var="breadcumb" items="${breadcumbs}" varStatus="vs">
 								<li class="${vs.last?'active':''}">
@@ -113,7 +106,7 @@
 								</li>
 							</c:forEach>
 						</ul><!-- /.breadcrumb -->
-					</div>
+					</div>--%>
 					<div class="page-content" id="page-content">
 						<c:import url="${_path}_page">
 							<c:param name="__includePage" value="true"/>

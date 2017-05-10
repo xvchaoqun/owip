@@ -14,7 +14,7 @@
             </a>
         </li>
         <div class="buttons pull-right" style="margin-bottom: 8px;margin-left: 10px; ">
-            <a href="${ctx}/train/index" class="btn btn-xs btn-success">
+            <a href="${ctx}/m_train/index" class="btn btn-xs btn-success">
                 <i class="ace-icon fa fa-reply"></i>
                 返回
             </a>
@@ -159,9 +159,9 @@
         }*/
         //alert(feedback)
         //var score = $("#score").slider("value");
-        $.post("${ctx}/train/eva", {feedback: feedback,id:'${tic.id}'}, function (ret) {
+        $.post("${ctx}/m_train/eva", {feedback: feedback,id:'${tic.id}'}, function (ret) {
             if (ret.success) {
-                location.href = "${ctx}/train/index";
+                location.href = "${ctx}/m_train/index";
             }
         });
     });
@@ -188,7 +188,7 @@
         if (!$(this).prop("disabled")) {
             var rankId = getSelectedRankId();
             //return;
-            location.href = "${ctx}/train/eva?courseId=${tc.id}&step=${step-1}&lastStep=${step}&lastRankId=" + rankId;
+            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=${step-1}&lastStep=${step}&lastRankId=" + rankId;
         }
     })
 
@@ -200,18 +200,18 @@
                 SysMsg.warning('请选择评估等级')
                 return;
             }
-            location.href = "${ctx}/train/eva?courseId=${tc.id}&step=${step+1}&lastStep=${step}&lastRankId=" + rankId;
+            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=${step+1}&lastStep=${step}&lastRankId=" + rankId;
         }
     })
 
     register_click(".first-step", function () {
         if (!$(this).prop("disabled")) {
-            location.href = "${ctx}/train/eva?courseId=${tc.id}&step=1";
+            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=1";
         }
     })
     register_click(".max-step", function () {
         if (!$(this).prop("disabled")) {
-            location.href = "${ctx}/train/eva?courseId=${tc.id}&step=${maxStep}";
+            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=${maxStep}";
         }
     })
 

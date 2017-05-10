@@ -1,4 +1,4 @@
-package controller.mobile;
+package controller.mobile.abroad;
 
 import bean.ApproverTypeBean;
 import controller.BaseController;
@@ -37,7 +37,7 @@ public class MobileLoginController extends BaseController {
 	@RequestMapping("/login")
 	public String login() {
 
-		return "m/login";
+		return "mobile/abroad/login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

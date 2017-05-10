@@ -1,4 +1,4 @@
-package controller.front.train;
+package controller.mobile.train;
 
 import controller.BaseController;
 import domain.train.Train;
@@ -16,21 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/train")
-public class FrontTrainIndexController extends BaseController {
+@RequestMapping("/m_train")
+public class MobileTrainIndexController extends BaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequestMapping("/index")
 	public String index() {
 
-		return "front/train/index";
+		return "mobile/train/index";
 	}
 
 	@RequestMapping("/")
 	public String _index() {
 
-		return "redirect:/train/index";
+		return "redirect:/m_train/index";
 	}
 
 	@RequestMapping("/index_page")
@@ -45,7 +45,7 @@ public class FrontTrainIndexController extends BaseController {
 		modelMap.put("trainCourseMap", trainCourseMap);
 		modelMap.put("ticMap", ticMap);
 
-		return "front/train/index_page";
+		return "mobile/train/index_page";
 	}
 
 }

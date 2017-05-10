@@ -1,4 +1,4 @@
-package controller.front.train;
+package controller.mobile.train;
 
 import bean.TrainTempData;
 import controller.BaseController;
@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/train")
-public class FrontTrainEvaController extends BaseController {
+@RequestMapping("/m_train")
+public class MobileTrainEvaController extends BaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/eva")
     public String next() {
 
-        return "front/train/index";
+        return "mobile/train/index";
     }
 
     @RequestMapping("/eva_page")
@@ -125,7 +125,7 @@ public class FrontTrainEvaController extends BaseController {
             modelMap.put("step", step);
         }*/
 
-        return "front/train/eva_page";
+        return "mobile/train/eva_page";
     }
 
     @RequestMapping(value = "/eva", method = RequestMethod.POST)

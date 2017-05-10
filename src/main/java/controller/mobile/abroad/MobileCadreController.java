@@ -1,4 +1,4 @@
-package controller.mobile;
+package controller.mobile.abroad;
 
 import bean.m.Breadcrumb;
 import controller.BaseController;
@@ -31,7 +31,7 @@ public class MobileCadreController extends BaseController {
 		breadcumbs.add(new Breadcrumb("个人资料"));
 		modelMap.put("breadcumbs", breadcumbs);
 
-		return "m/index";
+		return "mobile/abroad/index";
 	}
 
 	@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
@@ -72,6 +72,6 @@ public class MobileCadreController extends BaseController {
 		//最高学位
 		modelMap.put("highDegree", cadreEduService.getHighDegree(userId));*/
 
-		return "m/cadre/cadre_base_page";
+		return "mobile/abroad/cadre/cadre_base_page";
 	}
 }

@@ -1,4 +1,4 @@
-package controller.front.train;
+package controller.mobile.train;
 
 import controller.BaseController;
 import domain.train.Train;
@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/train")
-public class FrontTrainLoginController extends BaseController {
+@RequestMapping("/m_train")
+public class MobileTrainLoginController extends BaseController {
 
 
     public Logger logger = LoggerFactory.getLogger(getClass());
@@ -36,7 +36,7 @@ public class FrontTrainLoginController extends BaseController {
                 if (trainInspector == null) {
                     logger.info(sysLoginLogService.trainInspectorLoginlog(null, u, false, "扫码登录失败，账号或密码错误"));
                     modelMap.put("error", "扫码登录失败，账号或密码错误");
-                    return "front/train/login";
+                    return "mobile/train/login";
                 }
                 logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
                 SessionUtils.setTrainInspector(request, trainInspector);
@@ -44,20 +44,20 @@ public class FrontTrainLoginController extends BaseController {
 
                 Train train = trainMapper.selectByPrimaryKey(trainId);
                 modelMap.put("train", train);
-                return "front/train/login";
+                return "mobile/train/login";
             }
 
         } catch (Exception ex) {
 
             modelMap.put("error", ex.getMessage());
-            return "front/train/login";
+            return "mobile/train/login";
         }
 
         TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
         if (trainInspector != null) {
-            return "redirect:/train/index";
+            return "redirect:/m_train/index";
         }
-        return "front/train/login";
+        return "mobile/train/login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -99,7 +99,7 @@ public class FrontTrainLoginController extends BaseController {
 
         logger.debug("logout success. {}", (trainInspector != null) ? trainInspector.getUsername() : "");
 
-        return "redirect:/train/index";
+        return "redirect:/m_train/index";
     }
 
 }
