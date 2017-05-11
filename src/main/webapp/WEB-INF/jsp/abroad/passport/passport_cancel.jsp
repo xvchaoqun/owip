@@ -90,6 +90,7 @@
     }
 
     function snap(){
+
         Webcam.snap( function(data_uri) {
             //console.log(data_uri)
             reset_rotate();
@@ -97,11 +98,19 @@
             $('input[type=file][name=_cancelPic]').ace_file_input('show_file_list', [
                 {type: 'image', name: '签字拍照.jpg', path: data_uri}]);
         } );
-        Webcam.reset();
+        try {
+            Webcam.reset();
+        }catch(e){
+
+        }
         $(".webcam-container").modal('hide');
     }
     function closecam(){
-        Webcam.reset();
+        try {
+            Webcam.reset();
+        }catch(e){
+
+        }
         $(".webcam-container").modal('hide');
     }
 
