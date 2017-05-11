@@ -161,6 +161,7 @@ public class ReportController extends BaseController {
         return map;
     }
 
+    // 确认取消集中管理
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
     public String cancel(Integer id,
                          @RequestParam(defaultValue = "image")String format,

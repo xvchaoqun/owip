@@ -29,7 +29,7 @@ public class ApprovalOrderService extends BaseMapper {
     @CacheEvict(value="ApprovalOrder:ALL", allEntries = true)
     public int insertSelective(ApprovalOrder record){
 
-        Assert.isTrue(!idDuplicate(null, record.getApplicatTypeId(), record.getApproverTypeId()));
+        Assert.isTrue(!idDuplicate(null, record.getApplicatTypeId(), record.getApproverTypeId()), "duplicate");
 
         record.setSortOrder(getNextSortOrder("abroad_approval_order", "applicat_type_id=" + record.getApplicatTypeId()));
         return approvalOrderMapper.insertSelective(record);

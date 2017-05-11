@@ -227,7 +227,7 @@ public class MemberInService extends BaseMapper {
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             updateMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
         }
 
@@ -260,7 +260,7 @@ public class MemberInService extends BaseMapper {
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             updateMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
             updateMapper.updateToDirectBranch("ow_member", "user_id", record.getId(), record.getPartyId());
         }
@@ -274,7 +274,7 @@ public class MemberInService extends BaseMapper {
     private void addModify(int id, boolean first){
 
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-        Assert.isTrue(memberIn.getStatus()==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+        Assert.isTrue(memberIn.getStatus()==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY, "wrong status");
         MemberInModify modify = new MemberInModify();
         try {
             ConvertUtils.register(new DateConverter(null), Date.class);

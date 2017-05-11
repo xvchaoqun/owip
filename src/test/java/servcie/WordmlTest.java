@@ -110,7 +110,7 @@ public class WordmlTest {
     public void createDoc(Map<String, Object> dataMap, String tpl, String fileName) throws UnsupportedEncodingException {
         Template t = null;
 
-        Configuration cf = new Configuration();
+        Configuration cf = new Configuration(Configuration.VERSION_2_3_0);
         try {
             cf.setDirectoryForTemplateLoading(new File("/Volumes/work/IdeaProjects/owip/src/test/resources/tpl"));
             //test.ftl为要装载的模板

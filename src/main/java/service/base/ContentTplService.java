@@ -61,7 +61,7 @@ public class ContentTplService extends BaseMapper {
     
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         ContentTplExample example = new ContentTplExample();
         ContentTplExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
@@ -74,7 +74,7 @@ public class ContentTplService extends BaseMapper {
     @CacheEvict(value="ContentTpl:Code:ALL", allEntries = true)
     public void insertSelective(ContentTpl record){
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         contentTplMapper.insertSelective(record);
     }
     @Transactional
@@ -99,7 +99,7 @@ public class ContentTplService extends BaseMapper {
     @CacheEvict(value="ContentTpl:Code:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(ContentTpl record){
         if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return contentTplMapper.updateByPrimaryKeySelective(record);
     }
 

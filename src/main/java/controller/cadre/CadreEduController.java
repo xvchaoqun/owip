@@ -47,6 +47,7 @@ public class CadreEduController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_page")
     public String cadreEdu_page(@RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
@@ -65,7 +66,7 @@ public class CadreEduController extends BaseController {
             modelMap.put("cadreInfo", cadreInfo);
         }
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
 
             CadreView cadre = cadreService.findAll().get(cadreId);
             modelMap.put("cadre", cadre);
@@ -75,13 +76,14 @@ public class CadreEduController extends BaseController {
         //modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
         return "cadre/cadreEdu/cadreEdu_page";
     }
+
     @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_data")
     @ResponseBody
     public void cadreEdu_data(HttpServletResponse response,
-                                    Integer cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                              Integer cadreId,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -95,7 +97,7 @@ public class CadreEduController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
 
@@ -133,12 +135,9 @@ public class CadreEduController extends BaseController {
             // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
-
-                              CadreEdu record, String _enrolTime,
-                              String _finishTime,
-                              String _degreeTime,
-                              @RequestParam(value = "_files[]") MultipartFile[] _files,
-                              HttpServletRequest request) {
+            CadreEdu record,
+            @RequestParam(value = "_files[]") MultipartFile[] _files,
+            HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -146,7 +145,7 @@ public class CadreEduController extends BaseController {
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
-            String realPath =  FILE_SEPARATOR
+            String realPath = FILE_SEPARATOR
                     + "cadre_edu" + FILE_SEPARATOR + record.getCadreId() + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
@@ -154,19 +153,10 @@ public class CadreEduController extends BaseController {
 
             filePaths.add(savePath);
         }
-        if(filePaths.size()>0){
+        if (filePaths.size() > 0) {
             record.setCertificate(StringUtils.join(filePaths, ","));
         }
 
-        if(StringUtils.isNotBlank(_enrolTime)){
-            record.setEnrolTime(DateUtils.parseDate(_enrolTime, "yyyy.MM"));
-        }
-        if(StringUtils.isNotBlank(_finishTime)){
-            record.setFinishTime(DateUtils.parseDate(_finishTime, "yyyy.MM"));
-        }
-        if(StringUtils.isNotBlank(_degreeTime)){
-            record.setDegreeTime(DateUtils.parseDate(_degreeTime, "yyyy.MM"));
-        }
         record.setIsGraduated(BooleanUtils.isTrue(record.getIsGraduated()));
         record.setHasDegree(BooleanUtils.isTrue(record.getHasDegree()));
         /*if(!record.getHasDegree()){
@@ -174,21 +164,20 @@ public class CadreEduController extends BaseController {
             record.setDegreeCountry("");
             record.setDegreeUnit("");
         }*/
-        if(record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
-                record.getSchoolType()==SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC){
+        if (record.getSchoolType() == SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
+                record.getSchoolType() == SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC) {
             record.setDegreeCountry("中国");
         }
 
         record.setIsHighEdu(BooleanUtils.isTrue(record.getIsHighEdu()));
         record.setIsHighDegree(BooleanUtils.isTrue(record.getIsHighDegree()));
 
-
         if (id == null) {
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreEduService.insertSelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
-            }else{
+            } else {
                 cadreEduService.modifyApply(record, null, false);
                 logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部学习经历：%s", record.getId()));
             }
@@ -196,23 +185,23 @@ public class CadreEduController extends BaseController {
         } else {
             // 干部信息本人直接修改数据校验
             CadreEdu _record = cadreEduMapper.selectByPrimaryKey(id);
-            if(_record.getCadreId().intValue() != record.getCadreId()){
+            if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            if(!toApply) {
+            if (!toApply) {
                 record.setSortOrder(_record.getSortOrder());
                 record.setStatus(_record.getStatus());
-                if(record.getCertificate()==null){
+                if (record.getCertificate() == null) {
                     record.setCertificate(_record.getCertificate());
                 }
                 cadreEduService.updateByPrimaryKey(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
-            }else{
-                if(_isUpdate==false) {
+            } else {
+                if (_isUpdate == false) {
                     cadreEduService.modifyApply(record, id, false);
                     logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部学习经历：%s", record.getId()));
-                }else{
+                } else {
                     // 更新修改申请的内容
                     cadreEduService.updateModify(record, applyId);
                     logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部学习经历：%s", record.getId()));
@@ -269,7 +258,7 @@ public class CadreEduController extends BaseController {
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cadreEduService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
         }
@@ -286,7 +275,7 @@ public class CadreEduController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部","学历","毕业学校","院系","入学时间","毕业时间","学位"};
+        String[] titles = {"所属干部", "学历", "毕业学校", "院系", "入学时间", "毕业时间", "学位"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -297,14 +286,14 @@ public class CadreEduController extends BaseController {
 
             CadreEdu cadreEdu = cadreEdus.get(i);
             String[] values = {
-                        cadreEdu.getCadreId()+"",
-                                            cadreEdu.getEduId()+"",
-                                            cadreEdu.getSchool(),
-                                            cadreEdu.getDep(),
-                                            DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYY_MM_DD),
-                                            cadreEdu.getDegree()
-                    };
+                    cadreEdu.getCadreId() + "",
+                    cadreEdu.getEduId() + "",
+                    cadreEdu.getSchool(),
+                    cadreEdu.getDep(),
+                    DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYY_MM_DD),
+                    cadreEdu.getDegree()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {

@@ -251,7 +251,7 @@ public class MemberApplyService extends BaseMapper {
 
             if(partyId!=null && branchId==null){
                 // 修改为直属党支部
-                Assert.isTrue(partyService.isDirectBranch(partyId));
+                Assert.isTrue(partyService.isDirectBranch(partyId), "not direct branch");
                 updateMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, partyId);
             }
 
@@ -305,7 +305,7 @@ public class MemberApplyService extends BaseMapper {
 
                 if(record.getBranchId()==null){
                     // 修改为直属党支部
-                    Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+                    Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
                     updateMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, record.getPartyId());
                 }
 
@@ -408,7 +408,7 @@ public class MemberApplyService extends BaseMapper {
             record.setRemark("系统打回");
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId);
-            Assert.isTrue(memberApplyMapper.updateByExampleSelective(record, example) > 0);
+            Assert.isTrue(memberApplyMapper.updateByExampleSelective(record, example) > 0, "db update failed");
 
             applyApprovalLogService.add(_memberApply.getUserId(),
                     _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
@@ -480,7 +480,7 @@ public class MemberApplyService extends BaseMapper {
         member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
         Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
-                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER);
+                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER, "wrong apply type");
 
         member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员
@@ -523,7 +523,7 @@ public class MemberApplyService extends BaseMapper {
         member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
         Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
-                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER);
+                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER, "wrong apply type");
 
         member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员

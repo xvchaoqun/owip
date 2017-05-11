@@ -42,7 +42,7 @@ public class AttachFileService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code) {
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         AttachFileExample example = new AttachFileExample();
         AttachFileExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
@@ -54,7 +54,7 @@ public class AttachFileService extends BaseMapper {
     @Transactional
     public int insertSelective(AttachFile record) {
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         return attachFileMapper.insertSelective(record);
     }
 
@@ -77,7 +77,7 @@ public class AttachFileService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(AttachFile record) {
         if (StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return attachFileMapper.updateByPrimaryKeySelective(record);
     }
 }

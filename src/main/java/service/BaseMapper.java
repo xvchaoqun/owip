@@ -51,9 +51,9 @@ public class BaseMapper {
 	/**
 	 * 当前操作人员应该是申请人所在党支部或直属党支部的管理员，否则抛出异常
 	 */
-	protected VerifyAuth checkVerityAuth(Object entity, Integer partyId, Integer branchId ){
+	protected <T> VerifyAuth<T> checkVerityAuth(T entity, Integer partyId, Integer branchId ){
 
-		VerifyAuth verifyAuth = new VerifyAuth();
+		VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
 		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
 		int loginUserId = shiroUser.getId();
@@ -70,8 +70,8 @@ public class BaseMapper {
 	/**
 	 * 当前操作人员应该是应是申请人所在的分党委、党总支、直属党支部的管理员
 	 */
-	protected VerifyAuth checkVerityAuth2(Object entity, Integer partyId){
-		VerifyAuth verifyAuth = new VerifyAuth();
+	protected <T> VerifyAuth<T> checkVerityAuth2(T entity, Integer partyId){
+		VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
 		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
 		int loginUserId = shiroUser.getId();

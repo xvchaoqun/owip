@@ -15,7 +15,7 @@ public class MemberStudentService extends BaseMapper {
 
     public boolean idDuplicate(Integer userId, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         MemberStudentExample example = new MemberStudentExample();
         MemberStudentExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);

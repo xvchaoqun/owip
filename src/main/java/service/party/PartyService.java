@@ -53,7 +53,7 @@ public class PartyService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code) {
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "duplicate code");
 
         PartyExample example = new PartyExample();
         PartyExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
@@ -66,7 +66,7 @@ public class PartyService extends BaseMapper {
     @CacheEvict(value = "Party:ALL", allEntries = true)
     public int insertSelective(Party record) {
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0"));
         record.setIsDeleted(false);
         return partyMapper.insertSelective(record);
@@ -133,7 +133,7 @@ public class PartyService extends BaseMapper {
     @CacheEvict(value = "Party:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(Party record) {
         if (StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return partyMapper.updateByPrimaryKeySelective(record);
     }
 

@@ -334,7 +334,7 @@ public class SysUserService extends BaseMapper {
     public void delRole(int userId, String role, String username, String code) {
 
         SysUser sysUser = dbFindById(userId);
-        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
+        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
 
         SysRole sysRole = sysRoleService.getByRole(role);
         Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
@@ -361,7 +361,7 @@ public class SysUserService extends BaseMapper {
     public void addRole(int userId, String role, String username, String code) {
 
         SysUser sysUser = dbFindById(userId);
-        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
+        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
 
         SysRole sysRole = sysRoleService.getByRole(role);
         if(sysRole==null) throw new RuntimeException("系统角色"+ role + "不存在");
@@ -391,7 +391,7 @@ public class SysUserService extends BaseMapper {
     public void changeRole(int userId, String role, String toRole, String username, String code) {
 
         SysUser sysUser = dbFindById(userId);
-        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username));
+        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
 
         SysRole sysRole = sysRoleService.getByRole(role);
         SysRole toSysRole = sysRoleService.getByRole(toRole);

@@ -21,7 +21,7 @@ public class DispatchTypeService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String name, short year){
 
-        Assert.isTrue(StringUtils.isNotBlank(name));
+        Assert.isTrue(StringUtils.isNotBlank(name), "name is blank");
 
         DispatchTypeExample example = new DispatchTypeExample();
         DispatchTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name).andYearEqualTo(year);
@@ -34,7 +34,7 @@ public class DispatchTypeService extends BaseMapper {
     @CacheEvict(value = "DispatchType:ALL", allEntries = true)
     public int insertSelective(DispatchType record){
 
-        Assert.isTrue(!idDuplicate(null, record.getName(), record.getYear()));
+        Assert.isTrue(!idDuplicate(null, record.getName(), record.getYear()), "duplicate");
         record.setSortOrder(getNextSortOrder("dispatch_type", "year=" + record.getYear()));
         return dispatchTypeMapper.insertSelective(record);
     }
@@ -58,7 +58,7 @@ public class DispatchTypeService extends BaseMapper {
     @CacheEvict(value = "DispatchType:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(DispatchType record){
         if(StringUtils.isNotBlank(record.getName()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getName(), record.getYear()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getName(), record.getYear()), "duplicate");
         return dispatchTypeMapper.updateByPrimaryKeySelective(record);
     }
 

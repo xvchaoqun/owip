@@ -30,7 +30,7 @@ public class TeacherInfoService extends BaseMapper {
     @Transactional
     public void insertSelective(TeacherInfo record){
 
-        Assert.isTrue(!idDuplicate(record.getUserId()));
+        Assert.isTrue(!idDuplicate(record.getUserId()), "duplicate");
         teacherInfoMapper.insertSelective(record);
     }
     @Transactional

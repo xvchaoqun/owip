@@ -1,19 +1,17 @@
 package controller.jasper;
 
 import net.coobird.thumbnailator.Thumbnails;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import org.springframework.web.servlet.view.jasperreports.AbstractJasperReportsSingleFormatView;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Map;
 
 public class JasperReportsImageView extends AbstractJasperReportsSingleFormatView {
@@ -29,10 +27,14 @@ public class JasperReportsImageView extends AbstractJasperReportsSingleFormatVie
                 jasperPrint.getPageHeight(), BufferedImage.TYPE_INT_RGB);
         //取graphics
         Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
+        SimpleGraphics2DExporterOutput exporterOutput = new SimpleGraphics2DExporterOutput();
+        exporterOutput.setGraphics2D(g);
+        exporter.setExporterOutput(exporterOutput);
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
         //设置相应参数信息
-        exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, g);
+        //exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, g);
         //exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, 0.2f);
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+        //exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.exportReport();
         g.dispose();//释放资源信息
 

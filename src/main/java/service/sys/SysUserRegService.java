@@ -219,7 +219,7 @@ public class SysUserRegService extends BaseMapper {
 
     public boolean usernameDuplicate(Integer id, Integer userId, String username){
 
-        Assert.isTrue(StringUtils.isNotBlank(username));
+        Assert.isTrue(StringUtils.isNotBlank(username), "username is blank");
         {
             SysUserRegExample example = new SysUserRegExample();
             SysUserRegExample.Criteria criteria = example.createCriteria().andUsernameEqualTo(username)
@@ -243,7 +243,7 @@ public class SysUserRegService extends BaseMapper {
 
         // 每个身份证号都有1次机会通过注册账号的方式进行登陆
 
-        Assert.isTrue(StringUtils.isNotBlank(idcard));
+        Assert.isTrue(StringUtils.isNotBlank(idcard), "idcard is blank");
         {
             SysUserRegExample example = new SysUserRegExample();
             SysUserRegExample.Criteria criteria = example.createCriteria().andIdcardEqualTo(idcard)

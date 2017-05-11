@@ -212,7 +212,7 @@ public class CadreResearchController extends BaseController {
 
             CadreResearch record, String _startTime, String _endTime, HttpServletRequest request) {
 
-        Assert.isTrue(record.getResearchType() != null);
+        Assert.isTrue(record.getResearchType() != null, " researchType is null");
         Integer id = record.getId();
 
         if (StringUtils.isNotBlank(_startTime)) {

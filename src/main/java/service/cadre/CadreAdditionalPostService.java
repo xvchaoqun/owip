@@ -43,7 +43,7 @@ public class CadreAdditionalPostService extends BaseMapper {
     })
     public void insertSelective(CadreAdditionalPost record){
 
-        Assert.isTrue(!idDuplicate(null, record.getCadreId(), record.getUnitId()));
+        Assert.isTrue(!idDuplicate(null, record.getCadreId(), record.getUnitId()), "duplicate");
         cadreAdditionalPostMapper.insertSelective(record);
     }
 

@@ -170,9 +170,9 @@ public class MemberService extends BaseMapper {
         Member _member = get(userId);
         if(_member!=null && _member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
             // 允许挂职干部转出后用原账号转入
-            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1);
+            Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
         }else if(_member==null) {
-            Assert.isTrue(memberMapper.insertSelective(record) == 1);
+            Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");
         }else throw new RuntimeException("数据异常，入党失败。"+ uv.getCode() + "," + uv.getRealname());
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
@@ -319,7 +319,7 @@ public class MemberService extends BaseMapper {
         Integer userId = record.getUserId();
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             updateMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
         }
         if(record.getPartyId()!=null){

@@ -75,7 +75,7 @@ public class ApplySelfService extends BaseMapper {
                 return contentTplService.getShorMsgReceivers(tpl.getId());
             }
 
-            return new ArrayList<>();
+            return new ArrayList<SysUserView>();
         } else {
 
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
@@ -87,7 +87,7 @@ public class ApplySelfService extends BaseMapper {
             CadreView cadre = cadreMap.get(cadreId);
             ApproverType approverType = approverTypeService.findAll().get(approvalTypeId);
             if (approverType.getType() == SystemConstants.APPROVER_TYPE_UNIT) { // 查找本单位正职
-                List<SysUserView> _users = new ArrayList<>();
+                List<SysUserView> _users = new ArrayList<SysUserView>();
                 List<Cadre> mainPostList = cadreCommonService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
                     if ((_cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
@@ -107,7 +107,7 @@ public class ApplySelfService extends BaseMapper {
                 return _users;
             } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_LEADER) { // 查找分管校领导
 
-                List<SysUserView> users = new ArrayList<>();
+                List<SysUserView> users = new ArrayList<SysUserView>();
                 MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
                 List<CadreLeader> managerUnitLeaders = selectMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
                 for (CadreLeader managerUnitLeader : managerUnitLeaders) {
@@ -119,7 +119,7 @@ public class ApplySelfService extends BaseMapper {
                 }
                 return users;
             } else { // 查找其他身份下的审批人
-                List<SysUserView> users = new ArrayList<>();
+                List<SysUserView> users = new ArrayList<SysUserView>();
                 List<Approver> approvers = approverService.findByType(approvalTypeId);
                 for (Approver approver : approvers) {
                     CadreView _cadre = approver.getCadre();
@@ -178,7 +178,7 @@ public class ApplySelfService extends BaseMapper {
     public Map<String, Integer> sendApprovalMsg(int applySelfId){
 
         int success = 0, total = 0; // 成功条数，总条数
-        Map<String, Integer> resultMap = new HashMap<>();
+        Map<String, Integer> resultMap = new HashMap<String, Integer>();
         resultMap.put("id", applySelfId);
         resultMap.put("success", success);
         resultMap.put("total", total);
@@ -351,8 +351,8 @@ public class ApplySelfService extends BaseMapper {
                 || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)) { // 审批人必须是现任干部才有审批权限
 
             //==============================================
-            Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
-            Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
+            Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<Integer, List<Integer>>();
+            Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<Integer, List<Integer>>();
 
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();

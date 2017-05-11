@@ -77,7 +77,7 @@ public class ApproverTypeService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String name, byte type){
 
-        Assert.isTrue(StringUtils.isNotBlank(name));
+        Assert.isTrue(StringUtils.isNotBlank(name), "name is blank");
 
         ApproverTypeExample example = new ApproverTypeExample();
         ApproverTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
@@ -94,7 +94,7 @@ public class ApproverTypeService extends BaseMapper {
     @CacheEvict(value="ApproverType:ALL", allEntries = true)
     public int insertSelective(ApproverType record){
 
-        Assert.isTrue(!idDuplicate(null, record.getName(), record.getType()));
+        Assert.isTrue(!idDuplicate(null, record.getName(), record.getType()), "duplicate name and type");
         record.setSortOrder(getNextSortOrder("abroad_approver_type", "1=1"));
         return approverTypeMapper.insertSelective(record);
     }
@@ -129,7 +129,7 @@ public class ApproverTypeService extends BaseMapper {
     })
     public int updateByPrimaryKeySelective(ApproverType record){
         if(StringUtils.isNotBlank(record.getName()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getName(), record.getType()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getName(), record.getType()), "duplicate name and type");
         return approverTypeMapper.updateByPrimaryKeySelective(record);
     }
 

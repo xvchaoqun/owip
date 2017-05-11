@@ -88,7 +88,7 @@ public class ApplicatTypeService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String name){
 
-        Assert.isTrue(StringUtils.isNotBlank(name));
+        Assert.isTrue(StringUtils.isNotBlank(name), "name is blank");
 
         ApplicatTypeExample example = new ApplicatTypeExample();
         ApplicatTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
@@ -101,7 +101,7 @@ public class ApplicatTypeService extends BaseMapper {
     @CacheEvict(value="ApplicatType:ALL", allEntries = true)
     public int insertSelective(ApplicatType record){
 
-        Assert.isTrue(!idDuplicate(null, record.getName()));
+        Assert.isTrue(!idDuplicate(null, record.getName()), "duplicate name");
         applicatTypeMapper.insertSelective(record);
 
         Integer id = record.getId();
@@ -132,7 +132,7 @@ public class ApplicatTypeService extends BaseMapper {
     @CacheEvict(value="ApplicatType:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(ApplicatType record){
         if(StringUtils.isNotBlank(record.getName()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getName()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "duplicate name");
         return applicatTypeMapper.updateByPrimaryKeySelective(record);
     }
 

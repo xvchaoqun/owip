@@ -220,7 +220,7 @@ public class MemberReturnService extends BaseMapper {
     public int updateByPrimaryKeySelective(MemberReturn record){
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             updateMapper.updateToDirectBranch("ow_member_return", "id", record.getId(), record.getPartyId());
         }
 

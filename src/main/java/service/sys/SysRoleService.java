@@ -86,7 +86,7 @@ public class SysRoleService {
 	public Map<Integer, SysRole> findAll(){
 
 		List<SysRole> sysRoles = sysRoleMapper.selectByExample(new SysRoleExample());
-		Map<Integer, SysRole> sysRoleMap = new LinkedHashMap();
+		Map<Integer, SysRole> sysRoleMap = new LinkedHashMap<Integer, SysRole>();
 		for (SysRole sysRole : sysRoles) {
 			sysRoleMap.put(sysRole.getId(), sysRole);
 		}

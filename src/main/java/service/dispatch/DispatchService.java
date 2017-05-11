@@ -68,7 +68,7 @@ public class DispatchService extends BaseMapper {
     public int insertSelective(Dispatch record){
 
         if(record.getCode()!=null) {
-            Assert.isTrue(!idDuplicate(null, record.getDispatchTypeId(), record.getYear(), record.getCode()));
+            Assert.isTrue(!idDuplicate(null, record.getDispatchTypeId(), record.getYear(), record.getCode()), "duplicate");
         }
 
         record.setSortOrder(getNextSortOrder("dispatch", "1=1"));
@@ -116,7 +116,7 @@ public class DispatchService extends BaseMapper {
     public int updateByPrimaryKeySelective(Dispatch record){
 
         if(record.getCode()!=null) {
-            Assert.isTrue(!idDuplicate(record.getId(),record.getDispatchTypeId(), record.getYear(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(),record.getDispatchTypeId(), record.getYear(), record.getCode()), "duplicate");
         }
 
         return dispatchMapper.updateByPrimaryKeySelective(record);

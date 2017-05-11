@@ -37,7 +37,7 @@ public class MetaClassService extends BaseMapper {
 
     public boolean codeAvailable(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         MetaClassExample example = new MetaClassExample();
         MetaClassExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andAvailableEqualTo(true);
@@ -54,7 +54,7 @@ public class MetaClassService extends BaseMapper {
     })
     public int insertSelective(MetaClass record){
 
-        Assert.isTrue(codeAvailable(null, record.getCode()));
+        Assert.isTrue(codeAvailable(null, record.getCode()), "wrong code");
         record.setSortOrder(getNextSortOrder("base_meta_class", "1=1"));
         return metaClassMapper.insertSelective(record);
     }
@@ -92,7 +92,7 @@ public class MetaClassService extends BaseMapper {
     })
     public int updateByPrimaryKeySelective(MetaClass record){
         if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(codeAvailable(record.getId(), record.getCode()));
+            Assert.isTrue(codeAvailable(record.getId(), record.getCode()), "wrong code");
         return metaClassMapper.updateByPrimaryKeySelective(record);
     }
 

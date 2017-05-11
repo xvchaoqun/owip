@@ -689,7 +689,7 @@ public class SysUserSyncService extends BaseMapper {
     @Transactional
     public int insertSelective(SysUserSync record) {
 
-        Assert.isTrue(!lastSyncIsNotStop(record.getType()));
+        Assert.isTrue(!lastSyncIsNotStop(record.getType()), "last sync is not stop.");
         return sysUserSyncMapper.insertSelective(record);
     }
 

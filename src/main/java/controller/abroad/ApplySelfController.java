@@ -73,7 +73,7 @@ public class ApplySelfController extends BaseController {
             throw new RuntimeException("不需该审批人身份进行审批");
         }
         if (approvalTypeId == -1) { // 管理员初审
-            Assert.isTrue(result == null);
+            Assert.isTrue(result == null, "null");
             SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_CADREADMIN);
         }
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();

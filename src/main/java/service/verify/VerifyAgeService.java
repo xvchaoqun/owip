@@ -31,7 +31,7 @@ public class VerifyAgeService extends BaseMapper {
 
 
         record.setStatus(SystemConstants.VERIFY_STATUS_NORMAL);
-        Assert.isTrue(!idDuplicate(record.getCadreId()));
+        Assert.isTrue(!idDuplicate(record.getCadreId()), "duplicate cadreId");
         record.setSubmitTime(new Date());
         record.setSubmitIp(ContextHelper.getRealIp());
         record.setSubmitUserId(ShiroHelper.getCurrentUserId());

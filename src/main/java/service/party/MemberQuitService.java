@@ -215,7 +215,7 @@ public class MemberQuitService extends BaseMapper {
     public int updateByPrimaryKeySelective(MemberQuit record){
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             updateMapper.updateToDirectBranch("ow_member_quit", "user_id", record.getUserId(), record.getPartyId());
         }
 

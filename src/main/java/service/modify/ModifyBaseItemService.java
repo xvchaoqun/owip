@@ -121,7 +121,7 @@ public class ModifyBaseItemService extends BaseMapper {
                         .andStatusNotEqualTo(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
                 checkCount = modifyBaseItemMapper.countByExample(example);
             }
-            Assert.isTrue(checkCount > 0); // 刚才审核了一个，肯定大于0
+            Assert.isTrue(checkCount > 0, "wrong check count"); // 刚才审核了一个，肯定大于0
             {
                 ModifyBaseApply record = new ModifyBaseApply();
                 record.setId(mba.getId());

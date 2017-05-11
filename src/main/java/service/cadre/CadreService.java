@@ -220,7 +220,7 @@ public class CadreService extends BaseMapper {
         directAddCheck(null, userId);
 
         Assert.isTrue(record.getStatus()!=null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                && record.getStatus() != SystemConstants.CADRE_STATUS_INSPECT); // 非后备干部、考察对象
+                && record.getStatus() != SystemConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
         SysUserView uv = sysUserService.findById(userId);
         // 添加干部身份
@@ -289,7 +289,7 @@ public class CadreService extends BaseMapper {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             Assert.isTrue(cadre.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_INSPECT); // 非后备干部、考察对象
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
             cadreMapper.deleteByPrimaryKey(id);
 

@@ -100,7 +100,7 @@ public class TplParser {
 									 String logType, String cnTableName, List<ColumnBean> tableColumns, String outpath) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
 		cfg.setDirectoryForTemplateLoading(new File(curPath));
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 		
@@ -135,7 +135,7 @@ public class TplParser {
 	public static void genService(String folder, String tablePrefix, String tablesqlname, String key, String outpath) throws IOException, TemplateException{
 
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
 		cfg.setDirectoryForTemplateLoading(new File(curPath));
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 
@@ -168,7 +168,7 @@ public class TplParser {
 			) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
 		cfg.setDirectoryForTemplateLoading(new File(curPath));
 		
 		cfg.setSharedVariable("tbn", new TableNameMethod());
@@ -200,7 +200,7 @@ public class TplParser {
 			) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
 		cfg.setDirectoryForTemplateLoading(new File(curPath));
 		
 		cfg.setSharedVariable("tbn", new TableNameMethod());

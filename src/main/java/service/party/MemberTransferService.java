@@ -237,7 +237,7 @@ public class MemberTransferService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(MemberTransfer record){
 
-        Assert.isTrue(record.getUserId()!=null);
+        Assert.isTrue(record.getUserId()!=null, "userId is null");
 
         int opAuth = memberOpService.findOpAuth(record.getUserId());
         if(opAuth==1){
@@ -246,7 +246,7 @@ public class MemberTransferService extends BaseMapper {
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
-            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()));
+            Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             updateMapper.updateToDirectBranch("ow_member_transfer", "id", record.getId(), record.getPartyId());
         }
 

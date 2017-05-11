@@ -53,7 +53,7 @@ public class UnitService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         UnitExample example = new UnitExample();
         UnitExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code)/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;

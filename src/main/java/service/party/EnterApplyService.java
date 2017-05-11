@@ -285,7 +285,7 @@ public class EnterApplyService extends BaseMapper{
                 MemberApplyExample example = new MemberApplyExample();
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
-                Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0);
+                Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0, "db update failed");
 
                 applyApprovalLogService.add(_memberApply.getUserId(),
                         _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
@@ -314,7 +314,7 @@ public class EnterApplyService extends BaseMapper{
                 MemberReturnExample example = new MemberReturnExample();
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
-                Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0);
+                Assert.isTrue(memberReturnService.updateByExampleSelective(record, example) > 0, "db update failed");
 
                 applyApprovalLogService.add(_memberReturn.getId(),
                         _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(),
@@ -347,7 +347,7 @@ public class EnterApplyService extends BaseMapper{
                 MemberInExample example = new MemberInExample();
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
-                Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0);
+                Assert.isTrue(memberInService.updateByExampleSelective(record, example) > 0, "db update failed");
 
                 applyApprovalLogService.add(_memberIn.getId(),
                         _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(),
@@ -376,7 +376,7 @@ public class EnterApplyService extends BaseMapper{
                 MemberInflowExample example = new MemberInflowExample();
                 example.createCriteria().andUserIdEqualTo(userId)
                         .andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
-                Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0);
+                Assert.isTrue(memberInflowService.updateByExampleSelective(record, example) > 0, "db update failed");
 
                 applyApprovalLogService.add(_memberInflow.getId(),
                         _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(),

@@ -242,7 +242,7 @@ public class SysUserRegController extends BaseController {
     @ResponseBody
     public Map do_sysUserReg_au(SysUserReg record, HttpServletRequest request) {
 
-        Assert.isTrue(record.getId()!=null);
+        Assert.isTrue(record.getId()!=null, "id is null");
 
         if (sysUserRegService.usernameDuplicate(record.getId(), record.getUserId(), record.getUsername())
                 || sysUserService.idDuplicate(record.getUserId(), record.getUsername(), record.getCode())) {

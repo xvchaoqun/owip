@@ -89,7 +89,7 @@ public class BranchService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code) {
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         BranchExample example = new BranchExample();
         BranchExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
@@ -205,7 +205,7 @@ public class BranchService extends BaseMapper {
         checkAuth(branch.getPartyId());
 
         if (StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return branchMapper.updateByPrimaryKeySelective(record);
     }
 

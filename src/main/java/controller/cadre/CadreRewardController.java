@@ -131,7 +131,7 @@ public class CadreRewardController extends BaseController {
             CadreReward record, String _rewardTime,MultipartFile _proof, HttpServletRequest request) {
 
         Integer id = record.getId();
-        Assert.isTrue(record.getRewardType()!=null);
+        Assert.isTrue(record.getRewardType()!=null, "rewardType is null");
 
         if(StringUtils.isNotBlank(_rewardTime)){
             record.setRewardTime(DateUtils.parseDate(_rewardTime, "yyyy"));

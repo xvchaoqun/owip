@@ -25,7 +25,7 @@ public class OrgAdminService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, int userId, Integer partyId, Integer branchId){
 
-        Assert.isTrue(partyId!=null || branchId!=null);
+        Assert.isTrue(partyId!=null || branchId!=null, "null");
 
         OrgAdminExample example = new OrgAdminExample();
         OrgAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
@@ -40,7 +40,7 @@ public class OrgAdminService extends BaseMapper {
     @CacheEvict(value="AdminPartyIdList", key = "#userId")
     public int addPartyAdmin(int userId, int partyId){
 
-        Assert.isTrue(!idDuplicate(null, userId, partyId, null));
+        Assert.isTrue(!idDuplicate(null, userId, partyId, null), "duplicate");
 
         SysUserView sysUser = sysUserService.findById(userId);
 
@@ -64,7 +64,7 @@ public class OrgAdminService extends BaseMapper {
     @CacheEvict(value="AdminBranchIdList", key = "#userId")
     public int addBranchAdmin(int userId, int branchId){
 
-        Assert.isTrue(!idDuplicate(null, userId, null, branchId));
+        Assert.isTrue(!idDuplicate(null, userId, null, branchId), "duplicate");
 
         SysUserView sysUser = sysUserService.findById(userId);
 
@@ -92,7 +92,7 @@ public class OrgAdminService extends BaseMapper {
     public void del(Integer id, int userId){
 
         OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
-        Assert.isTrue(orgAdmin.getUserId().intValue() == userId);
+        Assert.isTrue(orgAdmin.getUserId().intValue() == userId, "wrong userId");
 
         SysUserView sysUser = sysUserService.findById(userId);
 

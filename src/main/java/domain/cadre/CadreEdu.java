@@ -1,5 +1,7 @@
 package domain.cadre;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,8 +24,10 @@ public class CadreEdu implements Serializable {
 
     private Byte schoolType;
 
+    @DateTimeFormat(pattern = "yyyy.MM")
     private Date enrolTime;
 
+    @DateTimeFormat(pattern = "yyyy.MM")
     private Date finishTime;
 
     private Integer learnStyle;
@@ -38,6 +42,7 @@ public class CadreEdu implements Serializable {
 
     private String degreeUnit;
 
+    @DateTimeFormat(pattern = "yyyy.MM")
     private Date degreeTime;
 
     private String tutorName;

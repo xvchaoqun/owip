@@ -64,7 +64,7 @@ public class LocationService extends BaseMapper{
     })
     public int insertSelective(Location record){
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
         return  locationMapper.insertSelective(record);
     }
     @Transactional

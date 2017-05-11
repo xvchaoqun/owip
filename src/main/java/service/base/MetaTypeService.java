@@ -106,7 +106,7 @@ public class MetaTypeService extends BaseMapper {
 
     public boolean codeAvailable(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         MetaTypeExample example = new MetaTypeExample();
         MetaTypeExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andAvailableEqualTo(true);
@@ -142,7 +142,7 @@ public class MetaTypeService extends BaseMapper {
     })
     public int insertSelective(MetaType record){
 
-        Assert.isTrue(codeAvailable(null, record.getCode()));
+        Assert.isTrue(codeAvailable(null, record.getCode()), "wrong code");
         record.setSortOrder(getNextSortOrder("base_meta_type", "class_id=" + record.getClassId()));
         return metaTypeMapper.insertSelective(record);
     }
@@ -177,7 +177,7 @@ public class MetaTypeService extends BaseMapper {
     })
     public int updateByPrimaryKeySelective(MetaType record){
         if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(codeAvailable(record.getId(), record.getCode()));
+            Assert.isTrue(codeAvailable(record.getId(), record.getCode()), "wrong code");
         return metaTypeMapper.updateByPrimaryKeySelective(record);
     }
 

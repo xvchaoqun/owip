@@ -40,7 +40,7 @@ public class ApproverService extends BaseMapper {
     @CacheEvict(value="Approver:ALL", allEntries = true)
     public int insertSelective(Approver record){
 
-        Assert.isTrue(!idDuplicate(null, record.getCadreId()));
+        Assert.isTrue(!idDuplicate(null, record.getCadreId()), "duplicate cadreId");
         record.setSortOrder(getNextSortOrder("abroad_approver", "1=1"));
         return approverMapper.insertSelective(record);
     }
@@ -66,7 +66,7 @@ public class ApproverService extends BaseMapper {
     @CacheEvict(value="Approver:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(Approver record){
         if(record.getCadreId()!=null)
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId()), "duplicate cadreId");
         return approverMapper.updateByPrimaryKeySelective(record);
     }
 

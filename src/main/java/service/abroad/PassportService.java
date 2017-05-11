@@ -136,12 +136,12 @@ public class PassportService extends BaseMapper {
     @Transactional
     public int add(Passport record, Integer applyId) {
 
-        Assert.isTrue(0 == idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+        Assert.isTrue(0 == idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
 
         if (applyId != null) { // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
-            Assert.isTrue(_passportApply.getCadreId().intValue() == record.getCadreId().intValue());
-            Assert.isTrue(_passportApply.getClassId().intValue() == record.getClassId().intValue());
+            Assert.isTrue(_passportApply.getCadreId().intValue() == record.getCadreId().intValue(), "wrong cadreId");
+            Assert.isTrue(_passportApply.getClassId().intValue() == record.getClassId().intValue(), "wrong classId");
 
             PassportApply passportApply = new PassportApply();
             passportApply.setId(applyId);
@@ -262,7 +262,7 @@ public class PassportService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(Passport record) {
         if (StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(0 == idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()));
+            Assert.isTrue(0 == idDuplicate(record.getId(), record.getType(), record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
         //record.setType(null);
         return passportMapper.updateByPrimaryKeySelective(record);
     }
@@ -272,10 +272,10 @@ public class PassportService extends BaseMapper {
     public int back(Passport record) {
         if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(0 == updateIdDuplicate(record.getId(), SystemConstants.PASSPORT_TYPE_KEEP,
-                    record.getCadreId(), record.getClassId(), record.getCode()));
+                    record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
 
         Passport passport = passportMapper.selectByPrimaryKey(record.getId());
-        Assert.isTrue(passport.getType() == SystemConstants.PASSPORT_TYPE_LOST);
+        Assert.isTrue(passport.getType() == SystemConstants.PASSPORT_TYPE_LOST, "wrong type");
 
         // 如果该证件找回之前被借出了，则找回时，应该修改借出状态为已归还
         if (passport.getIsLent()) {
