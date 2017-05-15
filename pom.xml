@@ -16,8 +16,8 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>sys</groupId>
-      <artifactId>sys.tools</artifactId>
+      <groupId>common</groupId>
+      <artifactId>common-utils</artifactId>
       <version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
