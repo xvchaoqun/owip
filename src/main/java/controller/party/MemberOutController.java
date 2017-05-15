@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import shiro.ShiroHelper;
 import shiro.CurrentUser;
@@ -133,7 +135,7 @@ public class MemberOutController extends BaseController {
                                String toUnit,
                                String toTitle,
                                String fromUnit,
-                               String _handleTime,
+                               @RequestDateRange DateRange _handleTime,
                                @RequestParam(required = false, defaultValue = "0") int export,
                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                Integer pageSize, Integer pageNo) throws IOException {
@@ -192,15 +194,12 @@ public class MemberOutController extends BaseController {
         if (StringUtils.isNotBlank(fromUnit)) {
             criteria.andFromUnitLike("%" + fromUnit + "%");
         }
-        if (StringUtils.isNotBlank(_handleTime)) {
-            String start = _handleTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _handleTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andHandleTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andHandleTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_handleTime.getStart()!=null) {
+            criteria.andHandleTimeGreaterThanOrEqualTo(_handleTime.getStart());
+        }
+
+        if (_handleTime.getEnd()!=null) {
+            criteria.andHandleTimeLessThanOrEqualTo(_handleTime.getEnd());
         }
 
         if (cls == 1) { // 分党委审核（新申请）

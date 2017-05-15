@@ -20,6 +20,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -97,10 +99,10 @@ public class MemberTeacherController extends BaseController {
                                     Byte age,
                                     String education,
                                     String postClass,
-                                    String _retireTime,
+                                   @RequestDateRange DateRange _retireTime,
                                     Boolean isHonorRetire,
-                                    String _growTime,
-                                    String _positiveTime,
+                                   @RequestDateRange DateRange _growTime,
+                                   @RequestDateRange DateRange _positiveTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -183,40 +185,30 @@ public class MemberTeacherController extends BaseController {
             criteria.andPostClassEqualTo(postClass);
         }
 
-        if (StringUtils.isNotBlank(_retireTime)) {
-            String start = _retireTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _retireTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andRetireTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andRetireTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_retireTime.getStart()!=null) {
+            criteria.andRetireTimeGreaterThanOrEqualTo(_retireTime.getStart());
         }
+
+        if (_retireTime.getEnd()!=null) {
+            criteria.andRetireTimeLessThanOrEqualTo(_retireTime.getEnd());
+        }
+
         if(isHonorRetire!=null){
             criteria.andIsHonorRetireEqualTo(isHonorRetire);
         }
 
-        if (StringUtils.isNotBlank(_growTime)) {
-            String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_growTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
         }
 
-        if (StringUtils.isNotBlank(_positiveTime)) {
-            String start = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andPositiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andPositiveTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_growTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
+        }
+        if (_positiveTime.getStart()!=null) {
+            criteria.andPositiveTimeGreaterThanOrEqualTo(_positiveTime.getStart());
+        }
+        if (_positiveTime.getEnd()!=null) {
+            criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
 
         /*

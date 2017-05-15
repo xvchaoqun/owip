@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -97,8 +99,8 @@ public class MemberInflowController extends BaseController {
                                   String flowReason,
                                   Boolean hasPapers,
                                   String orLocation,
-                                  String _flowTime,
-                                  String _growTime,
+                                  @RequestDateRange DateRange _flowTime,
+                                  @RequestDateRange DateRange  _growTime,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -152,25 +154,19 @@ public class MemberInflowController extends BaseController {
         if (StringUtils.isNotBlank(orLocation)) {
             criteria.andOrLocationLike("%" + orLocation + "%");
         }
-        if (StringUtils.isNotBlank(_flowTime)) {
-            String start = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andFlowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andFlowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_flowTime.getStart()!=null) {
+            criteria.andFlowTimeGreaterThanOrEqualTo(_flowTime.getStart());
         }
-        if (StringUtils.isNotBlank(_growTime)) {
-            String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_flowTime.getEnd()!=null) {
+            criteria.andFlowTimeLessThanOrEqualTo(_flowTime.getEnd());
+        }
+        if (_growTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+        }
+
+        if (_growTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
         }
 
         if(cls==1){ // 支部审核（新申请）

@@ -26,6 +26,7 @@ import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -267,7 +268,7 @@ public class ApplySelfService extends BaseMapper {
 
     // 干部管理员 审批列表
     public Map findApplySelfList(HttpServletResponse response, Integer cadreId,
-                                 String _applyDate,
+                                 DateRange _applyDate,
                                  // 出行时间范围
                                  Byte type, Boolean isModify,
                                  // 1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批 -1: 已删除的记录
@@ -293,15 +294,12 @@ public class ApplySelfService extends BaseMapper {
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (StringUtils.isNotBlank(_applyDate)) {
-            String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(applyDateStart)) {
-                criteria.andApplyDateGreaterThanOrEqualTo(DateUtils.parseDate(applyDateStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(applyDateEnd)) {
-                criteria.andApplyDateLessThanOrEqualTo(DateUtils.parseDate(applyDateEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_applyDate.getStart()!=null) {
+            criteria.andApplyDateGreaterThanOrEqualTo(_applyDate.getStart());
+        }
+
+        if (_applyDate.getEnd()!=null) {
+            criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
         }
 
         if (type != null) {
@@ -331,7 +329,7 @@ public class ApplySelfService extends BaseMapper {
 
     // 干部（非管理员） 审批人员列表
     public Map findApplySelfList(int userId/*审批人*/, Integer cadreId/*被审批干部*/,
-                                 String _applyDate,
+                                 DateRange _applyDate,
                                  // 出行时间范围
                                  Byte type, int status, Integer pageNo, Integer pageSize) {
 
@@ -378,13 +376,7 @@ public class ApplySelfService extends BaseMapper {
                 approverTypePostIdListMap = null;
             //==============================================
 
-            String applyDateStart = null;
-            String applyDateEnd = null;
-            if (StringUtils.isNotBlank(_applyDate)) {
-                applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-                applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            }
-            ApplySelfSearchBean searchBean = new ApplySelfSearchBean(cadreId, type, applyDateStart, applyDateEnd);
+            ApplySelfSearchBean searchBean = new ApplySelfSearchBean(cadreId, type, _applyDate.getStart(), _applyDate.getEnd());
 
             if (status == 0)
                 count = selectMapper.countNotApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap);

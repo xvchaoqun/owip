@@ -11,6 +11,7 @@ import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -109,7 +113,7 @@ public class UserApplySelfController extends BaseController {
     @RequestMapping("/applySelf_data")
     @ResponseBody
     public void applySelf_data(@CurrentUser SysUserView loginUser,
-                               String _applyDate,
+                               @RequestDateRange DateRange _applyDate,
                                Byte type, // 出行时间范围
                                  Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
@@ -129,16 +133,12 @@ public class UserApplySelfController extends BaseController {
         int userId= loginUser.getId();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         criteria.andCadreIdEqualTo(cadre.getId());
+        if (_applyDate.getStart()!=null) {
+            criteria.andApplyDateGreaterThanOrEqualTo(_applyDate.getStart());
+        }
 
-        if (StringUtils.isNotBlank(_applyDate)) {
-            String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(applyDateStart)) {
-                criteria.andApplyDateGreaterThanOrEqualTo(DateUtils.parseDate(applyDateStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(applyDateEnd)) {
-                criteria.andApplyDateLessThanOrEqualTo(DateUtils.parseDate(applyDateEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_applyDate.getEnd()!=null) {
+            criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
         }
 
         if (type != null) {
@@ -204,22 +204,32 @@ public class UserApplySelfController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(@CurrentUser SysUserView loginUser,
+    public Map do_applySelf_au(
+                               Integer cadreId,
                                ApplySelf record,
                                String _startDate,
                                String _endDate,
                                @RequestParam(value = "_files[]") MultipartFile[] _files,
                                HttpServletRequest request) {
-        int userId= loginUser.getId();
+
+
+
+        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+            // 确认干部只能提交自己的申请
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            cadreId = cadre.getId();
+        }
+        CadreView cadre = cadreService.findAll().get(cadreId);
+
         List<ApplySelfFile> applySelfFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
             String originalFilename = _file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString();
             String realPath =  FILE_SEPARATOR
-                    + "apply_self" + FILE_SEPARATOR + userId + FILE_SEPARATOR
+                    + "apply_self" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + FileUtils.getExtention(originalFilename);
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
@@ -243,9 +253,10 @@ public class UserApplySelfController extends BaseController {
         if(record.getStartDate().after(record.getEndDate())){
             throw new RuntimeException("出发日期不能晚于回国日期");
         }
+
         if(record.getId()==null) {
-            CadreView cadre = cadreService.dbFindByUserId(userId);
-            record.setCadreId(cadre.getId());
+
+            record.setCadreId(cadreId);
             record.setCreateTime(new Date());
             record.setIp(IpUtils.getRealIp(request));
 
@@ -259,10 +270,10 @@ public class UserApplySelfController extends BaseController {
             shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
         }else{
-            CadreView cadre = cadreService.dbFindByUserId(userId);
+
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(record.getId());
-            if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
+            if(applySelf.getCadreId().intValue() != cadreId.intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
                 throw new RuntimeException("不允许更新");
             }
@@ -311,15 +322,21 @@ public class UserApplySelfController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/applySelf_au")
-    public String applySelf_au(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
+    public String applySelf_au(Integer cadreId, Integer id, ModelMap modelMap) {
+
+        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+            // 确认干部只能提交自己的申请
+            CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            cadreId = cadre.getId();
+        }
 
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             modelMap.put("applySelf", applySelf);
 
-            CadreView cadre = cadreService.dbFindByUserId(loginUser.getId());
+            CadreView cadre = cadreService.findAll().get(cadreId);
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(id);
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新

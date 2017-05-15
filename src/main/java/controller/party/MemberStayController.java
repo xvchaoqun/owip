@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import shiro.ShiroHelper;
 import shiro.CurrentUser;
@@ -106,9 +108,9 @@ public class MemberStayController extends BaseController {
                                     Integer partyId,
                                     Integer branchId,
                                     String country,
-                                    String _abroadTime,
-                                    String _returnTime,
-                                    String _payTime,
+                                @RequestDateRange DateRange _abroadTime,
+                                @RequestDateRange DateRange  _returnTime,
+                                @RequestDateRange DateRange  _payTime,
                                     String mobile,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -147,35 +149,28 @@ public class MemberStayController extends BaseController {
         if (StringUtils.isNotBlank(country)) {
             criteria.andCountryLike("%" + country + "%");
         }
-        if (StringUtils.isNotBlank(_abroadTime)) {
-            String start = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andAbroadTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andAbroadTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_abroadTime.getStart()!=null) {
+            criteria.andAbroadTimeGreaterThanOrEqualTo(_abroadTime.getStart());
         }
-        if (StringUtils.isNotBlank(_returnTime)) {
-            String start = _returnTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _returnTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andReturnTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andReturnTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_abroadTime.getEnd()!=null) {
+            criteria.andAbroadTimeLessThanOrEqualTo(_abroadTime.getEnd());
         }
-        if (StringUtils.isNotBlank(_payTime)) {
-            String start = _payTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _payTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andPayTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andPayTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_returnTime.getStart()!=null) {
+            criteria.andReturnTimeGreaterThanOrEqualTo(_returnTime.getStart());
+        }
+
+        if (_returnTime.getEnd()!=null) {
+            criteria.andReturnTimeLessThanOrEqualTo(_returnTime.getEnd());
+        }
+
+        if (_payTime.getStart()!=null) {
+            criteria.andPayTimeGreaterThanOrEqualTo(_payTime.getStart());
+        }
+
+        if (_payTime.getEnd()!=null) {
+            criteria.andPayTimeLessThanOrEqualTo(_payTime.getEnd());
         }
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike("%" + mobile + "%");

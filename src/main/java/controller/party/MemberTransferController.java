@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
@@ -134,7 +136,7 @@ public class MemberTransferController extends BaseController {
                                     Integer branchId,
                                     Integer toPartyId,
                                     Integer toBranchId,
-                                    String _fromHandleTime,
+                                    @RequestDateRange DateRange _fromHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -177,15 +179,12 @@ public class MemberTransferController extends BaseController {
         if (toBranchId!=null) {
             criteria.andToBranchIdEqualTo(toBranchId);
         }
-        if (StringUtils.isNotBlank(_fromHandleTime)) {
-            String start = _fromHandleTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _fromHandleTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andFromHandleTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andFromHandleTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_fromHandleTime.getStart()!=null) {
+            criteria.andFromHandleTimeGreaterThanOrEqualTo(_fromHandleTime.getStart());
+        }
+
+        if (_fromHandleTime.getEnd()!=null) {
+            criteria.andFromHandleTimeLessThanOrEqualTo(_fromHandleTime.getEnd());
         }
 
         if(cls==1){

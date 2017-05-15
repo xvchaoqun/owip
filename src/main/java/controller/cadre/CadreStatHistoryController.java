@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -63,7 +65,7 @@ public class CadreStatHistoryController extends BaseController {
     @RequestMapping("/cadreStatHistory_data")
     @ResponseBody
     public void cadreStatHistory_data(HttpServletResponse response, Byte type,
-                                      String _statDate,
+                                      @RequestDateRange DateRange _statDate,
                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -81,15 +83,12 @@ public class CadreStatHistoryController extends BaseController {
         if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if (StringUtils.isNotBlank(_statDate)) {
-            String start = _statDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _statDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andStatDateGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andStatDateLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_statDate.getStart()!=null) {
+            criteria.andStatDateGreaterThanOrEqualTo(_statDate.getStart());
+        }
+
+        if (_statDate.getEnd()!=null) {
+            criteria.andStatDateLessThanOrEqualTo(_statDate.getEnd());
         }
 
         int count = cadreStatHistoryMapper.countByExample(example);

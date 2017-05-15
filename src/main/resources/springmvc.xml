@@ -30,6 +30,8 @@
 		<mvc:argument-resolvers>
 			<bean class="shiro.CurrentUserMethodArgumentResolver"/>
 			<bean class="interceptor.CustomWebArgumentResolver"/>
+			<!--<bean class="sys.spring.Base64ToFileConverter"/>-->
+			<bean class="sys.spring.DateRangeConverter"/>
 		</mvc:argument-resolvers>
 		<mvc:message-converters>
 			<ref bean="stringHttpMessageConverter" />

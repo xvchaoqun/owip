@@ -1,5 +1,7 @@
 package bean;
 
+import java.util.Date;
+
 /**
  * Created by fafa on 2016/3/31.
  */
@@ -7,10 +9,10 @@ public class ApplySelfSearchBean {
 
     private Integer cadreId;
     private Byte type;
-    private String applyDateStart;
-    private String applyDateEnd;
+    private Date applyDateStart;
+    private Date applyDateEnd;
 
-    public ApplySelfSearchBean(Integer cadreId, Byte type, String applyDateStart, String applyDateEnd) {
+    public ApplySelfSearchBean(Integer cadreId, Byte type, Date applyDateStart, Date applyDateEnd) {
         this.cadreId = cadreId;
         this.type = type;
         this.applyDateStart = applyDateStart;
@@ -33,19 +35,19 @@ public class ApplySelfSearchBean {
         this.type = type;
     }
 
-    public String getApplyDateStart() {
+    public Date getApplyDateStart() {
         return applyDateStart;
     }
 
-    public void setApplyDateStart(String applyDateStart) {
+    public void setApplyDateStart(Date applyDateStart) {
         this.applyDateStart = applyDateStart;
     }
 
-    public String getApplyDateEnd() {
+    public Date getApplyDateEnd() {
         return applyDateEnd;
     }
 
-    public void setApplyDateEnd(String applyDateEnd) {
+    public void setApplyDateEnd(Date applyDateEnd) {
         this.applyDateEnd = applyDateEnd;
     }
 }

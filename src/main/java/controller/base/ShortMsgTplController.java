@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -52,7 +54,7 @@ public class ShortMsgTplController extends BaseController {
                                           Integer receiverId,
                                           String mobile,
                                           String content,
-                                          String _sendTime,
+                                          @RequestDateRange DateRange _sendTime,
                                           Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -77,15 +79,12 @@ public class ShortMsgTplController extends BaseController {
         if (StringUtils.isNotBlank(content)) {
             criteria.andContentLike("%" + content + "%");
         }
-        if (StringUtils.isNotBlank(_sendTime)) {
-            String start = _sendTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _sendTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andCreateTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andCreateTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_sendTime.getStart()!=null) {
+            criteria.andCreateTimeGreaterThanOrEqualTo(_sendTime.getStart());
+        }
+
+        if (_sendTime.getEnd()!=null) {
+            criteria.andCreateTimeLessThanOrEqualTo(_sendTime.getEnd());
         }
 
         int count = shortMsgMapper.countByExample(example);

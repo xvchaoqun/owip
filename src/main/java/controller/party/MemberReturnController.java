@@ -1,13 +1,12 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.member.MemberReturn;
 import domain.member.MemberReturnExample;
 import domain.member.MemberReturnExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.base.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -28,11 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -92,12 +93,12 @@ public class MemberReturnController extends BaseController {
                                     Integer userId,
                                     Integer partyId,
                                     Integer branchId,
-                                    String _returnApplyTime,
-                                    String _applyTime,
-                                    String _activeTime,
-                                    String _candidateTime,
-                                    String _growTime,
-                                    String _positiveTime,
+                                  @RequestDateRange DateRange _returnApplyTime,
+                                  @RequestDateRange DateRange  _applyTime,
+                                  @RequestDateRange DateRange  _activeTime,
+                                  @RequestDateRange DateRange  _candidateTime,
+                                  @RequestDateRange DateRange  _growTime,
+                                  @RequestDateRange DateRange  _positiveTime,
                                     Byte politicalStatus,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -137,66 +138,49 @@ public class MemberReturnController extends BaseController {
         if(politicalStatus!=null){
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
+        if (_returnApplyTime.getStart()!=null) {
+            criteria.andReturnApplyTimeGreaterThanOrEqualTo(_returnApplyTime.getStart());
+        }
 
-        if(StringUtils.isNotBlank(_returnApplyTime)) {
-            String timeStart = _returnApplyTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String timeEnd = _returnApplyTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(timeStart)) {
-                criteria.andReturnApplyTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(timeEnd)) {
-                criteria.andReturnApplyTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_returnApplyTime.getEnd()!=null) {
+            criteria.andReturnApplyTimeLessThanOrEqualTo(_returnApplyTime.getEnd());
         }
-        if(StringUtils.isNotBlank(_applyTime)) {
-            String timeStart = _applyTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String timeEnd = _applyTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(timeStart)) {
-                criteria.andApplyTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(timeEnd)) {
-                criteria.andApplyTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_applyTime.getStart()!=null) {
+            criteria.andApplyTimeGreaterThanOrEqualTo(_applyTime.getStart());
         }
-        if(StringUtils.isNotBlank(_activeTime)) {
-            String timeStart = _activeTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String timeEnd = _activeTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(timeStart)) {
-                criteria.andActiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(timeEnd)) {
-                criteria.andActiveTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_applyTime.getEnd()!=null) {
+            criteria.andApplyTimeLessThanOrEqualTo(_applyTime.getEnd());
         }
-        if(StringUtils.isNotBlank(_candidateTime)) {
-            String timeStart = _candidateTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String timeEnd = _candidateTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(timeStart)) {
-                criteria.andCandidateTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(timeEnd)) {
-                criteria.andCandidateTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_activeTime.getStart()!=null) {
+            criteria.andActiveTimeGreaterThanOrEqualTo(_activeTime.getStart());
         }
-        if(StringUtils.isNotBlank(_growTime)) {
-            String timeStart = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String timeEnd = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(timeStart)) {
-                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(timeEnd)) {
-                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_activeTime.getEnd()!=null) {
+            criteria.andActiveTimeLessThanOrEqualTo(_activeTime.getEnd());
         }
-        if(StringUtils.isNotBlank(_positiveTime)) {
-            String timeStart = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String timeEnd = _positiveTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(timeStart)) {
-                criteria.andPositiveTimeGreaterThanOrEqualTo(DateUtils.parseDate(timeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(timeEnd)) {
-                criteria.andPositiveTimeLessThanOrEqualTo(DateUtils.parseDate(timeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_candidateTime.getStart()!=null) {
+            criteria.andCandidateTimeGreaterThanOrEqualTo(_candidateTime.getStart());
+        }
+
+        if (_candidateTime.getEnd()!=null) {
+            criteria.andCandidateTimeLessThanOrEqualTo(_candidateTime.getEnd());
+        }
+        if (_growTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+        }
+
+        if (_growTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
+        }
+
+        if (_positiveTime.getStart()!=null) {
+            criteria.andPositiveTimeGreaterThanOrEqualTo(_positiveTime.getStart());
+        }
+
+        if (_positiveTime.getEnd()!=null) {
+            criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
         
         if(cls==1){

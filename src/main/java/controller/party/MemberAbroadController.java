@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -81,7 +83,7 @@ public class MemberAbroadController extends BaseController {
                                  /*@SortParam(required = false, defaultValue = "abroad_time", tableName = "ow_member_abroad") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,*/
                                     Integer userId,
-                                    String _abroadTime,
+                                  @RequestDateRange DateRange _abroadTime,
                                     Integer partyId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -112,16 +114,12 @@ public class MemberAbroadController extends BaseController {
         if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
+        if (_abroadTime.getStart()!=null) {
+            criteria.andSjcfsjGreaterThanOrEqualTo(_abroadTime.getStart());
+        }
 
-        if(StringUtils.isNotBlank(_abroadTime)) {
-            String abroadTimeStart = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String abroadTimeEnd= _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(abroadTimeStart)) {
-                criteria.andSjcfsjGreaterThanOrEqualTo(DateUtils.parseDate(abroadTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(abroadTimeEnd)) {
-                criteria.andSjcfsjLessThanOrEqualTo(DateUtils.parseDate(abroadTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_abroadTime.getEnd()!=null) {
+            criteria.andSjcfsjLessThanOrEqualTo(_abroadTime.getEnd());
         }
 
         if (export == 1) {

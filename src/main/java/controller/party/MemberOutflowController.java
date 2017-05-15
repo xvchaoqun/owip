@@ -1,14 +1,13 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.member.Member;
 import domain.member.MemberOutflow;
 import domain.member.MemberOutflowView;
 import domain.member.MemberOutflowViewExample;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.base.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -29,11 +28,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -124,12 +125,12 @@ public class MemberOutflowController extends BaseController {
                                     Integer branchId,
                                     Integer originalJob,
                                     Integer direction,
-                                    String _flowTime,
+                                   @RequestDateRange DateRange _flowTime,
                                     Integer province,
                                     String reason,
                                     Boolean hasPapers,
                                     Byte orStatus,
-                                    String _createTime,
+                                   @RequestDateRange DateRange  _createTime,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -173,16 +174,14 @@ public class MemberOutflowController extends BaseController {
         if(direction!=null){
             criteria.andDirectionEqualTo(direction);
         }
-        if (StringUtils.isNotBlank(_flowTime)) {
-            String start = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andFlowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andFlowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_flowTime.getStart()!=null) {
+            criteria.andFlowTimeGreaterThanOrEqualTo(_flowTime.getStart());
         }
+
+        if (_flowTime.getEnd()!=null) {
+            criteria.andFlowTimeLessThanOrEqualTo(_flowTime.getEnd());
+        }
+
         if(province!=null){
             criteria.andProvinceEqualTo(province);
         }
@@ -195,15 +194,12 @@ public class MemberOutflowController extends BaseController {
         if(orStatus!=null){
             criteria.andOrStatusEqualTo(orStatus);
         }
-        if (StringUtils.isNotBlank(_createTime)) {
-            String start = _createTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _createTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andCreateTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andCreateTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_createTime.getStart()!=null) {
+            criteria.andCreateTimeGreaterThanOrEqualTo(_createTime.getStart());
+        }
+
+        if (_createTime.getEnd()!=null) {
+            criteria.andCreateTimeLessThanOrEqualTo(_createTime.getEnd());
         }
 
         if(cls==1){ // 支部审核（新申请）

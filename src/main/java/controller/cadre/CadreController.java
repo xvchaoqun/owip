@@ -40,6 +40,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.*;
 import sys.constants.SystemConstants;
@@ -187,8 +189,8 @@ public class CadreController extends BaseController {
                            Long endNowLevelAge,
                            @RequestParam(required = false, value = "dpTypes")Long[] dpTypes, // 党派
 
-                           String _birth,
-                           String _cadreGrowTime,
+                           @RequestDateRange DateRange _birth,
+                           @RequestDateRange DateRange _cadreGrowTime,
                                 @RequestParam(required = false, value = "unitIds")Integer[] unitIds, // 所在单位
                                 @RequestParam(required = false, value = "unitTypes")Integer[] unitTypes, // 部门属性
                                @RequestParam(required = false, value = "adminLevels")Integer[] adminLevels, // 行政级别
@@ -220,27 +222,20 @@ public class CadreController extends BaseController {
         if(gender!=null){
             criteria.andGenderEqualTo(gender);
         }
-        if (StringUtils.isNotBlank(_birth)) {
-            String start = _birth.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _birth.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andBirthGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andBirthLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
-        }
-        if (StringUtils.isNotBlank(_cadreGrowTime)) {
-            String start = _cadreGrowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _cadreGrowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_birth.getStart()!=null) {
+            criteria.andBirthGreaterThanOrEqualTo(_birth.getStart());
         }
 
+        if (_birth.getEnd()!=null) {
+            criteria.andBirthLessThanOrEqualTo(_birth.getEnd());
+        }
+        if (_cadreGrowTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_cadreGrowTime.getStart());
+        }
+
+        if (_cadreGrowTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
+        }
 
         if(endAge!=null){
             criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1*endAge));

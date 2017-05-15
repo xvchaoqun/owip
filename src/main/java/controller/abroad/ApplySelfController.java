@@ -32,6 +32,8 @@ import shiro.ShiroHelper;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -299,6 +301,14 @@ public class ApplySelfController extends BaseController {
         return "abroad/applySelf/applySelf_page";
     }
 
+    // 管理员添加申请
+    @RequiresPermissions("applySelf:edit")
+    @RequestMapping("/applySelf_au")
+    public String applySelf_au() {
+
+        return "abroad/applySelf/applySelf_au";
+    }
+
     @RequiresPermissions("applySelf:list")
     @RequestMapping("/applySelf_approvers")
     @ResponseBody
@@ -324,7 +334,7 @@ public class ApplySelfController extends BaseController {
                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
                                @OrderParam(required = false, defaultValue = "desc") String order,
                                Integer cadreId,
-                               String _applyDate,
+                               @RequestDateRange DateRange _applyDate,
                                Byte type, // 出行时间范围
                                Boolean isModify,
                                // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
@@ -386,7 +396,7 @@ public class ApplySelfController extends BaseController {
     @RequestMapping("/applySelfList_data")
     public void applySelfList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                      Integer cadreId,
-                                     String _applyDate,
+                                   @RequestDateRange DateRange _applyDate,
                                      Byte type, // 出行时间范围
                                      // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
                                      @RequestParam(required = false, defaultValue = "0") int status,
@@ -412,9 +422,9 @@ public class ApplySelfController extends BaseController {
     }
 
     @RequiresPermissions("applySelf:edit")
-    @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
+    @RequestMapping(value = "/applySelf_change", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_au(ApplySelf record,
+    public Map do_applySelf_change(ApplySelf record,
                                String _applyDate, String _startDate,
                                String _endDate,
                                MultipartFile _modifyProof, String remark,
@@ -464,9 +474,10 @@ public class ApplySelfController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 行程变更
     @RequiresPermissions("applySelf:edit")
-    @RequestMapping("/applySelf_au")
-    public String applySelf_au(Integer id, ModelMap modelMap) {
+    @RequestMapping("/applySelf_change")
+    public String applySelf_change(Integer id, ModelMap modelMap) {
 
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
@@ -485,7 +496,7 @@ public class ApplySelfController extends BaseController {
         }
         modelMap.put("countryList", JSONUtils.toString(countryList));
 
-        return "abroad/applySelf/applySelf_au";
+        return "abroad/applySelf/applySelf_change";
     }
 
     /*@RequiresPermissions("applySelf:del")

@@ -18,6 +18,7 @@ pageEncoding="UTF-8"%>
 		<div id="home4" class="tab-pane in active">
 			<form class="form-horizontal" action="${ctx}/user/applySelf_au" id="applyForm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="${applySelf.id}">
+				<input type="hidden" name="cadreId" value="${param.cadreId}">
 				<div class="form-group">
 					<label class="col-xs-3 control-label">出行时间</label>
 					<div class="col-xs-6">
@@ -377,31 +378,13 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
 						$btn.button("success").addClass("btn-success");
-						/*bootbox.dialog({
-							closeButton:false,
-							message:'<p style="padding:30px;font-size:20pt;text-indent: 2em; ">您可以继续申请使用因私出国境证件，' +
-							'也可以在因私出国境申请通过审批之后，再次登陆系统申请。</p>',
-							//callback:function(){alert(1)},
-							title:'<h3 class="label label-success" style="font-size: 30px; height: 50px;border-radius:6px;">申请成功</h3>',
-							buttons: {
-								Cancel: {
-									label: "暂时不申请",
-									className: "btn-primary",
-									callback: function () {
-										page_reload();
-									}
-								}
-								, OK: {
-									label: "继续申请",
-									className: "btn-success",
-									callback: function () {
-						 				_gotoPassportDrawPage();
-									}
-								}
-							}
-						}).draggable({handle :".modal-header"});*/
-						_gotoPassportDrawPage(ret.applyId); // 强制跳转
 
+						<c:if test="${param.auth!='admin'}">
+						_gotoPassportDrawPage(ret.applyId); // 强制跳转
+						</c:if>
+						<c:if test="${param.auth=='admin'}">
+						_closeView();
+						</c:if>
                     }else{
 						$btn.button('reset');
 					}

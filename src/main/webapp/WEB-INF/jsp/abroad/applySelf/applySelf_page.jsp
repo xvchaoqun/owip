@@ -37,13 +37,17 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <%-- <shiro:hasPermission name="applySelf:edit">
-                                 <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                             </shiro:hasPermission>--%>
+                            <c:if test="${status==0}">
+                                <button data-url="${ctx}/applySelf_au"
+                                        class="popupBtn btn btn-primary btn-sm">
+                                    <i class="fa fa-plus"></i> 申请
+                                </button>
+                            </c:if>
+
                             <c:if test="${status==0||status==1}">
                                 <shiro:hasPermission name="applySelf:edit">
-                                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                            data-url="${ctx}/applySelf_au" data-open-by="page">
+                                    <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                            data-url="${ctx}/applySelf_change" data-open-by="page">
                                         <i class="fa fa-edit"></i> 行程变更
                                     </button>
                                 </shiro:hasPermission>

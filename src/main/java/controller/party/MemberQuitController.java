@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import shiro.ShiroHelper;
 import shiro.CurrentUser;
@@ -92,8 +94,8 @@ public class MemberQuitController extends BaseController {
                                     Byte status,
                                     Boolean isBack,
                                     Byte type,
-                                    String _quitTime,
-                                    String _growTime,
+                                @RequestDateRange DateRange _quitTime,
+                                @RequestDateRange DateRange  _growTime,
                                     Integer partyId,
                                     Integer branchId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -114,25 +116,19 @@ public class MemberQuitController extends BaseController {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         example.setOrderByClause(String.format("%s %s", sort, order));
-        if(StringUtils.isNotBlank(_quitTime)) {
-            String quitTimeStart = _quitTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String quitTimeEnd = _quitTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(quitTimeStart)) {
-                criteria.andQuitTimeGreaterThanOrEqualTo(DateUtils.parseDate(quitTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(quitTimeEnd)) {
-                criteria.andQuitTimeLessThanOrEqualTo(DateUtils.parseDate(quitTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_quitTime.getStart()!=null) {
+            criteria.andQuitTimeGreaterThanOrEqualTo(_quitTime.getStart());
         }
-        if(StringUtils.isNotBlank(_growTime)) {
-            String quitTimeStart = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String quitTimeEnd = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(quitTimeStart)) {
-                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(quitTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(quitTimeEnd)) {
-                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(quitTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_quitTime.getEnd()!=null) {
+            criteria.andQuitTimeLessThanOrEqualTo(_quitTime.getEnd());
+        }
+        if (_growTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+        }
+
+        if (_growTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
         }
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);

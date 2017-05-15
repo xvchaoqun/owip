@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -100,8 +102,8 @@ public class UnitCadreTransferController extends BaseController {
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,
                                     Integer cadreId,
-                                    String _appointTime,
-                                    String _dismissTime,
+                                         @RequestDateRange DateRange _appointTime,
+                                         @RequestDateRange DateRange  _dismissTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -125,26 +127,19 @@ public class UnitCadreTransferController extends BaseController {
             modelMap.put("cadre", cadreService.findAll().get(cadreId));
             criteria.andCadreIdEqualTo(cadreId);
         }
-
-        if(StringUtils.isNotBlank(_appointTime)) {
-            String appointTimeStart = _appointTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String appointTimeEnd = _appointTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(appointTimeStart)) {
-                criteria.andAppointTimeGreaterThanOrEqualTo(DateUtils.parseDate(appointTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(appointTimeEnd)) {
-                criteria.andAppointTimeLessThanOrEqualTo(DateUtils.parseDate(appointTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_appointTime.getStart()!=null) {
+            criteria.andAppointTimeGreaterThanOrEqualTo(_appointTime.getStart());
         }
-        if(StringUtils.isNotBlank(_dismissTime)) {
-            String dismissTimeStart = _dismissTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String dismissTimeEnd = _dismissTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(dismissTimeStart)) {
-                criteria.andAppointTimeGreaterThanOrEqualTo(DateUtils.parseDate(dismissTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(dismissTimeEnd)) {
-                criteria.andAppointTimeLessThanOrEqualTo(DateUtils.parseDate(dismissTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_appointTime.getEnd()!=null) {
+            criteria.andAppointTimeLessThanOrEqualTo(_appointTime.getEnd());
+        }
+        if (_dismissTime.getStart()!=null) {
+            criteria.andDismissTimeGreaterThanOrEqualTo(_dismissTime.getStart());
+        }
+
+        if (_dismissTime.getEnd()!=null) {
+            criteria.andDismissTimeLessThanOrEqualTo(_dismissTime.getEnd());
         }
 
         if (export == 1) {
@@ -170,12 +165,11 @@ public class UnitCadreTransferController extends BaseController {
         if (cadreId!=null) {
             searchStr += "&cadreId=" + cadreId;
         }
-        if (StringUtils.isNotBlank(_appointTime)) {
-            searchStr += "&_appointTime=" + _appointTime;
-        }
-        if (StringUtils.isNotBlank(_dismissTime)) {
-            searchStr += "&_dismissTime=" + _dismissTime;
-        }
+
+        searchStr += "&_appointTime=" + _appointTime.toString();
+
+        searchStr += "&_dismissTime=" + _dismissTime.toString();
+
         if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }

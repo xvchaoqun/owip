@@ -23,6 +23,8 @@ import shiro.ShiroHelper;
 import shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 
@@ -58,7 +60,7 @@ public class MobileApplySelfController extends BaseController {
 							   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
 							   @OrderParam(required = false, defaultValue = "desc") String order,
 							   Integer cadreId,
-							   String _applyDate,
+								 @RequestDateRange DateRange _applyDate,
 							   Byte type, // 出行时间范围
 							   // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(通过或不通过)或0：未审批）
 							   @RequestParam(required = false, defaultValue = "0") int status,
@@ -110,7 +112,7 @@ public class MobileApplySelfController extends BaseController {
 	@RequestMapping("/applySelfList_page")
 	public String applySelfList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,
 									 Integer cadreId,
-									 String _applyDate,
+									 @RequestDateRange DateRange _applyDate,
 									 Byte type, // 出行时间范围
 									 // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
 									 @RequestParam(required = false, defaultValue = "0") int status,

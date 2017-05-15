@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -100,7 +102,7 @@ public class PartyController extends BaseController {
                                     Boolean isEnterpriseBig,
                                     Boolean isEnterpriseNationalized,
                                     Boolean isSeparate,
-                                    String _foundTime,
+                           @RequestDateRange DateRange _foundTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -146,15 +148,12 @@ public class PartyController extends BaseController {
         if(isSeparate!=null){
             criteria.andIsSeparateEqualTo(isSeparate);
         }
-        if(StringUtils.isNotBlank(_foundTime)) {
-            String foundTimeStart = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String foundTimeEnd = _foundTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(foundTimeStart)) {
-                criteria.andFoundTimeGreaterThanOrEqualTo(DateUtils.parseDate(foundTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(foundTimeEnd)) {
-                criteria.andFoundTimeLessThanOrEqualTo(DateUtils.parseDate(foundTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_foundTime.getStart()!=null) {
+            criteria.andFoundTimeGreaterThanOrEqualTo(_foundTime.getStart());
+        }
+
+        if (_foundTime.getEnd()!=null) {
+            criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
         }
 
         if (export == 1) {

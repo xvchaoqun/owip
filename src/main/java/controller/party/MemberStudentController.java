@@ -1,15 +1,12 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.ext.ExtYjs;
-import domain.party.Branch;
 import domain.member.MemberStudent;
 import domain.member.MemberStudentExample;
 import domain.member.MemberStudentExample.Criteria;
+import domain.party.Branch;
 import domain.party.GraduateAbroad;
 import domain.party.Party;
-import domain.sys.SysUserView;
-import domain.unit.Unit;
 import interceptor.OrderParam;
 import mixin.MemberStudentMixin;
 import org.apache.commons.lang3.StringUtils;
@@ -21,10 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -166,8 +165,8 @@ public class MemberStudentController extends BaseController {
                                      Byte age,
                                      String grade,
                                      String type,
-                                     String _growTime,
-                                     String _positiveTime,
+                                     @RequestDateRange DateRange _growTime,
+                                     @RequestDateRange DateRange _positiveTime,
                                      String eduLevel,
                                      String eduType,
                                      @RequestParam(required = false, value = "nation")String[] nation,
@@ -263,7 +262,21 @@ public class MemberStudentController extends BaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        if (StringUtils.isNotBlank(_growTime)) {
+        if (_growTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+        }
+
+        if (_growTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
+        }
+        if (_positiveTime.getStart()!=null) {
+            criteria.andPositiveTimeGreaterThanOrEqualTo(_positiveTime.getStart());
+        }
+        if (_positiveTime.getEnd()!=null) {
+            criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
+        }
+
+       /* if (StringUtils.isNotBlank(_growTime)) {
             String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
             if (StringUtils.isNotBlank(start)) {
@@ -283,7 +296,7 @@ public class MemberStudentController extends BaseController {
             if (StringUtils.isNotBlank(end)) {
                 criteria.andPositiveTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
             }
-        }
+        }*/
 
 
         if (export == 1) {

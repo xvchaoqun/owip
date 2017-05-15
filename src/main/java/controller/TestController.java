@@ -10,25 +10,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.TestServcie;
+import sys.spring.Base64File;
+import sys.spring.RequestBase64;
 import sys.utils.ConfigUtil;
 import sys.utils.FormUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created by fafa on 2016/1/18.
  */
 @Controller
-//@RequestMapping("/test")
-public class TestController extends BaseController{
+@RequestMapping("/test")
+public class TestController extends BaseController {
 
     @Autowired
     TestServcie testServcie;
+
+    // 保存base64图片
+    //@RequestMapping(value = "/base64", method = RequestMethod.POST)
+    @RequestMapping(value = "/base64")
+    @ResponseBody
+    public String base64(@RequestBase64 Base64File file, @RequestBase64 List<Base64File> file2) {
+        try {
+            System.out.println(Arrays.toString(file.getBytes()));
+
+            System.out.println("=============================");
+            file2.stream().forEach(new Consumer<Base64File>() {
+
+                @Override
+                public void accept(Base64File t) {
+                    try {
+                        System.out.println(Arrays.toString(t.getBytes()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            file.transferTo(new File("d:/test.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return FormUtils.SUCCESS;
+    }
 
     //@RequestMapping("/toMember")
     @ResponseBody
@@ -45,7 +73,8 @@ public class TestController extends BaseController{
         testServcie.toGuest(userId);
         return FormUtils.SUCCESS;
     }
-    @RequestMapping(value = "/report2", method = RequestMethod.GET)
+
+    //@RequestMapping(value = "/report2", method = RequestMethod.GET)
     public String report2(Integer type, Model model) throws IOException, DocumentException {
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
@@ -64,7 +93,7 @@ public class TestController extends BaseController{
         map.put("tel", "010-84572014");
         map.put("fax", "010-84572014");
         map.put("postCode", "100875");
-        map.put("imagePath", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR );
+        map.put("imagePath", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR);
         data.add(map);
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
@@ -73,7 +102,7 @@ public class TestController extends BaseController{
         // 动态指定报表模板url
         model.addAttribute("url", "/WEB-INF/jasper/report2.jasper");
         //model.addAttribute("url", "/WEB-INF/jasper/2.jasper");
-        if(type!=null)
+        if (type != null)
             model.addAttribute("url", "/WEB-INF/jasper/report2_noimg.jasper");
         model.addAttribute("format", "pdf"); // 报表格式
         model.addAttribute("jrMainDataSource", jrDataSource);

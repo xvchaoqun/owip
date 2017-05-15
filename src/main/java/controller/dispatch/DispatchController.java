@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -68,9 +70,9 @@ public class DispatchController extends BaseController {
                               Integer year,
                               Integer dispatchTypeId,
                               Integer code,
-                              String _pubTime,
-                              String _workTime,
-                              String _meetingTime,
+                              @RequestDateRange DateRange _pubTime,
+                              @RequestDateRange DateRange _workTime,
+                              @RequestDateRange DateRange _meetingTime,
                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer pageSize, Integer pageNo) throws IOException {
@@ -95,36 +97,26 @@ public class DispatchController extends BaseController {
         if (code != null) {
             criteria.andCodeEqualTo(code);
         }
+        if (_pubTime.getStart() != null) {
+            criteria.andPubTimeGreaterThanOrEqualTo(_pubTime.getStart());
+        }
 
-        if (StringUtils.isNotBlank(_pubTime)) {
-            String pubTimeStart = _pubTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String pubTimeEnd = _pubTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(pubTimeStart)) {
-                criteria.andPubTimeGreaterThanOrEqualTo(DateUtils.parseDate(pubTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(pubTimeEnd)) {
-                criteria.andPubTimeLessThanOrEqualTo(DateUtils.parseDate(pubTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_pubTime.getEnd() != null) {
+            criteria.andPubTimeLessThanOrEqualTo(_pubTime.getEnd());
         }
-        if (StringUtils.isNotBlank(_workTime)) {
-            String workTimeStart = _workTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String workTimeEnd = _workTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(workTimeStart)) {
-                criteria.andWorkTimeGreaterThanOrEqualTo(DateUtils.parseDate(workTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(workTimeEnd)) {
-                criteria.andWorkTimeLessThanOrEqualTo(DateUtils.parseDate(workTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_workTime.getStart() != null) {
+            criteria.andWorkTimeGreaterThanOrEqualTo(_workTime.getStart());
         }
-        if (StringUtils.isNotBlank(_meetingTime)) {
-            String meetingTimeStart = _meetingTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String meetingTimeEnd = _meetingTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(meetingTimeStart)) {
-                criteria.andMeetingTimeGreaterThanOrEqualTo(DateUtils.parseDate(meetingTimeStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(meetingTimeEnd)) {
-                criteria.andMeetingTimeLessThanOrEqualTo(DateUtils.parseDate(meetingTimeEnd, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_workTime.getEnd() != null) {
+            criteria.andWorkTimeLessThanOrEqualTo(_workTime.getEnd());
+        }
+        if (_meetingTime.getStart() != null) {
+            criteria.andMeetingTimeGreaterThanOrEqualTo(_meetingTime.getStart());
+        }
+
+        if (_meetingTime.getEnd() != null) {
+            criteria.andMeetingTimeLessThanOrEqualTo(_meetingTime.getEnd());
         }
 
         if (export == 1) {

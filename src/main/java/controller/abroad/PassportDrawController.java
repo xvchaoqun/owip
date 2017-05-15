@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -132,7 +134,7 @@ public class PassportDrawController extends BaseController {
                                     Integer year,
                                     // -1:已删除
                                     @RequestParam(required = false, defaultValue = "1") byte type,
-                                    String _applyDate,
+                                    @RequestDateRange DateRange _applyDate,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     // 导出类型：1：因私出国境 2： 台湾、长期 3： 处理其他事务
                                     @RequestParam(required = false, defaultValue = "1") byte exportType,
@@ -174,16 +176,12 @@ public class PassportDrawController extends BaseController {
         if(year!=null){
             criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
         }
+        if (_applyDate.getStart()!=null) {
+            criteria.andApplyDateGreaterThanOrEqualTo(_applyDate.getStart());
+        }
 
-        if(StringUtils.isNotBlank(_applyDate)) {
-            String applyDateStart = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String applyDateEnd = _applyDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(applyDateStart)) {
-                criteria.andApplyDateGreaterThanOrEqualTo(DateUtils.parseDate(applyDateStart, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(applyDateEnd)) {
-                criteria.andApplyDateLessThanOrEqualTo(DateUtils.parseDate(applyDateEnd, DateUtils.YYYY_MM_DD));
-            }
+        if (_applyDate.getEnd()!=null) {
+            criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
         }
 
         if (export == 1) {

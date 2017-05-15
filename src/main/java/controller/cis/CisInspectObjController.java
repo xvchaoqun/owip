@@ -1,7 +1,6 @@
 package controller.cis;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cis.*;
 import domain.unit.Unit;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -63,7 +64,7 @@ public class CisInspectObjController extends BaseController {
                                    Integer typeId,
                                    Integer seq,
                                    Integer cadreId,
-                                   String _inspectDate,
+                                   @RequestDateRange DateRange _inspectDate,
                                    Integer inspectorId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -99,15 +100,12 @@ public class CisInspectObjController extends BaseController {
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (StringUtils.isNotBlank(_inspectDate)) {
-            String start = _inspectDate.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _inspectDate.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andInspectDateGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andInspectDateLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_inspectDate.getStart()!=null) {
+            criteria.andInspectDateGreaterThanOrEqualTo(_inspectDate.getStart());
+        }
+
+        if (_inspectDate.getEnd()!=null) {
+            criteria.andInspectDateLessThanOrEqualTo(_inspectDate.getEnd());
         }
 
         if(inspectorId!=null){

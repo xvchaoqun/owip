@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
 import shiro.ShiroHelper;
 import shiro.CurrentUser;
@@ -160,9 +162,9 @@ public class GraduateAbroadController extends BaseController {
                                     Integer partyId,
                                     Integer branchId,
                                     String country,
-                                    String _abroadTime, // 留学时间
-                                    String _saveTime, // 申请保留组织关系起止时间（年/月）
-                                    String _payTime,
+                                    @RequestDateRange DateRange _abroadTime, // 留学时间
+                                    @RequestDateRange DateRange  _saveTime, // 申请保留组织关系起止时间（年/月）
+                                    @RequestDateRange DateRange  _payTime,
                                     String mobile,
                                     @RequestParam(required = false, defaultValue = "0") int export,
                                     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -201,36 +203,28 @@ public class GraduateAbroadController extends BaseController {
         if (StringUtils.isNotBlank(country)) {
             criteria.andCountryLike("%" + country + "%");
         }
-        if (StringUtils.isNotBlank(_abroadTime)) {
-            String start = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _abroadTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andEndTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andStartTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_abroadTime.getStart()!=null) {
+            criteria.andEndTimeGreaterThanOrEqualTo(_abroadTime.getStart());
         }
-        if (StringUtils.isNotBlank(_saveTime)) {
-            String start = _saveTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _saveTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andSaveEndTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andSaveStartTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_abroadTime.getEnd()!=null) {
+            criteria.andStartTimeLessThanOrEqualTo(_abroadTime.getEnd());
         }
-        if (StringUtils.isNotBlank(_payTime)) {
-            String start = _payTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _payTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andPayTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andPayTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_saveTime.getStart()!=null) {
+            criteria.andSaveEndTimeGreaterThanOrEqualTo(_saveTime.getStart());
         }
+
+        if (_saveTime.getEnd()!=null) {
+            criteria.andSaveStartTimeLessThanOrEqualTo(_saveTime.getEnd());
+        }
+        if (_payTime.getStart()!=null) {
+            criteria.andPayTimeGreaterThanOrEqualTo(_payTime.getStart());
+        }
+
+        if (_payTime.getEnd()!=null) {
+            criteria.andPayTimeLessThanOrEqualTo(_payTime.getEnd());
+        }
+
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike("%" + mobile + "%");
         }

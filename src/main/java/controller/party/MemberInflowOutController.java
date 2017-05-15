@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -89,14 +91,14 @@ public class MemberInflowOutController extends BaseController {
                                   Integer branchId,
                                   String outUnit,
                                   Integer outLocation,
-                                  String _outTime,
+                                     @RequestDateRange DateRange _outTime,
                                   Integer originalJob,
                                   Integer province,
                                   String flowReason,
                                   Boolean hasPapers,
                                   String orLocation,
-                                  String _flowTime,
-                                  String _growTime,
+                                     @RequestDateRange DateRange  _flowTime,
+                                     @RequestDateRange DateRange  _growTime,
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -138,15 +140,12 @@ public class MemberInflowOutController extends BaseController {
         if (outLocation != null) {
             criteria.andOutLocationEqualTo(outLocation);
         }
-        if (StringUtils.isNotBlank(_outTime)) {
-            String start = _outTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _outTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andOutTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andOutTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_outTime.getStart()!=null) {
+            criteria.andOutTimeGreaterThanOrEqualTo(_outTime.getStart());
+        }
+
+        if (_outTime.getEnd()!=null) {
+            criteria.andOutTimeLessThanOrEqualTo(_outTime.getEnd());
         }
         if(originalJob!=null){
             criteria.andOriginalJobEqualTo(originalJob);
@@ -163,25 +162,19 @@ public class MemberInflowOutController extends BaseController {
         if (StringUtils.isNotBlank(orLocation)) {
             criteria.andOrLocationLike("%" + orLocation + "%");
         }
-        if (StringUtils.isNotBlank(_flowTime)) {
-            String start = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _flowTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andFlowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andFlowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+        if (_flowTime.getStart()!=null) {
+            criteria.andFlowTimeGreaterThanOrEqualTo(_flowTime.getStart());
         }
-        if (StringUtils.isNotBlank(_growTime)) {
-            String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
-            String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
-            if (StringUtils.isNotBlank(start)) {
-                criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.parseDate(start, DateUtils.YYYY_MM_DD));
-            }
-            if (StringUtils.isNotBlank(end)) {
-                criteria.andGrowTimeLessThanOrEqualTo(DateUtils.parseDate(end, DateUtils.YYYY_MM_DD));
-            }
+
+        if (_flowTime.getEnd()!=null) {
+            criteria.andFlowTimeLessThanOrEqualTo(_flowTime.getEnd());
+        }
+        if (_growTime.getStart()!=null) {
+            criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+        }
+
+        if (_growTime.getEnd()!=null) {
+            criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
         }
 
 
