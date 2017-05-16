@@ -560,15 +560,12 @@
     <version>2.4</version>
     <configuration>
       <excludes>
-        <exclude>**/applicationContext.xml</exclude>
-        <exclude>**/ehcache.xml</exclude>
-        <exclude>**/logback.xml</exclude>
-        <exclude>**/mybatis-config.xml</exclude>
-        <exclude>**/spring.properties</exclude>
-        <exclude>**/spring-shiro.xml</exclude>
-        <exclude>**/springmvc.xml</exclude>
-        <exclude>**/bnu-service.source.xml</exclude>
-        <exclude>**/*.xlsx</exclude>
+        <!--<exclude>**/*.xml</exclude>-->
+        <exclude>*.xml</exclude> <!--exclude class root path xml -->
+        <exclude>*.properties</exclude>
+        <exclude>*.xlsx</exclude>
+        <exclude>xlsx/**</exclude>
+        <exclude>ftl/**</exclude>
       </excludes>
     </configuration>
   </plugin>
