@@ -294,12 +294,14 @@ public class ApplySelfService extends BaseMapper {
         if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (_applyDate.getStart()!=null) {
-            criteria.andApplyDateGreaterThanOrEqualTo(_applyDate.getStart());
-        }
+        if(_applyDate!=null) {
+            if (_applyDate.getStart() != null) {
+                criteria.andApplyDateGreaterThanOrEqualTo(_applyDate.getStart());
+            }
 
-        if (_applyDate.getEnd()!=null) {
-            criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
+            if (_applyDate.getEnd() != null) {
+                criteria.andApplyDateLessThanOrEqualTo(_applyDate.getEnd());
+            }
         }
 
         if (type != null) {
@@ -376,7 +378,8 @@ public class ApplySelfService extends BaseMapper {
                 approverTypePostIdListMap = null;
             //==============================================
 
-            ApplySelfSearchBean searchBean = new ApplySelfSearchBean(cadreId, type, _applyDate.getStart(), _applyDate.getEnd());
+            ApplySelfSearchBean searchBean = new ApplySelfSearchBean(cadreId, type,
+                    _applyDate==null?null:_applyDate.getStart(), _applyDate==null?null:_applyDate.getEnd());
 
             if (status == 0)
                 count = selectMapper.countNotApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap);
