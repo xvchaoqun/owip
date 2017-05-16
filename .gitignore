@@ -1,7 +1,5 @@
 .idea/
-pro.ces/src/main/webapp/static/build
 out/
-/.gitignore
 *.iml
 logs
 target
