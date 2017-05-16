@@ -314,7 +314,7 @@ public class ApplySelfService extends BaseMapper {
             return null;
         }
 
-        int count = applySelfMapper.countByExample(example);
+        long count = applySelfMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -922,7 +922,7 @@ public class ApplySelfService extends BaseMapper {
 
     // 变更行程
     @Transactional
-    public void modify(ApplySelf record, String modifyProof, String modifyProofFileName, String remark) {
+    public void modify(ApplySelf record, String modifyProof, String modifyProofFileName, String modifyRemark) {
 
         // 第一次修改，需要保留原纪录
         {
@@ -935,10 +935,10 @@ public class ApplySelfService extends BaseMapper {
         record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), modifyProof, modifyProofFileName, remark);
+        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), modifyProof, modifyProofFileName, modifyRemark);
     }
 
-    private void addModify(byte modifyType, int applyId, String modifyProof, String modifyProofFileName, String remark) {
+    private void addModify(byte modifyType, int applyId, String modifyProof, String modifyProofFileName, String modifyRemark) {
         // 获取修改后的信息
         ApplySelf applySelf = get(applyId);
         ApplySelfModify modify = new ApplySelfModify();
@@ -955,7 +955,7 @@ public class ApplySelfService extends BaseMapper {
         modify.setApplyId(applyId);
         modify.setModifyProof(modifyProof);
         modify.setModifyProofFileName(modifyProofFileName);
-        modify.setRemark(remark);
+        modify.setRemark(modifyRemark);
         modify.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
         modify.setModifyUserId(ShiroHelper.getCurrentUserId());
         modify.setCreateTime(new Date());

@@ -19,6 +19,7 @@ import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
+import service.ces.CesTempPostService;
 import service.cis.*;
 import service.dispatch.*;
 import service.ext.ExtBksService;
@@ -216,6 +217,10 @@ public class BaseController extends BaseMapper {
     protected CisObjInspectorService cisObjInspectorService;
     @Autowired
     protected CisObjUnitService cisObjUnitService;
+
+
+    @Autowired
+    protected CesTempPostService cesTempPostService;
 
     @Autowired
     protected TrainService trainService;

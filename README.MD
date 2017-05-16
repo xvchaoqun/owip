@@ -110,3 +110,8 @@ content表示发送的短信内容，长度不超过350字
 2、已确认集中管理、已丢失的证件， 在领取证件中 显示为 "已取消集中管理" 或 “证件丢失”， 归还证件按钮显示为“-”
 2、如果该证件找回之前被借出了，则找回时，应该修改领取证件中归还的状态为已归还
 
+owip:organization work integrated platform 组织工作管理与服务一体化平台
+ow:organization work 组织工作
+cis: cadre inspection system 干部考察系统
+ces: cadre evaluation system 干部考核系统
+

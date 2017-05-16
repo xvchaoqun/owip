@@ -254,7 +254,7 @@ public class ApplySelfController extends BaseController {
                 DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
         example.setOrderByClause("create_time desc");
 
-        int count = applySelfMapper.countByExample(example);
+        long count = applySelfMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
@@ -427,7 +427,7 @@ public class ApplySelfController extends BaseController {
     public Map do_applySelf_change(ApplySelf record,
                                String _applyDate, String _startDate,
                                String _endDate,
-                               MultipartFile _modifyProof, String remark,
+                               MultipartFile _modifyProof, String modifyRemark,
                                HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -467,7 +467,7 @@ public class ApplySelfController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {*/
             //record.setStatus(true);
-            applySelfService.modify(record, modifyProof, modifyProofFileName, remark);
+            applySelfService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         /*}*/
 

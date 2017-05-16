@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.ces.CesTempPostMapper">
+  <resultMap id="BaseResultMap" type="domain.ces.CesTempPost">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="is_present_cadre" jdbcType="BIT" property="isPresentCadre" />
+    <result column="present_post" jdbcType="VARCHAR" property="presentPost" />
+    <result column="to_unit_type" jdbcType="INTEGER" property="toUnitType" />
+    <result column="to_unit" jdbcType="VARCHAR" property="toUnit" />
+    <result column="temp_post_type" jdbcType="INTEGER" property="tempPostType" />
+    <result column="temp_post" jdbcType="VARCHAR" property="tempPost" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="real_end_date" jdbcType="DATE" property="realEndDate" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cadre_id, realname, is_present_cadre, present_post, to_unit_type, to_unit, temp_post_type, 
+    temp_post, title, start_date, end_date, is_finished, real_end_date, type, is_deleted, 
+    remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.ces.CesTempPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ces_temp_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ces_temp_post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ces_temp_post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.ces.CesTempPostExample">
+    delete from ces_temp_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.ces.CesTempPost">
+    insert into ces_temp_post (id, cadre_id, realname, 
+      is_present_cadre, present_post, to_unit_type, 
+      to_unit, temp_post_type, temp_post, 
+      title, start_date, end_date, 
+      is_finished, real_end_date, type, 
+      is_deleted, remark)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
+      #{isPresentCadre,jdbcType=BIT}, #{presentPost,jdbcType=VARCHAR}, #{toUnitType,jdbcType=INTEGER}, 
+      #{toUnit,jdbcType=VARCHAR}, #{tempPostType,jdbcType=INTEGER}, #{tempPost,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.ces.CesTempPost">
+    insert into ces_temp_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="isPresentCadre != null">
+        is_present_cadre,
+      </if>
+      <if test="presentPost != null">
+        present_post,
+      </if>
+      <if test="toUnitType != null">
+        to_unit_type,
+      </if>
+      <if test="toUnit != null">
+        to_unit,
+      </if>
+      <if test="tempPostType != null">
+        temp_post_type,
+      </if>
+      <if test="tempPost != null">
+        temp_post,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="isFinished != null">
+        is_finished,
+      </if>
+      <if test="realEndDate != null">
+        real_end_date,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="isPresentCadre != null">
+        #{isPresentCadre,jdbcType=BIT},
+      </if>
+      <if test="presentPost != null">
+        #{presentPost,jdbcType=VARCHAR},
+      </if>
+      <if test="toUnitType != null">
+        #{toUnitType,jdbcType=INTEGER},
+      </if>
+      <if test="toUnit != null">
+        #{toUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="tempPostType != null">
+        #{tempPostType,jdbcType=INTEGER},
+      </if>
+      <if test="tempPost != null">
+        #{tempPost,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="isFinished != null">
+        #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="realEndDate != null">
+        #{realEndDate,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.ces.CesTempPostExample" resultType="java.lang.Long">
+    select count(*) from ces_temp_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ces_temp_post
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPresentCadre != null">
+        is_present_cadre = #{record.isPresentCadre,jdbcType=BIT},
+      </if>
+      <if test="record.presentPost != null">
+        present_post = #{record.presentPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toUnitType != null">
+        to_unit_type = #{record.toUnitType,jdbcType=INTEGER},
+      </if>
+      <if test="record.toUnit != null">
+        to_unit = #{record.toUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tempPostType != null">
+        temp_post_type = #{record.tempPostType,jdbcType=INTEGER},
+      </if>
+      <if test="record.tempPost != null">
+        temp_post = #{record.tempPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.isFinished != null">
+        is_finished = #{record.isFinished,jdbcType=BIT},
+      </if>
+      <if test="record.realEndDate != null">
+        real_end_date = #{record.realEndDate,jdbcType=DATE},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ces_temp_post
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      is_present_cadre = #{record.isPresentCadre,jdbcType=BIT},
+      present_post = #{record.presentPost,jdbcType=VARCHAR},
+      to_unit_type = #{record.toUnitType,jdbcType=INTEGER},
+      to_unit = #{record.toUnit,jdbcType=VARCHAR},
+      temp_post_type = #{record.tempPostType,jdbcType=INTEGER},
+      temp_post = #{record.tempPost,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      is_finished = #{record.isFinished,jdbcType=BIT},
+      real_end_date = #{record.realEndDate,jdbcType=DATE},
+      type = #{record.type,jdbcType=TINYINT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.ces.CesTempPost">
+    update ces_temp_post
+    <set>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="isPresentCadre != null">
+        is_present_cadre = #{isPresentCadre,jdbcType=BIT},
+      </if>
+      <if test="presentPost != null">
+        present_post = #{presentPost,jdbcType=VARCHAR},
+      </if>
+      <if test="toUnitType != null">
+        to_unit_type = #{toUnitType,jdbcType=INTEGER},
+      </if>
+      <if test="toUnit != null">
+        to_unit = #{toUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="tempPostType != null">
+        temp_post_type = #{tempPostType,jdbcType=INTEGER},
+      </if>
+      <if test="tempPost != null">
+        temp_post = #{tempPost,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="isFinished != null">
+        is_finished = #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="realEndDate != null">
+        real_end_date = #{realEndDate,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.ces.CesTempPost">
+    update ces_temp_post
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      realname = #{realname,jdbcType=VARCHAR},
+      is_present_cadre = #{isPresentCadre,jdbcType=BIT},
+      present_post = #{presentPost,jdbcType=VARCHAR},
+      to_unit_type = #{toUnitType,jdbcType=INTEGER},
+      to_unit = #{toUnit,jdbcType=VARCHAR},
+      temp_post_type = #{tempPostType,jdbcType=INTEGER},
+      temp_post = #{tempPost,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      is_finished = #{isFinished,jdbcType=BIT},
+      real_end_date = #{realEndDate,jdbcType=DATE},
+      type = #{type,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.ces.CesTempPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ces_temp_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

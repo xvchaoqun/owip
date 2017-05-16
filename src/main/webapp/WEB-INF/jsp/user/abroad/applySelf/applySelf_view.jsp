@@ -99,6 +99,10 @@
           </td>
         </tr>
         <tr>
+          <td class="bg-right">备注</td>
+          <td colspan="5" class="bg-left">${applySelf.remark}</td>
+        </tr>
+        <tr>
           <td class="bg-right">其他说明材料</td>
           <td colspan="5" class="bg-left">
             <c:forEach items="${files}" var="file">
@@ -108,7 +112,7 @@
         </tr>
         <tr>
           <td class="bg-right">申请人签字</td>
-          <td colspan="5" class="bg-left">申请人：${sysUser.realname} &nbsp;&nbsp;&nbsp;&nbsp; 申请日期：${cm:formatDate(applySelf.applyDate, "yyyy年 MM月 dd日")}</td>
+          <td colspan="6" class="bg-left">申请人：${sysUser.realname} &nbsp;&nbsp;&nbsp;&nbsp; 申请日期：${cm:formatDate(applySelf.applyDate, "yyyy年 MM月 dd日")}</td>
         </tr>
         <c:forEach items="${approvalResultMap}" var="result">
           <c:if test="${result.value.value!=-1}">

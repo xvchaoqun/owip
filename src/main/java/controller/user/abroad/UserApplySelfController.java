@@ -145,7 +145,7 @@ public class UserApplySelfController extends BaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        int count = applySelfMapper.countByExample(example);
+        long count = applySelfMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

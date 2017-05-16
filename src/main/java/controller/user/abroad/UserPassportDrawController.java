@@ -104,7 +104,7 @@ public class UserPassportDrawController extends BaseController {
         // 未出行
         criteria.andStartDateGreaterThan(new Date());
 
-        int count = applySelfMapper.countByExample(example);
+        long count = applySelfMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

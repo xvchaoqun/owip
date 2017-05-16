@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface ApplySelfMapper {
-    int countByExample(ApplySelfExample example);
+    long countByExample(ApplySelfExample example);
 
     int deleteByExample(ApplySelfExample example);
 

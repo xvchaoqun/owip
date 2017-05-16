@@ -1,3 +1,9 @@
+
+-- 2017-5-16
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `remark` VARCHAR(200) NULL COMMENT '备注' AFTER `is_deleted`;
+
+
 -- 2017-5-3
 ALTER TABLE `sys_resource`
 	ADD COLUMN `count_cache_roles` VARCHAR(200) NULL DEFAULT NULL COMMENT '数量缓存所属角色' AFTER `count_cache_keys`;

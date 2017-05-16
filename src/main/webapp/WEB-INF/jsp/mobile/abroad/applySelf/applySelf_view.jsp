@@ -206,6 +206,15 @@
                 </div>
               </div>
               <div class="profile-info-row">
+                <div class="profile-info-name"> 备注 </div>
+
+                <div class="profile-info-value">
+                  <span class="editable">
+                    ${applySelf.remark}
+                  </span>
+                </div>
+              </div>
+              <div class="profile-info-row">
                 <div class="profile-info-name"> 其他说明材料 </div>
 
                 <div class="profile-info-value">

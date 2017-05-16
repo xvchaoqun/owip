@@ -122,9 +122,9 @@ pageEncoding="UTF-8"%>
 				</div>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-3 control-label">备注</label>
+			<label class="col-xs-3 control-label">变更原因</label>
 			<div class="col-xs-2">
-				<textarea  class="form-control" name="remark"></textarea>
+				<textarea  class="form-control" name="modifyRemark"></textarea>
 			</div>
 		</div>
     </form>

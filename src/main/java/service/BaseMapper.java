@@ -10,6 +10,7 @@ import persistence.cadreInspect.CadreInspectMapper;
 import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
+import persistence.ces.CesTempPostMapper;
 import persistence.cis.*;
 import persistence.common.*;
 import persistence.dispatch.*;
@@ -297,6 +298,9 @@ public class BaseMapper {
 	protected CisObjInspectorMapper cisObjInspectorMapper;
 	@Autowired
 	protected CisObjUnitMapper cisObjUnitMapper;
+
+	@Autowired
+	protected CesTempPostMapper cesTempPostMapper;
 
 	@Autowired
 	protected TrainMapper trainMapper;

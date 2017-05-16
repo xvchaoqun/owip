@@ -105,6 +105,12 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-3 control-label">备注</label>
+					<div class="col-xs-2">
+						<textarea  class="form-control limited" name="remark" maxlength="100"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-xs-3 control-label">其他说明材料</label>
 					<div class="col-xs-2 file">
 						<div class="files">
