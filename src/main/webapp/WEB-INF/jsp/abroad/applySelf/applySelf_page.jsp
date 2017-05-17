@@ -305,7 +305,7 @@
             }
             },
             {
-                label: '变更', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '变更记录', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''
@@ -340,9 +340,13 @@
                         var realnames = $.map(ret.approvers, function (item, idx) {
                             return item.realname;
                         });
+                        var text = realnames.join("，");
+                        if(ret.uv){
+                            text += "<br/><span class='text-danger'>审批人：" + ret.uv.realname + "</span>";
+                        }
                         $(e.target).qtip({
                             content: {
-                                text: realnames.join("，"), title: {
+                                text: text, title: {
                                     text: '审批人',
                                     button: true
                                 }

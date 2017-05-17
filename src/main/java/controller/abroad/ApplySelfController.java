@@ -319,6 +319,14 @@ public class ApplySelfController extends BaseController {
         List<SysUserView> approvers = applySelfService.findApprovers(applySelf.getCadreId(), approvalTypeId);
 
         Map<String, Object> resultMap = success();
+
+        ApprovalLog approvalLog = approvalLogService.getApprovalLog(applySelfId, approvalTypeId);
+        if(approvalLog!=null) { // 如果已审批，显示审批人
+            SysUserView uv = sysUserService.findById(approvalLog.getUserId());
+            resultMap.put("uv", uv);
+        }
+
+
         resultMap.put("approvers", approvers);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();

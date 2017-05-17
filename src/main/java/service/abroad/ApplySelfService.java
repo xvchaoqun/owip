@@ -815,6 +815,19 @@ public class ApplySelfService extends BaseMapper {
     // 判断是否有审批权限（非管理员）
     public boolean canApproval(int userId, int applySelfId, int approvalTypeId) {
 
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        int targetCadreId = applySelf.getCadreId(); // 待审批的干部
+
+        List<SysUserView> approvers = findApprovers(targetCadreId, approvalTypeId);
+        for (SysUserView approver : approvers) {
+
+            if(approver.getId().intValue() == userId) return true;
+        }
+
+        return false;
+    }
+    /*public boolean canApproval(int userId, int applySelfId, int approvalTypeId) {
+
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (approvalTypeId <= 0) {
             return ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN);
@@ -852,7 +865,7 @@ public class ApplySelfService extends BaseMapper {
 
             return cadreIdSet.contains(targetCadreId);
         }
-    }
+    }*/
 
     public List<ApplySelfFile> getFiles(int applyId) {
 

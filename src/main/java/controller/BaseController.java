@@ -47,8 +47,6 @@ import java.util.Map;
 public class BaseController extends BaseMapper {
 
     @Autowired
-    protected ApplicatPostService applicatPostService;
-    @Autowired
     protected ApplicatTypeService applicatTypeService;
     @Autowired
     protected ApprovalOrderService approvalOrderService;

@@ -60,29 +60,25 @@ public interface SelectMapper {
     List<ApplySelfModifyBean> getApplySelfModifyList(@Param("applyId") Integer applyId);
 
     // 其他审批人身份的干部，查找他需要审批的干部
-    @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, cadre bc where aat.id in(" +
+    @Select("select bc.id from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
-            "where aa.cadre_id=#{cadreId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id " +
-            "and bc.post_id = aap.post_id")
+            "where aa.cadre_id=#{cadreId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
+            "and bc.id = aac.cadre_id")
     List<Integer> getApprovalCadreIds(@Param("cadreId") Integer cadreId);
 
-    // 其他审批人身份的干部，查找他需要审批的职务属性
-    @Select("select aap.post_id from abroad_applicat_post aap, abroad_applicat_type aat where aat.id in(" +
-            "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
-            "where aa.cadre_id=#{cadreId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id ")
-    List<Integer> getApprovalPostIds(@Param("cadreId") Integer cadreId);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部
-    @Select("select bc.id from abroad_applicat_post aap, abroad_applicat_type aat, cadre bc where aat.id in(" +
+    @Select("select bc.id from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
-            "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id " +
-            "and bc.post_id = aap.post_id")
+            "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
+            "and bc.id = aac.cadre_id")
     List<Integer> getApprovalCadreIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
     // 其他审批人身份 的所在单位 给定一个干部id， 和审批人类别，查找他可以审批的干部的职务属性
-    @Select("select aap.post_id from abroad_applicat_post aap, abroad_applicat_type aat where aat.id in(" +
+    @Select("select distinct bc.post_id from abroad_applicat_cadre aac, abroad_applicat_type aat, cadre bc where aat.id in(" +
             "select aao.applicat_type_id from abroad_approver_type aat, abroad_approver aa, abroad_approval_order aao " +
-            "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aap.type_id=aat.id ")
+            "where aa.cadre_id=#{cadreId} and aa.type_id=#{approverTypeId} and aa.type_id = aat.id  and aao.approver_type_id = aat.id) and aac.type_id=aat.id " +
+            "and bc.id = aac.cadre_id")
     List<Integer> getApprovalPostIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
         @Select("select distinct parent_code from base_location order by parent_code asc")

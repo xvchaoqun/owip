@@ -227,7 +227,7 @@
                 }
             },
             {
-                label: '备注', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '变更记录', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''

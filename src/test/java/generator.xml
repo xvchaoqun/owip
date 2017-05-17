@@ -66,8 +66,7 @@
       </table>-->
      <!-- <table tableName="abroad_approval_log" domainObjectName="abroad.ApprovalLog">
       </table>-->
-     <!-- <table tableName="abroad_applicat_post" domainObjectName="abroad.ApplicatPost">
-      </table>-->
+
      <!-- <table tableName="abroad_applicat_cadre" domainObjectName="abroad.ApplicatCadre">
       </table>-->
       <!--<table tableName="abroad_approval_order" domainObjectName="abroad.ApprovalOrder">
