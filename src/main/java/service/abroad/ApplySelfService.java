@@ -882,14 +882,14 @@ public class ApplySelfService extends BaseMapper {
         applySelfMapper.deleteByPrimaryKey(id);
     }
 
-    // 逻辑删除
+    // 逻辑删除（只能删除还未通过的记录）
     @Transactional
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
         ApplySelfExample example = new ApplySelfExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsAgreedEqualTo(false);
 
         ApplySelf record = new ApplySelf();
         record.setIsDeleted(true);
@@ -908,16 +908,33 @@ public class ApplySelfService extends BaseMapper {
         applySelfMapper.updateByExampleSelective(record, example);
     }
 
-    // 真删除
+    // 真删除（只能删除已经被逻辑删除的记录）
     @Transactional
     public void doBatchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
-        ApplySelfExample example = new ApplySelfExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
+        {
+            // 由于是级联删除，如果被关联了领取证件记录，且该记录关联的证件已经是“借出”状态，则需要重置该证件的状态为未借出
+            PassportDrawExample example = new PassportDrawExample();
+            example.createCriteria().andApplyIdIn(Arrays.asList(ids));
+            List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example); // 即将被级联删除
+            for (PassportDraw passportDraw : passportDraws) {
+                Passport passport = passportDraw.getPassport();
 
-        applySelfMapper.deleteByExample(example);
+                Passport _record = new Passport();
+                _record.setId(passport.getId());
+                _record.setIsLent(false);
+                passportMapper.updateByPrimaryKeySelective(_record);
+            }
+        }
+
+        {
+            ApplySelfExample example = new ApplySelfExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
+
+            applySelfMapper.deleteByExample(example);
+        }
     }
 
     @Transactional

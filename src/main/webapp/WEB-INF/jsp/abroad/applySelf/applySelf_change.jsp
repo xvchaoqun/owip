@@ -116,6 +116,12 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 		<div class="form-group">
+			<label class="col-xs-3 control-label">备注</label>
+			<div class="col-xs-2">
+				<textarea  class="form-control limited" name="remark" maxlength="100">${applySelf.remark}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-xs-3 control-label">本人说明材料</label>
 			<div class="col-xs-2">
 			<input  class="form-control" type="file" name="_modifyProof" />
@@ -290,9 +296,9 @@ pageEncoding="UTF-8"%>
 				SysMsg.info("请上传本人说明材料");
 				return;
 			}*/
-			if($.trim($('#modalForm textarea[name=remark]').val())==''){
+			if($.trim($('#modalForm textarea[name=modifyRemark]').val())==''){
 				SysMsg.info("请填写更改原因",'',function(){
-					$('#modalForm textarea[name=remark]').focus();
+					$('#modalForm textarea[name=modifyRemark]').focus();
 				});
 				return;
 			}

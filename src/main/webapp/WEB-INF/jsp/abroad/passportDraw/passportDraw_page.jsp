@@ -88,7 +88,7 @@
                                     <button id="realDelBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="未审批的记录可以删除"
                                             data-url="${ctx}/passportDraw_batchDel?isReal=1" data-title="删除申请使用证件申请"
-                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</button>
+                                            data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 完全删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                         <c:if test="${type!=-1}">

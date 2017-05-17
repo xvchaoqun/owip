@@ -78,7 +78,7 @@
                                     <i class="fa fa-info-circle"></i> 短信提醒
                                 </button>
                             </c:if>
-                            <c:if test="${status>=0}">
+                            <c:if test="${status>=0 && status!=1}">
                             <shiro:hasPermission name="applySelf:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/applySelf_batchDel" data-title="删除因私出国申请"
@@ -305,7 +305,7 @@
             }
             },
             {
-                label: '备注', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '变更', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''
