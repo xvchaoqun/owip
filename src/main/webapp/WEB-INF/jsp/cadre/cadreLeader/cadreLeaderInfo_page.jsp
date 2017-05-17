@@ -66,7 +66,13 @@
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <shiro:hasPermission name="cadre:del">
-                                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                                    <button data-url="${ctx}/cadre_batchDel"
+                                            data-title="删除"
+                                            data-msg="确定删除这{0}条数据（<span class='text-danger'>相关联数据全部删除，不可恢复</span>）？"
+                                            data-grid-id="#jqGrid"
+                                            class="jqBatchBtn btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i> 删除
+                                    </button>
                                 </shiro:hasPermission>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

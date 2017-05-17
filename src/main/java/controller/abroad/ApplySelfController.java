@@ -539,4 +539,19 @@ public class ApplySelfController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    // 删除已经逻辑删除的申请
+    @RequiresPermissions("applySelf:del")
+    @RequestMapping(value = "/applySelf_doBatchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map applySelf_doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            applySelfService.doBatchDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除[真删除]因私出国申请：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
 }

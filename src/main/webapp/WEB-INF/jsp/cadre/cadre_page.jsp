@@ -99,7 +99,7 @@
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"
-                                            data-msg="确定删除这{0}条数据？"
+                                            data-msg="确定删除这{0}条数据（<span class='text-danger'>相关联数据全部删除，不可恢复</span>）？"
                                             data-grid-id="#jqGrid"
                                             class="jqBatchBtn btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> 删除

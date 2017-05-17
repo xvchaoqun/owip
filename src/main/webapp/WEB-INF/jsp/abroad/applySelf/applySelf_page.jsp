@@ -91,6 +91,11 @@
                                        data-url="${ctx}/applySelf_batchUnDel" data-title="找回已删除因私出国申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
+                                <shiro:hasPermission name="passportApply:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/applySelf_doBatchDel" data-title="删除申请"
+                                       data-msg="确定删除这{0}条申请记录吗（<span class='text-danger'>删除后不可以恢复，且相关数据都会删除</span>）？"><i class="fa fa-times"></i> 完全删除</a>
+                                </shiro:hasPermission>
                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

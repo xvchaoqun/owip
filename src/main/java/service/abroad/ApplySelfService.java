@@ -908,6 +908,18 @@ public class ApplySelfService extends BaseMapper {
         applySelfMapper.updateByExampleSelective(record, example);
     }
 
+    // 真删除
+    @Transactional
+    public void doBatchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        ApplySelfExample example = new ApplySelfExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
+
+        applySelfMapper.deleteByExample(example);
+    }
+
     @Transactional
     public int updateByPrimaryKeySelective(ApplySelf record) {
         return applySelfMapper.updateByPrimaryKeySelective(record);

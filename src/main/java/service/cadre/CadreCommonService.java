@@ -156,7 +156,8 @@ public class CadreCommonService extends BaseMapper {
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
         for (CadreView cadre : cadreList) {
             if(cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER) {
+                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER
+                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER_LEAVE) {
                 List<CadreView> list = null;
                 MetaType postType = postMap.get(cadre.getPostId());
                 int postId = postType.getId();

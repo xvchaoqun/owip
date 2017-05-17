@@ -1,4 +1,307 @@
 
+
+-- 2017-5-17 修改为级联删除（干部相关）
+
+ALTER TABLE `abroad_passport`
+	DROP FOREIGN KEY `FK_abroad_passport_abroad_passport_apply`;
+ALTER TABLE `abroad_passport`
+	ADD CONSTRAINT `FK_abroad_passport_abroad_passport_apply` FOREIGN KEY (`apply_id`) REFERENCES `abroad_passport_apply` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `abroad_approval_log`
+	DROP FOREIGN KEY `FK_abroad_apply_approval_abroad_apply`;
+ALTER TABLE `abroad_approval_log`
+	ADD CONSTRAINT `FK_abroad_apply_approval_abroad_apply` FOREIGN KEY (`apply_id`) REFERENCES `abroad_apply_self` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `abroad_passport_draw`
+	DROP FOREIGN KEY `FK_abroad_draw_abroad_apply`;
+ALTER TABLE `abroad_passport_draw`
+	ADD CONSTRAINT `FK_abroad_draw_abroad_apply` FOREIGN KEY (`apply_id`) REFERENCES `abroad_apply_self` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `abroad_passport_draw_file`
+	DROP FOREIGN KEY `abroad_passport_draw_file_ibfk_1`;
+ALTER TABLE `abroad_passport_draw_file`
+	ADD CONSTRAINT `abroad_passport_draw_file_ibfk_1` FOREIGN KEY (`draw_id`) REFERENCES `abroad_passport_draw` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `abroad_apply_self_file`
+	DROP FOREIGN KEY `FK__abroad_apply_self`;
+ALTER TABLE `abroad_apply_self_file`
+	ADD CONSTRAINT `FK__abroad_apply_self` FOREIGN KEY (`apply_id`) REFERENCES `abroad_apply_self` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_additional_post`
+	DROP FOREIGN KEY `FK_base_cadre_additional_post_base_cadre`;
+ALTER TABLE `cadre_additional_post`
+	ADD CONSTRAINT `FK_base_cadre_additional_post_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_admin_level`
+	DROP FOREIGN KEY `FK_base_cadre_post_base_cadre`;
+ALTER TABLE `cadre_admin_level`
+	ADD CONSTRAINT `FK_base_cadre_post_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+delete from cadre_ad_log where cadre_id not in(select id from cadre);
+
+ALTER TABLE `cadre_ad_log`
+	ADD CONSTRAINT `FK_cadre_ad_log_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_book`
+	ADD CONSTRAINT `FK_cadre_book_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_company`
+	DROP FOREIGN KEY `cadre_company_ibfk_1`;
+ALTER TABLE `cadre_company`
+	ADD CONSTRAINT `cadre_company_ibfk_1` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_course`
+	DROP FOREIGN KEY `FK_base_cadre_course_base_cadre`;
+ALTER TABLE `cadre_course`
+	ADD CONSTRAINT `FK_base_cadre_course_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+ALTER TABLE `cadre_edu`
+	DROP FOREIGN KEY `FK_base_cadre_edu_base_cadre`;
+ALTER TABLE `cadre_edu`
+	ADD CONSTRAINT `FK_base_cadre_edu_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_famliy`
+	DROP FOREIGN KEY `FK_base_cadre_famliy_base_cadre`;
+ALTER TABLE `cadre_famliy`
+	ADD CONSTRAINT `FK_base_cadre_famliy_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_famliy_abroad`
+	DROP FOREIGN KEY `FK_base_cadre_famliy_abroad_base_cadre`;
+ALTER TABLE `cadre_famliy_abroad`
+	ADD CONSTRAINT `FK_base_cadre_famliy_abroad_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_leader`
+	DROP FOREIGN KEY `FK_base_leader_base_cadre`;
+ALTER TABLE `cadre_leader`
+	ADD CONSTRAINT `FK_base_leader_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_leader_unit`
+	DROP FOREIGN KEY `FK_base_leader_unit_base_leader`;
+ALTER TABLE `cadre_leader_unit`
+	ADD CONSTRAINT `FK_base_leader_unit_base_leader` FOREIGN KEY (`leader_id`) REFERENCES `cadre_leader` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_paper`
+	ROW_FORMAT=DEFAULT;
+
+
+
+
+ALTER TABLE `cadre_parttime`
+	DROP FOREIGN KEY `FK_base_cadre_parttime_base_cadre`;
+ALTER TABLE `cadre_parttime`
+	ADD CONSTRAINT `FK_base_cadre_parttime_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_post`
+	DROP FOREIGN KEY `FK_base_cadre_post_base_cadre2`;
+ALTER TABLE `cadre_post`
+	ADD CONSTRAINT `FK_base_cadre_post_base_cadre2` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_post_admin`
+	ROW_FORMAT=DEFAULT;
+
+
+
+
+ALTER TABLE `cadre_post_pro`
+	DROP FOREIGN KEY `FK__cadre`;
+ALTER TABLE `cadre_post_pro`
+	ADD CONSTRAINT `FK__cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_post_work`
+	ROW_FORMAT=DEFAULT;
+
+
+
+
+ALTER TABLE `cadre_report`
+	DROP FOREIGN KEY `FK_cadre_report_cadre`;
+ALTER TABLE `cadre_report`
+	ADD CONSTRAINT `FK_cadre_report_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+ALTER TABLE `cadre_research`
+	DROP FOREIGN KEY `FK_base_cadre_research_base_cadre`;
+ALTER TABLE `cadre_research`
+	ADD CONSTRAINT `FK_base_cadre_research_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_reserve`
+	DROP FOREIGN KEY `FK_cadre_reserve_cadre`;
+ALTER TABLE `cadre_reserve`
+	ADD CONSTRAINT `FK_cadre_reserve_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+ALTER TABLE `cadre_reward`
+	DROP FOREIGN KEY `FK_base_cadre_teach_reward_base_cadre`;
+ALTER TABLE `cadre_reward`
+	ADD CONSTRAINT `FK_base_cadre_teach_reward_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_train`
+	DROP FOREIGN KEY `FK_base_cadre_train_base_cadre`;
+ALTER TABLE `cadre_train`
+	ADD CONSTRAINT `FK_base_cadre_train_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+ALTER TABLE `cadre_tutor`
+	DROP FOREIGN KEY `FK_base_cadre_tutor_base_cadre`;
+ALTER TABLE `cadre_tutor`
+	ADD CONSTRAINT `FK_base_cadre_tutor_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cadre_under_edu`
+	DROP FOREIGN KEY `FK_base_cadre_under_edu_base_cadre`;
+ALTER TABLE `cadre_under_edu`
+	ADD CONSTRAINT `FK_base_cadre_under_edu_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_work`
+	DROP FOREIGN KEY `FK_base_cadre_work_base_cadre`;
+ALTER TABLE `cadre_work`
+	ADD CONSTRAINT `FK_base_cadre_work_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+
+ALTER TABLE `cis_evaluate`
+	DROP FOREIGN KEY `FK_cis_evaluate_cadre`;
+ALTER TABLE `cis_evaluate`
+	ADD CONSTRAINT `FK_cis_evaluate_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `dispatch_cadre`
+	DROP FOREIGN KEY `FK_base_dispatch_cadre_base_cadre`;
+ALTER TABLE `dispatch_cadre`
+	ADD CONSTRAINT `FK_base_dispatch_cadre_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `modify_cadre_auth`
+	ADD CONSTRAINT `FK_modify_cadre_auth_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `unit_admin`
+	DROP FOREIGN KEY `FK_base_unit_admin_base_cadre`;
+ALTER TABLE `unit_admin`
+	ADD CONSTRAINT `FK_base_unit_admin_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `unit_cadre_transfer`
+	DROP FOREIGN KEY `FK_base_unit_cadre_transfer_base_cadre`;
+ALTER TABLE `unit_cadre_transfer`
+	ADD CONSTRAINT `FK_base_unit_cadre_transfer_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `verify_age`
+	ADD CONSTRAINT `FK_verify_age_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `verify_work_time`
+	ADD CONSTRAINT `FK_verify_work_time_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+ALTER TABLE `abroad_applicat_cadre`
+	DROP FOREIGN KEY `FK_abroad_applicat_user_base_cadre`;
+ALTER TABLE `abroad_applicat_cadre`
+	ADD CONSTRAINT `FK_abroad_applicat_user_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+
+ALTER TABLE `abroad_apply_self`
+	DROP FOREIGN KEY `FK_abroad_apply_base_cadre`;
+ALTER TABLE `abroad_apply_self`
+	ADD CONSTRAINT `FK_abroad_apply_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+delete from abroad_apply_self_modify where apply_id not in(select id from abroad_apply_self);
+
+ALTER TABLE `abroad_apply_self_modify`
+	ADD CONSTRAINT `FK_abroad_apply_self_modify_abroad_apply_self` FOREIGN KEY (`apply_id`) REFERENCES `abroad_apply_self` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `abroad_approver`
+	DROP FOREIGN KEY `abroad_approver_ibfk_1`;
+ALTER TABLE `abroad_approver`
+	ADD CONSTRAINT `abroad_approver_ibfk_1` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `abroad_approver_black_list`
+	DROP FOREIGN KEY `FK_abroad_approver_black_list_base_cadre`;
+ALTER TABLE `abroad_approver_black_list`
+	ADD CONSTRAINT `FK_abroad_approver_black_list_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `abroad_passport`
+	DROP FOREIGN KEY `abroad_passport_ibfk_1`;
+ALTER TABLE `abroad_passport`
+	ADD CONSTRAINT `abroad_passport_ibfk_1` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `abroad_passport_apply`
+	DROP FOREIGN KEY `FK_abroad_passport_apply_base_cadre`;
+ALTER TABLE `abroad_passport_apply`
+	ADD CONSTRAINT `FK_abroad_passport_apply_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `abroad_passport_draw`
+	DROP FOREIGN KEY `FK_abroad_passport_draw_base_cadre`;
+ALTER TABLE `abroad_passport_draw`
+	ADD CONSTRAINT `FK_abroad_passport_draw_base_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+ALTER TABLE `cadre_inspect`
+	ADD CONSTRAINT `FK_cadre_inspect_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_paper`
+	ADD CONSTRAINT `FK_cadre_paper_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_post_admin`
+	ADD CONSTRAINT `FK_cadre_post_admin_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_post_work`
+	ADD CONSTRAINT `FK_cadre_post_work_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cis_inspect_obj`
+	DROP FOREIGN KEY `FK_cis_inspect_obj_cadre`;
+ALTER TABLE `cis_inspect_obj`
+	ADD CONSTRAINT `FK_cis_inspect_obj_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_info`
+	ENGINE=InnoDB;
+
+delete from cadre_info where  cadre_id not in(select id from cadre);
+ALTER TABLE `cadre_info`
+	ADD CONSTRAINT `FK_cadre_info_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cadre_concat`
+	ENGINE=InnoDB,
+	ROW_FORMAT=DEFAULT;
+
+delete from cadre_concat where  cadre_id not in(select id from cadre);
+
+ALTER TABLE `cadre_concat`
+	ADD CONSTRAINT `FK_cadre_concat_cadre` FOREIGN KEY (`cadre_id`) REFERENCES `cadre` (`id`) ON DELETE CASCADE;
+
+
+
+
+
 -- 2017-5-16
 ALTER TABLE `abroad_apply_self`
 	ADD COLUMN `remark` VARCHAR(200) NULL COMMENT '备注' AFTER `is_deleted`;

@@ -84,6 +84,11 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/passportApply_batchUnDel" data-title="找回已删除办理证件申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
+                                <shiro:hasPermission name="passportApply:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/passportApply_doBatchDel" data-title="删除办理证件申请"
+                                       data-msg="确定删除这{0}条申请记录吗（<span class='text-danger'>删除后不可以恢复，且办理的证件将从证件库中删除</span>）？"><i class="fa fa-times"></i> 完全删除</a>
+                                </shiro:hasPermission>
                             </c:if>
                             </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

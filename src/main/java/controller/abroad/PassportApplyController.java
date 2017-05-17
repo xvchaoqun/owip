@@ -253,6 +253,21 @@ public class PassportApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 真删除，只能删除已标记为“已删除”的记录
+    @RequiresPermissions("passportApply:del")
+    @RequestMapping(value = "/passportApply_doBatchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map passportApply_doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            passportApplyService.doBatchDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "（真删除）批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
 
     @RequiresPermissions("passportApply:abolish")
     @RequestMapping(value = "/passportApply_abolish", method = RequestMethod.POST)

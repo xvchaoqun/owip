@@ -131,6 +131,17 @@ public class PassportApplyService extends BaseMapper {
     }
 
     @Transactional
+    public void doBatchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        PassportApplyExample example = new PassportApplyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andIsDeletedEqualTo(true);
+
+        passportApplyMapper.deleteByExample(example);
+    }
+
+    @Transactional
     public int updateByPrimaryKeySelective(PassportApply record){
 
         return passportApplyMapper.updateByPrimaryKeySelective(record);
