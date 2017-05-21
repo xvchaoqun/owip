@@ -1,4 +1,17 @@
 
+
+CREATE TABLE `cpc_allocation` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`unit_id` INT(10) UNSIGNED NOT NULL COMMENT '单位',
+	`post_id` INT(10) UNSIGNED NOT NULL COMMENT '行政级别，关联元数据',
+	`num` INT(10) UNSIGNED NOT NULL COMMENT '数量',
+	PRIMARY KEY (`id`)
+)
+COMMENT='干部职数配置情况'
+ENGINE=InnoDB
+;
+
+
 -- 2017-5-17 弃用表还在使用的bug，彻底删除！
 DROP TABLE `abroad_applicat_post`;
 
