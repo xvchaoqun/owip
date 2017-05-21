@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
@@ -45,6 +47,8 @@ public class CacheService extends BaseController{
     protected CountMapper countMapper;
     @Autowired
     protected CacheManager cacheManager;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public final static String MENU_COUNT_CACHE_NAME = "menu_count_cache";
 
@@ -149,6 +153,8 @@ public class CacheService extends BaseController{
 
         String content = "function Location() {this.items=" + locationService.toJSON() + ";}";
         FileUtils.writerText(getJsFolder(), content, "location.js", false);
+
+        logger.info("==============刷新location.js成功=================");
     }
 
     // 刷新基础js数据
@@ -215,6 +221,7 @@ public class CacheService extends BaseController{
 
         try {
             FileUtils.writerText(getJsFolder(), "var _cMap=" + mapper.writeValueAsString(cMap), "metadata.js", false);
+            logger.info("==============刷新metadata.js成功=================");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

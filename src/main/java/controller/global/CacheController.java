@@ -2,11 +2,12 @@ package controller.global;
 
 import controller.BaseController;
 import net.sf.ehcache.CacheManager;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
 
 import java.util.Map;
 
@@ -15,10 +16,12 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/cache")
-public class CacheController extends BaseController{
+public class CacheController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 清除ehcache所有的缓存
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresPermissions("admin:cache")
     @RequestMapping("/clear")
     @ResponseBody
     public Map clearCache() {
@@ -34,11 +37,13 @@ public class CacheController extends BaseController{
         Ehcache cache = cacheManager.getEhcache(cacheConfiguration.getName());
         cache.removeAll();*/
 
+        logger.info("==============清空缓存成功=================");
+
         return success();
     }
 
     // 刷新location缓存
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresPermissions("admin:cache")
     @RequestMapping("/flush_location_JSON")
     @ResponseBody
     public Map flush_location_JSON() {
@@ -48,10 +53,10 @@ public class CacheController extends BaseController{
     }
 
     // 刷新元数据缓存
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresPermissions("admin:cache")
     @RequestMapping("/flush_metadata_JSON")
     @ResponseBody
-    public Map flush_metadata_JSON(){
+    public Map flush_metadata_JSON() {
 
         cacheService.flushMetadata();
         return success();

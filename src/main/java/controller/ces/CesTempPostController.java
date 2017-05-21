@@ -4,13 +4,13 @@ import controller.BaseController;
 import domain.ces.CesTempPost;
 import domain.ces.CesTempPostExample;
 import domain.ces.CesTempPostExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,26 +34,56 @@ public class CesTempPostController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost")
-    public String cesTempPost() {
+    // 校外挂职锻炼
+    @RequiresPermissions("CadreTempPost:OutMenu")
+    @RequestMapping("/cesTempPost_out")
+    public String cesTempPost_out() {
 
         return "index";
     }
 
     @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost_page")
-    public String cesTempPost_page(HttpServletResponse response,
-                                   @SortParam(required = false, defaultValue = "sort_order", tableName = "ces_temp_post") String sort,
-                                   @OrderParam(required = false, defaultValue = "desc") String order,
-                                   Integer cadreId,
-                                   Byte type,
-                                   Boolean isFinished,
-                                   Boolean isDeleted,
-                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                   Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    @RequestMapping("/cesTempPost_out_page")
+    public String cesTempPost_out_page() {
 
+        return "forward:/cesTempPost_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_OUT;
+    }
+
+    // 校内挂职锻炼
+    @RequiresPermissions("CadreTempPost:InMenu")
+    @RequestMapping("/cesTempPost_in")
+    public String cesTempPost_in() {
+
+        return "index";
+    }
+
+    @RequiresPermissions("cesTempPost:list")
+    @RequestMapping("/cesTempPost_in_page")
+    public String cesTempPost_in_page() {
+
+        return "forward:/cesTempPost_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_IN;
+    }
+
+    // 外单位到本校挂职
+    @RequiresPermissions("CadreTempPost:TransferMenu")
+    @RequestMapping("/cesTempPost_transfer")
+    public String cesTempPost_transfer() {
+
+        return "index";
+    }
+
+    @RequiresPermissions("cesTempPost:list")
+    @RequestMapping("/cesTempPost_transfer_page")
+    public String cesTempPost_transfer_page() {
+
+        return "forward:/cesTempPost_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_TRANSFER;
+    }
+
+    @RequiresPermissions("cesTempPost:list")
+    @RequestMapping("/cesTempPost_page")
+    public String cesTempPost_page(@RequestParam(required = false, defaultValue = "0") Boolean isFinished, ModelMap modelMap) {
+
+        modelMap.put("isFinished", isFinished);
         return "ces/cesTempPost/cesTempPost_page";
     }
 
@@ -63,7 +93,6 @@ public class CesTempPostController extends BaseController {
                                  Integer cadreId,
                                  Byte type,
                                  Boolean isFinished,
-                                 Boolean isDeleted,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -88,9 +117,6 @@ public class CesTempPostController extends BaseController {
         }
         if (isFinished != null) {
             criteria.andIsFinishedEqualTo(isFinished);
-        }
-        if (isDeleted != null) {
-            criteria.andIsDeletedEqualTo(isDeleted);
         }
 
         if (export == 1) {
@@ -127,6 +153,12 @@ public class CesTempPostController extends BaseController {
 
         Integer id = record.getId();
 
+        if(record.getStartDate().after(record.getEndDate())){
+            return failed("挂职时间有误。");
+        }
+
+        record.setIsPresentCadre(BooleanUtils.isTrue(record.getIsPresentCadre()));
+
         if (id == null) {
             cesTempPostService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部挂职锻炼：%s", record.getId()));
@@ -141,12 +173,16 @@ public class CesTempPostController extends BaseController {
 
     @RequiresPermissions("cesTempPost:edit")
     @RequestMapping("/cesTempPost_au")
-    public String cesTempPost_au(Integer id, ModelMap modelMap) {
+    public String cesTempPost_au(Integer id, Byte type, ModelMap modelMap) {
 
         if (id != null) {
             CesTempPost cesTempPost = cesTempPostMapper.selectByPrimaryKey(id);
+
+            type = cesTempPost.getType();
             modelMap.put("cesTempPost", cesTempPost);
         }
+
+        modelMap.put("type", type);
         return "ces/cesTempPost/cesTempPost_au";
     }
 
@@ -159,6 +195,31 @@ public class CesTempPostController extends BaseController {
 
             cesTempPostService.del(id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部挂职锻炼：%s", id));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cesTempPost:edit")
+    @RequestMapping("/cesTempPost_finish")
+    public String cesTempPost_finish(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CesTempPost cesTempPost = cesTempPostMapper.selectByPrimaryKey(id);
+            modelMap.put("cesTempPost", cesTempPost);
+        }
+
+        return "ces/cesTempPost/cesTempPost_finish";
+    }
+
+    @RequiresPermissions("cesTempPost:del")
+    @RequestMapping(value = "/cesTempPost_finish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cesTempPost_finish(Integer id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date realEndDate) {
+
+        if (id != null) {
+
+            cesTempPostService.finish(id, realEndDate);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "干部挂职结束：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

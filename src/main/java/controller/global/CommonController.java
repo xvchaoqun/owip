@@ -120,10 +120,10 @@ public class CommonController extends BaseController {
     @RequestMapping("/cadre_selects")
     @ResponseBody
     public Map cadre_selects(
-            @RequestParam(required = false, value = "types") Byte[] types, // 指定类别
-            // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库
+            @RequestParam(required = false, value = "types") Byte[] types, // 指定多个干部类别
+            // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
             @RequestParam(defaultValue = "1", required = false) Byte type,
-            Byte status,
+            Byte status, // 特定干部类别 (优先级最高)
             Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -169,6 +169,8 @@ public class CommonController extends BaseController {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 option.put("id", cadre.getId() + "");
                 option.put("text", sysUser.getRealname());
+                option.put("title", cadre.getTitle());
+                option.put("status", cadre.getStatus() + "");
                 if (StringUtils.isNotBlank(sysUser.getCode())) {
                     option.put("code", sysUser.getCode());
                     ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());

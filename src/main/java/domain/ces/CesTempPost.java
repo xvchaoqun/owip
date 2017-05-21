@@ -1,9 +1,19 @@
 package domain.ces;
 
+import domain.cadre.CadreView;
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CesTempPost implements Serializable {
+
+    public CadreView getCadre(){
+
+        return (cadreId==null)?null:CmTag.getCadreById(cadreId);
+    }
+
     private Integer id;
 
     private Integer cadreId;
@@ -24,12 +34,13 @@ public class CesTempPost implements Serializable {
 
     private String title;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     private Boolean isFinished;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date realEndDate;
 
     private Byte type;

@@ -16,6 +16,8 @@ $("#modalForm :checkbox").bootstrapSwitch();
 data-on-text="开" data-off-text="关"
 record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
 
+<input type="checkbox" class="big" name="isGraduated" ${(cadreEdu==null ||cadreEdu.isGraduated)?"checked":""}/>
+
 类别选择
 ajax
 <select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects" name="unitId" data-placeholder="请选择">

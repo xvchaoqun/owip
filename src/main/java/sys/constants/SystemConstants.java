@@ -951,6 +951,20 @@ public class SystemConstants {
         CIS_EVALUATE_TYPE_MAP.put(CIS_EVALUATE_TYPE_EVA, "工作评价");
     }
 
+
+
+    // 干部考核管理，干部挂职锻炼分类，  1 校外挂职锻炼 2 校内挂职锻炼 3 外单位到本校挂职
+    public final static byte CES_TEMP_POST_TYPE_OUT = 1;
+    public final static byte CES_TEMP_POST_TYPE_IN = 2;
+    public final static byte CES_TEMP_POST_TYPE_TRANSFER = 3;
+    public final static Map<Byte, String> CES_TEMP_POST_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        CES_TEMP_POST_TYPE_MAP.put(CES_TEMP_POST_TYPE_OUT, "校外挂职锻炼");
+        CES_TEMP_POST_TYPE_MAP.put(CES_TEMP_POST_TYPE_IN, "校内挂职锻炼");
+        CES_TEMP_POST_TYPE_MAP.put(CES_TEMP_POST_TYPE_TRANSFER, "外单位到本校挂职");
+    }
+
     // 干部培训 评课账号的状态
     public final static byte TRAIN_INSPECTOR_STATUS_INIT = 0;
     public final static byte TRAIN_INSPECTOR_STATUS_ABOLISH = 1;
