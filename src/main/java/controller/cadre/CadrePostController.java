@@ -87,7 +87,7 @@ public class CadrePostController extends BaseController {
                 .andCadreIdEqualTo(cadreId).andIsMainPostEqualTo(isMainPost);
         example.setOrderByClause("sort_order desc");
 
-        int count = cadrePostMapper.countByExample(example);
+        long count = cadrePostMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -110,20 +110,25 @@ public class CadrePostController extends BaseController {
     @RequiresPermissions("cadrePost:edit")
     @RequestMapping(value = "/cadrePost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadrePost_au(CadrePost record, String _startTime, String _postTime, HttpServletRequest request) {
+    public Map do_cadrePost_au(CadrePost record,
+                               Boolean isCpc,
+                               HttpServletRequest request) {
 
         Integer id = record.getId();
 
         // 只用于主职
         if(BooleanUtils.isTrue(record.getIsMainPost()))
-            record.setIsDouble((record.getIsDouble() == null) ? false : record.getIsDouble());
+            record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
+
+        if(BooleanUtils.isNotTrue(record.getIsMainPost()))
+            record.setIsCpc(BooleanUtils.isTrue(isCpc));
 
         if (id == null) {
             cadrePostService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加现任职务：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, false)));
         } else {
             cadrePostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新现任职务：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, false)));
         }
 
         return success(FormUtils.SUCCESS);

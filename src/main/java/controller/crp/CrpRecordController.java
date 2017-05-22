@@ -1,9 +1,8 @@
-package controller.ces;
+package controller.crp;
 
 import controller.BaseController;
-import domain.ces.CesTempPost;
-import domain.ces.CesTempPostExample;
-import domain.ces.CesTempPostExample.Criteria;
+import domain.crp.CrpRecord;
+import domain.crp.CrpRecordExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -30,66 +29,66 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class CesTempPostController extends BaseController {
+public class CrpRecordController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 校外挂职锻炼
-    @RequiresPermissions("CadreTempPost:OutMenu")
-    @RequestMapping("/cesTempPost_out")
-    public String cesTempPost_out() {
+    @RequiresPermissions("crpRecord:OutMenu")
+    @RequestMapping("/crpRecord_out")
+    public String crpRecord_out() {
 
         return "index";
     }
 
-    @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost_out_page")
-    public String cesTempPost_out_page() {
+    @RequiresPermissions("crpRecord:list")
+    @RequestMapping("/crpRecord_out_page")
+    public String crpRecord_out_page() {
 
-        return "forward:/cesTempPost_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_OUT;
+        return "forward:/crpRecord_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_OUT;
     }
 
     // 校内挂职锻炼
-    @RequiresPermissions("CadreTempPost:InMenu")
-    @RequestMapping("/cesTempPost_in")
-    public String cesTempPost_in() {
+    @RequiresPermissions("crpRecord:InMenu")
+    @RequestMapping("/crpRecord_in")
+    public String crpRecord_in() {
 
         return "index";
     }
 
-    @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost_in_page")
-    public String cesTempPost_in_page() {
+    @RequiresPermissions("crpRecord:list")
+    @RequestMapping("/crpRecord_in_page")
+    public String crpRecord_in_page() {
 
-        return "forward:/cesTempPost_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_IN;
+        return "forward:/crpRecord_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_IN;
     }
 
     // 外单位到本校挂职
-    @RequiresPermissions("CadreTempPost:TransferMenu")
-    @RequestMapping("/cesTempPost_transfer")
-    public String cesTempPost_transfer() {
+    @RequiresPermissions("crpRecord:TransferMenu")
+    @RequestMapping("/crpRecord_transfer")
+    public String crpRecord_transfer() {
 
         return "index";
     }
 
-    @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost_transfer_page")
-    public String cesTempPost_transfer_page() {
+    @RequiresPermissions("crpRecord:list")
+    @RequestMapping("/crpRecord_transfer_page")
+    public String crpRecord_transfer_page() {
 
-        return "forward:/cesTempPost_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_TRANSFER;
+        return "forward:/crpRecord_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_TRANSFER;
     }
 
-    @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost_page")
-    public String cesTempPost_page(@RequestParam(required = false, defaultValue = "0") Boolean isFinished, ModelMap modelMap) {
+    @RequiresPermissions("crpRecord:list")
+    @RequestMapping("/crpRecord_page")
+    public String crpRecord_page(@RequestParam(required = false, defaultValue = "0") Boolean isFinished, ModelMap modelMap) {
 
         modelMap.put("isFinished", isFinished);
-        return "ces/cesTempPost/cesTempPost_page";
+        return "crp/crpRecord/crpRecord_page";
     }
 
-    @RequiresPermissions("cesTempPost:list")
-    @RequestMapping("/cesTempPost_data")
-    public void cesTempPost_data(HttpServletResponse response,
+    @RequiresPermissions("crpRecord:list")
+    @RequestMapping("/crpRecord_data")
+    public void crpRecord_data(HttpServletResponse response,
                                  Integer cadreId,
                                  Byte type,
                                  Boolean isFinished,
@@ -105,8 +104,8 @@ public class CesTempPostController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CesTempPostExample example = new CesTempPostExample();
-        Criteria criteria = example.createCriteria();
+        CrpRecordExample example = new CrpRecordExample();
+        CrpRecordExample.Criteria criteria = example.createCriteria();
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId != null) {
@@ -122,16 +121,16 @@ public class CesTempPostController extends BaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cesTempPost_export(example, response);
+            crpRecord_export(example, response);
             return;
         }
 
-        long count = cesTempPostMapper.countByExample(example);
+        long count = crpRecordMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CesTempPost> records = cesTempPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CrpRecord> records = crpRecordMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -141,15 +140,15 @@ public class CesTempPostController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(cesTempPost.class, cesTempPostMixin.class);
+        //sourceMixins.put(crpRecord.class, crpRecordMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 
-    @RequiresPermissions("cesTempPost:edit")
-    @RequestMapping(value = "/cesTempPost_au", method = RequestMethod.POST)
+    @RequiresPermissions("crpRecord:edit")
+    @RequestMapping(value = "/crpRecord_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cesTempPost_au(CesTempPost record, HttpServletRequest request) {
+    public Map do_crpRecord_au(CrpRecord record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -160,78 +159,78 @@ public class CesTempPostController extends BaseController {
         record.setIsPresentCadre(BooleanUtils.isTrue(record.getIsPresentCadre()));
 
         if (id == null) {
-            cesTempPostService.insertSelective(record);
+            crpRecordService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部挂职锻炼：%s", record.getId()));
         } else {
 
-            cesTempPostService.updateByPrimaryKeySelective(record);
+            crpRecordService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部挂职锻炼：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cesTempPost:edit")
-    @RequestMapping("/cesTempPost_au")
-    public String cesTempPost_au(Integer id, Byte type, ModelMap modelMap) {
+    @RequiresPermissions("crpRecord:edit")
+    @RequestMapping("/crpRecord_au")
+    public String crpRecord_au(Integer id, Byte type, ModelMap modelMap) {
 
         if (id != null) {
-            CesTempPost cesTempPost = cesTempPostMapper.selectByPrimaryKey(id);
+            CrpRecord crpRecord = crpRecordMapper.selectByPrimaryKey(id);
 
-            type = cesTempPost.getType();
-            modelMap.put("cesTempPost", cesTempPost);
+            type = crpRecord.getType();
+            modelMap.put("crpRecord", crpRecord);
         }
 
         modelMap.put("type", type);
-        return "ces/cesTempPost/cesTempPost_au";
+        return "crp/crpRecord/crpRecord_au";
     }
 
-    @RequiresPermissions("cesTempPost:del")
-    @RequestMapping(value = "/cesTempPost_del", method = RequestMethod.POST)
+    @RequiresPermissions("crpRecord:del")
+    @RequestMapping(value = "/crpRecord_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cesTempPost_del(HttpServletRequest request, Integer id) {
+    public Map do_crpRecord_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cesTempPostService.del(id);
+            crpRecordService.del(id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部挂职锻炼：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cesTempPost:edit")
-    @RequestMapping("/cesTempPost_finish")
-    public String cesTempPost_finish(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("crpRecord:edit")
+    @RequestMapping("/crpRecord_finish")
+    public String crpRecord_finish(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CesTempPost cesTempPost = cesTempPostMapper.selectByPrimaryKey(id);
-            modelMap.put("cesTempPost", cesTempPost);
+            CrpRecord crpRecord = crpRecordMapper.selectByPrimaryKey(id);
+            modelMap.put("crpRecord", crpRecord);
         }
 
-        return "ces/cesTempPost/cesTempPost_finish";
+        return "crp/crpRecord/crpRecord_finish";
     }
 
-    @RequiresPermissions("cesTempPost:del")
-    @RequestMapping(value = "/cesTempPost_finish", method = RequestMethod.POST)
+    @RequiresPermissions("crpRecord:del")
+    @RequestMapping(value = "/crpRecord_finish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cesTempPost_finish(Integer id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date realEndDate) {
+    public Map do_crpRecord_finish(Integer id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date realEndDate) {
 
         if (id != null) {
 
-            cesTempPostService.finish(id, realEndDate);
+            crpRecordService.finish(id, realEndDate);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "干部挂职结束：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cesTempPost:del")
-    @RequestMapping(value = "/cesTempPost_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("crpRecord:del")
+    @RequestMapping(value = "/crpRecord_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {
-            cesTempPostService.batchDel(ids);
+            crpRecordService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部挂职锻炼：%s", StringUtils.join(ids, ",")));
         }
 
@@ -239,14 +238,14 @@ public class CesTempPostController extends BaseController {
     }
 
 
-    public void cesTempPost_export(CesTempPostExample example, HttpServletResponse response) {
+    public void crpRecord_export(CrpRecordExample example, HttpServletResponse response) {
 
-        List<CesTempPost> records = cesTempPostMapper.selectByExample(example);
+        List<CrpRecord> records = crpRecordMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"姓名", "是否现任干部", "时任职务", "委派单位", "挂职类别", "挂职单位及所任职务", "挂职开始时间", "挂职拟结束时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CesTempPost record = records.get(i);
+            CrpRecord record = records.get(i);
             String[] values = {
                     record.getRealname(),
                     record.getIsPresentCadre() ? "现任干部" : "非现任干部",

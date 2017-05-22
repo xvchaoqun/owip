@@ -43,6 +43,24 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-xs-4 control-label">职务级别</label>
+					<div class="col-xs-6">
+						<select required data-rel="select2" name="adminLevelId" data-placeholder="请选择">
+							<option></option>
+							<c:import url="/metaTypes?__code=mc_admin_level"/>
+						</select>
+						<script type="text/javascript">
+							$("#modal form select[name=adminLevelId]").val(${cadrePost.adminLevelId});
+						</script>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">是否占职数</label>
+					<div class="col-xs-6 label-text"  style="font-size: 15px;">
+						<input type="checkbox" class="big" name="isCpc" ${(cadrePost==null ||cadrePost.isCpc)?"checked":""}/>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-xs-4 control-label">职务类别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postClassId" data-placeholder="请选择">

@@ -1,38 +1,39 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadre.CadrePostMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadre.CadrePost" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="post_id" property="postId" jdbcType="INTEGER" />
-    <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
-    <result column="post_class_id" property="postClassId" jdbcType="INTEGER" />
-    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
-    <result column="is_double" property="isDouble" jdbcType="BIT" />
-    <result column="double_unit_id" property="doubleUnitId" jdbcType="INTEGER" />
-    <result column="is_main_post" property="isMainPost" jdbcType="BIT" />
-    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cadre.CadrePostMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadrePost">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="is_cpc" jdbcType="BIT" property="isCpc" />
+    <result column="post_class_id" jdbcType="INTEGER" property="postClassId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="is_double" jdbcType="BIT" property="isDouble" />
+    <result column="double_unit_id" jdbcType="INTEGER" property="doubleUnitId" />
+    <result column="is_main_post" jdbcType="BIT" property="isMainPost" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -43,25 +44,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -72,229 +73,245 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, cadre_id, post, post_id, admin_level_id, post_class_id, unit_id, is_double, double_unit_id, 
-    is_main_post, sort_order
+  <sql id="Base_Column_List">
+    id, cadre_id, post, post_id, admin_level_id, is_cpc, post_class_id, unit_id, is_double, 
+    double_unit_id, is_main_post, sort_order
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadrePostExample" >
+  <select id="selectByExample" parameterType="domain.cadre.CadrePostExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_post
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from cadre_post
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cadre_post
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadrePostExample" >
+  <delete id="deleteByExample" parameterType="domain.cadre.CadrePostExample">
     delete from cadre_post
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadrePost" >
+  <insert id="insert" parameterType="domain.cadre.CadrePost">
     insert into cadre_post (id, cadre_id, post, 
-      post_id, admin_level_id, post_class_id, 
-      unit_id, is_double, double_unit_id, 
-      is_main_post, sort_order)
+      post_id, admin_level_id, is_cpc, 
+      post_class_id, unit_id, is_double, 
+      double_unit_id, is_main_post, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
-      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{postClassId,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, #{doubleUnitId,jdbcType=INTEGER}, 
-      #{isMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER})
+      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, 
+      #{postClassId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, 
+      #{doubleUnitId,jdbcType=INTEGER}, #{isMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadrePost" >
+  <insert id="insertSelective" parameterType="domain.cadre.CadrePost">
     insert into cadre_post
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post,
       </if>
-      <if test="postId != null" >
+      <if test="postId != null">
         post_id,
       </if>
-      <if test="adminLevelId != null" >
+      <if test="adminLevelId != null">
         admin_level_id,
       </if>
-      <if test="postClassId != null" >
+      <if test="isCpc != null">
+        is_cpc,
+      </if>
+      <if test="postClassId != null">
         post_class_id,
       </if>
-      <if test="unitId != null" >
+      <if test="unitId != null">
         unit_id,
       </if>
-      <if test="isDouble != null" >
+      <if test="isDouble != null">
         is_double,
       </if>
-      <if test="doubleUnitId != null" >
+      <if test="doubleUnitId != null">
         double_unit_id,
       </if>
-      <if test="isMainPost != null" >
+      <if test="isMainPost != null">
         is_main_post,
       </if>
-      <if test="sortOrder != null" >
+      <if test="sortOrder != null">
         sort_order,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null" >
+      <if test="postId != null">
         #{postId,jdbcType=INTEGER},
       </if>
-      <if test="adminLevelId != null" >
+      <if test="adminLevelId != null">
         #{adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="postClassId != null" >
+      <if test="isCpc != null">
+        #{isCpc,jdbcType=BIT},
+      </if>
+      <if test="postClassId != null">
         #{postClassId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null" >
+      <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="isDouble != null" >
+      <if test="isDouble != null">
         #{isDouble,jdbcType=BIT},
       </if>
-      <if test="doubleUnitId != null" >
+      <if test="doubleUnitId != null">
         #{doubleUnitId,jdbcType=INTEGER},
       </if>
-      <if test="isMainPost != null" >
+      <if test="isMainPost != null">
         #{isMainPost,jdbcType=BIT},
       </if>
-      <if test="sortOrder != null" >
+      <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadrePostExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.cadre.CadrePostExample" resultType="java.lang.Long">
     select count(*) from cadre_post
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update cadre_post
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null" >
+      <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.post != null" >
+      <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
-      <if test="record.postId != null" >
+      <if test="record.postId != null">
         post_id = #{record.postId,jdbcType=INTEGER},
       </if>
-      <if test="record.adminLevelId != null" >
+      <if test="record.adminLevelId != null">
         admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="record.postClassId != null" >
+      <if test="record.isCpc != null">
+        is_cpc = #{record.isCpc,jdbcType=BIT},
+      </if>
+      <if test="record.postClassId != null">
         post_class_id = #{record.postClassId,jdbcType=INTEGER},
       </if>
-      <if test="record.unitId != null" >
+      <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.isDouble != null" >
+      <if test="record.isDouble != null">
         is_double = #{record.isDouble,jdbcType=BIT},
       </if>
-      <if test="record.doubleUnitId != null" >
+      <if test="record.doubleUnitId != null">
         double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
       </if>
-      <if test="record.isMainPost != null" >
+      <if test="record.isMainPost != null">
         is_main_post = #{record.isMainPost,jdbcType=BIT},
       </if>
-      <if test="record.sortOrder != null" >
+      <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update cadre_post
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
       post_id = #{record.postId,jdbcType=INTEGER},
       admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
+      is_cpc = #{record.isCpc,jdbcType=BIT},
       post_class_id = #{record.postClassId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       is_double = #{record.isDouble,jdbcType=BIT},
       double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
       is_main_post = #{record.isMainPost,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadrePost" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadrePost">
     update cadre_post
-    <set >
-      <if test="cadreId != null" >
+    <set>
+      <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
-      <if test="postId != null" >
+      <if test="postId != null">
         post_id = #{postId,jdbcType=INTEGER},
       </if>
-      <if test="adminLevelId != null" >
+      <if test="adminLevelId != null">
         admin_level_id = #{adminLevelId,jdbcType=INTEGER},
       </if>
-      <if test="postClassId != null" >
+      <if test="isCpc != null">
+        is_cpc = #{isCpc,jdbcType=BIT},
+      </if>
+      <if test="postClassId != null">
         post_class_id = #{postClassId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null" >
+      <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="isDouble != null" >
+      <if test="isDouble != null">
         is_double = #{isDouble,jdbcType=BIT},
       </if>
-      <if test="doubleUnitId != null" >
+      <if test="doubleUnitId != null">
         double_unit_id = #{doubleUnitId,jdbcType=INTEGER},
       </if>
-      <if test="isMainPost != null" >
+      <if test="isMainPost != null">
         is_main_post = #{isMainPost,jdbcType=BIT},
       </if>
-      <if test="sortOrder != null" >
+      <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePost" >
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePost">
     update cadre_post
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
       post_id = #{postId,jdbcType=INTEGER},
       admin_level_id = #{adminLevelId,jdbcType=INTEGER},
+      is_cpc = #{isCpc,jdbcType=BIT},
       post_class_id = #{postClassId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       is_double = #{isDouble,jdbcType=BIT},
@@ -303,17 +320,17 @@
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadrePostExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadrePostExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_post
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

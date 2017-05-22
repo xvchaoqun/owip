@@ -346,9 +346,13 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:view")
     @RequestMapping("/cadre_view")
     public String cadre_view(HttpServletResponse response,
+                                 Integer cadreId,
                                   @RequestParam(defaultValue = "cadre_base")String to, // 默认跳转到基本信息
                                   ModelMap modelMap) {
         modelMap.put("to", to);
+
+        CadreView cadre = cadreService.findAll().get(cadreId);
+        modelMap.put("cadre", cadre);
 
         return "cadre/cadre_view";
     }

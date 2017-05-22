@@ -5,8 +5,8 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/cesTempPost_page"
-             data-url-export="${ctx}/cesTempPost_data"
+             data-url-page="${ctx}/crpRecord_page"
+             data-url-export="${ctx}/crpRecord_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.cadreId  ||not empty param.isDeleted || not empty param.code || not empty param.sort}"/>
@@ -23,23 +23,23 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <shiro:hasPermission name="cesTempPost:edit">
+                            <shiro:hasPermission name="crpRecord:edit">
                                 <c:if test="${!isFinished}">
                                     <a class="popupBtn btn btn-info btn-sm"
-                                       data-url="${ctx}/cesTempPost_au?type=${param.type}"><i class="fa fa-plus"></i> 添加</a>
+                                       data-url="${ctx}/crpRecord_au?type=${param.type}"><i class="fa fa-plus"></i> 添加</a>
                                 </c:if>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                   data-url="${ctx}/cesTempPost_au"
+                                   data-url="${ctx}/crpRecord_au"
                                    data-grid-id="#jqGrid"
                                    data-querystr="&type=${param.type}"><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/cesTempPost_finish"
+                               data-url="${ctx}/crpRecord_finish"
                                data-grid-id="#jqGrid"><i class="fa fa-power-off"></i>
                                 挂职结束</a>
-                            <shiro:hasPermission name="cesTempPost:del">
-                                <button data-url="${ctx}/cesTempPost_batchDel"
+                            <shiro:hasPermission name="crpRecord:del">
+                                <button data-url="${ctx}/crpRecord_batchDel"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"
@@ -119,7 +119,7 @@
 </c:if>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/cesTempPost_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {

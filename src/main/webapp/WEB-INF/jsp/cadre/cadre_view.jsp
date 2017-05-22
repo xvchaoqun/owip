@@ -3,10 +3,15 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:if test="${param._auth!='self'}">
+    <div class="hidden-xs hidden-sm" title="${cadre.title}"  style="position:absolute; top: -45px; width: 450px;
+    left:50%;margin-left:-225px; font-size: 16pt; font-weight: bolder;white-space:nowrap; overflow:hidden;text-overflow:ellipsis">
+        【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
+    </div>
     <h4 class="widget-title lighter smaller"
-        style="position:absolute; top: -50px; left:480px; float: left; margin-bottom:0px; margin-left: 50px;">
+        style="position:absolute; top: -50px; right: 50px; ">
+
         <a href="javascript:" class="closeView btn btn-xs btn-success">
-            <i class="ace-icon fa fa-backward"></i>
+            <i class="ace-icon fa fa-reply"></i>
             返回</a>
     </h4>
 </c:if>

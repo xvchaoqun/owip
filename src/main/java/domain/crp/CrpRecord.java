@@ -1,4 +1,4 @@
-package domain.ces;
+package domain.crp;
 
 import domain.cadre.CadreView;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,11 +7,11 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CesTempPost implements Serializable {
+public class CrpRecord implements Serializable {
 
     public CadreView getCadre(){
 
-        return (cadreId==null)?null:CmTag.getCadreById(cadreId);
+        return (cadreId==null)?null: CmTag.getCadreById(cadreId);
     }
 
     private Integer id;
@@ -33,7 +33,6 @@ public class CesTempPost implements Serializable {
     private String tempPost;
 
     private String title;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

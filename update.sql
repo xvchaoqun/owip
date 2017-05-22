@@ -1,15 +1,13 @@
 
 
-CREATE TABLE `cpc_allocation` (
-	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
-	`unit_id` INT(10) UNSIGNED NOT NULL COMMENT '单位',
-	`post_id` INT(10) UNSIGNED NOT NULL COMMENT '行政级别，关联元数据',
-	`num` INT(10) UNSIGNED NOT NULL COMMENT '数量',
-	PRIMARY KEY (`id`)
-)
-COMMENT='干部职数配置情况'
-ENGINE=InnoDB
-;
+
+ALTER TABLE `cadre_post`
+	CHANGE COLUMN `admin_level_id` `admin_level_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `post_id`,
+	ADD COLUMN `is_cpc` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否占职数，用于兼职' AFTER `admin_level_id`;
+
+ALTER TABLE `ces_temp_post`
+	COMMENT='干部挂职锻炼';
+RENAME TABLE `ces_temp_post` TO `crp_record`;
 
 
 -- 2017-5-17 弃用表还在使用的bug，彻底删除！

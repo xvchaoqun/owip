@@ -344,6 +344,18 @@
             }, frozen: true
             },
             {label: '兼任职务', name: 'post', frozen: true},
+            {
+                label: '职务级别', name: 'adminLevelId', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '';
+                return _cMap.adminLevelMap[cellvalue].name
+            }, frozen: true
+            },
+            {
+                label: '是否占职数', name: 'isCpc', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return cellvalue ? "是" : "否"
+            }
+            },
             <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {

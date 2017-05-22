@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cesTempPost!=null}">编辑</c:if><c:if test="${cesTempPost==null}">添加</c:if>
+    <h3><c:if test="${crpRecord!=null}">编辑</c:if><c:if test="${crpRecord==null}">添加</c:if>
         ${CES_TEMP_POST_TYPE_MAP.get(type)}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cesTempPost_au" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cesTempPost.id}">
+    <form class="form-horizontal" action="${ctx}/crpRecord_au" id="modalForm" method="post">
+        <input type="hidden" name="id" value="${crpRecord.id}">
         <input type="hidden" name="type" value="${type}">
 
         <c:if test="${type!=CES_TEMP_POST_TYPE_TRANSFER}">
@@ -17,7 +17,7 @@
 
             <div class="col-xs-6">
                 <input type="checkbox" class="big"
-                       name="isPresentCadre" ${(cesTempPost==null ||cesTempPost.isPresentCadre)?"checked":""}/>
+                       name="isPresentCadre" ${(crpRecord==null ||crpRecord.isPresentCadre)?"checked":""}/>
             </div>
         </div>
         <div class="form-group">
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label class="col-xs-4 control-label">姓名</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="realname" value="${cesTempPost.realname}">
+                <input required class="form-control" type="text" name="realname" value="${crpRecord.realname}">
             </div>
         </div>
         </c:if>
@@ -44,7 +44,7 @@
 
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text"
-                          name="presentPost" maxlength="100">${cesTempPost.presentPost}</textarea>
+                          name="presentPost" maxlength="100">${crpRecord.presentPost}</textarea>
             </div>
         </div>
         <c:if test="${type==CES_TEMP_POST_TYPE_OUT}">
@@ -74,7 +74,7 @@
                     <c:import url="/metaTypes?__code=${unitCode}"/>
                 </select>
                 <script type="text/javascript">
-                    $("#modalForm select[name=toUnitType]").val(${cesTempPost.toUnitType});
+                    $("#modalForm select[name=toUnitType]").val(${crpRecord.toUnitType});
                 </script>
             </div>
         </div>
@@ -82,7 +82,7 @@
             <label class="col-xs-4 control-label">单位名称</label>
 
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="toUnit" value="${cesTempPost.toUnit}">
+                <input class="form-control" type="text" name="toUnit" value="${crpRecord.toUnit}">
             </div>
         </div>
         <div class="form-group">
@@ -94,7 +94,7 @@
                     <c:import url="/metaTypes?__code=${postCode}"/>
                 </select>
                 <script type="text/javascript">
-                    $("#modalForm select[name=tempPostType]").val(${cesTempPost.tempPostType});
+                    $("#modalForm select[name=tempPostType]").val(${crpRecord.tempPostType});
                 </script>
             </div>
         </div>
@@ -102,7 +102,7 @@
             <label class="col-xs-4 control-label">挂职类型</label>
 
             <div class="col-xs-6">
-                <input  class="form-control" type="text" name="tempPost" value="${cesTempPost.tempPost}">
+                <input  class="form-control" type="text" name="tempPost" value="${crpRecord.tempPost}">
             </div>
         </div>
         <div class="form-group">
@@ -110,7 +110,7 @@
 
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text"
-                          name="title" maxlength="100">${cesTempPost.title}</textarea>
+                          name="title" maxlength="100">${crpRecord.title}</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -118,7 +118,7 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="startDate" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cesTempPost.startDate,'yyyy-MM-dd')}" />
+                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(crpRecord.startDate,'yyyy-MM-dd')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -128,7 +128,7 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="endDate" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cesTempPost.endDate,'yyyy-MM-dd')}" />
+                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(crpRecord.endDate,'yyyy-MM-dd')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -139,7 +139,7 @@
 
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text"
-                          name="remark" maxlength="200">${cesTempPost.remark}</textarea>
+                          name="remark" maxlength="200">${crpRecord.remark}</textarea>
             </div>
         </div>
     </form>
@@ -147,7 +147,7 @@
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary"
-           value="<c:if test="${cesTempPost!=null}">确定</c:if><c:if test="${cesTempPost==null}">添加</c:if>"/>
+           value="<c:if test="${crpRecord!=null}">确定</c:if><c:if test="${crpRecord==null}">添加</c:if>"/>
 </div>
 
 <script>

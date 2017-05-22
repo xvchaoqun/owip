@@ -4,14 +4,14 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
-  "folder": "ces",
+  "folder": "cpc",
   "tables": [
     {
-      "table": "ces_temp_post",
+      "table": "cpc_allocation",
       "key": "id",
-      "searchColumns": "cadre_id,type,is_finished,is_deleted",
-      "showColumns": "realname,is_present_cadre,present_post,to_unit_type,temp_post_type,title,start_date,end_date",
-      "excludeEditColumns": "id,is_finished,is_deleted",
+      "searchColumns": "unit_id,post_id",
+      "showColumns": "unit_id,post_id,num",
+      "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": false
     }

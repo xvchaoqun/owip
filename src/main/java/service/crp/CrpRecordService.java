@@ -1,7 +1,7 @@
-package service.ces;
+package service.crp;
 
-import domain.ces.CesTempPost;
-import domain.ces.CesTempPostExample;
+import domain.crp.CrpRecord;
+import domain.crp.CrpRecordExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -12,20 +12,19 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Service
-public class CesTempPostService extends BaseMapper {
+public class CrpRecordService extends BaseMapper {
 
 
     @Transactional
-    public void insertSelective(CesTempPost record) {
+    public void insertSelective(CrpRecord record) {
 
-        //record.setSortOrder(getNextSortOrder("ces_temp_post", "1=1"));
-        cesTempPostMapper.insertSelective(record);
+        crpRecordMapper.insertSelective(record);
     }
 
     @Transactional
     public void del(Integer id) {
 
-        cesTempPostMapper.deleteByPrimaryKey(id);
+        crpRecordMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -33,15 +32,15 @@ public class CesTempPostService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        CesTempPostExample example = new CesTempPostExample();
+        CrpRecordExample example = new CrpRecordExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cesTempPostMapper.deleteByExample(example);
+        crpRecordMapper.deleteByExample(example);
     }
 
     @Transactional
-    public void updateByPrimaryKeySelective(CesTempPost record) {
+    public void updateByPrimaryKeySelective(CrpRecord record) {
 
-        cesTempPostMapper.updateByPrimaryKeySelective(record);
+        crpRecordMapper.updateByPrimaryKeySelective(record);
 
         if((record.getType()== SystemConstants.CES_TEMP_POST_TYPE_OUT &&
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_out_unit_other").getId())
@@ -49,7 +48,7 @@ public class CesTempPostService extends BaseMapper {
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_in_unit_other").getId())
         || (record.getType()== SystemConstants.CES_TEMP_POST_TYPE_TRANSFER &&
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_transfer_unit_other").getId())){
-            updateMapper.excuteSql("update ces_temp_post set to_unit=null where id=" + record.getId());
+            updateMapper.excuteSql("update crp_record set to_unit=null where id=" + record.getId());
         }
 
         if((record.getType()== SystemConstants.CES_TEMP_POST_TYPE_OUT &&
@@ -58,18 +57,18 @@ public class CesTempPostService extends BaseMapper {
                 record.getTempPostType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_in_post_other").getId())
                 || (record.getType()== SystemConstants.CES_TEMP_POST_TYPE_TRANSFER &&
                 record.getTempPostType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_transfer_post_other").getId())){
-            updateMapper.excuteSql("update ces_temp_post set temp_post=null where id=" + record.getId());
+            updateMapper.excuteSql("update crp_record set temp_post=null where id=" + record.getId());
         }
     }
 
     // 挂职结束
     public void finish(Integer id, Date realEndDate) {
 
-        CesTempPost record = new CesTempPost();
+        CrpRecord record = new CrpRecord();
         record.setId(id);
         record.setIsFinished(true);
         record.setRealEndDate(realEndDate);
 
-        cesTempPostMapper.updateByPrimaryKeySelective(record);
+        crpRecordMapper.updateByPrimaryKeySelective(record);
     }
 }

@@ -25,6 +25,8 @@ public class CadrePost implements Serializable {
 
     private Integer adminLevelId;
 
+    private Boolean isCpc;
+
     private Integer postClassId;
 
     private Integer unitId;
@@ -77,6 +79,14 @@ public class CadrePost implements Serializable {
 
     public void setAdminLevelId(Integer adminLevelId) {
         this.adminLevelId = adminLevelId;
+    }
+
+    public Boolean getIsCpc() {
+        return isCpc;
+    }
+
+    public void setIsCpc(Boolean isCpc) {
+        this.isCpc = isCpc;
     }
 
     public Integer getPostClassId() {

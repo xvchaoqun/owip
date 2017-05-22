@@ -1,18 +1,18 @@
-package domain.ces;
+package domain.crp;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class CesTempPostExample {
+public class CrpRecordExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CesTempPostExample() {
+    public CrpRecordExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

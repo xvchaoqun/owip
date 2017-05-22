@@ -19,8 +19,9 @@ import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
-import service.ces.CesTempPostService;
+import service.crp.CrpRecordService;
 import service.cis.*;
+import service.cpc.CpcAllocationService;
 import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
@@ -218,7 +219,10 @@ public class BaseController extends BaseMapper {
 
 
     @Autowired
-    protected CesTempPostService cesTempPostService;
+    protected CrpRecordService crpRecordService;
+
+    @Autowired
+    protected CpcAllocationService cpcAllocationService;
 
     @Autowired
     protected TrainService trainService;

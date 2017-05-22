@@ -414,6 +414,66 @@ public class CadrePostExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsCpcIsNull() {
+            addCriterion("is_cpc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcIsNotNull() {
+            addCriterion("is_cpc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcEqualTo(Boolean value) {
+            addCriterion("is_cpc =", value, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcNotEqualTo(Boolean value) {
+            addCriterion("is_cpc <>", value, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcGreaterThan(Boolean value) {
+            addCriterion("is_cpc >", value, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_cpc >=", value, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcLessThan(Boolean value) {
+            addCriterion("is_cpc <", value, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_cpc <=", value, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcIn(List<Boolean> values) {
+            addCriterion("is_cpc in", values, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcNotIn(List<Boolean> values) {
+            addCriterion("is_cpc not in", values, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_cpc between", value1, value2, "isCpc");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCpcNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_cpc not between", value1, value2, "isCpc");
+            return (Criteria) this;
+        }
+
         public Criteria andPostClassIdIsNull() {
             addCriterion("post_class_id is null");
             return (Criteria) this;

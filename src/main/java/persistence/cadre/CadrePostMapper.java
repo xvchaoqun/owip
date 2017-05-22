@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CadrePostMapper {
-    int countByExample(CadrePostExample example);
+    long countByExample(CadrePostExample example);
 
     int deleteByExample(CadrePostExample example);
 

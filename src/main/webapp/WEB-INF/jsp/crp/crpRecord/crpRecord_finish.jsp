@@ -6,18 +6,18 @@ pageEncoding="UTF-8"%>
     <h3>挂职结束</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cesTempPost_finish" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cesTempPost.id}">
+    <form class="form-horizontal" action="${ctx}/crpRecord_finish" id="modalForm" method="post">
+        <input type="hidden" name="id" value="${crpRecord.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
 				<div class="col-xs-6 label-text">
-					${cesTempPost.cadre.realname}
+					${crpRecord.cadre.realname}
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">挂职拟结束时间</label>
 				<div class="col-xs-6 label-text">
-					${cm:formatDate(cesTempPost.endDate, "yyyy-MM-dd")}
+					${cm:formatDate(crpRecord.endDate, "yyyy-MM-dd")}
 				</div>
 			</div>
 			<div class="form-group">
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 200px">
 						<input class="form-control date-picker required" type="text"  name="realEndDate"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(cesTempPost.realEndDate, "yyyy-MM-dd")}">
+							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(crpRecord.realEndDate, "yyyy-MM-dd")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>

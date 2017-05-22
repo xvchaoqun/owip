@@ -114,4 +114,5 @@ owip:organization work integrated platform 组织工作管理与服务一体化�
 ow:organization work 组织工作
 cis: cadre inspection system 干部考察系统
 ces: cadre evaluation system 干部考核系统
-
+cpc: cadre post count 干部职数
+crp: cadre role play 干部挂职锻炼 
