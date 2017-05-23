@@ -141,7 +141,7 @@
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(unitCodeOther).id}') ? ("：" + rowObject.toUnit) : "");
-            }, width: 150
+            }, width: 250
             },
             {
                 label: '挂职类别', name: 'tempPostType', formatter: function (cellvalue, options, rowObject) {
