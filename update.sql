@@ -1,6 +1,6 @@
 
 
-
+-- 2017-5-23
 ALTER TABLE `base_short_msg_tpl`
 	CHANGE COLUMN `content` `content` TEXT NOT NULL COMMENT '短信内容' AFTER `name`;
 
