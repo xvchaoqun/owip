@@ -81,15 +81,17 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/shortMsgTpl_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '模板名称', name: 'name'},
+            {label: '模板名称', name: 'name', width: 350},
             {
                 label: '定向发送', name: '_verify', formatter: function (cellvalue, options, rowObject) {
                 return '<button class="popupBtn btn btn-success btn-xs" data-url="${ctx}/shortMsgTpl_send?id={0}"><i class="fa fa-check"></i> 定向发送</button>'
                         .format(rowObject.id);
             }
             },
-            {label: '短信内容', name: 'content', width: 350},
-            {label: '备注', name: 'remark', width: 350}
+            {label: '短信内容', name: 'content', width: 850},
+            {label: '创建时间', name: 'createTime', width: 150},
+            {label: '创建人', name: 'user.realname'},
+            {label: '备注', name: 'remark', width: 250}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');

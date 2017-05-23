@@ -1,9 +1,17 @@
 package domain.base;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class ShortMsgTpl implements Serializable {
+
+    public SysUserView getUser(){
+
+        return (addUserId==null)?null:CmTag.getUserById(addUserId);
+    }
     private Integer id;
 
     private Integer roleId;

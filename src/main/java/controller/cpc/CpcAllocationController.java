@@ -1,9 +1,11 @@
 package controller.cpc;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.cpc.CpcAllocation;
 import domain.cpc.CpcAllocationExample;
 import domain.cpc.CpcAllocationExample.Criteria;
+import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +35,34 @@ import java.util.*;
 public class CpcAllocationController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("cpcAllocation:list")
+    @RequestMapping("/cpcAllocationSetting")
+    public String cpcAllocationSetting(@RequestParam(required = false, value = "unitIds") Integer[] unitIds, ModelMap modelMap) {
+
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        List<Unit> unitList = new ArrayList<>();
+        for (Integer unitId : unitIds) {
+            unitList.add(unitMap.get(unitId));
+        }
+        modelMap.put("units", unitList);
+
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        List<MetaType> adminLevels = new ArrayList<>();
+        adminLevels.add(metaTypeMap.get("mt_admin_level_main"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_vice"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_none"));
+        modelMap.put("adminLevels", adminLevels);
+
+        return "cpc/cpcAllocation/cpcAllocationSetting";
+    }
+
+    @RequiresPermissions("cpcAllocation:list")
+    @RequestMapping("/cpcAllocation_selectUnits")
+    public String cpcAllocation_selectUnits() {
+
+        return "cpc/cpcAllocation/cpcAllocation_selectUnits";
+    }
 
     @RequiresPermissions("cpcAllocation:list")
     @RequestMapping("/cpcAllocation")

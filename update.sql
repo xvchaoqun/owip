@@ -1,6 +1,19 @@
 
 
 
+ALTER TABLE `base_short_msg_tpl`
+	CHANGE COLUMN `content` `content` TEXT NOT NULL COMMENT '短信内容' AFTER `name`;
+
+ALTER TABLE `crp_record`
+	CHANGE COLUMN `cadre_id` `user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联用户，外单位到本校挂职为空' AFTER `id`,
+	DROP INDEX `FK_ces_temp_post_cadre`,
+	DROP FOREIGN KEY `FK_ces_temp_post_cadre`,
+	ADD CONSTRAINT `FK_crp_record_sys_user` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`);
+
+ALTER TABLE `crp_record`
+	ADD COLUMN `phone` VARCHAR(100) NULL DEFAULT NULL COMMENT '联系电话' AFTER `present_post`;
+
+-- 2017-5-22
 ALTER TABLE `cadre_post`
 	CHANGE COLUMN `admin_level_id` `admin_level_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '行政级别，关联元数据' AFTER `post_id`,
 	ADD COLUMN `is_cpc` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否占职数，用于兼职' AFTER `admin_level_id`;
@@ -8,6 +21,7 @@ ALTER TABLE `cadre_post`
 ALTER TABLE `ces_temp_post`
 	COMMENT='干部挂职锻炼';
 RENAME TABLE `ces_temp_post` TO `crp_record`;
+
 
 
 -- 2017-5-17 弃用表还在使用的bug，彻底删除！

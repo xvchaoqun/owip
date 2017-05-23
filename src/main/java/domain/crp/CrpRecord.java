@@ -1,6 +1,7 @@
 package domain.crp;
 
 import domain.cadre.CadreView;
+import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
 
@@ -11,18 +12,24 @@ public class CrpRecord implements Serializable {
 
     public CadreView getCadre(){
 
-        return (cadreId==null)?null: CmTag.getCadreById(cadreId);
+        return (userId==null)?null: CmTag.getCadreByUserId(userId);
     }
 
+    public SysUserView getUser(){
+
+        return (userId==null)?null: CmTag.getUserById(userId);
+    }
     private Integer id;
 
-    private Integer cadreId;
+    private Integer userId;
 
     private String realname;
 
     private Boolean isPresentCadre;
 
     private String presentPost;
+
+    private String phone;
 
     private Integer toUnitType;
 
@@ -33,13 +40,14 @@ public class CrpRecord implements Serializable {
     private String tempPost;
 
     private String title;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
+    @DateTimeFormat(pattern = "yyyy-MM")
     private Date startDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM")
     private Date endDate;
 
     private Boolean isFinished;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM")
     private Date realEndDate;
 
     private Byte type;
@@ -58,12 +66,12 @@ public class CrpRecord implements Serializable {
         this.id = id;
     }
 
-    public Integer getCadreId() {
-        return cadreId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setCadreId(Integer cadreId) {
-        this.cadreId = cadreId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getRealname() {
@@ -88,6 +96,14 @@ public class CrpRecord implements Serializable {
 
     public void setPresentPost(String presentPost) {
         this.presentPost = presentPost == null ? null : presentPost.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Integer getToUnitType() {

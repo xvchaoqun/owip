@@ -3,10 +3,11 @@
 <mapper namespace="persistence.crp.CrpRecordMapper">
   <resultMap id="BaseResultMap" type="domain.crp.CrpRecord">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="is_present_cadre" jdbcType="BIT" property="isPresentCadre" />
     <result column="present_post" jdbcType="VARCHAR" property="presentPost" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="to_unit_type" jdbcType="INTEGER" property="toUnitType" />
     <result column="to_unit" jdbcType="VARCHAR" property="toUnit" />
     <result column="temp_post_type" jdbcType="INTEGER" property="tempPostType" />
@@ -79,9 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, realname, is_present_cadre, present_post, to_unit_type, to_unit, temp_post_type, 
-    temp_post, title, start_date, end_date, is_finished, real_end_date, type, is_deleted, 
-    remark
+    id, user_id, realname, is_present_cadre, present_post, phone, to_unit_type, to_unit, 
+    temp_post_type, temp_post, title, start_date, end_date, is_finished, real_end_date, 
+    type, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.crp.CrpRecordExample" resultMap="BaseResultMap">
     select
@@ -114,18 +115,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.crp.CrpRecord">
-    insert into crp_record (id, cadre_id, realname, 
-      is_present_cadre, present_post, to_unit_type, 
-      to_unit, temp_post_type, temp_post, 
-      title, start_date, end_date, 
-      is_finished, real_end_date, type, 
-      is_deleted, remark)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
-      #{isPresentCadre,jdbcType=BIT}, #{presentPost,jdbcType=VARCHAR}, #{toUnitType,jdbcType=INTEGER}, 
-      #{toUnit,jdbcType=VARCHAR}, #{tempPostType,jdbcType=INTEGER}, #{tempPost,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
-      #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
-      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+    insert into crp_record (id, user_id, realname, 
+      is_present_cadre, present_post, phone, 
+      to_unit_type, to_unit, temp_post_type, 
+      temp_post, title, start_date, 
+      end_date, is_finished, real_end_date, 
+      type, is_deleted, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
+      #{isPresentCadre,jdbcType=BIT}, #{presentPost,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{toUnitType,jdbcType=INTEGER}, #{toUnit,jdbcType=VARCHAR}, #{tempPostType,jdbcType=INTEGER}, 
+      #{tempPost,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, 
+      #{type,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.crp.CrpRecord">
     insert into crp_record
@@ -133,8 +136,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="cadreId != null">
-        cadre_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="realname != null">
         realname,
@@ -144,6 +147,9 @@
       </if>
       <if test="presentPost != null">
         present_post,
+      </if>
+      <if test="phone != null">
+        phone,
       </if>
       <if test="toUnitType != null">
         to_unit_type,
@@ -186,8 +192,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cadreId != null">
-        #{cadreId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="realname != null">
         #{realname,jdbcType=VARCHAR},
@@ -197,6 +203,9 @@
       </if>
       <if test="presentPost != null">
         #{presentPost,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="toUnitType != null">
         #{toUnitType,jdbcType=INTEGER},
@@ -248,8 +257,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null">
-        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.realname != null">
         realname = #{record.realname,jdbcType=VARCHAR},
@@ -259,6 +268,9 @@
       </if>
       <if test="record.presentPost != null">
         present_post = #{record.presentPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
       </if>
       <if test="record.toUnitType != null">
         to_unit_type = #{record.toUnitType,jdbcType=INTEGER},
@@ -304,10 +316,11 @@
   <update id="updateByExample" parameterType="map">
     update crp_record
     set id = #{record.id,jdbcType=INTEGER},
-      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
       realname = #{record.realname,jdbcType=VARCHAR},
       is_present_cadre = #{record.isPresentCadre,jdbcType=BIT},
       present_post = #{record.presentPost,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
       to_unit_type = #{record.toUnitType,jdbcType=INTEGER},
       to_unit = #{record.toUnit,jdbcType=VARCHAR},
       temp_post_type = #{record.tempPostType,jdbcType=INTEGER},
@@ -327,8 +340,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.crp.CrpRecord">
     update crp_record
     <set>
-      <if test="cadreId != null">
-        cadre_id = #{cadreId,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="realname != null">
         realname = #{realname,jdbcType=VARCHAR},
@@ -338,6 +351,9 @@
       </if>
       <if test="presentPost != null">
         present_post = #{presentPost,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="toUnitType != null">
         to_unit_type = #{toUnitType,jdbcType=INTEGER},
@@ -380,10 +396,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.crp.CrpRecord">
     update crp_record
-    set cadre_id = #{cadreId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
       realname = #{realname,jdbcType=VARCHAR},
       is_present_cadre = #{isPresentCadre,jdbcType=BIT},
       present_post = #{presentPost,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
       to_unit_type = #{toUnitType,jdbcType=INTEGER},
       to_unit = #{toUnit,jdbcType=VARCHAR},
       temp_post_type = #{tempPostType,jdbcType=INTEGER},

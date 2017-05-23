@@ -1,24 +1,28 @@
 package service.unit;
 
+import domain.base.MetaType;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import sys.constants.SystemConstants;
+import sys.tool.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UnitService extends BaseMapper {
+
+    @Autowired
+    protected MetaTypeService metaTypeService;
 
     public List<Unit> findUnitByTypeAndStatus(Integer type, byte status){
 
@@ -49,6 +53,65 @@ public class UnitService extends BaseMapper {
     public List<Unit> findHistoryUnits(int unitId){
 
         return commonUnitMapper.findHistoryUnits(unitId);
+    }
+
+    public TreeNode getTree(Set<Integer> selectIdSet){
+
+        if(null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "单位";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_unit_type");
+        // 类型名称-单位
+        Map<String, List<Unit>> unitMap = new LinkedHashMap<>();
+
+        UnitExample example = new UnitExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.setOrderByClause(" sort_order desc");
+        List<Unit> units = unitMapper.selectByExample(example);
+        for (Unit unit : units) {
+            List<Unit> list = null;
+            MetaType metaType = typeMap.get(unit.getTypeId());
+            String type = metaType.getName();
+            if (unitMap.containsKey(type)) {
+                list = unitMap.get(type);
+            }
+            if (null == list) list = new ArrayList<>();
+            list.add(unit);
+
+            unitMap.put(type, list);
+        }
+
+        for (Map.Entry<String, List<Unit>> entry : unitMap.entrySet()) {
+
+            TreeNode titleNode = new TreeNode();
+            titleNode.title = entry.getKey();
+            titleNode.expand = false;
+            titleNode.isFolder = true;
+            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+            titleNode.children = titleChildren;
+
+            for (Unit unit : entry.getValue()) {
+
+                TreeNode node = new TreeNode();
+                node.title = unit.getName();
+                node.key = unit.getId() + "";
+                if (selectIdSet.contains(unit.getId().intValue())) {
+                    node.select = true;
+                }
+                titleChildren.add(node);
+            }
+
+            rootChildren.add(titleNode);
+        }
+
+        return root;
     }
 
     public boolean idDuplicate(Integer id, String code){

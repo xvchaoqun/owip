@@ -1,6 +1,7 @@
 package controller.crp;
 
 import controller.BaseController;
+import domain.cadre.CadreView;
 import domain.crp.CrpRecord;
 import domain.crp.CrpRecordExample;
 import org.apache.commons.lang3.BooleanUtils;
@@ -89,7 +90,7 @@ public class CrpRecordController extends BaseController {
     @RequiresPermissions("crpRecord:list")
     @RequestMapping("/crpRecord_data")
     public void crpRecord_data(HttpServletResponse response,
-                                 Integer cadreId,
+                                 Integer userId,
                                  Byte type,
                                  Boolean isFinished,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -108,8 +109,8 @@ public class CrpRecordController extends BaseController {
         CrpRecordExample.Criteria criteria = example.createCriteria();
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (cadreId != null) {
-            criteria.andCadreIdEqualTo(cadreId);
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
@@ -148,7 +149,9 @@ public class CrpRecordController extends BaseController {
     @RequiresPermissions("crpRecord:edit")
     @RequestMapping(value = "/crpRecord_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crpRecord_au(CrpRecord record, HttpServletRequest request) {
+    public Map do_crpRecord_au(CrpRecord record,
+                               Integer cadreId, // 如果是现任干部，则从现任干部中选择
+                               HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -157,6 +160,11 @@ public class CrpRecordController extends BaseController {
         }
 
         record.setIsPresentCadre(BooleanUtils.isTrue(record.getIsPresentCadre()));
+
+        if(cadreId!=null){
+            CadreView cv = cadreService.findAll().get(cadreId);
+            record.setUserId(cv.getUserId());
+        }
 
         if (id == null) {
             crpRecordService.insertSelective(record);
@@ -179,6 +187,9 @@ public class CrpRecordController extends BaseController {
 
             type = crpRecord.getType();
             modelMap.put("crpRecord", crpRecord);
+            modelMap.put("sysUser", crpRecord.getUser());
+            modelMap.put("cadre", crpRecord.getCadre());
+
         }
 
         modelMap.put("type", type);
@@ -213,7 +224,7 @@ public class CrpRecordController extends BaseController {
     @RequiresPermissions("crpRecord:del")
     @RequestMapping(value = "/crpRecord_finish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crpRecord_finish(Integer id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date realEndDate) {
+    public Map do_crpRecord_finish(Integer id, @DateTimeFormat(pattern = "yyyy-MM") Date realEndDate) {
 
         if (id != null) {
 

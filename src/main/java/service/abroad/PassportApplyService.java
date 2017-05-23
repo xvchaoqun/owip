@@ -36,20 +36,24 @@ public class PassportApplyService extends BaseMapper {
 
         MetaType passportClass = CmTag.getMetaType(classId);
         // （2）	以下情况不能再次申请护照：未审批、审批通过但未办理完交回；
-        PassportApplyExample example = new PassportApplyExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT)
-                .andClassIdEqualTo(classId).andIsDeletedEqualTo(false);
-        if(passportApplyMapper.countByExample(example)>0){
-            throw new RuntimeException("您已经申请办理了"+passportClass.getName() +"，请不要重复申请");
+        {
+            PassportApplyExample example = new PassportApplyExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT)
+                    .andClassIdEqualTo(classId).andIsDeletedEqualTo(false);
+            if (passportApplyMapper.countByExample(example) > 0) {
+                throw new RuntimeException("您已经申请办理了" + passportClass.getName() + "，请不要重复申请");
+            }
         }
-        PassportApplyExample example2 = new PassportApplyExample();
-        example2.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
-                .andAbolishEqualTo(false).andClassIdEqualTo(classId)
-                .andHandleDateIsNull().andIsDeletedEqualTo(false);
-        if(passportApplyMapper.countByExample(example2)>0){
-            throw new RuntimeException("您已经申请办理了"+passportClass.getName() +"，申请已通过，请办理证件交回");
+        {
+            PassportApplyExample example = new PassportApplyExample();
+            example.createCriteria().andCadreIdEqualTo(cadreId)
+                    .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
+                    .andAbolishEqualTo(false).andClassIdEqualTo(classId)
+                    .andHandleDateIsNull().andIsDeletedEqualTo(false);
+            if (passportApplyMapper.countByExample(example) > 0) {
+                throw new RuntimeException("您已经申请办理了" + passportClass.getName() + "，申请已通过，请办理证件交回");
+            }
         }
     }
 

@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">短信内容</label>
 				<div class="col-xs-8">
                     <textarea class="form-control limited" type="text"
-                              name="content" rows="8">${shortMsgTpl.content}</textarea>
+                              name="content" rows="8" maxlength="500">${shortMsgTpl.content}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -50,8 +50,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $('textarea.limited[name=content]').inputlimiter({limit:200});
-    $('textarea.limited[name=remark]').inputlimiter();
+    $('textarea.limited').inputlimiter();
 
     $("#modalForm").validate({
         submitHandler: function (form) {

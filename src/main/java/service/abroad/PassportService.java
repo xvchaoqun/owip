@@ -152,6 +152,21 @@ public class PassportService extends BaseMapper {
             record.setKeepDate(new Date()); // 集中保管日期为交证件日期
             record.setCadreId(_passportApply.getCadreId()); // 确认
             record.setApplyId(applyId);
+        }else{
+            /**
+             * 2017.05.23 直接添加证件时，系统检测一下在“批准办理新证件（未交证件）”中是否有这个人申请办理此类证件的记录。
+             * 如果有，就不允许在这里添加；如果没有，就可以在这里添加
+             */
+            PassportApplyExample example = new PassportApplyExample();
+            example.createCriteria().andCadreIdEqualTo(record.getCadreId())
+                    .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
+                    .andAbolishEqualTo(false).andClassIdEqualTo(record.getClassId())
+                    .andHandleDateIsNull().andIsDeletedEqualTo(false);
+            if (passportApplyMapper.countByExample(example) > 0) {
+                MetaType passportClass = CmTag.getMetaType(record.getClassId());
+                throw new RuntimeException("该干部已经申请办理了" + passportClass.getName() + "，当前申请已通过，请办理证件交回");
+            }
+
         }
 
         return passportMapper.insertSelective(record);

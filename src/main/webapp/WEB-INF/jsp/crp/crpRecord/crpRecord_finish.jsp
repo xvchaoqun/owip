@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">挂职拟结束时间</label>
 				<div class="col-xs-6 label-text">
-					${cm:formatDate(crpRecord.endDate, "yyyy-MM-dd")}
+					${cm:formatDate(crpRecord.endDate, "yyyy-MM")}
 				</div>
 			</div>
 			<div class="form-group">
@@ -25,7 +25,8 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<div class="input-group" style="width: 200px">
 						<input class="form-control date-picker required" type="text"  name="realEndDate"
-							   data-date-format="yyyy-mm-dd" value="${cm:formatDate(crpRecord.realEndDate, "yyyy-MM-dd")}">
+							   data-date-min-view-mode="1"
+							   data-date-format="yyyy-mm" value="${cm:formatDate(crpRecord.realEndDate, "yyyy-MM")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
                         </span>

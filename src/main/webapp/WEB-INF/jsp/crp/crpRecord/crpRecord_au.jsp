@@ -20,13 +20,21 @@
                        name="isPresentCadre" ${(crpRecord==null ||crpRecord.isPresentCadre)?"checked":""}/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="cadreSelectsDiv">
             <label class="col-xs-4 control-label">选择干部</label>
-
             <div class="col-xs-6">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                         name="cadreId" data-placeholder="请输入账号或姓名或学工号" data-width="270">
                     <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" id="userSelectsDiv">
+            <label class="col-xs-4 control-label">选择教职工</label>
+            <div class="col-xs-6">
+                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
+                        name="userId" data-placeholder="请输入账号或姓名或工号" data-width="270">
+                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>
             </div>
         </div>
@@ -45,6 +53,13 @@
             <div class="col-xs-6">
                 <textarea required class="form-control limited" type="text"
                           name="presentPost" maxlength="100">${crpRecord.presentPost}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">联系电话</label>
+
+            <div class="col-xs-6">
+                <input class="form-control" type="text" name="phone" value="${crpRecord.phone}">
             </div>
         </div>
         <c:if test="${type==CES_TEMP_POST_TYPE_OUT}">
@@ -118,7 +133,8 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="startDate" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(crpRecord.startDate,'yyyy-MM-dd')}" />
+                           data-date-min-view-mode="1"
+                           data-date-format="yyyy-mm" value="${cm:formatDate(crpRecord.startDate,'yyyy-MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -128,7 +144,8 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="endDate" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(crpRecord.endDate,'yyyy-MM-dd')}" />
+                           data-date-min-view-mode="1"
+                           data-date-format="yyyy-mm" value="${cm:formatDate(crpRecord.endDate,'yyyy-MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -138,7 +155,7 @@
             <label class="col-xs-4 control-label">备注</label>
 
             <div class="col-xs-6">
-                <textarea required class="form-control limited" type="text"
+                <textarea class="form-control limited" type="text"
                           name="remark" maxlength="200">${crpRecord.remark}</textarea>
             </div>
         </div>
@@ -151,6 +168,26 @@
 </div>
 
 <script>
+
+    function isPresentCadreChange(){
+        if($("input[name=isPresentCadre]").bootstrapSwitch("state")){
+            $("#cadreSelectsDiv").show();
+            $("#userSelectsDiv").hide();
+            $("select[name=cadreId]").attr("required", "required");
+            $("select[name=userId]").removeAttr("required");
+
+        }else{
+            $("#userSelectsDiv").show();
+            $("#cadreSelectsDiv").hide();
+
+            $("select[name=userId]").attr("required", "required");
+            $("select[name=cadreId]").removeAttr("required");
+        }
+    }
+    $('input[name=isPresentCadre]').on('switchChange.bootstrapSwitch', function(event, state) {
+        isPresentCadreChange();
+    });
+    isPresentCadreChange();
 
     function toUnitTypeChange(){
         if($("#modalForm select[name=toUnitType]").val() ==

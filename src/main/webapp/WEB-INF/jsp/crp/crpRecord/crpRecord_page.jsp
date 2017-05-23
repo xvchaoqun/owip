@@ -9,7 +9,7 @@
              data-url-export="${ctx}/crpRecord_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.cadreId  ||not empty param.isDeleted || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.userId  ||not empty param.isDeleted || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isFinished}">active</c:if>">
@@ -68,9 +68,9 @@
                                         <input name="isFinished" type="hidden" value="${isFinished}"/>
 
                                         <div class="form-group">
-                                            <label>关联干部</label>
-                                            <input class="form-control search-query" name="cadreId" type="text"
-                                                   value="${param.cadreId}"
+                                            <label>账号</label>
+                                            <input class="form-control search-query" name="userId" type="text"
+                                                   value="${param.userId}"
                                                    placeholder="请输入关联干部">
                                         </div>
 
@@ -126,12 +126,16 @@
                 if(rowObject.type=='${CES_TEMP_POST_TYPE_TRANSFER}'){
                     return cellvalue;
                 }
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
+                if(rowObject.cadre && rowObject.cadre.id>0)
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.cadre.id, rowObject.cadre.realname);
+
+                return rowObject.user.realname;
             }, frozen: true
             },
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '时任职务', name: 'presentPost', width: 350},
+            {label: '联系电话', name: 'phone', width: 150},
             {
                 label: '委派单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -147,12 +151,12 @@
             }, width: 150
             },
             {label: '挂职单位及所任职务', name: 'title', width: 200},
-            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             <c:if test="${!isFinished}">
-            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             </c:if>
             <c:if test="${isFinished}">
-            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             </c:if>
             {label: '备注', name: 'remark', width: 300}
         ]

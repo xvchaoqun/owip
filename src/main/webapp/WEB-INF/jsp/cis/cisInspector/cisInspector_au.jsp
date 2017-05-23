@@ -9,10 +9,10 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cisInspector_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cisInspector.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">请选择</label>
+				<label class="col-xs-3 control-label">请选择教职工</label>
 				<div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}" data-width="350"
-                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                            name="userId" data-placeholder="请输入账号或姓名或工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>
 				</div>

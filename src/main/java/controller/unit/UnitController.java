@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.tool.tree.TreeNode;
 import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -334,4 +335,16 @@ public class UnitController extends BaseController {
         resultMap.put("options", options);
         return resultMap;
     }
+
+    @RequestMapping("/selectUnits_tree")
+    @ResponseBody
+    public Map selectUnits_tree() throws IOException {
+
+        TreeNode tree = unitService.getTree(null);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
 }
