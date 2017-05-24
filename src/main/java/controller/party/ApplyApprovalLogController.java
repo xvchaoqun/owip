@@ -1,12 +1,8 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.member.ApplyApprovalLog;
-import domain.member.ApplyApprovalLogExample;
 import domain.member.*;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import mixin.ApplyApprovalLogMixin;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
@@ -143,7 +139,6 @@ public class ApplyApprovalLogController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplyApprovalLog.class, ApplyApprovalLogMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

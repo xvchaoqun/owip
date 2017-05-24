@@ -248,23 +248,12 @@
                 return _cMap.postMap[cellvalue].boolAttr ? "是" : "否"
             }
             },
-            {
-                label: '性别', name: 'gender', width: 50, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.GENDER_MAP[cellvalue];
-            }
-            },
+            {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
             {label: '民族', name: 'nation', width: 60},
             {label: '籍贯', name: 'nativePlace', width: 120},
             {label: '身份证号', name: 'idcard', width: 150},
             {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {
-                label: '年龄', name: 'birth', width: 50,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
-                    return yearOffNow(cellvalue);
-                }
-            },
+            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {
                 label: '党派', name: 'isDp', width: 80, formatter: function (cellvalue, options, rowObject) {
 
@@ -282,20 +271,10 @@
             }
             },
             {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {
-                label: '最高学历', name: 'eduId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.metaTypeMap[cellvalue].name
-            }
-            },
+            {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'degree'},
             {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {
-                label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.metaTypeMap[cellvalue].name
-            }
-            },
+            {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
             {label: '毕业学校、学院', name: 'school', width: 150},
             {
                 label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {

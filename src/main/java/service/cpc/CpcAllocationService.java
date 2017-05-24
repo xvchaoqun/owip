@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CpcAllocationService extends BaseMapper {
@@ -37,5 +38,18 @@ public class CpcAllocationService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CpcAllocation record){
         return cpcAllocationMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 更新配置
+    public void update(List<CpcAllocation> records) {
+
+        for (CpcAllocation record : records) {
+
+            CpcAllocationExample example = new CpcAllocationExample();
+            example.createCriteria().andUnitIdEqualTo(record.getUnitId()).andAdminLevelIdEqualTo(record.getAdminLevelId());
+            cpcAllocationMapper.deleteByExample(example);
+
+            cpcAllocationMapper.insertSelective(record);
+        }
     }
 }

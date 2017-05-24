@@ -12,23 +12,4 @@ import java.util.Date;
         "source", "activeTime", "politicalStatus" })
 public class DispatchMixin {
 
-    /*@JsonProperty("dispatchType")
-    @JsonSerialize(using = DispatchTypeSerializer.class,nullsUsing=DispatchTypeSerializer.class)
-    public Integer dispatchTypeId;*/
-
-    /*public Integer code;
-
-    public Integer year;
-
-    @JsonProperty("branch")
-    @JsonSerialize(using = BranchSerializer.class,nullsUsing=BranchSerializer.class)
-    public Integer branchId;*/
-
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    public Date meetingTime;
-
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    public Date pubTime;
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    public Date workTime;
 }

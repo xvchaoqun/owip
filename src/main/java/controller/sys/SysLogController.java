@@ -4,9 +4,7 @@ package controller.sys;
 import controller.BaseController;
 import domain.sys.SysLog;
 import domain.sys.SysLogExample;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import mixin.SysLogMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -100,7 +98,6 @@ public class SysLogController extends BaseController {
 		resultMap.put("total", commonList.pageNum);
 
 		Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-		sourceMixins.put(SysLog.class, SysLogMixin.class);
 		JSONUtils.jsonp(resultMap, sourceMixins);
 		return;
 	}

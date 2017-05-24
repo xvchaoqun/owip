@@ -3,9 +3,6 @@ package controller.party;
 import controller.BaseController;
 import domain.member.MemberInModify;
 import domain.member.MemberInModifyExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
-import mixin.MemberInModifyMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -69,7 +66,6 @@ public class MemberInModifyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberInModify.class, MemberInModifyMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

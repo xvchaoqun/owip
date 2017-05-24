@@ -34,12 +34,8 @@
             { label: '触发方式', name: 'autoStart', width: 80 , formatter:function(cellvalue, options, rowObject){
                 return rowObject.autoStart?"系统自动":"功能按钮";
             },frozen:true},
-            { label: '是否结束', name: 'isStop', width: 80 , formatter:function(cellvalue, options, rowObject){
-                return rowObject.isStop?"是":"否";
-            },frozen:true},
-            { label: '是否自动结束', name: 'autoStop', width: 120, formatter:function(cellvalue, options, rowObject){
-                return rowObject.autoStop?"是":"否";
-            }},
+            { label: '是否结束', name: 'isStop', width: 80 , formatter:$.jgrid.formatter.TRUEFALSE,frozen:true},
+            { label: '是否自动结束', name: 'autoStop', width: 120, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '当前记录数', name: 'currentCount', width: 100},
             { label: '总记录数', name: 'totalCount', width: 100},
             { label: '开始时间', name: 'startTime', width: 150},

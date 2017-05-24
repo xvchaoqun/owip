@@ -19,7 +19,7 @@
       <div class="widget-toolbar no-border">
         <ul class="nav nav-tabs">
             <li>
-                <a href="javascript:" data-url="${ctx}/sitemap_view">网站导航</a>
+                <a href="javascript:" data-url="${ctx}/sitemap_view">功能导航</a>
             </li>
           <li class="${(!cm:hasRole(ROLE_ADMIN) && !cm:hasRole(ROLE_ODADMIN))?'active':''}">
             <a href="javascript:" data-url="${ctx}/user_base">个人基本信息</a>

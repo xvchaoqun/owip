@@ -7,7 +7,6 @@ import domain.abroad.SafeBox;
 import domain.abroad.SafeBoxExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.PassportMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -158,7 +157,6 @@ public class SafeBoxController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Passport.class, PassportMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

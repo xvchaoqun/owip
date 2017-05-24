@@ -133,7 +133,9 @@
                 return rowObject.user.realname;
             }, frozen: true
             },
+            <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
+            </c:if>
             {label: '时任职务', name: 'presentPost', width: 350},
             {label: '联系电话', name: 'phone', width: 150},
             {

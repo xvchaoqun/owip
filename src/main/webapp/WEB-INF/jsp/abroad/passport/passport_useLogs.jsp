@@ -77,7 +77,7 @@
         pager:"jqGridPager2",
         url: "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
         colModel: [
-            { label: '申请日期', name: 'applyDate' },
+            { label: '申请日期', name: 'applyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '申请编码', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){
                 return 'D{0}'.format(cellvalue);
             } },
@@ -92,14 +92,14 @@
             }},
             { label: '出行时间', name: 'startDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
-                    return rowObject.applySelf.startDate;
+                    return new Date(rowObject.applySelf.startDate).format('yyyy-MM-dd');
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
                 return cellvalue;
             }},
             { label: '回国时间', name: 'endDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
-                    return rowObject.applySelf.endDate;
+                    return new Date(rowObject.applySelf.endDate).format('yyyy-MM-dd');
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
                 return cellvalue;
@@ -119,8 +119,8 @@
                     return rowObject.applySelf.reason.replace(/\+\+\+/g, ',');;
                 return cellvalue;
             } },
-            { label:'借出日期', name: 'drawTime' },
-            { label:'归还日期', name: 'realReturnDate' }
+            { label:'借出日期', name: 'drawTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'归还日期', name: 'realReturnDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
         ],
         gridComplete:function(){
             $(window).triggerHandler('resize.jqGrid2');

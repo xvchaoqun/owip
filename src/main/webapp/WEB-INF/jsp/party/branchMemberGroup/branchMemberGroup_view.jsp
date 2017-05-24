@@ -31,9 +31,7 @@ pageEncoding="UTF-8" %>
             {
                 label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    var party = rowObject.party;
-                    var branch = rowObject.branch;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             { label: '应换届时间', name: 'tranTime', width: 130 },

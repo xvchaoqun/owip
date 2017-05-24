@@ -163,12 +163,12 @@
             $("#detailBtn").click();
         },
         colModel: [
-            {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true},
+            {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '工作证号', align: 'center', name: 'user.code', width: 100, frozen: true},
             {label: '姓名', align: 'center', name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250},
-            {label: '出行时间', align: 'center', name: 'startDate', width: 100},
-            {label: '回国时间', align: 'center', name: 'endDate', width: 100},
+            {label: '出行时间', align: 'center', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '回国时间', align: 'center', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '出行天数',
                 align: 'center',

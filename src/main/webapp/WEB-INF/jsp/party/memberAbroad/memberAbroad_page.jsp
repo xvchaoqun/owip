@@ -104,10 +104,8 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
             }, frozen:true  },
-            {label: '性别', name: 'user.gender',width: 50, frozen:true, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.GENDER_MAP[cellvalue];
-            }},
-            {label: '年龄', name: 'user.age', width: 50, frozen:true},
+            {label: '性别', name: 'user.gender',width: 50, frozen:true, formatter:$.jgrid.formatter.GENDER},
+            {label: '年龄', name: 'user.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
@@ -124,17 +122,17 @@
             {label: '申请人职称', name: 'sqrzc'},
             {label: '申请人手机号', name: 'sqrsjh'},
             {label: '申请人邮箱', name: 'sqryx'},
-            {label: '预计出发时间', name: 'yjcfsj'},
-            {label: '应归时间', name: 'ygsj'},
+            {label: '预计出发时间', name: 'yjcfsj', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '应归时间', name: 'ygsj', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '预计停留天数', name: 'yjtlts'},
-            {label: '实际出发时间', name: 'sjcfsj'},
-            {label: '实归时间', name: 'sgsj'},
+            {label: '实际出发时间', name: 'sjcfsj', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '实归时间', name: 'sgsj', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '实际停留天数', name: 'sjtlts'},
-            {label: '延期1始', name: 'yq1s'},
-            {label: '延期1止', name: 'yq1z'},
-            {label: '延期2始', name: 'yq2s'},
-            {label: '延期2止', name: 'yq2z'},
-            {label: '批准文号', name: 'pzwh'},
+            {label: '延期1始', name: 'yq1s', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '延期1止', name: 'yq1z', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '延期2始', name: 'yq2s', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '延期2止', name: 'yq2z', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '批准文号', name: 'pzwh', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '出国境状态', name: 'cgjzt'}
         ]
     }).jqGrid("setFrozenColumns");

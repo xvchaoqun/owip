@@ -10,7 +10,6 @@ import domain.party.Party;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberStayMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -27,14 +26,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.utils.ExportHelper;
-import shiro.ShiroHelper;
-import shiro.CurrentUser;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -215,7 +214,6 @@ public class MemberStayController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberStayView.class, MemberStayMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

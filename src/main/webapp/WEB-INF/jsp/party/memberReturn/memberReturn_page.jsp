@@ -299,12 +299,12 @@
                     return displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
-            {label: '提交恢复组织生活申请时间', name: 'returnApplyTime', width: 200},
-            {label: '提交书面申请书时间', name: 'applyTime', width: 160},
-            {label: '确定为入党积极分子时间', name: 'activeTime', width: 150},
-            {label: '确定为发展对象时间', name: 'candidateTime', width: 200},
-            {label: '入党时间', name: 'growTime', width: 100},
-            {label: '转正时间', name: 'positiveTime', width: 100},
+            {label: '提交恢复组织生活申请时间', name: 'returnApplyTime', width: 200, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '提交书面申请书时间', name: 'applyTime', width: 160, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '确定为入党积极分子时间', name: 'activeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '确定为发展对象时间', name: 'candidateTime', width: 200, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '入党时间', name: 'growTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '转正时间', name: 'positiveTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '党籍状态', name: 'politicalStatus', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_POLITICAL_STATUS_MAP[cellvalue];
             }},

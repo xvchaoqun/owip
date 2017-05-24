@@ -66,6 +66,10 @@ ${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}
 
 {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
 
+new Date().format('yyyy-MM-dd')
+
+
+
 字数限制
 <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
 $('textarea.limited').inputlimiter();

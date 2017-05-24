@@ -3,7 +3,6 @@ package controller.party;
 import controller.BaseController;
 import domain.member.MemberModify;
 import domain.member.MemberModifyExample;
-import mixin.MemberMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -68,7 +67,6 @@ public class MemberModifyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberModify.class, MemberMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

@@ -11,7 +11,6 @@ import domain.party.Party;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberOutflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -247,7 +246,6 @@ public class MemberOutflowController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberOutflowView.class, MemberOutflowMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

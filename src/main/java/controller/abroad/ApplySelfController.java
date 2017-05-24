@@ -6,12 +6,10 @@ import controller.BaseController;
 import domain.abroad.*;
 import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -28,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroHelper;
 import shiro.CurrentUser;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -270,7 +268,6 @@ public class ApplySelfController extends BaseController {
         request.setAttribute("isView", true);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -330,8 +327,7 @@ public class ApplySelfController extends BaseController {
         resultMap.put("approvers", approvers);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
-        JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
 
@@ -366,7 +362,6 @@ public class ApplySelfController extends BaseController {
         //request.setAttribute("needApproverList", true);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
@@ -424,7 +419,6 @@ public class ApplySelfController extends BaseController {
         request.setAttribute("isView", false);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

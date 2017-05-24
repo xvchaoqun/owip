@@ -5,7 +5,6 @@ import domain.member.MemberOutModify;
 import domain.member.MemberOutModifyExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberOutModifyMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -70,7 +69,6 @@ public class MemberOutModifyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberOutModify.class, MemberOutModifyMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

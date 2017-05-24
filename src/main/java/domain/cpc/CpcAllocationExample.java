@@ -224,63 +224,63 @@ public class CpcAllocationExample {
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNull() {
-            addCriterion("post_id is null");
+        public Criteria andAdminLevelIdIsNull() {
+            addCriterion("admin_level_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNotNull() {
-            addCriterion("post_id is not null");
+        public Criteria andAdminLevelIdIsNotNull() {
+            addCriterion("admin_level_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdEqualTo(Integer value) {
-            addCriterion("post_id =", value, "postId");
+        public Criteria andAdminLevelIdEqualTo(Integer value) {
+            addCriterion("admin_level_id =", value, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotEqualTo(Integer value) {
-            addCriterion("post_id <>", value, "postId");
+        public Criteria andAdminLevelIdNotEqualTo(Integer value) {
+            addCriterion("admin_level_id <>", value, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThan(Integer value) {
-            addCriterion("post_id >", value, "postId");
+        public Criteria andAdminLevelIdGreaterThan(Integer value) {
+            addCriterion("admin_level_id >", value, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("post_id >=", value, "postId");
+        public Criteria andAdminLevelIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("admin_level_id >=", value, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThan(Integer value) {
-            addCriterion("post_id <", value, "postId");
+        public Criteria andAdminLevelIdLessThan(Integer value) {
+            addCriterion("admin_level_id <", value, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThanOrEqualTo(Integer value) {
-            addCriterion("post_id <=", value, "postId");
+        public Criteria andAdminLevelIdLessThanOrEqualTo(Integer value) {
+            addCriterion("admin_level_id <=", value, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIn(List<Integer> values) {
-            addCriterion("post_id in", values, "postId");
+        public Criteria andAdminLevelIdIn(List<Integer> values) {
+            addCriterion("admin_level_id in", values, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotIn(List<Integer> values) {
-            addCriterion("post_id not in", values, "postId");
+        public Criteria andAdminLevelIdNotIn(List<Integer> values) {
+            addCriterion("admin_level_id not in", values, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdBetween(Integer value1, Integer value2) {
-            addCriterion("post_id between", value1, value2, "postId");
+        public Criteria andAdminLevelIdBetween(Integer value1, Integer value2) {
+            addCriterion("admin_level_id between", value1, value2, "adminLevelId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("post_id not between", value1, value2, "postId");
+        public Criteria andAdminLevelIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("admin_level_id not between", value1, value2, "adminLevelId");
             return (Criteria) this;
         }
 

@@ -8,9 +8,7 @@ import domain.member.MemberAbroadViewExample;
 import domain.member.MemberAbroadViewExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import mixin.MemberAbroadViewMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -145,7 +143,6 @@ public class MemberAbroadController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberAbroadView.class, MemberAbroadViewMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

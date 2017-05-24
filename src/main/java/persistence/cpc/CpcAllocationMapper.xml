@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cpc.CpcAllocation">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
     <result column="num" jdbcType="INTEGER" property="num" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, post_id, num
+    id, unit_id, admin_level_id, num
   </sql>
   <select id="selectByExample" parameterType="domain.cpc.CpcAllocationExample" resultMap="BaseResultMap">
     select
@@ -99,9 +99,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cpc.CpcAllocation">
-    insert into cpc_allocation (id, unit_id, post_id, 
+    insert into cpc_allocation (id, unit_id, admin_level_id, 
       num)
-    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, 
       #{num,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.cpc.CpcAllocation">
@@ -113,8 +113,8 @@
       <if test="unitId != null">
         unit_id,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="adminLevelId != null">
+        admin_level_id,
       </if>
       <if test="num != null">
         num,
@@ -127,8 +127,8 @@
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="adminLevelId != null">
+        #{adminLevelId,jdbcType=INTEGER},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -150,8 +150,8 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.adminLevelId != null">
+        admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
       </if>
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
@@ -165,7 +165,7 @@
     update cpc_allocation
     set id = #{record.id,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER},
+      admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,8 +177,8 @@
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="adminLevelId != null">
+        admin_level_id = #{adminLevelId,jdbcType=INTEGER},
       </if>
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
@@ -189,7 +189,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cpc.CpcAllocation">
     update cpc_allocation
     set unit_id = #{unitId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER},
+      admin_level_id = #{adminLevelId,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

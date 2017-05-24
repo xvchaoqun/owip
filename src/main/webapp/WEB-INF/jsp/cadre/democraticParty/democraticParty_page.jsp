@@ -123,10 +123,7 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             },frozen:true  },
-            { label: '民主党派', name: 'dpTypeId', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
-                return _cMap.metaTypeMap[cellvalue].name
-            }},
+            { label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
             { label: '党派加入时间', name: 'dpAddTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} , width: 120},
             { label: '担任党派职务', name: 'dpPost' , width: 250},
             { label: '部门属性', name: 'unit.unitType.name', width: 150},

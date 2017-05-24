@@ -158,7 +158,7 @@ pageEncoding="UTF-8" %>
         //forceFit:true,
         url: '${ctx}/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '申请日期', name: 'applyDate',frozen:true},
+            { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '工作证号', name: 'applyUser.code',frozen:true},
             { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
@@ -181,7 +181,7 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.approvalUser.id, cellvalue);
             }},
-            { label:'审批日期',name: 'approveTime'},
+            { label:'审批日期',name: 'approveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
                 </c:if>
             <c:if test="${status==PASSPORT_APPLY_STATUS_PASS ||status==3}">
             { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
@@ -190,10 +190,10 @@ pageEncoding="UTF-8" %>
                 if(expectDate<=new Date().format('yyyy-MM-dd'))
                     return "class='danger'";
                 </c:if>
-            }},
+            }, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${status==3}">
-            { label:'实交日期', name: 'handleDate'},
+            { label:'实交日期', name: 'handleDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label:'证件号码', name: 'code'},
             { label:'接收人', name: 'handleUser.realname'},
             </c:if>

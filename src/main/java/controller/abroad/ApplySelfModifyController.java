@@ -3,7 +3,6 @@ package controller.abroad;
 import controller.BaseController;
 import domain.abroad.ApplySelfModify;
 import domain.abroad.ApplySelfModifyExample;
-import mixin.ApplySelfMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -50,7 +49,6 @@ public class ApplySelfModifyController extends BaseController {
         List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExampleWithRowbounds(example2, new RowBounds(0, 1));
         if(applySelfModifies.size()>0){
             Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-            sourceMixins.put(ApplySelfModify.class, ApplySelfMixin.class);
             modelMap.put("record", JSONUtils.toString(applySelfModifies.get(0), sourceMixins));
         }
 
@@ -92,7 +90,6 @@ public class ApplySelfModifyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplySelfModify.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

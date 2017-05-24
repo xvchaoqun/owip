@@ -1,17 +1,15 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.member.MemberInflowExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.base.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberInflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -28,13 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.spring.DateRange;
-import sys.spring.RequestDateRange;
-import sys.utils.ExportHelper;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -209,7 +207,6 @@ public class MemberInflowController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberInflow.class, MemberInflowMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

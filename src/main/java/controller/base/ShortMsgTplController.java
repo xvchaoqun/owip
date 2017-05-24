@@ -8,7 +8,6 @@ import domain.base.ShortMsgTpl;
 import domain.base.ShortMsgTplExample;
 import domain.base.ShortMsgTplExample.Criteria;
 import domain.sys.SysRole;
-import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -27,7 +26,10 @@ import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.ContextHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,7 +105,6 @@ public class ShortMsgTplController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ShortMsg.class, ShortMsgMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

@@ -88,6 +88,24 @@ public class FileController extends BaseController {
         return "common/swf_preview"; // 查看swf modal
     }
 
+    // pdf内容
+    @RequestMapping("/pdf")
+    public void pdf(String path, HttpServletResponse response) throws IOException {
+
+        String filePath = springProps.uploadPath + path;
+
+        byte[] bytes = FileUtils.getBytes(filePath);
+        if (bytes == null) return;
+
+        response.reset();
+        response.addHeader("Content-Length", "" + bytes.length);
+        response.setContentType("application/pdf;charset=UTF-8");
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(bytes);
+        outputStream.flush();
+        outputStream.close();
+    }
+
     // swf内容
     @RequestMapping("/swf")
     public void swf(String path, HttpServletResponse response) throws IOException {

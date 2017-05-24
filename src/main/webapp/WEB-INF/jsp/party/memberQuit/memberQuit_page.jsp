@@ -262,18 +262,16 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
                         .format(rowObject.userId, cellvalue);
             }, frozen:true  },
-            {label: '性别', name: 'user.gender', frozen:true, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.GENDER_MAP[cellvalue];
-            }},
-            {label: '年龄', name: 'user.age', frozen:true},
-            {label: '入党时间', name: 'growTime', frozen:true},
+            {label: '性别', name: 'user.gender', frozen:true, formatter:$.jgrid.formatter.GENDER},
+            {label: '出生年月', name: 'user.birth', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '入党时间', name: 'growTime', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '所属组织机构', name: 'from',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
                     return displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
-            {label: '出党时间', name: 'quitTime', width: 150},
+            {label: '出党时间', name: 'quitTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '出党原因', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_QUIT_TYPE_MAP[rowObject.type];
             }},{label: '当前状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {

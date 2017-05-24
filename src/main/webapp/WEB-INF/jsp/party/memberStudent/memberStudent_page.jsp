@@ -266,16 +266,10 @@
                         .format(rowObject.userId, cellvalue);
             }, frozen:true  },
             { label: '学生证号',  name: 'code', width: 120, frozen:true },
-            { label: '性别',  name: 'gender', width: 55, frozen:true, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
-                return _cMap.GENDER_MAP[cellvalue];
-            } },
+            { label: '性别',  name: 'gender', width: 55, frozen:true,formatter:$.jgrid.formatter.GENDER},
             { label: '民族',  name: 'nation', width: 80},
             { label: '籍贯',  name: 'nativePlace', width: 80},
-            { label: '年龄',  name: 'birth', width: 55,formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
-                return yearOffNow(cellvalue)
-            } },
+            {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             { label: '学生类别',  name: 'type', width: 150 },
             { label: '年级',  name: 'grade', width: 55 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){

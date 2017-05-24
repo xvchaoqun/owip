@@ -6,7 +6,6 @@ import domain.base.ShortMsg;
 import domain.base.ShortMsgExample;
 import domain.base.ShortMsgExample.Criteria;
 import domain.sys.SysUserView;
-import mixin.ShortMsgMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,7 +21,6 @@ import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -88,12 +86,12 @@ public class ShortMsgController extends BaseController {
     @RequestMapping("/shortMsg_data")
     @ResponseBody
     public void shortMsg_data(HttpServletResponse response,
-                                    Integer receiverId,
-                                    Integer senderId,
-                                    String mobile,
-                                    String content,
+                              Integer receiverId,
+                              Integer senderId,
+                              String mobile,
+                              String content,
                               @RequestDateRange DateRange _sendTime,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -143,7 +141,6 @@ public class ShortMsgController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ShortMsg.class, ShortMsgMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

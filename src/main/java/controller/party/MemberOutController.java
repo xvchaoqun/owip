@@ -9,7 +9,6 @@ import domain.member.MemberOutModify;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
-import mixin.MemberOutMixin;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,17 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.CurrentUser;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.utils.ExportHelper;
-import shiro.ShiroHelper;
-import shiro.CurrentUser;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -248,7 +243,6 @@ public class MemberOutController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberOut.class, MemberOutMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

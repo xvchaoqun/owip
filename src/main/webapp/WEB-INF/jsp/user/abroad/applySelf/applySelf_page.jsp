@@ -123,10 +123,10 @@
             { label: '编号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', name: 'applyDate', width: 100,frozen:true },
+            { label: '申请日期', name: 'applyDate', width: 100,frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '出行时间', name: 'typeName', width: 100 },
-            { label: '出发时间', name: 'startDate', width: 100 },
-            { label: '返回时间', name: 'endDate', width: 100 },
+            { label: '出发时间', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '返回时间', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '出行天数', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
                 return DateDiff(rowObject.startDate, rowObject.endDate);
             }},

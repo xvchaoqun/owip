@@ -1,14 +1,10 @@
 package controller.party;
 
 import controller.BaseController;
-import domain.party.*;
-import domain.party.PartyMemberGroupExample.Criteria;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
-import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
-import mixin.PartyMemberGroupMixin;
+import domain.party.*;
+import domain.party.PartyMemberGroupExample.Criteria;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -21,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -130,7 +126,6 @@ public class PartyMemberGroupController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(PartyMemberGroup.class, PartyMemberGroupMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
 

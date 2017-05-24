@@ -4,13 +4,11 @@ import bean.*;
 import controller.BaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
-import domain.cadre.Cadre;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.PassportMixin;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -193,7 +191,6 @@ public class PassportController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Passport.class, PassportMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

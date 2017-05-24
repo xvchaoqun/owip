@@ -4,13 +4,10 @@ import controller.BaseController;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyView;
 import domain.abroad.PassportApplyViewExample;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.PassportApplyMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -211,7 +208,6 @@ public class PassportApplyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(PassportApplyView.class, PassportApplyMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

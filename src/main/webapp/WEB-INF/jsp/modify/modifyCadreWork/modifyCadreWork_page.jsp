@@ -107,16 +107,9 @@
             {label: '工作单位', name: 'unit', width: 280},
             {label: '担任职务或者专技职务', name: 'post', width: 170},
             /*     {
-             label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-             if (cellvalue == undefined) return '';
-             return _cMap.metaTypeMap[cellvalue].name
-             }
+             label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
              },*/
-            {
-                label: '工作类型', name: 'workType', width: 140, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }
-            },
+            {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
             {
                 label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否"
@@ -203,21 +196,10 @@
                 {label: '工作单位', name: 'unit', width: 200, align:'left'},
                 {label: '担任职务或者专技职务', name: 'post', width: 180},
                 /*{
-                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                 if (cellvalue == undefined) return '';
-                 return _cMap.metaTypeMap[cellvalue].name
-                 }
+                 label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
                  },*/
-                {
-                    label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.metaTypeMap[cellvalue].name
-                }, width: 120
-                },
-                {
-                    label: '是否担任领导职务', name: 'isCadre', width: 140, formatter: function (cellvalue, options, rowObject) {
-                    return cellvalue ? "是" : "否"
-                }
-                },
+                {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 120},
+                {label: '是否担任领导职务', name: 'isCadre', width: 140, formatter: $.jgrid.formatter.TRUEFALSE},
                 {label: '备注', name: 'remark', width: 150},
                 {
                     label: '干部任免文件',

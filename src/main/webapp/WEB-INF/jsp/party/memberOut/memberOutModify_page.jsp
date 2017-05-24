@@ -48,9 +48,9 @@
       {label: '转出单位联系电话', name: 'fromPhone', width: 150},
       {label: '转出单位传真', name: 'fromFax', width: 120},
       {label: '转出单位邮编', name: 'fromPostCode', width: 120},
-      {label: '党费缴纳至年月', name: 'payTime', width: 150},
+      {label: '党费缴纳至年月', name: 'payTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
       {label: '介绍信有效期天数', name: 'validDays', width: 150},
-      {label: '办理时间', name: 'handleTime'},
+      {label: '办理时间', name: 'handleTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
       {label: '是否有回执', name: 'hasReceipt', formatter: function (cellvalue, options, rowObject) {
         return cellvalue?"是":"否"
       }}

@@ -210,11 +210,7 @@
         data: [${mainCadrePost==null?"":mainCadrePostStr}], // 防止出现[{}]，造成空行
         colModel: [
             {label: '职务', name: 'post', width: 180, frozen: true},
-            {
-                label: '职务属性', width: 180, name: 'postId', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }, frozen: true
-            },
+            {label: '职务属性', width: 180, name: 'postId', formatter: $.jgrid.formatter.MetaType, frozen: true},
             {
                 label: '行政级别', name: 'adminLevelId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
@@ -363,11 +359,7 @@
             }, frozen: true
             },
             </shiro:lacksRole>
-            {
-                label: '职务属性', width: 120, name: 'postId', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }
-            },
+            {label: '职务属性', width: 120, name: 'postId', formatter: $.jgrid.formatter.MetaType},
             {
                 label: '职务类别', name: 'postClassId', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.postClassMap[cellvalue].name
@@ -465,17 +457,8 @@
             {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '任职单位', name: 'unit', width: 280, align:'left'},
             {label: '担任职务', name: 'post', width: 280},
-            {
-                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.metaTypeMap[cellvalue].name
-            }, width: 200
-            },
-            {
-                label: '工作类型', name: 'workType', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[cellvalue].name
-            }, width: 200
-            },
+            {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
+            {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {
                 label: '对应现运行单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';

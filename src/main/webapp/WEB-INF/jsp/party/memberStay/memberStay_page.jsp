@@ -277,8 +277,8 @@
                 }, frozen:true
             },
             {label: '留学国别', name: 'country', width: 150},
-            {label: '出国时间', name: 'abroadTime', width: 150},
-            {label: '预计回国时间', name: 'returnTime', width: 150},
+            {label: '出国时间', name: 'abroadTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '预计回国时间', name: 'returnTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '手机号码', name: 'mobile', width: 200},
             {label: '状态', name: 'statusName', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_STAY_STATUS_MAP[rowObject.status];

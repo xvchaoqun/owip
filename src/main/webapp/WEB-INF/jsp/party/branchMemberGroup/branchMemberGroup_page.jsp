@@ -133,14 +133,12 @@
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {
-                    var party = rowObject.party;
-                    var branch = rowObject.branch;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
-            { label: '应换届时间', name: 'tranTime', width: 130 },
-            { label: '实际换届时间', name: 'actualTranTime', width: 130 },
-            { label: '任命时间', name: 'appointTime', width: 100 },
+            { label: '应换届时间', name: 'tranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '实际换届时间', name: 'actualTranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '任命时间', name: 'appointTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'发文号',  name: 'dispatchCode', width: 180},
             {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
                 return (rowObject.isPresent)?1:0;

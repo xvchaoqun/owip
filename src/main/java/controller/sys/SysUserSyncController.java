@@ -9,7 +9,6 @@ import domain.sys.SysUserSyncExample.Criteria;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.SysUserSyncMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -179,7 +178,6 @@ public class SysUserSyncController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(SysUserSync.class, SysUserSyncMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
 

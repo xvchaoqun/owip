@@ -39,9 +39,7 @@
       { label:'IP',  name: 'ip', width: 150, frozen:true },
       {label: '介绍信抬头', name: 'fromTitle', width: 250, align:'left', frozen:true},
       {label: '介绍信有效期天数', name: 'validDays', width: 140},
-      {label: '是否有回执', name: 'hasReceipt', formatter:function(cellvalue, options, rowObject){
-        return cellvalue?"是":"否";
-      }},
+      {label: '是否有回执', name: 'hasReceipt', formatter:$.jgrid.formatter.TRUEFALSE},
       {
         label: '转入组织机构', name: 'party',  width: 450, align:'left',
         formatter: function (cellvalue, options, rowObject) {
@@ -56,7 +54,7 @@
       {label: '转出单位联系电话', name: 'fromPhone', width: 150},
       {label: '转出单位传真', name: 'fromFax', width: 120},
       {label: '转出单位邮编', name: 'fromPostCode', width: 120},
-      {label: '转出办理时间', name: 'fromHandleTime', width: 120},
+      {label: '转出办理时间', name: 'fromHandleTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
       {label: '转入办理时间', name: 'handleTime', width: 120,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
       {label: '提交书面申请书时间', name: 'applyTime', width: 160,formatter:'date',formatoptions: {newformat:'Y-m-d'}},
       {label: '确定为入党积极分子时间', name: 'activeTime', width: 180,formatter:'date',formatoptions: {newformat:'Y-m-d'}},

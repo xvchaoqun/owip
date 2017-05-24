@@ -44,9 +44,9 @@
             } },
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code', width: 100 },
-            { label:'发证日期', name: 'issueDate', width: 100 },
-            { label:'有效期', name: 'expiryDate', width: 100 },
-            { label:'集中保管日期', name: 'keepDate', width: 120 },
+            { label:'发证日期', name: 'issueDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'有效期', name: 'expiryDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'集中保管日期', name: 'keepDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'证件状态', name: 'passportType', width: 130 },
             { label:'是否借出', name: 'isLent', width: 100, formatter:function(cellvalue){
                 return cellvalue?"借出":"-";

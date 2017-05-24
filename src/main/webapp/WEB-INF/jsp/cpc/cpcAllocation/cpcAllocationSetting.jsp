@@ -11,7 +11,7 @@
         <table class="table table-bordered  table-striped">
             <thead>
             <tr>
-                <th style="width: 50px;">单位/行政级别</th>
+                <th style="width: 400px;">单位/行政级别</th>
                 <c:forEach items="${adminLevels}" var="adminLevel">
                     <th style="width: 10px;">${adminLevel.name}</th>
                 </c:forEach>
@@ -31,19 +31,24 @@
                 </tr>
             </c:forEach>
             </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="4">
+                    <div class="modal-footer center">
+                        <a href="#" class="closeView btn btn-default">取消</a>
+                        <input id="add_entity" type="button" class="btn btn-primary" value="设置">
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
         </table>
+
     </div>
-    <button class="btn btn-lg btn-block btn-primary" style="margin-bottom: 100px;" type="button" id="add_entity">设置</button>
 </form>
+<div class="footer-margin"/>
 <style>
     <!--
-    .sticky-wrap {
-        overflow-x: auto;
-        overflow-y: hidden;
-        position: relative;
-        /* margin: 3em 0; */
-        width: 100%;
-    }
+
 
     .component input {
         width: 100px;

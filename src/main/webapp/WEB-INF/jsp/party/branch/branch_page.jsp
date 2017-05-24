@@ -243,21 +243,11 @@
             { label:'是否已设立现任委员会', name: 'presentGroupCount', width: 160, formatter:function(cellvalue, options, rowObject){
                 return cellvalue>=1?"是":"否";
             }},
-            { label:'类别', name: 'typeId', width: 150, formatter:function(cellvalue, options, rowObject){
-                return cellvalue==undefined?"":_cMap.metaTypeMap[cellvalue].name;
-            }},
-            { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            }},
-            { label: '是否是专业教师党支部', name: 'isPrefessional' , width: 170,  formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            }},
-            { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            }},
-            { label:'单位属性', name: 'unitTypeId', width: 150, formatter:function(cellvalue, options, rowObject){
-                return cellvalue==undefined?"":_cMap.metaTypeMap[cellvalue].name;
-            }},
+            { label:'类别', name: 'typeId', width: 150, formatter: $.jgrid.formatter.MetaType},
+            { label: '是否是教工党支部', name: 'isStaff', width: 150, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否是专业教师党支部', name: 'isPrefessional' , width: 170,  formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label:'单位属性', name: 'unitTypeId', width: 150, formatter: $.jgrid.formatter.MetaType},
             { label: '联系电话', name: 'phone', width: 130 },
             { label: '传真', name: 'fax', width: 100 },
             { label: '邮箱', name: 'email', width: 100 },

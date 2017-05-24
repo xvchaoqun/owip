@@ -6,7 +6,6 @@ import domain.dispatch.DispatchTypeExample;
 import domain.dispatch.DispatchTypeExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.DispatchTypeMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -103,7 +102,6 @@ public class DispatchTypeController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(DispatchType.class, DispatchTypeMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

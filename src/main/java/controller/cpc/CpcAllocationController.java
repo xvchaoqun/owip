@@ -4,12 +4,9 @@ import controller.BaseController;
 import domain.base.MetaType;
 import domain.cpc.CpcAllocation;
 import domain.cpc.CpcAllocationExample;
-import domain.cpc.CpcAllocationExample.Criteria;
 import domain.unit.Unit;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -28,7 +24,6 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -54,7 +49,54 @@ public class CpcAllocationController extends BaseController {
         adminLevels.add(metaTypeMap.get("mt_admin_level_none"));
         modelMap.put("adminLevels", adminLevels);
 
+        CpcAllocationExample example = new CpcAllocationExample();
+        example.createCriteria().andUnitIdIn(Arrays.asList(unitIds));
+        List<CpcAllocation> cpcAllocations = cpcAllocationMapper.selectByExample(example);
+        for (CpcAllocation cpcAllocation : cpcAllocations) {
+
+            modelMap.put("total_" + cpcAllocation.getUnitId() + "_" + cpcAllocation.getAdminLevelId(), cpcAllocation.getNum());
+        }
+
         return "cpc/cpcAllocation/cpcAllocationSetting";
+    }
+
+    @RequiresPermissions("cpcAllocation:list")
+    @RequestMapping(value = "/cpcAllocationSetting", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cpcAllocationSetting(HttpServletRequest request) {
+
+        Map<Integer, Unit> unitMap = unitService.findAll();
+
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        List<MetaType> adminLevels = new ArrayList<>();
+        adminLevels.add(metaTypeMap.get("mt_admin_level_main"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_vice"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_none"));
+
+        List<CpcAllocation> records = new ArrayList<>();
+        for (Map.Entry<Integer, Unit> _unit : unitMap.entrySet()) {
+            for (MetaType adminLevel : adminLevels) {
+
+                String total = request.getParameter("total_" + _unit.getKey() + "_" + adminLevel.getId());
+                if (NumberUtils.isDigits(total)) {
+                    Integer num = Integer.valueOf(total);
+                    if (num >= 0) {
+                        CpcAllocation record = new CpcAllocation();
+                        record.setNum(num);
+                        record.setUnitId(_unit.getKey());
+                        record.setAdminLevelId(adminLevel.getId());
+
+                        records.add(record);
+                    }
+                }
+            }
+        }
+
+        cpcAllocationService.update(records);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部职数配置情况：%s", JSONUtils.toString(records)));
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cpcAllocation:list")
@@ -70,27 +112,21 @@ public class CpcAllocationController extends BaseController {
 
         return "index";
     }
+
     @RequiresPermissions("cpcAllocation:list")
     @RequestMapping("/cpcAllocation_page")
-    public String cpcAllocation_page(HttpServletResponse response,
-    @SortParam(required = false, defaultValue = "sort_order", tableName = "cpc_allocation") String sort,
-    @OrderParam(required = false, defaultValue = "desc") String order,
-        Integer unitId,
-        Integer postId,
-    @RequestParam(required = false, defaultValue = "0") int export,
-    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-    Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String cpcAllocation_page() {
+
+
 
         return "cpc/cpcAllocation/cpcAllocation_page";
     }
 
-    @RequiresPermissions("cpcAllocation:list")
+    /*@RequiresPermissions("cpcAllocation:list")
     @RequestMapping("/cpcAllocation_data")
     public void cpcAllocation_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cpc_allocation") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,
-                                    Integer postId,
+                                    Integer adminLevelId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -105,13 +141,13 @@ public class CpcAllocationController extends BaseController {
 
         CpcAllocationExample example = new CpcAllocationExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
         }
-        if (postId!=null) {
-            criteria.andPostIdEqualTo(postId);
+        if (adminLevelId!=null) {
+            criteria.andAdminLevelIdEqualTo(adminLevelId);
         }
 
         if (export == 1) {
@@ -139,7 +175,7 @@ public class CpcAllocationController extends BaseController {
         //sourceMixins.put(cpcAllocation.class, cpcAllocationMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
-    }
+    }*/
 
     @RequiresPermissions("cpcAllocation:edit")
     @RequestMapping(value = "/cpcAllocation_au", method = RequestMethod.POST)
@@ -151,11 +187,11 @@ public class CpcAllocationController extends BaseController {
 
         if (id == null) {
             cpcAllocationService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加干部职数配置情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部职数配置情况：%s", record.getId()));
         } else {
 
             cpcAllocationService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新干部职数配置情况：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部职数配置情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -180,7 +216,7 @@ public class CpcAllocationController extends BaseController {
         if (id != null) {
 
             cpcAllocationService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除干部职数配置情况：%s", id));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部职数配置情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -191,9 +227,9 @@ public class CpcAllocationController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cpcAllocationService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除干部职数配置情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部职数配置情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -203,14 +239,14 @@ public class CpcAllocationController extends BaseController {
 
         List<CpcAllocation> records = cpcAllocationMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"单位","行政级别","数量"};
+        String[] titles = {"单位", "行政级别", "数量"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CpcAllocation record = records.get(i);
             String[] values = {
-                record.getUnitId()+"",
-                            record.getPostId()+"",
-                            record.getNum()+""
+                    record.getUnitId() + "",
+                    record.getAdminLevelId() + "",
+                    record.getNum() + ""
             };
             valuesList.add(values);
         }

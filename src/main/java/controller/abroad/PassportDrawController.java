@@ -8,13 +8,10 @@ import domain.abroad.PassportDrawExample;
 import domain.abroad.PassportDrawExample.Criteria;
 import domain.base.ContentTpl;
 import domain.base.Country;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.ApplySelfMixin;
-import mixin.PassportDrawMixin;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -205,8 +202,6 @@ public class PassportDrawController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(PassportDraw.class, PassportDrawMixin.class);
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

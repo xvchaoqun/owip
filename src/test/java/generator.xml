@@ -345,11 +345,11 @@
       <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
       </table>-->
 
-      <!--<table tableName="cpc_allocation" domainObjectName="cpc.CpcAllocation" mapperName="cpc.CpcAllocationMapper">
-      </table>-->
-
-      <table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
+      <table tableName="cpc_allocation" domainObjectName="cpc.CpcAllocation" mapperName="cpc.CpcAllocationMapper">
       </table>
+
+     <!-- <table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
+      </table>-->
 
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
       </table>-->

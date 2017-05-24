@@ -1,8 +1,17 @@
 
 
+
+ALTER TABLE `cpc_allocation`
+	CHANGE COLUMN `post_id` `admin_level_id` INT(10) UNSIGNED NOT NULL COMMENT '行政级别，关联元数据' AFTER `unit_id`;
+ALTER TABLE `cpc_allocation`
+	ADD UNIQUE INDEX `unit_id_admin_level_id` (`unit_id`, `admin_level_id`);
+
 -- 2017-5-23
 ALTER TABLE `base_short_msg_tpl`
 	CHANGE COLUMN `content` `content` TEXT NOT NULL COMMENT '短信内容' AFTER `name`;
+ALTER TABLE `base_short_msg`
+	CHANGE COLUMN `content` `content` TEXT NULL DEFAULT NULL COMMENT '短信内容' AFTER `mobile`;
+
 
 ALTER TABLE `crp_record`
 	CHANGE COLUMN `cadre_id` `user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联用户，外单位到本校挂职为空' AFTER `id`,

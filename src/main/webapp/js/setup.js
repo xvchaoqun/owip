@@ -48,6 +48,19 @@ $.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
     return cellvalue ? "是" : "否";
 };
 
+$.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
+    if(cellvalue==undefined) return ''
+    return _cMap.GENDER_MAP[cellvalue];
+};
+$.jgrid.formatter.AGE = function (cellvalue, options, rowObject) {
+    if (cellvalue == undefined) return '';
+    return yearOffNow(cellvalue);
+};
+$.jgrid.formatter.MetaType = function (cellvalue, options, rowObject) {
+    if(cellvalue==undefined|| _cMap.metaTypeMap[cellvalue]==undefined) return ''
+    return _cMap.metaTypeMap[cellvalue].name
+};
+
 /*$.jgrid.defaults.onSelectRow = function(ids) {
     sid = ids;
 };*/
@@ -664,6 +677,13 @@ $(document).on("click", ".linkBtn", function(e){
     var target = $(this).data("target");
 
     window.open(url,target||'_self','');
+});
+
+$(document).on("click", ".pirntBtn", function(e){
+
+    e.stopPropagation();
+
+    printWindow($(this).data("url"));
 });
 
 // 删除

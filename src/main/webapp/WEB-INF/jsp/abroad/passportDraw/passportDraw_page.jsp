@@ -198,7 +198,7 @@
                 },
                 frozen: true
             },
-            {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true},
+            {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
             {
                 label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
@@ -239,8 +239,8 @@
             }},
             </c:if>
             <c:if test="${type==PASSPORT_DRAW_TYPE_TW || type==PASSPORT_DRAW_TYPE_OTHER}">
-            {label: '${type==PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100},
-            {label: '${type==PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', width: 100},
+            {label: '${type==PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '${type==PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '${type==PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
                 name: 'day',
@@ -353,7 +353,7 @@
                     if (_date <= new Date().format('yyyy-MM-dd'))
                         return "class='danger'";
                 }
-            }},
+            }, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '催交证件',
                 align: 'center',
@@ -419,7 +419,7 @@
 
                 if(cellvalue==undefined) return ''
 
-                return cellvalue;
+                return new Date(cellvalue).format('yyyy-MM-dd');
             }},
             { label: '附件', formatter:function(cellvalue, options, rowObject){
                 //console.log(rowObject.attachmentFilename)

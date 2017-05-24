@@ -55,8 +55,14 @@ public class Word2Html {
 			e.printStackTrace();
 		}*/
 
-		try {
+		/*try {
 			convert2Html("E:\\软件开发\\寒假\\培训\\专题班评估表.doc","E:\\软件开发\\寒假\\培训\\专题班评估表.html");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+
+		try {
+			convert2Html("C:\\Users\\fafa\\Desktop\\需求\\2017.05.18 干部职数管理模块--附件（北京师范大学内设机构干部配备情况）.xlsx","E:\\软件开发\\寒假\\培训\\专题班评估表.html");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -9,7 +9,6 @@ import domain.unit.UnitExample;
 import domain.unit.UnitExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.tool.tree.TreeNode;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -131,7 +130,6 @@ public class UnitController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Unit.class, UnitMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

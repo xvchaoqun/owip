@@ -209,9 +209,9 @@
              return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
              },frozen:true },
             </c:if>*/
-            {label: '党委常委会日期', name: 'meetingTime', width: 130},
-            {label: '发文日期', name: 'pubTime'},
-            {label: '任免日期', name: 'workTime'},
+            {label: '党委常委会日期', name: 'meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发文日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '任免日期', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '任命人数', name: 'appointCount'},
             {label: '录入任命人数', width: 110, name: 'realAppointCount'},
             {label: '免职人数', name: 'dismissCount'},

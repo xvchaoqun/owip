@@ -160,10 +160,7 @@
             },
             {label: '任职时间', name: 'assignDate', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {
-                label: '性别', name: 'gender', width: 50, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.GENDER_MAP[cellvalue];
-            }
+                label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER
             },
             {label: '民族', name: 'nation', width: 60},
             {label: '身份证号', name: 'idcard', width: 170},

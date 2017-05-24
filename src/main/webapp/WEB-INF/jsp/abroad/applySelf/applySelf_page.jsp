@@ -252,7 +252,7 @@
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期', name: 'applyDate', width: 100, frozen: true},
+            {label: '申请日期', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
@@ -261,8 +261,8 @@
             }, frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', width: 250, frozen: true},
-            {label: '出行时间', name: 'startDate', width: 100},
-            {label: '回国时间', name: 'endDate', width: 100},
+            {label: '出行时间', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '回国时间', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '出行天数', name: 'code', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return DateDiff(rowObject.startDate, rowObject.endDate);

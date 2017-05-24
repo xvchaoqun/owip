@@ -254,24 +254,12 @@ pageEncoding="UTF-8" %>
             { label:'所属单位', name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
                 return _cMap.unitMap[cellvalue].name;
             }},
-            { label: '分党委类别', name: 'classId', formatter:function(cellvalue, options, rowObject){
-                return _cMap.metaTypeMap[cellvalue].name;
-            }},
-            { label: '组织类别', name: 'typeId', width: 180, formatter:function(cellvalue, options, rowObject){
-                return _cMap.metaTypeMap[cellvalue].name;
-            }},
-            { label: '所在单位属性', name: 'unitTypeId', width: 110 , formatter:function(cellvalue, options, rowObject){
-                return _cMap.metaTypeMap[cellvalue].name;
-            }},
-            { label: '是否大中型', name: 'isEnterpriseBig', formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            }},
-            { label: '是否国有独资', name: 'isEnterpriseNationalized', width: 110, formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            } },
-            { label: '是否独立法人', name: 'isSeparate', width: 110, formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            } },
+            { label: '分党委类别', name: 'classId', formatter: $.jgrid.formatter.MetaType},
+            { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
+            { label: '所在单位属性', name: 'unitTypeId', width: 110 , formatter: $.jgrid.formatter.MetaType},
+            { label: '是否大中型', name: 'isEnterpriseBig', formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否国有独资', name: 'isEnterpriseNationalized', width: 110, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label: '是否独立法人', name: 'isSeparate', width: 110, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '联系电话', name: 'phone', width: 100 },
             { label: '传真', name: 'fax', width: 100 },
             { label: '邮箱', name: 'email', width: 100 },

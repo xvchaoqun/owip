@@ -288,16 +288,10 @@
                         .format(rowObject.userId, cellvalue);
             },frozen:true },
             { label: '工作证号', name: 'code', width: 100,frozen:true },
-            { label: '性别', name: 'gender', width: 55, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
-                return _cMap.GENDER_MAP[cellvalue];
-            } },
+            { label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
             { label: '民族',  name: 'nation'},
             { label: '籍贯',  name: 'nativePlace', width: 80},
-            { label: '年龄', name: 'birth', width: 55,formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
-                return yearOffNow(cellvalue)
-            } },
+            {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
             { label: '最高学历', name: 'education', width: 100 },
             { label: '编制类别', name: 'authorizedType', width: 100 },
             { label: '人员类别', name: 'staffType', width: 100 },
@@ -316,9 +310,7 @@
             { label:'联系手机', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
             { label:'退休时间', name: 'retireTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:function(cellvalue, options, rowObject){
-                return cellvalue?"是":"否";
-            } },
+            { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:$.jgrid.formatter.TRUEFALSE},
             </c:if>
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
                 return _cMap.unitMap[cellvalue].name;

@@ -3,11 +3,9 @@ package controller.dispatch;
 import controller.BaseController;
 import domain.dispatch.*;
 import domain.dispatch.DispatchUnitExample.Criteria;
-import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.DispatchMixin;
-import mixin.UnitMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -104,7 +102,6 @@ public class DispatchUnitController extends BaseController {
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         sourceMixins.put(Dispatch.class, DispatchMixin.class);
-        sourceMixins.put(Unit.class, UnitMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

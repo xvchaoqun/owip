@@ -7,7 +7,7 @@ public class CpcAllocation implements Serializable {
 
     private Integer unitId;
 
-    private Integer postId;
+    private Integer adminLevelId;
 
     private Integer num;
 
@@ -29,12 +29,12 @@ public class CpcAllocation implements Serializable {
         this.unitId = unitId;
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getAdminLevelId() {
+        return adminLevelId;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setAdminLevelId(Integer adminLevelId) {
+        this.adminLevelId = adminLevelId;
     }
 
     public Integer getNum() {

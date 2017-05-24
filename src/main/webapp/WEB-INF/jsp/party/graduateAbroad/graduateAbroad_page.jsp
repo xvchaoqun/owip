@@ -389,10 +389,7 @@
                 return ($.trim(rowObject.branch) == '')? '-': $.trim(cellvalue);
             }},
             </c:if>
-            {label: '人员类别', name: 'userType', formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
-                return _cMap.metaTypeMap[cellvalue].name;
-            }},
+            {label: '人员类别', name: 'userType', formatter: $.jgrid.formatter.MetaType},
             {label: '出国原因', name: 'abroadReason', width: 250, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
                 return cellvalue.replace(/\+\+\+/g, ',');
@@ -421,16 +418,16 @@
             {label: '去往国家', name: 'country', width: 150},
             {label: '留学学校或工作单位', name: 'school', width: 200},
             {label: '出国起止时间', name: 'abroadTime', width: 200,formatter: function (cellvalue, options, rowObject) {
-                return rowObject.startTime + "至" + rowObject.endTime;
+                return new Date(rowObject.startTime).format('yyyy-MM') + "至" + new Date(rowObject.endTime).format('yyyy-MM');
             }},
             {label: '留学方式', name: 'type', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '';
                 return _cMap.GRADUATE_ABROAD_TYPE_MAP[cellvalue];
             }},
             {label: '申请保留组织关系起止时间', name: 'mobile', width: 200,formatter: function (cellvalue, options, rowObject) {
-                return rowObject.saveStartTime + "至" + rowObject.saveEndTime;
+                return new Date(rowObject.saveStartTime).format('yyyy-MM') + "至" + new Date(rowObject.saveEndTime).format('yyyy-MM');
             }},
-            {label: '党费交纳截止时间', name: 'payTime', width: 200},
+            {label: '党费交纳截止时间', name: 'payTime', width: 200, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             {label: '状态', name: 'statusName', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.GRADUATE_ABROAD_STATUS_MAP[rowObject.status];
             }}<c:if test="${cls==1}">

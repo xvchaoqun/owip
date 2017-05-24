@@ -236,14 +236,14 @@ pageEncoding="UTF-8" %>
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code' },
             { label:'发证机关',name: 'authority', width: 180},
-            { label:'发证日期', name: 'issueDate' },
-            { label:'有效期', name: 'expiryDate' },
+            { label:'发证日期', name: 'issueDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'有效期', name: 'expiryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'集中管理日期', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
                 else if(rowObject.type=='${PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
                     return '';
                 }
-                return cellvalue
+                return new Date(cellvalue).format('yyyy-MM-dd')
             }  },
             <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', name: 'safeBox.code', width: 130 },
@@ -252,10 +252,10 @@ pageEncoding="UTF-8" %>
             } },
             </c:if>
             <c:if test="${status==4}">
-            { label:'取消集中保管日期', name: 'cancelTime', width: 140 },
+            { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             </c:if>
             <c:if test="${status==PASSPORT_TYPE_LOST}">
-            { label:'登记丢失日期', name: 'lostTime', width: 120 },
+            { label:'登记丢失日期', name: 'lostTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             </c:if>
             <c:if test="${status==2||status==4}">
             { label:'取消集中保管原因', name: 'cancelType', width: 140, formatter:function(cellvalue, options, rowObject){

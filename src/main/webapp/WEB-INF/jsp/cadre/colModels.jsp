@@ -36,24 +36,13 @@
         }
         },
         {label: '是否正职', name: 'isPrincipalPost', formatter: $.jgrid.formatter.TRUEFALSE},
-        {
-            label: '性别', name: 'gender', width: 50, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.GENDER_MAP[cellvalue];
-        }
-        },
+        {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
         {label: '籍贯', name: 'nativePlace', width: 120},
         {label: '出生地', name: 'user.homeplace', width: 120},
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-        {
-            label: '年龄', name: 'birth', width: 50,
-            formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return yearOffNow(cellvalue);
-            }
-        },
+        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
         {
             label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
 
@@ -79,20 +68,10 @@
             label: '参加工作时间', name: 'workStartTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
         },
         {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-        {
-            label: '最高学历', name: 'eduId', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.metaTypeMap[cellvalue].name
-        }
-        },
+        {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
         {label: '最高学位', name: 'degree'},
         {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-        {
-            label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.metaTypeMap[cellvalue].name
-        }
-        },
+        {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
         {label: '毕业学校', name: 'school', width: 150},
         {
             label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
@@ -336,11 +315,7 @@
     ];
 
     colModels.cadreEdu = [
-        {
-            label: '学历', name: 'eduId', frozen: true, formatter: function (cellvalue, options, rowObject) {
-            return _cMap.metaTypeMap[cellvalue].name
-        }
-        },
+        {label: '学历', name: 'eduId', frozen: true, formatter: $.jgrid.formatter.MetaType},
         {
             label: '毕业/在读', width: 90, name: 'isGraduated', formatter: function (cellvalue, options, rowObject) {
             return cellvalue ? "毕业" : "在读";
@@ -359,11 +334,7 @@
         },
 
         //{label: '学制', name: 'schoolLen', width:50},
-        {
-            label: '学习方式', name: 'learnStyle', formatter: function (cellvalue, options, rowObject) {
-            return _cMap.metaTypeMap[cellvalue].name
-        }
-        },
+        {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
         {
             label: '学位', name: 'degree', formatter: function (cellvalue, options, rowObject) {
             return rowObject.hasDegree ? cellvalue : "-";

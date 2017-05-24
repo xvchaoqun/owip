@@ -1,14 +1,15 @@
 package controller.user.abroad;
 
 import controller.BaseController;
-import domain.abroad.*;
+import domain.abroad.Passport;
+import domain.abroad.PassportDraw;
+import domain.abroad.PassportDrawExample;
+import domain.abroad.PassportExample;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.ApplySelfMixin;
-import mixin.PassportDrawMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
@@ -237,8 +238,6 @@ public class UserPassportController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(PassportDraw.class, PassportDrawMixin.class);
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

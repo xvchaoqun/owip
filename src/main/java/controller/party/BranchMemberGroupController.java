@@ -7,7 +7,6 @@ import domain.party.*;
 import domain.party.BranchMemberGroupExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.BranchMemberGroupViewMixin;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -22,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.utils.ExportHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -146,7 +145,6 @@ public class BranchMemberGroupController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(BranchMemberGroupView.class, BranchMemberGroupViewMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

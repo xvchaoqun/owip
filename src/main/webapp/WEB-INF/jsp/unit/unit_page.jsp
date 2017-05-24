@@ -142,7 +142,7 @@
             },frozen:true },
             </c:if>
             { label: '单位类型', name: 'unitType.name', width: 250,frozen:true  },
-            { label: '成立时间', name: 'workTime'},
+            { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '备注', align:'left', name: 'remark', width: 500 }
         ]}).jqGrid("setFrozenColumns");
 

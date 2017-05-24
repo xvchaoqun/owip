@@ -80,7 +80,7 @@
                 return "D{0}".format(cellvalue);
             }, frozen: true
             },
-            {label: '申请日期', name: 'applyDate', frozen: true},
+            {label: '申请日期', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
             {
                 label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
@@ -188,8 +188,8 @@
                 return str;
             }
             },
-            {label: '应交组织部日期', name: 'returnDate', width: 150},
-            {label: '实交组织部日期', name: 'realReturnDate', width: 150},
+            {label: '应交组织部日期', name: 'returnDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '实交组织部日期', name: 'realReturnDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '操作', name: 'op', width: 100, frozen: true, formatter: function (cellvalue, options, rowObject) {
                 var str = "";

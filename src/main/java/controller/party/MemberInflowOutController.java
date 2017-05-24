@@ -6,11 +6,9 @@ import domain.member.MemberInflowExample;
 import domain.member.MemberInflowExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberInflowMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
@@ -29,14 +27,16 @@ import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberInflowOutController extends BaseController {
@@ -210,7 +210,6 @@ public class MemberInflowOutController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberInflow.class, MemberInflowMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

@@ -10,7 +10,6 @@ import domain.party.Party;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberReturnMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -217,7 +216,6 @@ public class MemberReturnController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberReturn.class, MemberReturnMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

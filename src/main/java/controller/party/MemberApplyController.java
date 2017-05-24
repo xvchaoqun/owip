@@ -11,7 +11,6 @@ import domain.party.Party;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import mixin.MemberApplyMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,9 +33,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
 import service.party.MemberApplyOpService;
 import shiro.CurrentUser;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -319,7 +318,6 @@ public class MemberApplyController extends BaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberApply.class, MemberApplyMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

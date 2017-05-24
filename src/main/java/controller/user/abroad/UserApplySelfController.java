@@ -7,7 +7,6 @@ import domain.abroad.ApplySelfExample.Criteria;
 import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import mixin.ApplySelfMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -162,7 +161,6 @@ public class UserApplySelfController extends BaseController {
         request.setAttribute("isView", false);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(ApplySelf.class, ApplySelfMixin.class);
         JSONUtils.jsonp(resultMap, sourceMixins);
     }
 
