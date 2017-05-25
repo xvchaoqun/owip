@@ -68,6 +68,7 @@ ${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}
 
 new Date().format('yyyy-MM-dd')
 
+$.jgrid.formatter.MetaType
 
 
 字数限制

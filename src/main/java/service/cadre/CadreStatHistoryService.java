@@ -2,18 +2,17 @@ package service.cadre;
 
 import domain.cadre.CadreStatHistory;
 import domain.cadre.CadreViewExample;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
+import service.cpc.CpcAllocationService;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -23,36 +22,47 @@ import java.util.UUID;
 public class CadreStatHistoryService extends BaseMapper {
 
     @Autowired
+    private CpcAllocationService cpcAllocationService;
+    @Autowired
     private StatCadreService statCadreService;
     @Autowired
     private CadreExportService cadreExportService;
     @Autowired
     protected SpringProps springProps;
 
-    public void statAll() throws IOException {
-        try {
-            saveCadreExport();
-            saveStatCadreExport();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    // 保存历史信息表
+    public void saveExport(byte type) throws IOException {
+
+        long start = System.currentTimeMillis();
+
+        Workbook wb = null;
+        switch (type) {
+            case SystemConstants.CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE:
+
+                byte status = SystemConstants.CADRE_STATUS_MIDDLE;
+                CadreViewExample example = new CadreViewExample();
+                example.createCriteria().andStatusEqualTo(status);
+                example.setOrderByClause("sort_order desc");
+                wb = cadreExportService.export(status, example);
+
+                break;
+            case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE:
+
+                wb = statCadreService.toXlsx();
+                break;
+            case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
+
+                wb = cpcAllocationService.toXlsx();
+                break;
         }
-    }
 
-    // 保存中层干部信息表
-    public void saveCadreExport() throws IOException {
-
-        long start = System.currentTimeMillis();
-
-        byte status = SystemConstants.CADRE_STATUS_MIDDLE;
-        CadreViewExample example = new CadreViewExample();
-        example.createCriteria().andStatusEqualTo(status);
-        example.setOrderByClause("sort_order desc");
-        SXSSFWorkbook wb = cadreExportService.export(status, example);
-        String savePath = FILE_SEPARATOR + "cadre_stat_history" + FILE_SEPARATOR
+        String savePath = FILE_SEPARATOR + "stat_history" + FILE_SEPARATOR
+                + type + FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMM")
                 + UUID.randomUUID().toString() + ".xlsx";
 
-        FileUtils.mkdirs(springProps.uploadPath + savePath);
-        FileOutputStream output = new FileOutputStream(springProps.uploadPath + savePath);
+        String absoluetPath = springProps.uploadPath + savePath;
+        FileUtils.mkdirs(absoluetPath);
+        FileOutputStream output = new FileOutputStream(absoluetPath);
         wb.write(output);
         output.close();
 
@@ -65,32 +75,7 @@ public class CadreStatHistoryService extends BaseMapper {
         record.setStatDate(now);
         record.setDownloadCount(0);
         record.setDuration((int) (end - start));
-        record.setType(SystemConstants.CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE);
-        cadreStatHistoryMapper.insertSelective(record);
-    }
-
-    // 保存中层干部情况统计表
-    public void saveStatCadreExport() throws IOException {
-
-        long start = System.currentTimeMillis();
-
-        XSSFWorkbook wb = statCadreService.toXlsx();
-        String savePath = FILE_SEPARATOR + "cadre_stat_history" + FILE_SEPARATOR
-                + UUID.randomUUID().toString() + ".xlsx";
-        FileOutputStream output = new FileOutputStream(new File(springProps.uploadPath + savePath));
-        wb.write(output);
-        output.close();
-
-        long end = System.currentTimeMillis();
-
-        Date now = new Date();
-        CadreStatHistory record = new CadreStatHistory();
-        record.setSavePath(savePath);
-        record.setCreateTime(now);
-        record.setStatDate(now);
-        record.setDownloadCount(0);
-        record.setDuration((int) (end - start));
-        record.setType(SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE);
+        record.setType(type);
         cadreStatHistoryMapper.insertSelective(record);
     }
 }

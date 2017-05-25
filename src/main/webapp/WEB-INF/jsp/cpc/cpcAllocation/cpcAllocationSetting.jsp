@@ -84,7 +84,7 @@
                 $(form).ajaxSubmit({
                     success: function (ret) {
                         if (ret.success) {
-                           _closeView();
+                           _closeView(true);
                         }
                     }
                 });

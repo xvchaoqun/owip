@@ -338,7 +338,7 @@ public class UnitController extends BaseController {
     @ResponseBody
     public Map selectUnits_tree() throws IOException {
 
-        TreeNode tree = unitService.getTree(null);
+        TreeNode tree = unitService.getTree(SystemConstants.UNIT_STATUS_RUN, null);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);

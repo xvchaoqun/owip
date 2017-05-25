@@ -309,7 +309,7 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:list")
     @RequestMapping("/applySelf_approvers")
     @ResponseBody
-    public void getApprovers(int applySelfId, int approvalTypeId, HttpServletResponse response) throws IOException {
+    public void applySelf_approvers(int applySelfId, int approvalTypeId, HttpServletResponse response) throws IOException {
 
         // 读取所有审批人
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
@@ -327,7 +327,7 @@ public class ApplySelfController extends BaseController {
         resultMap.put("approvers", approvers);
 
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        JSONUtils.write(response, resultMap, sourceMixins);
         return;
     }
 

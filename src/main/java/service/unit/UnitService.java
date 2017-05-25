@@ -55,7 +55,7 @@ public class UnitService extends BaseMapper {
         return commonUnitMapper.findHistoryUnits(unitId);
     }
 
-    public TreeNode getTree(Set<Integer> selectIdSet){
+    public TreeNode getTree(byte status, Set<Integer> selectIdSet){
 
         if(null == selectIdSet) selectIdSet = new HashSet<>();
 
@@ -72,7 +72,7 @@ public class UnitService extends BaseMapper {
         Map<String, List<Unit>> unitMap = new LinkedHashMap<>();
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN);
+        example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause(" sort_order desc");
         List<Unit> units = unitMapper.selectByExample(example);
         for (Unit unit : units) {

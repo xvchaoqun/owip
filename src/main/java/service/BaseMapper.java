@@ -13,6 +13,7 @@ import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.cis.*;
 import persistence.common.*;
 import persistence.cpc.CpcAllocationMapper;
+import persistence.cpc.CpcAllocationViewMapper;
 import persistence.crp.CrpRecordMapper;
 import persistence.dispatch.*;
 import persistence.ext.ExtAbroadMapper;
@@ -305,6 +306,8 @@ public class BaseMapper {
 
 	@Autowired
 	protected CpcAllocationMapper cpcAllocationMapper;
+	@Autowired
+	protected CpcAllocationViewMapper cpcAllocationViewMapper;
 
 	@Autowired
 	protected TrainMapper trainMapper;

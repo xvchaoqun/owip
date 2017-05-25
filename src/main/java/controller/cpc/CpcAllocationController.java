@@ -2,11 +2,15 @@ package controller.cpc;
 
 import controller.BaseController;
 import domain.base.MetaType;
+import domain.cadre.CadrePost;
 import domain.cpc.CpcAllocation;
 import domain.cpc.CpcAllocationExample;
+import domain.cpc.CpcAllocationView;
+import domain.cpc.CpcAllocationViewExample;
 import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.cpc.CpcAllocationBean;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -115,9 +122,27 @@ public class CpcAllocationController extends BaseController {
 
     @RequiresPermissions("cpcAllocation:list")
     @RequestMapping("/cpcAllocation_page")
-    public String cpcAllocation_page() {
+    public String cpcAllocation_page( @RequestParam(required = false, defaultValue = "0")int export,
+                                      ModelMap modelMap, HttpServletResponse response) throws IOException {
 
 
+        if(export==1){
+            XSSFWorkbook wb = cpcAllocationService.toXlsx();
+            try {
+                String fileName = "北京师范大学内设机构干部配备情况（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                ServletOutputStream outputStream = response.getOutputStream();
+                fileName = new String(fileName.getBytes(), "ISO8859_1");
+                response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+                wb.write(outputStream);
+                outputStream.flush();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+
+        List<CpcAllocationBean> beans =cpcAllocationService.statCpc();
+        modelMap.put("beans", beans);
 
         return "cpc/cpcAllocation/cpcAllocation_page";
     }

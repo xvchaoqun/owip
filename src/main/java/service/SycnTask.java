@@ -13,6 +13,7 @@ import service.cadre.CadreStatHistoryService;
 import service.global.CacheService;
 import service.sys.SysOnlineStaticService;
 import service.sys.SysUserSyncService;
+import sys.constants.SystemConstants;
 
 @Component
 public class SycnTask {
@@ -45,9 +46,11 @@ public class SycnTask {
 
 		logger.info("备份干部历史数据文件...");
 		try {
-			cadreStatHistoryService.saveCadreExport();
+			for (Byte type : SystemConstants.CADRE_STAT_HISTORY_TYPE_MAP.keySet()) {
 
-			cadreStatHistoryService.saveStatCadreExport();
+				cadreStatHistoryService.saveExport(type);
+			}
+
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}

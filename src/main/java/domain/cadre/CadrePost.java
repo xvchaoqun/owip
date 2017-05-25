@@ -1,6 +1,7 @@
 package domain.cadre;
 
 import bean.DispatchCadreRelateBean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import domain.dispatch.DispatchCadreRelate;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -13,6 +14,11 @@ public class CadrePost implements Serializable {
     public DispatchCadreRelateBean getDispatchCadreRelateBean(){
         List<DispatchCadreRelate> all = CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
         return new DispatchCadreRelateBean(all);
+    }
+
+    @JsonIgnore
+    public CadreView getCadre(){
+        return CmTag.getCadreById(cadreId);
     }
 
     private Integer id;

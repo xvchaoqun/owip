@@ -38,9 +38,9 @@ public class CadreStatHistoryController extends BaseController {
     @RequiresPermissions("cadreStatHistory:edit")
     @RequestMapping(value = "/cadreStatHistory", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreStatHistory() throws IOException {
+    public Map do_cadreStatHistory(byte type) throws IOException {
 
-        cadreStatHistoryService.statAll();
+        cadreStatHistoryService.saveExport(type);
 
         return success(FormUtils.SUCCESS);
     }

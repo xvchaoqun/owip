@@ -23,6 +23,13 @@ public class CadrePostService extends BaseMapper {
     @Autowired
     private DispatchCadreRelateService dispatchCadreRelateService;
 
+    public List<CadrePost> findByUnitId(int unitId){
+
+        CadrePostExample example = new CadrePostExample();
+        example.createCriteria().andUnitIdEqualTo(unitId);
+        return cadrePostMapper.selectByExample(example);
+    }
+
     public void insertSelective(CadrePost record) {
 
         // 如果是主职提交，则判断是否重复

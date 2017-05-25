@@ -12,12 +12,28 @@
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cadreStatHistory:edit">
                     <button class="confirm btn btn-primary btn-sm"
-                            data-url="${ctx}/cadreStatHistory"
+                            data-url="${ctx}/cadreStatHistory?type=${CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE}"
                             data-title="统计"
                             data-msg="确定现在统计吗？"
                             data-loading="#gview_jqGrid"
                             data-callback="_reload">
-                        <i class="fa fa-hourglass-half"></i> 立即统计
+                        <i class="fa fa-hourglass-half"></i> 立即统计(中层干部信息表)
+                    </button>
+                    <button class="confirm btn btn-primary btn-sm"
+                            data-url="${ctx}/cadreStatHistory?type=${CADRE_STAT_HISTORY_TYPE_STAT_CADRE}"
+                            data-title="统计"
+                            data-msg="确定现在统计吗？"
+                            data-loading="#gview_jqGrid"
+                            data-callback="_reload">
+                        <i class="fa fa-hourglass-half"></i> 立即统计(中层干部情况统计表)
+                    </button>
+                    <button class="confirm btn btn-primary btn-sm"
+                            data-url="${ctx}/cadreStatHistory?type=${CADRE_STAT_HISTORY_TYPE_STAT_CPC}"
+                            data-title="统计"
+                            data-msg="确定现在统计吗？"
+                            data-loading="#gview_jqGrid"
+                            data-callback="_reload">
+                        <i class="fa fa-hourglass-half"></i> 立即统计(干部职数配置情况统计表)
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreStatHistory:del">

@@ -1,11 +1,6 @@
 
 
 
-ALTER TABLE `cpc_allocation`
-	CHANGE COLUMN `post_id` `admin_level_id` INT(10) UNSIGNED NOT NULL COMMENT '行政级别，关联元数据' AFTER `unit_id`;
-ALTER TABLE `cpc_allocation`
-	ADD UNIQUE INDEX `unit_id_admin_level_id` (`unit_id`, `admin_level_id`);
-
 -- 2017-5-23
 ALTER TABLE `base_short_msg_tpl`
 	CHANGE COLUMN `content` `content` TEXT NOT NULL COMMENT '短信内容' AFTER `name`;

@@ -90,6 +90,9 @@
 <c:set var="UNIT_TYPE_ATTR_FS" value="<%=SystemConstants.UNIT_TYPE_ATTR_FS%>"/>
 <c:set var="UNIT_TYPE_ATTR_MAP" value="<%=SystemConstants.UNIT_TYPE_ATTR_MAP%>"/>
 
+<c:set var="CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE" value="<%=SystemConstants.CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE%>"/>
+<c:set var="CADRE_STAT_HISTORY_TYPE_STAT_CADRE" value="<%=SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE%>"/>
+<c:set var="CADRE_STAT_HISTORY_TYPE_STAT_CPC" value="<%=SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC%>"/>
 <c:set var="CADRE_STAT_HISTORY_TYPE_MAP" value="<%=SystemConstants.CADRE_STAT_HISTORY_TYPE_MAP%>"/>
 
 <%@ include file="taglibs-html-fragment.jsp" %>
