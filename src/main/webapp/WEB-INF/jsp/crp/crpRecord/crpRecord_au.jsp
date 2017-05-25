@@ -113,6 +113,13 @@
                 </script>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">挂职项目</label>
+
+            <div class="col-xs-6">
+                <input class="form-control" type="text" name="project" value="${crpRecord.project}">
+            </div>
+        </div>
         <div class="form-group" id="tempPostDiv">
             <label class="col-xs-4 control-label">挂职类型</label>
 
@@ -239,7 +246,9 @@
         //alert($("input[name=isPresentCadre]").bootstrapSwitch("state"))
         if (($status == '${CADRE_STATUS_MIDDLE}' || $status == '${CADRE_STATUS_LEADER}') &&
                 $("input[name=isPresentCadre]").bootstrapSwitch("state")) {
+
             $("#modalForm textarea[name=presentPost]").val(state.title);
+            $("#modalForm input[name=phone]").val(state.mobile);
         }
         return templateSelection(state);
     });

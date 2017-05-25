@@ -166,14 +166,15 @@ public class CommonController extends BaseController {
 
             for (Cadre cadre : cadres) {
                 Map<String, String> option = new HashMap<>();
-                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
+                SysUserView uv = sysUserService.findById(cadre.getUserId());
                 option.put("id", cadre.getId() + "");
-                option.put("text", sysUser.getRealname());
+                option.put("text", uv.getRealname());
+                option.put("mobile", uv.getMobile());
                 option.put("title", cadre.getTitle());
                 option.put("status", cadre.getStatus() + "");
-                if (StringUtils.isNotBlank(sysUser.getCode())) {
-                    option.put("code", sysUser.getCode());
-                    ExtJzg extJzg = extJzgService.getByCode(sysUser.getCode());
+                if (StringUtils.isNotBlank(uv.getCode())) {
+                    option.put("code", uv.getCode());
+                    ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
                     if (extJzg != null) {
                         option.put("unit", extJzg.getDwmc());
                     }
@@ -283,6 +284,7 @@ public class CommonController extends BaseController {
                 option.put("id", cadre.getId() + "");
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 option.put("text", uv.getRealname());
+                option.put("mobile", uv.getMobile());
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());

@@ -782,6 +782,76 @@ public class CrpRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andProjectIsNull() {
+            addCriterion("project is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIsNotNull() {
+            addCriterion("project is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEqualTo(String value) {
+            addCriterion("project =", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNotEqualTo(String value) {
+            addCriterion("project <>", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectGreaterThan(String value) {
+            addCriterion("project >", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectGreaterThanOrEqualTo(String value) {
+            addCriterion("project >=", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLessThan(String value) {
+            addCriterion("project <", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLessThanOrEqualTo(String value) {
+            addCriterion("project <=", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLike(String value) {
+            addCriterion("project like", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNotLike(String value) {
+            addCriterion("project not like", value, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIn(List<String> values) {
+            addCriterion("project in", values, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNotIn(List<String> values) {
+            addCriterion("project not in", values, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectBetween(String value1, String value2) {
+            addCriterion("project between", value1, value2, "project");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNotBetween(String value1, String value2) {
+            addCriterion("project not between", value1, value2, "project");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;

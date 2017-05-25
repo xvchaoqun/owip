@@ -1,5 +1,7 @@
 
-
+-- 2017-5-25
+ALTER TABLE `crp_record`
+	ADD COLUMN `project` VARCHAR(100) NULL DEFAULT NULL COMMENT '挂职项目' AFTER `temp_post`;
 
 -- 2017-5-23
 ALTER TABLE `base_short_msg_tpl`

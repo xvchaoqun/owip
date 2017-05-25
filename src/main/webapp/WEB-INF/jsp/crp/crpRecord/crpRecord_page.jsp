@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${param.type==CES_TEMP_POST_TYPE_OUT}">
+    <c:set var="unitCode" value="mc_temppost_out_unit"/>
+    <c:set var="postCode" value="mc_temppost_out_post"/>
+    <c:set var="unitCodeOther" value="mt_temppost_out_unit_other"/>
+    <c:set var="postCodeOther" value="mt_temppost_out_post_other"/>
+</c:if>
+<c:if test="${param.type==CES_TEMP_POST_TYPE_IN}">
+    <c:set var="unitCode" value="mc_temppost_in_unit"/>
+    <c:set var="postCode" value="mc_temppost_in_post"/>
+    <c:set var="unitCodeOther" value="mt_temppost_in_unit_other"/>
+    <c:set var="postCodeOther" value="mt_temppost_in_post_other"/>
+</c:if>
+<c:if test="${param.type==CES_TEMP_POST_TYPE_TRANSFER}">
+    <c:set var="unitCode" value="mc_temppost_transfer_unit"/>
+    <c:set var="postCode" value="mc_temppost_transfer_post"/>
+    <c:set var="unitCodeOther" value="mt_temppost_transfer_unit_other"/>
+    <c:set var="postCodeOther" value="mt_temppost_transfer_post_other"/>
+</c:if>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -9,7 +27,9 @@
              data-url-export="${ctx}/crpRecord_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.userId  ||not empty param.isDeleted || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.userId  ||not empty param.realname
+                   ||not empty param.isPresentCadre ||not empty param.toUnitType
+                   ||not empty param.tempPostType || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isFinished}">active</c:if>">
@@ -26,7 +46,8 @@
                             <shiro:hasPermission name="crpRecord:edit">
                                 <c:if test="${!isFinished}">
                                     <a class="popupBtn btn btn-info btn-sm"
-                                       data-url="${ctx}/crpRecord_au?type=${param.type}"><i class="fa fa-plus"></i> 添加</a>
+                                       data-url="${ctx}/crpRecord_au?type=${param.type}"><i class="fa fa-plus"></i>
+                                        添加</a>
                                 </c:if>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/crpRecord_au"
@@ -68,17 +89,57 @@
                                         <input name="isFinished" type="hidden" value="${isFinished}"/>
 
                                         <div class="form-group">
-                                            <label>账号</label>
-                                            <input class="form-control search-query" name="userId" type="text"
-                                                   value="${param.userId}"
-                                                   placeholder="请输入关联干部">
+                                            <label>姓名</label>
+                                            <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+                                                <select data-rel="select2-ajax"
+                                                        data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
+                                                        name="userId" data-placeholder="请输入账号或姓名或教工号">
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${param.type==CES_TEMP_POST_TYPE_TRANSFER}">
+                                                <input class="form-control search-query" name="realname" type="text"
+                                                       value="${param.realname}"
+                                                       placeholder="请输入姓名">
+                                            </c:if>
                                         </div>
-
+                                        <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+                                            <div class="form-group">
+                                                <label>是否现任干部</label>
+                                                <select name="isPresentCadre" data-width="100" data-rel="select2"
+                                                        data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=isPresentCadre]").val('${param.isPresentCadre}');
+                                                </script>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${param.type!=CES_TEMP_POST_TYPE_IN}">
+                                            <div class="form-group">
+                                                <label>委派单位</label>
+                                                <select required data-rel="select2" name="toUnitType"
+                                                        data-placeholder="请选择">
+                                                    <option></option>
+                                                    <c:import url="/metaTypes?__code=${unitCode}"/>
+                                                </select>
+                                                <script type="text/javascript">
+                                                    $("#searchForm select[name=toUnitType]").val(${param.toUnitType});
+                                                </script>
+                                            </div>
+                                        </c:if>
                                         <div class="form-group">
-                                            <label>是否删除</label>
-                                            <input class="form-control search-query" name="isDeleted" type="text"
-                                                   value="${param.isDeleted}"
-                                                   placeholder="请输入是否删除">
+                                            <label>挂职类别</label>
+                                            <select required data-rel="select2" name="tempPostType"
+                                                    data-placeholder="请选择">
+                                                <option></option>
+                                                <c:import url="/metaTypes?__code=${postCode}"/>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=tempPostType]").val(${param.tempPostType});
+                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -105,30 +166,22 @@
         <div id="item-content"></div>
     </div>
 </div>
-<c:if test="${param.type==CES_TEMP_POST_TYPE_OUT}">
-    <c:set var="unitCodeOther" value="mt_temppost_out_unit_other"/>
-    <c:set var="postCodeOther" value="mt_temppost_out_post_other"/>
-</c:if>
-<c:if test="${param.type==CES_TEMP_POST_TYPE_IN}">
-    <c:set var="unitCodeOther" value="mt_temppost_in_unit_other"/>
-    <c:set var="postCodeOther" value="mt_temppost_in_post_other"/>
-</c:if>
-<c:if test="${param.type==CES_TEMP_POST_TYPE_TRANSFER}">
-    <c:set var="unitCodeOther" value="mt_temppost_transfer_unit_other"/>
-    <c:set var="postCodeOther" value="mt_temppost_transfer_post_other"/>
-</c:if>
+
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            </c:if>
             {
                 label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.type=='${CES_TEMP_POST_TYPE_TRANSFER}'){
+                if (rowObject.type == '${CES_TEMP_POST_TYPE_TRANSFER}') {
                     return cellvalue;
                 }
-                if(rowObject.cadre && rowObject.cadre.id>0)
+                if (rowObject.cadre && rowObject.cadre.id > 0)
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(rowObject.cadre.id, rowObject.cadre.realname);
+                            .format(rowObject.cadre.id, rowObject.cadre.realname);
 
                 return rowObject.user.realname;
             }, frozen: true
@@ -136,23 +189,25 @@
             <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
-            {label: '时任职务', name: 'presentPost', width: 350},
+            {label: '时任职务', name: 'presentPost', width: 250},
             {label: '联系电话', name: 'phone', width: 150},
+
             {
                 label: '委派单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(unitCodeOther).id}') ? ("：" + rowObject.toUnit) : "");
-            }, width: 250
+            }, width: 150
             },
             {
                 label: '挂职类别', name: 'tempPostType', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(postCodeOther).id}') ? ("：" + rowObject.tempPost) : "");
-            }, width: 150
+            }, width: 100
             },
-            {label: '挂职单位及所任职务', name: 'title', width: 200},
+            {label: '挂职项目', name: 'project', width: 300},
+            {label: '挂职单位及所任职务', name: 'title', width: 300},
             {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             <c:if test="${!isFinished}">
             {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
@@ -168,4 +223,5 @@
     _initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    register_user_select($('#searchForm select[name=userId]'));
 </script>

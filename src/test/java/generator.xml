@@ -238,11 +238,11 @@
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-     <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView"
+      <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
+      </table>
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->
@@ -349,7 +349,7 @@
       </table>-->
 
 
-     <!-- <table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
+      <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
       </table>-->
 
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">

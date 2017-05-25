@@ -81,7 +81,13 @@ public class CrpRecordController extends BaseController {
 
     @RequiresPermissions("crpRecord:list")
     @RequestMapping("/crpRecord_page")
-    public String crpRecord_page(@RequestParam(required = false, defaultValue = "0") Boolean isFinished, ModelMap modelMap) {
+    public String crpRecord_page(@RequestParam(required = false, defaultValue = "0") Boolean isFinished,
+                                 Integer userId,
+                                 ModelMap modelMap) {
+
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
 
         modelMap.put("isFinished", isFinished);
         return "crp/crpRecord/crpRecord_page";
@@ -90,12 +96,18 @@ public class CrpRecordController extends BaseController {
     @RequiresPermissions("crpRecord:list")
     @RequestMapping("/crpRecord_data")
     public void crpRecord_data(HttpServletResponse response,
-                                 Integer userId,
-                                 Byte type,
-                                 Boolean isFinished,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+
+                               Integer userId,
+                               String realname,
+                               Boolean isPresentCadre,
+                               Integer toUnitType,
+                               Integer tempPostType,
+
+                               Byte type,
+                               Boolean isFinished,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                               Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -111,6 +123,18 @@ public class CrpRecordController extends BaseController {
 
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (StringUtils.isNotBlank(realname)) {
+            criteria.andRealnameEqualTo(realname.trim());
+        }
+        if (isPresentCadre != null) {
+            criteria.andIsPresentCadreEqualTo(isPresentCadre);
+        }
+        if (toUnitType != null) {
+            criteria.andToUnitTypeEqualTo(toUnitType);
+        }
+        if (tempPostType != null) {
+            criteria.andTempPostTypeEqualTo(tempPostType);
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
@@ -155,13 +179,13 @@ public class CrpRecordController extends BaseController {
 
         Integer id = record.getId();
 
-        if(record.getStartDate().after(record.getEndDate())){
+        if (record.getStartDate().after(record.getEndDate())) {
             return failed("挂职时间有误。");
         }
 
         record.setIsPresentCadre(BooleanUtils.isTrue(record.getIsPresentCadre()));
 
-        if(cadreId!=null){
+        if (cadreId != null) {
             CadreView cv = cadreService.findAll().get(cadreId);
             record.setUserId(cv.getUserId());
         }

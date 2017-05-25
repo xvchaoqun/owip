@@ -39,6 +39,8 @@ public class CrpRecord implements Serializable {
 
     private String tempPost;
 
+    private String project;
+
     private String title;
 
     @DateTimeFormat(pattern = "yyyy-MM")
@@ -136,6 +138,14 @@ public class CrpRecord implements Serializable {
 
     public void setTempPost(String tempPost) {
         this.tempPost = tempPost == null ? null : tempPost.trim();
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project == null ? null : project.trim();
     }
 
     public String getTitle() {

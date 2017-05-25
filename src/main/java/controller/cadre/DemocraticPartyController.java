@@ -106,7 +106,7 @@ public class DemocraticPartyController extends BaseController {
             criteria.andTitleLike("%" + title + "%");
         }
 
-        int count = cadreViewMapper.countByExample(example);
+        long count = cadreViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
