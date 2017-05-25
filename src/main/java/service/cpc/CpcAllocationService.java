@@ -102,8 +102,8 @@ public class CpcAllocationService extends BaseMapper {
 
         int cpRow = 5;
         int rowCount = beans.size() - 1;
-        ExcelUtils.insertRow(wb, sheet, cpRow, rowCount - 1);
-
+        if(rowCount>1)
+            ExcelUtils.insertRow(wb, sheet, cpRow, rowCount - 1);
 
         int startRow = cpRow;
         for (int i = 0; i < rowCount; i++) {

@@ -2,11 +2,8 @@ package controller.cpc;
 
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.cadre.CadrePost;
 import domain.cpc.CpcAllocation;
 import domain.cpc.CpcAllocationExample;
-import domain.cpc.CpcAllocationView;
-import domain.cpc.CpcAllocationViewExample;
 import domain.unit.Unit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
