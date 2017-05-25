@@ -347,11 +347,7 @@
 
       <!--<table tableName="cpc_allocation" domainObjectName="cpc.CpcAllocation" mapperName="cpc.CpcAllocationMapper">
       </table>-->
-      <table tableName="cpc_allocation_view" domainObjectName="cpc.CpcAllocationView" mapperName="cpc.CpcAllocationViewMapper"
-             enableInsert="false" enableUpdateByPrimaryKey="false"
-             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-             enableDeleteByExample="false">
-      </table>
+
 
      <!-- <table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
       </table>-->
