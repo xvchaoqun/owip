@@ -22,10 +22,11 @@ import java.util.Map;
 public interface SelectMapper {
 
     // 获取主职或兼职在某单位的现任干部
-    @Select("select cp.* from cadre_post cp , cadre c where cp.cadre_id=c.id and " +
+    @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
+    @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
             "c.status in("+SystemConstants.CADRE_STATUS_MIDDLE+","+ SystemConstants.CADRE_STATUS_LEADER +") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
-    public List<CadrePost> findCadrePosts(int unitId);
+    public List<CadrePost> findCadrePosts(@Param("unitId")int unitId);
 
     // 获取2013年以来离任干部
     /*@ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")

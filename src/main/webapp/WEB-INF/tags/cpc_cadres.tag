@@ -6,13 +6,13 @@
        data-url="${ctx}/cadre_view?cadreId=${p.cadre.id}" data-tooltip="tooltip"
        data-container="body" data-html="true"
        data-original-title="${p.post}">${p.cadre.realname}</a></c:if><c:if test="${!p.isMainPost && p.isCpc}">
-        <span class="isCpc">（<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${p.cadre.id}"
+        <span class="isCpc">(<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${p.cadre.id}"
                                 data-tooltip="tooltip" data-container="body" data-html="true"
-                                data-original-title="${p.post}">${p.cadre.realname}</a>）</span></c:if><c:if
+                                data-original-title="${p.post}">${p.cadre.realname}</a>)</span></c:if><c:if
         test="${!p.isMainPost && !p.isCpc}">
   <span class="notCpc">
-      （<a href="javascript:;" class="openView"
+      (<a href="javascript:;" class="openView"
           data-url="${ctx}/cadre_view?cadreId=${p.cadre.id}"
           data-tooltip="tooltip" data-container="body"
           data-html="true"
-          data-original-title="${p.post}">${p.cadre.realname}</a>）</span></c:if>${_vs.last?"":"、"}</c:forEach>
+          data-original-title="${p.post}">${p.cadre.realname}</a>)</span></c:if>${_vs.last?"":"、"}</c:forEach>

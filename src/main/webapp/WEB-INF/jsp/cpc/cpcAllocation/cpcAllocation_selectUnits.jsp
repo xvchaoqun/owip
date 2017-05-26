@@ -20,7 +20,7 @@
   <input type="submit" class="btn btn-primary" value="确认"/></div>
 <script>
 
-  $.getJSON("${ctx}/selectUnits_tree",{},function(data){
+  $.getJSON("${ctx}/cpcAllocation_selectUnits_tree",{},function(data){
     var treeData = data.tree;
 
     $("#unitsTree").dynatree({

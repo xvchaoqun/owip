@@ -98,7 +98,7 @@
                                 <mytag:cpc_cadres cadrePosts="${bean.mains}"/>
                             </td>
                             <td class=xl6824425 width=57>
-                                    ${bean.mainNum>bean.mainCount?bean.mainNum-bean.mainCount:0}
+                                    ${bean.mainLack}
                             </td>
                             <td class=xl6724425 width=42>${bean.viceNum}</td>
                             <td class=xl6424425 width=57>${bean.viceCount}</td>
@@ -106,14 +106,14 @@
                                 <mytag:cpc_cadres cadrePosts="${bean.vices}"/>
                             </td>
                             <td class=xl6824425 width=57>
-                                    ${bean.viceNum>bean.viceCount?bean.viceNum-bean.viceCount:0}
+                                    ${bean.viceLack}
                             </td>
                             <td class=xl7524425 width=42>${bean.noneNum}</td>
                             <td class=xl6424425 width=57>${bean.noneCount}</td>
                             <td class=xl6924425 width=116>
                                 <mytag:cpc_cadres cadrePosts="${bean.nones}"/>
                             </td>
-                            <td class=xl6824425 width=57>${bean.noneNum>bean.noneCount?bean.noneNum-bean.noneCount:0}
+                            <td class=xl6824425 width=57>${bean.noneLack}
                             </td>
                         </tr>
                     </c:if>
@@ -143,6 +143,7 @@
         <div id="item-content"></div>
     </div>
 </div>
+<div class="footer-margin"/>
 <style>
     .notCpc, .notCpc a {
         color: red;

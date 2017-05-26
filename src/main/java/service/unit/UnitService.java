@@ -97,17 +97,24 @@ public class UnitService extends BaseMapper {
             List<TreeNode> titleChildren = new ArrayList<TreeNode>();
             titleNode.children = titleChildren;
 
+            int selectableCount = 0;
             for (Unit unit : entry.getValue()) {
 
                 TreeNode node = new TreeNode();
                 node.title = unit.getName();
                 node.key = unit.getId() + "";
                 if (unSelectIdSet.contains(unit.getId().intValue())) {
+                    node.hideCheckbox = true;
                     node.unselectable = true;
+                }else{
+                    selectableCount++;
                 }
                 titleChildren.add(node);
             }
-
+            if(selectableCount==0){
+                titleNode.hideCheckbox = true;
+                titleNode.unselectable = true;
+            }
             rootChildren.add(titleNode);
         }
 
