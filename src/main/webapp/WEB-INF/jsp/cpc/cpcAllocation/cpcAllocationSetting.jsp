@@ -45,7 +45,7 @@
 
     </div>
 </form>
-<div class="footer-margin"/>
+
 <style>
     <!--
 

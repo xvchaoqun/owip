@@ -109,7 +109,7 @@
     <input id="submit" class="btn btn-success" value="提交申请"/>
     <input class="closeView btn btn-default" value="取消申请"/>
 </div>
-<div class="footer-margin"/>
+
 <script>
     $('textarea.limited').inputlimiter();
     $("#submit").click(function(){

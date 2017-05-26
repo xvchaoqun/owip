@@ -147,7 +147,7 @@
     </div>
   </div>
 </div>
-<div class="footer-margin"/>
+
 <style>
   .bg-right{
     background-color: #7db4d8!important;

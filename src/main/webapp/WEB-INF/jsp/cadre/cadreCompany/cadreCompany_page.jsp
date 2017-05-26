@@ -35,7 +35,7 @@ pageEncoding="UTF-8" %>
 <div class="space-4"></div>
 <table id="jqGrid_cadreCompany" class="jqGrid2"></table>
 <div id="jqGridPager_cadreCompany"></div>
-<div class="footer-margin"/>
+
 <script>
     $("#jqGrid_cadreCompany").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

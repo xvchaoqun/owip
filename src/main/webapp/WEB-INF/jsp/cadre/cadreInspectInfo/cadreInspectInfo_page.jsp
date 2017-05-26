@@ -19,7 +19,7 @@
     <div class="space-4"></div>
     <table id="jqGrid_cadreInspectInfo" data-width-reduce="50" class="jqGrid2"></table>
     <div id="jqGridPager_cadreInspectInfo"></div>
-<div class="footer-margin"/>
+
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <script>
     function _innerPage(type, fn) {

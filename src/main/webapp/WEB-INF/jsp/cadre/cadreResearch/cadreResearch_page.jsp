@@ -319,7 +319,7 @@
     <div id="jqGridPager_cadreReward"></div>
 </c:if>
 
-<div class="footer-margin"/>
+
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     var ke_height =${type==CADRE_INFO_TYPE_RESEARCH?550:250};

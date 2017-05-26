@@ -39,7 +39,7 @@
     </div>
 </form>
 </div>
-<div class="footer-margin"/>
+
 <script>
     $("#_avatar").ace_file_input({
         style:'well',

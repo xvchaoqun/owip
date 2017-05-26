@@ -8,7 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row footer-margin" style="width: 950px">
+<div class="row" style="width: 950px">
 <c:if test="${memberOut.status==MEMBER_OUT_STATUS_BACK}">
 <div class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert">

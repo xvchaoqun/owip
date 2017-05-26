@@ -129,7 +129,7 @@
         返回
     </button>
 </div>
-<div class="footer-margin"/>
+
 <script type="text/template" id="dispatch_select_tpl">
     <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
             data-url="${ctx}/cadreWork_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"

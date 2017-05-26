@@ -29,7 +29,7 @@
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
-<div class="footer-margin"/>
+
 <script>
     $("#jqGrid").setSelection('${param.id}', true);
 </script>

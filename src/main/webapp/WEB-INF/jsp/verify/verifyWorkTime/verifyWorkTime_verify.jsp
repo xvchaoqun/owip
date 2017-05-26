@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row footer-margin" style="width: 700px">
+<div class="row" style="width: 700px">
     <div class="widget-box">
         <div class="widget-header">
             <h4 class="widget-title"><i class="fa fa-check blue"></i> 参加工作时间认定（${verifyWorkTime.cadre.user.realname} - ${verifyWorkTime.cadre.title}）</h4>

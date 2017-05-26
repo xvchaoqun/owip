@@ -117,7 +117,7 @@
         返回
     </button>
 </div>
-<div class="footer-margin"/>
+
 <%--<script type="text/template" id="sort_tpl">
 <a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_records"
        data-url="${ctx}/cadreCourse_changeOrder?cadreId=${cadre.id}" data-id="{{=id}}"

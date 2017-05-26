@@ -166,7 +166,7 @@
         <div id="item-content"></div>
     </div>
 </div>
-<div class="footer-margin"/>
+
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

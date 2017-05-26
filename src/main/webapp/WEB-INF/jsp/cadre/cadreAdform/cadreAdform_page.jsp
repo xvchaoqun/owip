@@ -532,7 +532,7 @@
         
     </c:if>
 </div>
-<div class="footer-margin"/>
+
 <script>
     function _innerPage(type) {
         $("#view-box .tab-content").load("${ctx}/cadreAdform_page?cadreId=${param.cadreId}&type=" + type)

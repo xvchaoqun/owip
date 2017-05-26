@@ -956,4 +956,3 @@ pageEncoding="UTF-8"%>
 	</c:if>
 </script>
 	</c:if>
-<div class="footer-margin"/>

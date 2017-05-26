@@ -130,7 +130,7 @@
         返回
     </button>
 </div>
-<div class="footer-margin"/>
+
 <script>
     <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
     var modify = ${cm:toJSONObject(modify)};

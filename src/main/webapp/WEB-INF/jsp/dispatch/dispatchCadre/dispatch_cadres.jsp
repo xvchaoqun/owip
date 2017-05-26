@@ -53,7 +53,7 @@
         </shiro:hasPermission>
    </div>
 </div>
-<div class="footer-margin"/>
+
 <script>
     <shiro:hasPermission name="dispatch:check">
     function _check(){

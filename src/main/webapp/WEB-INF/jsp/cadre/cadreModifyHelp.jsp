@@ -7,4 +7,3 @@
   ${cm:getHtmlFragment('modify_cadre_info_request').content}
 </c:if>
 
-<div class="footer-margin"/>

@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
             </div>
     </div>
 </div>
-<div class="footer-margin"/>
+
 <style>
     .profile-info-name{
         width: 100px;

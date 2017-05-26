@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
-<div class="row footer-margin">
+<div class="row">
     <div id="body-content">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->

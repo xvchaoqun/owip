@@ -110,7 +110,7 @@
         </div>
     </div>
 </c:if>
-<div class="footer-margin"/>
+
 <style>
     .table > tbody > tr.ui-subgrid.active > td,
     .table tbody tr.ui-subgrid:hover td, .table tbody tr.ui-subgrid:hover th {

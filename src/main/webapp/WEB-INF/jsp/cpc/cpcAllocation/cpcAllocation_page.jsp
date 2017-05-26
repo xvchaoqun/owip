@@ -156,7 +156,6 @@
         <div id="item-content"></div>
     </div>
 </div>
-<div class="footer-margin"/>
 <style>
     .notCpc, .notCpc a {
         color: red;

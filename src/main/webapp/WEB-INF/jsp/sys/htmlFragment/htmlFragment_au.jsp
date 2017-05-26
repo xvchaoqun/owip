@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row footer-margin">
+<div class="row">
 <h3>
     ${empty htmlFragment?"添加系统说明":htmlFragment.title}
 </h3>

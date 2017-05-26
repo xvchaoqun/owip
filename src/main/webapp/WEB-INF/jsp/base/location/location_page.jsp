@@ -14,7 +14,7 @@
 </table>
 </div>
 </div>
-<div class="footer-margin"/>
+
 <script src="${ctx}/extend/js/jquery-ui.min.js" type="text/javascript"></script>
 <script src="${ctx}/extend/js/jquery.cookie.js" type="text/javascript"></script>
 <link href="${ctx}/extend/css/ui.fancytree.min.css" rel="stylesheet" type="text/css">

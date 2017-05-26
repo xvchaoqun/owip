@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-<div class="footer-margin"/>
+
 <script>
     $("#print_proof").click(function () {
         printWindow('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');

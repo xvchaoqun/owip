@@ -155,7 +155,7 @@
         </div>
     </div>
 </c:if>
-<div class="footer-margin"/>
+
 <c:if test="${type==3}">
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>

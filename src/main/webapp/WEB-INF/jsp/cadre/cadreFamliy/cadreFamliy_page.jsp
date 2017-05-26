@@ -98,7 +98,7 @@
     </div>
 </div>
 
-<div class="footer-margin"/>
+
 <script>
     $("#jqGrid_cadreFamliy").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

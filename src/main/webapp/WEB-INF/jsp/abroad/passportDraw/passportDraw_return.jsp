@@ -235,7 +235,7 @@
         <a href="javascript:" class="btn btn-default" onclick="closecam()"><i class="fa fa-close" aria-hidden="true" ></i> 取消</a>
     </div>
 </div>
-<div class="footer-margin"/>
+
 <style>
     /*.ace-file-multiple .ace-file-container{
         height: 350px;
