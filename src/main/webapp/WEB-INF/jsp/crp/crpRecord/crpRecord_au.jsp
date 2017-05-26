@@ -4,14 +4,14 @@
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${crpRecord!=null}">编辑</c:if><c:if test="${crpRecord==null}">添加</c:if>
-        ${CES_TEMP_POST_TYPE_MAP.get(type)}</h3>
+        ${CRP_RECORD_TYPE_MAP.get(type)}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/crpRecord_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${crpRecord.id}">
         <input type="hidden" name="type" value="${type}">
 
-        <c:if test="${type!=CES_TEMP_POST_TYPE_TRANSFER}">
+        <c:if test="${type!=CRP_RECORD_TYPE_TRANSFER}">
         <div class="form-group">
             <label class="col-xs-4 control-label">是否现任干部</label>
 
@@ -39,7 +39,7 @@
             </div>
         </div>
         </c:if>
-        <c:if test="${type==CES_TEMP_POST_TYPE_TRANSFER}">
+        <c:if test="${type==CRP_RECORD_TYPE_TRANSFER}">
         <div class="form-group">
             <label class="col-xs-4 control-label">姓名</label>
             <div class="col-xs-6">
@@ -62,19 +62,19 @@
                 <input class="form-control" type="text" name="phone" value="${crpRecord.phone}">
             </div>
         </div>
-        <c:if test="${type==CES_TEMP_POST_TYPE_OUT}">
+        <c:if test="${type==CRP_RECORD_TYPE_OUT}">
             <c:set var="unitCode" value="mc_temppost_out_unit"/>
             <c:set var="postCode" value="mc_temppost_out_post"/>
             <c:set var="unitCodeOther" value="mt_temppost_out_unit_other"/>
             <c:set var="postCodeOther" value="mt_temppost_out_post_other"/>
         </c:if>
-        <c:if test="${type==CES_TEMP_POST_TYPE_IN}">
+        <c:if test="${type==CRP_RECORD_TYPE_IN}">
             <c:set var="unitCode" value="mc_temppost_in_unit"/>
             <c:set var="postCode" value="mc_temppost_in_post"/>
             <c:set var="unitCodeOther" value="mt_temppost_in_unit_other"/>
             <c:set var="postCodeOther" value="mt_temppost_in_post_other"/>
         </c:if>
-        <c:if test="${type==CES_TEMP_POST_TYPE_TRANSFER}">
+        <c:if test="${type==CRP_RECORD_TYPE_TRANSFER}">
             <c:set var="unitCode" value="mc_temppost_transfer_unit"/>
             <c:set var="postCode" value="mc_temppost_transfer_post"/>
             <c:set var="unitCodeOther" value="mt_temppost_transfer_unit_other"/>

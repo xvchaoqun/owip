@@ -171,10 +171,10 @@
 
 <c:set value="<%=SystemConstants.CIS_EVALUATE_TYPE_MAP%>" var="CIS_EVALUATE_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.CES_TEMP_POST_TYPE_OUT%>" var="CES_TEMP_POST_TYPE_OUT"/>
-<c:set value="<%=SystemConstants.CES_TEMP_POST_TYPE_IN%>" var="CES_TEMP_POST_TYPE_IN"/>
-<c:set value="<%=SystemConstants.CES_TEMP_POST_TYPE_TRANSFER%>" var="CES_TEMP_POST_TYPE_TRANSFER"/>
-<c:set value="<%=SystemConstants.CES_TEMP_POST_TYPE_MAP%>" var="CES_TEMP_POST_TYPE_MAP"/>
+<c:set value="<%=SystemConstants.CRP_RECORD_TYPE_OUT%>" var="CRP_RECORD_TYPE_OUT"/>
+<c:set value="<%=SystemConstants.CRP_RECORD_TYPE_IN%>" var="CRP_RECORD_TYPE_IN"/>
+<c:set value="<%=SystemConstants.CRP_RECORD_TYPE_TRANSFER%>" var="CRP_RECORD_TYPE_TRANSFER"/>
+<c:set value="<%=SystemConstants.CRP_RECORD_TYPE_MAP%>" var="CRP_RECORD_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_MAP%>" var="TRAIN_INSPECTOR_STATUS_MAP"/>
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_INIT%>" var="TRAIN_INSPECTOR_STATUS_INIT"/>

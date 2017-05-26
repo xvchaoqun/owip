@@ -42,6 +42,11 @@ Organization Work Integration Platform
 在insert方法返回id，然后更新sort_order
 
 
+检查排序功能是否有问题
+select * , count(*) from cadre group by status, sort_order having count(*)>1;
+select *  from cadre where status=1 and sort_order=410;
+
+
 自动生成代码步骤
 1、生成Mybatis文件，修改sort_order
 2、运行TplParser.execute

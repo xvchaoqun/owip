@@ -404,12 +404,13 @@ public class CadreService extends BaseMapper {
      */
     @Transactional
     @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    public void changeOrder(int id, byte status, int addNum) {
+    public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
 
         Cadre entity = cadreMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        byte status = entity.getStatus();
 
         CadreExample example = new CadreExample();
         if (addNum > 0) {

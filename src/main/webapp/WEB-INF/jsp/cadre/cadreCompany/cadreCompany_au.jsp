@@ -50,8 +50,9 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">兼职起始时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_startTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreCompany.startTime,'yyyy-MM-dd')}" />
+                        <input class="form-control date-picker" name="startTime" type="text"
+                               data-date-min-view-mode="1"
+                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreCompany.startTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>

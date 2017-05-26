@@ -46,6 +46,8 @@ modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 </script>
 
 时间
+data-date-min-view-mode="1"
+
 <div class="input-group">
 	<input required class="form-control date-picker" name="_foundTime" type="text"
 		   data-date-format="yyyy-mm-dd" value="${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}" />

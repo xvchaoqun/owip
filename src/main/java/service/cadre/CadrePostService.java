@@ -23,13 +23,6 @@ public class CadrePostService extends BaseMapper {
     @Autowired
     private DispatchCadreRelateService dispatchCadreRelateService;
 
-    public List<CadrePost> findByUnitId(int unitId){
-
-        CadrePostExample example = new CadrePostExample();
-        example.createCriteria().andUnitIdEqualTo(unitId);
-        return cadrePostMapper.selectByExample(example);
-    }
-
     public void insertSelective(CadrePost record) {
 
         // 如果是主职提交，则判断是否重复
@@ -43,7 +36,7 @@ public class CadrePostService extends BaseMapper {
         }
 
         record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
-                +" and is_main_post="+record.getIsMainPost()));
+                + " and is_main_post=" + record.getIsMainPost()));
         cadrePostMapper.insertSelective(record);
     }
 
@@ -101,7 +94,7 @@ public class CadrePostService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int cadreId, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         CadrePost entity = cadrePostMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -111,24 +104,24 @@ public class CadrePostService extends BaseMapper {
         if (addNum > 0) {
 
             example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderGreaterThan(baseSortOrder)
-                    .andIsMainPostEqualTo(isMainPost) ;
+                    .andIsMainPostEqualTo(isMainPost);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderLessThan(baseSortOrder)
-                    .andIsMainPostEqualTo(isMainPost) ;
+                    .andIsMainPostEqualTo(isMainPost);
             example.setOrderByClause("sort_order desc");
         }
 
         List<CadrePost> overEntities = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            CadrePost targetEntity = overEntities.get(overEntities.size()-1);
+            CadrePost targetEntity = overEntities.get(overEntities.size() - 1);
             if (addNum > 0)
-                commonMapper.downOrder("cadre_post", "cadre_id=" + cadreId +" and is_main_post="+isMainPost,
+                commonMapper.downOrder("cadre_post", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost,
                         baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre_post", "cadre_id=" + cadreId+" and is_main_post="+isMainPost,
+                commonMapper.upOrder("cadre_post", "cadre_id=" + cadreId + " and is_main_post=" + isMainPost,
                         baseSortOrder, targetEntity.getSortOrder());
 
             CadrePost record = new CadrePost();

@@ -60,6 +60,7 @@ public class CadrePostController extends BaseController {
             modelMap.put("subCadrePosts", cadrePostService.getSubCadrePosts(cadreId));
         }
         if(type==3){
+            modelMap.put("cadre", cadreService.findAll().get(cadreId));
             // 任职级经历
             modelMap.put("cadreAdminLevels", cadreAdminLevelService.getCadreAdminLevels(cadreId));
         }

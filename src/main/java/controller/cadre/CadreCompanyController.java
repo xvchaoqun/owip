@@ -109,14 +109,9 @@ public class CadreCompanyController extends BaseController {
             // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
-
-            CadreCompany record, String _startTime,MultipartFile _paper, HttpServletRequest request) {
+            CadreCompany record, MultipartFile _paper, HttpServletRequest request) {
 
         Integer id = record.getId();
-
-        if(StringUtils.isNotBlank(_startTime)){
-            record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
-        }
 
       /*  if(_paper!=null){
             //String ext = FileUtils.getExtention(_proof.getOriginalFilename());

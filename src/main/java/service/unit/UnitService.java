@@ -55,9 +55,9 @@ public class UnitService extends BaseMapper {
         return commonUnitMapper.findHistoryUnits(unitId);
     }
 
-    public TreeNode getTree(byte status, Set<Integer> selectIdSet){
+    public TreeNode getTree(byte status, Set<Integer> unSelectIdSet){
 
-        if(null == selectIdSet) selectIdSet = new HashSet<>();
+        if(null == unSelectIdSet) unSelectIdSet = new HashSet<>();
 
         TreeNode root = new TreeNode();
         root.title = "单位";
@@ -102,8 +102,8 @@ public class UnitService extends BaseMapper {
                 TreeNode node = new TreeNode();
                 node.title = unit.getName();
                 node.key = unit.getId() + "";
-                if (selectIdSet.contains(unit.getId().intValue())) {
-                    node.select = true;
+                if (unSelectIdSet.contains(unit.getId().intValue())) {
+                    node.unselectable = true;
                 }
                 titleChildren.add(node);
             }

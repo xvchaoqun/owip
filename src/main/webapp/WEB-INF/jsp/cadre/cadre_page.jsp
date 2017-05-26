@@ -8,7 +8,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-page="${ctx}/cadre_page"
-                 data-url-co="${ctx}/cadre_changeOrder?status=${status}"
+                 data-url-co="${ctx}/cadre_changeOrder"
                  data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender

@@ -225,22 +225,15 @@ public class CpcAllocationService extends BaseMapper {
     }
 
     /**
-     * 干部职数配置情况统计
+     * 获取已经设置了职数的单位
      *
-     * @return 最后一个bean是统计结果
+     * @return  <unitId, <adminLevelId, num>>
      */
-    public List<CpcAllocationBean> statCpc() {
+    public Map<Integer, Map<Integer, Integer>> getUnitAdminLevelMap(){
 
-
-        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType mainMetaType = metaTypeMap.get("mt_admin_level_main");
-        MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
-        MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
-
-        Map<Integer, Unit> unitMap = unitService.findAll();
         List<CpcAllocation> cpcAllocations = cpcAllocationMapper.selectByExample(new CpcAllocationExample());
 
-        // <unitId, <adminLevelId, num>>
+
         Map<Integer, Map<Integer, Integer>> _unitAdminLevelMap = new HashMap<>();
         for (CpcAllocation cpcAllocation : cpcAllocations) {
 
@@ -254,6 +247,25 @@ public class CpcAllocationService extends BaseMapper {
 
             _unitAdminLevelMap.put(unitId, _adminLevelMap);
         }
+
+        return _unitAdminLevelMap;
+    }
+
+    /**
+     * 干部职数配置情况统计
+     *
+     * @return 最后一个bean是统计结果
+     */
+    public List<CpcAllocationBean> statCpc() {
+
+
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        MetaType mainMetaType = metaTypeMap.get("mt_admin_level_main");
+        MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
+        MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
+
+        Map<Integer, Unit> unitMap = unitService.findAll();
+
 
         List<CpcAllocationBean> beans = new ArrayList<>();
 
@@ -271,6 +283,8 @@ public class CpcAllocationService extends BaseMapper {
         totalBean.setViceLack(0);
         totalBean.setNoneLack(0);
 
+        Map<Integer, Map<Integer, Integer>> _unitAdminLevelMap = getUnitAdminLevelMap();
+
         for (Unit unit : unitMap.values()) {
 
             Integer unitId = unit.getId();
@@ -285,8 +299,8 @@ public class CpcAllocationService extends BaseMapper {
                 Integer viceNum = _adminLevelMap.get(viceMetaType.getId());
                 Integer noneNum = _adminLevelMap.get(noneMetaType.getId());
 
-                // 查找主职在此单位的干部、兼职在此单位的干部
-                List<CadrePost> cadrePosts = cadrePostService.findByUnitId(unitId);
+                // 查找主职、兼职在此单位的现任干部
+                List<CadrePost> cadrePosts = selectMapper.findCadrePosts(unitId);
 
                 List<CadrePost> mains = new ArrayList<>();
                 List<CadrePost> vices = new ArrayList<>();
@@ -334,9 +348,13 @@ public class CpcAllocationService extends BaseMapper {
                 bean.setViceNum(viceNum == null ? 0 : viceNum);
                 bean.setNoneNum(noneNum == null ? 0 : noneNum);
 
-                bean.setMainLack(bean.getMainNum() > bean.getMainCount() ? bean.getMainNum() - bean.getMainCount() : 0);
+                /*bean.setMainLack(bean.getMainNum() > bean.getMainCount() ? bean.getMainNum() - bean.getMainCount() : 0);
                 bean.setViceLack(bean.getViceNum() > bean.getViceCount() ? bean.getViceNum() - bean.getViceCount() : 0);
-                bean.setNoneLack(bean.getNoneNum() > bean.getNoneCount() ? bean.getNoneNum() - bean.getNoneCount() : 0);
+                bean.setNoneLack(bean.getNoneNum() > bean.getNoneCount() ? bean.getNoneNum() - bean.getNoneCount() : 0);*/
+
+                bean.setMainLack(bean.getMainNum() - bean.getMainCount());
+                bean.setViceLack(bean.getViceNum() - bean.getViceCount());
+                bean.setNoneLack(bean.getNoneNum() - bean.getNoneCount());
 
 
                 totalBean.setMainCount(totalBean.getMainCount() + bean.getMainCount());

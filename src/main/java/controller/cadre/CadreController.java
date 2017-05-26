@@ -519,9 +519,9 @@ public class CadreController extends BaseController {
     @RequiresPermissions("cadre:changeOrder")
     @RequestMapping(value = "/cadre_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
+    public Map do_cadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        cadreService.changeOrder(id, status, addNum);
+        cadreService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "干部调序：%s, %s", id ,addNum));
         return success(FormUtils.SUCCESS);
     }

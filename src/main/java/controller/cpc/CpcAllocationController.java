@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.cpc.CpcAllocationBean;
 import sys.constants.SystemConstants;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -142,6 +143,19 @@ public class CpcAllocationController extends BaseController {
         modelMap.put("beans", beans);
 
         return "cpc/cpcAllocation/cpcAllocation_page";
+    }
+
+    @RequiresPermissions("cpcAllocation:list")
+    @RequestMapping("/cpcAllocation_selectUnits_tree")
+    @ResponseBody
+    public Map cpcAllocation_selectUnits_tree() throws IOException {
+
+        Map<Integer, Map<Integer, Integer>> unitAdminLevelMap = cpcAllocationService.getUnitAdminLevelMap();
+        TreeNode tree = unitService.getTree(SystemConstants.UNIT_STATUS_RUN, unitAdminLevelMap.keySet());
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
     }
 
     /*@RequiresPermissions("cpcAllocation:list")

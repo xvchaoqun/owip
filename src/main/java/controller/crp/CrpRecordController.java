@@ -46,7 +46,7 @@ public class CrpRecordController extends BaseController {
     @RequestMapping("/crpRecord_out_page")
     public String crpRecord_out_page() {
 
-        return "forward:/crpRecord_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_OUT;
+        return "forward:/crpRecord_page?type=" + SystemConstants.CRP_RECORD_TYPE_OUT;
     }
 
     // 校内挂职锻炼
@@ -61,7 +61,7 @@ public class CrpRecordController extends BaseController {
     @RequestMapping("/crpRecord_in_page")
     public String crpRecord_in_page() {
 
-        return "forward:/crpRecord_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_IN;
+        return "forward:/crpRecord_page?type=" + SystemConstants.CRP_RECORD_TYPE_IN;
     }
 
     // 外单位到本校挂职
@@ -76,7 +76,7 @@ public class CrpRecordController extends BaseController {
     @RequestMapping("/crpRecord_transfer_page")
     public String crpRecord_transfer_page() {
 
-        return "forward:/crpRecord_page?type=" + SystemConstants.CES_TEMP_POST_TYPE_TRANSFER;
+        return "forward:/crpRecord_page?type=" + SystemConstants.CRP_RECORD_TYPE_TRANSFER;
     }
 
     @RequiresPermissions("crpRecord:list")
@@ -277,19 +277,29 @@ public class CrpRecordController extends BaseController {
 
         List<CrpRecord> records = crpRecordMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名", "是否现任干部", "时任职务", "委派单位", "挂职类别", "挂职单位及所任职务", "挂职开始时间", "挂职拟结束时间"};
+        String[] titles = {"姓名",
+                 "时任职务",
+                "委派单位", "挂职类别",
+                "挂职单位及所任职务",
+                "挂职开始时间",
+                "挂职拟结束时间",
+                "挂职实际结束时间"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CrpRecord record = records.get(i);
+            if(record.getUser()!=null){
+                record.setRealname(record.getUser().getRealname());
+            }
             String[] values = {
                     record.getRealname(),
-                    record.getIsPresentCadre() ? "现任干部" : "非现任干部",
+                    //record.getIsPresentCadre() ? "现任干部" : "非现任干部",
                     record.getPresentPost(),
                     record.getToUnitType() + "",
                     record.getTempPostType() + "",
                     record.getTitle(),
-                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD)
+                    DateUtils.formatDate(record.getStartDate(), "yyyy-MM"),
+                    DateUtils.formatDate(record.getEndDate(), "yyyy-MM"),
+                    DateUtils.formatDate(record.getRealEndDate(), "yyyy-MM")
             };
             valuesList.add(values);
         }

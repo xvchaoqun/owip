@@ -333,16 +333,4 @@ public class UnitController extends BaseController {
         resultMap.put("options", options);
         return resultMap;
     }
-
-    @RequestMapping("/selectUnits_tree")
-    @ResponseBody
-    public Map selectUnits_tree() throws IOException {
-
-        TreeNode tree = unitService.getTree(SystemConstants.UNIT_STATUS_RUN, null);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
 }

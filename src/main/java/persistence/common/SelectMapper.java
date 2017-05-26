@@ -6,6 +6,7 @@ import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
 import domain.cadre.CadreFamliy;
 import domain.cadre.CadreLeader;
+import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadreView;
 import org.apache.ibatis.annotations.Param;
@@ -19,6 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface SelectMapper {
+
+    // 获取主职或兼职在某单位的现任干部
+    @Select("select cp.* from cadre_post cp , cadre c where cp.cadre_id=c.id and " +
+            "c.status in("+SystemConstants.CADRE_STATUS_MIDDLE+","+ SystemConstants.CADRE_STATUS_LEADER +") " +
+            "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
+    public List<CadrePost> findCadrePosts(int unitId);
+
     // 获取2013年以来离任干部
     /*@ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
     @Select("select cv.* from cadre_view cv, dispatch_cadre_view dcv where cv.id=dcv.cadre_id and cv.status=3 and cv.unit_id=#{unitId} and dcv.type=2 and dcv.year between 2013 and 2017")

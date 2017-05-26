@@ -1,19 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:if test="${param.type==CES_TEMP_POST_TYPE_OUT}">
+<c:if test="${param.type==CRP_RECORD_TYPE_OUT}">
     <c:set var="unitCode" value="mc_temppost_out_unit"/>
     <c:set var="postCode" value="mc_temppost_out_post"/>
     <c:set var="unitCodeOther" value="mt_temppost_out_unit_other"/>
     <c:set var="postCodeOther" value="mt_temppost_out_post_other"/>
 </c:if>
-<c:if test="${param.type==CES_TEMP_POST_TYPE_IN}">
+<c:if test="${param.type==CRP_RECORD_TYPE_IN}">
     <c:set var="unitCode" value="mc_temppost_in_unit"/>
     <c:set var="postCode" value="mc_temppost_in_post"/>
     <c:set var="unitCodeOther" value="mt_temppost_in_unit_other"/>
     <c:set var="postCodeOther" value="mt_temppost_in_post_other"/>
 </c:if>
-<c:if test="${param.type==CES_TEMP_POST_TYPE_TRANSFER}">
+<c:if test="${param.type==CRP_RECORD_TYPE_TRANSFER}">
     <c:set var="unitCode" value="mc_temppost_transfer_unit"/>
     <c:set var="postCode" value="mc_temppost_transfer_post"/>
     <c:set var="unitCodeOther" value="mt_temppost_transfer_unit_other"/>
@@ -90,20 +90,20 @@
 
                                         <div class="form-group">
                                             <label>姓名</label>
-                                            <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+                                            <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
                                                 <select data-rel="select2-ajax"
                                                         data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
                                                         name="userId" data-placeholder="请输入账号或姓名或教工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
                                             </c:if>
-                                            <c:if test="${param.type==CES_TEMP_POST_TYPE_TRANSFER}">
+                                            <c:if test="${param.type==CRP_RECORD_TYPE_TRANSFER}">
                                                 <input class="form-control search-query" name="realname" type="text"
                                                        value="${param.realname}"
                                                        placeholder="请输入姓名">
                                             </c:if>
                                         </div>
-                                        <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+                                        <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
                                             <div class="form-group">
                                                 <label>是否现任干部</label>
                                                 <select name="isPresentCadre" data-width="100" data-rel="select2"
@@ -117,7 +117,7 @@
                                                 </script>
                                             </div>
                                         </c:if>
-                                        <c:if test="${param.type!=CES_TEMP_POST_TYPE_IN}">
+                                        <c:if test="${param.type!=CRP_RECORD_TYPE_IN}">
                                             <div class="form-group">
                                                 <label>委派单位</label>
                                                 <select required data-rel="select2" name="toUnitType"
@@ -166,17 +166,17 @@
         <div id="item-content"></div>
     </div>
 </div>
-
+<div class="footer-margin"/>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+            <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
             </c:if>
             {
                 label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.type == '${CES_TEMP_POST_TYPE_TRANSFER}') {
+                if (rowObject.type == '${CRP_RECORD_TYPE_TRANSFER}') {
                     return cellvalue;
                 }
                 if (rowObject.cadre && rowObject.cadre.id > 0)
@@ -186,7 +186,7 @@
                 return rowObject.user.realname;
             }, frozen: true
             },
-            <c:if test="${param.type!=CES_TEMP_POST_TYPE_TRANSFER}">
+            <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
             {label: '时任职务', name: 'presentPost', width: 250},

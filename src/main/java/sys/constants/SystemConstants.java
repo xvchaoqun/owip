@@ -956,15 +956,15 @@ public class SystemConstants {
 
 
     // 干部考核管理，干部挂职锻炼分类，  1 校外挂职锻炼 2 校内挂职锻炼 3 外单位到本校挂职
-    public final static byte CES_TEMP_POST_TYPE_OUT = 1;
-    public final static byte CES_TEMP_POST_TYPE_IN = 2;
-    public final static byte CES_TEMP_POST_TYPE_TRANSFER = 3;
-    public final static Map<Byte, String> CES_TEMP_POST_TYPE_MAP = new LinkedHashMap<>();
+    public final static byte CRP_RECORD_TYPE_OUT = 1;
+    public final static byte CRP_RECORD_TYPE_IN = 2;
+    public final static byte CRP_RECORD_TYPE_TRANSFER = 3;
+    public final static Map<Byte, String> CRP_RECORD_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        CES_TEMP_POST_TYPE_MAP.put(CES_TEMP_POST_TYPE_OUT, "校外挂职锻炼");
-        CES_TEMP_POST_TYPE_MAP.put(CES_TEMP_POST_TYPE_IN, "校内挂职锻炼");
-        CES_TEMP_POST_TYPE_MAP.put(CES_TEMP_POST_TYPE_TRANSFER, "外单位到本校挂职");
+        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_OUT, "校外挂职锻炼");
+        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_IN, "校内挂职锻炼");
+        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_TRANSFER, "外单位到本校挂职");
     }
 
     // 干部培训 评课账号的状态

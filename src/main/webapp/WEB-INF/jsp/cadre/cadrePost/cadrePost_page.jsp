@@ -488,7 +488,8 @@
             },
             {
                 label: '是否现任职级', width: 120, name: 'isNow', formatter: function (cellvalue, options, rowObject) {
-                return (rowObject.adminLevelId == mainCadrePost.adminLevelId) ? "是" : "否";
+                return (rowObject.adminLevelId == '${cadre.typeId}') ? "是" : "否";
+                //return (rowObject.adminLevelId == mainCadrePost.adminLevelId) ? "是" : "否";
             }
             },
             {
