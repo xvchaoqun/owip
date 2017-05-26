@@ -6,6 +6,8 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
 import domain.cadre.CadreWorkExample.Criteria;
+import domain.crp.CrpRecord;
+import domain.crp.CrpRecordExample;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.sys.SysUserView;
@@ -137,6 +139,49 @@ public class CadreWorkController extends BaseController {
         Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         //sourceMixins.put(Party.class, PartyMixin.class);
         //JSONUtils.write(response, resultMap, sourceMixins);
+        JSONUtils.jsonp(resultMap, sourceMixins);
+        return;
+    }
+
+    // 干部挂职锻炼经历
+    @RequiresPermissions("cadreWork:list")
+    @RequestMapping("/cadreCrpRecord_data")
+    public void cadreCrpRecord_data(HttpServletResponse response,
+                               Integer cadreId,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CrpRecordExample example = new CrpRecordExample();
+        CrpRecordExample.Criteria criteria = example.createCriteria();
+
+        if (cadreId != null) {
+            CadreView cadreView = cadreService.findAll().get(cadreId);
+            criteria.andUserIdEqualTo(cadreView.getUserId());
+        }
+
+        long count = crpRecordMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CrpRecord> records = crpRecordMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }

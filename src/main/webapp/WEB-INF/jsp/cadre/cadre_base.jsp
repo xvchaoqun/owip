@@ -299,7 +299,15 @@ pageEncoding="UTF-8"%>
 					</td>
 
 				</tr>
+				<tr>
+					<td  class="bg-right" colspan="2">
+						人才/荣誉称号
+					</td>
+					<td class="bg-left" colspan="4">
+							${teacherInfo.talentTitle}
+					</td>
 
+				</tr>
 				</tbody>
 			</table>
 		</div></div></div>

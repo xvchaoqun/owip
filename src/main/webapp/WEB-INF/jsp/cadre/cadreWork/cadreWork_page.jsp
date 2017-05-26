@@ -1,60 +1,70 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
-    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
     </li>
-    <li class="${type==2?"active":""}">
-        <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+    <li class="${type==3?"active":""}">
+        <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 挂职锻炼经历</a>
     </li>
+    <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+            <li class="${type==2?"active":""}">
+                <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+            </li>
+        </shiro:lacksRole>
+    </shiro:hasPermission>
 </ul>
-    </shiro:lacksRole>
-</shiro:hasPermission>
+
 <c:if test="${type==1}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-    <div class="space-4"></div>
-    <div class="jqgrid-vertical-offset buttons">
-        <a class="popupBtn btn btn-warning btn-sm"
-           data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_WORK}">
-            <i class="fa fa-info-circle"></i> 填写说明</a>
-        <shiro:hasPermission name="cadreWork:edit">
-            <a class="popupBtn btn btn-success btn-sm"
-               data-url="${ctx}/cadreWork_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                添加工作经历</a>
-            <a class="jqOpenViewBtn btn btn-primary btn-sm"
-               data-url="${ctx}/cadreWork_au"
-               data-grid-id="#jqGrid_cadreWork"
-               data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                修改工作经历</a>
-            <a class="jqOpenViewBtn btn btn-success btn-sm"
-               data-grid-id="#jqGrid_cadreWork"
-               data-url="${ctx}/cadreWork_au"
-               data-id-name="fid"
-               data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                添加期间工作</a>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="cadreWork:del">
-            <button data-url="${ctx}/cadreWork_batchDel"
-                    data-title="删除"
-                    data-msg="确定删除这{0}条数据？"
-                    data-grid-id="#jqGrid_cadreWork"
-                    data-querystr="cadreId=${param.cadreId}"
-                    class="jqBatchBtn btn btn-danger btn-sm">
-                <i class="fa fa-times"></i> 删除
-            </button>
-        </shiro:hasPermission>
-            <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏期间工作经历 </span>--%>
-    </div>
+            <div class="space-4"></div>
+            <div class="jqgrid-vertical-offset buttons">
+                <a class="popupBtn btn btn-warning btn-sm"
+                   data-width="800"
+                   data-url="${ctx}/hf_content?code=${HF_CADRE_WORK}">
+                    <i class="fa fa-info-circle"></i> 填写说明</a>
+                <shiro:hasPermission name="cadreWork:edit">
+                    <a class="popupBtn btn btn-success btn-sm"
+                       data-url="${ctx}/cadreWork_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                        添加工作经历</a>
+                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/cadreWork_au"
+                       data-grid-id="#jqGrid_cadreWork"
+                       data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+                        修改工作经历</a>
+                    <a class="jqOpenViewBtn btn btn-success btn-sm"
+                       data-grid-id="#jqGrid_cadreWork"
+                       data-url="${ctx}/cadreWork_au"
+                       data-id-name="fid"
+                       data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                        添加期间工作</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="cadreWork:del">
+                    <button data-url="${ctx}/cadreWork_batchDel"
+                            data-title="删除"
+                            data-msg="确定删除这{0}条数据？"
+                            data-grid-id="#jqGrid_cadreWork"
+                            data-querystr="cadreId=${param.cadreId}"
+                            class="jqBatchBtn btn btn-danger btn-sm">
+                        <i class="fa fa-times"></i> 删除
+                    </button>
+                </shiro:hasPermission>
+                    <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏期间工作经历 </span>--%>
+            </div>
         </shiro:lacksRole>
     </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreWork" class="jqGrid2"></table>
     <div id="jqGridPager_cadreWork"></div>
+</c:if>
+<c:if test="${type==3}">
+    <div class="space-4"></div>
+    <table id="jqGrid_cadreCrpRecord" class="jqGrid2"></table>
+    <div id="jqGridPager_cadreCrpRecord"></div>
 </c:if>
 <c:if test="${type==2}">
     <div class="row two-frames">
@@ -155,7 +165,7 @@
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>
         var ke = KindEditor.create('#content', {
-            cssPath:"${ctx}/css/ke.css",
+            cssPath: "${ctx}/css/ke.css",
             items: ["source", "|", "fullscreen"],
             height: '550px',
             width: '700px'
@@ -187,7 +197,7 @@
         }
         $("#jqGrid_cadreWork").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
-            multiselect:false,
+            multiselect: false,
             </c:if>
             ondblClickRow: function () {
             },
@@ -207,14 +217,17 @@
                 {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
                 {label: '工作单位', name: 'unit', width: 280},
                 {label: '担任职务或者专技职务', name: 'post', width: 170},
-           /*     {
-                    label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
-                },*/
+                /*     {
+                 label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
+                 },*/
                 {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
                 {
-                    label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: function (cellvalue, options, rowObject) {
-                    return cellvalue ? "是" : ""
-                }
+                    label: '是否担任领导职务',
+                    name: 'isCadre',
+                    width: 150,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue ? "是" : ""
+                    }
                 },
                 {label: '备注', name: 'remark', width: 150},
 
@@ -222,9 +235,9 @@
                     label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
                     var count = cellvalue.length;
                     <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                    if(count==0) return ''
+                    if (count == 0) return ''
                     </shiro:lacksPermission>
-                    return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+                    return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 }, width: 120
                 }
@@ -296,16 +309,19 @@
                 colModel: [
                     {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
                     {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                    {label: '工作单位', name: 'unit', width: 200, align:'left'},
+                    {label: '工作单位', name: 'unit', width: 200, align: 'left'},
                     {label: '担任职务或者专技职务', name: 'post', width: 180},
                     /*{
-                        label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
-                    },*/
+                     label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
+                     },*/
                     {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 120},
                     {
-                        label: '是否担任领导职务', name: 'isCadre', width: 140, formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue ? "是" : ""
-                    }
+                        label: '是否担任领导职务',
+                        name: 'isCadre',
+                        width: 140,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return cellvalue ? "是" : ""
+                        }
                     },
                     {label: '备注', name: 'remark', width: 150},
                     {
@@ -314,9 +330,9 @@
                         formatter: function (cellvalue, options, rowObject) {
                             var count = cellvalue.length;
                             <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                            if(count==0) return ''
+                            if (count == 0) return ''
                             </shiro:lacksPermission>
-                            return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+                            return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                             ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                         },
                         width: 120
@@ -330,7 +346,7 @@
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
                     }, width: 150
                     }
-                        </shiro:lacksRole>
+                    </shiro:lacksRole>
                     </c:if>
                 ],
                 pager: null
@@ -358,5 +374,20 @@
 
         $('#searchForm [data-rel="select2"]').select2();
         $('[data-rel="tooltip"]').tooltip();
+    </script>
+</c:if>
+
+<c:if test="${type==3}">
+    <script>
+        $("#jqGrid_cadreCrpRecord").jqGrid({
+            multiselect:false,
+            ondblClickRow: function () {
+            },
+            pager: "#jqGridPager_cadreCrpRecord",
+            url: '${ctx}/cadreCrpRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+            colModel: colModels.cadreCrpRecord
+        }).jqGrid("setFrozenColumns").on("initGrid", function () {
+            $(window).triggerHandler('resize.jqGrid2');
+        });
     </script>
 </c:if>

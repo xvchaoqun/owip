@@ -634,4 +634,40 @@
         },
         {label: '备注', name: 'remark'}
     ];
+
+    colModels.cadreCrpRecord = [
+
+        {label: '挂职类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
+            return _cMap.CRP_RECORD_TYPE_MAP[cellvalue];
+        }},
+        {label: '时任职务', name: 'presentPost', width: 250},
+        {
+            label: '委派单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
+
+            if(rowObject.type=='${CRP_RECORD_TYPE_IN}'){
+                return rowObject.toUnit;
+            }
+
+            if(rowObject.type=='${CRP_RECORD_TYPE_OUT}'){
+                if (cellvalue == undefined) return '-';
+                return _cMap.metaTypeMap[cellvalue].name +
+                        ((cellvalue == '${cm:getMetaTypeByCode("mt_temppost_out_unit_other").id}') ? ("：" + rowObject.toUnit) : "");
+            }
+        }, width: 150
+        },
+        {
+            label: '挂职类别', name: 'tempPostType', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            var postCodeOther = (rowObject.type=='${CRP_RECORD_TYPE_IN}')?
+                    '${cm:getMetaTypeByCode("mt_temppost_in_post_other").id}':
+                    '${cm:getMetaTypeByCode("mt_temppost_out_post_other").id}';
+            return _cMap.metaTypeMap[cellvalue].name +
+                    ((cellvalue == postCodeOther) ? ("：" + rowObject.tempPost) : "");
+        }, width: 100
+        },
+        {label: '挂职项目', name: 'project', width: 300},
+        {label: '挂职单位及所任职务', name: 'title', width: 300},
+        {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '挂职结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}}
+    ];
 </script>

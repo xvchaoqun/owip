@@ -1,4 +1,9 @@
 
+-- 2017-5-26
+ALTER TABLE `crp_record`
+	CHANGE COLUMN `to_unit_type` `to_unit_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '委派单位，用于校外或外单位到本校挂职，关联元数据，中组部、教育部、市教工委、其他' AFTER `phone`,
+	CHANGE COLUMN `to_unit` `to_unit` VARCHAR(200) NULL DEFAULT NULL COMMENT '单位名称，校外或外单位到本校挂职，如果不是元数据中的单位，那么可以选择“其他”，然后手动录入单位名称；校内挂职直接填写本项；' AFTER `to_unit_type`;
+
 -- 2017-5-25
 ALTER TABLE `crp_record`
 	ADD COLUMN `project` VARCHAR(100) NULL DEFAULT NULL COMMENT '挂职项目' AFTER `temp_post`;

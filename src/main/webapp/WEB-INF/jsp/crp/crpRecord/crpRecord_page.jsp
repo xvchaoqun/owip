@@ -194,9 +194,14 @@
 
             {
                 label: '委派单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
+                <c:if test="${param.type==CRP_RECORD_TYPE_IN}">
+                return rowObject.toUnit;
+                </c:if>
+                <c:if test="${param.type!=CRP_RECORD_TYPE_IN}">
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(unitCodeOther).id}') ? ("：" + rowObject.toUnit) : "");
+                </c:if>
             }, width: 150
             },
             {

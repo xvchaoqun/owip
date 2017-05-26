@@ -44,11 +44,12 @@ public class CrpRecordService extends BaseMapper {
 
         if((record.getType()== SystemConstants.CRP_RECORD_TYPE_OUT &&
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_out_unit_other").getId())
-         || (record.getType()== SystemConstants.CRP_RECORD_TYPE_IN &&
-                record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_in_unit_other").getId())
         || (record.getType()== SystemConstants.CRP_RECORD_TYPE_TRANSFER &&
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_transfer_unit_other").getId())){
             updateMapper.excuteSql("update crp_record set to_unit=null where id=" + record.getId());
+        }
+        if(record.getType()== SystemConstants.CRP_RECORD_TYPE_IN){
+            updateMapper.excuteSql("update crp_record set to_unit_type=null where id=" + record.getId());
         }
 
         if((record.getType()== SystemConstants.CRP_RECORD_TYPE_OUT &&

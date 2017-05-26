@@ -962,8 +962,8 @@ public class SystemConstants {
     public final static Map<Byte, String> CRP_RECORD_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_OUT, "校外挂职锻炼");
-        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_IN, "校内挂职锻炼");
+        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_OUT, "校外挂职");
+        CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_IN, "校内挂职");
         CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_TRANSFER, "外单位到本校挂职");
     }
 
