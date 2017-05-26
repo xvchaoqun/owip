@@ -10,8 +10,7 @@
                                 data-tooltip="tooltip" data-container="body" data-html="true"
                                 data-original-title="${p.post}">${p.cadre.realname}</a>)</span></c:if><c:if
         test="${!p.isMainPost && !p.isCpc}">
-  <span class="notCpc">
-      (<a href="javascript:;" class="openView"
+  <span class="notCpc">(<a href="javascript:;" class="openView"
           data-url="${ctx}/cadre_view?cadreId=${p.cadre.id}"
           data-tooltip="tooltip" data-container="body"
           data-html="true"
