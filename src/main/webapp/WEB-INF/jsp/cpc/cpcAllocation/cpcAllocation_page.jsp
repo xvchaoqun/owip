@@ -41,10 +41,13 @@
                 <tr height=52>
                     <td colspan=13 height=52 class=xl8224425 width=1068>北京师范大学内设机构干部配备情况
                     </td>
-                    <td class=xl6324425 width=57></td>
+                    <td class=xl6324425 width=57>
+
+                    </td>
                 </tr>
                 <tr height=30>
                     <td colspan=14 height=30 class=xl8324425 width=1068>
+                        注：<span class="isCpc">(占职数)</span>/<span class="notCpc">(不占职数)</span>
                     </td>
                 </tr>
                 <tr class=xl6524425 height=30>
@@ -98,7 +101,10 @@
                                 <mytag:cpc_cadres cadrePosts="${bean.mains}"/>
                             </td>
                             <td class=xl6824425 width=57>
-                                    ${bean.mainLack}
+                                <c:if test="${bean.mainLack==0}">0</c:if>
+                                <c:if test="${bean.mainLack!=0}">
+                                    <span class="badge ${bean.mainLack>0?'badge-success':'badge-danger'}">${bean.mainLack}</span>
+                                </c:if>
                             </td>
                             <td class=xl6724425 width=42>${bean.viceNum}</td>
                             <td class=xl6424425 width=57>${bean.viceCount}</td>
@@ -106,14 +112,21 @@
                                 <mytag:cpc_cadres cadrePosts="${bean.vices}"/>
                             </td>
                             <td class=xl6824425 width=57>
-                                    ${bean.viceLack}
+                                <c:if test="${bean.viceLack==0}">0</c:if>
+                                <c:if test="${bean.viceLack!=0}">
+                                    <span class="badge ${bean.viceLack>0?'badge-success':'badge-danger'}">${bean.viceLack}</span>
+                                </c:if>
                             </td>
                             <td class=xl7524425 width=42>${bean.noneNum}</td>
                             <td class=xl6424425 width=57>${bean.noneCount}</td>
                             <td class=xl6924425 width=116>
                                 <mytag:cpc_cadres cadrePosts="${bean.nones}"/>
                             </td>
-                            <td class=xl6824425 width=57>${bean.noneLack}
+                            <td class=xl6824425 width=57>
+                                <c:if test="${bean.noneLack==0}">0</c:if>
+                                <c:if test="${bean.noneLack!=0}">
+                                    <span class="badge ${bean.noneLack>0?'badge-success':'badge-danger'}">${bean.noneLack}</span>
+                                </c:if>
                             </td>
                         </tr>
                     </c:if>
@@ -148,6 +161,7 @@
     .notCpc, .notCpc a {
         color: red;
     }
+
     .isCpc, .isCpc a {
         color: green;
     }
