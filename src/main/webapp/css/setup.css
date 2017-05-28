@@ -939,3 +939,12 @@ span.delete {
 .qtip{
     min-width: 90px;
 }
+
+
+.notCpc, .notCpc a {
+    color: red;
+}
+
+.isCpc, .isCpc a {
+    color: green;
+}

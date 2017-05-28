@@ -636,15 +636,14 @@ $(document).on("click", ".jqOpenViewBatchBtn", function(){
     }
 });
 
-$(document).on("click", ".confirm", function(e){
+// 没有绑定confirm的可以直接调用
+function _confirm(btn){
 
-    e.stopPropagation();
-
-    var _this = this;
-    var url = $(this).data("url");
-    var msg = $(this).data("msg");
-    var loading = $(this).data("loading");
-    var callback = $.trim($(this).data("callback"));
+    var _this = btn;
+    var url = $(btn).data("url");
+    var msg = $(btn).data("msg");
+    var loading = $(btn).data("loading");
+    var callback = $.trim($(btn).data("callback"));
 
     var $loading = $(loading||"#main-container");
     bootbox.confirm(msg, function (result) {
@@ -654,18 +653,23 @@ $(document).on("click", ".confirm", function(e){
                     setTimeout( function(){
                         $loading.hideLoading();
                     }, 10000 );
-            }});
+                }});
             $.post(url, {}, function (ret) {
                 if (ret.success) {
-                     if(callback){
+                    if(callback){
                         // console.log(_this)
                         window[callback](_this);
-                     }
+                    }
                     $loading.hideLoading();
                 }
             });
         }
     });
+}
+$(document).on("click", ".confirm", function(e){
+
+    e.stopPropagation();
+    _confirm(this);
 });
 
 $(document).on("click", ".linkBtn", function(e){

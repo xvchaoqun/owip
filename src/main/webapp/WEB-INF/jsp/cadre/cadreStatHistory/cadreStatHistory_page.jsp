@@ -11,29 +11,20 @@
             <c:set var="_query" value="${not empty param.type || not empty param._statDate}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cadreStatHistory:edit">
-                    <button class="confirm btn btn-primary btn-sm"
-                            data-url="${ctx}/cadreStatHistory?type=${CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE}"
+                    <select data-rel="select2" name="type" for="search" data-placeholder="请选择统计类型">
+                        <option></option>
+                        <c:forEach var="_type" items="${CADRE_STAT_HISTORY_TYPE_MAP}">
+                            <option value="${_type.key}">${_type.value}</option>
+                        </c:forEach>
+                    </select>
+                    <button class="btn btn-primary btn-sm"
+                            onclick="statNow(this)"
+                            data-url="#"
                             data-title="统计"
                             data-msg="确定现在统计吗？"
                             data-loading="#gview_jqGrid"
                             data-callback="_reload">
-                        <i class="fa fa-hourglass-half"></i> 立即统计(中层干部信息表)
-                    </button>
-                    <button class="confirm btn btn-primary btn-sm"
-                            data-url="${ctx}/cadreStatHistory?type=${CADRE_STAT_HISTORY_TYPE_STAT_CADRE}"
-                            data-title="统计"
-                            data-msg="确定现在统计吗？"
-                            data-loading="#gview_jqGrid"
-                            data-callback="_reload">
-                        <i class="fa fa-hourglass-half"></i> 立即统计(中层干部情况统计表)
-                    </button>
-                    <button class="confirm btn btn-primary btn-sm"
-                            data-url="${ctx}/cadreStatHistory?type=${CADRE_STAT_HISTORY_TYPE_STAT_CPC}"
-                            data-title="统计"
-                            data-msg="确定现在统计吗？"
-                            data-loading="#gview_jqGrid"
-                            data-callback="_reload">
-                        <i class="fa fa-hourglass-half"></i> 立即统计(干部职数配置情况统计表)
+                        <i class="fa fa-hourglass-half"></i> 立即统计
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreStatHistory:del">
@@ -108,6 +99,16 @@
         $(window).resize();
     }
 
+    function statNow(btn){
+
+        var type = $("select[name=type][for=search]").val();
+        if($.trim(type)==''){
+            SysMsg.info("请选择统计类型");
+            return;
+        }
+        $(btn).data("url", "${ctx}/cadreStatHistory?type=" + type);
+        _confirm(btn);
+    }
     $("#jqGrid").jqGrid({
         url: '${ctx}/cadreStatHistory_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -137,5 +138,5 @@
 
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
-    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="select2"]').select2();
 </script>

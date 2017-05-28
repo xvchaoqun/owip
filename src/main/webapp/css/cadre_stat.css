@@ -194,7 +194,7 @@ td
     vertical-align:middle;
     border-top:1pt solid windowtext;
     border-right:2.0pt double windowtext;
-    border-bottom:1pt solid windowtext;
+    /*border-bottom:1pt solid windowtext;*/
     border-left:1pt solid windowtext;
     white-space:normal;}
 .xl83
@@ -316,7 +316,7 @@ td
     vertical-align:middle;
     border:1pt solid windowtext;
     white-space:normal;
-    layout-flow:vertical-ideographic;}
+    /*layout-flow:vertical-ideographic;*/}
 .xl95
 {mso-style-parent:style0;
     color:windowtext;

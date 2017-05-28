@@ -710,11 +710,13 @@ public class SystemConstants {
     public final static byte CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE = 1;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE = 2;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC = 3;
+    public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT = 4;
     public final static Map<Byte, String> CADRE_STAT_HISTORY_TYPE_MAP = new LinkedHashMap<>();
     static {
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE, "中层干部信息表");
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE, "中层干部情况统计表");
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC, "干部职数配置情况统计表");
+        CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT, "内设机构干部配备统计表");
 
     }
 

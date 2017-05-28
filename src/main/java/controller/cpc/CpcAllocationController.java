@@ -2,6 +2,7 @@ package controller.cpc;
 
 import controller.BaseController;
 import domain.base.MetaType;
+import domain.cadre.CadrePost;
 import domain.cpc.CpcAllocation;
 import domain.cpc.CpcAllocationExample;
 import domain.unit.Unit;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.cpc.CpcAllocationBean;
+import service.cpc.CpcInfoBean;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -36,7 +37,7 @@ public class CpcAllocationController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cpcAllocation:list")
+    @RequiresPermissions("cpcAllocation:edit")
     @RequestMapping("/cpcAllocationSetting")
     public String cpcAllocationSetting(@RequestParam(required = false, value = "unitIds") Integer[] unitIds, ModelMap modelMap) {
 
@@ -65,7 +66,7 @@ public class CpcAllocationController extends BaseController {
         return "cpc/cpcAllocation/cpcAllocationSetting";
     }
 
-    @RequiresPermissions("cpcAllocation:list")
+    @RequiresPermissions("cpcAllocation:edit")
     @RequestMapping(value = "/cpcAllocationSetting", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cpcAllocationSetting(HttpServletRequest request) {
@@ -82,9 +83,9 @@ public class CpcAllocationController extends BaseController {
         for (Map.Entry<Integer, Unit> _unit : unitMap.entrySet()) {
             for (MetaType adminLevel : adminLevels) {
 
-                String total = request.getParameter("total_" + _unit.getKey() + "_" + adminLevel.getId());
-                if (NumberUtils.isDigits(total)) {
-                    Integer num = Integer.valueOf(total);
+                String _num = request.getParameter("total_" + _unit.getKey() + "_" + adminLevel.getId());
+                if (NumberUtils.isDigits(_num)) {
+                    Integer num = Integer.valueOf(_num);
                     if (num >= 0) {
                         CpcAllocation record = new CpcAllocation();
                         record.setNum(num);
@@ -104,7 +105,7 @@ public class CpcAllocationController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cpcAllocation:list")
+    @RequiresPermissions("cpcAllocation:edit")
     @RequestMapping("/cpcAllocation_selectUnits")
     public String cpcAllocation_selectUnits() {
 
@@ -120,29 +121,70 @@ public class CpcAllocationController extends BaseController {
 
     @RequiresPermissions("cpcAllocation:list")
     @RequestMapping("/cpcAllocation_page")
-    public String cpcAllocation_page( @RequestParam(required = false, defaultValue = "0")int export,
-                                      ModelMap modelMap, HttpServletResponse response) throws IOException {
+    public String cpcAllocation_page(
+            @RequestParam(required = false, defaultValue = "1") Byte type,
+            @RequestParam(required = false, defaultValue = "0") int export,
+            ModelMap modelMap, HttpServletResponse response) throws IOException {
 
+        modelMap.put("type", type);
 
-        if(export==1){
-            XSSFWorkbook wb = cpcAllocationService.toXlsx();
-            try {
-                String fileName = "北京师范大学内设机构干部配备情况（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
-                ServletOutputStream outputStream = response.getOutputStream();
-                fileName = new String(fileName.getBytes(), "ISO8859_1");
-                response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-                wb.write(outputStream);
-                outputStream.flush();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        if (type == 1) {
+            if (export == 1) {
+                XSSFWorkbook wb = cpcAllocationService.cpcInfo_Xlsx();
+                try {
+                    String fileName = "北京师范大学内设机构干部配备情况（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                    ServletOutputStream outputStream = response.getOutputStream();
+                    fileName = new String(fileName.getBytes(), "ISO8859_1");
+                    response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+                    wb.write(outputStream);
+                    outputStream.flush();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return null;
             }
-            return null;
+
+            List<CpcInfoBean> beans = cpcAllocationService.cpcInfo_data();
+            modelMap.put("beans", beans);
+        } else if (type == 2) {
+
+            if (export == 1) {
+                XSSFWorkbook wb = cpcAllocationService.cpcStat_Xlsx();
+                try {
+                    String fileName = "北京师范大学内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                    ServletOutputStream outputStream = response.getOutputStream();
+                    fileName = new String(fileName.getBytes(), "ISO8859_1");
+                    response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
+                    wb.write(outputStream);
+                    outputStream.flush();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return null;
+            }
+
+            Map<String, List<Integer>> cpcStatDataMap = cpcAllocationService.cpcStat_data();
+            modelMap.put("jgList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_JG));
+            modelMap.put("xyList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_XY));
+            modelMap.put("fsList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_FS));
+            modelMap.put("totalList", cpcStatDataMap.get("total"));
         }
 
-        List<CpcAllocationBean> beans =cpcAllocationService.statCpc();
-        modelMap.put("beans", beans);
-
         return "cpc/cpcAllocation/cpcAllocation_page";
+    }
+
+    @RequiresPermissions("cpcAllocation:list")
+    @RequestMapping("/cpcAllocation_cadres")
+    public String cpcAllocation_cadres(Integer adminLevelId, boolean isMainPost, String unitType, ModelMap modelMap) {
+
+        List<CadrePost> cadrePosts = selectMapper.findCadrePostsByUnitType(adminLevelId, isMainPost, unitType.trim());
+        modelMap.put("cadrePosts", cadrePosts);
+
+        modelMap.put("unitType", SystemConstants.UNIT_TYPE_ATTR_MAP.get(unitType.trim()));
+        modelMap.put("adminLevel", metaTypeService.findAll().get(adminLevelId));
+        modelMap.put("isMainPost", isMainPost);
+
+        return "cpc/cpcAllocation/cpcAllocation_cadres";
     }
 
     @RequiresPermissions("cpcAllocation:list")
@@ -158,93 +200,73 @@ public class CpcAllocationController extends BaseController {
         return resultMap;
     }
 
-    /*@RequiresPermissions("cpcAllocation:list")
-    @RequestMapping("/cpcAllocation_data")
-    public void cpcAllocation_data(HttpServletResponse response,
-                                    Integer unitId,
-                                    Integer adminLevelId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        CpcAllocationExample example = new CpcAllocationExample();
-        Criteria criteria = example.createCriteria();
-        //example.setOrderByClause(String.format("%s %s", sort, order));
-
-        if (unitId!=null) {
-            criteria.andUnitIdEqualTo(unitId);
-        }
-        if (adminLevelId!=null) {
-            criteria.andAdminLevelIdEqualTo(adminLevelId);
-        }
-
-        if (export == 1) {
-            if(ids!=null && ids.length>0)
-                criteria.andIdIn(Arrays.asList(ids));
-            cpcAllocation_export(example, response);
-            return;
-        }
-
-        long count = cpcAllocationMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CpcAllocation> records= cpcAllocationMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", records);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(cpcAllocation.class, cpcAllocationMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
-        return;
-    }*/
-
     @RequiresPermissions("cpcAllocation:edit")
     @RequestMapping(value = "/cpcAllocation_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cpcAllocation_au(CpcAllocation record, HttpServletRequest request) {
-
-        Integer id = record.getId();
+    public Map do_cpcAllocation_au(int unitId, HttpServletRequest request) {
 
 
-        if (id == null) {
-            cpcAllocationService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部职数配置情况：%s", record.getId()));
-        } else {
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        List<MetaType> adminLevels = new ArrayList<>();
+        adminLevels.add(metaTypeMap.get("mt_admin_level_main"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_vice"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_none"));
 
-            cpcAllocationService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部职数配置情况：%s", record.getId()));
+        List<CpcAllocation> records = new ArrayList<>();
+
+        for (MetaType adminLevel : adminLevels) {
+
+            int num = 0;
+            String _num = request.getParameter("adminLevel_" + adminLevel.getId());
+            if (NumberUtils.isDigits(_num)) {
+                 num = Integer.valueOf(_num);
+            }
+
+            CpcAllocation record = new CpcAllocation();
+            record.setNum(Math.max(num, 0));
+            record.setUnitId(unitId);
+            record.setAdminLevelId(adminLevel.getId());
+
+            records.add(record);
         }
+
+        cpcAllocationService.update(records);
+
+        Unit unit = unitService.findAll().get(unitId);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部职数配置情况【%s】：%s", unit.getName(), JSONUtils.toString(records)));
+
 
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cpcAllocation:edit")
     @RequestMapping("/cpcAllocation_au")
-    public String cpcAllocation_au(Integer id, ModelMap modelMap) {
+    public String cpcAllocation_au(int unitId, ModelMap modelMap) {
 
-        if (id != null) {
-            CpcAllocation cpcAllocation = cpcAllocationMapper.selectByPrimaryKey(id);
-            modelMap.put("cpcAllocation", cpcAllocation);
-        }
+        Map<Integer, Integer> cpcAdminLevelMap = cpcAllocationService.getCpcAdminLevelMap(unitId);
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        /*MetaType mainMetaType = metaTypeMap.get("mt_admin_level_main");
+        MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
+        MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
+
+        modelMap.put("main_num", unitAdminLevelMap.get(unitId + "_" + mainMetaType.getId()));
+        modelMap.put("vice_num", unitAdminLevelMap.get(unitId + "_" + viceMetaType.getId()));
+        modelMap.put("none_num", unitAdminLevelMap.get(unitId + "_" + noneMetaType.getId()));*/
+
+        List<MetaType> adminLevels = new ArrayList<>();
+        adminLevels.add(metaTypeMap.get("mt_admin_level_main"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_vice"));
+        adminLevels.add(metaTypeMap.get("mt_admin_level_none"));
+        modelMap.put("adminLevels", adminLevels);
+
+        modelMap.put("unit", unitService.findAll().get(unitId));
+
+        modelMap.put("cpcAdminLevelMap", cpcAdminLevelMap);
+
         return "cpc/cpcAllocation/cpcAllocation_au";
     }
 
-    @RequiresPermissions("cpcAllocation:del")
+   /* @RequiresPermissions("cpcAllocation:del")
     @RequestMapping(value = "/cpcAllocation_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cpcAllocation_del(HttpServletRequest request, Integer id) {
@@ -255,17 +277,17 @@ public class CpcAllocationController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部职数配置情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cpcAllocation:del")
     @RequestMapping(value = "/cpcAllocation_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, @RequestParam(value = "unitIds") Integer[] unitIds, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length > 0) {
-            cpcAllocationService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部职数配置情况：%s", StringUtils.join(ids, ",")));
+        if (null != unitIds && unitIds.length > 0) {
+            cpcAllocationService.batchDel(unitIds);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部职数配置情况：%s", StringUtils.join(unitIds, ",")));
         }
 
         return success(FormUtils.SUCCESS);

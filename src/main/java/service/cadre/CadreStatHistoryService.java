@@ -52,7 +52,11 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
 
-                wb = cpcAllocationService.toXlsx();
+                wb = cpcAllocationService.cpcInfo_Xlsx();
+                break;
+            case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT:
+
+                wb = cpcAllocationService.cpcStat_Xlsx();
                 break;
         }
 

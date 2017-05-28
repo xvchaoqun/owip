@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by fafa on 2017/5/24.
  */
-public class CpcAllocationBean {
+public class CpcInfoBean {
 
     private Unit unit;
 

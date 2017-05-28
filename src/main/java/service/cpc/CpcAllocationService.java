@@ -22,6 +22,7 @@ import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -88,13 +89,13 @@ public class CpcAllocationService extends BaseMapper {
     }
 
     // 导出
-    public XSSFWorkbook toXlsx() throws IOException {
+    public XSSFWorkbook cpcInfo_Xlsx() throws IOException {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc_template.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        List<CpcAllocationBean> beans = statCpc();
+        List<CpcInfoBean> beans = cpcInfo_data();
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
@@ -102,13 +103,13 @@ public class CpcAllocationService extends BaseMapper {
 
         int cpRow = 5;
         int rowCount = beans.size() - 1;
-        if(rowCount>1)
+        if (rowCount > 1)
             ExcelUtils.insertRow(wb, sheet, cpRow, rowCount - 1);
 
         int startRow = cpRow;
         for (int i = 0; i < rowCount; i++) {
 
-            CpcAllocationBean bean = beans.get(i);
+            CpcInfoBean bean = beans.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -174,7 +175,7 @@ public class CpcAllocationService extends BaseMapper {
         // 统计结果
         if (rowCount > 0) {
 
-            CpcAllocationBean totalBean = beans.get(rowCount);
+            CpcInfoBean totalBean = beans.get(rowCount);
             row = sheet.getRow(startRow);
             int column = 2;
             // 正处级 职数
@@ -225,11 +226,34 @@ public class CpcAllocationService extends BaseMapper {
     }
 
     /**
+     * 获取一个单位的配置情况
+     *
+     * @param unitId
+     * @return  <adminLevelId,  num>
+     */
+    public Map<Integer, Integer> getCpcAdminLevelMap(int unitId){
+
+        Map<Integer, Integer> resultMap = new HashMap<>();
+
+        CpcAllocationExample example = new CpcAllocationExample();
+        example.createCriteria().andUnitIdEqualTo(unitId);
+        List<CpcAllocation> cpcAllocations = cpcAllocationMapper.selectByExample(example);
+        for (CpcAllocation cpcAllocation : cpcAllocations) {
+
+            Integer adminLevelId = cpcAllocation.getAdminLevelId();
+            int num = cpcAllocation.getNum();
+
+            resultMap.put(adminLevelId, num);
+        }
+
+        return resultMap;
+    }
+    /**
      * 获取已经设置了职数的单位
      *
-     * @return  <unitId, <adminLevelId, num>>
+     * @return <unitId, <adminLevelId, num>>
      */
-    public Map<Integer, Map<Integer, Integer>> getUnitAdminLevelMap(){
+    public Map<Integer, Map<Integer, Integer>> getUnitAdminLevelMap() {
 
         List<CpcAllocation> cpcAllocations = cpcAllocationMapper.selectByExample(new CpcAllocationExample());
 
@@ -256,7 +280,7 @@ public class CpcAllocationService extends BaseMapper {
      *
      * @return 最后一个bean是统计结果
      */
-    public List<CpcAllocationBean> statCpc() {
+    public List<CpcInfoBean> cpcInfo_data() {
 
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
@@ -267,10 +291,10 @@ public class CpcAllocationService extends BaseMapper {
         Map<Integer, Unit> unitMap = unitService.findAll();
 
 
-        List<CpcAllocationBean> beans = new ArrayList<>();
+        List<CpcInfoBean> beans = new ArrayList<>();
 
         // 统计结果
-        CpcAllocationBean totalBean = new CpcAllocationBean();
+        CpcInfoBean totalBean = new CpcInfoBean();
         totalBean.setMainCount(0);
         totalBean.setViceCount(0);
         totalBean.setNoneCount(0);
@@ -291,7 +315,7 @@ public class CpcAllocationService extends BaseMapper {
             if (unit.getStatus() == SystemConstants.UNIT_STATUS_RUN
                     && (_unitAdminLevelMap.containsKey(unitId))) {
 
-                CpcAllocationBean bean = new CpcAllocationBean();
+                CpcInfoBean bean = new CpcInfoBean();
                 bean.setUnit(unit);
 
                 Map<Integer, Integer> _adminLevelMap = _unitAdminLevelMap.get(unitId);
@@ -391,12 +415,12 @@ public class CpcAllocationService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] unitIds) {
 
-        if (ids == null || ids.length == 0) return;
+        if (unitIds == null || unitIds.length == 0) return;
 
         CpcAllocationExample example = new CpcAllocationExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andUnitIdIn(Arrays.asList(unitIds));
         cpcAllocationMapper.deleteByExample(example);
     }
 
@@ -406,6 +430,7 @@ public class CpcAllocationService extends BaseMapper {
     }
 
     // 更新配置
+    @Transactional
     public void update(List<CpcAllocation> records) {
 
         for (CpcAllocation record : records) {
@@ -416,5 +441,221 @@ public class CpcAllocationService extends BaseMapper {
 
             cpcAllocationMapper.insertSelective(record);
         }
+    }
+
+    public XSSFWorkbook cpcStat_Xlsx() throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc_stat_template.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFRow row = sheet.getRow(1);
+        XSSFCell cell = row.getCell(0);
+        cell.setCellValue("统计日期：" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        Map<String, List<Integer>> cpcStatDataMap = cpcStat_data();
+
+        // 按表格行的顺序重新装入
+        List<Integer> jgList = cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_JG);
+        List<Integer> xyList = cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_XY);
+        List<Integer> fsList = cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_FS);
+        List<Integer> totalList = cpcStatDataMap.get("total");
+
+        List<List<Integer>> dataList = new ArrayList<>();
+        dataList.add(jgList);
+        dataList.add(xyList);
+        dataList.add(fsList);
+        dataList.add(totalList);
+
+        int startRow = 5;
+        for (List<Integer> list : dataList) {
+
+            row = sheet.getRow(startRow++);
+            int column = 2;
+            for (Integer data : list) {
+
+                cell = row.getCell(column++);
+                cell.setCellValue(data);
+            }
+        }
+
+        return wb;
+    }
+
+    /**
+     *  机关、学院、附属单位、合计 4行数据
+     *
+     * @return <unitType, 表格的每行结果数据>
+     *     汇总结果在最后一行(unitType='total')
+      */
+    public Map<String, List<Integer>> cpcStat_data() {
+
+        Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+        MetaType mainMetaType = metaTypeMap.get("mt_admin_level_main");
+        MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
+        MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
+
+
+        // 汇总结果
+        int totalNum = 0;
+        int totalMainCount = 0;
+        int totalSubCount = 0;
+        int totalLack = 0;
+
+        int mainTotalNum = 0;
+        int mainTotalMainCount = 0;
+        int mainTotalSubCount = 0;
+        int mainTotalLack = 0;
+
+        int viceTotalNum = 0;
+        int viceTotalMainCount = 0;
+        int viceTotalSubCount = 0;
+        int viceTotalLack = 0;
+
+        int noneTotalNum = 0;
+        int noneTotalMainCount = 0;
+        int noneTotalSubCount = 0;
+        int noneTotalLack = 0;
+
+
+        // <unitType, 表格的每行结果数据>
+        Map<String, List<Integer>> results = new HashMap<>();
+        for (String unitType : SystemConstants.UNIT_TYPE_ATTR_MAP.keySet()) {
+
+            List<Integer> dataList = new ArrayList<>();
+            results.put(unitType, dataList);
+
+            // =============统计设定的干部职数==============
+            List<CpcStatBean> cpcStatBeans = selectMapper.cpcStat_setting(unitType);
+
+            int mainNum = 0; // 正处
+            int viceNum = 0;  // 副处
+            int noneNum = 0;  // 无行政级别
+            for (CpcStatBean bean : cpcStatBeans) {
+
+                Integer adminLevelId = bean.getAdminLevelId();
+                int num = (int)bean.getNum();
+
+                if (adminLevelId.intValue() == mainMetaType.getId()) {
+                    mainNum = num;
+                }else if (adminLevelId.intValue() == viceMetaType.getId()) {
+                    viceNum = num;
+                }else if (adminLevelId.intValue() == noneMetaType.getId()) {
+                    noneNum = num;
+                }
+            }
+
+            // ===============统计实际的干部职数==============
+            // 正处
+            int mainCount = 0; // 全职
+            int subCount = 0;  // 兼职
+
+            // 副处
+            int mainCount2 = 0; // 全职
+            int subCount2 = 0;  // 兼职
+
+            // 无行政级别
+            int mainCount3 = 0; // 全职
+            int subCount3 = 0;  // 兼职
+            List<CpcStatBean> cpcStats = selectMapper.cpcStat_real(unitType);
+            for (CpcStatBean bean : cpcStats) {
+
+                Integer adminLevelId = bean.getAdminLevelId();
+                boolean mainPost = bean.isMainPost();
+                int num = (int)bean.getNum();
+
+
+
+                if (adminLevelId.intValue() == mainMetaType.getId()) {
+                    if (mainPost) mainCount = num;
+                    else subCount = num;
+                }else if (adminLevelId.intValue() == viceMetaType.getId()) {
+                    if (mainPost) mainCount2 = num;
+                    else subCount2 = num;
+                }else if (adminLevelId.intValue() == noneMetaType.getId()) {
+                    if (mainPost) mainCount3 = num;
+                    else subCount3 = num;
+                }
+            }
+
+            // 所有岗位
+            int _totalNum = mainNum + viceNum + noneNum;
+            int _totalMainCount = mainCount+mainCount2+mainCount3;
+            int _totalSubCount = subCount+subCount2+subCount3;
+            int _totalLack = mainNum+viceNum+noneNum - (mainCount+mainCount2+mainCount3 + subCount+subCount2+subCount3);
+            dataList.add(_totalNum);
+            dataList.add(_totalMainCount);
+            dataList.add(_totalSubCount);
+            dataList.add(_totalLack); // 空缺数
+
+            totalNum += _totalNum;
+            totalMainCount += _totalMainCount;
+            totalSubCount += _totalSubCount;
+            totalLack += _totalLack;
+
+
+            // 正处级岗位
+            int _mainLack = mainNum - (mainCount + subCount);
+            dataList.add(mainNum);
+            dataList.add(mainCount);
+            dataList.add(subCount);
+            dataList.add(_mainLack); // 空缺数
+
+            mainTotalNum += mainNum;
+            mainTotalMainCount += mainCount;
+            mainTotalSubCount += subCount;
+            mainTotalLack += _mainLack;
+
+
+            // 副处级岗位
+            int _viceLack = viceNum - (mainCount2 + subCount2);
+            dataList.add(viceNum);
+            dataList.add(mainCount2);
+            dataList.add(subCount2);
+            dataList.add(_viceLack); // 空缺数
+
+            viceTotalNum += viceNum;
+            viceTotalMainCount += mainCount2;
+            viceTotalSubCount += subCount2;
+            viceTotalLack += _viceLack;
+
+
+            // 无行政级别岗位
+            int _noneLack = noneNum - (mainCount3 + subCount3);
+            dataList.add(noneNum);
+            dataList.add(mainCount3);
+            dataList.add(subCount3);
+            dataList.add(_noneLack); // 空缺数
+
+            noneTotalNum += noneNum;
+            noneTotalMainCount += mainCount3;
+            noneTotalSubCount += subCount3;
+            noneTotalLack += _noneLack;
+        }
+        // 汇总结果
+        List<Integer> totalList = new ArrayList<>();
+        totalList.add(totalNum);
+        totalList.add(totalMainCount);
+        totalList.add(totalSubCount);
+        totalList.add(totalLack);
+
+        totalList.add(mainTotalNum);
+        totalList.add(mainTotalMainCount);
+        totalList.add(mainTotalSubCount);
+        totalList.add(mainTotalLack);
+
+        totalList.add(viceTotalNum);
+        totalList.add(viceTotalMainCount);
+        totalList.add(viceTotalSubCount);
+        totalList.add(viceTotalLack);
+
+        totalList.add(noneTotalNum);
+        totalList.add(noneTotalMainCount);
+        totalList.add(noneTotalSubCount);
+        totalList.add(noneTotalLack);
+
+        results.put("total", totalList);
+
+        return results;
     }
 }
