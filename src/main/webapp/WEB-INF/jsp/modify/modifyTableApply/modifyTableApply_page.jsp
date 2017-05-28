@@ -78,11 +78,16 @@
         colModel: [
             { label: '序号', name: 'id', width: 50,frozen:true },
             {label: '申请时间', width: 150, name: 'createTime'/*,formatter:'date',formatoptions: {newformat:'Y-m-d'}*/},
-            { label: '工作证号', name: 'cadre.user.code', width: 120,frozen:true },
+            { label: '工作证号', name: 'user.code', width: 120,frozen:true },
             {
-                label: '姓名', name: 'cadre.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.cadre != undefined)
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
                         .format(rowObject.cadre.id, cellvalue);
+
+                return cellvalue;
+
             }, frozen: true
             },
             { label: '所在单位及职务', name: 'cadre.title', width: 250},

@@ -21,7 +21,7 @@
     <div class="form-group">
 
         <div class="col-sm-12">
-            <textarea placeholder="请在此输入您的意见或建议" name="content" class="col-xs-6 col-sm-3" rows="10" style="width:100%;"></textarea>
+            <textarea required placeholder="请在此输入您的意见或建议" name="content" class="col-xs-6 col-sm-3" rows="10" style="width:100%;"></textarea>
         </div>
     </div>
 
