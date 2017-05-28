@@ -37,7 +37,7 @@
                                         data-title="删除"
                                         data-msg="确定删除吗？（删除后不可恢复）"
                                         data-callback="_reload">
-                                    <i class="fa fa-hourglass-half"></i> 删除
+                                    <i class="fa fa-times"></i> 删除
                                 </button>
                             </shiro:hasPermission>
                             <a class="btn btn-success btn-sm"
