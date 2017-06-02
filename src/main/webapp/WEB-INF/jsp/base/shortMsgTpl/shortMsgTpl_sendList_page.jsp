@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/shortMsgTpl_page"
+             data-url-page="${ctx}/shortMsgTpl"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.receiverId ||not empty param.mobile
             || not empty param.senderId|| not empty param.content || not empty param._sendTime
@@ -20,7 +20,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>

@@ -44,12 +44,6 @@ public class CadreResearchController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreResearch:list")
-    @RequestMapping("/cadreResearch")
-    public String cadreResearch() {
-
-        return "index";
-    }
 
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreResearch_page")

@@ -23,16 +23,10 @@ public class StatCadreController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
     @RequiresPermissions("statCadre:list")
     @RequestMapping("/stat_cadre")
-    public String stat_cadre(ModelMap modelMap) {
-
-        return "index";
-    }
-
-    @RequiresPermissions("statCadre:list")
-    @RequestMapping("/stat_cadre_page")
-    public String stat_cadre_page(String type,
+    public String stat_cadre(String type,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   ModelMap modelMap, HttpServletResponse response) throws IOException {
 

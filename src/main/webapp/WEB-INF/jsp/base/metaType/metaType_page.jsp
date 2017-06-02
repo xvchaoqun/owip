@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
              data-url-au="${ctx}/metaType_au?classId=${metaClass.id}"
-             data-url-page="${ctx}/metaType_page"
+             data-url-page="${ctx}/metaType"
              data-url-del="${ctx}/metaType_del"
              data-url-bd="${ctx}/metaType_batchDel"
              data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
@@ -89,10 +89,10 @@ pageEncoding="UTF-8" %>
                             <shiro:hasPermission name="metaType:changeOrder">
                             <c:if test="${_query2 && commonList.recNum>1}">
                                 <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaType.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaType.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaType.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaType.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
 
                                 </td>
                             </c:if>
@@ -119,7 +119,7 @@ pageEncoding="UTF-8" %>
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                             <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
+                                            <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="查看">
                                                         <span class="blue">
                                                             <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                         </span>
@@ -127,7 +127,7 @@ pageEncoding="UTF-8" %>
                                         </li>--%>
                                             <shiro:hasPermission name="metaType:edit">
                                             <li>
-                                                <a href="#" data-id="${metaType.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="javascript:;" data-id="${metaType.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
@@ -136,7 +136,7 @@ pageEncoding="UTF-8" %>
                                             </shiro:hasPermission>
                                             <shiro:hasPermission name="metaType:del">
                                             <li>
-                                                <a href="#" data-id="${metaType.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="javascript:;" data-id="${metaType.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -151,7 +151,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/metaType_page" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/metaType" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">

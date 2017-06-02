@@ -205,19 +205,9 @@ public class UserPassportDrawController extends BaseController {
         return "user/abroad/passportDraw/passportDraw_self_confirm";
     }
 
-
-
-
     @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw")
-    public String passportDraw() {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
-    @RequestMapping("/passportDraw_page")
-    public String passportDraw_page(@CurrentUser SysUserView loginUser,
+    public String passportDraw(@CurrentUser SysUserView loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
                                     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -336,15 +326,9 @@ public class UserPassportDrawController extends BaseController {
     }
 
     // 申请 因公赴台、长期因公出国
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
-    @RequestMapping("/passportDraw_tw")
-    public String passportDraw_tw(ModelMap modelMap) {
-        return "index";
-    }
-
     @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
-    @RequestMapping("/passportDraw_tw_page")
-    public String passportDraw_tw_page(Integer cadreId, ModelMap modelMap) {
+    @RequestMapping("/passportDraw_tw")
+    public String passportDraw_tw(Integer cadreId, ModelMap modelMap) {
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请

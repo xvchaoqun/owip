@@ -73,14 +73,7 @@ public class DispatchCadreController extends BaseController {
 
     @RequiresPermissions("dispatchCadre:list")
     @RequestMapping("/dispatchCadre")
-    public String dispatchCadre() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("dispatchCadre:list")
-    @RequestMapping("/dispatchCadre_page")
-    public String dispatchCadre_page(@RequestParam(defaultValue = "1") Integer cls,
+    public String dispatchCadre(@RequestParam(defaultValue = "1") Integer cls,
                                      Integer dispatchId,
                                      Integer dispatchTypeId,
                                      @RequestParam(required = false, value = "wayId")Integer[] wayId,

@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/passport_au?type=1"
-             data-url-page="${ctx}/passport_page"
+             data-url-page="${ctx}/passport"
              data-url-export="${ctx}/passport_data"
              data-url-co="${ctx}/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
@@ -301,7 +301,7 @@ pageEncoding="UTF-8" %>
 
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;
-        loadModal( "${ctx}/safeBox_page?pageNo="+pageNo, '400');
+        loadModal( "${ctx}/safeBox?pageNo="+pageNo, '400');
     }
 
     $(".importBtn").click(function(){

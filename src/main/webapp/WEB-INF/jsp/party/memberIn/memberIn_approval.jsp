@@ -6,7 +6,7 @@
     <div class="widget-box transparent">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:;" class="closeView reload btn btn-xs btn-success">
+                <a href="javascript:;" class="closeView btn btn-xs btn-success"  data-url="${ctx}/memberIn">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>

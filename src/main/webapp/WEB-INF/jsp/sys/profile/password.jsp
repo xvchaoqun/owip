@@ -10,9 +10,7 @@
 
     <form class="form-horizontal" id="form" action="${ctx}/password"  method="post">
       <div class="tabbable">
-        <jsp:include page="menu.jsp">
-          <jsp:param name="type" value="3"/>
-        </jsp:include>
+        <jsp:include page="menu.jsp"/>
 
         <div class="tab-content profile-edit-tab-content">
           <div>
@@ -74,23 +72,12 @@
     },
     submitHandler: function (form) {
 
-      var b = new Base64();
-      var $oldPassword = $("input[name=oldPassword]");
-      $oldPassword.val(b.encode($oldPassword.val()));
-
-      var $password = $("input[name=password]");
-      $password.val(b.encode($password.val()));
-
-      var $repassword = $("input[name=repassword]");
-      $repassword.val(b.encode($repassword.val()));
-
       $(form).ajaxSubmit({
         success:function(data){
           if(data.success){
-            //SysMsg.success('修改密码成功。', '成功', function(){
-                location.href ="${ctx}/"
-           // });
-
+            SysMsg.success('修改密码成功，请重新登录。', '成功', function(){
+                location.href ="${ctx}/logout"
+            });
           }
         }
       });

@@ -176,7 +176,7 @@
                     data: { summary: ke.html()},
                     success: function (data) {
                         if (data.success) {
-                            _closeView()
+                            $.hideView()
                         }
                     }
                 });

@@ -45,14 +45,7 @@ public class MemberInflowOutController extends BaseController {
 
     @RequiresPermissions("memberInflowOut:list")
     @RequestMapping("/memberInflowOut")
-    public String memberInflow() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberInflowOut:list")
-    @RequestMapping("/memberInflowOut_page")
-    public String memberInflowOut_page(@RequestParam(defaultValue = "1") byte cls, Integer userId,
+    public String memberInflowOut(@RequestParam(defaultValue = "1") byte cls, Integer userId,
                                     Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
 

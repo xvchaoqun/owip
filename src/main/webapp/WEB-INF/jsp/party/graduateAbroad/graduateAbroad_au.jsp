@@ -273,13 +273,13 @@ pageEncoding="UTF-8"%>
     </form>
 <c:if test="${graduateAbroad.status!=GRADUATE_ABROAD_STATUS_OW_VERIFY}">
 	<div class="modal-footer center">
-		<a href="#" class="btn btn-default closeView">取消</a>
+		<a href="javascript:;" class="btn btn-default closeView">取消</a>
 		<input type="submit" class="btn btn-primary" value="<c:if test="${graduateAbroad!=null}">确定</c:if><c:if test="${graduateAbroad==null}">添加</c:if>"/>
 	</div>
 </c:if>
 <c:if test="${graduateAbroad.status==GRADUATE_ABROAD_STATUS_OW_VERIFY}">
 	<div class="modal-footer center">
-		<a href="#" class="btn btn-default closeView">返回</a>
+		<a href="javascript:;" class="btn btn-default closeView">返回</a>
 	</div>
 </c:if>
 </div>

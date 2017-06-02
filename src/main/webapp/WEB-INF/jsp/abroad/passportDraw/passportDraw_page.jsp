@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
 <div class="row">
-    <div class="col-xs-12" id="adminPassportDrawPage">
+    <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="tabbable">
@@ -11,7 +11,7 @@
                     <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a href="?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportDraw?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -20,7 +20,7 @@
                     <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_TW},${CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a href="?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportDraw?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -29,14 +29,14 @@
                     <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_OTHER}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a href="?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportDraw?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
                         </a>
                     </li>
                     <li class="<c:if test="${type==-1}">active</c:if>">
-                        <a href="?type=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportDraw?type=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                 </ul>
 
@@ -99,7 +99,7 @@
                         </c:if>
                         </div>
                         <div class="myTableDiv"
-                             data-url-page="${ctx}/passportDraw_page"
+                             data-url-page="${ctx}/passportDraw"
                              data-url-del="${ctx}/passportDraw_del"
                              data-url-bd="${ctx}/passportDraw_batchDel"
                              data-url-co="${ctx}/passportDraw_changeOrder"
@@ -111,7 +111,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>
@@ -182,7 +182,7 @@
             SysMsg.warning("请选择行", "提示");
             return;
         }
-        printWindow("${ctx}/report/abroad_draw_proof?ids[]=" + ids)
+        $.print("${ctx}/report/abroad_draw_proof?ids[]=" + ids)
     });
 
     $("#jqGrid").jqGrid({
@@ -304,7 +304,7 @@
                 if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                     return '-';
                 }
-                return '<button onclick="printWindow(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
+                return '<button onclick="$.print(\'${ctx}/report/passportSign?id={0}&format=pdf\')" class="btn btn-info btn-xs"><i class="fa fa-print"></i> 打印签注申请表</button>'
                         .format(rowObject.id);
             }
             },

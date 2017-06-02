@@ -39,12 +39,6 @@ public class DispatchTypeController extends BaseController {
     @RequestMapping("/dispatchType")
     public String dispatchType() {
 
-        return "index";
-    }
-    @RequiresPermissions("dispatchType:list")
-    @RequestMapping("/dispatchType_page")
-    public String dispatchType_page() {
-
         return "dispatch/dispatchType/dispatchType_page";
     }
     @RequiresPermissions("dispatchType:list")

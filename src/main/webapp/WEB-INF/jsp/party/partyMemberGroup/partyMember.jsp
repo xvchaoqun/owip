@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/partyMemberGroup_page"
+             data-url-page="${ctx}/partyMemberGroup"
              data-url-export="${ctx}/partyMember_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.unitId ||not empty param.partyId
@@ -23,7 +23,7 @@
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
+                            <a href="javascript:;" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                             </a>
                         </div>

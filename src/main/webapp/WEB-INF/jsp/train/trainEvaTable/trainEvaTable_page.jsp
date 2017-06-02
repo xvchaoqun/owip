@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/trainEvaTable_page"
+                 data-url-page="${ctx}/trainEvaTable"
                  data-url-export="${ctx}/trainEvaTable_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
@@ -36,7 +36,7 @@ pageEncoding="UTF-8" %>
                     <h4 class="widget-title">搜索</h4>
 
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
@@ -70,10 +70,10 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
            title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({
@@ -90,20 +90,20 @@ pageEncoding="UTF-8" %>
                 var num = 0;
                 if(cellvalue!=undefined) num=cellvalue;
                 if (num==0)
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaNorm_page?evaTableId={0}">编辑指标</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaNorm?evaTableId={0}">编辑指标</a>'
                             .format(rowObject.id);
                 else
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaNorm_page?evaTableId={0}">查看指标（{1}）</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaNorm?evaTableId={0}">查看指标（{1}）</a>'
                             .format(rowObject.id, cellvalue);
             }, width: 200},
             {label: '评估等级', name: 'rankNum', formatter: function (cellvalue, options, rowObject) {
                 var num = 0;
                 if(cellvalue!=undefined) num=cellvalue;
                 if (num==0)
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaRank_page?evaTableId={0}">编辑评估等级</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaRank?evaTableId={0}">编辑评估等级</a>'
                             .format(rowObject.id);
                 else
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaRank_page?evaTableId={0}">查看评估等级（{1}）</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainEvaRank?evaTableId={0}">查看评估等级（{1}）</a>'
                             .format(rowObject.id, cellvalue);
             }, width: 200},
             {label: '评估表', name: 'rankNum', formatter: function (cellvalue, options, rowObject) {

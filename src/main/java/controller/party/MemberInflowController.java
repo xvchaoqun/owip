@@ -46,16 +46,10 @@ public class MemberInflowController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow")
-    public String memberInflow() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberInflow:list")
-    @RequestMapping("/memberInflow_page")
-    public String memberInflow_page(@RequestParam(defaultValue = "1") byte cls, Integer userId,
+    public String memberInflow(@RequestParam(defaultValue = "1") byte cls, Integer userId,
                                     Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
 

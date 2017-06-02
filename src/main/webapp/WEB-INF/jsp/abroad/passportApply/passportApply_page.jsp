@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/passportApply_page"
+             data-url-page="${ctx}/passportApply"
              data-url-co="${ctx}/passportApply_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.cadreId ||not empty param.classId
@@ -13,30 +13,30 @@ pageEncoding="UTF-8" %>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">active</c:if>">
-                        <a href="?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
                     </li>
                     <li class="dropdown <c:if test="${status==1||status==3||status==4}">active</c:if>" >
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                             <i class="fa fa-recycle"></i> 批准办理新证件${status==1?"(未交证件) ":(status==3)?"(已交证件) ":(status==4)?"(作废) ":" "}
                             <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-info" style="min-width: 230px">
                             <li>
-                                <a href="?status=1">未交证件</a>
+                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=1">未交证件</a>
                             </li>
                             <li>
-                                <a   href="?status=3">已交证件</a>
+                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=3">已交证件</a>
                             </li>
                             <li>
-                                <a   href="?status=4">作废</a>
+                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=4">作废</a>
                             </li>
                         </ul>
                     </li>
                     <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_NOT_PASS}">active</c:if>">
-                        <a href="?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                 </ul>
 
@@ -95,7 +95,7 @@ pageEncoding="UTF-8" %>
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>
@@ -204,7 +204,7 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
     /*$(".printBtn").click(function(){
-        printWindow("${ctx}/report/passportApply?id="+ $(this).data("id"));
+        $.print("${ctx}/report/passportApply?id="+ $(this).data("id"));
     });*/
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

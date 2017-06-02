@@ -35,14 +35,7 @@ public class VerifyWorkTimeController extends BaseController {
 
     @RequiresPermissions("verifyWorkTime:list")
     @RequestMapping("/verifyWorkTime")
-    public String verifyWorkTime() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("verifyWorkTime:list")
-    @RequestMapping("/verifyWorkTime_page")
-    public String verifyWorkTime_page(@RequestParam(defaultValue = "1") Integer cls,Integer cadreId, ModelMap modelMap) {
+    public String verifyWorkTime(@RequestParam(defaultValue = "1") Integer cls,Integer cadreId, ModelMap modelMap) {
         modelMap.put("cls", cls);
         if(cadreId!=null){
             modelMap.put("cadre", cadreService.findAll().get(cadreId));

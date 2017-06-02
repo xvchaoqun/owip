@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div style="padding-top: 50px;"></div>
+<div style="padding-top: 20px;"></div>
 
 <div class="tabbable">
     <div class="tab-content no-border no-padding">
@@ -42,7 +42,7 @@
                     if (ret.success) {
                         bootbox.alert("提交成功。", function () {
                             $btn.button("success").addClass("btn-success");
-                            location.reload();
+                            $.hashchange();
                         });
                     } else {
                         $btn.button('reset');

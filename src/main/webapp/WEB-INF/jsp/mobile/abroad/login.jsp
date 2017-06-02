@@ -93,11 +93,7 @@
 					return;
 				}
 				$.post("${ctx}/m/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
-					/*try {
-					 data = JSON.parse(data)
-					 }catch(e){
-					 location.reload();
-					 }*/
+
 					if(data.success){
 						location.href = data.url;
 					}

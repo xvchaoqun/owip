@@ -16,7 +16,7 @@
     <input type="button" id="unitObjsSelectAll" class="btn btn-success btn-xs" value="单位全选"/>
     <input type="button" id="unitObjsDeselectAll" class="btn btn-danger btn-xs" value="单位全不选"/>
   </div>
-  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <input type="submit" class="btn btn-primary" value="确认"/></div>
 <script>
 
@@ -63,8 +63,8 @@
         toastr.warning("请选择单位");
         return;
       }
-      $("#modal").modal("hide");
-      _openView("${ctx}/cpcAllocationSetting?unitIds={0}".format(unitIds));
+
+      $.loadView("${ctx}/cpcAllocationSetting?unitIds={0}".format(unitIds));
     }
   });
 </script>

@@ -392,13 +392,7 @@ public class MemberController extends BaseController {
     }
 
     @RequestMapping("/member")
-    public String member() {
-
-        return "index";
-    }
-
-    @RequestMapping("/member_page")
-    public String member_page(HttpServletResponse response, @RequestParam(defaultValue = "1") Integer cls, ModelMap
+    public String member(HttpServletResponse response, @RequestParam(defaultValue = "1") Integer cls, ModelMap
             modelMap) {
 
         modelMap.put("cls", cls);
@@ -407,7 +401,7 @@ public class MemberController extends BaseController {
          * cls=6 已转出的学生党员
          */
         if (cls == 1 || cls==6) {
-            return "forward:/memberStudent_page";
+            return "forward:/memberStudent";
         }
         /*
             cls=2教职工   =>  member.type=1 member.status=1
@@ -416,15 +410,8 @@ public class MemberController extends BaseController {
                 （弃用）5已退休   =>  member.type=2 memberTeacher.isRetire=1 member.status=2
                 cls=7 已转出的教工党员
          */
-         return "forward:/memberTeacher_page";
+         return "forward:/memberTeacher";
     }
-
- /*   @RequiresPermissions("member:view")
-    @RequestMapping("/member_view")
-    public String member_view(HttpServletResponse response, int userId, ModelMap modelMap) {
-
-        return "index";
-    }*/
 
     @RequestMapping("/member_view")
     public String member_show_page(@CurrentUser SysUserView loginUser, HttpServletResponse response, int userId, ModelMap modelMap) {

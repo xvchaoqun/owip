@@ -61,20 +61,14 @@ public class IndexController extends BaseController {
 	}
 
 	@RequiresPermissions("index:home")
-	@RequestMapping("/index")
-	public String _index() {
+	@RequestMapping("/")
+	public String home_page() {
 
 		return "index";
 	}
 	@RequiresPermissions("index:home")
-	@RequestMapping("/")
-	public String index() {
-
-		return "redirect:/index";
-	}
-	@RequiresPermissions("index:home")
-	@RequestMapping("/index_page")
-	public String home_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+	@RequestMapping("/index")
+	public String index(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
 		if(ShiroHelper.hasRole(SystemConstants.ROLE_REG)){
 			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));

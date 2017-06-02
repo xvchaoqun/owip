@@ -47,14 +47,7 @@ public class CadreInspectController extends BaseController {
 
     @RequiresPermissions("cadreInspect:list")
     @RequestMapping("/cadreInspect")
-    public String cadreInspect() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cadreInspect:list")
-    @RequestMapping("/cadreInspect_page")
-    public String cadreInspect_page(
+    public String cadreInspect(
             @RequestParam(required = false, defaultValue =
                     SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "")Byte status,
             Integer userId, ModelMap modelMap) {

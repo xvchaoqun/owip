@@ -40,14 +40,7 @@ public class CisEvaluateController extends BaseController {
 
     @RequiresPermissions("cisEvaluate:list")
     @RequestMapping("/cisEvaluate")
-    public String cisEvaluate() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cisEvaluate:list")
-    @RequestMapping("/cisEvaluate_page")
-    public String cisEvaluate_page(HttpServletResponse response,
+    public String cisEvaluate(HttpServletResponse response,
                                    Integer cadreId,
                                    ModelMap modelMap) {
 

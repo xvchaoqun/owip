@@ -24,10 +24,10 @@
 <div class="modal-footer">
   <c:choose>
     <c:when test="${param.type=='passportApplySubmit'}">
-      <a href="#" data-dismiss="modal" class="btn btn-primary btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+      <a href="javascript:;" data-dismiss="modal" class="btn btn-primary btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
     </c:when>
     <c:otherwise>
-      <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+      <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
       <input type="submit" ${empty shortMsgBean.mobile?"disabled":""} class="btn btn-primary" value="确定发送"/>
     </c:otherwise>
   </c:choose>

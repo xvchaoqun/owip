@@ -13,22 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class VerifyController extends BaseController {
 
+
     @RequiresPermissions("verify:menu")
     @RequestMapping("/verify")
-    public String verify() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("verify:menu")
-    @RequestMapping("/verify_page")
-    public String verify_page(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String verify(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if (cls == 1) {
-            return "forward:/verifyAge_page";
+            return "forward:/verifyAge";
         }
 
-        return "forward:/verifyWorkTime_page";
+        return "forward:/verifyWorkTime";
     }
 }

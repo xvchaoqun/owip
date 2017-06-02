@@ -85,7 +85,7 @@
 <script>
     function _delCallback(type) {
         $("#modal").modal("hide");
-        location.href='?cls=1&module=${module}';
+        $.hashchange('cls=1&module=${module}');
     }
     $("#jqGrid_cadreWork").jqGrid({
         ondblClickRow: function () {

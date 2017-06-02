@@ -34,54 +34,9 @@ public class CrpRecordController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // 校外挂职锻炼
-    @RequiresPermissions("crpRecord:OutMenu")
-    @RequestMapping("/crpRecord_out")
-    public String crpRecord_out() {
-
-        return "index";
-    }
-
     @RequiresPermissions("crpRecord:list")
-    @RequestMapping("/crpRecord_out_page")
-    public String crpRecord_out_page() {
-
-        return "forward:/crpRecord_page?type=" + SystemConstants.CRP_RECORD_TYPE_OUT;
-    }
-
-    // 校内挂职锻炼
-    @RequiresPermissions("crpRecord:InMenu")
-    @RequestMapping("/crpRecord_in")
-    public String crpRecord_in() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("crpRecord:list")
-    @RequestMapping("/crpRecord_in_page")
-    public String crpRecord_in_page() {
-
-        return "forward:/crpRecord_page?type=" + SystemConstants.CRP_RECORD_TYPE_IN;
-    }
-
-    // 外单位到本校挂职
-    @RequiresPermissions("crpRecord:TransferMenu")
-    @RequestMapping("/crpRecord_transfer")
-    public String crpRecord_transfer() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("crpRecord:list")
-    @RequestMapping("/crpRecord_transfer_page")
-    public String crpRecord_transfer_page() {
-
-        return "forward:/crpRecord_page?type=" + SystemConstants.CRP_RECORD_TYPE_TRANSFER;
-    }
-
-    @RequiresPermissions("crpRecord:list")
-    @RequestMapping("/crpRecord_page")
-    public String crpRecord_page(@RequestParam(required = false, defaultValue = "0") Boolean isFinished,
+    @RequestMapping("/crpRecord")
+    public String crpRecord(@RequestParam(required = false, defaultValue = "0") Boolean isFinished,
                                  Integer userId,
                                  ModelMap modelMap) {
 

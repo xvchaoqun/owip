@@ -48,14 +48,7 @@ public class MemberReturnController extends BaseController {
 
     @RequiresPermissions("memberReturn:list")
     @RequestMapping("/memberReturn")
-    public String memberReturn() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberReturn:list")
-    @RequestMapping("/memberReturn_page")
-    public String memberReturn_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
+    public String memberReturn(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {

@@ -5,17 +5,17 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/applySelfList_page"
+             data-url-page="${ctx}/applySelfList"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate
             ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="?status=0"><i class="fa fa-circle-o"></i> 待审批</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelfList?status=0"><i class="fa fa-circle-o"></i> 待审批</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-check"></i> 已审批</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelfList?status=1"><i class="fa fa-check"></i> 已审批</a>
                     </li>
                 </ul>
 
@@ -44,7 +44,7 @@
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>

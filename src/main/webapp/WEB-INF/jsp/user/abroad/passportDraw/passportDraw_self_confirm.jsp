@@ -18,7 +18,7 @@
                 因私出国（境）行程
             </h4>
             <div class="widget-toolbar">
-                <a href="#" data-action="collapse">
+                <a href="javascript:;" data-action="collapse">
                     <i class="ace-icon fa fa-chevron-up"></i>
                 </a>
             </div>
@@ -145,7 +145,7 @@
                     $(".closeView").click();
                     </c:if>
                     <c:if test="${param.auth!='admin'}">
-                    location.href = "${ctx}/user/passportDraw?type=1";
+                    $.hashchange("type=1", "${ctx}/user/passportDraw")
                     </c:if>
                 });
             }

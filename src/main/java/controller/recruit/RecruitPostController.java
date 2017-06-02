@@ -38,14 +38,7 @@ public class RecruitPostController extends BaseController {
 
     @RequiresPermissions("recruitPost:list")
     @RequestMapping("/recruitPost")
-    public String recruitPost() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("recruitPost:list")
-    @RequestMapping("/recruitPost_page")
-    public String recruitPost_page(@RequestParam(required = false, defaultValue = "1") Byte status,
+    public String recruitPost(@RequestParam(required = false, defaultValue = "1") Byte status,
                                    ModelMap modelMap) {
 
         modelMap.put("status", status);

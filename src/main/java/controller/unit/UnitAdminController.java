@@ -42,13 +42,7 @@ public class UnitAdminController extends BaseController {
 
     @RequiresPermissions("unitAdmin:list")
     @RequestMapping("/unitAdmin")
-    public String unitAdmin() {
-
-        return "index";
-    }
-    @RequiresPermissions("unitAdmin:list")
-    @RequestMapping("/unitAdmin_page")
-    public String unitAdmin_page(HttpServletResponse response,
+    public String unitAdmin(HttpServletResponse response,
                                     int groupId, ModelMap modelMap) {
 
         UnitAdminExample example = new UnitAdminExample();

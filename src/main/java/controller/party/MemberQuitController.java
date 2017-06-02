@@ -46,17 +46,10 @@ import java.util.*;
 public class MemberQuitController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     @RequiresPermissions("memberQuit:list")
     @RequestMapping("/memberQuit")
-    public String memberQuit() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberQuit:list")
-    @RequestMapping("/memberQuit_page")
-    public String memberQuit_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
+    public String memberQuit(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
                                   Integer userId,
                                   Integer partyId,
                                   Integer branchId,ModelMap modelMap) {

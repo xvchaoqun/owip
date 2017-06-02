@@ -45,12 +45,6 @@ public class CadreTrainController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreTrain:list")
-    @RequestMapping("/cadreTrain")
-    public String cadreTrain() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreTrain:list")
     @RequestMapping("/cadreTrain_page")
     public String cadreTrain_page(
             @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览

@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
-                  data-url-page="${ctx}/cadreInspect_page"
+                  data-url-page="${ctx}/cadreInspect"
                   data-url-bd="${ctx}/cadreInspect_batchDel"
                   data-url-co="${ctx}/cadreInspect_changeOrder"
                   data-url-export="${ctx}/cadreInspect_data"
@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="_status" items="${CADRE_INSPECT_STATUS_MAP}">
                     <li class="<c:if test="${status==_status.key}">active</c:if>">
-                        <a href="?status=${_status.key}">
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreInspect?status=${_status.key}">
                             <c:if test="${_status.key==CADRE_INSPECT_STATUS_ABOLISH}">
                                 <i class="fa fa-times"></i>
                             </c:if>
@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
                         </shiro:hasPermission>
                         </c:if>
                         <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                data-url="${ctx}/cadreAdLog_page"
+                                data-url="${ctx}/cadreAdLog"
                                 data-id-name="inspectId"
                                 data-open-by="page">
                             <i class="fa fa-search"></i> 任免操作记录
@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
                         <div class="widget-header">
                             <h4 class="widget-title">搜索</h4>
                             <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
+                                <a href="javascript:;" data-action="collapse">
                                     <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                 </a>
                             </div>
@@ -148,9 +148,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({

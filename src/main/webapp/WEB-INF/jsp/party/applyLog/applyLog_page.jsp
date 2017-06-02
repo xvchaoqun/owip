@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
         <div class="myTableDiv"
              data-target="#home2"
              data-url-au="${ctx}/applyLog_au"
-             data-url-page="${ctx}/applyLog_page"
+             data-url-page="${ctx}/applyLog"
              data-url-del="${ctx}/applyLog_del"
              data-url-bd="${ctx}/applyLog_batchDel"
              data-url-co="${ctx}/applyLog_changeOrder"
@@ -104,7 +104,7 @@ pageEncoding="UTF-8" %>
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                             &lt;%&ndash;<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
+                                            <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="查看">
                                                         <span class="blue">
                                                             <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                         </span>
@@ -112,7 +112,7 @@ pageEncoding="UTF-8" %>
                                         </li>&ndash;%&gt;
                                             <shiro:hasPermission name="applyLog:edit">
                                             <li>
-                                                <a href="#" data-id="${applyLog.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="javascript:;" data-id="${applyLog.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
                                             </shiro:hasPermission>
                                             <shiro:hasPermission name="applyLog:del">
                                             <li>
-                                                <a href="#" data-id="${applyLog.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="javascript:;" data-id="${applyLog.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -136,7 +136,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/applyLog_page" target="#home2" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/applyLog" target="#home2" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">

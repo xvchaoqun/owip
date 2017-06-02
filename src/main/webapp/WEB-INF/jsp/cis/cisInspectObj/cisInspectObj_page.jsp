@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/cisInspectObj_page"
+             data-url-page="${ctx}/cisInspectObj"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.cadreId ||not empty param.year ||not empty param.typeId ||not empty param._inspectDate
@@ -48,7 +48,7 @@
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>

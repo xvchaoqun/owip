@@ -201,7 +201,7 @@
                 if(ret.success){
                   bootbox.alert("提交成功。",function(){
                     $btn.button("success").addClass("btn-success");
-                      location.reload();
+                    $.hashchange();
                   });
                 }else{
                   $btn.button('reset');

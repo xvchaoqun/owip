@@ -10,9 +10,7 @@
 
     <form class="form-horizontal">
       <div class="tabbable">
-        <jsp:include page="menu.jsp">
-          <jsp:param name="type" value="2"/>
-        </jsp:include>
+        <jsp:include page="menu.jsp"/>
 
         <div class="tab-content profile-edit-tab-content">
           暂无

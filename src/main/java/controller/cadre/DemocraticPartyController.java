@@ -44,13 +44,7 @@ public class DemocraticPartyController extends BaseController {
 
     @RequiresPermissions("democraticParty:list")
     @RequestMapping("/democraticParty")
-    public String cadre() {
-
-        return "index";
-    }
-    @RequiresPermissions("democraticParty:list")
-    @RequestMapping("/democraticParty_page")
-    public String cadre_page(Integer cadreId,ModelMap modelMap) {
+    public String democraticParty(Integer cadreId,ModelMap modelMap) {
 
         if (cadreId!=null) {
             CadreView cadre = cadreService.findAll().get(cadreId);

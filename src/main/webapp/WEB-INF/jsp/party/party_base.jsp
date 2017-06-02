@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
 		</h4>
 
 		<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
+			<a href="javascript:;" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
 		</div>
@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 		</h4>
 
 		<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
+			<a href="javascript:;" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
 		</div>
@@ -141,7 +141,7 @@ pageEncoding="UTF-8"%>
 		</h4>
 
 		<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
+			<a href="javascript:;" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
 		</div>

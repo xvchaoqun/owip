@@ -36,13 +36,7 @@ public class SysResourceController extends BaseController {
 
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource")
-	public String sysResource() {
-
-		return "index";
-	}
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
-	@RequestMapping("/sysResource_page")
-	public String sysResource_page(ModelMap modelMap) {
+	public String sysResource(ModelMap modelMap) {
 
 		modelMap.put("sysResources", sysResourceService.getSortedSysResources().values());
 		return "sys/sysResource/sysResource_page";

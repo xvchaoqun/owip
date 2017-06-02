@@ -26,14 +26,7 @@ public class StatTrainController extends BaseController {
 
     @RequiresPermissions("statTrain:list")
     @RequestMapping("/stat_train")
-    public String stat_train(ModelMap modelMap) {
-
-        return "index";
-    }
-
-    @RequiresPermissions("statTrain:list")
-    @RequestMapping("/stat_train_page")
-    public String stat_cadre_page(int trainId, Integer courseId,
+    public String stat_train(int trainId, Integer courseId,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   ModelMap modelMap, HttpServletResponse response) throws IOException {
 

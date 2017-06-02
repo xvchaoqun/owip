@@ -7,7 +7,7 @@
         <div id="body-content">
             <div  class="myTableDiv"
                   data-url-au="${ctx}/memberInflowOut_au?cls=${cls}"
-                  data-url-page="${ctx}/memberInflowOut_page"
+                  data-url-page="${ctx}/memberInflowOut"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
                 || not empty param.status ||not empty param.isBack
@@ -19,30 +19,30 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="dropdown <c:if test="${cls==1||cls==4||cls==5}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==4)?"(返回修改)":(cls==5)?"(已审核)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="?cls=1">新申请</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflowOut?cls=1">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=4">返回修改</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflowOut?cls=4">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=5">已审核</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflowOut?cls=5">已审核</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="${cls==6?'active':''}">
-                            <a ${cls!=6?'href="?cls=6"':''}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflowOut?cls=6"}><i class="fa fa-circle-o"></i> 分党委审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflowOut?cls=2"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflowOut?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                     </ul>
 
@@ -83,7 +83,7 @@
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT}"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
@@ -93,7 +93,7 @@
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4>
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>

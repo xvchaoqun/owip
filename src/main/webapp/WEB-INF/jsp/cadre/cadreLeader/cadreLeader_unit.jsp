@@ -61,7 +61,7 @@ pageEncoding="UTF-8"%>
                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                         <shiro:hasPermission name="cadreLeaderUnit:del">
                                             <li>
-                                                <a href="#" data-id="${cadreLeaderUnit.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="javascript:;" data-id="${cadreLeaderUnit.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>

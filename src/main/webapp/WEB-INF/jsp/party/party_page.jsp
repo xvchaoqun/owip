@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/party_au"
-             data-url-page="${ctx}/party_page"
+             data-url-page="${ctx}/party"
              data-url-export="${ctx}/party_data"
              data-url-co="${ctx}/party_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -19,10 +19,10 @@ pageEncoding="UTF-8" %>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 党委</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/party?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 党委</a>
                     </li>
                     <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="?status=-1"><i class="fa fa-trash"></i> 已删除党委</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/party?status=-1"><i class="fa fa-trash"></i> 已删除党委</a>
                     </li>
                 </ul>
 
@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
@@ -207,9 +207,9 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
 

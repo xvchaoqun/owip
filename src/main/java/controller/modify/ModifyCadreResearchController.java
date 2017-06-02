@@ -27,27 +27,11 @@ public class ModifyCadreResearchController extends BaseController {
 
     // 系统菜单
     @RequiresPermissions("modifyCadreResearch:list")
-    @RequestMapping("/modifyCadreResearch_direct")
-    public String modifyCadreResearch_direct(HttpServletRequest request) {
-
-        request.setAttribute("researchType", SystemConstants.CADRE_RESEARCH_TYPE_DIRECT);
-        return "index";
-    }
-    // 系统菜单
-    @RequiresPermissions("modifyCadreResearch:list")
-    @RequestMapping("/modifyCadreResearch_in")
-    public String modifyCadreResearch_in(HttpServletRequest request) {
-
-        request.setAttribute("researchType", SystemConstants.CADRE_RESEARCH_TYPE_IN);
-        return "index";
-    }
-
-    @RequiresPermissions("modifyCadreResearch:list")
-    @RequestMapping({"/modifyCadreResearch_direct_page", "/modifyCadreResearch_in_page"})
-    public String modifyCadreResearch_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
+    @RequestMapping({"/modifyCadreResearch"})
+    public String modifyCadreResearch(byte researchType, @CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                       Integer cadreId, HttpServletRequest request, ModelMap modelMap) {
 
-        byte researchType = (byte)request.getAttribute("researchType");
+        //byte researchType = (byte)request.getAttribute("researchType");
 
         if (cls == null) {
             cls = (byte) (ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE) ? 0 : 1);
@@ -82,7 +66,7 @@ public class ModifyCadreResearchController extends BaseController {
 
             return "modify/modifyCadreResearch/modifyCadreResearch_page";
         } else {
-            return "forward:/modifyTableApply_page?module=" + module + "&cls=" + cls;
+            return "forward:/modifyTableApply?module=" + module + "&cls=" + cls;
         }
     }
 

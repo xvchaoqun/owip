@@ -63,13 +63,7 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit")
-    public String unit() {
-
-        return "index";
-    }
-    @RequiresPermissions("unit:list")
-    @RequestMapping("/unit_page")
-    public String unit_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+    public String unit(@RequestParam(required = false, defaultValue = "1")Byte status,
                             ModelMap modelMap) {
 
         modelMap.put("status", status);

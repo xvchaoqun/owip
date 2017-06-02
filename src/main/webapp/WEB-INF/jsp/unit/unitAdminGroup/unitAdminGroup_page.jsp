@@ -50,13 +50,13 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-<wo:page commonList="${commonList}" uri="${ctx}/unitAdminGroup_page" target="#page-content" pageNum="5"
+<wo:page commonList="${commonList}" uri="${ctx}/unitAdminGroup" target="#page-content" pageNum="5"
          model="3"/>
 
 <script>
 
     function unitAdmin_page(groupId){
-        var url = "${ctx}/unitAdmin_page?groupId="+groupId;
+        var url = "${ctx}/unitAdmin?groupId="+groupId;
         loadModal(url, 1000);
     }
 
@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/unitAdminGroup_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").load("${ctx}/unitAdminGroup?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
     //$('#searchForm [data-rel="select2"]').select2();
    // $('[data-rel="tooltip"]').tooltip();

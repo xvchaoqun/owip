@@ -6,7 +6,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-page="${ctx}/dispatch_page"
+                 data-url-page="${ctx}/dispatch"
                  data-url-del="${ctx}/dispatch_del"
                  data-url-bd="${ctx}/dispatch_batchDel"
                  data-url-export="${ctx}/dispatch_data"
@@ -57,7 +57,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>
@@ -164,9 +164,9 @@
     <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-trash"></i> 取消</a>
 </script>
 <%--<script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>--%>
 
 <script>

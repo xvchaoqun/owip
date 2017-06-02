@@ -31,8 +31,8 @@
   </div>
   <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
     <ul class="nav nav-pills">
-      <li class="<c:if test="${_path=='/profile'}">active</c:if>">
-        <a href="${ctx}/profile"><i class="fa fa-user"></i>
+      <li class="">
+        <a href="${ctx}/#${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
       <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">

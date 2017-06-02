@@ -26,7 +26,7 @@
 				<!-- /section:basics/sidebar.mobile.toggle -->
 				<div class="navbar-header pull-left">
 					<!-- #section:basics/navbar.layout.brand -->
-					<a href="#" class="navbar-brand">
+					<a href="javascript:;" class="navbar-brand">
 						<span style="font-size: 16px; font-weight: bold">
 							组织工作一体化平台
 						</span>
@@ -37,7 +37,7 @@
 					<ul class="nav ace-nav">
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
-							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+							<a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
 								<img class="nav-user-photo" src="${ctx}/extend/img/default.png" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+			<a href="javascript:;" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
 		</div><!-- /.main-container -->

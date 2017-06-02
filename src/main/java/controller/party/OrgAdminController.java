@@ -85,14 +85,7 @@ public class OrgAdminController extends BaseController {
 
     @RequiresPermissions("orgAdmin:list")
     @RequestMapping("/orgAdmin")
-    public String orgAdmin() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("orgAdmin:list")
-    @RequestMapping("/orgAdmin_page")
-    public String orgAdmin_page(HttpServletResponse response,
+    public String orgAdmin(HttpServletResponse response,
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,

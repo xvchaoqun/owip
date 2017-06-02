@@ -73,7 +73,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-success" value="通过任命"/>
 </div>
 
@@ -86,8 +86,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        $("#modal").modal('hide');
-                        _openView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
+                        $.loadView('${ctx}/cadre_view?cadreId=${cadre.id}&to=cadrePost_page')
                     }
                 }
             });

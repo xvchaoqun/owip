@@ -95,12 +95,6 @@ public class CadreController extends BaseController {
 
     @RequiresPermissions("cadre:list")
     @RequestMapping("/cadre")
-    public String cadre() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadre:list")
-    @RequestMapping("/cadre_page")
     public String cadre_page(@RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE+"")Byte status,
 
                              @RequestParam(required = false, value = "dpTypes")Integer[] dpTypes,

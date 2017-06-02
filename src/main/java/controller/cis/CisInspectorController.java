@@ -37,14 +37,7 @@ public class CisInspectorController extends BaseController {
 
     @RequiresPermissions("cisInspector:list")
     @RequestMapping("/cisInspector")
-    public String cisInspector() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cisInspector:list")
-    @RequestMapping("/cisInspector_page")
-    public String cisInspector_page(HttpServletResponse response,
+    public String cisInspector(HttpServletResponse response,
                                     @RequestParam(required = false,
                                             defaultValue = SystemConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                                     ModelMap modelMap) {

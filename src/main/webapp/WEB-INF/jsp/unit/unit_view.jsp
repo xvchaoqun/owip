@@ -17,13 +17,13 @@
                             <a href="javascript:;" data-url="${ctx}/unit_base?id=${param.id}">基本信息</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/unitTransfer_page?unitId=${param.id}">单位历程相关文件</a>
+                            <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位历程相关文件</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/unitAdminGroup_page?unitId=${param.id}">行政班子</a>
+                            <a href="javascript:;" data-url="${ctx}/unitAdminGroup?unitId=${param.id}">行政班子</a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup_page?unitId=${param.id}">干部任免信息</a>
+                            <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup?unitId=${param.id}">干部任免信息</a>
                         </li>
                     </ul>
                 </div>

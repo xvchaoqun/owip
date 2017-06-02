@@ -40,23 +40,22 @@ public class MemberApplyExportController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
-    @RequestMapping("/memberApplyExport_page")
-    public String memberApplyExport_page(@RequestParam(defaultValue = "1")int cls, ModelMap modelMap) {
-
-        modelMap.put("cls", cls);
-        return "party/memberApply/memberApplyExport_page";
-    }
-
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
-    @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyExport")
-    public void memberApplyExport(HttpServletResponse response,
+    public String memberApplyExport(HttpServletResponse response,
+                                    @RequestParam(defaultValue = "1")int cls,
                                    Integer userId,
                                    Integer partyId,
                                    Integer branchId,
                                    @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
-                                   @RequestParam(defaultValue = "1")Byte exportType //导出类型：1：申请入党人员信息（包含申请至领取志愿书 5个阶段） 2：发展党员人员信息（即预备党员阶段）
+                                   @RequestParam(defaultValue = "0")Byte exportType //导出类型：1：申请入党人员信息（包含申请至领取志愿书 5个阶段） 2：发展党员人员信息（即预备党员阶段）
+                                   , ModelMap modelMap
                     ) throws IOException {
+
+        if(exportType==0){
+
+            modelMap.put("cls", cls);
+            return "party/memberApply/memberApplyExport_page";
+        }
 
         MemberApplyExample example = new MemberApplyExample();
         Criteria criteria = example.createCriteria();
@@ -106,6 +105,8 @@ public class MemberApplyExportController extends BaseController {
                 logger.info(addLog(SystemConstants.LOG_OW, "导出教职工预备党员信息"));
             }
         }
+
+        return null;
     }
 
     // 学生申请入党人员信息导出

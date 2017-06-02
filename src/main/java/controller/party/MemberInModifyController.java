@@ -24,8 +24,8 @@ public class MemberInModifyController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("memberIn:list")
-    @RequestMapping("/memberInModify_page")
-    public String memberInModify_page() {
+    @RequestMapping("/memberInModify")
+    public String memberInModify() {
 
         return "party/memberIn/memberInModify_page";
     }

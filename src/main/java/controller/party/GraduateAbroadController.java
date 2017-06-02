@@ -72,13 +72,6 @@ public class GraduateAbroadController extends BaseController {
         return "party/graduateAbroad/graduateAbroad_view";
     }
 
-    @RequiresPermissions("graduateAbroad:list")
-    @RequestMapping("/graduateAbroad")
-    public String graduateAbroad() {
-
-        return "index";
-    }
-
     /*
     cls==1||cls==11||cls==12
         支部审核
@@ -93,8 +86,8 @@ public class GraduateAbroadController extends BaseController {
 
    */
     @RequiresPermissions("graduateAbroad:list")
-    @RequestMapping("/graduateAbroad_page")
-    public String graduateAbroad_page(@RequestParam(defaultValue = "1") Byte cls,
+    @RequestMapping("/graduateAbroad")
+    public String graduateAbroad(@RequestParam(defaultValue = "1") Byte cls,
 
                                       Integer userId,
                                       Integer partyId,

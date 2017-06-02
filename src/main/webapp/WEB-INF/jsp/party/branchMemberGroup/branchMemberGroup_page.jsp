@@ -7,7 +7,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/branchMemberGroup_au"
-                 data-url-page="${ctx}/branchMemberGroup_page"
+                 data-url-page="${ctx}/branchMemberGroup"
                  data-url-export="${ctx}/branchMemberGroup_data"
                  data-url-co="${ctx}/branchMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -17,10 +17,10 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li  class="<c:if test="${status==1}">active</c:if>">
-                            <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部委员会</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/branchMemberGroup?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部委员会</a>
                         </li>
                         <li  class="<c:if test="${status==-1}">active</c:if>">
-                            <a href="?status=-1"><i class="fa fa-trash"></i> 已删除支部委员会</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/branchMemberGroup?status=-1"><i class="fa fa-trash"></i> 已删除支部委员会</a>
                         </li>
                     </ul>
 
@@ -59,7 +59,7 @@
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
+                            <a href="javascript:;" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                             </a>
                         </div>
@@ -117,9 +117,9 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-    <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
     <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-    <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
 

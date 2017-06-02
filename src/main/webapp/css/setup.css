@@ -59,7 +59,11 @@ body {
 }
 
 .page-content {
+    min-height: 300px!important;
     padding-bottom: 0px !important;
+}
+#body-content{
+    min-height: 300px!important;
 }
 
 /*.widget-box{

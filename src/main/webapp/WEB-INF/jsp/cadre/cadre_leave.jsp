@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 <script>
@@ -78,9 +78,9 @@ pageEncoding="UTF-8"%>
                         $("#modal").modal("hide");
                         //SysMsg.success('操作成功。', '成功',function(){
                         if(ret.status=='${CADRE_STATUS_MIDDLE_LEAVE}')
-                                location.href='${ctx}/cadre?status='+ret.status;
+                            $.hashchange('status='+ret.status, '${ctx}/cadre');
                         if(ret.status=='${CADRE_STATUS_LEADER_LEAVE}')
-                            location.href='${ctx}/cadreLeaderInfo?status='+ret.status;
+                            $.hashchange('status='+ret.status, '${ctx}/cadreLeaderInfo');
                         //});
                     }
                 }

@@ -238,11 +238,11 @@
 
        <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
        </table>-->
-      <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+     <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->
@@ -384,6 +384,12 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
+      <table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
+             mapperName="dispatch.DispatchWorkFileMapper">
+      </table>
+      <table tableName="dispatch_work_file_auth" domainObjectName="dispatch.DispatchWorkFileAuth"
+             mapperName="dispatch.DispatchWorkFileAuthMapper">
+      </table>
 
      <!-- <table tableName="unit" domainObjectName="unit.Unit">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>

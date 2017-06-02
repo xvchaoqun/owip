@@ -8,11 +8,11 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${type==0}">active</c:if>">
-                        <a href="?type=0"><i class="fa ${type==0?'fa-th-large':'fa-th'}"></i> 校领导班子</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/unit_layout?type=0"><i class="fa ${type==0?'fa-th-large':'fa-th'}"></i> 校领导班子</a>
                     </li>
                     <c:forEach var="unitType" items="${unitTypeMap}">
                     <li class="${type==unitType.key?'active':''}">
-                        <a href="?type=${unitType.key}"><i class="fa ${type==unitType.key?'fa-th-large':'fa-th'}"></i> ${unitType.value.name}</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/unit_layout?type=${unitType.key}"><i class="fa ${type==unitType.key?'fa-th-large':'fa-th'}"></i> ${unitType.value.name}</a>
                     </li>
                     </c:forEach>
                 </ul>

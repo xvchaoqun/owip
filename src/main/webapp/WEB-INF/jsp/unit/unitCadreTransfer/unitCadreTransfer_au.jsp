@@ -73,7 +73,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" onclick='unitCadreTransfer_page("${param.groupId}")' class="btn btn-default">取消</a>
+    <a href="javascript:;" onclick='unitCadreTransfer_page("${param.groupId}")' class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${unitCadreTransfer!=null}">确定</c:if><c:if test="${unitCadreTransfer==null}">添加</c:if>"/>
 </div>
 

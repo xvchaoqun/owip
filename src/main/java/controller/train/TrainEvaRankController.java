@@ -36,13 +36,7 @@ public class TrainEvaRankController extends BaseController {
 
     @RequiresPermissions("trainEvaRank:list")
     @RequestMapping("/trainEvaRank")
-    public String trainEvaRank() {
-
-        return "index";
-    }
-    @RequiresPermissions("trainEvaRank:list")
-    @RequestMapping("/trainEvaRank_page")
-    public String trainEvaRank_page(int evaTableId, ModelMap modelMap) {
+    public String trainEvaRank(int evaTableId, ModelMap modelMap) {
 
         modelMap.put("trainEvaTable", trainEvaTableMapper.selectByPrimaryKey(evaTableId));
         return "train/trainEvaRank/trainEvaRank_page";

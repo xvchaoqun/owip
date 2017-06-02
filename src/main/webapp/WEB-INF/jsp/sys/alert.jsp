@@ -11,5 +11,5 @@
   </p>
 </div>
 <div class="modal-footer center">
-  <a href="#" data-dismiss="modal" class="btn btn-primary btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-primary btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
 </div>--%>

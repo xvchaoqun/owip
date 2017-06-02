@@ -7,7 +7,7 @@
         <div id="body-content">
         <div class="myTableDiv"
              data-url-au="${ctx}/branch_au"
-             data-url-page="${ctx}/branch_page"
+             data-url-page="${ctx}/branch"
              data-url-export="${ctx}/branch_data"
              data-url-co="${ctx}/branch_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -18,10 +18,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/branch?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部</a>
                     </li>
                     <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="?status=-1"><i class="fa fa-trash"></i> 已删除支部</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/branch?status=-1"><i class="fa fa-trash"></i> 已删除支部</a>
                     </li>
                 </ul>
 
@@ -88,7 +88,7 @@
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
@@ -220,7 +220,7 @@
             }},
             { label:'支部转移记录', name: 'transferCount', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined||cellvalue==0) return '-';
-                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/branchTransferLog_page?branchId={0}" class="openView">查看({1})</a>'.format(rowObject.id, cellvalue);
+                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/branchTransferLog?branchId={0}" class="openView">查看({1})</a>'.format(rowObject.id, cellvalue);
             }},
             { label:'党员总数', name: 'memberCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;

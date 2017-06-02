@@ -42,13 +42,6 @@ public class CadreEduController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreEdu:list")
-    @RequestMapping("/cadreEdu")
-    public String cadreEdu() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cadreEdu:list")
     @RequestMapping("/cadreEdu_page")
     public String cadreEdu_page(@RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
                                 Integer cadreId, ModelMap modelMap) {

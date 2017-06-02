@@ -42,12 +42,6 @@ public class CadrePaperController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadrePaper:list")
-    @RequestMapping("/cadrePaper")
-    public String cadrePaper() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadrePaper:list")
     @RequestMapping("/cadrePaper_page")
     public String cadrePaper_page(Integer cadreId, ModelMap modelMap) {
 

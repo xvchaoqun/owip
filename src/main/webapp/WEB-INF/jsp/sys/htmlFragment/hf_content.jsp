@@ -9,4 +9,4 @@
     ${htmlFragment.content}
   </div>
   <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-info">关闭</a></div>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-info">关闭</a></div>

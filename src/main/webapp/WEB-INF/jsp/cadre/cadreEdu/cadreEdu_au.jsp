@@ -197,7 +197,7 @@
 	</form>
 </div>
 <div class="modal-footer">
-	<a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+	<a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
 	<input type="submit" class="btn btn-primary" value="<c:if test="${cadreEdu!=null}">确定</c:if><c:if test="${cadreEdu==null}">添加</c:if>"/>
 </div>
 
@@ -340,7 +340,7 @@
 							$("#item-content").load("${ctx}/modifyCadreEdu_detail?applyId=${param.applyId}&_="+new Date().getTime())
 							</c:if>
 							<c:if test="${param._isUpdate!=1}">
-							location.href='?cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_EDU}';
+							$.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_EDU}');
 							</c:if>
 						</c:if>
 					}

@@ -11,4 +11,5 @@
 <script src="${ctx}/js/extend.js"></script>
 <script type="text/javascript" src="${ctx}/js/location.js"></script>
 <script type="text/javascript" src="${ctx}/js/metadata.js"></script>
+<script src="${ctx}/js/jquery.extend.js"></script>
 <script src="${ctx}/js/setup.js"></script>

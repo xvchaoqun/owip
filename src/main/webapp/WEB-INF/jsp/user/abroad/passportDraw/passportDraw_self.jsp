@@ -8,7 +8,7 @@
       因私出国（境）行程
     </h4>
     <div class="widget-toolbar">
-      <a href="#" data-action="collapse">
+      <a href="javascript:;" data-action="collapse">
         <i class="ace-icon fa fa-chevron-up"></i>
       </a>
     </div>
@@ -63,7 +63,7 @@
               <div class="col-xs-6">
                 <div class="my_paginate">
                   <ul class="pagination">
-                    <wo:page commonList="${commonList}" uri="${ctx}/applySelf_page" target="#page-content" pageNum="5"
+                    <wo:page commonList="${commonList}" uri="${ctx}/applySelf" target="#page-content" pageNum="5"
                              model="3"/>
                   </ul>
                 </div>

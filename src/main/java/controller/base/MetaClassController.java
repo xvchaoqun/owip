@@ -43,13 +43,6 @@ public class MetaClassController extends BaseController {
     @RequestMapping("/metaClass")
     public String metaClass() {
 
-        return "index";
-    }
-
-    @RequiresPermissions("metaClass:list")
-    @RequestMapping("/metaClass_page")
-    public String metaClass_page() {
-
         return "base/metaClass/metaClass_page";
     }
     @RequiresPermissions("metaClass:list")

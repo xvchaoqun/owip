@@ -100,17 +100,17 @@
 
     function _search() {
 
-        _tunePage(1, "", "${ctx}/sysResource_page", "#page-content", "", "&" + $("#searchForm").serialize());
+        _tunePage(1, "", "${ctx}/sysResource", "#page-content", "", "&" + $("#searchForm").serialize());
     }
 
     function _reset() {
 
-        _tunePage(1, "", "${ctx}/sysResource_page", "#page-content", "", "");
+        _tunePage(1, "", "${ctx}/sysResource", "#page-content", "", "");
     }
 
     function _reload() {
 
         $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysResource_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#page-content").load("${ctx}/sysResource?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

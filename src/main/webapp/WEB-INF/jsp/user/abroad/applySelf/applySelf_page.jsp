@@ -6,7 +6,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/user/applySelf_au"
-             data-url-page="${ctx}/user/applySelf_page"
+             data-url-page="${ctx}/user/applySelf"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._applyDate
             ||not empty param.type }"/>
@@ -22,7 +22,7 @@
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                            data-url="${ctx}/applySelfModify_page"
+                            data-url="${ctx}/applySelfModify"
                             data-id-name="applyId"
                             data-open-by="page">
                         <i class="fa fa-search"></i> 变更记录
@@ -45,7 +45,7 @@
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>

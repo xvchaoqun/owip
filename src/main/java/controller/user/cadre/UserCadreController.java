@@ -18,13 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserCadreController extends BaseController {
 
     @RequestMapping("/cadre")
-    public String cadre() {
-
-        return "index";
-    }
-
-    @RequestMapping("/cadre_page")
-    public String cadre_page(@CurrentUser SysUserView loginUser, HttpServletRequest request) {
+    public String cadre(@CurrentUser SysUserView loginUser, HttpServletRequest request) {
 
         int userId = loginUser.getId();
         CadreView cadre = cadreService.dbFindByUserId(userId);

@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
                         当前拥有的证件列表
                     </h4>
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-up"></i>
                         </a>
                     </div>
@@ -107,7 +107,7 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>
 <script>
     $("#print").click(function(){
-        printWindow("${ctx}/report/passportApply?id=${passportApply.id}&format=pdf");
+        $.print("${ctx}/report/passportApply?id=${passportApply.id}&format=pdf");
     });
   /*  $("#print").click(function(){ // 兼容谷歌
         //$("#myframe").jqprint();
@@ -146,7 +146,7 @@ pageEncoding="UTF-8"%>
             if(ret.success){
                 //SysMsg.success('提交成功', '提示', function(){
                     //$("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
-                    location.href="${ctx}/passportApply?status=2";
+                    $.hashchange("status=2", "#${ctx}/passportApply");
                 //});
             }
         });

@@ -33,14 +33,7 @@ public class UserGraduateAbroadController extends BaseController{
 
     @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/graduateAbroad")
-    public String graduateAbroad(@CurrentUser SysUserView loginUser) {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
-    @RequestMapping("/graduateAbroad_page")
-    public String graduateAbroad_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String graduateAbroad(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
 

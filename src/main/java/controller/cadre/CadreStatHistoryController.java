@@ -47,14 +47,7 @@ public class CadreStatHistoryController extends BaseController {
 
     @RequiresPermissions("cadreStatHistory:list")
     @RequestMapping("/cadreStatHistory")
-    public String cadreStatHistory() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cadreStatHistory:list")
-    @RequestMapping("/cadreStatHistory_page")
-    public String cadreStatHistory_page(@RequestParam(required = false, defaultValue = "1") Byte status,
+    public String cadreStatHistory(@RequestParam(required = false, defaultValue = "1") Byte status,
                                         ModelMap modelMap) {
 
         modelMap.put("status", status);

@@ -8,7 +8,7 @@
 <mytag:cpc_cadres cadrePosts="${cadrePosts}"/>
 </div>
 <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>
 <script>
   $('[data-tooltip="tooltip"]').tooltip({html: true});

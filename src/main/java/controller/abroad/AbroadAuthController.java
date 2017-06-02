@@ -14,26 +14,19 @@ public class AbroadAuthController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("approvalAuth:*")
-    @RequestMapping("/approvalAuth")
-    public String approvalAuth() {
-
-        return "index";
-    }
-
     @RequiresPermissions("approvalAuth:list")
-    @RequestMapping("/approvalAuth_page")
-    public String approvalAuth_page(@RequestParam(defaultValue = "1")Integer cls, ModelMap modelMap) {
+    @RequestMapping("/approvalAuth")
+    public String approvalAuth(@RequestParam(defaultValue = "1")Integer cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
         switch (cls){
             case 1:
-                return "forward:/applicatType_page";
+                return "forward:/applicatType";
             case 2:
-                return "forward:/approverType_page";
+                return "forward:/approverType";
             case 3:
-                return "forward:/approvalOrder_page";
+                return "forward:/approvalOrder";
         }
 
         return null;

@@ -44,14 +44,7 @@ public class SitemapController extends BaseController {
 
     @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping("/sitemap")
-    public String sitemap() {
-
-        return "index";
-    }
-    
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
-    @RequestMapping("/sitemap_page")
-    public String sitemap_page(ModelMap modelMap) {
+    public String sitemap(ModelMap modelMap) {
 
         modelMap.put("sitemaps", sitemapService.getSortedSitemaps().values());
         return "base/sitemap/sitemap_page";

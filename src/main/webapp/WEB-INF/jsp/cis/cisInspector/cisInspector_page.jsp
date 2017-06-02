@@ -5,20 +5,20 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/cisInspector_page"
+             data-url-page="${ctx}/cisInspector"
              data-url-export="${ctx}/cisInspector_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="${status==CIS_INSPECTOR_STATUS_NOW?'active':''}">
-                        <a href="?status=${CIS_INSPECTOR_STATUS_NOW}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_NOW?'-large':''}"></i> 现任考察组成员</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_NOW}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_NOW?'-large':''}"></i> 现任考察组成员</a>
                     </li>
                     <li class="${status==CIS_INSPECTOR_STATUS_HISTORY?'active':''}">
-                        <a href="?status=${CIS_INSPECTOR_STATUS_HISTORY}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_HISTORY?'-large':''}"></i> 过去考察组成员</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_HISTORY}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_HISTORY?'-large':''}"></i> 过去考察组成员</a>
                     </li>
                     <li class="${status==CIS_INSPECTOR_STATUS_DELETE?'active':''}">
-                        <a href="?status=${CIS_INSPECTOR_STATUS_DELETE}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_DELETE?'-large':''}"></i> 已删除</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_DELETE}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_DELETE?'-large':''}"></i> 已删除</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -72,7 +72,7 @@
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>
@@ -111,10 +111,10 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
        title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({
@@ -123,7 +123,7 @@
             {label: '考察组成员', name: 'realname'},
             {label: '工作证号', name: 'code'},
             {label: '考察干部', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
-                    return '<a href="${ctx}/cis?cls=1&inspectorId={0}" target="_blank">查看</a>'
+                    return '<a href="#${ctx}/cisInspectObj?cls=1&inspectorId={0}" target="_blank">查看</a>'
                                     .format(encodeURI(rowObject.id));
             }},
             {

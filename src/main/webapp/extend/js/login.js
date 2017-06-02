@@ -44,8 +44,8 @@ $(function(){
              $captcha.focus();
              return;
          }
-        $form.submit();
-        /*$form.ajaxSubmit({
+        //$form.submit();
+        $form.ajaxSubmit({
             success:function(data){
                 //alert(data)
                 try {
@@ -55,13 +55,13 @@ $(function(){
                 }
                 //console.log(ret)
                 if(data.success){
-                    location.href = data.url;
+                    location.href = data.url + location.hash;
                 }else{
-                    alert(data.msg)
+                    $(".login-error").html("<i class=\"fa fa-times\"></i>" + data.msg).show();
                     $('img.captcha', $form).click()
                 }
             }
-        });*/
+        });
     });
 
     $("#reg_btn").click(function(){

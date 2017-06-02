@@ -57,13 +57,13 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="javascript:;">
                         <i class="ace-icon fa fa-caret-right bigger-140 middle"></i>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="javascript:;">
                         <i class="ace-icon fa fa-step-forward middle"></i>
                     </a>
                 </li>

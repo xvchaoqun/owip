@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <input type="button" id="approvalBtn" class="btn ${param.status==1?"btn-primary":"btn-danger"}" value="确认"/>
-	<a href="#" data-dismiss="modal" class="btn btn-default">返回</a>
+	<a href="javascript:;" data-dismiss="modal" class="btn btn-default">返回</a>
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>

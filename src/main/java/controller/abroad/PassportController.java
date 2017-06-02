@@ -51,14 +51,7 @@ public class PassportController extends BaseController {
 
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport")
-    public String passport() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("passport:list")
-    @RequestMapping("/passport_page")
-    public String passport_page(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件  5：保险柜管理
+    public String passport(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件  5：保险柜管理
                                 @RequestParam(required = false, defaultValue = "1") byte status,
                                 HttpServletResponse response,
                                 ModelMap modelMap) {
@@ -67,7 +60,7 @@ public class PassportController extends BaseController {
         if (status == 0) {
             return "forward:/passport_stat";
         } else if (status == 5) {
-            return "forward:/safeBox_page";
+            return "forward:/safeBox";
         } else {
             return "forward:/passportList_page";
         }

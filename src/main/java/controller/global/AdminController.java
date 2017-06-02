@@ -15,13 +15,6 @@ public class AdminController {
     @RequestMapping("/admin")
     public String admin() {
 
-        return "index";
-    }
-
-    @RequiresPermissions("admin:sys")
-    @RequestMapping("/admin_page")
-    public String admin_page() {
-
         return "sys/admin_page";
     }
 }

@@ -114,14 +114,7 @@ public class CpcAllocationController extends BaseController {
 
     @RequiresPermissions("cpcAllocation:list")
     @RequestMapping("/cpcAllocation")
-    public String cpcAllocation() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cpcAllocation:list")
-    @RequestMapping("/cpcAllocation_page")
-    public String cpcAllocation_page(
+    public String cpcAllocation(
             @RequestParam(required = false, defaultValue = "1") Byte type,
             @RequestParam(required = false, defaultValue = "0") int export,
             ModelMap modelMap, HttpServletResponse response) throws IOException {

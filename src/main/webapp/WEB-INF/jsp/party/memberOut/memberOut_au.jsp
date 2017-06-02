@@ -188,7 +188,7 @@ pageEncoding="UTF-8"%>
     </form>
 
 <div class="modal-footer center">
-    <a href="#" class="btn btn-default closeView">返回</a>
+    <a href="javascript:;" class="btn btn-default closeView">返回</a>
 
     <input type="submit" class="btn btn-primary" value="${param.reapply==1?"重新申请":"确定"}"/>
 </div>
@@ -207,7 +207,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
 						<c:if test="${param.reapply==1}">
-						location.href="${ctx}/memberOut?cls=1";
+						$(window).trigger('hashchange');
 						</c:if>
 						//SysMsg.success('提交成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");

@@ -37,13 +37,7 @@ public class ApplyOpenTimeController extends BaseController {
 
     @RequiresPermissions("applyOpenTime:list")
     @RequestMapping("/applyOpenTime")
-    public String applyOpenTime() {
-
-        return "index";
-    }
-    @RequiresPermissions("applyOpenTime:list")
-    @RequestMapping("/applyOpenTime_page")
-    public String applyOpenTime_page(@RequestParam(defaultValue = "1")int cls,  HttpServletResponse response,
+    public String applyOpenTime(@RequestParam(defaultValue = "1")int cls,  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "id", tableName = "ow_apply_open_time") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Byte type,

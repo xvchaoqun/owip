@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 	</form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
@@ -28,15 +28,15 @@ pageEncoding="UTF-8"%>
 
 		var cadreId = $("#modal select[name=cadreId]").val();
 		if(cadreId=="") return;
-		$("#modal").modal('hide');
 		<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
-		_openView("${ctx}/user/passportDraw_self?auth=admin&cadreId=" + cadreId);
+		$.loadView("${ctx}/user/passportDraw_self?auth=admin&cadreId=" + cadreId);
 		</c:if>
 		<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
-		$("#adminPassportDrawPage").load("${ctx}/user/passportDraw_tw_page?auth=admin&cadreId=" + cadreId);
+		$("#modal").modal('hide');
+		$.loadPage("${ctx}/user/passportDraw_tw?auth=admin&cadreId=" + cadreId);
 		</c:if>
 		<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">
-		_openView("${ctx}/user/passportDraw_other?auth=admin&cadreId=" + cadreId);
+		$.loadView("${ctx}/user/passportDraw_other?auth=admin&cadreId=" + cadreId);
 		</c:if>
 	})
 </script>

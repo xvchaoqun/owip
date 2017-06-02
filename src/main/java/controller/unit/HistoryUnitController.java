@@ -42,13 +42,7 @@ public class HistoryUnitController extends BaseController {
 
     @RequiresPermissions("historyUnit:list")
     @RequestMapping("/historyUnit")
-    public String historyUnit() {
-
-        return "index";
-    }
-    @RequiresPermissions("historyUnit:list")
-    @RequestMapping("/historyUnit_page")
-    public String historyUnit_page(HttpServletResponse response,
+    public String historyUnit(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_history_unit") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer unitId,

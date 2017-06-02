@@ -35,14 +35,7 @@ public class VerifyAgeController extends BaseController {
 
     @RequiresPermissions("verifyAge:list")
     @RequestMapping("/verifyAge")
-    public String verifyAge() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("verifyAge:list")
-    @RequestMapping("/verifyAge_page")
-    public String verifyAge_page(@RequestParam(defaultValue = "1") Integer cls,
+    public String verifyAge(@RequestParam(defaultValue = "1") Integer cls,
                                  Integer cadreId,
                                  ModelMap modelMap) {
         modelMap.put("cls", cls);

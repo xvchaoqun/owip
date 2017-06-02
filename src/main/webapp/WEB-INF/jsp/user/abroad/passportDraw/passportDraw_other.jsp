@@ -154,7 +154,7 @@
               $(".closeView").click();
               </c:if>
               <c:if test="${param.auth!='admin'}">
-              location.href = "${ctx}/user/passportDraw?type=3";
+              $.hashchange("type=3", "${ctx}/user/passportDraw")
               </c:if>
             });
           }

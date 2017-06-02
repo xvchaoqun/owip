@@ -7,7 +7,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/cadreLeader_au"
-                 data-url-page="${ctx}/cadreLeader_page"
+                 data-url-page="${ctx}/cadreLeader"
                  data-url-del="${ctx}/cadreLeader_del"
                  data-url-bd="${ctx}/cadreLeader_batchDel"
                  data-url-co="${ctx}/cadreLeader_changeOrder"
@@ -35,7 +35,7 @@
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
+                            <a href="javascript:;" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                             </a>
                         </div>
@@ -91,9 +91,9 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({

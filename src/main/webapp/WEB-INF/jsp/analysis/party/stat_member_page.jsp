@@ -23,7 +23,7 @@
                     待处理事项
                   </h4>
                   <div class="widget-toolbar">
-                    <a href="#" data-action="collapse">
+                    <a href="javascript:;" data-action="collapse">
                       <i class="ace-icon fa fa-chevron-up"></i>
                     </a>
                   </div>
@@ -126,7 +126,7 @@
                     党员基本信息统计
                   </h4>
                   <div class="widget-toolbar">
-                      <a href="#" data-action="collapse">
+                      <a href="javascript:;" data-action="collapse">
                           <i class="ace-icon fa fa-chevron-up"></i>
                       </a>
                   </div>
@@ -152,7 +152,7 @@
                     党员人数分布（前二十）
                   </h4>
                   <div class="widget-toolbar">
-                      <a href="#" data-action="collapse">
+                      <a href="javascript:;" data-action="collapse">
                           <i class="ace-icon fa fa-chevron-up"></i>
                       </a>
                   </div>
@@ -176,7 +176,7 @@
                   </h4>
 
                   <!--<div class="widget-toolbar">
-                      <a href="#" data-action="collapse">
+                      <a href="javascript:;" data-action="collapse">
                           <i class="ace-icon fa fa-chevron-up"></i>
                       </a>
                   </div>-->

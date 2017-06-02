@@ -24,7 +24,7 @@
             menuStack.push(menu);
         %>
         <li class="<c:if test="${parentIdSet.contains(menu.id)}">active open</c:if> ">
-        <a href="#" class="dropdown-toggle">
+        <a href="javascript:;" class="dropdown-toggle">
             <i class="menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>"></i>
             <span class="menu-text"> ${menu.name} </span>
             <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
@@ -37,11 +37,17 @@
         <ul class="submenu">
     </c:if>
     <c:if test="${menu.type eq 'url'}">
-        <li class="<c:if test="${menu.url==_path || parentIdSet.contains(menu.id)}">active</c:if>">
-            <a href="${menu.url}">
+        <li class="<c:if test="${menu.url=='/' || menu.url==_path || parentIdSet.contains(menu.id)}">active</c:if>">
+            <c:if test="${menu.url=='/'}">
+                <a href="/">
+            </c:if>
+            <c:if test="${menu.url!='/'}">
+                <a href="javascript:;" data-type="hashchange" class="renderBtn" data-url="${menu.url}">
+            </c:if>
+
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>
                 <span class="menu-text"> ${menu.name} </span>
-                <c:if test="${cacheCount>0}">
+                <c:if test="${cacheCount>0 && (empty menu.countCacheRoles || cm:hasAnyRoles(menu.countCacheRoles))}">
                     <span class="badge badge-warning">${cacheCount}</span>
                 </c:if>
             </a>

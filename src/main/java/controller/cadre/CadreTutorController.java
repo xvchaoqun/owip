@@ -40,12 +40,6 @@ public class CadreTutorController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreTutor:list")
-    @RequestMapping("/cadreTutor")
-    public String cadreTutor() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreTutor:list")
     @RequestMapping("/cadreTutor_data")
     @ResponseBody
     public void cadreTutor_data(HttpServletResponse response,

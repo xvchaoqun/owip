@@ -98,16 +98,11 @@ public class UserApplySelfController extends BaseController {
 
     @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf")
-    public String applySelf() {
-
-        return "index";
-    }
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
-    @RequestMapping("/applySelf_page")
-    public String applySelf_page(ModelMap modelMap) {
+    public String applySelf(ModelMap modelMap) {
 
         return "user/abroad/applySelf/applySelf_page";
     }
+
     @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_data")
     @ResponseBody

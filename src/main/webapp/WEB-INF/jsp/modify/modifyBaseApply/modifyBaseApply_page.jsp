@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/modifyBaseApply_page"
+             data-url-page="${ctx}/modifyBaseApply"
              data-url-export="${ctx}/modifyBaseApply_data"
              data-url-bd="${ctx}/modifyBaseApply_batchDel"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -13,14 +13,14 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-edit"></i> 修改申请</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/modifyBaseApply?status=1"><i class="fa fa-edit"></i> 修改申请</a>
                     </li>
                     <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="?status=2"><i class="fa fa-check"></i> 审核完成</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/modifyBaseApply?status=2"><i class="fa fa-check"></i> 审核完成</a>
                     </li>
                     <shiro:hasRole name="${ROLE_CADREADMIN}">
                     <li  class="<c:if test="${status==3}">active</c:if>">
-                        <a href="?status=3"><i class="fa fa-times"></i> 已删除</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/modifyBaseApply?status=3"><i class="fa fa-times"></i> 已删除</a>
                     </li>
                     </shiro:hasRole>
                 </ul>
@@ -48,7 +48,7 @@
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>
@@ -95,17 +95,22 @@
         colModel: [
             { label: '序号', name: 'id', width: 50,frozen:true },
             {label: '申请时间', width: 150, name: 'createTime'/*,formatter:'date',formatoptions: {newformat:'Y-m-d'}*/},
-            { label: '工作证号', name: 'cadre.user.code', width: 80,frozen:true },
+            { label: '工作证号', name: 'user.code', width: 120,frozen:true },
             {
-                label: '姓名', name: 'cadre.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.cadre != undefined)
+                    return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
+                            .format(rowObject.cadre.id, cellvalue);
+
+                return cellvalue;
+
             }, frozen: true
             },
             { label: '所在单位及职务', name: 'cadre.title', width: 250},
             { label: '申请内容', name: 'content', width: 80,formatter:function(cellvalue, options, rowObject){
 
-                return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyBaseItem_page?applyId={0}">'.format(rowObject.id)
+                return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyBaseItem?applyId={0}">'.format(rowObject.id)
                         +'<i class="fa fa-search"></i> 详情</button>';
             }},
             { label: '审核状态', name: 'status',formatter:function(cellvalue, options, rowObject){
@@ -117,7 +122,7 @@
                 if (rowObject.status == '${MODIFY_BASE_APPLY_STATUS_ALL_CHECK}') {
                     return '-';
                 }
-                return '<button data-url="${ctx}/modifyBaseItem_page?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
+                return '<button data-url="${ctx}/modifyBaseItem?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-check"></i> 审核</button>'
             }},

@@ -42,19 +42,7 @@ public class CadreBookController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreBook:list")
-    @RequestMapping("/cadreBook")
-    public String cadreBook() {
 
-        return "index";
-    }
-
-    @RequiresPermissions("cadreBook:list")
-    @RequestMapping("/cadreBook_page")
-    public String cadreBook_page(Integer cadreId, ModelMap modelMap) {
-
-        return "cadre/cadreBook/cadreBook_page";
-    }
     @RequiresPermissions("cadreBook:list")
     @RequestMapping("/cadreBook_data")
     public void cadreBook_data(HttpServletResponse response,

@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content">
             <!-- PAGE CONTENT BEGINS -->
             <div class="myTableDiv"
-                 data-url-page="${ctx}/memberApplyLog_page"
+                 data-url-page="${ctx}/memberApplyLog"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.stage
             ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                                         <h4 class="widget-title">搜索</h4>
 
                                         <div class="widget-toolbar">
-                                            <a href="#" data-action="collapse">
+                                            <a href="javascript:;" data-action="collapse">
                                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                             </a>
                                         </div>

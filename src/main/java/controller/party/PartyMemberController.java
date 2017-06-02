@@ -38,8 +38,8 @@ public class PartyMemberController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("partyMember:list")
-    @RequestMapping("/partyMember_page")
-    public String partyMember_page(Integer groupId,
+    @RequestMapping("/partyMember")
+    public String partyMember(Integer groupId,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    HttpServletResponse response,
                                    Integer userId, ModelMap modelMap) throws IOException {

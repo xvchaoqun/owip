@@ -35,14 +35,7 @@ public class UserMemberTransferController extends BaseController{
 
     @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberTransfer")
-    public String memberTransfer(@CurrentUser SysUserView loginUser) {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
-    @RequestMapping("/memberTransfer_page")
-    public String memberTransfer_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberTransfer(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         Integer userId = loginUser.getId();
         UserBean userBean = userBeanService.get(userId);

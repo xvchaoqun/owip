@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 <script>
@@ -58,9 +58,9 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         if(${passport.isLent}){
-                            location.href='${ctx}/passport?status=4';// 借出状态下，转移到 已确认取消集中管理
+                            $.hashchange("status=4");// 借出状态下，转移到 已确认取消集中管理
                         }else{
-                            location.href='${ctx}/passport?status=2'; // 未借出状态下，转移到 未确认取消集中管理
+                            $.hashchange("status=2"); // 未借出状态下，转移到 未确认取消集中管理
                         }
                     }
                 }

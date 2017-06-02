@@ -33,7 +33,7 @@
 
 </div>
 <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
   <input type="button" id="search" class="btn btn-primary" value="查询"/>
 </div>
 <style>
@@ -64,7 +64,7 @@
               url='${ctx}/cadreLeaderInfo?status='+status;
 
             msg = _cMap.CADRE_STATUS_MAP[ret.status];
-            if(url!='') msg += '&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="'+url+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
+            if(url!='') msg += '&nbsp;&nbsp;<a class="renderBtn btn btn-success btn-xs" href="javascript:;" data-url="'+url+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
           }
           $("#modal #msg").show().find("span").html(msg);
 

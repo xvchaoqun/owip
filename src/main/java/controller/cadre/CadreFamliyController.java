@@ -35,12 +35,6 @@ public class CadreFamliyController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreFamliy:list")
-    @RequestMapping("/cadreFamliy")
-    public String cadreFamliy() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreFamliy:list")
     @RequestMapping("/cadreFamliy_page")
     public String cadreFamliy_page(HttpServletResponse response,
                                 Integer cadreId, ModelMap modelMap) {

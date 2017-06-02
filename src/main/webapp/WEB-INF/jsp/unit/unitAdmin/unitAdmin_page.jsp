@@ -27,10 +27,10 @@ pageEncoding="UTF-8" %>
 								<td>${cm:getUserById(cadreMap.get(unitAdmin.cadreId).userId).realname}</td>
                                 <td>${postMap.get(unitAdmin.postId).name}</td>
                                 <td>
-                                    <a href="#" class="changeOrderBtn" data-id="${unitAdmin.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="javascript:;" class="changeOrderBtn" data-id="${unitAdmin.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" class="changeOrderBtn" data-id="${unitAdmin.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="javascript:;" class="changeOrderBtn" data-id="${unitAdmin.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
@@ -58,7 +58,7 @@ pageEncoding="UTF-8" %>
             </c:if>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>
 <script>
 

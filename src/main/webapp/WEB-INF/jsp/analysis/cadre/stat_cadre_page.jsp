@@ -6,21 +6,21 @@
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${empty param.type}">active</c:if>">
-                    <a href="?type="><i class="fa fa-signal"></i> 所有中层干部</a>
+                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/stat_cadre?type="><i class="fa fa-signal"></i> 所有中层干部</a>
                 </li>
                 <li class="<c:if test="${param.type=='jg'}">active</c:if>">
-                    <a href="?type=${UNIT_TYPE_ATTR_JG}"><i class="fa fa-signal"></i> 机关及直属单位</a>
+                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_JG}"><i class="fa fa-signal"></i> 机关及直属单位</a>
                 </li>
                 <li class="<c:if test="${param.type=='xy'}">active</c:if>">
-                    <a href="?type=${UNIT_TYPE_ATTR_XY}"><i class="fa fa-signal"></i> 学部、院、系所</a>
+                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_XY}"><i class="fa fa-signal"></i> 学部、院、系所</a>
                 </li>
                 <li class="<c:if test="${param.type=='fs'}">active</c:if>">
-                    <a href="?type=${UNIT_TYPE_ATTR_FS}"><i class="fa fa-signal"></i> 附属单位</a>
+                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_FS}"><i class="fa fa-signal"></i> 附属单位</a>
                 </li>
 
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                     <a class="btn btn-success btn-sm"
-                       href="${ctx}/stat_cadre_page?export=1"><i class="fa fa-download"></i> 导出</a>
+                       href="${ctx}/stat_cadre?export=1"><i class="fa fa-download"></i> 导出</a>
                 </div>
             </ul>
 

@@ -26,12 +26,6 @@ public class CadreConcatController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreConcat:list")
-    @RequestMapping("/cadreConcat")
-    public String cadreConcat() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreConcat:list")
     @RequestMapping("/cadreConcat_page")
     public String cadreConcat_page(int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {

@@ -46,13 +46,7 @@ public class CadreLeaderController extends BaseController {
 
     @RequiresPermissions("cadreLeaderInfo:list")
     @RequestMapping("/cadreLeaderInfo")
-    public String cadreLeaderInfo() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreLeaderInfo:list")
-    @RequestMapping("/cadreLeaderInfo_page")
-    public String cadreLeaderInfo_page(@RequestParam(required = false,
+    public String cadreLeaderInfo(@RequestParam(required = false,
             defaultValue = SystemConstants.CADRE_STATUS_LEADER+"")Byte status,
                              Integer cadreId,ModelMap modelMap) {
 
@@ -70,16 +64,9 @@ public class CadreLeaderController extends BaseController {
         return "cadre/cadreLeader/cadreLeaderInfo_page";
     }
 
-
     @RequiresPermissions("cadreLeader:list")
     @RequestMapping("/cadreLeader")
-    public String cadreLeader() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreLeader:list")
-    @RequestMapping("/cadreLeader_page")
-    public String cadreLeader_page(HttpServletResponse response,
+    public String cadreLeader(HttpServletResponse response,
                               @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_leader") String sort,
                               @OrderParam(required = false, defaultValue = "desc") String order,
                               Integer cadreId,

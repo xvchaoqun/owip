@@ -45,12 +45,7 @@ public class CadreUnderEduController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    /*@RequiresPermissions("cadreUnderEdu:list")
-    @RequestMapping("/cadreUnderEdu")
-    public String cadreUnderEdu() {
-
-        return "index";
-    }
+    /*
     @RequiresPermissions("cadreUnderEdu:list")
     @RequestMapping("/cadreUnderEdu_page")
     public String cadreUnderEdu_page(HttpServletResponse response,

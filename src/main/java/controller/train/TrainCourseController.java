@@ -44,16 +44,10 @@ public class TrainCourseController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
     @RequiresPermissions("trainCourse:list")
     @RequestMapping("/trainCourse")
-    public String trainCourse() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("trainCourse:list")
-    @RequestMapping("/trainCourse_page")
-    public String trainCourse_page(int trainId, ModelMap modelMap) {
+    public String trainCourse(int trainId, ModelMap modelMap) {
 
         modelMap.put("train", trainMapper.selectByPrimaryKey(trainId));
         return "train/trainCourse/trainCourse_page";

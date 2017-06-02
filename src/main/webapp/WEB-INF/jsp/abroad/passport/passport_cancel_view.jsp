@@ -35,7 +35,7 @@
     </c:if>
 <script>
     $("#print_proof").click(function () {
-        printWindow('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
+        $.print('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
     });
     $("#updateProof").click(function(){
         loadModal("${ctx}/updateCancelPic?id=${passport.id}")

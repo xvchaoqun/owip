@@ -10,7 +10,7 @@
     <div id="tree3"></div>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
     </div>
 <script>
     $.getJSON("${ctx}/applicatType/selectCadresEscape_tree", {}, function (data) {

@@ -204,7 +204,7 @@
 
           if(ret.success){
             bootbox.alert("撤销成功。",function(){
-              location.reload();
+              $.hashchange();
             });
           }
         });

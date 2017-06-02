@@ -23,7 +23,7 @@
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 组织关系转出申请</h4>
 
 		<%--<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
+			<a href="javascript:;" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
 		</div>--%>
@@ -163,7 +163,7 @@
 					$("#submitBtn").button("reset");
 					if(ret.success){
 						bootbox.alert('提交成功。',function(){
-							location.reload();
+							$.hashchange();
 						});
 					}
 				}

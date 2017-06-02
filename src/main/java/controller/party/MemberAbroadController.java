@@ -51,13 +51,7 @@ public class MemberAbroadController extends BaseController {
 
     @RequiresPermissions("memberAbroad:list")
     @RequestMapping("/memberAbroad")
-    public String memberAbroad() {
-
-        return "index";
-    }
-    @RequiresPermissions("memberAbroad:list")
-    @RequestMapping("/memberAbroad_page")
-    public String memberAbroad_page(
+    public String memberAbroad(
                                     Integer userId,Integer partyId,
                                     Integer branchId, ModelMap modelMap) {
 

@@ -14,7 +14,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-info-circle blue "></i> 申请人信息</h4>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
+            <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
             </a>
         </div>
@@ -33,7 +33,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-list blue "></i> 修改字段审核情况</h4>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
+            <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
             </a>
         </div>

@@ -100,17 +100,17 @@
 
     function _search() {
 
-        _tunePage(1, "", "${ctx}/sitemap_page", "#page-content", "", "&" + $("#searchForm").serialize());
+        _tunePage(1, "", "${ctx}/sitemap", "#page-content", "", "&" + $("#searchForm").serialize());
     }
 
     function _reset() {
 
-        _tunePage(1, "", "${ctx}/sitemap_page", "#page-content", "", "");
+        _tunePage(1, "", "${ctx}/sitemap", "#page-content", "", "");
     }
 
     function _reload() {
 
         $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sitemap_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#page-content").load("${ctx}/sitemap?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

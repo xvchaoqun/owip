@@ -356,6 +356,10 @@ public class BaseMapper {
 	protected DispatchUnitMapper dispatchUnitMapper;
 	@Autowired
 	protected DispatchUnitRelateMapper dispatchUnitRelateMapper;
+	@Autowired
+	protected DispatchWorkFileMapper dispatchWorkFileMapper;
+	@Autowired
+	protected DispatchWorkFileAuthMapper dispatchWorkFileAuthMapper;
 
 
 	@Autowired

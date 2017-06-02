@@ -36,8 +36,8 @@ public class ModifyTableApplyController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("modifyTableApply:list")
-    @RequestMapping("/modifyTableApply_page")
-    public String modifyTableApply_page(
+    @RequestMapping("/modifyTableApply")
+    public String modifyTableApply(
             Integer userId,
             byte module,
             Byte cls, // 1 修改申请 2 完成审核 3 删除
@@ -49,7 +49,7 @@ public class ModifyTableApplyController extends BaseController {
         modelMap.put("cls", cls);
         modelMap.put("module", module);
 
-        return "modify/modifyTableApply/modifyTableApply_page";
+        return "modify/modifyTableApply/modifyTableApply";
     }
 
     @RequiresPermissions("modifyTableApply:list")

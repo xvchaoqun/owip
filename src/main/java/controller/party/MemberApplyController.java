@@ -66,14 +66,6 @@ public class MemberApplyController extends BaseController {
         MemberApply memberApply = memberApplyService.get(userId);
         return super.checkVerityAuth2(memberApply, memberApply.getPartyId());
     }
-    
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
-    @RequiresPermissions("memberApply:list")
-    @RequestMapping("/memberApply")
-    public String memberApply() {
-
-        return "index";
-    }
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
@@ -142,8 +134,8 @@ public class MemberApplyController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
-    @RequestMapping("/memberApply_page")
-    public String memberApply_page(@RequestParam(defaultValue = "1")int cls,
+    @RequestMapping("/memberApply")
+    public String memberApply(@RequestParam(defaultValue = "1")int cls,
                                    Integer userId,
                                    Integer partyId,
                                    Integer branchId,
@@ -264,25 +256,21 @@ public class MemberApplyController extends BaseController {
                 stageList.add(SystemConstants.APPLY_STAGE_INIT);
                 stageList.add(SystemConstants.APPLY_STAGE_PASS);
                 criteria.andStageIn(stageList);
-            }else if(stage>SystemConstants.APPLY_STAGE_PASS) {
+            }else if(stage>SystemConstants.APPLY_STAGE_PASS || stage == SystemConstants.APPLY_STAGE_DENY) {
                 criteria.andStageEqualTo(stage);
-            }
-
-            if(stage == SystemConstants.APPLY_STAGE_DRAW){
+            }else if(stage == SystemConstants.APPLY_STAGE_DRAW){
                 if(growStatus!=null && growStatus>=0)
                     criteria.andGrowStatusEqualTo(growStatus);
                 if(growStatus!=null && growStatus==-1)
                     criteria.andGrowStatusIsNull();
-            }
-            if(stage == SystemConstants.APPLY_STAGE_GROW){
+            }else if(stage == SystemConstants.APPLY_STAGE_GROW){
                 if(positiveStatus!=null && positiveStatus>=0)
                     criteria.andPositiveStatusEqualTo(positiveStatus);
                 if(positiveStatus!=null && positiveStatus==-1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
             }
-
             // 考虑已经转出的情况 2016-12-19
-            if(stage==SystemConstants.APPLY_STAGE_OUT){
+            else if(stage==SystemConstants.APPLY_STAGE_OUT){
                 criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
             }else{
                 criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
@@ -795,8 +783,8 @@ public class MemberApplyController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
-    @RequestMapping("/memberApplyLog_page")
-    public String memberApplyLog_page(@RequestParam(defaultValue = "1")int cls,
+    @RequestMapping("/memberApplyLog")
+    public String memberApplyLog(@RequestParam(defaultValue = "1")int cls,
                                       Integer userId,
                                       String stage, Integer partyId,
                                       Integer branchId, ModelMap modelMap){

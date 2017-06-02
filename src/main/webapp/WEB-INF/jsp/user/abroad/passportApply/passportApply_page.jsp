@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
                             </button>
                         </div>
         <div class="myTableDiv"
-             data-url-page="${ctx}/user/passportApply_page"
+             data-url-page="${ctx}/user/passportApply"
                 data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
             <div class="space-4"></div>
@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/passportApply_page" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/passportApply" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">
@@ -103,16 +103,16 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     if('${param._go}'=='apply'){
-        _openView("${ctx}/user/passportApply_begin");
+        $.loadView("${ctx}/user/passportApply_begin");
     }
     function _delCallback(target){
         SysMsg.success('撤销成功。', '成功',function(){
-            page_reload();
+            $(window).trigger("hashchange");
         });
     }
 
     $(".printBtn").click(function(){
-        printWindow("${ctx}/report/passportApply?format=pdf&id="+ $(this).data("id"))
+        $.print("${ctx}/report/passportApply?format=pdf&id="+ $(this).data("id"))
     });
     $(".remarkBtn").click(function(){
         SysMsg.info('<p style="padding:20px;font-size:25px;text-indent: 2em; ">'+$(this).data("remark")+'</p>'

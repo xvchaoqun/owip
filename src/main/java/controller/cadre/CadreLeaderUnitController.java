@@ -37,12 +37,7 @@ public class CadreLeaderUnitController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-   /* @RequiresPermissions("cadreLeaderUnit:list")
-    @RequestMapping("/cadreLeaderUnit")
-    public String cadreLeaderUnit() {
-
-        return "index";
-    }
+   /*
     @RequiresPermissions("cadreLeaderUnit:list")
     @RequestMapping("/cadreLeaderUnit_page")
     public String cadreLeaderUnit_page(HttpServletResponse response,

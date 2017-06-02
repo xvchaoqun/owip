@@ -42,12 +42,6 @@ public class CadreFamliyAbroadController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreFamliyAbroad:list")
-    @RequestMapping("/cadreFamliyAbroad")
-    public String cadreFamliyAbroad() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreFamliyAbroad:list")
     @RequestMapping("/cadreFamliyAbroad_data")
     public void cadreFamliyAbroad_data(HttpServletResponse response,
                                     Integer cadreId,

@@ -25,10 +25,10 @@ pageEncoding="UTF-8"%>
 <script>
     $("#print").click(function(){
         <c:if test="${param.type==MEMBER_INOUT_TYPE_INSIDE}">
-        printWindow("${ctx}/report/member_in_bj?print=1&ids[]=${param['ids[]']}");
+        $.print("${ctx}/report/member_in_bj?print=1&ids[]=${param['ids[]']}");
         </c:if>
         <c:if test="${param.type==MEMBER_INOUT_TYPE_OUTSIDE}">
-        printWindow("${ctx}/report/member_out_bj?print=1&ids[]=${param['ids[]']}&type=1");
+        $.print("${ctx}/report/member_out_bj?print=1&ids[]=${param['ids[]']}&type=1");
         </c:if>
     });
 </script>

@@ -12,7 +12,7 @@
   </form>
 </div>
 <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <a id="add_entity" class="btn btn-primary">更新</a></div>
 <script>
 

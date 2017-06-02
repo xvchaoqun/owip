@@ -35,15 +35,10 @@ public class TrainEvaTableController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
     @RequiresPermissions("trainEvaTable:list")
     @RequestMapping("/trainEvaTable")
-    public String trainEvaTable() {
-
-        return "index";
-    }
-    @RequiresPermissions("trainEvaTable:list")
-    @RequestMapping("/trainEvaTable_page")
-    public String trainEvaTable_page(HttpServletResponse response,
+    public String trainEvaTable(HttpServletResponse response,
         String name,
     @RequestParam(required = false, defaultValue = "0") int export,
     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录

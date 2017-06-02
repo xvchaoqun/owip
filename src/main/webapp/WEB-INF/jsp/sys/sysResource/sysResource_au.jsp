@@ -130,7 +130,7 @@
     </form:form>
 </div>
 <div class="modal-footer">
-	<a href="#" class="btn btn-default" data-dismiss="modal">取消</a> <input type="submit" class="btn btn-primary" value="${op}"/>
+	<a href="javascript:;" class="btn btn-default" data-dismiss="modal">取消</a> <input type="submit" class="btn btn-primary" value="${op}"/>
 </div>
 <style>
 	.modal .modal-body{

@@ -5,7 +5,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 账号注册信息</h4>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
+            <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-up"></i>
             </a>
         </div>

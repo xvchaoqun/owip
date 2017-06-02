@@ -22,16 +22,10 @@ public class UnitLayoutController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 单位综合管理 总体布局
     @RequiresPermissions("unitLayout:view")
     @RequestMapping("/unit_layout")
     public String unit_layout(@RequestParam(defaultValue = "0")int type, ModelMap modelMap) {
-
-        return "index";
-    }
-    // 单位综合管理 总体布局
-    @RequiresPermissions("unitLayout:view")
-    @RequestMapping("/unit_layout_page")
-    public String unit_layout_page(@RequestParam(defaultValue = "0")int type, ModelMap modelMap) {
 
         modelMap.put("type", type);
 

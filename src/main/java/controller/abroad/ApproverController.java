@@ -42,13 +42,7 @@ public class ApproverController extends BaseController {
 
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approver")
-    public String approver() {
-
-        return "index";
-    }
-    @RequiresPermissions("approvalAuth:*")
-    @RequestMapping("/approver_page")
-    public String approver_page(HttpServletResponse response,
+    public String approver(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_approver") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,

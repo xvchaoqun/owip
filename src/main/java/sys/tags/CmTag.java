@@ -95,55 +95,55 @@ public class CmTag {
     static TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
     static TrainCourseService trainCourseService = (TrainCourseService) context.getBean("trainCourseService");
 
-    public static String toJSONObject(Object obj){
+    public static String toJSONObject(Object obj) {
 
-        if(obj==null) return "{}";
+        if (obj == null) return "{}";
         String jsonStr = JSONUtils.toString(obj);
 
-        return StringUtils.isBlank(jsonStr)?"{}":jsonStr;
+        return StringUtils.isBlank(jsonStr) ? "{}" : jsonStr;
     }
 
-    public static String toJSONArray(List list){
+    public static String toJSONArray(List list) {
 
-        if(list==null) return "[]";
+        if (list == null) return "[]";
         String jsonStr = JSONUtils.toString(list);
 
-        return StringUtils.isBlank(jsonStr)?"[]":jsonStr;
+        return StringUtils.isBlank(jsonStr) ? "[]" : jsonStr;
     }
 
     // 获取菜单显示处理数量
-    public static Integer getMenuCacheCount(String countCacheKeys){
+    public static Integer getMenuCacheCount(String countCacheKeys) {
 
         return cacheService.getCacheCount(countCacheKeys);
     }
 
-    public static HtmlFragment getHtmlFragment(String code){
+    public static HtmlFragment getHtmlFragment(String code) {
 
         return htmlFragmentService.codeKeyMap().get(code);
     }
 
-    public static HtmlFragment getHtmlFragment(Integer id){
+    public static HtmlFragment getHtmlFragment(Integer id) {
 
         return htmlFragmentMapper.selectByPrimaryKey(id);
     }
 
     // 用于jsp页面显示党组织名称
-    public static String displayParty(Integer partyId, Integer branchId){
+    public static String displayParty(Integer partyId, Integer branchId) {
 
         String html = "<span class=\"{0}\">{1}<span><span class=\"{2}\">{3}<span>";
-        Party party =null;
+        Party party = null;
         Branch branch = null;
-        if(partyId!=null){
+        if (partyId != null) {
             Map<Integer, Party> partyMap = partyService.findAll();
             party = partyMap.get(partyId);
         }
-        if(branchId!=null){
+        if (branchId != null) {
             Map<Integer, Branch> branchMap = branchService.findAll();
             branch = branchMap.get(branchId);
         }
 
-        return MessageFormat.format(html, (party!=null&&party.getIsDeleted())?"delete":"", party!=null?party.getName():"",
-                (branch!=null&&branch.getIsDeleted())?"delete":"", branch!=null?(party!=null?" - ":"") + branch.getName():"");
+        return MessageFormat.format(html, (party != null && party.getIsDeleted()) ? "delete" : "", party != null ? party.getName() : "",
+                (branch != null && branch.getIsDeleted()) ? "delete" : "", branch != null ? (party != null ? " - " : "") + branch.getName() : "");
     }
 
     public static String getApplyStatus(MemberApplyView memberApply) {
@@ -186,11 +186,11 @@ public class CmTag {
                 }*/
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
-                if (memberApply.getGrowStatus() == null ) {
+                if (memberApply.getGrowStatus() == null) {
                     stage = "待组织部审核";
                 } else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_OD_CHECKED) {
                     stage = "组织部已审核，待支部发展为预备党员";
-                }else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                } else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
                     stage = "支部已提交，待分党委审核";
                 }
                 break;
@@ -215,14 +215,14 @@ public class CmTag {
     public static List<SysResource> getSysResourcePath(Integer id) {
 
         List<SysResource> sysResources = new ArrayList<>();
-        if(id!=null && id>1) { // 不包含顶级节点
+        if (id != null && id > 1) { // 不包含顶级节点
             Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
             SysResource sysResource = resourceMap.get(id);
             String parentIds = sysResource.getParentIds();
-            if(StringUtils.isNotBlank(parentIds)) {
+            if (StringUtils.isNotBlank(parentIds)) {
                 for (String _parentId : parentIds.split("/")) {
                     Integer parentId = Integer.valueOf(_parentId);
-                    if(parentId>1) { // 不包含顶级节点
+                    if (parentId > 1) { // 不包含顶级节点
                         SysResource _sysResource = resourceMap.get(parentId);
                         if (_sysResource != null) sysResources.add(_sysResource);
                     }
@@ -282,6 +282,22 @@ public class CmTag {
         return metaTypeMap.get(code);
     }
 
+    public static Set getParentSet(String _path) {
+
+        Set parentSet = new LinkedHashSet();
+        SysResource sysResource = sysResourceService.getByUrl(_path);
+        if (sysResource == null) return parentSet;
+
+        Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+
+        String parentIds = sysResource.getParentIds();
+        for (String id : parentIds.split("/")) {
+            SysResource _sysResource = resourceMap.get(Integer.valueOf(id));
+            if (_sysResource != null) parentSet.add(_sysResource);
+        }
+        return parentSet;
+    }
+
     public static Set getParentIdSet(String _path) {
 
         Set parentIdSet = new LinkedHashSet();
@@ -300,22 +316,26 @@ public class CmTag {
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
     }
+
     public static CadreView getCadreByUserId(Integer userId) {
 
         return cadreService.dbFindByUserId(userId);
     }
 
-    public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId){
+    public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId) {
 
         return cadreAdditionalPostService.findCadrePosts(cadreId);
     }
+
     // 主职
-    public static CadrePost getCadreMainCadrePostById(Integer id){
+    public static CadrePost getCadreMainCadrePostById(Integer id) {
         return cadrePostService.getCadreMainCadrePostById(id);
     }
-    public static CadrePost getCadreMainCadrePost(int caderId){
+
+    public static CadrePost getCadreMainCadrePost(int caderId) {
         return cadrePostService.getCadreMainCadrePost(caderId);
     }
+
     // 现任职务
     public static CadreAdminLevel getPresentByCadreId(int caderId) {
         CadrePost mainCadrePost = getCadreMainCadrePost(caderId);
@@ -323,13 +343,13 @@ public class CmTag {
                 mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null);
     }
 
-    public static CadreFamliy getCadreFamliy(Integer id){
+    public static CadreFamliy getCadreFamliy(Integer id) {
         return cadreFamliyService.get(id);
     }
 
     public static SysUserView getUserById(Integer id) {
 
-        if(id==null) return null;
+        if (id == null) return null;
 
         return sysUserService.findById(id);
     }
@@ -341,12 +361,14 @@ public class CmTag {
 
     public static ApproverTypeBean getApproverTypeBean(Integer userId) {
 
-       return applySelfService.getApproverTypeBean(userId);
+        return applySelfService.getApproverTypeBean(userId);
     }
+
     public static Set<String> findRoles(String username) {
 
         return sysUserService.findRoles(username);
     }
+
     public static Set<String> findPermissions(String username) {
 
         return sysUserService.findPermissions(username);
@@ -362,23 +384,27 @@ public class CmTag {
         return partyService.findAll().get(partyId);
     }
 
-    public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId){
+    public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId) {
         return branchMemberService.isPresentAdmin(userId, partyId, branchId);
     }
-    public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId){
+
+    public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId) {
         return partyMemberService.isPresentAdmin(userId, partyId);
     }
+
     // 是否直属党支部
-    public static Boolean isDirectBranch(Integer partyId){
-        if(partyId==null) return false;
+    public static Boolean isDirectBranch(Integer partyId) {
+        if (partyId == null) return false;
         return partyService.isDirectBranch(partyId);
     }
+
     // 是否分党委
-    public static Boolean isParty(Integer partyId){
+    public static Boolean isParty(Integer partyId) {
         return partyService.isParty(partyId);
     }
+
     // 是否党总支
-    public static Boolean isPartyGeneralBranch(Integer partyId){
+    public static Boolean isPartyGeneralBranch(Integer partyId) {
         return partyService.isPartyGeneralBranch(partyId);
     }
 
@@ -415,32 +441,33 @@ public class CmTag {
         return retireApplyService.get(userId);
     }
 
-    public static Dispatch getDispatch(Integer dispatchId){
+    public static Dispatch getDispatch(Integer dispatchId) {
 
         return dispatchService.findAll().get(dispatchId);
     }
 
-    public static DispatchCadre getDispatchCadre(Integer dispatchCadreId){
+    public static DispatchCadre getDispatchCadre(Integer dispatchCadreId) {
 
         return dispatchCadreService.findAll().get(dispatchCadreId);
     }
 
-    public static Integer getDispatchCadreCount(Integer dispatchId, Byte type){
+    public static Integer getDispatchCadreCount(Integer dispatchId, Byte type) {
         return dispatchCadreService.count(dispatchId, type);
     }
 
-    public static  List<DispatchCadreRelate> findDispatchCadreRelates(Integer relateId, Byte relateType){
+    public static List<DispatchCadreRelate> findDispatchCadreRelates(Integer relateId, Byte relateType) {
 
         return dispatchCadreRelateService.findDispatchCadreRelates(relateId, relateType);
     }
 
-    public static DispatchUnit getDispatchUnit(Integer dispatchUnitId){
+    public static DispatchUnit getDispatchUnit(Integer dispatchUnitId) {
         return dispatchUnitService.findAll().get(dispatchUnitId);
     }
+
     // 发文号
     public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year) {
 
-        if(code==null || dispatchTypeId == null || year==null) return null;
+        if (code == null || dispatchTypeId == null || year == null) return null;
 
         String numStr = NumberUtils.frontCompWithZore(code, 2);
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
@@ -454,11 +481,11 @@ public class CmTag {
         return dispatchTypeMap.get(dispatchTypeId);
     }
 
-    public static ApplySelf getApplySelf(Integer applyId){
+    public static ApplySelf getApplySelf(Integer applyId) {
         return applySelfService.get(applyId);
     }
 
-    public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId){
+    public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
         return selectMapper.getApplySelfModifyList(applyId);
     }
 
@@ -477,10 +504,11 @@ public class CmTag {
         return approvalLogService.findByApplyId(applyId);
     }
 
-    public static Map<Integer, SafeBox> getSafeBoxMap(){
+    public static Map<Integer, SafeBox> getSafeBoxMap() {
 
         return safeBoxService.findAll();
     }
+
     // 证件
     public static Passport getPassport(Integer id) {
 
@@ -496,28 +524,29 @@ public class CmTag {
 
         return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
     }
+
     // 判断干部是否拥有直接修改本人干部信息的权限
-    public static Boolean hasDirectModifyCadreAuth(Integer cadreId){
+    public static Boolean hasDirectModifyCadreAuth(Integer cadreId) {
 
         String today = DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD);
         List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadreId);
-        if(modifyCadreAuths==null || modifyCadreAuths.size()==0) return false;
+        if (modifyCadreAuths == null || modifyCadreAuths.size() == 0) return false;
 
         for (ModifyCadreAuth modifyCadreAuth : modifyCadreAuths) {
 
             // 永久有效
-            if(BooleanUtils.isTrue(modifyCadreAuth.getIsUnlimited())) return true;
+            if (BooleanUtils.isTrue(modifyCadreAuth.getIsUnlimited())) return true;
 
-            if(modifyCadreAuth.getStartTime()==null && modifyCadreAuth.getEndTime()==null){
+            if (modifyCadreAuth.getStartTime() == null && modifyCadreAuth.getEndTime() == null) {
                 continue; // 不可能出现的情况，因为不是永久有效，则一定要有开始或结束时间
             }
-            if(modifyCadreAuth.getStartTime()!=null){
+            if (modifyCadreAuth.getStartTime() != null) {
                 String startTime = DateUtils.formatDate(modifyCadreAuth.getStartTime(), DateUtils.YYYY_MM_DD);
-                if(startTime.compareTo(today)>0) continue;
+                if (startTime.compareTo(today) > 0) continue;
             }
-            if(modifyCadreAuth.getEndTime()!=null){
+            if (modifyCadreAuth.getEndTime() != null) {
                 String endTime = DateUtils.formatDate(modifyCadreAuth.getEndTime(), DateUtils.YYYY_MM_DD);
-                if(endTime.compareTo(today)<0) continue;
+                if (endTime.compareTo(today) < 0) continue;
             }
 
             return true;
@@ -526,7 +555,7 @@ public class CmTag {
         return false;
     }
 
-    public static CadreEdu[] getCadreEdus(Integer cadreId){
+    public static CadreEdu[] getCadreEdus(Integer cadreId) {
         return cadreEduService.getByLearnStyle(cadreId);
     }
 
@@ -534,21 +563,23 @@ public class CmTag {
 
         return cisInspectObjService.getInspectors(objId);
     }
+
     public static CisInspectorView getCisInspector(Integer id) {
 
         return cisInspectorService.getInspector(id);
     }
 
-    public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId){
+    public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId) {
 
         return trainEvaNormService.findAll(evaTableId);
     }
-    public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId){
+
+    public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId) {
 
         return trainEvaRankService.findAll(evaTableId);
     }
 
-    public static Integer evaIsClosed(Integer courseId){
+    public static Integer evaIsClosed(Integer courseId) {
 
         return trainCourseService.evaIsClosed(courseId);
     }

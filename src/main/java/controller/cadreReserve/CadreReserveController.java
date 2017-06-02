@@ -88,14 +88,7 @@ public class CadreReserveController extends BaseController {
 
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
-    public String cadreReserve() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cadreReserve:list")
-    @RequestMapping("/cadreReserve_page")
-    public String cadreReserve_page(Byte status, Byte reserveType,
+    public String cadreReserve(Byte status, Byte reserveType,
                                     Integer cadreId, ModelMap modelMap) {
 
         if (status == null && reserveType == null) {

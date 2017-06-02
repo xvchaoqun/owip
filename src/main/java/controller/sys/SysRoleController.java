@@ -39,13 +39,7 @@ public class SysRoleController extends BaseController {
 
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysRole")
-	public String sysRole() {
-
-		return "index";
-	}
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
-	@RequestMapping("/sysRole_page")
-	public String sysRole_page(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr, ModelMap modelMap) {
+	public String sysRole(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr, ModelMap modelMap) {
 		
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;

@@ -8,9 +8,16 @@
 <head>
   <jsp:include page="/WEB-INF/jsp/common/head.jsp"></jsp:include>
   <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
+  <!-- inline scripts related to this page -->
+  <script src="${ctx}/assets/js/flot/jquery.flot.js"></script>
+  <script src="${ctx}/assets/js/flot/jquery.flot.pie.js"></script>
+  <script src="${ctx}/assets/js/flot/jquery.flot.resize.js"></script>
+  <script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
+  <script src="${ctx}/extend/js/highcharts.js"></script>
+  <script src="${ctx}/extend/js/exporting.js"></script>
 </head>
 
-<body class="no-skin">
+<body class="no-skin" onload="$(window).trigger('hashchange')">
 <div id="navbar" class="navbar navbar-default">
 
   <div class="navbar-container" id="navbar-container">
@@ -43,8 +50,8 @@
   <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
     <ul class="nav nav-pills">
 
-      <li class="<c:if test="${_path=='/profile'}">active</c:if>">
-        <a href="${ctx}/profile"><i class="fa fa-user"></i>
+      <li class="">
+        <a href="javascript:;" class="menu" data-url="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
       <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
@@ -79,50 +86,12 @@
   </shiro:lacksRole>
   <div class="main-content" >
     <div class="main-content-inner">
-      <c:if test="${fn:length(parentIdSet)>2}">
-      <div class="breadcrumbs" id="breadcrumbs">
-        <script type="text/javascript">
-          try {ace.settings.check('breadcrumbs', 'fixed')} catch (e) {}
-        </script>
-        <ul class="breadcrumb">
+      <div class="breadcrumbs" id="breadcrumbs" style="display: none;">
 
-          <c:forEach var="parentId" items="${parentIdSet}" varStatus="vs">
-            <c:if test="${vs.count==2}">
-              <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a href="${ctx}/index">首页</a>
-              </li>
-            </c:if>
-            <c:if test="${vs.count>=3}">
-              <c:set var="sysResource" value="${cm:getSysResource(parentId)}"/>
-                <li>
-                  ${sysResource.name}
-                </li>
-            </c:if>
-          </c:forEach>
-          <c:if test="${fn:length(parentIdSet)>2}">
-          <li class="active">${currentSysResource.name}</li>
-          </c:if>
-        </ul>
-        <!-- /.breadcrumb -->
-
-        <%--<div class="nav-search" id="nav-search">
-          <form class="form-search">
-              <span class="input-icon">
-                  <input type="text" placeholder="搜索 ..." class="nav-search-input"
-                         id="nav-search-input" autocomplete="off"/>
-                  <i class="ace-icon fa fa-search nav-search-icon"></i>
-              </span>
-          </form>
-        </div>--%>
-        <!-- /.nav-search -->
       </div>
-      </c:if>
 
       <div class="page-content" id="page-content">
-          <c:import url="${_path}_page">
-            <c:param name="__includePage" value="true"/>
-          </c:import>
+
       </div>
       <!-- /.page-content -->
     </div>
@@ -139,7 +108,7 @@
     </div>
   </div>
 
-  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <a href="javascript:;" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
     <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
   </a>
 </div>
@@ -150,5 +119,25 @@
     </div>
   </div>
 </div>
+<script type="text/template" id="breadcrumbs_tpl">
+  <ul class="breadcrumb">
+    {{_.each(data.parents, function(p, idx){ }}
+      {{if(idx==1){}}
+        <li>
+          <i class="ace-icon fa fa-home home-icon"></i>
+          <a href="${ctx}/">回到首页</a>
+        </li>
+      {{}}}
+      {{if(idx>=1){}}
+        <li>
+            {{=p.name}}
+        </li>
+      {{}}}
+    {{});}}
+      {{if(data.parents.length>1){}}
+      <li class="active">{{=data.cur.name}}</li>
+      {{}}}
+  </ul>
+</script>
 </body>
 </html>

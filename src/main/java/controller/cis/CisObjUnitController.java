@@ -54,14 +54,7 @@ public class CisObjUnitController extends BaseController {
 
     @RequiresPermissions("cisObjUnit:list")
     @RequestMapping("/cisObjUnit")
-    public String cisObjUnit() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cisObjUnit:list")
-    @RequestMapping("/cisObjUnit_page")
-    public String cisObjUnit_page(HttpServletResponse response, ModelMap modelMap) {
+    public String cisObjUnit(HttpServletResponse response, ModelMap modelMap) {
 
         return "cis/cisObjUnit/cisObjUnit_page";
     }

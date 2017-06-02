@@ -7,7 +7,7 @@
 		<h4 class="widget-title"><i class="fa fa-paw blue"></i> 基本信息</h4>
 
 		<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
+			<a href="javascript:;" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
 		</div>
@@ -259,7 +259,7 @@
 		<h4 class="widget-title"><i class="fa fa-star blue"></i> 党籍信息</h4>
 
 		<div class="widget-toolbar">
-			<a href="#" data-action="collapse">
+			<a href="javascript:;" data-action="collapse">
 				<i class="ace-icon fa fa-chevron-up"></i>
 			</a>
 		</div>

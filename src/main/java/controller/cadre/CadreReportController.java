@@ -40,14 +40,7 @@ public class CadreReportController extends BaseController {
 
     @RequiresPermissions("cadreReport:list")
     @RequestMapping("/cadreReport")
-    public String cadreReport() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cadreReport:list")
-    @RequestMapping("/cadreReport_page")
-    public String cadreReport_page(HttpServletResponse response,
+    public String cadreReport(HttpServletResponse response,
                                    Integer cadreId,
                                    ModelMap modelMap) {
 

@@ -33,15 +33,10 @@ import java.util.Map;
 public class SysLogController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	@RequiresPermissions("sysLog:list")
 	@RequestMapping("/sysLog")
-	public String sysLog() {
-
-		return "index";
-	}
-	@RequiresPermissions("sysLog:list")
-	@RequestMapping("/sysLog_page")
-	public String sysLog_page( Integer userId, ModelMap modelMap) {
+	public String sysLog( Integer userId, ModelMap modelMap) {
 
 		if (userId != null) {
 			modelMap.put("sysUser", sysUserService.findById(userId));

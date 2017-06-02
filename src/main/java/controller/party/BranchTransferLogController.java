@@ -24,8 +24,8 @@ public class BranchTransferLogController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN,
             SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
-    @RequestMapping("/branchTransferLog_page")
-    public String branchTransferLog_page(Integer branchId, ModelMap modelMap) {
+    @RequestMapping("/branchTransferLog")
+    public String branchTransferLog(Integer branchId, ModelMap modelMap) {
 
         modelMap.put("branch", branchService.findAll().get(branchId));
         return "party/branchTransferLog/branchTransferLog_page";

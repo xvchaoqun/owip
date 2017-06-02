@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div class="myTableDiv"
              data-url-au="${ctx}/branchMember_au"
-             data-url-page="${ctx}/branchMember_page"
+             data-url-page="${ctx}/branchMember"
              data-url-del="${ctx}/branchMember_del"
              data-url-bd="${ctx}/branchMember_batchDel"
              data-url-co="${ctx}/branchMember_changeOrder"
@@ -80,10 +80,10 @@ pageEncoding="UTF-8" %>
                             <shiro:hasPermission name="branchMember:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branchMember.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branchMember.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branchMember.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${branchMember.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             </shiro:hasPermission>
@@ -108,7 +108,7 @@ pageEncoding="UTF-8" %>
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                             <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
+                                            <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="查看">
                                                         <span class="blue">
                                                             <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                         </span>
@@ -116,7 +116,7 @@ pageEncoding="UTF-8" %>
                                         </li>--%>
                                             <shiro:hasPermission name="branchMember:edit">
                                             <li>
-                                                <a href="#" data-id="${branchMember.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="javascript:;" data-id="${branchMember.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
@@ -125,7 +125,7 @@ pageEncoding="UTF-8" %>
                                             </shiro:hasPermission>
                                             <shiro:hasPermission name="branchMember:del">
                                             <li>
-                                                <a href="#" data-id="${branchMember.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="javascript:;" data-id="${branchMember.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -140,7 +140,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/branchMember_page" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/branchMember" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">

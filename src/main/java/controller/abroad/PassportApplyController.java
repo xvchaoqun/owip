@@ -48,13 +48,6 @@ public class PassportApplyController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("passportApply:list")
-    @RequestMapping("/passportApply")
-    public String passportApply() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_check")
     public String passportApply_check(int id, ModelMap modelMap) {
 
@@ -108,8 +101,8 @@ public class PassportApplyController extends BaseController {
     }
 
     @RequiresPermissions("passportApply:list")
-    @RequestMapping("/passportApply_page")
-    public String passportApply_page(
+    @RequestMapping("/passportApply")
+    public String passportApply(
             @CurrentUser SysUserView loginUser,
             // 0：办理证件审批 1：批准办理证件审批（未交证件）3：批准办理证件审批（已交证件）2：未批准办理新证件
             @RequestParam(required = false, defaultValue = "0")  Byte status,

@@ -38,13 +38,7 @@ public class SafeBoxController extends BaseController {
 
     @RequiresPermissions("safeBox:list")
     @RequestMapping("/safeBox")
-    public String safeBox() {
-
-        return "index";
-    }
-    @RequiresPermissions("safeBox:list")
-    @RequestMapping("/safeBox_page")
-    public String safeBox_page(HttpServletResponse response,
+    public String safeBox(HttpServletResponse response,
                                //@SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_safe_box") String sort,
                                //@OrderParam(required = false, defaultValue = "desc") String order,
                                // 1:集中管理证件 2:取消集中保管证件 3:丢失证件 4：作废证件 5 保险柜管理

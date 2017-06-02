@@ -138,7 +138,7 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        _closeView(1)
+                        $.hideView(1)
                     }
                 }
             });

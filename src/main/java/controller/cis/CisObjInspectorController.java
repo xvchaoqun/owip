@@ -67,14 +67,7 @@ public class CisObjInspectorController extends BaseController {
 
     @RequiresPermissions("cisObjInspector:list")
     @RequestMapping("/cisObjInspector")
-    public String cisObjInspector() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cisObjInspector:list")
-    @RequestMapping("/cisObjInspector_page")
-    public String cisObjInspector_page(HttpServletResponse response, ModelMap modelMap) {
+    public String cisObjInspector(HttpServletResponse response, ModelMap modelMap) {
 
         return "cis/cisObjInspector/cisObjInspector_page";
     }

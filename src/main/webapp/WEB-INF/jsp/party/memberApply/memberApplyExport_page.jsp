@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                                     <div class="widget-header">
                                         <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i> 申请入党人员信息导出</h4>
                                         <div class="widget-toolbar">
-                                            <a href="#" data-action="collapse">
+                                            <a href="javascript:;" data-action="collapse">
                                                 <i class="ace-icon fa fa-chevron-down"></i>
                                             </a>
                                         </div>
@@ -73,7 +73,7 @@ pageEncoding="UTF-8" %>
                                     <div class="widget-header">
                                         <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i> 发展党员信息导出</h4>
                                         <div class="widget-toolbar">
-                                            <a href="#" data-action="collapse">
+                                            <a href="javascript:;" data-action="collapse">
                                                 <i class="ace-icon fa fa-chevron-down"></i>
                                             </a>
                                         </div>

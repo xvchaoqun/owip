@@ -40,8 +40,8 @@ public class ApplySelfModifyController extends BaseController {
 
 
     @RequiresPermissions("applySelf:modifyLog")
-    @RequestMapping("/applySelfModify_page")
-    public String applySelfModify_page(int applyId, ModelMap modelMap) {
+    @RequestMapping("/applySelfModify")
+    public String applySelfModify(int applyId, ModelMap modelMap) {
 
         // 获取第一条原始记录
         ApplySelfModifyExample example2 = new ApplySelfModifyExample();

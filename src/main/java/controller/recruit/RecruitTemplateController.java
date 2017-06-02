@@ -39,13 +39,6 @@ public class RecruitTemplateController extends BaseController {
     @RequestMapping("/recruitTemplate")
     public String recruitTemplate() {
 
-        return "index";
-    }
-
-    @RequiresPermissions("recruitTemplate:list")
-    @RequestMapping("/recruitTemplate_page")
-    public String recruitTemplate_page() {
-
         return "recruit/recruitTemplate/recruitTemplate_page";
     }
 

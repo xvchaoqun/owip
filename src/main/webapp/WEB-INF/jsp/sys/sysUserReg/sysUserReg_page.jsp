@@ -8,20 +8,20 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/sysUserReg_au"
-                 data-url-page="${ctx}/sysUserReg_page"
+                 data-url-page="${ctx}/sysUserReg"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.username||not empty param.realname
                 ||not empty param.partyId ||not empty param.idcard|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a ${cls!=1?'href="?cls=1"':''}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/sysUserReg?cls=1"}><i class="fa fa-circle-o"></i> 分党委审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a ${cls!=2?'href="?cls=2"':''}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/sysUserReg?cls=2"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a ${cls!=3?'href="?cls=3"':''}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/sysUserReg?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -43,7 +43,7 @@
                                     </button>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_USER_REG}"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
@@ -61,7 +61,7 @@
                                 <div class="widget-header">
                                     <h4 class="widget-title">搜索</h4>
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>

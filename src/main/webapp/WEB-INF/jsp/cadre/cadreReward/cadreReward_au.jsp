@@ -61,7 +61,7 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${cadreReward!=null}">确定</c:if><c:if test="${cadreReward==null}">添加</c:if>"/>
 </div>
 <script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
@@ -86,7 +86,7 @@ pageEncoding="UTF-8"%>
                         $("#item-content").load("${ctx}/modifyCadreReward_detail?applyId=${param.applyId}&rewardType=${param.rewardType}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
-                        location.href='?cls=1&rewardType=${param.rewardType}&module=${param.module}';
+                        $.hashchange('cls=1&rewardType=${param.rewardType}&module=${param.module}');
                         </c:if>
                         </c:if>
                     }

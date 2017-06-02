@@ -54,7 +54,7 @@
             </h4>
 
             <div class="widget-toolbar">
-                <a href="#" data-action="collapse">
+                <a href="javascript:;" data-action="collapse">
                     <i class="ace-icon fa fa-chevron-up"></i>
                 </a>
             </div>
@@ -94,7 +94,7 @@
             </h4>
 
             <div class="widget-toolbar">
-                <a href="#" data-action="collapse">
+                <a href="javascript:;" data-action="collapse">
                     <i class="ace-icon fa fa-chevron-up"></i>
                 </a>
             </div>
@@ -187,10 +187,10 @@
     }
 </style>
 <script type="text/template" id="sub_sort_tpl">
-<a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_subCadrePosts" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid_subCadrePosts" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
        title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-grid-id="#jqGrid_subCadrePosts" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid_subCadrePosts" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>

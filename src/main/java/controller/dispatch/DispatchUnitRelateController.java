@@ -42,13 +42,7 @@ public class DispatchUnitRelateController extends BaseController {
 
     @RequiresPermissions("dispatchUnitRelate:list")
     @RequestMapping("/dispatchUnitRelate")
-    public String dispatchUnitRelate() {
-
-        return "index";
-    }
-    @RequiresPermissions("dispatchUnitRelate:list")
-    @RequestMapping("/dispatchUnitRelate_page")
-    public String dispatchUnitRelate_page(HttpServletResponse response,
+    public String dispatchUnitRelate(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit_relate") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer dispatchUnitId,

@@ -79,14 +79,7 @@ public class MemberTransferController extends BaseController {
 
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer")
-    public String memberTransfer() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberTransfer:list")
-    @RequestMapping("/memberTransfer_page")
-    public String memberTransfer_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
+    public String memberTransfer(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核
                                   Integer userId,
                                   Integer partyId,
                                   Integer branchId,

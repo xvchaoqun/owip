@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/cpcAllocation_page"
+             data-url-page="${ctx}/cpcAllocation"
              data-url-export="${ctx}/cpcAllocation_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
@@ -13,10 +13,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${type==1}">active</c:if>">
-                        <a href="?type=1"><i class="fa fa-table"></i> 内设机构干部配备详情</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cpcAllocation?type=1"><i class="fa fa-table"></i> 内设机构干部配备详情</a>
                     </li>
                     <li class="<c:if test="${type==2}">active</c:if>">
-                        <a href="?type=2"><i class="fa fa-bar-chart"></i> 内设机构干部配备统计</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cpcAllocation?type=2"><i class="fa fa-bar-chart"></i> 内设机构干部配备统计</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -41,14 +41,14 @@
                                 </button>
                             </shiro:hasPermission>
                             <a class="btn btn-success btn-sm"
-                               href="${ctx}/cpcAllocation_page?type=1&export=1"><i class="fa fa-download"></i> 导出</a>
+                               href="${ctx}/cpcAllocation?type=1&export=1"><i class="fa fa-download"></i> 导出</a>
                         </div>
                         <jsp:include page="cpc_table.jsp"/>
                         </c:if>
                         <c:if test="${type==2}">
                             <div class="buttons" style="position: absolute; top:35px;">
                                 <a class="btn btn-success btn-sm"
-                                   href="${ctx}/cpcAllocation_page?type=2&export=1"><i class="fa fa-download"></i> 导出</a>
+                                   href="${ctx}/cpcAllocation?type=2&export=1"><i class="fa fa-download"></i> 导出</a>
                             </div>
                             <jsp:include page="cpc_stat_table.jsp"/>
                         </c:if>
@@ -63,7 +63,7 @@
 <script>
 
     function _reload(){
-        _closeView(true);
+        $.hideView("${ctx}/cpcAllocation");
     }
     $("input[type=checkbox][name=checkall]").click(function(){
 

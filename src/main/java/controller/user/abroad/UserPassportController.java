@@ -45,14 +45,7 @@ public class UserPassportController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport")
-    public String passport() {
-
-        return "index";
-    }
-
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
-    @RequestMapping("/passport_page")
-    public String passport_page(HttpServletResponse response,
+    public String passport(HttpServletResponse response,
                                 // 1证件列表 2申请证件列表
                                 @RequestParam(defaultValue = "1") Integer type, ModelMap modelMap) {
 

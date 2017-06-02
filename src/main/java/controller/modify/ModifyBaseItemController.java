@@ -36,14 +36,7 @@ public class ModifyBaseItemController extends BaseController{
 
     @RequiresPermissions("modifyBaseItem:list")
     @RequestMapping("/modifyBaseItem")
-    public String modifyBaseItem() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("modifyBaseItem:list")
-    @RequestMapping("/modifyBaseItem_page")
-    public String modifyBaseItem_page(Integer applyId, ModelMap modelMap) {
+    public String modifyBaseItem(Integer applyId, ModelMap modelMap) {
 
         ModifyBaseApply apply = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
         modelMap.put("apply", apply);

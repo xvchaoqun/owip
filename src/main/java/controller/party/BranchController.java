@@ -75,14 +75,7 @@ public class BranchController extends BaseController {
 
     @RequiresPermissions("branch:list")
     @RequestMapping("/branch")
-    public String branch() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("branch:list")
-    @RequestMapping("/branch_page")
-    public String branch_page(Integer partyId,
+    public String branch(Integer partyId,
                               @RequestParam(required = false, defaultValue = "1") Byte status,
                               ModelMap modelMap) {
 

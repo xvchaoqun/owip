@@ -20,7 +20,7 @@
 		  <input type="button" id="btnSelectAll" class="btn btn-success btn-xs" value="全选"/>
 		  <input type="button" id="btnDeselectAll" class="btn btn-danger btn-xs" value="全不选"/>
 	  </div>
-  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <a id="add_entity" class="btn btn-primary">更新</a></div>
   <script>
 	  $("#btnDeselectAll").click(function(){

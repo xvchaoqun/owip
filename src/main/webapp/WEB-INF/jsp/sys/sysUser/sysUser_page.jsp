@@ -7,7 +7,7 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/sysUser_au"
-             data-url-page="${ctx}/sysUser_page"
+             data-url-page="${ctx}/sysUser"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
@@ -48,7 +48,7 @@
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
@@ -228,32 +228,8 @@
     });
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
-    /*$(".table th.sortable").click(function(){
-
-        var $this = $(this);
-        var order = $this.hasClass("asc")?"desc":"asc";
-
-        $("#searchForm input[name=sort]").val($this.data("field"));
-        $("#searchForm input[name=order]").val(order);
-        //alert($("div.myTableDiv #searchForm").serialize())
-        _tunePage(1, "", "${ctx}/sysUser_page", "#page-content", "", "&" + $("#searchForm").serialize());
-    });*/
 
     $("#searchForm select").select2();
-
-    /*function _del(username, locked){
-
-        bootbox.confirm("确定"+(locked==0?"解禁":"禁用")+"该账号吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/sysUser_del", {username: username, locked:locked}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }*/
 
     function showAvatarModal(){
         var modal =
@@ -351,16 +327,4 @@
 
         location.href = "${ctx}/sysUser_export?" + $("searchForm").serialize();
     }
-  /*  function _search() {
-
-        _tunePage(1, "", "${ctx}/sysUser_page", "#page-content", "", "&" + $("#searchForm").serialize());
-    }
-    function _reset() {
-
-        _tunePage(1, "", "${ctx}/sysUser_page", "#page-content", "", "");
-    }*/
-    /*function _reload() {
-        $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysUser_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-    }*/
 </script>

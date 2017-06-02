@@ -49,13 +49,6 @@ public class CadreWorkController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreWork:list")
-    @RequestMapping("/cadreWork")
-    public String cadreWork() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cadreWork:list")
     @RequestMapping("/cadreWork_page")
     public String cadreWork_page(HttpServletResponse response,
                                  @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览

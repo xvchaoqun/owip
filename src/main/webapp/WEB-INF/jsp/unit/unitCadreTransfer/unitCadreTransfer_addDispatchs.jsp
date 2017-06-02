@@ -74,7 +74,7 @@ pageEncoding="UTF-8" %>
             </c:if>
 </div>
 <div class="modal-footer">
-    <a href="#" onclick='unitCadreTransfer_page("${unitCadreTransfer.groupId}")' class="btn btn-default">取消</a>
+    <a href="javascript:;" onclick='unitCadreTransfer_page("${unitCadreTransfer.groupId}")' class="btn btn-default">取消</a>
     <input type="button" onclick="addDispatch()" class="btn btn-primary" value="保存"/>
 </div>
 <script>

@@ -50,14 +50,7 @@ public class SysUserRegController extends BaseController {
 
     @RequiresPermissions("sysUserReg:list")
     @RequestMapping("/sysUserReg")
-    public String sysUserReg() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("sysUserReg:list")
-    @RequestMapping("/sysUserReg_page")
-    public String sysUserReg_page(@RequestParam(defaultValue = "1")Integer cls,
+    public String sysUserReg(@RequestParam(defaultValue = "1")Integer cls,
                                   Integer userId,
                                   Integer partyId, ModelMap modelMap) {
 

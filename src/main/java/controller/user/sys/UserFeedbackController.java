@@ -29,13 +29,7 @@ public class UserFeedbackController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/feedback")
-    public String feedback() {
-
-        return "index";
-    }
-
-    @RequestMapping("/feedback_page")
-    public String feedback_page(ModelMap modelMap) {
+    public String feedback(ModelMap modelMap) {
 
       /*  FeedbackExample example = new FeedbackExample();
         example.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId());

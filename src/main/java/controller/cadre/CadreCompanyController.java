@@ -43,12 +43,6 @@ public class CadreCompanyController extends BaseController {
     @RequestMapping("/cadreCompany")
     public String cadreCompany() {
 
-        return "index";
-    }
-    @RequiresPermissions("cadreCompany:list")
-    @RequestMapping("/cadreCompany_page")
-    public String cadreCompany_page() {
-
         return "cadre/cadreCompany/cadreCompany_page";
     }
 

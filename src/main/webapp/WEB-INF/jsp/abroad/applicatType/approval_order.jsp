@@ -67,14 +67,14 @@
                         <td nowrap>${approverTypeMap.get(approvalOrder.approverTypeId).name}</td>
                         <%--<c:if test="${!_query && commonList.recNum>1}">
                             <td nowrap>
-                                <a href="#"
+                                <a href="javascript:;"
                                    <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
                                    class="changeOrderBtn" data-id="${approvalOrder.id}" data-direction="1" title="上升"><i
                                         class="fa fa-arrow-up"></i></a>
                                 <input type="text" value="1"
                                        class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
                                        title="修改操作步长">
-                                <a href="#"
+                                <a href="javascript:;"
                                    <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if>
                                    class="changeOrderBtn" data-id="${approvalOrder.id}" data-direction="-1"
                                    title="下降"><i class="fa fa-arrow-down"></i></a></td>

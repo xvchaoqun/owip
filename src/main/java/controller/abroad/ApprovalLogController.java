@@ -36,13 +36,7 @@ public class ApprovalLogController extends BaseController {
 
     @RequiresPermissions("approvalLog:list")
     @RequestMapping("/approvalLog")
-    public String approvalLog() {
-
-        return "index";
-    }
-    @RequiresPermissions("approvalLog:list")
-    @RequestMapping("/approvalLog_page")
-    public String approvalLog_page(HttpServletResponse response,
+    public String approvalLog(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_approval_log") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer userId,

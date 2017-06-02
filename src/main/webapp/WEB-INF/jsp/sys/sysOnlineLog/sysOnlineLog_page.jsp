@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
         <div class="myTableDiv"
-             data-url-page="${ctx}/sysOnlineLog_page"
+             data-url-page="${ctx}/sysOnlineLog"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.code ||not empty param.username }"/>
             <div class="jqgrid-vertical-offset buttons">

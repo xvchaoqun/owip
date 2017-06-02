@@ -67,14 +67,7 @@ public class MemberOutController extends BaseController {
 
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut")
-    public String memberOut() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberOut:list")
-    @RequestMapping("/memberOut_page")
-    public String memberOut_page(@RequestParam(defaultValue = "1") byte cls, // 1 待审核 2未通过 3 已审核
+    public String memberOut(@RequestParam(defaultValue = "1") byte cls, // 1 待审核 2未通过 3 已审核
                                  Integer userId,
                                  Integer partyId,
                                  Integer branchId, ModelMap modelMap) {

@@ -66,14 +66,7 @@ public class ShortMsgController extends BaseController {
 
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg")
-    public String shortMsg() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("shortMsg:list")
-    @RequestMapping("/shortMsg_page")
-    public String shortMsg_page(Integer receiverId, Integer senderId, ModelMap modelMap) {
+    public String shortMsg(Integer receiverId, Integer senderId, ModelMap modelMap) {
         if (receiverId!=null) {
             if(receiverId!=null)
                 modelMap.put("receiver", sysUserService.findById(receiverId));

@@ -13,7 +13,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-list blue "></i> ${MODIFY_TABLE_APPLY_MODULE_MAP.get(mta.module)}列表</h4>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
+            <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-down"></i>
             </a>
         </div>
@@ -31,7 +31,7 @@
         <h4 class="widget-title"><i class="ace-icon fa fa-edit blue "></i>
         ${MODIFY_TABLE_APPLY_TYPE_MAP.get(mta.type)}${MODIFY_TABLE_APPLY_MODULE_MAP.get(mta.module)}内容（申请时间：${cm:formatDate(mta.createTime, "yyyy-MM-dd")}）</h4>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
+            <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-down"></i>
             </a>
         </div>
@@ -65,7 +65,7 @@
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-check-circle blue "></i> 管理员审核</h4>
         <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
+            <a href="javascript:;" data-action="collapse">
                 <i class="ace-icon fa fa-chevron-down"></i>
             </a>
         </div>

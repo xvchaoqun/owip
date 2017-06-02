@@ -11,7 +11,7 @@
         文件不存在：${param.path}
     </div>
     <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+        <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
     </div>
 </c:if>
 <c:if test="${not empty param.path && cm:exists(path)}">
@@ -30,13 +30,13 @@
 	   </div>
   </div>
   <div class="modal-footer">
-      <a href="#" data-dismiss="modal" class="pirntBtn btn btn-info"
+      <a href="javascript:;" data-dismiss="modal" class="pirntBtn btn btn-info"
          data-url="${ctx}/pdf?path=${cm:encodeURI(param.path)}"><i class="fa fa-print"></i> 打印</a>
 
       <a href="${ctx}/attach/download?path=${cm:encodeURI(param.path)}&filename=${param.filename}"
       class="btn btn-success" target="_blank"><i class="fa fa-download"></i> 下载</a>
 
-  <a href="#" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
   </div>
   <style>
       .modal .modal-body{

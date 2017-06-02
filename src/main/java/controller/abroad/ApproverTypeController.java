@@ -115,14 +115,7 @@ public class ApproverTypeController extends BaseController {
 
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approverType")
-    public String approverType() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("approvalAuth:*")
-    @RequestMapping("/approverType_page")
-    public String approverType_page(HttpServletResponse response,
+    public String approverType(HttpServletResponse response,
                                     @RequestParam(defaultValue = "1") int cls,
                                     String name,
                                     Byte type,

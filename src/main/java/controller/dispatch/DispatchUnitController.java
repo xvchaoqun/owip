@@ -37,14 +37,7 @@ public class DispatchUnitController extends BaseController {
 
     @RequiresPermissions("dispatchUnit:list")
     @RequestMapping("/dispatchUnit")
-    public String dispatchUnit() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("dispatchUnit:list")
-    @RequestMapping("/dispatchUnit_page")
-    public String dispatchUnit_page(ModelMap modelMap) {
+    public String dispatchUnit(ModelMap modelMap) {
 
         return "dispatch/dispatchUnit/dispatchUnit_page";
     }

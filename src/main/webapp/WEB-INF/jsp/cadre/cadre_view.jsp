@@ -87,7 +87,7 @@
                 <shiro:hasPermission name="cadreCompany:*">
                     <li>
                         <a href="javascript:"
-                           data-url="${ctx}/cadreCompany_page?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
+                           data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreConcat:*">

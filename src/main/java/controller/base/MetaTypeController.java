@@ -60,13 +60,7 @@ public class MetaTypeController extends BaseController {
 
     @RequiresPermissions("metaType:list")
     @RequestMapping("/metaType")
-    public String metaType() {
-
-        return "index";
-    }
-    @RequiresPermissions("metaType:list")
-    @RequestMapping("/metaType_page")
-    public String metaType_page(HttpServletRequest request,
+    public String metaType(HttpServletRequest request,
                                  HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_type") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,

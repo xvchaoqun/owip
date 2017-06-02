@@ -26,8 +26,8 @@ public class MemberModifyController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
-    @RequestMapping("/memberModify_page")
-    public String memberModify_page() {
+    @RequestMapping("/memberModify")
+    public String memberModify() {
 
         return "party/member/memberModify_page";
     }

@@ -38,13 +38,6 @@ public class CadrePostController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadrePost:list")
-    @RequestMapping("/cadrePost")
-    public String cadrePost() {
-
-        return "index";
-    }
-
     // 主职、兼职、任职级经历 放在同一个页面
     @RequiresPermissions("cadrePost:list")
     @RequestMapping("/cadrePost_page")

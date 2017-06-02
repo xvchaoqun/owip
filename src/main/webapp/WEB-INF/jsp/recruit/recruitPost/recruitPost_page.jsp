@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/recruitPost_page"
+             data-url-page="${ctx}/recruitPost"
              data-url-export="${ctx}/recruitPost_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
@@ -13,13 +13,13 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_NORMAL}">active</c:if>">
-                        <a href="?status=${RECRUIT_POST_STATUS_NORMAL}"><i class="fa fa-circle-o-notch fa-spin"></i> 正在招聘</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_NORMAL}"><i class="fa fa-circle-o-notch fa-spin"></i> 正在招聘</a>
                     </li>
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_FINISH}">active</c:if>">
-                        <a href="?status=${RECRUIT_POST_STATUS_FINISH}"><i class="fa fa-check"></i> 完成招聘</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_FINISH}"><i class="fa fa-check"></i> 完成招聘</a>
                     </li>
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_DELETE}">active</c:if>">
-                        <a href="?status=${RECRUIT_POST_STATUS_DELETE}"><i class="fa fa-times"></i> 已删除</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_DELETE}"><i class="fa fa-times"></i> 已删除</a>
                     </li>
                     <li class="">
                         <a href="javascript:;"><i class="fa fa-exclamation-circle"></i> 报名规则</a>
@@ -56,7 +56,7 @@
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>

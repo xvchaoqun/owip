@@ -72,10 +72,10 @@ pageEncoding="UTF-8" %>
                             <shiro:hasPermission name="cadreTutor:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td class="hidden-480">
-                                    <a href="#" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTutor.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTutor.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="#" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTutor.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${cadreTutor.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                             </shiro:hasPermission>
@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                             <%--<li>
-                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
+                                            <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="查看">
                                                         <span class="blue">
                                                             <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                         </span>
@@ -108,7 +108,7 @@ pageEncoding="UTF-8" %>
                                         </li>--%>
                                             <shiro:hasPermission name="cadreTutor:edit">
                                             <li>
-                                                <a href="#" data-id="${cadreTutor.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                <a href="javascript:;" data-id="${cadreTutor.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
@@ -117,7 +117,7 @@ pageEncoding="UTF-8" %>
                                             </shiro:hasPermission>
                                             <shiro:hasPermission name="cadreTutor:del">
                                             <li>
-                                                <a href="#" data-id="${cadreTutor.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                <a href="javascript:;" data-id="${cadreTutor.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>

@@ -367,11 +367,6 @@
             loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
         }
 
-        /*function _reload() {
-         $("#modal").modal('hide');
-         $("#view-box .tab-content").load("${ctx}/cadreWork_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-         }*/
-
         $('#searchForm [data-rel="select2"]').select2();
         $('[data-rel="tooltip"]').tooltip();
     </script>

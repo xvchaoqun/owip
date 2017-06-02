@@ -40,14 +40,7 @@ public class ModifyBaseApplyController extends BaseController{
 
     @RequiresPermissions("modifyBaseApply:list")
     @RequestMapping("/modifyBaseApply")
-    public String modifyBaseApply() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("modifyBaseApply:list")
-    @RequestMapping("/modifyBaseApply_page")
-    public String modifyBaseApply_page(
+    public String modifyBaseApply(
             Integer userId,
             @RequestParam(required = false, defaultValue = "1")Byte status, // 1 干部信息修改申请 2 审核完成 3 删除
             ModelMap modelMap) {

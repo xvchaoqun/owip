@@ -41,12 +41,6 @@ public class BranchMemberGroupController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("branchMemberGroup:list")
-    @RequestMapping("/branchMemberGroup")
-    public String branchMemberGroup() {
-
-        return "index";
-    }
-    @RequiresPermissions("branchMemberGroup:list")
     @RequestMapping("/branchMemberGroup_view")
     public String branchMemberGroup_view() {
 
@@ -59,8 +53,8 @@ public class BranchMemberGroupController extends BaseController {
     }
 
     @RequiresPermissions("branchMemberGroup:list")
-    @RequestMapping("/branchMemberGroup_page")
-    public String branchMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+    @RequestMapping("/branchMemberGroup")
+    public String branchMemberGroup(@RequestParam(required = false, defaultValue = "1")Byte status,
                                          Integer partyId,
                                          Integer branchId, ModelMap modelMap) {
 

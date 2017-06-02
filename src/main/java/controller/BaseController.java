@@ -255,6 +255,7 @@ public class BaseController extends BaseMapper {
     protected UnitCadreTransferService unitCadreTransferService;
     @Autowired
     protected UnitCadreTransferGroupService unitCadreTransferGroupService;
+
     @Autowired
     protected DispatchService dispatchService;
     @Autowired
@@ -267,6 +268,8 @@ public class BaseController extends BaseMapper {
     protected DispatchUnitRelateService dispatchUnitRelateService;
     @Autowired
     protected DispatchUnitService dispatchUnitService;
+    @Autowired
+    protected DispatchWorkFileService dispatchWorkFileService;
 
     @Autowired
     protected HistoryUnitService historyUnitService;

@@ -33,14 +33,7 @@ public class UserMemberOutflowController extends BaseController{
 
     @RequiresRoles(SystemConstants.ROLE_MEMBER)
     @RequestMapping("/memberOutflow")
-    public String memberOutflow(@CurrentUser SysUserView loginUser) {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
-    @RequestMapping("/memberOutflow_page")
-    public String memberOutflow_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberOutflow(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("sysUser", loginUser);
 

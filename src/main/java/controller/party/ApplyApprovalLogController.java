@@ -28,8 +28,8 @@ import java.util.Map;
 public class ApplyApprovalLogController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
-    @RequestMapping("/applyApprovalLog_page")
-    public String applyApprovalLog_page(Integer id, Byte type, ModelMap modelMap) {
+    @RequestMapping("/applyApprovalLog")
+    public String applyApprovalLog(Integer id, Byte type, ModelMap modelMap) {
 
         if(id!=null) {
             Integer userId = null;

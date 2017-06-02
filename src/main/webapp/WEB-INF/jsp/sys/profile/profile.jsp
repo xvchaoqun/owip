@@ -10,9 +10,7 @@
 
     <form class="form-horizontal" method="post" action="${ctx}/profile" enctype="multipart/form-data">
       <div class="tabbable">
-        <jsp:include page="menu.jsp">
-          <jsp:param name="type" value="1"/>
-        </jsp:include>
+        <jsp:include page="menu.jsp"/>
 
         <div class="tab-content profile-edit-tab-content">
           <div id="edit-basic" class="tab-pane in active">

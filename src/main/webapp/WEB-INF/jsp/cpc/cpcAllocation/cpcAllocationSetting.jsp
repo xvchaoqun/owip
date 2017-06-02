@@ -35,7 +35,7 @@
             <tr>
                 <th colspan="4">
                     <div class="modal-footer center">
-                        <a href="#" class="closeView btn btn-default">取消</a>
+                        <a href="javascript:;" class="closeView btn btn-default">取消</a>
                         <input id="add_entity" type="button" class="btn btn-primary" value="设置">
                     </div>
                 </th>
@@ -84,7 +84,7 @@
                 $(form).ajaxSubmit({
                     success: function (ret) {
                         if (ret.success) {
-                           _closeView(true);
+                           $.hideView("${ctx}/cpcAllocation");
                         }
                     }
                 });

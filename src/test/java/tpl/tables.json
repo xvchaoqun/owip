@@ -6,15 +6,7 @@
   "tablePrefix": "base_",
   "tables": [
 
-    {
-      "table": "dispatch_type",
-      "key": "id",
-      "searchColumns": "year,name,attr",
-      "showColumns": "year,name,attr,create_time",
-      "excludeEditColumns": "id,year,create_time",
-      "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": true
-    },
+
     {
       "table": "location",
       "key": "id",
@@ -214,42 +206,7 @@
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
     },
-    {
-      "table": "dispatch",
-      "key": "id",
-      "searchColumns": "year,type_id,code,pub_time,work_time,meeting_time",
-      "showColumns": "year,type_id,code,pub_time,work_time,meeting_time,file,ppt,remark",
-      "excludeEditColumns": "id,sort_order",
-      "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": true
-    },
-    {
-      "table": "dispatch_cadre",
-      "key": "id",
-      "searchColumns": "dispatch_id,type_id,way_id,procedure_id,code,name, post_id,admin_level_id,unit_id",
-      "showColumns": "dispatch_id,type_id,way_id,procedure_id,code,name, post_id,admin_level_id,unit_id,remark",
-      "excludeEditColumns": "id,sort_order",
-      "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": true
-    },
-    {
-      "table": "dispatch_unit",
-      "key": "id",
-      "searchColumns": "year, dispatch_id,unit_id,type_id",
-      "showColumns": "year, dispatch_id,unit_id,type_id,remark",
-      "excludeEditColumns": "id,sort_order",
-      "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": true
-    },
-    {
-      "table": "dispatch_unit_relate",
-      "key": "id",
-      "searchColumns": "dispatch_unit_id,unit_id",
-      "showColumns": "dispatch_unit_id,unit_id",
-      "excludeEditColumns": "id,sort_order",
-      "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": true
-    },
+
     {
       "table": "leader",
       "key": "id",

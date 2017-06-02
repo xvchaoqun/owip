@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
     </div>
 <div class="modal-footer">
     <input type="submit" class="btn btn-primary" value="保存"/>
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
 </div>
 
 <script>

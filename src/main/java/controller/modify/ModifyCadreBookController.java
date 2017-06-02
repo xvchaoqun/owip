@@ -22,14 +22,7 @@ public class ModifyCadreBookController extends BaseController {
     // 系统菜单
     @RequiresPermissions("modifyCadreBook:list")
     @RequestMapping("/modifyCadreBook")
-    public String modifyCadreBook() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("modifyCadreBook:list")
-    @RequestMapping("/modifyCadreBook_page")
-    public String modifyCadreBook_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
+    public String modifyCadreBook(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
@@ -60,7 +53,7 @@ public class ModifyCadreBookController extends BaseController {
 
             return "modify/modifyCadreBook/modifyCadreBook_page";
         } else {
-            return "forward:/modifyTableApply_page?module=" + module + "&cls=" + cls;
+            return "forward:/modifyTableApply?module=" + module + "&cls=" + cls;
         }
     }
 

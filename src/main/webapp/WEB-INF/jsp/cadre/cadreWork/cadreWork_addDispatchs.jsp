@@ -78,7 +78,7 @@ pageEncoding="UTF-8" %>
             </c:if>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <c:if test="${type=='edit'}">

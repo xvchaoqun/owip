@@ -61,14 +61,7 @@ public class MemberStayController extends BaseController {
 
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay")
-    public String memberStay() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberStay:list")
-    @RequestMapping("/memberStay_page")
-    public String memberStay_page(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核(未转出) 4已审核（已转出）
+    public String memberStay(@RequestParam(defaultValue = "1")Integer cls, // 1 待审核 2未通过 3 已审核(未转出) 4已审核（已转出）
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {

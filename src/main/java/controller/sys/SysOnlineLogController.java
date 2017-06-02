@@ -32,16 +32,10 @@ public class SysOnlineLogController extends BaseController {
     @Autowired
     private  SysOnlineStaticService sysOnlineStaticService;
 
+
     @RequiresPermissions("sysOnlineLog:list")
     @RequestMapping("/sysOnlineLog")
-    public String party() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("sysOnlineLog:list")
-    @RequestMapping("/sysOnlineLog_page")
-    public String sysOnlineLog_page(ModelMap modelMap) {
+    public String sysOnlineLog(ModelMap modelMap) {
 
         modelMap.put("_onlineCount", sysLoginLogService.getLoginUsers().size());
         modelMap.put("_most", sysOnlineStaticService.getMost());

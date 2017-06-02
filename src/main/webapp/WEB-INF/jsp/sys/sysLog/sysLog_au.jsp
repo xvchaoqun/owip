@@ -35,7 +35,7 @@
         </form>
   </div>
   <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
   <a id="add_entity" class="btn btn-primary"><c:if test="${log!=null}">确认</c:if><c:if test="${log==null}">添加</c:if></a></div>
 
   <script>
@@ -104,7 +104,7 @@
 						success:function(data){
 							if(data.success){
 								$("#modal").modal('hide');
-								$("#content").load("log_page");
+								$("#content").load("log");
 								//SysMsg.success('操作成功。', '成功');
 								
 							}else if(data.msg=="duplicate"){

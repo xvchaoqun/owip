@@ -26,8 +26,8 @@ public class MemberOutModifyController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("memberOut:list")
-    @RequestMapping("/memberOutModify_page")
-    public String memberOutModify_page() {
+    @RequestMapping("/memberOutModify")
+    public String memberOutModify() {
 
         return "party/memberOut/memberOutModify_page";
     }

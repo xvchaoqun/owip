@@ -8,12 +8,12 @@
                 返回</a>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${empty param.courseId}">active</c:if>">
-                    <a href="javascript:void(0)" class="openView" data-url="${ctx}/stat_train_page?trainId=${param.trainId}"><i class="fa fa-signal"></i> 汇总</a>
+                    <a href="javascript:void(0)" class="openView" data-url="${ctx}/stat_train?trainId=${param.trainId}"><i class="fa fa-signal"></i> 汇总</a>
                 </li>
                 <c:forEach items="${trainCourses}" var="tc">
                     <c:if test="${tc.status==AVAILABLE}">
                     <li class="<c:if test="${param.courseId==tc.id}">active</c:if>">
-                        <a href="javascript:void(0)" class="openView" data-url="${ctx}/stat_train_page?trainId=${param.trainId}&courseId=${tc.id}"><i class="fa fa-signal"></i>
+                        <a href="javascript:void(0)" class="openView" data-url="${ctx}/stat_train?trainId=${param.trainId}&courseId=${tc.id}"><i class="fa fa-signal"></i>
                         ${tc.isGlobal?tc.name:tc.teacher}
                         </a>
                     </li>
@@ -22,7 +22,7 @@
 
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                     <a class="btn btn-success btn-sm"
-                       href="${ctx}/stat_train_page?trainId=${param.trainId}&export=1"><i class="fa fa-download"></i> 导出</a>
+                       href="${ctx}/stat_train?trainId=${param.trainId}&export=1"><i class="fa fa-download"></i> 导出</a>
                 </div>
             </ul>
             <div class="tab-content">

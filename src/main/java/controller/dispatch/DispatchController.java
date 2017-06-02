@@ -39,19 +39,12 @@ public class DispatchController extends BaseController {
 
     @RequiresPermissions("dispatch:list")
     @RequestMapping("/dispatch")
-    public String dispatch() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("dispatch:list")
-    @RequestMapping("/dispatch_page")
-    public String dispatch_page(@RequestParam(defaultValue = "1") Integer cls,
+    public String dispatch(@RequestParam(defaultValue = "1") Integer cls,
                                 Integer dispatchTypeId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
-            return "forward:/dispatchCadre_page";
+            return "forward:/dispatchCadre";
         }
 
         if (dispatchTypeId != null) {

@@ -80,7 +80,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -92,15 +92,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -113,7 +113,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -121,7 +121,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -129,7 +129,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -149,7 +149,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -161,15 +161,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -182,7 +182,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -190,7 +190,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -198,7 +198,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -218,7 +218,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -230,15 +230,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -251,7 +251,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -259,7 +259,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -267,7 +267,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -287,7 +287,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -299,15 +299,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -320,7 +320,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -328,7 +328,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -336,7 +336,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -356,7 +356,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -368,15 +368,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -389,7 +389,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -397,7 +397,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -405,7 +405,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -425,7 +425,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -437,15 +437,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -458,7 +458,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -466,7 +466,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -474,7 +474,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -494,7 +494,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -506,15 +506,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -527,7 +527,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -535,7 +535,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -543,7 +543,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -563,7 +563,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -575,15 +575,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -596,7 +596,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -604,7 +604,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -612,7 +612,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -632,7 +632,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -644,15 +644,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -665,7 +665,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -673,7 +673,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -681,7 +681,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -701,7 +701,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -713,15 +713,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -734,7 +734,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -742,7 +742,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -750,7 +750,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -770,7 +770,7 @@
                       </td>
 
                       <td>
-                        <a href="#">1101142321</a>
+                        <a href="javascript:;">1101142321</a>
                       </td>
                       <td>张三</td>
                       <td>男</td>
@@ -782,15 +782,15 @@
 
                       <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                          <a class="blue" href="#">
+                          <a class="blue" href="javascript:;">
                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
                           </a>
 
-                          <a class="green" href="#">
+                          <a class="green" href="javascript:;">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                           </a>
 
-                          <a class="red" href="#">
+                          <a class="red" href="javascript:;">
                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                           </a>
                         </div>
@@ -803,7 +803,7 @@
 
                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                               <li>
-                                <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="View">
 																				<span class="blue">
 																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																				</span>
@@ -811,7 +811,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                <a href="javascript:;" class="tooltip-success" data-rel="tooltip" title="Edit">
 																				<span class="green">
 																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																				</span>
@@ -819,7 +819,7 @@
                               </li>
 
                               <li>
-                                <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                <a href="javascript:;" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>

@@ -6,7 +6,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-page="${ctx}/cadreReserve_page"
+                 data-url-page="${ctx}/cadreReserve"
                  data-url-bd="${ctx}/cadreReserve_batchDel"
                  data-url-co="${ctx}/cadreReserve_changeOrder"
                  data-url-export="${ctx}/cadreReserve_data"
@@ -17,7 +17,7 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <%--<li class="dropdown ${status==CADRE_RESERVE_STATUS_NORMAL?'active':''}">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-flag"></i> ${empty reserveType?CADRE_RESERVE_TYPE_MAP.get(CADRE_RESERVE_TYPE_SCHOOL)
                                 :CADRE_RESERVE_TYPE_MAP.get(reserveType)}&nbsp;
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
@@ -35,7 +35,7 @@
                         <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
                             <c:if test="${!cm:hasRole(ROLE_ONLY_CADRE_VIEW) || _type.key!=CADRE_RESERVE_TYPE_SCHOOL}">
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
-                                <a href="?reserveType=${_type.key}">
+                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreReserve?reserveType=${_type.key}">
                                     <i class="fa fa-flag"></i>
                                         ${_type.value}(${normalCountMap.get(_type.key)})</a>
                             </li>
@@ -45,7 +45,7 @@
 <c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
-                                    <a href="?status=${_status.key}">
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreReserve?status=${_status.key}">
                                         <c:if test="${_status.key==CADRE_RESERVE_STATUS_ABOLISH}">
                                         <i class="fa fa-times"></i>
                                         </c:if>
@@ -101,7 +101,7 @@
                                     </shiro:hasPermission>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/cadreAdLog_page"
+                                        data-url="${ctx}/cadreAdLog"
                                         data-id-name="reserveId"
                                         data-open-by="page">
                                     <i class="fa fa-search"></i> 任免操作记录
@@ -120,7 +120,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>
@@ -199,10 +199,10 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
            title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({

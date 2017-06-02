@@ -272,17 +272,11 @@ public class ApplySelfController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("applySelf:list")
-    @RequestMapping("/applySelf")
-    public String applySelf() {
-
-        return "index";
-    }
 
     @RequiresPermissions("applySelf:list")
     @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
-    @RequestMapping("/applySelf_page")
-    public String applySelf_page(Integer cadreId,
+    @RequestMapping("/applySelf")
+    public String applySelf(Integer cadreId,
                                // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
                                @RequestParam(required = false, defaultValue = "0") int status, // -1: 已删除的记录
                                ModelMap modelMap) {
@@ -366,19 +360,11 @@ public class ApplySelfController extends BaseController {
         return;
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
-    @RequiresPermissions("applySelf:approvalList")
-    @RequestMapping("/applySelfList")
-    public String applySelfList() {
-
-        return "index";
-    }
-
     // 非管理员  审批人身份 审批记录
     @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
-    @RequestMapping("/applySelfList_page")
-    public String applySelfList_page(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+    @RequestMapping("/applySelfList")
+    public String applySelfList(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
                                      @RequestParam(required = false, defaultValue = "0") int status,
                                      Integer cadreId, ModelMap modelMap) {
 

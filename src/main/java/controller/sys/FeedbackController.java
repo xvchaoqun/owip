@@ -37,13 +37,7 @@ public class FeedbackController extends BaseController {
 
     @RequiresPermissions("feedback:list")
     @RequestMapping("/feedback")
-    public String feedback() {
-
-        return "index";
-    }
-    @RequiresPermissions("feedback:list")
-    @RequestMapping("/feedback_page")
-    public String feedback_page(Integer userId,ModelMap modelMap) {
+    public String feedback(Integer userId,ModelMap modelMap) {
 
         if (userId!=null) {
            modelMap.put("user", sysUserService.findById(userId));

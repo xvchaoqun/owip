@@ -219,14 +219,7 @@ public class ApplicatTypeController extends BaseController {
 
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType")
-    public String applicatType() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("approvalAuth:*")
-    @RequestMapping("/applicatType_page")
-    public String applicatType_page(HttpServletResponse response,
+    public String applicatType(HttpServletResponse response,
                                         @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_applicat_type") String sort,
                                         @OrderParam(required = false, defaultValue = "desc") String order,
                                         @RequestParam(defaultValue = "1") int cls,

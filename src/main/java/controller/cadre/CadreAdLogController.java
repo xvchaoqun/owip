@@ -28,8 +28,8 @@ public class CadreAdLogController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
-    @RequestMapping("/cadreAdLog_page")
-    public String cadreAdLog_page(Integer inspectId, Integer reserveId, Integer cadreId, ModelMap modelMap) {
+    @RequestMapping("/cadreAdLog")
+    public String cadreAdLog(Integer inspectId, Integer reserveId, Integer cadreId, ModelMap modelMap) {
 
         if (cadreId == null) {
             if (inspectId != null) {

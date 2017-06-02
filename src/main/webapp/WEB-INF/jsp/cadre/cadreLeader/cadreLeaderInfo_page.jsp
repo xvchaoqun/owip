@@ -7,7 +7,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="myTableDiv"
-                 data-url-page="${ctx}/cadre_page"
+                 data-url-page="${ctx}/cadreLeaderInfo"
                  data-url-co="${ctx}/cadre_changeOrder"
                  data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -17,11 +17,11 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="<c:if test="${status==CADRE_STATUS_LEADER}">active</c:if>">
-                            <a href="?status=${CADRE_STATUS_LEADER}"><i
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreLeaderInfo?status=${CADRE_STATUS_LEADER}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER)}</a>
                         </li>
                         <li class="<c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">active</c:if>">
-                            <a href="?status=${CADRE_STATUS_LEADER_LEAVE}"><i
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreLeaderInfo?status=${CADRE_STATUS_LEADER_LEAVE}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER_LEAVE)}</a>
                         </li>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
@@ -80,7 +80,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>
@@ -156,14 +156,14 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
            title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     function _reAssignCallback(){
-        location.href='${ctx}/cadreInspect';
+        $.hashchange('', '${ctx}/cadreInspect');
     }
     <c:if test="${status==CADRE_STATUS_MIDDLE || status==CADRE_STATUS_LEADER}">
     $("#jqGrid").jqGrid({
@@ -188,15 +188,6 @@
     </c:if>
     $(window).triggerHandler('resize.jqGrid');
     _initNavGrid("jqGrid", "jqGridPager");
-
-    /*function openView(id){
-     $("#body-content").hide();
-     $("#item-content").load("${ctx}/cadre_view?cadreId="+id).show();
-     }
-     function closeView(){
-     $("#body-content").show();
-     $("#item-content").hide();
-     }*/
 
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=cadreId]'));

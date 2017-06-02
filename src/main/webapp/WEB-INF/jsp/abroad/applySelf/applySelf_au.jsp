@@ -19,7 +19,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
@@ -29,6 +29,6 @@
         var cadreId = $("#modal select[name=cadreId]").val();
         if(cadreId=="") return;
         $("#modal").modal('hide');
-        _openView("${ctx}/user/applySelf_au?auth=admin&cadreId=" + cadreId);
+        $.loadView("${ctx}/user/applySelf_au?auth=admin&cadreId=" + cadreId);
     })
 </script>

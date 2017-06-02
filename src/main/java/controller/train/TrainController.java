@@ -38,13 +38,7 @@ public class TrainController extends BaseController {
 
     @RequiresPermissions("train:list")
     @RequestMapping("/train")
-    public String train() {
-
-        return "index";
-    }
-    @RequiresPermissions("train:list")
-    @RequestMapping("/train_page")
-    public String train_page(HttpServletResponse response,
+    public String train(HttpServletResponse response,
         String name,
     @RequestParam(required = false, defaultValue = "0") int export,
     @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录

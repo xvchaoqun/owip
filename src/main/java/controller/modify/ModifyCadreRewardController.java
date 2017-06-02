@@ -23,37 +23,13 @@ public class ModifyCadreRewardController extends BaseController {
 
     // 系统菜单
     @RequiresPermissions("modifyCadreReward:list")
-    @RequestMapping("/modifyCadreReward_teach")
-    public String modifyCadreReward_teach(HttpServletRequest request) {
-
-        request.setAttribute("rewardType", SystemConstants.CADRE_REWARD_TYPE_TEACH);
-        return "index";
-    }
-    // 系统菜单
-    @RequiresPermissions("modifyCadreReward:list")
-    @RequestMapping("/modifyCadreReward_research")
-    public String modifyCadreReward_research(HttpServletRequest request) {
-
-        request.setAttribute("rewardType", SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
-        return "index";
-    }
-    // 系统菜单
-    @RequiresPermissions("modifyCadreReward:list")
-    @RequestMapping("/modifyCadreReward_other")
-    public String modifyCadreReward_other(HttpServletRequest request) {
-
-        request.setAttribute("rewardType", SystemConstants.CADRE_REWARD_TYPE_OTHER);
-        return "index";
-    }
-
-    @RequiresPermissions("modifyCadreReward:list")
-    @RequestMapping({"/modifyCadreReward_teach_page", "/modifyCadreReward_research_page", "/modifyCadreReward_other_page"})
-    public String modifyCadreReward_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
+    @RequestMapping({"/modifyCadreReward"})
+    public String modifyCadreReward_page(byte rewardType, @CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                          Integer cadreId,
                                          HttpServletRequest request,
                                          ModelMap modelMap) {
 
-        byte rewardType = (byte)request.getAttribute("rewardType");
+        //byte rewardType = (byte)request.getAttribute("rewardType");
 
         if (cls == null) {
             cls = (byte) (ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE) ? 0 : 1);
@@ -89,7 +65,7 @@ public class ModifyCadreRewardController extends BaseController {
 
             return "modify/modifyCadreReward/modifyCadreReward_page";
         } else {
-            return "forward:/modifyTableApply_page?module=" + module + "&cls=" + cls;
+            return "forward:/modifyTableApply?module=" + module + "&cls=" + cls;
         }
     }
 

@@ -34,7 +34,7 @@
 
 </div>
 <div class="modal-footer">
-  <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
   <input type="button" id="search" class="btn btn-primary" value="查询"/>
 </div>
 <style>
@@ -57,7 +57,7 @@
           var msg = ret.msg;
           if($.trim(ret.reserveType)!=''){
             msg = _cMap.CADRE_RESERVE_TYPE_MAP[ret.reserveType]
-                    + '&nbsp;&nbsp;<a class="btn btn-success btn-xs" href="${ctx}/cadreReserve?reserveType='+ret.reserveType+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
+                    + '&nbsp;&nbsp;<a class="renderBtn btn btn-success btn-xs" href="javascript:;" data-url="${ctx}/cadreReserve?reserveType='+ret.reserveType+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
           }
           $("#modal #msg").show().find("span").html(msg);
 

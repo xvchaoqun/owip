@@ -28,14 +28,7 @@ public class ModifyCadreCompanyController extends BaseController {
     // 系统菜单
     @RequiresPermissions("modifyCadreCompany:list")
     @RequestMapping("/modifyCadreCompany")
-    public String modifyCadreCompany() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("modifyCadreCompany:list")
-    @RequestMapping("/modifyCadreCompany_page")
-    public String modifyCadreCompany_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
+    public String modifyCadreCompany(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
@@ -66,7 +59,7 @@ public class ModifyCadreCompanyController extends BaseController {
 
             return "modify/modifyCadreCompany/modifyCadreCompany_page";
         } else {
-            return "forward:/modifyTableApply_page?module=" + module + "&cls=" + cls;
+            return "forward:/modifyTableApply?module=" + module + "&cls=" + cls;
         }
     }
 

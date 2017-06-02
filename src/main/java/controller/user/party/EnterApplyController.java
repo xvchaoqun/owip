@@ -35,14 +35,7 @@ public class EnterApplyController extends BaseController {
 
     @RequiresRoles(SystemConstants.ROLE_GUEST)
     @RequestMapping("/apply")
-    public String apply() {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
-    @RequestMapping("/apply_page")
-    public String apply_page(@CurrentUser SysUserView loginUser, HttpServletResponse response, ModelMap modelMap) {
+    public String apply(@CurrentUser SysUserView loginUser, HttpServletResponse response, ModelMap modelMap) {
 
         Integer userId = loginUser.getId();
         EnterApply currentApply = enterApplyService.getCurrentApply(userId);

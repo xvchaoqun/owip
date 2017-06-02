@@ -389,7 +389,7 @@ pageEncoding="UTF-8"%>
 						_gotoPassportDrawPage(ret.applyId); // 强制跳转
 						</c:if>
 						<c:if test="${param.auth=='admin'}">
-						_closeView();
+						$.hideView();
 						</c:if>
                     }else{
 						$btn.button('reset');

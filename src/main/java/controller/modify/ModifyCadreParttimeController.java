@@ -22,14 +22,7 @@ public class ModifyCadreParttimeController extends BaseController {
     // 系统菜单
     @RequiresPermissions("modifyCadreParttime:list")
     @RequestMapping("/modifyCadreParttime")
-    public String modifyCadreParttime() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("modifyCadreParttime:list")
-    @RequestMapping("/modifyCadreParttime_page")
-    public String modifyCadreParttime_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
+    public String modifyCadreParttime(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
@@ -59,7 +52,7 @@ public class ModifyCadreParttimeController extends BaseController {
 
             return "modify/modifyCadreParttime/modifyCadreParttime_page";
         } else {
-            return "forward:/modifyTableApply_page?module=" + module + "&cls=" + cls;
+            return "forward:/modifyTableApply?module=" + module + "&cls=" + cls;
         }
     }
 

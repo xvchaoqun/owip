@@ -36,14 +36,7 @@ public class CisInspectObjController extends BaseController {
 
     @RequiresPermissions("cisInspectObj:list")
     @RequestMapping("/cisInspectObj")
-    public String cisInspectObj() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("cisInspectObj:list")
-    @RequestMapping("/cisInspectObj_page")
-    public String cisInspectObj_page(HttpServletResponse response,
+    public String cisInspectObj(HttpServletResponse response,
                                      Integer cadreId,
                                      ModelMap modelMap) {
 
@@ -119,6 +112,8 @@ public class CisInspectObjController extends BaseController {
             }
             if(objIds.size()>0){
                 criteria.andIdIn(objIds);
+            }else{
+                criteria.andIdIsNull();
             }
         }
 

@@ -132,10 +132,10 @@
 
 
     $("#print").click(function(){
-        printWindow("${ctx}/report/cancel?id=${param.id}&format=pdf");
+        $.print("${ctx}/report/cancel?id=${param.id}&format=pdf");
     });
     $("#print_proof").click(function(){
-        printWindow('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
+        $.print('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
     });
 
     /*$('#modalForm input[type=file]').ace_file_input({

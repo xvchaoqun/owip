@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<!-- inline scripts related to this page -->
-<script src="${ctx}/assets/js/flot/jquery.flot.js"></script>
-<script src="${ctx}/assets/js/flot/jquery.flot.pie.js"></script>
-<script src="${ctx}/assets/js/flot/jquery.flot.resize.js"></script>
-<script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
-<script src="${ctx}/extend/js/highcharts.js"></script>
-<script src="${ctx}/extend/js/exporting.js"></script>
 <div class="modal-body">
   <!-- PAGE CONTENT BEGINS -->
   <div class="widget-box transparent" id="view-box">

@@ -57,9 +57,7 @@
 
     function _reload() {
 
-        //$("#modal").modal('hide');
-        //$("#page-content").load("${ctx}/location_page?${cm:encodeQueryString(pageContext.request.queryString)}");
-        location.reload()
+        $.hashchange();
     }
 
     glyph_opts = {

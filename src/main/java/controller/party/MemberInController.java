@@ -48,13 +48,7 @@ public class MemberInController extends BaseController {
 
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn")
-    public String memberIn() {
-
-        return "index";
-    }
-    @RequiresPermissions("memberIn:list")
-    @RequestMapping("/memberIn_page")
-    public String memberIn_page(@RequestParam(defaultValue = "1")Integer cls, // 1 分党委待审核 2未通过 3 已审核 4组织部待审核
+    public String memberIn(@RequestParam(defaultValue = "1")Integer cls, // 1 分党委待审核 2未通过 3 已审核 4组织部待审核
                                 Integer userId,
                                 Integer partyId,
                                 Integer branchId,ModelMap modelMap) {

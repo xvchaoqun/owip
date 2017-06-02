@@ -119,16 +119,9 @@ public class UserPassportApplyController extends BaseController {
         return "user/abroad/passportApply/passportApply_confirm";
     }
 
-    /*@RequiresRoles(SystemConstants.ROLE_CADRE)
-    @RequestMapping("/passportApply")
-    public String passportApply() {
-
-        return "index";
-    }*/
-
     @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
-    @RequestMapping("/passportApply_page")
-    public String passportApply_page(@CurrentUser SysUserView loginUser,
+    @RequestMapping("/passportApply")
+    public String passportApply(@CurrentUser SysUserView loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
                                      @OrderParam(required = false, defaultValue = "desc") String order,
                                      // 1证件列表 2申请证件列表

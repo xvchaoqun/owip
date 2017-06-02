@@ -22,14 +22,7 @@ public class ModifyCadreTrainController extends BaseController {
     // 系统菜单
     @RequiresPermissions("modifyCadreTrain:list")
     @RequestMapping("/modifyCadreTrain")
-    public String modifyCadreTrain() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("modifyCadreTrain:list")
-    @RequestMapping("/modifyCadreTrain_page")
-    public String modifyCadreTrain_page(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
+    public String modifyCadreTrain(@CurrentUser SysUserView loginUser, Byte cls, // 0 列表 1 修改申请 2 完成审核 3 删除
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
@@ -59,7 +52,7 @@ public class ModifyCadreTrainController extends BaseController {
 
             return "modify/modifyCadreTrain/modifyCadreTrain_page";
         } else {
-            return "forward:/modifyTableApply_page?module=" + module + "&cls=" + cls;
+            return "forward:/modifyTableApply?module=" + module + "&cls=" + cls;
         }
     }
 

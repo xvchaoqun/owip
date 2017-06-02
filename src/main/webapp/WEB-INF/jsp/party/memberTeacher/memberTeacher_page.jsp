@@ -6,7 +6,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/member_au"
-             data-url-page="${ctx}/memberTeacher_page"
+             data-url-page="${ctx}/memberTeacher"
              data-url-bd="${ctx}/member_batchDel"
              data-url-export="${ctx}/memberTeacher_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -33,7 +33,7 @@
                            data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改信息</a>
                             <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                    data-url="${ctx}/memberModify_page"
+                                    data-url="${ctx}/memberModify"
                                     data-id-name="userId"
                                     data-open-by="page">
                                 <i class="fa fa-search"></i> 查看修改记录
@@ -58,7 +58,7 @@
                         <div class="widget-header">
                             <h4 class="widget-title">搜索</h4>
                             <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
+                                <a href="javascript:;" data-action="collapse">
                                     <i class="ace-icon fa fa-chevron-up<%--${_query?'up':'down'}--%>"></i>
                                 </a>
                             </div>

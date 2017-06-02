@@ -32,7 +32,7 @@
 
 <script>
     $("#print_proof").click(function () {
-        printWindow('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');
+        $.print('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');
     });
     $("#updateProof").click(function(){
         loadModal("${ctx}/updateLostProof?id=${passport.id}")

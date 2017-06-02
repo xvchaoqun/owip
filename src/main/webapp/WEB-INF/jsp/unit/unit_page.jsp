@@ -6,7 +6,7 @@
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/unit_au"
-             data-url-page="${ctx}/unit_page"
+             data-url-page="${ctx}/unit"
              data-url-export="${ctx}/unit_data"
              data-url-del="${ctx}/unit_del"
              data-url-bd="${ctx}/unit_batchDel"
@@ -17,10 +17,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 正在运转单位</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/unit?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 正在运转单位</a>
                     </li>
                     <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="?status=2"><i class="fa fa-history"></i> 历史单位</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/unit?status=2"><i class="fa fa-history"></i> 历史单位</a>
                     </li>
                 </ul>
 
@@ -68,7 +68,7 @@
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>
@@ -122,9 +122,9 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script type="text/template" id="sort_tpl">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
 <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({

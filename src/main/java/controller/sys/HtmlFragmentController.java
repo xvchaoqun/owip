@@ -42,13 +42,6 @@ public class HtmlFragmentController extends BaseController {
     @RequestMapping("/htmlFragment")
     public String htmlFragment() {
 
-        return "index";
-    }
-
-    @RequiresPermissions("htmlFragment:list")
-    @RequestMapping("/htmlFragment_page")
-    public String htmlFragment_page() {
-
         return "sys/htmlFragment/htmlFragment_page";
     }
     @RequiresPermissions("htmlFragment:list")

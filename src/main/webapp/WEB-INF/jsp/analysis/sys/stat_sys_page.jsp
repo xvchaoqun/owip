@@ -18,21 +18,21 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">
                                     <li class="${type==1?'active':''}" data-type="1">
-                                        <a href="#" class="blue">
+                                        <a href="javascript:;" class="blue">
                                             <i class="ace-icon fa fa-caret-right bigger-110 ${type==1?'':'invisible'}">
                                                 &nbsp;</i>
                                             最近三个月
                                         </a>
                                     </li>
                                     <li class="${type==2?'active':''}" data-type="2">
-                                        <a href="#" class="blue">
+                                        <a href="javascript:;" class="blue">
                                             <i class="ace-icon fa fa-caret-right bigger-110 ${type==2?'':'invisible'}">
                                                 &nbsp;</i>
                                             最近半年
                                         </a>
                                     </li>
                                     <li class="${type==3?'active':''}" data-type="3">
-                                        <a href="#" class="blue">
+                                        <a href="javascript:;" class="blue">
                                             <i class="ace-icon fa fa-caret-right bigger-110 ${type==3?'':'invisible'}">
                                                 &nbsp;</i>
                                             最近一年

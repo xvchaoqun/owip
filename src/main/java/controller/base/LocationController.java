@@ -27,12 +27,6 @@ public class LocationController extends BaseController {
     @RequestMapping("/location")
     public String location() {
 
-        return "index";
-    }
-    @RequiresPermissions("location:list")
-    @RequestMapping("/location_page")
-    public String location_page() {
-
         return "base/location/location_page";
     }
 

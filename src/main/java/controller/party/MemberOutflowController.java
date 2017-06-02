@@ -79,14 +79,7 @@ public class MemberOutflowController extends BaseController {
 
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow")
-    public String memberOutflow() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberOutflow:list")
-    @RequestMapping("/memberOutflow_page")
-    public String memberOutflow_page(@RequestParam(defaultValue = "1")byte cls,Integer userId,
+    public String memberOutflow(@RequestParam(defaultValue = "1")byte cls,Integer userId,
                                      Integer partyId,
                                      Integer branchId, ModelMap modelMap) {
 

@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div  class="myTableDiv"
-                  data-url-page="${ctx}/democraticParty_page"
+                  data-url-page="${ctx}/democraticParty"
                   data-url-bd="${ctx}/democraticParty_batchDel"
                   data-url-export="${ctx}/democraticParty_data"
                   data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                         <div class="widget-header">
                             <h4 class="widget-title">搜索</h4>
                             <div class="widget-toolbar">
-                                <a href="#" data-action="collapse">
+                                <a href="javascript:;" data-action="collapse">
                                     <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                 </a>
                             </div>

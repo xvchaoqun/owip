@@ -51,7 +51,7 @@
                     </tbody>
                 </table>
                 <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <wo:page commonList="${commonList}" uri="${ctx}/sysRole_page" target="#page-content" pageNum="5"
+                    <wo:page commonList="${commonList}" uri="${ctx}/sysRole" target="#page-content" pageNum="5"
                              model="3"/>
                 </c:if>
         </div>
@@ -90,16 +90,16 @@
 
     function _search() {
 
-        _tunePage(1, "", "${ctx}/sysRole_page", "#page-content", "", "&" + $("#searchForm").serialize());
+        _tunePage(1, "", "${ctx}/sysRole", "#page-content", "", "&" + $("#searchForm").serialize());
     }
 
     function _reset() {
 
-        _tunePage(1, "", "${ctx}/sysRole_page", "#page-content", "", "");
+        _tunePage(1, "", "${ctx}/sysRole", "#page-content", "", "");
     }
 
     function _reload() {
         $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysRole_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#page-content").load("${ctx}/sysRole?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

@@ -39,13 +39,6 @@ public class AttachFileController extends BaseController {
     @RequestMapping("/attachFile")
     public String attachFile() {
 
-        return "index";
-    }
-
-    @RequiresPermissions("attachFile:list")
-    @RequestMapping("/attachFile_page")
-    public String attachFile_page() {
-
         return "sys/attachFile/attachFile_page";
     }
 

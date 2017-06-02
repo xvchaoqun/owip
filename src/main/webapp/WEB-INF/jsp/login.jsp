@@ -35,10 +35,8 @@
 
         <div id="login" class="visible login-layout" >
 
-            <c:if test="${not empty error}">
-            <div class="login-error">
+            <div class="login-error" style="display: none">
             <i class="fa fa-times"></i> ${error}</div>
-            </c:if>
             <form id="login-form" method="POST" action="${ctx}/login">
                 <dt>登录账号</dt><dd><div class="input_box"><span class="account"></span><input name="username" class="account" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><span class="password"></span><input name="passwd"class="password" type="password"/></div></dd>

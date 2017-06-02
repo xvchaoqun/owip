@@ -45,13 +45,7 @@ public class UnitCadreTransferGroupController extends BaseController {
 
     @RequiresPermissions("unitCadreTransferGroup:list")
     @RequestMapping("/unitCadreTransferGroup")
-    public String unitCadreTransferGroup() {
-
-        return "index";
-    }
-    @RequiresPermissions("unitCadreTransferGroup:list")
-    @RequestMapping("/unitCadreTransferGroup_page")
-    public String unitCadreTransferGroup_page(HttpServletResponse response,
+    public String unitCadreTransferGroup(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer unitId,

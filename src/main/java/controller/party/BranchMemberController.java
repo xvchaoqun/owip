@@ -55,14 +55,7 @@ public class BranchMemberController extends BaseController {
 
     @RequiresPermissions("branchMember:list")
     @RequestMapping("/branchMember")
-    public String branchMember() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("branchMember:list")
-    @RequestMapping("/branchMember_page")
-    public String branchMember_page(HttpServletResponse response,
+    public String branchMember(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,

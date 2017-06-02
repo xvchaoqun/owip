@@ -152,13 +152,13 @@ pageEncoding="UTF-8"%>
 
 <c:if test="${memberTransfer.status!=MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer center">
-		<a href="#" class="btn btn-default closeView">取消</a>
+		<a href="javascript:;" class="btn btn-default closeView">取消</a>
 		<input type="submit" class="btn btn-primary" value="<c:if test="${memberTransfer!=null}">确定</c:if><c:if test="${memberTransfer==null}">添加</c:if>"/>
 	</div>
 </c:if>
 <c:if test="${memberTransfer.status==MEMBER_TRANSFER_STATUS_TO_VERIFY}">
 	<div class="modal-footer">
-		<a href="#" class="btn btn-default closeView">返回</a>
+		<a href="javascript:;" class="btn btn-default closeView">返回</a>
 	</div>
 </c:if>
 	</div>

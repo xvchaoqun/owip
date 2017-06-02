@@ -40,14 +40,7 @@ public class ContentTplController extends BaseController {
 
     @RequiresPermissions("contentTpl:list")
     @RequestMapping("/contentTpl")
-    public String contentTpl() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("contentTpl:list")
-    @RequestMapping("/contentTpl_page")
-    public String contentTpl_page(HttpServletResponse response,
+    public String contentTpl(HttpServletResponse response,
                                   Byte type,
                                   String content) {
 

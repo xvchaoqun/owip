@@ -7,7 +7,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/graduateAbroad_au"
-                 data-url-page="${ctx}/graduateAbroad_page"
+                 data-url-page="${ctx}/graduateAbroad"
                  data-url-export="${ctx}/graduateAbroad_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId 
@@ -19,54 +19,54 @@
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
                         <li class="dropdown <c:if test="${cls==1||cls==11||cls==12}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==11)?"(返回修改)":(cls==12)?"(已审核)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="?cls=1">新申请</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=1">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=11">返回修改</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=11">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=12">已审核</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=12">已审核</a>
                                 </li>
                             </ul>
                         </li>
                         </shiro:hasAnyRoles>
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
                         <li class="dropdown <c:if test="${cls==2||cls==21||cls==22}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-circle-o"></i> 分党委审核${cls==2?"(新申请)":(cls==21)?"(返回修改)":(cls==22)?"(已审核)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="?cls=2">新申请</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=2">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=21">返回修改</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=21">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=22">已审核</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=22">已审核</a>
                                 </li>
                             </ul>
                         </li>
                         </shiro:hasAnyRoles>
                         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
                         <li class="dropdown <c:if test="${cls==3||cls==31}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-circle-o"></i> 组织部审核${cls==3?"(新申请)":(cls==31)?"(返回修改)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="?cls=3">新申请</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=3">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=31">返回修改</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=31">返回修改</a>
                                 </li>
                             </ul>
                         </li>
@@ -81,20 +81,20 @@
                                 <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
                             </li>--%>
                         <li class="${cls==4?'active':''}">
-                            <a ${cls!=4?'href="?cls=4"':''}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=4"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
 
                         <li class="dropdown <c:if test="${cls==5||cls==6}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-sign-in"></i> 已完成审批${cls==5?"(未转出)":(cls==6)?"(已转出)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="?cls=5">现有暂留的党员</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=5">现有暂留的党员</a>
                                 </li>
                                 <li>
-                                    <a href="?cls=6">已转出的暂留党员</a>
+                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=6">已转出的暂留党员</a>
                                 </li>
                             </ul>
                         </li>
@@ -169,7 +169,7 @@
                                 </c:if>
 
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD}"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
@@ -189,7 +189,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>

@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/train_page"
+                 data-url-page="${ctx}/train"
                  data-url-export="${ctx}/train_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
                     <h4 class="widget-title">搜索</h4>
 
                     <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
+                        <a href="javascript:;" data-action="collapse">
                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                         </a>
                     </div>
@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
         })
     }
     function print_inspector(trainId, result){
-        printWindow("${ctx}/trainInspector_list?export=2&pagesize="+result+"&trainId="+ trainId)
+        $.print("${ctx}/trainInspector_list?export=2&pagesize="+result+"&trainId="+ trainId)
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -106,10 +106,10 @@ pageEncoding="UTF-8" %>
             { label: '结束日期',name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '培训课程', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue==0)
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainCourse_page?trainId={0}">编辑课程</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainCourse?trainId={0}">编辑课程</a>'
                                     .format(rowObject.id);
                 else
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainCourse_page?trainId={0}">查看课程（{1}）</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/trainCourse?trainId={0}">查看课程（{1}）</a>'
                             .format(rowObject.id, cellvalue);
             }, width: 200},
             {label: '评课说明', name: '_note', formatter: function (cellvalue, options, rowObject) {
@@ -143,7 +143,7 @@ pageEncoding="UTF-8" %>
             <shiro:hasPermission name="statTrain:list">
             {label: '测评结果', name: '_result', formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/stat_train_page?trainId={0}"><i class="fa fa-line-chart"></i> 查看</button>'
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/stat_train?trainId={0}"><i class="fa fa-line-chart"></i> 查看</button>'
                             .format(rowObject.id);
             }},
             </shiro:hasPermission>

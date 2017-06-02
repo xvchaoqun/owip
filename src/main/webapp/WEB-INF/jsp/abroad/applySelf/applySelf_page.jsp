@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/applySelf_page"
+             data-url-page="${ctx}/applySelf"
              data-url-export="${ctx}/applySelf_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate
@@ -13,16 +13,16 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="?status=1"><i class="fa fa-check"></i> 同意申请</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=1"><i class="fa fa-check"></i> 同意申请</a>
                     </li>
                     <li class="<c:if test="${status==2}">active</c:if>">
-                        <a href="?status=2"><i class="fa fa-times"></i> 不同意申请</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=2"><i class="fa fa-times"></i> 不同意申请</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="openView btn btn-success btn-sm"
@@ -53,7 +53,7 @@
                                 </shiro:hasPermission>
                             </c:if>
                             <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                    data-url="${ctx}/applySelfModify_page"
+                                    data-url="${ctx}/applySelfModify"
                                     data-id-name="applyId"
                                     data-open-by="page">
                                 <i class="fa fa-search"></i> 变更记录
@@ -103,7 +103,7 @@
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>

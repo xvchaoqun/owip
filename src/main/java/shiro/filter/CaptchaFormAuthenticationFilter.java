@@ -118,7 +118,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
             issueSuccessRedirect(request, response);
         } else {
 
-            String successUrl = ((HttpServletRequest) request).getContextPath() + "/index";
+            String successUrl = ((HttpServletRequest) request).getContextPath() + "/";
             SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(request);
             if (savedRequest != null && savedRequest.getMethod().equalsIgnoreCase("GET")) {
                 successUrl = savedRequest.getRequestUrl();

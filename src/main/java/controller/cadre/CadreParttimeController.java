@@ -47,12 +47,6 @@ public class CadreParttimeController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreParttime:list")
-    @RequestMapping("/cadreParttime")
-    public String cadreParttime() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreParttime:list")
     @RequestMapping("/cadreParttime_page")
     public String cadreParttime_page(
             @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览

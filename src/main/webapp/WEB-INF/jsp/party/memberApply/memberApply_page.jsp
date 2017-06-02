@@ -6,7 +6,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/memberApply_au"
-                 data-url-page="${ctx}/memberApply_page"
+                 data-url-page="${ctx}/memberApply"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId
             ||not empty param.partyId ||not empty param.branchId ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort}"/>
@@ -37,13 +37,13 @@
                                     <c:set value="<%=colors%>" var="colors"/>
                                     <ul class="nav nav-tabs" id="myTab3">
                                         <li class="<c:if test="${stage==APPLY_STAGE_OUT}">active</c:if>">
-                                            <a href='?cls=${cls}&type=${type}&stage=${APPLY_STAGE_OUT}'>
+                                            <a href="javascript:;" class="renderBtn" data-url='${ctx}/memberApply?cls=${cls}&type=${type}&stage=${APPLY_STAGE_OUT}'>
                                                 <span class="badge">*</span> 已转出的申请
                                             </a>
                                         </li>
                                         <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
                                             <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
-                                                <a href='?cls=${cls}&type=${type}&stage=${applyStage.key}'>
+                                                <a href="javascript:;" class="renderBtn" data-url='${ctx}/memberApply?cls=${cls}&type=${type}&stage=${applyStage.key}'>
                                                         <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
                                                     <c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>
                                                     <span class="badge ${colors[colorKey]}">${colorKey}</span>
@@ -68,7 +68,7 @@
                                             <div class="tabbable" >
                                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <li class="<c:if test="${type==APPLY_TYPE_STU}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=${APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
+                                                        <a href="javascript:;" class="renderBtn" data-url='${ctx}/memberApply?cls=${cls}&type=${APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
 
                                                             <c:if test="${stage==APPLY_STAGE_INIT}">
                                                                 <c:set value="${APPLY_STAGE_INIT}_${APPLY_TYPE_STU}" var="_key1"/>
@@ -89,7 +89,7 @@
                                                     </li>
 
                                                     <li class="<c:if test="${type==APPLY_TYPE_TEACHER}">active</c:if>">
-                                                        <a href='?cls=${cls}&type=${APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
+                                                        <a href="javascript:;" class="renderBtn" data-url='${ctx}/memberApply?cls=${cls}&type=${APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
                                                             <c:set value="${stage}_${APPLY_TYPE_TEACHER}" var="_key"/>
                                                             <c:if test="${stage==APPLY_STAGE_INIT}">
                                                                 <c:set value="${APPLY_STAGE_INIT}_${APPLY_TYPE_TEACHER}" var="_key1"/>
@@ -307,7 +307,7 @@
                                                             </c:choose>
 
                                                             <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                                                    data-url="${ctx}/applyApprovalLog_page"
+                                                                    data-url="${ctx}/applyApprovalLog"
                                                                     data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}"
                                                                     data-open-by="page">
                                                                 <i class="fa fa-sign-in"></i> 查看审批记录
@@ -333,7 +333,7 @@
                                                             <div class="widget-header">
                                                                 <h4 class="widget-title">搜索</h4>
                                                                 <div class="widget-toolbar">
-                                                                    <a href="#" data-action="collapse">
+                                                                    <a href="javascript:;" data-action="collapse">
                                                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                                                     </a>
                                                                 </div>
@@ -840,13 +840,9 @@
         });
     }
 
-    /*function _reset(){
-
-        _tunePage(1, "", "${ctx}/memberApply_page", "#home2", "", "&type=${type}&stage=${stage}");
-    }*/
 
     $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip({container:'body'});
+    $('[data-rel="tooltip"]').tooltip({container:'#page-content'});
     register_user_select($('#searchForm select[name=userId]'));
 
 </script>

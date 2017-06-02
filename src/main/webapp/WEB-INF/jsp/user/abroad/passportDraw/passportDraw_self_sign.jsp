@@ -78,7 +78,7 @@
 </c:if>
 <c:if test="${param.type=='view'}">
     $(".printBtn").click(function () {
-        printWindow("${ctx}/report/passportSign?id=${param.id}&format=pdf");
+        $.print("${ctx}/report/passportSign?id=${param.id}&format=pdf");
     });
 </c:if>
 </script>

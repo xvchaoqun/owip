@@ -69,17 +69,10 @@ public class PartyController extends BaseController {
         return "party/party_view";
     }
 
-    @RequiresPermissions("party:list")
-    @RequestMapping("/party")
-    public String party() {
-
-        return "index";
-    }
-
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:list")
-    @RequestMapping("/party_page")
-    public String party_page(ModelMap modelMap,@RequestParam(required = false, defaultValue = "1")Byte status) {
+    @RequestMapping("/party")
+    public String party(ModelMap modelMap,@RequestParam(required = false, defaultValue = "1")Byte status) {
 
         modelMap.put("status", status);
 

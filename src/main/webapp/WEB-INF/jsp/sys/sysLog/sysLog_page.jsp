@@ -6,7 +6,7 @@
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/sysLog_au"
-             data-url-page="${ctx}/sysLog_page"
+             data-url-page="${ctx}/sysLog"
              data-url-export="${ctx}/sysLog_data"
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -17,7 +17,7 @@
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
+                            <a href="javascript:;" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                             </a>
                         </div>

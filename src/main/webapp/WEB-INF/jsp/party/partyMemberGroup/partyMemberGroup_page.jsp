@@ -7,7 +7,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/partyMemberGroup_au"
-                 data-url-page="${ctx}/partyMemberGroup_page"
+                 data-url-page="${ctx}/partyMemberGroup"
                  data-url-export="${ctx}/partyMemberGroup_data"
                  data-url-co="${ctx}/partyMemberGroup_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -47,7 +47,7 @@
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
                         <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
+                            <a href="javascript:;" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                             </a>
                         </div>
@@ -98,9 +98,9 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-    <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
     <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-    <a href="#" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
     $("#jqGrid").jqGrid({
@@ -111,12 +111,12 @@
                 return (rowObject.isPresent)?str+cellvalue:cellvalue;
             },frozen:true},
             {label: '查看委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/partyMember_page?groupId={0}">查看委员</a>'
+                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/partyMember?groupId={0}">查看委员</a>'
                         .format(rowObject.id);
             }},
             {label: '导出委员', name: 'courseNum', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isPresent)
-                return '<a href="${ctx}/partyMember_page?export=1&groupId={0}" target="_blank"><i class="fa fa-file-excel-o"></i> 导出委员</a>'
+                return '<a href="${ctx}/partyMember?export=1&groupId={0}" target="_blank"><i class="fa fa-file-excel-o"></i> 导出委员</a>'
                         .format(rowObject.id);
                 return '-'
             }},

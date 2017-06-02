@@ -76,15 +76,9 @@ public class CadreAdditionalPostController extends BaseController {
         return "cadre/cadreAdditionalPost/cadre_additional_post";
     }
 
-    @RequiresPermissions("cadreAdditionalPost:list")
+    /*@RequiresPermissions("cadreAdditionalPost:list")
     @RequestMapping("/cadreAdditionalPost")
-    public String cadreAdditionalPost() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreAdditionalPost:list")
-    @RequestMapping("/cadreAdditionalPost_page")
-    public String cadreAdditionalPost_page(HttpServletResponse response,
+    public String cadreAdditionalPost(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_additional_post") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
@@ -137,7 +131,7 @@ public class CadreAdditionalPostController extends BaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
         return "cadre/cadreAdditionalPost/cadreAdditionalPost_page";
-    }
+    }*/
 
     @RequiresPermissions("cadreAdditionalPost:edit")
     @RequestMapping(value = "/cadreAdditionalPost_au", method = RequestMethod.POST)

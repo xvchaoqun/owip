@@ -23,7 +23,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/crpRecord_page"
+             data-url-page="${ctx}/crpRecord"
              data-url-export="${ctx}/crpRecord_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
@@ -33,10 +33,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isFinished}">active</c:if>">
-                        <a href="?isFinished=0"><i class="fa fa-circle-o-notch fa-spin"></i> 正在挂职</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=0"><i class="fa fa-circle-o-notch fa-spin"></i> 正在挂职</a>
                     </li>
                     <li class="<c:if test="${isFinished}">active</c:if>">
-                        <a href="?isFinished=1"><i class="fa fa-history"></i> 挂职结束</a>
+                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=1"><i class="fa fa-history"></i> 挂职结束</a>
                     </li>
                 </ul>
 
@@ -77,7 +77,7 @@
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
+                                    <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                     </a>
                                 </div>

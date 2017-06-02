@@ -38,14 +38,7 @@ public class MemberTeacherController extends BaseController {
 
     @RequiresPermissions("memberTeacher:list")
     @RequestMapping("/memberTeacher")
-    public String memberTeacher() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("memberTeacher:list")
-    @RequestMapping("/memberTeacher_page")
-    public String memberTeacher_page(
+    public String memberTeacher(
             @RequestParam(defaultValue = "1")int cls,
             Integer userId,
             Integer partyId,

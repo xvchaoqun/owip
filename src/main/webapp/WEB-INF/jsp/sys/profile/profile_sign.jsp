@@ -10,9 +10,7 @@
 
         <form class="form-horizontal" action="${ctx}/profile_sign" id="signForm" method="post" enctype="multipart/form-data">
           <div class="tabbable">
-            <jsp:include page="menu.jsp">
-              <jsp:param name="type" value="4"/>
-            </jsp:include>
+            <jsp:include page="menu.jsp"/>
 
             <div class="tab-content profile-edit-tab-content">
 <div class="modal-body">

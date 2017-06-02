@@ -8,7 +8,7 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-au="${ctx}/memberStay_au"
-                 data-url-page="${ctx}/memberStay_page"
+                 data-url-page="${ctx}/memberStay"
                  data-url-export="${ctx}/memberStay_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId 
@@ -26,7 +26,7 @@
                         </li>
 
                         <li class="dropdown <c:if test="${cls==3||cls==4}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
                                 <i class="fa fa-sign-in"></i> 已完成审批${cls==3?"(未转出)":(cls==4)?"(已转出)":""}
                                 <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
                             </a>
@@ -81,7 +81,7 @@
                                     </shiro:hasRole>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/applyApprovalLog_page"
+                                        data-url="${ctx}/applyApprovalLog"
                                         data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY}"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
@@ -92,7 +92,7 @@
                                     <h4 class="widget-title">搜索</h4>
 
                                     <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
+                                        <a href="javascript:;" data-action="collapse">
                                             <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
                                         </a>
                                     </div>

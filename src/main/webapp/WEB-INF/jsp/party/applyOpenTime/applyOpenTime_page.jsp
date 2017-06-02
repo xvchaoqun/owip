@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
             <!-- PAGE CONTENT BEGINS -->
             <div class="myTableDiv"
                  data-url-au="${ctx}/applyOpenTime_au"
-                 data-url-page="${ctx}/applyOpenTime_page"
+                 data-url-page="${ctx}/applyOpenTime"
                  data-url-del="${ctx}/applyOpenTime_del"
                  data-url-bd="${ctx}/applyOpenTime_batchDel"
                  data-url-co="${ctx}/applyOpenTime_changeOrder"
@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
 
                                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                                                         <%--<li>
-                                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
+                                                                        <a href="javascript:;" class="tooltip-info" data-rel="tooltip" title="查看">
                                                                                     <span class="blue">
                                                                                         <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                                                     </span>
@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
                                                                     </li>--%>
                                                                     <shiro:hasPermission name="applyOpenTime:edit">
                                                                         <li>
-                                                                            <a href="#" data-id="${applyOpenTime.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
+                                                                            <a href="javascript:;" data-id="${applyOpenTime.id}" class="editBtn tooltip-success" data-rel="tooltip" title="编辑">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
@@ -130,7 +130,7 @@ pageEncoding="UTF-8" %>
                                                                     </shiro:hasPermission>
                                                                     <shiro:hasPermission name="applyOpenTime:del">
                                                                         <li>
-                                                                            <a href="#" data-id="${applyOpenTime.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
+                                                                            <a href="javascript:;" data-id="${applyOpenTime.id}" class="delBtn tooltip-error" data-rel="tooltip" title="删除">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -145,7 +145,7 @@ pageEncoding="UTF-8" %>
                                             </c:forEach>
                                             </tbody>
                                         </table>
-                                        <wo:page commonList="${commonList}" uri="${ctx}/applyOpenTime_page" target="#page-content" pageNum="5"
+                                        <wo:page commonList="${commonList}" uri="${ctx}/applyOpenTime" target="#page-content" pageNum="5"
                                                  model="3"/>
                                     </c:if>
                                     <c:if test="${commonList.recNum==0}">

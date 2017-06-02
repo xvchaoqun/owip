@@ -33,16 +33,10 @@ import java.util.*;
 public class TrainEvaNormController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    
     @RequiresPermissions("trainEvaNorm:list")
     @RequestMapping("/trainEvaNorm")
-    public String trainEvaNorm() {
-
-        return "index";
-    }
-    @RequiresPermissions("trainEvaNorm:list")
-    @RequestMapping("/trainEvaNorm_page")
-    public String trainEvaNorm_page(int evaTableId, ModelMap modelMap) {
+    public String trainEvaNorm(int evaTableId, ModelMap modelMap) {
 
         modelMap.put("trainEvaTable", trainEvaTableMapper.selectByPrimaryKey(evaTableId));
 

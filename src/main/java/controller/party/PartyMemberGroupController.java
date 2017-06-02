@@ -37,13 +37,6 @@ public class PartyMemberGroupController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("partyMemberGroup:list")
-    @RequestMapping("/partyMemberGroup")
-    public String partyMemberGroup() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup_view")
     public String partyMemberGroup_view() {
 
@@ -56,8 +49,8 @@ public class PartyMemberGroupController extends BaseController {
     }
 
     @RequiresPermissions("partyMemberGroup:list")
-    @RequestMapping("/partyMemberGroup_page")
-    public String partyMemberGroup_page(@RequestParam(required = false, defaultValue = "1")Byte status,
+    @RequestMapping("/partyMemberGroup")
+    public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1")Byte status,
                                         @RequestParam(required = false, value = "typeIds")Integer[] typeIds,
                                         ModelMap modelMap) {
 

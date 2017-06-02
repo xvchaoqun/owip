@@ -42,14 +42,6 @@ public class ShortMsgTplController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("shortMsgTpl:list")
-    @RequestMapping("/shortMsgTpl")
-    public String shortMsgTpl() {
-
-        return "index";
-    }
-
-
-    @RequiresPermissions("shortMsgTpl:list")
     @RequestMapping("/shortMsgTpl_sendList_data")
     @ResponseBody
     public void shortMsgTpl_sendList_data(HttpServletResponse response,
@@ -110,8 +102,8 @@ public class ShortMsgTplController extends BaseController {
     }
 
     @RequiresPermissions("shortMsgTpl:list")
-    @RequestMapping("/shortMsgTpl_page")
-    public String shortMsgTpl_page(@RequestParam(defaultValue = "1") Integer cls, Integer receiverId, ModelMap modelMap) {
+    @RequestMapping("/shortMsgTpl")
+    public String shortMsgTpl(@RequestParam(defaultValue = "1") Integer cls, Integer receiverId, ModelMap modelMap) {
 
         if(receiverId!=null)
             modelMap.put("receiver", sysUserService.findById(receiverId));

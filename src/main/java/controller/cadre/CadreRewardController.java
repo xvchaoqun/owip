@@ -42,12 +42,6 @@ public class CadreRewardController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cadreReward:list")
-    @RequestMapping("/cadreReward")
-    public String cadreReward() {
-
-        return "index";
-    }
-    @RequiresPermissions("cadreReward:list")
     @RequestMapping("/cadreReward_page")
     public String cadreReward_page(
             @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览

@@ -42,13 +42,7 @@ public class ModifyCadreAuthController extends BaseController {
 
     @RequiresPermissions("modifyCadreAuth:list")
     @RequestMapping("/modifyCadreAuth")
-    public String modifyCadreAuth() {
-
-        return "index";
-    }
-    @RequiresPermissions("modifyCadreAuth:list")
-    @RequestMapping("/modifyCadreAuth_page")
-    public String modifyCadreAuth_page(Integer cadreId, ModelMap modelMap) {
+    public String modifyCadreAuth(Integer cadreId, ModelMap modelMap) {
 
         if(cadreId!=null) {
             CadreView cadre = cadreService.findAll().get(cadreId);

@@ -31,14 +31,7 @@ public class UserMemberInflowController extends BaseController{
 
     @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflow_base")
-    public String memberInflow_base() {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
-    @RequestMapping("/memberInflow_base_page")
-    public String memberInflow_base_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberInflow_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId= loginUser.getId();
         MemberInflow memberInflow = memberInflowService.get(userId);
@@ -49,14 +42,7 @@ public class UserMemberInflowController extends BaseController{
 
     @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflowOut")
-    public String memberInflowOut(@CurrentUser SysUserView loginUser) {
-
-        return "index";
-    }
-
-    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
-    @RequestMapping("/memberInflowOut_page")
-    public String memberInflowOut_page(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String memberInflowOut(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){

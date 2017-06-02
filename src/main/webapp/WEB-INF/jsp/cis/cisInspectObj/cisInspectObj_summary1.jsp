@@ -106,7 +106,7 @@
                     data: {unitIds: unitIds, objId: "${param.objId}", summary: ke.html()},
                     success: function (data) {
                         if (data.success) {
-                            _closeView()
+                            $.hideView()
                         }
                     }
                 });

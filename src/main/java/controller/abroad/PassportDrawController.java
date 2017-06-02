@@ -46,13 +46,6 @@ public class PassportDrawController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("passportDraw:list")
-    @RequestMapping("/passportDraw")
-    public String passportDraw() {
-
-        return "index";
-    }
-
-    @RequiresPermissions("passportDraw:list")
     @RequestMapping("/passportDraw_check")
     public String passportDraw_check(int id, ModelMap modelMap) {
 
@@ -107,8 +100,8 @@ public class PassportDrawController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("passportDraw:list")
-    @RequestMapping("/passportDraw_page")
-    public String passportDraw_page(Integer cadreId,
+    @RequestMapping("/passportDraw")
+    public String passportDraw(Integer cadreId,
                                     @RequestParam(required = false, defaultValue = "1") byte type,
                                     ModelMap modelMap) {
         modelMap.put("type", type);

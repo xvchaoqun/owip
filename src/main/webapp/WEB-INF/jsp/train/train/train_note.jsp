@@ -10,7 +10,7 @@
         <textarea id="noteId">${train.note}</textarea>
     </div>
 </div>
-<div class="modal-footer"><a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
+<div class="modal-footer"><a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <a id="add_entity" class="btn btn-primary" onclick="updateNote()">确定</a></div>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>

@@ -1,4 +1,32 @@
 
+
+
+
+update sys_resource set url='/' where url='/index';
+
+update sys_resource set url='/modifyCadreReward?rewardType=1' where url='/modifyCadreReward_teach';
+
+update sys_resource set url='/modifyCadreReward?rewardType=2' where url='/modifyCadreReward_research';
+
+update sys_resource set url='/modifyCadreReward?rewardType=3' where url='/modifyCadreReward_other';
+
+
+update sys_resource set url='/modifyCadreResearch?researchType=1' where url='/modifyCadreResearch_direct';
+
+update sys_resource set url='/modifyCadreResearch?researchType=2' where url='/modifyCadreResearch_in';
+
+
+
+update sys_resource set url='/crpRecord?type=1' where url='/crpRecord_out';
+
+update sys_resource set url='/crpRecord?type=2' where url='/crpRecord_in';
+
+update sys_resource set url='/crpRecord?type=3' where url='/crpRecord_transfer';
+
+
+
+
+
 -- 2017-5-26
 ALTER TABLE `crp_record`
 	CHANGE COLUMN `to_unit_type` `to_unit_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '委派单位，用于校外或外单位到本校挂职，关联元数据，中组部、教育部、市教工委、其他' AFTER `phone`,
