@@ -2,6 +2,8 @@
 
 
 
+-- 2017-6-2
+
 update sys_resource set url='/' where url='/index';
 
 update sys_resource set url='/modifyCadreReward?rewardType=1' where url='/modifyCadreReward_teach';
@@ -22,9 +24,6 @@ update sys_resource set url='/crpRecord?type=1' where url='/crpRecord_out';
 update sys_resource set url='/crpRecord?type=2' where url='/crpRecord_in';
 
 update sys_resource set url='/crpRecord?type=3' where url='/crpRecord_transfer';
-
-
-
 
 
 -- 2017-5-26
