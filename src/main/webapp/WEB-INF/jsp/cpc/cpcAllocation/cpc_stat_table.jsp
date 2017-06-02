@@ -47,9 +47,9 @@
 
   </tr>
   <tr class=xl652001 height=37 style='mso-height-source:userset;height:27.75pt'>
-    <td rowspan=3 height=111 class=xl762001 width=42 style='border-bottom:.5pt solid black;
+    <td rowspan=3 height=111 class=xl762001 width=42 style='border-bottom:1pt solid black;
   height:83.25pt;border-top:none;width:32pt'>序号</td>
-    <td rowspan=3 class=xl762001 width=201 style='border-bottom:.5pt solid black;
+    <td rowspan=3 class=xl762001 width=201 style='border-bottom:1pt solid black;
   border-top:none;width:151pt'>单位类型</td>
     <td colspan=4 class=xl792001 width=216 style='border-right:2.0pt double black;
   border-left:none;width:164pt'>所有岗位</td>
@@ -57,41 +57,41 @@
   width:164pt'>正处级岗位</td>
     <td colspan=4 class=xl892001 width=216 style='border-right:2.0pt double black;
   border-left:none;width:164pt'>副处级岗位</td>
-    <td colspan=4 class=xl882001 width=216 style='border-right:.5pt solid black;
+    <td colspan=4 class=xl882001 width=216 style='border-right:1pt solid black;
   border-left:none;width:164pt'>无行政级别岗位</td>
 
   </tr>
   <tr class=xl652001 height=37 style='mso-height-source:userset;height:27.75pt'>
-    <td rowspan=2 height=74 class=xl762001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 height=74 class=xl762001 width=54 style='border-bottom:1pt solid black;
   height:55.5pt;border-top:none;width:41pt'>干部<br>
       职数</td>
     <td colspan=2 class=xl792001 width=108 style='
   border-left:none;width:82pt'>在职岗位数</td>
-    <td rowspan=2 class=xl742001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl742001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
-    <td rowspan=2 class=xl762001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl762001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>干部<br>
       职数</td>
     <td colspan=2 class=xl792001 width=108 style='
   border-left:none;width:82pt'>在职岗位数</td>
-    <td rowspan=2 class=xl742001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl742001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
-    <td rowspan=2 class=xl762001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl762001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>干部<br>
       职数</td>
     <td colspan=2 class=xl792001 width=108 style='
   border-left:none;width:82pt'>在职岗位数</td>
-    <td rowspan=2 class=xl742001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl742001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
-    <td rowspan=2 class=xl762001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl762001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>干部<br>
       职数</td>
     <td colspan=2 class=xl792001 width=108 style='
   border-left:none;width:82pt'>在职岗位数</td>
-    <td rowspan=2 class=xl752001 width=54 style='border-bottom:.5pt solid black;
+    <td rowspan=2 class=xl752001 width=54 style='border-bottom:1pt solid black;
   border-top:none;width:41pt'>空缺<br>
       岗位数</td>
 
@@ -138,7 +138,7 @@
     <mytag:cpc_stat dataList="${fsList}" unitType="${UNIT_TYPE_ATTR_FS}"/>
   </tr>
   <tr height=64 style='mso-height-source:userset;height:48.0pt'>
-    <td colspan=2 height=64 class=xl842001 width=243 style='border-right:.5pt solid black;
+    <td colspan=2 height=64 class=xl842001 width=243 style='border-right:1pt solid black;
   height:48.0pt;width:183pt'>合计</td>
     <c:forEach items="${totalList}" var="data" varStatus="vs">
       <td class=${((vs.index+1)%4==0 && !vs.first && !vs.last)?'xl672001':'xl662001'} width=54>${data}</td>
@@ -198,7 +198,7 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border:.5pt solid windowtext;
+    border:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -237,9 +237,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
-    border-right:.5pt solid windowtext;
-    border-bottom:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
+    border-right:1pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:none;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -260,10 +260,10 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:2.0pt double windowtext;
-    border-bottom:.5pt solid windowtext;
-    border-left:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -283,7 +283,7 @@
     mso-number-format:General;
     text-align:left;
     vertical-align:middle;
-    border:.5pt solid windowtext;
+    border:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -322,9 +322,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:none;
-    border-bottom:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:none;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -345,7 +345,7 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border:.5pt solid windowtext;
+    border:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -365,8 +365,8 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
-    border-right:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
+    border-right:1pt solid windowtext;
     border-bottom:none;
     border-left:none;
     mso-background-source:auto;
@@ -388,10 +388,10 @@
     mso-number-format:General;
     text-align:left;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:2.0pt double windowtext;
-    border-bottom:.5pt solid windowtext;
-    border-left:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -411,10 +411,10 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:2.0pt double windowtext;
     border-bottom:none;
-    border-left:.5pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -435,9 +435,9 @@
     text-align:center;
     vertical-align:middle;
     border-top:none;
-    border-right:.5pt solid windowtext;
-    border-bottom:.5pt solid windowtext;
-    border-left:.5pt solid windowtext;
+    border-right:1pt solid windowtext;
+    border-bottom:1pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -457,10 +457,10 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
-    border-right:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
+    border-right:1pt solid windowtext;
     border-bottom:none;
-    border-left:.5pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -481,9 +481,9 @@
     text-align:center;
     vertical-align:middle;
     border-top:none;
-    border-right:.5pt solid windowtext;
+    border-right:1pt solid windowtext;
     border-bottom:none;
-    border-left:.5pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -504,9 +504,9 @@
     text-align:center;
     vertical-align:middle;
     border-top:none;
-    border-right:.5pt solid windowtext;
-    border-bottom:.5pt solid windowtext;
-    border-left:.5pt solid windowtext;
+    border-right:1pt solid windowtext;
+    border-bottom:1pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -526,10 +526,10 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:none;
-    border-bottom:.5pt solid windowtext;
-    border-left:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -549,9 +549,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
-    border-right:.5pt solid windowtext;
-    border-bottom:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
+    border-right:1pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:none;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -572,10 +572,10 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:2.0pt double windowtext;
-    border-bottom:.5pt solid windowtext;
-    border-left:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -614,7 +614,7 @@
     vertical-align:middle;
     border-top:none;
     border-right:none;
-    border-bottom:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:none;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -635,10 +635,10 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:none;
     border-bottom:none;
-    border-left:.5pt solid windowtext;
+    border-left:1pt solid windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
     white-space:normal;}
@@ -658,7 +658,7 @@
     mso-number-format:General;
     text-align:left;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:none;
     border-bottom:none;
     border-left:none;
@@ -681,9 +681,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:none;
-    border-bottom:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:none;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -704,9 +704,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:2.0pt double windowtext;
-    border-bottom:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:none;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -727,9 +727,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
     border-right:none;
-    border-bottom:.5pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:2.0pt double windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
@@ -750,9 +750,9 @@
     mso-number-format:General;
     text-align:center;
     vertical-align:middle;
-    border-top:.5pt solid windowtext;
-    border-right:.5pt solid windowtext;
-    border-bottom:.5pt solid windowtext;
+    border-top:1pt solid windowtext;
+    border-right:1pt solid windowtext;
+    border-bottom:1pt solid windowtext;
     border-left:2.0pt double windowtext;
     mso-background-source:auto;
     mso-pattern:auto;
