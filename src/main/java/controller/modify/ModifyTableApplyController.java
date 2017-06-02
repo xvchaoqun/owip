@@ -49,7 +49,7 @@ public class ModifyTableApplyController extends BaseController {
         modelMap.put("cls", cls);
         modelMap.put("module", module);
 
-        return "modify/modifyTableApply/modifyTableApply";
+        return "modify/modifyTableApply/modifyTableApply_page";
     }
 
     @RequiresPermissions("modifyTableApply:list")
