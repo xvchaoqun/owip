@@ -727,7 +727,8 @@ $(window).bind("hashchange", function () {
                 });
             }if (jqXHR.status == 404) {
                 SysMsg.info("页面不存在。",function(){
-                    location.href = ctx + "/";
+                    history.back();
+                    //location.href = ctx + "/";
                 });
             }else {
                 SysMsg.info("系统错误，请稍后再试。");
