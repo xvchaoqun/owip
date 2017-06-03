@@ -144,7 +144,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '发文单位',name: 'unitType', formatter: $.jgrid.formatter.MetaType, frozen: true},
             { label: '年度',name: 'year', width: 75, frozen: true},
-            { label: '所属专项工作',name: 'workType', formatter: $.jgrid.formatter.MetaType, frozen: true},
+            { label: '所属专项工作',name: 'workType', width: 180,  formatter: $.jgrid.formatter.MetaType, frozen: true},
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
@@ -152,7 +152,7 @@ pageEncoding="UTF-8" %>
             },
             { label: '发文号',name: 'code'},
             { label: '发文日期',name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '文件名',name: 'fileName'},
+            { label: '文件名', width: 180, name: 'fileName'},
             {
                 label: '文件', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.filePath && rowObject.filePath != ''){
@@ -162,10 +162,10 @@ pageEncoding="UTF-8" %>
                             + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
                                     .format(encodeURI(rowObject.filePath), encodeURI(fileName));
                 }
-                else return '';
+                else return '-';
             }
             },
-            { label: '保密级别',name: 'privacyType', formatter: $.jgrid.formatter.MetaType},
+            { label: '保密级别',name: 'privacyType', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label: '查看权限',name: '_auth', width:120,formatter: function (cellvalue, options, rowObject) {
                 return '<button class="popupBtn btn btn-xs btn-success"' +
                         'data-url="${ctx}/dispatchWorkFileAuth?id={0}"><i class="fa fa-search"></i> 查看权限({1})</button>'

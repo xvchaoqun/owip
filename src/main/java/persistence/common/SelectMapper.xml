@@ -263,13 +263,13 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
 
     <select id="findDispatchWorkFiles" parameterType="map"
             resultMap="persistence.dispatch.DispatchWorkFileMapper.BaseResultMap">
-        select distinct dwf.* from dispatch_work_file dwf, dispatch_work_file_auth dwfa
+        select distinct dwf.* from dispatch_work_file dwf<if test="!isAdmin">, dispatch_work_file_auth dwfa</if>
         <include refid="where_findDispatchWorkFiles"/>
         order by dwf.sort_order desc
     </select>
 
     <select id="countDispatchWorkFiles" parameterType="map" resultType="java.lang.Integer">
-        select count(distinct dwf.id) from dispatch_work_file dwf, dispatch_work_file_auth dwfa
+        select count(distinct dwf.id) from dispatch_work_file dwf<if test="!isAdmin">, dispatch_work_file_auth dwfa</if>
         <include refid="where_findDispatchWorkFiles"/>
     </select>
 </mapper>
