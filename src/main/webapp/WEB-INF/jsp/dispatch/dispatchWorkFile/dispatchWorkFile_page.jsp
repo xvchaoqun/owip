@@ -145,13 +145,11 @@ pageEncoding="UTF-8" %>
             { label: '发文单位',name: 'unitType', formatter: $.jgrid.formatter.MetaType, frozen: true},
             { label: '年度',name: 'year', width: 75, frozen: true},
             { label: '所属专项工作',name: 'workType', formatter: $.jgrid.formatter.MetaType, frozen: true},
-            <c:if test="${status}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
             }, frozen: true
             },
-            </c:if>
             { label: '发文号',name: 'code'},
             { label: '发文日期',name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '文件名',name: 'fileName'},
@@ -168,11 +166,10 @@ pageEncoding="UTF-8" %>
             }
             },
             { label: '保密级别',name: 'privacyType', formatter: $.jgrid.formatter.MetaType},
-            { label: '查看权限',name: '_auth',formatter: function (cellvalue, options, rowObject) {
-
-                return '<button class="popupBtn btn btn-xs btn-warning"' +
-                        'data-url="${ctx}/dispatchWorkFileAuth?id={0}"><i class="fa fa-search"></i> 查看权限</button>'
-                                .format(rowObject.id);
+            { label: '查看权限',name: '_auth', width:120,formatter: function (cellvalue, options, rowObject) {
+                return '<button class="popupBtn btn btn-xs btn-success"' +
+                        'data-url="${ctx}/dispatchWorkFileAuth?id={0}"><i class="fa fa-search"></i> 查看权限({1})</button>'
+                                .format(rowObject.id, rowObject.postCount);
             }},
             { label: '备注',name: 'remark', width:300}
         ]

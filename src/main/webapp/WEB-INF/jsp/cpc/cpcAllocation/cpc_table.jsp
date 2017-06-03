@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<link rel="stylesheet" href="${ctx}/css/cpc.css"/>
 <table border=0 cellpadding=0 cellspacing=0 width=1125 class=xl6324425
        style='border-collapse:collapse;table-layout:fixed;width:847pt'>
 <shiro:hasPermission name="cpcAllocation:edit">

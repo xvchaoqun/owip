@@ -101,15 +101,6 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-/*	function privacyTypeChange(){
-
-		var $privacyType = $("select[name=privacyType]");
-		var privacyType = $privacyType.val();
-		var boolAttr = $privacyType.find("option:selected").attr("boolAttr");
-		alert(boolAttr)
-		$("input[name='_files[]']").prop("disabled", boolAttr);
-	}*/
-
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

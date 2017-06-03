@@ -44,15 +44,23 @@ public class DispatchWorkFileService extends BaseMapper {
         example.createCriteria().andWorkFileIdEqualTo(workFileId);
         dispatchWorkFileAuthMapper.deleteByExample(example);
 
-        if (postIds == null || postIds.length == 0) return;
+        int postCount = 0;
+        if(postIds!=null) {
+            for (Integer postId : postIds) {
 
-        for (Integer postId : postIds) {
-
-            DispatchWorkFileAuth record = new DispatchWorkFileAuth();
-            record.setWorkFileId(workFileId);
-            record.setPostId(postId);
-            dispatchWorkFileAuthMapper.insert(record);
+                DispatchWorkFileAuth record = new DispatchWorkFileAuth();
+                record.setWorkFileId(workFileId);
+                record.setPostId(postId);
+                dispatchWorkFileAuthMapper.insert(record);
+            }
+            postCount = postIds.length;
         }
+
+        // 更新已设置职务属性数量
+        DispatchWorkFile record = new DispatchWorkFile();
+        record.setId(workFileId);
+        record.setPostCount(postCount);
+        dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
     }
 
     // 职务属性树结构
@@ -113,12 +121,17 @@ public class DispatchWorkFileService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        DispatchWorkFileExample example = new DispatchWorkFileExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        DispatchWorkFile record = new DispatchWorkFile();
-        record.setStatus(false);
+        for (Integer id : ids) {
+            DispatchWorkFile dwf = dispatchWorkFileMapper.selectByPrimaryKey(id);
+            Byte type = dwf.getType();
+            int nextSortOrder = getNextSortOrder("dispatch_work_file", "status=0 and type=" + type);
 
-        dispatchWorkFileMapper.updateByExampleSelective(record, example);
+            DispatchWorkFile record = new DispatchWorkFile();
+            record.setId(id);
+            record.setStatus(false);
+            record.setSortOrder(nextSortOrder);
+            dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional
@@ -155,18 +168,19 @@ public class DispatchWorkFileService extends BaseMapper {
         if (addNum == 0) return;
 
         DispatchWorkFile entity = dispatchWorkFileMapper.selectByPrimaryKey(id);
-        Assert.isTrue(entity.getStatus(), "状态异常");
+
         Integer baseSortOrder = entity.getSortOrder();
         Byte type = entity.getType();
+        Boolean status = entity.getStatus();
 
         DispatchWorkFileExample example = new DispatchWorkFileExample();
         if (addNum > 0) {
 
-            example.createCriteria().andStatusEqualTo(true).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andStatusEqualTo(status).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         } else {
 
-            example.createCriteria().andStatusEqualTo(true).andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andStatusEqualTo(status).andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -176,9 +190,9 @@ public class DispatchWorkFileService extends BaseMapper {
             DispatchWorkFile targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("dispatch_work_file", "status=1 and type=" + type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_work_file", "status="+ status +" and type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("dispatch_work_file", "status=1 and type=" + type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_work_file", "status="+ status +" and type=" + type, baseSortOrder, targetEntity.getSortOrder());
 
             DispatchWorkFile record = new DispatchWorkFile();
             record.setId(id);

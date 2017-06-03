@@ -14,8 +14,6 @@ public class DispatchWorkFile implements Serializable {
 
     private Integer workType;
 
-    private Integer sortOrder;
-
     private String code;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -32,6 +30,10 @@ public class DispatchWorkFile implements Serializable {
     private Byte type;
 
     private Boolean status;
+
+    private Integer postCount;
+
+    private Integer sortOrder;
 
     private Date createTime;
 
@@ -67,14 +69,6 @@ public class DispatchWorkFile implements Serializable {
 
     public void setWorkType(Integer workType) {
         this.workType = workType;
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
     }
 
     public String getCode() {
@@ -139,6 +133,22 @@ public class DispatchWorkFile implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Integer getPostCount() {
+        return postCount;
+    }
+
+    public void setPostCount(Integer postCount) {
+        this.postCount = postCount;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Date getCreateTime() {

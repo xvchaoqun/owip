@@ -372,66 +372,6 @@ public class DispatchWorkFileExample {
             return (Criteria) this;
         }
 
-        public Criteria andSortOrderIsNull() {
-            addCriterion("sort_order is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderIsNotNull() {
-            addCriterion("sort_order is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderEqualTo(Integer value) {
-            addCriterion("sort_order =", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderNotEqualTo(Integer value) {
-            addCriterion("sort_order <>", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderGreaterThan(Integer value) {
-            addCriterion("sort_order >", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sort_order >=", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderLessThan(Integer value) {
-            addCriterion("sort_order <", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
-            addCriterion("sort_order <=", value, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderIn(List<Integer> values) {
-            addCriterion("sort_order in", values, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderNotIn(List<Integer> values) {
-            addCriterion("sort_order not in", values, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
-            addCriterion("sort_order between", value1, value2, "sortOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
-            addCriterion("sort_order not between", value1, value2, "sortOrder");
-            return (Criteria) this;
-        }
-
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;
@@ -949,6 +889,126 @@ public class DispatchWorkFileExample {
 
         public Criteria andStatusNotBetween(Boolean value1, Boolean value2) {
             addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountIsNull() {
+            addCriterion("post_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountIsNotNull() {
+            addCriterion("post_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountEqualTo(Integer value) {
+            addCriterion("post_count =", value, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountNotEqualTo(Integer value) {
+            addCriterion("post_count <>", value, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountGreaterThan(Integer value) {
+            addCriterion("post_count >", value, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("post_count >=", value, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountLessThan(Integer value) {
+            addCriterion("post_count <", value, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountLessThanOrEqualTo(Integer value) {
+            addCriterion("post_count <=", value, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountIn(List<Integer> values) {
+            addCriterion("post_count in", values, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountNotIn(List<Integer> values) {
+            addCriterion("post_count not in", values, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountBetween(Integer value1, Integer value2) {
+            addCriterion("post_count between", value1, value2, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("post_count not between", value1, value2, "postCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNull() {
+            addCriterion("sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIsNotNull() {
+            addCriterion("sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderEqualTo(Integer value) {
+            addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotEqualTo(Integer value) {
+            addCriterion("sort_order <>", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThan(Integer value) {
+            addCriterion("sort_order >", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_order >=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThan(Integer value) {
+            addCriterion("sort_order <", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_order <=", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderIn(List<Integer> values) {
+            addCriterion("sort_order in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotIn(List<Integer> values) {
+            addCriterion("sort_order not in", values, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order between", value1, value2, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_order not between", value1, value2, "sortOrder");
             return (Criteria) this;
         }
 

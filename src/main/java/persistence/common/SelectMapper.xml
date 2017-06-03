@@ -228,8 +228,8 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
 
     <sql id="where_findDispatchWorkFiles">
         <where>
-            dwf.id=dwfa.work_file_id
             <if test="!isAdmin">
+                and dwf.id=dwfa.work_file_id
                 <if test="postIds == null or postIds.length==0">
                     and dwf.id is null
                 </if>

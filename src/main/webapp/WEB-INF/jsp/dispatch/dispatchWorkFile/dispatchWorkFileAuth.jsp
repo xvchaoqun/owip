@@ -49,6 +49,7 @@
 						success:function(data){
 							if(data.success){
 								$("#modal").modal('hide');
+								$("#jqGrid").trigger("reloadGrid");
 							}
 						}
 					});

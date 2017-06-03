@@ -387,9 +387,9 @@
       <table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
              mapperName="dispatch.DispatchWorkFileMapper">
       </table>
-      <table tableName="dispatch_work_file_auth" domainObjectName="dispatch.DispatchWorkFileAuth"
+      <!--<table tableName="dispatch_work_file_auth" domainObjectName="dispatch.DispatchWorkFileAuth"
              mapperName="dispatch.DispatchWorkFileAuthMapper">
-      </table>
+      </table>-->
 
      <!-- <table tableName="unit" domainObjectName="unit.Unit">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>

@@ -6,7 +6,6 @@
     <result column="unit_type" jdbcType="INTEGER" property="unitType" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="work_type" jdbcType="INTEGER" property="workType" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="pub_date" jdbcType="DATE" property="pubDate" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
@@ -15,6 +14,8 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="status" jdbcType="BIT" property="status" />
+    <result column="post_count" jdbcType="INTEGER" property="postCount" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_type, year, work_type, sort_order, code, pub_date, file_name, file_path, 
-    privacy_type, remark, type, status, create_time
+    id, unit_type, year, work_type, code, pub_date, file_name, file_path, privacy_type, 
+    remark, type, status, post_count, sort_order, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchWorkFileExample" resultMap="BaseResultMap">
     select
@@ -111,15 +112,15 @@
   </delete>
   <insert id="insert" parameterType="domain.dispatch.DispatchWorkFile">
     insert into dispatch_work_file (id, unit_type, year, 
-      work_type, sort_order, code, 
-      pub_date, file_name, file_path, 
-      privacy_type, remark, type, 
-      status, create_time)
+      work_type, code, pub_date, 
+      file_name, file_path, privacy_type, 
+      remark, type, status, post_count, 
+      sort_order, create_time)
     values (#{id,jdbcType=INTEGER}, #{unitType,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
-      #{workType,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
-      #{pubDate,jdbcType=DATE}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
-      #{privacyType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{status,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
+      #{workType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{pubDate,jdbcType=DATE}, 
+      #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{privacyType,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=BIT}, #{postCount,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.dispatch.DispatchWorkFile">
     insert into dispatch_work_file
@@ -135,9 +136,6 @@
       </if>
       <if test="workType != null">
         work_type,
-      </if>
-      <if test="sortOrder != null">
-        sort_order,
       </if>
       <if test="code != null">
         code,
@@ -163,6 +161,12 @@
       <if test="status != null">
         status,
       </if>
+      <if test="postCount != null">
+        post_count,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -179,9 +183,6 @@
       </if>
       <if test="workType != null">
         #{workType,jdbcType=INTEGER},
-      </if>
-      <if test="sortOrder != null">
-        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
@@ -206,6 +207,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
+      </if>
+      <if test="postCount != null">
+        #{postCount,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -233,9 +240,6 @@
       <if test="record.workType != null">
         work_type = #{record.workType,jdbcType=INTEGER},
       </if>
-      <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -260,6 +264,12 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.postCount != null">
+        post_count = #{record.postCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -274,7 +284,6 @@
       unit_type = #{record.unitType,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       work_type = #{record.workType,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       pub_date = #{record.pubDate,jdbcType=DATE},
       file_name = #{record.fileName,jdbcType=VARCHAR},
@@ -283,6 +292,8 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
       status = #{record.status,jdbcType=BIT},
+      post_count = #{record.postCount,jdbcType=INTEGER},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -299,9 +310,6 @@
       </if>
       <if test="workType != null">
         work_type = #{workType,jdbcType=INTEGER},
-      </if>
-      <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
@@ -327,6 +335,12 @@
       <if test="status != null">
         status = #{status,jdbcType=BIT},
       </if>
+      <if test="postCount != null">
+        post_count = #{postCount,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -338,7 +352,6 @@
     set unit_type = #{unitType,jdbcType=INTEGER},
       year = #{year,jdbcType=INTEGER},
       work_type = #{workType,jdbcType=INTEGER},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       pub_date = #{pubDate,jdbcType=DATE},
       file_name = #{fileName,jdbcType=VARCHAR},
@@ -347,6 +360,8 @@
       remark = #{remark,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=BIT},
+      post_count = #{postCount,jdbcType=INTEGER},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
