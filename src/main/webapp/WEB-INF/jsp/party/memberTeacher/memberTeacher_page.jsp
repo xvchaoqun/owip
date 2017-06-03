@@ -298,7 +298,7 @@
             { label: '岗位类别', name: 'postClass', width: 100 },
             { label: '专业技术职务', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
-                return displayParty(rowObject.partyId, rowObject.branchId);
+                return $.displayParty(rowObject.partyId, rowObject.branchId);
             },sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
@@ -336,7 +336,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <shiro:hasRole name="${ROLE_PARTYADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委内部组织关系变动",

@@ -299,7 +299,7 @@
             { label: '姓名',  name: 'user.realname', width: 100, frozen:true },
             { label: '所属组织机构', name: 'party', width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
-                return displayParty(rowObject.partyId, rowObject.branchId);
+                return $.displayParty(rowObject.partyId, rowObject.branchId);
             }, frozen:true  },
             { label: '状态',   name: 'inflowStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_INFLOW_STATUS_MAP[rowObject.inflowStatus];
@@ -345,7 +345,7 @@
         }}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1||cls==4}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",

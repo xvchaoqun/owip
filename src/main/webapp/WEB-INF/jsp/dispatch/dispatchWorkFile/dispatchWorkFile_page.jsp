@@ -177,7 +177,7 @@ pageEncoding="UTF-8" %>
         $(window).triggerHandler('resize.jqGrid');
     })
     register_date($('.date-picker'));
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

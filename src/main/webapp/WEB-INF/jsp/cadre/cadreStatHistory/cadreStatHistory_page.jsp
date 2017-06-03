@@ -137,6 +137,6 @@
     }).jqGrid("setFrozenColumns");
 
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
 </script>

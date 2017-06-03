@@ -1,5 +1,124 @@
+
+var SysMsg = {};
+SysMsg.error = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    if(typeof title=='function') {
+        callback = title;
+        title = '';
+    }
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
+    //toastr.error(msg, title);
+}
+SysMsg.warning = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.warning(msg, title);
+    if(typeof title=='function') {
+        callback = title;
+        title = '';
+    }
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
+}
+SysMsg.success = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.success(msg, title);
+    if(typeof title=='function') {
+        callback = title;
+        title = '';
+    }
+    bootbox.alert({
+        message:msg,
+        callback:callback,
+        title:title
+    });
+}
+SysMsg.info = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.info(msg, title);
+    if(typeof title=='function') {
+        callback = title;
+        title = '';
+    }
+    bootbox.dialog({
+        title:title,
+        message: msg,
+        closeButton: false,
+        buttons: {
+            close: {
+                label: "确定",
+                className: "btn-info",
+                callback: callback||function(){}
+            }
+        }
+    });
+}
+SysMsg.confirm = function(msg, title, callback){
+    $("body").css('padding-right','0px');
+    //toastr.success(msg, title);
+    if(typeof title=='function') {
+        callback = title;
+        title = '';
+    }
+    bootbox.confirm({
+        message:msg,
+        callback:callback,
+        title:title/*,
+         closeButton:false*/
+    });
+};
+
 (function ($) {
     $.extend({
+        getEvent: function () {
+            return window.event || arguments.callee.caller.arguments[0];
+        },
+        displayParty: function (partyId, branchId) { // 显示组织名称
+
+            var party = _cMap.partyMap[partyId];
+            var branch = branchId == undefined ? undefined : _cMap.branchMap[branchId];
+            return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
+                .format(party.isDeleted ? "delete" : "", party.name,
+                (branch != undefined && branch.isDeleted) ? "delete" : "",
+                (branch == undefined) ? "" : " - " + branch.name);
+        },
+        monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
+            return MonthDiff(date, new Date().format("yyyy-MM-dd"));
+        },
+        yearOffNow: function (date) {// 距离现在多少年，date格式：yyyy-MM-dd
+            return Math.floor($.monthOffNow(date) / 12);
+        },
+        calAge: function (date) {// 计算年龄，date格式：yyyy-MM-dd
+            var year = $.yearOffNow(date);
+            if (year == 0) {
+                var month = $.monthOffNow(date);
+                if (month == 0) return "未满月";
+                return month + "个月";
+            }
+            return year + "岁";
+        },
+        isJson: function (obj) {
+            var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase()
+                == "[object object]" && !obj.length;
+            return isjson;
+        },
+        initNavGrid: function (gridId, pagerId) {
+            $("#" + gridId).navGrid('#' + pagerId, {
+                refresh: true,
+                refreshstate: 'current',
+                refreshtitle: '获取最新数据',
+                edit: false,
+                add: false,
+                del: false,
+                search: false
+            });
+        },
         serializeRequestParams: function (paramArray) {
             var temp = [];
             for (i in paramArray) {
@@ -175,3 +294,86 @@
         }
     })
 })(jQuery);
+
+bootbox.setDefaults({locale: 'zh_CN'});
+$.fn.select2.defaults.set("language", "zh-CN");
+$.fn.select2.defaults.set("theme", "classic");
+$.fn.select2.defaults.set("allowClear", true);
+$.fn.select2.defaults.set("width", "200px");
+// 解决IE8下select2在modal里不能搜索的bug
+$.fn.modal.Constructor.prototype.enforceFocus = function () {
+};
+
+$.extend($.fn.bootstrapSwitch.defaults, {
+    onText: "是",
+    offText: "否",
+    onColor: "success",
+    offColor: "danger"
+});
+$.extend($.ui.dynatree.prototype.options, {
+    checkbox: true,
+    selectMode: 3,
+    cookieId: "dynatree-Cb3",
+    idPrefix: "dynatree-Cb3-",
+    debugLevel: 0
+});
+$.extend($.jgrid.defaults, {
+    responsive: true,
+    styleUI: "Bootstrap",
+    prmNames: {page: "pageNo", rows: "pageSize", sort: "sort", order: "order"},
+    //width:$(window).width()-$(".nav-list").width()-50,
+    //height:$(window).height()-390,
+    viewrecords: true,
+    shrinkToFit: false,
+    rowNum: 20,
+    multiselect: true,
+    multiboxonly: true,
+    mtype: "GET",
+    datatype: "jsonp",
+    //loadui:"disable",
+    loadtext: "数据加载中，请稍后...",
+    pager: "#jqGridPager",
+    //pagerpos:"right",
+    cmTemplate: {sortable: false, align: 'center', width: 100},
+    sortorder: "desc",
+    ondblClickRow: function (rowid, iRow, iCol, e) {
+        $(".jqEditBtn").click();
+    },
+    onPaging: function () {
+        $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+    }
+});
+
+$.jgrid.formatter = {};
+$.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
+    if (cellvalue == undefined) return '-';
+    return cellvalue ? "是" : "否";
+};
+
+$.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
+    if (cellvalue == undefined) return ''
+    return _cMap.GENDER_MAP[cellvalue];
+};
+$.jgrid.formatter.AGE = function (cellvalue, options, rowObject) {
+    if (cellvalue == undefined) return '';
+    return $.yearOffNow(cellvalue);
+};
+$.jgrid.formatter.MetaType = function (cellvalue, options, rowObject) {
+    if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
+    return _cMap.metaTypeMap[cellvalue].name
+};
+
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "positionClass": "toast-top-full-width",
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "3000",
+    "extendedTimeOut": "0",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};

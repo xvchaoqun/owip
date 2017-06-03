@@ -149,7 +149,7 @@ pageEncoding="UTF-8" %>
         $('[data-rel="tooltip"]').tooltip();
     });
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=cadreId]'));
 </script>

@@ -136,7 +136,7 @@
         for (i in currentExpandRows)
             $("#jqGrid2").expandSubGridRow(currentExpandRows[i])
     });
-    _initNavGrid("jqGrid2", "jqGridPager2");
+    $.initNavGrid("jqGrid2", "jqGridPager2");
 
     function _swtich(id, btn) {
 
@@ -145,7 +145,7 @@
         } else {
             $("#jqGrid2").collapseSubGridRow(id)
         }
-        _getEvent().stopPropagation();
+        $.getEvent().stopPropagation();
     }
 
     var currentExpandRows = [];

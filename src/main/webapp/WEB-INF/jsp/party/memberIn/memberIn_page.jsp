@@ -282,7 +282,7 @@
             {
                 label: '转入组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
@@ -337,7 +337,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委批量审核",

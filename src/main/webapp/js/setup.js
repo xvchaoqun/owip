@@ -1,75 +1,3 @@
-bootbox.setDefaults({locale: 'zh_CN'});
-$.fn.select2.defaults.set("language", "zh-CN");
-$.fn.select2.defaults.set("theme", "classic");
-$.fn.select2.defaults.set("allowClear", true);
-$.fn.select2.defaults.set("width", "200px");
-// 解决IE8下select2在modal里不能搜索的bug
-$.fn.modal.Constructor.prototype.enforceFocus = function () {
-};
-
-$.extend($.fn.bootstrapSwitch.defaults, {
-    onText: "是",
-    offText: "否",
-    onColor: "success",
-    offColor: "danger"
-});
-
-$.extend($.jgrid.defaults, {
-    responsive: true,
-    styleUI: "Bootstrap",
-    prmNames: {page: "pageNo", rows: "pageSize", sort: "sort", order: "order"},
-    //width:$(window).width()-$(".nav-list").width()-50,
-    //height:$(window).height()-390,
-    viewrecords: true,
-    shrinkToFit: false,
-    rowNum: 20,
-    multiselect: true,
-    multiboxonly: true,
-    mtype: "GET",
-    datatype: "jsonp",
-    //loadui:"disable",
-    loadtext: "数据加载中，请稍后...",
-    pager: "#jqGridPager",
-    //pagerpos:"right",
-    cmTemplate: {sortable: false, align: 'center', width: 100},
-    sortorder: "desc",
-    ondblClickRow: function (rowid, iRow, iCol, e) {
-        $(".jqEditBtn").click();
-    },
-    onPaging: function () {
-        $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
-    }
-});
-function _initNavGrid(gridId, pagerId) {
-    $("#" + gridId).navGrid('#' + pagerId, {
-        refresh: true,
-        refreshstate: 'current',
-        refreshtitle: '获取最新数据',
-        edit: false,
-        add: false,
-        del: false,
-        search: false
-    });
-}
-$.jgrid.formatter = {};
-$.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined) return '-';
-    return cellvalue ? "是" : "否";
-};
-
-$.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined) return ''
-    return _cMap.GENDER_MAP[cellvalue];
-};
-$.jgrid.formatter.AGE = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined) return '';
-    return yearOffNow(cellvalue);
-};
-$.jgrid.formatter.MetaType = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
-    return _cMap.metaTypeMap[cellvalue].name
-};
-
 /*$.jgrid.defaults.onSelectRow = function(ids) {
  sid = ids;
  };*/
@@ -161,10 +89,6 @@ $.jgrid.defaults.gridComplete = function () {
         $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
         jgrid_top = undefined;
     }
-};
-
-var _getEvent = function () {
-    return window.event || arguments.callee.caller.arguments[0];
 };
 
 $(window).on('resize.jqGrid0', function () {
@@ -276,21 +200,6 @@ $(document).on('shown.ace.widget hidden.ace.widget', function (ev) {
     $(window).triggerHandler('resize.jqGrid2');
 });
 
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "positionClass": "toast-top-full-width",
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "3000",
-    "extendedTimeOut": "0",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-};
-
 $(document).on("click", ".widget-header", function () {
     $("a[data-action=collapse]", this).click()
 });
@@ -324,16 +233,14 @@ $.fn.inputlimiter.defaults = $.extend({}, $.fn.inputlimiter.defaults, {
     limitText: '最多能输入%n个字符。'
 });
 
-var console = console || {
+var console = window.console || {
         log: function () {
+            return false;
+        },
+        dir: function () {
             return false;
         }
     };
-
-var isJson = function (obj) {
-    var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
-    return isjson;
-};
 
 $(document).on("click", ".table-actived tr>td", function () {
 
@@ -362,26 +269,11 @@ $.ajaxSetup({
                 message: "登陆超时，请您重新登陆",
                 closeButton: false,
                 buttons: {
-                    close: {
-                        label: "确定",
-                        className: "btn-info",
-                        callback: function () {
-                            //window.open('','_self','');
-                            $("#modal").modal('hide');
-                            window.close();
-                        }
-                    },
                     login: {
-                        label: "重新登陆",
+                        label: "确定",
                         className: "btn-success",
                         callback: function () {
-                            /*if(window.opener){
-                             //window.open('','_self','');
-                             window.close();
-                             }
-                             location.href=ctx+"/login";*/
-                            //alert(location.href)
-                            location.href = location.href;
+                            location.reload();
                         }
                     }
                 }
@@ -777,77 +669,73 @@ $(window).bind("hashchange", function () {
     if (url == '') return;
 
     //alert(hash.substr(1))
-    $.getJSON(ctx + "/menu_breadcrumbs?url=" + encodeURI(url), function (data) {
+    $.getJSON(ctx + "/menu_breadcrumbs?url=" + encodeURI(url)).done(function (topMenus) {
 
-        var breadcrumbs = _.template($("#breadcrumbs_tpl").html())({data: data});
-        /*console.dir(data)
-         console.dir($("#breadcrumbs_tpl").html())
-         console.dir(_.template($("#breadcrumbs_tpl").html())({data:data}))*/
-        /*$("#page-content").renderUrl({url:url,fn:function(ret){
-         alert(ret)
-         if(data.parents.length>1){
-         $("#breadcrumbs").html(breadcrumbs).show();
-         try {ace.settings.check('breadcrumbs', 'fixed')} catch (e) {}
-         }
-
-         }});*/
+        var breadcrumbs = _.template($("#breadcrumbs_tpl").html())({data: topMenus});
         $.ajax({
             url: url,
-            cache: false,
-            success: function (html) {
-                $("#page-content").empty().append(html);
-                if (data.parents.length > 1) {
-                    $("#breadcrumbs").html(breadcrumbs).show();
-                    try {
-                        ace.settings.check('breadcrumbs', 'fixed')
-                    } catch (e) {
-                    }
+            cache: false
+        }).done(function (html) {
+            $("#page-content").empty().append(html);
+            if (topMenus.parents.length > 1) {
+                $("#breadcrumbs").html(breadcrumbs).show();
+                try {
+                    ace.settings.check('breadcrumbs', 'fixed')
+                } catch (e) {
                 }
+            } else {
+                $("#breadcrumbs").hide();
+            }
+            $("#modal").modal('hide');
 
-                $("#modal").modal('hide');
-            },
-            error: function (jqXHR) {
-                if (jqXHR.status == 401) {
-                    SysMsg.info("您没有权限访问。", "没有权限", function () {
-                        location.href = ctx + "/";
-                    });
+            // 处理左侧菜单
+            $("#sidebar .nav-list li").removeClass("active").removeClass("open")
+            $("#sidebar .nav-list li ul").removeClass("nav-show").css("display", "none")
+            while ($("#sidebar .nav-list a[data-url='" + url + "']").length == 0) {
+                var idx = url.lastIndexOf("&");
+                if (idx == -1) {
+                    idx = url.indexOf("?");
+                    if (idx == -1) break;
                 }
+                url = url.substr(0, idx);
+                //console.log(url)
+            }
+            //console.log(url + "  " + $(".nav-list a[href='"+url+"']").length)
+            $("#sidebar .nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
+            $("#sidebar .nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
 
+            // 处理顶部菜单
+            url = hash.substr(1);
+            while ($(".navbar-header .nav-pills a[data-url='" + url + "']").length == 0) {
+                var idx = url.lastIndexOf("&");
+                if (idx == -1) {
+                    idx = url.indexOf("?");
+                    if (idx == -1) break;
+                }
+                url = url.substr(0, idx);
+                //console.log(url)
+            }
+            //console.log(url + "  " + $(".nav-pills a[href='"+url+"']").length)
+            // 清除顶部水平菜单状态
+            $(".navbar-header .nav-pills li").removeClass("active");
+            $(".navbar-header .nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status == 401) {
+                SysMsg.info("您没有权限访问。", "没有权限", function () {
+                    location.href = ctx + "/";
+                });
+            }if (jqXHR.status == 404) {
+                SysMsg.info("页面不存在。",function(){
+                    location.href = ctx + "/";
+                });
+            }else {
+                SysMsg.info("系统错误，请稍后再试。");
             }
         });
-
-        // 处理左侧菜单
-        $("#sidebar .nav-list li").removeClass("active").removeClass("open")
-        $("#sidebar .nav-list li ul").removeClass("nav-show").css("display", "none")
-        while ($("#sidebar .nav-list a[data-url='" + url + "']").length == 0) {
-            var idx = url.lastIndexOf("&");
-            if (idx == -1) {
-                idx = url.indexOf("?");
-                if (idx == -1) break;
-            }
-            url = url.substr(0, idx);
-            //console.log(url)
-        }
-        //console.log(url + "  " + $(".nav-list a[href='"+url+"']").length)
-        $("#sidebar .nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
-        $("#sidebar .nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
-
-        // 处理顶部菜单
-        url = hash.substr(1);
-        while ($(".navbar-header .nav-pills a[data-url='" + url + "']").length == 0) {
-            var idx = url.lastIndexOf("&");
-            if (idx == -1) {
-                idx = url.indexOf("?");
-                if (idx == -1) break;
-            }
-            url = url.substr(0, idx);
-            //console.log(url)
-        }
-        //console.log(url + "  " + $(".nav-pills a[href='"+url+"']").length)
-        // 清除顶部水平菜单状态
-        $(".navbar-header .nav-pills li").removeClass("active");
-        $(".navbar-header .nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
-    })
+    }).fail(function(){
+        SysMsg.info("系统错误，请稍后再试。");
+    });
 
 });
 
@@ -1149,7 +1037,7 @@ $(document).on("click", "#body-content .openView", function () {
 $(document).on("click", "#item-content .openView", function () {
 
     $(this).attr("disabled", "disabled");
-    $.loadView($(this).data("url"), false, function(){
+    $.loadView($(this).data("url"), false, function () {
         $(this).removeAttr("disabled");
     });
 });
@@ -1667,37 +1555,6 @@ $(document).on("click", "a.change-order", function () {
         }
     }).draggable({handle: ".modal-header"});
 });
-
-// 距离现在多少月，date格式：yyyy-MM-dd
-function monthOffNow(date) {
-    return MonthDiff(date, new Date().format("yyyy-MM-dd"));
-}
-
-// 距离现在多少年，date格式：yyyy-MM-dd
-function yearOffNow(date) {
-    return Math.floor(monthOffNow(date) / 12);
-}
-
-// 计算年龄，date格式：yyyy-MM-dd
-function calAge(date) {
-    var year = yearOffNow(date);
-    if (year == 0) {
-        var month = monthOffNow(date);
-        if (month == 0) return "未满月";
-        return month + "个月";
-    }
-    return year + "岁";
-}
-
-// 显示组织名称
-function displayParty(partyId, branchId) {
-
-    var party = _cMap.partyMap[partyId];
-    var branch = branchId == undefined ? undefined : _cMap.branchMap[branchId];
-    return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
-        .format(party.isDeleted ? "delete" : "", party.name,
-        (branch != undefined && branch.isDeleted) ? "delete" : "", (branch == undefined) ? "" : " - " + branch.name)
-}
 
 // 下拉多选
 function register_multiselect($select, selected, params) {

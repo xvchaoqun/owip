@@ -167,7 +167,7 @@
             {label: '身份证号码', name: 'idcard', width: 200,frozen:true},
             {label: '手机号码', name: 'phone'},
             {label: '所属组织机构', name: 'party', width: 450, align:'left',formatter: function (cellvalue, options, rowObject) {
-                return displayParty(rowObject.partyId);
+                return $.displayParty(rowObject.partyId);
             }},
             {label: '注册时间', name: 'createTime', width: 150},
             {label: 'IP', name: 'ip', width: 150}, {hidden: true, name: 'status'}
@@ -194,7 +194,7 @@
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=userId]'));
     register_party_select($('#searchForm select[name=partyId]'));

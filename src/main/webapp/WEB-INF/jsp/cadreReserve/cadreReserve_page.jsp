@@ -320,7 +320,7 @@
                 name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var year = yearOffNow(cellvalue);
+                    var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -414,7 +414,7 @@
     });
 
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=cadreId]'));
 </script>

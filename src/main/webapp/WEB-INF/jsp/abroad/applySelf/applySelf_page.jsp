@@ -367,7 +367,7 @@
         $('[data-tooltip="tooltip"]').tooltip({container: 'body'});
     });
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
 
     function approverTdAttrs(tdBean) {
 

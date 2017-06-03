@@ -317,7 +317,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"分党委审核",

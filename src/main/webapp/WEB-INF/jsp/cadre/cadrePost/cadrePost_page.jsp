@@ -247,7 +247,7 @@
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var year = yearOffNow(cellvalue);
+                    var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -277,7 +277,7 @@
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var year = yearOffNow(cellvalue);
+                    var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -378,7 +378,7 @@
                 name: 'dispatchCadreRelateBean.last.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var year = yearOffNow(cellvalue);
+                    var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },
@@ -408,7 +408,7 @@
                 name: 'dispatchCadreRelateBean.first.workTime',
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '';
-                    var year = yearOffNow(cellvalue);
+                    var year = $.yearOffNow(cellvalue);
                     return year == 0 ? "未满一年" : year;
                 }
             },

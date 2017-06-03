@@ -375,7 +375,7 @@
             {
                 label: '所属组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             <c:if test="${cls==22||cls==3||cls==31||cls==5||cls==6}">
@@ -466,7 +466,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1||cls==11}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",

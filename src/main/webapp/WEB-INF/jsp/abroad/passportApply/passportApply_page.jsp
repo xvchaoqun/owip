@@ -202,7 +202,7 @@ pageEncoding="UTF-8" %>
             </c:if>
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     /*$(".printBtn").click(function(){
         $.print("${ctx}/report/passportApply?id="+ $(this).data("id"));
     });*/

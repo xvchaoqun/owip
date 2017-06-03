@@ -277,7 +277,7 @@
             } else {
                 $("#jqGrid_cadreWork").collapseSubGridRow(id)
             }
-            _getEvent().stopPropagation();
+            $.getEvent().stopPropagation();
         }
 
         var currentExpandRows = [];

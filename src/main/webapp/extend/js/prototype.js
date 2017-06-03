@@ -127,45 +127,5 @@ function MonthDiff(date1,date2){
 
 }
 
-var SysMsg = {};
-SysMsg.error = function(msg, title){
-    $("body").css('padding-right','0px');
-    bootbox.alert(msg);
-    //toastr.error(msg, title);
-}
-SysMsg.warning = function(msg, title){
-    $("body").css('padding-right','0px');
-    //toastr.warning(msg, title);
-    bootbox.alert(msg);
-}
-SysMsg.success = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    //toastr.success(msg, title);
-    bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
-    });
-}
-SysMsg.info = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    //toastr.info(msg, title);
-    bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
-    });
-}
-SysMsg.confirm = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    //toastr.success(msg, title);
-    bootbox.confirm({
-        message:msg,
-        callback:callback,
-        title:title/*,
-        closeButton:false*/
-    });
-}
-
 
 

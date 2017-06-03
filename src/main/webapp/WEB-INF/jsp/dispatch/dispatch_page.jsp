@@ -299,5 +299,5 @@
         && dismissCount == realDismissCount);
     }
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
 </script>

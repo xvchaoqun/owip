@@ -227,7 +227,7 @@
         $('.avatar').on('click', showAvatarModal);
     });
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
 
     $("#searchForm select").select2();
 

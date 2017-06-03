@@ -74,6 +74,6 @@
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid2');
     });
-    _initNavGrid("jqGrid2", "jqGridPager2");
+    $.initNavGrid("jqGrid2", "jqGridPager2");
 
 </script>

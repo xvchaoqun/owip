@@ -296,7 +296,7 @@
             {
                 label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             {label: '提交恢复组织生活申请时间', name: 'returnApplyTime', width: 200, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -350,7 +350,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",

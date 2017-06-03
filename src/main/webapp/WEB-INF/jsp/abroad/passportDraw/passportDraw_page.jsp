@@ -444,7 +444,7 @@
 
 
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
 
     register_fancybox(function () {
         //console.log(this)

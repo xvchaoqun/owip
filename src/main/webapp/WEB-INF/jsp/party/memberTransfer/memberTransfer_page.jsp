@@ -249,12 +249,12 @@
             {
                 label: '所属组织机构', name: 'from',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 },frozen:true
             },
             {label: '转入组织机构', name: 'to', width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.toPartyId, rowObject.toBranchId);
+                    return $.displayParty(rowObject.toPartyId, rowObject.toBranchId);
                 }
             },
             {label: '转出办理时间', name: 'fromHandleTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -296,7 +296,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"转出分党委批量审核",

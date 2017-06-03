@@ -49,7 +49,7 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     function _stop(id){
 
         $.post("${ctx}/sync_stop",{id:id},function(ret){

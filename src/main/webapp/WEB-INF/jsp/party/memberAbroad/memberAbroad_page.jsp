@@ -109,7 +109,7 @@
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             {label: '国家', name: 'gj'},
@@ -137,7 +137,7 @@
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     register_user_select($('#searchForm select[name=userId]'));
 </script>

@@ -268,7 +268,7 @@
             {
                 label: '所属组织机构', name: 'from',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    return displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             {label: '出党时间', name: 'quitTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -316,7 +316,7 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    _initNavGrid("jqGrid", "jqGridPager");
+    $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",
