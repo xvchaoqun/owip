@@ -13,7 +13,8 @@
 			<label class="col-xs-3 control-label">所属分类</label>
 			<div class="col-xs-6">
 				<input type="hidden" name="classId" value="${metaType.classId}">
-				<input type="text" readonly value="${metaClassMap.get(metaType.classId).name}">
+				<c:set value="${metaClassMap.get(metaType.classId)}" var="metaClass"/>
+				<input type="text" readonly value="${metaClass.name}">
 
 			</div>
 		</div>
@@ -31,7 +32,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">布尔属性</label>
+				<label class="col-xs-3 control-label">${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</label>
 				<div class="col-xs-6">
 					<label>
 						<input name="boolAttr"  type="checkbox" ${metaType.boolAttr?"checked":""}/>

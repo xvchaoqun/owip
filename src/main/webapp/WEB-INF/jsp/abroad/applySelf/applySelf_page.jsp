@@ -13,16 +13,16 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=1"><i class="fa fa-check"></i> 同意申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=1"><i class="fa fa-check"></i> 同意申请</a>
                     </li>
                     <li class="<c:if test="${status==2}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=2"><i class="fa fa-times"></i> 不同意申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=2"><i class="fa fa-times"></i> 不同意申请</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/applySelf?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="openView btn btn-success btn-sm"

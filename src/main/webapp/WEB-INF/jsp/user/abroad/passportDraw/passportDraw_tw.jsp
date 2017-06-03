@@ -8,13 +8,13 @@
 
         <div class="buttons">
           <c:if test="${param.auth!='admin'}">
-          <a data-url="${ctx}/user/passportDraw" class="renderBtn btn btn-sm btn-success">
+          <a data-url="${ctx}/user/passportDraw" class="loadPage btn btn-sm btn-success">
             <i class="ace-icon fa fa-backward"></i>
             返回
           </a>
           </c:if>
         <c:if test="${param.auth=='admin'}">
-          <a data-url="${ctx}/passportDraw?type=2" class="renderBtn btn btn-sm btn-success">
+          <a data-url="${ctx}/passportDraw?type=2" class="loadPage btn btn-sm btn-success">
             <i class="ace-icon fa fa-backward"></i>
             返回
           </a>
@@ -122,7 +122,7 @@
          class="btn btn-primary" value="下一步"/>
   <input id="submit" style="display: none" class="btn btn-success" value="提交申请"/>
   <c:if test="${param.auth!='admin'}">
-  <input class="renderBtn btn btn-default" value="取消" data-url="${ctx}/user/passportDraw"/>
+  <input class="loadPage btn btn-default" value="取消" data-url="${ctx}/user/passportDraw"/>
   </c:if>
 </div>
         </div></div></div>

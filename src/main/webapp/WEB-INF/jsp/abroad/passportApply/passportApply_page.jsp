@@ -13,7 +13,7 @@ pageEncoding="UTF-8" %>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
                     </li>
                     <li class="dropdown <c:if test="${status==1||status==3||status==4}">active</c:if>" >
                         <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
@@ -22,21 +22,21 @@ pageEncoding="UTF-8" %>
                         </a>
                         <ul class="dropdown-menu dropdown-info" style="min-width: 230px">
                             <li>
-                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=1">未交证件</a>
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=1">未交证件</a>
                             </li>
                             <li>
-                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=3">已交证件</a>
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=3">已交证件</a>
                             </li>
                             <li>
-                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=4">作废</a>
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=4">作废</a>
                             </li>
                         </ul>
                     </li>
                     <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_NOT_PASS}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                 </ul>
 

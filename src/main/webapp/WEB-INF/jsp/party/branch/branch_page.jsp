@@ -18,10 +18,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/branch?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部</a>
                     </li>
                     <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/branch?status=-1"><i class="fa fa-trash"></i> 已删除支部</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=-1"><i class="fa fa-trash"></i> 已删除支部</a>
                     </li>
                 </ul>
 

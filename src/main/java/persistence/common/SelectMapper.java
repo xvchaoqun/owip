@@ -8,6 +8,7 @@ import domain.cadre.CadreFamliy;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadrePost;
 import domain.dispatch.DispatchCadreView;
+import domain.dispatch.DispatchWorkFile;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -20,6 +21,27 @@ import java.util.List;
 import java.util.Map;
 
 public interface SelectMapper {
+
+    // 根据允许查看的职务属性等条件， 查询干部工作文件列表
+    public List<DispatchWorkFile> findDispatchWorkFiles(
+            @Param("isAdmin") boolean isAdmin,
+            @Param("postIds") List<Integer> postIds,
+            @Param("type") Byte type,
+            @Param("status") Boolean status,
+            @Param("unitType") Integer unitType,
+            @Param("year") Integer year,
+            @Param("workType") Integer workType,
+            @Param("privacyType") Integer privacyType, RowBounds rowBounds);
+    int countDispatchWorkFiles(
+            @Param("isAdmin") boolean isAdmin,
+            @Param("postIds") List<Integer> postIds,
+            @Param("type") Byte type,
+            @Param("status") Boolean status,
+            @Param("unitType") Integer unitType,
+            @Param("year") Integer year,
+            @Param("workType") Integer workType,
+            @Param("privacyType") Integer privacyType);
+
 
     // 获取主职、兼职在某单位的现任干部
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
@@ -55,8 +77,8 @@ public interface SelectMapper {
             "and c.status in(" + SystemConstants.CADRE_STATUS_MIDDLE + "," + SystemConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
     public List<CadrePost> findCadrePostsByUnitType(@Param("adminLevelId") Integer adminLevelId,
-                                          @Param("isMainPost") boolean isMainPost,
-                                          @Param("unitType") String unitType);
+                                                    @Param("isMainPost") boolean isMainPost,
+                                                    @Param("unitType") String unitType);
 
     // 获取2013年以来离任干部
     /*@ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")

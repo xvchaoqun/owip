@@ -35,7 +35,7 @@
                         <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
                             <c:if test="${!cm:hasRole(ROLE_ONLY_CADRE_VIEW) || _type.key!=CADRE_RESERVE_TYPE_SCHOOL}">
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
-                                <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreReserve?reserveType=${_type.key}">
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreReserve?reserveType=${_type.key}">
                                     <i class="fa fa-flag"></i>
                                         ${_type.value}(${normalCountMap.get(_type.key)})</a>
                             </li>
@@ -45,7 +45,7 @@
 <c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreReserve?status=${_status.key}">
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreReserve?status=${_status.key}">
                                         <c:if test="${_status.key==CADRE_RESERVE_STATUS_ABOLISH}">
                                         <i class="fa fa-times"></i>
                                         </c:if>

@@ -57,7 +57,7 @@
           var msg = ret.msg;
           if($.trim(ret.reserveType)!=''){
             msg = _cMap.CADRE_RESERVE_TYPE_MAP[ret.reserveType]
-                    + '&nbsp;&nbsp;<a class="renderBtn btn btn-success btn-xs" href="javascript:;" data-url="${ctx}/cadreReserve?reserveType='+ret.reserveType+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
+                    + '&nbsp;&nbsp;<a class="loadPage btn btn-success btn-xs" href="javascript:;" data-url="${ctx}/cadreReserve?reserveType='+ret.reserveType+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
           }
           $("#modal #msg").show().find("span").html(msg);
 

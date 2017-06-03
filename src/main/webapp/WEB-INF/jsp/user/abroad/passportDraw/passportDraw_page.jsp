@@ -19,13 +19,13 @@
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a class="renderBtn" data-type="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-plane"></i> 因私出国（境）</a>
+                        <a class="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-plane"></i> 因私出国（境）</a>
                     </li>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a class="renderBtn" data-type="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-ship"></i> 因公赴台、长期因公出国</a>
+                        <a class="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-ship"></i> 因公赴台、长期因公出国</a>
                     </li>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a class="renderBtn" data-type="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-share"></i> 处理其他事务</a>
+                        <a class="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-share"></i> 处理其他事务</a>
                     </li>
                 </ul>
 

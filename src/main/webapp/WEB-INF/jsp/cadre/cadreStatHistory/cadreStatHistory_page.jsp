@@ -107,7 +107,7 @@
             return;
         }
         $(btn).data("url", "${ctx}/cadreStatHistory?type=" + type);
-        _confirm(btn);
+        $.confirm(btn);
     }
     $("#jqGrid").jqGrid({
         url: '${ctx}/cadreStatHistory_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

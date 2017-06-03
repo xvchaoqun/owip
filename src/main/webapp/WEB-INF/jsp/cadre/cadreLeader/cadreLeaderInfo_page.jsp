@@ -17,11 +17,11 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="<c:if test="${status==CADRE_STATUS_LEADER}">active</c:if>">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreLeaderInfo?status=${CADRE_STATUS_LEADER}"><i
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreLeaderInfo?status=${CADRE_STATUS_LEADER}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER)}</a>
                         </li>
                         <li class="<c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">active</c:if>">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreLeaderInfo?status=${CADRE_STATUS_LEADER_LEAVE}"><i
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreLeaderInfo?status=${CADRE_STATUS_LEADER_LEAVE}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER_LEAVE)}</a>
                         </li>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">

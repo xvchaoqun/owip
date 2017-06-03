@@ -166,6 +166,7 @@ public class SystemConstants {
     public final static String UNIT_TYPE_ATTR_JG = "jg";
     public final static String UNIT_TYPE_ATTR_FS = "fs";
     public final static Map<String, String> UNIT_TYPE_ATTR_MAP = new LinkedHashMap<>();
+
     static {
         UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_XY, "学部、院、系所");
         UNIT_TYPE_ATTR_MAP.put(UNIT_TYPE_ATTR_JG, "机关部处及直属、教辅单位");
@@ -283,20 +284,20 @@ public class SystemConstants {
         MEMBER_AGE_MAP.put(MEMBER_AGE_0, "未知");
     }
 
-    public static byte getMemberAgeRange(Integer birthYear){
+    public static byte getMemberAgeRange(Integer birthYear) {
 
         int currentYear = DateUtils.getCurrentYear();
         byte key = SystemConstants.MEMBER_AGE_0; // 未知年龄
-        if(birthYear!=null){
-            if(birthYear > currentYear-20){ // 20岁及以下
+        if (birthYear != null) {
+            if (birthYear > currentYear - 20) { // 20岁及以下
                 key = SystemConstants.MEMBER_AGE_20;
-            }else if(birthYear > currentYear-30){ // 21~30
+            } else if (birthYear > currentYear - 30) { // 21~30
                 key = SystemConstants.MEMBER_AGE_21_30;
-            }else if(birthYear > currentYear-40){ // 31~40
+            } else if (birthYear > currentYear - 40) { // 31~40
                 key = SystemConstants.MEMBER_AGE_31_40;
-            }else if(birthYear > currentYear-50){ // 41~50
+            } else if (birthYear > currentYear - 50) { // 41~50
                 key = SystemConstants.MEMBER_AGE_41_50;
-            }else{ // 51及以上
+            } else { // 51及以上
                 key = SystemConstants.MEMBER_AGE_51;
             }
         }
@@ -712,6 +713,7 @@ public class SystemConstants {
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC = 3;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT = 4;
     public final static Map<Byte, String> CADRE_STAT_HISTORY_TYPE_MAP = new LinkedHashMap<>();
+
     static {
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE, "中层干部信息表");
         CADRE_STAT_HISTORY_TYPE_MAP.put(CADRE_STAT_HISTORY_TYPE_STAT_CADRE, "中层干部情况统计表");
@@ -803,6 +805,25 @@ public class SystemConstants {
     static {
         DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_WORK, "工作经历");
         DISPATCH_CADRE_RELATE_TYPE_MAP.put(DISPATCH_CADRE_RELATE_TYPE_POST, "任职情况(主职/兼职)");
+    }
+
+
+    // 干部工作文件类别  1 干部选拔任用  2 干部管理监督  3 机关学院换届  4 干部队伍建设 5 干部考核工作 6  干部教育培训
+    public static final byte DISPATCH_WORK_FILE_TYPE_XBRY = 1;
+    public static final byte DISPATCH_WORK_FILE_TYPE_GLJD = 2;
+    public static final byte DISPATCH_WORK_FILE_TYPE_XYHJ = 2;
+    public static final byte DISPATCH_WORK_FILE_TYPE_DWJS = 2;
+    public static final byte DISPATCH_WORK_FILE_TYPE_KHGZ = 2;
+    public static final byte DISPATCH_WORK_FILE_TYPE_JYPX = 2;
+    public final static Map<Byte, String> DISPATCH_WORK_FILE_TYPE_MAP = new HashMap();
+
+    static {
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_XBRY, "干部选拔任用");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_GLJD, "干部管理监督");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_XYHJ, "机关学院换届");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_DWJS, "干部队伍建设");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_KHGZ, "干部考核工作");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_JYPX, "干部教育培训");
     }
 
     // 干部干部信息采集表 类型，1 工作经历 2 兼职情况
@@ -935,6 +956,7 @@ public class SystemConstants {
         CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_HISTORY, "过去考察组成员");
         CIS_INSPECTOR_STATUS_MAP.put(CIS_INSPECTOR_STATUS_DELETE, "已删除");
     }
+
     // 干部考察 考察主体
     public final static byte CIS_INSPECTOR_TYPE_OW = 1;
     public final static byte CIS_INSPECTOR_TYPE_OTHER = 2;
@@ -954,7 +976,6 @@ public class SystemConstants {
         CIS_EVALUATE_TYPE_MAP.put(CIS_EVALUATE_TYPE_SHOW, "现实表现材料");
         CIS_EVALUATE_TYPE_MAP.put(CIS_EVALUATE_TYPE_EVA, "工作评价");
     }
-
 
 
     // 干部考核管理，干部挂职锻炼分类，  1 校外挂职锻炼 2 校内挂职锻炼 3 外单位到本校挂职
@@ -1011,6 +1032,7 @@ public class SystemConstants {
     public final static byte RECRUIT_POST_STATUS_FINISH = 2;
     public final static byte RECRUIT_POST_STATUS_DELETE = 3;
     public static Map<Byte, String> RECRUIT_POST_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
     static {
 
         RECRUIT_POST_STATUS_MAP.put(RECRUIT_POST_STATUS_NORMAL, "正在招聘");
@@ -1023,6 +1045,7 @@ public class SystemConstants {
     public final static byte RECRUIT_POST_SIGN_STATUS_NORMAL = 2;
     public final static byte RECRUIT_POST_SIGN_STATUS_FINISH = 3;
     public static Map<Byte, String> RECRUIT_POST_SIGN_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
     static {
 
         RECRUIT_POST_SIGN_STATUS_MAP.put(RECRUIT_POST_SIGN_STATUS_INIT, "未启动报名");
@@ -1034,6 +1057,7 @@ public class SystemConstants {
     public final static byte RECRUIT_TEMPLATE_TYPE_BASE = 1;
     public final static byte RECRUIT_TEMPLATE_TYPE_POST = 2;
     public static Map<Byte, String> RECRUIT_TEMPLATE_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
     static {
 
         RECRUIT_TEMPLATE_TYPE_MAP.put(RECRUIT_TEMPLATE_TYPE_BASE, "基本条件");
@@ -1045,6 +1069,7 @@ public class SystemConstants {
     public final static byte VERIFY_STATUS_MODIFY = 1;
     public final static byte VERIFY_STATUS_DEL = 2;
     public static Map<Byte, String> VERIFY_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
     static {
 
         VERIFY_STATUS_MAP.put(VERIFY_STATUS_NORMAL, "正式记录");
@@ -1057,6 +1082,7 @@ public class SystemConstants {
     public final static byte VERIFY_AGE_TYPE_LARGE = 2;
     public final static byte VERIFY_AGE_TYPE_SMALL = 3;
     public static Map<Byte, String> VERIFY_AGE_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
     static {
 
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_ERROR, "阴阳历换算造成误差");
@@ -1069,6 +1095,7 @@ public class SystemConstants {
     public final static byte VERIFY_WORK_TIME_TYPE_LARGE = 2;
     public final static byte VERIFY_WORK_TIME_TYPE_SMALL = 3;
     public static Map<Byte, String> VERIFY_WORK_TIME_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
     static {
 
         VERIFY_WORK_TIME_TYPE_MAP.put(VERIFY_WORK_TIME_TYPE_ERROR, "阴阳历换算造成误差");
@@ -1350,6 +1377,7 @@ public class SystemConstants {
     public final static byte SHORT_MSG_RECEIVER_STATUS_NORMAL = 0;
     public final static byte SHORT_MSG_RECEIVER_STATUS_DELETE = 1;
     public final static Map<Byte, String> SHORT_MSG_RECEIVER_STATUS_MAP = new LinkedHashMap<>();
+
     static {
         SHORT_MSG_RECEIVER_STATUS_MAP.put(SHORT_MSG_RECEIVER_STATUS_NORMAL, "正常接收");
         SHORT_MSG_RECEIVER_STATUS_MAP.put(SHORT_MSG_RECEIVER_STATUS_DELETE, "已失效");
@@ -1400,7 +1428,7 @@ public class SystemConstants {
 
 
 	/*public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
-	static {
+    static {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_EXPIRE, "取消集中管理-证件到期");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORT_DISMISS, "取消集中管理-不再担任职务");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_APPLYSELF_PASS, "因私出国申请-通过");
@@ -1416,7 +1444,6 @@ public class SystemConstants {
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS, "申请使用证件-不通过");
 		SHORT_MSG_KEY_MAP.put(SHORT_MSG_KEY_PASSPORTDRAW_UNPASS_NEEDSIGN, "申请使用证件（需要签注）-不通过");
 	}*/
-
 
 
     // 菜单关联缓存数量( cache name: cache_counts)

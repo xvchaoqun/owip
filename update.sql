@@ -1,6 +1,41 @@
 
 
 
+CREATE TABLE `dispatch_work_file` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`unit_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '发文单位，关联元数据',
+	`year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '年度',
+	`work_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属专项工作，关联元数据',
+	`code` VARCHAR(50) NULL DEFAULT NULL COMMENT '发文号',
+	`pub_date` DATE NULL DEFAULT NULL COMMENT '发文日期',
+	`file_name` VARCHAR(200) NULL DEFAULT NULL COMMENT '文件名',
+	`file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '文件，如果"保密级别"选择了"秘密、机密、绝密"的其中之一，那么文件上传功能不 可以用。',
+	`privacy_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '保密级别，关联元数据',
+	`remark` VARCHAR(50) NULL DEFAULT NULL COMMENT '备注',
+	`type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类别，1 干部选拔任用  2 干部管理监督  3 机关学院换届  4 干部队伍建设 5 干部考核工作 6  干部教育培训',
+	`status` TINYINT(1) UNSIGNED NOT NULL COMMENT '状态， 1 有效执行文件 0 失效作废文件',
+	`sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序',
+	`create_time` DATETIME NOT NULL COMMENT '添加时间',
+	PRIMARY KEY (`id`)
+)
+COMMENT='干部工作文件'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=5
+;
+CREATE TABLE `dispatch_work_file_auth` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+	`work_file_id` INT(10) UNSIGNED NOT NULL COMMENT '干部工作文件',
+	`post_id` INT(10) UNSIGNED NOT NULL COMMENT '职务属性，每个文件按照职务属性设置权限。',
+	PRIMARY KEY (`id`),
+	INDEX `FK_dispatch_work_file_auth_dispatch_work_file` (`work_file_id`),
+	CONSTRAINT `FK_dispatch_work_file_auth_dispatch_work_file` FOREIGN KEY (`work_file_id`) REFERENCES `dispatch_work_file` (`id`) ON DELETE CASCADE
+)
+COMMENT='干部工作文件查看权限'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=10
+;
 
 -- 2017-6-2
 

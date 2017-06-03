@@ -26,27 +26,27 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=1">新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=1">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=4">返回修改</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=4">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=5">已审核</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=5">已审核</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="${cls==6?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=6"}><i class="fa fa-circle-o"></i> 分党委审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=6"}><i class="fa fa-circle-o"></i> 分党委审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=2"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=2"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                         <li class="${cls==31?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberInflow?cls=31"}><i class="fa fa-sign-out"></i> 已转出的流入党员</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberInflow?cls=31"}><i class="fa fa-sign-out"></i> 已转出的流入党员</a>
                         </li>
                     </ul>
 

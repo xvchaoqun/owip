@@ -13,10 +13,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${type==1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cpcAllocation?type=1"><i class="fa fa-table"></i> 内设机构干部配备详情</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cpcAllocation?type=1"><i class="fa fa-table"></i> 内设机构干部配备详情</a>
                     </li>
                     <li class="<c:if test="${type==2}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cpcAllocation?type=2"><i class="fa fa-bar-chart"></i> 内设机构干部配备统计</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cpcAllocation?type=2"><i class="fa fa-bar-chart"></i> 内设机构干部配备统计</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -98,7 +98,7 @@
 
         $(btn).data("url", "${ctx}/cpcAllocation_batchDel?unitIds=" + unitIds);
 
-        _confirm(btn);
+        $.confirm(btn);
     }
 
     $('[data-tooltip="tooltip"]').tooltip({html: true});

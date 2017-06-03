@@ -225,4 +225,51 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
     ap.type=1 and ap.cadre_id = bc.id
     group by bc.post_id order by bc.sort_order desc
   </select>
+
+    <sql id="where_findDispatchWorkFiles">
+        <where>
+            dwf.id=dwfa.work_file_id
+            <if test="!isAdmin">
+                <if test="postIds == null or postIds.length==0">
+                    and dwf.id is null
+                </if>
+                <if test="postIds != null and postIds.length>0">
+                    and dwfa.post_id IN
+                    <foreach collection="postIds" item="postId" separator="," open="(" close=")">
+                        #{postId}
+                    </foreach>
+                </if>
+            </if>
+            <if test="type != null">
+                and dwf.type = #{type}
+            </if>
+            <if test="status != null">
+                and dwf.status = #{status}
+            </if>
+            <if test="unitType != null">
+                and dwf.unit_type = #{unitType}
+            </if>
+            <if test="year != null">
+                and dwf.year = #{year}
+            </if>
+            <if test="workType != null">
+                and dwf.work_type = #{workType}
+            </if>
+            <if test="privacyType != null">
+                and dwf.privacy_type = #{privacyType}
+            </if>
+        </where>
+    </sql>
+
+    <select id="findDispatchWorkFiles" parameterType="map"
+            resultMap="persistence.dispatch.DispatchWorkFileMapper.BaseResultMap">
+        select distinct dwf.* from dispatch_work_file dwf, dispatch_work_file_auth dwfa
+        <include refid="where_findDispatchWorkFiles"/>
+        order by dwf.sort_order desc
+    </select>
+
+    <select id="countDispatchWorkFiles" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct dwf.id) from dispatch_work_file dwf, dispatch_work_file_auth dwfa
+        <include refid="where_findDispatchWorkFiles"/>
+    </select>
 </mapper>

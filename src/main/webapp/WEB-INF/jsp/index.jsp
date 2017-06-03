@@ -51,7 +51,7 @@
     <ul class="nav nav-pills">
 
       <li class="">
-        <a href="javascript:;" class="menu" data-url="${ctx}/profile"><i class="fa fa-user"></i>
+        <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
       <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">

@@ -92,6 +92,8 @@ public class FileController extends BaseController {
     @RequestMapping("/pdf")
     public void pdf(String path, HttpServletResponse response) throws IOException {
 
+        // 强制读取pdf文件（word转pdf的情况）
+        path = FileUtils.getFileName(path) + ".pdf";
         String filePath = springProps.uploadPath + path;
 
         byte[] bytes = FileUtils.getBytes(filePath);

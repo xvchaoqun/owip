@@ -1,48 +1,130 @@
 package service.dispatch;
 
+import domain.base.MetaType;
 import domain.dispatch.DispatchWorkFile;
+import domain.dispatch.DispatchWorkFileAuth;
+import domain.dispatch.DispatchWorkFileAuthExample;
 import domain.dispatch.DispatchWorkFileExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.base.MetaTypeService;
+import sys.tool.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DispatchWorkFileService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, String code){
+    @Autowired
+    protected MetaTypeService metaTypeService;
 
-        Assert.isTrue(StringUtils.isNotBlank(code), "发文号重复");
+    public Set<Integer> getPostIds(int workFileId) {
+
+        DispatchWorkFileAuthExample example = new DispatchWorkFileAuthExample();
+        example.createCriteria().andWorkFileIdEqualTo(workFileId);
+
+        List<DispatchWorkFileAuth> dispatchWorkFileAuths = dispatchWorkFileAuthMapper.selectByExample(example);
+        Set<Integer> postIds = new HashSet<>();
+        for (DispatchWorkFileAuth dispatchWorkFileAuth : dispatchWorkFileAuths) {
+            postIds.add(dispatchWorkFileAuth.getPostId());
+        }
+
+        return postIds;
+    }
+
+    @Transactional
+    public void updatePostIds(int workFileId, Integer[] postIds) {
+
+        DispatchWorkFileAuthExample example = new DispatchWorkFileAuthExample();
+        example.createCriteria().andWorkFileIdEqualTo(workFileId);
+        dispatchWorkFileAuthMapper.deleteByExample(example);
+
+        if (postIds == null || postIds.length == 0) return;
+
+        for (Integer postId : postIds) {
+
+            DispatchWorkFileAuth record = new DispatchWorkFileAuth();
+            record.setWorkFileId(workFileId);
+            record.setPostId(postId);
+            dispatchWorkFileAuthMapper.insert(record);
+        }
+    }
+
+    // 职务属性树结构
+    public TreeNode getPostTree(Set<Integer> selectIdSet) {
+
+        if (null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "职务属性";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+
+        for (MetaType post : postMap.values()) {
+
+            TreeNode node = new TreeNode();
+            node.title = post.getName();
+            node.key = post.getId() + "";
+
+            if (selectIdSet.contains(post.getId())) {
+                node.select = true;
+            }
+            rootChildren.add(node);
+        }
+
+        return root;
+    }
+
+    public boolean idDuplicate(Integer id, String code) {
+
+        // 可以为空？
+        if (StringUtils.isBlank(code)) return false;
 
         DispatchWorkFileExample example = new DispatchWorkFileExample();
         DispatchWorkFileExample.Criteria criteria = example.createCriteria()
-                .andCodeEqualTo(code).andStatusEqualTo(true);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+                .andCodeEqualTo(code.trim()).andStatusEqualTo(true);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return dispatchWorkFileMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    public void insertSelective(DispatchWorkFile record){
+    public void insertSelective(DispatchWorkFile record) {
 
+        record.setStatus(true);
+        record.setCreateTime(new Date());
         Assert.isTrue(!idDuplicate(null, record.getCode()), "发文号重复");
-        record.setSortOrder(getNextSortOrder("dispatch_work_file", "status=1 and type="+record.getType()));
+        record.setSortOrder(getNextSortOrder("dispatch_work_file", "status=1 and type=" + record.getType()));
         dispatchWorkFileMapper.insertSelective(record);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void abolish(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
+
+        DispatchWorkFileExample example = new DispatchWorkFileExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        DispatchWorkFile record = new DispatchWorkFile();
+        record.setStatus(false);
+
+        dispatchWorkFileMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
 
         DispatchWorkFileExample example = new DispatchWorkFileExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -50,21 +132,27 @@ public class DispatchWorkFileService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(DispatchWorkFile record){
-        if(StringUtils.isNotBlank(record.getCode()))
+    public void updateByPrimaryKeySelective(DispatchWorkFile record, boolean canUpload) {
+
+        if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "发文号重复");
-        return dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
+        dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
+
+        if(!canUpload){
+            updateMapper.excuteSql("update dispatch_work_file set file_path=null where id=" + record.getId());
+        }
     }
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     *
      * @param id
      * @param addNum
      */
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         DispatchWorkFile entity = dispatchWorkFileMapper.selectByPrimaryKey(id);
         Assert.isTrue(entity.getStatus(), "状态异常");
@@ -76,21 +164,21 @@ public class DispatchWorkFileService extends BaseMapper {
 
             example.createCriteria().andStatusEqualTo(true).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andStatusEqualTo(true).andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<DispatchWorkFile> overEntities = dispatchWorkFileMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            DispatchWorkFile targetEntity = overEntities.get(overEntities.size()-1);
+            DispatchWorkFile targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
-                commonMapper.downOrder("dispatch_work_file", "status=1 and type="+type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("dispatch_work_file", "status=1 and type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("dispatch_work_file", "status=1 and type="+type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("dispatch_work_file", "status=1 and type=" + type, baseSortOrder, targetEntity.getSortOrder());
 
             DispatchWorkFile record = new DispatchWorkFile();
             record.setId(id);

@@ -13,13 +13,13 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_NORMAL}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_NORMAL}"><i class="fa fa-circle-o-notch fa-spin"></i> 正在招聘</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_NORMAL}"><i class="fa fa-circle-o-notch fa-spin"></i> 正在招聘</a>
                     </li>
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_FINISH}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_FINISH}"><i class="fa fa-check"></i> 完成招聘</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_FINISH}"><i class="fa fa-check"></i> 完成招聘</a>
                     </li>
                     <li class="<c:if test="${status==RECRUIT_POST_STATUS_DELETE}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_DELETE}"><i class="fa fa-times"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/recruitPost?status=${RECRUIT_POST_STATUS_DELETE}"><i class="fa fa-times"></i> 已删除</a>
                     </li>
                     <li class="">
                         <a href="javascript:;"><i class="fa fa-exclamation-circle"></i> 报名规则</a>

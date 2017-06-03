@@ -12,13 +12,13 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="${status==CIS_INSPECTOR_STATUS_NOW?'active':''}">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_NOW}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_NOW?'-large':''}"></i> 现任考察组成员</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_NOW}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_NOW?'-large':''}"></i> 现任考察组成员</a>
                     </li>
                     <li class="${status==CIS_INSPECTOR_STATUS_HISTORY?'active':''}">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_HISTORY}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_HISTORY?'-large':''}"></i> 过去考察组成员</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_HISTORY}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_HISTORY?'-large':''}"></i> 过去考察组成员</a>
                     </li>
                     <li class="${status==CIS_INSPECTOR_STATUS_DELETE?'active':''}">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_DELETE}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_DELETE?'-large':''}"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cisInspector?status=${CIS_INSPECTOR_STATUS_DELETE}"><i class="fa fa-th${status==CIS_INSPECTOR_STATUS_DELETE?'-large':''}"></i> 已删除</a>
                     </li>
                 </ul>
                 <div class="tab-content">

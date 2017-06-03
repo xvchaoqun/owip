@@ -658,41 +658,10 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     }
 });
 
-// 没有绑定confirm的可以直接调用
-function _confirm(btn) {
-
-    var _this = btn;
-    var url = $(btn).data("url");
-    var msg = $(btn).data("msg");
-    var loading = $(btn).data("loading");
-    var callback = $.trim($(btn).data("callback"));
-
-    var $loading = $(loading || "#main-container");
-    bootbox.confirm(msg, function (result) {
-        if (result) {
-            $loading.showLoading({
-                'afterShow': function () {
-                    setTimeout(function () {
-                        $loading.hideLoading();
-                    }, 10000);
-                }
-            });
-            $.post(url, {}, function (ret) {
-                if (ret.success) {
-                    if (callback) {
-                        // console.log(_this)
-                        window[callback](_this);
-                    }
-                    $loading.hideLoading();
-                }
-            });
-        }
-    });
-}
 $(document).on("click", ".confirm", function (e) {
 
     e.stopPropagation();
-    _confirm(this);
+    $.confirm(this);
 });
 
 $(document).on("click", ".linkBtn", function (e) {
@@ -710,7 +679,7 @@ $(document).on("click", ".pirntBtn", function (e) {
 
     e.stopPropagation();
 
-    printWindow($(this).data("url"));
+    $.print($(this).data("url"));
 });
 
 // 删除
@@ -796,13 +765,6 @@ $(document).on("click", ".jqOrderBtn", function () {
         }
     });
 });
-// 搜索
-/*$(document).on("click", " .searchBtn", function(){
-
- var $div = $(this).closest(".myTableDiv");
- var $target = ($div.data("target"))? ($($div.data("target")) || $("#page-content")):$("#page-content");
- _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
- });*/
 
 $(window).bind("hashchange", function () {
 
@@ -855,9 +817,9 @@ $(window).bind("hashchange", function () {
         });
 
         // 处理左侧菜单
-        $(".nav-list li").removeClass("active").removeClass("open")
-        $(".nav-list li ul").removeClass("nav-show").css("display", "none")
-        while ($(".nav-list a[data-url='" + url + "']").length == 0) {
+        $("#sidebar .nav-list li").removeClass("active").removeClass("open")
+        $("#sidebar .nav-list li ul").removeClass("nav-show").css("display", "none")
+        while ($("#sidebar .nav-list a[data-url='" + url + "']").length == 0) {
             var idx = url.lastIndexOf("&");
             if (idx == -1) {
                 idx = url.indexOf("?");
@@ -867,12 +829,12 @@ $(window).bind("hashchange", function () {
             //console.log(url)
         }
         //console.log(url + "  " + $(".nav-list a[href='"+url+"']").length)
-        $(".nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
-        $(".nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
+        $("#sidebar .nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
+        $("#sidebar .nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
 
         // 处理顶部菜单
         url = hash.substr(1);
-        while ($(".nav-pills a[data-url='" + url + "']").length == 0) {
+        while ($(".navbar-header .nav-pills a[data-url='" + url + "']").length == 0) {
             var idx = url.lastIndexOf("&");
             if (idx == -1) {
                 idx = url.indexOf("?");
@@ -883,29 +845,23 @@ $(window).bind("hashchange", function () {
         }
         //console.log(url + "  " + $(".nav-pills a[href='"+url+"']").length)
         // 清除顶部水平菜单状态
-        $(".nav.nav-pills li").removeClass("active");
-        $(".nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
+        $(".navbar-header .nav-pills li").removeClass("active");
+        $(".navbar-header .nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
     })
 
 });
 
-// 顶部水平菜单
-$(document).on("click", ".nav.nav-pills li .menu", function () {
+// hashchange
+$(document).on("click", ".hashchange", function () {
 
     var _this = $(this);
-    $.hashchange('', _this.data("url"))
+    $.hashchange(_this.data("querystr"), _this.data("url"))
 });
 
-// loading
-$(document).on("click", " .renderBtn", function () {
+// load page
+$(document).on("click", ".loadPage", function () {
 
     var _this = $(this);
-    //alert(_this.data("type"))
-    if (_this.data("type") == "hashchange") {
-
-        $.hashchange(_this.data("querystr"), _this.data("url"))
-        return;
-    }
 
     var queryString = _this.data("querystr");
     var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
@@ -915,15 +871,6 @@ $(document).on("click", " .renderBtn", function () {
             $("#modal").modal('hide');
         }
     });
-});
-
-// 搜索
-$(document).on("click", " .searchBtn", function () {
-
-    var $from = $($(this).data("form-id") || "#searchForm");
-    var $target = $($(this).data("target")) || $("#page-content");
-    var $url = $(this).data("url");
-    _tunePage(1, "", $url, $target, "", "&" + $from.serialize());
 });
 
 // 搜索 for jqgrid
@@ -1471,7 +1418,22 @@ function register_date($date, params) {
         clearBtn: true
     }, params))
 }
+//文件上传
+function register_fileupload($file, params) {
 
+    $file.ace_file_input($.extend({
+        no_file: '请选择文件 ...',
+        btn_choose: '选择',
+        btn_change: '更改',
+        droppable: false,
+        onchange: null,
+        thumbnail: false //| true | large
+        //whitelist:'gif|png|jpg|jpeg'
+        //blacklist:'exe|php'
+        //onchange:''
+        //
+    }, params));
+}
 // 日历时间
 function register_datetime($date, params) {
     $date.datetimepicker($.extend({
@@ -1660,25 +1622,6 @@ function detectIE() {
 
     // other browser
     return false;
-}
-
-function printWindow(url) {
-    var isFirefox = navigator.userAgent.toUpperCase().indexOf("FIREFOX") ? true : false;
-    //alert(isFirefox)
-    if (detectIE() || isFirefox) {
-        var win = window.open(url);
-        win.focus();
-        win.print();
-    } else {
-        var iframe = document.createElement('IFRAME');
-        iframe.style.display = "none";
-        iframe.src = url;
-        document.body.appendChild(iframe);
-        iframe.focus();
-        iframe.onload = function () {
-            iframe.contentWindow.print();
-        }
-    }
 }
 
 /** 统计页面 infobox **/

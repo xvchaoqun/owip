@@ -64,6 +64,8 @@ if(StringUtils.isNotBlank(_foundTime)){
 	record.setFoundTime(DateUtils.parseDate(_foundTime, DateUtils.YYYY_MM_DD));
 }
 
+@DateTimeFormat(pattern = "yyyy.MM")
+
 ${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}
 
 {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

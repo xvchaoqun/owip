@@ -20,14 +20,44 @@
             })
             return paramArray;
         },
+        confirm: function (btn) {
+
+            var _this = btn;
+            var url = $(btn).data("url");
+            var msg = $(btn).data("msg");
+            var loading = $(btn).data("loading");
+            var callback = $.trim($(btn).data("callback"));
+
+            var $loading = $(loading || "#main-container");
+            bootbox.confirm(msg, function (result) {
+                if (result) {
+                    $loading.showLoading({
+                        'afterShow': function () {
+                            setTimeout(function () {
+                                $loading.hideLoading();
+                            }, 10000);
+                        }
+                    });
+                    $.post(url, {}, function (ret) {
+                        if (ret.success) {
+                            if (callback) {
+                                // console.log(_this)
+                                window[callback](_this);
+                            }
+                            $loading.hideLoading();
+                        }
+                    });
+                }
+            });
+        },
         hashchange: function (querystr, path) {
 
             //alert($(".nav.nav-pills li").length)
             var oldHash = window.location.hash;
-            if($.trim(querystr) == '' && $.trim(path) == ''){
+            if ($.trim(querystr) == '' && $.trim(path) == '') {
 
                 $("window").trigger("hashchange");
-            }else if ($.trim(querystr) == '') {
+            } else if ($.trim(querystr) == '') {
 
                 location.hash = path;
             } else {
@@ -51,7 +81,7 @@
             if (location.hash == oldHash) $(window).trigger("hashchange");
         },
         // 重新加载内容区域
-        loadPage:function(url){
+        loadPage: function (url) {
             var $container = $("#body-content");
             $container.showLoading({
                 'afterShow': function () {
@@ -66,31 +96,31 @@
             })
         },
         /*loadBody: function (url) {
-            var $container = $("#body-content");
-            $container.showLoading({
-                'afterShow': function () {
-                    setTimeout(function () {
-                        $container.hideLoading();
-                    }, 2000);
-                }
-            });
-            $.get(url, {}, function (html) {
-                $container.hideLoading().hide();
-                $("#item-content").hide();
-                $("#body-content").html(html).fadeIn("slow");
-            })
-        },*/
+         var $container = $("#body-content");
+         $container.showLoading({
+         'afterShow': function () {
+         setTimeout(function () {
+         $container.hideLoading();
+         }, 2000);
+         }
+         });
+         $.get(url, {}, function (html) {
+         $container.hideLoading().hide();
+         $("#item-content").hide();
+         $("#body-content").html(html).fadeIn("slow");
+         })
+         },*/
         // 重新加载副区域
         loadView: function (url, isBody, fn) {
 
-            if(isBody==undefined || typeof isBody == 'function') {
+            if (isBody == undefined || typeof isBody == 'function') {
                 fn = isBody;
                 isBody = true;
             }
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
 
-            var $container = isBody?$("#body-content"):$("#item-content");
+            var $container = isBody ? $("#body-content") : $("#item-content");
 
             $container.showLoading({
                 'afterShow': function () {
@@ -108,7 +138,7 @@
         // 关闭副窗口，如果传入了url，则刷新主区域
         hideView: function (pageUrl) {
             $("#item-content").fadeOut("fast", function () {
-                if ($.trim(pageUrl)!='') {
+                if ($.trim(pageUrl) != '') {
                     $.hashchange('', pageUrl);
                 } else {
                     $("#body-content").show(0, function () {
@@ -119,6 +149,7 @@
         },
         // 获取url参数
         getQueryString: function (name) {
+
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
             if (r != null)return decodeURI(r[2]);

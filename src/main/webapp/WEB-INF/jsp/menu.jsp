@@ -42,7 +42,7 @@
                 <a href="/">
             </c:if>
             <c:if test="${menu.url!='/'}">
-                <a href="javascript:;" data-type="hashchange" class="renderBtn" data-url="${menu.url}">
+                <a href="javascript:;" class="hashchange" data-url="${menu.url}">
             </c:if>
 
                 <i class='menu-icon ${menu.menuCss}<c:if test="${empty menu.menuCss}">fa fa-caret-right</c:if>'></i>

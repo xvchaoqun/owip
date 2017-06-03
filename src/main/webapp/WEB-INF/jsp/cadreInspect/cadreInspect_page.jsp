@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <c:forEach var="_status" items="${CADRE_INSPECT_STATUS_MAP}">
                     <li class="<c:if test="${status==_status.key}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/cadreInspect?status=${_status.key}">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreInspect?status=${_status.key}">
                             <c:if test="${_status.key==CADRE_INSPECT_STATUS_ABOLISH}">
                                 <i class="fa fa-times"></i>
                             </c:if>

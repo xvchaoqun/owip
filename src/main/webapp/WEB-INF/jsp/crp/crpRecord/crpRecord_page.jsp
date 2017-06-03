@@ -33,10 +33,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${!isFinished}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=0"><i class="fa fa-circle-o-notch fa-spin"></i> 正在挂职</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=0"><i class="fa fa-circle-o-notch fa-spin"></i> 正在挂职</a>
                     </li>
                     <li class="<c:if test="${isFinished}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=1"><i class="fa fa-history"></i> 挂职结束</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/crpRecord?type=${param.type}&isFinished=1"><i class="fa fa-history"></i> 挂职结束</a>
                     </li>
                 </ul>
 

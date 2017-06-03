@@ -23,13 +23,13 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=1">新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=1">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=4">返回修改</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=4">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=5">已审核</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=5">已审核</a>
                                 </li>
                             </ul>
                         </li>
@@ -41,20 +41,20 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                     <li>
-                                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=6">新申请</a>
+                                        <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=6">新申请</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=7">返回修改</a>
+                                        <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=7">返回修改</a>
                                     </li>
                                 </ul>
                             </li>
 
                         </shiro:hasAnyRoles>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=2"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=2"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberOut?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                         <c:if test="${(cls==1 || cls==4||cls==6||cls==7) && (approvalCountNew+approvalCountBack)>0}">
                         <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">

@@ -25,13 +25,13 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=1">新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=1">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=11">返回修改</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=11">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=12">已审核</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=12">已审核</a>
                                 </li>
                             </ul>
                         </li>
@@ -44,13 +44,13 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=2">新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=2">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=21">返回修改</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=21">返回修改</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=22">已审核</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=22">已审核</a>
                                 </li>
                             </ul>
                         </li>
@@ -63,10 +63,10 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=3">新申请</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=3">新申请</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=31">返回修改</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=31">返回修改</a>
                                 </li>
                             </ul>
                         </li>
@@ -81,7 +81,7 @@
                                 <a ${cls!=12?'href="?cls=12"':''}><i class="fa fa-circle-o"></i> 组织部审核（${odApprovalCount}）</a>
                             </li>--%>
                         <li class="${cls==4?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=4"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=4"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
 
                         <li class="dropdown <c:if test="${cls==5||cls==6}">active</c:if>" >
@@ -91,10 +91,10 @@
                             </a>
                             <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=5">现有暂留的党员</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=5">现有暂留的党员</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" class="renderBtn" data-url="${ctx}/graduateAbroad?cls=6">已转出的暂留党员</a>
+                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/graduateAbroad?cls=6">已转出的暂留党员</a>
                                 </li>
                             </ul>
                         </li>

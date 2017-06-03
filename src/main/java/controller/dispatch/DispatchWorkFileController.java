@@ -1,11 +1,10 @@
 package controller.dispatch;
 
 import controller.BaseController;
+import domain.base.MetaType;
+import domain.cadre.CadreView;
 import domain.dispatch.DispatchWorkFile;
 import domain.dispatch.DispatchWorkFileExample;
-import domain.dispatch.DispatchWorkFileExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,15 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.tool.tree.TreeNode;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -36,7 +36,9 @@ public class DispatchWorkFileController extends BaseController {
 
     @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping("/dispatchWorkFile")
-    public String dispatchWorkFile_page(ModelMap modelMap) {
+    public String dispatchWorkFile_page(@RequestParam(required = false, defaultValue = "1") Boolean status, ModelMap modelMap) {
+
+        modelMap.put("status", status);
 
         return "dispatch/dispatchWorkFile/dispatchWorkFile_page";
     }
@@ -44,10 +46,8 @@ public class DispatchWorkFileController extends BaseController {
     @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping("/dispatchWorkFile_data")
     public void dispatchWorkFile_data(HttpServletResponse response,
-                                      @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_work_file") String sort,
-                                      @OrderParam(required = false, defaultValue = "desc") String order,
                                       Byte type,
-                                      Boolean status,
+                                      @RequestParam(required = false, defaultValue = "1") Boolean status,
                                       Integer unitType,
                                       Integer year,
                                       Integer workType,
@@ -64,42 +64,31 @@ public class DispatchWorkFileController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        DispatchWorkFileExample example = new DispatchWorkFileExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(true);
-        example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
-        }
-        if (status != null) {
-            criteria.andStatusEqualTo(status);
-        }
-        if (unitType != null) {
-            criteria.andUnitTypeEqualTo(unitType);
-        }
-        if (year != null) {
-            criteria.andYearEqualTo(year);
-        }
-        if (workType != null) {
-            criteria.andWorkTypeEqualTo(workType);
-        }
-        if (privacyType != null) {
-            criteria.andPrivacyTypeEqualTo(privacyType);
-        }
-
-        if (export == 1) {
+        /*if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             dispatchWorkFile_export(example, response);
             return;
+        }*/
+
+        boolean isAdmin = ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN);
+        List<Integer> postIds = new ArrayList<>();
+        if(!isAdmin){
+            CadreView cadreView = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
+            postIds.add(cadreView.getPostId());
         }
 
-        long count = dispatchWorkFileMapper.countByExample(example);
+        long count = selectMapper.countDispatchWorkFiles(isAdmin, postIds, type, status,
+                unitType, year, workType, privacyType);
+        ;
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchWorkFile> records = dispatchWorkFileMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DispatchWorkFile> records = selectMapper.findDispatchWorkFiles(isAdmin, postIds, type, status,
+                unitType, year, workType, privacyType, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -114,23 +103,104 @@ public class DispatchWorkFileController extends BaseController {
         return;
     }
 
+    // 查看文件对应的查看权限（职务属性）
+    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequestMapping("/dispatchWorkFileAuth")
+    public String dispatchWorkFileAuth(int id, ModelMap modelMap) throws IOException {
+
+        DispatchWorkFile dispatchWorkFile = dispatchWorkFileMapper.selectByPrimaryKey(id);
+        modelMap.put("dispatchWorkFile", dispatchWorkFile);
+
+        return "dispatch/dispatchWorkFile/dispatchWorkFileAuth";
+    }
+
+    // 更新某类申请人身份下的干部
+    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequestMapping(value = "/dispatchWorkFileAuth", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_select_posts(Integer id, @RequestParam(value = "postIds[]", required = false) Integer[] postIds) {
+
+        dispatchWorkFileService.updatePostIds(id, postIds);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequestMapping("/dispatchWorkFile_selectPosts_tree")
+    @ResponseBody
+    public Map dispatchWorkFile_selectPosts_tree(int id) throws IOException {
+
+        Set<Integer> postIds = dispatchWorkFileService.getPostIds(id);
+        TreeNode tree = dispatchWorkFileService.getPostTree(postIds);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatchWorkFile_au(DispatchWorkFile record, HttpServletRequest request) {
+    public Map do_dispatchWorkFile_au(DispatchWorkFile record,
+                                      MultipartFile _filePath,
+                                      HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (dispatchWorkFileService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
         }
+
+        boolean canUpload = false;
+        Integer privacyType = record.getPrivacyType();
+        if (privacyType != null) {
+            MetaType _privacyType = metaTypeService.findAll().get(privacyType);
+            if (_privacyType != null && _privacyType.getBoolAttr()) {
+                canUpload = true;
+            }
+        }
+
+        if (canUpload && _filePath != null) {
+            String ext = FileUtils.getExtention(_filePath.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf") && !StringUtils.equalsIgnoreCase(ext, ".doc")
+                    && !StringUtils.equalsIgnoreCase(ext, ".docx")) {
+                throw new RuntimeException("文件格式错误，请上传word或pdf文件");
+            }
+
+            String fileName = UUID.randomUUID().toString();
+            String realPath = FILE_SEPARATOR
+                    + "dispatch_work_file" + FILE_SEPARATOR
+                    + DateUtils.formatDate(new Date(), "yyyyMM") + FILE_SEPARATOR
+                    + fileName;
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_filePath, new File(springProps.uploadPath + savePath));
+
+            String pdfPath = savePath;
+            if (StringUtils.equalsIgnoreCase(ext, ".doc") || StringUtils.equalsIgnoreCase(ext, ".docx")) {
+                pdfPath = realPath + ".pdf";
+                FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
+            }
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            record.setFilePath(savePath);
+        }
+
+        if (!canUpload) record.setFilePath(null);
+
         if (id == null) {
-            record.setStatus(true);
+
             dispatchWorkFileService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部工作文件：%s", record.getId()));
         } else {
 
-            dispatchWorkFileService.updateByPrimaryKeySelective(record);
+            record.setType(null);
+            record.setStatus(null);
+            dispatchWorkFileService.updateByPrimaryKeySelective(record, canUpload);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部工作文件：%s", record.getId()));
         }
 
@@ -139,13 +209,35 @@ public class DispatchWorkFileController extends BaseController {
 
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping("/dispatchWorkFile_au")
-    public String dispatchWorkFile_au(Integer id, ModelMap modelMap) {
+    public String dispatchWorkFile_au(Integer id,
+                                      Byte type,
+                                      ModelMap modelMap) {
 
         if (id != null) {
             DispatchWorkFile dispatchWorkFile = dispatchWorkFileMapper.selectByPrimaryKey(id);
+            if (dispatchWorkFile != null) {
+                type = dispatchWorkFile.getType();
+            }
             modelMap.put("dispatchWorkFile", dispatchWorkFile);
         }
+
+        modelMap.put("type", type);
+
         return "dispatch/dispatchWorkFile/dispatchWorkFile_au";
+    }
+
+    @RequiresPermissions("dispatchWorkFile:del")
+    @RequestMapping(value = "/dispatchWorkFile_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map dispatchWorkFile_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            dispatchWorkFileService.abolish(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量作废干部工作文件：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("dispatchWorkFile:del")

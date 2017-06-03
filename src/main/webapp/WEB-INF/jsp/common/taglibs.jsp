@@ -379,6 +379,8 @@
 
 <c:set var="DISPATCH_CADRE_TYPE_MAP" value="<%=SystemConstants.DISPATCH_CADRE_TYPE_MAP%>"/>
 
+<c:set var="DISPATCH_WORK_FILE_TYPE_MAP" value="<%=SystemConstants.DISPATCH_WORK_FILE_TYPE_MAP%>"/>
+
 <c:set var="APPLY_SELF_DATE_TYPE_MAP" value="<%=SystemConstants.APPLY_SELF_DATE_TYPE_MAP%>"/>
 <c:set var="PASSPORT_DRAW_TYPE_MAP" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_MAP%>"/>
 

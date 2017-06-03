@@ -19,13 +19,13 @@
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                         <li class="${cls==1?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberReturn?cls=1"}><i class="fa fa-circle-o"></i> 待审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReturn?cls=1"}><i class="fa fa-circle-o"></i> 待审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberReturn?cls=2"}><i class="fa fa-times"></i> 未通过</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReturn?cls=2"}><i class="fa fa-times"></i> 未通过</a>
                         </li>
                         <li class="${cls==3?'active':''}">
-                            <a href="javascript:;" class="renderBtn" data-url="${ctx}/memberReturn?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberReturn?cls=3"}><i class="fa fa-check"></i> 已完成审批</a>
                         </li>
                     </ul>
                     <div class="tab-content">

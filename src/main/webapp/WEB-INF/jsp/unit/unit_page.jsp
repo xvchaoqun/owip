@@ -17,10 +17,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/unit?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 正在运转单位</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 正在运转单位</a>
                     </li>
                     <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="javascript:;" class="renderBtn" data-url="${ctx}/unit?status=2"><i class="fa fa-history"></i> 历史单位</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=2"><i class="fa fa-history"></i> 历史单位</a>
                     </li>
                 </ul>
 
