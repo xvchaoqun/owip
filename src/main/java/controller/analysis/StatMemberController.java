@@ -34,7 +34,11 @@ public class StatMemberController extends BaseController {
                 SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
-        modelMap.put("graduateAbroadCount", graduateAbroadService.count(null, null, (byte) 3, null));
+        modelMap.put("memberStayCount_abroad", memberStayService.count(null, null, (byte) 3,
+                SystemConstants.MEMBER_STAY_TYPE_ABROAD, null));
+        modelMap.put("memberStayCount_internal", memberStayService.count(null, null, (byte) 3,
+                SystemConstants.MEMBER_STAY_TYPE_INTERNAL, null));
+
         modelMap.put("studentPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_STU,
                 SystemConstants.APPLY_STAGE_GROW, (byte) 1));
         modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_TEACHER,

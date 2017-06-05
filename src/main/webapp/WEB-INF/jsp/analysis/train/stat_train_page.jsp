@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="tabbable">
-            <a href="javascript:" class="closeView btn btn-xs btn-success">
+            <a href="javascript:" class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">

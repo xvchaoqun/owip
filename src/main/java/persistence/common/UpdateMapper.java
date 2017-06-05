@@ -68,9 +68,10 @@ public interface UpdateMapper {
     int changeMemberParty(@Param("partyId") Integer partyId, @Param("branchId") Integer branchId,
                           @Param("example") MemberExample example);
 
-    int increaseMemberOutPrintCount(@Param("idList") List<Integer> idList,
+    int increasePrintCount(@Param("tableName") String tableName, @Param("idList") List<Integer> idList,
                                     @Param("lastPrintTime") Date lastPrintTime,
                                     @Param("lastPrintUserId") Integer lastPrintUserId);
+
     // 入党申请打回至状态
     //====================start
 
@@ -126,17 +127,11 @@ public interface UpdateMapper {
             + SystemConstants.MEMBER_IN_STATUS_OW_VERIFY)
     void memberIn_back(@Param("id") int id, @Param("status") byte status);
 
-    // 暂留：打回
+    // 党员出国：打回
     @Update("update ow_member_stay set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
             + SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY)
     void memberStay_back(@Param("id") int id, @Param("status") byte status);
-
-    // 党员出国：打回
-    @Update("update ow_graduate_abroad set status= #{status}"
-            +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY)
-    void graduateAbroad_back(@Param("id") int id, @Param("status") byte status);
 
     // 校内转接：打回
     @Update("update ow_member_transfer set status= #{status}"

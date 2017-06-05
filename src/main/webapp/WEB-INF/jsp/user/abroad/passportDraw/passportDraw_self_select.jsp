@@ -87,7 +87,7 @@
   <input id="next" class="btn btn-success" value="下一步"/>
   <input data-url="${ctx}/user/passportDraw_self" class="openView btn btn-info" value="返回选择行程"/>
   </c:if>
-  <input  class="closeView btn btn-default" value="取消申请"/>
+  <input  class="hideView btn btn-default" value="取消申请"/>
 </div>
 <script>
   $("input[type=checkbox]").click(function(){

@@ -82,11 +82,18 @@ SysMsg.confirm = function(msg, title, callback){
         displayParty: function (partyId, branchId) { // 显示组织名称
 
             var party = _cMap.partyMap[partyId];
-            var branch = branchId == undefined ? undefined : _cMap.branchMap[branchId];
-            return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
-                .format(party.isDeleted ? "delete" : "", party.name,
-                (branch != undefined && branch.isDeleted) ? "delete" : "",
-                (branch == undefined) ? "" : " - " + branch.name);
+            var branch = (branchId == undefined) ? undefined : _cMap.branchMap[branchId];
+            if(party!=undefined && branch!=undefined) {
+                return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
+                    .format(party.isDeleted ? "delete" : "", party.name,
+                    (branch != undefined && branch.isDeleted) ? "delete" : "",
+                    (branch == undefined) ? "" : " - " + branch.name);
+            }else if(party!=undefined){
+                return '<span class="{0}">{1}</span>'
+                    .format(party.isDeleted ? "delete" : "", party.name);
+            }
+            return '';
+
         },
         monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
             return MonthDiff(date, new Date().format("yyyy-MM-dd"));
@@ -169,6 +176,11 @@ SysMsg.confirm = function(msg, title, callback){
                 }
             });
         },
+        /**
+         * 1、传入的querystr和path均为空时，是触发window.hashchange事件
+         * 2、传入的querystr为空，path不为空时，是给location.hash赋值
+         * 3、都不为空时，是重新计算hash，并触发window.hashchange事件
+          */
         hashchange: function (querystr, path) {
 
             //alert($(".nav.nav-pills li").length)

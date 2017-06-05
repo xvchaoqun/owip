@@ -4,7 +4,7 @@
 <div class="widget-box transparent" style="width: 800px">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:;" class="closeView btn btn-xs btn-success" data-url="${ctx}/modifyCadreAuth">
+            <a href="javascript:;" class="hideView btn btn-xs btn-success" data-url="${ctx}/modifyCadreAuth">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
@@ -129,7 +129,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");
-                        $(".closeView").click();
+                        $(".hideView").click();
                     }
                 }
             });

@@ -6,7 +6,7 @@
     <div style="margin-bottom: 8px">
 
       <div class="buttons">
-        <a href="javascript:;" class="closeView btn btn-sm btn-success">
+        <a href="javascript:;" class="hideView btn btn-sm btn-success">
           <i class="ace-icon fa fa-backward"></i>
           返回
         </a>
@@ -76,7 +76,7 @@
 <div class="modal-footer center">
   <input id="submit" class="btn btn-success" value="提交申请"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <input class="closeView btn btn-default" value="返回"/>
+  <input class="hideView btn btn-default" value="返回"/>
 </div>
       </div></div></div>
 
@@ -151,7 +151,7 @@
             SysMsg.success('操作成功。', '成功', function(){
               <c:if test="${param.auth=='admin'}">
               $("#modal").modal('hide');
-              $(".closeView").click();
+              $.hashchange();
               </c:if>
               <c:if test="${param.auth!='admin'}">
               $.hashchange("type=3", "${ctx}/user/passportDraw")

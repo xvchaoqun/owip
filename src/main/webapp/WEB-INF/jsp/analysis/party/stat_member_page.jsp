@@ -97,15 +97,24 @@
                         </div>
                       </div>
 
-                      <div class="infobox infobox-blue2" <c:if test="${graduateAbroadCount>0}">data-url="${ctx}/graduateAbroad?cls=3"</c:if>>
+                      <div class="infobox infobox-blue2" <c:if test="${memberStayCount_abroad>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_ABROAD}&cls=3"</c:if>>
                         <div class="infobox-icon">
                           <i class="ace-icon fa fa-plane"></i>
                         </div>
                         <div class="infobox-data">
-                          <span class="infobox-data-number"><span class="count">${graduateAbroadCount}</span> <span style="font-size: 10pt;">未处理</span></span>
-                          <div class="infobox-content">党员出国暂留审批</div>
+                          <span class="infobox-data-number"><span class="count">${memberStayCount_abroad}</span> <span style="font-size: 10pt;">未处理</span></span>
+                          <div class="infobox-content">${MEMBER_STAY_TYPE_MAP.get(MEMBER_STAY_TYPE_ABROAD)}暂留</div>
                         </div>
                       </div>
+                        <div class="infobox infobox-blue2" <c:if test="${memberStayCount_internal>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_INTERNAL}&cls=3"</c:if>>
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-plane"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <span class="infobox-data-number"><span class="count">${memberStayCount_internal}</span> <span style="font-size: 10pt;">未处理</span></span>
+                                <div class="infobox-content">${MEMBER_STAY_TYPE_MAP.get(MEMBER_STAY_TYPE_INTERNAL)}暂留</div>
+                            </div>
+                        </div>
                     </div>
                   </div><!-- /.widget-main -->
                 </div><!-- /.widget-body -->

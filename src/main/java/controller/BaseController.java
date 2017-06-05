@@ -19,14 +19,15 @@ import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
-import service.crp.CrpRecordService;
 import service.cis.*;
 import service.cpc.CpcAllocationService;
+import service.crp.CrpRecordService;
 import service.dispatch.*;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.global.CacheService;
+import service.member.*;
 import service.modify.ModifyBaseApplyService;
 import service.modify.ModifyBaseItemService;
 import service.modify.ModifyCadreAuthService;
@@ -78,8 +79,6 @@ public class BaseController extends BaseMapper {
     protected ApplyApprovalLogService applyApprovalLogService;
 
     @Autowired
-    protected MemberStayService memberStayService;
-    @Autowired
     protected MemberTransferService memberTransferService;
     @Autowired
     protected MemberOutService memberOutService;
@@ -97,7 +96,7 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MemberAbroadService memberAbroadService;
     @Autowired
-    protected GraduateAbroadService graduateAbroadService;
+    protected MemberStayService memberStayService;
     @Autowired
     protected MemberQuitService memberQuitService;
     @Autowired

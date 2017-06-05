@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface MemberStayMapper {
-    int countByExample(MemberStayExample example);
+    long countByExample(MemberStayExample example);
 
     int deleteByExample(MemberStayExample example);
 

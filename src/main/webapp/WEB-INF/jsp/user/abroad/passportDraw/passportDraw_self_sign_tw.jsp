@@ -34,7 +34,7 @@
             </div>
 
             <div class="center" style="margin-top: 40px">
-                <button class="closeView btn btn-default btn-block" style="font-size: 30px">取消</button>
+                <button class="hideView btn btn-default btn-block" style="font-size: 30px">取消</button>
             </div>
             <%--<div class="well" style="margin-top: 40px; font-size: 16pt">
                 <i class="fa fa-info-circle"></i> 推荐使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">谷歌浏览器</a>（点击下载）进行浏览和打印

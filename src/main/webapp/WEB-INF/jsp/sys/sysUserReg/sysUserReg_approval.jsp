@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -7,7 +6,7 @@
     <div class="widget-box transparent">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:;" class="closeView btn btn-xs btn-success" data-url="${ctx}/sysUserReg">
+                <a href="javascript:;" class="hashchange btn btn-xs btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>

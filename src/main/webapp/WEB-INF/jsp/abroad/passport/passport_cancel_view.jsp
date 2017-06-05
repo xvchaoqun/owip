@@ -7,7 +7,7 @@
         <div style="margin-bottom: 8px">
 
             <div class="buttons">
-                <a href="javascript:;" class="closeView btn btn-sm btn-success">
+                <a href="javascript:;" class="hideView btn btn-sm btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回
                 </a>

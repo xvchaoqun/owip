@@ -129,7 +129,7 @@
     function goto_next(goToNext) {
         if (goToNext) {
             if ($("#next").hasClass("disabled") && $("#last").hasClass("disabled"))
-                $(".closeView").click();
+                $.hashchange();
             else if (!$("#next").hasClass("disabled"))
                 $("#next").click();
             else

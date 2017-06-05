@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.party.BranchService;
-import service.party.MemberService;
+import service.member.MemberService;
 import service.party.PartyService;
 
 import java.util.Map;
@@ -62,6 +62,7 @@ public class UserBeanService extends BaseMapper {
         userBean.setUserId(userId);
         userBean.setUsername(sysUser.getUsername());
         userBean.setCode(sysUser.getCode());
+        userBean.setAvatar(sysUser.getAvatar());
         userBean.setType(sysUser.getType());
         userBean.setMobile(sysUser.getMobile());
         userBean.setGender(sysUser.getGender());
@@ -85,6 +86,7 @@ public class UserBeanService extends BaseMapper {
             userBean.setPartyId(member.getPartyId());
             userBean.setBranchId(member.getBranchId());
             userBean.setGrowTime(member.getGrowTime());
+            userBean.setMemberStatus(member.getStatus());
 
             Map<Integer, Branch> branchMap = branchService.findAll();
             Map<Integer, Party> partyMap = partyService.findAll();

@@ -107,7 +107,7 @@
 </div>
 <div class="modal-footer center">
     <input id="submit" class="btn btn-success" value="提交申请"/>
-    <input class="closeView btn btn-default" value="取消申请"/>
+    <input class="hideView btn btn-default" value="取消申请"/>
 </div>
 
 <script>
@@ -142,7 +142,7 @@
                 SysMsg.success('您的申请已提交，谢谢！', '提示', function(){
                     <c:if test="${param.auth=='admin'}">
                     $("#modal").modal('hide');
-                    $(".closeView").click();
+                    $.hashchange();
                     </c:if>
                     <c:if test="${param.auth!='admin'}">
                     $.hashchange("type=1", "${ctx}/user/passportDraw")

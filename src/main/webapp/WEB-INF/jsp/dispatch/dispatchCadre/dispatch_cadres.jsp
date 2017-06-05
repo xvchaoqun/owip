@@ -7,7 +7,7 @@
 
                 <h4 class="smaller">
                     任免文件
-                    <a href="javascript:;" class="closeView pull-right btn btn-xs btn-success"
+                    <a href="javascript:;" class="hideView pull-right btn btn-xs btn-success"
                        style="margin-right: 10px; top: -5px;">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
@@ -61,7 +61,7 @@
             if(result){
                 $.post("${ctx}/dispatch_check",{id:'${dispatch.id}'}, function(ret){
                     if(ret.success){
-                        $(".closeView").click();
+                        $.hideView();
                     }
                 })
             }

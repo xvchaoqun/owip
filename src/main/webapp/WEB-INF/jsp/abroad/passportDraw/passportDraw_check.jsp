@@ -94,7 +94,7 @@
             </div>
         </div>
         <div class="center" style="margin-top: 40px">
-            <button class="closeView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
+            <button class="hideView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>
         </div>
     </div>
 </div>
@@ -107,7 +107,7 @@
             if(ret.success){
                 //SysMsg.success('审批成功', '提示', function(){
                     //page_reload();
-                    $(".closeView").click();
+                $.hideView();
                 //});
             }
         });
@@ -122,7 +122,7 @@
             if(ret.success){
                 //SysMsg.success('提交成功', '提示', function(){
                     //page_reload();
-                    $(".closeView").click();
+                $.hideView();
                 //});
             }
         });

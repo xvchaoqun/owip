@@ -7,7 +7,7 @@
     <div class="widget-box transparent" id="view-box">
         <div class="widget-header">
             <h4 class="widget-title lighter smaller">
-                <a href="javascript:" class="closeView btn btn-xs btn-success">
+                <a href="javascript:" class="hideView btn btn-xs btn-success">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
             </h4>
@@ -155,7 +155,7 @@
                                 </button>
                                 &nbsp; &nbsp; &nbsp;
                             </c:if>
-                            <button class="closeView btn" type="button">
+                            <button class="hideView btn" type="button">
                                 <i class="ace-icon fa fa-undo"></i>
                                 返回
                             </button>

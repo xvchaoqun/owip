@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <h4 class="widget-title lighter smaller">
-    <a href="javascript:" class="closeView btn btn-xs btn-success">
+    <a href="javascript:" class="hideView btn btn-xs btn-success">
         <i class="ace-icon fa fa-backward"></i>
         返回</a>
 </h4>
@@ -35,7 +35,7 @@
             <tr>
                 <th colspan="4">
                     <div class="modal-footer center">
-                        <a href="javascript:;" class="closeView btn btn-default">取消</a>
+                        <a href="javascript:;" class="hideView btn btn-default">取消</a>
                         <input id="add_entity" type="button" class="btn btn-primary" value="设置">
                     </div>
                 </th>

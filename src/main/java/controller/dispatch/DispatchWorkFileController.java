@@ -141,7 +141,8 @@ public class DispatchWorkFileController extends BaseController {
     @RequestMapping(value = "/dispatchWorkFile_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dispatchWorkFile_au(DispatchWorkFile record,
-                                      MultipartFile _filePath,
+                                      MultipartFile _pdfFilePath,
+                                      MultipartFile _wordFilePath,
                                       HttpServletRequest request) {
 
         Integer id = record.getId();
@@ -159,11 +160,10 @@ public class DispatchWorkFileController extends BaseController {
             }
         }
 
-        if (canUpload && _filePath != null) {
-            String ext = FileUtils.getExtention(_filePath.getOriginalFilename());
-            if (!StringUtils.equalsIgnoreCase(ext, ".pdf") && !StringUtils.equalsIgnoreCase(ext, ".doc")
-                    && !StringUtils.equalsIgnoreCase(ext, ".docx")) {
-                throw new RuntimeException("文件格式错误，请上传word或pdf文件");
+        if (canUpload && _pdfFilePath != null) {
+            String ext = FileUtils.getExtention(_pdfFilePath.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                throw new RuntimeException("文件格式错误，请上传pdf文件");
             }
 
             String fileName = UUID.randomUUID().toString();
@@ -172,25 +172,40 @@ public class DispatchWorkFileController extends BaseController {
                     + DateUtils.formatDate(new Date(), "yyyyMM") + FILE_SEPARATOR
                     + fileName;
             String savePath = realPath + ext;
-            FileUtils.copyFile(_filePath, new File(springProps.uploadPath + savePath));
+            FileUtils.copyFile(_pdfFilePath, new File(springProps.uploadPath + savePath));
 
-            String pdfPath = savePath;
-            if (StringUtils.equalsIgnoreCase(ext, ".doc") || StringUtils.equalsIgnoreCase(ext, ".docx")) {
-                pdfPath = realPath + ".pdf";
-                FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
-            }
             try {
                 String swfPath = realPath + ".swf";
-                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + pdfPath, springProps.uploadPath + swfPath);
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
             } catch (IOException | InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
-            record.setFilePath(savePath);
+            record.setPdfFilePath(savePath);
         }
 
-        if (!canUpload) record.setFilePath(null);
+        if (canUpload && _wordFilePath != null) {
+            String ext = FileUtils.getExtention(_wordFilePath.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")) {
+                throw new RuntimeException("文件格式错误，请上传word文件");
+            }
+
+            String fileName = UUID.randomUUID().toString();
+            String realPath = FILE_SEPARATOR
+                    + "dispatch_work_file" + FILE_SEPARATOR
+                    + DateUtils.formatDate(new Date(), "yyyyMM") + FILE_SEPARATOR
+                    + fileName;
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_wordFilePath, new File(springProps.uploadPath + savePath));
+
+            record.setWordFilePath(savePath);
+        }
+
+        if (!canUpload){
+            record.setPdfFilePath(null);
+            record.setWordFilePath(null);
+        }
 
         if (id == null) {
 
@@ -268,7 +283,7 @@ public class DispatchWorkFileController extends BaseController {
 
         List<DispatchWorkFile> records = dispatchWorkFileMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"发文单位", "年度", "所属专项工作", "排序", "发文号", "发文日期", "文件名", "文件", "保密级别", "备注"};
+        String[] titles = {"发文单位", "年度", "所属专项工作", "排序", "发文号", "发文日期", "文件名", "保密级别", "备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchWorkFile record = records.get(i);
@@ -280,7 +295,6 @@ public class DispatchWorkFileController extends BaseController {
                     record.getCode(),
                     DateUtils.formatDate(record.getPubDate(), DateUtils.YYYY_MM_DD),
                     record.getFileName(),
-                    record.getFilePath(),
                     record.getPrivacyType() + "",
                     record.getRemark()
             };

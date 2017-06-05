@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.common.FreemarkerService;
-import service.party.MemberService;
+import service.member.MemberService;
 import service.base.MetaTypeService;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
@@ -23,8 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class CadreInfoFormService extends BaseMapper{

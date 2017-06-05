@@ -5,7 +5,7 @@
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:;" class="closeView btn btn-xs btn-success">
+            <a href="javascript:;" class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
@@ -158,11 +158,7 @@
                 align: 'left',
                 width: 550,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.partyId == undefined) return '';
-                    var party = _cMap.partyMap[rowObject.partyId].name;
-                    if (rowObject.branchId != undefined)
-                        var branch = _cMap.branchMap[rowObject.branchId].name;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }
             }
         ]

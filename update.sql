@@ -1,6 +1,10 @@
 
 
 
+
+
+-- 2017-6-3
+
 CREATE TABLE `dispatch_work_file` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`unit_type` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '发文单位，关联元数据',

@@ -228,6 +228,21 @@ public class SystemConstants {
         USER_SOURCE_MAP.put(USER_SOURCE_REG, "用户注册");
     }
 
+
+    // 打印类别
+    public final static byte JASPER_PRINT_TYPE_INSIDE = 1;
+    public final static byte JASPER_PRINT_TYPE_OUTSIDE = 2;
+    public final static byte JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD = 3;
+    public final static byte JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL = 4;
+    public final static Map<Byte, String> JASPER_PRINT_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_INSIDE, "京内打印");
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_OUTSIDE, "京外套打");
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD, "出国境组织关系暂留审批表");
+        JASPER_PRINT_TYPE_MAP.put(JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL, "国内组织关系暂留审批表");
+    }
+
     // 权限开通申请状态，0申请 1本人撤销 2 管理员撤回 3通过；
     public final static byte ENTER_APPLY_STATUS_APPLY = 0;
     public final static byte ENTER_APPLY_STATUS_SELF_ABORT = 1;
@@ -516,22 +531,6 @@ public class SystemConstants {
         MEMBER_TRANSFER_STATUS_MAP.put(MEMBER_TRANSFER_STATUS_TO_VERIFY, "转入分党委审核通过");
     }
 
-    // 公派留学生党员申请组织关系暂留状态，状态，-2本人撤回 -1返回修改 0申请 1分党委审批 2组织部审批
-    public final static byte MEMBER_STAY_STATUS_SELF_BACK = -2;
-    public final static byte MEMBER_STAY_STATUS_BACK = -1;
-    public final static byte MEMBER_STAY_STATUS_APPLY = 0;
-    public final static byte MEMBER_STAY_STATUS_PARTY_VERIFY = 1;
-    public final static byte MEMBER_STAY_STATUS_OW_VERIFY = 2;
-    public final static Map<Byte, String> MEMBER_STAY_STATUS_MAP = new LinkedHashMap<>();
-
-    static {
-        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_SELF_BACK, "本人撤回");
-        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_BACK, "返回修改");
-        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_APPLY, "申请");
-        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_PARTY_VERIFY, "分党委审核通过");
-        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_OW_VERIFY, "组织部审核通过");
-    }
-
     // 党员流入状态
     public final static byte MEMBER_INFLOW_STATUS_BACK = -1; // 本人撤回、审核不通过
     public final static byte MEMBER_INFLOW_STATUS_APPLY = 0;
@@ -579,32 +578,43 @@ public class SystemConstants {
         MEMBER_OUTFLOW_STATUS_MAP.put(MEMBER_OUTFLOW_STATUS_PARTY_VERIFY, "分党委审核通过");
     }
 
-    // 党员出国（境）保留组织关系申请    留学方式
-    public final static byte GRADUATE_ABROAD_TYPE_PUB = 1; // 公派
-    public final static byte GRADUATE_ABROAD_TYPE_SELF = 2; // 自费
-    public final static Map<Byte, String> GRADUATE_ABROAD_TYPE_MAP = new LinkedHashMap<>();
+
+    // 暂留组织关系申请 类别
+    public final static byte MEMBER_STAY_TYPE_ABROAD = 1; // 出国境
+    public final static byte MEMBER_STAY_TYPE_INTERNAL = 2; // 国内
+    public final static Map<Byte, String> MEMBER_STAY_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        GRADUATE_ABROAD_TYPE_MAP.put(GRADUATE_ABROAD_TYPE_PUB, "公派");
-        GRADUATE_ABROAD_TYPE_MAP.put(GRADUATE_ABROAD_TYPE_SELF, "自费");
+        MEMBER_STAY_TYPE_MAP.put(MEMBER_STAY_TYPE_ABROAD, "党员出国（境）");
+        MEMBER_STAY_TYPE_MAP.put(MEMBER_STAY_TYPE_INTERNAL, "非出国（境）");
     }
 
-    // 党员出国（境）保留组织关系申请状态
-    public final static byte GRADUATE_ABROAD_STATUS_SELF_BACK = -2; // 本人撤回
-    public final static byte GRADUATE_ABROAD_STATUS_BACK = -1; // 审核不通过
-    public final static byte GRADUATE_ABROAD_STATUS_APPLY = 0;
-    public final static byte GRADUATE_ABROAD_STATUS_BRANCH_VERIFY = 1;
-    public final static byte GRADUATE_ABROAD_STATUS_PARTY_VERIFY = 2;
-    public final static byte GRADUATE_ABROAD_STATUS_OW_VERIFY = 3;
-    public final static Map<Byte, String> GRADUATE_ABROAD_STATUS_MAP = new LinkedHashMap<>();
+    // 暂留组织关系申请    留学方式
+    public final static byte MEMBER_STAY_ABROAD_TYPE_MAP_PUB = 1; // 公派
+    public final static byte MEMBER_STAY_ABROAD_TYPE_MAP_SELF = 2; // 自费
+    public final static Map<Byte, String> MEMBER_STAY_ABROAD_TYPE_MAP_MAP = new LinkedHashMap<>();
 
     static {
-        GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_SELF_BACK, "本人撤回");
-        GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_BACK, "不通过");
-        GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_APPLY, "申请");
-        GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_BRANCH_VERIFY, "党支部审核通过");
-        GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_PARTY_VERIFY, "分党委审核通过");
-        GRADUATE_ABROAD_STATUS_MAP.put(GRADUATE_ABROAD_STATUS_OW_VERIFY, "组织部审核通过");
+        MEMBER_STAY_ABROAD_TYPE_MAP_MAP.put(MEMBER_STAY_ABROAD_TYPE_MAP_PUB, "公派");
+        MEMBER_STAY_ABROAD_TYPE_MAP_MAP.put(MEMBER_STAY_ABROAD_TYPE_MAP_SELF, "自费");
+    }
+
+    // 暂留组织关系申请状态
+    public final static byte MEMBER_STAY_STATUS_SELF_BACK = -2; // 本人撤回
+    public final static byte MEMBER_STAY_STATUS_BACK = -1; // 审核不通过
+    public final static byte MEMBER_STAY_STATUS_APPLY = 0;
+    public final static byte MEMBER_STAY_STATUS_BRANCH_VERIFY = 1;
+    public final static byte MEMBER_STAY_STATUS_PARTY_VERIFY = 2;
+    public final static byte MEMBER_STAY_STATUS_OW_VERIFY = 3;
+    public final static Map<Byte, String> MEMBER_STAY_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_SELF_BACK, "本人撤回");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_BACK, "不通过");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_APPLY, "申请");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_BRANCH_VERIFY, "党支部审核通过");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_PARTY_VERIFY, "分党委审核通过");
+        MEMBER_STAY_STATUS_MAP.put(MEMBER_STAY_STATUS_OW_VERIFY, "组织部审核通过");
     }
 
     // 党员各类申请的审批记录类型 1入党申请 2 留学归国申请 3 组织关系转入 4 流入党员申请 5 流出党员申请 6 组织关系转出 7 留学归国党员
@@ -616,11 +626,10 @@ public class SystemConstants {
     public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT = 6;
     public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN = 7;
     public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER = 8;
-    public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY = 9;
     public final static byte APPLY_APPROVAL_LOG_TYPE_USER_REG = 10;
     public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT = 11;
     public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT = 12;
-    public final static byte APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD = 13;
+    public final static byte APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY = 13;
     public final static Map<Byte, String> APPLY_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -632,11 +641,10 @@ public class SystemConstants {
         APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "组织关系转出");
         APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, "留学归国党员申请");
         APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, "校内组织关系转接");
-        APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, "公派留学生党员申请组织关系暂留");
         APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_USER_REG, "用户注册");
         APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "党员出党");
         APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, "流入党员转出");
-        APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD, "党员出国（境）申请组织关系暂留");
+        APPLY_APPROVAL_LOG_TYPE_MAP.put(APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, "党员出国（境）申请组织关系暂留");
     }
 
     // 党员各类申请的操作人类别

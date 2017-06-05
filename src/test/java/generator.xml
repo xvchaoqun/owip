@@ -97,10 +97,7 @@
       </table>-->
     <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
       </table>
-       <table tableName="ow_member_stay" domainObjectName="member.MemberStay">
-       </table>-->
-      <!--<table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView">
-      </table>-->
+       -->
       <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
       </table>
       <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
@@ -124,10 +121,12 @@
       </table>-->
       <!--<table tableName="ow_member_abroad_view" domainObjectName="member.MemberAbroadView">
       </table>-->
-
-      <!--<table tableName="ow_graduate_abroad" domainObjectName="member.GraduateAbroad">
+      <!--<table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
       </table>
-      <table tableName="ow_graduate_abroad_view" domainObjectName="member.GraduateAbroadView">
+      <table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView" mapperName="member.MemberStayViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
       </table>-->
       <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
       </table>-->

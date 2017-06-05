@@ -10,7 +10,7 @@
     <h4 class="widget-title lighter smaller"
         style="position:absolute; top: -50px; right: 50px; ">
 
-        <a href="javascript:" class="closeView btn btn-xs btn-success">
+        <a href="javascript:" class="hideView btn btn-xs btn-success">
             <i class="ace-icon fa fa-reply"></i>
             返回</a>
     </h4>

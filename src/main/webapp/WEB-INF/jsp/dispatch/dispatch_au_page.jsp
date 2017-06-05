@@ -10,7 +10,7 @@
                         <form action="${ctx}/dispatch_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
-                            <a href="javascript:;" class="closeView btn btn-xs btn-primary">
+                            <a href="javascript:;" class="hideView btn btn-xs btn-primary">
                                 <i class="ace-icon fa fa-upload"></i>
                                 上传任免文件</a>
                             <input type="file" name="file" id="upload-file"/>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="buttons pull-right ">
 
-                        <a href="javascript:;" class="closeView btn btn-xs btn-success"
+                        <a href="javascript:;" class="hideView btn btn-xs btn-success"
                            style="margin-right: 10px; top: -5px;">
                             <i class="ace-icon fa fa-backward"></i>
                             返回</a>

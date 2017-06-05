@@ -176,7 +176,7 @@
                                 if (result) {
                                     $("#item-content").load("${ctx}/dispatch_cadres?dispatchId=" + ret.id);
                                 } else {
-                                    $(".closeView").click();
+                                    $.hideView();
                                 }
                             },
                             title: '操作成功'

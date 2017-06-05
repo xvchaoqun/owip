@@ -697,73 +697,73 @@ public class MemberStayViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonIsNull() {
-            addCriterion("abroad_reason is null");
+        public Criteria andStayReasonIsNull() {
+            addCriterion("stay_reason is null");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonIsNotNull() {
-            addCriterion("abroad_reason is not null");
+        public Criteria andStayReasonIsNotNull() {
+            addCriterion("stay_reason is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonEqualTo(String value) {
-            addCriterion("abroad_reason =", value, "abroadReason");
+        public Criteria andStayReasonEqualTo(String value) {
+            addCriterion("stay_reason =", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonNotEqualTo(String value) {
-            addCriterion("abroad_reason <>", value, "abroadReason");
+        public Criteria andStayReasonNotEqualTo(String value) {
+            addCriterion("stay_reason <>", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonGreaterThan(String value) {
-            addCriterion("abroad_reason >", value, "abroadReason");
+        public Criteria andStayReasonGreaterThan(String value) {
+            addCriterion("stay_reason >", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonGreaterThanOrEqualTo(String value) {
-            addCriterion("abroad_reason >=", value, "abroadReason");
+        public Criteria andStayReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("stay_reason >=", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonLessThan(String value) {
-            addCriterion("abroad_reason <", value, "abroadReason");
+        public Criteria andStayReasonLessThan(String value) {
+            addCriterion("stay_reason <", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonLessThanOrEqualTo(String value) {
-            addCriterion("abroad_reason <=", value, "abroadReason");
+        public Criteria andStayReasonLessThanOrEqualTo(String value) {
+            addCriterion("stay_reason <=", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonLike(String value) {
-            addCriterion("abroad_reason like", value, "abroadReason");
+        public Criteria andStayReasonLike(String value) {
+            addCriterion("stay_reason like", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonNotLike(String value) {
-            addCriterion("abroad_reason not like", value, "abroadReason");
+        public Criteria andStayReasonNotLike(String value) {
+            addCriterion("stay_reason not like", value, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonIn(List<String> values) {
-            addCriterion("abroad_reason in", values, "abroadReason");
+        public Criteria andStayReasonIn(List<String> values) {
+            addCriterion("stay_reason in", values, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonNotIn(List<String> values) {
-            addCriterion("abroad_reason not in", values, "abroadReason");
+        public Criteria andStayReasonNotIn(List<String> values) {
+            addCriterion("stay_reason not in", values, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonBetween(String value1, String value2) {
-            addCriterion("abroad_reason between", value1, value2, "abroadReason");
+        public Criteria andStayReasonBetween(String value1, String value2) {
+            addCriterion("stay_reason between", value1, value2, "stayReason");
             return (Criteria) this;
         }
 
-        public Criteria andAbroadReasonNotBetween(String value1, String value2) {
-            addCriterion("abroad_reason not between", value1, value2, "abroadReason");
+        public Criteria andStayReasonNotBetween(String value1, String value2) {
+            addCriterion("stay_reason not between", value1, value2, "stayReason");
             return (Criteria) this;
         }
 
@@ -2567,63 +2567,63 @@ public class MemberStayViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateIsNull() {
-            addCriterion("return_date is null");
+        public Criteria andOverDateIsNull() {
+            addCriterion("over_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateIsNotNull() {
-            addCriterion("return_date is not null");
+        public Criteria andOverDateIsNotNull() {
+            addCriterion("over_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateEqualTo(Date value) {
-            addCriterionForJDBCDate("return_date =", value, "returnDate");
+        public Criteria andOverDateEqualTo(Date value) {
+            addCriterionForJDBCDate("over_date =", value, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("return_date <>", value, "returnDate");
+        public Criteria andOverDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("over_date <>", value, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("return_date >", value, "returnDate");
+        public Criteria andOverDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("over_date >", value, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("return_date >=", value, "returnDate");
+        public Criteria andOverDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("over_date >=", value, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateLessThan(Date value) {
-            addCriterionForJDBCDate("return_date <", value, "returnDate");
+        public Criteria andOverDateLessThan(Date value) {
+            addCriterionForJDBCDate("over_date <", value, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("return_date <=", value, "returnDate");
+        public Criteria andOverDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("over_date <=", value, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateIn(List<Date> values) {
-            addCriterionForJDBCDate("return_date in", values, "returnDate");
+        public Criteria andOverDateIn(List<Date> values) {
+            addCriterionForJDBCDate("over_date in", values, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("return_date not in", values, "returnDate");
+        public Criteria andOverDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("over_date not in", values, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("return_date between", value1, value2, "returnDate");
+        public Criteria andOverDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("over_date between", value1, value2, "overDate");
             return (Criteria) this;
         }
 
-        public Criteria andReturnDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("return_date not between", value1, value2, "returnDate");
+        public Criteria andOverDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("over_date not between", value1, value2, "overDate");
             return (Criteria) this;
         }
 

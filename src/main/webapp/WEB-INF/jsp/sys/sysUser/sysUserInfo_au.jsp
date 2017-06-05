@@ -149,7 +149,7 @@
         </button>
 
         &nbsp; &nbsp; &nbsp;
-        <button class="closeView btn" type="button">
+        <button class="hideView btn" type="button">
             <i class="ace-icon fa fa-undo bigger-110"></i>
             取消
         </button>
@@ -188,7 +188,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");
-                        $(".closeView").click();
+                        $.hashchange();
                     }
                 }
             });

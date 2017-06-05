@@ -678,7 +678,7 @@ pageEncoding="UTF-8"%>
 		</div></div></div>
 <c:if test="${param._auth!='self'}">
 <div class="clearfix form-actions center">
-	<button class="closeView btn btn-default" type="button">
+	<button class="hideView btn btn-default" type="button">
 		<i class="ace-icon fa fa-undo"></i>
 		返回
 	</button>
@@ -898,7 +898,7 @@ pageEncoding="UTF-8"%>
 			</button>
 
 			&nbsp; &nbsp; &nbsp;
-			<button class="closeView btn" type="button">
+			<button class="hideView btn" type="button">
 				<i class="ace-icon fa fa-undo bigger-110"></i>
 				取消
 			</button>

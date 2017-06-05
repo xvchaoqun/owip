@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.ext.ExtService;
-import service.party.MemberService;
 import service.source.ExtAbroadImport;
 import service.source.ExtBksImport;
 import service.source.ExtJzgImport;
@@ -21,7 +20,6 @@ import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
 import shiro.SaltPassword;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 

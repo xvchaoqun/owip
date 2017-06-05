@@ -36,7 +36,7 @@ public class MemberStay implements Serializable {
 
     private Integer userType;
 
-    private String abroadReason;
+    private String stayReason;
 
     private String mobile;
 
@@ -91,7 +91,7 @@ public class MemberStay implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM")
     private Date endTime;
     @DateTimeFormat(pattern = "yyyy-MM")
-    private Date returnDate;
+    private Date overDate;
 
     private Byte abroadType;
     @DateTimeFormat(pattern = "yyyy-MM")
@@ -191,12 +191,12 @@ public class MemberStay implements Serializable {
         this.userType = userType;
     }
 
-    public String getAbroadReason() {
-        return abroadReason;
+    public String getStayReason() {
+        return stayReason;
     }
 
-    public void setAbroadReason(String abroadReason) {
-        this.abroadReason = abroadReason == null ? null : abroadReason.trim();
+    public void setStayReason(String stayReason) {
+        this.stayReason = stayReason == null ? null : stayReason.trim();
     }
 
     public String getMobile() {
@@ -407,12 +407,12 @@ public class MemberStay implements Serializable {
         this.endTime = endTime;
     }
 
-    public Date getReturnDate() {
-        return returnDate;
+    public Date getOverDate() {
+        return overDate;
     }
 
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
+    public void setOverDate(Date overDate) {
+        this.overDate = overDate;
     }
 
     public Byte getAbroadType() {

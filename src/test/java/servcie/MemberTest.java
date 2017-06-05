@@ -2,18 +2,16 @@ package servcie;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import domain.member.Member;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import service.party.MemberService;
+import service.member.MemberService;
 import sys.utils.JSONUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 /**
  * Created by fafa on 2017/1/7.

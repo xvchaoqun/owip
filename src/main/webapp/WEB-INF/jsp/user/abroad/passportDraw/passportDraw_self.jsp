@@ -82,7 +82,7 @@
 <div class="modal-footer center" style="margin-top: 20px">
   <input id="apply" class="btn btn-success" value="申请使用证件"/>
   <c:if test="${param.auth=='admin'}">
-    <input type="button" class="closeView btn btn-default" value="返回"/>
+    <input type="button" class="hideView btn btn-default" value="返回"/>
   </c:if>
   <c:if test="${param.auth!='admin'}">
     <input data-url="${ctx}/user/passportDraw_select" class="openView  btn btn-default" value="返回"/>

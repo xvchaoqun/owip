@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreExportService;
+import service.member.MemberService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;

@@ -28,7 +28,7 @@
             <button class="needSign btn btn-success btn-block" style="font-size: 30px">申请签注</button>
         </div>
         <div class="center" style="margin-top: 40px">
-            <button class="closeView btn btn-default btn-block" style="font-size: 30px">返回</button>
+            <button class="hideView btn btn-default btn-block" style="font-size: 30px">返回</button>
         </div>
     </div>
   </div>

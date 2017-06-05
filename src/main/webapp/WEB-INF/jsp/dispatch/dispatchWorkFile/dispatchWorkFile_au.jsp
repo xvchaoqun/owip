@@ -81,9 +81,15 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">文件</label>
+				<label class="col-xs-3 control-label">PDF文件</label>
 				<div class="col-xs-6">
-					<input class="form-control" type="file" name="_filePath"/>
+					<input class="form-control" type="file" name="_pdfFilePath"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">WORD文件</label>
+				<div class="col-xs-6">
+					<input class="form-control" type="file" name="_wordFilePath"/>
 				</div>
 			</div>
 
@@ -116,15 +122,15 @@ pageEncoding="UTF-8"%>
 
 	register_date($('.date-picker'));
 
-	register_fileupload($("#modalForm input[name=_filePath]"));
+	register_fileupload($("#modalForm input[type=file]"));
 
     $('#modalForm [data-rel="select2"]').select2();
     $('#modalForm select[name="privacyType"]').select2({templateSelection: function format(state) {
 
 		var originalOption = state.element;
 		var boolAttr = $(originalOption).data("bool-attr");
-		console.log(boolAttr)
-		$("input[name='_filePath']").prop("disabled", !boolAttr);
+		//console.log(boolAttr)
+		$("input[type=file]").prop("disabled", !boolAttr);
 
 		return state.text;
 	}})

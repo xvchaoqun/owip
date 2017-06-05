@@ -152,7 +152,7 @@
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
            class="btn btn-success" value="提交" style="width: 150px"/>
-    <input type="button" class="closeView btn btn-default" value="返回" style="width: 150px"/>
+    <input type="button" class="hideView btn btn-default" value="返回" style="width: 150px"/>
 </div>
 <script>
     $('input[type=file]').ace_file_input({
@@ -218,7 +218,7 @@
                         $.post("${ctx}/shortMsg", {id:'${passportDraw.id}', type:'passportDraw'}, function(ret){
                             if(ret.success) {
                                 //SysMsg.success('通知成功', '提示', function () {
-                                    $(".closeView").click();
+                                $.hideView();
                                 //});
                             }
                         })

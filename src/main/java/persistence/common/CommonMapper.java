@@ -27,6 +27,9 @@ import java.util.Set;
  */
 public interface CommonMapper {
 
+    @Select("select max(code) from ow_member_stay where left(code, 4)=#{year}")
+    String getMemberStayMaxCode(@Param("year") int year);
+
     @Select("select max(sort_order) from ${table} where ${whereSql}")
     Integer getMaxSortOrder(@Param("table") String table, @Param("whereSql") String whereSql);
 

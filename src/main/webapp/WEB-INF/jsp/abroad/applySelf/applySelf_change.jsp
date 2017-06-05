@@ -141,7 +141,7 @@ pageEncoding="UTF-8"%>
 			提交
 		</button>
 		&nbsp; &nbsp; &nbsp;
-		<button class="closeView btn" type="button">
+		<button class="hideView btn" type="button">
 			<i class="ace-icon fa fa-undo bigger-110"></i>
 			取消
 		</button>
@@ -308,7 +308,7 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
 						//SysMsg.success('修改成功。', '成功',function(){
 							$("#jqGrid").trigger("reloadGrid");
-							$(".closeView").click();
+							$.hideView();
 						//});
                     }
                 }

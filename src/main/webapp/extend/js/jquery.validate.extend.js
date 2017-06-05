@@ -27,7 +27,13 @@ jQuery.validator.setDefaults({
 	highlight: function (e) {
 	},
 	success: function (e) {
+		//console.log(e)
+		//console.log(e.closest('.uploader').find(".help-block"))
 		$(e).closest('div.form-group').removeClass('has-error').addClass('has-success')
+
+		// 文件上传特殊处理
+		e.closest('.uploader').find(".help-block").remove();
+
 		$(e).removeClass('has-error').addClass('has-success')
 		$(e).parent().removeClass('has-error').addClass('has-success')
 	},
@@ -35,9 +41,16 @@ jQuery.validator.setDefaults({
 
 		$(element).closest('div.form-group').removeClass('has-success')
 
+		if(error.html()!='') {
+			$(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
+		}
+
+		// 文件上传特殊处理
 		if(element.is(':file')){
 
+			//console.log(element)
 			var $uploaderdiv = element.closest('.uploader');
+			$uploaderdiv.removeClass('has-success');
 			error.appendTo($uploaderdiv)
 			return;
 		}
@@ -47,6 +60,7 @@ jQuery.validator.setDefaults({
 			error.insertAfter(element.parent().parent())
 			return;
 		}*/
+
 		//console.log($(element).hasClass("date-picker")+"==================1111")
 		if(element.is(":checkbox")){
 			$(element).closest('div.form-group').removeClass('has-success').addClass('has-error')

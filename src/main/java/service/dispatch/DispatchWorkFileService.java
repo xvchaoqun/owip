@@ -152,7 +152,7 @@ public class DispatchWorkFileService extends BaseMapper {
         dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
 
         if(!canUpload){
-            updateMapper.excuteSql("update dispatch_work_file set file_path=null where id=" + record.getId());
+            updateMapper.excuteSql("update dispatch_work_file set pdf_file_path=null, word_file_path=null where id=" + record.getId());
         }
     }
 

@@ -376,11 +376,7 @@
                 align: 'left',
                 width: 550,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.partyId == undefined) return '';
-                    var party = _cMap.partyMap[rowObject.partyId].name;
-                    if (rowObject.branchId != undefined)
-                        var branch = _cMap.branchMap[rowObject.branchId].name;
-                    return party + (($.trim(branch) == '') ? '' : '-' + branch);
+                    return $.displayParty(rowObject.partyId, rowObject.branchId);
                 }
             },
             <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">

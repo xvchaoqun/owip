@@ -10,13 +10,15 @@ import java.util.Date;
  * Created by fafa on 2015/12/11.
  */
 // 用户通用字段
-public class UserBean implements Serializable{
+public class UserBean implements Serializable {
 
     // 平台用户基础信息
     public Integer userId;
     public String code; // 学工号
+    public String avatar;
     public String username;
     public String realname;
+
     public Byte type; // 类别：教师、学生
     public Byte gender;
     public Date birth;
@@ -32,6 +34,7 @@ public class UserBean implements Serializable{
     public Integer branchId;
     public Party party;
     public Branch branch;
+    public Byte memberStatus;
 
     public Integer getUserId() {
         return userId;
@@ -47,6 +50,14 @@ public class UserBean implements Serializable{
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -167,5 +178,13 @@ public class UserBean implements Serializable{
 
     public void setBranch(Branch branch) {
         this.branch = branch;
+    }
+
+    public Byte getMemberStatus() {
+        return memberStatus;
+    }
+
+    public void setMemberStatus(Byte memberStatus) {
+        this.memberStatus = memberStatus;
     }
 }

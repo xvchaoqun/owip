@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="jqgrid-vertical-offset clearfix" style="background-color: #f5f5f5;padding: 5px 0 5px 0">
     <div class="col-md-9">
-        <button class="closeView btn btn-success btn-sm" type="button">
+        <button class="hideView btn btn-success btn-sm" type="button">
             <i class="ace-icon fa fa-backward bigger-110"></i>
             返回
         </button>
@@ -115,7 +115,7 @@
     </shiro:hasPermission>
     </c:if>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="closeView btn btn-default" type="button">
+    <button class="hideView btn btn-default" type="button">
         <i class="ace-icon fa fa-undo"></i>
         返回
     </button>
@@ -149,7 +149,7 @@
                 success:function(ret){
                     if(ret.success){
 
-                        $(".closeView").click();
+                        $.hashchange();
                     }
                 }
             });

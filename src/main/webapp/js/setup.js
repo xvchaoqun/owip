@@ -1043,7 +1043,7 @@ $(document).on("click", "#item-content .openView", function () {
     });
 });
 
-$(document).on("click", "#item-content .closeView", function () {
+$(document).on("click", "#item-content .hideView", function () {
 
     $.hideView($(this).data("url"))
 });

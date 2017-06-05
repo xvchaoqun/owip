@@ -133,7 +133,7 @@
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
            class="btn btn-success" value="确认归还"/>
-    <input  class="closeView btn btn-default" value="返回"/>
+    <input  class="hideView btn btn-default" value="返回"/>
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
@@ -218,7 +218,7 @@
                     if(ret.success){
                         bootbox.hideAll();
                         //SysMsg.success('归还成功。', '成功',function(){
-                            $(".closeView").click();
+                        $.hideView();
                         //});
                     }
                 }

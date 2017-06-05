@@ -228,25 +228,29 @@
 <c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
 <c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 
+<c:set var="JASPER_PRINT_TYPE_INSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_INSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_OUTSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_OUTSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD%>"/>
+<c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL%>"/>
+
+
 <c:set var="MEMBER_INOUT_TYPE_INSIDE" value="<%=SystemConstants.MEMBER_INOUT_TYPE_INSIDE%>"/>
 <c:set var="MEMBER_INOUT_TYPE_OUTSIDE" value="<%=SystemConstants.MEMBER_INOUT_TYPE_OUTSIDE%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
+
+<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=SystemConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
+<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=SystemConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
+<c:set var="MEMBER_STAY_TYPE_MAP" value="<%=SystemConstants.MEMBER_STAY_TYPE_MAP%>"/>
+
+<c:set var="MEMBER_STAY_ABROAD_TYPE_MAP_MAP" value="<%=SystemConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP%>"/>
 
 <c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
 <c:set var="MEMBER_STAY_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_STAY_STATUS_SELF_BACK%>"/>
 <c:set var="MEMBER_STAY_STATUS_BACK" value="<%=SystemConstants.MEMBER_STAY_STATUS_BACK%>"/>
 <c:set var="MEMBER_STAY_STATUS_APPLY" value="<%=SystemConstants.MEMBER_STAY_STATUS_APPLY%>"/>
+<c:set var="MEMBER_STAY_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
-
-<c:set var="GRADUATE_ABROAD_TYPE_MAP" value="<%=SystemConstants.GRADUATE_ABROAD_TYPE_MAP%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_MAP" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_MAP%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_SELF_BACK" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_SELF_BACK%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_BACK" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_BACK%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_APPLY" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_APPLY%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_PARTY_VERIFY" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_PARTY_VERIFY%>"/>
-<c:set var="GRADUATE_ABROAD_STATUS_OW_VERIFY" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_OW_VERIFY%>"/>
 
 <c:set var="MEMBER_IN_STATUS_MAP" value="<%=SystemConstants.MEMBER_IN_STATUS_MAP%>"/>
 <c:set var="MEMBER_IN_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_IN_STATUS_SELF_BACK%>"/>
@@ -306,7 +310,7 @@
 <c:set var="MEMBER_QUIT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_QUIT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY%>"/>
 
-<c:set var="GRADUATE_ABROAD_STATUS_MAP" value="<%=SystemConstants.GRADUATE_ABROAD_STATUS_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
 
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MAP%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
@@ -321,7 +325,7 @@
 <c:set var="APPLY_APPROVAL_LOG_TYPE_USER_REG" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT%>"/>
-<c:set var="APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_GRADUATE_ABROAD%>"/>
+<c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY%>"/>
 
 <c:set var="APPLY_APPROVAL_LOG_STATUS_DENY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_PASS" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS%>"/>

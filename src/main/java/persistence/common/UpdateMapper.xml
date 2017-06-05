@@ -11,8 +11,8 @@
         </if>
     </update>
 
-    <update id="increaseMemberOutPrintCount" parameterType="map" >
-        update ow_member_out
+    <update id="increasePrintCount" parameterType="map" >
+        update ${tableName}
         set
         print_count = print_count + 1,
         last_print_time = #{lastPrintTime},

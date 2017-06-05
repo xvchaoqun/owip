@@ -9,7 +9,8 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="pub_date" jdbcType="DATE" property="pubDate" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
-    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
+    <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
     <result column="privacy_type" jdbcType="INTEGER" property="privacyType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="type" jdbcType="TINYINT" property="type" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_type, year, work_type, code, pub_date, file_name, file_path, privacy_type, 
-    remark, type, status, post_count, sort_order, create_time
+    id, unit_type, year, work_type, code, pub_date, file_name, pdf_file_path, word_file_path, 
+    privacy_type, remark, type, status, post_count, sort_order, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchWorkFileExample" resultMap="BaseResultMap">
     select
@@ -113,14 +114,16 @@
   <insert id="insert" parameterType="domain.dispatch.DispatchWorkFile">
     insert into dispatch_work_file (id, unit_type, year, 
       work_type, code, pub_date, 
-      file_name, file_path, privacy_type, 
-      remark, type, status, post_count, 
-      sort_order, create_time)
+      file_name, pdf_file_path, word_file_path, 
+      privacy_type, remark, type, 
+      status, post_count, sort_order, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{unitType,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
       #{workType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{pubDate,jdbcType=DATE}, 
-      #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{privacyType,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=BIT}, #{postCount,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
+      #{privacyType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{status,jdbcType=BIT}, #{postCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.dispatch.DispatchWorkFile">
     insert into dispatch_work_file
@@ -146,8 +149,11 @@
       <if test="fileName != null">
         file_name,
       </if>
-      <if test="filePath != null">
-        file_path,
+      <if test="pdfFilePath != null">
+        pdf_file_path,
+      </if>
+      <if test="wordFilePath != null">
+        word_file_path,
       </if>
       <if test="privacyType != null">
         privacy_type,
@@ -193,8 +199,11 @@
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="filePath != null">
-        #{filePath,jdbcType=VARCHAR},
+      <if test="pdfFilePath != null">
+        #{pdfFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="wordFilePath != null">
+        #{wordFilePath,jdbcType=VARCHAR},
       </if>
       <if test="privacyType != null">
         #{privacyType,jdbcType=INTEGER},
@@ -249,8 +258,11 @@
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.filePath != null">
-        file_path = #{record.filePath,jdbcType=VARCHAR},
+      <if test="record.pdfFilePath != null">
+        pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wordFilePath != null">
+        word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       </if>
       <if test="record.privacyType != null">
         privacy_type = #{record.privacyType,jdbcType=INTEGER},
@@ -287,7 +299,8 @@
       code = #{record.code,jdbcType=VARCHAR},
       pub_date = #{record.pubDate,jdbcType=DATE},
       file_name = #{record.fileName,jdbcType=VARCHAR},
-      file_path = #{record.filePath,jdbcType=VARCHAR},
+      pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
+      word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       privacy_type = #{record.privacyType,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
@@ -320,8 +333,11 @@
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="filePath != null">
-        file_path = #{filePath,jdbcType=VARCHAR},
+      <if test="pdfFilePath != null">
+        pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="wordFilePath != null">
+        word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       </if>
       <if test="privacyType != null">
         privacy_type = #{privacyType,jdbcType=INTEGER},
@@ -355,7 +371,8 @@
       code = #{code,jdbcType=VARCHAR},
       pub_date = #{pubDate,jdbcType=DATE},
       file_name = #{fileName,jdbcType=VARCHAR},
-      file_path = #{filePath,jdbcType=VARCHAR},
+      pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
+      word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       privacy_type = #{privacyType,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
