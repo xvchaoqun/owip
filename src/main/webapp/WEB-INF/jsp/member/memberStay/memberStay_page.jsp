@@ -410,7 +410,7 @@
                 label: '打印审批表', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 var html = '<button class="openView btn btn-success btn-xs"'
-                        + ' data-url="${ctx}/report/printPreview?type=${type==MEMBER_STAY_TYPE_ABROAD?JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD:JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}&ids[]={0}"><i class="fa fa-print"></i> 打印审批表</button>'
+                        + ' data-url="${ctx}/report/printPreview?type=${param.type==MEMBER_STAY_TYPE_ABROAD?JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD:JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}&ids[]={0}"><i class="fa fa-print"></i> 打印审批表</button>'
                                 .format(rowObject.id);
                 return html;
             }
