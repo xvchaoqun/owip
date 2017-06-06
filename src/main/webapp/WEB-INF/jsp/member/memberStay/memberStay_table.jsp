@@ -198,7 +198,7 @@
     姓名（与本人关系）
   </td>
   <td class="bg-left" colspan="2">
-    ${memberStay.name2} - ${memberStay.relate2}
+    ${memberStay.name2}<c:if test="${not empty memberStay.relate2}">（${memberStay.relate2}）</c:if>
   </td>
   <td class="bg-right">
     单位
@@ -367,7 +367,7 @@
     申请时间
   </td>
   <td class="bg-left" colspan="5">
-    ${cm:formatDate(memberStay.createTime,'yyyy-MM-dd mm:HH:ss')}
+    ${cm:formatDate(memberStay.createTime,'yyyy-MM-dd HH:mm:ss')}
   </td>
 </tr>
 <tr>
