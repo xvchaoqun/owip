@@ -1,12 +1,11 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.party.Branch;
 import domain.party.BranchMember;
 import domain.party.BranchMemberExample;
 import domain.party.BranchMemberExample.Criteria;
-import domain.base.MetaType;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -32,18 +31,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
+import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -56,14 +55,14 @@ public class BranchMemberController extends BaseController {
     @RequiresPermissions("branchMember:list")
     @RequestMapping("/branchMember")
     public String branchMember(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer groupId,
-                                    Integer userId,
-                                    Integer typeId,
-                                     Boolean isAdmin,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                               @SortParam(required = false, defaultValue = "sort_order", tableName = "ow_branch_member") String sort,
+                               @OrderParam(required = false, defaultValue = "desc") String order,
+                               Integer groupId,
+                               Integer userId,
+                               Integer typeId,
+                               Boolean isAdmin,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -77,16 +76,16 @@ public class BranchMemberController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (groupId!=null) {
+        if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
         }
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
-        if (isAdmin!=null) {
+        if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);
         }
 
@@ -107,16 +106,16 @@ public class BranchMemberController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (groupId!=null) {
+        if (groupId != null) {
             searchStr += "&groupId=" + groupId;
         }
-        if (userId!=null) {
+        if (userId != null) {
             searchStr += "&userId=" + userId;
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             searchStr += "&typeId=" + typeId;
         }
-        if (isAdmin!=null) {
+        if (isAdmin != null) {
             searchStr += "&isAdmin=" + isAdmin;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -130,7 +129,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_page";
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -145,7 +144,7 @@ public class BranchMemberController extends BaseController {
         Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes("mc_branch_member_type");
         MetaType metaType = metaTypeMap.get(record.getTypeId());
         Boolean boolAttr = metaType.getBoolAttr();
-        if(boolAttr!=null && boolAttr){
+        if (boolAttr != null && boolAttr) {
             autoAdmin = true;
         }
         if (id == null) {
@@ -160,7 +159,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping("/branchMember_au")
     public String branchMember_au(Integer id, ModelMap modelMap) {
@@ -172,7 +171,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_au";
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
     @ResponseBody
@@ -199,7 +198,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -212,14 +211,14 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             branchMemberService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除支部成员：%s", StringUtils.join(ids, ",")));
         }
@@ -227,7 +226,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:changeOrder")
     @RequestMapping(value = "/branchMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -238,11 +237,11 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
-    public Map branchMember_admin(@CurrentUser SysUserView loginUser,  HttpServletRequest request, Integer id) {
+    public Map branchMember_admin(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
@@ -258,7 +257,7 @@ public class BranchMemberController extends BaseController {
 
             branchMemberAdminService.toggleAdmin(branchMember);
 
-            String op = branchMember.getIsAdmin()?"删除":"添加";
+            String op = branchMember.getIsAdmin() ? "删除" : "添加";
             logger.info(addLog(SystemConstants.LOG_OW, "%s党支部委员管理员权限，memberId=%s", op, id));
         }
         return success(FormUtils.SUCCESS);
@@ -273,7 +272,7 @@ public class BranchMemberController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属支部委员会","账号","类别","是否管理员"};
+        String[] titles = {"所属支部委员会", "账号", "类别", "是否管理员"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -284,11 +283,11 @@ public class BranchMemberController extends BaseController {
 
             BranchMember branchMember = branchMembers.get(i);
             String[] values = {
-                        branchMember.getGroupId()+"",
-                                            branchMember.getUserId()+"",
-                                            branchMember.getTypeId()+"",
-                                            branchMember.getIsAdmin()+""
-                    };
+                    branchMember.getGroupId() + "",
+                    branchMember.getUserId() + "",
+                    branchMember.getTypeId() + "",
+                    branchMember.getIsAdmin() + ""
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -298,21 +297,14 @@ public class BranchMemberController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "支部成员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "支部成员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/branchMember_selects")
     @ResponseBody
-    public Map branchMember_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map branchMember_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -331,16 +323,16 @@ public class BranchMemberController extends BaseController {
         }*/
 
         int count = branchMemberMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<BranchMember> branchMembers = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<BranchMember> branchMembers = branchMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != branchMembers && branchMembers.size()>0){
+        if (null != branchMembers && branchMembers.size() > 0) {
 
-            for(BranchMember branchMember:branchMembers){
+            for (BranchMember branchMember : branchMembers) {
 
                 Select2Option option = new Select2Option();
                 //option.setText(branchMember.getName());

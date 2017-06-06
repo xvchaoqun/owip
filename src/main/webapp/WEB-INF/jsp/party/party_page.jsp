@@ -24,6 +24,13 @@ pageEncoding="UTF-8" %>
                     <li  class="<c:if test="${status==-1}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=-1"><i class="fa fa-trash"></i> 已删除党委</a>
                     </li>
+                    <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
+                    <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                            <a class="btn btn-success btn-sm"
+                               href="${ctx}/party?export=2" target="_blank">
+                                <i class="fa fa-download"></i> 汇总导出基本情况表</a>
+                    </div>
+                    </shiro:hasAnyRoles>
                 </ul>
 
                 <div class="tab-content">

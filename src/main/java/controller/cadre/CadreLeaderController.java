@@ -25,12 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -252,16 +248,9 @@ public class CadreLeaderController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "校领导_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "校领导_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequiresPermissions("cadreLeader:unit")

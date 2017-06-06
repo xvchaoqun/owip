@@ -1,19 +1,15 @@
 package controller.cadreReserve;
 
 import bean.CadreReserveCount;
-import bean.XlsCadre;
 import bean.XlsCadreReserve;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
-import domain.cadre.CadreViewExample;
 import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -32,11 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.utils.*;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -89,7 +84,7 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:list")
     @RequestMapping("/cadreReserve")
     public String cadreReserve(Byte status, Byte reserveType,
-                                    Integer cadreId, ModelMap modelMap) {
+                               Integer cadreId, ModelMap modelMap) {
 
         if (status == null && reserveType == null) {
             // 默认页面
@@ -353,15 +348,7 @@ public class CadreReserveController extends BaseController {
         if (cadreReserveType != null)
             fileName = PropertiesUtils.getString("site.school") + "后备干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
 
-        try {
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     /*public void cadreReserve_export(CadreReserveViewExample example, HttpServletResponse response) {

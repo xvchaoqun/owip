@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -43,11 +43,11 @@ public class HistoryUnitController extends BaseController {
     @RequiresPermissions("historyUnit:list")
     @RequestMapping("/historyUnit")
     public String historyUnit(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_history_unit") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 Integer unitId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                              @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_history_unit") String sort,
+                              @OrderParam(required = false, defaultValue = "desc") String order,
+                              Integer unitId,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -61,7 +61,7 @@ public class HistoryUnitController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (unitId!=null) {
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
 
@@ -82,7 +82,7 @@ public class HistoryUnitController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (unitId!=null) {
+        if (unitId != null) {
             searchStr += "&unitId=" + unitId;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -155,7 +155,7 @@ public class HistoryUnitController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
             historyUnitService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除历史单位：%s", new Object[]{ids}));
         }
@@ -169,7 +169,7 @@ public class HistoryUnitController extends BaseController {
 
         HistoryUnit historyUnit = historyUnitMapper.selectByPrimaryKey(id);
         historyUnitService.changeOrder(id, historyUnit.getUnitId(), addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "历史单位调序：%s, %s", id ,addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "历史单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -193,8 +193,8 @@ public class HistoryUnitController extends BaseController {
 
             HistoryUnit historyUnit = historyUnits.get(i);
             String[] values = {
-                        historyUnit.getOldUnitId()+""
-                    };
+                    historyUnit.getOldUnitId() + ""
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -204,15 +204,8 @@ public class HistoryUnitController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "历史单位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "历史单位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

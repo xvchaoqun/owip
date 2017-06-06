@@ -25,12 +25,8 @@ import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
-import sys.utils.ContextHelper;
-import sys.utils.DateUtils;
-import sys.utils.IpUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Date;
@@ -42,11 +38,12 @@ public class PassportDrawService extends BaseMapper {
     @Autowired
     protected ShortMsgService shortMsgService;
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     /*
-	自动发送，发送时间为上午10点，每三天发一次，直到将证件交回。
+    自动发送，发送时间为上午10点，每三天发一次，直到将证件交回。
 	比如，应交组织部日期为2016年9月1日，那么从第二天9月2日开始发，每三天发一次，直到交回证件为止。
 	 */
-    public void sendReturnMsg(){
+    public void sendReturnMsg() {
 
         logger.debug("====领取证件之后催交证件短信通知...start====");
         int count = 0;
@@ -59,9 +56,9 @@ public class PassportDrawService extends BaseMapper {
         for (PassportDraw passportDraw : passportDraws) {
 
             Passport passport = passportDraw.getPassport();
-            if(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
-                    || (passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
-                    && passport.getCancelConfirm()== false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
+            if (passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
+                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
+                    && passport.getCancelConfirm() == false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
 
                 Date returnDate = passportDraw.getReturnDate(); // 应归还时间
                 Period p = new Period(new DateTime(returnDate), new DateTime(today), PeriodType.days());
@@ -73,7 +70,7 @@ public class PassportDrawService extends BaseMapper {
                         boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
                         logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
                         if (ret) count++;
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         logger.error("领取证件之后催交证件短信失败", ex);
                     }
                 }
@@ -84,7 +81,7 @@ public class PassportDrawService extends BaseMapper {
         logger.debug("====领取证件之后催交证件短信通知...end====");
     }
 
-    public List<PassportDrawFile> getPassportDrawFiles(int drawId){
+    public List<PassportDrawFile> getPassportDrawFiles(int drawId) {
 
         PassportDrawFileExample example = new PassportDrawFileExample();
         example.createCriteria().andDrawIdEqualTo(drawId);
@@ -92,7 +89,7 @@ public class PassportDrawService extends BaseMapper {
     }
 
     @Transactional
-    public int insertSelective(PassportDraw record){
+    public int insertSelective(PassportDraw record) {
 
         record.setIsDeleted(false);
         record.setApplyDate(new Date());
@@ -102,34 +99,35 @@ public class PassportDrawService extends BaseMapper {
         record.setJobCertify(false);
         return passportDrawMapper.insertSelective(record);
     }
+
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         passportDrawMapper.deleteByPrimaryKey(id);
     }
 
     // 删除（默认逻辑删除），真删除只有在逻辑删除之后
     @Transactional
-    public void batchDel(Integer[] ids, boolean isReal){
+    public void batchDel(Integer[] ids, boolean isReal) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
-        if(isReal){ // 删除已经[逻辑删除]，且未审批的记录
+        if (isReal) { // 删除已经[逻辑删除]，且未审批的记录
             for (Integer id : ids) {
                 PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-                if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_INIT
-                        && passportDraw.getIsDeleted()){
+                if (passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_INIT
+                        && passportDraw.getIsDeleted()) {
 
                     PassportDrawFileExample example = new PassportDrawFileExample();
                     example.createCriteria().andDrawIdEqualTo(id);
                     passportDrawFileMapper.deleteByExample(example); // 先删除相关材料
 
                     passportDrawMapper.deleteByPrimaryKey(id);
-                }else{
+                } else {
                     throw new RuntimeException("该记录已经审批，不可以删除");
                 }
             }
-        }else {
+        } else {
             PassportDrawExample example = new PassportDrawExample();
             example.createCriteria().andIdIn(Arrays.asList(ids));
 
@@ -138,10 +136,11 @@ public class PassportDrawService extends BaseMapper {
             passportDrawMapper.updateByExampleSelective(record, example);
         }
     }
-    @Transactional
-    public void batchUnDel(Integer[] ids){
 
-        if(ids==null || ids.length==0) return;
+    @Transactional
+    public void batchUnDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
 
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -154,14 +153,14 @@ public class PassportDrawService extends BaseMapper {
 
     // 领取证件
     @Transactional
-    public void drawPassport(PassportDraw record){
+    public void drawPassport(PassportDraw record) {
 
         updateByPrimaryKeySelective(record);
 
         // 将证件标记为已借出
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
-        if(passport.getIsLent()){
+        if (passport.getIsLent()) {
             throw new RuntimeException("该证件已经借出");
         }
         Passport _record = new Passport();
@@ -172,14 +171,14 @@ public class PassportDrawService extends BaseMapper {
 
     // 归还证件
     @Transactional
-    public void returnPassport(PassportDraw record){
+    public void returnPassport(PassportDraw record) {
 
         updateByPrimaryKeySelective(record);
 
         // 将证件标记为未借出
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
-        if(!passport.getIsLent()){
+        if (!passport.getIsLent()) {
             throw new RuntimeException("该证件未借出");
         }
         Passport _record = new Passport();
@@ -194,13 +193,13 @@ public class PassportDrawService extends BaseMapper {
     }
 
     // 重置归还状态为 “未归还”
-    public void resetReturnPassport(int id){
+    public void resetReturnPassport(int id) {
 
         updateMapper.resetReturnPassport(id);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(PassportDraw record){
+    public int updateByPrimaryKeySelective(PassportDraw record) {
         return passportDrawMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -208,11 +207,11 @@ public class PassportDrawService extends BaseMapper {
     public void passportDraw_export(byte exportType, PassportDrawExample example, HttpServletResponse response) {
 
         String type = "因私出国（境）";
-        if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_TW){
-            type="因公赴台、长期因公出国";
-        }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
-            type="处理其他事务";
-        }else{
+        if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+            type = "因公赴台、长期因公出国";
+        } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+            type = "处理其他事务";
+        } else {
             exportType = SystemConstants.PASSPORT_DRAW_TYPE_SELF;
         }
 
@@ -237,18 +236,18 @@ public class PassportDrawService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "中层干部"+type+"证件使用记录");
+            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "中层干部" + type + "证件使用记录");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 14));
             rowNum++;
         }
 
         XSSFRow firstRow = (XSSFRow) sheet.createRow(rowNum++);
         String[] titles = null;
-        if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
-           titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
-                "证件号码", "申请日期", "申请编码", "因私出国（境）行程", /*"是否签注",*/
-                   "出行时间", "回国时间", "前往国家或地区", "因私出国境事由", "借出日期",
-                   "归还日期"};
+        if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+            titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
+                    "证件号码", "申请日期", "申请编码", "因私出国（境）行程", /*"是否签注",*/
+                    "出行时间", "回国时间", "前往国家或地区", "因私出国境事由", "借出日期",
+                    "归还日期"};
 
             sheet.setColumnWidth(0, (short) (35.7 * 50));
             sheet.setColumnWidth(1, (short) (35.7 * 100));
@@ -270,7 +269,7 @@ public class PassportDrawService extends BaseMapper {
 
             sheet.setColumnWidth(14, (short) (35.7 * 100));
 
-        }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_TW){
+        } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
             titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                     "证件号码", "申请日期", "申请编码", "申请类型", "出行时间",
                     "回国时间", "出行天数", "因公事由", "费用来源", "是否签注",
@@ -297,10 +296,10 @@ public class PassportDrawService extends BaseMapper {
             sheet.setColumnWidth(15, (short) (35.7 * 100));
             sheet.setColumnWidth(16, (short) (35.7 * 100));
 
-        }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+        } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
             titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                     "证件号码", "申请日期", "申请编码", "使用时间", "归还时间",
-                    "使用天数", "事由",  "借出日期", "归还日期"};
+                    "使用天数", "事由", "借出日期", "归还日期"};
 
             sheet.setColumnWidth(0, (short) (35.7 * 50));
             sheet.setColumnWidth(1, (short) (35.7 * 100));
@@ -339,31 +338,31 @@ public class PassportDrawService extends BaseMapper {
             String toCountry = "";
             String reason = passportDraw.getReason();
 
-            if(passportDraw.getType()== SystemConstants.PASSPORT_DRAW_TYPE_SELF){
-                xingcheng = "S"+applySelf.getId();
-                if(passport.getClassId().intValue()!=normalPassport.getId()){
-                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign())?"是":"否";
+            if (passportDraw.getType() == SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+                xingcheng = "S" + applySelf.getId();
+                if (passport.getClassId().intValue() != normalPassport.getId()) {
+                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign()) ? "是" : "否";
                 }
                 startDate = DateUtils.formatDate(applySelf.getApplyDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD);
                 toCountry = applySelf.getToCountry();
                 reason = applySelf.getReason();
-            }else if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_TW){
+            } else if (passportDraw.getType() == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
                 //xingcheng = "T"+passportDraw.getId();
-                if(passport.getClassId().intValue()!=normalPassport.getId()){
-                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign())?"是":"否";
+                if (passport.getClassId().intValue() != normalPassport.getId()) {
+                    needSign = BooleanUtils.isTrue(passportDraw.getNeedSign()) ? "是" : "否";
                 }
                 startDate = DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD);
                 //toCountry="台湾";
-            }else if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+            } else if (passportDraw.getType() == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
                 //xingcheng = "Q"+passportDraw.getId();
                 startDate = DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD);
             }
             String[] values = null;
-            if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
-                 values = new String[]{
+            if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+                values = new String[]{
                         String.valueOf(i + 1),
                         uv.getCode(),
                         uv.getRealname(),
@@ -382,7 +381,7 @@ public class PassportDrawService extends BaseMapper {
 
                         DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
                 };
-            }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_TW){
+            } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
                 /*titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                         "证件号码", "申请日期", "申请编码", "申请类型", "出行时间",
                         "回国时间", "出行天数", "因公事由", "费用来源", "是否签注",
@@ -400,13 +399,13 @@ public class PassportDrawService extends BaseMapper {
                         SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()),
                         startDate,
 
-                        endDate, DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate())+"",
+                        endDate, DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate()) + "",
                         reason, passportDraw.getCostSource(), needSign,
 
                         DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
                 };
-            }else if(exportType==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+            } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
 
                 /*titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                         "证件号码", "申请日期", "申请编码", "使用时间", "归还时间",
@@ -424,7 +423,7 @@ public class PassportDrawService extends BaseMapper {
                         startDate,
                         endDate,
 
-                        DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate())+"",
+                        DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate()) + "",
                         reason,
                         DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
@@ -439,16 +438,9 @@ public class PassportDrawService extends BaseMapper {
                 cell.setCellStyle(getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = type+"证件使用记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = type + "证件使用记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {

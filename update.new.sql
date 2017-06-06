@@ -2,6 +2,11 @@
 
 
 
+
+
+
+
+2017-06-05
 ALTER TABLE `ow_graduate_abroad`
 	ADD COLUMN `code` VARCHAR(10) NULL COMMENT '编号，自动生成，今年就是从20170001开始，明年从20180001开始' AFTER `id`,
 	ADD COLUMN `letter` VARCHAR(255) NULL DEFAULT NULL COMMENT '接收函/邀请函，图片格式' AFTER `email2`,

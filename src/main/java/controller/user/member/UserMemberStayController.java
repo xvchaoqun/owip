@@ -44,8 +44,15 @@ public class UserMemberStayController extends BaseController{
             SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/memberStay")
     public String memberStay(Integer userId, // 申请人
+                             Integer id, // memberStay记录ID, 管理员在后台修改时传入
                              byte type,
                              ModelMap modelMap) {
+
+        if(id!=null){ // 如果是后台修改的情况
+            MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+            userId = memberStay.getUserId();
+            type = memberStay.getType();
+        }
 
         modelMap.put("type", type);
 
@@ -66,8 +73,7 @@ public class UserMemberStayController extends BaseController{
         if(!selfSubmit){
             //===========权限
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
+            if (!subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
                 boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
                 if (!isAdmin && branchId != null) {
                     isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -92,6 +98,10 @@ public class UserMemberStayController extends BaseController{
         modelMap.put("student", studentService.get(userId));
         modelMap.put("memberStay", memberStay);
 
+        if(!selfSubmit){ // 管理员可在任意状态下修改
+            return "user/member/memberStay/memberStay_au";
+        }
+
         if(memberStay==null || memberStay.getStatus()== SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
                 || memberStay.getStatus()==SystemConstants.MEMBER_STAY_STATUS_BACK)
             return "user/member/memberStay/memberStay_au";
@@ -114,6 +124,16 @@ public class UserMemberStayController extends BaseController{
             userId = ShiroHelper.getCurrentUserId();
         }
 
+        // 如果是管理员修改则以record.id为准
+        if(ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
+                SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN)){
+            if(record.getId()!=null){
+                MemberStay memberStay = memberStayMapper.selectByPrimaryKey(record.getId());
+                userId = memberStay.getUserId();
+            }
+        }
+
+
         Member member = memberService.get(userId);
         Integer partyId = member.getPartyId();
         Integer branchId = member.getBranchId();
@@ -125,8 +145,7 @@ public class UserMemberStayController extends BaseController{
         if(!selfSubmit){
             //===========权限
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
+            if (!subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
                 boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
                 if (!isAdmin && branchId != null) {
                     isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -207,17 +226,23 @@ public class UserMemberStayController extends BaseController{
             memberStay = record;
         } else {
 
+            if(!selfSubmit) {
+                record.setType(null); // 管理员不能修改类型和状态等
+                record.setStatus(null);
+                record.setIsBack(null);
+                record.setCreateTime(null);
+            }
             memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "修改组织关系暂留申请"));
+            logger.info(addLog(SystemConstants.LOG_USER, "修改提交组织关系暂留申请"));
         }
         applyApprovalLogService.add(memberStay.getId(),
                 memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
                 loginUserId, selfSubmit?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF
                         :SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
-                "提交",
+                (memberStay == null)?"提交":"修改提交",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
-                "提交组织关系暂留申请");
+                "组织关系暂留申请");
 
         return success(FormUtils.SUCCESS);
     }

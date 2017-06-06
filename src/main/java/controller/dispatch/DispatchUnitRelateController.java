@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -43,12 +43,12 @@ public class DispatchUnitRelateController extends BaseController {
     @RequiresPermissions("dispatchUnitRelate:list")
     @RequestMapping("/dispatchUnitRelate")
     public String dispatchUnitRelate(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit_relate") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer dispatchUnitId,
-                                    Integer unitId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                     @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit_relate") String sort,
+                                     @OrderParam(required = false, defaultValue = "desc") String order,
+                                     Integer dispatchUnitId,
+                                     Integer unitId,
+                                     @RequestParam(required = false, defaultValue = "0") int export,
+                                     Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -62,10 +62,10 @@ public class DispatchUnitRelateController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (dispatchUnitId!=null) {
+        if (dispatchUnitId != null) {
             criteria.andDispatchUnitIdEqualTo(dispatchUnitId);
         }
-        if (unitId!=null) {
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
 
@@ -86,10 +86,10 @@ public class DispatchUnitRelateController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (dispatchUnitId!=null) {
+        if (dispatchUnitId != null) {
             searchStr += "&dispatchUnitId=" + dispatchUnitId;
         }
-        if (unitId!=null) {
+        if (unitId != null) {
             searchStr += "&unitId=" + unitId;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -156,7 +156,7 @@ public class DispatchUnitRelateController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             dispatchUnitRelateService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位发文关联单位：%s", StringUtils.join(ids, ",")));
         }
@@ -184,7 +184,7 @@ public class DispatchUnitRelateController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"单位发文","关联单位"};
+        String[] titles = {"单位发文", "关联单位"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -195,9 +195,9 @@ public class DispatchUnitRelateController extends BaseController {
 
             DispatchUnitRelate dispatchUnitRelate = dispatchUnitRelates.get(i);
             String[] values = {
-                        dispatchUnitRelate.getDispatchUnitId()+"",
-                                            dispatchUnitRelate.getUnitId()+""
-                    };
+                    dispatchUnitRelate.getDispatchUnitId() + "",
+                    dispatchUnitRelate.getUnitId() + ""
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -207,16 +207,9 @@ public class DispatchUnitRelateController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "单位发文关联单位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "单位发文关联单位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     /*@RequestMapping("/dispatchUnitRelate_selects")

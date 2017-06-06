@@ -27,12 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -105,13 +101,13 @@ public class PassportApplyController extends BaseController {
     public String passportApply(
             @CurrentUser SysUserView loginUser,
             // 0：办理证件审批 1：批准办理证件审批（未交证件）3：批准办理证件审批（已交证件）2：未批准办理新证件
-            @RequestParam(required = false, defaultValue = "0")  Byte status,
-            Integer cadreId,ModelMap modelMap) {
+            @RequestParam(required = false, defaultValue = "0") Byte status,
+            Integer cadreId, ModelMap modelMap) {
 
         // 判断下是否上传了签名 和联系电话
         String sign = loginUser.getSign();
-        if(StringUtils.isBlank(sign)
-                || new File(springProps.uploadPath + sign).exists()==false
+        if (StringUtils.isBlank(sign)
+                || new File(springProps.uploadPath + sign).exists() == false
                 || StringUtils.isBlank(loginUser.getMobile())) {
             return "abroad/passportApply/passportApply_sign";
         }
@@ -130,19 +126,18 @@ public class PassportApplyController extends BaseController {
     @RequiresPermissions("passportApply:list")
     @RequestMapping("/passportApply_data")
     public void passportApply_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 // -1：已删除 0：办理证件审批 1：批准办理证件审批（未交证件）
-                                 // 3：批准办理证件审批（已交证件）
-                                 // 4：批准办理证件审批（作废）2：未批准办理新证件
-                                 @RequestParam(required = false, defaultValue = "0")  Byte status,
-                                    Integer cadreId,
-                                    Integer classId,
-                                    String applyDate,
-                                    Integer year,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
-
+                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,
+                                   @OrderParam(required = false, defaultValue = "desc") String order,
+                                   // -1：已删除 0：办理证件审批 1：批准办理证件审批（未交证件）
+                                   // 3：批准办理证件审批（已交证件）
+                                   // 4：批准办理证件审批（作废）2：未批准办理新证件
+                                   @RequestParam(required = false, defaultValue = "0") Byte status,
+                                   Integer cadreId,
+                                   Integer classId,
+                                   String applyDate,
+                                   Integer year,
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
 
         if (null == pageSize) {
@@ -157,27 +152,27 @@ public class PassportApplyController extends BaseController {
         PassportApplyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if(status==-1){
+        if (status == -1) {
             criteria.andIsDeletedEqualTo(true);
-        }else{
+        } else {
             criteria.andIsDeletedEqualTo(false);
-            if(status==1){
+            if (status == 1) {
                 criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull().andAbolishEqualTo(false);
-            }else if(status==3){
+            } else if (status == 3) {
                 criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
-            }else if(status==4){
+            } else if (status == 4) {
                 criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(true);
-            }else criteria.andStatusEqualTo(status);
+            } else criteria.andStatusEqualTo(status);
         }
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
 
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (classId!=null) {
+        if (classId != null) {
             criteria.andClassIdEqualTo(classId);
         }
-        if(year!=null){
+        if (year != null) {
             criteria.andApplyDateBetween(DateUtils.parseDate(year + "0101"), DateUtils.parseDate(year + "1230"));
         }
         if (export == 1) {
@@ -220,13 +215,14 @@ public class PassportApplyController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             passportApplyService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
+
     // 恢复申请
     @RequiresPermissions("passportApply:del")
     @RequestMapping(value = "/passportApply_batchUnDel", method = RequestMethod.POST)
@@ -234,7 +230,7 @@ public class PassportApplyController extends BaseController {
     public Map batchUnDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             passportApplyService.batchUnDel(ids);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
@@ -249,7 +245,7 @@ public class PassportApplyController extends BaseController {
     public Map passportApply_doBatchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             passportApplyService.doBatchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "（真删除）批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
@@ -280,7 +276,7 @@ public class PassportApplyController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"干部","申办证件名称","申办日期","审批状态","审批人","审批时间","应交组织部日期","实交组织部日期","证件号码", "接收人","申请时间"};
+        String[] titles = {"干部", "申办证件名称", "申办日期", "审批状态", "审批人", "审批时间", "应交组织部日期", "实交组织部日期", "证件号码", "接收人", "申请时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -292,23 +288,23 @@ public class PassportApplyController extends BaseController {
             PassportApplyView passportApply = passportApplys.get(i);
             String handleUser = "";
             Integer handleUserId = passportApply.getHandleUserId();
-            if(handleUserId!=null){
+            if (handleUserId != null) {
                 SysUserView uv = sysUserService.findById(handleUserId);
-                handleUser = uv!=null?uv.getRealname():"";
+                handleUser = uv != null ? uv.getRealname() : "";
             }
             String[] values = {
-                        passportApply.getCadreId()+"",
-                                            passportApply.getClassId()+"",
-                                            DateUtils.formatDate(passportApply.getApplyDate(), DateUtils.YYYY_MM_DD),
-                                            passportApply.getStatus()+"",
-                                            passportApply.getUserId()+"",
-                                            DateUtils.formatDate(passportApply.getApproveTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
-                                            DateUtils.formatDate(passportApply.getExpectDate(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(passportApply.getHandleDate(), DateUtils.YYYY_MM_DD),
-                                            passportApply.getCode(),
-                                            handleUser,
-                                            DateUtils.formatDate(passportApply.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-                    };
+                    passportApply.getCadreId() + "",
+                    passportApply.getClassId() + "",
+                    DateUtils.formatDate(passportApply.getApplyDate(), DateUtils.YYYY_MM_DD),
+                    passportApply.getStatus() + "",
+                    passportApply.getUserId() + "",
+                    DateUtils.formatDate(passportApply.getApproveTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
+                    DateUtils.formatDate(passportApply.getExpectDate(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(passportApply.getHandleDate(), DateUtils.YYYY_MM_DD),
+                    passportApply.getCode(),
+                    handleUser,
+                    DateUtils.formatDate(passportApply.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -318,15 +314,7 @@ public class PassportApplyController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "申请办理因私出国证件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "申请办理因私出国证件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

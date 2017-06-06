@@ -29,9 +29,9 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.PropertiesUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.util.*;
@@ -52,41 +52,42 @@ public class SafeBoxService extends BaseMapper {
         SafeBoxExample example = new SafeBoxExample();
         example.createCriteria().andCodeEqualTo(code.trim());
         List<SafeBox> safeBoxes = safeBoxMapper.selectByExample(example);
-        if(safeBoxes.size()>0) return safeBoxes.get(0);
+        if (safeBoxes.size() > 0) return safeBoxes.get(0);
         return null;
     }
 
-    public boolean idDuplicate(Integer id, String code){
+    public boolean idDuplicate(Integer id, String code) {
 
         Assert.isTrue(StringUtils.isNotBlank(code), "code is blank");
 
         SafeBoxExample example = new SafeBoxExample();
         SafeBoxExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return safeBoxMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    @CacheEvict(value="SafeBox:ALL", allEntries = true)
-    public int insertSelective(SafeBox record){
+    @CacheEvict(value = "SafeBox:ALL", allEntries = true)
+    public int insertSelective(SafeBox record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         record.setSortOrder(getNextSortOrder("abroad_safe_box", "1=1"));
         return safeBoxMapper.insertSelective(record);
     }
+
     @Transactional
-    @CacheEvict(value="SafeBox:ALL", allEntries = true)
-    public void del(Integer id){
+    @CacheEvict(value = "SafeBox:ALL", allEntries = true)
+    public void del(Integer id) {
 
         safeBoxMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="SafeBox:ALL", allEntries = true)
-    public void batchDel(Integer[] ids){
+    @CacheEvict(value = "SafeBox:ALL", allEntries = true)
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         SafeBoxExample example = new SafeBoxExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -94,14 +95,14 @@ public class SafeBoxService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="SafeBox:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(SafeBox record){
-        if(StringUtils.isNotBlank(record.getCode()))
+    @CacheEvict(value = "SafeBox:ALL", allEntries = true)
+    public int updateByPrimaryKeySelective(SafeBox record) {
+        if (StringUtils.isNotBlank(record.getCode()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate code");
         return safeBoxMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="SafeBox:ALL")
+    @Cacheable(value = "SafeBox:ALL")
     public Map<Integer, SafeBox> findAll() {
 
         SafeBoxExample example = new SafeBoxExample();
@@ -117,6 +118,7 @@ public class SafeBoxService extends BaseMapper {
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     *
      * @param id
      * @param addNum
      */
@@ -124,7 +126,7 @@ public class SafeBoxService extends BaseMapper {
     @CacheEvict(value = "SafeBox:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         SafeBox entity = safeBoxMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -134,16 +136,16 @@ public class SafeBoxService extends BaseMapper {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<SafeBox> overEntities = safeBoxMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            SafeBox targetEntity = overEntities.get(overEntities.size()-1);
+            SafeBox targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
                 commonMapper.downOrder("abroad_safe_box", null, baseSortOrder, targetEntity.getSortOrder());
@@ -274,16 +276,8 @@ public class SafeBoxService extends BaseMapper {
             }
 
         }
-        try {
-            String fileName = PropertiesUtils.getString("site.school") + "干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = PropertiesUtils.getString("site.school") + "干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {

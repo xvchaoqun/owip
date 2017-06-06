@@ -21,12 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,20 +36,20 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember")
     public String partyMember(Integer groupId,
-                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                   HttpServletResponse response,
-                                   Integer userId, ModelMap modelMap) throws IOException {
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              HttpServletResponse response,
+                              Integer userId, ModelMap modelMap) throws IOException {
 
-        if(export==1){
+        if (export == 1) {
             partyMember_export(groupId, response);
             return null;
         }
 
-        if(groupId!=null) {
+        if (groupId != null) {
             PartyMemberGroup partyMemberGroup = partyMemberGroupMapper.selectByPrimaryKey(groupId);
             modelMap.put("partyMemberGroup", partyMemberGroup);
         }
-        if(userId!=null){
+        if (userId != null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
@@ -68,10 +64,10 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember_data")
     public void partyMember_data(HttpServletResponse response,
-                                    Integer groupId,
-                                    Integer userId,
-                                 @RequestParam(required = false, value = "typeIds")Integer[] typeIds,
-                                    Integer postId,
+                                 Integer groupId,
+                                 Integer userId,
+                                 @RequestParam(required = false, value = "typeIds") Integer[] typeIds,
+                                 Integer postId,
                                  Integer unitId,
                                  Integer partyId,
                                  Boolean isAdmin,
@@ -91,31 +87,31 @@ public class PartyMemberController extends BaseController {
         PartyMemberViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, sort_order desc");
 
-        if (groupId!=null) {
+        if (groupId != null) {
             criteria.andGroupIdEqualTo(groupId);
         }
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (unitId!=null) {
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
-        if (postId!=null) {
+        if (postId != null) {
             criteria.andPostIdEqualTo(postId);
         }
-        if (typeIds!=null) {
+        if (typeIds != null) {
             List<Integer> selectedTypeIds = Arrays.asList(typeIds);
             criteria.andTypeIdsIn(selectedTypeIds);
         }
-        if (partyId!=null) {
+        if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        if (isAdmin!=null) {
+        if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             partyMember_export(example, response);
             return;
@@ -143,7 +139,7 @@ public class PartyMemberController extends BaseController {
     @RequestMapping(value = "/partyMember_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_partyMember_au(PartyMember record,
-                                 @RequestParam(required = false, value = "_typeIds")Integer[] _typeIds,
+                                 @RequestParam(required = false, value = "_typeIds") Integer[] _typeIds,
                                  String _assignDate,
                                  HttpServletRequest request) {
 
@@ -161,7 +157,7 @@ public class PartyMemberController extends BaseController {
                 autoAdmin = true;
             }
         }
-        if(_typeIds!=null) {
+        if (_typeIds != null) {
             for (Integer typeId : _typeIds) {
                 Map<Integer, MetaType> typeMap = metaTypeService.metaTypes("mc_party_member_type");
                 MetaType type = typeMap.get(typeId);
@@ -222,7 +218,7 @@ public class PartyMemberController extends BaseController {
             /*SysUser sysUser = sysUserService.findById(partyMember.getUserId());
             System.out.println(JSONUtils.toString(sysUser));*/
 
-            String op = partyMember.getIsAdmin()?"删除":"添加";
+            String op = partyMember.getIsAdmin() ? "删除" : "添加";
             logger.info(addLog(SystemConstants.LOG_OW, "%s基层党组织成员管理员权限，memberId=%s", op, id));
         }
         return success(FormUtils.SUCCESS);
@@ -257,7 +253,7 @@ public class PartyMemberController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             partyMemberService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_OW, "批量删除基层党组织成员：%s", StringUtils.join(ids, ",")));
         }
@@ -281,36 +277,21 @@ public class PartyMemberController extends BaseController {
         Party party = partyService.findAll().get(partyMemberGroup.getPartyId());
 
         XSSFWorkbook wb = statPartyMemberService.toXlsx(groupId);
-        String fileName = party.getName()  +"委员及分工统计表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
-        try {
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = party.getName() + "委员及分工统计表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     public void partyMember_export(PartyMemberViewExample example, HttpServletResponse response) {
 
         SXSSFWorkbook wb = partyMemberService.export(example);
-        String fileName = PropertiesUtils.getString("site.school")  +"分党委委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
-        try {
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = PropertiesUtils.getString("site.school")
+                + "分党委委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/partyMember_selects")
     @ResponseBody
-    public Map partyMember_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map partyMember_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -329,16 +310,16 @@ public class PartyMemberController extends BaseController {
         }*/
 
         int count = partyMemberMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<PartyMember> partyMembers = partyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<PartyMember> partyMembers = partyMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != partyMembers && partyMembers.size()>0){
+        if (null != partyMembers && partyMembers.size() > 0) {
 
-            for(PartyMember partyMember:partyMembers){
+            for (PartyMember partyMember : partyMembers) {
 
                 Select2Option option = new Select2Option();
                 //option.setText(partyMember.getName());

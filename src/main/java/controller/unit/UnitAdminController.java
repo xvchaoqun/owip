@@ -1,9 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import domain.unit.UnitAdmin;
 import domain.unit.UnitAdminExample;
@@ -25,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -43,7 +41,7 @@ public class UnitAdminController extends BaseController {
     @RequiresPermissions("unitAdmin:list")
     @RequestMapping("/unitAdmin")
     public String unitAdmin(HttpServletResponse response,
-                                    int groupId, ModelMap modelMap) {
+                            int groupId, ModelMap modelMap) {
 
         UnitAdminExample example = new UnitAdminExample();
         example.createCriteria().andGroupIdEqualTo(groupId);
@@ -76,7 +74,7 @@ public class UnitAdminController extends BaseController {
 
     @RequiresPermissions("unitAdmin:edit")
     @RequestMapping("/unitAdmin_au")
-    public String unitAdmin_au(Integer id,int groupId, ModelMap modelMap) {
+    public String unitAdmin_au(Integer id, int groupId, ModelMap modelMap) {
 
         if (id != null) {
             UnitAdmin unitAdmin = unitAdminMapper.selectByPrimaryKey(id);
@@ -113,7 +111,7 @@ public class UnitAdminController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             unitAdminService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除行政班子成员信息：%s", StringUtils.join(ids, ",")));
         }
@@ -140,7 +138,7 @@ public class UnitAdminController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属班子","关联干部","是否管理员"};
+        String[] titles = {"所属班子", "关联干部", "是否管理员"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -151,10 +149,10 @@ public class UnitAdminController extends BaseController {
 
             UnitAdmin unitAdmin = unitAdmins.get(i);
             String[] values = {
-                        unitAdmin.getGroupId()+"",
-                                            unitAdmin.getCadreId()+"",
-                                            unitAdmin.getIsAdmin()+""
-                    };
+                    unitAdmin.getGroupId() + "",
+                    unitAdmin.getCadreId() + "",
+                    unitAdmin.getIsAdmin() + ""
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -164,16 +162,9 @@ public class UnitAdminController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "行政班子成员信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "行政班子成员信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
 }

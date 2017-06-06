@@ -27,12 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -66,14 +62,15 @@ public class CadreParttimeController extends BaseController {
         }
         return "cadre/cadreParttime/cadreParttime_page";
     }
+
     @RequiresPermissions("cadreParttime:list")
     @RequestMapping("/cadreParttime_data")
     public void cadreParttime_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_parttime") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                   @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_parttime") String sort,
+                                   @OrderParam(required = false, defaultValue = "desc") String order,
+                                   Integer cadreId,
+                                   @RequestParam(required = false, defaultValue = "0") int export,
+                                   Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -87,7 +84,7 @@ public class CadreParttimeController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
 
@@ -131,19 +128,19 @@ public class CadreParttimeController extends BaseController {
 
         Integer id = record.getId();
 
-        if(StringUtils.isNotBlank(_startTime)){
+        if (StringUtils.isNotBlank(_startTime)) {
             record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM"));
         }
-        if(StringUtils.isNotBlank(_endTime)){
+        if (StringUtils.isNotBlank(_endTime)) {
             record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
         }
 
         if (id == null) {
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreParttimeService.insertSelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
-            }else{
+            } else {
                 cadreParttimeService.modifyApply(record, null, false);
                 logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
             }
@@ -151,18 +148,18 @@ public class CadreParttimeController extends BaseController {
         } else {
             // 干部信息本人直接修改数据校验
             CadreParttime _record = cadreParttimeMapper.selectByPrimaryKey(id);
-            if(_record.getCadreId().intValue() != record.getCadreId()){
+            if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreParttimeService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
-            }else{
-                if(_isUpdate==false) {
+            } else {
+                if (_isUpdate == false) {
                     cadreParttimeService.modifyApply(record, id, false);
                     logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
-                }else{
+                } else {
                     // 更新修改申请的内容
                     cadreParttimeService.updateModify(record, applyId);
                     logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部社会或学术兼职：%s", record.getId()));
@@ -198,7 +195,7 @@ public class CadreParttimeController extends BaseController {
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cadreParttimeService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
         }
@@ -226,7 +223,7 @@ public class CadreParttimeController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"起始时间","结束时间","兼任职务"};
+        String[] titles = {"起始时间", "结束时间", "兼任职务"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -237,10 +234,10 @@ public class CadreParttimeController extends BaseController {
 
             CadreParttime cadreParttime = cadreParttimes.get(i);
             String[] values = {
-                        DateUtils.formatDate(cadreParttime.getStartTime(), "yyyy.MM"),
-                                            DateUtils.formatDate(cadreParttime.getEndTime(), "yyyy.MM"),
-                                            cadreParttime.getPost()
-                    };
+                    DateUtils.formatDate(cadreParttime.getStartTime(), "yyyy.MM"),
+                    DateUtils.formatDate(cadreParttime.getEndTime(), "yyyy.MM"),
+                    cadreParttime.getPost()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -250,16 +247,9 @@ public class CadreParttimeController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "干部社会或学术兼职_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "干部社会或学术兼职_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
 }

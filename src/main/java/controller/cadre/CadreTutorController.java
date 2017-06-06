@@ -20,19 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
+import sys.utils.*;
 
-import java.util.*;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.*;
 
 @Controller
 public class CadreTutorController extends BaseController {
@@ -190,16 +186,9 @@ public class CadreTutorController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "导师信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "导师信息_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/cadreTutor_selects")

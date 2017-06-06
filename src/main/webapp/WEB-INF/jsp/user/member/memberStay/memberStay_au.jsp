@@ -14,12 +14,20 @@
     </c:if>
     <div class="widget-box">
         <div class="widget-header">
-            <h4 class="widget-title"><i class="fa fa-paw blue"></i> ${MEMBER_STAY_TYPE_MAP.get(type)}申请组织关系暂留</h4>
+            <h4 class="widget-title"><i class="fa fa-paw blue"></i> ${MEMBER_STAY_TYPE_MAP.get(type)}申请组织关系暂留
+                <c:if test="${param.auth=='admin'}">
+                <a href="javascript:;" class="hideView btn btn-xs btn-success pull-right"
+                   style="margin-top: 10px;margin-left: 10px;">
+                    <i class="ace-icon fa fa-backward"></i>
+                    返回</a>
+                </c:if>
+            </h4>
         </div>
         <div class="widget-body">
             <div class="widget-main">
                 <form class="form-horizontal" action="${ctx}/user/memberStay_au" id="modalForm" method="post">
                     <input type="hidden" name="id" value="${memberStay.id}">
+                    <input type="hidden" name="userId" value="${param.userId}">
                     <input type="hidden" name="type" value="${param.type}">
 
                     <div class="row">
@@ -563,6 +571,11 @@
                                 <i class="ace-icon fa fa-check bigger-110"></i>
                                 提交
                             </button>
+                        </c:if>
+                        &nbsp;&nbsp;
+                        <c:if test="${param.auth=='admin'}">
+                            <a href="javascript:;" class="hideView btn btn-default">
+                                <i class="ace-icon fa fa-reply"></i> 返回</a>
                         </c:if>
                     </div>
                 </form>

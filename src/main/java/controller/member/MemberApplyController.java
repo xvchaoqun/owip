@@ -38,12 +38,8 @@ import shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -57,31 +53,31 @@ public class MemberApplyController extends BaseController {
     @Autowired
     protected MemberApplyOpService memberApplyOpService;
 
-    private VerifyAuth<MemberApply> checkVerityAuth(int userId){
+    private VerifyAuth<MemberApply> checkVerityAuth(int userId) {
         MemberApply memberApply = memberApplyService.get(userId);
         return super.checkVerityAuth(memberApply, memberApply.getPartyId(), memberApply.getBranchId());
     }
 
-    private VerifyAuth<MemberApply> checkVerityAuth2(int userId){
+    private VerifyAuth<MemberApply> checkVerityAuth2(int userId) {
         MemberApply memberApply = memberApplyService.get(userId);
         return super.checkVerityAuth2(memberApply, memberApply.getPartyId());
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_approval")
-    public String memberApply_approval(@CurrentUser SysUserView loginUser,Integer userId,
+    public String memberApply_approval(@CurrentUser SysUserView loginUser, Integer userId,
                                        byte type,
                                        byte stage,
                                        Byte status, // status=-1 代表对应的状态值为NULL
                                        ModelMap modelMap) {
 
         MemberApply currentMemberApply = null;
-        if(userId!=null) {
+        if (userId != null) {
             //SysUser sysUser = sysUserService.findById(userId);
             //modelMap.put("user", sysUser);
             currentMemberApply = memberApplyService.get(userId);
-        }else{
+        } else {
             currentMemberApply = memberApplyService.next(type, stage, status, null);
         }
         modelMap.put("memberApply", currentMemberApply);
@@ -89,14 +85,14 @@ public class MemberApplyController extends BaseController {
         Integer branchId = currentMemberApply.getBranchId();
         Integer partyId = currentMemberApply.getPartyId();
         // 是否是当前记录的管理员
-        switch (stage){
+        switch (stage) {
             case SystemConstants.APPLY_STAGE_INIT:
             case SystemConstants.APPLY_STAGE_PASS:
                 modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
             case SystemConstants.APPLY_STAGE_CANDIDATE:
-                if(status==-1)
+                if (status == -1)
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
@@ -105,17 +101,17 @@ public class MemberApplyController extends BaseController {
                 modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
-                if(status==-1)
+                if (status == -1)
                     modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
-                else if(status==2) // 组织部审核之后，党支部才提交
+                else if (status == 2) // 组织部审核之后，党支部才提交
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
-                else if(status==0) // 党支部提交后，分党委审核
+                else if (status == 0) // 党支部提交后，分党委审核
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
-                if(status==-1)
+                if (status == -1)
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
-                else if(status==0)
+                else if (status == 0)
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 else
                     modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
@@ -132,21 +128,21 @@ public class MemberApplyController extends BaseController {
         return "member/memberApply/memberApply_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply")
-    public String memberApply(@RequestParam(defaultValue = "1")int cls,
-                                   Integer userId,
-                                   Integer partyId,
-                                   Integer branchId,
-                                   @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
-                                   @RequestParam(defaultValue = "0")Byte stage,
-                                   ModelMap modelMap) {
+    public String memberApply(@RequestParam(defaultValue = "1") int cls,
+                              Integer userId,
+                              Integer partyId,
+                              Integer branchId,
+                              @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU + "") Byte type,
+                              @RequestParam(defaultValue = "0") Byte stage,
+                              ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         modelMap.put("type", type);
         modelMap.put("stage", stage);
-        if (userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         Map<Integer, Branch> branchMap = branchService.findAll();
@@ -158,32 +154,32 @@ public class MemberApplyController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        switch (stage){
+        switch (stage) {
             case SystemConstants.APPLY_STAGE_INIT:
             case SystemConstants.APPLY_STAGE_PASS:
                 modelMap.put("applyCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_INIT, null));
                 modelMap.put("activeCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PASS, null));
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
-                modelMap.put("candidateCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_ACTIVE, (byte)-1));
-                modelMap.put("candidateCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_ACTIVE, (byte)0));
+                modelMap.put("candidateCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_ACTIVE, (byte) -1));
+                modelMap.put("candidateCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_ACTIVE, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_CANDIDATE:
-                modelMap.put("planCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_CANDIDATE, (byte)-1));
+                modelMap.put("planCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_CANDIDATE, (byte) -1));
                 modelMap.put("planCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_CANDIDATE, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:
-                modelMap.put("drawCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte)-1));
+                modelMap.put("drawCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) -1));
                 //modelMap.put("drawCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_PLAN, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
                 // 组织部先审核 - 支部提交发展时间 - 分党委审核
                 modelMap.put("growOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) -1));
-                modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte)2));
+                modelMap.put("growCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 2));
                 modelMap.put("growCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_DRAW, (byte) 0));
                 break;
             case SystemConstants.APPLY_STAGE_GROW:
-                modelMap.put("positiveCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte)-1));
+                modelMap.put("positiveCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) -1));
                 modelMap.put("positiveCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) 0));
                 modelMap.put("positiveOdCheckCount", memberApplyService.count(null, null, type, SystemConstants.APPLY_STAGE_GROW, (byte) 1));
                 break;
@@ -203,34 +199,34 @@ public class MemberApplyController extends BaseController {
             byte _type = memberApplyCount.getType();
             Integer _count = memberApplyCount.getNum();
             Integer stageCount = stageCountMap.get(_stage);
-            if(stageCount==null) stageCount = 0;
-            stageCountMap.put(_stage, stageCount+_count);
+            if (stageCount == null) stageCount = 0;
+            stageCountMap.put(_stage, stageCount + _count);
 
             Integer stageTypeCount = stageTypeCountMap.get(_stage + "_" + _type);
-            if(stageTypeCount==null) stageTypeCount = 0;
-            stageTypeCountMap.put(_stage + "_" + _type, stageTypeCount+_count);
+            if (stageTypeCount == null) stageTypeCount = 0;
+            stageTypeCountMap.put(_stage + "_" + _type, stageTypeCount + _count);
         }
-        modelMap.put("stageCountMap",stageCountMap);
-        modelMap.put("stageTypeCountMap",stageTypeCountMap);
+        modelMap.put("stageCountMap", stageCountMap);
+        modelMap.put("stageTypeCountMap", stageTypeCountMap);
 
         return "member/memberApply/memberApply_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_data")
     public void memberApply_data(HttpServletResponse response,
-                                   @SortParam(required = false, defaultValue = "create_time", tableName = "ow_member_apply") String sort,
-                                   @OrderParam(required = false, defaultValue = "desc") String order,
-                                   Integer userId,
-                                   Integer partyId,
-                                   Integer branchId,
-                                 @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
-                                   @RequestParam(defaultValue = "0")Byte stage,
-                                   Byte growStatus, // 领取志愿书阶段查询
-                                   Byte positiveStatus, // 预备党员阶段查询
-                                   @RequestParam(required = false, defaultValue = "0") int export,
-                                   Integer pageSize, Integer pageNo) throws IOException {
+                                 @SortParam(required = false, defaultValue = "create_time", tableName = "ow_member_apply") String sort,
+                                 @OrderParam(required = false, defaultValue = "desc") String order,
+                                 Integer userId,
+                                 Integer partyId,
+                                 Integer branchId,
+                                 @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU + "") Byte type,
+                                 @RequestParam(defaultValue = "0") Byte stage,
+                                 Byte growStatus, // 领取志愿书阶段查询
+                                 Byte positiveStatus, // 预备党员阶段查询
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -247,32 +243,32 @@ public class MemberApplyController extends BaseController {
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if(type !=null) {
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
         if (stage != null) {
-            if(stage==SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS) {
+            if (stage == SystemConstants.APPLY_STAGE_INIT || stage == SystemConstants.APPLY_STAGE_PASS) {
                 List<Byte> stageList = new ArrayList<>();
                 stageList.add(SystemConstants.APPLY_STAGE_INIT);
                 stageList.add(SystemConstants.APPLY_STAGE_PASS);
                 criteria.andStageIn(stageList);
-            }else if(stage>SystemConstants.APPLY_STAGE_PASS || stage == SystemConstants.APPLY_STAGE_DENY) {
+            } else if (stage > SystemConstants.APPLY_STAGE_PASS || stage == SystemConstants.APPLY_STAGE_DENY) {
                 criteria.andStageEqualTo(stage);
-            }else if(stage == SystemConstants.APPLY_STAGE_DRAW){
-                if(growStatus!=null && growStatus>=0)
+            } else if (stage == SystemConstants.APPLY_STAGE_DRAW) {
+                if (growStatus != null && growStatus >= 0)
                     criteria.andGrowStatusEqualTo(growStatus);
-                if(growStatus!=null && growStatus==-1)
+                if (growStatus != null && growStatus == -1)
                     criteria.andGrowStatusIsNull();
-            }else if(stage == SystemConstants.APPLY_STAGE_GROW){
-                if(positiveStatus!=null && positiveStatus>=0)
+            } else if (stage == SystemConstants.APPLY_STAGE_GROW) {
+                if (positiveStatus != null && positiveStatus >= 0)
                     criteria.andPositiveStatusEqualTo(positiveStatus);
-                if(positiveStatus!=null && positiveStatus==-1)
+                if (positiveStatus != null && positiveStatus == -1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
             }
             // 考虑已经转出的情况 2016-12-19
-            else if(stage==SystemConstants.APPLY_STAGE_OUT){
+            else if (stage == SystemConstants.APPLY_STAGE_OUT) {
                 criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
-            }else{
+            } else {
                 criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
             }
         }
@@ -315,7 +311,7 @@ public class MemberApplyController extends BaseController {
     @RequestMapping("/memberApply_au")
     public String memberApply_au(Integer userId, ModelMap modelMap) {
 
-        if(userId!=null) {
+        if (userId != null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
             MemberApply memberApply = memberApplyService.get(sysUser.getId());
@@ -342,15 +338,15 @@ public class MemberApplyController extends BaseController {
     @RequestMapping(value = "/memberApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_au(@CurrentUser SysUserView loginUser, int userId, Integer partyId,
-                              Integer branchId, String _applyTime, String _activeTime,
-                                 String _candidateTime,String _trainTime,
+                                 Integer branchId, String _applyTime, String _activeTime,
+                                 String _candidateTime, String _trainTime,
                                  String _planTime, String _drawTime,
                                  String _growTime, String _positiveTime, String remark, HttpServletRequest request) {
 
         Integer oldPartyId = null;
         Integer oldBranchId = null;
         MemberApply _memberApply = memberApplyService.get(userId);
-        if(_memberApply!=null) {
+        if (_memberApply != null) {
             oldPartyId = _memberApply.getPartyId();
             oldBranchId = _memberApply.getBranchId();
         }
@@ -361,22 +357,22 @@ public class MemberApplyController extends BaseController {
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, oldPartyId);
-            if(isAdmin) {
+            if (isAdmin) {
                 // 分党委管理员不能修改所属分党委
-                if(_memberApply!=null) partyId = null;
-            }else{
+                if (_memberApply != null) partyId = null;
+            } else {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, oldPartyId, oldBranchId);
                 // 支部管理员不能修改所属分党委及所属党支部
-                if(isAdmin && _memberApply!=null) {
+                if (isAdmin && _memberApply != null) {
                     partyId = null;
                     branchId = null;
                 }
             }
-            if(!isAdmin) throw new UnauthorizedException();
+            if (!isAdmin) throw new UnauthorizedException();
         }
 
 
-        if(_memberApply==null) {
+        if (_memberApply == null) {
 
             enterApplyService.checkMemberApplyAuth(userId);
             SysUserView sysUser = sysUserService.findById(userId);
@@ -413,7 +409,7 @@ public class MemberApplyController extends BaseController {
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, "");
 
             logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
-        }else{
+        } else {
 
             StringBuffer _remark = new StringBuffer();
             MemberApply record = new MemberApply();
@@ -426,11 +422,11 @@ public class MemberApplyController extends BaseController {
                         + partyMap.get(partyId).getName() + ";");
             }
 
-            if (branchId != null && (oldBranchId==null || branchId.intValue() != oldBranchId)) {
+            if (branchId != null && (oldBranchId == null || branchId.intValue() != oldBranchId)) {
                 Map<Integer, Branch> branchMap = branchService.findAll();
-                if(oldBranchId==null){
+                if (oldBranchId == null) {
                     _remark.append("所属党支部修改为" + branchMap.get(branchId).getName() + ";");
-                }else {
+                } else {
                     _remark.append("所属党支部由" + branchMap.get(oldBranchId).getName() + "修改为"
                             + branchMap.get(branchId).getName() + ";");
                 }
@@ -447,7 +443,7 @@ public class MemberApplyController extends BaseController {
                 record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
                 _remark.append("确定为入党积极分子时间由" + activeTime + "修改为" + _activeTime + ";");
 
-                if(record.getApplyTime()!=null && record.getActiveTime().before(record.getApplyTime())){
+                if (record.getApplyTime() != null && record.getActiveTime().before(record.getApplyTime())) {
                     throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
                 }
             }
@@ -457,13 +453,13 @@ public class MemberApplyController extends BaseController {
             }*/
 
             String candidateTime = DateUtils.formatDate(_memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_candidateTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_CANDIDATE
+            if (StringUtils.isNotBlank(_candidateTime) && _memberApply.getStage() >= SystemConstants.APPLY_STAGE_CANDIDATE
                     && !StringUtils.equalsIgnoreCase(candidateTime, _candidateTime.trim())) {
 
                 record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
-                _remark.append("确定为发展对象时间由" + candidateTime+ "修改为" + _candidateTime + ";");
+                _remark.append("确定为发展对象时间由" + candidateTime + "修改为" + _candidateTime + ";");
 
-                if(record.getActiveTime()!=null && record.getCandidateTime().before(record.getActiveTime())){
+                if (record.getActiveTime() != null && record.getCandidateTime().before(record.getActiveTime())) {
                     throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
                 }
 
@@ -474,49 +470,49 @@ public class MemberApplyController extends BaseController {
             }
 
             String trainTime = DateUtils.formatDate(_memberApply.getTrainTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_trainTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_CANDIDATE
+            if (StringUtils.isNotBlank(_trainTime) && _memberApply.getStage() >= SystemConstants.APPLY_STAGE_CANDIDATE
                     && !StringUtils.equalsIgnoreCase(trainTime, _trainTime.trim())) {
                 record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
-                _remark.append("参加培训时间由" +trainTime + "修改为" + _trainTime + ";");
+                _remark.append("参加培训时间由" + trainTime + "修改为" + _trainTime + ";");
             }
 
             String planTime = DateUtils.formatDate(_memberApply.getPlanTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_planTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_PLAN
+            if (StringUtils.isNotBlank(_planTime) && _memberApply.getStage() >= SystemConstants.APPLY_STAGE_PLAN
                     && !StringUtils.equalsIgnoreCase(planTime, _planTime.trim())) {
                 record.setPlanTime(DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD));
                 _remark.append("列入发展计划时间由" + planTime + "修改为" + _planTime + ";");
             }
 
             String drawTime = DateUtils.formatDate(_memberApply.getDrawTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_drawTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_DRAW
+            if (StringUtils.isNotBlank(_drawTime) && _memberApply.getStage() >= SystemConstants.APPLY_STAGE_DRAW
                     && !StringUtils.equalsIgnoreCase(drawTime, _drawTime.trim())) {
                 record.setDrawTime(DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD));
                 _remark.append("领取志愿书时间由" + drawTime + "修改为" + _drawTime + ";");
             }
 
             String growTime = DateUtils.formatDate(_memberApply.getGrowTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_growTime) && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_GROW
+            if (StringUtils.isNotBlank(_growTime) && _memberApply.getStage() >= SystemConstants.APPLY_STAGE_GROW
                     && !StringUtils.equalsIgnoreCase(growTime, _growTime.trim())) {
                 record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
                 _remark.append("入党时间由" + growTime + "修改为" + _growTime + ";");
 
-                if(record.getCandidateTime()!=null && record.getGrowTime().before(record.getCandidateTime())) {
+                if (record.getCandidateTime() != null && record.getGrowTime().before(record.getCandidateTime())) {
                     throw new RuntimeException("入党时间应该在确定为发展对象之后");
                 }
             }
 
             String positiveTime = DateUtils.formatDate(_memberApply.getPositiveTime(), DateUtils.YYYY_MM_DD);
-            if (StringUtils.isNotBlank(_positiveTime) && _memberApply.getStage()==SystemConstants.APPLY_STAGE_POSITIVE
+            if (StringUtils.isNotBlank(_positiveTime) && _memberApply.getStage() == SystemConstants.APPLY_STAGE_POSITIVE
                     && !StringUtils.equalsIgnoreCase(positiveTime, _positiveTime.trim())) {
                 record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
                 _remark.append("转正时间由" + positiveTime + "修改为" + _positiveTime + ";");
 
-                if(record.getGrowTime()!=null && record.getPositiveTime().before(record.getGrowTime())) {
+                if (record.getGrowTime() != null && record.getPositiveTime().before(record.getGrowTime())) {
                     throw new RuntimeException("转正时间应该在入党时间之后");
                 }
             }
 
-            if(_remark.length()>0) {
+            if (_remark.length() > 0) {
                 MemberApplyExample example = new MemberApplyExample();
                 example.createCriteria().andUserIdEqualTo(userId);
                 memberApplyService.updateByExampleSelective(userId, record, example);
@@ -567,7 +563,7 @@ public class MemberApplyController extends BaseController {
 
     @RequiresPermissions("memberApply:active")
     @RequestMapping(value = "/apply_active")
-    public String apply_active(){
+    public String apply_active() {
 
         return "member/memberApply/apply_active";
     }
@@ -594,7 +590,7 @@ public class MemberApplyController extends BaseController {
 
     @RequiresPermissions("memberApply:candidate")
     @RequestMapping(value = "/apply_candidate")
-    public String apply_candidate(){
+    public String apply_candidate() {
 
         return "member/memberApply/apply_candidate";
     }
@@ -610,6 +606,7 @@ public class MemberApplyController extends BaseController {
 
         return success();
     }
+
     // 审核 确定为发展对象
     @RequiresPermissions("memberApply:check")
     @RequestMapping(value = "/apply_candidate_check", method = RequestMethod.POST)
@@ -623,7 +620,7 @@ public class MemberApplyController extends BaseController {
 
     @RequiresPermissions("memberApply:plan")
     @RequestMapping(value = "/apply_plan")
-    public String apply_plan(){
+    public String apply_plan() {
 
         return "member/memberApply/apply_plan";
     }
@@ -649,9 +646,10 @@ public class MemberApplyController extends BaseController {
 
         return success();
     }
+
     @RequiresPermissions("memberApply:draw")
     @RequestMapping(value = "/apply_draw")
-    public String apply_draw(){
+    public String apply_draw() {
 
         return "member/memberApply/apply_draw";
     }
@@ -679,7 +677,7 @@ public class MemberApplyController extends BaseController {
 
     @RequiresPermissions("memberApply:grow")
     @RequestMapping(value = "/apply_grow")
-    public String apply_grow(){
+    public String apply_grow() {
 
         return "member/memberApply/apply_grow";
     }
@@ -706,6 +704,7 @@ public class MemberApplyController extends BaseController {
 
         return success();
     }
+
     //分党委审核 预备党员
     @RequiresPermissions("memberApply:grow_check")
     @RequestMapping(value = "/apply_grow_check", method = RequestMethod.POST)
@@ -720,7 +719,7 @@ public class MemberApplyController extends BaseController {
 
     @RequiresPermissions("memberApply:positive")
     @RequestMapping(value = "/apply_positive")
-    public String apply_positive(){
+    public String apply_positive() {
 
         return "member/memberApply/apply_positive";
     }
@@ -759,7 +758,7 @@ public class MemberApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:update")
     @RequestMapping("/memberApply_back")
     public String memberApply_back() {
@@ -767,7 +766,7 @@ public class MemberApplyController extends BaseController {
         return "member/memberApply/memberApply_back";
     }
 
-    @RequiresRoles(value ={SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:update")
     @RequestMapping(value = "/memberApply_back", method = RequestMethod.POST)
     @ResponseBody
@@ -781,17 +780,17 @@ public class MemberApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyLog")
-    public String memberApplyLog(@RequestParam(defaultValue = "1")int cls,
-                                      Integer userId,
-                                      String stage, Integer partyId,
-                                      Integer branchId, ModelMap modelMap){
+    public String memberApplyLog(@RequestParam(defaultValue = "1") int cls,
+                                 Integer userId,
+                                 String stage, Integer partyId,
+                                 Integer branchId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         modelMap.put("stage", stage);
-        if (userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         Map<Integer, Branch> branchMap = branchService.findAll();
@@ -840,15 +839,8 @@ public class MemberApplyController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "申请入党人员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "申请入党人员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

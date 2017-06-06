@@ -24,6 +24,7 @@ import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.PropertiesUtils;
 
 import java.util.Date;
@@ -102,7 +103,7 @@ public class CadreExportService extends BaseMapper {
         for (int i = 0; i < columnCount; i++) {
             Cell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
-            cell.setCellStyle(getHeadStyle(wb));
+            cell.setCellStyle(ExportHelper.getHeadStyle(wb));
         }
 
         int columnIndex = 0;
@@ -382,53 +383,10 @@ public class CadreExportService extends BaseMapper {
                 String value = values[j];
                 if(StringUtils.isBlank(value)) value="-";
                 cell.setCellValue(value);
-                cell.setCellStyle(getBodyStyle(wb));
+                cell.setCellStyle(ExportHelper.getBodyStyle(wb));
             }
         }
 
        return wb;
-    }
-
-    public static CellStyle getBodyStyle(Workbook wb) {
-        // 创建单元格样式
-        CellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        Font font = wb.createFont();
-        // 设置字体加粗
-        //font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 220);
-        cellStyle.setFont(font);
-        return cellStyle;
-    }
-
-    public static CellStyle getHeadStyle(Workbook wb) {
-        // 创建单元格样式
-        CellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        Font font = wb.createFont();
-        // 设置字体加粗
-        font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 250);
-        cellStyle.setFont(font);
-        // 设置单元格边框为细线条
-       /* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*/
-        return cellStyle;
     }
 }

@@ -3,7 +3,14 @@
 <div class="row">
 <div class="widget-box" style="width: 910px; margin-bottom: 30px;">
     <div class="widget-header">
-        <h4 class="widget-title"><i class="fa fa-paw blue"></i> ${MEMBER_STAY_TYPE_MAP.get(type)}组织关系暂留申请</h4>
+        <h4 class="widget-title"><i class="fa fa-paw blue"></i> ${MEMBER_STAY_TYPE_MAP.get(type)}组织关系暂留申请
+            <c:if test="${param.auth=='admin'}">
+                <a href="javascript:;" class="hideView btn btn-xs btn-success pull-right"
+                   style="margin-top: 10px;margin-left: 10px;">
+                    <i class="ace-icon fa fa-backward"></i>
+                    返回</a>
+            </c:if>
+        </h4>
     </div>
     <div class="widget-body">
         <div class="widget-main">

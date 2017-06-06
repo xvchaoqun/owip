@@ -5,7 +5,6 @@ import domain.sys.*;
 import domain.sys.SysUserExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,15 +27,13 @@ import shiro.SaltPassword;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -239,7 +236,7 @@ public class SysUserController extends BaseController {
         for (Integer id : ids) {
             SysUserView sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
-            sysUserService.lockUser(sysUser.getId(), username, sysUser.getCode(),  locked);
+            sysUserService.lockUser(sysUser.getId(), username, sysUser.getCode(), locked);
             logger.info(addLog(SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
         }
 
@@ -260,7 +257,7 @@ public class SysUserController extends BaseController {
         }
 
         SysUser sysSysUser2 = sysUserMapper.selectByPrimaryKey(sysUser.getId());
-        sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), sysSysUser2.getCode(),  "," + StringUtils.join(rIds, ",") + ",");
+        sysUserService.updateUserRoles(sysUser.getId(), sysSysUser2.getUsername(), sysSysUser2.getCode(), "," + StringUtils.join(rIds, ",") + ",");
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysSysUser2.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
@@ -319,7 +316,7 @@ public class SysUserController extends BaseController {
         }
 
 		/*Map<Integer, Post> postMap = postService.getPostsMap(getYear());
-		Map<Integer, Unit> unitMap = unitService.findAll(getYear());
+        Map<Integer, Unit> unitMap = unitService.findAll(getYear());
 		for(int i=0; i<rownum; i++){
 
 			SysUser sysUser = sysUsers.get(i);
@@ -344,11 +341,7 @@ public class SysUserController extends BaseController {
 			}
 		}*/
         String fileName = "账号";
-        ServletOutputStream outputStream = response.getOutputStream();
-        fileName = new String(fileName.getBytes(), "ISO8859_1");
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-        wb.write(outputStream);
-        outputStream.flush();
+        ExportHelper.output(wb, fileName + ".xlsx", response);
 
         return null;
     }

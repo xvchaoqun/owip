@@ -1,10 +1,8 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.base.ContentTpl;
 import domain.cadre.*;
 import domain.sys.HtmlFragment;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -25,12 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -218,10 +212,10 @@ public class CadreResearchController extends BaseController {
 
         if (id == null) {
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreResearchService.insertSelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
-            }else{
+            } else {
                 cadreResearchService.modifyApply(record, null, record.getResearchType(), false);
                 logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部科研项目：%s", record.getId()));
             }
@@ -233,14 +227,14 @@ public class CadreResearchController extends BaseController {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreResearchService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部科研项目：%s", record.getId()));
-            }else{
-                if(_isUpdate==false) {
+            } else {
+                if (_isUpdate == false) {
                     cadreResearchService.modifyApply(record, id, record.getResearchType(), false);
                     logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部科研项目：%s", record.getId()));
-                }else{
+                } else {
                     // 更新修改申请的内容
                     cadreResearchService.updateModify(record, applyId);
                     logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部科研项目：%s", record.getId()));
@@ -330,16 +324,9 @@ public class CadreResearchController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "干部科研项目_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "干部科研项目_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
 }

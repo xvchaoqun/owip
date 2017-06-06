@@ -29,12 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -49,29 +45,30 @@ public class CadreInspectController extends BaseController {
     @RequestMapping("/cadreInspect")
     public String cadreInspect(
             @RequestParam(required = false, defaultValue =
-                    SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "")Byte status,
+                    SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
             Integer userId, ModelMap modelMap) {
 
         modelMap.put("status", status);
-        if (userId!=null) {
+        if (userId != null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
 
         return "cadreInspect/cadreInspect_page";
     }
+
     @RequiresPermissions("cadreInspect:list")
     @RequestMapping("/cadreInspect_data")
     public void cadreInspect_data(HttpServletResponse response,
-                               @RequestParam(required = false, defaultValue =
-                                       SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "")Byte status,
-                                    Integer userId,
-                                    Integer typeId,
-                                    Integer postId,
-                                    String title,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                  @RequestParam(required = false, defaultValue =
+                                          SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
+                                  Integer userId,
+                                  Integer typeId,
+                                  Integer postId,
+                                  String title,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -86,14 +83,14 @@ public class CadreInspectController extends BaseController {
                 .andInspectStatusEqualTo(status);
         example.setOrderByClause("inspect_sort_order asc");
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
 
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
-        if (postId!=null) {
+        if (postId != null) {
             criteria.andPostIdEqualTo(postId);
         }
 
@@ -102,7 +99,7 @@ public class CadreInspectController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andInspectIdIn(Arrays.asList(ids));
             cadreInspect_export(example, response);
             return;
@@ -181,7 +178,7 @@ public class CadreInspectController extends BaseController {
     @RequestMapping(value = "/cadreInspect_pass", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreInspect_pass(Integer inspectId, String inspectRemark,
-                                 Cadre cadreRecord, HttpServletRequest request) {
+                                    Cadre cadreRecord, HttpServletRequest request) {
 
         CadreInspect record = new CadreInspect();
         record.setId(inspectId);
@@ -211,7 +208,7 @@ public class CadreInspectController extends BaseController {
     public Map do_cadreInspect_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreInspectService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "考察对象调序：%s, %s", id ,addNum));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "考察对象调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -220,16 +217,7 @@ public class CadreInspectController extends BaseController {
         SXSSFWorkbook wb = cadreInspectExportService.export(example);
 
         String fileName = PropertiesUtils.getString("site.school") + "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
-
-        try {
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     /*public void cadreInspect_export(CadreInspectViewExample example, HttpServletResponse response) {
@@ -269,9 +257,9 @@ public class CadreInspectController extends BaseController {
     }
 
     @RequiresPermissions("cadreInspect:import")
-    @RequestMapping(value="/cadreInspect_import", method=RequestMethod.POST)
+    @RequestMapping(value = "/cadreInspect_import", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreInspect_import( HttpServletRequest request) throws InvalidFormatException, IOException {
+    public Map do_cadreInspect_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");

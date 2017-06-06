@@ -22,18 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +46,12 @@ public class UnitCadreTransferGroupController extends BaseController {
     @RequiresPermissions("unitCadreTransferGroup:list")
     @RequestMapping("/unitCadreTransferGroup")
     public String unitCadreTransferGroup(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer_group") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer unitId,
-                                    String name,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                         @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer_group") String sort,
+                                         @OrderParam(required = false, defaultValue = "desc") String order,
+                                         Integer unitId,
+                                         String name,
+                                         @RequestParam(required = false, defaultValue = "0") int export,
+                                         Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -65,7 +65,7 @@ public class UnitCadreTransferGroupController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (unitId!=null) {
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
         if (StringUtils.isNotBlank(name)) {
@@ -89,7 +89,7 @@ public class UnitCadreTransferGroupController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (unitId!=null) {
+        if (unitId != null) {
             searchStr += "&unitId=" + unitId;
         }
         if (StringUtils.isNotBlank(name)) {
@@ -164,7 +164,7 @@ public class UnitCadreTransferGroupController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             unitCadreTransferGroupService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位任免分组：%s", StringUtils.join(ids, ",")));
         }
@@ -191,7 +191,7 @@ public class UnitCadreTransferGroupController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属单位","分组名称"};
+        String[] titles = {"所属单位", "分组名称"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -202,9 +202,9 @@ public class UnitCadreTransferGroupController extends BaseController {
 
             UnitCadreTransferGroup unitCadreTransferGroup = unitCadreTransferGroups.get(i);
             String[] values = {
-                        unitCadreTransferGroup.getUnitId()+"",
-                                            unitCadreTransferGroup.getName()
-                    };
+                    unitCadreTransferGroup.getUnitId() + "",
+                    unitCadreTransferGroup.getName()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -214,21 +214,14 @@ public class UnitCadreTransferGroupController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "单位任免分组_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "单位任免分组_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/unitCadreTransferGroup_selects")
     @ResponseBody
-    public Map unitCadreTransferGroup_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map unitCadreTransferGroup_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -242,21 +235,21 @@ public class UnitCadreTransferGroupController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         int count = unitCadreTransferGroupMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<UnitCadreTransferGroup> unitCadreTransferGroups = unitCadreTransferGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<UnitCadreTransferGroup> unitCadreTransferGroups = unitCadreTransferGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != unitCadreTransferGroups && unitCadreTransferGroups.size()>0){
+        if (null != unitCadreTransferGroups && unitCadreTransferGroups.size() > 0) {
 
-            for(UnitCadreTransferGroup unitCadreTransferGroup:unitCadreTransferGroups){
+            for (UnitCadreTransferGroup unitCadreTransferGroup : unitCadreTransferGroups) {
 
                 Select2Option option = new Select2Option();
                 option.setText(unitCadreTransferGroup.getName());

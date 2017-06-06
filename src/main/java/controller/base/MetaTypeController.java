@@ -27,13 +27,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MetaTypeController extends BaseController {
@@ -43,15 +46,15 @@ public class MetaTypeController extends BaseController {
     @RequestMapping("/metaTypes")
     public String metaTypes(String __code, String extraAttr, ModelMap modelMap) {
 
-        if(StringUtils.isNotBlank(extraAttr)){
+        if (StringUtils.isNotBlank(extraAttr)) {
             List<MetaType> metaTypes = new ArrayList<>();
             for (MetaType metaType : metaTypeService.metaTypes(__code).values()) {
-                if(StringUtils.equals(extraAttr, metaType.getExtraAttr())){
+                if (StringUtils.equals(extraAttr, metaType.getExtraAttr())) {
                     metaTypes.add(metaType);
                 }
             }
             modelMap.put("metaTypes", metaTypes);
-        }else{
+        } else {
             modelMap.put("metaTypes", metaTypeService.metaTypes(__code).values());
         }
 
@@ -61,12 +64,12 @@ public class MetaTypeController extends BaseController {
     @RequiresPermissions("metaType:list")
     @RequestMapping("/metaType")
     public String metaType(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_type") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                 String name, String code, Integer classId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                           HttpServletResponse response,
+                           @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_type") String sort,
+                           @OrderParam(required = false, defaultValue = "desc") String order,
+                           String name, String code, Integer classId,
+                           @RequestParam(required = false, defaultValue = "0") int export,
+                           Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -85,7 +88,7 @@ public class MetaTypeController extends BaseController {
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
         }
-        if(classId != null){
+        if (classId != null) {
             modelMap.put("metaClass", metaClassService.findAll().get(classId));
             criteria.andClassIdEqualTo(classId);
         }
@@ -111,7 +114,7 @@ public class MetaTypeController extends BaseController {
         if (StringUtils.isNotBlank(code)) {
             searchStr += "&code=" + code;
         }
-        if(classId != null){
+        if (classId != null) {
             searchStr += "&classId=" + classId;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -142,8 +145,8 @@ public class MetaTypeController extends BaseController {
         }
 
         MetaClass metaClass = metaClassService.findAll().get(record.getClassId());
-        if(StringUtils.isNotBlank(metaClass.getBoolAttr())){
-            if(record.getBoolAttr()==null){
+        if (StringUtils.isNotBlank(metaClass.getBoolAttr())) {
+            if (record.getBoolAttr() == null) {
                 record.setBoolAttr(false);
             }
         }
@@ -170,7 +173,7 @@ public class MetaTypeController extends BaseController {
             MetaType metaType = metaTypeMapper.selectByPrimaryKey(id);
             modelMap.put("metaType", metaType);
             //metaClass = metaClassService.findAll().get(metaType.getClassId());
-        }else if(classId!=null){
+        } else if (classId != null) {
             MetaType metaType = new MetaType();
             metaType.setClassId(classId);
             modelMap.put("metaType", metaType);
@@ -202,7 +205,7 @@ public class MetaTypeController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids){
+        if (null != ids) {
             metaTypeService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除元数据属性值：%s", StringUtils.join(ids, ",")));
         }
@@ -214,7 +217,7 @@ public class MetaTypeController extends BaseController {
     @ResponseBody
     public Map do_metaType_changeOrder(Integer id, Integer classId, Integer addNum, HttpServletRequest request) {
 
-        Assert.isTrue(classId>0, "wrong classId");
+        Assert.isTrue(classId > 0, "wrong classId");
         metaTypeService.changeOrder(id, addNum, classId);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "元数据属性值调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
@@ -228,7 +231,7 @@ public class MetaTypeController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属分类","名称","代码","布尔属性","附加属性","备注"};
+        String[] titles = {"所属分类", "名称", "代码", "布尔属性", "附加属性", "备注"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -239,13 +242,13 @@ public class MetaTypeController extends BaseController {
 
             MetaType metaType = metaTypes.get(i);
             String[] values = {
-                    metaType.getClassId()+"",
-                                        metaType.getName(),
-                                        metaType.getCode(),
-                                        metaType.getBoolAttr()+"",
-                                        metaType.getExtraAttr(),
-                                        metaType.getRemark()
-                    };
+                    metaType.getClassId() + "",
+                    metaType.getName(),
+                    metaType.getCode(),
+                    metaType.getBoolAttr() + "",
+                    metaType.getExtraAttr(),
+                    metaType.getRemark()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -255,15 +258,8 @@ public class MetaTypeController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "元数据属性_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "元数据属性_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

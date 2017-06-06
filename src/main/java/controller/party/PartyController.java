@@ -9,6 +9,7 @@ import interceptor.SortParam;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -16,21 +17,20 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.party.PartyExportService;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.utils.ExportHelper;
+import sys.utils.*;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +41,9 @@ import java.util.*;
 public class PartyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private PartyExportService partyExportService;
 
     // 基本信息
     @RequiresPermissions("party:list")
@@ -72,7 +75,17 @@ public class PartyController extends BaseController {
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party")
-    public String party(ModelMap modelMap,@RequestParam(required = false, defaultValue = "1")Byte status) {
+    public String party(ModelMap modelMap,
+                        @RequestParam(required = false, defaultValue = "0") int export,
+                        HttpServletResponse response,
+                        @RequestParam(required = false, defaultValue = "1")Byte status) throws IOException {
+
+        if(export==2){
+            XSSFWorkbook wb = partyExportService.toXlsx();
+            ExportHelper.output(wb, PropertiesUtils.getString("site.school") +
+                    "各分党委、党总支、直属党支部基本情况表.xlsx", response);
+            return null;
+        }
 
         modelMap.put("status", status);
 

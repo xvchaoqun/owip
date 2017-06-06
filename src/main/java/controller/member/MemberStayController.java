@@ -1,28 +1,31 @@
 package controller.member;
 
 import controller.BaseController;
-import domain.member.*;
-import domain.party.*;
+import domain.member.MemberStay;
+import domain.member.MemberStayExample;
+import domain.member.MemberStayView;
+import domain.member.MemberStayViewExample;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import service.member.MemberStayExportService;
 import shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -33,7 +36,6 @@ import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -41,6 +43,9 @@ import java.util.*;
 public class MemberStayController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private MemberStayExportService memberStayExportService;
 
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_view")
@@ -91,9 +96,21 @@ public class MemberStayController extends BaseController {
     @RequestMapping("/memberStay")
     public String memberStay(@RequestParam(defaultValue = "1") Byte cls,
                              @RequestParam(defaultValue = SystemConstants.MEMBER_STAY_TYPE_ABROAD+"")Byte type,
+                             @RequestParam(required = false, defaultValue = "0") int export,
                                       Integer userId,
                                       Integer partyId,
-                                      Integer branchId, ModelMap modelMap) {
+                                      Integer branchId, ModelMap modelMap, HttpServletResponse response) {
+
+        if(export==2){
+
+            SXSSFWorkbook wb = memberStayExportService.toXlsx(type);
+            String fileName = PropertiesUtils.getString("site.school") + "出国（境）毕业生党员组织关系暂留汇总表";
+            if(type == SystemConstants.MEMBER_STAY_TYPE_INTERNAL)
+                fileName = PropertiesUtils.getString("site.school") +"非出国（境）毕业生党员组织关系暂留汇总表";
+
+            ExportHelper.output(wb, fileName + ".xlsx", response);
+            return null;
+        }
 
         modelMap.put("cls", cls);
 

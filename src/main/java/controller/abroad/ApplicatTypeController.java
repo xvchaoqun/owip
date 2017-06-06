@@ -6,7 +6,6 @@ import domain.abroad.ApplicatType;
 import domain.abroad.ApplicatTypeExample;
 import domain.abroad.ApplicatTypeExample.Criteria;
 import domain.abroad.ApprovalOrder;
-import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
 import domain.cadre.CadreView;
 import interceptor.OrderParam;
@@ -31,10 +30,10 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -386,15 +385,7 @@ public class ApplicatTypeController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "申请人身份_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "申请人身份_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

@@ -22,18 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
-import sys.constants.SystemConstants;
 
-import java.util.ArrayList;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +48,8 @@ public class UnitAdminGroupController extends BaseController {
     public String unitAdminGroup(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_admin_group") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
-                                    String name,
-                                    int unitId,
+                                 String name,
+                                 int unitId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -111,13 +111,13 @@ public class UnitAdminGroupController extends BaseController {
 
         Integer id = record.getId();
 
-        if(StringUtils.isNotBlank(_tranTime)){
+        if (StringUtils.isNotBlank(_tranTime)) {
             record.setTranTime(DateUtils.parseDate(_tranTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_actualTranTime)){
+        if (StringUtils.isNotBlank(_actualTranTime)) {
             record.setActualTranTime(DateUtils.parseDate(_actualTranTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_appointTime)){
+        if (StringUtils.isNotBlank(_appointTime)) {
             record.setAppointTime(DateUtils.parseDate(_appointTime, DateUtils.YYYY_MM_DD));
         }
         record.setIsPresent((record.getIsPresent() == null) ? false : record.getIsPresent());
@@ -127,7 +127,7 @@ public class UnitAdminGroupController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位行政班子：%s", record.getId()));
         } else {
 
-            if(record.getFid()!=null && record.getFid().intValue()==record.getId()){
+            if (record.getFid() != null && record.getFid().intValue() == record.getId()) {
                 return failed("不能选择自身为上一届班子");
             }
 
@@ -140,13 +140,13 @@ public class UnitAdminGroupController extends BaseController {
 
     @RequiresPermissions("unitAdminGroup:edit")
     @RequestMapping("/unitAdminGroup_au")
-    public String unitAdminGroup_au(Integer id,int unitId, ModelMap modelMap) {
+    public String unitAdminGroup_au(Integer id, int unitId, ModelMap modelMap) {
 
         if (id != null) {
             UnitAdminGroup unitAdminGroup = unitAdminGroupMapper.selectByPrimaryKey(id);
             unitId = unitAdminGroup.getUnitId();
             modelMap.put("unitAdminGroup", unitAdminGroup);
-            if(unitAdminGroup.getFid()!=null){
+            if (unitAdminGroup.getFid() != null) {
                 modelMap.put("fUnitAdminGroup", unitAdminGroupMapper.selectByPrimaryKey(unitAdminGroup.getFid()));
             }
 
@@ -175,7 +175,7 @@ public class UnitAdminGroupController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             unitAdminGroupService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位行政班子：%s", StringUtils.join(ids, ",")));
         }
@@ -202,7 +202,7 @@ public class UnitAdminGroupController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"上一届","名称","应换届时间","实际换届时间","任命时间"};
+        String[] titles = {"上一届", "名称", "应换届时间", "实际换届时间", "任命时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -213,12 +213,12 @@ public class UnitAdminGroupController extends BaseController {
 
             UnitAdminGroup unitAdminGroup = unitAdminGroups.get(i);
             String[] values = {
-                        unitAdminGroup.getFid()+"",
-                                            unitAdminGroup.getName(),
-                                            DateUtils.formatDate(unitAdminGroup.getTranTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(unitAdminGroup.getActualTranTime(), DateUtils.YYYY_MM_DD),
-                                            DateUtils.formatDate(unitAdminGroup.getAppointTime(), DateUtils.YYYY_MM_DD)
-                    };
+                    unitAdminGroup.getFid() + "",
+                    unitAdminGroup.getName(),
+                    DateUtils.formatDate(unitAdminGroup.getTranTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(unitAdminGroup.getActualTranTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(unitAdminGroup.getAppointTime(), DateUtils.YYYY_MM_DD)
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -228,16 +228,9 @@ public class UnitAdminGroupController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "单位行政班子_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "单位行政班子_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/unitAdminGroup_selects")
@@ -256,21 +249,21 @@ public class UnitAdminGroupController extends BaseController {
         Criteria criteria = example.createCriteria().andUnitIdEqualTo(unitId);
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         int count = unitAdminGroupMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<UnitAdminGroup> unitAdminGroups = unitAdminGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<UnitAdminGroup> unitAdminGroups = unitAdminGroupMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != unitAdminGroups && unitAdminGroups.size()>0){
+        if (null != unitAdminGroups && unitAdminGroups.size() > 0) {
 
-            for(UnitAdminGroup unitAdminGroup:unitAdminGroups){
+            for (UnitAdminGroup unitAdminGroup : unitAdminGroups) {
 
                 Select2Option option = new Select2Option();
                 option.setText(unitAdminGroup.getName());

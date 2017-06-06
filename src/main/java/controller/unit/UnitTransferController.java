@@ -27,10 +27,10 @@ import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:edit")
     @RequestMapping("/unitTransfer_addDispatchs")
     public String unitTransfer_addDispatchs(HttpServletResponse response,
-                                             int id, ModelMap modelMap) {
+                                            int id, ModelMap modelMap) {
 
         Set<Integer> unitDispatchIdSet = new HashSet<>();
         UnitTransfer unitTransfer = unitTransferMapper.selectByPrimaryKey(id);
@@ -71,13 +71,13 @@ public class UnitTransferController extends BaseController {
     @RequestMapping(value = "/unitTransfer_addDispatchs", method = RequestMethod.POST)
     @ResponseBody
     public Map do_unitTransfer_addDispatchs(HttpServletRequest request,
-                                             int id,
-                                             @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                            int id,
+                                            @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         UnitTransfer record = new UnitTransfer();
         record.setId(id);
         record.setDispatchs("-1");
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         unitTransferMapper.updateByPrimaryKeySelective(record);
@@ -88,12 +88,12 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:list")
     @RequestMapping("/unitTransfer")
     public String unitTransfer(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_transfer") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer unitId,
-                                    String subject,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                               @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_transfer") String sort,
+                               @OrderParam(required = false, defaultValue = "desc") String order,
+                               Integer unitId,
+                               String subject,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -107,7 +107,7 @@ public class UnitTransferController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (unitId!=null) {
+        if (unitId != null) {
             criteria.andUnitIdEqualTo(unitId);
         }
         if (StringUtils.isNotBlank(subject)) {
@@ -131,7 +131,7 @@ public class UnitTransferController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (unitId!=null) {
+        if (unitId != null) {
             searchStr += "&unitId=" + unitId;
         }
         if (StringUtils.isNotBlank(subject)) {
@@ -153,7 +153,7 @@ public class UnitTransferController extends BaseController {
     @RequiresPermissions("unitTransfer:edit")
     @RequestMapping(value = "/unitTransfer_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitTransfer_au(UnitTransfer record, String _pubTime,  HttpServletRequest request) {
+    public Map do_unitTransfer_au(UnitTransfer record, String _pubTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -205,7 +205,7 @@ public class UnitTransferController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             unitTransferService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位变更：%s", StringUtils.join(ids, ",")));
         }
@@ -232,7 +232,7 @@ public class UnitTransferController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属单位","文件主题"};
+        String[] titles = {"所属单位", "文件主题"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -243,9 +243,9 @@ public class UnitTransferController extends BaseController {
 
             UnitTransfer unitTransfer = unitTransfers.get(i);
             String[] values = {
-                        unitTransfer.getUnitId()+"",
-                                            unitTransfer.getSubject()
-                    };
+                    unitTransfer.getUnitId() + "",
+                    unitTransfer.getSubject()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -255,21 +255,14 @@ public class UnitTransferController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "单位变更_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "单位变更_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/unitTransfer_selects")
     @ResponseBody
-    public Map unitTransfer_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map unitTransfer_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -283,21 +276,21 @@ public class UnitTransferController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andSubjectLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andSubjectLike("%" + searchStr + "%");
         }
 
         int count = unitTransferMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<UnitTransfer> unitTransfers = unitTransferMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<UnitTransfer> unitTransfers = unitTransferMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != unitTransfers && unitTransfers.size()>0){
+        if (null != unitTransfers && unitTransfers.size() > 0) {
 
-            for(UnitTransfer unitTransfer:unitTransfers){
+            for (UnitTransfer unitTransfer : unitTransfers) {
 
                 Select2Option option = new Select2Option();
                 option.setText(unitTransfer.getSubject());

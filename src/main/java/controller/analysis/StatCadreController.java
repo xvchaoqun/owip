@@ -10,8 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
@@ -27,21 +27,14 @@ public class StatCadreController extends BaseController {
     @RequiresPermissions("statCadre:list")
     @RequestMapping("/stat_cadre")
     public String stat_cadre(String type,
-                                  @RequestParam(required = false, defaultValue = "0") int export,
-                                  ModelMap modelMap, HttpServletResponse response) throws IOException {
+                             @RequestParam(required = false, defaultValue = "0") int export,
+                             ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         if (export == 1) {
             XSSFWorkbook wb = statCadreService.toXlsx();
-            try {
-                String fileName = "北京师范大学中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
-                ServletOutputStream outputStream = response.getOutputStream();
-                fileName = new String(fileName.getBytes(), "ISO8859_1");
-                response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-                wb.write(outputStream);
-                outputStream.flush();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+
+            String fileName = "北京师范大学中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+            ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;
         }
 

@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
@@ -37,12 +37,12 @@ public class ApprovalLogController extends BaseController {
     @RequiresPermissions("approvalLog:list")
     @RequestMapping("/approvalLog")
     public String approvalLog(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_approval_log") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer userId,
-                                    Integer typeId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                              @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_approval_log") String sort,
+                              @OrderParam(required = false, defaultValue = "desc") String order,
+                              Integer userId,
+                              Integer typeId,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -56,10 +56,10 @@ public class ApprovalLogController extends BaseController {
         Criteria criteria = example.createCriteria().andStatusEqualTo(true);
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
 
@@ -80,10 +80,10 @@ public class ApprovalLogController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (userId!=null) {
+        if (userId != null) {
             searchStr += "&userId=" + userId;
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             searchStr += "&typeId=" + typeId;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -165,7 +165,7 @@ public class ApprovalLogController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"申请记录","审批人","审批人类别","审批状态","备注","审批时间"};
+        String[] titles = {"申请记录", "审批人", "审批人类别", "审批状态", "备注", "审批时间"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -176,13 +176,13 @@ public class ApprovalLogController extends BaseController {
 
             ApprovalLog approvalLog = approvalLogs.get(i);
             String[] values = {
-                        approvalLog.getApplyId()+"",
-                                            approvalLog.getUserId()+"",
-                                            approvalLog.getTypeId()+"",
-                                            approvalLog.getStatus()+"",
-                                            approvalLog.getRemark(),
-                                            DateUtils.formatDate(approvalLog.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
-                    };
+                    approvalLog.getApplyId() + "",
+                    approvalLog.getUserId() + "",
+                    approvalLog.getTypeId() + "",
+                    approvalLog.getStatus() + "",
+                    approvalLog.getRemark(),
+                    DateUtils.formatDate(approvalLog.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -192,15 +192,7 @@ public class ApprovalLogController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "因私出国审批记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "因私出国审批记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }

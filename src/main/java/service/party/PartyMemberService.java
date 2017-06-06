@@ -22,6 +22,7 @@ import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.PropertiesUtils;
 
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class PartyMemberService extends BaseMapper {
         for (int i = 0; i < columnCount; i++) {
             Cell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
-            cell.setCellStyle(CadreExportService.getHeadStyle(wb));
+            cell.setCellStyle(ExportHelper.getHeadStyle(wb));
         }
 
         int columnIndex = 0;
@@ -202,7 +203,7 @@ public class PartyMemberService extends BaseMapper {
                 String value = values[j];
                 if (StringUtils.isBlank(value)) value = "-";
                 cell.setCellValue(value);
-                cell.setCellStyle(CadreExportService.getBodyStyle(wb));
+                cell.setCellStyle(ExportHelper.getBodyStyle(wb));
             }
         }
 

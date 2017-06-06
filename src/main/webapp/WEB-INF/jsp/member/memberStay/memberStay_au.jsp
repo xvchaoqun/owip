@@ -8,10 +8,10 @@
 <div class="modal-body">
   <form  class="form-horizontal">
     <div class="form-group">
-      <label class="col-xs-3 control-label">选择用户</label>
+      <label class="col-xs-3 control-label">选择党员</label>
       <div class="col-xs-6">
-        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="350"
-                name="userId" data-placeholder="请选择">
+        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?status=${MEMBER_STATUS_NORMAL}"
+                data-width="350" name="userId" data-placeholder="请输入账号或姓名或学工号">
           <option></option>
         </select>
       </div>

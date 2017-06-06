@@ -1,29 +1,25 @@
 package controller.cadre;
 
-import bean.DispatchCadreRelateBean;
 import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
-import domain.cadre.*;
-import domain.dispatch.Dispatch;
+import domain.cadre.Cadre;
+import domain.cadre.CadrePost;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -39,22 +35,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.tool.xlsx.ExcelTool;
-import sys.utils.*;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
+import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 @Controller
 public class CadreController extends BaseController {
@@ -326,15 +317,8 @@ public class CadreController extends BaseController {
 
         String cadreType = SystemConstants.CADRE_STATUS_MAP.get(status);
         String fileName = PropertiesUtils.getString("site.school")  + cadreType+"(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
-        try {
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequiresPermissions("cadre:view")

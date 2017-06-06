@@ -1,11 +1,10 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.*;
-import domain.sys.SysUser;
+import domain.cadre.CadrePaper;
+import domain.cadre.CadrePaperExample;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,13 +26,10 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.*;
 
 @Controller
@@ -47,12 +43,13 @@ public class CadrePaperController extends BaseController {
 
         return "cadre/cadrePaper/cadrePaper_page";
     }
+
     @RequiresPermissions("cadrePaper:list")
     @RequestMapping("/cadrePaper_data")
     public void cadrePaper_data(HttpServletResponse response,
-                               Integer cadreId,
-                               @RequestParam(required = false, defaultValue = "0") int export,
-                               Integer pageSize, Integer pageNo) throws IOException {
+                                Integer cadreId,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -62,11 +59,11 @@ public class CadrePaperController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-       CadrePaperExample example = new CadrePaperExample();
-       CadrePaperExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        CadrePaperExample example = new CadrePaperExample();
+        CadrePaperExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("pub_time desc");
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
 
@@ -95,6 +92,7 @@ public class CadrePaperController extends BaseController {
         JSONUtils.jsonp(resultMap, sourceMixins);
         return;
     }
+
     @RequiresPermissions("cadrePaper:edit")
     @RequestMapping(value = "/cadrePaper_au", method = RequestMethod.POST)
     @ResponseBody
@@ -109,13 +107,13 @@ public class CadrePaperController extends BaseController {
 
         Integer id = record.getId();
 
-        if(StringUtils.isNotBlank(_pubTime)){
+        if (StringUtils.isNotBlank(_pubTime)) {
             record.setPubTime(DateUtils.parseDate(_pubTime, DateUtils.YYYY_MM_DD));
         }
 
-        if(_file!=null){
+        if (_file != null) {
             String ext = FileUtils.getExtention(_file.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
                 throw new RuntimeException("[发表论文情况]文件格式错误，请上传pdf文档");
             }
 
@@ -125,7 +123,7 @@ public class CadrePaperController extends BaseController {
                     + "cadre" + FILE_SEPARATOR
                     + "paper" + FILE_SEPARATOR
                     + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
             //String pdfPath = realPath + ".pdf";
             FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
             //FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
@@ -144,10 +142,10 @@ public class CadrePaperController extends BaseController {
 
         if (id == null) {
 
-            if(!toApply) {
+            if (!toApply) {
                 cadrePaperService.insertSelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发表论文情况：%s", record.getId()));
-            }else{
+            } else {
                 cadrePaperService.modifyApply(record, null, false);
                 logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-发表论文情况：%s", record.getId()));
             }
@@ -155,18 +153,18 @@ public class CadrePaperController extends BaseController {
         } else {
             // 干部信息本人直接修改数据校验
             CadrePaper _record = cadrePaperMapper.selectByPrimaryKey(id);
-            if(_record.getCadreId().intValue() != record.getCadreId()){
+            if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            if(!toApply) {
+            if (!toApply) {
                 cadrePaperService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发表论文情况：%s", record.getId()));
-            }else{
-                if(_isUpdate==false) {
+            } else {
+                if (_isUpdate == false) {
                     cadrePaperService.modifyApply(record, id, false);
                     logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-发表论文情况：%s", record.getId()));
-                }else{
+                } else {
                     // 更新修改申请的内容
                     cadrePaperService.updateModify(record, applyId);
                     logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-发表论文情况：%s", record.getId()));
@@ -200,7 +198,7 @@ public class CadrePaperController extends BaseController {
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cadrePaperService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除发表论文情况：%s", StringUtils.join(ids, ",")));
         }
@@ -218,7 +216,7 @@ public class CadrePaperController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部","发表论文情况"};
+        String[] titles = {"所属干部", "发表论文情况"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -229,9 +227,9 @@ public class CadrePaperController extends BaseController {
 
             CadrePaper cadrePaper = cadrePapers.get(i);
             String[] values = {
-                        cadrePaper.getCadreId()+"",
-                                            cadrePaper.getFileName()
-                    };
+                    cadrePaper.getCadreId() + "",
+                    cadrePaper.getFileName()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -241,16 +239,9 @@ public class CadrePaperController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "发表论文情况_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "发表论文情况_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
 }

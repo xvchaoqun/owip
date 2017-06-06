@@ -187,6 +187,12 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
+      <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+
     <!--<table tableName="ow_branch" domainObjectName="party.Branch">
     <ignoreColumn column="update_time"/>
     </table>-->
@@ -383,9 +389,9 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
+      <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
              mapperName="dispatch.DispatchWorkFileMapper">
-      </table>
+      </table>-->
       <!--<table tableName="dispatch_work_file_auth" domainObjectName="dispatch.DispatchWorkFileAuth"
              mapperName="dispatch.DispatchWorkFileAuthMapper">
       </table>-->

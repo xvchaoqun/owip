@@ -26,7 +26,6 @@ import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -124,16 +123,9 @@ public class CpcAllocationController extends BaseController {
         if (type == 1) {
             if (export == 1) {
                 XSSFWorkbook wb = cpcAllocationService.cpcInfo_Xlsx();
-                try {
-                    String fileName = "北京师范大学内设机构干部配备情况（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
-                    ServletOutputStream outputStream = response.getOutputStream();
-                    fileName = new String(fileName.getBytes(), "ISO8859_1");
-                    response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-                    wb.write(outputStream);
-                    outputStream.flush();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+
+                String fileName = "北京师范大学内设机构干部配备情况（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
             }
 
@@ -143,16 +135,9 @@ public class CpcAllocationController extends BaseController {
 
             if (export == 1) {
                 XSSFWorkbook wb = cpcAllocationService.cpcStat_Xlsx();
-                try {
-                    String fileName = "北京师范大学内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
-                    ServletOutputStream outputStream = response.getOutputStream();
-                    fileName = new String(fileName.getBytes(), "ISO8859_1");
-                    response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-                    wb.write(outputStream);
-                    outputStream.flush();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+
+                String fileName = "北京师范大学内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
             }
 
@@ -212,7 +197,7 @@ public class CpcAllocationController extends BaseController {
             int num = 0;
             String _num = request.getParameter("adminLevel_" + adminLevel.getId());
             if (NumberUtils.isDigits(_num)) {
-                 num = Integer.valueOf(_num);
+                num = Integer.valueOf(_num);
             }
 
             CpcAllocation record = new CpcAllocation();

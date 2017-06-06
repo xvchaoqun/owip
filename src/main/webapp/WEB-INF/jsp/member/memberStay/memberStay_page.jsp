@@ -101,7 +101,13 @@
                                 </li>
                             </ul>
                         </li>
-
+                        <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
+                        <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                                <a class="btn btn-success btn-sm"
+                                   href="${ctx}/memberStay?export=2&type=${param.type}" target="_blank">
+                                    <i class="fa fa-download"></i> 汇总导出</a>
+                        </div>
+                        </shiro:hasAnyRoles>
                         <c:if test="${(cls==1||cls==11||cls==2||cls==21||cls==3||cls==31) && (approvalCountNew+approvalCountBack)>0}">
                             <div class="pull-right"
                                  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
@@ -119,7 +125,9 @@
                                             <i class="fa fa-plus"></i> 添加</a>
                                     </c:if>
                                     <c:if test="${cls==1||cls==4}">
-                                        <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
+                                        <button class="jqEditBtn btn btn-primary btn-sm"
+                                                data-url="${ctx}/user/memberStay"
+                                                data-querystr="&type=${param.type}&auth=admin"
                                                 data-open-by="page">
                                             <i class="fa fa-edit"></i> 修改信息
                                         </button>

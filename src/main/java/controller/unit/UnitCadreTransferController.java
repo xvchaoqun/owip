@@ -29,10 +29,10 @@ import sys.spring.RequestDateRange;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class UnitCadreTransferController extends BaseController {
     @RequiresPermissions("unitCadreTransfer:edit")
     @RequestMapping("/unitCadreTransfer_addDispatchs")
     public String unitCadreTransfer_addDispatchs(HttpServletResponse response,
-                                            int id, int unitId, ModelMap modelMap) {
+                                                 int id, int unitId, ModelMap modelMap) {
 
         Set<Integer> unitCadreDispatchIdSet = new HashSet<>();
         UnitCadreTransfer unitCadreTransfer = unitCadreTransferMapper.selectByPrimaryKey(id);
@@ -75,32 +75,32 @@ public class UnitCadreTransferController extends BaseController {
     @RequestMapping(value = "/unitCadreTransfer_addDispatchs", method = RequestMethod.POST)
     @ResponseBody
     public Map do_unitCadreTransfer_addDispatchs(HttpServletRequest request,
-                                            int id,
-                                            @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
+                                                 int id,
+                                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         UnitCadreTransfer record = new UnitCadreTransfer();
         record.setId(id);
         record.setDispatchs("-1");
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         unitCadreTransferMapper.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "修改单位干部发文%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
-    
+
 
     @RequiresPermissions("unitCadreTransfer:list")
     @RequestMapping("/unitCadreTransfer")
     public String unitCadreTransfer(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
+                                    @SortParam(required = false, defaultValue = "sort_order", tableName = "unit_cadre_transfer") String sort,
+                                    @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer groupId,
                                     Integer cadreId,
-                                         @RequestDateRange DateRange _appointTime,
-                                         @RequestDateRange DateRange  _dismissTime,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                                    @RequestDateRange DateRange _appointTime,
+                                    @RequestDateRange DateRange _dismissTime,
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -114,26 +114,26 @@ public class UnitCadreTransferController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (groupId!=null) {
+        if (groupId != null) {
             modelMap.put("unitCadreTransferGroup", unitCadreTransferGroupMapper.selectByPrimaryKey(groupId));
             criteria.andGroupIdEqualTo(groupId);
         }
-        if (cadreId!=null) {
+        if (cadreId != null) {
             modelMap.put("cadre", cadreService.findAll().get(cadreId));
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (_appointTime.getStart()!=null) {
+        if (_appointTime.getStart() != null) {
             criteria.andAppointTimeGreaterThanOrEqualTo(_appointTime.getStart());
         }
 
-        if (_appointTime.getEnd()!=null) {
+        if (_appointTime.getEnd() != null) {
             criteria.andAppointTimeLessThanOrEqualTo(_appointTime.getEnd());
         }
-        if (_dismissTime.getStart()!=null) {
+        if (_dismissTime.getStart() != null) {
             criteria.andDismissTimeGreaterThanOrEqualTo(_dismissTime.getStart());
         }
 
-        if (_dismissTime.getEnd()!=null) {
+        if (_dismissTime.getEnd() != null) {
             criteria.andDismissTimeLessThanOrEqualTo(_dismissTime.getEnd());
         }
 
@@ -154,10 +154,10 @@ public class UnitCadreTransferController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (groupId!=null) {
+        if (groupId != null) {
             searchStr += "&groupId=" + groupId;
         }
-        if (cadreId!=null) {
+        if (cadreId != null) {
             searchStr += "&cadreId=" + cadreId;
         }
 
@@ -188,7 +188,7 @@ public class UnitCadreTransferController extends BaseController {
 
         Integer id = record.getId();
 
-        if (unitCadreTransferService.idDuplicate(id,record.getGroupId(), record.getCadreId())) {
+        if (unitCadreTransferService.idDuplicate(id, record.getGroupId(), record.getCadreId())) {
             return failed("添加重复");
         }
 
@@ -241,7 +241,7 @@ public class UnitCadreTransferController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             unitCadreTransferService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位任免记录：%s", StringUtils.join(ids, ",")));
         }
@@ -268,7 +268,7 @@ public class UnitCadreTransferController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属分组","关联干部","姓名","免职日期","备注"};
+        String[] titles = {"所属分组", "关联干部", "姓名", "免职日期", "备注"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -279,12 +279,12 @@ public class UnitCadreTransferController extends BaseController {
 
             UnitCadreTransfer unitCadreTransfer = unitCadreTransfers.get(i);
             String[] values = {
-                        unitCadreTransfer.getGroupId()+"",
-                                            unitCadreTransfer.getCadreId()+"",
-                                            unitCadreTransfer.getName(),
-                                            DateUtils.formatDate(unitCadreTransfer.getDismissTime(), DateUtils.YYYY_MM_DD),
-                                            unitCadreTransfer.getRemark()
-                    };
+                    unitCadreTransfer.getGroupId() + "",
+                    unitCadreTransfer.getCadreId() + "",
+                    unitCadreTransfer.getName(),
+                    DateUtils.formatDate(unitCadreTransfer.getDismissTime(), DateUtils.YYYY_MM_DD),
+                    unitCadreTransfer.getRemark()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -294,21 +294,14 @@ public class UnitCadreTransferController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "单位任免记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        String fileName = "单位任免记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
     @RequestMapping("/unitCadreTransfer_selects")
     @ResponseBody
-    public Map unitCadreTransfer_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map unitCadreTransfer_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -322,21 +315,21 @@ public class UnitCadreTransferController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(StringUtils.isNotBlank(searchStr)){
-            criteria.andNameLike("%"+searchStr+"%");
+        if (StringUtils.isNotBlank(searchStr)) {
+            criteria.andNameLike("%" + searchStr + "%");
         }
 
         int count = unitCadreTransferMapper.countByExample(example);
-        if((pageNo-1)*pageSize >= count){
+        if ((pageNo - 1) * pageSize >= count) {
 
-            pageNo = Math.max(1, pageNo-1);
+            pageNo = Math.max(1, pageNo - 1);
         }
-        List<UnitCadreTransfer> unitCadreTransfers = unitCadreTransferMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<UnitCadreTransfer> unitCadreTransfers = unitCadreTransferMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != unitCadreTransfers && unitCadreTransfers.size()>0){
+        if (null != unitCadreTransfers && unitCadreTransfers.size() > 0) {
 
-            for(UnitCadreTransfer unitCadreTransfer:unitCadreTransfers){
+            for (UnitCadreTransfer unitCadreTransfer : unitCadreTransfers) {
 
                 Select2Option option = new Select2Option();
                 option.setText(unitCadreTransfer.getName());

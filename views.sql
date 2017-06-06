@@ -7,6 +7,50 @@ Date: 2017/6/1 12:41:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
+
+
+-- ----------------------------
+-- 2017.6.5 View definition for `ow_party_static_view`
+-- ----------------------------
+CREATE ALGORITHM = UNDEFINED VIEW `ow_party_static_view` AS
+select p.id, p.name,
+s.bks, s.ss, s.bs, (s.bks+s.ss+s.bs) as student, s.positive_bks, s.positive_ss, s.positive_bs, (s.positive_bks + s.positive_ss + s.positive_bs) as positive_student,
+t.teacher,t.teacher_retire, (t.teacher+t.teacher_retire) as teacher_total, t.positive_teacher, t.positive_teacher_retire, (t.positive_teacher + t.positive_teacher_retire)as positive_teacher_total,
+b.bks_branch, b.ss_branch, b.bs_branch, b.sb_branch, b.bsb_branch,
+(b.bks_branch + b.ss_branch + b.bs_branch + b.sb_branch + b.bsb_branch) as student_branch_total, b.teacher_branch, b.retire_branch, (b.teacher_branch + b.retire_branch) as teacher_branch_total
+from ow_party p left join
+(
+select party_id,
+sum(if(edu_level is null, 1, 0)) as bks,
+sum(if(edu_level='硕士', 1, 0)) as ss,
+sum(if(edu_level='博士', 1, 0)) as bs,
+sum(if(edu_level is null and political_status=2, 1, 0)) as positive_bks,
+sum(if(edu_level='硕士' and political_status=2, 1, 0)) as positive_ss,
+sum(if(edu_level='博士' and political_status=2, 1, 0)) as positive_bs
+from ow_member_student where status=1 group by party_id
+) s on s.party_id = p.id
+left join
+(
+select party_id,
+sum(if(is_retire, 0, 1)) teacher,
+sum(if(is_retire, 1, 0)) teacher_retire,
+sum(if(!is_retire and political_status=2, 1, 0)) positive_teacher,
+sum(if(is_retire and political_status=2, 1, 0)) positive_teacher_retire
+from ow_member_teacher where status=1 group by party_id
+) t on t.party_id = p.id
+left join
+(select b.party_id,
+sum(if(locate('本科生',bmt.name), 1, 0)) as bks_branch,
+sum(if(locate('硕士',bmt.name), 1, 0)) as ss_branch,
+sum(if(locate('博士',bmt.name), 1, 0)) as bs_branch,
+sum(if(POSITION('硕博' in bmt.name)=1, 1, 0)) as sb_branch,
+sum(if(locate('本硕博',bmt.name), 1, 0)) as bsb_branch,
+sum(if(locate('在职',bmt.name), 1, 0)) as teacher_branch,
+sum(if(locate('离退休',bmt.name), 1, 0)) as retire_branch
+from ow_branch b, base_meta_type bmt where b.is_deleted=0 and b.type_id=bmt.id group by b.party_id
+)b on b.party_id = p.id
+
+where p.is_deleted=0 order by p.sort_order desc
 -- ----------------------------
 --  View definition for `abroad_passport_apply_view`
 -- ----------------------------

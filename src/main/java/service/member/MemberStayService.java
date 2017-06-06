@@ -286,6 +286,7 @@ public class MemberStayService extends BaseMapper {
 
         MemberStay memberStay = get(record.getUserId());
         if(memberStay!=null){ // 提交过申请，先删除?
+            record.setId(memberStay.getId());// 保留原ID
             memberStayMapper.deleteByPrimaryKey(memberStay.getId());
         }
 

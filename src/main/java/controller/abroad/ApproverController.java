@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.MSUtils;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -43,12 +43,12 @@ public class ApproverController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approver")
     public String approver(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_approver") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer cadreId,
-                                    Integer typeId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                           @SortParam(required = false, defaultValue = "sort_order", tableName = "abroad_approver") String sort,
+                           @OrderParam(required = false, defaultValue = "desc") String order,
+                           Integer cadreId,
+                           Integer typeId,
+                           @RequestParam(required = false, defaultValue = "0") int export,
+                           Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -62,10 +62,10 @@ public class ApproverController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             criteria.andTypeIdEqualTo(typeId);
         }
 
@@ -86,10 +86,10 @@ public class ApproverController extends BaseController {
 
         String searchStr = "&pageSize=" + pageSize;
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             searchStr += "&cadreId=" + cadreId;
         }
-        if (typeId!=null) {
+        if (typeId != null) {
             searchStr += "&typeId=" + typeId;
         }
         if (StringUtils.isNotBlank(sort)) {
@@ -156,7 +156,7 @@ public class ApproverController extends BaseController {
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             approverService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除审批人：%s", StringUtils.join(ids, ",")));
         }
@@ -183,7 +183,7 @@ public class ApproverController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"干部","审批人类别"};
+        String[] titles = {"干部", "审批人类别"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -194,9 +194,9 @@ public class ApproverController extends BaseController {
 
             Approver approver = approvers.get(i);
             String[] values = {
-                        approver.getCadreId()+"",
-                                            approver.getTypeId()+""
-                    };
+                    approver.getCadreId() + "",
+                    approver.getTypeId() + ""
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {
@@ -206,15 +206,7 @@ public class ApproverController extends BaseController {
                 cell.setCellStyle(MSUtils.getBodyStyle(wb));
             }
         }
-        try {
-            String fileName = "审批人_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-            ServletOutputStream outputStream = response.getOutputStream();
-            fileName = new String(fileName.getBytes(), "ISO8859_1");
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");
-            wb.write(outputStream);
-            outputStream.flush();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String fileName = "审批人_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 }
