@@ -180,4 +180,7 @@ public interface CommonMapper {
 
     @Select("select  type, status, count(*) as num from cadre_reserve group by type, status")
     List<CadreReserveCount> selectCadreReserveCount();
+
+    @Select("select distinct parent_code from base_location order by parent_code asc")
+    List<Integer> selectDistinctLocationParentCode();
 }

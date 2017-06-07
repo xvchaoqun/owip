@@ -146,12 +146,7 @@
     </div>
 </div>
 <div class="modal-footer center">
-
-    <c:set var="passport" value="${cm:getPassport(passportDraw.passportId)}"/>
-    <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
-    <input type="submit" data-name="${sysUser.realname}"
-           data-cls="${passportType.name}"
-           class="btn btn-success" value="提交" style="width: 150px"/>
+    <input type="submit" class="btn btn-success" value="提交" style="width: 150px"/>
     <input type="button" class="hideView btn btn-default" value="返回" style="width: 150px"/>
 </div>
 <script>
@@ -182,10 +177,9 @@
             });
             return;
         }
-        var name = $(this).data("name");
+
         var date = (new Date($('input[name=_returnDate]').val())).format("yyyy年M月d日");
-        var cls = $(this).data("cls");
-        msg ="${shortMsg}".format(name, cls, date);
+        msg ="${shortMsg}".format(null, null, date);
 
         bootbox.confirm({
             buttons: {

@@ -307,8 +307,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --  View definition for `sys_user_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `sys_user_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sys_user_view` AS select `u`.`id` AS `id`,`u`.`username` AS `username`,`u`.`passwd` AS `passwd`,`u`.`salt` AS `salt`,`u`.`role_ids` AS `role_ids`,`u`.`code` AS `code`,`u`.`type` AS `type`,`u`.`create_time` AS `create_time`,`u`.`source` AS `source`,`u`.`locked` AS `locked`,`ui`.`user_id` AS `user_id`,`ui`.`realname` AS `realname`,`ui`.`idcard` AS `idcard`,`ui`.`birth` AS `birth`,`ui`.`avatar` AS `avatar`,`ui`.`gender` AS `gender`,`ui`.`nation` AS `nation`,`ui`.`native_place` AS `native_place`,`ui`.`homeplace` AS `homeplace`,`ui`.`household` AS `household`,`ui`.`specialty` AS `specialty`,`ui`.`health` AS `health`,`ui`.`sign` AS `sign`,`ui`.`mobile` AS `mobile`,`ui`.`phone` AS `phone`,`ui`.`home_phone` AS `home_phone`,`ui`.`email` AS `email`,`ui`.`msg_title` AS `msg_title` from (`sys_user` `u` left join `sys_user_info` `ui` on((`u`.`id` = `ui`.`user_id`)));
-
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `sys_user_view`
+AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_id;
 -- ----------------------------
 --  Records 
 -- ----------------------------

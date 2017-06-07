@@ -143,9 +143,6 @@ public interface SelectMapper {
             "and bc.id = aac.cadre_id")
     List<Integer> getApprovalPostIds_approverTypeId(@Param("cadreId") Integer cadreId, @Param("approverTypeId") Integer approverTypeId);
 
-    @Select("select distinct parent_code from base_location order by parent_code asc")
-    List<Integer> selectDistinctLocationParentCode();
-
     List<Passport> selectPassportList(@Param("bean") PassportSearchBean bean, RowBounds rowBounds);
 
     Integer countPassport(@Param("bean") PassportSearchBean bean);

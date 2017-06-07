@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 
 @Controller
@@ -225,9 +226,12 @@ public class PassportDrawController extends BaseController {
         }
 
         ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW);
-        modelMap.put("shortMsg", shortMsgTpl.getContent());
-        modelMap.put("mobile", userBeanService.getMsgMobile(passport.getUser().getId()));
-
+        Integer userId = passport.getUser().getId();
+        String msgTitle = userBeanService.getMsgTitle(userId);
+        String shortMsg = MessageFormat.format(shortMsgTpl.getContent(), msgTitle,
+                passport.getPassportClass().getName());;
+        modelMap.put("shortMsg", shortMsg);
+        modelMap.put("mobile", userBeanService.getMsgMobile(userId));
 
         return "abroad/passportDraw/passportDraw_draw";
     }

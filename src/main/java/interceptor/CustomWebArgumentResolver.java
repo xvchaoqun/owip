@@ -23,7 +23,7 @@ public class CustomWebArgumentResolver implements WebArgumentResolver {
         if(sortParam!=null) {
             Set<String> tableColumns = dbServcie.getTableColumns(sortParam.tableName());
             String parameterName = methodParameter.getParameterName();
-            String parameterValue = webRequest.getParameter(parameterName);
+            String parameterValue = StringUtils.trimToNull(webRequest.getParameter(parameterName));
 
             //System.out.println("sort+++++++" + parameterName + "=" + parameterValue);
             if (parameterValue==null || !tableColumns.contains(parameterValue)) {
@@ -35,7 +35,7 @@ public class CustomWebArgumentResolver implements WebArgumentResolver {
         OrderParam orderParam = methodParameter.getParameterAnnotation(OrderParam.class);
         if(orderParam!=null){
             String parameterName = methodParameter.getParameterName();
-            String parameterValue = webRequest.getParameter(parameterName);
+            String parameterValue = StringUtils.trimToNull(webRequest.getParameter(parameterName));
             //System.out.println("order+++++++" + parameterName + "=" + parameterValue);
             if(parameterValue==null || (!StringUtils.equals(parameterValue, "desc") && !StringUtils.equals(parameterValue, "asc"))){
                 return orderParam.defaultValue();
