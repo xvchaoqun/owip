@@ -204,7 +204,7 @@
                         ${memberTeacher.mobile}
                     </td>
                     <td class="bg-right">
-                        家庭电话
+                        联系电话
                     </td>
                     <td class="bg-left">
                         ${memberTeacher.phone}

@@ -11,7 +11,7 @@
                     <th>名称</th>
                     <th >类型</th>
                     <th>排序</th>
-                    <th>菜单样式</th>
+                    <th nowrap="nowrap">菜单样式</th>
                     <th >URL路径</th>
                     <th >权限字符串</th>
                     <th>缓存数量</th>
