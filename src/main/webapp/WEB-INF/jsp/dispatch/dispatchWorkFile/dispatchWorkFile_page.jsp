@@ -166,9 +166,9 @@
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
             }, frozen: true
             },
-            {label: '发文号', name: 'code'},
+            {label: '发文号', name: 'code', width: 150},
             {label: '发文日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '文件名', width: 360, name: 'fileName'},
+            {label: '文件名', width: 360, name: 'fileName', align:'left'},
             {
                 label: '文件', width: 200, formatter: function (cellvalue, options, rowObject) {
 

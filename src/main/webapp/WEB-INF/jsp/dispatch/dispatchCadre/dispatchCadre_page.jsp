@@ -174,7 +174,7 @@
                         .format(encodeURI(rowObject.dispatch.file), encodeURI(rowObject.dispatch.fileName), cellvalue);
                 else return cellvalue;
             },frozen:true },
-            { label: '任免日期',  name: 'dispatch.workTime', width: 100,frozen:true  },
+            { label: '任免日期',  name: 'dispatch.workTime',frozen:true , formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
             },frozen:true },
