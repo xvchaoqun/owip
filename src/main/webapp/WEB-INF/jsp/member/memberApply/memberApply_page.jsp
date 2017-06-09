@@ -37,13 +37,13 @@
                                     <c:set value="<%=colors%>" var="colors"/>
                                     <ul class="nav nav-tabs" id="myTab3">
                                         <li class="<c:if test="${stage==APPLY_STAGE_OUT}">active</c:if>">
-                                            <a href="javascript:;" class="loadPage" data-url='${ctx}/memberApply?cls=${cls}&type=${type}&stage=${APPLY_STAGE_OUT}'>
+                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply?cls=${cls}&type=${type}&stage=${APPLY_STAGE_OUT}'>
                                                 <span class="badge">*</span> 已转出的申请
                                             </a>
                                         </li>
                                         <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
                                             <li class="<c:if test="${stage==applyStage.key}">active</c:if>">
-                                                <a href="javascript:;" class="loadPage" data-url='${ctx}/memberApply?cls=${cls}&type=${type}&stage=${applyStage.key}'>
+                                                <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply?cls=${cls}&type=${type}&stage=${applyStage.key}'>
                                                         <%--<i class='${(stage==applyStageType.key)?"pink":"blue"} ace-icon fa fa-rocket bigger-110'></i>--%>
                                                     <c:set value="${applyStage.key==-1?0:(applyStage.key==0?1:applyStage.key)}" var="colorKey"/>
                                                     <span class="badge ${colors[colorKey]}">${colorKey}</span>
@@ -68,7 +68,7 @@
                                             <div class="tabbable" >
                                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <li class="<c:if test="${type==APPLY_TYPE_STU}">active</c:if>">
-                                                        <a href="javascript:;" class="loadPage" data-url='${ctx}/memberApply?cls=${cls}&type=${APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
+                                                        <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply?cls=${cls}&type=${APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
 
                                                             <c:if test="${stage==APPLY_STAGE_INIT}">
                                                                 <c:set value="${APPLY_STAGE_INIT}_${APPLY_TYPE_STU}" var="_key1"/>
@@ -89,7 +89,7 @@
                                                     </li>
 
                                                     <li class="<c:if test="${type==APPLY_TYPE_TEACHER}">active</c:if>">
-                                                        <a href="javascript:;" class="loadPage" data-url='${ctx}/memberApply?cls=${cls}&type=${APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
+                                                        <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply?cls=${cls}&type=${APPLY_TYPE_TEACHER}&stage=${stage}'><i class="fa fa-user-secret"></i> 教职工
                                                             <c:set value="${stage}_${APPLY_TYPE_TEACHER}" var="_key"/>
                                                             <c:if test="${stage==APPLY_STAGE_INIT}">
                                                                 <c:set value="${APPLY_STAGE_INIT}_${APPLY_TYPE_TEACHER}" var="_key1"/>

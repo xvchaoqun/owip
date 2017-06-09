@@ -107,6 +107,9 @@ body {
     background: #222a2d;
 }
 
+.tab-content{
+    padding:16px 5px;
+}
 .tab-content, .nav-tabs.background-blue {
     border: none;
 }
