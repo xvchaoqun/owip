@@ -82,18 +82,30 @@ SysMsg.confirm = function(msg, title, callback){
         displayParty: function (partyId, branchId) { // 显示组织名称
 
             var party = _cMap.partyMap[partyId];
+            var _partyView = null;
+            if(party!=undefined) {
+                _partyView = party.name;
+                if ($.inArray("party:list", _permissions) >= 0)
+                    _partyView = '<a href="javascript:;" class="openView" data-url="{2}/party_view?id={0}">{1}</a>'
+                        .format(party.id, party.name, ctx);
+            }
+
             var branch = (branchId == undefined) ? undefined : _cMap.branchMap[branchId];
-            if(party!=undefined && branch!=undefined) {
+            var _branchView = null;
+            if(branch!=undefined) {
+                var _branchView = branch.name;
+                if ($.inArray("branch:list", _permissions) >= 0)
+                    _branchView = '<a href="javascript:;" class="openView" data-url="{2}/branch_view?id={0}">{1}</a>'
+                        .format(branch.id, branch.name, ctx);
+            }
+
+            if(_partyView!=null && _branchView!=null) {
                 return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
-                    .format(party.isDeleted ? "delete" : "", party.name,
-                    (branch != undefined && branch.isDeleted) ? "delete" : "",
-                    (branch == undefined) ? "" : " - " + branch.name);
-            }else if(party!=undefined){
-                return '<span class="{0}">{1}</span>'
-                    .format(party.isDeleted ? "delete" : "", party.name);
+                    .format(party.isDeleted ? "delete" : "", _partyView, branch.isDeleted ? "delete" : "", " - " + _branchView);
+            }else if(_partyView!=null){
+                return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
             }
             return '';
-
         },
         monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
             return MonthDiff(date, new Date().format("yyyy-MM-dd"));

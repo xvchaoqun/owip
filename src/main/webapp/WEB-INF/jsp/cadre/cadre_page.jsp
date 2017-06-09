@@ -360,7 +360,7 @@
 <script>
     register_multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
     register_multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)},{enableClickableOptGroups: true,
-        enableCollapsibleOptGroups: true});
+        enableCollapsibleOptGroups: true, collapsed:true, selectAllJustVisible:false});
     register_multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
     register_multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     register_multiselect($('#searchForm select[name=maxEdus]'), ${cm:toJSONArray(selectMaxEdus)});

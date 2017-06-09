@@ -86,7 +86,7 @@
               <th>申请日期</th>
               <th>出发时间</th>
               <th>回国时间</th>
-              <th>出行天数</th>
+              <th nowrap="nowrap">出行天数</th>
               <th>事由</th>
               <th>费用来源</th>
               <th>国台办批件</th>
@@ -94,13 +94,20 @@
             </thead>
             <tbody>
             <tr>
-              <td>${cm:formatDate(passportDraw.applyDate,'yyyy-MM-dd')}</td>
-              <td>${cm:formatDate(passportDraw.startDate,'yyyy-MM-dd')}</td>
-              <td>${cm:formatDate(passportDraw.endDate,'yyyy-MM-dd')}</td>
-              <td>${cm:getDayCountBetweenDate(passportDraw.startDate, passportDraw.endDate)}</td>
+              <td nowrap="nowrap">${cm:formatDate(passportDraw.applyDate,'yyyy-MM-dd')}</td>
+              <td nowrap="nowrap">${cm:formatDate(passportDraw.startDate,'yyyy-MM-dd')}</td>
+              <td nowrap="nowrap">${cm:formatDate(passportDraw.endDate,'yyyy-MM-dd')}</td>
+              <td nowrap="nowrap">${cm:getDayCountBetweenDate(passportDraw.startDate, passportDraw.endDate)}</td>
               <td>${fn:replace(passportDraw.reason, '+++', ',')}</td>
               <td>${passportDraw.costSource}</td>
-              <td></td>
+              <td>
+                <c:forEach items="${passportDraw.files}" var="file" varStatus="vs">
+                  <a class="various" rel="group${passportDraw.id}" title="${file.fileName}" data-title-id="${file.id}" data-path="${cm:encodeURI(file.filePath)}"
+                     data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(file.filePath)}">批件${vs.count}</a>
+                  ${!vs.last?"、":""}
+                </c:forEach>
+
+              </td>
             </tr>
             </tbody>
           </table>

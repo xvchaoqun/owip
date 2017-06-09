@@ -10,6 +10,11 @@
  	<uri>http://java.sun.com/jsp/jstl/custom</uri>
 
 	<function>
+		<name>findPermissions</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.util.Set findPermissions(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>isPermitted</name>
 		<function-class>shiro.ShiroHelper</function-class>
 		<function-signature>java.lang.Boolean isPermitted(java.lang.String)</function-signature>

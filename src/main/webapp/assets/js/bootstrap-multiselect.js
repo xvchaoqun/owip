@@ -807,6 +807,16 @@
             }
 
             if (this.options.enableCollapsibleOptGroups && this.options.multiple) {
+                if(this.options.collapsed) {
+                    $("li.multiselect-group", this.$ul).each(function () {
+                        //console.log($(this))
+                        var $inputs = $(this).nextUntil("li.multiselect-group")
+                            .not('.multiselect-filter-hidden');
+                        //console.log($inputs.length)
+                        $inputs.hide()
+                            .addClass('multiselect-collapsible-hidden');
+                    });
+                }
                 $("li.multiselect-group .caret-container", this.$ul).on("click", $.proxy(function(event) {
                     var $li = $(event.target).closest('li');
                     var $inputs = $li.nextUntil("li.multiselect-group")

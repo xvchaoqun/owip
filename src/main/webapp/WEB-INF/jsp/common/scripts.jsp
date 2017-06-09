@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="taglibs.jsp"%>
-<script>var ctx="${ctx}";</script>
+<script>var ctx="${ctx}"; var _permissions=${cm:toJSONObject(cm:findPermissions(_user.username))}</script>
 <!--[if lt IE 9]>
 <script type="text/javascript">location.href="${ctx}/extend/unsupport.html";</script>
 <![endif]-->
