@@ -19,7 +19,9 @@
 
 <body class="no-skin" onload="$(window).trigger('hashchange')">
 <div id="navbar" class="navbar navbar-default">
-
+  <script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+  </script>
   <div class="navbar-container" id="navbar-container">
     <!-- #section:basics/sidebar.mobile.toggle -->
 <shiro:lacksRole name="reg">
@@ -69,6 +71,9 @@
 <div class="main-container" id="main-container">
   <shiro:lacksRole name="reg">
   <div id="sidebar" class="sidebar responsive">
+    <script type="text/javascript">
+      try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+    </script>
 
     <c:import url="/menu"/>
     <!-- /.nav-list -->
@@ -77,6 +82,7 @@
          data-icon2="ace-icon fa fa-angle-double-right"></i>
     </div>
     <script type="text/javascript">
+
       try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
       $(".sidebar ul.submenu").each(function(){
         if($("li", this).length==0) $(this).remove();

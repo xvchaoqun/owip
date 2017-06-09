@@ -13,6 +13,17 @@
 .navbar-default, html{
     min-width: 1290px;
 }*/
+.navbar-fixed-top + .main-container {
+    padding-top: 101px;
+}
+@media (max-width: 479px) {
+    .navbar-fixed-top + .main-container {
+        padding-top: 90px;
+    }
+    .navbar-fixed-top.navbar-collapse + .main-container {
+        padding-top: 101px;
+    }
+}
 .breadcrumb,
 .nav-list > li > a,
 body {
