@@ -18,10 +18,10 @@
 </head>
 
 <body class="no-skin" onload="$(window).trigger('hashchange')">
-<div id="navbar" class="navbar navbar-default">
-  <script type="text/javascript">
+<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+ <%-- <script type="text/javascript">
     try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-  </script>
+  </script>--%>
   <div class="navbar-container" id="navbar-container">
     <!-- #section:basics/sidebar.mobile.toggle -->
 <shiro:lacksRole name="reg">
@@ -70,10 +70,10 @@
 </div>
 <div class="main-container" id="main-container">
   <shiro:lacksRole name="reg">
-  <div id="sidebar" class="sidebar responsive">
-    <script type="text/javascript">
+  <div id="sidebar" class="sidebar responsive sidebar-fixed">
+    <%--<script type="text/javascript">
       try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-    </script>
+    </script>--%>
 
     <c:import url="/menu"/>
     <!-- /.nav-list -->
@@ -83,7 +83,7 @@
     </div>
     <script type="text/javascript">
 
-      try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+     /* try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}*/
       $(".sidebar ul.submenu").each(function(){
         if($("li", this).length==0) $(this).remove();
       })
