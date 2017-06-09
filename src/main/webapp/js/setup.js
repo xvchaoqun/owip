@@ -103,7 +103,7 @@ $(window).on('resize.jqGrid0', function () {
     navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
     if (navHeight == null) navHeight = 0;
 
-    $(".jqGrid0").setGridHeight($(window).height() - 390 - height - navHeight - 30)
+    $(".jqGrid0").setGridHeight($(window).height() - 360 - height - navHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 });

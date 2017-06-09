@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="widget-body">
-                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
                                 <!-- PAGE CONTENT BEGINS -->
@@ -63,7 +63,7 @@
                                             </li>
                                         </c:forEach>
                                     </ul>
-                                    <div class="tab-content" style="padding-top: 0px">
+                                    <div class="tab-content no-padding-top no-padding-bottom">
                                         <div id="home3" class="tab-pane in active">
                                             <div class="tabbable" >
                                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -116,7 +116,7 @@
                                                     </shiro:hasAnyRoles>
                                                 </ul>
 
-                                                <div class="tab-content" >
+                                                <div class="tab-content no-padding-bottom" >
                                                     <div id="home4" class="tab-pane in active">
                                                         <div class="jqgrid-vertical-offset buttons">
                                                             <c:if test="${stage!=APPLY_STAGE_OUT}">
