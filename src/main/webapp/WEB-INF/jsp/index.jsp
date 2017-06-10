@@ -128,7 +128,7 @@
 <script type="text/template" id="breadcrumbs_tpl">
   <ul class="breadcrumb">
     {{_.each(data.parents, function(p, idx){ }}
-      {{if(idx==1){}}
+      {{if(idx==0){}}
         <li>
           <i class="ace-icon fa fa-home home-icon"></i>
           <a href="${ctx}/">回到首页</a>
@@ -140,7 +140,7 @@
         </li>
       {{}}}
     {{});}}
-      {{if(data.parents.length>1){}}
+      {{if(data.parents.length>=1){}}
       <li class="active">{{=data.cur.name}}</li>
       {{}}}
   </ul>

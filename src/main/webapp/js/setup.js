@@ -677,7 +677,7 @@ $(window).bind("hashchange", function () {
             cache: false
         }).done(function (html) {
             $("#page-content").empty().append(html);
-            if (topMenus.parents.length > 1) {
+            if (topMenus.parents.length >= 1) {
                 $("#breadcrumbs").html(breadcrumbs).show();
                 try {
                     ace.settings.check('breadcrumbs', 'fixed')
