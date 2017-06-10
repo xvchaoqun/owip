@@ -54,7 +54,7 @@ public class MemberStayController extends BaseController {
         modelMap.put("type", type);
 
         MemberStay memberStay = memberStayService.get(userId);
-        if(memberStay.getType().intValue() == type)
+        if(memberStay!=null && memberStay.getType().intValue() == type)
             modelMap.put("memberStay", memberStay);
 
         /*if(memberStay!=null) {
