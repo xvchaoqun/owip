@@ -180,16 +180,16 @@
                                     <label class="col-xs-6 control-label">国内通讯地址</label>
 
                                     <div class="col-xs-6">
-                                    <textarea required class="form-control limited" rows="3" name="inAddress"
-                                              maxlength="100">${memberStay.inAddress}</textarea>
+                                    <input required class="form-control" name="inAddress"
+                                              maxlength="100" value="${memberStay.inAddress}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-6 control-label">国外通讯地址</label>
 
                                     <div class="col-xs-6">
-                                    <textarea required class="form-control limited" rows="3" name="outAddress"
-                                              maxlength="100">${memberStay.outAddress}</textarea>
+                                        <input required class="form-control" name="outAddress"
+                                               maxlength="100" value="${memberStay.outAddress}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

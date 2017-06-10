@@ -120,9 +120,9 @@ public class MemberStayReportController extends BaseController {
         map.put("growTime", DateUtils.formatDate(u.getGrowTime(), "yyyy.MM.dd"));
         map.put("nativePlace", u.getNativePlace());
         map.put("idcard", u.getIdcard());
-        map.put("grade", student.getGrade());
+        map.put("grade", student==null?"":student.getGrade());
         // 学历？
-        map.put("education", student.getEduLevel());
+        map.put("education", student==null?"":student.getEduLevel());
         map.put("mobile", ga.getMobile());
         map.put("phone", ga.getPhone());
         map.put("qq", ga.getQq());

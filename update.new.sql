@@ -2,9 +2,8 @@
 
 
 
-
-
-
+2017-06-10
+update ow_member_stay set out_address=REPLACE(REPLACE(out_address, CHAR(10), ' '), CHAR(13), ' ');
 
 2017-06-05
 ALTER TABLE `ow_graduate_abroad`
