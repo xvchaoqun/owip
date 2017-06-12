@@ -81,13 +81,7 @@
             { label: '工作证号', name: 'user.code', width: 120,frozen:true },
             {
                 label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-
-                if(rowObject.cadre != undefined)
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(rowObject.cadre.id, cellvalue);
-
-                return cellvalue;
-
+                return (rowObject.cadre != undefined)?$.cadre(rowObject.cadre.id, cellvalue):cellvalue;
             }, frozen: true
             },
             { label: '所在单位及职务', name: 'cadre.title', width: 250},

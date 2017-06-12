@@ -182,7 +182,9 @@
             { label:'任免程序', name: 'procedureId', formatter: $.jgrid.formatter.MetaType},
             { label:'干部类型', name: 'cadreTypeId', formatter: $.jgrid.formatter.MetaType},
             { label:'工作证号', name: 'user.code'},
-            { label:'姓名', name: 'user.realname'},
+            { label:'姓名', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
+                return $.cadre(rowObject.cadre.id, cellvalue);
+            }},
             { label:'职务', name: 'post', width: 150 },
             { label:'职务属性', name: 'postId', width: 120 , formatter: $.jgrid.formatter.MetaType},
             { label:'行政级别', name: 'adminLevelId', formatter: $.jgrid.formatter.MetaType},

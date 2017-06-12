@@ -100,9 +100,7 @@
                     <tr>
 
                         <td>${sysUser.code}</td>
-                        <td><a href="javascript:" class="openView" data-url="${ctx}/cadre_view?cadreId=${passport.cadreId}">
-                            ${sysUser.realname}
-                        </a></td>
+                        <td><mytag:cadre cadreId="${passport.cadreId}" realname="${sysUser.realname}"/></td>
                         <td>${cadre.title}</td>
                         <td>${postMap.get(cadre.postId).name}</td>
                         <td>${passportTypeMap.get(passport.classId).name}</td>

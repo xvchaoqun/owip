@@ -284,8 +284,7 @@
         sortname:'party',
         colModel: [
             { label: '姓名',name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue);
+                return $.member(rowObject.userId, cellvalue);
             },frozen:true },
             { label: '工作证号', name: 'code', width: 100,frozen:true },
             { label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
@@ -298,7 +297,7 @@
             { label: '岗位类别', name: 'postClass', width: 100 },
             { label: '专业技术职务', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
-                return $.displayParty(rowObject.partyId, rowObject.branchId);
+                return $.party(rowObject.partyId, rowObject.branchId);
             },sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)

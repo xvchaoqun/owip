@@ -243,18 +243,17 @@
                 return _cMap.USER_TYPE_MAP[cellvalue];
             }},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue);
+                return $.member(rowObject.userId, cellvalue);
             },frozen:true  },
             {
                 label: '所属组织机构', name: 'from',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 },frozen:true
             },
             {label: '转入组织机构', name: 'to', width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.displayParty(rowObject.toPartyId, rowObject.toBranchId);
+                    return $.party(rowObject.toPartyId, rowObject.toBranchId);
                 }
             },
             {label: '转出办理时间', name: 'fromHandleTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

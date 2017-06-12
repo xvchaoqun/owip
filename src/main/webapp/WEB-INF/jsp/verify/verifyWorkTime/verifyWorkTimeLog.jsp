@@ -53,8 +53,7 @@
                 name: 'cadre.user.realname',
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                            .format(rowObject.cadre.id, cellvalue);
+                    return $.cadre(rowObject.cadre.id, cellvalue);
                 },
                 frozen: true
             },

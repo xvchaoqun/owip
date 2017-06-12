@@ -120,8 +120,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名', name: 'user.realname', width: 120, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                return $.cadre(rowObject.id, cellvalue);
             },frozen:true  },
             { label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
             { label: '党派加入时间', name: 'dpAddTime',formatter:'date',formatoptions: {newformat:'Y-m-d'} , width: 120},

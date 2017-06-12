@@ -286,8 +286,7 @@
             {label: '学工号', name: 'user.code', width: 120, frozen:true},
             <c:if test="${cls==3}">
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue);
+                return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             </c:if>
             <c:if test="${cls!=3}">
@@ -296,7 +295,7 @@
             {
                 label: '所属组织机构', name: 'party',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             {label: '提交恢复组织生活申请时间', name: 'returnApplyTime', width: 200, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

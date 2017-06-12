@@ -24,7 +24,7 @@
     ${GENDER_MAP.get(userBean.gender)}
   </td>
   <td class="bg-right" style="width: 100px">
-    名族
+    民族
   </td>
   <td class="bg-left"  style="width: 50px">
     ${userBean.nation}

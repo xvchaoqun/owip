@@ -259,8 +259,7 @@
         colModel: [
             {label: '学工号', name: 'user.code', width: 120, frozen:true},
             { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue);
+                return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             {label: '性别', name: 'user.gender', frozen:true, formatter:$.jgrid.formatter.GENDER},
             {label: '出生年月', name: 'user.birth', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -268,7 +267,7 @@
             {
                 label: '所属组织机构', name: 'from',  width: 450,
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             {label: '出党时间', name: 'quitTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

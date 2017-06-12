@@ -32,17 +32,13 @@
                          ： </c:if>
                     <c:forEach items="${pUnitAdminCadres}" var="pUnitAdminCadre">
                         <c:set var="cadre" value="${cadreMap.get(pUnitAdminCadre.cadreId)}"/>
-                         <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadre.id}">
-                         ${cm:getUserById(cadre.userId).realname}
-                             </a>
+                        <mytag:cadre cadreId="${cadre.id}" realname="${cm:getUserById(cadre.userId).realname}"/>
                     </c:forEach>
                          <c:if test="${fn:length(pUnitAdminCadres)>0 && fn:length(npUnitAdminCadres)>0}">
                     | </c:if>
                     <c:forEach items="${npUnitAdminCadres}" var="npUnitAdminCadre">
                         <c:set var="cadre2" value="${cadreMap.get(npUnitAdminCadre.cadreId)}"/>
-                         <a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId=${cadre2.id}">
-                        ${cm:getUserById(cadre2.userId).realname}
-                             </a>
+                        <mytag:cadre cadreId="${cadre2.id}" realname="${cm:getUserById(cadre2.userId).realname}"/>
                     </c:forEach>
                     <c:if test="${vs.count%2==0}">
                         </td></tr>

@@ -158,7 +158,7 @@
                 align: 'left',
                 width: 550,
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 }
             }
         ]

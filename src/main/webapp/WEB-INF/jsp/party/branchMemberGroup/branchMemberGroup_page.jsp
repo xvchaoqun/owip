@@ -133,7 +133,7 @@
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 550,
                 formatter: function (cellvalue, options, rowObject) {
-                    return $.displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true
             },
             { label: '应换届时间', name: 'tranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },

@@ -161,8 +161,7 @@ pageEncoding="UTF-8" %>
             { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '工作证号', name: 'applyUser.code',frozen:true},
             { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(rowObject.cadre.id, cellvalue);
+                return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申办证件名称', name: 'passportClass.name', width: 250 },

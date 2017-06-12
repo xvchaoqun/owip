@@ -10,6 +10,15 @@ register_party_branch_select($("#searchForm"), "branchDiv",
 register_user_select($('#modalForm select[name=userId]'));
 register_date($('.date-picker'));
 
+干部档案页链接
+ <mytag:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
+ { label:'姓名', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
+                return $.cadre(rowObject.cadre.id, cellvalue);
+            }},
+
+党员档案页链接：
+ return $.member(rowObject.userId, cellvalue);
+
 是否
 ${branch.isEnterpriseBig?"checked":""}
 $("#modalForm :checkbox").bootstrapSwitch();

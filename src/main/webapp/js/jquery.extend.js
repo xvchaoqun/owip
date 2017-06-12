@@ -1,75 +1,75 @@
-
 var SysMsg = {};
-SysMsg.error = function(msg, title, callback){
-    $("body").css('padding-right','0px');
-    if(typeof title=='function') {
+SysMsg.error = function (msg, title, callback) {
+    $("body").css('padding-right', '0px');
+    if (typeof title == 'function') {
         callback = title;
         title = '';
     }
     bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
+        message: msg,
+        callback: callback,
+        title: title
     });
     //toastr.error(msg, title);
 }
-SysMsg.warning = function(msg, title, callback){
-    $("body").css('padding-right','0px');
+SysMsg.warning = function (msg, title, callback) {
+    $("body").css('padding-right', '0px');
     //toastr.warning(msg, title);
-    if(typeof title=='function') {
+    if (typeof title == 'function') {
         callback = title;
         title = '';
     }
     bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
+        message: msg,
+        callback: callback,
+        title: title
     });
 }
-SysMsg.success = function(msg, title, callback){
-    $("body").css('padding-right','0px');
+SysMsg.success = function (msg, title, callback) {
+    $("body").css('padding-right', '0px');
     //toastr.success(msg, title);
-    if(typeof title=='function') {
+    if (typeof title == 'function') {
         callback = title;
         title = '';
     }
     bootbox.alert({
-        message:msg,
-        callback:callback,
-        title:title
+        message: msg,
+        callback: callback,
+        title: title
     });
 }
-SysMsg.info = function(msg, title, callback){
-    $("body").css('padding-right','0px');
+SysMsg.info = function (msg, title, callback) {
+    $("body").css('padding-right', '0px');
     //toastr.info(msg, title);
-    if(typeof title=='function') {
+    if (typeof title == 'function') {
         callback = title;
         title = '';
     }
     bootbox.dialog({
-        title:title,
+        title: title,
         message: msg,
         closeButton: false,
         buttons: {
             close: {
                 label: "确定",
                 className: "btn-info",
-                callback: callback||function(){}
+                callback: callback || function () {
+                }
             }
         }
     });
 }
-SysMsg.confirm = function(msg, title, callback){
-    $("body").css('padding-right','0px');
+SysMsg.confirm = function (msg, title, callback) {
+    $("body").css('padding-right', '0px');
     //toastr.success(msg, title);
-    if(typeof title=='function') {
+    if (typeof title == 'function') {
         callback = title;
         title = '';
     }
     bootbox.confirm({
-        message:msg,
-        callback:callback,
-        title:title/*,
+        message: msg,
+        callback: callback,
+        title: title/*,
          closeButton:false*/
     });
 };
@@ -79,11 +79,11 @@ SysMsg.confirm = function(msg, title, callback){
         getEvent: function () {
             return window.event || arguments.callee.caller.arguments[0];
         },
-        displayParty: function (partyId, branchId) { // 显示组织名称
+        party: function (partyId, branchId) { // 显示组织名称
 
             var party = _cMap.partyMap[partyId];
             var _partyView = null;
-            if(party!=undefined) {
+            if (party != undefined) {
                 _partyView = party.name;
                 if ($.inArray("party:list", _permissions) >= 0)
                     _partyView = '<a href="javascript:;" class="openView" data-url="{2}/party_view?id={0}">{1}</a>'
@@ -92,20 +92,36 @@ SysMsg.confirm = function(msg, title, callback){
 
             var branch = (branchId == undefined) ? undefined : _cMap.branchMap[branchId];
             var _branchView = null;
-            if(branch!=undefined) {
+            if (branch != undefined) {
                 var _branchView = branch.name;
                 if ($.inArray("branch:list", _permissions) >= 0)
                     _branchView = '<a href="javascript:;" class="openView" data-url="{2}/branch_view?id={0}">{1}</a>'
                         .format(branch.id, branch.name, ctx);
             }
 
-            if(_partyView!=null && _branchView!=null) {
+            if (_partyView != null && _branchView != null) {
                 return '<span class="{0}">{1}</span><span class="{2}">{3}</span>'
                     .format(party.isDeleted ? "delete" : "", _partyView, branch.isDeleted ? "delete" : "", " - " + _branchView);
-            }else if(_partyView!=null){
+            } else if (_partyView != null) {
                 return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
             }
             return '';
+        },
+        cadre: function (cadreId, realname) {
+
+            if (cadreId > 0 && $.trim(realname) != '')
+                return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
+                    .format(cadreId, realname, ctx);
+
+            return $.trim(realname);
+        },
+        member: function (userId, realname) {
+
+            if (userId > 0 && $.trim(realname) != '')
+                return '<a href="javascript:;" class="openView" data-url="{2}/member_view?userId={0}">{1}</a>'
+                    .format(userId, realname, ctx);
+
+            return $.trim(realname);
         },
         monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
             return MonthDiff(date, new Date().format("yyyy-MM-dd"));
@@ -192,7 +208,7 @@ SysMsg.confirm = function(msg, title, callback){
          * 1、传入的querystr和path均为空时，是触发window.hashchange事件
          * 2、传入的querystr为空，path不为空时，是给location.hash赋值
          * 3、都不为空时，是重新计算hash，并触发window.hashchange事件
-          */
+         */
         hashchange: function (querystr, path) {
 
             //alert($(".nav.nav-pills li").length)

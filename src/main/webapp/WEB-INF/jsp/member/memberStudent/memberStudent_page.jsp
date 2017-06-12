@@ -262,8 +262,7 @@
         sortname:'party',
         colModel: [
             { label: '姓名', name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/member_view?userId={0}">{1}</a>'
-                        .format(rowObject.userId, cellvalue);
+                return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
             { label: '学生证号',  name: 'code', width: 120, frozen:true },
             { label: '性别',  name: 'gender', width: 55, frozen:true,formatter:$.jgrid.formatter.GENDER},
@@ -273,7 +272,7 @@
             { label: '学生类别',  name: 'type', width: 150 },
             { label: '年级',  name: 'grade', width: 55 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
-                return $.displayParty(rowObject.partyId, rowObject.branchId);
+                return $.party(rowObject.partyId, rowObject.branchId);
             },sortable:true, align:'left' },
             { label:'党籍状态',  name: 'politicalStatus', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)

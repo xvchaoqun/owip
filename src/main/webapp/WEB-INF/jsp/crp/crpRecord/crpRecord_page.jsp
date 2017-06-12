@@ -180,8 +180,7 @@
                     return cellvalue;
                 }
                 if (rowObject.cadre && rowObject.cadre.id > 0)
-                    return '<a href="javascript:;" class="openView" data-url="${ctx}/cadre_view?cadreId={0}">{1}</a>'
-                            .format(rowObject.cadre.id, rowObject.cadre.realname);
+                    return $.cadre(rowObject.cadre.id, rowObject.cadre.realname);
 
                 return rowObject.user.realname;
             }, frozen: true

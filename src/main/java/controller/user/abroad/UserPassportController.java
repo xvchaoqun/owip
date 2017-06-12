@@ -54,7 +54,7 @@ public class UserPassportController extends BaseController {
             return "forward:/user/passportList_page";
         }
 
-        return "forward:/user/passportApply_page";
+        return "forward:/user/passportApply";
     }
 
     @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)

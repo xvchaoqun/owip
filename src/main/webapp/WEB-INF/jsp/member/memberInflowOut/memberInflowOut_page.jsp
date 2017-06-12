@@ -316,7 +316,7 @@
             { label: '姓名',  name: 'user.realname', width: 100, frozen:true },
             { label: '所属组织机构', name: 'party', width: 450 ,
                 formatter:function(cellvalue, options, rowObject){
-                    return $.displayParty(rowObject.partyId, rowObject.branchId);
+                    return $.party(rowObject.partyId, rowObject.branchId);
             }, frozen:true  },
             { label: '状态',   name: 'outStatusName', width: 150, formatter:function(cellvalue, options, rowObject){
                 return _cMap.MEMBER_INFLOW_OUT_STATUS_MAP[rowObject.outStatus];
