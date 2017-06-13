@@ -104,18 +104,28 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${dispatchWorkFile!=null}">确定</c:if><c:if test="${dispatchWorkFile==null}">添加</c:if>"/>
+    <input type="button" id="submitBtn" class="btn btn-primary"
+		   data-loading-text="上传中，请不要关闭此窗口..." data-success-text="上传成功" autocomplete="off"
+		   value="<c:if test="${dispatchWorkFile!=null}">确定</c:if><c:if test="${dispatchWorkFile==null}">添加</c:if>"/>
 </div>
 
 <script>
+	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+			var $btn = $("#submitBtn").button('loading');
+
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+						$btn.button("success").addClass("btn-success");
+
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
-                    }
+                    }else{
+						$btn.button('reset');
+					}
                 }
             });
         }
