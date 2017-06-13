@@ -5,10 +5,11 @@ Source Database: db_owip
 Date: 2017/6/1 12:41:29
 */
 
+
+ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW
+
+
 SET FOREIGN_KEY_CHECKS=0;
-
-
-
 -- ----------------------------
 -- 2017.6.5 View definition for `ow_party_static_view`
 -- ----------------------------
