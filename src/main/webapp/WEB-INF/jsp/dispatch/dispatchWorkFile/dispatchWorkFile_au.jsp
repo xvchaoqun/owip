@@ -104,9 +104,11 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="button" id="submitBtn" class="btn btn-primary"
-		   data-loading-text="上传中，请不要关闭此窗口..." data-success-text="上传成功" autocomplete="off"
-		   value="<c:if test="${dispatchWorkFile!=null}">确定</c:if><c:if test="${dispatchWorkFile==null}">添加</c:if>"/>
+    <button type="button" id="submitBtn" class="btn btn-primary"
+		   data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中，请不要关闭此窗口"
+		   data-success-text="上传成功" autocomplete="off">
+		<c:if test="${dispatchWorkFile!=null}">确定</c:if><c:if test="${dispatchWorkFile==null}">添加</c:if>
+	</button>
 </div>
 
 <script>
@@ -115,7 +117,10 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
 
 			var $btn = $("#submitBtn").button('loading');
-
+			/*setTimeout(function(){
+				$btn.button('reset');
+			}, 3000);
+			return;*/
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
