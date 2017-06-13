@@ -109,7 +109,12 @@
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
             },frozen:true },
             </c:if>
-            { label:'行政级别',  name: 'cadre.adminLevelType.name', width: 280},
+            {
+                label: '行政级别', name: 'cadre.typeId', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return _cMap.adminLevelMap[cellvalue].name;
+            }
+            },
             { label: '类别',  name: 'leaderType.name', width: 100 },
             { label: '分管工作', align:'left', name: 'job', width: 750 }
 
