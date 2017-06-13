@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.SelectMapper">
+<mapper namespace="persistence.common.IAbroadMapper">
     <!-- <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
          select  p.* from abroad_passport p, base_meta_type mt where p.cadre_id=#{cadreId} and p.class_id=mt.id order by mt.sort_order desc
      </select>-->
@@ -41,19 +41,6 @@
             and p.cadre_id=c.id and p.class_id=mt.id
         </where>
     </sql>
-    <select id="getCadreFamliys" resultMap="persistence.cadre.CadreFamliyMapper.BaseResultMap" parameterType="map">
-        select cf.* from cadre_famliy cf, cadre c where cf.cadre_id=c.id
-        <if test="cadreIds != null and cadreIds.length>0">
-            and c.id IN
-            <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
-                #{cadreId}
-            </foreach>
-        </if>
-        <if test="status != null">
-            and c.status = #{status}
-        </if>
-        order by c.sort_order desc
-    </select>
 
     <select id="selectPassportList" resultMap="persistence.abroad.PassportMapper.BaseResultMap" parameterType="map">
         select p.* from abroad_passport p, cadre c, base_meta_type mt
@@ -226,50 +213,5 @@ select ap.class_id as classId, count(ap.id) as num, sum(if(ap.is_lent, 1, 0)) as
     group by bc.post_id order by bc.sort_order desc
   </select>
 
-    <sql id="where_findDispatchWorkFiles">
-        <where>
-            <if test="!isAdmin">
-                and dwf.id=dwfa.work_file_id
-                <if test="postIds == null or postIds.length==0">
-                    and dwf.id is null
-                </if>
-                <if test="postIds != null and postIds.length>0">
-                    and dwfa.post_id IN
-                    <foreach collection="postIds" item="postId" separator="," open="(" close=")">
-                        #{postId}
-                    </foreach>
-                </if>
-            </if>
-            <if test="type != null">
-                and dwf.type = #{type}
-            </if>
-            <if test="status != null">
-                and dwf.status = #{status}
-            </if>
-            <if test="unitType != null">
-                and dwf.unit_type = #{unitType}
-            </if>
-            <if test="year != null">
-                and dwf.year = #{year}
-            </if>
-            <if test="workType != null">
-                and dwf.work_type = #{workType}
-            </if>
-            <if test="privacyType != null">
-                and dwf.privacy_type = #{privacyType}
-            </if>
-        </where>
-    </sql>
 
-    <select id="findDispatchWorkFiles" parameterType="map"
-            resultMap="persistence.dispatch.DispatchWorkFileMapper.BaseResultMap">
-        select distinct dwf.* from dispatch_work_file dwf<if test="!isAdmin">, dispatch_work_file_auth dwfa</if>
-        <include refid="where_findDispatchWorkFiles"/>
-        order by dwf.sort_order desc
-    </select>
-
-    <select id="countDispatchWorkFiles" parameterType="map" resultType="java.lang.Integer">
-        select count(distinct dwf.id) from dispatch_work_file dwf<if test="!isAdmin">, dispatch_work_file_auth dwfa</if>
-        <include refid="where_findDispatchWorkFiles"/>
-    </select>
 </mapper>

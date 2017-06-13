@@ -155,7 +155,7 @@ public class CpcAllocationController extends BaseController {
     @RequestMapping("/cpcAllocation_cadres")
     public String cpcAllocation_cadres(Integer adminLevelId, boolean isMainPost, String unitType, ModelMap modelMap) {
 
-        List<CadrePost> cadrePosts = selectMapper.findCadrePostsByUnitType(adminLevelId, isMainPost, unitType.trim());
+        List<CadrePost> cadrePosts = iCadreMapper.findCadrePostsByUnitType(adminLevelId, isMainPost, unitType.trim());
         modelMap.put("cadrePosts", cadrePosts);
 
         modelMap.put("unitType", SystemConstants.UNIT_TYPE_ATTR_MAP.get(unitType.trim()));

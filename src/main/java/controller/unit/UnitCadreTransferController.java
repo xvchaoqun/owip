@@ -64,7 +64,7 @@ public class UnitCadreTransferController extends BaseController {
         }
         modelMap.put("unitCadreDispatchIdSet", unitCadreDispatchIdSet);
 
-        List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreByUnitIdList(unitId);
+        List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreByUnitIdList(unitId);
         modelMap.put("dispatchCadres", dispatchCadres);
 
         modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch"));

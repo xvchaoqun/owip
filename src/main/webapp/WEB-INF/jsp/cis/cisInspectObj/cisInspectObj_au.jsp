@@ -6,7 +6,8 @@
     <h3><c:if test="${cisInspectObj!=null}">编辑</c:if><c:if test="${cisInspectObj==null}">添加</c:if>干部考察材料</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cisInspectObj_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cisInspectObj_au"
+          id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${cisInspectObj.id}">
 
         <div class="form-group">
@@ -93,6 +94,12 @@
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">考察原始记录</label>
+            <div class="col-xs-6">
+                <input class="form-control" type="file" name="_logFile"/>
+            </div>
+        </div>
         <%--<div class="form-group">
             <label class="col-xs-3 control-label">谈话人数</label>
             <div class="col-xs-6">
@@ -116,6 +123,8 @@
 </div>
 
 <script>
+    register_fileupload($("#modalForm input[type=file]"));
+
     function inspectorTypeChange(){
         var $inspectorType = $("select[name=inspectorType]");
         if($inspectorType.val()=="${CIS_INSPECTOR_TYPE_OTHER}"){

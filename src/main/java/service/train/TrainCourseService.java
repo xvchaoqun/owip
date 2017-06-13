@@ -29,7 +29,7 @@ public class TrainCourseService extends BaseMapper {
                 "train_id="+record.getTrainId()+ " and status="+SystemConstants.AVAILABLE));
         trainCourseMapper.insertSelective(record);
         // 更新班次的课程数量
-        updateMapper.update_train_courseNum();
+        iTrainMapper.update_train_courseNum();
     }
 
     @Transactional
@@ -46,7 +46,7 @@ public class TrainCourseService extends BaseMapper {
         trainCourseMapper.updateByExampleSelective(record, example);
 
         // 更新班次的课程数量
-        updateMapper.update_train_courseNum();
+        iTrainMapper.update_train_courseNum();
     }
 
     @Transactional

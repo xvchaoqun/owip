@@ -819,10 +819,10 @@ public class SystemConstants {
     // 干部工作文件类别  1 干部选拔任用  2 干部管理监督  3 机关学院换届  4 干部队伍建设 5 干部考核工作 6  干部教育培训
     public static final byte DISPATCH_WORK_FILE_TYPE_XBRY = 1;
     public static final byte DISPATCH_WORK_FILE_TYPE_GLJD = 2;
-    public static final byte DISPATCH_WORK_FILE_TYPE_XYHJ = 2;
-    public static final byte DISPATCH_WORK_FILE_TYPE_DWJS = 2;
-    public static final byte DISPATCH_WORK_FILE_TYPE_KHGZ = 2;
-    public static final byte DISPATCH_WORK_FILE_TYPE_JYPX = 2;
+    public static final byte DISPATCH_WORK_FILE_TYPE_XYHJ = 3;
+    public static final byte DISPATCH_WORK_FILE_TYPE_DWJS = 4;
+    public static final byte DISPATCH_WORK_FILE_TYPE_KHGZ = 5;
+    public static final byte DISPATCH_WORK_FILE_TYPE_JYPX = 6;
     public final static Map<Byte, String> DISPATCH_WORK_FILE_TYPE_MAP = new HashMap();
 
     static {

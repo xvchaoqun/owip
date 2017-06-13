@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CisInspectObjViewMapper {
-    int countByExample(CisInspectObjViewExample example);
+    long countByExample(CisInspectObjViewExample example);
 
     List<CisInspectObjView> selectByExampleWithRowbounds(CisInspectObjViewExample example, RowBounds rowBounds);
 

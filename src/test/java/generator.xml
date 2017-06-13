@@ -187,11 +187,11 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
+     <!-- <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
     <!--<table tableName="ow_branch" domainObjectName="party.Branch">
     <ignoreColumn column="update_time"/>
@@ -336,15 +336,15 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <!--<table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj">
+     <!-- <table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj" mapperName="cis.CisInspectObjMapper">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-     <!-- <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView"
+      <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView" mapperName="cis.CisInspectObjViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-      </table>-->
+      </table>
       <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
       </table>
       <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">

@@ -1,7 +1,5 @@
 package servcie;
 
-import domain.cadre.Cadre;
-import domain.cadre.CadreExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.dispatch.Dispatch;
@@ -14,9 +12,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import persistence.cadre.CadreMapper;
 import persistence.cadre.CadreViewMapper;
-import persistence.common.SelectMapper;
+import persistence.common.IAbroadMapper;
+import persistence.common.IDispatchMapper;
 import service.cadre.CadreService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
@@ -25,7 +23,6 @@ import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +40,7 @@ public class ExcelTest {
     @Autowired
     private CadreViewMapper cadreViewMapper;
     @Autowired
-    private SelectMapper selectMapper;
+    private IDispatchMapper iDispatchMapper;
     @Autowired
     private UnitService unitService;
 
@@ -115,7 +112,7 @@ public class ExcelTest {
             if (cadres.size() > 0)
                 startRowNum = renderNowCadres(sheet, cadres, unit.getName());
 
-            List<DispatchCadreView> leaveCadres = selectMapper.leaveDispatchCadres(unit.getId());
+            List<DispatchCadreView> leaveCadres = iDispatchMapper.leaveDispatchCadres(unit.getId());
             List<DispatchCadreView> filterLeaveCadres = new ArrayList<>();
             for (DispatchCadreView leaveCadre : leaveCadres) {
                 CadreView cadre = cadreMap.get(leaveCadre.getCadreId());

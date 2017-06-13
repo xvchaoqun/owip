@@ -1,7 +1,7 @@
 package domain.cis;
 
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
+import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -32,6 +32,7 @@ public class CisInspectObj implements Serializable {
 
     private Integer seq;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date inspectDate;
 
     private Integer cadreId;
@@ -49,6 +50,8 @@ public class CisInspectObj implements Serializable {
     private String assignPost;
 
     private String summary;
+
+    private String logFile;
 
     private String remark;
 
@@ -156,6 +159,14 @@ public class CisInspectObj implements Serializable {
 
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
+    }
+
+    public String getLogFile() {
+        return logFile;
+    }
+
+    public void setLogFile(String logFile) {
+        this.logFile = logFile == null ? null : logFile.trim();
     }
 
     public String getRemark() {

@@ -70,14 +70,14 @@ public class PassportController extends BaseController {
     @RequestMapping("/passport_stat")
     public String passport_stat(ModelMap modelMap) {
 
-        List<PassportStatByClassBean> classBeans = selectMapper.passportStatByClass();
-        List<PassportStatByLentBean> lentBeans = selectMapper.passportStatByLent();
+        List<PassportStatByClassBean> classBeans = iAbroadMapper.passportStatByClass();
+        List<PassportStatByLentBean> lentBeans = iAbroadMapper.passportStatByLent();
 
         int selfPassportTypeId = CmTag.getMetaTypeByCode("mt_passport_normal").getId();
         int twPassportTypeId = CmTag.getMetaTypeByCode("mt_passport_tw").getId();
-        List<PassportStatByPostBean> postBeans = selectMapper.passportStatByPost(selfPassportTypeId, twPassportTypeId);
+        List<PassportStatByPostBean> postBeans = iAbroadMapper.passportStatByPost(selfPassportTypeId, twPassportTypeId);
 
-        modelMap.put("totalCount", selectMapper.passportCount());
+        modelMap.put("totalCount", iAbroadMapper.passportCount());
         modelMap.put("classBeans", JSONUtils.toString(classBeans));
         modelMap.put("lentBeans", JSONUtils.toString(lentBeans));
         modelMap.put("postBeans", JSONUtils.toString(postBeans));
@@ -167,12 +167,12 @@ public class PassportController extends BaseController {
             return;
         }
 
-        int count = selectMapper.countPassport(bean);
+        int count = iAbroadMapper.countPassport(bean);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Passport> passports = selectMapper.selectPassportList
+        List<Passport> passports = iAbroadMapper.selectPassportList
                 (bean, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -191,7 +191,7 @@ public class PassportController extends BaseController {
     public void passport_export(PassportSearchBean bean, Byte status,
                                 HttpServletResponse response) {
 
-        List<Passport> records = selectMapper.selectPassportList(bean, new RowBounds());
+        List<Passport> records = iAbroadMapper.selectPassportList(bean, new RowBounds());
         int rownum = records.size();
         if(status==SystemConstants.PASSPORT_TYPE_KEEP) {
             String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",

@@ -91,7 +91,7 @@ public class SafeBoxController extends BaseController {
         }
         List<SafeBox> safeBoxs = safeBoxMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));*/
 
-        List<SafeBoxBean> safeBoxBeans = selectMapper.listSafeBoxs(new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SafeBoxBean> safeBoxBeans = iAbroadMapper.listSafeBoxs(new RowBounds((pageNo - 1) * pageSize, pageSize));
         int count = safeBoxMapper.countByExample(new SafeBoxExample());
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -135,11 +135,11 @@ public class SafeBoxController extends BaseController {
         PassportSearchBean bean = new PassportSearchBean(null, null, null, null, type,
                 safeBoxId, cancelConfirm != null && cancelConfirm ==1, null);
 
-        int count = selectMapper.countPassport(bean);
+        int count = iAbroadMapper.countPassport(bean);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Passport> passports = selectMapper.selectPassportList
+        List<Passport> passports = iAbroadMapper.selectPassportList
                 (bean, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);

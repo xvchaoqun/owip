@@ -251,12 +251,12 @@ public class DispatchUnitController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = commonMapper.countDispatchByCodeUnit(searchStr, unitId);
+        int count = iDispatchMapper.countDispatchByCodeUnit(searchStr, unitId);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<DispatchUnit> dispatchUnits = commonMapper.selectDispatchUnitByCodeList(searchStr, unitId, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<DispatchUnit> dispatchUnits = iDispatchMapper.selectDispatchUnitByCodeList(searchStr, unitId, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import persistence.common.SelectMapper;
+import persistence.common.IAbroadMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class SelectMapperTest {
 
 	@Autowired
-	SelectMapper selectMapper;
+	IAbroadMapper iAbroadMapper;
 
 	@Test
 	public void max(){
@@ -46,8 +46,8 @@ public class SelectMapperTest {
 
 		ApplySelfSearchBean searchBean = null;
 
-		List<ApplySelf> applySelfs = selectMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, null, new RowBounds());
-		//List<ApplySelf> applySelfs = selectMapper.selectHasApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap,10, new RowBounds());
+		List<ApplySelf> applySelfs = iAbroadMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, null, new RowBounds());
+		//List<ApplySelf> applySelfs = iAbroadMapper.selectHasApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap,10, new RowBounds());
 		System.out.println(applySelfs.size() + "=========");
 	}
 }

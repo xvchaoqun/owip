@@ -29,7 +29,7 @@ public class ApplySelfModifyController extends BaseController {
     @RequestMapping("/applySelfModifyList")
     public String applySelfModifyList(int applyId, ModelMap modelMap) {
 
-        /*List<ApplySelfModifyBean> applySelfModifyList = selectMapper.getApplySelfModifyList(applyId);
+        /*List<ApplySelfModifyBean> applySelfModifyList = iAbroadMapper.getApplySelfModifyList(applyId);
         modelMap.put("modifyList", applySelfModifyList);*/
         ApplySelfModifyExample example = new ApplySelfModifyExample();
         example.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY);

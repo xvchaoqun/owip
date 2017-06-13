@@ -23,7 +23,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
-import persistence.common.SelectMapper;
+import persistence.common.IAbroadMapper;
+import persistence.common.IUnitMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
@@ -83,7 +84,8 @@ public class CmTag {
     static BranchMemberService branchMemberService = (BranchMemberService) context.getBean("branchMemberService");
     static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
     static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
-    static SelectMapper selectMapper = (SelectMapper) context.getBean("selectMapper");
+    // getBean("IAbroadMapper")， I要大写？
+    static IAbroadMapper iAbroadMapper = (IAbroadMapper) context.getBean("IAbroadMapper");
     static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
     static CadreEduService cadreEduService = (CadreEduService) context.getBean("cadreEduService");
     static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
@@ -486,7 +488,7 @@ public class CmTag {
     }
 
     public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
-        return selectMapper.getApplySelfModifyList(applyId);
+        return iAbroadMapper.getApplySelfModifyList(applyId);
     }
 
     // 获取因私出国申请记录 初审 结果

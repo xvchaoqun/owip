@@ -145,8 +145,8 @@ public class CadreController extends BaseController {
             modelMap.put("selectPostIds", Arrays.asList(postIds));
         }
 
-        modelMap.put("proPosts", searchMapper.teacherProPosts());
-        modelMap.put("proPostLevels", searchMapper.teacherProPostLevels());
+        modelMap.put("proPosts", commonMapper.teacherProPosts());
+        modelMap.put("proPostLevels", commonMapper.teacherProPostLevels());
         if (proPosts!=null) {
             modelMap.put("selectProPosts", Arrays.asList(proPosts));
         }

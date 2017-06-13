@@ -219,7 +219,7 @@ public class CadreFamliyController extends BaseController {
 
     public void cadreFamliy_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
 
-        List<CadreFamliy> cadreFamliys = selectMapper.getCadreFamliys(cadreIds, status);
+        List<CadreFamliy> cadreFamliys = iCadreMapper.getCadreFamliys(cadreIds, status);
         int rownum = cadreFamliys.size();
         String[] titles = {"工号", "干部", "所在单位及职务", "称谓","姓名","政治面貌","工作单位及职务"};
         List<String[]> valuesList = new ArrayList<>();

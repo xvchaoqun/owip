@@ -132,6 +132,7 @@ SELECT `c`.`id` AS `id`
 	,`t`.`arrive_time` AS `arrive_time`
 	,if(isnull(_vwt.verify_work_time), t.work_time, _vwt.verify_work_time) as work_time
 	,`t`.`work_start_time` AS `work_start_time`
+	,t.talent_title
 	,main_cadre_post.id as main_cadre_post_id
 	,main_cadre_post.is_double
 	,main_cadre_post.double_unit_id
@@ -202,8 +203,9 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --  View definition for `cis_inspect_obj_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `cis_inspect_obj_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cis_inspect_obj_view` AS select `cio`.`id` AS `id`,`cio`.`year` AS `year`,`cio`.`type_id` AS `type_id`,`cio`.`seq` AS `seq`,`cio`.`inspect_date` AS `inspect_date`,`cio`.`cadre_id` AS `cadre_id`,`cio`.`inspector_type` AS `inspector_type`,`cio`.`other_inspector_type` AS `other_inspector_type`,`cio`.`chief_inspector_id` AS `chief_inspector_id`,`cio`.`talk_user_count` AS `talk_user_count`,`cio`.`post` AS `post`,`cio`.`assign_post` AS `assign_post`,`cio`.`summary` AS `summary`,`cio`.`remark` AS `remark` from (`cis_inspect_obj` `cio` join `base_meta_type` `bmt`) where (`cio`.`type_id` = `bmt`.`id`) order by `cio`.`year` desc,`bmt`.`sort_order` desc,`cio`.`seq` desc;
-
+CREATE ALGORITHM = UNDEFINED VIEW `cis_inspect_obj_view` AS
+select cio.* from cis_inspect_obj cio, base_meta_type bmt
+where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq desc ;
 -- ----------------------------
 --  View definition for `dispatch_cadre_view`
 -- ----------------------------

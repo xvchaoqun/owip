@@ -80,7 +80,7 @@ public class BranchMemberGroupService extends BaseMapper {
             SysUserView sysUser = sysUserService.findById(userId);
             // 删除账号的"党支部管理员"角色
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
-            List<Integer> branchIdList = commonMapper.adminBranchIdList(userId);
+            List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
             if(branchIdList.size()==0) {
                 sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
             }

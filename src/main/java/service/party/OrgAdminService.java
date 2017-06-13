@@ -103,7 +103,7 @@ public class OrgAdminService extends BaseMapper {
             // 见PartyMemberAdminService.toggleAdmin
             // 删除账号的"分党委管理员"角色
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
-            List<Integer> partyIdList = commonMapper.adminPartyIdList(userId);
+            List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
             if (partyIdList.size() == 0) {
                 sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
             }
@@ -113,7 +113,7 @@ public class OrgAdminService extends BaseMapper {
             // BranchMemberAdminService.toggleAdmin
             // 删除账号的"党支部管理员"角色
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
-            List<Integer> branchIdList = commonMapper.adminBranchIdList(userId);
+            List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
             if (branchIdList.size() == 0) {
                 sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
             }

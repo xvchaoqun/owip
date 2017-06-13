@@ -160,7 +160,7 @@ public class MemberInflowOutService extends BaseMapper {
         memberInflowService.updateByPrimaryKeySelective(record);
 
         // 清空是否打回状态
-        updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId());
+        iMemberMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId());
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberInflow.getId(),
@@ -198,7 +198,7 @@ public class MemberInflowOutService extends BaseMapper {
 
         if(reset) {
             // 清空是否打回状态
-            updateMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
+            iMemberMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId() );
 
             record.setOutStatus(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
             record.setOutIsBack(false);
@@ -312,7 +312,7 @@ public class MemberInflowOutService extends BaseMapper {
 
         Integer id = memberInflow.getId();
         Integer userId = memberInflow.getUserId();
-        updateMapper.memberInflowOut_back(id, status);
+        iMemberMapper.memberInflowOut_back(id, status);
 
         MemberInflow record = new MemberInflow();
         record.setId(id);

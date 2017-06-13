@@ -43,7 +43,7 @@ public class StatSysController extends BaseController {
         Date start = new DateTime().minusMonths(minusMonths).toDate();
         Date end = new Date();
 
-        List<SysOnlineStatic> beans = statMapper.online_static_day(start, end);
+        List<SysOnlineStatic> beans = iSysMapper.online_static_day(start, end);
         modelMap.put("beans", beans);
         return "analysis/sys/stat_online_day";
     }

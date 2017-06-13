@@ -22,7 +22,6 @@ import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -324,7 +323,7 @@ public class CpcAllocationService extends BaseMapper {
                 Integer noneNum = _adminLevelMap.get(noneMetaType.getId());
 
                 // 查找主职、兼职在此单位的现任干部
-                List<CadrePost> cadrePosts = selectMapper.findCadrePosts(unitId);
+                List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId);
 
                 List<CadrePost> mains = new ArrayList<>();
                 List<CadrePost> vices = new ArrayList<>();
@@ -526,7 +525,7 @@ public class CpcAllocationService extends BaseMapper {
             results.put(unitType, dataList);
 
             // =============统计设定的干部职数==============
-            List<CpcStatBean> cpcStatBeans = selectMapper.cpcStat_setting(unitType);
+            List<CpcStatBean> cpcStatBeans = iCpcMapper.cpcStat_setting(unitType);
 
             int mainNum = 0; // 正处
             int viceNum = 0;  // 副处
@@ -557,7 +556,7 @@ public class CpcAllocationService extends BaseMapper {
             // 无行政级别
             int mainCount3 = 0; // 全职
             int subCount3 = 0;  // 兼职
-            List<CpcStatBean> cpcStats = selectMapper.cpcStat_real(unitType);
+            List<CpcStatBean> cpcStats = iCpcMapper.cpcStat_real(unitType);
             for (CpcStatBean bean : cpcStats) {
 
                 Integer adminLevelId = bean.getAdminLevelId();

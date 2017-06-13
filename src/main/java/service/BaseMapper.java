@@ -359,8 +359,6 @@ public class BaseMapper {
 
     @Autowired
     protected StatCadreMapper statCadreMapper;
-    @Autowired
-    protected StatTrainMapper statTrainMapper;
 
     @Autowired
     protected HistoryUnitMapper historyUnitMapper;
@@ -407,18 +405,32 @@ public class BaseMapper {
     @Autowired
     protected FeedbackMapper feedbackMapper;
 
-    @Autowired
-    protected CommonUnitMapper commonUnitMapper;
+
     @Autowired
     protected CommonMapper commonMapper;
     @Autowired
-    protected SearchMapper searchMapper;
+    protected IAbroadMapper iAbroadMapper;
     @Autowired
-    protected SelectMapper selectMapper;
+    protected ICadreMapper iCadreMapper;
     @Autowired
-    protected UpdateMapper updateMapper;
+    protected ICpcMapper iCpcMapper;
     @Autowired
-    protected StatMapper statMapper;
+    protected IDispatchMapper iDispatchMapper;
+    @Autowired
+    protected IMemberMapper iMemberMapper;
+    @Autowired
+    protected IModifyMapper iModifyMapper;
+    @Autowired
+    protected IPartyMapper iPartyMapper;
+    @Autowired
+    protected ISysMapper iSysMapper;
+    @Autowired
+    protected ITrainMapper iTrainMapper;
+    @Autowired
+    protected IUnitMapper iUnitMapper;
+    @Autowired
+    protected StatMemberMapper statMemberMapper;
+
     @Autowired
     protected ExtYjsMapper extYjsMapper;
     @Autowired

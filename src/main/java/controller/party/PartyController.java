@@ -60,7 +60,7 @@ public class PartyController extends BaseController {
             List<PartyMember> PartyMembers = partyMemberMapper.selectByExample(example);
             modelMap.put("partyMembers", PartyMembers);
         }
-        modelMap.put("adminIds", commonMapper.findPartyAdmin(id));
+        modelMap.put("adminIds", iPartyMapper.findPartyAdmin(id));
 
         return "party/party_base";
     }

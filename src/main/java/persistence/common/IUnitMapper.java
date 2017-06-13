@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by fafa on 2015/11/28.
  */
-public interface CommonUnitMapper {
+public interface IUnitMapper {
 
     // 查找历史单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")

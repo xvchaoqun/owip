@@ -96,7 +96,7 @@ public class CadreCommonService extends BaseMapper {
 
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
 
-        List<DispatchCadre> dispatchCadres =  commonMapper.selectDispatchCadreList(cadreId, type);
+        List<DispatchCadre> dispatchCadres =  iDispatchMapper.selectDispatchCadreList(cadreId, type);
         Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         TreeNode root = new TreeNode();

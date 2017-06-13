@@ -192,7 +192,7 @@ public class MemberApplyController extends BaseController {
                 || subject.hasRole(SystemConstants.ROLE_ODADMIN));
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
-        List<MemberApplyCount> memberApplyCounts = commonMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);
+        List<MemberApplyCount> memberApplyCounts = iMemberMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);
         for (MemberApplyCount memberApplyCount : memberApplyCounts) {
 
             byte _stage = memberApplyCount.getStage();

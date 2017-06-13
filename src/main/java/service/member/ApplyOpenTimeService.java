@@ -60,7 +60,7 @@ public class ApplyOpenTimeService extends BaseMapper {
         if(record.getIsGlobal()){
             record.setPartyId(null);
             record.setBranchId(null);
-            updateMapper.globalApplyOpenTime(record.getId());
+            iMemberMapper.globalApplyOpenTime(record.getId());
         }
 
         return applyOpenTimeMapper.updateByPrimaryKeySelective(record);

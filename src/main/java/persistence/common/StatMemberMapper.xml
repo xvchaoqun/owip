@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.StatMapper">
+<mapper namespace="persistence.common.StatMemberMapper">
     <sql id="Where_ow">
         <if test="partyId!=null">
             and partyId =#{partyId}
@@ -51,36 +51,5 @@
     <!-- 统计分党委下各党支部党员人数-->
     <select id="memberApply_groupByBranchId" resultType="bean.analysis.StatIntBean" parameterType="map">
         select count(*) as num, branch_id as type from ow_member where status=1 and party_id=#{partyId} group by branch_id
-    </select>
-
-
-    <!--
-select  * from sys_online_static order by id desc limit 1;
-
-select * from sys_online_static where month=7 and day=1 order by online_count desc limit 1 ;
-
-select * from (select * from sys_online_static where month=7 and day=1 order by online_count desc) as tmp group by day,month, year;
-
-explain select * from sys_online_static a where not exists(select id from sys_online_static b where b.year=a.year and b.month=a.month and b.day=a.day and b.online_count >a.online_count)
-group by day,month, year order by year, month, day;
-
-
-select a.* from sys_online_static a, (select max(online_count) as online_count,  day,month, year  from sys_online_static  where create_time>'2016-06-20' and create_time<'2016-07-10' group by day,month, year) b where a.day=b.day and a.month=b.month and a.year=b.year and a.online_count=b.online_count group by a.day,a.month, a.year order by a.create_time;
--->
-    <!-- 每日最高在线人数流量图 -->
-    <select id="online_static_day" resultMap="persistence.sys.SysOnlineStaticMapper.BaseResultMap" parameterType="map">
-        select a.* from sys_online_static a, (select max(online_count) as online_count, day, month, year
-        from sys_online_static
-        <where>
-            <if test="start!=null">
-                and create_time > #{start}
-            </if>
-            <if test="end!=null">
-                and create_time <![CDATA[<]]> #{end}
-            </if>
-        </where>
-        group by day,month, year) b
-        where a.day=b.day and a.month=b.month and a.year=b.year and a.online_count=b.online_count
-        group by a.day,a.month, a.year order by a.create_time
     </select>
 </mapper>

@@ -115,7 +115,7 @@ public class CadreReserveController extends BaseController {
         for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
             normalCountMap.put(entry.getKey(), 0);
         }
-        List<CadreReserveCount> cadreReserveCounts = commonMapper.selectCadreReserveCount();
+        List<CadreReserveCount> cadreReserveCounts = iCadreMapper.selectCadreReserveCount();
         for (CadreReserveCount crc : cadreReserveCounts) {
             Byte st = crc.getStatus();
             if (st == SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {

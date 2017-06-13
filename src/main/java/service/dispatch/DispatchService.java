@@ -30,7 +30,7 @@ public class DispatchService extends BaseMapper {
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void update_dispatch_real_count(){
 
-        updateMapper.update_dispatch_real_count();
+        iDispatchMapper.update_dispatch_real_count();
     }
 
     public boolean idDuplicate(Integer id, int dispatchTypeId, int year, int code){
@@ -102,13 +102,13 @@ public class DispatchService extends BaseMapper {
     @Transactional
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void delFile(int id){
-        updateMapper.del_dispatch_file(id);
+        iDispatchMapper.del_dispatch_file(id);
     }
 
     @Transactional
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void delPpt(int id){
-        updateMapper.del_dispatch_ppt(id);
+        iDispatchMapper.del_dispatch_ppt(id);
     }
 
     @Transactional

@@ -284,7 +284,7 @@ public class MemberOutflowService extends BaseMapper {
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member_outflow", "id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member_outflow", "id", record.getId(), record.getPartyId());
         }
 
         return memberOutflowMapper.updateByPrimaryKeySelective(record);
@@ -352,7 +352,7 @@ public class MemberOutflowService extends BaseMapper {
 
         Integer userId = memberOutflow.getUserId();
         Integer id = memberOutflow.getId();
-        updateMapper.memberOutflow_back(id, status);
+        iMemberMapper.memberOutflow_back(id, status);
 
         MemberOutflow record = new MemberOutflow();
         record.setId(id);

@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by fafa on 2016/8/1.
  */
-public interface StatMapper {
+public interface StatMemberMapper {
 
     // 统计党员分布情况（预备、正式）
     List<StatByteBean> member_groupByPoliticalStatus(@Param("partyId")Integer partyId, @Param("branchId")Integer branchId);
@@ -38,7 +38,4 @@ public interface StatMapper {
 
     // 统计分党委下各党支部党员人数
     List<StatIntBean> memberApply_groupByBranchId(@Param("partyId")int partyId);
-
-    // 每日最高在线人数流量图
-    List<SysOnlineStatic> online_static_day(@Param("start")Date start, @Param("end")Date end);
 }

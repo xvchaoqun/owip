@@ -85,7 +85,7 @@ public class UnitLayoutController extends BaseController {
         modelMap.put("historyUnits", historyUnits);
 
         // 根据类型查找所有正在运转的单位的 现任 行政班子成员
-        List<UnitAdminCadre> unitAdminCadres = commonUnitMapper.findUnitAdminCadreByType(type);
+        List<UnitAdminCadre> unitAdminCadres = iUnitMapper.findUnitAdminCadreByType(type);
         // 单位所有正职 key: unit.id
         Map<Integer, List<UnitAdminCadre>> pUnitAdminCadreMap = new HashMap<>();
         Map<Integer, List<UnitAdminCadre>> npUnitAdminCadreMap = new HashMap<>();

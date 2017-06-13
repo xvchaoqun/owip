@@ -154,12 +154,12 @@ public class CommonController extends BaseController {
             }
         }
 
-        int count = commonMapper.countCadre(searchStr, cadreStatusSet);
+        int count = iCadreMapper.countCadre(searchStr, cadreStatusSet);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, cadreStatusSet, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != cadres && cadres.size() > 0) {
@@ -205,13 +205,13 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = commonMapper.countNotCadre(searchStr, SystemConstants.CADRE_STATUS_SET,
+        int count = iCadreMapper.countNotCadre(searchStr, SystemConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUserView> uvs = commonMapper.selectNotCadreList(searchStr, SystemConstants.CADRE_STATUS_SET,
+        List<SysUserView> uvs = iCadreMapper.selectNotCadreList(searchStr, SystemConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
@@ -269,12 +269,12 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = commonMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET);
+        int count = iCadreMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = commonMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != cadres && cadres.size() > 0) {
@@ -424,12 +424,12 @@ public class CommonController extends BaseController {
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        int count = commonMapper.countMember(type, status, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
+        int count = iMemberMapper.countMember(type, status, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Member> members = commonMapper.selectMemberList(type, status, searchStr,
+        List<Member> members = iMemberMapper.selectMemberList(type, status, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
@@ -495,12 +495,12 @@ public class CommonController extends BaseController {
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        int count = commonMapper.countMemberInflow(type, status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
+        int count = iMemberMapper.countMemberInflow(type, status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberInflow> memberInflows = commonMapper.selectMemberInflowList(type, status, hasOutApply, searchStr,
+        List<MemberInflow> memberInflows = iMemberMapper.selectMemberInflowList(type, status, hasOutApply, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
@@ -560,12 +560,12 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = commonMapper.countNotMember(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
+        int count = iMemberMapper.countNotMember(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUserView> uvs = commonMapper.selectNotMemberList(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUserView> uvs = iMemberMapper.selectNotMemberList(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != uvs && uvs.size() > 0) {

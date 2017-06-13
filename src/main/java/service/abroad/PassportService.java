@@ -89,7 +89,7 @@ public class PassportService extends BaseMapper {
         PassportSearchBean bean = new PassportSearchBean(null, cadreId, null, null,
                 SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
 
-        return selectMapper.selectPassportList(bean, new RowBounds());
+        return iAbroadMapper.selectPassportList(bean, new RowBounds());
     }
 
     // 判断是否重复（更新时，不修改类别） 0 不重复  1证件号码重复 2证件类别重复
@@ -337,7 +337,7 @@ public class PassportService extends BaseMapper {
         PassportSearchBean bean = new PassportSearchBean(null, null, null, null,
                 SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
 
-        List<Passport> passports = selectMapper.selectPassportList(bean, new RowBounds());
+        List<Passport> passports = iAbroadMapper.selectPassportList(bean, new RowBounds());
         for (Passport passport : passports) {
             Date expiryDate = passport.getExpiryDate();
             if (expiryDate.before(now)) {

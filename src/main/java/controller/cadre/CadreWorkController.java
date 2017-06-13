@@ -260,7 +260,7 @@ public class CadreWorkController extends BaseController {
 
         if(unitId==null){
 
-            updateMapper.del_cadreWork_unitId(id);
+            iCadreMapper.del_cadreWork_unitId(id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除对应工作单位：%s", id));
         }else {
             CadreWork record = new CadreWork();
@@ -340,7 +340,7 @@ public class CadreWorkController extends BaseController {
 
         if (relateDispatchCadres.size() == 0 || StringUtils.equalsIgnoreCase(type, "edit")) {
             modelMap.put("type", "edit");
-            List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId, null);
+            List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, null);
             modelMap.put("dispatchCadres", dispatchCadres);
 
             Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);

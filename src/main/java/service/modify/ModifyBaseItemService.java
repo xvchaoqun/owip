@@ -102,7 +102,7 @@ public class ModifyBaseItemService extends BaseMapper {
                 String sql = "update " + tableName + " set " + mbi.getCode() + " = " + (needSingleQuotes?"'":"") +
                         StringEscapeUtils.escapeSql(mbi.getModifyValue().replace("\\", "\\\\")) + (needSingleQuotes ? "'" : "")
                         + " where "+ mbi.getTableIdName() + "=" + sysUser.getId();
-                updateMapper.excuteSql(sql);
+                commonMapper.excuteSql(sql);
             }
         }
 

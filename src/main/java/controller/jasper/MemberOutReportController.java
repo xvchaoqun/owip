@@ -68,7 +68,7 @@ public class MemberOutReportController extends BaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
-            updateMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
+            iMemberMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
 
             logger.info("京外套打 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),
@@ -109,7 +109,7 @@ public class MemberOutReportController extends BaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
-            updateMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
+            iMemberMapper.increasePrintCount("ow_member_out", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
 
             logger.info("京内打印 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),

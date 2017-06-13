@@ -195,7 +195,7 @@ public class PassportDrawService extends BaseMapper {
     // 重置归还状态为 “未归还”
     public void resetReturnPassport(int id) {
 
-        updateMapper.resetReturnPassport(id);
+        iAbroadMapper.resetReturnPassport(id);
     }
 
     @Transactional

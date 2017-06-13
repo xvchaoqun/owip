@@ -291,7 +291,7 @@ public class MemberStayService extends BaseMapper {
         }
 
         Integer year = DateUtils.getYear(new Date());
-        String maxCode = StringUtils.trimToNull(commonMapper.getMemberStayMaxCode(year));
+        String maxCode = StringUtils.trimToNull(iMemberMapper.getMemberStayMaxCode(year));
         int nextCode = (maxCode == null ? 0 : Integer.valueOf(maxCode.substring(4))) + 1;
         if (nextCode > 9999) {
             throw new RuntimeException("系统错误code=9999，请联系管理员");
@@ -324,7 +324,7 @@ public class MemberStayService extends BaseMapper {
         if (record.getPartyId() != null && record.getBranchId() == null) {
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member_stay", "id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member_stay", "id", record.getId(), record.getPartyId());
         }
 
         record.setType(null);
@@ -423,7 +423,7 @@ public class MemberStayService extends BaseMapper {
         }
         Integer id = memberStay.getId();
         Integer userId = memberStay.getUserId();
-        updateMapper.memberStay_back(id, status);
+        iMemberMapper.memberStay_back(id, status);
 
         MemberStay record = new MemberStay();
         record.setId(id);

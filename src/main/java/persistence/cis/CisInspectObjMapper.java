@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CisInspectObjMapper {
-    int countByExample(CisInspectObjExample example);
+    long countByExample(CisInspectObjExample example);
 
     int deleteByExample(CisInspectObjExample example);
 

@@ -60,7 +60,7 @@ public class BranchController extends BaseController {
             List<BranchMember> BranchMembers = branchMemberMapper.selectByExample(example);
             modelMap.put("branchMembers", BranchMembers);
         }
-        modelMap.put("adminIds", commonMapper.findBranchAdmin(id));
+        modelMap.put("adminIds", iPartyMapper.findBranchAdmin(id));
 
         modelMap.put("typeMap", metaTypeService.metaTypes("mc_branch_member_type"));
         return "party/branch/branch_base";
@@ -435,7 +435,7 @@ public class BranchController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView branch = records.get(i);
-            List<BranchMember> branchSecretary = commonMapper.findBranchSecretary(secretaryType.getId(), branch.getId());
+            List<BranchMember> branchSecretary = iPartyMapper.findBranchSecretary(secretaryType.getId(), branch.getId());
 
             if (branchSecretary.size() > 0) {
                 Integer userId = branchSecretary.get(0).getUserId();

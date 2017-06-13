@@ -52,7 +52,7 @@ public class TeacherInfoService extends BaseMapper {
 
         if(BooleanUtils.isNotTrue(record.getIsRetire())){
             record.setRetireTime(null);
-            updateMapper.del_retireTime(record.getUserId());
+            iMemberMapper.del_retireTime(record.getUserId());
         }
 
         return teacherInfoMapper.updateByPrimaryKeySelective(record);

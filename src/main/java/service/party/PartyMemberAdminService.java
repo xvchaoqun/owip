@@ -29,7 +29,7 @@ public class PartyMemberAdminService extends BaseMapper {
     @Cacheable(value="AdminPartyIdList", key="#userId")
     public List<Integer> adminPartyIdList(int userId){
 
-        return commonMapper.adminPartyIdList(userId);
+        return iPartyMapper.adminPartyIdList(userId);
     }
 
     @Transactional
@@ -52,7 +52,7 @@ public class PartyMemberAdminService extends BaseMapper {
             if(partyMember.getIsAdmin()){
                 // 删除账号的"分党委管理员"角色
                 // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
-                List<Integer> partyIdList = commonMapper.adminPartyIdList(userId);
+                List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
                 if(partyIdList.size()==0) {
                     sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
                 }

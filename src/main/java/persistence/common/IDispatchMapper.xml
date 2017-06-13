@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.IDispatchMapper" >
+  <select id="selectDispatchUnitByCodeList" resultMap="persistence.dispatch.DispatchUnitMapper.BaseResultMap" parameterType="map" >
+    select bdu.* from dispatch_unit bdu, dispatch d
+    where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id
+    <if test="search != null" >
+    and d.code like #{search}
+    </if>
+    order by bdu.sort_order desc
+  </select>
+  <select id="countDispatchByCodeUnit" parameterType="map" resultType="java.lang.Integer" >
+    select count(bdu.id) from dispatch_unit bdu, dispatch d
+    where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id
+    <if test="search != null" >
+      and d.code like #{search}
+    </if>
+  </select>
+  <select id="selectDispatchCadreList" parameterType="map" resultMap="persistence.dispatch.DispatchCadreMapper.BaseResultMap" >
+    select distinct dc.* from dispatch_cadre dc, dispatch d, dispatch_type dt
+    where dc.dispatch_id=d.id and d.dispatch_type_id=dt.id and dc.cadre_id=#{cadreId}
+    <if test="type!=null">
+      and dc.type=#{type}
+    </if>
+    order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc
+  </select>
+
+  <sql id="where_findDispatchWorkFiles">
+    <where>
+      <if test="!isAdmin">
+        and dwf.id=dwfa.work_file_id
+        <if test="postIds == null or postIds.length==0">
+          and dwf.id is null
+        </if>
+        <if test="postIds != null and postIds.length>0">
+          and dwfa.post_id IN
+          <foreach collection="postIds" item="postId" separator="," open="(" close=")">
+            #{postId}
+          </foreach>
+        </if>
+      </if>
+      <if test="type != null">
+        and dwf.type = #{type}
+      </if>
+      <if test="status != null">
+        and dwf.status = #{status}
+      </if>
+      <if test="unitType != null">
+        and dwf.unit_type = #{unitType}
+      </if>
+      <if test="year != null">
+        and dwf.year = #{year}
+      </if>
+      <if test="workType != null">
+        and dwf.work_type = #{workType}
+      </if>
+      <if test="privacyType != null">
+        and dwf.privacy_type = #{privacyType}
+      </if>
+    </where>
+  </sql>
+
+  <select id="findDispatchWorkFiles" parameterType="map"
+          resultMap="persistence.dispatch.DispatchWorkFileMapper.BaseResultMap">
+    select distinct dwf.* from dispatch_work_file dwf<if test="!isAdmin">, dispatch_work_file_auth dwfa</if>
+    <include refid="where_findDispatchWorkFiles"/>
+    order by dwf.sort_order desc
+  </select>
+
+  <select id="countDispatchWorkFiles" parameterType="map" resultType="java.lang.Integer">
+    select count(distinct dwf.id) from dispatch_work_file dwf<if test="!isAdmin">, dispatch_work_file_auth dwfa</if>
+    <include refid="where_findDispatchWorkFiles"/>
+  </select>
+</mapper>

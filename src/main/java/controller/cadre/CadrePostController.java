@@ -201,7 +201,7 @@ public class CadrePostController extends BaseController {
         if (relateDispatchCadres.size() == 0 || StringUtils.equalsIgnoreCase(type, "edit")) {
             modelMap.put("type", "edit");
 
-            List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId, SystemConstants.DISPATCH_CADRE_TYPE_APPOINT);
+            List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, SystemConstants.DISPATCH_CADRE_TYPE_APPOINT);
             modelMap.put("dispatchCadres", dispatchCadres);
 
             Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);

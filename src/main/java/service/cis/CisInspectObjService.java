@@ -153,7 +153,7 @@ public class CisInspectObjService extends BaseMapper {
     public int updateByPrimaryKeySelective(CisInspectObj record) {
 
         if(record.getInspectorType()==SystemConstants.CIS_INSPECTOR_TYPE_OTHER){
-            updateMapper.excuteSql("delete from cis_obj_inspector where obj_id="+record.getId());
+            commonMapper.excuteSql("delete from cis_obj_inspector where obj_id="+record.getId());
         }
         return cisInspectObjMapper.updateByPrimaryKeySelective(record);
     }

@@ -184,7 +184,7 @@ public class TrainInspectorService extends BaseMapper {
             throw new DBErrorException("abolish error2.");
 
         // 已完成的测评人，所有关联课程的总完成数量要减一
-        updateMapper.abolishTrainInspector(inspectorId);
+        iTrainMapper.abolishTrainInspector(inspectorId);
 
         {
             TrainEvaResultExample example = new TrainEvaResultExample();

@@ -40,7 +40,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         // 已经设置为永久生效的干部，不可选
         Set<Integer> disabledCadreIdSet = new HashSet();
         {
-            List<Integer> validCadreIds = selectMapper.selectValidModifyCadreAuth();
+            List<Integer> validCadreIds = iModifyMapper.selectValidModifyCadreAuth();
             disabledCadreIdSet.addAll(validCadreIds);
         }
 
@@ -267,7 +267,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         modifyCadreAuthMapper.updateByPrimaryKeySelective(record);
 
         if(BooleanUtils.isTrue(record.getIsUnlimited())){
-            updateMapper.del_ModifyCadreAuth_time(record.getId());
+            iModifyMapper.del_ModifyCadreAuth_time(record.getId());
         }
     }
 

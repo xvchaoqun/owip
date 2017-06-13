@@ -18,14 +18,14 @@ public class StatService extends BaseMapper{
     // 党员总数（默认前二十）
     public List<MemberStatByPartyBean> partyMap(Integer top){
         if(top==null) top = 20;
-        return statMapper.memberApply_groupByPartyId(top);
+        return statMemberMapper.memberApply_groupByPartyId(top);
     }
 
     // 按阶段统计入党申请
     public Map politicalStatusMap(Integer partyId, Integer branchId){
 
         Map<Byte, Integer> _map = new HashMap<>();
-        List<StatByteBean> statByteBeans = statMapper.member_groupByPoliticalStatus(partyId, branchId);
+        List<StatByteBean> statByteBeans = statMemberMapper.member_groupByPoliticalStatus(partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
             _map.put(statByteBean.getType(), statByteBean.getNum());
         }
@@ -42,7 +42,7 @@ public class StatService extends BaseMapper{
     public Map typeMap(Byte politicalStatus, Integer partyId, Integer branchId){
 
         Map<Byte, Integer> _map = new HashMap<>();
-        List<StatByteBean> statByteBeans = statMapper.member_groupByType(politicalStatus, partyId, branchId);
+        List<StatByteBean> statByteBeans = statMemberMapper.member_groupByType(politicalStatus, partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
             _map.put(statByteBean.getType(), statByteBean.getNum());
         }
@@ -59,7 +59,7 @@ public class StatService extends BaseMapper{
     public Map applyMap(Byte type, Integer partyId, Integer branchId){
 
         Map<Byte, Integer> _applyMap = new HashMap<>();
-        List<StatByteBean> statByteBeans = statMapper.memberApply_groupByStage(type, partyId, branchId);
+        List<StatByteBean> statByteBeans = statMemberMapper.memberApply_groupByStage(type, partyId, branchId);
         for (StatByteBean statByteBean : statByteBeans) {
             _applyMap.put(statByteBean.getType(), statByteBean.getNum());
         }
@@ -84,9 +84,9 @@ public class StatService extends BaseMapper{
         List<StatIntBean> statIntBeans = new ArrayList<>();
 
         if (type==null || type == SystemConstants.MEMBER_TYPE_TEACHER)
-            statIntBeans.addAll(statMapper.member_teatcherGroupByBirth(partyId, branchId));
+            statIntBeans.addAll(statMemberMapper.member_teatcherGroupByBirth(partyId, branchId));
         if (type==null || type == SystemConstants.MEMBER_TYPE_STUDENT)
-            statIntBeans.addAll(statMapper.member_studentGroupByBirth(partyId, branchId));
+            statIntBeans.addAll(statMemberMapper.member_studentGroupByBirth(partyId, branchId));
 
         //int year = DateUtils.getCurrentYear();
         for (StatIntBean statIntBean : statIntBeans) {

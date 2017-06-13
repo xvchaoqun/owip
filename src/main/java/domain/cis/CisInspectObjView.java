@@ -49,6 +49,8 @@ public class CisInspectObjView implements Serializable {
 
     private String summary;
 
+    private String logFile;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -155,6 +157,14 @@ public class CisInspectObjView implements Serializable {
 
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
+    }
+
+    public String getLogFile() {
+        return logFile;
+    }
+
+    public void setLogFile(String logFile) {
+        this.logFile = logFile == null ? null : logFile.trim();
     }
 
     public String getRemark() {

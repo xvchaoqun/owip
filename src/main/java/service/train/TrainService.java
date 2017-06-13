@@ -47,7 +47,7 @@ public class TrainService extends BaseMapper {
         Train trainCourse = trainMapper.selectByPrimaryKey(id);
         if(isClosed) {
             String sql = "update train set is_closed=1, close_time=null where id="+id;
-            updateMapper.excuteSql(sql);
+            commonMapper.excuteSql(sql);
         }else{
             Train record = new Train();
             record.setId(id);

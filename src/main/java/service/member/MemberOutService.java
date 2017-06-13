@@ -293,7 +293,7 @@ public class MemberOutService extends BaseMapper {
         if (record.getPartyId() != null && record.getBranchId() == null) {
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member_out", "id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member_out", "id", record.getId(), record.getPartyId());
         }
 
         memberOutMapper.updateByPrimaryKeySelective(record);
@@ -360,7 +360,7 @@ public class MemberOutService extends BaseMapper {
 
         Integer id = memberOut.getId();
         Integer userId = memberOut.getUserId();
-        updateMapper.memberOut_back(id, status);
+        iMemberMapper.memberOut_back(id, status);
 
         MemberOut record = new MemberOut();
         record.setId(id);

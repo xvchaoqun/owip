@@ -587,6 +587,25 @@
                     .format(rowObject.id)
         }, width: 150
         },
+        {
+            label: '考察原始记录', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+            var ret = "-";
+            var logFile = rowObject.logFile;
+            if ($.trim(logFile) != '') {
+
+                var code =  _cMap.metaTypeMap[rowObject.typeId].name + "[" + rowObject.year + "]" + rowObject.seq + "号";
+                var fileName = code + "考察原始记录.pdf";
+                //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
+                ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                                .format(encodeURI(logFile), encodeURI(fileName))
+                        + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> PDF</button>'
+                                .format(encodeURI(logFile), encodeURI(fileName));
+            }
+
+            return ret;
+        }
+        },
         {label: '备注', name: 'remark'}, {hidden: true, name: 'inspectorType'}
     ];
     colModels.cadreReport = [

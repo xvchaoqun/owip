@@ -67,10 +67,10 @@ public class MemberTeacherController extends BaseController {
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
 
-        modelMap.put("teacherEducationTypes", searchMapper.teacherEducationTypes());
-        modelMap.put("teacherPostClasses", searchMapper.teacherPostClasses());
-        modelMap.put("teacherNations", searchMapper.teacherNations());
-        modelMap.put("teacherNativePlaces", searchMapper.teacherNativePlaces());
+        modelMap.put("teacherEducationTypes", commonMapper.teacherEducationTypes());
+        modelMap.put("teacherPostClasses", commonMapper.teacherPostClasses());
+        modelMap.put("teacherNations", commonMapper.teacherNations());
+        modelMap.put("teacherNativePlaces", commonMapper.teacherNativePlaces());
 
         return "member/memberTeacher/memberTeacher_page";
     }

@@ -206,7 +206,7 @@ public class SafeBoxService extends BaseMapper {
             Integer safeBoxId = safeBox.getId();
             PassportSearchBean bean = new PassportSearchBean(null, null, null, null, null,
                     safeBoxId, null, null);
-            List<Passport> passports = selectMapper.selectPassportList(bean, new RowBounds());
+            List<Passport> passports = iAbroadMapper.selectPassportList(bean, new RowBounds());
             int size = passports.size();
             if (size == 0) continue;
 

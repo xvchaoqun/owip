@@ -66,10 +66,10 @@ public class MemberStudentController extends BaseController {
             modelMap.put("selectNativePlaces", selectNativePlaces);
         }
 
-        modelMap.put("studentGrades", searchMapper.studentGrades());
-        modelMap.put("studentTypes", searchMapper.studentTypes());
-        modelMap.put("studentNations", searchMapper.studentNations());
-        modelMap.put("studentNativePlaces", searchMapper.studentNativePlaces());
+        modelMap.put("studentGrades", commonMapper.studentGrades());
+        modelMap.put("studentTypes", commonMapper.studentTypes());
+        modelMap.put("studentNations", commonMapper.studentNations());
+        modelMap.put("studentNativePlaces", commonMapper.studentNativePlaces());
 
         return "member/memberStudent/memberStudent_page";
     }

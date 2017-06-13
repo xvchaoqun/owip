@@ -43,7 +43,7 @@ public class MemberAbroadService extends BaseMapper {
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member_abroad", "id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member_abroad", "id", record.getId(), record.getPartyId());
         }
         return memberAbroadMapper.updateByPrimaryKeySelective(record);
     }

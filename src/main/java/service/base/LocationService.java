@@ -31,7 +31,7 @@ public class LocationService extends BaseMapper{
     @Cacheable(value = "Location:JSON")
     public String toJSON(){
         Map<String, Map> items = new LinkedHashMap<>();
-        List<Integer> parentCodeList = commonMapper.selectDistinctLocationParentCode();
+        List<Integer> parentCodeList = iSysMapper.selectDistinctLocationParentCode();
         for (Integer parentCode : parentCodeList) {
 
             String key = getParentCodeStr(parentCode);

@@ -77,14 +77,14 @@ public class BranchService extends BaseMapper {
 
         for (String tableName : tableNameList) {
 
-            updateMapper.batchTransfer(tableName, branchIds);
+            iMemberMapper.batchTransfer(tableName, branchIds);
         }
 
         // 校内转接特殊处理 to_party_id
-        updateMapper.batchTransfer2(branchIds);
+        iMemberMapper.batchTransfer2(branchIds);
 
         // 更新支部转移次数
-        updateMapper.updateBranchTransferCount(branchIds);
+        iPartyMapper.updateBranchTransferCount(branchIds);
     }
 
     public boolean idDuplicate(Integer id, String code) {

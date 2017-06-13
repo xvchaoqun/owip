@@ -62,7 +62,7 @@ public class UnitTransferController extends BaseController {
         }
         modelMap.put("unitDispatchIdSet", unitDispatchIdSet);
 
-        List<DispatchUnit> dispatchUnits = commonMapper.selectDispatchUnitList(unitTransfer.getUnitId());
+        List<DispatchUnit> dispatchUnits = iDispatchMapper.selectDispatchUnitList(unitTransfer.getUnitId());
         modelMap.put("dispatchUnits", dispatchUnits);
 
         return "unit/unitTransfer/unitTransfer_addDispatchs";

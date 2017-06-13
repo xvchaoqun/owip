@@ -230,7 +230,7 @@ public class MemberInService extends BaseMapper {
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
         }
 
         return memberInMapper.updateByPrimaryKeySelective(record);
@@ -263,8 +263,8 @@ public class MemberInService extends BaseMapper {
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
-            updateMapper.updateToDirectBranch("ow_member", "user_id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member", "user_id", record.getId(), record.getPartyId());
         }
 
         record.setIsModify(true);
@@ -390,7 +390,7 @@ public class MemberInService extends BaseMapper {
             }
         }
 
-        updateMapper.memberIn_back(id, status);
+        iMemberMapper.memberIn_back(id, status);
 
         MemberIn record = new MemberIn();
         record.setId(id);

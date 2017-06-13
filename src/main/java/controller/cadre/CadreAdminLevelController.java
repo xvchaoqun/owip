@@ -129,7 +129,7 @@ public class CadreAdminLevelController extends BaseController {
 
         if(relateDispatchCadres.size()==0 || StringUtils.equalsIgnoreCase(type, "edit")) {
             modelMap.put("type", "edit");
-            List<DispatchCadre> dispatchCadres = commonMapper.selectDispatchCadreList(cadreId, dispatchCadreType);
+            List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, dispatchCadreType);
             modelMap.put("dispatchCadres", dispatchCadres);
             if (StringUtils.equalsIgnoreCase(cls, "start")) { // 只有始任文件有限制
                 // 已被选

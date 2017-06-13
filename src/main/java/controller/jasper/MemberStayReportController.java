@@ -78,7 +78,7 @@ public class MemberStayReportController extends BaseController {
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         if (print) {
-            updateMapper.increasePrintCount("ow_member_stay", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
+            iMemberMapper.increasePrintCount("ow_member_stay", Arrays.asList(ids), new Date(), ShiroHelper.getCurrentUserId());
 
             logger.info("出国暂留打印 {}, {}, {}, {}, {}, {}",
                     new Object[]{loginUser.getUsername(), request.getRequestURI(),

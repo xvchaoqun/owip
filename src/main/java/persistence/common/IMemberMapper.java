@@ -1,81 +1,65 @@
 package persistence.common;
 
+import bean.MemberApplyCount;
+import domain.member.Member;
 import domain.member.MemberExample;
+import domain.member.MemberInflow;
+import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by fafa on 2016/1/5.
+ * Created by lm on 2017/6/13.
  */
-public interface UpdateMapper {
+public interface IMemberMapper {
 
-    @Update("${sql}")
-    void excuteSql(@Param("sql") String sql);
-    @Update("update train_course c, train_inspector_course ic set c.finish_count=c.finish_count-1 " +
-            "where ic.inspector_id=#{inspectorId} and ic.status=1 and c.id=ic.course_id and c.status=1 and c.finish_count>=1")
-    void abolishTrainInspector(Integer inspectorId);
+    @Select("select max(code) from ow_member_stay where left(code, 4)=#{year}")
+    String getMemberStayMaxCode(@Param("year") int year);
 
-    @Update("update train t , (select train_id, sum(IF(status=1, 1, 0)) as course_num from train_course where is_global=0 group by train_id) tc " +
-            "set t.course_num=tc.course_num where tc.train_id=t.id")
-    void update_train_courseNum();
+    // 根据账号、姓名、学工号查找 不是 党员的用户
+    List<SysUserView> selectNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    int countNotMember(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
 
-    //update train_eva_norm t1 left join (select fid, count(id) as norm_num from train_eva_norm group by fid) t2
-    //on t2.fid=t1.id set t1.norm_num=t2.norm_num
 
-    // 更新发文提交的干部任免数量
-    /*@Update("update dispatch bd, (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) bdc set bd.real_appoint_count= bdc.real_appoint_count, " +
-            "bd.real_dismiss_count=bdc.real_dismiss_count where bd.id=bdc.dispatch_id")
-    void update_dispatch_real_count();*/
-    @Update("update dispatch d left join (select dispatch_id, sum(IF(type=1, 1, 0)) as real_appoint_count, "+
-            "sum(IF(type=2, 1, 0)) as real_dismiss_count from dispatch_cadre group by dispatch_id) dc on dc.dispatch_id=d.id "+
-            "set d.real_appoint_count=dc.real_appoint_count, d.real_dismiss_count=dc.real_dismiss_count")
-    void update_dispatch_real_count();
+    List<MemberApplyCount> selectMemberApplyCount(@Param("addPermits")Boolean addPermits, @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                                  @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
-    @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
-    void globalApplyOpenTime(@Param("id") int id);
+    // 根据类别、状态、账号、姓名、学工号查找党员
+    List<Member> selectMemberList(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
+                                  @Param("addPermits")Boolean addPermits,
+                                  @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                  @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
+    int countMember(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
+                    @Param("addPermits")Boolean addPermits,
+                    @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                    @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
-    @Update("update dispatch set file=null, file_name=null where id=#{id}")
-    void del_dispatch_file(@Param("id") int id);
-    @Update("update dispatch set ppt=null, ppt_name=null where id=#{id}")
-    void del_dispatch_ppt(@Param("id") int id);
-
-    @Update("update cadre_edu set degree=null, is_high_degree=null, degree_country=null, degree_unit=null, degree_time=null where id=#{id}")
-    void del_caderEdu_hasDegree(@Param("id") int id);
-
-    @Update("update cadre_work set unit_id=null where id=#{id}")
-    void del_cadreWork_unitId(@Param("id") int id);
-
-    @Update("update cadre_post set double_unit_id=null where id=#{id}")
-    void del_cadrePost_doubleUnitId(@Param("id") int id);
-
-    // 清除退休时间
-    @Update("update sys_teacher_info set retire_time=null where user_id=#{userId}")
-    void del_retireTime(@Param("userId") int userId);
-
-    @Update("update modify_cadre_auth set start_time=null, end_time=null, is_unlimited=1 where id=#{id}")
-    void del_ModifyCadreAuth_time(@Param("id") int id);
-
-    // 如果修改成直属党支部， 则将支部ID设置为NULL
-    @Update("update ${tableName} set party_id=#{partyId}, branch_id=null where ${idName}=#{id}")
-    int updateToDirectBranch(@Param("tableName") String tableName, @Param("idName") String idName,
-                             @Param("id") int id, @Param("partyId") int partyId);
-
-    // 批量转校内组织关系
-    int changeMemberParty(@Param("partyId") Integer partyId, @Param("branchId") Integer branchId,
-                          @Param("example") MemberExample example);
-
-    int increasePrintCount(@Param("tableName") String tableName, @Param("idList") List<Integer> idList,
-                                    @Param("lastPrintTime") Date lastPrintTime,
-                                    @Param("lastPrintUserId") Integer lastPrintUserId);
+    // 根据类别、状态、账号、姓名、学工号查找流入党员
+    List<MemberInflow> selectMemberInflowList(@Param("type")Byte type,
+                                              @Param("inflowStatus")Byte inflowStatus,
+                                              @Param("hasOutApply")Boolean hasOutApply, // 是否已经提交申请
+                                              @Param("search") String search,
+                                              @Param("addPermits")Boolean addPermits,
+                                              @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                                              @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
+    int countMemberInflow(@Param("type")Byte type,
+                          @Param("inflowStatus")Byte inflowStatus,
+                          @Param("hasOutApply")Boolean hasOutApply,
+                          @Param("search") String search,
+                          @Param("addPermits")Boolean addPermits,
+                          @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+                          @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
     // 入党申请打回至状态
     //====================start
 
-    @Update("update ow_member_apply set stage="+SystemConstants.APPLY_STAGE_GROW
+    @Update("update ow_member_apply set stage="+ SystemConstants.APPLY_STAGE_GROW
             +", positive_status=null, positive_time=null " +
             "where user_id=#{userId} and stage="+ SystemConstants.APPLY_STAGE_POSITIVE)
     int memberApplyBackToGrow(@Param("userId") int userId);
@@ -112,6 +96,28 @@ public interface UpdateMapper {
             +" where user_id=#{userId} and stage<="+ SystemConstants.APPLY_STAGE_DRAW
             + " and stage>"+SystemConstants.APPLY_STAGE_INIT)
     void memberApplyBackToInit(@Param("userId") int userId);
+
+
+    // 批量转校内组织关系
+    int changeMemberParty(@Param("partyId") Integer partyId, @Param("branchId") Integer branchId,
+                          @Param("example") MemberExample example);
+
+    int increasePrintCount(@Param("tableName") String tableName, @Param("idList") List<Integer> idList,
+                           @Param("lastPrintTime") Date lastPrintTime,
+                           @Param("lastPrintUserId") Integer lastPrintUserId);
+
+    // 如果修改成直属党支部， 则将支部ID设置为NULL
+    @Update("update ${tableName} set party_id=#{partyId}, branch_id=null where ${idName}=#{id}")
+    int updateToDirectBranch(@Param("tableName") String tableName, @Param("idName") String idName,
+                             @Param("id") int id, @Param("partyId") int partyId);
+
+    // 支部整建转移之后，需要修改关联表的支部所属分党委id
+    @Update("update ${tableName} tmp, ow_branch ob set tmp.party_id=ob.party_id where ob.id in (${brachIds}) and tmp.branch_id=ob.id")
+    void batchTransfer(@Param("tableName") String tableName, @Param("brachIds") String brachIds);
+    // 单独用于校内转接
+    @Update("update ow_member_transfer tmp, ow_branch ob set tmp.to_party_id=ob.party_id where ob.id in (${brachIds}) and tmp.to_branch_id=ob.id")
+    void batchTransfer2(@Param("brachIds") String brachIds);
+
     // 入党申请打回至状态
     //====================end
 
@@ -171,24 +177,14 @@ public interface UpdateMapper {
     // 清空是否打回状态
     @Update("update ${tableName} set ${isBackName}=#{isBack} where ${idName}=#{id}")
     int resetIsBack(@Param("tableName") String tableName,
-                            @Param("isBackName") String isBackName, @Param("isBack") Boolean isBack,
-                            @Param("idName") String idName, @Param("id") int id);
+                    @Param("isBackName") String isBackName, @Param("isBack") Boolean isBack,
+                    @Param("idName") String idName, @Param("id") int id);
 
-    // 领取证件：重置归还状态为 “未归还”
-    @Update("update abroad_passport_draw apd, abroad_passport p set p.is_lent=1, apd.draw_status="+SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW
-            +" , apd.use_record=null, apd.attachment_filename=null,apd.attachment=null, apd.real_start_date=null, apd.real_end_date=null," +
-            "apd.real_to_country=null, apd.return_remark=null," +
-            "apd.use_passport=null, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")
-    int resetReturnPassport(@Param("id") int id);
+    // 清除退休时间
+    @Update("update sys_teacher_info set retire_time=null where user_id=#{userId}")
+    void del_retireTime(@Param("userId") int userId);
 
-    // 支部整建转移之后，需要修改关联表的支部所属分党委id
-    @Update("update ${tableName} tmp, ow_branch ob set tmp.party_id=ob.party_id where ob.id in (${brachIds}) and tmp.branch_id=ob.id")
-    void batchTransfer(@Param("tableName") String tableName, @Param("brachIds") String brachIds);
-    // 单独用于校内转接
-    @Update("update ow_member_transfer tmp, ow_branch ob set tmp.to_party_id=ob.party_id where ob.id in (${brachIds}) and tmp.to_branch_id=ob.id")
-    void batchTransfer2(@Param("brachIds") String brachIds);
-    // 更新支部转移次数
-    @Update("update ow_branch ob , (select branch_id, count(*) num from ow_branch_transfer_log " +
-            "where branch_id in(${brachIds}) group by branch_id) tmp set ob.transfer_count=tmp.num where ob.id=tmp.branch_id")
-    void updateBranchTransferCount(@Param("brachIds") String brachIds);
+
+    @Update("update ow_apply_open_time set party_id=null, branch_id=null where id=#{id}")
+    void globalApplyOpenTime(@Param("id") int id);
 }

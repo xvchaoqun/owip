@@ -383,7 +383,7 @@ public class StatTrainService extends BaseMapper {
 
         Map<String, Object> resultMap = new HashMap<>();
 
-        List<StatTrainBean> statTrainBeans = statTrainMapper.stat(trainId);
+        List<StatTrainBean> statTrainBeans = iTrainMapper.stat(trainId);
 
         // 课程总分列表 <courseId, score>
         Map<Integer, Double> courseScoreMap = new LinkedHashMap<>();

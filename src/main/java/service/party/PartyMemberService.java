@@ -213,18 +213,18 @@ public class PartyMemberService extends BaseMapper {
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId) {
         if (userId == null || partyId == null) return false;
-        return commonMapper.isPartyAdmin(userId, partyId) > 0;
+        return iPartyMapper.isPartyAdmin(userId, partyId) > 0;
     }
 
     // 删除分党委管理员
     @Transactional
     public void delAdmin(int userId, int partyId) {
 
-        List<PartyMember> partyMembers = commonMapper.findPartyAdminOfPartyMember(userId, partyId);
+        List<PartyMember> partyMembers = iPartyMapper.findPartyAdminOfPartyMember(userId, partyId);
         for (PartyMember partyMember : partyMembers) { // 理论上只有一个
             partyMemberAdminService.toggleAdmin(partyMember);
         }
-        List<OrgAdmin> orgAdmins = commonMapper.findPartyAdminOfOrgAdmin(userId, partyId);
+        List<OrgAdmin> orgAdmins = iPartyMapper.findPartyAdminOfOrgAdmin(userId, partyId);
         for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
             orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
         }

@@ -952,6 +952,76 @@ public class CisInspectObjViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andLogFileIsNull() {
+            addCriterion("log_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileIsNotNull() {
+            addCriterion("log_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileEqualTo(String value) {
+            addCriterion("log_file =", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileNotEqualTo(String value) {
+            addCriterion("log_file <>", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileGreaterThan(String value) {
+            addCriterion("log_file >", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileGreaterThanOrEqualTo(String value) {
+            addCriterion("log_file >=", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileLessThan(String value) {
+            addCriterion("log_file <", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileLessThanOrEqualTo(String value) {
+            addCriterion("log_file <=", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileLike(String value) {
+            addCriterion("log_file like", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileNotLike(String value) {
+            addCriterion("log_file not like", value, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileIn(List<String> values) {
+            addCriterion("log_file in", values, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileNotIn(List<String> values) {
+            addCriterion("log_file not in", values, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileBetween(String value1, String value2) {
+            addCriterion("log_file between", value1, value2, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogFileNotBetween(String value1, String value2) {
+            addCriterion("log_file not between", value1, value2, "logFile");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

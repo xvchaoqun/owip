@@ -158,12 +158,12 @@ public class ApplicatTypeController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = selectMapper.countApprovalOrders(id);
+        int count = iAbroadMapper.countApprovalOrders(id);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ApprovalOrder> approvalOrders = selectMapper.selectApprovalOrderList(id,
+        List<ApprovalOrder> approvalOrders = iAbroadMapper.selectApprovalOrderList(id,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("approvalOrders", approvalOrders);
 

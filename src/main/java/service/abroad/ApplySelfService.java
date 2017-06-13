@@ -110,7 +110,7 @@ public class ApplySelfService extends BaseMapper {
 
                 List<SysUserView> users = new ArrayList<SysUserView>();
                 MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-                List<CadreLeader> managerUnitLeaders = selectMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
+                List<CadreLeader> managerUnitLeaders = iCadreMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
                 for (CadreLeader managerUnitLeader : managerUnitLeaders) {
                     CadreView _cadre = managerUnitLeader.getCadre();
                     if ((_cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
@@ -382,19 +382,19 @@ public class ApplySelfService extends BaseMapper {
                     _applyDate==null?null:_applyDate.getStart(), _applyDate==null?null:_applyDate.getEnd());
 
             if (status == 0)
-                count = selectMapper.countNotApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap);
+                count = iAbroadMapper.countNotApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap);
             if (status == 1)
-                count = selectMapper.countHasApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
+                count = iAbroadMapper.countHasApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
 
             if ((pageNo - 1) * pageSize >= count) {
                 pageNo = Math.max(1, pageNo - 1);
             }
 
             if (status == 0)
-                applySelfs = selectMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap,
+                applySelfs = iAbroadMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
             if (status == 1)
-                applySelfs = selectMapper.selectHasApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
+                applySelfs = iAbroadMapper.selectHasApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         }
@@ -761,7 +761,7 @@ public class ApplySelfService extends BaseMapper {
                 || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId())==null) { // 必须是现任干部，且不在黑名单
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-            unitIds = selectMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
+            unitIds = iCadreMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
         }
         return unitIds;
     }
@@ -772,7 +772,7 @@ public class ApplySelfService extends BaseMapper {
         List<Integer> postIds = new ArrayList<>();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (cadre != null) {
-            postIds = selectMapper.getApprovalPostIds_approverTypeId(cadre.getId(), approverTypeId);
+            postIds = iAbroadMapper.getApprovalPostIds_approverTypeId(cadre.getId(), approverTypeId);
         }
         return postIds;
     }
@@ -805,7 +805,7 @@ public class ApplySelfService extends BaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (cadre != null) {
             // 其他审批人身份的干部，查找他需要审批的干部
-            List<Integer> approvalCadreIds = selectMapper.getApprovalCadreIds(cadre.getId());
+            List<Integer> approvalCadreIds = iAbroadMapper.getApprovalCadreIds(cadre.getId());
             cadreIdSet.addAll(approvalCadreIds);
         }
 
@@ -852,7 +852,7 @@ public class ApplySelfService extends BaseMapper {
 
             //分管校领导
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
-            List<Integer> unitIdList = selectMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
+            List<Integer> unitIdList = iAbroadMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
             Set<Integer> unitIds = new HashSet<>();
             unitIds.addAll(unitIdList);
 
@@ -860,7 +860,7 @@ public class ApplySelfService extends BaseMapper {
         }else{
             Set<Integer> cadreIdSet = new HashSet<>();
             // 其他审批人身份 的所在单位 给定一个干部id，查找他需要审批的干部
-            List<Integer> approvalCadreIds = selectMapper.getApprovalCadreIds_approverTypeId(cadre.getId(), approvalTypeId);
+            List<Integer> approvalCadreIds = iAbroadMapper.getApprovalCadreIds_approverTypeId(cadre.getId(), approvalTypeId);
             cadreIdSet.addAll(approvalCadreIds);
 
             return cadreIdSet.contains(targetCadreId);

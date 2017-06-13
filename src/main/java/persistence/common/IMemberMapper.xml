@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.IMemberMapper" >
+
+  <sql id="member_selects_permits">
+    <if test="addPermits">
+      <if test="adminPartyIdList.size>0 and adminBranchIdList.size>0">
+        and (
+        party_id in
+        <foreach collection="adminPartyIdList" item="partyId"
+                 index="index" open="(" close=")" separator=",">
+          #{partyId}
+        </foreach>
+        or
+        branch_id in
+        <foreach collection="adminBranchIdList" item="branchId"
+                 index="index" open="(" close=")" separator=",">
+          #{branchId}
+        </foreach>
+        )
+      </if>
+      <if test="adminPartyIdList.size>0 and adminBranchIdList.size==0">
+        and party_id in
+        <foreach collection="adminPartyIdList" item="partyId"
+                 index="index" open="(" close=")" separator=",">
+          #{partyId}
+        </foreach>
+      </if>
+      <if test="adminPartyIdList.size==0 and adminBranchIdList.size>0">
+        and  branch_id in
+        <foreach collection="adminBranchIdList" item="branchId"
+                 index="index" open="(" close=")" separator=",">
+          #{branchId}
+        </foreach>
+      </if>
+    <if test="adminPartyIdList.size==0 and adminBranchIdList.size==0">
+        and m.user_id is null
+      </if>
+    </if>
+  </sql>
+  <select id="selectMemberList" resultMap="persistence.member.MemberMapper.BaseResultMap" parameterType="map" >
+    select m.* from ow_member m, sys_user_view user where m.user_id= user.id
+    <if test="type!=null">
+      and m.type =#{type}
+    </if>
+    <if test="status!=null">
+      and m.status =#{status}
+    </if>
+    <include refid="member_selects_permits" />
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    order by m.grow_time desc
+  </select>
+  <select id="countMember" parameterType="map" resultType="java.lang.Integer" >
+    select count(m.user_id) from ow_member m, sys_user_view user where m.user_id= user.id
+    <if test="type!=null">
+      and m.type =#{type}
+    </if>
+    <if test="status!=null">
+      and m.status =#{status}
+    </if>
+    <include refid="member_selects_permits" />
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+  </select>
+
+  <select id="selectMemberInflowList" resultMap="persistence.member.MemberInflowMapper.BaseResultMap" parameterType="map" >
+    select m.* from ow_member_inflow m, sys_user_view user where m.user_id= user.id
+    <if test="type!=null">
+      and m.type =#{type}
+    </if>
+    <if test="inflowStatus!=null">
+      and m.inflow_status =#{inflowStatus}
+    </if>
+    <if test="hasOutApply!=null">
+      <if test="hasOutApply">
+        and m.out_status in(0,1,2)
+      </if>
+      <if test="!hasOutApply">
+        and (m.out_status is null or m.out_status=-1)
+      </if>
+    </if>
+    <include refid="member_selects_permits" />
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    order by m.flow_time desc
+  </select>
+  <select id="countMemberInflow" parameterType="map" resultType="java.lang.Integer" >
+    select count(m.user_id) from ow_member_inflow m, sys_user_view user where m.user_id= user.id
+    <if test="type!=null">
+      and m.type =#{type}
+    </if>
+    <if test="inflowStatus!=null">
+      and m.inflow_status =#{inflowStatus}
+    </if>
+    <if test="hasOutApply!=null">
+      <if test="hasOutApply">
+        and m.out_status in(0,1,2)
+      </if>
+      <if test="!hasOutApply">
+        and (m.out_status is null or m.out_status=-1)
+      </if>
+    </if>
+    <include refid="member_selects_permits" />
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+  </select>
+
+  <select  id="selectMemberApplyCount" parameterType="map" resultType="bean.MemberApplyCount" >
+    select type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0
+    <include refid="member_selects_permits" />
+    group by type, stage
+  </select>
+
+  <select id="selectNotMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map" >
+    select user.* from sys_user_view user where user.id not in(select user_id from ow_member where status=1)
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    and user.role_ids not like "%${regRoleStr}%"
+    order by create_time desc
+  </select>
+  <select id="countNotMember" parameterType="map" resultType="java.lang.Integer" >
+    select count(user.id) from sys_user_view user where user.id not in(select user_id from ow_member  where status=1)
+    <if test="search != null" >
+      and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    </if>
+    and user.role_ids not like "%${regRoleStr}%"
+  </select>
+
+  <update id="changeMemberParty" parameterType="map" >
+    update ow_member
+    set
+    party_id = #{partyId,jdbcType=INTEGER},
+    branch_id = #{branchId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="persistence.member.MemberMapper.Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="increasePrintCount" parameterType="map" >
+    update ${tableName}
+    set
+    print_count = print_count + 1,
+    last_print_time = #{lastPrintTime},
+    last_print_user_id = #{lastPrintUserId}
+    where id in
+    <foreach collection="idList" item="_id"
+             index="index" open="(" close=")" separator=",">
+      #{_id}
+    </foreach>
+  </update>
+</mapper>

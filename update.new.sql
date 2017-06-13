@@ -1,6 +1,10 @@
 
 
 
+ALTER TABLE `cis_inspect_obj`
+	ADD COLUMN `log_file` VARCHAR(255) NULL COMMENT '考察原始记录' AFTER `summary`;
+
+
 
 2017-06-10
 update ow_member_stay set out_address=REPLACE(REPLACE(out_address, CHAR(10), ' '), CHAR(13), ' ');

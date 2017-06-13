@@ -62,7 +62,7 @@ public class ModifyTableApplyService extends BaseMapper {
         // 删除对应表中的数据
         String sql = "delete from " + mta.getTableName() + " where id=" + mta.getModifyId()
                 + " and status=" + SystemConstants.RECORD_STATUS_MODIFY;
-        updateMapper.excuteSql(sql);
+        commonMapper.excuteSql(sql);
 
         ModifyTableApplyExample example = new ModifyTableApplyExample();
         example.createCriteria().andIdEqualTo(id)

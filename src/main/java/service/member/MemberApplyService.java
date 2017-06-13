@@ -76,8 +76,8 @@ public class MemberApplyService extends BaseMapper {
 
             }else if(memberApply.getStage()!=SystemConstants.APPLY_STAGE_GROW){
 
-                updateMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
-                updateMapper.memberApplyBackToGrow(userId);
+                commonMapper.excuteSql("update ow_member set positive_time=null where user_id=" + userId);
+                iMemberMapper.memberApplyBackToGrow(userId);
             }
 
             applyApprovalLogService.add(userId,
@@ -254,7 +254,7 @@ public class MemberApplyService extends BaseMapper {
             if(partyId!=null && branchId==null){
                 // 修改为直属党支部
                 Assert.isTrue(partyService.isDirectBranch(partyId), "not direct branch");
-                updateMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, partyId);
+                iMemberMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, partyId);
             }
 
             applyApprovalLogService.add(_memberApply.getUserId(),
@@ -308,7 +308,7 @@ public class MemberApplyService extends BaseMapper {
                 if(record.getBranchId()==null){
                     // 修改为直属党支部
                     Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-                    updateMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, record.getPartyId());
+                    iMemberMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, record.getPartyId());
                 }
 
                 if (memberApply.getStage()==SystemConstants.APPLY_STAGE_GROW
@@ -546,9 +546,9 @@ public class MemberApplyService extends BaseMapper {
 
         switch (stage){
             case SystemConstants.APPLY_STAGE_GROW: // 正式党员打回至预备党员
-                if(updateMapper.memberApplyBackToGrow(userId)==1) {
+                if(iMemberMapper.memberApplyBackToGrow(userId)==1) {
 
-                    updateMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
+                    commonMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
                     Member record = new Member();
                     record.setUserId(userId);
                     record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW);
@@ -556,16 +556,16 @@ public class MemberApplyService extends BaseMapper {
                 }
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= SystemConstants.APPLY_STAGE_DRAW)
-                updateMapper.memberApplyBackToPlan(userId);
+                iMemberMapper.memberApplyBackToPlan(userId);
                 break;
             case SystemConstants.APPLY_STAGE_CANDIDATE:
-                updateMapper.memberApplyBackToCandidate(userId);
+                iMemberMapper.memberApplyBackToCandidate(userId);
                 break;
             case SystemConstants.APPLY_STAGE_ACTIVE:
-                updateMapper.memberApplyBackToActive(userId);
+                iMemberMapper.memberApplyBackToActive(userId);
                 break;
             case SystemConstants.APPLY_STAGE_INIT:
-                updateMapper.memberApplyBackToInit(userId);
+                iMemberMapper.memberApplyBackToInit(userId);
                 break;
         }
     }

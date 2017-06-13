@@ -16,16 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -117,7 +120,7 @@ public class CisInspectObjController extends BaseController {
             }
         }
 
-        int count = cisInspectObjViewMapper.countByExample(example);
+        long count = cisInspectObjViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -141,12 +144,34 @@ public class CisInspectObjController extends BaseController {
     @RequestMapping(value = "/cisInspectObj_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cisInspectObj_au(CisInspectObj record,
-                                   String _inspectDate,
+                                   MultipartFile _logFile,
                                    HttpServletRequest request) {
 
         Integer id = record.getId();
-        if (StringUtils.isNotBlank(_inspectDate)) {
-            record.setInspectDate(DateUtils.parseDate(_inspectDate, DateUtils.YYYY_MM_DD));
+
+        if (_logFile != null) {
+            String ext = FileUtils.getExtention(_logFile.getOriginalFilename());
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                throw new RuntimeException("文件格式错误，请上传pdf文件");
+            }
+
+            String fileName = UUID.randomUUID().toString();
+            String realPath = FILE_SEPARATOR
+                    + "cis" + FILE_SEPARATOR
+                    + DateUtils.formatDate(new Date(), "yyyyMM") + FILE_SEPARATOR
+                    + fileName;
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_logFile, new File(springProps.uploadPath + savePath));
+
+            try {
+                String swfPath = realPath + ".swf";
+                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+            } catch (IOException | InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            record.setLogFile(savePath);
         }
 
         if (id == null) {

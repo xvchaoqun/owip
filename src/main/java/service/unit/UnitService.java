@@ -46,13 +46,13 @@ public class UnitService extends BaseMapper {
     // 查找正在运转单位
     public List<Unit> findRunUnits(int unitId){
 
-        return commonUnitMapper.findRunUnits(unitId);
+        return iUnitMapper.findRunUnits(unitId);
 
     }
     // 查找历史单位
     public List<Unit> findHistoryUnits(int unitId){
 
-        return commonUnitMapper.findHistoryUnits(unitId);
+        return iUnitMapper.findHistoryUnits(unitId);
     }
 
     public TreeNode getTree(byte status, Set<Integer> unSelectIdSet){

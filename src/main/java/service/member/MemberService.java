@@ -245,7 +245,7 @@ public class MemberService extends BaseMapper {
             }
         }
 
-        updateMapper.changeMemberParty(partyId, branchId, example);
+        iMemberMapper.changeMemberParty(partyId, branchId, example);
 
         for(int userId:userIds){ // 更新入党申请的预备党员
             memberApplyService.updateWhenModifyMember(userId, partyId, branchId);
@@ -321,7 +321,7 @@ public class MemberService extends BaseMapper {
         if(record.getPartyId()!=null && record.getBranchId()==null){
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
-            updateMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
         }
         if(record.getPartyId()!=null){
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());

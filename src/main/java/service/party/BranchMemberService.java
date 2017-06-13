@@ -55,7 +55,7 @@ public class BranchMemberService extends BaseMapper {
             boolean isAdmin = partyMemberService.isPresentAdmin(userId, partyId);
             return directBranch && isAdmin;
         }else { // 支部管理员
-            return commonMapper.isBranchAdmin(userId, branchId) > 0;
+            return iPartyMapper.isBranchAdmin(userId, branchId) > 0;
         }
     }
 
@@ -66,11 +66,11 @@ public class BranchMemberService extends BaseMapper {
         Branch branch = branchMapper.selectByPrimaryKey(branchId);
         checkAuth(branch.getPartyId());
 
-        List<BranchMember> branchMembers = commonMapper.findBranchAdminOfBranchMember(userId, branchId);
+        List<BranchMember> branchMembers = iPartyMapper.findBranchAdminOfBranchMember(userId, branchId);
         for (BranchMember branchMember : branchMembers) { // 理论上只有一个
             branchMemberAdminService.toggleAdmin(branchMember);
         }
-        List<OrgAdmin> orgAdmins = commonMapper.findBranchAdminOfOrgAdmin(userId, branchId);
+        List<OrgAdmin> orgAdmins = iPartyMapper.findBranchAdminOfOrgAdmin(userId, branchId);
         for (OrgAdmin orgAdmin : orgAdmins) { // 理论上只有一个
             orgAdminService.del(orgAdmin.getId(), orgAdmin.getUserId());
         }

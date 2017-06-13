@@ -42,7 +42,7 @@ public class SysResourceService extends BaseMapper{
 	public int updateByPrimaryKeySelective(SysResource record){
 
 		if(StringUtils.isBlank(record.getCountCacheKeys())){
-			updateMapper.excuteSql("update sys_resource set count_cache_keys=null where id="+ record.getId());
+			commonMapper.excuteSql("update sys_resource set count_cache_keys=null where id="+ record.getId());
 		}
 
 		return  sysResourceMapper.updateByPrimaryKeySelective(record);
