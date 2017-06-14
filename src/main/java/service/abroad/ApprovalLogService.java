@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.utils.ContextHelper;
 import service.base.ShortMsgService;
+import service.sys.SysApprovalLogService;
 import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class ApprovalLogService extends BaseMapper {
     private ApplySelfService applySelfService;
     @Autowired
     private ShortMsgService shortMsgService;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     // 获取申请记录 初审结果  审批结果: -1不需要审批 0未通过 1通过 null未审批
     public Integer getAdminFirstTrialStatus(int applyId){
@@ -81,6 +84,13 @@ public class ApprovalLogService extends BaseMapper {
         // 先完成审批记录，再更新申请记录审批字段
         insertSelective(record);
 
+        ApplySelf _applySelf = applySelfMapper.selectByPrimaryKey(record.getApplyId());
+        sysApprovalLogService.add(_applySelf.getId(), _applySelf.getUser().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
+                "审批", record.getStatus() ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
+                        : SystemConstants.SYS_APPROVAL_LOG_STATUS_DENY, record.getRemark());
+
         Integer applyId = record.getApplyId();
         Integer nextFlowNode = null; // 下一个审批身份
         List<Integer> flowNodes = new ArrayList<>(); // 已审批身份类型,（按顺序排序，逗号分隔）
@@ -107,7 +117,7 @@ public class ApprovalLogService extends BaseMapper {
         ApplySelf applySelf = new ApplySelf();
         applySelf.setId(applyId);
         applySelf.setFlowNode(nextFlowNode); // 下一个审批身份
-
+        applySelf.setApprovalRemark(record.getRemark());
         if(!record.getStatus()) // 如果上一个领导未通过，应该下面的领导都不需要审批了，直接转到组织部终审。
             applySelf.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_LAST);
 

@@ -1032,6 +1032,76 @@ public class ApplySelfExample {
             return (Criteria) this;
         }
 
+        public Criteria andApprovalRemarkIsNull() {
+            addCriterion("approval_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkIsNotNull() {
+            addCriterion("approval_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkEqualTo(String value) {
+            addCriterion("approval_remark =", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkNotEqualTo(String value) {
+            addCriterion("approval_remark <>", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkGreaterThan(String value) {
+            addCriterion("approval_remark >", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("approval_remark >=", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkLessThan(String value) {
+            addCriterion("approval_remark <", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkLessThanOrEqualTo(String value) {
+            addCriterion("approval_remark <=", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkLike(String value) {
+            addCriterion("approval_remark like", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkNotLike(String value) {
+            addCriterion("approval_remark not like", value, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkIn(List<String> values) {
+            addCriterion("approval_remark in", values, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkNotIn(List<String> values) {
+            addCriterion("approval_remark not in", values, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkBetween(String value1, String value2) {
+            addCriterion("approval_remark between", value1, value2, "approvalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalRemarkNotBetween(String value1, String value2) {
+            addCriterion("approval_remark not between", value1, value2, "approvalRemark");
+            return (Criteria) this;
+        }
+
         public Criteria andIsFinishIsNull() {
             addCriterion("is_finish is null");
             return (Criteria) this;

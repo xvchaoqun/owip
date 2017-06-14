@@ -68,6 +68,13 @@
                                     class="jqOpenViewBtn btn btn-warning btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>--%>
+                            <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                    data-url="${ctx}/sysApprovalLog"
+                                    data-querystr="&type=${SYS_APPROVAL_LOG_TYPE_APPLYSELF}"
+                                    data-open-by="page">
+                                <i class="fa fa-check-circle-o"></i> 查看操作记录
+                            </button>
+
                             <a class="jqExportBtn btn btn-info btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）">
                                 <i class="fa fa-download"></i> 导出</a>

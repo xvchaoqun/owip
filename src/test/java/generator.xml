@@ -60,7 +60,7 @@
       </table>-->
       <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
       </table>-->
-     <!-- <table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf" mapperName="abroad.ApplySelfMapper">
+    <!--  <table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf" mapperName="abroad.ApplySelfMapper">
       </table>-->
      <!-- <table tableName="abroad_apply_self_modify" domainObjectName="abroad.ApplySelfModify">
       </table>-->
@@ -339,12 +339,12 @@
      <!-- <table tableName="cis_inspect_obj" domainObjectName="cis.CisInspectObj" mapperName="cis.CisInspectObjMapper">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView" mapperName="cis.CisInspectObjViewMapper"
+     <!-- <table tableName="cis_inspect_obj_view" domainObjectName="cis.CisInspectObjView" mapperName="cis.CisInspectObjViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
       <!--<table tableName="cis_obj_inspector" domainObjectName="cis.CisObjInspector">
       </table>
       <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
@@ -415,7 +415,8 @@
 
       -->
 
-
+      <table tableName="sys_approval_log" domainObjectName="sys.SysApprovalLog" mapperName="sys.SysApprovalLogMapper">
+      </table>
     <!--<table tableName="sys_log" domainObjectName="sys.SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->

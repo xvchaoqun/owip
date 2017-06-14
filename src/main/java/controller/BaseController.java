@@ -302,6 +302,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected StudentInfoService studentService;
     @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
+    @Autowired
     protected SysUserSyncService sysUserSyncService;
     @Autowired
     protected LocationService locationService;

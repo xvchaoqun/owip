@@ -208,12 +208,13 @@ public class UserApplySelfController extends BaseController {
                                @RequestParam(value = "_files[]") MultipartFile[] _files,
                                HttpServletRequest request) {
 
-
-
+        // 是否本人操作
+        boolean self = false;
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
+            self = true;
         }
         CadreView cadre = cadreService.findAll().get(cadreId);
 
@@ -262,6 +263,11 @@ public class UserApplySelfController extends BaseController {
             // 给干部管理员发短信提醒
             shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
+            sysApprovalLogService.add(record.getId(), cadre.getUserId(),
+                    self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
+                    "添加因私出国申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    JSONUtils.toString(record, false));
         }else{
 
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
@@ -281,6 +287,12 @@ public class UserApplySelfController extends BaseController {
 
             applySelfService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+
+            sysApprovalLogService.add(record.getId(), cadre.getUserId(),
+                    self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
+                    "修改因私出国申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    JSONUtils.toString(applySelf, false));
         }
         Integer applyId = record.getId();
         for (ApplySelfFile applySelfFile : applySelfFiles) {

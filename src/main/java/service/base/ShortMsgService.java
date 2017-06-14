@@ -289,19 +289,26 @@ public class ShortMsgService extends BaseMapper {
             String key = SystemConstants.CONTENT_TPL_APPLYSELF_PASS;
             Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
             ApprovalResult lastVal = approvalResultMap.get(0);
-            boolean status = (lastVal.getValue()!=null && lastVal.getValue()==1);
-            if(!status)
-                key = SystemConstants.CONTENT_TPL_APPLYSELF_UNPASS;
-            ContentTpl tpl = getShortMsgTpl(key);
-            bean.setType(tpl.getName());
 
             SysUserView uv = applySelf.getUser();
             bean.setReceiver(uv.getId()); // 覆盖
             String msgTitle = userBeanService.getMsgTitle(uv.getId());
             String mobile = userBeanService.getMsgMobile(uv.getId());
 
-            String msg = MessageFormat.format(tpl.getContent(), msgTitle);
-            bean.setContent(msg);
+            boolean status = (lastVal.getValue()!=null && lastVal.getValue()==1);
+            if(status) {
+                ContentTpl tpl = getShortMsgTpl(key);
+                bean.setType(tpl.getName());
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle);
+                bean.setContent(msg);
+            }else{
+                key = SystemConstants.CONTENT_TPL_APPLYSELF_UNPASS;
+                ContentTpl tpl = getShortMsgTpl(key);
+                bean.setType(tpl.getName());
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle, applySelf.getApprovalRemark());
+                bean.setContent(msg);
+            }
+
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportApplyPass")){
 
@@ -316,7 +323,8 @@ public class ShortMsgService extends BaseMapper {
             String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportApply.getPassportClass();
-            String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
+            String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                    passportClass.getName(), DateUtils.formatDate(passportApply.getExpectDate(), DateUtils.YYYY_MM_DD_CHINA));
             bean.setContent(msg);
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportApplyUnPass")){

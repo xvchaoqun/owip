@@ -1503,4 +1503,42 @@ public class SystemConstants {
         CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_OTHER, "其他事务-领取证件");
         CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国-领取证件");
     }
+
+    // 审批记录类型
+    public final static byte SYS_APPROVAL_LOG_TYPE_APPLYSELF = 1; // 因私出国
+
+    public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国");
+
+    }
+
+    // 操作人类别, 0本人 1 干部管理员 2 因私审批人员
+    public final static byte SYS_APPROVAL_LOG_USER_TYPE_SELF = 0; // 本人
+    public final static byte SYS_APPROVAL_LOG_USER_TYPE_CADRE = 1; // 干部管理员
+    public final static byte SYS_APPROVAL_LOG_USER_TYPE_APPLYSELF = 2; // 因私审批人员
+    public final static byte SYS_APPROVAL_LOG_USER_TYPE_ADMIN = 10;// 后台操作
+    public final static Map<Byte, String> SYS_APPROVAL_LOG_USER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_SELF, "本人");
+        SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_CADRE, "干部管理员");
+        SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_APPLYSELF, "因私审批人员");
+        SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_ADMIN, "后台操作");
+    }
+
+    // 党员各类申请的审批结果
+    public final static byte SYS_APPROVAL_LOG_STATUS_DENY = 0;
+    public final static byte SYS_APPROVAL_LOG_STATUS_PASS = 1;
+    public final static byte SYS_APPROVAL_LOG_STATUS_BACK = 2;
+    public final static byte SYS_APPROVAL_LOG_STATUS_NONEED = 3; // 直接通过，不需要审核
+    public final static Map<Byte, String> SYS_APPROVAL_LOG_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        SYS_APPROVAL_LOG_STATUS_MAP.put(SYS_APPROVAL_LOG_STATUS_DENY, "不通过");
+        SYS_APPROVAL_LOG_STATUS_MAP.put(SYS_APPROVAL_LOG_STATUS_PASS, "通过");
+        SYS_APPROVAL_LOG_STATUS_MAP.put(SYS_APPROVAL_LOG_STATUS_BACK, "打回");
+        SYS_APPROVAL_LOG_STATUS_MAP.put(SYS_APPROVAL_LOG_STATUS_NONEED, "-");
+    }
 }

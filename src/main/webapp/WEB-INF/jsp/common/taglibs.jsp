@@ -426,3 +426,7 @@
 <c:set var="APPROVER_TYPE_LEADER" value="<%=SystemConstants.APPROVER_TYPE_LEADER%>"/>
 <c:set var="APPROVER_TYPE_MAP" value="<%=SystemConstants.APPROVER_TYPE_MAP%>"/>
 
+<c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
+<c:set var="SYS_APPROVAL_LOG_TYPE_APPLYSELF" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF%>"/>
+
+<c:set var="SYS_APPROVAL_LOG_STATUS_BACK" value="<%=SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK%>"/>

@@ -1,6 +1,11 @@
 
 
+2017-06-14
+ALTER TABLE `abroad_apply_self`
+	ADD COLUMN `approval_remark` VARCHAR(200) NULL COMMENT '审批意见，记录最新审批意见' AFTER `status`;
 
+
+2017-06-13
 ALTER TABLE `cis_inspect_obj`
 	ADD COLUMN `log_file` VARCHAR(255) NULL COMMENT '考察原始记录' AFTER `summary`;
 

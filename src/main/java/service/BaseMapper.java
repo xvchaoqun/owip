@@ -375,6 +375,8 @@ public class BaseMapper {
     protected ModifyTableApplyMapper modifyTableApplyMapper;
 
     @Autowired
+    protected SysApprovalLogMapper sysApprovalLogMapper;
+    @Autowired
     protected SysUserSyncMapper sysUserSyncMapper;
     @Autowired
     protected SysLogMapper sysLogMapper;

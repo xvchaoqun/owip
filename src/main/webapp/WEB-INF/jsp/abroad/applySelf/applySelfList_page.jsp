@@ -20,7 +20,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div id="home4" class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==1}">
                                 <button id="detailBtn" data-url="${ctx}/applySelf_view"
@@ -163,6 +163,11 @@
             $("#detailBtn").click();
         },
         colModel: [
+            {
+                label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return "S{0}".format(rowObject.id);
+            }, frozen: true
+            },
             {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '工作证号', align: 'center', name: 'user.code', width: 100, frozen: true},
             {label: '姓名', align: 'center', name: 'user.realname', width: 75, frozen: true},

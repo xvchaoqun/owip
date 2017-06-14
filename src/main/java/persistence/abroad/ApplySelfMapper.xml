@@ -16,6 +16,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="status" jdbcType="BIT" property="status" />
+    <result column="approval_remark" jdbcType="VARCHAR" property="approvalRemark" />
     <result column="is_finish" jdbcType="BIT" property="isFinish" />
     <result column="flow_node" jdbcType="INTEGER" property="flowNode" />
     <result column="flow_nodes" jdbcType="VARCHAR" property="flowNodes" />
@@ -85,8 +86,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, cadre_id, apply_date, type, start_date, end_date, to_country, reason, peer_staff, 
-    cost_source, need_passports, create_time, ip, status, is_finish, flow_node, flow_nodes, 
-    flow_users, is_agreed, is_modify, is_deleted, remark
+    cost_source, need_passports, create_time, ip, status, approval_remark, is_finish, 
+    flow_node, flow_nodes, flow_users, is_agreed, is_modify, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.abroad.ApplySelfExample" resultMap="BaseResultMap">
     select
@@ -123,18 +124,18 @@
       type, start_date, end_date, 
       to_country, reason, peer_staff, 
       cost_source, need_passports, create_time, 
-      ip, status, is_finish, flow_node, 
-      flow_nodes, flow_users, is_agreed, 
-      is_modify, is_deleted, remark
-      )
+      ip, status, approval_remark, 
+      is_finish, flow_node, flow_nodes, 
+      flow_users, is_agreed, is_modify, 
+      is_deleted, remark)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, 
       #{type,jdbcType=TINYINT}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{toCountry,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, 
       #{costSource,jdbcType=VARCHAR}, #{needPassports,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
-      #{flowNodes,jdbcType=VARCHAR}, #{flowUsers,jdbcType=VARCHAR}, #{isAgreed,jdbcType=BIT}, 
-      #{isModify,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
-      )
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{approvalRemark,jdbcType=VARCHAR}, 
+      #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, #{flowNodes,jdbcType=VARCHAR}, 
+      #{flowUsers,jdbcType=VARCHAR}, #{isAgreed,jdbcType=BIT}, #{isModify,jdbcType=BIT}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.abroad.ApplySelf">
     insert into abroad_apply_self
@@ -180,6 +181,9 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="approvalRemark != null">
+        approval_remark,
       </if>
       <if test="isFinish != null">
         is_finish,
@@ -248,6 +252,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
+      </if>
+      <if test="approvalRemark != null">
+        #{approvalRemark,jdbcType=VARCHAR},
       </if>
       <if test="isFinish != null">
         #{isFinish,jdbcType=BIT},
@@ -326,6 +333,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.approvalRemark != null">
+        approval_remark = #{record.approvalRemark,jdbcType=VARCHAR},
+      </if>
       <if test="record.isFinish != null">
         is_finish = #{record.isFinish,jdbcType=BIT},
       </if>
@@ -371,6 +381,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=BIT},
+      approval_remark = #{record.approvalRemark,jdbcType=VARCHAR},
       is_finish = #{record.isFinish,jdbcType=BIT},
       flow_node = #{record.flowNode,jdbcType=INTEGER},
       flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
@@ -425,6 +436,9 @@
       <if test="status != null">
         status = #{status,jdbcType=BIT},
       </if>
+      <if test="approvalRemark != null">
+        approval_remark = #{approvalRemark,jdbcType=VARCHAR},
+      </if>
       <if test="isFinish != null">
         is_finish = #{isFinish,jdbcType=BIT},
       </if>
@@ -467,6 +481,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       status = #{status,jdbcType=BIT},
+      approval_remark = #{approvalRemark,jdbcType=VARCHAR},
       is_finish = #{isFinish,jdbcType=BIT},
       flow_node = #{flowNode,jdbcType=INTEGER},
       flow_nodes = #{flowNodes,jdbcType=VARCHAR},

@@ -55,6 +55,8 @@ public class ApplySelf implements Serializable {
 
     private Boolean status;
 
+    private String approvalRemark;
+
     private Boolean isFinish;
 
     private Integer flowNode;
@@ -183,6 +185,14 @@ public class ApplySelf implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getApprovalRemark() {
+        return approvalRemark;
+    }
+
+    public void setApprovalRemark(String approvalRemark) {
+        this.approvalRemark = approvalRemark == null ? null : approvalRemark.trim();
     }
 
     public Boolean getIsFinish() {
