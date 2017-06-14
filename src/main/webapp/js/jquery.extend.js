@@ -334,86 +334,89 @@ SysMsg.confirm = function (msg, title, callback) {
         }
     })
 })(jQuery);
-
-bootbox.setDefaults({locale: 'zh_CN'});
-$.fn.select2.defaults.set("language", "zh-CN");
-$.fn.select2.defaults.set("theme", "classic");
-$.fn.select2.defaults.set("allowClear", true);
-$.fn.select2.defaults.set("width", "200px");
+try {
+    bootbox.setDefaults({locale: 'zh_CN'});
+    $.fn.select2.defaults.set("language", "zh-CN");
+    $.fn.select2.defaults.set("theme", "classic");
+    $.fn.select2.defaults.set("allowClear", true);
+    $.fn.select2.defaults.set("width", "200px");
 // 解决IE8下select2在modal里不能搜索的bug
-$.fn.modal.Constructor.prototype.enforceFocus = function () {
-};
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {
+    };
 
-$.extend($.fn.bootstrapSwitch.defaults, {
-    onText: "是",
-    offText: "否",
-    onColor: "success",
-    offColor: "danger"
-});
-$.extend($.ui.dynatree.prototype.options, {
-    checkbox: true,
-    selectMode: 3,
-    cookieId: "dynatree-Cb3",
-    idPrefix: "dynatree-Cb3-",
-    debugLevel: 0
-});
-$.extend($.jgrid.defaults, {
-    responsive: true,
-    styleUI: "Bootstrap",
-    prmNames: {page: "pageNo", rows: "pageSize", sort: "sort", order: "order"},
-    //width:$(window).width()-$(".nav-list").width()-50,
-    //height:$(window).height()-390,
-    viewrecords: true,
-    shrinkToFit: false,
-    rowNum: 20,
-    multiselect: true,
-    multiboxonly: true,
-    mtype: "GET",
-    datatype: "jsonp",
-    //loadui:"disable",
-    loadtext: "数据加载中，请稍后...",
-    pager: "#jqGridPager",
-    //pagerpos:"right",
-    cmTemplate: {sortable: false, align: 'center', width: 100},
-    sortorder: "desc",
-    ondblClickRow: function (rowid, iRow, iCol, e) {
-        $(".jqEditBtn").click();
-    },
-    onPaging: function () {
-        $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
-    }
-});
+    $.extend($.fn.bootstrapSwitch.defaults, {
+        onText: "是",
+        offText: "否",
+        onColor: "success",
+        offColor: "danger"
+    });
+    $.extend($.ui.dynatree.prototype.options, {
+        checkbox: true,
+        selectMode: 3,
+        cookieId: "dynatree-Cb3",
+        idPrefix: "dynatree-Cb3-",
+        debugLevel: 0
+    });
+    $.extend($.jgrid.defaults, {
+        responsive: true,
+        styleUI: "Bootstrap",
+        prmNames: {page: "pageNo", rows: "pageSize", sort: "sort", order: "order"},
+        //width:$(window).width()-$(".nav-list").width()-50,
+        //height:$(window).height()-390,
+        viewrecords: true,
+        shrinkToFit: false,
+        rowNum: 20,
+        multiselect: true,
+        multiboxonly: true,
+        mtype: "GET",
+        datatype: "jsonp",
+        //loadui:"disable",
+        loadtext: "数据加载中，请稍后...",
+        pager: "#jqGridPager",
+        //pagerpos:"right",
+        cmTemplate: {sortable: false, align: 'center', width: 100},
+        sortorder: "desc",
+        ondblClickRow: function (rowid, iRow, iCol, e) {
+            $(".jqEditBtn").click();
+        },
+        onPaging: function () {
+            $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+        }
+    });
 
-$.jgrid.formatter = {};
-$.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined) return '-';
-    return cellvalue ? "是" : "否";
-};
+    $.jgrid.formatter = {};
+    $.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined) return '-';
+        return cellvalue ? "是" : "否";
+    };
 
-$.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined) return ''
-    return _cMap.GENDER_MAP[cellvalue];
-};
-$.jgrid.formatter.AGE = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined) return '';
-    return $.yearOffNow(cellvalue);
-};
-$.jgrid.formatter.MetaType = function (cellvalue, options, rowObject) {
-    if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
-    return _cMap.metaTypeMap[cellvalue].name
-};
+    $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined) return ''
+        return _cMap.GENDER_MAP[cellvalue];
+    };
+    $.jgrid.formatter.AGE = function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined) return '';
+        return $.yearOffNow(cellvalue);
+    };
+    $.jgrid.formatter.MetaType = function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
+        return _cMap.metaTypeMap[cellvalue].name
+    };
 
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "positionClass": "toast-top-full-width",
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "3000",
-    "extendedTimeOut": "0",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-};
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-top-full-width",
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "0",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+}catch(e){
+    console.log(e)
+}

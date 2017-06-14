@@ -50,7 +50,7 @@ public class LogService extends BaseMapper {
                 SystemConstants.USER_TYPE_MAP.get(shiroUser.getType()), content );
     }
 
-    public String trainInspectorLog(Integer userId, String username, String logType, String content){
+    public String log(Integer userId, String username, String logType, String content){
 
         HttpServletRequest request = ContextHelper.getRequest();
 
@@ -70,6 +70,6 @@ public class LogService extends BaseMapper {
 
         sysLogMapper.insertSelective(record );
 
-        return String.format("账号：%s, 类别：评课账号, %s", username, content );
+        return String.format("账号：%s,  %s", username, content );
     }
 }

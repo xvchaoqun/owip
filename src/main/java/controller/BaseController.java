@@ -362,6 +362,16 @@ public class BaseController extends BaseMapper {
         return sourceMixins;
     }
 
+    // 未登录操作日志
+    public String addLog(Integer userId, String username, String logType, String content, Object... params) {
+
+        if (params != null && params.length > 0)
+            content = String.format(content, params);
+
+        return logService.log(userId, username, logType, content);
+    }
+
+    // 登录后操作日志
     public String addLog(String logType, String content, Object... params) {
 
         if (params != null && params.length > 0)

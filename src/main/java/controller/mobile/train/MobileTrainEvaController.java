@@ -135,7 +135,7 @@ public class MobileTrainEvaController extends BaseController {
         trainInspectorCourseService.doEva(id, feedback);
 
         TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
-        logger.info(logService.trainInspectorLog(trainInspector.getId(), trainInspector.getUsername(),
+        logger.info(addLog(trainInspector.getId(), trainInspector.getUsername(),
                 SystemConstants.LOG_USER, "提交评课：" + id));
 
         return success(FormUtils.SUCCESS);
