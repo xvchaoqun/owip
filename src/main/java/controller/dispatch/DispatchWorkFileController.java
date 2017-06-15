@@ -268,6 +268,7 @@ public class DispatchWorkFileController extends BaseController {
     public Map do_dispatchWorkFile_transfer(@RequestParam(value = "ids[]") Integer[] ids, byte type ) {
 
         dispatchWorkFileService.batchTransfer(ids, type);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "批量转移干部工作文件：%s", StringUtils.join(ids, ",")));
         return success();
     }
 

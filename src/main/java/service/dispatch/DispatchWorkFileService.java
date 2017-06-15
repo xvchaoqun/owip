@@ -139,12 +139,15 @@ public class DispatchWorkFileService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        DispatchWorkFileExample example = new DispatchWorkFileExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        for (Integer id : ids) {
 
-        DispatchWorkFile record = new DispatchWorkFile();
-        record.setType(type);
-        dispatchWorkFileMapper.updateByExampleSelective(record, example);
+            DispatchWorkFile record = new DispatchWorkFile();
+            record.setId(id);
+            record.setType(type);
+            record.setSortOrder(getNextSortOrder("dispatch_work_file", "status=0 and type=" + type));
+
+            dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     @Transactional
