@@ -164,7 +164,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchWorkFile_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '发文单位', name: 'unitType', formatter: $.jgrid.formatter.MetaType, frozen: true},
+            {label: '发文单位', name: 'unitType', width: 120, formatter: $.jgrid.formatter.MetaType, frozen: true},
             {label: '年度', name: 'year', width: 75, frozen: true},
             {label: '所属专项工作', name: 'workType', width: 180, formatter: $.jgrid.formatter.MetaType, frozen: true},
             {
@@ -206,7 +206,7 @@
                                 .format(rowObject.id, rowObject.postCount);
             }
             },
-            {label: '备注', name: 'remark', width: 150}
+            {label: '备注', name: 'remark', width: 250, align:"left"}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');
