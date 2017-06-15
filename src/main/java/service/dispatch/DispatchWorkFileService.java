@@ -141,10 +141,12 @@ public class DispatchWorkFileService extends BaseMapper {
 
         for (Integer id : ids) {
 
+            DispatchWorkFile dwf = dispatchWorkFileMapper.selectByPrimaryKey(id);
+
             DispatchWorkFile record = new DispatchWorkFile();
             record.setId(id);
             record.setType(type);
-            record.setSortOrder(getNextSortOrder("dispatch_work_file", "status=0 and type=" + type));
+            record.setSortOrder(getNextSortOrder("dispatch_work_file", "status="+dwf.getStatus()+" and type=" + type));
 
             dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
         }
