@@ -255,6 +255,22 @@ public class DispatchWorkFileController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //批量转移
+    @RequiresPermissions("dispatchWorkFile:edit")
+    @RequestMapping(value = "/dispatchWorkFile_transfer")
+    public String dispatchWorkFile_transfer(){
+
+        return "dispatch/dispatchWorkFile/dispatchWorkFile_transfer";
+    }
+    @RequiresPermissions("dispatchWorkFile:edit")
+    @RequestMapping(value = "/dispatchWorkFile_transfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dispatchWorkFile_transfer(@RequestParam(value = "ids[]") Integer[] ids, byte type ) {
+
+        dispatchWorkFileService.batchTransfer(ids, type);
+        return success();
+    }
+
     @RequiresPermissions("dispatchWorkFile:del")
     @RequestMapping(value = "/dispatchWorkFile_batchDel", method = RequestMethod.POST)
     @ResponseBody

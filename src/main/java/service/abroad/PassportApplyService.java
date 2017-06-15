@@ -65,23 +65,6 @@ public class PassportApplyService extends BaseMapper {
         checkDuplicate(cadreId, classId);
 
         passportApplyMapper.insertSelective(record);
-
-        HttpServletRequest request = ContextHelper.getRequest();
-        try {
-            // 发送短信
-            ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
-                    null, "passportApplySubmit", record.getId());
-            shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request));
-        }catch (Exception ex){
-            ex.printStackTrace();
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            String username = (shiroUser!=null)?shiroUser.getUsername():null;
-            logger.error("短信发送失败, {}, {}, {}, {}, {}, {}, {}",
-                    new Object[]{username, ex.getMessage(), request.getRequestURI(),
-                            request.getMethod(),
-                            JSONUtils.toString(request.getParameterMap(), false),
-                            RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});
-        }
     }
     @Transactional
     public void del(Integer id){

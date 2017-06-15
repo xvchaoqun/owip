@@ -5,10 +5,7 @@ import bean.ShortMsgBean;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import domain.abroad.ApplySelf;
-import domain.abroad.Passport;
-import domain.abroad.PassportApply;
-import domain.abroad.PassportDraw;
+import domain.abroad.*;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.base.ShortMsg;
@@ -25,6 +22,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
@@ -40,9 +38,12 @@ import service.cadre.CadreService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.PasswordHelper;
+import shiro.ShiroHelper;
+import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.*;
@@ -112,6 +113,116 @@ public class ShortMsgService extends BaseMapper {
         return 0;
     }
 
+    // 给干部管理员发提醒，仅用于定时任务
+    public void sendAbroadApprovalMsgToAdmin(){
+
+        { // 干部提交办理证件申请，给干部管理员发短信提醒
+            PassportApplyExample example = new PassportApplyExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT)
+                    .andAbolishEqualTo(false).andIsDeletedEqualTo(false);
+            List<PassportApply> passportApplies = passportApplyMapper.selectByExample(example);
+            for (PassportApply passportApply : passportApplies) {
+                sendPassportApplySubmitMsgToCadreAdmin(passportApply.getId(), null);
+            }
+        }
+        {// 干部提交因私出国，给干部管理员发短信提醒
+
+            ApplySelfExample example = new ApplySelfExample();
+            example.createCriteria().andStatusEqualTo(true)
+                    .andFlowNodeEqualTo(SystemConstants.APPROVER_TYPE_ID_OD_FIRST)
+                    .andIsDeletedEqualTo(false).andIsFinishEqualTo(false);
+            List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+            for (ApplySelf applySelf : applySelfs) {
+                sendApplySelfSubmitMsgToCadreAdmin(applySelf.getId(), null);
+            }
+        }
+
+        {// 因私申请如果通过全部领导的审批（下一个审批身份是管理员），则短信通知管理员
+
+            ApplySelfExample example = new ApplySelfExample();
+            example.createCriteria().andStatusEqualTo(true)
+                    .andFlowNodeEqualTo(SystemConstants.APPROVER_TYPE_ID_OD_LAST)
+                    .andIsDeletedEqualTo(false).andIsFinishEqualTo(false);
+            List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+            for (ApplySelf applySelf : applySelfs) {
+                sendApplySelfPassMsgToCadreAdmin(applySelf.getId(), null);
+            }
+        }
+
+        {// 干部提交领取证件申请，给干部管理员发短信提醒
+
+            PassportDrawExample example = new PassportDrawExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.PASSPORT_DRAW_STATUS_INIT)
+                    .andIsDeletedEqualTo(false)
+                    .andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
+            List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
+            for (PassportDraw passportDraw : passportDraws) {
+
+                sendPassportDrawSubmitMsgToCadreAdmin(passportDraw.getId(), null);
+            }
+        }
+    }
+
+    // 干部提交办理证件申请，给干部本人发短信提醒
+    @Async
+    public void sendPassportApplySubmitMsgToCadre(Integer passportApplyId, HttpServletRequest request){
+
+        //HttpServletRequest request = ContextHelper.getRequest();
+        try {
+            // 发送短信
+            ShortMsgBean shortMsgBean = getShortMsgBean(ShiroHelper.getCurrentUserId(),
+                    null, "passportApplySubmit", passportApplyId);
+            send(shortMsgBean, IpUtils.getRealIp(request));
+        }catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("短信发送失败, {}, {}, {}, {}, {}, {}, {}",
+                    new Object[]{ShiroHelper.getCurrentUsername(), ex.getMessage(), request.getRequestURI(),
+                            request.getMethod(),
+                            JSONUtils.toString(request.getParameterMap(), false),
+                            RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});
+        }
+    }
+
+    // 干部提交办理证件申请，给干部管理员发短信提醒
+    @Async
+    public void sendPassportApplySubmitMsgToCadreAdmin(int passportApplyId, String ip){
+
+        PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(passportApplyId);
+        SysUserView applyUser = passportApply.getCadre().getUser();
+
+        MetaType passportClass = passportApply.getPassportClass();
+
+        CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
+        String cadreTitle = cadre.getTitle();
+
+        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT_ADMIN);
+        List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
+
+        for (SysUserView uv : receivers) {
+            try {
+                int userId = uv.getId();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
+
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                        cadreTitle, applyUser.getRealname(), passportClass.getName());
+
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(applyUser.getId());
+                bean.setReceiver(userId);
+                bean.setMobile(mobile);
+                bean.setContent(msg);
+                bean.setType(tpl.getName());
+
+                send(bean, ip);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                logger.error("干部提交办理证件申请，给干部管理员发短信提醒失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
+                        applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
+                });
+            }
+        }
+    }
 
     // 干部提交因私出国，给干部管理员发短信提醒
     @Async
@@ -127,6 +238,9 @@ public class ShortMsgService extends BaseMapper {
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
+        CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
+        String cadreTitle = cadre.getTitle();
+
         //List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
         ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
@@ -137,9 +251,8 @@ public class ShortMsgService extends BaseMapper {
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
 
-                CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
-                        cadre.getUnit().getName(),applyUser.getRealname());
+                        cadreTitle, applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
                 bean.setSender(applyUser.getId());
@@ -165,6 +278,9 @@ public class ShortMsgService extends BaseMapper {
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
+        CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
+        String cadreTitle = cadre.getTitle();
+
         //List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin-menu1");
         ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
@@ -175,9 +291,8 @@ public class ShortMsgService extends BaseMapper {
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
 
-                CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
-                        cadre.getUnit().getName(),applyUser.getRealname());
+                        cadreTitle,applyUser.getRealname());
 
                 ShortMsgBean bean = new ShortMsgBean();
                 bean.setSender(applyUser.getId());
@@ -210,6 +325,9 @@ public class ShortMsgService extends BaseMapper {
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawId);
         SysUserView applyUser = passportDraw.getCadre().getUser();
 
+        CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
+        String cadreTitle = cadre.getTitle();
+
         //List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
         ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
@@ -220,9 +338,8 @@ public class ShortMsgService extends BaseMapper {
                 String mobile = userBeanService.getMsgMobile(userId);
                 String msgTitle = userBeanService.getMsgTitle(userId);
 
-                CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
-                        cadre.getUnit().getName(),applyUser.getRealname(),
+                        cadreTitle,applyUser.getRealname(),
                         passportDraw.getPassportClass().getName(),
                         SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()));
 
@@ -305,7 +422,8 @@ public class ShortMsgService extends BaseMapper {
                 key = SystemConstants.CONTENT_TPL_APPLYSELF_UNPASS;
                 ContentTpl tpl = getShortMsgTpl(key);
                 bean.setType(tpl.getName());
-                String msg = MessageFormat.format(tpl.getContent(), msgTitle, applySelf.getApprovalRemark());
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                        StringUtils.defaultIfBlank(applySelf.getApprovalRemark(), "无"));
                 bean.setContent(msg);
             }
 
@@ -355,12 +473,14 @@ public class ShortMsgService extends BaseMapper {
             String mobile = userBeanService.getMsgMobile(uv.getId());
 
             MetaType passportClass = passportApply.getPassportClass();
-            String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
+            String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName(),
+                    DateUtils.formatDate(passportApply.getApproveTime(), DateUtils.YYYY_MM_DD_CHINA),
+                    DateUtils.formatDate(passportApply.getExpectDate(), DateUtils.YYYY_MM_DD_CHINA));
             bean.setContent(msg);
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportApplySubmit")){
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT;
+            String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT; // 发给干部
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setType(tpl.getName());
 

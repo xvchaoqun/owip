@@ -46,7 +46,13 @@
                                         <i class="fa fa-trash"></i> 过期作废
                                     </button>
                                 </c:if>
+                                <button data-url="${ctx}/dispatchWorkFile_transfer"
+                                        data-querystr="&type=${param.type}"
+                                        class="jqOpenViewBatchBtn btn btn-primary btn-sm">
+                                    <i class="fa fa-random"></i> 批量转移
+                                </button>
                             </shiro:hasPermission>
+
                             <shiro:hasPermission name="dispatchWorkFile:del">
                                 <button data-url="${ctx}/dispatchWorkFile_batchDel"
                                         data-title="删除"

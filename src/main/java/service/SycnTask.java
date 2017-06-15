@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import service.abroad.ApplySelfService;
 import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
+import service.base.ShortMsgService;
 import service.cadre.CadreStatHistoryService;
 import service.global.CacheService;
 import service.sys.SysOnlineStaticService;
@@ -30,6 +31,8 @@ public class SycnTask {
 	private PassportDrawService passportDrawService;
 	@Autowired
 	private ApplySelfService applySelfService;
+	@Autowired
+	private ShortMsgService shortMsgService;
 	@Autowired
 	private CacheService cacheService;
 	@Autowired
@@ -64,6 +67,16 @@ public class SycnTask {
 
 		if(springProps.applySelfSendApprovalMsg) {
 			applySelfService.sendApprovalMsg();
+		}
+	}
+	/**
+	 * 因私审批自动通知审批人
+	 */
+	@Scheduled(cron = "${cron.abroad.approval}")
+	public void sendAbroadApprovalMsgToAdmin(){
+
+		if(springProps.sendAbroadApprovalMsgToAdmin) {
+			shortMsgService.sendAbroadApprovalMsgToAdmin();
 		}
 	}
 

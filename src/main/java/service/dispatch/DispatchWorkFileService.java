@@ -135,6 +135,19 @@ public class DispatchWorkFileService extends BaseMapper {
     }
 
     @Transactional
+    public void batchTransfer(Integer[] ids, byte type) {
+
+        if (ids == null || ids.length == 0) return;
+
+        DispatchWorkFileExample example = new DispatchWorkFileExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        DispatchWorkFile record = new DispatchWorkFile();
+        record.setType(type);
+        dispatchWorkFileMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
@@ -200,4 +213,6 @@ public class DispatchWorkFileService extends BaseMapper {
             dispatchWorkFileMapper.updateByPrimaryKeySelective(record);
         }
     }
+
+
 }

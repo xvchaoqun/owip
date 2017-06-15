@@ -24,6 +24,7 @@ import shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
 import sys.utils.IpUtils;
 
@@ -46,6 +47,7 @@ public class UserPassportApplyController extends BaseController {
     @ResponseBody
     public Map do_passportApply_au(int classId, Integer cadreId,  HttpServletRequest request) {
 
+        String ip = ContextHelper.getRealIp();
         PassportApply record = new PassportApply();
 
         if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
@@ -59,12 +61,17 @@ public class UserPassportApplyController extends BaseController {
         Date date = new Date();
         record.setApplyDate(date);
         record.setCreateTime(date);
-        record.setIp(IpUtils.getRealIp(request));
+        record.setIp(ip);
         record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_INIT);
         record.setIsDeleted(false);
 
         passportApplyService.apply(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
+
+        // 短信通知干部本人
+        shortMsgService.sendPassportApplySubmitMsgToCadre(record.getId(), request);
+        // 短信通知干部管理员
+        shortMsgService.sendPassportApplySubmitMsgToCadreAdmin(record.getId(), ip);
 
         Map<String, Object> success = success(FormUtils.SUCCESS);
         success.put("applyId", record.getId());

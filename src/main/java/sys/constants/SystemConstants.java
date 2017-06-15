@@ -1414,6 +1414,7 @@ public class SystemConstants {
     public final static String CONTENT_TPL_PASSPORTAPPLY_UNPASS = "ct_passportApply_unpass";
     public final static String CONTENT_TPL_PASSPORTAPPLY_DRAW = "ct_passportApply_draw";
     public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT = "ct_passportApply_submit";
+    public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT_ADMIN = "ct_passportApply_submit_admin";
     public final static String CONTENT_TPL_PASSPORTDRAW = "ct_passportDraw";
     public final static String CONTENT_TPL_PASSPORTDRAW_RETURN = "ct_passportDraw_return";
     public final static String CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS = "ct_passportDraw_return_success";

@@ -68,6 +68,10 @@ public class SpringProps {
 
 	@Value("${switch.applyself.approval}")
 	public Boolean applySelfSendApprovalMsg;
+
+	@Value("${switch.abroad.approval}")
+	public Boolean sendAbroadApprovalMsgToAdmin;
+
 	@Value("${switch.applyself.approval.next}")
 	public Boolean applySelfSendNextApprovalMsg;
 
