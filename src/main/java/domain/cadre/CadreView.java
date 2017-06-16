@@ -111,8 +111,6 @@ public class CadreView implements Serializable {
 
     private Integer branchId;
 
-    private Date growTime;
-
     private Byte memberStatus;
 
     private Date cadreGrowTime;
@@ -158,6 +156,8 @@ public class CadreView implements Serializable {
     private Date workTime;
 
     private Date workStartTime;
+
+    private String talentTitle;
 
     private Integer mainCadrePostId;
 
@@ -461,14 +461,6 @@ public class CadreView implements Serializable {
         this.branchId = branchId;
     }
 
-    public Date getGrowTime() {
-        return growTime;
-    }
-
-    public void setGrowTime(Date growTime) {
-        this.growTime = growTime;
-    }
-
     public Byte getMemberStatus() {
         return memberStatus;
     }
@@ -651,6 +643,14 @@ public class CadreView implements Serializable {
 
     public void setWorkStartTime(Date workStartTime) {
         this.workStartTime = workStartTime;
+    }
+
+    public String getTalentTitle() {
+        return talentTitle;
+    }
+
+    public void setTalentTitle(String talentTitle) {
+        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
     }
 
     public Integer getMainCadrePostId() {

@@ -2012,66 +2012,6 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andGrowTimeIsNull() {
-            addCriterion("grow_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIsNotNull() {
-            addCriterion("grow_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time =", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time <>", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("grow_time >", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time >=", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeLessThan(Date value) {
-            addCriterionForJDBCDate("grow_time <", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time <=", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("grow_time in", values, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("grow_time not in", values, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("grow_time between", value1, value2, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("grow_time not between", value1, value2, "growTime");
-            return (Criteria) this;
-        }
-
         public Criteria andMemberStatusIsNull() {
             addCriterion("member_status is null");
             return (Criteria) this;
@@ -3549,6 +3489,76 @@ public class CadreViewExample {
 
         public Criteria andWorkStartTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("work_start_time not between", value1, value2, "workStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleIsNull() {
+            addCriterion("talent_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleIsNotNull() {
+            addCriterion("talent_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleEqualTo(String value) {
+            addCriterion("talent_title =", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotEqualTo(String value) {
+            addCriterion("talent_title <>", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleGreaterThan(String value) {
+            addCriterion("talent_title >", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("talent_title >=", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleLessThan(String value) {
+            addCriterion("talent_title <", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleLessThanOrEqualTo(String value) {
+            addCriterion("talent_title <=", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleLike(String value) {
+            addCriterion("talent_title like", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotLike(String value) {
+            addCriterion("talent_title not like", value, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleIn(List<String> values) {
+            addCriterion("talent_title in", values, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotIn(List<String> values) {
+            addCriterion("talent_title not in", values, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleBetween(String value1, String value2) {
+            addCriterion("talent_title between", value1, value2, "talentTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andTalentTitleNotBetween(String value1, String value2) {
+            addCriterion("talent_title not between", value1, value2, "talentTitle");
             return (Criteria) this;
         }
 

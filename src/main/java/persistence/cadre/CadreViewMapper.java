@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CadreViewMapper {
-    int countByExample(CadreViewExample example);
+    long countByExample(CadreViewExample example);
 
     List<CadreView> selectByExampleWithRowbounds(CadreViewExample example, RowBounds rowBounds);
 
