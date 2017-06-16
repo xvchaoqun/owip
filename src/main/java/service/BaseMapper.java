@@ -268,6 +268,8 @@ public class BaseMapper {
     @Autowired
     protected CadreViewMapper cadreViewMapper;
     @Autowired
+    protected CadrePartyMapper cadrePartyMapper;
+    @Autowired
     protected CadreAdLogMapper cadreAdLogMapper;
     @Autowired
     protected CadreInspectMapper cadreInspectMapper;

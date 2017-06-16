@@ -169,19 +169,17 @@
                 label: '出生日期', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
             },
             {
-                label: '党派', name: 'isDp', width: 80, formatter: function (cellvalue, options, rowObject) {
+                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
 
-                if (!rowObject.isDp && rowObject.growTime != undefined) return "中共党员";
-                if (rowObject.isDp) return _cMap.metaTypeMap[rowObject.dpTypeId].name;
+                if (cellvalue == 0) return "中共党员"
+                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
                 return "-";
             }
             },
             {
-                label: '党派加入时间', name: 'growTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-
-                if (rowObject.isDp && rowObject.dpAddTime != undefined) return rowObject.dpAddTime.substr(0, 10);
-                if (rowObject.growTime != undefined) return rowObject.growTime.substr(0, 10);
-                return "-"
+                label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return cellvalue.substr(0, 10);
             }
             },
             {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

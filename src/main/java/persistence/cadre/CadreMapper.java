@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CadreMapper {
-    int countByExample(CadreExample example);
+    long countByExample(CadreExample example);
 
     int deleteByExample(CadreExample example);
 

@@ -215,11 +215,11 @@ public class CadreController extends BaseController {
             criteria.andBirthLessThanOrEqualTo(_birth.getEnd());
         }
         if (_cadreGrowTime.getStart()!=null) {
-            criteria.andGrowTimeGreaterThanOrEqualTo(_cadreGrowTime.getStart());
+            criteria.andCadreGrowTimeGreaterThanOrEqualTo(_cadreGrowTime.getStart());
         }
 
         if (_cadreGrowTime.getEnd()!=null) {
-            criteria.andGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
+            criteria.andCadreGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
         }
 
         if(endAge!=null){
@@ -291,7 +291,7 @@ public class CadreController extends BaseController {
             return;
         }
 
-        int count = cadreViewMapper.countByExample(example);
+        long count = cadreViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

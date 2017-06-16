@@ -129,8 +129,8 @@
 
     </div>
     <div class="widget-body" style="clear:left">
-        <div class="widget-main padding-4">
-            <div class="tab-content padding-8">
+        <div class="widget-main no-padding">
+            <div class="tab-content">
                 <c:import url="/${to}"/>
             </div>
         </div>

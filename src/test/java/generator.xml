@@ -177,8 +177,8 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false"></table>
        <table tableName="ow_party_member" domainObjectName="party.PartyMember">
-      </table>
-      <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView"
+      </table>-->
+   <!--   <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false"></table>-->
@@ -241,13 +241,18 @@
       <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
       </table>-->
 
-       <!--<table tableName="cadre" domainObjectName="cadre.Cadre">
+     <!--  <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
        </table>-->
+
      <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
+          <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
       </table>-->
+    <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
+      </table>-->
+
 
     <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
       </table>-->
@@ -255,20 +260,20 @@
       </table>
       <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit">
       </table>-->
-      <!--<table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog">
-      </table>-->
+      <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
+      </table>
 
       <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
       </table>-->
-      <!--<table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+ <!--     <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView" mapperName="cadreReserve.CadreReserveViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>-->
-
+      </table>
+-->
       <!--<table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
       </table>-->
-      <!--<table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView"
+    <!--  <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
@@ -414,9 +419,9 @@
       </table>
 
       -->
-
+<!--
       <table tableName="sys_approval_log" domainObjectName="sys.SysApprovalLog" mapperName="sys.SysApprovalLogMapper">
-      </table>
+      </table>-->
     <!--<table tableName="sys_log" domainObjectName="sys.SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->

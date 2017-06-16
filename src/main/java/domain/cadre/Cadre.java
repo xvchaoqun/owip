@@ -66,16 +66,6 @@ public class Cadre implements Serializable {
 
     private String post;
 
-    private Integer dpTypeId;
-
-    private Date dpAddTime;
-
-    private String dpPost;
-
-    private String dpRemark;
-
-    private Boolean isDp;
-
     private String remark;
 
     private Integer sortOrder;
@@ -146,46 +136,6 @@ public class Cadre implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
-    }
-
-    public Integer getDpTypeId() {
-        return dpTypeId;
-    }
-
-    public void setDpTypeId(Integer dpTypeId) {
-        this.dpTypeId = dpTypeId;
-    }
-
-    public Date getDpAddTime() {
-        return dpAddTime;
-    }
-
-    public void setDpAddTime(Date dpAddTime) {
-        this.dpAddTime = dpAddTime;
-    }
-
-    public String getDpPost() {
-        return dpPost;
-    }
-
-    public void setDpPost(String dpPost) {
-        this.dpPost = dpPost == null ? null : dpPost.trim();
-    }
-
-    public String getDpRemark() {
-        return dpRemark;
-    }
-
-    public void setDpRemark(String dpRemark) {
-        this.dpRemark = dpRemark == null ? null : dpRemark.trim();
-    }
-
-    public Boolean getIsDp() {
-        return isDp;
-    }
-
-    public void setIsDp(Boolean isDp) {
-        this.isDp = isDp;
     }
 
     public String getRemark() {

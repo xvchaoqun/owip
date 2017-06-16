@@ -81,11 +81,9 @@ public class PartyMemberView implements Serializable {
 
     private Date arriveTime;
 
-    private Boolean isDp;
+    private Date cadreGrowTime;
 
-    private Integer dpTypeId;
-
-    private Date dpAddTime;
+    private Long cadreDpType;
 
     private static final long serialVersionUID = 1L;
 
@@ -369,27 +367,19 @@ public class PartyMemberView implements Serializable {
         this.arriveTime = arriveTime;
     }
 
-    public Boolean getIsDp() {
-        return isDp;
+    public Date getCadreGrowTime() {
+        return cadreGrowTime;
     }
 
-    public void setIsDp(Boolean isDp) {
-        this.isDp = isDp;
+    public void setCadreGrowTime(Date cadreGrowTime) {
+        this.cadreGrowTime = cadreGrowTime;
     }
 
-    public Integer getDpTypeId() {
-        return dpTypeId;
+    public Long getCadreDpType() {
+        return cadreDpType;
     }
 
-    public void setDpTypeId(Integer dpTypeId) {
-        this.dpTypeId = dpTypeId;
-    }
-
-    public Date getDpAddTime() {
-        return dpAddTime;
-    }
-
-    public void setDpAddTime(Date dpAddTime) {
-        this.dpAddTime = dpAddTime;
+    public void setCadreDpType(Long cadreDpType) {
+        this.cadreDpType = cadreDpType;
     }
 }

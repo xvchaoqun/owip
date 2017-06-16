@@ -250,11 +250,27 @@ public class MemberController extends BaseController {
     }
 
     // 后台添加预备党员，可能需要加入入党申请（预备党员阶段）
-    @RequestMapping(value = "/member_addGrowApply", method = RequestMethod.POST)
+    @RequiresPermissions("member:edit")
+    @RequestMapping(value = "/snyc_memberApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_addGrowApply(int userId) {
+    public Map snyc_memberApply(int userId) {
 
-        SecurityUtils.getSubject().checkPermission("member:edit");
+        Member member = memberService.get(userId);
+        Integer partyId = member.getPartyId();
+        Integer branchId = member.getBranchId();
+        //===========权限
+        Integer loginUserId = ShiroHelper.getCurrentUserId();
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+
+            boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
+            if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
+                isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
+            }
+            if (!isAdmin) throw new UnauthorizedException();
+        }
+
         memberApplyService.addOrChangeToGrowApply(userId);
 
         return success(FormUtils.SUCCESS);

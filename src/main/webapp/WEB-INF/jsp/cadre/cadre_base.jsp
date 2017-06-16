@@ -80,14 +80,13 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td>政治面貌</td>
 				<td >
-					${cadre.isDp?democraticPartyMap.get(cadre.dpTypeId).name:
-						MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}
+					${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}
 				</td>
 				<td>
 					党派加入时间
 				</td>
 				<td>
-					${cadre.isDp?(cm:formatDate(cadre.dpAddTime,'yyyy-MM-dd')):(cm:formatDate(member.growTime,'yyyy-MM-dd'))}
+					${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}
 				</td>
 
 				<td>国家/地区</td>
@@ -751,12 +750,11 @@ pageEncoding="UTF-8"%>
 									${empty xtJzg.csrq?'':cm:intervalYearsUntilNow(extJzg.csrq)}
 							</td>
 						</tr>
-						<c:set var="_needModifyParty" value="${!cadre.isDp && empty member}"/>
+						<c:set var="_needModifyParty" value="${cadre.cadreDpType<=0 && empty member}"/>
 						<tr>
 							<td>政治面貌</td>
 							<td>
-								<c:set var="original" value="${cadre.isDp?democraticPartyMap.get(cadre.dpTypeId).name:
-                                                MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}"/>
+								<c:set var="original" value="${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}"/>
 								<c:if test="${!_needModifyParty}">${original}</c:if>
 								<c:if test="${_needModifyParty}">
 								<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择民主党派">
@@ -772,7 +770,7 @@ pageEncoding="UTF-8"%>
 								党派加入时间
 							</td>
 							<td>
-								<c:set var="original" value="${cadre.isDp?(cm:formatDate(cadre.dpAddTime,'yyyy-MM-dd')):(cm:formatDate(member.growTime,'yyyy-MM-dd'))}"/>
+								<c:set var="original" value="${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}"/>
 								<c:if test="${!_needModifyParty}">${original}</c:if>
 								<c:if test="${_needModifyParty}">
 								<div class="input-group" style="width: 130px">

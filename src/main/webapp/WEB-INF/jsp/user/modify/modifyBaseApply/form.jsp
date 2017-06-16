@@ -67,8 +67,7 @@
         <tr>
           <td>政治面貌</td>
           <td>
-            <c:set var="original" value="${cadre.isDp?democraticPartyMap.get(cadre.dpTypeId).name:
-                                                MEMBER_POLITICAL_STATUS_MAP.get(member.politicalStatus)}"/>
+            <c:set var="original" value="${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}"/>
             <input type="text"
                    data-code="political_status"
                    data-table=""
@@ -82,7 +81,7 @@
             党派加入时间
           </td>
           <td>
-            <c:set var="original" value="${cadre.isDp?(cm:formatDate(cadre.dpAddTime,'yyyy-MM-dd')):(cm:formatDate(member.growTime,'yyyy-MM-dd'))}"/>
+            <c:set var="original" value="${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}"/>
             <div class="input-group" style="width: 150px">
               <input class="form-control date-picker" type="text"
                      data-date-format="yyyy-mm-dd"

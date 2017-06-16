@@ -10,11 +10,6 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
-    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
-    <result column="dp_add_time" jdbcType="DATE" property="dpAddTime" />
-    <result column="dp_post" jdbcType="VARCHAR" property="dpPost" />
-    <result column="dp_remark" jdbcType="VARCHAR" property="dpRemark" />
-    <result column="is_dp" jdbcType="BIT" property="isDp" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -32,6 +27,14 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="member_status" jdbcType="TINYINT" property="memberStatus" />
+    <result column="dp_id" jdbcType="INTEGER" property="dpId" />
+    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
+    <result column="dp_post" jdbcType="VARCHAR" property="dpPost" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="dp_remark" jdbcType="VARCHAR" property="dpRemark" />
+    <result column="ow_id" jdbcType="INTEGER" property="owId" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="ow_remark" jdbcType="VARCHAR" property="owRemark" />
     <result column="cadre_grow_time" jdbcType="DATE" property="cadreGrowTime" />
     <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
     <result column="edu_id" jdbcType="INTEGER" property="eduId" />
@@ -120,11 +123,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, 
-    dp_add_time, dp_post, dp_remark, is_dp, remark, sort_order, status, msg_title, mobile, 
-    phone, home_phone, email, realname, gender, nation, native_place, idcard, birth, 
-    party_id, branch_id, member_status, cadre_grow_time, cadre_dp_type, edu_id, finish_time, 
-    learn_style, school, dep, school_type, major, degree, post_class, sub_post_class, 
+    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, sort_order, 
+    status, msg_title, mobile, phone, home_phone, email, realname, gender, nation, native_place, 
+    idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, dp_post, dp_grow_time, 
+    dp_remark, ow_id, ow_grow_time, ow_remark, cadre_grow_time, cadre_dp_type, edu_id, 
+    finish_time, learn_style, school, dep, school_type, major, degree, post_class, sub_post_class, 
     main_post_level, pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, 
     manage_level_time, arrive_time, work_time, work_start_time, talent_title, main_cadre_post_id, 
     is_double, double_unit_id, is_principal_post, cadre_post_year, admin_level_year, 

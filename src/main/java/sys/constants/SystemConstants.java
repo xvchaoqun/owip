@@ -715,6 +715,17 @@ public class SystemConstants {
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
+    // 干部党派类别
+    public final static byte CADRE_PARTY_TYPE_NONE = 0; // 无，此时党派由党员库确认
+    public final static byte CADRE_PARTY_TYPE_DP = 1; // 民主党派
+    public final static byte CADRE_PARTY_TYPE_OW = 2; // 中共党员
+    public final static Map<Byte, String> CADRE_PARTY_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_NONE, "无");
+        CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_DP, "民主党派");
+        CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_OW, "中共党员");
+
+    }
     // 干部历史数据类别
     public final static byte CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE = 1;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE = 2;

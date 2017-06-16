@@ -3,7 +3,6 @@ package service.cadre;
 import bean.CadreAdform;
 import domain.base.MetaType;
 import domain.cadre.*;
-import domain.member.Member;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
-import service.common.FreemarkerService;
-import shiro.ShiroHelper;
-import service.member.MemberService;
 import service.base.MetaTypeService;
+import service.common.FreemarkerService;
+import service.member.MemberService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.ImageUtils;
@@ -22,7 +21,10 @@ import sys.utils.ImageUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fafa on 2016/10/28.
@@ -75,12 +77,7 @@ public class CadreAdformService extends BaseMapper{
         bean.setProPost(cadre.getProPost());
         bean.setSpecialty(uv.getSpecialty());
 
-        if(cadre.getIsDp()){
-            bean.setGrowTime(cadre.getDpAddTime());
-        }else{
-            Member member = memberService.get(uv.getId());
-            bean.setGrowTime(member == null ? null :member.getGrowTime());
-        }
+        bean.setGrowTime(cadre.getCadreGrowTime());
 
         /*// 最高学历
         CadreEdu highEdu = cadreEduService.getHighEdu(cadreId);

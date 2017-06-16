@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
@@ -25,6 +24,7 @@ import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.NumberUtils;
 import sys.utils.PropertiesUtils;
 
 import java.util.Date;
@@ -190,13 +190,13 @@ public class CadreExportService extends BaseMapper {
             }
 
             String partyName = "";// 党派
-            String partyAddTime = "";
-            if(!record.getIsDp() && record.getGrowTime()!=null){
+            String partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
+
+            if(NumberUtils.longEqual(record.getCadreDpType(), 0L)){
                 partyName = "中共党员";
-                partyAddTime = DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD);
-            }else if(record.getIsDp()){
-                partyName = metaTypeMap.get(record.getDpTypeId()).getName();
-                partyAddTime = DateUtils.formatDate(record.getDpAddTime(), DateUtils.YYYY_MM_DD);
+            }else if(record.getCadreDpType()!=null ){
+                MetaType metaType = metaTypeMap.get(record.getCadreDpType().intValue());
+                if(metaType!=null) partyName = metaType.getName();
             }
 
             String postDispatchCode = ""; // 现职务任命文件

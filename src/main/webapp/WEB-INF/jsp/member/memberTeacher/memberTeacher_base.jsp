@@ -278,8 +278,18 @@
 	</tr>
 	<tr>
 		<td class="bg-right">党籍状态</td>
-		<td class="bg-left">
+		<td class="bg-left" width="300">
 			${MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.politicalStatus)}
+<shiro:hasPermission name="member:edit">
+				<c:if test="${memberTeacher.politicalStatus==MEMBER_POLITICAL_STATUS_GROW}">
+					&nbsp;
+					<button class="confirm btn btn-xs btn-primary"
+							data-title="同步预备党员"
+							data-msg="确定将此预备党员信息导入<span style='color:red;font-weight:bolder;'>[入党申请管理-预备党员]支部审核阶段</span>？"
+							data-url="${ctx}/snyc_memberApply?userId=${param.userId}">
+						<i class="fa fa-random "></i> 同步至入党申请列表</button>
+				</c:if>
+	</shiro:hasPermission>
 		</td>
 		<td class="bg-right">状态</td>
 		<td class="bg-left">

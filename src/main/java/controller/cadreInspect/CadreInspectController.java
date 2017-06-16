@@ -105,7 +105,7 @@ public class CadreInspectController extends BaseController {
             return;
         }
 
-        int count = cadreInspectViewMapper.countByExample(example);
+        long count = cadreInspectViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

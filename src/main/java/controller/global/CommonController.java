@@ -124,7 +124,10 @@ public class CommonController extends BaseController {
             // type=0 所有干部（包括后备干部、考察对象）  type=1 干部库 type=2 现任干部库  type=3 离任干部库  （优先级最低）
             @RequestParam(defaultValue = "1", required = false) Byte type,
             Byte status, // 特定干部类别 (优先级最高)
-            Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+            Integer pageSize,
+            // key=0，选项value=cadreId key=1 ，选项value=userId
+            @RequestParam(defaultValue = "0", required = false) Byte key,
+            Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -167,7 +170,7 @@ public class CommonController extends BaseController {
             for (Cadre cadre : cadres) {
                 Map<String, String> option = new HashMap<>();
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
-                option.put("id", cadre.getId() + "");
+                option.put("id", (key==0)?(cadre.getId() + ""):(cadre.getUserId()+""));
                 option.put("text", uv.getRealname());
                 option.put("mobile", uv.getMobile());
                 option.put("title", cadre.getTitle());
@@ -321,7 +324,7 @@ public class CommonController extends BaseController {
     // 根据账号或姓名或学工号选择后备干部
     @RequestMapping("/cadreReserve_selects")
     @ResponseBody
-    public Map sysUser_selects(Integer pageSize, Integer pageNo,
+    public Map cadreReserve_selects(Integer pageSize, Integer pageNo,
                                Byte reserveStatus,
                                Byte reserveType, String searchStr) throws IOException {
 
@@ -355,7 +358,7 @@ public class CommonController extends BaseController {
             if (reserveType != null) criteria.andReserveTypeEqualTo(reserveType);
         }
 
-        int count = cadreReserveViewMapper.countByExample(example);
+        long count = cadreReserveViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

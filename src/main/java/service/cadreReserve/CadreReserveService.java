@@ -141,7 +141,6 @@ public class CadreReserveService extends BaseMapper {
                 // 先添加到干部库（类型：后备干部）
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
-                cadreRecord.setIsDp(false);
                 cadreRecord.setStatus(SystemConstants.CADRE_STATUS_RESERVE);
                 cadreMapper.insertSelective(cadreRecord);
 

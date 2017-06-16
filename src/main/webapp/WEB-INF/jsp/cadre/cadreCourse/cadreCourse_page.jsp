@@ -89,8 +89,8 @@
     <div id="jqGridPager_cadreReward"></div>
 </c:if>
 <c:if test="${type==3}">
-    <div class="row two-frames">
-        <div class="left">
+    <div class="row">
+        <div class="col-xs-6 preview-text">
             <div class="widget-box">
                 <div class="widget-header">
                     <h4 class="smaller">
@@ -128,7 +128,7 @@
                 </div>
             </div>
         </div>
-        <div class="right">
+        <div class="col-xs-6">
             <div class="widget-box">
                 <div class="widget-header">
                     <h4 class="smaller">
@@ -164,7 +164,7 @@
             cssPath:"${ctx}/css/ke.css",
             items: ["source", "|", "fullscreen"],
             height: '550px',
-            width: '700px'
+            width: '100%'
         });
 
         function updateCadreInfo() {

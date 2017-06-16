@@ -117,7 +117,7 @@ public class PartyMemberController extends BaseController {
             return;
         }
 
-        int count = partyMemberViewMapper.countByExample(example);
+        long count = partyMemberViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

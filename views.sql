@@ -67,13 +67,17 @@ left join `abroad_passport` `ap` on((`ap`.`apply_id` = `apa`.`id`)))  ;
 --  View definition for `cadre_inspect_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `cadre_inspect_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_inspect_view` AS select `ci`.`id` AS `inspect_id`,`ci`.`type` AS `inspect_type`,`ci`.`status` AS `inspect_status`,`ci`.`remark` AS `inspect_remark`,`ci`.`sort_order` AS `inspect_sort_order`,`cv`.`id` AS `id`,`cv`.`user_id` AS `user_id`,`cv`.`type_id` AS `type_id`,`cv`.`post_id` AS `post_id`,`cv`.`unit_id` AS `unit_id`,`cv`.`title` AS `title`,`cv`.`dispatch_cadre_id` AS `dispatch_cadre_id`,`cv`.`post` AS `post`,`cv`.`dp_type_id` AS `dp_type_id`,`cv`.`dp_add_time` AS `dp_add_time`,`cv`.`dp_post` AS `dp_post`,`cv`.`dp_remark` AS `dp_remark`,`cv`.`is_dp` AS `is_dp`,`cv`.`remark` AS `remark`,`cv`.`sort_order` AS `sort_order`,`cv`.`status` AS `status`,`cv`.`msg_title` AS `msg_title`,`cv`.`mobile` AS `mobile`,`cv`.`phone` AS `phone`,`cv`.`home_phone` AS `home_phone`,`cv`.`email` AS `email`,`cv`.`realname` AS `realname`,`cv`.`gender` AS `gender`,`cv`.`nation` AS `nation`,`cv`.`native_place` AS `native_place`,`cv`.`idcard` AS `idcard`,`cv`.`birth` AS `birth`,`cv`.`party_id` AS `party_id`,`cv`.`branch_id` AS `branch_id`,`cv`.`grow_time` AS `grow_time`,`cv`.`member_status` AS `member_status`,`cv`.`cadre_grow_time` AS `cadre_grow_time`,`cv`.`cadre_dp_type` AS `cadre_dp_type`,`cv`.`edu_id` AS `edu_id`,`cv`.`finish_time` AS `finish_time`,`cv`.`learn_style` AS `learn_style`,`cv`.`school` AS `school`,`cv`.`dep` AS `dep`,`cv`.`school_type` AS `school_type`,`cv`.`major` AS `major`,`cv`.`degree` AS `degree`,`cv`.`post_class` AS `post_class`,`cv`.`sub_post_class` AS `sub_post_class`,`cv`.`main_post_level` AS `main_post_level`,`cv`.`pro_post_time` AS `pro_post_time`,`cv`.`pro_post_level` AS `pro_post_level`,`cv`.`pro_post_level_time` AS `pro_post_level_time`,`cv`.`pro_post` AS `pro_post`,`cv`.`manage_level` AS `manage_level`,`cv`.`manage_level_time` AS `manage_level_time`,`cv`.`arrive_time` AS `arrive_time`,`cv`.`work_time` AS `work_time`,`cv`.`work_start_time` AS `work_start_time`,`cv`.`main_cadre_post_id` AS `main_cadre_post_id`,`cv`.`is_double` AS `is_double`,`cv`.`double_unit_id` AS `double_unit_id`,`cv`.`is_principal_post` AS `is_principal_post`,`cv`.`cadre_post_year` AS `cadre_post_year`,`cv`.`admin_level_year` AS `admin_level_year`,`cv`.`np_relate_id` AS `np_relate_id`,`cv`.`np_id` AS `np_id`,`cv`.`np_file_name` AS `np_file_name`,`cv`.`np_file` AS `np_file`,`cv`.`np_work_time` AS `np_work_time`,`cv`.`lp_relate_id` AS `lp_relate_id`,`cv`.`lp_id` AS `lp_id`,`cv`.`lp_file_name` AS `lp_file_name`,`cv`.`lp_file` AS `lp_file`,`cv`.`lp_work_time` AS `lp_work_time`,`cv`.`cadre_id` AS `cadre_id`,`cv`.`admin_level_id` AS `admin_level_id`,`cv`.`s_dispatch_id` AS `s_dispatch_id`,`cv`.`s_work_time` AS `s_work_time`,`cv`.`e_dispatch_id` AS `e_dispatch_id`,`cv`.`e_work_time` AS `e_work_time`,`cv`.`admin_level_code` AS `admin_level_code`,`cv`.`admin_level_name` AS `admin_level_name`,`cv`.`max_ce_edu_attr` AS `max_ce_edu_attr`,`cv`.`max_ce_edu_code` AS `max_ce_edu_code`,`cv`.`max_ce_edu_name` AS `max_ce_edu_name`,`cv`.`unit_name` AS `unit_name`,`cv`.`unit_type_id` AS `unit_type_id`,`cv`.`unit_type_code` AS `unit_type_code`,`cv`.`unit_type_name` AS `unit_type_name`,`cv`.`unit_type_attr` AS `unit_type_attr`,`cv`.`verify_birth` AS `verify_birth`,`cv`.`verify_work_time` AS `verify_work_time` from (`db_owip`.`cadre_inspect` `ci` left join `db_owip`.`cadre_view` `cv` on((`ci`.`cadre_id` = `cv`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_inspect_view` AS
+select ci.id as inspect_id, ci.`type` as inspect_type, ci.`status` as inspect_status,
+ci.remark as inspect_remark, ci.sort_order as inspect_sort_order, cv.*
+from cadre_inspect ci left join cadre_view cv on ci.cadre_id=cv.id;
 
--- ----------------------------
---  View definition for `cadre_reserve_view`
--- ----------------------------
+
 DROP VIEW IF EXISTS `cadre_reserve_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_reserve_view` AS select `cr`.`id` AS `reserve_id`,`cr`.`type` AS `reserve_type`,`cr`.`status` AS `reserve_status`,`cr`.`remark` AS `reserve_remark`,`cr`.`sort_order` AS `reserve_sort_order`,`u`.`username` AS `username`,`u`.`code` AS `code`,`cv`.`id` AS `id`,`cv`.`user_id` AS `user_id`,`cv`.`type_id` AS `type_id`,`cv`.`post_id` AS `post_id`,`cv`.`unit_id` AS `unit_id`,`cv`.`title` AS `title`,`cv`.`dispatch_cadre_id` AS `dispatch_cadre_id`,`cv`.`post` AS `post`,`cv`.`dp_type_id` AS `dp_type_id`,`cv`.`dp_add_time` AS `dp_add_time`,`cv`.`dp_post` AS `dp_post`,`cv`.`dp_remark` AS `dp_remark`,`cv`.`is_dp` AS `is_dp`,`cv`.`remark` AS `remark`,`cv`.`sort_order` AS `sort_order`,`cv`.`status` AS `status`,`cv`.`msg_title` AS `msg_title`,`cv`.`mobile` AS `mobile`,`cv`.`phone` AS `phone`,`cv`.`home_phone` AS `home_phone`,`cv`.`email` AS `email`,`cv`.`realname` AS `realname`,`cv`.`gender` AS `gender`,`cv`.`nation` AS `nation`,`cv`.`native_place` AS `native_place`,`cv`.`idcard` AS `idcard`,`cv`.`birth` AS `birth`,`cv`.`party_id` AS `party_id`,`cv`.`branch_id` AS `branch_id`,`cv`.`grow_time` AS `grow_time`,`cv`.`member_status` AS `member_status`,`cv`.`cadre_grow_time` AS `cadre_grow_time`,`cv`.`cadre_dp_type` AS `cadre_dp_type`,`cv`.`edu_id` AS `edu_id`,`cv`.`finish_time` AS `finish_time`,`cv`.`learn_style` AS `learn_style`,`cv`.`school` AS `school`,`cv`.`dep` AS `dep`,`cv`.`school_type` AS `school_type`,`cv`.`major` AS `major`,`cv`.`degree` AS `degree`,`cv`.`post_class` AS `post_class`,`cv`.`sub_post_class` AS `sub_post_class`,`cv`.`main_post_level` AS `main_post_level`,`cv`.`pro_post_time` AS `pro_post_time`,`cv`.`pro_post_level` AS `pro_post_level`,`cv`.`pro_post_level_time` AS `pro_post_level_time`,`cv`.`pro_post` AS `pro_post`,`cv`.`manage_level` AS `manage_level`,`cv`.`manage_level_time` AS `manage_level_time`,`cv`.`arrive_time` AS `arrive_time`,`cv`.`work_time` AS `work_time`,`cv`.`work_start_time` AS `work_start_time`,`cv`.`main_cadre_post_id` AS `main_cadre_post_id`,`cv`.`is_double` AS `is_double`,`cv`.`double_unit_id` AS `double_unit_id`,`cv`.`is_principal_post` AS `is_principal_post`,`cv`.`cadre_post_year` AS `cadre_post_year`,`cv`.`admin_level_year` AS `admin_level_year`,`cv`.`np_relate_id` AS `np_relate_id`,`cv`.`np_id` AS `np_id`,`cv`.`np_file_name` AS `np_file_name`,`cv`.`np_file` AS `np_file`,`cv`.`np_work_time` AS `np_work_time`,`cv`.`lp_relate_id` AS `lp_relate_id`,`cv`.`lp_id` AS `lp_id`,`cv`.`lp_file_name` AS `lp_file_name`,`cv`.`lp_file` AS `lp_file`,`cv`.`lp_work_time` AS `lp_work_time`,`cv`.`cadre_id` AS `cadre_id`,`cv`.`admin_level_id` AS `admin_level_id`,`cv`.`s_dispatch_id` AS `s_dispatch_id`,`cv`.`s_work_time` AS `s_work_time`,`cv`.`e_dispatch_id` AS `e_dispatch_id`,`cv`.`e_work_time` AS `e_work_time`,`cv`.`admin_level_code` AS `admin_level_code`,`cv`.`admin_level_name` AS `admin_level_name`,`cv`.`max_ce_edu_attr` AS `max_ce_edu_attr`,`cv`.`max_ce_edu_code` AS `max_ce_edu_code`,`cv`.`max_ce_edu_name` AS `max_ce_edu_name`,`cv`.`unit_name` AS `unit_name`,`cv`.`unit_type_id` AS `unit_type_id`,`cv`.`unit_type_code` AS `unit_type_code`,`cv`.`unit_type_name` AS `unit_type_name`,`cv`.`unit_type_attr` AS `unit_type_attr`,`cv`.`verify_birth` AS `verify_birth`,`cv`.`verify_work_time` AS `verify_work_time` from ((`db_owip`.`cadre_reserve` `cr` left join `db_owip`.`cadre_view` `cv` on((`cr`.`cadre_id` = `cv`.`id`))) left join `db_owip`.`sys_user` `u` on((`u`.`id` = `cv`.`user_id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_reserve_view` AS
+select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
+cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, u.code,cv.*
+from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys_user u on u.id=cv.user_id ;
 
 -- ----------------------------
 --  View definition for `cadre_view`
@@ -94,10 +98,17 @@ SELECT c.*
 	,if(isnull(_va.verify_birth),`ui`.`birth`,_va.verify_birth) AS `birth`
 	,`om`.`party_id` AS `party_id`
 	,`om`.`branch_id` AS `branch_id`
-	,`om`.`grow_time` AS `grow_time`
 	,`om`.`status` AS `member_status`
-	, if(c.is_dp, c.dp_add_time, om.grow_time) as cadre_grow_time
-	, if(c.is_dp, c.dp_type_id, if(om.status=1, 0, -1)) as cadre_dp_type
+	, dp.id as dp_id
+	, dp.class_id as dp_type_id
+	, dp.post as dp_post
+	, dp.grow_time as dp_grow_time
+	, dp.remark as dp_remark
+	, ow.id as ow_id
+	, ow.grow_time as ow_grow_time
+	, ow.remark as ow_remark
+	, if(isnull(dp.id), if(om.status=1, om.grow_time, ow.grow_time), dp.grow_time) as cadre_grow_time
+	, if(isnull(dp.id), if(!isnull(ow.id) or om.status=1, 0, -1), dp.class_id) as cadre_dp_type
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`
 	,`max_ce`.`learn_style` AS `learn_style`
@@ -139,6 +150,8 @@ SELECT c.*
    ,_va.verify_birth as verify_birth
    ,_vwt.verify_work_time as verify_work_time
 FROM  cadre c
+left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
+left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_info` `ui` ON `ui`.`user_id` = `c`.`user_id`
 LEFT JOIN `sys_teacher_info` `t` ON `t`.`user_id` = `c`.`user_id`
 LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
@@ -163,8 +176,7 @@ left join dispatch sd on sd.id=sdc.dispatch_id
 left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
 left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level_id=main_cadre_post.admin_level_id
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
-left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id where c.id=154
-
+left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id
 -- ----------------------------
 --  View definition for `cis_inspector_view`
 -- ----------------------------
@@ -269,8 +281,42 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --  View definition for `ow_party_member_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_member_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_view` AS select `opm`.`id` AS `id`,`opm`.`group_id` AS `group_id`,`opm`.`user_id` AS `user_id`,`opm`.`type_ids` AS `type_ids`,`opm`.`post_id` AS `post_id`,`opm`.`assign_date` AS `assign_date`,`opm`.`office_phone` AS `office_phone`,`opm`.`mobile` AS `mobile`,`opm`.`is_admin` AS `is_admin`,`opm`.`sort_order` AS `sort_order`,`ui`.`msg_title` AS `msg_title`,`ui`.`email` AS `email`,`ui`.`realname` AS `realname`,`ui`.`gender` AS `gender`,`ui`.`nation` AS `nation`,`ui`.`native_place` AS `native_place`,`ui`.`idcard` AS `idcard`,`ui`.`birth` AS `birth`,`om`.`party_id` AS `party_id`,`om`.`branch_id` AS `branch_id`,`om`.`grow_time` AS `grow_time`,`om`.`status` AS `member_status`,`opmg`.`party_id` AS `group_party_id`,`op`.`unit_id` AS `unit_id`,`op`.`sort_order` AS `party_sort_order`,`t`.`post_class` AS `post_class`,`t`.`sub_post_class` AS `sub_post_class`,`t`.`main_post_level` AS `main_post_level`,`t`.`pro_post_time` AS `pro_post_time`,`t`.`pro_post_level` AS `pro_post_level`,`t`.`pro_post_level_time` AS `pro_post_level_time`,`t`.`pro_post` AS `pro_post`,`t`.`manage_level` AS `manage_level`,`t`.`manage_level_time` AS `manage_level_time`,`t`.`arrive_time` AS `arrive_time`,`c`.`is_dp` AS `is_dp`,`c`.`dp_type_id` AS `dp_type_id`,`c`.`dp_add_time` AS `dp_add_time` from ((((((`ow_party_member` `opm` join `ow_party_member_group` `opmg` on(((`opmg`.`is_present` = 1) and (`opmg`.`is_deleted` = 0) and (`opm`.`group_id` = `opmg`.`id`)))) left join `sys_user_info` `ui` on((`opm`.`user_id` = `ui`.`user_id`))) left join `ow_member` `om` on((`opm`.`user_id` = `om`.`user_id`))) left join `ow_party` `op` on((`opmg`.`party_id` = `op`.`id`))) left join `sys_teacher_info` `t` on((`opm`.`user_id` = `t`.`user_id`))) left join `cadre` `c` on((`opm`.`user_id` = `c`.`user_id`)));
-
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_view` AS
+select opm.*,
+`ui`.`msg_title` AS `msg_title`
+	,`ui`.`email` AS `email`
+	,`ui`.`realname` AS `realname`
+	,`ui`.`gender` AS `gender`
+	,`ui`.`nation` AS `nation`
+	,`ui`.`native_place` AS `native_place`
+	,`ui`.`idcard` AS `idcard`
+	,`ui`.`birth` AS `birth`
+	,`om`.`party_id` AS `party_id`
+	,`om`.`branch_id` AS `branch_id`
+	,`om`.`grow_time` AS `grow_time`
+	,`om`.`status` AS `member_status`
+	, opmg.party_id as group_party_id
+	, op.unit_id
+	, op.sort_order as party_sort_order
+	,`t`.`post_class` AS `post_class`
+	,`t`.`sub_post_class` AS `sub_post_class`
+	,`t`.`main_post_level` AS `main_post_level`
+	,`t`.`pro_post_time` AS `pro_post_time`
+	,`t`.`pro_post_level` AS `pro_post_level`
+	,`t`.`pro_post_level_time` AS `pro_post_level_time`
+	,`t`.`pro_post` AS `pro_post`
+	,`t`.`manage_level` AS `manage_level`
+	,`t`.`manage_level_time` AS `manage_level_time`
+	,`t`.`arrive_time` AS `arrive_time`
+	, if(isnull(dp.id), if(om.status=1, om.grow_time, ow.grow_time), dp.grow_time) as cadre_grow_time
+	, if(isnull(dp.id), if(!isnull(ow.id) or om.status=1, 0, -1), dp.class_id) as cadre_dp_type
+	 from  ow_party_member opm  join ow_party_member_group opmg on opmg.is_present=1 and opmg.is_deleted=0 and opm.group_id=opmg.id
+ left join sys_user_info ui on opm.user_id=ui.user_id
+ left join ow_member om on opm.user_id=om.user_id
+ left join ow_party op on opmg.party_id=op.id
+ left join sys_teacher_info t on opm.user_id=t.user_id
+left join cadre_party dp on dp.user_id= opm.user_id and dp.type = 1
+left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2
 -- ----------------------------
 --  View definition for `ow_party_view`
 -- ----------------------------

@@ -59,8 +59,8 @@
         {
             label: '党龄', name: '_growBirth', width: 50,
             formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.growTime == undefined) return '-';
-                return $.yearOffNow(rowObject.growTime);
+                if (rowObject.cadreGrowTime == undefined) return '-';
+                return $.yearOffNow(rowObject.cadreGrowTime);
             }
         },
         {

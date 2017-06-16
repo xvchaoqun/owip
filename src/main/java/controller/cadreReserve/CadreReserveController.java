@@ -198,7 +198,7 @@ public class CadreReserveController extends BaseController {
             return;
         }
 
-        int count = cadreReserveViewMapper.countByExample(example);
+        long count = cadreReserveViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

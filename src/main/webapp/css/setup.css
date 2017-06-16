@@ -913,10 +913,12 @@ input[type=radio].bigger {
     width: 730px;
 }
 
-.two-frames{
+.two-frames, .preview-text{
     font-size: 14pt;
     font-family: "sans serif", tahoma, verdana, helvetica;
 }
+
+
 
 span.delete {
     text-decoration: line-through

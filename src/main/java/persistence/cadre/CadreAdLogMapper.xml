@@ -1,48 +1,43 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadre.CadreAdLogMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadre.CadreAdLog" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="type_id" property="typeId" jdbcType="INTEGER" />
-    <result column="post_id" property="postId" jdbcType="INTEGER" />
-    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="dispatch_cadre_id" property="dispatchCadreId" jdbcType="INTEGER" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="dp_type_id" property="dpTypeId" jdbcType="INTEGER" />
-    <result column="dp_add_time" property="dpAddTime" jdbcType="DATE" />
-    <result column="dp_post" property="dpPost" jdbcType="VARCHAR" />
-    <result column="dp_remark" property="dpRemark" jdbcType="VARCHAR" />
-    <result column="is_dp" property="isDp" jdbcType="BIT" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="module" property="module" jdbcType="TINYINT" />
-    <result column="module_id" property="moduleId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="ip" property="ip" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cadre.CadreAdLogMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreAdLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="module" jdbcType="TINYINT" property="module" />
+    <result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -53,25 +48,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -82,268 +77,220 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, cadre_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, dp_type_id, 
-    dp_add_time, dp_post, dp_remark, is_dp, remark, status, module, module_id, user_id, 
-    content, ip, create_time
+  <sql id="Base_Column_List">
+    id, cadre_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, 
+    status, module, module_id, user_id, content, ip, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreAdLogExample" >
+  <select id="selectByExample" parameterType="domain.cadre.CadreAdLogExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_ad_log
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from cadre_ad_log
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cadre_ad_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadreAdLogExample" >
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreAdLogExample">
     delete from cadre_ad_log
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadreAdLog" >
+  <insert id="insert" parameterType="domain.cadre.CadreAdLog">
     insert into cadre_ad_log (id, cadre_id, type_id, 
       post_id, unit_id, title, 
-      dispatch_cadre_id, post, dp_type_id, 
-      dp_add_time, dp_post, dp_remark, 
-      is_dp, remark, status, module, 
-      module_id, user_id, content, 
-      ip, create_time)
+      dispatch_cadre_id, post, remark, 
+      status, module, module_id, 
+      user_id, content, ip, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
       #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{dpTypeId,jdbcType=INTEGER}, 
-      #{dpAddTime,jdbcType=DATE}, #{dpPost,jdbcType=VARCHAR}, #{dpRemark,jdbcType=VARCHAR}, 
-      #{isDp,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{module,jdbcType=TINYINT}, 
-      #{moduleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{module,jdbcType=TINYINT}, #{moduleId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadreAdLog" >
+  <insert id="insertSelective" parameterType="domain.cadre.CadreAdLog">
     insert into cadre_ad_log
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="typeId != null" >
+      <if test="typeId != null">
         type_id,
       </if>
-      <if test="postId != null" >
+      <if test="postId != null">
         post_id,
       </if>
-      <if test="unitId != null" >
+      <if test="unitId != null">
         unit_id,
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title,
       </if>
-      <if test="dispatchCadreId != null" >
+      <if test="dispatchCadreId != null">
         dispatch_cadre_id,
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post,
       </if>
-      <if test="dpTypeId != null" >
-        dp_type_id,
-      </if>
-      <if test="dpAddTime != null" >
-        dp_add_time,
-      </if>
-      <if test="dpPost != null" >
-        dp_post,
-      </if>
-      <if test="dpRemark != null" >
-        dp_remark,
-      </if>
-      <if test="isDp != null" >
-        is_dp,
-      </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
-      <if test="module != null" >
+      <if test="module != null">
         module,
       </if>
-      <if test="moduleId != null" >
+      <if test="moduleId != null">
         module_id,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="content != null" >
+      <if test="content != null">
         content,
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="cadreId != null" >
+      <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null" >
+      <if test="typeId != null">
         #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="postId != null" >
+      <if test="postId != null">
         #{postId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null" >
+      <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="dispatchCadreId != null" >
+      <if test="dispatchCadreId != null">
         #{dispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
-      <if test="dpTypeId != null" >
-        #{dpTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="dpAddTime != null" >
-        #{dpAddTime,jdbcType=DATE},
-      </if>
-      <if test="dpPost != null" >
-        #{dpPost,jdbcType=VARCHAR},
-      </if>
-      <if test="dpRemark != null" >
-        #{dpRemark,jdbcType=VARCHAR},
-      </if>
-      <if test="isDp != null" >
-        #{isDp,jdbcType=BIT},
-      </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="module != null" >
+      <if test="module != null">
         #{module,jdbcType=TINYINT},
       </if>
-      <if test="moduleId != null" >
+      <if test="moduleId != null">
         #{moduleId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
+      <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadreAdLogExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.cadre.CadreAdLogExample" resultType="java.lang.Long">
     select count(*) from cadre_ad_log
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update cadre_ad_log
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null" >
+      <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null" >
+      <if test="record.typeId != null">
         type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
-      <if test="record.postId != null" >
+      <if test="record.postId != null">
         post_id = #{record.postId,jdbcType=INTEGER},
       </if>
-      <if test="record.unitId != null" >
+      <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.title != null" >
+      <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.dispatchCadreId != null" >
+      <if test="record.dispatchCadreId != null">
         dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.post != null" >
+      <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
-      <if test="record.dpTypeId != null" >
-        dp_type_id = #{record.dpTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="record.dpAddTime != null" >
-        dp_add_time = #{record.dpAddTime,jdbcType=DATE},
-      </if>
-      <if test="record.dpPost != null" >
-        dp_post = #{record.dpPost,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dpRemark != null" >
-        dp_remark = #{record.dpRemark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isDp != null" >
-        is_dp = #{record.isDp,jdbcType=BIT},
-      </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null" >
+      <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.module != null" >
+      <if test="record.module != null">
         module = #{record.module,jdbcType=TINYINT},
       </if>
-      <if test="record.moduleId != null" >
+      <if test="record.moduleId != null">
         module_id = #{record.moduleId,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
+      <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.content != null" >
+      <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.ip != null" >
+      <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update cadre_ad_log
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -353,11 +300,6 @@
       title = #{record.title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
-      dp_type_id = #{record.dpTypeId,jdbcType=INTEGER},
-      dp_add_time = #{record.dpAddTime,jdbcType=DATE},
-      dp_post = #{record.dpPost,jdbcType=VARCHAR},
-      dp_remark = #{record.dpRemark,jdbcType=VARCHAR},
-      is_dp = #{record.isDp,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       module = #{record.module,jdbcType=TINYINT},
@@ -366,77 +308,62 @@
       content = #{record.content,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreAdLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreAdLog">
     update cadre_ad_log
-    <set >
-      <if test="cadreId != null" >
+    <set>
+      <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null" >
+      <if test="typeId != null">
         type_id = #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="postId != null" >
+      <if test="postId != null">
         post_id = #{postId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null" >
+      <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="dispatchCadreId != null" >
+      <if test="dispatchCadreId != null">
         dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
-      <if test="dpTypeId != null" >
-        dp_type_id = #{dpTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="dpAddTime != null" >
-        dp_add_time = #{dpAddTime,jdbcType=DATE},
-      </if>
-      <if test="dpPost != null" >
-        dp_post = #{dpPost,jdbcType=VARCHAR},
-      </if>
-      <if test="dpRemark != null" >
-        dp_remark = #{dpRemark,jdbcType=VARCHAR},
-      </if>
-      <if test="isDp != null" >
-        is_dp = #{isDp,jdbcType=BIT},
-      </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="module != null" >
+      <if test="module != null">
         module = #{module,jdbcType=TINYINT},
       </if>
-      <if test="moduleId != null" >
+      <if test="moduleId != null">
         module_id = #{moduleId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
+      <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreAdLog" >
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreAdLog">
     update cadre_ad_log
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
@@ -445,11 +372,6 @@
       title = #{title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
-      dp_type_id = #{dpTypeId,jdbcType=INTEGER},
-      dp_add_time = #{dpAddTime,jdbcType=DATE},
-      dp_post = #{dpPost,jdbcType=VARCHAR},
-      dp_remark = #{dpRemark,jdbcType=VARCHAR},
-      is_dp = #{isDp,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       module = #{module,jdbcType=TINYINT},
@@ -460,17 +382,17 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreAdLogExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadreAdLogExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_ad_log
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

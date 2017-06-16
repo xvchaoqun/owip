@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cadre.CadreMapper">
-  <resultMap id="BaseResultMap" type="domain.cadre.Cadre">
+<mapper namespace="persistence.cadre.CadrePartyMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreParty">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,16 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, sort_order, 
-    status
+    id, user_id, type, class_id, grow_time, post, remark
   </sql>
-  <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cadre.CadrePartyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre
+    from cadre_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,31 +88,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cadre
+    from cadre_party
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cadre
+    delete from cadre_party
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadreExample">
-    delete from cadre
+  <delete id="deleteByExample" parameterType="domain.cadre.CadrePartyExample">
+    delete from cadre_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.cadre.Cadre">
-    insert into cadre (id, user_id, type_id, 
-      post_id, unit_id, title, 
-      dispatch_cadre_id, post, remark, 
-      sort_order, status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+  <insert id="insert" parameterType="domain.cadre.CadreParty">
+    insert into cadre_party (id, user_id, type, 
+      class_id, grow_time, post, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{classId,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, #{post,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.Cadre">
-    insert into cadre
+  <insert id="insertSelective" parameterType="domain.cadre.CadreParty">
+    insert into cadre_party
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -125,32 +118,20 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="type != null">
+        type,
       </if>
-      <if test="postId != null">
-        post_id,
+      <if test="classId != null">
+        class_id,
       </if>
-      <if test="unitId != null">
-        unit_id,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="dispatchCadreId != null">
-        dispatch_cadre_id,
+      <if test="growTime != null">
+        grow_time,
       </if>
       <if test="post != null">
         post,
       </if>
       <if test="remark != null">
         remark,
-      </if>
-      <if test="sortOrder != null">
-        sort_order,
-      </if>
-      <if test="status != null">
-        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -160,20 +141,14 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
-      <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="dispatchCadreId != null">
-        #{dispatchCadreId,jdbcType=INTEGER},
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
       </if>
       <if test="post != null">
         #{post,jdbcType=VARCHAR},
@@ -181,22 +156,16 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="sortOrder != null">
-        #{sortOrder,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadreExample" resultType="java.lang.Long">
-    select count(*) from cadre
+  <select id="countByExample" parameterType="domain.cadre.CadrePartyExample" resultType="java.lang.Long">
+    select count(*) from cadre_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cadre
+    update cadre_party
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -204,20 +173,14 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.postId != null">
-        post_id = #{record.postId,jdbcType=INTEGER},
+      <if test="record.classId != null">
+        class_id = #{record.classId,jdbcType=INTEGER},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
-      </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dispatchCadreId != null">
-        dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
       </if>
       <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
@@ -225,54 +188,38 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cadre
+    update cadre_party
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
-      post_id = #{record.postId,jdbcType=INTEGER},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      class_id = #{record.classId,jdbcType=INTEGER},
+      grow_time = #{record.growTime,jdbcType=DATE},
       post = #{record.post,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=TINYINT}
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.Cadre">
-    update cadre
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreParty">
+    update cadre_party
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="postId != null">
-        post_id = #{postId,jdbcType=INTEGER},
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
       </if>
-      <if test="unitId != null">
-        unit_id = #{unitId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="dispatchCadreId != null">
-        dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
+      <if test="growTime != null">
+        grow_time = #{growTime,jdbcType=DATE},
       </if>
       <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
@@ -280,36 +227,26 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.Cadre">
-    update cadre
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreParty">
+    update cadre_party
     set user_id = #{userId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
-      post_id = #{postId,jdbcType=INTEGER},
-      unit_id = #{unitId,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      class_id = #{classId,jdbcType=INTEGER},
+      grow_time = #{growTime,jdbcType=DATE},
       post = #{post,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadrePartyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre
+    from cadre_party
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

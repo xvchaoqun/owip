@@ -6,7 +6,11 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CadreReserveViewMapper {
-    int countByExample(CadreReserveViewExample example);
+    long countByExample(CadreReserveViewExample example);
+
+    List<CadreReserveView> selectByExampleWithBLOBsWithRowbounds(CadreReserveViewExample example, RowBounds rowBounds);
+
+    List<CadreReserveView> selectByExampleWithBLOBs(CadreReserveViewExample example);
 
     List<CadreReserveView> selectByExampleWithRowbounds(CadreReserveViewExample example, RowBounds rowBounds);
 

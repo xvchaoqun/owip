@@ -5,7 +5,6 @@ import domain.member.Member;
 import domain.party.*;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.*;
@@ -16,13 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.cadre.CadreExportService;
 import service.member.MemberService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.NumberUtils;
 import sys.utils.PropertiesUtils;
 
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class PartyMemberService extends BaseMapper {
     @Autowired
     protected MemberService memberService;
 
+    // 导出列表中分党委的所有委员
     public SXSSFWorkbook export(PartyMemberViewExample example) {
 
 
@@ -132,26 +132,36 @@ public class PartyMemberService extends BaseMapper {
 
             String partyName = "";// 党派
             String partyAddTime = "";
-            if (BooleanUtils.isNotTrue(record.getIsDp()) &&
-                    (member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL) ) {
+
+            if(record.getCadreDpType()!=null && record.getCadreDpType()>0 ){
+
+                MetaType metaType = metaTypeMap.get(record.getCadreDpType().intValue());
+                if(metaType!=null) partyName = metaType.getName();
+                partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
+
+            }else if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
+
                 partyName = "中共党员";
-                if(record.getGrowTime() != null)
-                    partyAddTime = DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD);
-            } else if (BooleanUtils.isTrue(record.getIsDp())) {
-                partyName = metaTypeMap.get(record.getDpTypeId()).getName();
-                partyAddTime = DateUtils.formatDate(record.getDpAddTime(), DateUtils.YYYY_MM_DD);
+                partyAddTime = DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD);
+
+            }else if(NumberUtils.longEqual(record.getCadreDpType(), 0L)){
+
+                partyName = "中共党员";
+                partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
             }
 
 
             String partyFullName = ""; // 所属党组织
-            if (record.getPartyId() != null) {
-                Party party = partyMap.get(record.getPartyId());
-                if (party != null) {
-                    partyFullName = party.getName();
-                    if (record.getBranchId() != null) {
-                        Branch branch = branchMap.get(record.getBranchId());
-                        if (branch != null) {
-                            partyFullName += "-" + branch.getName();
+            if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL) {
+                if (record.getPartyId() != null) {
+                    Party party = partyMap.get(record.getPartyId());
+                    if (party != null) {
+                        partyFullName = party.getName();
+                        if (record.getBranchId() != null) {
+                            Branch branch = branchMap.get(record.getBranchId());
+                            if (branch != null) {
+                                partyFullName += "-" + branch.getName();
+                            }
                         }
                     }
                 }

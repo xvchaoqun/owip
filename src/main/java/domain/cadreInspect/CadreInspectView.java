@@ -68,16 +68,6 @@ public class CadreInspectView implements Serializable {
 
     private String post;
 
-    private Integer dpTypeId;
-
-    private Date dpAddTime;
-
-    private String dpPost;
-
-    private String dpRemark;
-
-    private Boolean isDp;
-
     private String remark;
 
     private Integer sortOrder;
@@ -110,9 +100,27 @@ public class CadreInspectView implements Serializable {
 
     private Integer branchId;
 
-    private Date growTime;
-
     private Byte memberStatus;
+
+    private Integer dpId;
+
+    private Integer dpTypeId;
+
+    private String dpPost;
+
+    private Date dpGrowTime;
+
+    private String dpRemark;
+
+    private Integer owId;
+
+    private Date owGrowTime;
+
+    private String owRemark;
+
+    private Date cadreGrowTime;
+
+    private Long cadreDpType;
 
     private Integer eduId;
 
@@ -150,6 +158,8 @@ public class CadreInspectView implements Serializable {
 
     private Date arriveTime;
 
+    private Date workTime;
+
     private Date workStartTime;
 
     private Integer mainCadrePostId;
@@ -157,6 +167,44 @@ public class CadreInspectView implements Serializable {
     private Boolean isDouble;
 
     private Integer doubleUnitId;
+
+    private Boolean isPrincipalPost;
+
+    private Long cadrePostYear;
+
+    private Long adminLevelYear;
+
+    private Integer npRelateId;
+
+    private Integer npId;
+
+    private String npFileName;
+
+    private String npFile;
+
+    private Date npWorkTime;
+
+    private Integer lpRelateId;
+
+    private Integer lpId;
+
+    private String lpFileName;
+
+    private String lpFile;
+
+    private Date lpWorkTime;
+
+    private Integer cadreId;
+
+    private Integer adminLevelId;
+
+    private Integer sDispatchId;
+
+    private Date sWorkTime;
+
+    private Integer eDispatchId;
+
+    private Date eWorkTime;
 
     private String adminLevelCode;
 
@@ -177,6 +225,12 @@ public class CadreInspectView implements Serializable {
     private String unitTypeName;
 
     private String unitTypeAttr;
+
+    private Date verifyBirth;
+
+    private Date verifyWorkTime;
+
+    private String talentTitle;
 
     private static final long serialVersionUID = 1L;
 
@@ -282,46 +336,6 @@ public class CadreInspectView implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
-    }
-
-    public Integer getDpTypeId() {
-        return dpTypeId;
-    }
-
-    public void setDpTypeId(Integer dpTypeId) {
-        this.dpTypeId = dpTypeId;
-    }
-
-    public Date getDpAddTime() {
-        return dpAddTime;
-    }
-
-    public void setDpAddTime(Date dpAddTime) {
-        this.dpAddTime = dpAddTime;
-    }
-
-    public String getDpPost() {
-        return dpPost;
-    }
-
-    public void setDpPost(String dpPost) {
-        this.dpPost = dpPost == null ? null : dpPost.trim();
-    }
-
-    public String getDpRemark() {
-        return dpRemark;
-    }
-
-    public void setDpRemark(String dpRemark) {
-        this.dpRemark = dpRemark == null ? null : dpRemark.trim();
-    }
-
-    public Boolean getIsDp() {
-        return isDp;
-    }
-
-    public void setIsDp(Boolean isDp) {
-        this.isDp = isDp;
     }
 
     public String getRemark() {
@@ -452,20 +466,92 @@ public class CadreInspectView implements Serializable {
         this.branchId = branchId;
     }
 
-    public Date getGrowTime() {
-        return growTime;
-    }
-
-    public void setGrowTime(Date growTime) {
-        this.growTime = growTime;
-    }
-
     public Byte getMemberStatus() {
         return memberStatus;
     }
 
     public void setMemberStatus(Byte memberStatus) {
         this.memberStatus = memberStatus;
+    }
+
+    public Integer getDpId() {
+        return dpId;
+    }
+
+    public void setDpId(Integer dpId) {
+        this.dpId = dpId;
+    }
+
+    public Integer getDpTypeId() {
+        return dpTypeId;
+    }
+
+    public void setDpTypeId(Integer dpTypeId) {
+        this.dpTypeId = dpTypeId;
+    }
+
+    public String getDpPost() {
+        return dpPost;
+    }
+
+    public void setDpPost(String dpPost) {
+        this.dpPost = dpPost == null ? null : dpPost.trim();
+    }
+
+    public Date getDpGrowTime() {
+        return dpGrowTime;
+    }
+
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
+    }
+
+    public String getDpRemark() {
+        return dpRemark;
+    }
+
+    public void setDpRemark(String dpRemark) {
+        this.dpRemark = dpRemark == null ? null : dpRemark.trim();
+    }
+
+    public Integer getOwId() {
+        return owId;
+    }
+
+    public void setOwId(Integer owId) {
+        this.owId = owId;
+    }
+
+    public Date getOwGrowTime() {
+        return owGrowTime;
+    }
+
+    public void setOwGrowTime(Date owGrowTime) {
+        this.owGrowTime = owGrowTime;
+    }
+
+    public String getOwRemark() {
+        return owRemark;
+    }
+
+    public void setOwRemark(String owRemark) {
+        this.owRemark = owRemark == null ? null : owRemark.trim();
+    }
+
+    public Date getCadreGrowTime() {
+        return cadreGrowTime;
+    }
+
+    public void setCadreGrowTime(Date cadreGrowTime) {
+        this.cadreGrowTime = cadreGrowTime;
+    }
+
+    public Long getCadreDpType() {
+        return cadreDpType;
+    }
+
+    public void setCadreDpType(Long cadreDpType) {
+        this.cadreDpType = cadreDpType;
     }
 
     public Integer getEduId() {
@@ -612,6 +698,14 @@ public class CadreInspectView implements Serializable {
         this.arriveTime = arriveTime;
     }
 
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
     public Date getWorkStartTime() {
         return workStartTime;
     }
@@ -642,6 +736,158 @@ public class CadreInspectView implements Serializable {
 
     public void setDoubleUnitId(Integer doubleUnitId) {
         this.doubleUnitId = doubleUnitId;
+    }
+
+    public Boolean getIsPrincipalPost() {
+        return isPrincipalPost;
+    }
+
+    public void setIsPrincipalPost(Boolean isPrincipalPost) {
+        this.isPrincipalPost = isPrincipalPost;
+    }
+
+    public Long getCadrePostYear() {
+        return cadrePostYear;
+    }
+
+    public void setCadrePostYear(Long cadrePostYear) {
+        this.cadrePostYear = cadrePostYear;
+    }
+
+    public Long getAdminLevelYear() {
+        return adminLevelYear;
+    }
+
+    public void setAdminLevelYear(Long adminLevelYear) {
+        this.adminLevelYear = adminLevelYear;
+    }
+
+    public Integer getNpRelateId() {
+        return npRelateId;
+    }
+
+    public void setNpRelateId(Integer npRelateId) {
+        this.npRelateId = npRelateId;
+    }
+
+    public Integer getNpId() {
+        return npId;
+    }
+
+    public void setNpId(Integer npId) {
+        this.npId = npId;
+    }
+
+    public String getNpFileName() {
+        return npFileName;
+    }
+
+    public void setNpFileName(String npFileName) {
+        this.npFileName = npFileName == null ? null : npFileName.trim();
+    }
+
+    public String getNpFile() {
+        return npFile;
+    }
+
+    public void setNpFile(String npFile) {
+        this.npFile = npFile == null ? null : npFile.trim();
+    }
+
+    public Date getNpWorkTime() {
+        return npWorkTime;
+    }
+
+    public void setNpWorkTime(Date npWorkTime) {
+        this.npWorkTime = npWorkTime;
+    }
+
+    public Integer getLpRelateId() {
+        return lpRelateId;
+    }
+
+    public void setLpRelateId(Integer lpRelateId) {
+        this.lpRelateId = lpRelateId;
+    }
+
+    public Integer getLpId() {
+        return lpId;
+    }
+
+    public void setLpId(Integer lpId) {
+        this.lpId = lpId;
+    }
+
+    public String getLpFileName() {
+        return lpFileName;
+    }
+
+    public void setLpFileName(String lpFileName) {
+        this.lpFileName = lpFileName == null ? null : lpFileName.trim();
+    }
+
+    public String getLpFile() {
+        return lpFile;
+    }
+
+    public void setLpFile(String lpFile) {
+        this.lpFile = lpFile == null ? null : lpFile.trim();
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+
+    public Integer getAdminLevelId() {
+        return adminLevelId;
+    }
+
+    public void setAdminLevelId(Integer adminLevelId) {
+        this.adminLevelId = adminLevelId;
+    }
+
+    public Integer getsDispatchId() {
+        return sDispatchId;
+    }
+
+    public void setsDispatchId(Integer sDispatchId) {
+        this.sDispatchId = sDispatchId;
+    }
+
+    public Date getsWorkTime() {
+        return sWorkTime;
+    }
+
+    public void setsWorkTime(Date sWorkTime) {
+        this.sWorkTime = sWorkTime;
+    }
+
+    public Integer geteDispatchId() {
+        return eDispatchId;
+    }
+
+    public void seteDispatchId(Integer eDispatchId) {
+        this.eDispatchId = eDispatchId;
+    }
+
+    public Date geteWorkTime() {
+        return eWorkTime;
+    }
+
+    public void seteWorkTime(Date eWorkTime) {
+        this.eWorkTime = eWorkTime;
     }
 
     public String getAdminLevelCode() {
@@ -722,5 +968,29 @@ public class CadreInspectView implements Serializable {
 
     public void setUnitTypeAttr(String unitTypeAttr) {
         this.unitTypeAttr = unitTypeAttr == null ? null : unitTypeAttr.trim();
+    }
+
+    public Date getVerifyBirth() {
+        return verifyBirth;
+    }
+
+    public void setVerifyBirth(Date verifyBirth) {
+        this.verifyBirth = verifyBirth;
+    }
+
+    public Date getVerifyWorkTime() {
+        return verifyWorkTime;
+    }
+
+    public void setVerifyWorkTime(Date verifyWorkTime) {
+        this.verifyWorkTime = verifyWorkTime;
+    }
+
+    public String getTalentTitle() {
+        return talentTitle;
+    }
+
+    public void setTalentTitle(String talentTitle) {
+        this.talentTitle = talentTitle == null ? null : talentTitle.trim();
     }
 }

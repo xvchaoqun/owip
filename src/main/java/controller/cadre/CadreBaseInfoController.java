@@ -1,14 +1,14 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreParty;
 import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.sys.SysUserInfo;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +20,7 @@ import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -40,7 +41,7 @@ public class CadreBaseInfoController extends BaseController {
     public Map do_cadreBaseInfo(int cadreId,
                                   MultipartFile _avatar,
                                   Integer dpTypeId,
-                                  String _dpAddTime,
+                                  @DateTimeFormat(pattern = "yyyy-MM-dd") Date _dpAddTime,
                                   String nativePlace,
                                   String homeplace,
                                   String household,
@@ -53,9 +54,16 @@ public class CadreBaseInfoController extends BaseController {
 
         CadreView cadre = cadreService.findAll().get(cadreId);
         Member member = memberService.get(cadre.getUserId());
-        if(BooleanUtils.isNotTrue(cadre.getIsDp()) && member==null) {
-            if(dpTypeId!=null && _dpAddTime!=null)
-                cadreService.addDemocraticParty(cadreId, dpTypeId, _dpAddTime, null, "干部本人添加");
+        if(cadre.getDpId()==null && member==null) {
+            if(dpTypeId!=null && _dpAddTime!=null){
+                CadreParty record = new CadreParty();
+                record.setUserId(cadre.getUserId());
+                record.setClassId(dpTypeId);
+                record.setGrowTime(_dpAddTime);
+                record.setRemark("干部本人添加");
+
+                cadreService.addOrUPdateCadreParty(record);
+            }
         }
 
         if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){

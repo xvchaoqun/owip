@@ -64,7 +64,7 @@ public class CadreAdLogController extends BaseController {
         criteria.andCadreIdEqualTo(cadreId);
         example.setOrderByClause("create_time desc");
 
-        int count = cadreAdLogMapper.countByExample(example);
+        long count = cadreAdLogMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

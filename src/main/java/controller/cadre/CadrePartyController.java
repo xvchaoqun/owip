@@ -1,13 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreParty;
+import domain.cadre.CadrePartyExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -32,38 +29,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by fafa on 2016/9/27.
- *
- * 民主党派干部库，和干部库的部分字段对应
- */
 @Controller
-public class DemocraticPartyController extends BaseController {
+public class CadrePartyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("democraticParty:list")
-    @RequestMapping("/democraticParty")
-    public String democraticParty(Integer cadreId,ModelMap modelMap) {
+    @RequiresPermissions("cadreParty:list")
+    @RequestMapping("/cadreParty")
+    public String cadreParty(Integer userId,ModelMap modelMap) {
 
-        if (cadreId!=null) {
-            CadreView cadre = cadreService.findAll().get(cadreId);
-            modelMap.put("cadre", cadre);
-            if(cadre!=null) {
-                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-                modelMap.put("sysUser", sysUser);
-            }
+        if (userId!=null) {
+            SysUserView sysUser = sysUserService.findById(userId);
+            modelMap.put("sysUser", sysUser);
         }
 
-        return "cadre/democraticParty/democraticParty_page";
+        return "cadre/cadreParty/cadreParty_page";
     }
-    @RequiresPermissions("democraticParty:list")
-    @RequestMapping("/democraticParty_data")
-    public void democraticParty_data(HttpServletResponse response,
-                           @SortParam(required = false, defaultValue = "sort_order",tableName = "cadre") String sort,
-                           @OrderParam(required = false, defaultValue = "desc") String order,
+    @RequiresPermissions("cadreParty:list")
+    @RequestMapping("/cadreParty_data")
+    public void cadreParty_data(HttpServletResponse response,
+                           byte type,
                            Byte status,
-                           Integer cadreId,
+                           Integer userId,
                            Integer typeId,
                            Integer postId,
                            Integer dpTypeId,
@@ -79,13 +66,19 @@ public class DemocraticPartyController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreViewExample example = new CadreViewExample();
-        CadreViewExample.Criteria criteria = example.createCriteria().andIsDpEqualTo(true);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        CadreViewExample.Criteria criteria = example.createCriteria();
+
+        if(type==1)
+            criteria.andDpIdIsNotNull();
+        else if(type==2)
+            criteria.andOwIdIsNotNull();
+
+        example.setOrderByClause("sort_order desc");
         if (status!=null) {
             criteria.andStatusEqualTo(status);
         }
-        if (cadreId!=null) {
-            criteria.andIdEqualTo(cadreId);
+        if (userId!=null) {
+            criteria.andUserIdEqualTo(userId);
         }
         if (typeId!=null) {
             criteria.andTypeIdEqualTo(typeId);
@@ -120,39 +113,54 @@ public class DemocraticPartyController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("democraticParty:edit")
-    @RequestMapping(value = "/democraticParty_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_democraticParty_au(Integer cadreId, Integer dpTypeId, String _dpAddTime,
-                                     String dpPost, String dpRemark, HttpServletRequest request) {
+    public boolean idDuplicate(Integer id, int userId, byte type){
 
-        cadreService.addDemocraticParty(cadreId, dpTypeId, _dpAddTime, dpPost, dpRemark);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新民主党派干部：%s", cadreId));
+        CadrePartyExample example = new CadrePartyExample();
+        CadrePartyExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId)
+                .andTypeEqualTo(type);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+
+        return cadrePartyMapper.countByExample(example) > 0;
+    }
+
+    @RequiresPermissions("cadreParty:edit")
+    @RequestMapping(value = "/cadreParty_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreParty_au(CadreParty record,
+                                HttpServletRequest request) {
+
+        if(idDuplicate(record.getId(), record.getUserId(), record.getType())){
+
+            return failed("添加重复");
+        }
+
+        cadreService.addOrUPdateCadreParty(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部党派：%s", JSONUtils.toString(record, false)));
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("democraticParty:edit")
-    @RequestMapping("/democraticParty_au")
-    public String democraticParty_au(Integer cadreId,  ModelMap modelMap) {
+    @RequiresPermissions("cadreParty:edit")
+    @RequestMapping("/cadreParty_au")
+    public String cadreParty_au(Integer id,  ModelMap modelMap) {
 
-        if(cadreId!=null) {
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
-            modelMap.put("cadre", cadre);
-            modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
+        if(id!=null) {
+            CadreParty cadreParty = cadrePartyMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreParty", cadreParty);
+            modelMap.put("sysUser", sysUserService.findById(cadreParty.getUserId()));
         }
 
-        return "cadre/democraticParty/democraticParty_au";
+        return "cadre/cadreParty/cadreParty_au";
     }
 
-    @RequiresPermissions("democraticParty:del")
-    @RequestMapping(value = "/democraticParty_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreParty:del")
+    @RequestMapping(value = "/cadreParty_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids){
-            cadreService.democraticParty_batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除民主党派干部：%s", StringUtils.join(ids, ",")));
+            cadreService.cadreParty_batchDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部党派：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

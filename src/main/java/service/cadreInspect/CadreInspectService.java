@@ -115,7 +115,6 @@ public class CadreInspectService extends BaseMapper {
                 // 先添加到干部库（类型：考察对象）
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
-                cadreRecord.setIsDp(false);
                 cadreRecord.setStatus(SystemConstants.CADRE_STATUS_INSPECT);
                 cadreMapper.insertSelective(cadreRecord);
 

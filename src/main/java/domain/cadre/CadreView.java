@@ -69,16 +69,6 @@ public class CadreView implements Serializable {
 
     private String post;
 
-    private Integer dpTypeId;
-
-    private Date dpAddTime;
-
-    private String dpPost;
-
-    private String dpRemark;
-
-    private Boolean isDp;
-
     private String remark;
 
     private Integer sortOrder;
@@ -112,6 +102,22 @@ public class CadreView implements Serializable {
     private Integer branchId;
 
     private Byte memberStatus;
+
+    private Integer dpId;
+
+    private Integer dpTypeId;
+
+    private String dpPost;
+
+    private Date dpGrowTime;
+
+    private String dpRemark;
+
+    private Integer owId;
+
+    private Date owGrowTime;
+
+    private String owRemark;
 
     private Date cadreGrowTime;
 
@@ -293,46 +299,6 @@ public class CadreView implements Serializable {
         this.post = post == null ? null : post.trim();
     }
 
-    public Integer getDpTypeId() {
-        return dpTypeId;
-    }
-
-    public void setDpTypeId(Integer dpTypeId) {
-        this.dpTypeId = dpTypeId;
-    }
-
-    public Date getDpAddTime() {
-        return dpAddTime;
-    }
-
-    public void setDpAddTime(Date dpAddTime) {
-        this.dpAddTime = dpAddTime;
-    }
-
-    public String getDpPost() {
-        return dpPost;
-    }
-
-    public void setDpPost(String dpPost) {
-        this.dpPost = dpPost == null ? null : dpPost.trim();
-    }
-
-    public String getDpRemark() {
-        return dpRemark;
-    }
-
-    public void setDpRemark(String dpRemark) {
-        this.dpRemark = dpRemark == null ? null : dpRemark.trim();
-    }
-
-    public Boolean getIsDp() {
-        return isDp;
-    }
-
-    public void setIsDp(Boolean isDp) {
-        this.isDp = isDp;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -467,6 +433,70 @@ public class CadreView implements Serializable {
 
     public void setMemberStatus(Byte memberStatus) {
         this.memberStatus = memberStatus;
+    }
+
+    public Integer getDpId() {
+        return dpId;
+    }
+
+    public void setDpId(Integer dpId) {
+        this.dpId = dpId;
+    }
+
+    public Integer getDpTypeId() {
+        return dpTypeId;
+    }
+
+    public void setDpTypeId(Integer dpTypeId) {
+        this.dpTypeId = dpTypeId;
+    }
+
+    public String getDpPost() {
+        return dpPost;
+    }
+
+    public void setDpPost(String dpPost) {
+        this.dpPost = dpPost == null ? null : dpPost.trim();
+    }
+
+    public Date getDpGrowTime() {
+        return dpGrowTime;
+    }
+
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
+    }
+
+    public String getDpRemark() {
+        return dpRemark;
+    }
+
+    public void setDpRemark(String dpRemark) {
+        this.dpRemark = dpRemark == null ? null : dpRemark.trim();
+    }
+
+    public Integer getOwId() {
+        return owId;
+    }
+
+    public void setOwId(Integer owId) {
+        this.owId = owId;
+    }
+
+    public Date getOwGrowTime() {
+        return owGrowTime;
+    }
+
+    public void setOwGrowTime(Date owGrowTime) {
+        this.owGrowTime = owGrowTime;
+    }
+
+    public String getOwRemark() {
+        return owRemark;
+    }
+
+    public void setOwRemark(String owRemark) {
+        this.owRemark = owRemark == null ? null : owRemark.trim();
     }
 
     public Date getCadreGrowTime() {

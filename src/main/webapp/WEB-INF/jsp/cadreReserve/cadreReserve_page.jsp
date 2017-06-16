@@ -254,20 +254,25 @@
             {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {
-                label: '党派', name: 'isDp', width: 80, formatter: function (cellvalue, options, rowObject) {
+                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
 
-                if (!rowObject.isDp && rowObject.growTime != undefined) return "中共党员";
-                if (rowObject.isDp) return _cMap.metaTypeMap[rowObject.dpTypeId].name;
-                return "";
+                if (cellvalue == 0) return "中共党员"
+                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
+                return "-";
             }
             },
             {
-                label: '党派加入时间', name: 'growTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-
-                if (rowObject.isDp && rowObject.dpAddTime != undefined) return rowObject.dpAddTime.substr(0, 10);
-                if (rowObject.growTime != undefined) return rowObject.growTime.substr(0, 10);
-                return ""
+                label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return cellvalue.substr(0, 10);
             }
+            },
+            {
+                label: '党龄', name: '_growBirth', width: 50,
+                formatter: function (cellvalue, options, rowObject) {
+                    if (rowObject.cadreGrowTime == undefined) return '-';
+                    return $.yearOffNow(rowObject.cadreGrowTime);
+                }
             },
             {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
