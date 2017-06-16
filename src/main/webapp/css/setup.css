@@ -77,6 +77,10 @@ body {
     min-height: 300px!important;
 }
 
+#body-content .tab-content{
+    padding-bottom: 0!important;
+}
+
 /*.widget-box{
     border: none;
 }*/
