@@ -176,7 +176,7 @@
             {label: '发文日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '文件名', width: 360, name: 'fileName', align:'left'},
             {
-                label: '文件', width: 200, formatter: function (cellvalue, options, rowObject) {
+                label: '文件', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
                 var ret = "-";
                 var pdfFilePath = rowObject.pdfFilePath;
@@ -185,14 +185,14 @@
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
                     ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> PDF</button>'
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
                                     .format(encodeURI(pdfFilePath), encodeURI(fileName));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
 
                     var fileName = (rowObject.fileName || rowObject.id) + (wordFilePath.substr(wordFilePath.indexOf(".")));
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> DOC</button>'
+                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="linkBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
                             .format(encodeURI(wordFilePath), encodeURI(fileName));
                 }
                 return ret;
