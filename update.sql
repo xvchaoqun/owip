@@ -1,7 +1,7 @@
 
 
 
-
+2017-06-16
 insert into cadre_party(user_id, type, class_id, grow_time, post, remark)
 select user_id, 1, dp_type_id, dp_add_time, dp_post, dp_remark from cadre where is_dp = 1;
 
