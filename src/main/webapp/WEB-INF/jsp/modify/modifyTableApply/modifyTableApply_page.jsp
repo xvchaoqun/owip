@@ -7,7 +7,6 @@
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/modifyTableApply"
              data-url-export="${ctx}/modifyTableApply_data"
-             data-url-bd="${ctx}/modifyTableApply_batchDel"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId}"/>
             <div class="tabbable">
@@ -16,11 +15,18 @@
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
-                                <shiro:hasRole name="${ROLE_CADREADMIN}">
+                                <shiro:hasPermission name="modifyTableApply:fakeDel">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/modifyTableApply_fakeDel" data-title="删除申请记录"
+                                       data-msg="确定将这{0}条申请记录移到“已删除”库吗？"><i class="fa fa-times"></i> 删除</a>
+                                </shiro:hasPermission>
+                            </c:if>
+                            <c:if test="${cls!=1}">
+                                <shiro:hasPermission name="modifyTableApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/modifyTableApply_batchDel" data-title="删除申请记录"
-                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
-                                </shiro:hasRole>
+                                       data-msg="确定删除这{0}条申请记录吗（删除后不可恢复）？"><i class="fa fa-trash"></i> 彻底删除</a>
+                                </shiro:hasPermission>
                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

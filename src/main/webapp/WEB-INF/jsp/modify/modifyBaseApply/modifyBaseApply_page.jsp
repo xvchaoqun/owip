@@ -37,12 +37,19 @@
                                data-url="${ctx}/user/modifyBaseApply_back" data-title="撤销申请记录"
                                data-msg="确定撤销申请记录吗？"><i class="fa fa-times"></i> 撤销申请</button>
                             </shiro:hasPermission>
-                            <shiro:hasRole name="${ROLE_CADREADMIN}">
+                            <shiro:hasPermission name="modifyBaseApply:fakeDel">
+                                <a class="jqBatchBtn btn btn-danger btn-sm"
+                                   data-url="${ctx}/modifyBaseApply_fakeDel" data-title="删除申请记录"
+                                   data-msg="确定将这{0}条申请记录移到“已删除”库吗？"><i class="fa fa-times"></i> 删除</a>
+                            </shiro:hasPermission>
+                        </div>
+                        </c:if>
+                        <c:if test="${status!=1}">
+                            <shiro:hasPermission name="modifyBaseApply:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/modifyBaseApply_batchDel" data-title="删除申请记录"
-                                   data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasRole>
-                        </div>
+                                   data-msg="确定删除这{0}条申请记录吗（删除后不可恢复）？"><i class="fa fa-trash"></i> 彻底删除</a>
+                            </shiro:hasPermission>
                         </c:if>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

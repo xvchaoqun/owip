@@ -72,7 +72,7 @@ public class ModifyTableApplyService extends BaseMapper {
 
     // 管理员删除（假删除）
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void fakeDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -83,6 +83,17 @@ public class ModifyTableApplyService extends BaseMapper {
 
         record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
         modifyTableApplyMapper.updateByExampleSelective(record, example);
+    }
+
+    // 管理员删除（真删除）
+    @Transactional
+    public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        ModifyTableApplyExample example = new ModifyTableApplyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        modifyTableApplyMapper.deleteByExample(example);
     }
 
     // 审核

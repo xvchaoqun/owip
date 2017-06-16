@@ -110,14 +110,30 @@ public class ModifyBaseApplyController extends BaseController{
     }
 
     // 假删除
-    @RequiresPermissions("modifyBaseApply:del")
-    @RequestMapping(value = "/modifyBaseApply_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("modifyBaseApply:fakeDel")
+    @RequestMapping(value = "/modifyBaseApply_fakeDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map modify(@CurrentUser SysUserView loginUser,
+    public Map modifyBaseApply_fakeDel(@CurrentUser SysUserView loginUser,
                       @RequestParam(value = "ids[]") Integer[] ids,
                       HttpServletRequest request){
 
         if (null != ids && ids.length>0){
+            modifyBaseApplyService.fakeDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量【假】删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
+    // 真删除
+    @RequiresPermissions("modifyBaseApply:del")
+    @RequestMapping(value = "/modifyBaseApply_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map modifyBaseApply_batchDel(@RequestParam(value = "ids[]") Integer[] ids,
+                                         HttpServletRequest request) {
+
+        if (null != ids && ids.length > 0) {
             modifyBaseApplyService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
         }

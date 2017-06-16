@@ -166,7 +166,7 @@ public class ModifyBaseApplyService extends BaseMapper {
 
     // 管理员删除（假删除）
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void fakeDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -177,5 +177,17 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
         modifyBaseApplyMapper.updateByExampleSelective(record, example);
+    }
+
+
+    // 管理员删除（真删除）
+    @Transactional
+    public void batchDel(Integer[] ids) {
+
+        if (ids == null || ids.length == 0) return;
+
+        ModifyBaseApplyExample example = new ModifyBaseApplyExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        modifyBaseApplyMapper.deleteByExample(example);
     }
 }

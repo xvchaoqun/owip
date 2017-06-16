@@ -2,11 +2,11 @@ package persistence.common;
 
 import bean.CadreReserveCount;
 import domain.cadre.*;
+import domain.crp.CrpRecord;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.SystemConstants;
 
@@ -18,19 +18,37 @@ import java.util.Set;
  */
 public interface ICadreMapper {
 
-    //  1、查找（机关）干部的（院系）工作经历  2、查找（院系）干部的（机关）工作经历
+    // 1、查找干部的（境外）学习经历  SystemConstants.CADRE_SCHOOL_TYPE_ABROAD
+    @ResultMap("persistence.cadre.CadreEduMapper.BaseResultMap")
+    @Select("select ce.* from cadre_edu ce , cadre c where ce.cadre_id=c.id " +
+            "and ce.school_type =#{schoolType}" +
+            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
+    List<CadreEdu> findCadreEdus(@Param("schoolType") byte schoolType, RowBounds rowBounds);
+    @Select("select count(distinct ce.id) from cadre_edu ce , cadre c where ce.cadre_id=c.id " +
+            "and ce.school_type =#{schoolType}" +
+            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
+    int countCadreEdus(@Param("schoolType") byte schoolType);
+
+    // 2、查找干部的（境外）工作经历
+    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
+    @Select("select cw.* from cadre_work cw , cadre c where cw.cadre_id=c.id " +
+            "and cw.work_type =#{workType}" +
+            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
+    List<CadreEdu> findCadreWroksByWorkType(@Param("workType") byte workType);
+
+    //  3、查找（机关）干部的（院系）工作经历  4、查找（院系）干部的（机关）工作经历
     @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
     @Select("select  cw.* from cadre_work cw, cadre_view c where cw.cadre_id=c.id " +
-            "and c.unit_type_id=#{unitTypeId} and cw.workType=#{workTYpe} " +
+            "and c.unit_type_id=#{unitTypeId} and cw.workType=#{workType} " +
             "and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    List<CadreWork> findCadreWorks(@Param("unitTypeId") int unitTypeId, @Param("workType") int workType);
+    List<CadreWork> findCadreWorksByUnitTypeAndWorkType(@Param("unitTypeId") int unitTypeId, @Param("workType") int workType);
 
-    // 查找干部的（境外）学习经历
-    @ResultMap("persistence.cadre.CadreEduMapper.BaseResultMap")
-    @Select("select * from cadre_edu ce , cadre_view c where ce.cadre_id=c.id " +
-            "and ce.school_type =" + SystemConstants.CADRE_SCHOOL_TYPE_ABROAD +
+    // 5、有校外挂职经历的干部
+    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
+    @Select("select cr.* from crp_record cr , cadre c where cr.user_id=c.user_id " +
+            "and cr.type =#{type}" +
             " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    List<CadreEdu> findCadreEdus();
+    List<CrpRecord> findCrpRecords(@Param("type") byte type);
 
 
 
@@ -93,15 +111,6 @@ public interface ICadreMapper {
     @Select("select bl.* from cadre_leader_unit blu, cadre_leader bl " +
             "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
     List<CadreLeader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
-
-    @Update("update cadre_edu set degree=null, is_high_degree=null, degree_country=null, degree_unit=null, degree_time=null where id=#{id}")
-    void del_caderEdu_hasDegree(@Param("id") int id);
-
-    @Update("update cadre_work set unit_id=null where id=#{id}")
-    void del_cadreWork_unitId(@Param("id") int id);
-
-    @Update("update cadre_post set double_unit_id=null where id=#{id}")
-    void del_cadrePost_doubleUnitId(@Param("id") int id);
 }
 
 

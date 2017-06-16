@@ -114,11 +114,25 @@ public class ModifyTableApplyController extends BaseController {
     }
 
     // 假删除
+    @RequiresPermissions("modifyTableApply:fakeDel")
+    @RequestMapping(value = "/modifyTableApply_fakeDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map modifyTableApply_fakeDel(@RequestParam(value = "ids[]") Integer[] ids,
+                      HttpServletRequest request) {
+
+        if (null != ids && ids.length > 0) {
+            modifyTableApplyService.fakeDel(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量【假】删除信息修改申请：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 真删除
     @RequiresPermissions("modifyTableApply:del")
     @RequestMapping(value = "/modifyTableApply_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map modify(
-                      @RequestParam(value = "ids[]") Integer[] ids,
+    public Map modifyTableApply_batchDel(@RequestParam(value = "ids[]") Integer[] ids,
                       HttpServletRequest request) {
 
         if (null != ids && ids.length > 0) {

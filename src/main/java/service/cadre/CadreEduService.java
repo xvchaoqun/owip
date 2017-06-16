@@ -204,7 +204,8 @@ public class CadreEduService extends BaseMapper {
         record.setStatus(null);
         if(cadreEduMapper.updateByExampleSelective(record, example)>0) {
             if (!record.getHasDegree()) { // 没有获得学位，清除学位名称等字段
-                iCadreMapper.del_caderEdu_hasDegree(id);
+                commonMapper.excuteSql("update cadre_edu set degree=null, is_high_degree=null," +
+                        " degree_country=null, degree_unit=null, degree_time=null where id=" + id);
             }
 
             // 更新申请时间

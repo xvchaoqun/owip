@@ -80,22 +80,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `cadre_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
-SELECT `c`.`id` AS `id`
-	,`c`.`user_id` AS `user_id`
-	,`c`.`type_id` AS `type_id`
-	,`c`.`post_id` AS `post_id`
-	,`c`.`unit_id` AS `unit_id`
-	,`c`.`title` AS `title`
-	,`c`.`dispatch_cadre_id` AS `dispatch_cadre_id`
-	,`c`.`post` AS `post`
-	,`c`.`dp_type_id` AS `dp_type_id`
-	,`c`.`dp_add_time` AS `dp_add_time`
-	,`c`.`dp_post` AS `dp_post`
-	,`c`.`dp_remark` AS `dp_remark`
-	,`c`.`is_dp` AS `is_dp`
-	,`c`.`remark` AS `remark`
-	,`c`.`sort_order` AS `sort_order`
-	,`c`.`status` AS `status`
+SELECT c.*
 	,`ui`.`msg_title` AS `msg_title`
 	,`ui`.`mobile` AS `mobile`
 	,`ui`.`phone` AS `phone`
@@ -153,38 +138,24 @@ SELECT `c`.`id` AS `id`
    ,unit_type.extra_attr as unit_type_attr
    ,_va.verify_birth as verify_birth
    ,_vwt.verify_work_time as verify_work_time
-FROM (
-	(
-		(
-			(
-				(
-					`cadre` `c` LEFT JOIN `sys_user_info` `ui` ON ((`ui`.`user_id` = `c`.`user_id`))
-					) LEFT JOIN `sys_teacher_info` `t` ON ((`t`.`user_id` = `c`.`user_id`))
-				) LEFT JOIN `ow_member` `om` ON ((`om`.`user_id` = `c`.`user_id`))
-			) LEFT JOIN `cadre_edu` `max_ce` ON (
-				(
-					(`max_ce`.`cadre_id` = `c`.`id`)
-					AND (`max_ce`.`is_high_edu` = 1)
-					)
-				)
-		) LEFT JOIN `cadre_edu` `max_degree` ON (
-			(
-				(`max_degree`.`cadre_id` = `c`.`id`)
-				AND (`max_degree`.`is_high_degree` = 1)
-				)
-			)left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
-			left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_id)
-			left join base_meta_type admin_level on(c.type_id=admin_level.id)
-			left join base_meta_type max_ce_edu on(max_ce.edu_id=max_ce_edu.id)
-			left join unit u on(c.unit_id=u.id)
-			left join base_meta_type unit_type on(u.type_id=unit_type.id)
-	) left join
+FROM  cadre c
+LEFT JOIN `sys_user_info` `ui` ON `ui`.`user_id` = `c`.`user_id`
+LEFT JOIN `sys_teacher_info` `t` ON `t`.`user_id` = `c`.`user_id`
+LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
+LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.status=0
+LEFT JOIN `cadre_edu` `max_degree` ON `max_degree`.`cadre_id` = `c`.`id` AND `max_degree`.`is_high_degree` = 1 and max_degree.status=0
+left join cadre_post main_cadre_post on(main_cadre_post.cadre_id=c.id and main_cadre_post.is_main_post=1)
+left join base_meta_type main_cadre_post_type on(main_cadre_post_type.id=main_cadre_post.post_id)
+left join base_meta_type admin_level on(c.type_id=admin_level.id)
+left join base_meta_type max_ce_edu on(max_ce.edu_id=max_ce_edu.id)
+left join unit u on(c.unit_id=u.id)
+left join base_meta_type unit_type on(u.type_id=unit_type.id)
+left join
 (select * from (select distinct dcr.relate_id as np_relate_id, d.id as np_id, d.file_name as np_file_name, d.file as np_file, d.work_time as np_work_time  from dispatch_cadre_relate dcr,
 dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time asc)t group by np_relate_id) np  on np.np_relate_id=main_cadre_post.id
 left join
 (select * from (select distinct dcr.relate_id as lp_relate_id, d.id as lp_id, d.file_name as lp_file_name, d.file as lp_file, d.work_time as lp_work_time  from dispatch_cadre_relate dcr,
 dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time desc)t group by lp_relate_id) lp on lp.lp_relate_id=main_cadre_post.id
-
 left join
 (select cal.cadre_id, cal.admin_level_id , sdc.dispatch_id as s_dispatch_id , sd.work_time as s_work_time, edc.dispatch_id as e_dispatch_id, if(isnull(ed.work_time),now(),ed.work_time) as e_work_time  from cadre_admin_level cal
 left join dispatch_cadre sdc on sdc.id=cal.start_dispatch_cadre_id

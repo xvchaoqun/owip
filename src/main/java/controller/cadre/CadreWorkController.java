@@ -260,7 +260,7 @@ public class CadreWorkController extends BaseController {
 
         if(unitId==null){
 
-            iCadreMapper.del_cadreWork_unitId(id);
+            commonMapper.excuteSql("update cadre_work set unit_id=null where id="+id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除对应工作单位：%s", id));
         }else {
             CadreWork record = new CadreWork();
