@@ -97,7 +97,7 @@ SELECT c.*
 	,`om`.`grow_time` AS `grow_time`
 	,`om`.`status` AS `member_status`
 	, if(c.is_dp, c.dp_add_time, om.grow_time) as cadre_grow_time
-	, if(c.is_dp, c.dp_type_id, if(isnull(om.grow_time), -1, 0)) as cadre_dp_type
+	, if(c.is_dp, c.dp_type_id, if(om.status=1, 0, -1)) as cadre_dp_type
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`
 	,`max_ce`.`learn_style` AS `learn_style`
@@ -163,7 +163,7 @@ left join dispatch sd on sd.id=sdc.dispatch_id
 left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
 left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level_id=main_cadre_post.admin_level_id
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
-left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id;
+left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id where c.id=154
 
 -- ----------------------------
 --  View definition for `cis_inspector_view`
