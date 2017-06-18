@@ -113,6 +113,6 @@
 </script>
 <![endif]-->
 <script src="${ctx}/extend/js/jquery.form.js"></script>
-<script src="${ctx}/extend/js/login.js"></script>
+<script src="${ctx}/js/login.js"></script>
 </body>
 </html>
