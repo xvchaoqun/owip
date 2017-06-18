@@ -254,7 +254,9 @@ public class MemberApplyController extends BaseController {
                 criteria.andStageIn(stageList);
             } else if (stage > SystemConstants.APPLY_STAGE_PASS || stage == SystemConstants.APPLY_STAGE_DENY) {
                 criteria.andStageEqualTo(stage);
-            } else if (stage == SystemConstants.APPLY_STAGE_DRAW) {
+            }
+
+            if (stage == SystemConstants.APPLY_STAGE_DRAW) {
                 if (growStatus != null && growStatus >= 0)
                     criteria.andGrowStatusEqualTo(growStatus);
                 if (growStatus != null && growStatus == -1)
@@ -265,6 +267,7 @@ public class MemberApplyController extends BaseController {
                 if (positiveStatus != null && positiveStatus == -1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
             }
+
             // 考虑已经转出的情况 2016-12-19
             else if (stage == SystemConstants.APPLY_STAGE_OUT) {
                 criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
