@@ -27,6 +27,8 @@
     <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
+  <resultMap id="IBaseResultMap" extends="BaseResultMap" type="persistence.common.bean.ICadreEdu" >
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

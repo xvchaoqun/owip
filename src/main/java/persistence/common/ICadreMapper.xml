@@ -2,6 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.ICadreMapper">
 
+    <sql id="statCadreSearchSql">
+        1=1
+        <if test="searchBean.cadreId!=null">
+            and c.id=#{searchBean.cadreId}
+        </if>
+        <if test="searchBean.cadreStatus!=null">
+            and c.status=#{searchBean.cadreStatus}
+        </if>
+        <if test="searchBean.unitTypeId!=null">
+            and c.unit_type_id=#{searchBean.unitTypeId}
+        </if>
+        <if test="searchBean.notUnitTypeId!=null">
+            and c.unit_type_id!=#{searchBean.notUnitTypeId}
+        </if>
+    </sql>
+    <!--1、查找干部的（境外）学习经历 -->
+    <select id="findCadreEdus" resultMap="persistence.cadre.CadreEduMapper.IBaseResultMap" parameterType="map">
+        select ce.* from cadre_edu ce , cadre c where
+        <include refid="statCadreSearchSql" />
+        and ce.cadre_id=c.id and ce.school_type =#{schoolType}
+    </select>
+    <select id="countCadreEdus" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct ce.id) from cadre_edu ce , cadre c where
+        <include refid="statCadreSearchSql" />
+        and ce.cadre_id=c.id and ce.school_type =#{schoolType}
+    </select>
+    <!--2、查找干部的工作经历 3、查找（机关）干部的（院系）工作经历 4、查找（院系）干部的（机关）工作经历-->
+    <select id="findCadreWroks" resultMap="persistence.cadre.CadreWorkMapper.IBaseResultMap" parameterType="map">
+        select cw.* from cadre_work cw , cadre_view c where <include refid="statCadreSearchSql" />
+        and cw.cadre_id=c.id and cw.work_type =#{workType}
+    </select>
+    <select id="countCadreWroks" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct cw.id) from cadre_work cw , cadre_view c where <include refid="statCadreSearchSql" />
+        and cw.cadre_id=c.id and cw.work_type =#{workType}
+    </select>
+    <!--5、有校外挂职经历的干部-->
+    <select id="findCrpRecords" resultMap="persistence.crp.CrpRecordMapper.BaseResultMap" parameterType="map">
+        select cr.* from crp_record cr , cadre c where <include refid="statCadreSearchSql" />
+        and cr.user_id=c.user_id and cr.type =#{type}
+    </select>
+    <select id="countCrpRecords" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct cr.id) from crp_record cr , cadre c where <include refid="statCadreSearchSql" />
+        and cr.user_id=c.user_id and cr.type =#{type}
+    </select>
+
+
     <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map">
         select c.* from cadre c, sys_user_view u where c.user_id= u.id
         <if test="search != null">

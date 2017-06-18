@@ -1,13 +1,19 @@
 package persistence.common;
 
 import bean.CadreReserveCount;
-import domain.cadre.*;
+import controller.analysis.CadreCategorySearchBean;
+import domain.cadre.Cadre;
+import domain.cadre.CadreFamliy;
+import domain.cadre.CadreLeader;
+import domain.cadre.CadrePost;
 import domain.crp.CrpRecord;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
+import persistence.common.bean.ICadreEdu;
+import persistence.common.bean.ICadreWork;
 import sys.constants.SystemConstants;
 
 import java.util.List;
@@ -18,37 +24,14 @@ import java.util.Set;
  */
 public interface ICadreMapper {
 
-    // 1、查找干部的（境外）学习经历  SystemConstants.CADRE_SCHOOL_TYPE_ABROAD
-    @ResultMap("persistence.cadre.CadreEduMapper.BaseResultMap")
-    @Select("select ce.* from cadre_edu ce , cadre c where ce.cadre_id=c.id " +
-            "and ce.school_type =#{schoolType}" +
-            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    List<CadreEdu> findCadreEdus(@Param("schoolType") byte schoolType, RowBounds rowBounds);
-    @Select("select count(distinct ce.id) from cadre_edu ce , cadre c where ce.cadre_id=c.id " +
-            "and ce.school_type =#{schoolType}" +
-            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    int countCadreEdus(@Param("schoolType") byte schoolType);
+    List<ICadreEdu> findCadreEdus(@Param("schoolType") byte schoolType, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCadreEdus(@Param("schoolType") byte schoolType, @Param("searchBean")CadreCategorySearchBean searchBean);
 
-    // 2、查找干部的（境外）工作经历
-    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
-    @Select("select cw.* from cadre_work cw , cadre c where cw.cadre_id=c.id " +
-            "and cw.work_type =#{workType}" +
-            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    List<CadreEdu> findCadreWroksByWorkType(@Param("workType") byte workType);
+    List<ICadreWork> findCadreWroks(@Param("workType") int workType, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCadreWroks(@Param("workType") int workType, @Param("searchBean")CadreCategorySearchBean searchBean);
 
-    //  3、查找（机关）干部的（院系）工作经历  4、查找（院系）干部的（机关）工作经历
-    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
-    @Select("select  cw.* from cadre_work cw, cadre_view c where cw.cadre_id=c.id " +
-            "and c.unit_type_id=#{unitTypeId} and cw.workType=#{workType} " +
-            "and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    List<CadreWork> findCadreWorksByUnitTypeAndWorkType(@Param("unitTypeId") int unitTypeId, @Param("workType") int workType);
-
-    // 5、有校外挂职经历的干部
-    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
-    @Select("select cr.* from crp_record cr , cadre c where cr.user_id=c.user_id " +
-            "and cr.type =#{type}" +
-            " and c.status ="+SystemConstants.CADRE_STATUS_MIDDLE)
-    List<CrpRecord> findCrpRecords(@Param("type") byte type);
+    List<CrpRecord> findCrpRecords(@Param("type") byte type, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCrpRecords(@Param("type") byte type, @Param("searchBean")CadreCategorySearchBean searchBean);
 
 
 
