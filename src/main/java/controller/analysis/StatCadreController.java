@@ -2,10 +2,6 @@ package controller.analysis;
 
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreViewExample;
-import domain.dispatch.Dispatch;
-import mixin.DispatchMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -121,15 +117,9 @@ public class StatCadreController extends BaseController {
                 records = iCadreMapper.findCrpRecords(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean, rowBounds);
                 break;
             case 6: // 具有人才/荣誉称号的干部
-                CadreViewExample example = new CadreViewExample();
-                CadreViewExample.Criteria criteria = example.createCriteria()
-                        .andStatusEqualTo(SystemConstants.CADRE_STATUS_MIDDLE)
-                        .andTalentTitleIsNotNull();
-                if(searchBean.getCadreId()!=null){
-                    criteria.andCadreIdEqualTo(searchBean.getCadreId());
-                }
-                records = cadreViewMapper.selectByExampleWithRowbounds(example, rowBounds);
-                count = (int)cadreViewMapper.countByExample(example);
+                searchBean.setHasTalentTitle(true);
+                count = iCadreMapper.countCadres(searchBean);
+                records = iCadreMapper.findCadres(searchBean, rowBounds);
                 break;
         }
 

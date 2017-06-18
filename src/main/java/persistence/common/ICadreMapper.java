@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 import persistence.common.bean.ICadreEdu;
 import persistence.common.bean.ICadreWork;
+import persistence.common.bean.ICarde;
 import sys.constants.SystemConstants;
 
 import java.util.List;
@@ -32,6 +33,9 @@ public interface ICadreMapper {
 
     List<CrpRecord> findCrpRecords(@Param("type") byte type, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
     int countCrpRecords(@Param("type") byte type, @Param("searchBean")CadreCategorySearchBean searchBean);
+
+    List<ICarde> findCadres(@Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCadres(@Param("searchBean")CadreCategorySearchBean searchBean);
 
 
 

@@ -16,6 +16,9 @@
         <if test="searchBean.notUnitTypeId!=null">
             and c.unit_type_id!=#{searchBean.notUnitTypeId}
         </if>
+        <if test="searchBean.hasTalentTitle!=null">
+            and c.talent_title is not null
+        </if>
     </sql>
     <!--1、查找干部的（境外）学习经历 -->
     <select id="findCadreEdus" resultMap="persistence.cadre.CadreEduMapper.IBaseResultMap" parameterType="map">
@@ -45,6 +48,14 @@
     <select id="countCrpRecords" parameterType="map" resultType="java.lang.Integer">
         select count(distinct cr.id) from crp_record cr , cadre c where <include refid="statCadreSearchSql" />
         and cr.user_id=c.user_id and cr.type =#{type}
+    </select>
+
+    <!--6、具有人才/荣誉称号的干部-->
+    <select id="findCadres" resultType="persistence.common.bean.ICarde" parameterType="map">
+        select c.id from cadre_view c where <include refid="statCadreSearchSql" />
+    </select>
+    <select id="countCadres" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct c.id) from cadre_view c where <include refid="statCadreSearchSql" />
     </select>
 
 

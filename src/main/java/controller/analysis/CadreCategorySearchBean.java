@@ -6,6 +6,7 @@ public class CadreCategorySearchBean {
     private Byte cadreStatus;
     private Integer unitTypeId;
     private Integer notUnitTypeId;
+    private Boolean hasTalentTitle;
 
     public Integer getCadreId() {
         return cadreId;
@@ -37,5 +38,13 @@ public class CadreCategorySearchBean {
 
     public void setNotUnitTypeId(Integer notUnitTypeId) {
         this.notUnitTypeId = notUnitTypeId;
+    }
+
+    public Boolean getHasTalentTitle() {
+        return hasTalentTitle;
+    }
+
+    public void setHasTalentTitle(Boolean hasTalentTitle) {
+        this.hasTalentTitle = hasTalentTitle;
     }
 }
