@@ -133,7 +133,7 @@
             </c:if>
             <c:if test="${param.type==6}">
                 // 人才/荣誉称号
-            {label: '人才/荣誉称号', name: 'talentTitle', width: 470},
+            {label: '人才/荣誉称号', name: 'cadre.talentTitle', width: 470, align:'left'},
             </c:if>
         ]
     }).jqGrid("setFrozenColumns");
