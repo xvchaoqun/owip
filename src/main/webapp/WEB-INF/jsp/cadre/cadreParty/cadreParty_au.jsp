@@ -3,12 +3,12 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${(empty cadreParty)?"添加":"更新"}${param.type==1?'民主党派':'特殊党员'}干部</h3>
+    <h3>${(empty cadreParty)?"添加":"更新"}${type==1?'民主党派':'特殊党员'}干部</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreParty_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cadreParty.id}">
-        <input type="hidden" name="type" value="${param.type}">
+        <input type="hidden" name="type" value="${type}">
         <c:if test="${empty sysUser}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">账号</label>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${param.type==2}">
+        <c:if test="${type==2}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">政治面貌</label>
                 <div class="col-xs-6 label-text">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${param.type==1}">
+        <c:if test="${type==1}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">民主党派</label>
 
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <c:if test="${param.type==1}">
+        <c:if test="${type==1}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">担任党派职务</label>
 

@@ -142,13 +142,17 @@ public class CadrePartyController extends BaseController {
 
     @RequiresPermissions("cadreParty:edit")
     @RequestMapping("/cadreParty_au")
-    public String cadreParty_au(Integer id,  ModelMap modelMap) {
+    public String cadreParty_au(Integer id, Byte type, ModelMap modelMap) {
 
         if(id!=null) {
             CadreParty cadreParty = cadrePartyMapper.selectByPrimaryKey(id);
             modelMap.put("cadreParty", cadreParty);
+            if(cadreParty!=null){
+                type = cadreParty.getType();
+            }
             modelMap.put("sysUser", sysUserService.findById(cadreParty.getUserId()));
         }
+        modelMap.put("type", type);
 
         return "cadre/cadreParty/cadreParty_au";
     }
