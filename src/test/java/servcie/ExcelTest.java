@@ -50,8 +50,6 @@ public class ExcelTest {
     @Test
     public void cadres() throws IOException {
 
-
-
         /*XSSFDrawing p = sheet.createDrawingPatriarch();
         // 前四个参数是坐标点,后四个参数是编辑和显示批注时的大小.
         XSSFComment comment3 = p.createCellComment(new XSSFClientAnchor(0, 0, 0,
