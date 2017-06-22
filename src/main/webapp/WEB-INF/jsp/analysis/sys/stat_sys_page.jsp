@@ -12,7 +12,7 @@
                         <div class="widget-toolbar no-border">
                             <div class="inline dropdown-hover">
                                 <button class="btn btn-xs btn-info">
-                                    ${type==1?"最近三个月":(type==2)?"最近半年":"最近一年"}
+                                    ${type==1?"最近三个月":(type==2)?"最近半年":(type==3)?"最近一年":"全部"}
                                     <i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
                                 </button>
 
@@ -36,6 +36,13 @@
                                             <i class="ace-icon fa fa-caret-right bigger-110 ${type==3?'':'invisible'}">
                                                 &nbsp;</i>
                                             最近一年
+                                        </a>
+                                    </li>
+                                    <li class="${type==4?'active':''}" data-type="4">
+                                        <a href="javascript:;" class="blue">
+                                            <i class="ace-icon fa fa-caret-right bigger-110 ${type==4?'':'invisible'}">
+                                                &nbsp;</i>
+                                            全部
                                         </a>
                                     </li>
                                 </ul>

@@ -28,7 +28,7 @@ public class StatSysController extends BaseController {
         return "analysis/sys/stat_sys_page";
     }
 
-    // type: 1 最近三个月 2 最近半年 3 最近一年
+    // type: 1 最近三个月 2 最近半年 3 最近一年 4 全部
     @RequiresPermissions("stat:list")
     @RequestMapping("/stat_online_day")
     public String stat_online_day(@RequestParam(defaultValue = "1")byte type, ModelMap modelMap) {
@@ -39,6 +39,7 @@ public class StatSysController extends BaseController {
             case 1: minusMonths=3;break;
             case 2: minusMonths=6;break;
             case 3:minusMonths=12;break;
+            case 4:minusMonths=9999;break;
         }
         Date start = new DateTime().minusMonths(minusMonths).toDate();
         Date end = new Date();

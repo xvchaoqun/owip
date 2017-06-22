@@ -12,7 +12,7 @@
 	}
 	if(data.length>0){
 		Highcharts.setOptions({ lang: { resetZoom: "返回", resetZoomTitle: "回到初始状态" }, global: { useUTC: false } });
-		var title = '每日最高在线人数统计（' + Highcharts.dateFormat('%Y年%m月', data[0][0]) + '至' + Highcharts.dateFormat('%m月', data[data.length-1][0]) + "）";
+		var title = '每日最高在线人数统计（' + Highcharts.dateFormat('%Y年%m月', data[0][0]) + '至' + Highcharts.dateFormat('%Y年%m月', data[data.length-1][0]) + "）";
 		var fromYear = new Date(data[0][0]).getFullYear();
 		var toYear = new Date(data[data.length-1][0]).getFullYear();
 		$('#container').highcharts({
