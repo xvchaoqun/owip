@@ -358,6 +358,9 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
+    function page_reload(){
+        $.hashchange();
+    }
     function goto_next(goToNext) {
         if (goToNext) {
             if ($("#next").hasClass("disabled") && $("#last").hasClass("disabled"))
