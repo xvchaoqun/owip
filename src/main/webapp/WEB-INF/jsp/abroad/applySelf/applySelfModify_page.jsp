@@ -34,7 +34,7 @@
   function cellattr(rowId, val, rowObject, cm, rdata) {
       if(record!=null) {
         if (cm.name == 'day') {
-          record.day = DateDiff(record.startDate, record.endDate)
+          record.day = $.dayDiff(record.startDate, record.endDate)
         }
         if (cm.name == 'reason') {
           record.reason = record.reason.replace(/\+\+\+/g, ',');
@@ -60,15 +60,14 @@
       { label: '出行时间',  name: 'startDate', width: 100,cellattr:cellattr, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
       { label: '回国时间',  name: 'endDate', width: 100 ,cellattr:cellattr, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
       { label: '出行天数',  name: 'day', width: 80,cellattr:cellattr,formatter:function(cellvalue, options, rowObject){
-        return DateDiff(rowObject.startDate, rowObject.endDate);
+        return $.dayDiff(rowObject.startDate, rowObject.endDate);
       }},
       { label:'前往国家或地区', name: 'toCountry', width: 180,cellattr:cellattr},
       { label:'因私出国（境）事由',  name: 'reason', width: 200,cellattr:cellattr, formatter:function(cellvalue, options, rowObject){
         return cellvalue.replace(/\+\+\+/g, ',');
       }},
       {label: '本人说明材料', name: 'modifyProof', width: 150, formatter: function (cellvalue, options, rowObject) {
-        if($.trim(cellvalue)=='') return ''
-        return '<a href="${ctx}/attach/download?path={0}&filename={1}">{1}</a>'.format(encodeURI(cellvalue), encodeURI(rowObject.modifyProofFileName));
+        return $.swfPreview(cellvalue, rowObject.modifyProofFileName, "查看");
       }},
       {label: '备注', name: 'remark', width: 500}
     ],

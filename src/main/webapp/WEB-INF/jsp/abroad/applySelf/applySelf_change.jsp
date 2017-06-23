@@ -151,18 +151,11 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
-	$('#modalForm input[type=file]').ace_file_input({
-		no_file:'请选择文件 ...',
-		btn_choose:'选择',
-		btn_change:'更改',
-		droppable:false,
-		onchange:null,
-		thumbnail:false //| true | large
-		//whitelist:'gif|png|jpg|jpeg'
-		//blacklist:'exe|php'
-		//onchange:''
-		//
-	});
+
+	$.fileInput($("input[name=_modifyProof]"), {
+		allowExt: ['pdf'],
+		no_file:'请上传pdf文件 ...'
+	})
 
 	<c:forEach var="reason" items="${fn:split(applySelf.reason,'+++')}">
 	$("input[name=_reason][value='${reason}']").prop("checked", true);

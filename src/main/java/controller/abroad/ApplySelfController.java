@@ -134,7 +134,7 @@ public class ApplySelfController extends BaseController {
 
         approvalLogService.doApproval(record);
 
-        if(springProps.applySelfSendApprovalMsg) {
+        if (springProps.applySelfSendApprovalMsg) {
             // 如果在工作时间（8:00-20:30），那么就立即发送给下一个领导
             // 短信通知下一个审批人
             String nowTime = DateUtils.formatDate(new Date(), "HHmm");
@@ -181,12 +181,12 @@ public class ApplySelfController extends BaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreService.findAll().get(cadreId);
-            if(cadre.getId().intValue()!=cadreId) {
+            if (cadre.getId().intValue() != cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-                if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
+                if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
                     throw new RuntimeException("您没有权限");
             }
         }
@@ -223,16 +223,16 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:view")
     @RequestMapping("/applySelf_yearLogs_data")
     @ResponseBody
-    public void applySelf_yearLogs_data(@CurrentUser SysUserView loginUser,Integer cadreId, Integer year,
+    public void applySelf_yearLogs_data(@CurrentUser SysUserView loginUser, Integer cadreId, Integer year,
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreService.findAll().get(cadreId);
-            if(cadre.getId().intValue()!=cadreId) {
+            if (cadre.getId().intValue() != cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
-                if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
+                if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
                     throw new RuntimeException("您没有权限");
             }
         }
@@ -278,9 +278,9 @@ public class ApplySelfController extends BaseController {
     @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
     @RequestMapping("/applySelf")
     public String applySelf(Integer cadreId,
-                               // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
-                               @RequestParam(required = false, defaultValue = "0") int status, // -1: 已删除的记录
-                               ModelMap modelMap) {
+                            // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
+                            @RequestParam(required = false, defaultValue = "0") int status, // -1: 已删除的记录
+                            ModelMap modelMap) {
 
         modelMap.put("status", status);
         if (cadreId != null) {
@@ -313,7 +313,7 @@ public class ApplySelfController extends BaseController {
         Map<String, Object> resultMap = success();
 
         ApprovalLog approvalLog = approvalLogService.getApprovalLog(applySelfId, approvalTypeId);
-        if(approvalLog!=null) { // 如果已审批，显示审批人
+        if (approvalLog != null) { // 如果已审批，显示审批人
             SysUserView uv = sysUserService.findById(approvalLog.getUserId());
             resultMap.put("uv", uv);
         }
@@ -344,7 +344,7 @@ public class ApplySelfController extends BaseController {
 
         Map map = applySelfService.findApplySelfList(response, cadreId, _applyDate,
                 type, isModify, status, sort, order, pageNo, springProps.pageSize, export);
-        if(map == null) return; // 导出
+        if (map == null) return; // 导出
         CommonList commonList = (CommonList) map.get("commonList");
 
         Map resultMap = new HashMap();
@@ -366,8 +366,8 @@ public class ApplySelfController extends BaseController {
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList")
     public String applySelfList(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
-                                     @RequestParam(required = false, defaultValue = "0") int status,
-                                     Integer cadreId, ModelMap modelMap) {
+                                @RequestParam(required = false, defaultValue = "0") int status,
+                                Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("status", status);
 
@@ -380,17 +380,18 @@ public class ApplySelfController extends BaseController {
 
         return "abroad/applySelf/applySelfList_page";
     }
+
     // 非管理员  审批人身份 审批记录
     @RequiresRoles(SystemConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_data")
     public void applySelfList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
-                                     Integer cadreId,
+                                   Integer cadreId,
                                    @RequestDateRange DateRange _applyDate,
-                                     Byte type, // 出行时间范围
-                                     // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
-                                     @RequestParam(required = false, defaultValue = "0") int status,
-                                     Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
+                                   Byte type, // 出行时间范围
+                                   // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+                                   @RequestParam(required = false, defaultValue = "0") int status,
+                                   Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
 
         Map map = applySelfService.findApplySelfList(loginUser.getId(), cadreId, _applyDate,
@@ -414,10 +415,10 @@ public class ApplySelfController extends BaseController {
     @RequestMapping(value = "/applySelf_change", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_change(ApplySelf record,
-                               String _applyDate, String _startDate,
-                               String _endDate,
-                               MultipartFile _modifyProof, String modifyRemark,
-                               HttpServletRequest request) {
+                                   String _applyDate, String _startDate,
+                                   String _endDate,
+                                   MultipartFile _modifyProof, String modifyRemark,
+                                   HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
@@ -443,6 +444,9 @@ public class ApplySelfController extends BaseController {
             String ext = FileUtils.getExtention(modifyProofFileName);
             modifyProof = realPath + ext;
             FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
+
+            String swfPath = realPath + ".swf";
+            FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + modifyProof, springProps.uploadPath + swfPath);
         }
 
         /*if (id == null) {
@@ -455,9 +459,9 @@ public class ApplySelfController extends BaseController {
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {*/
-            //record.setStatus(true);
-            applySelfService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+        //record.setStatus(true);
+        applySelfService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         /*}*/
 
         return success(FormUtils.SUCCESS);
@@ -515,6 +519,7 @@ public class ApplySelfController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     @RequiresPermissions("applySelf:del")
     @RequestMapping(value = "/applySelf_batchUnDel", method = RequestMethod.POST)
     @ResponseBody

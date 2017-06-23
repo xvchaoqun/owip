@@ -101,10 +101,10 @@ pageEncoding="UTF-8"%>
 				<thead>
 				<tr>
 					<th style="width: 200px">姓名</th>
-					<th width="100">职务</th>
-					<th width="100">分工</th>
+					<th width="150">职务</th>
+					<th width="200">分工</th>
 					<th width="100">任职时间</th>
-					<th width="100">办公电话</th>
+					<th width="200">办公电话</th>
 					<th>手机号</th>
 				</tr>
 				</thead>

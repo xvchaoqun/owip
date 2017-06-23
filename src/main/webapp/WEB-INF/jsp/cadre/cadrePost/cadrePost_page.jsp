@@ -258,10 +258,8 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
-                    if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                                .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
-                    else return dispatchCode;
+
+                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -288,10 +286,8 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
-                    if (cellvalue.fileName && cellvalue.fileName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
-                    else return dispatchCode;
+
+                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -389,10 +385,8 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
-                    if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                                .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
-                    else return dispatchCode;
+
+                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -419,10 +413,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
-                    if (cellvalue.fileName && cellvalue.fileName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
-                    else return dispatchCode;
+                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -507,10 +498,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
-                    if (cellvalue.fileName && cellvalue.fileName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
-                    else return dispatchCode;
+                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -524,10 +512,7 @@
                 label: '职级结束文件', width: 150, name: 'endDispatch', formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '';
                 var dispatchCode = cellvalue.dispatchCode;
-                if (cellvalue.fileName && cellvalue.fileName != '')
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                        .format(encodeURI(cellvalue.file), encodeURI(cellvalue.fileName), dispatchCode);
-                else return dispatchCode;
+                return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
             },
             {
@@ -543,7 +528,7 @@
                         end = new Date().format("yyyy-MM-dd");
                     if (rowObject.startDispatch == undefined || end == undefined) return '';
 
-                    var month = MonthDiff(rowObject.startDispatch.workTime, end);
+                    var month = $.monthDiff(rowObject.startDispatch.workTime, end);
                     //console.log("month="+month)
                     var year = Math.floor(month / 12);
                     return year == 0 ? "未满一年" : year;

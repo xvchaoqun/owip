@@ -128,7 +128,7 @@
             { label: '出发时间', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '返回时间', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '出行天数', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
-                return DateDiff(rowObject.startDate, rowObject.endDate);
+                return $.dayDiff(rowObject.startDate, rowObject.endDate);
             }},
             { label:'前往国家或地区',name: 'toCountry', width: 180},
             { label:'事由', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){

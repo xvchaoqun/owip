@@ -123,8 +123,38 @@ SysMsg.confirm = function (msg, title, callback) {
 
             return $.trim(realname);
         },
+        //计算天数差的函数，通用
+        dayDiff: function (sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
+            var aDate, oDate1, oDate2, iDays
+            sDate1 = sDate1.substr(0, 10)
+            sDate2 = sDate2.substr(0, 10)
+            aDate = sDate1.split("-")
+            oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])    //转换为12-18-2006格式
+            aDate = sDate2.split("-")
+            oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])
+            iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数
+            return iDays
+        },
+        //计算月份差
+        monthDiff: function (date1, date2) {
+            //默认格式为"2003-03-03",根据自己需要改格式和方法
+            var year1 = date1.substr(0, 4);
+            var year2 = date2.substr(0, 4);
+            var month1 = date1.substr(5, 2);
+            var month2 = date2.substr(5, 2);
+            var day1 = date1.substr(8, 2);
+            var day2 = date2.substr(8, 2);
+
+            var len = (year2 - year1) * 12 + (month2 - month1);
+
+            if (len > 0 && month1 == month2 && day2 < day1) // 月份相同，日在后面，则这个月不能算
+                len--;
+
+            return len;
+
+        },
         monthOffNow: function (date) {// 距离现在多少月，date格式：yyyy-MM-dd
-            return MonthDiff(date, new Date().format("yyyy-MM-dd"));
+            return $.monthDiff(date, new Date().format("yyyy-MM-dd"));
         },
         yearOffNow: function (date) {// 距离现在多少年，date格式：yyyy-MM-dd
             return Math.floor($.monthOffNow(date) / 12);
@@ -331,6 +361,39 @@ SysMsg.confirm = function (msg, title, callback) {
                     iframe.contentWindow.print();
                 }
             }
+        },
+        fileInput: function($input,params){
+              $input.ace_file_input($.extend({
+                    no_file:'请选择文件 ...',
+                    btn_choose:'选择',
+                    btn_change:'更改',
+                    droppable:false,
+                    onchange:null,
+                    thumbnail:false,
+                    maxSize:_uploadMaxSize,
+                      //whitelist:'gif|png|jpg|jpeg'
+                      //blacklist:'exe|php'
+                      //onchange:''
+                }, params)).off('file.error.ace').on("file.error.ace",function(e, info){
+
+                var size = info.error_list['size'];
+                if(size!=undefined) SysMsg.error("文件{0}超过{1}M大小".format(size, _uploadMaxSize/(1024*1024)));
+                var ext = info.error_count['ext'];
+                var mime = info.error_count['mime'];
+                if(ext!=undefined||mime!=undefined) SysMsg.error("文件格式有误");
+                e.preventDefault();
+            });
+        },
+        swfPreview: function(filepath, filename, hrefLabel, plainText){
+            filepath = $.trim(filepath);
+            filename = $.trim(filename);
+            hrefLabel = $.trim(hrefLabel)
+            if (filepath != '' && filename != '') {
+                hrefLabel = hrefLabel || filename;
+                return '<a href="javascript:void(0)" class="popupBtn" data-url="{3}/swf/preview?path={0}&filename={1}">{2}</a>'
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx);
+            } else
+                return $.trim(plainText);
         }
     })
 })(jQuery);
@@ -417,6 +480,6 @@ try {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
-}catch(e){
+} catch (e) {
     console.log(e)
 }

@@ -299,10 +299,7 @@
                 formatter: function (cellvalue, options, rowObject) {
                     if (!cellvalue || cellvalue.id == undefined) return '';
                     var dispatchCode = cellvalue.dispatchCode;
-                    if (cellvalue.fileName && cellvalue.fileName != '')
-                        return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                                .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
-                    else return dispatchCode;
+                    return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
                 }
             },
             {
@@ -350,7 +347,7 @@
                         end = new Date().format("yyyy-MM-dd");
                     if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '';
 
-                    var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
+                    var month = $.monthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
                     var year = Math.floor(month / 12);
                     return year == 0 ? "未满一年" : year;
                 }

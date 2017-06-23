@@ -180,7 +180,7 @@
                 name: 'code',
                 width: 80,
                 formatter: function (cellvalue, options, rowObject) {
-                    return DateDiff(rowObject.startDate, rowObject.endDate);
+                    return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
             },
             {label: '前往国家或地区', align: 'center', name: 'toCountry', width: 180},

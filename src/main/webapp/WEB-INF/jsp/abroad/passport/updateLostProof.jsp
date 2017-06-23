@@ -56,16 +56,6 @@ pageEncoding="UTF-8"%>
         autoclose: true,
         todayHighlight: true
     })
-    $('#modalForm input[type=file]').ace_file_input({
-        no_file:'请选择文件 ...',
-        btn_choose:'选择',
-        btn_change:'更改',
-        droppable:false,
-        onchange:null,
-        thumbnail:false //| true | large
-        //whitelist:'gif|png|jpg|jpeg'
-        //blacklist:'exe|php'
-        //onchange:''
-        //
-    });
+
+    $.fileInput($('#modalForm input[type=file]'))
 </script>

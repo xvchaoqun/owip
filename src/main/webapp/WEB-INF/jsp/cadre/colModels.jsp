@@ -143,10 +143,8 @@
             formatter: function (cellvalue, options, rowObject) {
                 if (!cellvalue || cellvalue.id == undefined) return '';
                 var dispatchCode = cellvalue.dispatchCode;
-                if (cellvalue.fileName && cellvalue.fileName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(cellvalue.file), cellvalue.fileName, dispatchCode);
-                else return dispatchCode;
+
+                return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
             }
         },
         {
@@ -203,7 +201,7 @@
                     end = new Date().format("yyyy-MM-dd");
                 if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '';
 
-                var month = MonthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
+                var month = $.monthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
                 var year = Math.floor(month / 12);
                 return year == 0 ? "未满一年" : year;
             }
@@ -285,9 +283,10 @@
         <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
         {
             label: '离任文件', name: 'dispatch', width: 180, formatter: function (cellvalue, options, rowObject) {
+
             if (cellvalue == undefined) return '';
-            return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                    .format(encodeURI(cellvalue.file), cellvalue.fileName, cellvalue.dispatchCode);
+            return $.swfPreview(cellvalue.file, cellvalue.fileName, cellvalue.dispatchCode, cellvalue.dispatchCode);
+
         }, frozen: true
         },
         {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
@@ -402,12 +401,8 @@
         {label: '论文', name: 'fileName', width: 750},
         {
             label: '预览', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.fileName && rowObject.fileName != '')
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">预览</a>'
-                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
-                        + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
-                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
-            else return '';
+
+            return $.swfPreview(rowObject.filePath, rowObject.fileName, "预览");
         }
         },
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
@@ -523,18 +518,8 @@
         {
             label: '批复文件', name: 'paper', width: 250,
             formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.paper == undefined) return '-';
-                /*return '<a href="
-                ${ctx}/attach/download?path={0}&filename={1}">{2}</a>'
-                 .format(encodeURI(rowObject.paper),encodeURI(rowObject.paperFilename), rowObject.paperFilename);*/
 
-                if (rowObject.paperFilename && rowObject.paperFilename != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">预览</a>'
-                                    .format(encodeURI(rowObject.paper), encodeURI(rowObject.paperFilename))
-                            + '&nbsp;&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
-                                    .format(encodeURI(rowObject.paper), encodeURI(rowObject.paperFilename));
-                else return '';
-
+                return $.swfPreview(rowObject.paper, rowObject.paperFilename, "预览");
             }
         },
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
@@ -596,11 +581,7 @@
 
                 var code =  _cMap.metaTypeMap[rowObject.typeId].name + "[" + rowObject.year + "]" + rowObject.seq + "号";
                 var fileName = code + "考察原始记录.pdf";
-                //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
-                                .format(encodeURI(logFile), encodeURI(fileName))
-                        + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> PDF</button>'
-                                .format(encodeURI(logFile), encodeURI(fileName));
+                ret = $.swfPreview(logFile, fileName, "预览");
             }
 
             return ret;
@@ -615,12 +596,8 @@
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
         {
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.fileName && rowObject.fileName != '')
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
-                        + '&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
-                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
-            else return '';
+
+            return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
         },
         {label: '备注', name: 'remark'}
@@ -637,12 +614,8 @@
         },
         {
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.fileName && rowObject.fileName != '')
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName))
-                        + '&nbsp;<a href="${ctx}/attach/download?path={0}&filename={1}">下载</a>'
-                                .format(encodeURI(rowObject.filePath), encodeURI(rowObject.fileName));
-            else return '';
+
+            return $.swfPreview(rowObject.filePath, rowObject.fileName, "查看");
         }
         },
         {label: '备注', name: 'remark'}

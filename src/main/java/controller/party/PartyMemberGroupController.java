@@ -244,9 +244,15 @@ public class PartyMemberGroupController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PartyMemberGroupView record = records.get(i);
-            DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
-            Dispatch dispatch = dispatchUnit.getDispatch();
             Integer partyId = record.getPartyId();
+
+            String dispatchCode = "";
+            DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
+            if(dispatchUnit!=null) {
+                Dispatch dispatch = dispatchUnit.getDispatch();
+               if(dispatch!=null)
+                   dispatchCode = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear());
+            }
             String[] values = {
                     record.getName(),
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
@@ -254,7 +260,7 @@ public class PartyMemberGroupController extends BaseController {
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYY_MM_DD),
-                    CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())
+                    dispatchCode
             };
             valuesList.add(values);
         }

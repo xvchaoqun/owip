@@ -665,6 +665,24 @@
 
         <!-- 聚合文件 -->
         <aggregations>
+
+          <aggregation>
+            <!-- 合并每一个文件后插入一新行 -->
+            <insertNewLine>true</insertNewLine>
+            <!-- 需合并文件的根文件夹 -->
+            <inputDir>${basedir}/src/main/webapp</inputDir>
+            <!-- 最终合并的输出文件 -->
+            <output>${basedir}/src/main/webapp/js/main.js</output>
+            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+            <includes>
+              <include>assets/js/jquery.js</include>
+              <include>assets/js/bootstrap.js</include>
+              <include>extend/js/jqGrid/jquery.jqGrid.js</include>
+              <include>extend/js/jqGrid/i18n/grid.locale-cn.js</include>
+              <include>assets/js/jquery-ui.custom.js</include>
+            </includes>
+          </aggregation>
+
           <aggregation>
             <!-- 合并每一个文件后插入一新行 -->
             <insertNewLine>true</insertNewLine>
@@ -702,7 +720,6 @@
               <include>extend/js/fancybox/source/jquery.fancybox.js</include>
               <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
               <include>extend/js/jquery.mousewheel.pack.js</include >
-              <include>extend/js/prototype.js</include>
             </includes>
           </aggregation>
 
@@ -726,23 +743,6 @@
               <include>assets/js/ace/ace.sidebar-scroll-1.js</include>
               <include>assets/js/ace/ace.submenu-hover.js</include>
               <include>assets/js/ace/ace.widget-box.js</include>
-            </includes>
-          </aggregation>
-
-          <aggregation>
-            <!-- 合并每一个文件后插入一新行 -->
-            <insertNewLine>true</insertNewLine>
-            <!-- 需合并文件的根文件夹 -->
-            <inputDir>${basedir}/src/main/webapp</inputDir>
-            <!-- 最终合并的输出文件 -->
-            <output>${basedir}/src/main/webapp/js/main.js</output>
-            <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
-            <includes>
-              <include>assets/js/jquery.js</include>
-              <include>assets/js/bootstrap.js</include>
-              <include>extend/js/jqGrid/jquery.jqGrid.js</include>
-              <include>extend/js/jqGrid/i18n/grid.locale-cn.js</include>
-              <include>assets/js/jquery-ui.custom.js</include>
             </includes>
           </aggregation>
           <aggregation>

@@ -612,22 +612,10 @@
     </c:forEach>
     </c:if>
 
-    $("#modalForm input[name=_letter]").ace_file_input({
-        no_file: '请选择图片文件...',
-        btn_choose: '选择',
-        btn_change: '更改',
-        droppable: false,
-        onchange: null,
-        thumbnail: false,
+    $.fileInput($('#modalForm input[name=_letter]'),{
+        no_file: '请选择jpg或png图片文件...',
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    }).off('file.error.ace').on("file.error.ace", function (e, info) {
-        var size = info.error_list['size'];
-        if (size != undefined) SysMsg.info("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size));
-        var ext = info.error_count['ext'];
-        var mime = info.error_count['mime'];
-        if (ext != undefined || mime != undefined) SysMsg.info("请上传图片文件（jpg或png格式)".format(ext));
-        e.preventDefault();
     })
 
     $('textarea.limited').inputlimiter();

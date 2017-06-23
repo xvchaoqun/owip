@@ -342,18 +342,9 @@
         $('input[type=file][name=_useRecord]').ace_file_input('reset_input');
     })
 
-    $('input[type=file][name=_attachment]').ace_file_input({
-        no_file:'请选择文件 ...',
-        btn_choose:'选择',
-        btn_change:'更改',
-        droppable:false,
-        onchange:null,
-        thumbnail:false, //| true | large
-        allowExt: ['pdf'],
-        //blacklist:'exe|php'
-        //onchange:''
-        //
-    });
+    $.fileInput($('input[type=file][name=_attachment]'),{
+        allowExt: ['pdf']
+    })
 
     $("input[name=usePassport]").click(function(){
         var val = $(this).val();
@@ -418,7 +409,7 @@
             .on("changeDate", function(e){
                 var _realStartDate = $('input[name=_realStartDate]').val();
                 var _realEndDate = $('input[name=_realEndDate]').val();
-                $("#_realDayCount").html((_realStartDate>_realEndDate)?"日期选择错误":DateDiff(_realStartDate, _realEndDate))
+                $("#_realDayCount").html((_realStartDate>_realEndDate)?"日期选择错误":$.dayDiff(_realStartDate, _realEndDate))
             })
 /*    $('.date-picker').datepicker({
         language:"zh-CN",

@@ -198,10 +198,8 @@
             },
             {
                 label: '发文号', name: 'dispatchCode', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.fileName && rowObject.fileName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(rowObject.file), encodeURI(rowObject.fileName), cellvalue);
-                else return cellvalue;
+
+                return $.swfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
             }, frozen: true
             },
             /*  <c:if test="${!_query}">
@@ -232,6 +230,7 @@
             },
             {
                 label: '任免文件', formatter: function (cellvalue, options, rowObject) {
+
                 if (rowObject.fileName && rowObject.fileName != '')
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
                         .format(encodeURI(rowObject.file), encodeURI(rowObject.fileName))
@@ -253,7 +252,7 @@
             {
                 label: '查看任免信息', formatter: function (cellvalue, options, rowObject) {
 
-                return '<a href="/dispatch?cls=2&year={0}&dispatchTypeId={1}&code={2}" target="_blank">查看任免信息</a>'
+                return '<a href="#/dispatch?cls=2&year={0}&dispatchTypeId={1}&code={2}" target="_blank">查看任免信息</a>'
                         .format(rowObject.year, rowObject.dispatchTypeId, rowObject.code);
             }},{label: '备注', name: 'remark', width: 550}
                 ,{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {

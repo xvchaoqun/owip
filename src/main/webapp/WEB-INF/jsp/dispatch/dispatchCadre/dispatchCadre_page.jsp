@@ -169,10 +169,8 @@
         colModel: [
             { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
             { label:'发文号',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
-                if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                        .format(encodeURI(rowObject.dispatch.file), encodeURI(rowObject.dispatch.fileName), cellvalue);
-                else return cellvalue;
+
+                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
             },frozen:true },
             { label: '任免日期',  name: 'dispatch.workTime',frozen:true , formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
@@ -194,16 +192,12 @@
             { label:'党委常委会日期', name: 'dispatch.meetingTime'},
             { label:'发文日期', name: 'dispatch.pubTime'},
             { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                        .format(encodeURI(rowObject.dispatch.file), encodeURI(rowObject.dispatch.fileName));
-                else return '';
+
+                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, '查看');
             }},
             { label:'上会ppt', name: 'pptName', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.dispatch.pptName && rowObject.dispatch.pptName!='')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                        .format(encodeURI(rowObject.dispatch.ppt), encodeURI(rowObject.dispatch.pptName));
-                else return '';
+
+                return $.swfPreview(rowObject.dispatch.ppt, rowObject.dispatch.pptName, '查看');
             }},
             { label: '是否复核', name: 'hasChecked', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';

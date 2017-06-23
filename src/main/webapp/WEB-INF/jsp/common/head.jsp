@@ -8,6 +8,5 @@
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${ctx}/css/ie9.css"/>
 <![endif]-->
-<script src="${ctx}/js/extra.js"></script>
 <link rel="stylesheet" href="${ctx}/css/extend.css" />
 <link rel="stylesheet" href="${ctx}/css/setup.css" />

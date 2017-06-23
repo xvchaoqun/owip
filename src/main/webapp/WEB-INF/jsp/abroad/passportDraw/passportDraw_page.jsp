@@ -245,7 +245,7 @@
                 name: 'day',
                 width: 80,
                 formatter: function (cellvalue, options, rowObject) {
-                    return DateDiff(rowObject.startDate, rowObject.endDate);
+                    return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
             },
             {
@@ -422,11 +422,7 @@
             }},
             { label: '附件', formatter:function(cellvalue, options, rowObject){
                 //console.log(rowObject.attachmentFilename)
-                if(rowObject.attachment && rowObject.attachment!='')
-                    return '<a href="javascript:void(0)" class="popupBtn" ' +
-                            'data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
-                                    .format(encodeURI(rowObject.attachment), encodeURI(rowObject.attachmentFilename));
-                else return '';
+                return $.swfPreview(rowObject.attachment, rowObject.attachmentFilename, "查看");
             }},{hidden:true, name:'drawStatus'}
         ],
         onSelectRow: function(id,status){

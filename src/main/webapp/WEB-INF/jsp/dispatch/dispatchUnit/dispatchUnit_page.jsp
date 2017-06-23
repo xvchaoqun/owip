@@ -95,10 +95,8 @@
         url: '${ctx}/dispatchUnit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label:'所属发文',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
-                if(rowObject.dispatch.fileName && rowObject.dispatch.fileName!='')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">{2}</a>'
-                            .format(encodeURI(rowObject.dispatch.file), rowObject.dispatch.fileName, cellvalue);
-                else return cellvalue;
+
+                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
             },frozen:true },
 
             { label:'所属单位', name: 'unit.name', width: 150 },

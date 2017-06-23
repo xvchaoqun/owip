@@ -81,17 +81,6 @@ Date.prototype.format = function (fmt) { //author: meizz
     return fmt;
 }
 
-//计算天数差的函数，通用
-function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2006-12-18格式
-    var  aDate,  oDate1,  oDate2,  iDays
-    aDate  =  sDate1.split("-")
-    oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2006格式
-    aDate  =  sDate2.split("-")
-    oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])
-    iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数
-    return  iDays
-}
-
 /* 计算两日期相差的日期年月日等 */
 Date.prototype.dateDiff = function(interval,objDate2)
 {
@@ -106,25 +95,6 @@ Date.prototype.dateDiff = function(interval,objDate2)
     i['n']=Math.floor(t2/60000)-Math.floor(t/60000);
     i['s']=Math.floor(t2/1000)-Math.floor(t/1000);
     return i[interval];
-}
-
-//计算月份差
-function MonthDiff(date1,date2){
-    //默认格式为"2003-03-03",根据自己需要改格式和方法
-    var year1 =  date1.substr(0,4);
-    var year2 =  date2.substr(0,4);
-    var month1 = date1.substr(5,2);
-    var month2 = date2.substr(5,2);
-    var day1 = date1.substr(8,2);
-    var day2 = date2.substr(8,2);
-
-    var len=(year2-year1)*12+(month2-month1);
-
-    if(len>0 && month1==month2 && day2<day1) // 月份相同，日在后面，则这个月不能算
-        len--;
-
-    return len;
-
 }
 
 

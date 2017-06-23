@@ -47,22 +47,10 @@ pageEncoding="UTF-8"%>
 
 <script>
     register_date($('.date-picker'));
-    $('#modalForm input[type=file]').ace_file_input({
-        no_file:'请上传pdf文件 ...',
-        btn_choose:'选择',
-        btn_change:'更改',
-        droppable:false,
-        onchange:null,
-        thumbnail:false, //| true | large
+    $.fileInput($('#modalForm input[type=file]'),{
+        no_file:'请上传pdf文件',
         allowExt: ['pdf']
-    }).off('file.error.ace').on("file.error.ace",function(e, info){
-        var size = info.error_list['size'];
-        if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size));
-        var ext = info.error_count['ext'];
-        var mime = info.error_count['mime'];
-        if(ext!=undefined||mime!=undefined) alert("请上传pdf文件".format(ext));
-        e.preventDefault();
-    });
+    })
 
     $("#modal form").validate({
         submitHandler: function (form) {
