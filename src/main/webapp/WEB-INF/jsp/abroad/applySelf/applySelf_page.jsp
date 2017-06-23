@@ -154,7 +154,7 @@
                                             </script>
                                         </div>
                                         <div class="form-group">
-                                            <label>是否修改</label>
+                                            <label>是否变更</label>
 
                                             <div class="input-group">
                                                 <select name="isModify" data-rel="select2" data-placeholder="请选择">
