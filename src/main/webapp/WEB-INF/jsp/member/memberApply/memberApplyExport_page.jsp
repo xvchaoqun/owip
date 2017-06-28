@@ -155,7 +155,7 @@ pageEncoding="UTF-8" %>
 <script>
     function _exportApply1(type){
 
-        var _applyTime = $("input[name=_applyTime]", "#exportForm2").val();
+        var _applyTime = $("input[name=_applyTime]", "#exportForm1").val();
         var partyId = $("select[name=partyId]", "#exportForm1").val();
         var branchId = $("select[name=branchId]", "#exportForm1").val();
         location.href="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&t={4}"
