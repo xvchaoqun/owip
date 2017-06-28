@@ -90,6 +90,7 @@ public class MemberStudentController extends BaseController {
                                      String type,
                                      @RequestDateRange DateRange _growTime,
                                      @RequestDateRange DateRange _positiveTime,
+                                     @RequestDateRange DateRange _outHandleTime,
                                      String eduLevel,
                                      String eduType,
                                      @RequestParam(required = false, value = "nation")String[] nation,
@@ -199,6 +200,13 @@ public class MemberStudentController extends BaseController {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
         }
 
+        if (_outHandleTime.getStart()!=null) {
+            criteria.andOutHandleTimeGreaterThanOrEqualTo(_outHandleTime.getStart());
+        }
+        if (_outHandleTime.getEnd()!=null) {
+            criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
+        }
+
        /* if (StringUtils.isNotBlank(_growTime)) {
             String start = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[0];
             String end = _growTime.split(SystemConstants.DATERANGE_SEPARTOR)[1];
@@ -229,7 +237,7 @@ public class MemberStudentController extends BaseController {
             return;
         }
 
-        int count = memberStudentMapper.countByExample(example);
+        long count = memberStudentMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

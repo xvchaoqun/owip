@@ -1,94 +1,95 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.member.MemberTeacherMapper" >
-  <resultMap id="BaseResultMap" type="domain.member.MemberTeacher" >
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="ext_phone" property="extPhone" jdbcType="VARCHAR" />
-    <result column="education" property="education" jdbcType="VARCHAR" />
-    <result column="degree" property="degree" jdbcType="VARCHAR" />
-    <result column="degree_time" property="degreeTime" jdbcType="DATE" />
-    <result column="major" property="major" jdbcType="VARCHAR" />
-    <result column="school" property="school" jdbcType="VARCHAR" />
-    <result column="school_type" property="schoolType" jdbcType="VARCHAR" />
-    <result column="degree_school" property="degreeSchool" jdbcType="VARCHAR" />
-    <result column="arrive_time" property="arriveTime" jdbcType="DATE" />
-    <result column="work_start_time" property="workStartTime" jdbcType="DATE" />
-    <result column="work_break" property="workBreak" jdbcType="VARCHAR" />
-    <result column="regular_time" property="regularTime" jdbcType="DATE" />
-    <result column="authorized_type" property="authorizedType" jdbcType="VARCHAR" />
-    <result column="staff_type" property="staffType" jdbcType="VARCHAR" />
-    <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
-    <result column="post_class" property="postClass" jdbcType="VARCHAR" />
-    <result column="sub_post_class" property="subPostClass" jdbcType="VARCHAR" />
-    <result column="main_post_level" property="mainPostLevel" jdbcType="VARCHAR" />
-    <result column="country" property="country" jdbcType="VARCHAR" />
-    <result column="from_type" property="fromType" jdbcType="VARCHAR" />
-    <result column="ext_unit" property="extUnit" jdbcType="VARCHAR" />
-    <result column="on_job" property="onJob" jdbcType="VARCHAR" />
-    <result column="pro_post" property="proPost" jdbcType="VARCHAR" />
-    <result column="pro_post_time" property="proPostTime" jdbcType="DATE" />
-    <result column="pro_post_level" property="proPostLevel" jdbcType="VARCHAR" />
-    <result column="pro_post_level_time" property="proPostLevelTime" jdbcType="DATE" />
-    <result column="title_level" property="titleLevel" jdbcType="VARCHAR" />
-    <result column="manage_level" property="manageLevel" jdbcType="VARCHAR" />
-    <result column="manage_level_time" property="manageLevelTime" jdbcType="DATE" />
-    <result column="office_level" property="officeLevel" jdbcType="VARCHAR" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="post_level" property="postLevel" jdbcType="VARCHAR" />
-    <result column="talent_type" property="talentType" jdbcType="VARCHAR" />
-    <result column="talent_title" property="talentTitle" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="marital_status" property="maritalStatus" jdbcType="VARCHAR" />
-    <result column="is_retire" property="isRetire" jdbcType="BIT" />
-    <result column="retire_time" property="retireTime" jdbcType="DATE" />
-    <result column="is_honor_retire" property="isHonorRetire" jdbcType="BIT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="apply_time" property="applyTime" jdbcType="DATE" />
-    <result column="member_source" property="memberSource" jdbcType="TINYINT" />
-    <result column="source" property="source" jdbcType="TINYINT" />
-    <result column="positive_time" property="positiveTime" jdbcType="DATE" />
-    <result column="active_time" property="activeTime" jdbcType="DATE" />
-    <result column="political_status" property="politicalStatus" jdbcType="TINYINT" />
-    <result column="transfer_time" property="transferTime" jdbcType="TIMESTAMP" />
-    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
-    <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
-    <result column="party_id" property="partyId" jdbcType="INTEGER" />
-    <result column="grow_time" property="growTime" jdbcType="DATE" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="party_post" property="partyPost" jdbcType="VARCHAR" />
-    <result column="party_reward" property="partyReward" jdbcType="VARCHAR" />
-    <result column="other_reward" property="otherReward" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="TINYINT" />
-    <result column="nation" property="nation" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="birth" property="birth" jdbcType="DATE" />
-    <result column="realname" property="realname" jdbcType="VARCHAR" />
-    <result column="native_place" property="nativePlace" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
-    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.member.MemberTeacherMapper">
+  <resultMap id="BaseResultMap" type="domain.member.MemberTeacher">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ext_phone" jdbcType="VARCHAR" property="extPhone" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="degree_time" jdbcType="DATE" property="degreeTime" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="school_type" jdbcType="VARCHAR" property="schoolType" />
+    <result column="degree_school" jdbcType="VARCHAR" property="degreeSchool" />
+    <result column="arrive_time" jdbcType="DATE" property="arriveTime" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="work_start_time" jdbcType="DATE" property="workStartTime" />
+    <result column="work_break" jdbcType="VARCHAR" property="workBreak" />
+    <result column="regular_time" jdbcType="DATE" property="regularTime" />
+    <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
+    <result column="staff_type" jdbcType="VARCHAR" property="staffType" />
+    <result column="staff_status" jdbcType="VARCHAR" property="staffStatus" />
+    <result column="post_class" jdbcType="VARCHAR" property="postClass" />
+    <result column="sub_post_class" jdbcType="VARCHAR" property="subPostClass" />
+    <result column="main_post_level" jdbcType="VARCHAR" property="mainPostLevel" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="from_type" jdbcType="VARCHAR" property="fromType" />
+    <result column="ext_unit" jdbcType="VARCHAR" property="extUnit" />
+    <result column="on_job" jdbcType="VARCHAR" property="onJob" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="pro_post_time" jdbcType="DATE" property="proPostTime" />
+    <result column="pro_post_level" jdbcType="VARCHAR" property="proPostLevel" />
+    <result column="pro_post_level_time" jdbcType="DATE" property="proPostLevelTime" />
+    <result column="title_level" jdbcType="VARCHAR" property="titleLevel" />
+    <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
+    <result column="manage_level_time" jdbcType="DATE" property="manageLevelTime" />
+    <result column="office_level" jdbcType="VARCHAR" property="officeLevel" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="post_level" jdbcType="VARCHAR" property="postLevel" />
+    <result column="talent_type" jdbcType="VARCHAR" property="talentType" />
+    <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="marital_status" jdbcType="VARCHAR" property="maritalStatus" />
+    <result column="is_retire" jdbcType="BIT" property="isRetire" />
+    <result column="retire_time" jdbcType="DATE" property="retireTime" />
+    <result column="is_honor_retire" jdbcType="BIT" property="isHonorRetire" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="apply_time" jdbcType="DATE" property="applyTime" />
+    <result column="member_source" jdbcType="TINYINT" property="memberSource" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="positive_time" jdbcType="DATE" property="positiveTime" />
+    <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="political_status" jdbcType="TINYINT" property="politicalStatus" />
+    <result column="transfer_time" jdbcType="TIMESTAMP" property="transferTime" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="party_post" jdbcType="VARCHAR" property="partyPost" />
+    <result column="party_reward" jdbcType="VARCHAR" property="partyReward" />
+    <result column="other_reward" jdbcType="VARCHAR" property="otherReward" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -99,11 +100,11 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     user_id, ext_phone, education, degree, degree_time, major, school, school_type, degree_school, 
-    arrive_time, work_start_time, work_break, regular_time, authorized_type, staff_type, 
-    staff_status, post_class, sub_post_class, main_post_level, country, from_type, ext_unit, 
-    on_job, pro_post, pro_post_time, pro_post_level, pro_post_level_time, title_level, 
+    arrive_time, work_time, work_start_time, work_break, regular_time, authorized_type, 
+    staff_type, staff_status, post_class, sub_post_class, main_post_level, country, from_type, 
+    ext_unit, on_job, pro_post, pro_post_time, pro_post_level, pro_post_level_time, title_level, 
     manage_level, manage_level_time, office_level, post, post_level, talent_type, talent_title, 
     address, marital_status, is_retire, retire_time, is_honor_retire, create_time, apply_time, 
     member_source, source, positive_time, active_time, political_status, transfer_time, 
@@ -111,37 +112,37 @@
     other_reward, code, gender, nation, email, mobile, birth, realname, native_place, 
     phone, idcard, unit_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.member.MemberTeacherExample" >
+  <select id="selectByExample" parameterType="domain.member.MemberTeacherExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_member_teacher
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.member.MemberTeacherExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.member.MemberTeacherExample" resultType="java.lang.Long">
     select count(*) from ow_member_teacher
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select resultMap="BaseResultMap" parameterType="domain.member.MemberTeacherExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberTeacherExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_member_teacher
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

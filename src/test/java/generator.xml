@@ -136,9 +136,12 @@
 
       <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
       </table>-->
-     <!-- <table tableName="ow_member_student" domainObjectName="member.MemberStudent">
+      <!--<table tableName="ow_member_student" domainObjectName="member.MemberStudent" mapperName="member.MemberStudentMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
       </table>-->
-     <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher"
+      <!--<table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
@@ -260,8 +263,8 @@
       </table>
       <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit">
       </table>-->
-      <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
-      </table>
+     <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
+      </table>-->
 
       <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
       </table>-->

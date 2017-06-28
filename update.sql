@@ -1,4 +1,7 @@
 
+2017-06-28
+ALTER TABLE `ow_member_out`
+	ADD UNIQUE INDEX `user_id` (`user_id`);
 
 
 2017-06-16

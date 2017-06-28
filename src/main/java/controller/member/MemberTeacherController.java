@@ -239,7 +239,7 @@ public class MemberTeacherController extends BaseController {
             return;
         }
 
-        int count = memberTeacherMapper.countByExample(example);
+        long count = memberTeacherMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

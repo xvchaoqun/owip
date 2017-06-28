@@ -17,7 +17,7 @@
             ||not empty param.type ||not empty param.grade
             ||not empty param.eduLevel ||not empty param.eduType
             ||not empty param.politicalStatus
-                ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
+                ||not empty param._growTime ||not empty param._positiveTime ||not empty param._outHandleTime || not empty param.partyId }"/>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
                 <div class="tab-content">
@@ -223,6 +223,18 @@
                                                 $("#searchForm select[name=unitId]").val('${param.unitId}');
                                             </script>
                                         </div>
+                                        <c:if test="${cls==6}">
+                                        <div class="form-group">
+                                            <label>转出时间</label>
+                                            <div class="input-group tooltip-success" data-rel="tooltip" title="转出时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                <input placeholder="请选择转出时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                       type="text" name="_outHandleTime" value="${param._outHandleTime}"/>
+                                            </div>
+                                        </div>
+                                        </c:if>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -281,6 +293,9 @@
             }},
             { label:'入党时间',  name: 'growTime', width: 120, sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label:'转正时间',  name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            <c:if test="${cls==6}">
+            { label:'转出时间',  name: 'outHandleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+                </c:if>
             { label:'培养层次',  name: 'eduLevel' },
             { label:'培养类型',  name: 'eduType' },
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){

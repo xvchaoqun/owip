@@ -91,6 +91,10 @@ public class MemberStudent implements Serializable {
 
     private Integer unitId;
 
+    private Byte outStatus;
+
+    private Date outHandleTime;
+
     private static final long serialVersionUID = 1L;
 
     public Date getCreateTime() {
@@ -411,5 +415,21 @@ public class MemberStudent implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Byte getOutStatus() {
+        return outStatus;
+    }
+
+    public void setOutStatus(Byte outStatus) {
+        this.outStatus = outStatus;
+    }
+
+    public Date getOutHandleTime() {
+        return outHandleTime;
+    }
+
+    public void setOutHandleTime(Date outHandleTime) {
+        this.outHandleTime = outHandleTime;
     }
 }

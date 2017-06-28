@@ -1,6 +1,6 @@
 package domain.member;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import sys.constants.SystemConstants;
@@ -804,6 +804,66 @@ public class MemberTeacherExample {
 
         public Criteria andArriveTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("arrive_time not between", value1, value2, "arriveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeIsNull() {
+            addCriterion("work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeIsNotNull() {
+            addCriterion("work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time =", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time <>", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("work_time >", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time >=", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("work_time <", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time <=", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("work_time in", values, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("work_time not in", values, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("work_time between", value1, value2, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("work_time not between", value1, value2, "workTime");
             return (Criteria) this;
         }
 

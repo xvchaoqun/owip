@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 
 public interface MemberTeacherMapper {
-    int countByExample(MemberTeacherExample example);
+    long countByExample(MemberTeacherExample example);
 
     List<MemberTeacher> selectByExampleWithRowbounds(MemberTeacherExample example, RowBounds rowBounds);
 

@@ -263,14 +263,48 @@ where wms.user_id=om.user_id  ;
 --  View definition for `ow_member_student`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_student`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_student` AS select `m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `member_source`,`u`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`user_id` AS `user_id`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`s`.`delay_year` AS `delay_year`,`s`.`period` AS `period`,`u`.`code` AS `code`,`s`.`edu_category` AS `edu_category`,`ui`.`gender` AS `gender`,`ui`.`birth` AS `birth`,`ui`.`nation` AS `nation`,`s`.`actual_graduate_time` AS `actual_graduate_time`,`s`.`expect_graduate_time` AS `expect_graduate_time`,`s`.`actual_enrol_time` AS `actual_enrol_time`,`s`.`sync_source` AS `sync_source`,`s`.`type` AS `type`,`s`.`is_full_time` AS `is_full_time`,`ui`.`realname` AS `realname`,`s`.`enrol_year` AS `enrol_year`,`ui`.`native_place` AS `native_place`,`s`.`edu_way` AS `edu_way`,`ui`.`idcard` AS `idcard`,`s`.`edu_level` AS `edu_level`,`s`.`grade` AS `grade`,`s`.`edu_type` AS `edu_type`,`s`.`xj_status` AS `xj_status`,`p`.`unit_id` AS `unit_id` from (((`ow_member` `m` join `ow_party` `p`) join (`sys_user` `u` join `sys_student_info` `s`)) join `sys_user_info` `ui`) where ((`m`.`user_id` = `s`.`user_id`) and (`m`.`party_id` = `p`.`id`) and (`m`.`user_id` = `u`.`id`) and (`ui`.`user_id` = `u`.`id`));
-
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_student`
+AS SELECT m.create_time,m.apply_time,m.source as member_source,u.source,m.positive_time,m.active_time,
+m.political_status,m.transfer_time,m.user_id,m.branch_id,m.candidate_time,m.party_id,m.grow_time,m.status,m.party_post,
+m.party_reward,m.other_reward,s.delay_year,
+s.period,u.code,s.edu_category,ui.gender,ui.birth,ui.nation,s.actual_graduate_time,
+s.expect_graduate_time,s.actual_enrol_time,s.sync_source ,s.type,s.is_full_time,ui.realname,
+s.enrol_year,ui.native_place,s.edu_way,ui.idcard,s.edu_level,s.grade,s.edu_type,s.xj_status,p.unit_id
+,mo.status as out_status, mo.handle_time as out_handle_time
+from ow_member m left join ow_member_out mo on mo.user_id = m.user_id,
+ow_party p, sys_student_info s, sys_user u, sys_user_info ui
+where m.user_id = s.user_id and m.party_id = p.id and m.user_id = u.id and ui.user_id = u.id;
 -- ----------------------------
 --  View definition for `ow_member_teacher`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_teacher`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_teacher` AS select `t`.`user_id` AS `user_id`,`t`.`ext_phone` AS `ext_phone`,`t`.`education` AS `education`,`t`.`degree` AS `degree`,`t`.`degree_time` AS `degree_time`,`t`.`major` AS `major`,`t`.`school` AS `school`,`t`.`school_type` AS `school_type`,`t`.`degree_school` AS `degree_school`,`t`.`arrive_time` AS `arrive_time`,`t`.`work_start_time` AS `work_start_time`,`t`.`work_break` AS `work_break`,`t`.`regular_time` AS `regular_time`,`t`.`authorized_type` AS `authorized_type`,`t`.`staff_type` AS `staff_type`,`t`.`staff_status` AS `staff_status`,`t`.`post_class` AS `post_class`,`t`.`sub_post_class` AS `sub_post_class`,`t`.`main_post_level` AS `main_post_level`,`t`.`country` AS `country`,`t`.`from_type` AS `from_type`,`t`.`ext_unit` AS `ext_unit`,`t`.`on_job` AS `on_job`,`t`.`pro_post` AS `pro_post`,`t`.`pro_post_time` AS `pro_post_time`,`t`.`pro_post_level` AS `pro_post_level`,`t`.`pro_post_level_time` AS `pro_post_level_time`,`t`.`title_level` AS `title_level`,`t`.`manage_level` AS `manage_level`,`t`.`manage_level_time` AS `manage_level_time`,`t`.`office_level` AS `office_level`,`t`.`post` AS `post`,`t`.`post_level` AS `post_level`,`t`.`talent_type` AS `talent_type`,`t`.`talent_title` AS `talent_title`,`t`.`address` AS `address`,`t`.`marital_status` AS `marital_status`,`t`.`is_retire` AS `is_retire`,`t`.`retire_time` AS `retire_time`,`t`.`is_honor_retire` AS `is_honor_retire`,`m`.`create_time` AS `create_time`,`m`.`apply_time` AS `apply_time`,`m`.`source` AS `member_source`,`u`.`source` AS `source`,`m`.`positive_time` AS `positive_time`,`m`.`active_time` AS `active_time`,`m`.`political_status` AS `political_status`,`m`.`transfer_time` AS `transfer_time`,`m`.`branch_id` AS `branch_id`,`m`.`candidate_time` AS `candidate_time`,`m`.`party_id` AS `party_id`,`m`.`grow_time` AS `grow_time`,`m`.`status` AS `status`,`m`.`party_post` AS `party_post`,`m`.`party_reward` AS `party_reward`,`m`.`other_reward` AS `other_reward`,`u`.`code` AS `code`,`ui`.`gender` AS `gender`,`ui`.`nation` AS `nation`,`ui`.`email` AS `email`,`ui`.`mobile` AS `mobile`,`ui`.`birth` AS `birth`,`ui`.`realname` AS `realname`,`ui`.`native_place` AS `native_place`,`ui`.`phone` AS `phone`,`ui`.`idcard` AS `idcard`,`p`.`unit_id` AS `unit_id` from (((`ow_member` `m` join `ow_party` `p`) join (`sys_user` `u` join `sys_teacher_info` `t`)) join `sys_user_info` `ui`) where ((`m`.`user_id` = `t`.`user_id`) and (`m`.`party_id` = `p`.`id`) and (`m`.`user_id` = `u`.`id`) and (`ui`.`user_id` = `u`.`id`));
-
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_teacher`
+AS SELECT
+t.*,
+m.create_time,
+m.apply_time,
+m.source as member_source,
+u.source,
+m.positive_time,
+m.active_time,
+m.political_status,
+m.transfer_time,
+m.branch_id,
+m.candidate_time,
+m.party_id,
+m.grow_time,
+m.status,
+m.party_post,
+m.party_reward,
+m.other_reward,
+u.code,
+ui.gender,
+ui.nation,
+ui.email,
+ui.mobile,
+ui.birth,ui.realname, ui.native_place, ui.phone, ui.idcard, p.unit_id
+from ow_member m, ow_party p, sys_user u, sys_teacher_info t, sys_user_info ui
+where m.user_id=t.user_id and m.party_id=p.id and m.user_id =u.id and ui.user_id = u.id;
 -- ----------------------------
 --  View definition for `ow_party_member_group_view`
 -- ----------------------------
