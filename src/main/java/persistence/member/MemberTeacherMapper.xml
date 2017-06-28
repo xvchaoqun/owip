@@ -70,6 +70,8 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="out_status" jdbcType="TINYINT" property="outStatus" />
+    <result column="out_handle_time" jdbcType="DATE" property="outHandleTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -110,7 +112,7 @@
     member_source, source, positive_time, active_time, political_status, transfer_time, 
     branch_id, candidate_time, party_id, grow_time, status, party_post, party_reward, 
     other_reward, code, gender, nation, email, mobile, birth, realname, native_place, 
-    phone, idcard, unit_id
+    phone, idcard, unit_id, out_status, out_handle_time
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberTeacherExample" resultMap="BaseResultMap">
     select

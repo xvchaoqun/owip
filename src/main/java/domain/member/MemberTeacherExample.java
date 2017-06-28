@@ -4616,6 +4616,126 @@ public class MemberTeacherExample {
             addCriterion("unit_id not between", value1, value2, "unitId");
             return (Criteria) this;
         }
+
+        public Criteria andOutStatusIsNull() {
+            addCriterion("out_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusIsNotNull() {
+            addCriterion("out_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusEqualTo(Byte value) {
+            addCriterion("out_status =", value, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusNotEqualTo(Byte value) {
+            addCriterion("out_status <>", value, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusGreaterThan(Byte value) {
+            addCriterion("out_status >", value, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("out_status >=", value, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusLessThan(Byte value) {
+            addCriterion("out_status <", value, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("out_status <=", value, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusIn(List<Byte> values) {
+            addCriterion("out_status in", values, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusNotIn(List<Byte> values) {
+            addCriterion("out_status not in", values, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusBetween(Byte value1, Byte value2) {
+            addCriterion("out_status between", value1, value2, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("out_status not between", value1, value2, "outStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeIsNull() {
+            addCriterion("out_handle_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeIsNotNull() {
+            addCriterion("out_handle_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("out_handle_time =", value, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("out_handle_time <>", value, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("out_handle_time >", value, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("out_handle_time >=", value, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeLessThan(Date value) {
+            addCriterionForJDBCDate("out_handle_time <", value, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("out_handle_time <=", value, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("out_handle_time in", values, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("out_handle_time not in", values, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("out_handle_time between", value1, value2, "outHandleTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutHandleTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("out_handle_time not between", value1, value2, "outHandleTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -27,7 +27,16 @@ pageEncoding="UTF-8" %>
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <form class="form-inline search-form" id="exportForm1">
-
+                                                <div class="form-group">
+                                                    <label>提交书面申请书时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_applyTime" value="${param._applyTime}"/>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label>分党委</label>
                                                     <select class="form-control" data-rel="select2-ajax"
@@ -81,7 +90,16 @@ pageEncoding="UTF-8" %>
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <form class="form-inline search-form" id="exportForm2">
-
+                                                <div class="form-group">
+                                                    <label>发展时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_growTime" value="${param._growTime}"/>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label>分党委</label>
                                                     <select class="form-control" data-rel="select2-ajax"
@@ -133,19 +151,23 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     function _exportApply1(type){
+
+        var _applyTime = $("input[name=_applyTime]", "#exportForm2").val();
         var partyId = $("select[name=partyId]", "#exportForm1").val();
         var branchId = $("select[name=branchId]", "#exportForm1").val();
-        location.href="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&t={3}"
-                .format(type, partyId, branchId, new Date().getTime());
+        location.href="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&t={4}"
+                .format(type, partyId, branchId, _applyTime, new Date().getTime());
     }
 
     function _exportApply2(type){
 
+        var _growTime = $("input[name=_growTime]", "#exportForm2").val();
         var partyId = $("select[name=partyId]", "#exportForm2").val();
         var branchId = $("select[name=branchId]", "#exportForm2").val();
-        location.href="${ctx}/memberApplyExport?exportType=2&type={0}&partyId={1}&branchId={2}&t={3}"
-                .format(type, partyId, branchId, new Date().getTime());
+        location.href="${ctx}/memberApplyExport?exportType=2&type={0}&partyId={1}&branchId={2}&_growTime={3}&t={4}"
+                .format(type, partyId, branchId, _growTime, new Date().getTime());
     }
 </script>

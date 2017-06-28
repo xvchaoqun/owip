@@ -96,6 +96,7 @@ public class MemberTeacherController extends BaseController {
                                     Boolean isHonorRetire,
                                    @RequestDateRange DateRange _growTime,
                                    @RequestDateRange DateRange _positiveTime,
+                                   @RequestDateRange DateRange _outHandleTime,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -202,6 +203,12 @@ public class MemberTeacherController extends BaseController {
         }
         if (_positiveTime.getEnd()!=null) {
             criteria.andPositiveTimeLessThanOrEqualTo(_positiveTime.getEnd());
+        }
+        if (_outHandleTime.getStart()!=null) {
+            criteria.andOutHandleTimeGreaterThanOrEqualTo(_outHandleTime.getStart());
+        }
+        if (_outHandleTime.getEnd()!=null) {
+            criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
         }
 
         /*

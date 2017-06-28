@@ -15,7 +15,7 @@
              ||not empty param.education ||not empty param.postClass
              ||not empty param._retireTime ||not empty param.isHonorRetire
              ||not empty param.politicalStatus
-                ||not empty param._growTime ||not empty param._positiveTime || not empty param.partyId }"/>
+                ||not empty param._growTime ||not empty param._positiveTime ||not empty param._outHandleTime || not empty param.partyId }"/>
         <div class="tabbable">
             <jsp:include page="/WEB-INF/jsp/member/member/member_menu.jsp"/>
 
@@ -243,6 +243,18 @@
                                             $("#searchForm select[name=politicalStatus]").val(${param.politicalStatus});
                                         </script>
                                     </div>
+                                    <c:if test="${cls==7}">
+                                        <div class="form-group">
+                                            <label>转出时间</label>
+                                            <div class="input-group tooltip-success" data-rel="tooltip" title="转出时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                <input placeholder="请选择转出时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                       type="text" name="_outHandleTime" value="${param._outHandleTime}"/>
+                                            </div>
+                                        </div>
+                                    </c:if>
                                     <div class="clearfix form-actions center">
                                         <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -306,6 +318,9 @@
             }},
             { label:'入党时间', name: 'growTime', width: 120,sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'转正时间',  name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            <c:if test="${cls==7}">
+            { label:'转出时间',  name: 'outHandleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            </c:if>
             { label:'联系手机', name: 'mobile', width: 100},
             <c:if test="${cls>=3}">
             { label:'退休时间', name: 'retireTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },

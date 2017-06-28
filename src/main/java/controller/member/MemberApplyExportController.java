@@ -23,6 +23,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
@@ -47,8 +49,11 @@ public class MemberApplyExportController extends BaseController {
                                    Integer partyId,
                                    Integer branchId,
                                    @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
-                                   @RequestParam(defaultValue = "0")Byte exportType //导出类型：1：申请入党人员信息（包含申请至领取志愿书 5个阶段） 2：发展党员人员信息（即预备党员阶段）
-                                   , ModelMap modelMap
+                                    //导出类型：1：申请入党人员信息（包含申请至领取志愿书 5个阶段） 2：发展党员人员信息（即预备党员阶段）
+                                    @RequestParam(defaultValue = "0")Byte exportType,
+                                    @RequestDateRange DateRange _applyTime,
+                                    @RequestDateRange DateRange _growTime,
+                                    ModelMap modelMap
                     ) throws IOException {
 
         if(exportType==0){
@@ -85,6 +90,14 @@ public class MemberApplyExportController extends BaseController {
             stageList.add(SystemConstants.APPLY_STAGE_DRAW);
             criteria.andStageIn(stageList);
 
+            if (_applyTime.getStart()!=null) {
+                criteria.andApplyTimeGreaterThanOrEqualTo(_applyTime.getStart());
+            }
+            if (_applyTime.getEnd()!=null) {
+                criteria.andApplyTimeLessThanOrEqualTo(_applyTime.getEnd());
+            }
+
+
             if(type==SystemConstants.APPLY_TYPE_STU) {
                 memberStudent_apply_export(example, response);
                 logger.info(addLog(SystemConstants.LOG_OW, "导出学生申请入党人员信息"));
@@ -97,6 +110,12 @@ public class MemberApplyExportController extends BaseController {
 
             criteria.andStageEqualTo(SystemConstants.APPLY_STAGE_GROW);
 
+            if (_growTime.getStart()!=null) {
+                criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
+            }
+            if (_growTime.getEnd()!=null) {
+                criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
+            }
             if(type==SystemConstants.APPLY_TYPE_STU) {
                 memberStudent_export(example, response);
                 logger.info(addLog(SystemConstants.LOG_OW, "导出学生预备党员信息"));

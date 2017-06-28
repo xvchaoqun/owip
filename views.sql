@@ -303,7 +303,8 @@ ui.nation,
 ui.email,
 ui.mobile,
 ui.birth,ui.realname, ui.native_place, ui.phone, ui.idcard, p.unit_id
-from ow_member m, ow_party p, sys_user u, sys_teacher_info t, sys_user_info ui
+,mo.status as out_status, mo.handle_time as out_handle_time
+from ow_member m left join ow_member_out mo on mo.user_id = m.user_id, ow_party p, sys_user u, sys_teacher_info t, sys_user_info ui
 where m.user_id=t.user_id and m.party_id=p.id and m.user_id =u.id and ui.user_id = u.id;
 -- ----------------------------
 --  View definition for `ow_party_member_group_view`
