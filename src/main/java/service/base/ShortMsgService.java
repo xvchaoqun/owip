@@ -653,7 +653,9 @@ public class ShortMsgService extends BaseMapper {
                 return true;
             }
         } catch (IOException e) {
-            throw new RuntimeException("系统错误。");
+
+            e.printStackTrace();
+            throw new RuntimeException("系统错误:"+ e.getMessage());
         }
         return false;
     }

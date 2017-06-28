@@ -15,6 +15,8 @@ import sys.utils.NumberUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -63,6 +65,7 @@ public class StatCadreService extends BaseMapper {
 
     private static void readerCellData(int startColumnNum, Row row, List data){
 
+        NumberFormat nf = NumberFormat.getPercentInstance();
         int size = data.size();
         for (int i = 0; i < size; i++) {
 
@@ -70,7 +73,12 @@ public class StatCadreService extends BaseMapper {
             if(i%2==0) {
                 cell.setCellValue((Integer) data.get(i));
             }else {
-                cell.setCellValue(String.valueOf(data.get(i)));
+                try {
+                    cell.setCellValue(nf.parse((String) data.get(i)).doubleValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
             startColumnNum++;
         }

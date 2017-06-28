@@ -286,7 +286,7 @@
                 return approverTdAttrs(tdBean);
             }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
-                return processTdBean(tdBean)
+                return processTdBean(tdBean, rowObject.isDeleted)
             }
             },
             <c:forEach items="${approverTypeMap}" var="type">
@@ -297,7 +297,7 @@
                     return approverTdAttrs(tdBean);
                 }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
-                return processTdBean(tdBean)
+                return processTdBean(tdBean, rowObject.isDeleted)
             }
             },
             </c:forEach>
@@ -307,7 +307,7 @@
                 return approverTdAttrs(tdBean);
             }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
-                return processTdBean(tdBean)
+                return processTdBean(tdBean, rowObject.isDeleted)
             }
             },
             {
@@ -408,14 +408,14 @@
      }
      return html;
      }*/
-    function processTdBean(tdBean) {
+    function processTdBean(tdBean, isDeleted) {
 
         if(tdBean==undefined) return '';
-
+        //console.log(isDeleted)
         var applySelfId = tdBean.applySelfId;
         var approvalTypeId = tdBean.approvalTypeId;
         var type = tdBean.tdType;
-        var canApproval = tdBean.canApproval;
+        var canApproval = tdBean.canApproval && !isDeleted;
         var html = "";
         switch (type) {
             case 1:
