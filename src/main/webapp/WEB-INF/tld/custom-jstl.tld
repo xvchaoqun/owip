@@ -9,22 +9,13 @@
  	<short-name>cm</short-name>
  	<uri>http://java.sun.com/jsp/jstl/custom</uri>
 
+	<!--System Tag -->
 	<function>
 		<name>findPermissions</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.util.Set findPermissions(java.lang.String)</function-signature>
 	</function>
-	<function>
-		<name>isPermitted</name>
-		<function-class>shiro.ShiroHelper</function-class>
-		<function-signature>java.lang.Boolean isPermitted(java.lang.String)</function-signature>
-	</function>
 
-	<function>
-		<name>hasRole</name>
-		<function-class>shiro.ShiroHelper</function-class>
-		<function-signature>java.lang.Boolean hasRole(java.lang.String)</function-signature>
-	</function>
 	<function>
 		<name>hasAnyRoles</name>
 		<function-class>shiro.ShiroHelper</function-class>
@@ -36,79 +27,6 @@
 		<function-signature>java.lang.Integer getMenuCacheCount(java.lang.String)</function-signature>
 	</function>
 
-	<!--获得MAP KEY VALUE-->
-	<function>
-		<name>getMapValue</name>
-		<function-class>sys.utils.MapUtils</function-class>
-		<function-signature>java.lang.Object getMapValue(java.lang.Integer,java.util.Map)</function-signature>
-	</function>
-	<function>
-		<name>exists</name>
-		<function-class>sys.utils.FileUtils</function-class>
-		<function-signature>boolean exists(java.lang.String)</function-signature>
-	</function>
-     <!--获得日期字符串-->
-     <function>
-	  	<name>formatDateTimeMillis</name>
-	  	<function-class>sys.utils.DateUtils</function-class>
-	  	<function-signature>java.lang.String  formatDateTimeMillis(java.lang.Long,java.lang.String)</function-signature>
-  	</function>
-     <!--获得日期字符串-->
-     <function>
-	  	<name>formatDate</name>
-	  	<function-class>sys.utils.DateUtils</function-class>
-	  	<function-signature>java.lang.String  formatDate(java.util.Date,java.lang.String)</function-signature>
-  	</function>
-	<function>
-		<name>calAge</name>
-		<function-class>sys.utils.DateUtils</function-class>
-		<function-signature>java.lang.String calAge(java.util.Date)</function-signature>
-	</function>
-	<function>
-		<name>intervalYearsUntilNow</name>
-		<function-class>sys.utils.DateUtils</function-class>
-		<function-signature>java.lang.Integer  intervalYearsUntilNow(java.util.Date)</function-signature>
-	</function>
-	<function>
-		<name>compareDate</name>
-		<function-class>sys.utils.DateUtils</function-class>
-		<function-signature>java.lang.Boolean compareDate(java.util.Date,java.util.Date)</function-signature>
-	</function>
-	<function>
-		<name>getDayCountBetweenDate</name>
-		<function-class>sys.utils.DateUtils</function-class>
-		<function-signature>java.lang.Integer  getDayCountBetweenDate(java.util.Date, java.util.Date)</function-signature>
-	</function>
-	<function>
-		<name>parseInt</name>
-		<function-class>sys.utils.TagUtils</function-class>
-		<function-signature>java.lang.Integer parseInt(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>inverseMap</name>
-		<function-class>sys.utils.MapUtils</function-class>
-		<function-signature>java.util.Map inverse(java.util.Map)</function-signature>
-	</function>
-	<function>
-		<name>substr</name>
-		<function-class>sys.utils.ContentUtils</function-class>
-		<function-signature>java.lang.String  substr(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>encodeURI</name>
-		<function-class>sys.utils.ContentUtils</function-class>
-		<function-signature>java.lang.String  encodeURI(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>encodeQueryString</name>
-		<function-class>sys.utils.ContentUtils</function-class>
-		<function-signature>java.lang.String  encodeQueryString(java.lang.String)</function-signature>
-	</function>
-  	<function>
-	  	<name>unescape</name>
-	  	<function-class>sys.utils.Escape</function-class>
-	  	<function-signature>java.lang.String  unescape(java.lang.String)</function-signature>
-  	</function>
   	<function>
 	  	<name>getParentIdSet</name>
 	  	<function-class>sys.tags.CmTag</function-class>
@@ -232,9 +150,97 @@
 		<function-signature>java.lang.Integer evaIsClosed(java.lang.Integer)</function-signature>
 	</function>
 
+
+	<!-- common tag -->
 	<function>
 		<name>toHanStr</name>
 		<function-class>sys.utils.NumberUtils</function-class>
 		<function-signature>java.lang.String toHanStr(java.lang.Integer)</function-signature>
+	</function>
+
+	<function>
+		<name>isPermitted</name>
+		<function-class>sys.shiro.BaseShiroHelper</function-class>
+		<function-signature>java.lang.Boolean isPermitted(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>hasRole</name>
+		<function-class>sys.shiro.BaseShiroHelper</function-class>
+		<function-signature>java.lang.Boolean hasRole(java.lang.String)</function-signature>
+	</function>
+
+	<!--获得MAP KEY VALUE-->
+	<function>
+		<name>getMapValue</name>
+		<function-class>sys.utils.MapUtils</function-class>
+		<function-signature>java.lang.Object getMapValue(java.lang.Integer,java.util.Map)</function-signature>
+	</function>
+	<function>
+		<name>exists</name>
+		<function-class>sys.utils.FileUtils</function-class>
+		<function-signature>boolean exists(java.lang.String)</function-signature>
+	</function>
+	<!--获得日期字符串-->
+	<function>
+		<name>formatDateTimeMillis</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.String  formatDateTimeMillis(java.lang.Long,java.lang.String)</function-signature>
+	</function>
+	<!--获得日期字符串-->
+	<function>
+		<name>formatDate</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.String  formatDate(java.util.Date,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>calAge</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.String calAge(java.util.Date)</function-signature>
+	</function>
+	<function>
+		<name>intervalYearsUntilNow</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.Integer  intervalYearsUntilNow(java.util.Date)</function-signature>
+	</function>
+	<function>
+		<name>compareDate</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.Boolean compareDate(java.util.Date,java.util.Date)</function-signature>
+	</function>
+	<function>
+		<name>getDayCountBetweenDate</name>
+		<function-class>sys.utils.DateUtils</function-class>
+		<function-signature>java.lang.Integer  getDayCountBetweenDate(java.util.Date, java.util.Date)</function-signature>
+	</function>
+	<function>
+		<name>parseInt</name>
+		<function-class>sys.utils.TagUtils</function-class>
+		<function-signature>java.lang.Integer parseInt(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>inverseMap</name>
+		<function-class>sys.utils.MapUtils</function-class>
+		<function-signature>java.util.Map inverse(java.util.Map)</function-signature>
+	</function>
+	<function>
+		<name>substr</name>
+		<function-class>sys.utils.ContentUtils</function-class>
+		<function-signature>java.lang.String  substr(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>encodeURI</name>
+		<function-class>sys.utils.ContentUtils</function-class>
+		<function-signature>java.lang.String  encodeURI(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>encodeQueryString</name>
+		<function-class>sys.utils.ContentUtils</function-class>
+		<function-signature>java.lang.String  encodeQueryString(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>unescape</name>
+		<function-class>sys.utils.Escape</function-class>
+		<function-signature>java.lang.String  unescape(java.lang.String)</function-signature>
 	</function>
 </taglib>

@@ -40,9 +40,6 @@ public class SystemConstants {
         return resultMap;
     }
 
-    // 日期范围分隔符（用于查询时的输入框）
-    public static final String DATERANGE_SEPARTOR = " 至 ";
-
     // 账号的角色字符串分隔符
     public static final String USER_ROLEIDS_SEPARTOR = ",";
 
@@ -720,12 +717,14 @@ public class SystemConstants {
     public final static byte CADRE_PARTY_TYPE_DP = 1; // 民主党派
     public final static byte CADRE_PARTY_TYPE_OW = 2; // 中共党员
     public final static Map<Byte, String> CADRE_PARTY_TYPE_MAP = new LinkedHashMap<>();
+
     static {
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_NONE, "无");
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_DP, "民主党派");
         CADRE_PARTY_TYPE_MAP.put(CADRE_PARTY_TYPE_OW, "中共党员");
 
     }
+
     // 干部历史数据类别
     public final static byte CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE = 1;
     public final static byte CADRE_STAT_HISTORY_TYPE_STAT_CADRE = 2;

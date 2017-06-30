@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import shiro.PasswordHelper;
-import shiro.SaltPassword;
+import sys.shiro.SaltPassword;
 
 import javax.sql.DataSource;
 import java.sql.*;

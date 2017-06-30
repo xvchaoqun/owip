@@ -75,7 +75,7 @@
     </listener>
     <filter>
         <filter-name>xssFilter</filter-name>
-        <filter-class>filter.MyXssFilter</filter-class>
+        <filter-class>sys.filter.MyXssFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>xssFilter</filter-name>

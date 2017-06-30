@@ -28,7 +28,7 @@
 	<!-- 激活@Controller模式-->
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<bean class="shiro.CurrentUserMethodArgumentResolver"/>
+			<bean class="sys.shiro.CurrentUserMethodArgumentResolver"/>
 			<bean class="interceptor.CustomWebArgumentResolver"/>
 			<!--<bean class="sys.spring.Base64ToFileConverter"/>-->
 			<bean class="sys.spring.DateRangeConverter"/>
@@ -48,7 +48,7 @@
 		</property>
 	</bean>
 	<bean id="mappingJacksonHttpMessageConverter"
-		  class="sys.CallbackMappingJackson2HttpMessageConverter">
+		  class="sys.jackson.CallbackMappingJackson2HttpMessageConverter">
 		<property name="callbackName" value="callback" />
 		<property name="prefixJson" value="false" />
 		<property name="objectMapper">

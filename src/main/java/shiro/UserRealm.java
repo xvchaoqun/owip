@@ -14,6 +14,8 @@ import service.SpringProps;
 import service.abroad.ApplySelfService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.shiro.AuthToken;
+import sys.shiro.SSOException;
 
 
 public class UserRealm extends AuthorizingRealm {

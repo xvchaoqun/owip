@@ -45,7 +45,7 @@ import shiro.PasswordHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@SuppressWarnings("unchecked")
 public class BaseController extends BaseMapper {
 
     @Autowired

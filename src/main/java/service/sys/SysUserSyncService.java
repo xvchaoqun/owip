@@ -18,7 +18,7 @@ import service.source.ExtBksImport;
 import service.source.ExtJzgImport;
 import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
-import shiro.SaltPassword;
+import sys.shiro.SaltPassword;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;

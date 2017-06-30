@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.LoginUserService;
 import shiro.PasswordHelper;
-import shiro.SaltPassword;
+import sys.shiro.SaltPassword;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;

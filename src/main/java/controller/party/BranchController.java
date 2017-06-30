@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.utils.ExportHelper;
-import shiro.CurrentUser;
+import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;

@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<bean id="iReportView" class="controller.jasper.ApplicationIReportView">
+	<bean id="iReportView" class="sys.jasper.ApplicationIReportView">
 		<!-- <property name="url" value="/WEB-INF/jasper/report2.jasper"/> -->
 		<property name="reportDataKey" value="jrMainDataSource"/>
 		<!-- format为html时-->

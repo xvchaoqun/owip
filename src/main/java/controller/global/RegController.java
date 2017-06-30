@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.sys.RegException;
-import shiro.AuthToken;
+import sys.shiro.AuthToken;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.IdcardValidator;

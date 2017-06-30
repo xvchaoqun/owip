@@ -3,7 +3,6 @@ package shiro;
 import domain.sys.SysRole;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -13,32 +12,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.sys.SysRoleService;
 import service.sys.SysUserService;
+import sys.shiro.BaseShiroHelper;
 
 import java.util.*;
 
-public class ShiroHelper {
+public class ShiroHelper extends BaseShiroHelper{
 
 	private final static Logger logger = LoggerFactory.getLogger(ShiroHelper.class);
 
-	private static SessionDAO sessionDAO;
 	private static SysUserService userService;
 	private static SysRoleService roleService;
 
 
-	public static Boolean isPermitted(String permission){
-
-		return SecurityUtils.getSubject().isPermitted(permission);
-	}
-
-	public static Boolean lackRole(String role){
-
-		return !SecurityUtils.getSubject().hasRole(role);
-	}
-
-	public static Boolean hasRole(String role){
-
-		return SecurityUtils.getSubject().hasRole(role);
-	}
 	public static Boolean hasAnyRoles(String roleIds){
 
 		if(StringUtils.isBlank(roleIds)) return false;
@@ -54,21 +39,6 @@ public class ShiroHelper {
 		return hasAnyRoles(roles.toArray(_roles));
 	}
 
-	public static Boolean hasAnyRoles(String... roles){
-
-		if(roles==null||roles.length==0) return false;
-		boolean[] hasRoles = SecurityUtils.getSubject().hasRoles(Arrays.asList(roles));
-		for (boolean hasRole : hasRoles) {
-			if(hasRole) return true;
-		}
-		return false;
-	}
-
-	public static Boolean hasAllRoles(String... roles){
-
-		if(roles==null||roles.length==0) return false;
-		return SecurityUtils.getSubject().hasAllRoles(Arrays.asList(roles));
-	}
 
 	public static SysUserView getCurrentUser() {
 
@@ -96,26 +66,6 @@ public class ShiroHelper {
 		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
 		return (shiroUser!=null)?shiroUser.getId():null;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static Session getSession() {
-		return SecurityUtils.getSubject().getSession();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static String getSessionId() {
-		Session session = getSession();
-		if (null == session) {
-			return null;
-		}
-		return getSession().getId().toString();
-	}
 	
 	/**
 	 * @param username
@@ -128,17 +78,6 @@ public class ShiroHelper {
 			if(principals==null || principals.isEmpty()) continue;
 			ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
 			if(null != session && StringUtils.equals(shiroUser.getUsername(), username)){
-				return session;
-			}
-		}
-		return null;
-	}
-
-	public static Session getSessionBySessionId(String sessionId){
-
-		Collection<Session> sessions = sessionDAO.getActiveSessions();
-		for(Session session : sessions){
-			if(null != session && StringUtils.equals(sessionId, session.getId().toString())){
 				return session;
 			}
 		}
@@ -196,18 +135,4 @@ public class ShiroHelper {
 		ShiroHelper.roleService = roleService;
 		ShiroHelper.sessionDAO = sessionDAO;
 	}
-	
-	/**
-	 * 判断当前用户是否已通过认证
-	 * @return
-	 */
-	public static boolean hasAuthenticated() {
-		return getSubject().isAuthenticated();
-	}
-
-	private static Subject getSubject() {
-		return SecurityUtils.getSubject();
-	}
-
-
 }

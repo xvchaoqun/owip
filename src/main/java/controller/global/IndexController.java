@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
-import shiro.CurrentUser;
+import sys.shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.CasUtils;
 import sys.constants.SystemConstants;

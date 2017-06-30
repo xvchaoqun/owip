@@ -5,7 +5,7 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import shiro.CurrentUser;
+import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;

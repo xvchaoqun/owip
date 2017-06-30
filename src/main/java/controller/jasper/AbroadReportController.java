@@ -20,7 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import shiro.CurrentUser;
+import sys.jasper.JasperReportsImageView;
+import sys.shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -103,6 +104,8 @@ public class AbroadReportController extends BaseController {
 
         model.addAttribute("url", "/WEB-INF/jasper/cancel.jasper");
         model.addAttribute("format", format); // 报表格式
+        model.addAttribute("image.zoom", 0.25f);
+        model.addAttribute("image.bg", JasperReportsImageView.BG_IMAGE);
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
@@ -171,6 +174,8 @@ public class AbroadReportController extends BaseController {
         model.addAttribute("url", "/WEB-INF/jasper/abroad.jasper");
 
         model.addAttribute("format", format); // 报表格式
+        model.addAttribute("image.zoom", 0.25f);
+        model.addAttribute("image.bg", JasperReportsImageView.BG_IMAGE);
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
@@ -237,6 +242,8 @@ public class AbroadReportController extends BaseController {
         model.addAttribute("url", "/WEB-INF/jasper/abroad.jasper");
 
         model.addAttribute("format", format); // 报表格式
+        model.addAttribute("image.zoom", 0.25f);
+        model.addAttribute("image.bg", JasperReportsImageView.BG_IMAGE);
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
@@ -270,6 +277,8 @@ public class AbroadReportController extends BaseController {
 
         model.addAttribute("url", "/WEB-INF/jasper/abroad_draw_proof.jasper");
         model.addAttribute("format", format); // 报表格式
+        model.addAttribute("image.zoom", 0.25f);
+        model.addAttribute("image.bg", JasperReportsImageView.BG_IMAGE);
         model.addAttribute("jrMainDataSource", jrDataSource);
 
         return "iReportView"; // 对应jasper-defs.xml中的bean id
