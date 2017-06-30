@@ -1,5 +1,5 @@
 <%@ page import="sys.constants.SystemConstants" %>
-<%@ page import="shiro.Constants" %>
+<%@ page import="sys.shiro.Constants" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="sys.utils.DateUtils" %>
 <%@ page trimDirectiveWhitespaces="true"  %>
