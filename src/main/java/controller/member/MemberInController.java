@@ -463,7 +463,7 @@ public class MemberInController extends BaseController {
         List<MemberIn> records = memberInMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"学工号|100", "姓名|50", "类别|50", "所在分党委|300", "所在党支部|300",
-                "转出单位|280", "转出单位抬头|280", "介绍信有效期天数|120", "转出办理时间|80", "转入办理时间|80", "状态|120"};
+                "转出单位|280", "转出单位抬头|280", "介绍信有效期天数|120", "转出办理时间|100", "转入办理时间|100", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberIn record = records.get(i);
