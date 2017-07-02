@@ -105,6 +105,11 @@
 
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
        </table>-->
+      <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+       </table>
       <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
       </table>-->
 
@@ -141,12 +146,12 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
       </table>-->
-      <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
+     <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
      <!-- <table tableName="ow_member" domainObjectName="member.Member">
           <ignoreColumn column="update_time"/>
       </table>-->

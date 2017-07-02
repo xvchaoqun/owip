@@ -10,7 +10,7 @@
                  data-url-page="${ctx}/memberOut"
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.userId ||not empty param.type
+                <c:set var="_query" value="${not empty param.userId ||not empty param.userType||not empty param.type
                 || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
@@ -159,15 +159,29 @@
                                         <form class="form-inline search-form" id="searchForm">
                                             <input type="hidden" name="cls" value="${cls}">
 
-                                                    <div class="form-group">
-                                                        <label>用户</label>
-                                                            <div class="input-group">
-                                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
-                                                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
-                                                                </select>
-                                                            </div>
-                                                    </div>
+                                        <div class="form-group">
+                                            <label>用户</label>
+                                            <div class="input-group">
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                                        name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                            <div class="form-group">
+                                            <label>人员类别</label>
+                                            <div class="input-group">
+                                                <select required data-rel="select2" name="userType" data-placeholder="请选择">
+                                                    <option></option>
+                                                    <option value="1">学生</option>
+                                                    <option value="2">在职教工</option>
+                                                    <option value="3">离退休</option>
+                                                </select>
+                                                <script>
+                                                    $("#searchForm select[name=userType]").val(${param.userType});
+                                                </script>
+                                            </div>
+                                        </div>
                                             <div class="form-group">
                                                 <label>分党委</label>
                                                 <select class="form-control" data-width="350" data-rel="select2-ajax"
@@ -365,18 +379,26 @@
             { label: '姓名', name: 'user.realname',width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);
             }, frozen:true  },
+            {label: '人员类别', name: 'memberType', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+                if(cellvalue=='${MEMBER_TYPE_STUDENT}'){
+                    return "学生";
+                }else{
+                    return (rowObject.isRetire)?"离退休":"在职教工"
+                }
+            }, frozen:true},
             {
                 label: '所属组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
-                }, frozen:true
+                }
             },
             {label: '类别', name: 'type', width: 50, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_INOUT_TYPE_MAP[cellvalue];
-            }, frozen:true},
+            }},
             {label: '状态', name: 'statusName', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.MEMBER_OUT_STATUS_MAP[rowObject.status];
-            }, frozen:true}<c:if test="${cls==4||cls==7}">
+            }}<c:if test="${cls==4||cls==7}">
             ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
             <c:if test="${cls==3}">
              <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">

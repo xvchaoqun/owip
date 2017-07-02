@@ -48,16 +48,16 @@ public class MemberInController extends BaseController {
 
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn")
-    public String memberIn(@RequestParam(defaultValue = "1")Integer cls, // 1 分党委待审核 2未通过 3 已审核 4组织部待审核
-                                Integer userId,
-                                Integer partyId,
-                                Integer branchId,ModelMap modelMap) {
+    public String memberIn(@RequestParam(defaultValue = "1") Integer cls, // 1 分党委待审核 2未通过 3 已审核 4组织部待审核
+                           Integer userId,
+                           Integer partyId,
+                           Integer branchId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
         Map<Integer, Branch> branchMap = branchService.findAll();
         Map<Integer, Party> partyMap = partyService.findAll();
-        if (userId!=null) {
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
         if (partyId != null) {
@@ -68,31 +68,33 @@ public class MemberInController extends BaseController {
         }
 
         // 分党委待审核总数
-        modelMap.put("partyApprovalCount", memberInService.count(null, null, (byte)1));
+        modelMap.put("partyApprovalCount", memberInService.count(null, null, (byte) 1));
         // 组织部待审核数目
-        modelMap.put("odApprovalCount", memberInService.count(null, null, (byte)2));
+        modelMap.put("odApprovalCount", memberInService.count(null, null, (byte) 2));
 
         return "member/memberIn/memberIn_page";
     }
+
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_data")
-    public void memberIn_data(@RequestParam(defaultValue = "1")Integer cls,// 1 分党委待审核 2未通过 3 已审核 4组织部待审核
+    public void memberIn_data(@RequestParam(defaultValue = "1") Integer cls,// 1 分党委待审核 2未通过 3 已审核 4组织部待审核
                               HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "id", tableName = "ow_member_in") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer userId,
-                                    Byte status,
-                                    Boolean isBack,
+                              @SortParam(required = false, defaultValue = "id", tableName = "ow_member_in") String sort,
+                              @OrderParam(required = false, defaultValue = "desc") String order,
+                              Integer userId,
+                              Byte status,
+                              Boolean isBack,
                               Boolean isModify,
-                                     Byte type,
-                                    Integer partyId,
-                                    Integer branchId,
-                                    String fromUnit,
-                                    String fromTitle,
-                              @RequestDateRange DateRange _fromHandleTime,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                              Byte type,
+                              Integer partyId,
+                              Integer branchId,
+                              String fromUnit,
+                              String fromTitle,
+                              @RequestDateRange DateRange fromHandleTime,
+                              @RequestDateRange DateRange handleTime,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -109,25 +111,25 @@ public class MemberInController extends BaseController {
 
         example.setOrderByClause(String.format("%s %s", sort, order));
 
-        if (userId!=null) {
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-        if(status!=null){
+        if (status != null) {
             criteria.andStatusEqualTo(status);
         }
-        if(type!=null){
+        if (type != null) {
             criteria.andTypeEqualTo(type);
         }
-        if(isBack!=null){
+        if (isBack != null) {
             criteria.andIsBackEqualTo(isBack);
         }
         if (isModify != null) {
             criteria.andIsModifyEqualTo(isModify);
         }
-        if (partyId!=null) {
+        if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        if (branchId!=null) {
+        if (branchId != null) {
             criteria.andBranchIdEqualTo(branchId);
         }
         if (StringUtils.isNotBlank(fromUnit)) {
@@ -136,31 +138,38 @@ public class MemberInController extends BaseController {
         if (StringUtils.isNotBlank(fromTitle)) {
             criteria.andFromTitleLike("%" + fromTitle + "%");
         }
-        if (_fromHandleTime.getStart()!=null) {
-            criteria.andFromHandleTimeGreaterThanOrEqualTo(_fromHandleTime.getStart());
+        if (fromHandleTime.getStart() != null) {
+            criteria.andFromHandleTimeGreaterThanOrEqualTo(fromHandleTime.getStart());
         }
 
-        if (_fromHandleTime.getEnd()!=null) {
-            criteria.andFromHandleTimeLessThanOrEqualTo(_fromHandleTime.getEnd());
+        if (fromHandleTime.getEnd() != null) {
+            criteria.andFromHandleTimeLessThanOrEqualTo(fromHandleTime.getEnd());
+        }
+        if (handleTime.getStart() != null) {
+            criteria.andHandleTimeGreaterThanOrEqualTo(handleTime.getStart());
         }
 
-        if(cls==1){
+        if (handleTime.getEnd() != null) {
+            criteria.andHandleTimeLessThanOrEqualTo(handleTime.getEnd());
+        }
+
+        if (cls == 1) {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
-        }else if(cls==2){
+        } else if (cls == 2) {
             List<Byte> statusList = new ArrayList<>();
             statusList.add(SystemConstants.MEMBER_IN_STATUS_SELF_BACK);
             statusList.add(SystemConstants.MEMBER_IN_STATUS_BACK);
             criteria.andStatusIn(statusList);
-        }else if(cls==4){ // 直属党支部审核，需要经过组织部审核
+        } else if (cls == 4) { // 直属党支部审核，需要经过组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
-        }else if(cls==3) {
+        } else if (cls == 3) {
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
-        }else{
+        } else {
             criteria.andUserIdIsNull();
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             memberIn_export(example, response);
             return;
@@ -188,7 +197,7 @@ public class MemberInController extends BaseController {
     @RequiresPermissions("memberIn:edit")
     @RequestMapping(value = "/memberIn_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_memberIn_au(@CurrentUser SysUserView loginUser,MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
+    public Map do_memberIn_au(@CurrentUser SysUserView loginUser, MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
                               String _growTime, String _positiveTime,
                               String _fromHandleTime, String _handleTime,
                               Byte resubmit,
@@ -203,10 +212,10 @@ public class MemberInController extends BaseController {
         if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
                 && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
-            if(!isAdmin && branchId!=null) {
+            if (!isAdmin && branchId != null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
             }
-            if(!isAdmin) throw new UnauthorizedException();
+            if (!isAdmin) throw new UnauthorizedException();
         }
 
         Integer id = record.getId();
@@ -217,28 +226,28 @@ public class MemberInController extends BaseController {
 
         record.setHasReceipt((record.getHasReceipt() == null) ? false : record.getHasReceipt());
 
-        if(StringUtils.isNotBlank(_payTime)){
+        if (StringUtils.isNotBlank(_payTime)) {
             record.setPayTime(DateUtils.parseDate(_payTime, "yyyy-MM"));
         }
-        if(StringUtils.isNotBlank(_applyTime)){
+        if (StringUtils.isNotBlank(_applyTime)) {
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_activeTime)){
+        if (StringUtils.isNotBlank(_activeTime)) {
             record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_candidateTime)){
+        if (StringUtils.isNotBlank(_candidateTime)) {
             record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_growTime)){
+        if (StringUtils.isNotBlank(_growTime)) {
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_positiveTime)){
+        if (StringUtils.isNotBlank(_positiveTime)) {
             record.setPositiveTime(DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_fromHandleTime)){
+        if (StringUtils.isNotBlank(_fromHandleTime)) {
             record.setFromHandleTime(DateUtils.parseDate(_fromHandleTime, DateUtils.YYYY_MM_DD));
         }
-        if(StringUtils.isNotBlank(_handleTime)){
+        if (StringUtils.isNotBlank(_handleTime)) {
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
 
@@ -255,7 +264,7 @@ public class MemberInController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转入：%s", record.getId()));
         } else {
 
-            if(resubmit!=null && resubmit==1 && memberIn.getStatus()<SystemConstants.MEMBER_IN_STATUS_APPLY){ // 重新提交
+            if (resubmit != null && resubmit == 1 && memberIn.getStatus() < SystemConstants.MEMBER_IN_STATUS_APPLY) { // 重新提交
                 enterApplyService.memberIn(record);
 
                 applyApprovalLogService.add(record.getId(),
@@ -263,12 +272,12 @@ public class MemberInController extends BaseController {
                         loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台重新提交",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
-            }else {
+            } else {
 
                 record.setStatus(null); // 更新的时候不能更新状态
-                if(memberIn.getStatus()==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY){
+                if (memberIn.getStatus() == SystemConstants.MEMBER_IN_STATUS_OW_VERIFY) {
                     memberInService.updateAfterOwVerify(record, memberIn.getUserId());
-                }else {
+                } else {
                     memberInService.updateByPrimaryKeySelective(record);
                 }
 
@@ -279,12 +288,12 @@ public class MemberInController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_approval")
     public String memberIn_approval(@CurrentUser SysUserView loginUser, Integer id,
-                                      byte type, // 1:分党委审核 2：组织部审核
-                                      ModelMap modelMap) {
+                                    byte type, // 1:分党委审核 2：组织部审核
+                                    ModelMap modelMap) {
 
         MemberIn currentMemberIn = null;
         if (id != null) {
@@ -323,7 +332,7 @@ public class MemberInController extends BaseController {
         return "member/memberIn/memberIn_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_deny")
     public String memberIn_deny(Integer id, ModelMap modelMap) {
@@ -336,16 +345,16 @@ public class MemberInController extends BaseController {
         return "member/memberIn/memberIn_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
-                                   //byte type, // 1:分党委审核 2：组织部审核
-                                   @RequestParam(value = "ids[]") Integer[] ids) {
+                                 //byte type, // 1:分党委审核 2：组织部审核
+                                 @RequestParam(value = "ids[]") Integer[] ids) {
 
-        memberInService.memberIn_check(ids, null, (byte)2, loginUser.getId());
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-组织部审核通过：%s", StringUtils.join( ids, ",")));
+        memberInService.memberIn_check(ids, null, (byte) 2, loginUser.getId());
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-组织部审核通过：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -367,15 +376,15 @@ public class MemberInController extends BaseController {
     @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_party_check(@CurrentUser SysUserView loginUser, HttpServletRequest request,
-                                 @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
+                                       @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
 
-        memberInService.memberIn_check(ids, hasReceipt, (byte)1, loginUser.getId());
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-分党委审核通过：%s", StringUtils.join( ids, ",")));
+        memberInService.memberIn_check(ids, hasReceipt, (byte) 1, loginUser.getId());
+        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转入申请-分党委审核通过：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_back")
     public String memberIn_back() {
@@ -383,19 +392,19 @@ public class MemberInController extends BaseController {
         return "member/memberIn/memberIn_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn_back(@CurrentUser SysUserView loginUser,
-                                  @RequestParam(value = "ids[]") Integer[] ids,
-                                  byte status,
-                                  String reason) {
+                                @RequestParam(value = "ids[]") Integer[] ids,
+                                byte status,
+                                String reason) {
 
 
         memberInService.memberIn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转入申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转入申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -453,8 +462,8 @@ public class MemberInController extends BaseController {
 
         List<MemberIn> records = memberInMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号","姓名", "类别", "所在分党委","所在党支部",
-                "转出单位","转出单位抬头","介绍信有效期天数","转出办理时间","状态"};
+        String[] titles = {"学工号|100", "姓名|50", "类别|50", "所在分党委|300", "所在党支部|300",
+                "转出单位|280", "转出单位抬头|280", "介绍信有效期天数|120", "转出办理时间|80", "转入办理时间|80", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             MemberIn record = records.get(i);
@@ -464,14 +473,15 @@ public class MemberInController extends BaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
-                    record.getType()==null?"":SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
-                    partyId==null?"":partyService.findAll().get(partyId).getName(),
-                    branchId==null?"":branchService.findAll().get(branchId).getName(),
+                    record.getType() == null ? "" : SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
+                    partyId == null ? "" : partyService.findAll().get(partyId).getName(),
+                    branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getFromUnit(),
                     record.getFromTitle(),
-                    record.getValidDays()+"",
+                    record.getValidDays() + "",
                     DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
-                    record.getStatus()==null?"":SystemConstants.MEMBER_IN_STATUS_MAP.get(record.getStatus())
+                    DateUtils.formatDate(record.getHandleTime(), DateUtils.YYYY_MM_DD),
+                    record.getStatus() == null ? "" : SystemConstants.MEMBER_IN_STATUS_MAP.get(record.getStatus())
             };
 
             valuesList.add(values);

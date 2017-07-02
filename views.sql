@@ -10,6 +10,14 @@ ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW
 
 
 SET FOREIGN_KEY_CHECKS=0;
+
+DROP VIEW IF EXISTS `ow_member_out_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
+select mo.*, m.type as member_type, t.is_retire
+from ow_member_out mo, ow_member m
+left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id;
+
+
 -- ----------------------------
 -- 2017.6.5 View definition for `ow_party_static_view`
 -- ----------------------------

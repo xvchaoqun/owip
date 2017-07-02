@@ -285,12 +285,17 @@ public class MemberTeacherController extends BaseController {
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberTeacher> records = memberTeacherMapper.selectByExample(example);
-        String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
-                "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
-                "政治面貌","所在分党委、党总支、直属党支部","所在党支部", "所在单位", "入党时间","到校日期",
-                "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","学历","学历毕业学校","学位授予学校",
-                "学位","学员结构", "人才类型", "人才称号", "手机号码"};
-        List<String[]> valuesList = new ArrayList<>();
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100","姓名|50",
+                "编制类别|80","人员类别|100","人员状态|80","在岗情况|80","岗位类别|80", "主岗等级|120",
+                "性别|50","出生日期|80", "年龄|50","年龄范围|80","民族|50", "国家/地区|80", "证件号码|150",
+                "政治面貌|80","所在分党委、党总支、直属党支部|300","所在党支部|300", "所在单位|200", "入党时间|80","到校日期|80",
+                "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|120",
+                "行政职务|180","学历|120","学历毕业学校|200","学位授予学校|200",
+                "学位|100","学员结构|100", "人才类型|100", "人才称号|200", "手机号码|80"}));
+        if(cls==3){
+            titles.add(6, "离退休时间|80");
+        }
+        List<List<String>> valuesList = new ArrayList<>();
         for (MemberTeacher record:records) {
             Byte gender = record.getGender();
             Integer partyId = record.getPartyId();
@@ -310,7 +315,7 @@ public class MemberTeacherController extends BaseController {
                 post = cadre.getTitle();
                 if(cadre.getTypeId()!=null) adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
             }
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     record.getCode(),
                     record.getRealname(),
                     record.getAuthorizedType(),
@@ -345,7 +350,12 @@ public class MemberTeacherController extends BaseController {
                     record.getTalentType(), // 人才类型
                     record.getTalentTitle(),
                     record.getMobile()
-            };
+            }));
+
+            if(cls==3){
+                values.add(6, DateUtils.formatDate(record.getRetireTime(), DateUtils.YYYY_MM_DD));
+            }
+
             valuesList.add(values);
         }
         String fileName = (cls==7?"已转出":"")+"教职工党员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");

@@ -1,11 +1,8 @@
 package controller.member;
 
 import controller.BaseController;
-import domain.member.Member;
-import domain.member.MemberOut;
-import domain.member.MemberOutExample;
+import domain.member.*;
 import domain.member.MemberOutExample.Criteria;
-import domain.member.MemberOutModify;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
@@ -61,9 +58,9 @@ public class MemberOutController extends BaseController {
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut")
     public String memberOut(@RequestParam(defaultValue = "1") byte cls, // 1 待审核 2未通过 3 已审核
-                                 Integer userId,
-                                 Integer partyId,
-                                 Integer branchId, ModelMap modelMap) {
+                            Integer userId,
+                            Integer partyId,
+                            Integer branchId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
@@ -79,7 +76,7 @@ public class MemberOutController extends BaseController {
             modelMap.put("branch", branchMap.get(branchId));
         }
 
-        if(cls==1 || cls==4) {
+        if (cls == 1 || cls == 4) {
             // 分党委待审核总数（新申请 cls=1）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 1, (byte) 1));
             // 分党委待审核总数（返回修改 cls=4）
@@ -87,7 +84,7 @@ public class MemberOutController extends BaseController {
             // 分党委待审核总数
             modelMap.put("approvalCount", memberOutService.count(null, null, (byte) 1, cls));
         }
-        if(cls==6 || cls==7){
+        if (cls == 6 || cls == 7) {
             // 组织部待审核总数（新申请 cls=1）
             modelMap.put("approvalCountNew", memberOutService.count(null, null, (byte) 2, (byte) 6));
             // 组织部待审核总数（返回修改 cls=4）
@@ -110,6 +107,7 @@ public class MemberOutController extends BaseController {
                                Boolean isBack,
                                Boolean isModify,
                                Boolean isPrint,
+                               Byte userType,
                                Byte type,
                                Integer partyId,
                                Integer branchId,
@@ -129,8 +127,8 @@ public class MemberOutController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        MemberOutExample example = new MemberOutExample();
-        Criteria criteria = example.createCriteria();
+        MemberOutViewExample example = new MemberOutViewExample();
+        MemberOutViewExample.Criteria criteria = example.createCriteria();
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
@@ -144,6 +142,18 @@ public class MemberOutController extends BaseController {
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if(userType!=null){
+            if(userType==1){
+                criteria.andMemberTypeEqualTo(SystemConstants.MEMBER_TYPE_STUDENT);
+            }else{
+                criteria.andMemberTypeEqualTo(SystemConstants.MEMBER_TYPE_TEACHER);
+                if(userType==3){
+                    criteria.andIsRetireEqualTo(true);
+                }else {
+                    criteria.andIsBackNotEqualTo(true);
+                }
+            }
         }
         if (hasReceipt != null) {
             criteria.andHasReceiptEqualTo(hasReceipt);
@@ -175,11 +185,11 @@ public class MemberOutController extends BaseController {
         if (StringUtils.isNotBlank(fromUnit)) {
             criteria.andFromUnitLike("%" + fromUnit + "%");
         }
-        if (_handleTime.getStart()!=null) {
+        if (_handleTime.getStart() != null) {
             criteria.andHandleTimeGreaterThanOrEqualTo(_handleTime.getStart());
         }
 
-        if (_handleTime.getEnd()!=null) {
+        if (_handleTime.getEnd() != null) {
             criteria.andHandleTimeLessThanOrEqualTo(_handleTime.getEnd());
         }
 
@@ -208,18 +218,18 @@ public class MemberOutController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             memberOut_export(example, response);
             return;
         }
 
-        int count = memberOutMapper.countByExample(example);
+        long count = memberOutViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<MemberOut> memberOuts = memberOutMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<MemberOutView> memberOuts = memberOutViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -234,7 +244,7 @@ public class MemberOutController extends BaseController {
     }
 
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:list")
     @RequestMapping("/memberOut_approval")
     public String memberOut_approval(@RequestParam(defaultValue = "1") byte cls, @CurrentUser SysUserView loginUser, Integer id,
@@ -278,7 +288,7 @@ public class MemberOutController extends BaseController {
         return "member/memberOut/memberOut_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_deny")
     public String memberOut_deny(Integer id, ModelMap modelMap) {
@@ -291,7 +301,7 @@ public class MemberOutController extends BaseController {
         return "member/memberOut/memberOut_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_check", method = RequestMethod.POST)
     @ResponseBody
@@ -307,7 +317,7 @@ public class MemberOutController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping("/memberOut_back")
     public String memberOut_back() {
@@ -315,7 +325,7 @@ public class MemberOutController extends BaseController {
         return "member/memberOut/memberOut_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOut:update")
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
@@ -397,7 +407,7 @@ public class MemberOutController extends BaseController {
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
             // 重新提交未通过的申请
-            if(BooleanUtils.isTrue(reapply) && before.getStatus()<SystemConstants.MEMBER_OUT_STATUS_APPLY){
+            if (BooleanUtils.isTrue(reapply) && before.getStatus() < SystemConstants.MEMBER_OUT_STATUS_APPLY) {
 
                 record.setApplyTime(new Date());
                 record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
@@ -419,7 +429,7 @@ public class MemberOutController extends BaseController {
                 MemberOut _memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
                 if (_memberOut.getStatus() == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) { // 转出之后，如果还有修改，则需要保存记录
 
-                    if(BooleanUtils.isNotTrue(before.getIsModify())){ // 第一次修改
+                    if (BooleanUtils.isNotTrue(before.getIsModify())) { // 第一次修改
                         MemberOut _record = new MemberOut();
                         _record.setId(before.getId());
                         _record.setIsModify(true);
@@ -521,7 +531,7 @@ public class MemberOutController extends BaseController {
     public Map do_memberOut_abolish(HttpServletRequest request, Integer id, String remark) {
 
         if (id != null) {
-            memberOutService.abolish(id, remark, (byte)3); // 默认组织部撤销
+            memberOutService.abolish(id, remark, (byte) 3); // 默认组织部撤销
             logger.info(addLog(SystemConstants.LOG_OW, "撤销已完成的组织关系转出：%s", id));
         }
         return success(FormUtils.SUCCESS);
@@ -554,21 +564,33 @@ public class MemberOutController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 */
-    public void memberOut_export(MemberOutExample example, HttpServletResponse response) {
+    public void memberOut_export(MemberOutViewExample example, HttpServletResponse response) {
 
-        List<MemberOut> records = memberOutMapper.selectByExample(example);
+        List<MemberOutView> records = memberOutViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"学工号", "姓名", "联系电话", "类别", "所在分党委", "所在党支部", "转入单位抬头",
-                "转入单位", "转出单位", "介绍信有效期天数", "办理时间", "状态"};
+        String[] titles = {"学工号|100", "姓名|50", "人员类别|80", "联系电话|100", "类别|50", "所在分党委|300", "所在党支部|300", "转入单位抬头|280",
+                "转入单位|200", "转出单位|200", "介绍信有效期天数|120", "办理时间|80", "状态|120"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            MemberOut record = records.get(i);
+            MemberOutView record = records.get(i);
             SysUserView sysUser = sysUserService.findById(record.getUserId());
             Integer partyId = record.getPartyId();
             Integer branchId = record.getBranchId();
+
+            String memberTypeName = "";
+            Byte memberType = record.getMemberType();
+            if (memberType == SystemConstants.MEMBER_TYPE_TEACHER) {
+                if (BooleanUtils.isTrue(record.getIsRetire())) {
+                    memberTypeName = "离退休";
+                } else {
+                    memberTypeName = "在职教工";
+                }
+            } else
+                memberTypeName = "学生";
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
+                    memberTypeName,
                     record.getPhone(),
                     record.getType() == null ? "" : SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),

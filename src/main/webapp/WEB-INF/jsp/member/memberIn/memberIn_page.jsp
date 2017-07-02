@@ -12,7 +12,7 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.type
                 || not empty param.status ||not empty param.isBack||not empty param.isModify
-                || not empty param.fromUnit ||not empty param.fromTitle||not empty param._fromHandleTime
+                || not empty param.fromUnit ||not empty param.fromTitle||not empty param.fromHandleTime||not empty param.handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -155,7 +155,17 @@
                                                                 <i class="fa fa-calendar bigger-110"></i>
                                                             </span>
                                         <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                               type="text" name="_fromHandleTime" value="${param._fromHandleTime}"/>
+                                               type="text" name="fromHandleTime" value="${param.fromHandleTime}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>转入办理时间</label>
+                                    <div class="input-group tooltip-success" data-rel="tooltip" title="选择时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                               type="text" name="handleTime" value="${param.handleTime}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

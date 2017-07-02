@@ -140,6 +140,8 @@ public class BaseMapper {
     @Autowired
     protected MemberOutMapper memberOutMapper;
     @Autowired
+    protected MemberOutViewMapper memberOutViewMapper;
+    @Autowired
     protected MemberOutModifyMapper memberOutModifyMapper;
     @Autowired
     protected MemberInMapper memberInMapper;
