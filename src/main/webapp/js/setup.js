@@ -127,7 +127,12 @@ $(window).on('resize.jqGrid', function () {
     if (navHeight == null) navHeight = 0;
 
     //console.log("document.body.scrollHeight=" + document.body.scrollHeight + " $(window).height()=" + $(window).height())
-    $(".jqGrid").setGridHeight($(window).height() - 320 - height - navHeight)
+    //console.log("height=" + height + " navHeight=" + navHeight)
+    var minusHeight = 320;
+    if($(".jqGrid").getGridParam("pager")==false){
+        minusHeight -= 45;
+    }
+    $(".jqGrid").setGridHeight($(window).height() - minusHeight - height - navHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 });
@@ -719,6 +724,8 @@ $(window).bind("hashchange", function () {
             // 清除顶部水平菜单状态
             $(".navbar-header .nav-pills li").removeClass("active");
             $(".navbar-header .nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
+
+            $(window).resize()
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401) {

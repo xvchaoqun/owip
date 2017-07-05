@@ -1,6 +1,8 @@
 package controller;
 
 import com.lowagie.text.DocumentException;
+import domain.sys.SysResource;
+import domain.sys.SysResourceExample;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,29 @@ public class TestController extends BaseController {
 
     @Autowired
     TestServcie testServcie;
+
+    @RequestMapping(value = "/updateSysResource")
+    @ResponseBody
+    public Map updateSysResource(){
+
+        SysResourceExample example = new SysResourceExample();
+        List<SysResource> sysResources = sysResourceMapper.selectByExample(example);
+
+        for (SysResource sysResource : sysResources) {
+
+            Integer parentId = sysResource.getParentId();
+            if(parentId!=null) {
+                SysResource parent = sysResourceMapper.selectByPrimaryKey(parentId);
+                if(parent!=null) {
+                    SysResource record = new SysResource();
+                    record.setId(sysResource.getId());
+                    record.setParentIds(parent.getParentIds() + parentId + "/");
+                    sysResourceMapper.updateByPrimaryKeySelective(record);
+                }
+            }
+        }
+        return success();
+    }
 
     // 保存base64图片
     //@RequestMapping(value = "/base64", method = RequestMethod.POST)

@@ -1,116 +1,112 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row" style="padding-bottom: 20px;">
+<div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div class="col-sm-12">
-            <table class="table table-actived tree table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>名称</th>
-                    <th >类型</th>
-                    <th>排序</th>
-                    <th nowrap="nowrap">菜单样式</th>
-                    <th >URL路径</th>
-                    <th >权限字符串</th>
-                    <th>缓存数量</th>
-                    <th>缓存数量所属角色</th>
-                    <th>备注</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${sysResources}" var="sysResource">
-                    <tr class='treegrid-${sysResource.id}<c:if test="${sysResource.parentId!=0}"> treegrid-parent-${sysResource.parentId}</c:if>'>
-                        <td>${sysResource.name}</td>
-                        <td>${sysResource.type}</td>
-                        <td width="20">${sysResource.sortOrder}</td>
-                        <td width="30">
-                            <i class="${sysResource.menuCss}"></i>
-                        </td>
-                        <td>${sysResource.url}</td>
-                        <td>${sysResource.permission}</td>
-                        <td>${sysResource.countCacheKeys}</td>
-                        <td>${sysResource.countCacheRoles}</td>
-                        <td>${sysResource.remark}</td>
-                        <td>
-                                <%--<shiro:hasPermission name="sysResource:create">--%>
 
-                                <a href="javascript:;" onclick="_appendChild(${sysResource.id})"
-                                   class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加子节点</a>
-
-
-                            <a href="javascript:;" onclick="_update(${sysResource.id})"
-                               class="btn btn-info btn-xs"><i class="fa fa-pencil-square-o"></i> 修改</a>
-                            <c:if test="${sysResource.parentId!=0}">
-                                <a href="javascript:;" onclick="_del(${sysResource.id})" class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash"></i> 删除</a>
-                            </c:if>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+        <table id="jqGrid" class="jqGrid table-striped"></table>
     </div>
 </div>
-<link rel="stylesheet" href="${ctx}/extend/css/jquery.treegrid.css">
-<script type="text/javascript" src="${ctx}/extend/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="${ctx}/extend/js/jquery.treegrid.min.js"></script>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
-<script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
+<script type="text/javascript">
 
-    $('.tree').treegrid({
-        'initialState': 'collapsed',
-        'saveState': true,
-        expanderExpandedClass: 'fa fa-minus',
-        expanderCollapsedClass: 'fa fa-plus'
-    });
-    $('.tree tbody tr:first').treegrid('expand');
+    $('#jqGrid').jqGrid({
+        url: '${ctx}/sysResource_data?${cm:encodeQueryString(pageContext.request.queryString)}',
+        "colModel": [
+            {"name": "name", "label": "名称", "width": 200, align: 'left'},
+            {"name": "type", "label": "类型", "width": 80},
+            {"name": "sortOrder", "label": "排序", "width": 50},
+            {
+                "name": "menuCss", "label": "菜单样式", "width": 70, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ""
+                return '<i class="{0}"></i>'
+                        .format(cellvalue);
+            }
+            },
+            {"name": "url", "label": "URL路径", "width": 170, align: 'left'},
+            {"name": "permission", "label": "权限字符串", "width": 150, align: 'left'},
+            {"name": "remark", "label": "备注", "width": 170},
+            {
+                "name": "_add", "label": "添加子节点", "width": 100, formatter: function (cellvalue, options, rowObject) {
+
+                return '<button href="javascript:;" onclick="_appendChild({0})" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加子节点</button>'
+                        .format(rowObject.id);
+            }
+            },
+            {
+                "name": "_update", "label": "修改", "width": 80, formatter: function (cellvalue, options, rowObject) {
+                return '<button href="javascript:;" onclick="_update({0})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> 修改</button>'
+                        .format(rowObject.id);
+            }
+            },
+            {
+                "name": "_del", "label": "删除", "width": 80, formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.parentId == undefined) return "";
+                return '<button href="javascript:;" onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
+                        .format(rowObject.id, rowObject.parentId);
+            }
+            },
+            {"name": "countCacheKeys", "label": "缓存数量", "width": 170},
+            {"name": "countCacheRoles", "label": "缓存数量所属角色", "width": 170},
+
+
+        ],
+        "hoverrows": false,
+        "viewrecords": false,
+        "gridview": true,
+        // enable tree grid
+        "treeGrid": true,
+        // which column is expandable
+        "ExpandColumn": "name",
+        // datatype
+        "treedatatype": "json",
+        // the model used
+        "treeGridModel": "adjacency",
+        // configuration of the data comming from server
+        "treeReader": {
+            parent_id_field: "parentId",  //值必须为父级菜单的id值。
+            "level_field": "level",
+            "leaf_field": "isLeaf",
+            "expanded_field": "expanded",
+            "loaded": "loaded",
+            "icon_field": "icon"
+        },
+        "datatype": "json",
+        "pager": false,
+        gridComplete: function () {
+            setTimeout(function () {
+                var $t = $(".treeclick", $("#jqGrid [role='row'][id=" + 1 + "]"))
+                if ($t.hasClass("tree-plus"))
+                    $t.click()
+            }, 10);
+        }
+    })
+    $(window).triggerHandler('resize.jqGrid');
 
     function _appendChild(parentId) {
         url = "${ctx}/sysResource_au?parentId=" + parentId;
-
         loadModal(url);
 
     }
     function _update(id) {
 
         url = "${ctx}/sysResource_au?id=" + id;
-
         loadModal(url);
-
     }
 
-    function _del(id) {
+    function _del(id, parentid) {
 
         bootbox.confirm("确定删除该资源吗？", function (result) {
             if (result) {
                 $.post("${ctx}/sysResource_del", {id: id}, function (ret) {
-                    if(ret.success) {
-                        _reload();
+                    if (ret.success) {
+                        $("#modal").modal('hide');
+                        $("#jqGrid").jqGrid("delRowData", id);
                         //SysMsg.success('操作成功。', '成功');
                     }
                 });
             }
         });
-    }
-
-    function _search() {
-
-        _tunePage(1, "", "${ctx}/sysResource", "#page-content", "", "&" + $("#searchForm").serialize());
-    }
-
-    function _reset() {
-
-        _tunePage(1, "", "${ctx}/sysResource", "#page-content", "", "");
-    }
-
-    function _reload() {
-
-        $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/sysResource?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

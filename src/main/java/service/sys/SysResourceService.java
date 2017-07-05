@@ -28,9 +28,10 @@ public class SysResourceService extends BaseMapper{
 			@CacheEvict(value="Menus", allEntries=true),
 			@CacheEvict(value="Permissions", allEntries=true)
 	})
-	public int insert(SysResource sysResource){
-		
-		return sysResourceMapper.insert(sysResource);
+	public void insert(SysResource sysResource){
+
+		sysResourceMapper.insert(sysResource);
+		commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + sysResource.getParentId());
 	}
 
 	@Transactional
@@ -43,6 +44,19 @@ public class SysResourceService extends BaseMapper{
 
 		if(StringUtils.isBlank(record.getCountCacheKeys())){
 			commonMapper.excuteSql("update sys_resource set count_cache_keys=null where id="+ record.getId());
+		}
+
+		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(record.getId());
+		if(record.getParentId() !=null &&
+				sysResource.getParentId().intValue() != record.getParentId().intValue()){
+
+			SysResourceExample example = new SysResourceExample();
+			example.createCriteria().andParentIdEqualTo(sysResource.getParentId()).andAvailableEqualTo(SystemConstants.AVAILABLE);
+			if(sysResourceMapper.countByExample(example)==0){
+				commonMapper.excuteSql("update sys_resource set is_leaf=1 where id=" + sysResource.getParentId());
+			}
+
+			commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + record.getParentId());
 		}
 
 		return  sysResourceMapper.updateByPrimaryKeySelective(record);
@@ -60,6 +74,14 @@ public class SysResourceService extends BaseMapper{
 		if(id==1) return ;
 
 		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(id);
+		{
+			SysResourceExample example = new SysResourceExample();
+			example.createCriteria().andParentIdEqualTo(sysResource.getParentId()).andAvailableEqualTo(SystemConstants.AVAILABLE);
+			if (sysResourceMapper.countByExample(example) == 0) {
+				commonMapper.excuteSql("update sys_resource set is_leaf=1 where id=" + sysResource.getParentId());
+			}
+		}
+
 		sysResourceMapper.deleteByPrimaryKey(id);
 		
 		SysResourceExample example = new SysResourceExample();

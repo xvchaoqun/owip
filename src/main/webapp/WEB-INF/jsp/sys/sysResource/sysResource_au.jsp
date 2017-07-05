@@ -192,9 +192,15 @@
 				submitHandler: function (form) {
 					
 					$(form).ajaxSubmit({
-						success:function(data){
-							if(data.success){
-								_reload();
+						success:function(ret){
+							if(ret.success){
+								$("#modal").modal('hide');
+								<c:if test="${empty param.id}">
+								$("#jqGrid").jqGrid('addChildNode', ret.data.id, ret.data.parentId, ret.data);
+								</c:if>
+								<c:if test="${not empty param.id}">
+								$("#jqGrid").jqGrid('setRowData', ret.data.id, ret.data);
+								</c:if>
 								//SysMsg.success('操作成功。', '成功');
 							}
 						},error:function(ret){

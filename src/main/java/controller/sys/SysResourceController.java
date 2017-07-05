@@ -3,10 +3,10 @@ package controller.sys;
 import controller.BaseController;
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
-import domain.sys.SysUser;
-import domain.sys.SysUserView;
+import domain.sys.SysResource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,32 +19,61 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
+import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class SysResourceController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
+/*
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource")
 	public String sysResource(ModelMap modelMap) {
 
 		modelMap.put("sysResources", sysResourceService.getSortedSysResources().values());
 		return "sys/sysResource/sysResource_page";
+	}*/
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequestMapping("/sysResource")
+	public String sysResource(ModelMap modelMap) {
+
+		return "sys/sysResource/sysResource_page";
 	}
+
+	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequestMapping("/sysResource_data")
+	@ResponseBody
+	public Map sysResource_data(HttpServletResponse response,
+								 Integer nodeid) throws IOException {
+
+		SysResourceExample example = new SysResourceExample();
+		SysResourceExample.Criteria criteria = example.createCriteria();
+		if(nodeid!=null) {
+			criteria.andParentIdEqualTo(nodeid);
+		}else{
+			criteria.andParentIdIsNull();
+		}
+		example.setOrderByClause("sort_order desc");
+
+		List<SysResource> records = sysResourceMapper.selectByExample(example);
+
+		Map resultMap = success(FormUtils.SUCCESS);
+		resultMap.put("rows", records);
+
+		return resultMap;
+	}
+	
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysResource_au(@CurrentUser SysUserView loginUser,
+	public Map do_sysResource_au(
 								 @RequestParam(required = false, value = "countCacheKeys")Byte[] countCacheKeys,
 								 SysResource record, HttpServletRequest request) {
 
@@ -66,19 +95,25 @@ public class SysResourceController extends BaseController {
 		SysResource parent = sysResourceMapper.selectByPrimaryKey(parentId);
 		record.setParentIds(parent.getParentIds() + parentId + "/");
 
+		Map<String, Object> resultMap = success(FormUtils.SUCCESS);
 		if(record.getId() == null){
-			
+
+			record.setIsLeaf(true);
 			record.setAvailable(SystemConstants.AVAILABLE);
 			sysResourceService.insert(record);
+
+			resultMap.put("data",record);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(record, false)));
 			
 		}else{
 			
 			sysResourceService.updateByPrimaryKeySelective(record);
+			resultMap.put("data", sysResourceMapper.selectByPrimaryKey(record.getId()));
+
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(record, false)));
 		}
 		
-		return success(FormUtils.SUCCESS);
+		return resultMap;
 	}
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_au")
@@ -112,7 +147,7 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles(SystemConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysResource_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
+	public Map do_sysResource_del(Integer id, HttpServletRequest request) {
 
 		if(id!=null){
 
@@ -147,7 +182,7 @@ public class SysResourceController extends BaseController {
 			criteria.andNameLike("%" + searchStr + "%");
 		}
 
-		int count = sysResourceMapper.countByExample(example);
+		long count = sysResourceMapper.countByExample(example);
 		if((pageNo-1)*pageSize >= count){
 
 			pageNo = Math.max(1, pageNo-1);

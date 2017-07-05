@@ -60,8 +60,8 @@ public class SysUserController extends BaseController {
     }
 
     @RequiresPermissions("sysUser:list")
-    @RequestMapping("/sysUser")
-    public String sysUser(ModelMap modelMap) {
+     @RequestMapping("/sysUser")
+     public String sysUser(ModelMap modelMap) {
 
         return "sys/sysUser/sysUser_page";
     }

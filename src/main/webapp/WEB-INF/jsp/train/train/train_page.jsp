@@ -98,7 +98,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/train_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称',name: 'name', width: 300, align:'left', frozen: true,formatter:function(cellvalue, options, rowObject){
+            { label: '名称',name: 'name', width: 380, align:'left', frozen: true,formatter:function(cellvalue, options, rowObject){
                 var str = '<i class="fa fa-id-card-o red" title="实名测评"></i>&nbsp;';
                 return (rowObject.totalCount>0&&!rowObject.isAnonymous)?str+cellvalue:cellvalue;
             }},
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
                 if(cellvalue==undefined) return '-'
                 return cellvalue.substr(0,16)
             }},
-            { label: '简介',name: 'summary', align: 'left', width: 300},
+            { label: '简介',name: 'summary', align: 'left', width: 400},
             { label: '备注',name: 'remark'},
             { label: '创建时间',name: 'createTime', width: 200}
         ]

@@ -644,6 +644,66 @@ public class SysResourceExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsLeafIsNull() {
+            addCriterion("is_leaf is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafIsNotNull() {
+            addCriterion("is_leaf is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafEqualTo(Boolean value) {
+            addCriterion("is_leaf =", value, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafNotEqualTo(Boolean value) {
+            addCriterion("is_leaf <>", value, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafGreaterThan(Boolean value) {
+            addCriterion("is_leaf >", value, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_leaf >=", value, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafLessThan(Boolean value) {
+            addCriterion("is_leaf <", value, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_leaf <=", value, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafIn(List<Boolean> values) {
+            addCriterion("is_leaf in", values, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafNotIn(List<Boolean> values) {
+            addCriterion("is_leaf not in", values, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_leaf between", value1, value2, "isLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLeafNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_leaf not between", value1, value2, "isLeaf");
+            return (Criteria) this;
+        }
+
         public Criteria andPermissionIsNull() {
             addCriterion("permission is null");
             return (Criteria) this;

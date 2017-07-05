@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface SysResourceMapper {
-    int countByExample(SysResourceExample example);
+    long countByExample(SysResourceExample example);
 
     int deleteByExample(SysResourceExample example);
 

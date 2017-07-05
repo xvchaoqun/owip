@@ -3,6 +3,12 @@ package domain.sys;
 import java.io.Serializable;
 
 public class SysResource implements Serializable {
+
+    public Integer getLevel(){
+
+        return parentIds.split("/").length-1;
+    }
+
     private Integer id;
 
     private String name;
@@ -18,6 +24,8 @@ public class SysResource implements Serializable {
     private Integer parentId;
 
     private String parentIds;
+
+    private Boolean isLeaf;
 
     private String permission;
 
@@ -93,6 +101,14 @@ public class SysResource implements Serializable {
 
     public void setParentIds(String parentIds) {
         this.parentIds = parentIds == null ? null : parentIds.trim();
+    }
+
+    public Boolean getIsLeaf() {
+        return isLeaf;
+    }
+
+    public void setIsLeaf(Boolean isLeaf) {
+        this.isLeaf = isLeaf;
     }
 
     public String getPermission() {

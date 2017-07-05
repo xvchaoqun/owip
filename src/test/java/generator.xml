@@ -105,11 +105,11 @@
 
         <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
        </table>-->
-      <table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
+      <!--<table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-       </table>
+       </table>-->
       <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
       </table>-->
 
@@ -456,9 +456,9 @@
    <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">
         <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
     </table>-->
-    <!--<table tableName="sys_resource" domainObjectName="sys.SysResource">
+    <table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
       <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
-    </table>-->
+    </table>
       <!--<table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
       </table>-->
       <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
