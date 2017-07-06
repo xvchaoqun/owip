@@ -241,15 +241,15 @@ pageEncoding="UTF-8" %>
             }},
             { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                return '<a href="${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
             }},
             { label:'离退休党员', name: 'retireMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                return '<a href="${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                return '<a href="#${ctx}/member?cls=3&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
             }},
             { label:'学生', name: 'studentMemberCount', width: 50, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
-                return '<a href="${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
+                return '<a href="#${ctx}/member?cls=1&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);
             }},
             { label:'委员会总数', name: 'groupCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
