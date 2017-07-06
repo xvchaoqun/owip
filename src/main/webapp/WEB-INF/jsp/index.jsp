@@ -29,13 +29,13 @@
         <div class="navbar-header pull-left hidden-xs hidden-sm">
             <div class="logo" style="cursor: pointer;" onclick="location.href='${ctx}/'"><img
                     src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
-            <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">组织工作管理与服务一体化平台</div>
+            <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
         </div>
 
         <div class="navbar-header pull-left hidden-md hidden-lg ">
             <a href="${ctx}/" class="navbar-brand">
                 <small style="cursor: pointer;">
-                    组工系统
+                    ${_plantform_short_name}
                 </small>
             </a>
         </div>

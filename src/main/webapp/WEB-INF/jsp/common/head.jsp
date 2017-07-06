@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@include file="taglibs.jsp"%>
 <jsp:include page="meta.jsp"/>
-<title>组织工作管理与服务一体化平台</title>
+<title>${_plantform_name}</title>
 <link rel="stylesheet" href="${ctx}/css/main.css" />
 <link rel="stylesheet" href="${ctx}/css/a.min.css" />
 <!--[if lte IE 9]>

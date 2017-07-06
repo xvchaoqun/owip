@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="description" content="overview &amp; stats" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>组织工作管理与服务一体化平台</title>
+  <title>${_plantform_name}</title>
   <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
   <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
   <link href="${ctx}/extend/css/docs.min.css" rel="stylesheet">
@@ -18,12 +18,12 @@
     <div class="navbar-container" id="navbar-container">
       <div class="navbar-header pull-left hidden-xs hidden-sm">
         <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
-        <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">组织工作管理与服务一体化平台</div>
+        <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
       </div>
       <div class="navbar-header pull-left hidden-md hidden-lg ">
         <a href="index" class="navbar-brand">
           <small  style="cursor: pointer;" onclick="location.href='${ctx}/'">
-            组工系统
+            ${_plantform_short_name}
           </small>
         </a>
       </div>

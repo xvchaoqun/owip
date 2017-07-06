@@ -7,7 +7,7 @@
   <jsp:include page="/WEB-INF/jsp/common/meta.jsp"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta charset="utf-8"/>
-  <title>修改密码-组织工作管理与服务一体化平台</title>
+  <title>修改密码-${_plantform_name}</title>
   <link href="${ctx}/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <%--  <link rel="stylesheet" href="${ctx}/extend/css/bootstrap-theme-3.3.5.css" />--%>
     <link rel="stylesheet" href="${ctx}/assets/css/ace-nobtn.css" class="ace-main-stylesheet" id="main-ace-style" />
@@ -18,7 +18,7 @@
 <div class="top">
   <div class="w1000">
     <div class="logo"><img src="${ctx}<fmt:message key="site.logo" bundle="${spring}"/>" /></div>
-    <div class="txt">组织工作管理与服务一体化平台</div>
+    <div class="txt">${_plantform_name}</div>
   </div>
 </div>
 <div class="container">

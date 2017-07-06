@@ -10,7 +10,7 @@
 <jsp:include page="/WEB-INF/jsp/common/meta.jsp"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta charset="utf-8"/>
-<title>组织工作管理与服务一体化平台</title>
+<title>${_plantform_name}</title>
 <link href="${ctx}/extend/css/login.css" rel="stylesheet" type="text/css" />
 <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
@@ -23,7 +23,7 @@
 <div class="top">
     <div class="w1000">
         <div class="logo"><img src="${ctx}<fmt:message key="site.logo" bundle="${spring}"/>" /></div>
-        <div class="txt">组织工作管理与服务一体化平台</div>
+        <div class="txt">${_plantform_name}</div>
     </div>
 </div>
 <div class="login_box">

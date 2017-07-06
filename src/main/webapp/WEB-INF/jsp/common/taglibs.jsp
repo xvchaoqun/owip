@@ -1,3 +1,4 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="sys.constants.SystemConstants" %>
 <%@ page import="sys.shiro.Constants" %>
 <%@ page import="java.util.Date" %>
@@ -13,6 +14,8 @@
 <c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
+<c:set value="组织工作管理与服务一体化平台" var="_plantform_name"/>
+<c:set value="组工系统" var="_plantform_short_name"/>
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="<%=DateUtils.getDateBeforeOrAfterYears(new Date(), -1)%>" var="yearAgo"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="today"/>

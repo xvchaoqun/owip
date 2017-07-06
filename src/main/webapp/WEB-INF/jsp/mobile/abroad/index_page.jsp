@@ -7,7 +7,7 @@
             <div class="col-xs-12">
                 <div class="alert alert-block alert-success">
                     <i class="ace-icon fa fa-check green"></i>
-                    欢迎使用组织工作管理与服务一体化平台
+                    欢迎使用${_plantform_name}
                 </div>
             </div>
             <div class="row">
