@@ -34,6 +34,25 @@ public class MobileTrainEvaController extends BaseController {
 
     @RequestMapping("/eva_page")
     public String eva_page(int courseId,
+                           HttpServletRequest request, ModelMap modelMap) {
+
+        TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+        Integer trainId = trainInspector.getTrainId();
+        Map<Integer, TrainCourse> trainCourseMap = trainCourseService.findAll(trainId);
+        TrainCourse trainCourse = trainCourseMap.get(courseId);
+        modelMap.put("tc", trainCourse);
+
+        Map<Integer, TrainEvaTable> evaTableMap = trainEvaTableService.findAll();
+        TrainEvaTable trainEvaTable = evaTableMap.get(trainCourse.getEvaTableId());
+        if(trainEvaTable==null){
+            throw new RuntimeException("该课程当前没有分配课程评估表，不可以进行测评");
+        }
+
+        return "mobile/train/eva_page";
+    }
+
+    @RequestMapping("/eva_page_next")
+    public String eva_page_next(int courseId,
 
                            Integer lastStep,
                            Integer lastRankId,
@@ -125,7 +144,7 @@ public class MobileTrainEvaController extends BaseController {
             modelMap.put("step", step);
         }*/
 
-        return "mobile/train/eva_page";
+        return "mobile/train/eva_page_next";
     }
 
     @RequestMapping(value = "/eva", method = RequestMethod.POST)

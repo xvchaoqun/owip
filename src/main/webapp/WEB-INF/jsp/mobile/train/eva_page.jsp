@@ -20,100 +20,8 @@
             </a>
         </div>
     </ul>
-    <c:set var="trainEvaResult" value="${tempdata.trainEvaResultMap.get(norm.id)}"/>
     <div class="tab-content">
-        <%--<div class="alert alert-block alert-success">
-            第${step}/${maxStep}步：
-            <c:if test="${step<=maxStep-1}">
-            <c:if test="${not empty norm.topNorm}">${norm.topNorm.name} - </c:if>${norm.name}
-            </c:if>
-            <c:if test="${step==maxStep}">
-            评估总分和意见建议
-            </c:if>
-        </div>--%>
-        <c:if test="${step<=maxStep-1}">
-            <c:if test="${not empty norm.topNorm}">
-                <div class="alert alert-block alert-success" style="margin-bottom: 0px;font-size: 18px">
-                    ${cm:toHanStr(norm.topIndex+1)}、${norm.topNorm.name}
-                </div>
-                <span class="text-primary">
-                       <h4>${norm.subIndex+1}. ${norm.name}</h4>
-                </span>
-            </c:if>
-            <c:if test="${empty norm.topNorm}">
-                <div class="alert alert-block alert-success">
-                        ${cm:toHanStr(norm.topIndex+1)}、${norm.name}
-                </div>
-            </c:if>
-        </c:if>
-        <c:if test="${step==maxStep}">
-            <div class="alert alert-block alert-success" style="margin-bottom: 0px; font-size: 18px">
-                ${cm:toHanStr(fn:length(topNorms)+1)}、意见建议
-            </div>
-        </c:if>
-        <c:if test="${step<=maxStep-1}">
-            <table id="rank-table" class="table table-striped table-bordered ">
-                <tbody>
-                <c:forEach items="${ranks}" var="rank" varStatus="vs">
-                    <tr>
-                        <c:if test="${vs.first}">
-                            <td rowspan="${rankNum}" class="title-td">
-                                评估等级
-                            </td>
-                        </c:if>
-                        <td class="rank-name ${trainEvaResult.rankId==rank.id?'selected-td':''}">${rank.name}（${rank.scoreShow}）</td>
-                        <td style="border-left: none;width: 20px" class="rank-check ${trainEvaResult.rankId==rank.id?'selected-td':''}">
-                            <i class="fa fa-check fa-lg green"
-                               style="${trainEvaResult.rankId==rank.id?'':'display: none'}"
-                               data-rank-id="${rank.id}"></i>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
-        <c:if test="${step==maxStep}">
-            <table class="table">
-                <%--<tr>
-                    <td align="right" style="border-top: none; vertical-align: middle;
-                width: 80px;white-space: nowrap; padding-right: 0">评估总分：
-                    </td>
-                    <td style="border-top: none; vertical-align: middle">
-                        <span id="score" class="ui-slider-red"></span>
-                    </td>
-                    <td style="border-top: none; vertical-align: middle;width: 20px;">
-                        <span id="scoreShow">80</span>
-                    </td>
-                </tr>--%>
-                <tr>
-                    <td colspan="3" style="border-top: none">
-                        <textarea id="feedback" placeholder="请在此输入意见或建议" class="form-control limited"
-                                  rows="8">${tempdata.feedback}</textarea>
-                    </td>
-                </tr>
-            </table>
-        </c:if>
-        <div class="clearfix center nowrap">
-            <button ${step==1?"disabled":""} class="first-step btn btn-info"
-                                             style="padding-left:5px;padding-right: 5px;" type="button">
-                <i class="fa fa-fast-backward"></i>
-            </button>
-
-            <button ${step==1?"disabled":""} class="last-step btn btn-info" type="button">
-                上一步
-            </button>
-            <button style="${step==maxStep?"display:none":""}" class="next-step btn btn-info" type="button">
-                下一步
-            </button>
-            <button style="${step==maxStep?"":"display:none"}" id="submitBtn" class="btn btn-success" type="button">
-                完<span style="visibility: hidden">一</span>成
-            </button>
-            <button ${step==maxStep?"disabled":""} class="max-step btn btn-info"
-                                                   style="padding-left:5px;padding-right: 5px;" type="button">
-                <i class="fa fa-fast-forward"></i>
-            </button>
-
-        </div>
+       <c:import url="/m_train/eva_page_next?courseId=${param.courseId}"/>
     </div>
 </div>
 <style>
@@ -138,7 +46,7 @@
 <script src="${ctx}/assets/js/jquery-ui.custom.js"></script>
 <script src="${ctx}/assets/js/jquery.ui.touch-punch.js"></script>
 <script>
-    function refreshScore() {
+   /* function refreshScore() {
         var score = $("#score").slider("value");
         $("#scoreShow").text(score);
     }
@@ -148,9 +56,9 @@
         animate: true,
         slide: refreshScore,
         change: refreshScore
-    });
+    });*/
 
-    $("#submitBtn").click(function () {
+    function _submit(id){
 
         var feedback = $.trim($("textarea#feedback").val());
         /*if (feedback == '') {
@@ -159,12 +67,12 @@
         }*/
         //alert(feedback)
         //var score = $("#score").slider("value");
-        $.post("${ctx}/m_train/eva", {feedback: feedback,id:'${tic.id}'}, function (ret) {
+        $.post("${ctx}/m_train/eva", {feedback: feedback,id:id}, function (ret) {
             if (ret.success) {
                 location.href = "${ctx}/m_train/index";
             }
         });
-    });
+    };
 
     function getSelectedRankId() {
 
@@ -188,7 +96,9 @@
         if (!$(this).prop("disabled")) {
             var rankId = getSelectedRankId();
             //return;
-            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=${step-1}&lastStep=${step}&lastRankId=" + rankId;
+            var step = $(this).data("step");
+            var lastStep = $(this).data("last-step");
+            $(".tab-content").load("${ctx}/m_train/eva_page_next?courseId=${tc.id}&step=" +step+"&lastStep="+lastStep+"&lastRankId=" + rankId);
         }
     })
 
@@ -200,18 +110,21 @@
                 SysMsg.warning('请选择评估等级')
                 return;
             }
-            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=${step+1}&lastStep=${step}&lastRankId=" + rankId;
+            var step = $(this).data("step");
+            var lastStep = $(this).data("last-step");
+            $(".tab-content").load("${ctx}/m_train/eva_page_next?courseId=${tc.id}&step=" +step+"&lastStep="+lastStep+"&lastRankId=" + rankId);
         }
     })
 
     register_click(".first-step", function () {
         if (!$(this).prop("disabled")) {
-            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=1";
+            $(".tab-content").load("${ctx}/m_train/eva_page_next?courseId=${tc.id}&step=1");
         }
     })
     register_click(".max-step", function () {
         if (!$(this).prop("disabled")) {
-            location.href = "${ctx}/m_train/eva?courseId=${tc.id}&step=${maxStep}";
+            var maxStep = $(this).data("max-step");
+            $(".tab-content").load("${ctx}/m_train/eva_page_next?courseId=${tc.id}&step=" + maxStep);
         }
     })
 
