@@ -5,12 +5,6 @@ Source Database: db_owip
 Date: 2017/6/1 12:41:29
 */
 
-
-ALTER ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW
-
-
-SET FOREIGN_KEY_CHECKS=0;
-
 DROP VIEW IF EXISTS `ow_member_out_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
 select mo.*, m.type as member_type, t.is_retire
@@ -21,6 +15,7 @@ left join sys_teacher_info t on t.user_id = m.user_id where mo.user_id=m.user_id
 -- ----------------------------
 -- 2017.6.5 View definition for `ow_party_static_view`
 -- ----------------------------
+DROP VIEW IF EXISTS `ow_party_static_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_party_static_view` AS
 select p.id, p.name,
 s.bks, s.ss, s.bs, (s.bks+s.ss+s.bs) as student, s.positive_bks, s.positive_ss, s.positive_bs, (s.positive_bks + s.positive_ss + s.positive_bs) as positive_student,
@@ -59,7 +54,7 @@ sum(if(locate('离退休',bmt.name), 1, 0)) as retire_branch
 from ow_branch b, base_meta_type bmt where b.is_deleted=0 and b.type_id=bmt.id group by b.party_id
 )b on b.party_id = p.id
 
-where p.is_deleted=0 order by p.sort_order desc
+where p.is_deleted=0 order by p.sort_order desc;
 -- ----------------------------
 --  View definition for `abroad_passport_apply_view`
 -- ----------------------------
@@ -184,7 +179,7 @@ left join dispatch sd on sd.id=sdc.dispatch_id
 left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
 left join dispatch ed on ed.id=edc.dispatch_id) nl on nl.cadre_id=c.id and nl.admin_level_id=main_cadre_post.admin_level_id
 left join (select cadre_id, verify_birth from verify_age where status=0) _va on _va.cadre_id=c.id
-left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id
+left join (select cadre_id, verify_work_time from verify_work_time where status=0) _vwt on _vwt.cadre_id=c.id;
 -- ----------------------------
 --  View definition for `cis_inspector_view`
 -- ----------------------------
@@ -359,7 +354,7 @@ select opm.*,
  left join ow_party op on opmg.party_id=op.id
  left join sys_teacher_info t on opm.user_id=t.user_id
 left join cadre_party dp on dp.user_id= opm.user_id and dp.type = 1
-left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2
+left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 -- ----------------------------
 --  View definition for `ow_party_view`
 -- ----------------------------
