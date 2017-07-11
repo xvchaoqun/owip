@@ -81,9 +81,9 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
-            { label: '内容',name: 'content', width: 550},
+            { label: '内容',name: 'content', width: 850, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
             { label: '提交时间',name: 'createTime', width: 180},
-            { label: 'IP',name: 'ip'}
+            { label: 'IP',name: 'ip', width: 120}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');

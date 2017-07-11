@@ -453,6 +453,11 @@ try {
         return cellvalue ? "是" : "否";
     };
 
+    $.jgrid.formatter.NoMultiSpace = function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined) return ''
+        console.log(cellvalue)
+        return cellvalue.NoMultiSpace();
+    };
     $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return ''
         return _cMap.GENDER_MAP[cellvalue];

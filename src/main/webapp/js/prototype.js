@@ -35,10 +35,14 @@ String.prototype.NoSpace = function()
 String.prototype.trim=function() {
     return this.replace(/(^\s*)|(\s*$)|\r|\n|(\r\n)/g,'');
 };
+// 回车换行用空格代替
+String.prototype.trim2=function() {
+    return this.replace(/(^\s*)|(\s*$)/g,'').replace(/\r|\n|(\r\n)/g,' ');
+};
 /**把连续的空格替换成一个空格**/
 String.prototype.NoMultiSpace = function()
 {
-    return this.replace(/\s{2}/g, " ").trim();
+    return this.replace(/\s{2}/g, " ").trim2();
 }
 
 String.prototype.htmlencode = function(){
