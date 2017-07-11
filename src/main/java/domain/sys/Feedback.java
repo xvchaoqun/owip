@@ -11,6 +11,8 @@ public class Feedback implements Serializable {
     }
     private Integer id;
 
+    private Integer fid;
+
     private Integer userId;
 
     private String content;
@@ -18,6 +20,8 @@ public class Feedback implements Serializable {
     private Date createTime;
 
     private String ip;
+
+    private Integer replyCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +31,14 @@ public class Feedback implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getFid() {
+        return fid;
+    }
+
+    public void setFid(Integer fid) {
+        this.fid = fid;
     }
 
     public Integer getUserId() {
@@ -59,5 +71,13 @@ public class Feedback implements Serializable {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public Integer getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(Integer replyCount) {
+        this.replyCount = replyCount;
     }
 }

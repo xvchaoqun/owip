@@ -11,7 +11,7 @@
   <div class="form-group">
       <label class="col-xs-3 control-label" style="text-align: right; line-height: 34px">选择账号</label>
       <div class="col-xs-6">
-        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="350"
+        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="250"
                 name="userId" data-placeholder="请输入账号或姓名或学工号">
           <option></option>
         </select>
@@ -19,23 +19,8 @@
     </div>
   </form>
   <br/>  <br/>
-  <div class="row" id="result" style="display: none">
-    <div class="col-xs-12">
-      <blockquote>
-        <small id="realname" style="display: none">
-          <span ></span>
-        </small>
-        <small id="unit" style="display: none">
-          <span ></span>
-        </small>
-        <small id="msg" style="display: none">
-          <span ></span>
-        </small>
-        <small id="status" style="display: none">
-          <span ></span>
-        </small>
-      </blockquote>
-    </div>
+  <div class="row" id="result">
+
   </div>
 
 </div>
@@ -48,6 +33,29 @@
     padding-top: 10px;
   }
 </style>
+<script type="text/template" id="result_tpl">
+  <div class="col-xs-12">
+    <blockquote>
+      <small>
+        学号：<span>{{=ret.code}}</span>
+      </small>
+      <small>
+        姓名：<span>{{=ret.realname}}</span>
+      </small>
+      <small>
+        所在单位：<span >{{=ret.unit}}</span>
+      </small>
+      <small>
+        查询结果：<span>{{=ret.msg}}</span>
+      </small>
+      {{if(ret.status){}}
+      <small>
+        状态：<span>{{=ret.status}}</span>
+      </small>
+      {{}}}
+    </blockquote>
+  </div>
+</script>
 <script>
   register_user_select($('#modal select[name=userId]'));
   $("#modal #search").click(function(){
@@ -55,21 +63,7 @@
     if(userId=='') return;
     $.post("${ctx}/member/search",{userId:userId},function(ret){
         if(ret.success){
-          $("#modal #result").show();
-          $("#modal #msg").hide();
-          $("#modal #status").hide();
-          if($.trim(ret.msg)!='') {
-            $("#modal #msg").show().find("span").html(ret.msg);
-          }
-          if($.trim(ret.realname)!='') {
-            $("#modal #realname").show().find("span").html(ret.realname);
-          }
-          if($.trim(ret.unit)!='') {
-            $("#modal #unit").show().find("span").html(ret.unit);
-          }
-          if($.trim(ret.status)!='') {
-            $("#modal #status").show().find("span").html(ret.status);
-          }
+          $("#result").html(_.template($("#result_tpl").html())({ret: ret}));
         }
     });
   })

@@ -53,10 +53,13 @@ public class UserFeedbackController extends BaseController {
 
         FeedbackExample example = new FeedbackExample();
         FeedbackExample.Criteria criteria = example.createCriteria();
+
+        criteria.andFidIsNull();
+
         criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
         example.setOrderByClause("create_time desc");
 
-        int count = feedbackMapper.countByExample(example);
+        long count = feedbackMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

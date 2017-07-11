@@ -37,10 +37,10 @@ public class FeedbackController extends BaseController {
 
     @RequiresPermissions("feedback:list")
     @RequestMapping("/feedback")
-    public String feedback(Integer userId,ModelMap modelMap) {
+    public String feedback(Integer userId, ModelMap modelMap) {
 
-        if (userId!=null) {
-           modelMap.put("user", sysUserService.findById(userId));
+        if (userId != null) {
+            modelMap.put("user", sysUserService.findById(userId));
         }
 
         return "sys/feedback/feedback_page";
@@ -49,10 +49,11 @@ public class FeedbackController extends BaseController {
     @RequiresPermissions("feedback:list")
     @RequestMapping("/feedback_data")
     public void feedback_data(HttpServletResponse response,
-                                    Integer userId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                              Integer fid,
+                              Integer userId,
+                              @RequestParam(required = false, defaultValue = "0") int export,
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                              Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -66,16 +67,22 @@ public class FeedbackController extends BaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if (userId!=null) {
+        if (fid == null) {
+            criteria.andFidIsNull();
+        } else {
+            criteria.andFidEqualTo(fid);
+        }
+
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
 
-        int count = feedbackMapper.countByExample(example);
+        long count = feedbackMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Feedback> records= feedbackMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Feedback> records = feedbackMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -103,11 +110,11 @@ public class FeedbackController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             feedbackService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
         } else {
 
             feedbackService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_USER, "更新系统反馈意见：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_USER, "更新系统反馈意见：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -132,7 +139,7 @@ public class FeedbackController extends BaseController {
         if (id != null) {
 
             feedbackService.del(id);
-            logger.info(addLog( SystemConstants.LOG_USER, "删除系统反馈意见：%s", id));
+            logger.info(addLog(SystemConstants.LOG_USER, "删除系统反馈意见：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -142,9 +149,9 @@ public class FeedbackController extends BaseController {
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             feedbackService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_USER, "批量删除系统反馈意见：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_USER, "批量删除系统反馈意见：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

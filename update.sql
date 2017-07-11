@@ -1,4 +1,10 @@
 
+2017-7-11
+ALTER TABLE `sys_feedback`
+	ADD COLUMN `fid` INT(10) UNSIGNED NULL COMMENT '回复主题' AFTER `id`,
+	ADD COLUMN `reply_count` INT UNSIGNED NOT NULL DEFAULT '0' COMMENT '回复数量，只有fid=null时有值' AFTER `ip`;
+
+
 bug:
 干部->离任干部，因私中已分配申请人身份的干部，没有删除；
 解决：读取审批人时，过滤干部身份（SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET）

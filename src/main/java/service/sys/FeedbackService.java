@@ -14,7 +14,7 @@ public class FeedbackService extends BaseMapper {
 
     @Transactional
     public void insertSelective(Feedback record) {
-
+        record.setReplyCount(0);
         feedbackMapper.insertSelective(record);
     }
 

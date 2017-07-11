@@ -51,16 +51,22 @@ public class MemberController extends BaseController {
         String realname = "";
         String unit = "";
         String msg = "";
+        String code = "";
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
         if(sysUser==null){
             msg = "该用户不存在";
         }else {
+            code = sysUser.getCode();
             realname = sysUser.getRealname();
             unit = sysUserService.getUnit(sysUser);
-            Member member = memberService.get(sysUser.getId());
+            Member member = memberService.get(userId);
             if(member==null){
                 msg = "该用户不是党员";
+                MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+                if(memberApply!=null && memberApply.getStage()>SystemConstants.APPLY_STAGE_DENY){
+                    msg += "；已进入入党申请阶段【" + SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage()) +"】";
+                }
             }else{
                 Integer partyId = member.getPartyId();
                 Integer branchId = member.getBranchId();
@@ -81,12 +87,12 @@ public class MemberController extends BaseController {
                 }
 
                 if(member.getType()==SystemConstants.MEMBER_TYPE_TEACHER){
-                    MemberTeacher memberTeacher = memberTeacherService.get(sysUser.getId());
+                    MemberTeacher memberTeacher = memberTeacherService.get(userId);
                     if(memberTeacher.getIsRetire())
                         status = "已退休";
                 }
 
-                MemberStay memberStay = memberStayService.get(sysUser.getId());
+                MemberStay memberStay = memberStayService.get(userId);
                 if(memberStay!=null){
                     if(memberStay.getStatus()==SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY){
                         status = "出国暂留申请已完成审批";
@@ -99,6 +105,7 @@ public class MemberController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("msg", msg);
+        resultMap.put("code", code);
         resultMap.put("realname", realname);
         resultMap.put("unit", unit);
         resultMap.put("status", status);

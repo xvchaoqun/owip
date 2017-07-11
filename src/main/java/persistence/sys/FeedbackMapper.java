@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface FeedbackMapper {
-    int countByExample(FeedbackExample example);
+    long countByExample(FeedbackExample example);
 
     int deleteByExample(FeedbackExample example);
 

@@ -165,6 +165,66 @@ public class FeedbackExample {
             return (Criteria) this;
         }
 
+        public Criteria andFidIsNull() {
+            addCriterion("fid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidIsNotNull() {
+            addCriterion("fid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidEqualTo(Integer value) {
+            addCriterion("fid =", value, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidNotEqualTo(Integer value) {
+            addCriterion("fid <>", value, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidGreaterThan(Integer value) {
+            addCriterion("fid >", value, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("fid >=", value, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidLessThan(Integer value) {
+            addCriterion("fid <", value, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidLessThanOrEqualTo(Integer value) {
+            addCriterion("fid <=", value, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidIn(List<Integer> values) {
+            addCriterion("fid in", values, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidNotIn(List<Integer> values) {
+            addCriterion("fid not in", values, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidBetween(Integer value1, Integer value2) {
+            addCriterion("fid between", value1, value2, "fid");
+            return (Criteria) this;
+        }
+
+        public Criteria andFidNotBetween(Integer value1, Integer value2) {
+            addCriterion("fid not between", value1, value2, "fid");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;
@@ -422,6 +482,66 @@ public class FeedbackExample {
 
         public Criteria andIpNotBetween(String value1, String value2) {
             addCriterion("ip not between", value1, value2, "ip");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountIsNull() {
+            addCriterion("reply_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountIsNotNull() {
+            addCriterion("reply_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountEqualTo(Integer value) {
+            addCriterion("reply_count =", value, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountNotEqualTo(Integer value) {
+            addCriterion("reply_count <>", value, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountGreaterThan(Integer value) {
+            addCriterion("reply_count >", value, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("reply_count >=", value, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountLessThan(Integer value) {
+            addCriterion("reply_count <", value, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountLessThanOrEqualTo(Integer value) {
+            addCriterion("reply_count <=", value, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountIn(List<Integer> values) {
+            addCriterion("reply_count in", values, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountNotIn(List<Integer> values) {
+            addCriterion("reply_count not in", values, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountBetween(Integer value1, Integer value2) {
+            addCriterion("reply_count between", value1, value2, "replyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("reply_count not between", value1, value2, "replyCount");
             return (Criteria) this;
         }
     }
