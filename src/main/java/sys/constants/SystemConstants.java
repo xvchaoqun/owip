@@ -692,6 +692,8 @@ public class SystemConstants {
     public final static Set<Byte> CADRE_STATUS_NOW_SET = new HashSet<>(); // 现任干部角色对应的所有状态
     public final static Set<Byte> CADRE_STATUS_LEAVE_SET = new HashSet<>(); // 离任干部角色对应的所有状态
 
+    public final static Set<Byte> ABROAD_APPLICAT_CADRE_STATUS_SET = new HashSet<>(); // 因私申请人要求的干部状态
+
     static {
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
@@ -710,6 +712,10 @@ public class SystemConstants {
 
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
         CADRE_STATUS_LEAVE_SET.add(CADRE_STATUS_LEADER_LEAVE);
+
+        ABROAD_APPLICAT_CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE);
+        ABROAD_APPLICAT_CADRE_STATUS_SET.add(CADRE_STATUS_LEADER);
+        ABROAD_APPLICAT_CADRE_STATUS_SET.add(CADRE_STATUS_LEADER_LEAVE);
     }
 
     // 干部党派类别

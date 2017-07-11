@@ -4,41 +4,55 @@ import domain.abroad.ApplicatCadre;
 import domain.abroad.ApplicatCadreExample;
 import domain.abroad.ApplicatType;
 import domain.abroad.ApplicatTypeExample;
+import domain.cadre.CadreView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.cadre.CadreService;
+import sys.constants.SystemConstants;
 
 import java.util.*;
 
 @Service
 public class ApplicatTypeService extends BaseMapper {
 
-    public Set<Integer> getCadreIds (Integer typeId){
+    @Autowired
+    private CadreService cadreService;
 
+    // 已分配干部身份的干部
+    public Set<Integer> getCadreIds(Integer typeId) {
+
+        Map<Integer, CadreView> cadreViewMap = cadreService.findAll();
         Set<Integer> cadreIdSet = new HashSet<Integer>();
         ApplicatCadreExample example = new ApplicatCadreExample();
-        if(typeId!=null) example.createCriteria().andTypeIdEqualTo(typeId);
+        if (typeId != null) example.createCriteria().andTypeIdEqualTo(typeId);
         List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
         for (ApplicatCadre applicatCadre : applicatCadres) {
-            cadreIdSet.add(applicatCadre.getCadreId());
+
+            int cadreId = applicatCadre.getCadreId();
+            CadreView cadreView = cadreViewMap.get(cadreId);
+            if (cadreView != null && SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET
+                    .contains(cadreView.getStatus()))
+                cadreIdSet.add(cadreId);
         }
 
         return cadreIdSet;
     }
 
     @Transactional
-    public void updateCadreIds(int typeId, Integer[] cadreIds){
+    public void updateCadreIds(int typeId, Integer[] cadreIds) {
 
         ApplicatCadreExample example = new ApplicatCadreExample();
         example.createCriteria().andTypeIdEqualTo(typeId);
         applicatCadreMapper.deleteByExample(example);
 
-        if(cadreIds==null || cadreIds.length==0) return ;
+        if (cadreIds == null || cadreIds.length == 0) return;
 
         for (Integer cadreId : cadreIds) {
 
@@ -86,20 +100,20 @@ public class ApplicatTypeService extends BaseMapper {
         }
     }*/
 
-    public boolean idDuplicate(Integer id, String name){
+    public boolean idDuplicate(Integer id, String name) {
 
         Assert.isTrue(StringUtils.isNotBlank(name), "name is blank");
 
         ApplicatTypeExample example = new ApplicatTypeExample();
         ApplicatTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return applicatTypeMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    @CacheEvict(value="ApplicatType:ALL", allEntries = true)
-    public int insertSelective(ApplicatType record){
+    @CacheEvict(value = "ApplicatType:ALL", allEntries = true)
+    public int insertSelective(ApplicatType record) {
 
         Assert.isTrue(!idDuplicate(null, record.getName()), "duplicate name");
         applicatTypeMapper.insertSelective(record);
@@ -110,18 +124,19 @@ public class ApplicatTypeService extends BaseMapper {
         _record.setSortOrder(id);
         return applicatTypeMapper.updateByPrimaryKeySelective(_record);
     }
+
     @Transactional
-    @CacheEvict(value="ApplicatType:ALL", allEntries = true)
-    public void del(Integer id){
+    @CacheEvict(value = "ApplicatType:ALL", allEntries = true)
+    public void del(Integer id) {
 
         applicatTypeMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="ApplicatType:ALL", allEntries = true)
-    public void batchDel(Integer[] ids){
+    @CacheEvict(value = "ApplicatType:ALL", allEntries = true)
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         ApplicatTypeExample example = new ApplicatTypeExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -129,14 +144,14 @@ public class ApplicatTypeService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="ApplicatType:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(ApplicatType record){
-        if(StringUtils.isNotBlank(record.getName()))
+    @CacheEvict(value = "ApplicatType:ALL", allEntries = true)
+    public int updateByPrimaryKeySelective(ApplicatType record) {
+        if (StringUtils.isNotBlank(record.getName()))
             Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "duplicate name");
         return applicatTypeMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="ApplicatType:ALL")
+    @Cacheable(value = "ApplicatType:ALL")
     public Map<Integer, ApplicatType> findAll() {
 
         ApplicatTypeExample example = new ApplicatTypeExample();
@@ -152,6 +167,7 @@ public class ApplicatTypeService extends BaseMapper {
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     *
      * @param id
      * @param addNum
      */
@@ -159,7 +175,7 @@ public class ApplicatTypeService extends BaseMapper {
     @CacheEvict(value = "ApplicatType:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         ApplicatType entity = applicatTypeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -169,16 +185,16 @@ public class ApplicatTypeService extends BaseMapper {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
         List<ApplicatType> overEntities = applicatTypeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            ApplicatType targetEntity = overEntities.get(overEntities.size()-1);
+            ApplicatType targetEntity = overEntities.get(overEntities.size() - 1);
 
             if (addNum > 0)
                 commonMapper.downOrder("abroad_applicat_type", null, baseSortOrder, targetEntity.getSortOrder());

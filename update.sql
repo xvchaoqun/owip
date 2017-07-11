@@ -1,5 +1,19 @@
 
+bug:
+干部->离任干部，因私中已分配申请人身份的干部，没有删除；
+解决：读取审批人时，过滤干部身份（SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET）
 
+
+
+select aat.*, a.aac_num, b.aao_num from abroad_applicat_type aat left join (
+select count(aac.cadre_id) aac_num, aac.type_id from abroad_applicat_cadre aac, cadre c where c.`status` in(1,4,6) and aac.cadre_id=c.id group by aac.type_id
+)a on a.type_id = aat.id
+left join(
+select count(aao.id) aao_num, aao.applicat_type_id from abroad_approval_order aao group by aao.applicat_type_id
+)b on b.applicat_type_id = aat.id
+
+
+2017-7-5
 ALTER TABLE `sys_resource`
 	ADD COLUMN `is_leaf` TINYINT(1) UNSIGNED NULL COMMENT '是否叶子节点' AFTER `parent_ids`;
 

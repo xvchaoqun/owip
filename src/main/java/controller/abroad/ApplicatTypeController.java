@@ -48,20 +48,20 @@ public class ApplicatTypeController extends BaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadresEscape_tree")
     @ResponseBody
-    public Map selectCadresEscapse_tree() throws IOException {
+    public Map selectCadresEscape_tree() throws IOException {
 
-        Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
+        Set<Integer> hasAssignedCadreIdSet = applicatTypeService.getCadreIds(null);
         Set<CadreView> cadreSet = new LinkedHashSet<>();
-        Set<Integer> cadreIdSet = new HashSet<>();
+        Set<Integer> disabledIdSet = new HashSet<>(); // 显示时不需要选择框
         for (CadreView cadre : cadreService.findAll().values()) {
 
-            if(!disabledIdSet.contains(cadre.getId().intValue())){
+            if(!hasAssignedCadreIdSet.contains(cadre.getId().intValue())){
                 cadreSet.add(cadre);
-                cadreIdSet.add(cadre.getId());
+                disabledIdSet.add(cadre.getId());
             }
         }
 
-        TreeNode tree = cadreCommonService.getTree(cadreSet, null, cadreIdSet);
+        TreeNode tree = cadreCommonService.getTree(cadreSet, null, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
@@ -71,7 +71,7 @@ public class ApplicatTypeController extends BaseController {
     // 查询还没有分配申请人身份的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadresEscape")
-    public String selectCadres_escapse() throws IOException {
+    public String selectCadresEscape() throws IOException {
 
         return "abroad/applicatType/selectCadresEscape";
     }
@@ -85,7 +85,8 @@ public class ApplicatTypeController extends BaseController {
         Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()), selectIdSet, disabledIdSet);
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+                selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
@@ -95,7 +96,7 @@ public class ApplicatTypeController extends BaseController {
     // 查看某类申请人身份下的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadres")
-    public String select_posts(int id, ModelMap modelMap) throws IOException {
+    public String selectCadres(int id, ModelMap modelMap) throws IOException {
 
         ApplicatType applicatType = applicatTypeMapper.selectByPrimaryKey(id);
         modelMap.put("applicatType", applicatType);
@@ -276,10 +277,8 @@ public class ApplicatTypeController extends BaseController {
         modelMap.put("commonList", commonList);
 
         CadreExample cadreExample = new CadreExample();
-        cadreExample.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_MIDDLE,
-                SystemConstants.CADRE_STATUS_LEADER));
-        modelMap.put("escapeCount", cadreMapper.countByExample(cadreExample)- applicatCadreMapper.countByExample(new ApplicatCadreExample()));
-
+        cadreExample.createCriteria().andStatusIn(new ArrayList<>(SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET));
+        modelMap.put("escapeCount", cadreMapper.countByExample(cadreExample)- applicatTypeService.getCadreIds(null).size());
 
         return "abroad/applicatType/applicatType_page";
     }

@@ -46,6 +46,7 @@
             </div>
         </div>
         <div class="space-10"></div>
+    注：因私出国境审批时，审批顺序由上至下
     <div class="popTableDiv"
          data-url-page="${ctx}/applicatType/approvalOrder?id=${applicatType.id}"
          data-url-del="${ctx}/applicatType/approvalOrder_del"

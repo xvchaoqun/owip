@@ -15,7 +15,7 @@
 <script>
     $.getJSON("${ctx}/applicatType/selectCadresEscape_tree", {}, function (data) {
         var treeData = data.tree.children;
-        console.log(treeData)
+        //console.log(treeData)
         if(treeData.length==0){
             $("#tree3").html('<div class="well">所有干部都已分配申请人身份</div>');
         }else {

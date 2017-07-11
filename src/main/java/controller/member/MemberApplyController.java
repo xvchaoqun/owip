@@ -269,7 +269,7 @@ public class MemberApplyController extends BaseController {
             }
 
             // 考虑已经转出的情况 2016-12-19
-            else if (stage == SystemConstants.APPLY_STAGE_OUT) {
+            if (stage == SystemConstants.APPLY_STAGE_OUT) {
                 criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
             } else {
                 criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
