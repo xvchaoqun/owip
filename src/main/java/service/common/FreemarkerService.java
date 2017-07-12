@@ -57,10 +57,29 @@ public class FreemarkerService {
         //System.out.println(getStringNoBlank(info));
         List rows = new ArrayList();
 
-        //Pattern p = Pattern.compile("<p(.*)>([^/]*)</p>");
-        Pattern p = Pattern.compile("<p(.*)>(.*)</p>");
-        Matcher matcher = p.matcher(content);
+        Document doc = Jsoup.parse(content);
+        Elements pElements = doc.getElementsByTag("p");
+        int size = pElements.size();
+        for (Element pElement : pElements) {
+            String style = pElement.attr("style");
+            int type = 0;
+            if (StringUtils.contains(style, "2em")
+                    ||StringUtils.contains(style, "text-indent"))
+                type = 1;
+            if (StringUtils.contains(style, "5em"))
+                type = 2;
+            String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
+            List cols = new ArrayList();
+            cols.add(type);
 
+            for (String col : text.trim().split(" ")) {
+                cols.add(col.trim());
+            }
+            rows.add(cols);
+
+        }
+      /*  Pattern p = Pattern.compile("<p(.*)>(.*)</p>");
+        Matcher matcher = p.matcher(content);
         int matchCount = 0;
         while (matcher.find()) {
             matchCount++;
@@ -79,8 +98,8 @@ public class FreemarkerService {
                 cols.add(col.trim());
             }
             rows.add(cols);
-        }
-        if(matchCount==0){
+        }*/
+        if(size == 0){
             List cols = new ArrayList();
             cols.add(0);
             cols.add(HtmlEscapeUtils.getTextFromHTML(content));
@@ -117,7 +136,7 @@ public class FreemarkerService {
     public static void main(String[] args) {
 
         String content = "<p class=\"MsoNormal\" align=\"left\" style=\"font-size:18.6667px;text-indent:28.8pt;\">\n" +
-                "\t该同志政治立场坚定，思想觉悟较高。工作积极投入、认真负责。业务水平高，具有较强的协调能力，对外联络能力强，有创新精神。为人热情开朗，待人诚恳、乐于助人、团结同事，群众基础较好。\n" +
+                "\t该同志政治立场<b>坚定</b>，思想觉悟较高。工作积极投入、认真负责。业务水平高，具有较强的协调能力，对外联络能力强，有创新精神。为人热情开朗，待人诚恳、乐于助人、团结同事，群众基础较好。\n" +
                 "</p>\n" +
                 "<p class=\"MsoNormal\" align=\"left\" style=\"font-size:18.6667px;text-indent:28.8pt;\">\n" +
                 "\t<b>不足或希望：</b>希望工作中多思考，多研究，不断完善制度建设，使共建工作的管理更加顺畅。\n" +
@@ -125,7 +144,7 @@ public class FreemarkerService {
         Document doc = Jsoup.parse(content);
         Elements p1 = doc.getElementsByTag("p");
 
-        System.out.println(p1.get(0));
+        System.out.println(p1.get(0).html());
         System.out.println(p1.get(1));
 
         Element element = p1.get(1);

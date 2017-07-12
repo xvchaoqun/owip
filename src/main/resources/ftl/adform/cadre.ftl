@@ -2313,13 +2313,11 @@
 					</w:tc>
 				</w:tr>
 			</w:tbl>
-			<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
 			<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419">
 				<w:r>
 					<w:br w:type="page"/>
 				</w:r>
 			</w:p>
-			<w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
 			<w:tbl>
 				<w:tblPr>
 					<w:tblW w:w="0" w:type="auto"/>
