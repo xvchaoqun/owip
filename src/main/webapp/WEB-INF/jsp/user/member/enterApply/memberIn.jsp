@@ -34,13 +34,15 @@
       <div class="form-group">
         <label class="col-xs-5 control-label">介绍信有效期天数</label>
         <div class="col-xs-6">
-          <input required class="form-control digits input-group" type="text" name="validDays" value="${memberIn.validDays}">
+          <input required id="spinner" class="form-control digits input-group"
+                 data-rule-min="1" style="width: 100px"
+                 type="text" name="validDays" value="${memberIn.validDays}">
         </div>
       </div>
       <div class="form-group">
         <label class="col-xs-5 control-label">类别</label>
         <div class="col-xs-6">
-          <select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="120">
+          <select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="168">
             <option></option>
             <c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
               <option value="${_type.key}">${_type.value}</option>
@@ -54,7 +56,7 @@
       <div class="form-group">
         <label class="col-xs-5 control-label">党籍状态</label>
         <div class="col-xs-6">
-          <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="160">
+          <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"  data-width="168">
             <option></option>
             <c:forEach items="${MEMBER_POLITICAL_STATUS_MAP}" var="_status">
               <option value="${_status.key}">${_status.value}</option>
@@ -70,7 +72,7 @@
       <div class="form-group">
         <label class="col-xs-5 control-label">请选择分党委</label>
         <div class="col-xs-6">
-          <select required class="form-control"  data-rel="select2-ajax" data-width="350"
+          <select required class="form-control"  data-rel="select2-ajax" data-width="260"
                   data-ajax-url="${ctx}/party_selects?del=0"
                   name="partyId" data-placeholder="请选择">
             <option value="${party.id}">${party.name}</option>
@@ -247,7 +249,10 @@
     white-space: nowrap;
   }
 </style>
+<script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
+<script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
       <script>
+        $('#spinner').ace_spinner({value:0,min:1,max:999,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
         $('#modalForm [data-rel="select2"]').select2();
         register_date($('.date-picker'));
 
