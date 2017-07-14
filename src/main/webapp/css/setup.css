@@ -684,7 +684,7 @@ form .form-actions {
 .dispatch_au {
     padding: 20px;
     padding-top: 10px;
-    width: 1300px;
+    width: 1310px;
 }
 
 .dispatch_au .preview, .dispatch_au .au {
@@ -696,12 +696,19 @@ form .form-actions {
 }
 
 .dispatch_au .preview {
-    width: 730px;
+    width: 740px;
     margin-right: 25px;
 }
 
 .dispatch_au .au {
     width: 500px;
+}
+
+#dispatch-file-view {
+    height: 750px;
+    text-align: center;
+    line-height: 750px;
+    overflow: hidden;
 }
 
 .dispatch_au .swf-file.none {

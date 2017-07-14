@@ -10,9 +10,12 @@
                         <form action="${ctx}/dispatch_upload"
                               enctype="multipart/form-data" method="post"
                               class="btn-upload-form">
-                            <a href="javascript:;" class="hideView btn btn-xs btn-primary">
+                            <button type="button"
+                                    data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中..."
+                                    class="hideView btn btn-xs btn-primary">
                                 <i class="ace-icon fa fa-upload"></i>
-                                上传任免文件</a>
+                                上传任免文件
+                            </button>
                             <input type="file" name="file" id="upload-file"/>
                         </form>
                     </div>
@@ -45,19 +48,25 @@
     register_dispatch_select($('.dispatch_cadres select[name=dispatchTypeId]'),
             $(".dispatch_cadres input[name=year]"), $(".dispatch_cadres select[name=dispatchId]"));
     $("#upload-file").change(function () {
-        $(".swf-file").html('<img src="${ctx}/img/loading.gif"/>')
-        $(this).closest("form").ajaxSubmit({
-            success: function (ret) {
-                if (ret.success) {
-                    //console.log(ret)
-                    setTimeout(function () {
-                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path="+encodeURI(ret.file));
-                    }, 3000);
+        if ($("#upload-file").val() != "") {
+            var $this = $(this);
+            var $form = $this.closest("form");
+            var $btn = $("button", $form).button('loading');
+            $("#dispatch-file-view").html('<img src="${ctx}/img/loading.gif"/>')
+            $form.ajaxSubmit({
+                success: function (ret) {
+                    if (ret.success) {
+                        //console.log(ret)
+                        $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.file));
 
-                    $("#modalForm input[name=file]").val(ret.file);
-                    $("#modalForm input[name=fileName]").val(ret.fileName);
+                        $("#modalForm input[name=file]").val(ret.file);
+                        $("#modalForm input[name=fileName]").val(ret.fileName);
+                    }
+                    $btn.button('reset');
+                    $this.attr("disabled", false);
                 }
-            }
-        });
+            });
+            $this.attr("disabled", true);
+        }
     });
 </script>

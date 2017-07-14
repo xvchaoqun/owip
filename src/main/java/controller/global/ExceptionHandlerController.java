@@ -31,7 +31,7 @@ public class ExceptionHandlerController {
 
     public String getMsg(HttpServletRequest request, Exception ex){
 
-        ex.printStackTrace();
+        //ex.printStackTrace();
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         String username = (shiroUser!=null)?shiroUser.getUsername():null;
@@ -50,7 +50,7 @@ public class ExceptionHandlerController {
         resultMap.put("success", false);
         resultMap.put("msg", FormUtils.FILEMAX);
 
-        logger.warn(getMsg(request, ex));
+        logger.warn(getMsg(request, ex), ex);
         return resultMap;
     }
 
@@ -69,10 +69,10 @@ public class ExceptionHandlerController {
             } else if(StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
                 //resultMap.put("msg", "请先删除关联表的所有数据");
                 resultMap.put("msg", "数据已在别的地方使用，不可以删除");
-                logger.warn(getMsg(request, ex));
+                logger.warn(getMsg(request, ex), ex);
             }else {
                 resultMap.put("msg", "数据异常，请联系管理员");
-                logger.error(getMsg(request, ex));
+                logger.error(getMsg(request, ex), ex);
             }
         }else if(ex.getCause() instanceof SQLException){
 
@@ -92,7 +92,7 @@ public class ExceptionHandlerController {
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.error(getMsg(request, ex));
+            logger.error(getMsg(request, ex), ex);
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("500");
@@ -107,7 +107,7 @@ public class ExceptionHandlerController {
         view.setAttributesMap(attributes);
         mav.setView(view);
 
-        logger.error(getMsg(request, ex));
+        logger.error(getMsg(request, ex), ex);
 
         return mav;
     }
@@ -119,7 +119,7 @@ public class ExceptionHandlerController {
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.warn(getMsg(request, ex));
+            logger.warn(getMsg(request, ex), ex);
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("unauthorized");
@@ -129,7 +129,7 @@ public class ExceptionHandlerController {
         ModelAndView mav = new ModelAndView();
         //ex.printStackTrace();
 
-        logger.warn(getMsg(request, ex));
+        logger.warn(getMsg(request, ex), ex);
 
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
@@ -145,13 +145,13 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveNullPointerException(HttpServletRequest request, Exception ex) {
 
-        logger.error(getMsg(request, ex));
+        logger.error(getMsg(request, ex), ex);
 
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.error(getMsg(request, ex));
+            logger.error(getMsg(request, ex), ex);
             ModelAndView mv = new ModelAndView();
             mv.addObject("exception", ex);
             mv.setViewName("500");
@@ -178,7 +178,7 @@ public class ExceptionHandlerController {
         resultMap.put("ret", -10);
         resultMap.put("msg", msg);
 
-        logger.warn(getMsg(request, ex));
+        logger.warn(getMsg(request, ex), ex);
         return resultMap;
     }
 

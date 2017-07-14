@@ -83,10 +83,12 @@ public class SycnTask {
 	@Scheduled(cron = "${cron.online.static}")
 	public void onlineStatic(){
 
-		// 刷新菜单数量统计（临时放这里2017-4-15）
-		cacheService.refreshCacheCounts();
-
 		if(springProps.onlineStatic) {
+
+			// 刷新菜单数量统计（临时放这里2017-4-15）
+			logger.debug("刷新缓存数量...");
+			cacheService.refreshCacheCounts();
+
 			logger.debug("在线用户数量统计...");
 			sysOnlineStaticService.stat();
 		}
