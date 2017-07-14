@@ -90,13 +90,14 @@
         url: '${ctx}/shortMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '接收方', name: 'receiverId', width: 100, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.user==undefined) return '-'
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
-            { label: '类别',  name: 'type', width: 200,frozen:true },
-            { label: '手机号码',  name: 'mobile', width: 100,frozen:true },
+            { label: '类别',  name: 'type', width: 220,frozen:true, align:"left" },
+            { label: '手机号码',  name: 'mobile',frozen:true },
             { label: '短信内容',  name: 'content', width: 350},
-            { label: '发送时间',  name: 'createTime', width: 200},
+            { label: '发送时间',  name: 'createTime', width: 150},
             { label: 'IP',  name: 'ip', width: 150},
             { label: '是否成功',  name: 'status', width: 100, formatter:function(cellvalue, options, rowObject){
                 return cellvalue?'<span class="label label-success">是</span>':'<span class="label label-danger">否</span>';

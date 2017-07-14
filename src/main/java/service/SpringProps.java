@@ -33,6 +33,9 @@ public class SpringProps {
 	@Value("${swfTools.command}")
 	public String swfToolsCommand;
 
+	@Value("${swfTools.languagedir}")
+	public String swfToolsLanguagedir;
+
 	@Value("${username.regex}")
 	public String usernameRegex;
 

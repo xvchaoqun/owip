@@ -140,7 +140,7 @@ public class CadreCompanyController extends BaseController {
 
             try {
                 String swfPath = realPath + ".swf";
-                FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + savePath, springProps.uploadPath + swfPath);
+                pdf2Swf(savePath, swfPath);
             } catch (IOException | InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

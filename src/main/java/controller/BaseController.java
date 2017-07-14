@@ -41,7 +41,9 @@ import service.unit.*;
 import service.verify.VerifyAgeService;
 import service.verify.VerifyWorkTimeService;
 import shiro.PasswordHelper;
+import sys.utils.FileUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -355,6 +357,12 @@ public class BaseController extends BaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected Environment evironment;
+
+    protected void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedException {
+
+        FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + filePath,
+                springProps.uploadPath + swfPath, springProps.swfToolsLanguagedir);
+    }
 
     public Map<Class<?>, Class<?>> sourceMixins() {
 

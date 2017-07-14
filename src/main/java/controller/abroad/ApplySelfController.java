@@ -446,7 +446,7 @@ public class ApplySelfController extends BaseController {
             FileUtils.copyFile(_modifyProof, new File(springProps.uploadPath + modifyProof));
 
             String swfPath = realPath + ".swf";
-            FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + modifyProof, springProps.uploadPath + swfPath);
+            pdf2Swf(modifyProof, swfPath);
         }
 
         /*if (id == null) {
