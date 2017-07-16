@@ -188,7 +188,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#jqGrid").trigger("reloadGrid");
-                        $.hashchange();
+                        $.hideView();
                     }
                 }
             });

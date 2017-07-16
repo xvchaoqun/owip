@@ -73,13 +73,13 @@ public class ExceptionHandlerController {
                 resultMap.put("msg", "数据已在别的地方使用，不可以删除");
                 logger.warn(getMsg(request, ex), ex);
             }else {
-                resultMap.put("msg", "数据异常，请联系管理员");
+                resultMap.put("msg", "系统异常，请稍后重试");
                 logger.error(getMsg(request, ex), ex);
             }
         }else if(ex.getCause() instanceof SQLException){
 
             resultMap.put("success", false);
-            resultMap.put("msg", "数据异常：" + ex.getMessage());
+            resultMap.put("msg", "系统异常，请稍后重试");
             logger.error(getMsg(request, ex), ex);
         }
 
@@ -98,7 +98,7 @@ public class ExceptionHandlerController {
 
             //ex.printStackTrace();
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", ex.getMessage());
+            mv.addObject("exception", "系统异常，请稍后重试");
             mv.setViewName("500");
             return mv;
         }
@@ -107,7 +107,7 @@ public class ExceptionHandlerController {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", ex.getMessage());
+        attributes.put("msg", "系统异常，请稍后重试");
         view.setAttributesMap(attributes);
         mav.setView(view);
 
@@ -153,7 +153,7 @@ public class ExceptionHandlerController {
 
             //ex.printStackTrace();
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", ex.getMessage());
+            mv.addObject("exception", "系统异常[NULL]，请稍后重试");
             mv.setViewName("500");
             return mv;
         }
@@ -162,7 +162,7 @@ public class ExceptionHandlerController {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", "系统异常[NULL]，请联系管理员");
+        attributes.put("msg", "系统异常[NULL]，请稍后重试");
         view.setAttributesMap(attributes);
         mav.setView(view);
 
