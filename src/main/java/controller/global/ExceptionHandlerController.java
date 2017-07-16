@@ -64,8 +64,10 @@ public class ExceptionHandlerController {
 
             resultMap.put("success", false);
             if(StringUtils.contains(ex.getCause().getMessage(), "Duplicate")) {
-                ex.printStackTrace();
+
                 resultMap.put("msg", "添加重复");
+                logger.warn(getMsg(request, ex), ex);
+
             } else if(StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
                 //resultMap.put("msg", "请先删除关联表的所有数据");
                 resultMap.put("msg", "数据已在别的地方使用，不可以删除");
@@ -78,6 +80,7 @@ public class ExceptionHandlerController {
 
             resultMap.put("success", false);
             resultMap.put("msg", "数据异常：" + ex.getMessage());
+            logger.error(getMsg(request, ex), ex);
         }
 
         return resultMap;
@@ -87,14 +90,15 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
+        logger.error(getMsg(request, ex), ex);
+
         //ex.printStackTrace();
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.error(getMsg(request, ex), ex);
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", ex);
+            mv.addObject("exception", ex.getMessage());
             mv.setViewName("500");
             return mv;
         }
@@ -107,8 +111,6 @@ public class ExceptionHandlerController {
         view.setAttributesMap(attributes);
         mav.setView(view);
 
-        logger.error(getMsg(request, ex), ex);
-
         return mav;
     }
 
@@ -116,12 +118,13 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveUnauthorizedException(HttpServletRequest request, Exception ex) {
 
+        logger.warn(getMsg(request, ex), ex);
+
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.warn(getMsg(request, ex), ex);
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", ex);
+            mv.addObject("exception", "没有权限访问");
             mv.setViewName("unauthorized");
             return mv;
         }
@@ -129,12 +132,10 @@ public class ExceptionHandlerController {
         ModelAndView mav = new ModelAndView();
         //ex.printStackTrace();
 
-        logger.warn(getMsg(request, ex), ex);
-
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", "您没有权限");
+        attributes.put("msg", "没有权限访问");
         view.setAttributesMap(attributes);
         mav.setView(view);
 
@@ -151,9 +152,8 @@ public class ExceptionHandlerController {
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
-            logger.error(getMsg(request, ex), ex);
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", ex);
+            mv.addObject("exception", ex.getMessage());
             mv.setViewName("500");
             return mv;
         }

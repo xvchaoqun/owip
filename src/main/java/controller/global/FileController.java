@@ -52,7 +52,7 @@ public class FileController extends BaseController {
     @RequestMapping(value = "/attach/download")
     public void download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
 
-        if(!FileUtils.exists(springProps.uploadPath + path)){
+        if(!FileUtils.exists(springProps.uploadPath, path)){
             throw new RuntimeException("文件不存在："+ path);
         }
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
@@ -133,7 +133,7 @@ public class FileController extends BaseController {
 
         String imagepath = springProps.uploadPath + path;
 
-        if(FileUtils.exists(imagepath)) {
+        if(FileUtils.exists(springProps.uploadPath, path)) {
             BufferedImage bi = ImageIO.read(new File(imagepath));
             if(bi!=null) { // 不是图片则返回空
                 int srcWidth = bi.getWidth();      // 源图宽度

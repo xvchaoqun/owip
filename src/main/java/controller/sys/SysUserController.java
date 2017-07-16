@@ -5,6 +5,7 @@ import domain.sys.*;
 import domain.sys.SysUserExample.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.SysUserListMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -122,6 +123,8 @@ public class SysUserController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
+        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
+        sourceMixins.put(SysUserView.class, SysUserListMixin.class);
         JSONUtils.jsonp(resultMap);
         return;
     }

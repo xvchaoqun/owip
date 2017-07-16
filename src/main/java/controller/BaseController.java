@@ -1,6 +1,7 @@
 package controller;
 
 import domain.sys.SysUser;
+import domain.sys.SysUserView;
 import mixin.SysUserMixin;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -368,7 +369,7 @@ public class BaseController extends BaseMapper {
 
         Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
         sourceMixins.put(SysUser.class, SysUserMixin.class);
-
+        sourceMixins.put(SysUserView.class, SysUserMixin.class);
         return sourceMixins;
     }
 
