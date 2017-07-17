@@ -2,9 +2,15 @@ package controller.cis;
 
 import controller.BaseController;
 import domain.cadre.CadreView;
-import domain.cis.*;
+import domain.cis.CisInspectObj;
+import domain.cis.CisInspectObjView;
+import domain.cis.CisInspectObjViewExample;
+import domain.cis.CisInspectorView;
+import domain.cis.CisObjInspector;
+import domain.cis.CisObjInspectorExample;
 import domain.unit.Unit;
 import freemarker.template.TemplateException;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -30,7 +36,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Controller
 public class CisInspectObjController extends BaseController {
@@ -134,9 +147,9 @@ public class CisInspectObjController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(cisInspectObj.class, cisInspectObjMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cisInspectObj.class, cisInspectObjMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

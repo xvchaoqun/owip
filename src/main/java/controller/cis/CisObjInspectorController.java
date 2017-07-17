@@ -5,6 +5,7 @@ import domain.cis.CisInspectorView;
 import domain.cis.CisObjInspector;
 import domain.cis.CisObjInspectorExample;
 import domain.cis.CisObjInspectorExample.Criteria;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,7 +26,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class CisObjInspectorController extends BaseController {
@@ -110,9 +115,9 @@ public class CisObjInspectorController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(cisObjInspector.class, cisObjInspectorMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cisObjInspector.class, cisObjInspectorMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

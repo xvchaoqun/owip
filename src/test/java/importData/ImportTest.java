@@ -16,9 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.sys.SysUserMapper;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
-import sys.shiro.SaltPassword;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
+import sys.shiro.SaltPassword;
 import sys.utils.IdcardValidator;
 
 import java.io.File;

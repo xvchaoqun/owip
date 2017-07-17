@@ -192,25 +192,25 @@ public class CacheService extends BaseController{
         ObjectMapper mapper = JSONUtils.buildObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 
-        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
-        sourceMixins.put(MetaType.class, MetaTypeOptionMixin.class);
-        sourceMixins.put(Party.class, PartyOptionMixin.class);
-        sourceMixins.put(Branch.class, PartyOptionMixin.class);
-        //sourceMixins.put(Dispatch.class, OptionMixin.class);
-        //sourceMixins.put(DispatchUnit.class, OptionMixin.class);
-        sourceMixins.put(Unit.class, OptionMixin.class);
-        //sourceMixins.put(Cadre.class, OptionMixin.class);
-        sourceMixins.put(DispatchType.class, OptionMixin.class);
-        //sourceMixins.put(SafeBox.class, OptionMixin.class);
-        sourceMixins.put(ApproverType.class, OptionMixin.class);
-        sourceMixins.put(Location.class, OptionMixin.class);
-        //sourceMixins.put(Country.class, OptionMixin.class);
+        Map<Class<?>, Class<?>> baseMixins = new HashMap<>();
+        baseMixins.put(MetaType.class, MetaTypeOptionMixin.class);
+        baseMixins.put(Party.class, PartyOptionMixin.class);
+        baseMixins.put(Branch.class, PartyOptionMixin.class);
+        //baseMixins.put(Dispatch.class, OptionMixin.class);
+        //baseMixins.put(DispatchUnit.class, OptionMixin.class);
+        baseMixins.put(Unit.class, OptionMixin.class);
+        //baseMixins.put(Cadre.class, OptionMixin.class);
+        baseMixins.put(DispatchType.class, OptionMixin.class);
+        //baseMixins.put(SafeBox.class, OptionMixin.class);
+        baseMixins.put(ApproverType.class, OptionMixin.class);
+        baseMixins.put(Location.class, OptionMixin.class);
+        //baseMixins.put(Country.class, OptionMixin.class);
 
-        sourceMixins.put(TrainEvaTable.class, OptionMixin.class);
+        baseMixins.put(TrainEvaTable.class, OptionMixin.class);
 
-        sourceMixins.put(SysRole.class, OptionMixin.class);
+        baseMixins.put(SysRole.class, OptionMixin.class);
 
-        mapper.setMixIns(sourceMixins);
+        mapper.setMixIns(baseMixins);
 
         // 删除目前不需要的
         cMap.remove("dispatchMap");

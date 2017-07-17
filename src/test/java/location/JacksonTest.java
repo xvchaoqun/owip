@@ -35,9 +35,9 @@ public class JacksonTest {
         ObjectMapper mapper = JSONUtils.buildObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 
-        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
-        sourceMixins.put(MetaType.class, OptionMixin.class);
-        mapper.setMixIns(sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = new HashMap<>();
+        baseMixins.put(MetaType.class, OptionMixin.class);
+        mapper.setMixIns(baseMixins);
 
         Map cMap = new HashMap();
 

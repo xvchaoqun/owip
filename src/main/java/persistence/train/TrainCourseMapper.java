@@ -2,9 +2,10 @@ package persistence.train;
 
 import domain.train.TrainCourse;
 import domain.train.TrainCourseExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface TrainCourseMapper {
     int countByExample(TrainCourseExample example);

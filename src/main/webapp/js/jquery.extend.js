@@ -1,3 +1,140 @@
+/**
+ * 仅网页端调用
+ *
+ * */
+/*========jquery.validate.extend=====start===*/
+jQuery.extend(jQuery.validator.messages, {
+    required: "必填字段",
+    remote: "请修正该字段",
+    email: "请输入正确格式的电子邮件",
+    url: "请输入合法的网址",
+    date: "请输入合法的日期",
+    dateISO: "请输入合法的日期 (ISO).",
+    number: "请输入合法的数字",
+    digits: "只能输入整数",
+    creditcard: "请输入合法的信用卡号",
+    equalTo: "请再次输入相同的值",
+    accept: "请输入拥有合法后缀名的字符串",
+    maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+    minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+    rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+    range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+    max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+    min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});
+jQuery.validator.setDefaults({
+    /* errorElement: 'span',
+     errorClass: 'help-block',*/
+    focusInvalid: true,
+    ignore: '',
+    invalidHandler: function (event, validator) { //display error alert on form submit
+    },
+    highlight: function (e) {
+    },
+    success: function (errorElement) {
+        /* var id = errorElement.attr("id");
+         var fieldName = id.substr(0, id.length-6);
+         console.log(fieldName)
+         var $field = $("[name="+fieldName+"]", $("#modalForm"))
+         $("label:first", $field.closest(".form-group")).css("color", "")*/
+    },
+    /*success: function (e) {
+     //console.log(e)
+     //console.log(e.closest('.uploader').find(".help-block"))
+     $(e).closest('div.form-group').removeClass('has-error').addClass('has-success')
+
+     // 文件上传特殊处理
+     e.closest('.uploader').find(".help-block").remove();
+
+     $(e).removeClass('has-error').addClass('has-success')
+     $(e).parent().removeClass('has-error').addClass('has-success')
+     },*/
+    errorPlacement: function (error, element) {
+        if (error.html() != '') {
+            //$("label:first", element.closest(".form-group")).css("color", "red")
+            $.tip(element.closest("form"), element.attr("name"), error.text())
+        }
+    }
+    /*
+     errorPlacement: function (error, element) {
+
+     $(element).closest('div.form-group').removeClass('has-success')
+
+     if(error.html()!='') {
+     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
+     }
+
+     // 文件上传特殊处理
+     if(element.is(':file')){
+
+     //console.log(element)
+     var $uploaderdiv = element.closest('.uploader');
+     $uploaderdiv.removeClass('has-success');
+     error.appendTo($uploaderdiv)
+     return;
+     }
+
+     /!*if(element.parent().is('.input-group')){
+
+     error.insertAfter(element.parent().parent())
+     return;
+     }*!/
+
+     //console.log($(element).hasClass("date-picker")+"==================1111")
+     if(element.is(":checkbox")){
+     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
+     error.insertAfter(element.closest('div'));
+     }else if(element.is(":radio") ){
+     var parent = element.closest(".radio").parent();
+     parent.removeClass('has-success').addClass('has-error')
+     error.insertAfter(parent);
+     }else if(element.is("select") ){
+     //console.log("==================")
+     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
+     error.appendTo($(element).parent());
+     }else if($(element).hasClass("date-picker")){
+     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
+     error.insertAfter($(element).closest("div.input-group"));
+     }else {
+     //element.parent().remove('.has-success').addClass('has-error')
+     //error.insertAfter(element.parent());
+     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
+     error.insertAfter(element);
+     }
+     }*/
+})
+
+//中文字两个字节
+jQuery.validator.addMethod("byteRangeLength", function (value, element, param) {
+    var length = value.length;
+    for (var i = 0; i < value.length; i++) {
+        if (value.charCodeAt(i) > 127) {
+            length++;
+        }
+    }
+    return this.optional(element) || ( length >= param[0] && length <= param[1] );
+}, $.validator.format("请确保输入的值在{0}-{1}个字符之间(一个中文字算2个字符)"));
+
+//中文字两个字节
+jQuery.validator.addMethod("byteMaxLength", function (value, element, param) {
+    var length = value.length;
+    for (var i = 0; i < value.length; i++) {
+        if (value.charCodeAt(i) > 127) {
+            length++;
+        }
+    }
+
+    return this.optional(element) || ( length <= param);
+}, $.validator.format("输入长度最多是{0}的字符串(汉字算2个字符)"));
+
+// 邮政编码验证
+jQuery.validator.addMethod("isZipCode", function (value, element) {
+    var tel = /^[0-9]{6}$/;
+    return this.optional(element) || (tel.test(value));
+}, "请正确填写您的邮政编码");
+
+/*========jquery.validate.extend=====end===*/
+
 var SysMsg = {};
 SysMsg.error = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -76,6 +213,36 @@ SysMsg.confirm = function (msg, title, callback) {
 
 (function ($) {
     $.extend({
+        tip: function ($form, fieldName, popMsg) {
+
+            var $field = $("[name="+ fieldName +"]", $form);
+            if($field.closest(".input-group").length>0){
+                $field = $field.closest(".input-group")
+            }else if($field.is('[data-rel="select2"]')
+                || $field.is('[data-rel="select2-ajax"]')
+                || $field.hasClass("select2-hidden-accessible")){
+                $field = $field.closest("div").find(".select2-container");
+            }else if($field.closest(".ace-file-input").length>0){
+                $field = $field.closest(".ace-file-input")
+            }else if($field.is(":radio")){
+                $field = $field.closest("div")
+            }
+            var $container = $form;
+            if($form.closest("#modal").length>0){
+                $container = $form.closest("#modal");
+            }
+            $field.qtip({
+                content: popMsg,
+                show: true, hide: {
+                    event: 'unfocus',
+                    inactive: 1000
+                }, position: {
+                    container: $container,
+                    my: $field.data("my") || 'left center',
+                    at: $field.data("at") || 'right center'
+                }
+            });
+        },
         getEvent: function () {
             return window.event || arguments.callee.caller.arguments[0];
         },

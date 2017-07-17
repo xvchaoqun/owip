@@ -2,7 +2,15 @@ package service.cadre;
 
 import bean.CadreInfoForm;
 import domain.base.MetaType;
-import domain.cadre.*;
+import domain.cadre.CadreCompany;
+import domain.cadre.CadreCompanyExample;
+import domain.cadre.CadreEdu;
+import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamliyAbroad;
+import domain.cadre.CadreFamliyAbroadExample;
+import domain.cadre.CadreFamliyExample;
+import domain.cadre.CadreInfo;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;

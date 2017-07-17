@@ -1,16 +1,13 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -31,7 +28,12 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class CadrePostController extends BaseController {
@@ -94,10 +96,10 @@ public class CadrePostController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(Party.class, PartyMixin.class);
-        //JSONUtils.write(response, resultMap, sourceMixins);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, baseMixins);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
 
     }

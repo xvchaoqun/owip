@@ -1,29 +1,19 @@
 package service.abroad;
 
-import bean.ShortMsgBean;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.base.MetaType;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import shiro.ShiroHelper;
 import service.base.ShortMsgService;
-import shiro.ShiroUser;
 import sys.constants.SystemConstants;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
-import sys.utils.RequestUtils;
+import sys.tags.CmTag;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.Map;
 
 @Service
 public class PassportApplyService extends BaseMapper {

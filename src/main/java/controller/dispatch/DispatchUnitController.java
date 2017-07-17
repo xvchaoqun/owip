@@ -1,11 +1,16 @@
 package controller.dispatch;
 
 import controller.BaseController;
-import domain.dispatch.*;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchUnit;
+import domain.dispatch.DispatchUnitExample;
 import domain.dispatch.DispatchUnitExample.Criteria;
+import domain.dispatch.DispatchUnitRelate;
+import domain.dispatch.DispatchUnitRelateExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.DispatchMixin;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -28,7 +33,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DispatchUnitController extends BaseController {
@@ -93,9 +102,9 @@ public class DispatchUnitController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(Dispatch.class, DispatchMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        baseMixins.put(Dispatch.class, DispatchMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

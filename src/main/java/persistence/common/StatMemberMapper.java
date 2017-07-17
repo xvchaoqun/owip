@@ -3,12 +3,9 @@ package persistence.common;
 import bean.analysis.MemberStatByPartyBean;
 import bean.analysis.StatByteBean;
 import bean.analysis.StatIntBean;
-import domain.sys.SysOnlineStatic;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by fafa on 2016/8/1.

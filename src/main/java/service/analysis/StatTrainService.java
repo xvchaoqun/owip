@@ -1,15 +1,24 @@
 package service.analysis;
 
 import bean.analysis.StatTrainBean;
-import domain.train.*;
+import domain.train.TrainCourse;
+import domain.train.TrainEvaNorm;
+import domain.train.TrainEvaRank;
+import domain.train.TrainEvaResult;
+import domain.train.TrainEvaResultExample;
+import domain.train.TrainEvaTable;
+import domain.train.TrainInspectorCourse;
+import domain.train.TrainInspectorCourseExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +30,11 @@ import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fafa on 2017/3/2.

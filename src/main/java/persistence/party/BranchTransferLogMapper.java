@@ -2,9 +2,10 @@ package persistence.party;
 
 import domain.party.BranchTransferLog;
 import domain.party.BranchTransferLogExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface BranchTransferLogMapper {
     int countByExample(BranchTransferLogExample example);

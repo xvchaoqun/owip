@@ -1,10 +1,19 @@
 package persistence.common;
 
-import bean.*;
+import bean.ApplySelfModifyBean;
+import bean.ApplySelfSearchBean;
+import bean.PassportStatByClassBean;
+import bean.PassportStatByLentBean;
+import bean.PassportStatByPostBean;
+import bean.SafeBoxBean;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.SystemConstants;
 

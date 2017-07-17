@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.Feedback;
 import domain.sys.FeedbackExample;
 import domain.sys.FeedbackExample.Criteria;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -91,9 +92,9 @@ public class FeedbackController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(feedback.class, feedbackMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(feedback.class, feedbackMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

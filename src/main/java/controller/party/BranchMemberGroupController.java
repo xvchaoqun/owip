@@ -3,10 +3,18 @@ package controller.party;
 import controller.BaseController;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
-import domain.party.*;
+import domain.party.Branch;
+import domain.party.BranchMember;
+import domain.party.BranchMemberExample;
+import domain.party.BranchMemberGroup;
+import domain.party.BranchMemberGroupExample;
 import domain.party.BranchMemberGroupExample.Criteria;
+import domain.party.BranchMemberGroupView;
+import domain.party.BranchMemberGroupViewExample;
+import domain.party.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -33,7 +41,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BranchMemberGroupController extends BaseController {
@@ -138,8 +150,8 @@ public class BranchMemberGroupController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

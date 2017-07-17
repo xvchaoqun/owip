@@ -2,9 +2,10 @@ package persistence.ext;
 
 import domain.ext.ExtJzg;
 import domain.ext.ExtJzgExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ExtJzgMapper {
     int countByExample(ExtJzgExample example);

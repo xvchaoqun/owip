@@ -1,10 +1,6 @@
 package controller.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.cadre.CadreCourse;
-import domain.cadre.CadreCourseExample;
-import domain.cadre.CadreCourseExample.Criteria;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
@@ -14,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sys.shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-
-import java.util.List;
+import sys.shiro.CurrentUser;
 
 @Controller
 public class ModifyCadreCourseController extends BaseController {

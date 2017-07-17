@@ -1,6 +1,5 @@
 package domain.cadreReserve;
 
-import domain.base.MetaType;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
@@ -13,7 +12,6 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class CadreReserveView implements Serializable {
     public SysUserView getUser(){

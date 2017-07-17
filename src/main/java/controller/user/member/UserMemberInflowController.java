@@ -1,8 +1,8 @@
 package controller.user.member;
 
 import controller.BaseController;
-import domain.party.Branch;
 import domain.member.MemberInflow;
+import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -13,8 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;

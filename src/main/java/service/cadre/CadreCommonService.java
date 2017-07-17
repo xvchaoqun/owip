@@ -2,10 +2,14 @@ package service.cadre;
 
 import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
-import domain.cadre.*;
+import domain.base.MetaType;
+import domain.cadre.Cadre;
+import domain.cadre.CadreAdditionalPost;
+import domain.cadre.CadreAdditionalPostExample;
+import domain.cadre.CadreExample;
+import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
-import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
@@ -14,16 +18,22 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.abroad.ApproverBlackListService;
 import service.abroad.ApproverTypeService;
+import service.base.MetaTypeService;
 import service.cadreReserve.CadreReserveService;
 import service.dispatch.DispatchService;
-import service.base.MetaTypeService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by fafa on 2016/12/24.

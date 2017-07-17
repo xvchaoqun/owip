@@ -1,44 +1,146 @@
 package controller;
 
-import domain.sys.SysUser;
-import domain.sys.SysUserView;
-import mixin.SysUserMixin;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.SpringProps;
-import service.abroad.*;
+import service.abroad.ApplicatTypeService;
+import service.abroad.ApplySelfService;
+import service.abroad.ApprovalLogService;
+import service.abroad.ApprovalOrderService;
+import service.abroad.ApproverBlackListService;
+import service.abroad.ApproverService;
+import service.abroad.ApproverTypeService;
+import service.abroad.PassportApplyService;
+import service.abroad.PassportDrawService;
+import service.abroad.PassportService;
+import service.abroad.SafeBoxService;
 import service.analysis.StatCadreService;
 import service.analysis.StatPartyMemberService;
 import service.analysis.StatService;
 import service.analysis.StatTrainService;
-import service.base.*;
-import service.cadre.*;
+import service.base.ContentTplService;
+import service.base.CountryService;
+import service.base.LocationService;
+import service.base.MetaClassService;
+import service.base.MetaTypeService;
+import service.base.ShortMsgService;
+import service.base.ShortMsgTplService;
+import service.base.SitemapService;
+import service.cadre.CadreAdditionalPostService;
+import service.cadre.CadreAdminLevelService;
+import service.cadre.CadreBookService;
+import service.cadre.CadreCommonService;
+import service.cadre.CadreCompanyService;
+import service.cadre.CadreCourseService;
+import service.cadre.CadreEduService;
+import service.cadre.CadreExportService;
+import service.cadre.CadreFamliyAbroadService;
+import service.cadre.CadreFamliyService;
+import service.cadre.CadreInfoService;
+import service.cadre.CadreLeaderService;
+import service.cadre.CadreLeaderUnitService;
+import service.cadre.CadrePaperService;
+import service.cadre.CadreParttimeService;
+import service.cadre.CadrePostAdminService;
+import service.cadre.CadrePostProService;
+import service.cadre.CadrePostService;
+import service.cadre.CadrePostWorkService;
+import service.cadre.CadreReportService;
+import service.cadre.CadreResearchService;
+import service.cadre.CadreRewardService;
+import service.cadre.CadreService;
+import service.cadre.CadreStatHistoryService;
+import service.cadre.CadreTrainService;
+import service.cadre.CadreTutorService;
+import service.cadre.CadreUnderEduService;
+import service.cadre.CadreWorkService;
 import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
-import service.cis.*;
+import service.cis.CisEvaluateService;
+import service.cis.CisInspectObjService;
+import service.cis.CisInspectorService;
+import service.cis.CisObjInspectorService;
+import service.cis.CisObjUnitService;
 import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
-import service.dispatch.*;
+import service.dispatch.DispatchCadreRelateService;
+import service.dispatch.DispatchCadreService;
+import service.dispatch.DispatchService;
+import service.dispatch.DispatchTypeService;
+import service.dispatch.DispatchUnitRelateService;
+import service.dispatch.DispatchUnitService;
+import service.dispatch.DispatchWorkFileService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.global.CacheService;
-import service.member.*;
+import service.member.ApplyApprovalLogService;
+import service.member.ApplyOpenTimeService;
+import service.member.MemberAbroadService;
+import service.member.MemberApplyService;
+import service.member.MemberInService;
+import service.member.MemberInflowOutService;
+import service.member.MemberInflowService;
+import service.member.MemberOutService;
+import service.member.MemberOutflowService;
+import service.member.MemberQuitService;
+import service.member.MemberReturnService;
+import service.member.MemberService;
+import service.member.MemberStayService;
+import service.member.MemberStudentService;
+import service.member.MemberTeacherService;
+import service.member.MemberTransferService;
 import service.modify.ModifyBaseApplyService;
 import service.modify.ModifyBaseItemService;
 import service.modify.ModifyCadreAuthService;
 import service.modify.ModifyTableApplyService;
-import service.party.*;
+import service.party.BranchMemberAdminService;
+import service.party.BranchMemberGroupService;
+import service.party.BranchMemberService;
+import service.party.BranchService;
+import service.party.EnterApplyService;
+import service.party.OrgAdminService;
+import service.party.PartyMemberAdminService;
+import service.party.PartyMemberGroupService;
+import service.party.PartyMemberService;
+import service.party.PartyService;
+import service.party.RetireApplyService;
 import service.recruit.RecruitPostService;
 import service.recruit.RecruitTemplateService;
-import service.sys.*;
-import service.train.*;
-import service.unit.*;
+import service.sys.AttachFileService;
+import service.sys.AvatarService;
+import service.sys.FeedbackService;
+import service.sys.HtmlFragmentService;
+import service.sys.LogService;
+import service.sys.StudentInfoService;
+import service.sys.SysApprovalLogService;
+import service.sys.SysLoginLogService;
+import service.sys.SysResourceService;
+import service.sys.SysRoleService;
+import service.sys.SysUserRegService;
+import service.sys.SysUserService;
+import service.sys.SysUserSyncService;
+import service.sys.TeacherInfoService;
+import service.sys.UserBeanService;
+import service.train.TrainCourseService;
+import service.train.TrainEvaNormService;
+import service.train.TrainEvaRankService;
+import service.train.TrainEvaTableService;
+import service.train.TrainInspectorCourseService;
+import service.train.TrainInspectorService;
+import service.train.TrainService;
+import service.unit.HistoryUnitService;
+import service.unit.UnitAdminGroupService;
+import service.unit.UnitAdminService;
+import service.unit.UnitCadreTransferGroupService;
+import service.unit.UnitCadreTransferService;
+import service.unit.UnitService;
+import service.unit.UnitTransferService;
 import service.verify.VerifyAgeService;
 import service.verify.VerifyWorkTimeService;
 import shiro.PasswordHelper;
@@ -365,14 +467,6 @@ public class BaseController extends BaseMapper {
                 springProps.uploadPath + swfPath, springProps.swfToolsLanguagedir);
     }
 
-    public Map<Class<?>, Class<?>> sourceMixins() {
-
-        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
-        sourceMixins.put(SysUser.class, SysUserMixin.class);
-        sourceMixins.put(SysUserView.class, SysUserMixin.class);
-        return sourceMixins;
-    }
-
     // 未登录操作日志
     public String addLog(Integer userId, String username, String logType, String content, Object... params) {
 
@@ -401,6 +495,15 @@ public class BaseController extends BaseMapper {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("success", true);
         resultMap.put("msg", StringUtils.defaultIfBlank(msg, "success"));
+        return resultMap;
+    }
+    public static Map<String, Object> formValidError(String fieldName, String msg) {
+
+        Map<String, Object> resultMap = success(msg);
+        resultMap.put("success", true);
+        resultMap.put("error", true);
+        resultMap.put("field", fieldName);
+
         return resultMap;
     }
 

@@ -2,9 +2,10 @@ package persistence.base;
 
 import domain.base.SitemapRole;
 import domain.base.SitemapRoleExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface SitemapRoleMapper {
     int countByExample(SitemapRoleExample example);

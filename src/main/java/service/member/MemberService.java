@@ -1,6 +1,17 @@
 package service.member;
 
-import domain.member.*;
+import domain.member.Member;
+import domain.member.MemberExample;
+import domain.member.MemberModify;
+import domain.member.MemberModifyExample;
+import domain.member.MemberOut;
+import domain.member.MemberOutExample;
+import domain.member.MemberOutflow;
+import domain.member.MemberOutflowExample;
+import domain.member.MemberStay;
+import domain.member.MemberStayExample;
+import domain.member.MemberTransfer;
+import domain.member.MemberTransferExample;
 import domain.party.Branch;
 import domain.party.EnterApply;
 import domain.sys.SysUserView;

@@ -1,4 +1,3 @@
-<%@ page import="sys.constants.SystemConstants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
@@ -256,7 +255,7 @@
         $('#modalForm [data-rel="select2"]').select2();
         register_date($('.date-picker'));
 
-        $("form").validate({
+        var jqValid = $("form").validate({
           submitHandler: function (form) {
             /*alert($("#branchDiv").is(":hidden"))
             alert($.trim($('select[name=branchId]').val()))
@@ -294,10 +293,12 @@
         });
 
         $('#modalForm select[name=politicalStatus]').change(function(){
+          var $input = $("#modalForm  input[name=_positiveTime]");
           if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
-            $("#modalForm  input[name=_positiveTime]").attr("required", "required").valid();
+            $input.attr("required", "required");
           }else {
-            $("#modalForm  input[name=_positiveTime]").removeAttr("required").valid()
+            $input.removeAttr("required");
           }
+          jqValid.element($input);
         }).change();
 </script>

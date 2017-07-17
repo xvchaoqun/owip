@@ -698,7 +698,7 @@
               <include>extend/js/jquery.dynatree.min.js</include>
               <include>extend/js/jquery.validate.min.js</include>
               <include>extend/js/additional-methods.min.js</include>
-              <include>extend/js/jquery.validate.extend.js</include>
+              <!--<include>extend/js/jquery.validate.extend.js</include>-->
               <include>extend/js/jquery.qtip.extend.js</include>
               <include>extend/js/jquery.showLoading.min.js</include>
               <include>extend/js/underscore.js</include>

@@ -1,11 +1,18 @@
 package controller.party;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.ext.ExtJzg;
 import domain.member.Member;
-import domain.party.*;
+import domain.party.Branch;
+import domain.party.BranchExample;
 import domain.party.BranchExample.Criteria;
-import domain.base.MetaType;
+import domain.party.BranchMember;
+import domain.party.BranchMemberExample;
+import domain.party.BranchMemberGroup;
+import domain.party.BranchView;
+import domain.party.BranchViewExample;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -24,21 +31,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.utils.ExportHelper;
-import sys.shiro.CurrentUser;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class BranchController extends BaseController {

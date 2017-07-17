@@ -1,6 +1,5 @@
 package controller.global;
 
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.subject.PrincipalCollection;

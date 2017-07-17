@@ -1,8 +1,11 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.*;
+import domain.cadre.CadrePostWork;
+import domain.cadre.CadrePostWorkExample;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -71,9 +74,9 @@ public class CadrePostWorkController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(Party.class, PartyMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

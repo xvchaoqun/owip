@@ -2,9 +2,10 @@ package persistence.party;
 
 import domain.party.OrgAdmin;
 import domain.party.OrgAdminExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface OrgAdminMapper {
     int countByExample(OrgAdminExample example);

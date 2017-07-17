@@ -3,7 +3,12 @@ package service.cadre;
 import bean.XlsCadre;
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
-import domain.cadre.*;
+import domain.cadre.Cadre;
+import domain.cadre.CadreExample;
+import domain.cadre.CadreParty;
+import domain.cadre.CadrePartyExample;
+import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
@@ -25,7 +30,12 @@ import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CadreService extends BaseMapper {

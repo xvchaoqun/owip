@@ -1,6 +1,5 @@
 package bean;
 
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 
 import java.util.List;

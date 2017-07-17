@@ -7,6 +7,7 @@ import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreRewardExample.Criteria;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,13 +28,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.MSUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class CadreRewardController extends BaseController {
@@ -106,10 +116,10 @@ public class CadreRewardController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(Party.class, PartyMixin.class);
-        //JSONUtils.write(response, resultMap, sourceMixins);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, baseMixins);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

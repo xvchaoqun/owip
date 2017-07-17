@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

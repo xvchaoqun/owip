@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.cadre.CadreService;
-import service.party.BranchService;
 import service.member.MemberService;
+import service.party.BranchService;
 import service.party.PartyService;
 
 import java.util.Map;

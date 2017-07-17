@@ -1,7 +1,11 @@
 package service.party;
 
-import domain.party.*;
-import domain.sys.SysUser;
+import domain.party.Branch;
+import domain.party.BranchMember;
+import domain.party.BranchMemberExample;
+import domain.party.BranchMemberGroup;
+import domain.party.BranchMemberGroupExample;
+import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;

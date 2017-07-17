@@ -2,9 +2,10 @@ package persistence.base;
 
 import domain.base.ShortMsgTpl;
 import domain.base.ShortMsgTplExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ShortMsgTplMapper {
     int countByExample(ShortMsgTplExample example);

@@ -1,16 +1,9 @@
 package domain.cadre;
 
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
-import domain.base.MetaType;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class Cadre implements Serializable {
     public SysUserView getUser(){

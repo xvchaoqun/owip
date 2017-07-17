@@ -2,9 +2,10 @@ package persistence.sys;
 
 import domain.sys.SysUserReg;
 import domain.sys.SysUserRegExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface SysUserRegMapper {
     int countByExample(SysUserRegExample example);

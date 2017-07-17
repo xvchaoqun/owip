@@ -2,9 +2,10 @@ package persistence.cpc;
 
 import domain.cpc.CpcAllocation;
 import domain.cpc.CpcAllocationExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CpcAllocationMapper {
     long countByExample(CpcAllocationExample example);

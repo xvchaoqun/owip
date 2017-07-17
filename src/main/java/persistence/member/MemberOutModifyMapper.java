@@ -2,9 +2,10 @@ package persistence.member;
 
 import domain.member.MemberOutModify;
 import domain.member.MemberOutModifyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface MemberOutModifyMapper {
     int countByExample(MemberOutModifyExample example);

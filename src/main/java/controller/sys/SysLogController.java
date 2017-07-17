@@ -5,6 +5,7 @@ import controller.BaseController;
 import domain.sys.SysLog;
 import domain.sys.SysLogExample;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,8 +16,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.Escape;
 import sys.utils.FormUtils;
@@ -92,8 +93,8 @@ public class SysLogController extends BaseController {
 		resultMap.put("page", pageNo);
 		resultMap.put("total", commonList.pageNum);
 
-		Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-		JSONUtils.jsonp(resultMap, sourceMixins);
+		Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+		JSONUtils.jsonp(resultMap, baseMixins);
 		return;
 	}
 

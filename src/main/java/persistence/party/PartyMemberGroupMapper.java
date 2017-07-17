@@ -2,9 +2,10 @@ package persistence.party;
 
 import domain.party.PartyMemberGroup;
 import domain.party.PartyMemberGroupExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PartyMemberGroupMapper {
     int countByExample(PartyMemberGroupExample example);

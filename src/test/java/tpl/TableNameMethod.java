@@ -1,11 +1,11 @@
 package tpl;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
+
+import java.util.List;
 
 public class TableNameMethod implements TemplateMethodModelEx {
 

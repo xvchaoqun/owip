@@ -15,7 +15,11 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import shiro.ShiroUser;
-import sys.utils.*;
+import sys.utils.FormUtils;
+import sys.utils.HttpUtils;
+import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
+import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
@@ -91,14 +95,14 @@ public class ExceptionHandlerController {
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
         logger.error(getMsg(request, ex), ex);
-
+        String msg = (ex instanceof FileNotFoundException)?"系统异常，请稍后重试":"文件不存在";
         //ex.printStackTrace();
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
 
             //ex.printStackTrace();
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", "系统异常，请稍后重试");
+            mv.addObject("exception", msg);
             mv.setViewName("500");
             return mv;
         }
@@ -107,7 +111,7 @@ public class ExceptionHandlerController {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         Map attributes = new HashMap();
         attributes.put("success", false);
-        attributes.put("msg", "系统异常，请稍后重试");
+        attributes.put("msg", msg);
         view.setAttributesMap(attributes);
         mav.setView(view);
 

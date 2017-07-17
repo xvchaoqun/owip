@@ -2,9 +2,7 @@ package controller.mobile.abroad;
 
 import bean.ApproverTypeBean;
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.SavedRequest;
@@ -15,10 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.shiro.AuthToken;
-import sys.shiro.CurrentUser;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.shiro.AuthToken;
+import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;

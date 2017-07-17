@@ -2,9 +2,10 @@ package persistence.party;
 
 import domain.party.Party;
 import domain.party.PartyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PartyMapper {
     int countByExample(PartyExample example);

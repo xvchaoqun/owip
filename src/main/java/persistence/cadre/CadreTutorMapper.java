@@ -2,9 +2,10 @@ package persistence.cadre;
 
 import domain.cadre.CadreTutor;
 import domain.cadre.CadreTutorExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreTutorMapper {
     int countByExample(CadreTutorExample example);

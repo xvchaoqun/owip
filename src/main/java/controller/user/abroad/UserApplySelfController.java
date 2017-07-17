@@ -2,11 +2,17 @@ package controller.user.abroad;
 
 import bean.ApprovalResult;
 import controller.BaseController;
-import domain.abroad.*;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfExample.Criteria;
+import domain.abroad.ApplySelfFile;
+import domain.abroad.ApplySelfFileExample;
+import domain.abroad.ApprovalLogExample;
+import domain.abroad.PassportDrawExample;
 import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -21,19 +27,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -155,8 +170,8 @@ public class UserApplySelfController extends BaseController {
 
         request.setAttribute("isView", false);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
     }
 
     @RequiresRoles(SystemConstants.ROLE_CADRE)

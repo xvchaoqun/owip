@@ -1,7 +1,5 @@
 package importData;
 
-import bean.ColumnBean;
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,11 @@ import shiro.PasswordHelper;
 import sys.shiro.SaltPassword;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by fafa on 2016/12/26.

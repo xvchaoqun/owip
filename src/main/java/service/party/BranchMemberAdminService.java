@@ -2,8 +2,6 @@ package service.party;
 
 import domain.party.BranchMember;
 import domain.party.BranchMemberGroup;
-
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

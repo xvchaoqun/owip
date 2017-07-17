@@ -2,9 +2,10 @@ package persistence.verify;
 
 import domain.verify.VerifyAge;
 import domain.verify.VerifyAgeExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface VerifyAgeMapper {
     int countByExample(VerifyAgeExample example);

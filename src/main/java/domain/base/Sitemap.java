@@ -1,7 +1,5 @@
 package domain.base;
 
-import domain.sys.SysRole;
-
 import java.io.Serializable;
 import java.util.List;
 

@@ -7,7 +7,6 @@ import domain.train.TrainInspectorExample;
 import domain.train.TrainInspectorExample.Criteria;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.SecurityUtils;

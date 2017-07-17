@@ -5,6 +5,7 @@ import domain.cadre.CadreReport;
 import domain.cadre.CadreReportExample;
 import domain.cadre.CadreReportExample.Criteria;
 import domain.cadre.CadreView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -89,9 +90,9 @@ public class CadreReportController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(cadreReport.class, cadreReportMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cadreReport.class, cadreReportMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

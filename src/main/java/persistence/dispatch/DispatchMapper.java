@@ -2,9 +2,10 @@ package persistence.dispatch;
 
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface DispatchMapper {
     int countByExample(DispatchExample example);

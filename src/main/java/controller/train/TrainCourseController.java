@@ -8,6 +8,7 @@ import domain.train.TrainCourse;
 import domain.train.TrainCourseExample;
 import domain.train.TrainCourseExample.Criteria;
 import domain.train.TrainEvaTable;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -37,7 +38,12 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TrainCourseController extends BaseController {
@@ -99,9 +105,9 @@ public class TrainCourseController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(trainCourse.class, trainCourseMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(trainCourse.class, trainCourseMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

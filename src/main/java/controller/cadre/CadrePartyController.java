@@ -6,6 +6,7 @@ import domain.cadre.CadrePartyExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -107,9 +108,9 @@ public class CadrePartyController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(CadreView.class, CadreMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(CadreView.class, CadreMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

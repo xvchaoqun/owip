@@ -1,7 +1,11 @@
 package service.party;
 
-import domain.party.*;
 import domain.base.MetaType;
+import domain.party.Branch;
+import domain.party.BranchMember;
+import domain.party.BranchMemberExample;
+import domain.party.BranchMemberGroup;
+import domain.party.OrgAdmin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;

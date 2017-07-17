@@ -2,13 +2,9 @@ package shiro;
 
 import bean.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import domain.cadre.Cadre;
-import domain.base.MetaType;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 /**

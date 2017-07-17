@@ -2,9 +2,10 @@ package persistence.verify;
 
 import domain.verify.VerifyWorkTime;
 import domain.verify.VerifyWorkTimeExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface VerifyWorkTimeMapper {
     int countByExample(VerifyWorkTimeExample example);

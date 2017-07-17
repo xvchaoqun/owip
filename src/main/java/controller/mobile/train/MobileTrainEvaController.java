@@ -2,7 +2,12 @@ package controller.mobile.train;
 
 import bean.TrainTempData;
 import controller.BaseController;
-import domain.train.*;
+import domain.train.TrainCourse;
+import domain.train.TrainEvaNorm;
+import domain.train.TrainEvaResult;
+import domain.train.TrainEvaTable;
+import domain.train.TrainInspector;
+import domain.train.TrainInspectorCourse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

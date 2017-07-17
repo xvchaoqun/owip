@@ -2,7 +2,6 @@ package controller.api;
 
 import controller.BaseController;
 import domain.member.Member;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import interceptor.NeedSign;
 import interceptor.SignParam;

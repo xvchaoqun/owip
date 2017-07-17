@@ -1,7 +1,19 @@
 package service.sys;
 
-import domain.ext.*;
-import domain.sys.*;
+import domain.ext.ExtAbroadExample;
+import domain.ext.ExtBks;
+import domain.ext.ExtBksExample;
+import domain.ext.ExtJzg;
+import domain.ext.ExtJzgExample;
+import domain.ext.ExtYjs;
+import domain.ext.ExtYjsExample;
+import domain.sys.StudentInfo;
+import domain.sys.SysUser;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserSync;
+import domain.sys.SysUserSyncExample;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -18,9 +30,9 @@ import service.source.ExtBksImport;
 import service.source.ExtJzgImport;
 import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
-import sys.shiro.SaltPassword;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.shiro.SaltPassword;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;

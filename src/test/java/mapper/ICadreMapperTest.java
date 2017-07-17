@@ -5,15 +5,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import persistence.common.CommonMapper;
 import persistence.common.IAbroadMapper;
 import persistence.common.ICadreMapper;
 import sys.constants.SystemConstants;
-import sys.service.ApplicationContextSupport;
-import sys.tags.CmTag;
 
 import java.util.List;
 

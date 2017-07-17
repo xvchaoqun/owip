@@ -2,7 +2,6 @@ package controller.global;
 
 import bean.AvatarImportResult;
 import controller.BaseController;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.SystemConstants;
 import sys.utils.FileUtils;
 import sys.utils.ImageUtils;
-import sys.utils.PatternUtils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;

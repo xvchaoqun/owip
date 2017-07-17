@@ -2,9 +2,10 @@ package persistence.cadreInspect;
 
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreInspectMapper {
     int countByExample(CadreInspectExample example);

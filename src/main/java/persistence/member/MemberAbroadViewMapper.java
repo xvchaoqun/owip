@@ -2,9 +2,10 @@ package persistence.member;
 
 import domain.member.MemberAbroadView;
 import domain.member.MemberAbroadViewExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface MemberAbroadViewMapper {
     int countByExample(MemberAbroadViewExample example);

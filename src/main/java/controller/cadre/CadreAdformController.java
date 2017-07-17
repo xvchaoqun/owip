@@ -1,8 +1,6 @@
 package controller.cadre;
 
-import bean.CadreAdform;
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

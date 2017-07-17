@@ -1,28 +1,17 @@
 package controller.user.modify;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
-import domain.ext.ExtJzg;
-import domain.modify.ModifyBaseApply;
-import domain.sys.SysUserView;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Map;
 
 @Controller

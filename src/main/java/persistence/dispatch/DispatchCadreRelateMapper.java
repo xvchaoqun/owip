@@ -2,9 +2,10 @@ package persistence.dispatch;
 
 import domain.dispatch.DispatchCadreRelate;
 import domain.dispatch.DispatchCadreRelateExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface DispatchCadreRelateMapper {
     int countByExample(DispatchCadreRelateExample example);

@@ -2,9 +2,10 @@ package persistence.sys;
 
 import domain.sys.SysLog;
 import domain.sys.SysLogExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface SysLogMapper {
     int countByExample(SysLogExample example);

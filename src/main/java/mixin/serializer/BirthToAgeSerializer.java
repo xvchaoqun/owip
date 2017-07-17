@@ -3,8 +3,6 @@ package mixin.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.apache.commons.lang.StringUtils;
-import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.IOException;

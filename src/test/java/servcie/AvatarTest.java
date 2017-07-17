@@ -1,8 +1,6 @@
 package servcie;
 
 import bean.AvatarImportResult;
-import domain.sys.SysUser;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.SpringProps;
 import service.sys.AvatarService;
-import service.sys.SysUserService;
-import sys.utils.FileUtils;
-import sys.utils.PatternUtils;
 
 import java.io.File;
 

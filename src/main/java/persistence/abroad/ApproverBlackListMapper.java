@@ -2,9 +2,10 @@ package persistence.abroad;
 
 import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverBlackListExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ApproverBlackListMapper {
     int countByExample(ApproverBlackListExample example);

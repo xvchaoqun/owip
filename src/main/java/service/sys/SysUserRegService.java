@@ -1,6 +1,11 @@
 package service.sys;
 
-import domain.sys.*;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserReg;
+import domain.sys.SysUserRegExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -13,12 +18,11 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.LoginUserService;
 import shiro.PasswordHelper;
-import sys.shiro.SaltPassword;
 import sys.constants.SystemConstants;
+import sys.shiro.SaltPassword;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 

@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
 import service.sys.SysLoginLogService;
-import sys.shiro.AuthToken;
-import sys.shiro.IncorrectCaptchaException;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.shiro.AuthToken;
+import sys.shiro.IncorrectCaptchaException;
 import sys.utils.HttpUtils;
 import sys.utils.JSONUtils;
 

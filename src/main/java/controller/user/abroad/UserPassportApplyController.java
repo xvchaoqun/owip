@@ -1,7 +1,6 @@
 package controller.user.abroad;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.cadre.CadreView;
@@ -20,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.shiro.CurrentUser;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
-import sys.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;

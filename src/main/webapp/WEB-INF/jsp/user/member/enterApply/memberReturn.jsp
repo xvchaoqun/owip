@@ -181,7 +181,7 @@
       <script>
         register_date($('.date-picker'), {endDate:'${today}'});
         $('#modalForm [data-rel="select2"]').select2();
-        $("form").validate({
+        var jqValid = $("form").validate({
           submitHandler: function (form) {
             if(!$("#party").is(":hidden")){
               if($('select[name=partyId]').val()=='') {
@@ -214,11 +214,12 @@
         $('#modalForm select[name=politicalStatus]').change(function(){
           var $input = $("#modalForm  input[name=_positiveTime]");
           if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
-            $input.closest(".form-group").addClass("has-error");
-            $input.attr("required", "required").valid();
+            //$input.closest(".form-group").addClass("has-error");
+            $input.attr("required", "required");
           }else {
-            $input.closest(".form-group").removeClass("has-error");
-            $input.removeAttr("required").valid();
+            //$input.closest(".form-group").removeClass("has-error");
+            $input.removeAttr("required");
           }
+          jqValid.element($input);
         }).change();
       </script>

@@ -7,7 +7,13 @@ import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
 import domain.party.EnterApply;
-import domain.sys.*;
+import domain.sys.SysResource;
+import domain.sys.SysRole;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
+import domain.sys.SysUserViewExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +33,11 @@ import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class SysUserService extends BaseMapper {

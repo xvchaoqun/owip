@@ -2,9 +2,10 @@ package persistence.cadre;
 
 import domain.cadre.CadreAdLog;
 import domain.cadre.CadreAdLogExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreAdLogMapper {
     long countByExample(CadreAdLogExample example);

@@ -2,8 +2,9 @@ package persistence.member;
 
 import domain.member.MemberStudent;
 import domain.member.MemberStudentExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface MemberStudentMapper {
     long countByExample(MemberStudentExample example);

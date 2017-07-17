@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.DBOperator;
 import service.SpringProps;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**

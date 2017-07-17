@@ -1,15 +1,14 @@
 package controller.mobile.abroad;
 
 import controller.BaseController;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 
 import javax.servlet.http.HttpServletResponse;

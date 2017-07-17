@@ -2,9 +2,10 @@ package persistence.cadre;
 
 import domain.cadre.CadreBook;
 import domain.cadre.CadreBookExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreBookMapper {
     int countByExample(CadreBookExample example);

@@ -1,8 +1,18 @@
 package controller.member;
 
 import controller.BaseController;
-import domain.member.*;
+import domain.member.ApplyApprovalLog;
+import domain.member.ApplyApprovalLogExample;
+import domain.member.MemberAbroad;
+import domain.member.MemberApply;
+import domain.member.MemberIn;
+import domain.member.MemberInflow;
+import domain.member.MemberOut;
+import domain.member.MemberOutflow;
+import domain.member.MemberReturn;
+import domain.member.MemberTransfer;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
@@ -138,8 +148,8 @@ public class ApplyApprovalLogController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)

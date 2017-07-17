@@ -8,6 +8,7 @@ import domain.base.ShortMsgTpl;
 import domain.base.ShortMsgTplExample;
 import domain.base.ShortMsgTplExample.Criteria;
 import domain.sys.SysRole;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -34,7 +35,13 @@ import sys.utils.PropertiesUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class ShortMsgTplController extends BaseController {
@@ -96,8 +103,8 @@ public class ShortMsgTplController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
@@ -154,9 +161,9 @@ public class ShortMsgTplController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(shortMsgTpl.class, shortMsgTplMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(shortMsgTpl.class, shortMsgTplMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

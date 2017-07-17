@@ -2,9 +2,10 @@ package persistence.abroad;
 
 import domain.abroad.ApplySelfFile;
 import domain.abroad.ApplySelfFileExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ApplySelfFileMapper {
     int countByExample(ApplySelfFileExample example);

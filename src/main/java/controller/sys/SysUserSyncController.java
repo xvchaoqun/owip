@@ -1,14 +1,19 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.ext.*;
-import domain.member.Member;
+import domain.ext.ExtBks;
+import domain.ext.ExtBksExample;
+import domain.ext.ExtJzg;
+import domain.ext.ExtJzgExample;
+import domain.ext.ExtYjs;
+import domain.ext.ExtYjsExample;
 import domain.sys.SysUserSync;
 import domain.sys.SysUserSyncExample;
 import domain.sys.SysUserSyncExample.Criteria;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -171,8 +176,8 @@ public class SysUserSyncController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
 
     }

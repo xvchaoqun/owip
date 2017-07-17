@@ -2,9 +2,10 @@ package persistence.train;
 
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaNormExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface TrainEvaNormMapper {
     int countByExample(TrainEvaNormExample example);

@@ -10,6 +10,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -29,7 +30,12 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberTeacherController extends BaseController {
@@ -261,9 +267,9 @@ public class MemberTeacherController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        sourceMixins.put(MemberTeacher.class, MemberTeacherMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        baseMixins.put(MemberTeacher.class, MemberTeacherMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

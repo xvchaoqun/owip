@@ -1,6 +1,10 @@
 package controller.abroad;
 
-import bean.*;
+import bean.PassportStatByClassBean;
+import bean.PassportStatByLentBean;
+import bean.PassportStatByPostBean;
+import bean.XlsPassport;
+import bean.XlsUpload;
 import controller.BaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
@@ -9,6 +13,7 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MixinUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,18 +36,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.common.PassportSearchBean;
-import sys.shiro.CurrentUser;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.ImageUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class PassportController extends BaseController {
@@ -183,8 +199,8 @@ public class PassportController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

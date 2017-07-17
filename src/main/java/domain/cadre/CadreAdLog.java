@@ -1,8 +1,8 @@
 package domain.cadre;
 
+import domain.base.MetaType;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
-import domain.base.MetaType;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import sys.tags.CmTag;

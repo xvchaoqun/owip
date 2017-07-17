@@ -1,7 +1,5 @@
 package bean;
 
-import java.util.Date;
-
 public class XlsCadre {
 
 	public String userCode;

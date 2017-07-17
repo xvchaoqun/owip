@@ -2,9 +2,10 @@ package persistence.recruit;
 
 import domain.recruit.RecruitTemplate;
 import domain.recruit.RecruitTemplateExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface RecruitTemplateMapper {
     int countByExample(RecruitTemplateExample example);

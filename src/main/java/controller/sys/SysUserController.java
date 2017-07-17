@@ -1,8 +1,12 @@
 package controller.sys;
 
 import controller.BaseController;
-import domain.sys.*;
+import domain.sys.SysUser;
+import domain.sys.SysUserExample;
 import domain.sys.SysUserExample.Criteria;
+import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
+import domain.sys.SysUserViewExample;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.SysUserListMixin;
@@ -18,14 +22,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.ExportHelper;
@@ -36,7 +43,12 @@ import sys.utils.MSUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class SysUserController extends BaseController {
@@ -61,8 +73,8 @@ public class SysUserController extends BaseController {
     }
 
     @RequiresPermissions("sysUser:list")
-     @RequestMapping("/sysUser")
-     public String sysUser(ModelMap modelMap) {
+    @RequestMapping("/sysUser")
+    public String sysUser(ModelMap modelMap) {
 
         return "sys/sysUser/sysUser_page";
     }
@@ -123,8 +135,8 @@ public class SysUserController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = new HashMap<>();
-        sourceMixins.put(SysUserView.class, SysUserListMixin.class);
+        Map<Class<?>, Class<?>> baseMixins = new HashMap<>();
+        baseMixins.put(SysUserView.class, SysUserListMixin.class);
         JSONUtils.jsonp(resultMap);
         return;
     }
@@ -142,7 +154,12 @@ public class SysUserController extends BaseController {
     @RequiresRoles(SystemConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUser_au(SysUser sysUser, HttpServletRequest request) {
+    public Map do_sysUser_au(@Validated SysUser sysUser, BindingResult result, HttpServletRequest request) {
+
+        if(result.hasErrors()){
+            FieldError fieldError = result.getFieldError();
+            return formValidError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
 
         sysUser.setUsername(StringUtils.lowerCase(StringUtils.trimToNull(sysUser.getUsername())));
         sysUser.setCode(StringUtils.lowerCase(StringUtils.trimToNull(sysUser.getCode())));
@@ -150,19 +167,21 @@ public class SysUserController extends BaseController {
 
         if (sysUser.getUsername() != null) {
             if (!FormUtils.usernameFormatRight(sysUser.getUsername())) {
-                return failed("用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+
+                return formValidError("username", "用户名由3-10位的字母、下划线和数字组成，且不能以数字或下划线开头。");
             }
             if (sysUserService.idDuplicate(id, sysUser.getUsername(), sysUser.getCode())) {
-                return failed("用户名或学工号重复");
+
+                return formValidError("code", "用户名或学工号重复");
             }
         }
 
         if (id == null) {
             if (StringUtils.isBlank(sysUser.getUsername())) {
-                return failed("用户名不能为空");
+                return formValidError("username", "用户名不能为空");
             }
             if (StringUtils.isBlank(sysUser.getPasswd())) {
-                return failed("密码不能为空");
+                return formValidError("passwd", "密码不能为空");
             }
             sysUser.setLocked(false);
             SaltPassword encrypt = passwordHelper.encryptByRandomSalt(sysUser.getPasswd());

@@ -2,9 +2,10 @@ package persistence.base;
 
 import domain.base.Location;
 import domain.base.LocationExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface LocationMapper {
     int countByExample(LocationExample example);

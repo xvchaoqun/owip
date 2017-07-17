@@ -1,7 +1,6 @@
 package controller.abroad;
 
 import controller.BaseController;
-import domain.abroad.ApplicatCadreExample;
 import domain.abroad.ApplicatType;
 import domain.abroad.ApplicatTypeExample;
 import domain.abroad.ApplicatTypeExample.Criteria;
@@ -37,7 +36,13 @@ import sys.utils.MSUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class ApplicatTypeController extends BaseController {

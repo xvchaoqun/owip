@@ -2,7 +2,6 @@ package service.party;
 
 import domain.party.PartyMember;
 import domain.party.PartyMemberGroup;
-import domain.sys.SysUser;
 import domain.sys.SysUserView;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;

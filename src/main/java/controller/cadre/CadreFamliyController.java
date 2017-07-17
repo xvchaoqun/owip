@@ -1,9 +1,13 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.*;
+import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamliyAbroadExample;
+import domain.cadre.CadreFamliyExample;
 import domain.cadre.CadreFamliyExample.Criteria;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,7 +31,12 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CadreFamliyController extends BaseController {
@@ -104,9 +113,9 @@ public class CadreFamliyController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(Party.class, PartyMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(Party.class, PartyMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
     

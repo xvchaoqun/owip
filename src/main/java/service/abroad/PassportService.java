@@ -1,7 +1,13 @@
 package service.abroad;
 
 import bean.XlsPassport;
-import domain.abroad.*;
+import domain.abroad.Passport;
+import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyExample;
+import domain.abroad.PassportDraw;
+import domain.abroad.PassportDrawExample;
+import domain.abroad.PassportExample;
+import domain.abroad.SafeBox;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;

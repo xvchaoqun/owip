@@ -14,12 +14,15 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import persistence.base.ShortMsgReceiverMapper;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ContentTplService extends BaseMapper {

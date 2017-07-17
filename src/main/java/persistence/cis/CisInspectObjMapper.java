@@ -2,9 +2,10 @@ package persistence.cis;
 
 import domain.cis.CisInspectObj;
 import domain.cis.CisInspectObjExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CisInspectObjMapper {
     long countByExample(CisInspectObjExample example);

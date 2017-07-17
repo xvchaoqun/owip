@@ -1,7 +1,10 @@
 package service.party;
 
-import domain.party.*;
-import domain.sys.SysUser;
+import domain.party.Party;
+import domain.party.PartyMember;
+import domain.party.PartyMemberExample;
+import domain.party.PartyMemberGroup;
+import domain.party.PartyMemberGroupExample;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;

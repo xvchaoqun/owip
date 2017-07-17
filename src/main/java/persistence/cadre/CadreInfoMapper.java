@@ -2,9 +2,10 @@ package persistence.cadre;
 
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreInfoMapper {
     int countByExample(CadreInfoExample example);

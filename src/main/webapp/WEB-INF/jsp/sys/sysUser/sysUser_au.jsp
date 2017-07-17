@@ -30,7 +30,7 @@
         </c:if>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">类别</label>
-			<div class="col-xs-9">
+			<div class="col-xs-6">
 				<div class="radio">
 					<c:forEach var="userType" items="${USER_TYPE_MAP}">
 					<label>
@@ -75,8 +75,13 @@
 					$passwd.val(hex_md5($passwd.val()));*/
 
 					$(form).ajaxSubmit({
-						success:function(data){
-							if(data.success){
+						success:function(ret){
+							if(ret.success){
+								if(ret.error){
+									$.tip($(form), ret.field, ret.msg)
+									return;
+								}
+
 								$("#modal").modal('hide');
 								//SysMsg.success('操作成功。', '成功',function(){
 									$("#jqGrid").trigger("reloadGrid");

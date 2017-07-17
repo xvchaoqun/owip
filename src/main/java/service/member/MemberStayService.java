@@ -1,9 +1,9 @@
 package service.member;
 
 import controller.BaseController;
+import domain.member.Member;
 import domain.member.MemberStay;
 import domain.member.MemberStayExample;
-import domain.member.Member;
 import domain.party.Branch;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;

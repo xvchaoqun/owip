@@ -1,6 +1,11 @@
 package service.party;
 
-import domain.party.*;
+import domain.party.Branch;
+import domain.party.BranchExample;
+import domain.party.BranchMemberGroup;
+import domain.party.BranchMemberGroupExample;
+import domain.party.BranchTransferLog;
+import domain.party.Party;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -19,7 +24,12 @@ import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class BranchService extends BaseMapper {

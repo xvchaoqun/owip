@@ -1,13 +1,11 @@
 package controller.cis;
 
 import controller.BaseController;
-import domain.cis.CisInspectorView;
 import domain.cis.CisObjUnit;
 import domain.cis.CisObjUnitExample;
 import domain.cis.CisObjUnitExample.Criteria;
 import domain.unit.Unit;
-import interceptor.OrderParam;
-import interceptor.SortParam;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -28,7 +26,11 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class CisObjUnitController extends BaseController {
@@ -97,9 +99,9 @@ public class CisObjUnitController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(cisObjUnit.class, cisObjUnitMixin.class);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cisObjUnit.class, cisObjUnitMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

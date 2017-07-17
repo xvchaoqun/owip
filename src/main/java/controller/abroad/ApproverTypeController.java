@@ -5,7 +5,6 @@ import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
 import domain.abroad.ApproverTypeExample.Criteria;
-import domain.cadre.Cadre;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +26,11 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class ApproverTypeController extends BaseController {

@@ -3,13 +3,18 @@ package controller.abroad;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import controller.BaseController;
-import domain.abroad.*;
+import domain.abroad.ApplySelf;
+import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfExample.Criteria;
+import domain.abroad.ApplySelfFile;
+import domain.abroad.ApprovalLog;
+import domain.abroad.ApproverType;
 import domain.base.Country;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -26,20 +31,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.shiro.CurrentUser;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.DownloadUtils;
+import sys.utils.FileUtils;
+import sys.utils.FormUtils;
+import sys.utils.IpUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Controller
 public class ApplySelfController extends BaseController {
@@ -268,8 +284,8 @@ public class ApplySelfController extends BaseController {
 
         request.setAttribute("isView", true);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
@@ -321,8 +337,8 @@ public class ApplySelfController extends BaseController {
 
         resultMap.put("approvers", approvers);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.write(response, resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.write(response, resultMap, baseMixins);
         return;
     }
 
@@ -356,8 +372,8 @@ public class ApplySelfController extends BaseController {
         request.setAttribute("isView", false);
         //request.setAttribute("needApproverList", true);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
@@ -406,8 +422,8 @@ public class ApplySelfController extends BaseController {
 
         request.setAttribute("isView", false);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

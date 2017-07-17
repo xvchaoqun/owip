@@ -12,7 +12,11 @@ import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.tool.tree.TreeNode;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by fafa on 2015/11/9.

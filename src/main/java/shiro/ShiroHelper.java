@@ -14,7 +14,11 @@ import service.sys.SysRoleService;
 import service.sys.SysUserService;
 import sys.shiro.BaseShiroHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ShiroHelper extends BaseShiroHelper{
 

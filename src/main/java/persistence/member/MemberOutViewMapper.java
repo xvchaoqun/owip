@@ -2,8 +2,9 @@ package persistence.member;
 
 import domain.member.MemberOutView;
 import domain.member.MemberOutViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface MemberOutViewMapper {
     long countByExample(MemberOutViewExample example);

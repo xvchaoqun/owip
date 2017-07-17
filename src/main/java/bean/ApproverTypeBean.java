@@ -1,6 +1,5 @@
 package bean;
 
-import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 
 import java.util.List;

@@ -2,8 +2,9 @@ package persistence.cis;
 
 import domain.cis.CisInspectorView;
 import domain.cis.CisInspectorViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CisInspectorViewMapper {
     int countByExample(CisInspectorViewExample example);

@@ -2,9 +2,10 @@ package persistence.sys;
 
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface SysUserViewMapper {
     int countByExample(SysUserViewExample example);

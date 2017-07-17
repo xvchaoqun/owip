@@ -2,8 +2,9 @@ package persistence.member;
 
 import domain.member.MemberStayView;
 import domain.member.MemberStayViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface MemberStayViewMapper {
     long countByExample(MemberStayViewExample example);

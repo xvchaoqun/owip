@@ -2,9 +2,10 @@ package persistence.base;
 
 import domain.base.Sitemap;
 import domain.base.SitemapExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface SitemapMapper {
     int countByExample(SitemapExample example);

@@ -1,14 +1,9 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdditionalPostExample;
-import domain.cadre.CadreAdditionalPostExample.Criteria;
 import domain.cadre.CadreView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -23,7 +18,6 @@ import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 

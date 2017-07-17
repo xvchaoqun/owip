@@ -1,8 +1,14 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.*;
+import domain.cadre.CadreCourse;
+import domain.cadre.CadreCourseExample;
+import domain.cadre.CadreInfo;
+import domain.cadre.CadreReward;
+import domain.cadre.CadreRewardExample;
+import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,7 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.MSUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -105,10 +115,10 @@ public class CadreCourseController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        //sourceMixins.put(Party.class, PartyMixin.class);
-        //JSONUtils.write(response, resultMap, sourceMixins);
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(Party.class, PartyMixin.class);
+        //JSONUtils.write(response, resultMap, baseMixins);
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 

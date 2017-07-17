@@ -2,9 +2,10 @@ package persistence.cadre;
 
 import domain.cadre.CadreFamliy;
 import domain.cadre.CadreFamliyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreFamliyMapper {
     int countByExample(CadreFamliyExample example);

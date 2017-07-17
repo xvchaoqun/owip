@@ -2,8 +2,9 @@ package persistence.cadreInspect;
 
 import domain.cadreInspect.CadreInspectView;
 import domain.cadreInspect.CadreInspectViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CadreInspectViewMapper {
     long countByExample(CadreInspectViewExample example);

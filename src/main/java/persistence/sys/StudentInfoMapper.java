@@ -2,9 +2,10 @@ package persistence.sys;
 
 import domain.sys.StudentInfo;
 import domain.sys.StudentInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface StudentInfoMapper {
     int countByExample(StudentInfoExample example);

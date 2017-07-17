@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.SpringProps;
-import sys.utils.ContextHelper;
-import shiro.ShiroHelper;
 import service.sys.AvatarService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
 import java.io.IOException;

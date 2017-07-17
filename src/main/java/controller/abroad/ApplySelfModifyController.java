@@ -3,6 +3,7 @@ package controller.abroad;
 import controller.BaseController;
 import domain.abroad.ApplySelfModify;
 import domain.abroad.ApplySelfModifyExample;
+import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -48,8 +49,8 @@ public class ApplySelfModifyController extends BaseController {
         example2.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL);
         List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExampleWithRowbounds(example2, new RowBounds(0, 1));
         if(applySelfModifies.size()>0){
-            Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-            modelMap.put("record", JSONUtils.toString(applySelfModifies.get(0), sourceMixins));
+            Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+            modelMap.put("record", JSONUtils.toString(applySelfModifies.get(0), baseMixins));
         }
 
         return "abroad/applySelf/applySelfModify_page";
@@ -89,8 +90,8 @@ public class ApplySelfModifyController extends BaseController {
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
 
-        Map<Class<?>, Class<?>> sourceMixins = sourceMixins();
-        JSONUtils.jsonp(resultMap, sourceMixins);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 }
