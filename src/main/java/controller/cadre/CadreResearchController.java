@@ -258,12 +258,16 @@ public class CadreResearchController extends BaseController {
 
     @RequiresPermissions("cadreResearch:edit")
     @RequestMapping("/cadreResearch_au")
-    public String cadreResearch_au(Integer id, int cadreId, ModelMap modelMap) {
+    public String cadreResearch_au(Integer id, int cadreId, Byte researchType, ModelMap modelMap) {
 
         if (id != null) {
             CadreResearch cadreResearch = cadreResearchMapper.selectByPrimaryKey(id);
             modelMap.put("cadreResearch", cadreResearch);
+            if(cadreResearch!=null)
+                researchType = cadreResearch.getResearchType();
         }
+        modelMap.put("researchType", researchType);
+
         CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());

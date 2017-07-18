@@ -604,15 +604,16 @@ public class ShortMsgService extends BaseMapper {
         String content = shortMsgBean.getContent();
         String type = shortMsgBean.getType();
 
+        SysUserView uv = null;
         if(receiver!=null) {
-            SysUserView uv = sysUserService.findById(receiver);
+            uv = sysUserService.findById(receiver);
             if (uv == null) {
                 throw new RuntimeException("用户不存在。");
             }
         }
         String mobile = shortMsgBean.getMobile();
         if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
-            throw new RuntimeException("手机号码有误："+ mobile);
+            throw new RuntimeException("手机号码有误："+ mobile+", realname="+uv.getRealname() + ", code="+ uv.getCode());
         }
         if(StringUtils.isBlank(content)){
             throw new RuntimeException("发送内容为空。");

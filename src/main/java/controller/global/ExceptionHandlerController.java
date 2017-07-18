@@ -95,7 +95,7 @@ public class ExceptionHandlerController {
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
         logger.error(getMsg(request, ex), ex);
-        String msg = (ex instanceof FileNotFoundException)?"系统异常，请稍后重试":"文件不存在";
+        String msg = (ex instanceof FileNotFoundException)?"文件不存在":"系统异常，请稍后重试";
         //ex.printStackTrace();
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {

@@ -62,18 +62,26 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreReward!=null}">确定</c:if><c:if test="${cadreReward==null}">添加</c:if>"/>
+
+    <button type="button" id="submitBtn" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中，请不要关闭此窗口"
+            data-success-text="上传成功" autocomplete="off">
+        <c:if test="${cadreReward!=null}">确定</c:if><c:if test="${cadreReward==null}">添加</c:if>
+    </button>
 </div>
 <script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
 <script>
     $('#spinner').ace_spinner({value:0,min:0,max:100,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
     register_date($('.date-picker'));
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+                        $btn.button("success").addClass("btn-success");
                         $("#modal").modal("hide");
                         <c:if test="${param.toApply!=1}">
                         <c:if test="${param.rewardType==CADRE_REWARD_TYPE_RESEARCH}">
@@ -89,6 +97,8 @@ pageEncoding="UTF-8"%>
                         $.hashchange('cls=1&rewardType=${param.rewardType}&module=${param.module}');
                         </c:if>
                         </c:if>
+                    }else{
+                        $btn.button('reset');
                     }
                 }
             });

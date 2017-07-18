@@ -3,14 +3,14 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreResearch!=null}">编辑</c:if><c:if test="${cadreResearch==null}">添加</c:if>干部${param.researchType==CADRE_RESEARCH_TYPE_DIRECT?"主持":"参与"}科研项目情况</h3>
+    <h3><c:if test="${cadreResearch!=null}">编辑</c:if><c:if test="${cadreResearch==null}">添加</c:if>干部${researchType==CADRE_RESEARCH_TYPE_DIRECT?"主持":"参与"}科研项目情况</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreResearch_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
         <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreResearch.id}">
-        <input type="hidden" name="researchType" value="${param.researchType}">
+        <input type="hidden" name="researchType" value="${researchType}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
@@ -77,19 +77,19 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         <c:if test="${param.toApply!=1}">
-                        <c:if test="${param.researchType==CADRE_RESEARCH_TYPE_IN}">
+                        <c:if test="${researchType==CADRE_RESEARCH_TYPE_IN}">
                         $("#jqGrid_cadreResearch_in").trigger("reloadGrid");
                         </c:if>
-                        <c:if test="${param.researchType==CADRE_RESEARCH_TYPE_DIRECT}">
+                        <c:if test="${researchType==CADRE_RESEARCH_TYPE_DIRECT}">
                         $("#jqGrid_cadreResearch_direct").trigger("reloadGrid");
                         </c:if>
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">
-                        $("#item-content").load("${ctx}/modifyCadreResearch_detail?applyId=${param.applyId}&researchType=${param.researchType}&module=${param.module}&_="+new Date().getTime())
+                        $("#item-content").load("${ctx}/modifyCadreResearch_detail?applyId=${param.applyId}&researchType=${researchType}&module=${param.module}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
-                        $.hashchange('cls=1&researchType=${param.researchType}&module=${param.module}');
+                        $.hashchange('cls=1&researchType=${researchType}&module=${param.module}');
                         </c:if>
                         </c:if>
                     }

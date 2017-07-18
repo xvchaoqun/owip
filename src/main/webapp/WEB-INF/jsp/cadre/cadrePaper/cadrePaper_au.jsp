@@ -42,7 +42,12 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadrePaper!=null}">确定</c:if><c:if test="${cadrePaper==null}">添加</c:if>"/>
+
+    <button type="button" id="submitBtn" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 上传中，请不要关闭此窗口"
+            data-success-text="上传成功" autocomplete="off">
+        <c:if test="${cadrePaper!=null}">确定</c:if><c:if test="${cadrePaper==null}">添加</c:if>
+    </button>
 </div>
 
 <script>
@@ -51,12 +56,16 @@ pageEncoding="UTF-8"%>
         no_file:'请上传pdf文件',
         allowExt: ['pdf']
     })
-
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+
+                        $btn.button("success").addClass("btn-success");
+
                         $("#modal").modal("hide");
                         <c:if test="${param.toApply!=1}">
                         $("#jqGrid_cadrePaper").trigger("reloadGrid");
@@ -69,6 +78,8 @@ pageEncoding="UTF-8"%>
                         $.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER}');
                         </c:if>
                         </c:if>
+                    }else{
+                        $btn.button('reset');
                     }
                 }
             });
