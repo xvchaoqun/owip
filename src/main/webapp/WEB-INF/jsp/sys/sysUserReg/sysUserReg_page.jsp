@@ -172,7 +172,7 @@
             {label: 'IP', name: 'ip', width: 150}, {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {
-            saveJqgridSelected("#"+this.id, id, status);
+            saveJqgridSelected("#"+this.id);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
@@ -187,6 +187,7 @@
             }
         },
         onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
             $("*[data-count]").each(function(){
                 $(this).prop("disabled", $(this).data("count") == 0);
             })

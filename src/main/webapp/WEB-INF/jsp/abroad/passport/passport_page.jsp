@@ -285,7 +285,7 @@ pageEncoding="UTF-8" %>
             }}
         ],
         onSelectRow: function(id,status){
-            saveJqgridSelected("#"+this.id, id, status);
+            saveJqgridSelected("#"+this.id);
             //console.log(id)
             var rowData = $(this).getRowData(id);
             $(".jqEditBtn,.jqBatchBtn").prop("disabled",rowData.canEdit==0);

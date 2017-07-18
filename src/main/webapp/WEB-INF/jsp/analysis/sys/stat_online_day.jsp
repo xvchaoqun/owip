@@ -5,11 +5,10 @@
 <script>
 	var data = [];
 	var beans = ${cm:toJSONArray(beans)};
-	for(i in beans) {
-		var bean = beans[i];
-		if(typeof bean != 'function')
-			data.push([Date.UTC(bean.year, bean.month-1, bean.day), bean.onlineCount]);
-	}
+	beans.forEach(function(bean, i){
+		data.push([Date.UTC(bean.year, bean.month-1, bean.day), bean.onlineCount]);
+	})
+
 	if(data.length>0){
 		Highcharts.setOptions({ lang: { resetZoom: "返回", resetZoomTitle: "回到初始状态" }, global: { useUTC: false } });
 		var title = '每日最高在线人数统计（' + Highcharts.dateFormat('%Y年%m月', data[0][0]) + '至' + Highcharts.dateFormat('%Y年%m月', data[data.length-1][0]) + "）";

@@ -566,6 +566,7 @@
             }
         },
         onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);

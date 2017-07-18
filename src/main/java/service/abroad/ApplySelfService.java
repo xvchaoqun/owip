@@ -1057,8 +1057,10 @@ public class ApplySelfService extends BaseMapper {
 
         List<ApplySelf> records = applySelfMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号", "申请日期", "工作证号", "姓名", "所在单位及职务", "出行时间", "回国时间", /*"出行时间范围",*/
-                "出行天数", "前往国家或地区", "因私出国（境）事由", "同行人员", "费用来源", "所需证件", "申请时间"};
+        String[] titles = {"编号|100", "申请日期|100", "工作证号|100", "姓名|50",
+                "所在单位及职务|300", "出行时间|100", "回国时间|100", /*"出行时间范围",*/
+                "出行天数|80", "前往国家或地区|200", "因私出国（境）事由|200",
+                "同行人员|100", "费用来源|100", "所需证件|150", "申请时间|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ApplySelf record = records.get(i);

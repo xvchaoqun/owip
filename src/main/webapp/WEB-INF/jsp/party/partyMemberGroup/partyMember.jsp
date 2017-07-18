@@ -148,12 +148,11 @@
                 if (cellvalue == undefined) return '-';
                 var typeIdStrs = [];
                 var typeIds = cellvalue.split(",");
-                for(i in typeIds){
-                    var typeId = typeIds[i];
-                    //console.log(typeId)
-                    if(typeId instanceof Function == false)
-                        typeIdStrs.push(_cMap.partyMemberTypeMap[typeId].name);
-                }
+
+                typeIds.forEach(function(typeId, i){
+                    typeIdStrs.push(_cMap.partyMemberTypeMap[typeId].name);
+                })
+
                 //console.log(typeIdStrs)
                 return typeIdStrs.join(",");
             }

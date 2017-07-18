@@ -552,11 +552,15 @@
             if (rowObject.inspectorType == '${CIS_INSPECTOR_TYPE_OTHER}') return '-'
             if (cellvalue == undefined || cellvalue.length == 0) return '';
             var names = []
-            for (var i in cellvalue) {
+            cellvalue.forEach(function(inspector, i){
+                if (inspector.realname)
+                    names.push(inspector.realname)
+            })
+            /*for (var i in cellvalue) {
                 var inspector = cellvalue[i];
                 if (inspector.realname)
                     names.push(inspector.realname)
-            }
+            }*/
             return names.join("，")
         }, width: 250
         },

@@ -18,17 +18,8 @@
     </div>
   </form>
   <br/>  <br/>
-  <div class="row" id="result" style="display: none">
-    <div class="col-xs-12">
-      <blockquote>
-        <small id="realname" style="display: none">
-          <span ></span>
-        </small>
-        <small id="msg" style="display: none">
-          <span ></span>
-        </small>
-      </blockquote>
-    </div>
+  <div class="row" id="result">
+
   </div>
 
 </div>
@@ -41,6 +32,22 @@
     padding-top: 10px;
   }
 </style>
+<script type="text/template" id="result_tpl">
+  <div class="col-xs-12">
+    <blockquote>
+      <small>
+        姓名：<span >{{=ret.realname}}</span>
+      </small>
+      <small>
+        所在干部库：<span >{{=ret.msg}}
+        {{if(ret.url){}}
+      &nbsp;&nbsp;<a class="btn btn-success btn-xs" href="{{=ret.url}}"><i class="fa fa-search"></i> 前往查看</a>
+         {{}}}
+      </span>
+      </small>
+    </blockquote>
+  </div>
+</script>
 <script>
   register_user_select($('#modal select[name=cadreId]'));
 
@@ -49,28 +56,19 @@
     if(cadreId=='') return;
     $.post("${ctx}/cadre/search",{cadreId:cadreId},function(ret){
         if(ret.success){
-          $("#modal #result").show();
-          //$("#modal #msg").hide();
-          //$("#modal #status").hide();
 
-          var msg = ret.msg;
           var status = $.trim(ret.status);
-          var url = ''
           if(status!=''){
-
+            ret.msg = _cMap.CADRE_STATUS_MAP[ret.status]
             if(status=='${CADRE_STATUS_MIDDLE}' || status=='${CADRE_STATUS_MIDDLE_LEAVE}')
-              url='${ctx}/cadre?status='+status;
+              ret.url='#${ctx}/cadre?status='+status;
             if(status=='${CADRE_STATUS_LEADER}' || status=='${CADRE_STATUS_LEADER_LEAVE}')
-              url='${ctx}/cadreLeaderInfo?status='+status;
+              ret.url='#${ctx}/cadreLeaderInfo?status='+status;
 
-            msg = _cMap.CADRE_STATUS_MAP[ret.status];
-            if(url!='') msg += '&nbsp;&nbsp;<a class="loadPage btn btn-success btn-xs" href="javascript:;" data-url="'+url+'&cadreId='+ ret.cadreId +'"><i class="fa fa-search"></i> 前往查看</a>';
+            ret.url+='&cadreId='+ ret.cadreId;
           }
-          $("#modal #msg").show().find("span").html(msg);
 
-          if($.trim(ret.realname)!='') {
-            $("#modal #realname").show().find("span").html(ret.realname);
-          }
+          $("#result").html(_.template($("#result_tpl").html())({ret: ret}));
         }
     });
   })

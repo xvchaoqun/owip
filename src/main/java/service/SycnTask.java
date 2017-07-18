@@ -60,7 +60,7 @@ public class SycnTask {
 	}
 
 	/**
-	 * 因私审批自动通知审批人
+	 * 因私审批自动通知下一个审批人
 	 */
 	@Scheduled(cron = "${cron.applyself.approval}")
 	public void applySelfSendApprovalMsg(){
@@ -70,7 +70,7 @@ public class SycnTask {
 		}
 	}
 	/**
-	 * 因私审批自动通知审批人
+	 * 因私审批每天定时通知干部管理员
 	 */
 	@Scheduled(cron = "${cron.abroad.approval}")
 	public void sendAbroadApprovalMsgToAdmin(){

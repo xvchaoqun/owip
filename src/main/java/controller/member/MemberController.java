@@ -58,6 +58,7 @@ public class MemberController extends BaseController {
         String realname = "";
         String unit = "";
         String msg = "";
+        Byte memberType = SystemConstants.MEMBER_TYPE_STUDENT;
         String code = "";
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
@@ -94,6 +95,7 @@ public class MemberController extends BaseController {
                 }
 
                 if(member.getType()==SystemConstants.MEMBER_TYPE_TEACHER){
+                    memberType = SystemConstants.MEMBER_TYPE_TEACHER;
                     MemberTeacher memberTeacher = memberTeacherService.get(userId);
                     if(memberTeacher.getIsRetire())
                         status = "已退休";
@@ -112,6 +114,7 @@ public class MemberController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("msg", msg);
+        resultMap.put("memberType", memberType);
         resultMap.put("code", code);
         resultMap.put("realname", realname);
         resultMap.put("unit", unit);

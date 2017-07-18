@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
                         currentExpandRows = [];
                         </c:if>
                         <c:if test="${not empty param.fid}">
-                        currentExpandRows.push(${param.fid});
+                        currentExpandRows.push("${param.fid}");
                         </c:if>
 
                         $("#jqGrid2").trigger("reloadGrid");

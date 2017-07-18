@@ -11,7 +11,7 @@ public class SysLoginLog implements Serializable {
 
     public SysUserView getUser(){
 
-        if(type== SystemConstants.LOGIN_TYPE_TRAIN_INSPECTOR
+        if(type==null || type== SystemConstants.LOGIN_TYPE_TRAIN_INSPECTOR
         || StringUtils.isBlank(username)) return null;
 
         return CmTag.getUserByUsername(username);

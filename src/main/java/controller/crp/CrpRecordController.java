@@ -1,9 +1,11 @@
 package controller.crp;
 
 import controller.BaseController;
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crp.CrpRecord;
 import domain.crp.CrpRecordExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -236,31 +239,60 @@ public class CrpRecordController extends BaseController {
 
     public void crpRecord_export(CrpRecordExample example, HttpServletResponse response) {
 
+        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        MetaType mtTemppostInUnitOther = CmTag.getMetaTypeByCode("mt_temppost_in_unit_other");
+        MetaType mtTemppostInPostOther = CmTag.getMetaTypeByCode("mt_temppost_in_post_other");
         List<CrpRecord> records = crpRecordMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"姓名",
-                 "时任职务",
-                "委派单位", "挂职类别",
-                "挂职单位及所任职务",
-                "挂职开始时间",
-                "挂职拟结束时间",
-                "挂职实际结束时间"};
+        String[] titles = {"工作证号|100", "姓名|50", "是否现任干部|100",
+                 "时任职务|300",
+                 "联系电话|100",
+                "委派单位|100",
+                "挂职类别|100",
+                "挂职项目|120",
+                "挂职单位及所任职务|350",
+                "挂职开始时间|120",
+                "挂职拟结束时间|120",
+                "挂职实际结束时间|120", "备注|300"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CrpRecord record = records.get(i);
-            if(record.getUser()!=null){
+            SysUserView user = record.getUser();
+            if(user!=null){
                 record.setRealname(record.getUser().getRealname());
             }
+            byte type = record.getType();
+            String toUnit = "";
+            if(type==SystemConstants.CRP_RECORD_TYPE_IN){
+                toUnit = record.getToUnit();
+            }else{
+                MetaType metaType = metaTypeMap.get(record.getToUnitType());
+                toUnit = metaType.getName();
+                if(metaType.getId().intValue()==mtTemppostInUnitOther.getId()){
+                    toUnit += ":" + record.getToUnit();
+                }
+            }
+
+            MetaType metaType = metaTypeMap.get(record.getTempPostType());
+            String tempPostType = metaType.getName();
+            if(metaType.getId().intValue()==mtTemppostInPostOther.getId()){
+                tempPostType += ":" + record.getTempPost();
+            }
+
             String[] values = {
+                    user==null?"":user.getCode(),
                     record.getRealname(),
-                    //record.getIsPresentCadre() ? "现任干部" : "非现任干部",
+                    record.getIsPresentCadre() ? "是" : "否",
                     record.getPresentPost(),
-                    record.getToUnitType() + "",
-                    record.getTempPostType() + "",
+                    record.getPhone(),
+                    toUnit,
+                    tempPostType,
+                    record.getProject(),
                     record.getTitle(),
                     DateUtils.formatDate(record.getStartDate(), "yyyy-MM"),
                     DateUtils.formatDate(record.getEndDate(), "yyyy-MM"),
-                    DateUtils.formatDate(record.getRealEndDate(), "yyyy-MM")
+                    DateUtils.formatDate(record.getRealEndDate(), "yyyy-MM"),
+                    record.getRemark()
             };
             valuesList.add(values);
         }

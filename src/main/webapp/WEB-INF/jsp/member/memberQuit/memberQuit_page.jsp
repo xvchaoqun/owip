@@ -284,7 +284,7 @@
             , {hidden: true, name: 'status'},{hidden:true, key:true, name:'userId'}
         ],
         onSelectRow: function (id, status) {
-            saveJqgridSelected("#"+this.id, id, status);
+            saveJqgridSelected("#"+this.id);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
@@ -302,6 +302,7 @@
             }
         },
         onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#branchApprovalBtn, #partyApprovalBtn,#odApprovalBtn").prop("disabled", true);

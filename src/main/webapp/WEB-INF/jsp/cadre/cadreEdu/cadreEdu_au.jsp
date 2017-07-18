@@ -248,6 +248,8 @@
 		hasDegreeChange();
 	});
 
+	hasDegreeChange();
+
 	function schoolTypeChange(){
 		if($("input[name=hasDegree]").bootstrapSwitch("state")){
 			var $schoolType = $("select[name=schoolType]");
@@ -262,8 +264,6 @@
 		schoolTypeChange();
 	});
 	schoolTypeChange();
-
-	hasDegreeChange();
 
 	function isGraduatedChange(){
 		if(!$("input[name=isGraduated]").bootstrapSwitch("state")) {

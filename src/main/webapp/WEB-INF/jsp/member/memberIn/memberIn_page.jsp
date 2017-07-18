@@ -318,7 +318,7 @@
             , {hidden: true, name: 'status'}
         ],
         onSelectRow: function (id, status) {
-            saveJqgridSelected("#"+this.id, id, status);
+            saveJqgridSelected("#"+this.id);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
@@ -334,6 +334,7 @@
             }
         },
         onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {
                 $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);

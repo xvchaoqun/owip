@@ -1,32 +1,7 @@
-/*$.jgrid.defaults.onSelectRow = function(ids) {
- sid = ids;
- };*/
+
 // 恢复重新加载之前滚动位置及选中的行状态
 var jgrid_sid, jgrid_left, jgrid_top;
-function saveJqgridSelected(jqGridId, id, selectRowStatus) {
-
-    /*if($(jqGridId).hasClass("jqGrid4")){
-     jgrid_sid={};
-     if(selectRowStatus) jgrid_sid[jqGridId] = id;
-     else jgrid_sid[jqGridId] = null;
-     }else{
-     if(selectRowStatus){
-     if(jgrid_sid instanceof Array == false) jgrid_sid=[];
-     //console.log(jgrid_sid instanceof Array)
-     var contain = false;
-     for(var i=0;i<jgrid_sid.length;i++){
-     if(jgrid_sid[i] == id) contain=true;
-     }
-     if(!contain) jgrid_sid.push(id);
-     } else{
-     //console.log("==========" + id)
-     if(jgrid_sid){
-     for(var i=0;i<jgrid_sid.length;i++){
-     if(jgrid_sid[i] == id) jgrid_sid.splice(i, 1);
-     }
-     }
-     }
-     }*/
+function saveJqgridSelected(jqGridId) {
 
     jgrid_sid = jgrid_sid || {};
     // console.log($(jqGridId).getGridParam("selarrrow"))
@@ -35,21 +10,6 @@ function saveJqgridSelected(jqGridId, id, selectRowStatus) {
 }
 function loadJqgridSelected(jqGridId) {
 
-    /*if($(jqGridId).hasClass("jqGrid4")){
-     if(jgrid_sid && jgrid_sid[jqGridId]){
-     $(jqGridId).jqGrid("setSelection",jgrid_sid[jqGridId]);
-     }
-     }else{
-     if(jgrid_sid){
-     console.log(jqGridId + ":" + jgrid_sid)
-     //console.log(jgrid_sid[0])
-     $(jqGridId).resetSelection();
-     for(var i=0;i<jgrid_sid.length;i++) {
-     //console.log(jgrid_sid[i])
-     $(jqGridId).jqGrid("setSelection", jgrid_sid[i]);
-     }
-     }
-     }*/
     jgrid_sid = jgrid_sid || {};
     if (jgrid_sid[jqGridId]) {
         //console.log(jqGridId + ":" + jgrid_sid[jqGridId])
@@ -59,23 +19,31 @@ function loadJqgridSelected(jqGridId) {
         var ids = [];
         for (var i = 0; i < num; i++) {
             //console.log(jqGridId+"====="+i+"======"+jgrid_sid[jqGridId][i])
-            //$(jqGridId).jqGrid("setSelection", jgrid_sid[jqGridId][i]);
             ids.push(jgrid_sid[jqGridId][i])
         }
-        for (var i in ids) {
-            $(jqGridId).jqGrid("setSelection", ids[i]);
-        }
+
+        ids.forEach(function(item, i){
+            $(jqGridId).jqGrid("setSelection", item);
+        });
     }
 }
+function clearJqgridSelected(){
+    // 清空jqGrid选择
+    jgrid_sid = undefined;
+}
+
 $.jgrid.defaults.onSelectRow = function (id, status) {
 
-    saveJqgridSelected("#" + this.id, id, status);
+    saveJqgridSelected("#" + this.id);
     //console.log(jgrid_sid)
 };
+$.jgrid.defaults.onSelectAll = function (aRowids, status) {
+    //console.log(aRowids)
+    saveJqgridSelected("#" + this.id);
+}
 $.jgrid.defaults.gridComplete = function () {
     // 自定义初始化方法
     $(this).trigger('initGrid');
-    //alert(jgrid_sid)
 
     //console.log(jgrid_sid)
     loadJqgridSelected("#" + this.id);
@@ -426,7 +394,7 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function () {
         return;
     }
 
-    saveJqgridSelected("#jqGrid", id, true);
+    saveJqgridSelected("#jqGrid");
 
     var url = _this.data("url");
     if ($.trim(url) == '') {
@@ -484,7 +452,7 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
         SysMsg.warning("请选择一行", "提示");
         return;
     }
-    if (needId) saveJqgridSelected(gridId, id, true);
+    if (needId) saveJqgridSelected(gridId);
 
     var url = $(this).data("url");
     var querystr = $(this).data("querystr");
@@ -692,6 +660,7 @@ $(window).bind("hashchange", function () {
                 $("#breadcrumbs").hide();
             }
             $("#modal").modal('hide');
+            clearJqgridSelected();
 
             // 处理左侧菜单
             $("#sidebar .nav-list li").removeClass("active").removeClass("open")
@@ -765,6 +734,7 @@ $(document).on("click", ".loadPage", function () {
     $target.renderUrl({
         url: url, fn: function () {
             $("#modal").modal('hide');
+            clearJqgridSelected();
         }
     });
 });
@@ -854,7 +824,7 @@ $(document).on("click", ".jqBatchBtn", function (e) {
         SysMsg.warning("请选择行", "提示");
         return;
     }
-    jgrid_sid = null;
+    clearJqgridSelected();
 
     title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
     msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">' + msg + '</p>';
@@ -1030,6 +1000,8 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
             $container.hideLoading();
             $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
             $this.closest("li").addClass("active");
+
+            clearJqgridSelected();
         });
     } else {
         $container.hideLoading();

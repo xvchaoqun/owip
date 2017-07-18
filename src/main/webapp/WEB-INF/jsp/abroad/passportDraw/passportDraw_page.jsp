@@ -266,13 +266,16 @@
                 formatter: function (cellvalue, options, rowObject) {
 
                     var filesArray = [];
-                    for (var i in rowObject.files) {
+                    /*for (var i in rowObject.files) {
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
                             //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
                             filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                         }
-                    }
+                    }*/
+                    rowObject.files.forEach(function(file,i){
+                        filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+                    })
                     return filesArray.join("，");
                 }
             },
@@ -426,7 +429,7 @@
             }},{hidden:true, name:'drawStatus'}
         ],
         onSelectRow: function(id,status){
-            saveJqgridSelected("#"+this.id, id, status);
+            saveJqgridSelected("#"+this.id);
 
             var rowData = $(this).getRowData(id);
             $("#resetReturnDateBtn").prop("disabled",(rowData.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}'));

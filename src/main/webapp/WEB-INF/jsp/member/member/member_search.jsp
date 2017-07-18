@@ -36,7 +36,7 @@
   <div class="col-xs-12">
     <blockquote>
       <small>
-        学号：<span>{{=ret.code}}</span>
+        {{=(ret.memberType==${MEMBER_TYPE_TEACHER})?"教工号":"学号"}}：<span>{{=ret.code}}</span>
       </small>
       <small>
         姓名：<span>{{=ret.realname}}</span>

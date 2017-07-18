@@ -56,12 +56,12 @@ String.prototype.htmldecode = function(){
     return div.innerText || div.textContent;
 }
 
-Array.prototype.indexOf = function(val) {
+/*Array.prototype.indexOf = function(val) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] == val) return i;
     }
     return -1;
-};
+};*/
 Array.prototype.remove = function(val) {
     var index = this.indexOf(val);
     if (index > -1) {

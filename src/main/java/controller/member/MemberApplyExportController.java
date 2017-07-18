@@ -132,11 +132,11 @@ public class MemberApplyExportController extends BaseController {
     public void memberStudent_apply_export(MemberApplyExample example, HttpServletResponse response) {
 
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
-        String[] titles = {"学号","学生类别","姓名","性别", "出生日期", "身份证号",
-                "民族", "年级", "所在分党委、党总支、直属党支部", "所属党支部", "发展程度",
-                "提交书面申请书时间" , "确定为入党积极分子时间", "确定为发展对象时间",
-                "培养层次（研究生填写）","培养类型（研究生填写）", "教育类别（研究生填写）",
-                "培养方式（研究生填写）","预计毕业年月", "学籍状态","籍贯"};
+        String[] titles = {"学号|100","学生类别|150","姓名|100","性别|50", "出生日期|100", "身份证号|180",
+                "民族|100", "年级|100", "所在分党委、党总支、直属党支部|300", "所属党支部|300", "发展程度|100",
+                "提交书面申请书时间|180" , "确定为入党积极分子时间|180", "确定为发展对象时间|150",
+                "培养层次（研究生填写）|150","培养类型（研究生填写）|150", "教育类别（研究生填写）|150",
+                "培养方式（研究生填写）|150","预计毕业年月|120", "学籍状态|100","籍贯|180"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
 
@@ -190,10 +190,10 @@ public class MemberApplyExportController extends BaseController {
     public void memberStudent_export(MemberApplyExample example, HttpServletResponse response) {
 
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
-        String[] titles = {"学号","学生类别","姓名","性别", "出生日期", "身份证号",
-                "民族", "年级", "所在分党委、党总支、直属党支部", "所属党支部", "政治面貌", "发展时间",
-                "培养层次（研究生填写）","培养类型（研究生填写）", "教育类别（研究生填写）",
-                "培养方式（研究生填写）","预计毕业年月", "学籍状态","籍贯","转正时间"};
+        String[] titles = {"学号|100","学生类别|150","姓名|50","性别|50", "出生日期|100", "身份证号|180",
+                "民族|100", "年级|100", "所在分党委、党总支、直属党支部|300", "所属党支部|300", "政治面貌|100", "发展时间|100",
+                "培养层次（研究生填写）|180","培养类型（研究生填写）|180", "教育类别（研究生填写）|180",
+                "培养方式（研究生填写）|180","预计毕业年月|120", "学籍状态|100","籍贯|180","转正时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
             MemberStudent record = memberStudentService.get(memberApply.getUserId());
@@ -236,12 +236,14 @@ public class MemberApplyExportController extends BaseController {
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
-        String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
-                "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
-                "发展程度","所在分党委、党总支、直属党支部","所在党支部","所在单位",
-                "提交书面申请书时间" , "确定为入党积极分子时间", "确定为发展对象时间","到校日期",
-                "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","单位全称", "学历","学历毕业学校","学位授予学校",
-                "学位","学员结构", "人才类型", "人才称号", "籍贯","手机号码"};
+        String[] titles = {"工作证号|100","姓名|100","编制类别|100","人员类别|100",
+                "人员状态|100","在岗情况|100","岗位类别|100", "主岗等级|100",
+                "性别|100","出生日期|100", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
+                "发展程度|100","所在分党委、党总支、直属党支部|300","所在党支部|300","所在单位|200",
+                "提交书面申请书时间|150" , "确定为入党积极分子时间|150", "确定为发展对象时间|150","到校日期|100",
+                "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|120","行政职务|180","单位全称|200",
+                "学历|120","学历毕业学校|200","学位授予学校|200",
+                "学位|120","学员结构|100", "人才类型|100", "人才称号|200", "籍贯|100","手机号码|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
 
@@ -333,11 +335,13 @@ public class MemberApplyExportController extends BaseController {
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
-        String[] titles = {"工作证号","姓名","编制类别","人员类别","人员状态","在岗情况","岗位类别", "主岗等级",
-                "性别","出生日期", "年龄","年龄范围","民族", "国家/地区", "证件号码",
-                "政治面貌","所在分党委、党总支、直属党支部","所在党支部", "所在单位", "入党时间","到校日期",
-                "专业技术职务","专技岗位等级","管理岗位等级","任职级别","行政职务","学历","学历毕业学校","学位授予学校",
-                "学位","学员结构", "人才类型", "人才称号", "籍贯","转正时间","手机号码"};
+        String[] titles = {"工作证号|100","姓名|100","编制类别|100","人员类别|100",
+                "人员状态|80","在岗情况|80","岗位类别|80", "主岗等级|120",
+                "性别|100","出生日期|80", "年龄|100","年龄范围|100","民族|100", "国家/地区|100", "证件号码|180",
+                "政治面貌|100","所在分党委、党总支、直属党支部|300","所在党支部|300", "所在单位|200", "入党时间|80","到校日期|80",
+                "专业技术职务|120","专技岗位等级|120","管理岗位等级|120","任职级别|100","行政职务|180",
+                "学历|100","学历毕业学校|200","学位授予学校|200",
+                "学位|100","学员结构|100", "人才类型|100", "人才称号|200", "籍贯|100","转正时间|80","手机号码|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (MemberApply memberApply:records) {
 

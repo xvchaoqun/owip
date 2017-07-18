@@ -116,7 +116,7 @@ pageEncoding="UTF-8"%>
                         currentExpandRows = [];
                         </c:if>
                         <c:if test="${not empty param.fid}">
-                        currentExpandRows.push(${param.fid});
+                        currentExpandRows.push("${param.fid}");
                         </c:if>
 
                         <%--<c:if test="${topCadreWork.subWorkCount==0 || empty param.fid}">

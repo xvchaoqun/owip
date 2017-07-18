@@ -133,8 +133,10 @@
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid2');
         $('.noSubWork [aria-describedby="jqGrid2_subgrid"]').removeClass();
-        for (i in currentExpandRows)
-            $("#jqGrid2").expandSubGridRow(currentExpandRows[i])
+
+        currentExpandRows.forEach(function(item, i){
+            $("#jqGrid2").expandSubGridRow(item)
+        })
     });
     $.initNavGrid("jqGrid2", "jqGridPager2");
 

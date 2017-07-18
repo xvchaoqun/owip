@@ -332,7 +332,7 @@
             {hidden:true, key:true, name:'userId'},{hidden: true, name: 'partyId'},
             {hidden: true, name: 'source'}
         ],onSelectRow: function (id, status) {
-            saveJqgridSelected("#"+this.id, id, status);
+            saveJqgridSelected("#"+this.id);
             //console.log(id)
             var ids = $(this).getGridParam("selarrrow");
             if (ids.length > 1) {

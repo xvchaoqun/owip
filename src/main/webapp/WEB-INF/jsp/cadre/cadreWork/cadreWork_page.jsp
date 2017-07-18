@@ -266,8 +266,9 @@
             $('.noSubWork [aria-describedby="jqGrid_cadreWork_subgrid"]').removeClass();
 
             //console.log(currentExpandRows)
-            for (i in currentExpandRows)
-                $("#jqGrid_cadreWork").expandSubGridRow(currentExpandRows[i])
+            currentExpandRows.forEach(function(item, i){
+                $("#jqGrid_cadreWork").expandSubGridRow(item)
+            })
         });
 
         function _swtich(id, btn) {
