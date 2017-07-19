@@ -5,16 +5,16 @@
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="<c:if test="${empty param.type}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/stat_cadre?type="><i class="fa fa-signal"></i> 所有中层干部</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type="><i class="fa fa-signal"></i> 所有中层干部</a>
                 </li>
                 <li class="<c:if test="${param.type=='jg'}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_JG}"><i class="fa fa-signal"></i> 机关及直属单位</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_JG}"><i class="fa fa-signal"></i> 机关及直属单位</a>
                 </li>
                 <li class="<c:if test="${param.type=='xy'}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_XY}"><i class="fa fa-signal"></i> 学部、院、系所</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_XY}"><i class="fa fa-signal"></i> 学部、院、系所</a>
                 </li>
                 <li class="<c:if test="${param.type=='fs'}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_FS}"><i class="fa fa-signal"></i> 附属单位</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_FS}"><i class="fa fa-signal"></i> 附属单位</a>
                 </li>
 
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
@@ -24,7 +24,7 @@
             </ul>
 
             <div class="tab-content">
-                <table border=0 cellpadding=0 cellspacing=0
+                <table id="statTable" border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;width:860pt'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
                         <td colspan=14 height=41 class=xl97>北京师范大学中层领导干部情况统计表

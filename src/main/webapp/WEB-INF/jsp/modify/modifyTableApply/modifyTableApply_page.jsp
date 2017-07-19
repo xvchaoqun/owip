@@ -32,6 +32,7 @@
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
+
                                 <div class="widget-toolbar">
                                     <a href="javascript:;" data-action="collapse">
                                         <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
@@ -46,6 +47,7 @@
 
                                         <div class="form-group">
                                             <label>账号</label>
+
                                             <div class="input-group">
                                                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
@@ -54,7 +56,8 @@
                                             </div>
                                         </div>
                                         <div class="clearfix form-actions center">
-                                            <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                            <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
+                                                查找</a>
                                             <c:if test="${_query || not empty param.sort}">&nbsp;
                                                 <button type="button" class="resetBtn btn btn-warning btn-sm"
                                                         data-querystr="module=${module}&cls=${cls}">
@@ -67,10 +70,11 @@
                             </div>
                         </div>
                         <%--<div class="space-4"></div>--%>
-                        <table id="jqGrid" class="jqGrid"> </table>
-                        <div id="jqGridPager"> </div>
+                        <table id="jqGrid" class="jqGrid"></table>
+                        <div id="jqGridPager"></div>
                     </div>
-                </div></div>
+                </div>
+            </div>
         </div>
         <div id="item-content">
         </div>
@@ -82,57 +86,69 @@
         //forceFit:true,
         url: '${ctx}/modifyTableApply_data?callback=?&module=${module}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '序号', name: 'id', width: 50,frozen:true },
+            {label: '序号', name: 'id', width: 50, frozen: true},
             {label: '申请时间', width: 150, name: 'createTime'/*,formatter:'date',formatoptions: {newformat:'Y-m-d'}*/},
-            { label: '工作证号', name: 'user.code', width: 120,frozen:true },
+            {label: '工作证号', name: 'user.code', width: 120, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return (rowObject.cadre != undefined)?$.cadre(rowObject.cadre.id, cellvalue):cellvalue;
+                return (rowObject.cadre != undefined) ? $.cadre(rowObject.cadre.id, cellvalue) : cellvalue;
             }, frozen: true
             },
-            { label: '所在单位及职务', name: 'cadre.title', width: 250},
-            { label: '修改方式', name: 'type',formatter:function(cellvalue, options, rowObject){
+            {label: '所在单位及职务', name: 'cadre.title', width: 250},
+            {
+                label: '修改方式', name: 'type', formatter: function (cellvalue, options, rowObject) {
 
-                if(cellvalue==undefined) return ''
+                if (cellvalue == undefined) return ''
                 return _cMap.MODIFY_TABLE_APPLY_TYPE_MAP[cellvalue];
-            }},
-            { label: '申请内容', name: 'content', width: 80,formatter:function(cellvalue, options, rowObject){
+            }
+            },
+            {
+                label: '申请内容', name: 'content', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyTableApply_detail?module=${module}&applyId={0}">'.format(rowObject.id)
-                        +'<i class="fa fa-search"></i> 详情</button>';
-            }},
+                        + '<i class="fa fa-search"></i> 详情</button>';
+            }
+            },
             <shiro:hasRole name="${ROLE_CADREADMIN}">
             <c:if test="${cls==1}">
-            { label: '组织部审核', name: '_check', formatter:function(cellvalue, options, rowObject){
+            {
+                label: '组织部审核', name: '_check', formatter: function (cellvalue, options, rowObject) {
 
                 return '<button data-url="${ctx}/modifyTableApply_detail?module=${module}&type=check&applyId={0}" class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-check"></i> 审核</button>'
-            }},
+            }
+            },
             </c:if>
             </shiro:hasRole>
 
-            { label: '审核状态', name: 'status'  , formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return ''
+            {
+                label: '审核状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
                 return _cMap.MODIFY_TABLE_APPLY_STATUS_MAP[cellvalue];
-            }},
+            }
+            },
             <c:if test="${cls==1}">
-            { label: '操作', name: '_check', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.userId!='${_user.id}') return ''
+            {
+                label: '操作', name: '_check', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.userId != '${_user.id}') return ''
                 return '<button data-url="${ctx}/user/modifyTableApply_back?id={0}" data-msg="确定撤销申请？" data-callback="_reload" class="confirm btn btn-danger btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-times"></i> 撤销</button>'
-            }},
+            }
+            },
             </c:if>
             <c:if test="${cls==2}">
-            { label: '审核人', name: 'checkUser.realname'},
-            { label: '审核时间', name: 'checkTime', width: 150},
-            { label:'依据', name: 'checkReason', width: 250 },
-            { label:'备注', name: 'checkRemark', width: 250 },
+            {label: '审核人', name: 'checkUser.realname'},
+            {label: '审核时间', name: 'checkTime', width: 150},
+            {label: '依据', name: 'checkReason', width: 250},
+            {label: '备注', name: 'checkRemark', width: 250},
             </c:if>
-            {hidden:true, name:'_status', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.status==undefined) return -1;
+            {
+                hidden: true, name: '_status', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.status == undefined) return -1;
                 return rowObject.status;
-            }}]
+            }
+            }]
         , onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
             //console.log(id)
@@ -141,7 +157,7 @@
                 $("#backBtn").prop("disabled", true);
             } else if (ids.length == 1) {
                 var rowData = $(this).getRowData(ids[0]);
-                $("#backBtn").prop("disabled", rowData._status!='${MODIFY_BASE_APPLY_STATUS_APPLY}')
+                $("#backBtn").prop("disabled", rowData._status != '${MODIFY_BASE_APPLY_STATUS_APPLY}')
             } else {
                 $("#backBtn").prop("disabled", false);
             }
@@ -154,7 +170,7 @@
     register_user_select($('#searchForm select[name=userId]'));
     $('[data-rel="tooltip"]').tooltip();
 
-    function _reload(){
+    function _reload() {
         $("#modal").modal('hide');
         $("#jqGrid").trigger("reloadGrid");
     }

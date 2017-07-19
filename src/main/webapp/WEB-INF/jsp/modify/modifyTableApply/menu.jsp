@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
     <li class="${cls==0?"active":""}">
       <a href="javascript:;" class="hashchange" data-querystr="cls=0&module=${module}"><i class="fa fa-th"></i> ${MODIFY_TABLE_APPLY_MODULE_MAP.get(module)}</a>

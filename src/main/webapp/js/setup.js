@@ -730,13 +730,13 @@ $(document).on("click", ".loadPage", function () {
 
     var queryString = _this.data("querystr");
     var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
-    var $target = (_this.data("target")) ? ($(_this.data("target")) || $("#page-content")) : $("#page-content");
-    $target.renderUrl({
-        url: url, fn: function () {
-            $("#modal").modal('hide');
-            clearJqgridSelected();
-        }
-    });
+    var maskEl = _this.data("mask-el");
+    var $maskEl = maskEl? ($(maskEl) || $("#page-content")) : $("#page-content");
+
+    $.loadPage(url, $maskEl, function () {
+        $("#modal").modal('hide');
+        clearJqgridSelected();
+    })
 });
 
 // 搜索 for jqgrid
@@ -1011,18 +1011,14 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
 
 
 // 内页展示
-$(document).on("click", "#body-content .openView", function () {
-    $.loadView($(this).data("url"), true);
-});
-$(document).on("click", "#item-content .openView", function () {
-
+$(document).on("click", ".openView", function () {
     $(this).attr("disabled", "disabled");
-    $.loadView($(this).data("url"), false, function () {
+    $.loadView($(this).data("url"), function () {
         $(this).removeAttr("disabled");
     });
 });
 
-$(document).on("click", "#item-content .hideView", function () {
+$(document).on("click", ".hideView", function () {
 
     $.hideView($(this).data("url"))
 });

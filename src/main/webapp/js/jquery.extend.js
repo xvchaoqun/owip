@@ -215,20 +215,20 @@ SysMsg.confirm = function (msg, title, callback) {
     $.extend({
         tip: function ($form, fieldName, popMsg) {
 
-            var $field = $("[name="+ fieldName +"]", $form);
-            if($field.closest(".input-group").length>0){
+            var $field = $("[name=" + fieldName + "]", $form);
+            if ($field.closest(".input-group").length > 0) {
                 $field = $field.closest(".input-group")
-            }else if($field.is('[data-rel="select2"]')
+            } else if ($field.is('[data-rel="select2"]')
                 || $field.is('[data-rel="select2-ajax"]')
-                || $field.hasClass("select2-hidden-accessible")){
+                || $field.hasClass("select2-hidden-accessible")) {
                 $field = $field.closest("div").find(".select2-container");
-            }else if($field.closest(".ace-file-input").length>0){
+            } else if ($field.closest(".ace-file-input").length > 0) {
                 $field = $field.closest(".ace-file-input")
-            }else if($field.is(":radio")){
+            } else if ($field.is(":radio")) {
                 $field = $field.closest("div")
             }
             var $container = $form;
-            if($form.closest("#modal").length>0){
+            if ($form.closest("#modal").length > 0) {
                 $container = $form.closest("#modal");
             }
             $field.qtip({
@@ -436,62 +436,55 @@ SysMsg.confirm = function (msg, title, callback) {
             }
             if (location.hash == oldHash) $(window).trigger("hashchange");
         },
-        // 重新加载内容区域
-        loadPage: function (url) {
-            var $container = $("#body-content");
-            $container.showLoading({
-                'afterShow': function () {
-                    setTimeout(function () {
-                        $container.hideLoading();
-                    }, 2000);
-                }
-            });
-            $.get(url, {}, function (html) {
-                $container.hideLoading().hide();
-                $("#page-content").hide().html(html).fadeIn("slow");
-            })
-        },
-        /*loadBody: function (url) {
-         var $container = $("#body-content");
-         $container.showLoading({
-         'afterShow': function () {
-         setTimeout(function () {
-         $container.hideLoading();
-         }, 2000);
-         }
-         });
-         $.get(url, {}, function (html) {
-         $container.hideLoading().hide();
-         $("#item-content").hide();
-         $("#body-content").html(html).fadeIn("slow");
-         })
-         },*/
-        // 重新加载副区域
-        loadView: function (url, isBody, fn) {
-
-            if (isBody == undefined || typeof isBody == 'function') {
-                fn = isBody;
-                isBody = true;
+        // 加载主区域
+        loadPage: function (url, $maskEl, fn) {
+            if ($maskEl == undefined || typeof $maskEl == 'function') {
+                fn = $maskEl;
+                $maskEl = $("#page-content");
             }
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
-
-            var $container = isBody ? $("#body-content") : $("#item-content");
-
-            $container.showLoading({
+            $maskEl.showLoading({
                 'afterShow': function () {
                     setTimeout(function () {
-                        $container.hideLoading();
+                        $maskEl.hideLoading();
+                        if (typeof fn == 'function') fn();
+                    }, 2000);
+                }
+            });
+            $.ajax({url: url, data: {}, cache: false, success: function (html) {
+                    $maskEl.hideLoading();
+                    $("#page-content").html(html);
+                }, error: function () {
+                    $.error("页面出错");
+                    $("#page-content").html("页面出错");
+                }
+            })
+        },
+        // 载入副区域
+        loadView: function (url, $maskEl, fn) {
+
+            if ($maskEl == undefined || typeof $maskEl == 'function') {
+                fn = $maskEl;
+                $maskEl = $("#page-content");
+            }
+            // 关闭modal
+            $("#modal").removeClass("fade").modal('hide').addClass("fade");
+            $maskEl.showLoading({
+                'afterShow': function () {
+                    setTimeout(function () {
+                        $maskEl.hideLoading();
                         if (typeof fn == 'function') fn();
                     }, 2000);
                 }
             });
             $.get(url, {}, function (html) {
-                $container.hideLoading().hide();
+                $maskEl.hideLoading();
+                $("#body-content").hide();
                 $("#item-content").hide().html(html).fadeIn("slow");
             })
         },
-        // 关闭副窗口，如果传入了url，则刷新主区域
+        // 关闭副区域，如果传入了url，则刷新主区域
         hideView: function (pageUrl) {
             $("#item-content").fadeOut("fast", function () {
                 if ($.trim(pageUrl) != '') {
@@ -529,29 +522,29 @@ SysMsg.confirm = function (msg, title, callback) {
                 }
             }
         },
-        fileInput: function($input,params){
-              $input.ace_file_input($.extend({
-                    no_file:'请选择文件 ...',
-                    btn_choose:'选择',
-                    btn_change:'更改',
-                    droppable:false,
-                    onchange:null,
-                    thumbnail:false,
-                    maxSize:_uploadMaxSize,
-                      //whitelist:'gif|png|jpg|jpeg'
-                      //blacklist:'exe|php'
-                      //onchange:''
-                }, params)).off('file.error.ace').on("file.error.ace",function(e, info){
+        fileInput: function ($input, params) {
+            $input.ace_file_input($.extend({
+                no_file: '请选择文件 ...',
+                btn_choose: '选择',
+                btn_change: '更改',
+                droppable: false,
+                onchange: null,
+                thumbnail: false,
+                maxSize: _uploadMaxSize,
+                //whitelist:'gif|png|jpg|jpeg'
+                //blacklist:'exe|php'
+                //onchange:''
+            }, params)).off('file.error.ace').on("file.error.ace", function (e, info) {
 
                 var size = info.error_list['size'];
-                if(size!=undefined) SysMsg.error("文件{0}超过{1}M大小".format(size, _uploadMaxSize/(1024*1024)));
+                if (size != undefined) SysMsg.error("文件{0}超过{1}M大小".format(size, _uploadMaxSize / (1024 * 1024)));
                 var ext = info.error_count['ext'];
                 var mime = info.error_count['mime'];
-                if(ext!=undefined||mime!=undefined) SysMsg.error("文件格式有误");
+                if (ext != undefined || mime != undefined) SysMsg.error("文件格式有误");
                 e.preventDefault();
             });
         },
-        swfPreview: function(filepath, filename, hrefLabel, plainText){
+        swfPreview: function (filepath, filename, hrefLabel, plainText) {
             filepath = $.trim(filepath);
             filename = $.trim(filename);
             hrefLabel = $.trim(hrefLabel)

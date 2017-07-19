@@ -4,7 +4,6 @@
 <div class="row">
   <div class="col-xs-12">
     <div id="body-content">
-      <div class="col-xs-12" style="padding-top: 20px;">
         <div class="${fn:length(applyList)>0?"col-xs-8":"col-xs-12"}">
      <c:if test="${empty member}">
       <div class="well">
@@ -81,7 +80,6 @@
           </blockquote>
         </div>
         </c:if>
-      </div>
     </div>
     <div id="item-content"></div>
     </div>
