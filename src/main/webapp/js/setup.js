@@ -631,14 +631,53 @@ $(document).on("click", ".jqOrderBtn", function () {
     });
 });
 
+function _refreshMenu(url){
+
+    // 处理左侧菜单
+    $("#sidebar .nav-list li").removeClass("active").removeClass("open")
+    $("#sidebar .nav-list li ul").removeClass("nav-show").css("display", "none")
+    while ($("#sidebar .nav-list a[data-url='" + url + "']").length == 0) {
+        var idx = url.lastIndexOf("&");
+        if (idx == -1) {
+            idx = url.indexOf("?");
+            if (idx == -1) break;
+        }
+        url = url.substr(0, idx);
+        //console.log(url)
+    }
+    //console.log(url + "  " + $(".nav-list a[href='"+url+"']").length)
+    $("#sidebar .nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
+    $("#sidebar .nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
+
+    // 处理顶部菜单
+    //url = hash.substr(1);
+    while ($(".navbar-header .nav-pills a[data-url='" + url + "']").length == 0) {
+        var idx = url.lastIndexOf("&");
+        if (idx == -1) {
+            idx = url.indexOf("?");
+            if (idx == -1) break;
+        }
+        url = url.substr(0, idx);
+        //console.log(url)
+    }
+    //console.log(url + "  " + $(".nav-pills a[href='"+url+"']").length)
+    // 清除顶部水平菜单状态
+    $(".navbar-header .nav-pills li").removeClass("active");
+    $(".navbar-header .nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
+
+    $(window).resize();
+
+    NProgress.done();
+}
 $(window).bind("hashchange", function () {
 
     NProgress.start();
 
     var hash = location.hash;
+    //console.log("hash=" + hash)
     if (hash == '') {
         $("#page-content").renderUrl({url: ctx + '/index',fn:function(){
-            NProgress.done();
+            _refreshMenu('#');
         }});
         return;
     }
@@ -666,41 +705,8 @@ $(window).bind("hashchange", function () {
             $("#modal").modal('hide');
             clearJqgridSelected();
 
-            // 处理左侧菜单
-            $("#sidebar .nav-list li").removeClass("active").removeClass("open")
-            $("#sidebar .nav-list li ul").removeClass("nav-show").css("display", "none")
-            while ($("#sidebar .nav-list a[data-url='" + url + "']").length == 0) {
-                var idx = url.lastIndexOf("&");
-                if (idx == -1) {
-                    idx = url.indexOf("?");
-                    if (idx == -1) break;
-                }
-                url = url.substr(0, idx);
-                //console.log(url)
-            }
-            //console.log(url + "  " + $(".nav-list a[href='"+url+"']").length)
-            $("#sidebar .nav-list a[data-url='" + url + "']").parents("li").addClass("active open").children("ul").addClass("nav-show").css("display", "block");
-            $("#sidebar .nav-list a[data-url='" + url + "']").closest("li").removeClass("open");
+            _refreshMenu(url);
 
-            // 处理顶部菜单
-            url = hash.substr(1);
-            while ($(".navbar-header .nav-pills a[data-url='" + url + "']").length == 0) {
-                var idx = url.lastIndexOf("&");
-                if (idx == -1) {
-                    idx = url.indexOf("?");
-                    if (idx == -1) break;
-                }
-                url = url.substr(0, idx);
-                //console.log(url)
-            }
-            //console.log(url + "  " + $(".nav-pills a[href='"+url+"']").length)
-            // 清除顶部水平菜单状态
-            $(".navbar-header .nav-pills li").removeClass("active");
-            $(".navbar-header .nav-pills a[data-url='" + url + "']").closest("li").addClass("active");
-
-            $(window).resize()
-
-            NProgress.done();
         }).fail(function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401) {
                 SysMsg.info("您没有权限访问。", "没有权限", function () {
