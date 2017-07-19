@@ -692,6 +692,7 @@
             <output>${basedir}/src/main/webapp/js/extend.js</output>
             <!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
             <includes>
+              <include>extend/js/nprogress.js</include>
               <include>extend/js/toastr.js</include>
               <include>extend/js/jquery.qtip.js</include>
               <include>extend/js/jquery.form.js</include>
@@ -770,6 +771,7 @@
             <!-- 最终合并的输出文件 -->
             <output>${basedir}/src/main/webapp/css/extend.css</output>
             <includes>
+              <include>extend/css/nprogress.css</include>
               <include>extend/css/bootstrap-switch.min.css</include>
               <include>extend/css/ui.dynatree.css</include>
               <include>extend/css/showLoading.css</include>

@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
 		$("#modal").modal('hide');
-		$.loadPage("${ctx}/user/passportDraw_tw?auth=admin&cadreId=" + cadreId);
+		$.loadPage({url:"${ctx}/user/passportDraw_tw?auth=admin&cadreId=" + cadreId});
 		</c:if>
 		<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">
 		$.loadView("${ctx}/user/passportDraw_other?auth=admin&cadreId=" + cadreId);

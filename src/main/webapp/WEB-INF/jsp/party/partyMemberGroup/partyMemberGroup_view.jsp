@@ -87,7 +87,7 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/partyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/partyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
     function _editMember(){

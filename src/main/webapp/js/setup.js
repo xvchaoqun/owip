@@ -633,9 +633,13 @@ $(document).on("click", ".jqOrderBtn", function () {
 
 $(window).bind("hashchange", function () {
 
+    NProgress.start();
+
     var hash = location.hash;
     if (hash == '') {
-        $("#page-content").renderUrl({url: ctx + '/index'});
+        $("#page-content").renderUrl({url: ctx + '/index',fn:function(){
+            NProgress.done();
+        }});
         return;
     }
     var url = hash.substr(1);
@@ -696,6 +700,7 @@ $(window).bind("hashchange", function () {
 
             $(window).resize()
 
+            NProgress.done();
         }).fail(function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == 401) {
                 SysMsg.info("您没有权限访问。", "没有权限", function () {
@@ -709,9 +714,13 @@ $(window).bind("hashchange", function () {
             }else {
                 SysMsg.info("系统错误，请稍后再试。");
             }
+
+            NProgress.done();
         });
     }).fail(function(){
         SysMsg.info("系统错误，请稍后再试。");
+
+        NProgress.done();
     });
 
 });
@@ -730,13 +739,12 @@ $(document).on("click", ".loadPage", function () {
 
     var queryString = _this.data("querystr");
     var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
-    var maskEl = _this.data("mask-el");
-    var $maskEl = maskEl? ($(maskEl) || $("#page-content")) : $("#page-content");
+    var maskEl = _this.data("mask-el") || "#page-content";
 
-    $.loadPage(url, $maskEl, function () {
+    $.loadPage({url:url, maskEl:maskEl, callback: function () {
         $("#modal").modal('hide');
         clearJqgridSelected();
-    })
+    }})
 });
 
 // 搜索 for jqgrid
@@ -986,25 +994,22 @@ $(document).on("click", ".popTableDiv .changeOrderBtn", function () {
 
 // 内页标签
 $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () {
-    var $this = $(this);
-    var $container = $("#view-box .tab-content");
-    $container.showLoading({
-        'afterShow': function () {
-            setTimeout(function () {
-                $container.hideLoading();
-            }, 2000);
-        }
-    });
-    if ($(this).data("url") != '') {
-        $container.load($(this).data("url"), function () {
-            $container.hideLoading();
-            $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
-            $this.closest("li").addClass("active");
 
-            clearJqgridSelected();
-        });
-    } else {
-        $container.hideLoading();
+    var $this = $(this);
+    var url = $this.data("url");
+    if(url!='') {
+        $.loadPage({
+            url:url,
+            maskEl:"#view-box .tab-content",
+            loadEl:"#view-box .tab-content",
+            callback: function () {
+                $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
+                $this.closest("li").addClass("active");
+
+                clearJqgridSelected();
+            }
+        })
+    }else {
         SysMsg.warning("暂缓开通该功能");
     }
 });

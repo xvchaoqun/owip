@@ -363,7 +363,7 @@
 
 <script>
     function _innerPage(type, fn) {
-        $("#view-box .tab-content").load("${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type, null, fn)
+        $("#view-box .tab-content").loadPage("${ctx}/cadreResearch_page?cadreId=${param.cadreId}&type=" + type, null, fn)
     }
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     $("#jqGrid_cadreResearch_in").jqGrid({

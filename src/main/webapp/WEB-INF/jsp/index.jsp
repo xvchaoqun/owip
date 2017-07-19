@@ -27,9 +27,9 @@
             </button>
         </shiro:lacksRole>
         <div class="navbar-header pull-left hidden-xs hidden-sm">
-            <div class="logo" style="cursor: pointer;" onclick="location.href='${ctx}/'"><img
+            <div class="logo" style="cursor: pointer;" onclick="location.href='#'"><img
                     src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
-            <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
+            <div class="txt" style="cursor: pointer;" onclick="location.href='#'">${_plantform_name}</div>
         </div>
 
         <div class="navbar-header pull-left hidden-md hidden-lg ">
@@ -134,7 +134,7 @@
         {{if(idx==0){}}
         <li>
             <i class="ace-icon fa fa-home home-icon"></i>
-            <a href="${ctx}/">回到首页</a>
+            <a href="#">回到首页</a>
         </li>
         {{}}}
         {{if(idx>=1){}}

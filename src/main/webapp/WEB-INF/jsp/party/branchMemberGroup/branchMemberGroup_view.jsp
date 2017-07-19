@@ -90,7 +90,7 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/branchMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/branchMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
     function _editMember(){

@@ -906,9 +906,9 @@ pageEncoding="UTF-8"%>
 <script>
 	function _innerPage(type) {
 		if(type==undefined){
-			$("#view-box .tab-content").load("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}")
+			$("#view-box .tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}")
 		}else{
-			$("#view-box .tab-content").load("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&type="+type)
+			$("#view-box .tab-content").loadPage("${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}&type="+type)
 		}
 	}
 	<c:if test="${param.type==1}">

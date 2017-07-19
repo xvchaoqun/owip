@@ -130,7 +130,7 @@
 <c:if test="${type==1}">
     <script>
         function _innerPage(type) {
-            $("#view-box .tab-content").load("${ctx}/cadreReward_page?rewardType=${param.rewardType}&cadreId=${param.cadreId}&type=" + type)
+            $("#view-box .tab-content").loadPage("${ctx}/cadreReward_page?rewardType=${param.rewardType}&cadreId=${param.cadreId}&type=" + type)
         }
         $("#jqGrid_cadreReward").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">

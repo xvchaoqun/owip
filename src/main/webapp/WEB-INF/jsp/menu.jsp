@@ -39,7 +39,7 @@
     <c:if test="${menu.type eq 'url'}">
         <li class="<c:if test="${menu.url=='/' || menu.url==_path || parentIdSet.contains(menu.id)}">active</c:if>">
             <c:if test="${menu.url=='/'}">
-                <a href="/">
+                <a href="#">
             </c:if>
             <c:if test="${menu.url!='/'}">
                 <a href="javascript:;" class="hashchange" data-url="${menu.url}">

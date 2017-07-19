@@ -87,7 +87,7 @@ pageEncoding="UTF-8" %>
 
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/unitCadreTransferGroup?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/unitCadreTransferGroup?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
     
     $('[data-rel="select2"]').select2();

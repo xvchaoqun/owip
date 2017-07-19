@@ -195,7 +195,7 @@
 <c:set value="${cm:toJSONObject(mainCadrePost)}" var="mainCadrePostStr"/>
 <script>
     function _innerPage(type) {
-        $("#view-box .tab-content").load("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type=" + type)
+        $("#view-box .tab-content").loadPage("${ctx}/cadrePost_page?cadreId=${param.cadreId}&type=" + type)
     }
 
     <c:if test="${type==1}">
@@ -556,7 +556,7 @@
 
     function _reload() {
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/cadrePost_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/cadrePost_page?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
     $('#searchForm [data-rel="select2"]').select2();

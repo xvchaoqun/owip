@@ -437,33 +437,42 @@ SysMsg.confirm = function (msg, title, callback) {
             if (location.hash == oldHash) $(window).trigger("hashchange");
         },
         // 加载主区域
-        loadPage: function (url, $maskEl, fn) {
-            if ($maskEl == undefined || typeof $maskEl == 'function') {
-                fn = $maskEl;
-                $maskEl = $("#page-content");
-            }
+        loadPage: function (options) {
+            //console.log(options)
+            options = options||{};
+            var url = options.url;
+            var $maskEl = options.$maskEl || $(options.maskEl||"#page-content");
+            var $loadEl = options.$loadEl || $(options.loadEl||"#page-content");
+            var callback = options.callback;
+
+            NProgress.start();
+
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
             $maskEl.showLoading({
                 'afterShow': function () {
                     setTimeout(function () {
                         $maskEl.hideLoading();
-                        if (typeof fn == 'function') fn();
+                        //if (typeof callback == 'function') callback();
                     }, 2000);
                 }
             });
             $.ajax({url: url, data: {}, cache: false, success: function (html) {
                     $maskEl.hideLoading();
-                    $("#page-content").html(html);
+                    $loadEl.html(html);
+                    if (typeof callback == 'function') callback();
+                    NProgress.done();
                 }, error: function () {
                     $.error("页面出错");
-                    $("#page-content").html("页面出错");
+                    $loadEl.html("页面出错");
+                    NProgress.done();
                 }
             })
         },
         // 载入副区域
         loadView: function (url, $maskEl, fn) {
 
+            NProgress.start();
             if ($maskEl == undefined || typeof $maskEl == 'function') {
                 fn = $maskEl;
                 $maskEl = $("#page-content");
@@ -474,7 +483,7 @@ SysMsg.confirm = function (msg, title, callback) {
                 'afterShow': function () {
                     setTimeout(function () {
                         $maskEl.hideLoading();
-                        if (typeof fn == 'function') fn();
+                        //if (typeof fn == 'function') fn();
                     }, 2000);
                 }
             });
@@ -482,6 +491,8 @@ SysMsg.confirm = function (msg, title, callback) {
                 $maskEl.hideLoading();
                 $("#body-content").hide();
                 $("#item-content").hide().html(html).fadeIn("slow");
+                if (typeof fn == 'function') fn();
+                NProgress.done();
             })
         },
         // 关闭副区域，如果传入了url，则刷新主区域
@@ -555,7 +566,17 @@ SysMsg.confirm = function (msg, title, callback) {
             } else
                 return $.trim(plainText);
         }
-    })
+    });
+    $.fn.loadPage = function( options ) {
+        var _options = {};
+        if(typeof options=="string"){
+            _options.url = options;
+            _options.$maskEl = $(this);
+        }
+
+        _options.$loadEl = $(this);
+        $.loadPage(_options);
+    };
 })(jQuery);
 try {
     bootbox.setDefaults({locale: 'zh_CN'});

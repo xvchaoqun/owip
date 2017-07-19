@@ -46,7 +46,7 @@ pageEncoding="UTF-8"%>
             if(ret.success){
                 <c:if test="${param.auth!='admin'}">
                 loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));
-                $.loadPage("${ctx}/user/passport?type=2");
+                $.loadPage({url:"${ctx}/user/passport?type=2"});
                 </c:if>
                 <c:if test="${param.auth=='admin'}">
                 $.hideView();

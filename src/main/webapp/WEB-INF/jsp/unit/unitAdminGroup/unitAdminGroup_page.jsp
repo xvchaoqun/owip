@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
     }
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/unitAdminGroup?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/unitAdminGroup?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
     //$('#searchForm [data-rel="select2"]').select2();
    // $('[data-rel="tooltip"]').tooltip();

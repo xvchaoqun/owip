@@ -68,6 +68,6 @@ pageEncoding="UTF-8" %>
 
     function _reload(){
         $("#modal").modal('hide');
-        $("#view-box .tab-content").load("${ctx}/cadreConcat_page?${cm:encodeQueryString(pageContext.request.queryString)}");
+        $("#view-box .tab-content").loadPage("${ctx}/cadreConcat_page?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 </script>

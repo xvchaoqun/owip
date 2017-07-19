@@ -535,6 +535,6 @@
 
 <script>
     function _innerPage(type) {
-        $("#view-box .tab-content").load("${ctx}/cadreAdform_page?cadreId=${param.cadreId}&type=" + type)
+        $("#view-box .tab-content").loadPage("${ctx}/cadreAdform_page?cadreId=${param.cadreId}&type=" + type)
     }
 </script>

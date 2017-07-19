@@ -200,7 +200,7 @@
 </script>
 <script>
     function _innerPage(type) {
-        $("#view-box .tab-content").load("${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type)
+        $("#view-box .tab-content").loadPage("${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type)
     }
     <c:if test="${type==1}">
     $("#jqGrid_cadreCourse").jqGrid({
