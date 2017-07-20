@@ -159,7 +159,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Kaptcha</servlet-name>
-        <url-pattern>/captcha.jpg</url-pattern>
+        <url-pattern>/captcha</url-pattern>
     </servlet-mapping>
 
     <!-- spring -->
@@ -206,7 +206,10 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/mobile/*</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.ico</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/</url-pattern>

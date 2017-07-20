@@ -29,7 +29,7 @@ $(function(){
     }else {
         $('img.captcha').click(function () {
             $("input[name=captcha]").val('').focus();
-            $(this).attr('src', '/captcha.jpg?' + Math.floor(Math.random() * 100));
+            $(this).attr('src', '/captcha?' + Math.floor(Math.random() * 100));
         })
         $("#login_btn").click(function () {
             var $form = $("#login-form");
@@ -133,7 +133,7 @@ $(function(){
                     } else {
                         alert(data.msg)
                         $("input[name=captcha]").val('');
-                        $('img.captcha').attr('src', '/captcha.jpg?' + Math.floor(Math.random() * 100));
+                        $('img.captcha').attr('src', '/captcha?' + Math.floor(Math.random() * 100));
                     }
                 }
             });
@@ -153,7 +153,7 @@ $(function(){
             target == '#login' ? $("#note").show() : $("#note").hide();
 
             $("input[name=captcha]").val('');
-            $('img.captcha').attr('src', '/captcha.jpg?' + Math.floor(Math.random() * 100));
+            $('img.captcha').attr('src', '/captcha?' + Math.floor(Math.random() * 100));
         });
     }
 })

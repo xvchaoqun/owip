@@ -143,7 +143,7 @@
                 /logout = logout
                 /authenticated = authc
                 /img/** = anon
-                /captcha.jpg = anon
+                /captcha = anon
                 /js/** = anon
                 /css/** = anon
                 /assets/** = anon
