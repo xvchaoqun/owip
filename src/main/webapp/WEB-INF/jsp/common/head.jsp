@@ -8,5 +8,5 @@
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${ctx}/css/ie9.css"/>
 <![endif]-->
-<link rel="stylesheet" href="${ctx}/css/extend.css" />
-<link rel="stylesheet" href="${ctx}/css/setup.css" />
+<link rel="stylesheet" href="${ctx}/css/extend.css?_=${cm:lastModified(cm:getCssFilePath("extend.css"))}" />
+<link rel="stylesheet" href="${ctx}/css/setup.css?_=${cm:lastModified(cm:getCssFilePath("setup.css"))}" />

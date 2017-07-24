@@ -78,6 +78,7 @@ import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -148,6 +149,16 @@ public class CmTag {
     public static Integer getMenuCacheCount(String countCacheKeys) {
 
         return cacheService.getCacheCount(countCacheKeys);
+    }
+
+    public static String getJsFilePath(String jsFileName) {
+
+        return cacheService.getJsFolder() + File.separator + jsFileName;
+    }
+
+    public static String getCssFilePath(String cssFileName) {
+
+        return cacheService.getCssFolder() + File.separator + cssFileName;
     }
 
     public static HtmlFragment getHtmlFragment(String code) {

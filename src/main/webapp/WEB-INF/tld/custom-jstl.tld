@@ -26,6 +26,16 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Integer getMenuCacheCount(java.lang.String)</function-signature>
 	</function>
+	<function>
+		<name>getJsFilePath</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String getJsFilePath(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getCssFilePath</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String getCssFilePath(java.lang.String)</function-signature>
+	</function>
 
   	<function>
 	  	<name>getParentIdSet</name>
@@ -180,6 +190,11 @@
 		<name>exists</name>
 		<function-class>sys.utils.FileUtils</function-class>
 		<function-signature>boolean exists(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>lastModified</name>
+		<function-class>sys.utils.FileUtils</function-class>
+		<function-signature>long lastModified(java.lang.String)</function-signature>
 	</function>
 	<!--获得日期字符串-->
 	<function>

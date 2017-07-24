@@ -144,7 +144,12 @@ public class CacheService extends BaseController{
     }
 
 
-    private static String getJsFolder(){
+    public static String getCssFolder(){
+
+        return ConfigUtil.defaultHomePath() + File.separator + "css";
+    }
+
+    public static String getJsFolder(){
 
         return ConfigUtil.defaultHomePath() + File.separator + "js";
     }
