@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
 
         url = "${ctx}/partyMemberGroup_au?type=view&partyId=${param.partyId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function _del(){
@@ -99,7 +99,7 @@ pageEncoding="UTF-8" %>
             return ;
         }
 
-        loadModal("${ctx}/party_member?id="+ id);
+        $.loadModal("${ctx}/party_member?id="+ id);
     }
 
     $('[data-rel="select2"]').select2({width:300});

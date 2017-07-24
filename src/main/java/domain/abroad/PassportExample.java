@@ -252,6 +252,66 @@ public class PassportExample {
             return (Criteria) this;
         }
 
+        public Criteria andTaiwanRecordIdIsNull() {
+            addCriterion("taiwan_record_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdIsNotNull() {
+            addCriterion("taiwan_record_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdEqualTo(Integer value) {
+            addCriterion("taiwan_record_id =", value, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdNotEqualTo(Integer value) {
+            addCriterion("taiwan_record_id <>", value, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdGreaterThan(Integer value) {
+            addCriterion("taiwan_record_id >", value, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("taiwan_record_id >=", value, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdLessThan(Integer value) {
+            addCriterion("taiwan_record_id <", value, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdLessThanOrEqualTo(Integer value) {
+            addCriterion("taiwan_record_id <=", value, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdIn(List<Integer> values) {
+            addCriterion("taiwan_record_id in", values, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdNotIn(List<Integer> values) {
+            addCriterion("taiwan_record_id not in", values, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdBetween(Integer value1, Integer value2) {
+            addCriterion("taiwan_record_id between", value1, value2, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaiwanRecordIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("taiwan_record_id not between", value1, value2, "taiwanRecordId");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreIdIsNull() {
             addCriterion("cadre_id is null");
             return (Criteria) this;
@@ -749,6 +809,76 @@ public class PassportExample {
 
         public Criteria andSafeBoxIdNotBetween(Integer value1, Integer value2) {
             addCriterion("safe_box_id not between", value1, value2, "safeBoxId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicIsNull() {
+            addCriterion("pic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicIsNotNull() {
+            addCriterion("pic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicEqualTo(String value) {
+            addCriterion("pic =", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotEqualTo(String value) {
+            addCriterion("pic <>", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicGreaterThan(String value) {
+            addCriterion("pic >", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicGreaterThanOrEqualTo(String value) {
+            addCriterion("pic >=", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicLessThan(String value) {
+            addCriterion("pic <", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicLessThanOrEqualTo(String value) {
+            addCriterion("pic <=", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicLike(String value) {
+            addCriterion("pic like", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotLike(String value) {
+            addCriterion("pic not like", value, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicIn(List<String> values) {
+            addCriterion("pic in", values, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotIn(List<String> values) {
+            addCriterion("pic not in", values, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicBetween(String value1, String value2) {
+            addCriterion("pic between", value1, value2, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andPicNotBetween(String value1, String value2) {
+            addCriterion("pic not between", value1, value2, "pic");
             return (Criteria) this;
         }
 

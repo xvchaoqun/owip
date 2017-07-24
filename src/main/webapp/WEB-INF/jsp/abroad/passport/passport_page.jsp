@@ -37,6 +37,14 @@ pageEncoding="UTF-8" %>
                                    data-url="${ctx}/passport_lost" >
                                     <i class="fa fa-times"></i> 丢失
                                 </a>
+                                <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                        data-url="${ctx}/shortMsg_view" data-querystr="&type=passportInfo">
+                                    <i class="fa fa-info-circle"></i> 发送证件信息
+                                </button>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm" data-open-by="page"
+                                        data-url="${ctx}/passport_uploadPic">
+                                    <i class="fa fa-upload"></i> 上传证件首页
+                                </button>
                                 <shiro:hasPermission name="passport:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/passport_batchDel" data-title="证件删除"
@@ -233,6 +241,11 @@ pageEncoding="UTF-8" %>
             }},
             { label: '证件名称', name: 'passportClass.name', width: 200 },
             { label: '证件号码', name: 'code' },
+            { label: '证件首页', name: '_pic', width: 80, formatter:function(cellvalue, options, rowObject){
+                if($.trim(rowObject.pic)=='') return '-'
+                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">查看</a>'
+                        .format(encodeURI(rowObject.pic), rowObject.code + ".jpg");
+            } },
             { label:'发证机关',name: 'authority', width: 180},
             { label:'发证日期', name: 'issueDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'有效期', name: 'expiryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
@@ -245,9 +258,13 @@ pageEncoding="UTF-8" %>
             }  },
             <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', name: 'safeBox.code', width: 130 },
-            { label:'是否借出', name: 'isLent', formatter:function(cellvalue){
-                return cellvalue?"借出":"-";
-            } },
+            { label:'是否借出', name: 'isLent', formatter:function(cellvalue, options, rowObject){
+                return cellvalue?($.trim(rowObject.refuseReturnReason)!=''?"拒不交回":"借出"):"-";
+            }, title:false,cellattr: function (rowId, val, rawObject, cm, rdata) {
+                //console.log(rawObject)
+                if($.trim(rawObject.refuseReturnReason)!=''){
+                    return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'+rawObject.refuseReturnReason+'"';
+                } }},
             </c:if>
             <c:if test="${status==4}">
             { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
@@ -294,26 +311,33 @@ pageEncoding="UTF-8" %>
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');
+        $('[data-tooltip="tooltip"]').tooltip({html:true});
     });
     $.initNavGrid("jqGrid", "jqGridPager");
 
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;
-        loadModal( "${ctx}/safeBox?pageNo="+pageNo, '400');
+        $.loadModal( "${ctx}/safeBox?pageNo="+pageNo, '400');
     }
 
     $(".importBtn").click(function(){
-        loadModal("${ctx}/passport_import");
+        $.loadModal("${ctx}/passport_import");
     });
 
     $(".addLostBtn").click(function(){
-        loadModal("${ctx}/passport_au?type=${PASSPORT_TYPE_LOST}");
+        $.loadModal("${ctx}/passport_au?type=${PASSPORT_TYPE_LOST}");
     });
     $(".cancelConfirmBtn").click(function(){
-        loadModal("${ctx}/passport_cancel_confirm?id="+$(this).data("id"));
+        $.loadModal("${ctx}/passport_cancel_confirm?id="+$(this).data("id"));
     });
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     register_user_select($('[data-rel="select2-ajax"]'));
+
+    register_fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'), this.title);
+    });
 </script>

@@ -419,10 +419,16 @@
 <c:set var="PASSPORT_DRAW_DRAW_STATUS_ABOLISH" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_ABOLISH%>"/>
 <c:set var="PASSPORT_DRAW_DRAW_STATUS_MAP" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_MAP%>"/>
 
+<c:set var="PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN" value="<%=SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN%>"/>
+
 <c:set var="PASSPORT_APPLY_STATUS_INIT" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_INIT%>"/>
 <c:set var="PASSPORT_APPLY_STATUS_PASS" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_PASS%>"/>
 <c:set var="PASSPORT_APPLY_STATUS_NOT_PASS" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_NOT_PASS%>"/>
 <c:set var="PASSPORT_APPLY_STATUS_MAP" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_MAP%>"/>
+
+<c:set var="TAIWAN_RECORD_HANDLE_TYPE_OW" value="<%=SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_OW%>"/>
+<c:set var="TAIWAN_RECORD_HANDLE_TYPE_OFFICE" value="<%=SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_OFFICE%>"/>
+<c:set var="TAIWAN_RECORD_HANDLE_TYPE_MAP" value="<%=SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_MAP%>"/>
 
 <c:set var="APPROVER_TYPE_UNIT" value="<%=SystemConstants.APPROVER_TYPE_UNIT%>"/>
 <c:set var="APPROVER_TYPE_LEADER" value="<%=SystemConstants.APPROVER_TYPE_LEADER%>"/>

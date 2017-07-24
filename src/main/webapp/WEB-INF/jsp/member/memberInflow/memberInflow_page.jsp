@@ -273,7 +273,7 @@
     }
     function apply_deny(id, type, goToNext) {
 
-        loadModal("${ctx}/memberInflow_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+        $.loadModal("${ctx}/memberInflow_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, type, goToNext){
         bootbox.confirm("确定通过该申请？", function (result) {
@@ -379,7 +379,7 @@
                 if(minStatus==undefined || minStatus>rowData.inflowStatus) minStatus = rowData.inflowStatus;
             }
 
-            loadModal("${ctx}/memberInflow_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberInflow_back?ids[]={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

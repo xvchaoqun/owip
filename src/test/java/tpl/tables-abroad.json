@@ -1,5 +1,5 @@
 {
-  "schema": "owip20160314",
+  "schema": "db_owip",
   "cpath": "\\src\\main\\java\\controller\\",
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
@@ -102,6 +102,14 @@
       "searchColumns": "code",
       "showColumns": "id,code",
       "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ABROAD",
+      "ignore": true
+    },{
+      "table": "taiwan_record",
+      "key": "id",
+      "searchColumns": "cadre_id,record_date,start_date,end_date",
+      "showColumns": "cadre_id,record_date,start_date,end_date,reason,passport_code,handle_type,expect_date,handle_date,remark",
+      "excludeEditColumns": "id,create_time",
       "logType":"SystemConstants.LOG_ABROAD",
       "ignore": false
     }

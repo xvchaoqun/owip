@@ -170,26 +170,8 @@ pageEncoding="UTF-8"%>
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('#modalForm select[name=dispatchId][data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+
+    register_ajax_select($('#modalForm select[name=dispatchId][data-rel="select2-ajax"]'));
 
     var $selectCadre = register_user_select($('#modalForm select[name=cadreId]'),function(state){ var $state = state.text;
         if(state.code!=undefined && state.code.length>0)

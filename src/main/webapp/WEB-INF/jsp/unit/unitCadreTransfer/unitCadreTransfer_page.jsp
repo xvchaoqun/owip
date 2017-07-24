@@ -59,7 +59,7 @@ pageEncoding="UTF-8" %>
     function unitCadreTransfer_au(id) {
         var url = "${ctx}/unitCadreTransfer_au?groupId=${param.groupId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function unitCadreTransfer_del(id){

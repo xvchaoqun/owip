@@ -140,10 +140,11 @@
                     <div class="col-xs-8 label-text" style="font-size: 14px">
                         <input type="radio" name="usePassport" value="1" class="big" checked> 持证件出国（境）
                         <input type="radio" name="usePassport" value="0" class="big"> 未持证件出国（境）
+                        <input type="radio" name="usePassport" value="2" class="big"> 拒不交回证件
                     </div>
                 </div>
-                <div id="illegalUsePassport">
 
+                <div id="illegalUsePassport" class="refuseReturnPassport">
                 <div class="form-group">
                     <label class="col-xs-4 control-label">实际出发时间</label>
                     <div class="col-xs-6">
@@ -179,8 +180,8 @@
                     </div>
                 </div>
                 </c:if>
-                    </div>
-                <div class="form-group">
+                </div>
+                <div class="form-group refuseReturnPassport">
                     <label class="col-xs-4 control-label">干部本人说明材料（要求pdf格式）</label>
                     <div class="col-xs-6"  style="width: 325px">
                         <input class="form-control" type="file" name="_attachment" />
@@ -192,20 +193,20 @@
                         <textarea class="form-control limited" style="width: 300px" type="text" name="remark" rows="5"></textarea>
                     </div>
                 </div>
+                </div>
+                <div class="col-xs-6 refuseReturnPassport" style="width: 430px; margin-left: 50px;">
+                    <div class="form-group">
+                        <input type="file" name="_useRecord" />
+                        <input type="hidden" name="_base64">
+                        <input type="hidden" name="_rotate">
+                        <div class="pull-right">或
+                            <a href="javascript:" onclick="opencam()" class="btn btn-primary btn-xs">
+                                <i class="fa fa-camera"></i>
+                                点此拍照</a>
+                            <a class="btn btn-warning btn-xs" onclick="_rotate()"><i class="fa fa-rotate-right"></i> 旋转</a>
+                        </div>
                     </div>
-                    <div class="col-xs-6" style="width: 430px; margin-left: 50px;">
-                        <div class="form-group">
-                            <input type="file" name="_useRecord" />
-                            <input type="hidden" name="_base64">
-                            <input type="hidden" name="_rotate">
-                            <div class="pull-right">或
-                                <a href="javascript:" onclick="opencam()" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-camera"></i>
-                                    点此拍照</a>
-                                <a class="btn btn-warning btn-xs" onclick="_rotate()"><i class="fa fa-rotate-right"></i> 旋转</a>
-                            </div>
-                        </div>
-                        </div>
+                </div>
                 </div>
             </form>
 
@@ -216,7 +217,7 @@
     <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
     <input type="submit" data-name="${sysUser.realname}"
            data-cls="${passportType.name}"
-           class="btn btn-success" value="确认归还"/>
+           class="btn btn-success" value="确认"/>
     <input  class="hideView btn btn-default" value="返回"/>
 </div>
 
@@ -350,9 +351,15 @@
         var val = $(this).val();
         if(val==0){
             $("#illegalUsePassport").slideUp();
-        }
-        if(val==1){
+        }else if(val==1){
             $("#illegalUsePassport").slideDown();
+        }
+        if(val==2){ // 拒不交回
+            $(".refuseReturnPassport").hide();
+            $("textarea[name=remark]").attr("required", "required");
+        }else{
+            $(".refuseReturnPassport").show();
+            $("textarea[name=remark]").removeAttr("required");
         }
     });
 

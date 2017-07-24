@@ -149,7 +149,7 @@ pageEncoding="UTF-8"%>
 		width: 20px;
 		height: 20px;
 		_vertical-align: -1px;/*针对IE6使用hack*/
-		vertical-align: -3px;
+		vertical-align: -5px;
 	}
 	#applyForm .tags{
 		width: 256px;
@@ -174,11 +174,25 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>
 <script src="${ctx}/assets/js/ace/elements.typeahead.js"></script>
 <script>
+	var reason;
 	<c:forEach var="reason" items="${fn:split(applySelf.reason,'+++')}">
-	$("input[name=_reason][value='${reason}']").prop("checked", true);
+	reason = '${reason}';
+	if(reason.startWith("其他:")){
+		$("input[name=_reason][value='其他']").prop("checked", true);
+		$("input[name=_reason_other]").val(reason.split(":")[1]);
+	}else{
+		$("input[name=_reason][value='${reason}']").prop("checked", true);
+	}
 	</c:forEach>
+	var peerStaff;
 	<c:forEach var="peerStaff" items="${fn:split(applySelf.peerStaff,'+++')}">
-	$("input[name=_peerStaff][value='${peerStaff}']").prop("checked", true);
+	peerStaff = '${peerStaff}';
+	if(peerStaff.startWith("其他:")){
+		$("input[name=_peerStaff][value='其他']").prop("checked", true);
+		$("input[name=_peerStaff_other]").val(peerStaff.split(":")[1]);
+	}else{
+		$("input[name=_peerStaff][value='${peerStaff}']").prop("checked", true);
+	}
 	</c:forEach>
 	var costSource = '${applySelf.costSource}';
 	if(costSource=='自费')
@@ -392,11 +406,7 @@ pageEncoding="UTF-8"%>
 	}
     $('#applyForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-	$('.date-picker').datepicker({
-		language:"zh-CN",
-		autoclose: true,
-		todayHighlight: true
-	})
+	register_date($('.date-picker'))
 	register_user_select($('[data-rel="select2-ajax"]'));
 	$('textarea.limited').inputlimiter();
 </script>

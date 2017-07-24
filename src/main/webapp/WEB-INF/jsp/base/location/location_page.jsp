@@ -30,14 +30,14 @@
     function _appendChild(parentCode) {
         url = "${ctx}/location_au?parentCode=" + parentCode;
 
-        loadModal(url);
+        $.loadModal(url);
 
     }
     function _au(id) {
 
         url = "${ctx}/location_au?id=" + id;
 
-        loadModal(url);
+        $.loadModal(url);
 
     }
 

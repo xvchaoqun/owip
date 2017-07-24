@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.abroad.TaiwanRecordMapper">
+  <resultMap id="BaseResultMap" type="domain.abroad.TaiwanRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="passport_code" jdbcType="VARCHAR" property="passportCode" />
+    <result column="handle_type" jdbcType="TINYINT" property="handleType" />
+    <result column="expect_date" jdbcType="DATE" property="expectDate" />
+    <result column="handle_date" jdbcType="DATE" property="handleDate" />
+    <result column="handle_user_id" jdbcType="INTEGER" property="handleUserId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cadre_id, record_date, start_date, end_date, reason, passport_code, handle_type, 
+    expect_date, handle_date, handle_user_id, remark, create_time, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="domain.abroad.TaiwanRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from abroad_taiwan_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from abroad_taiwan_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from abroad_taiwan_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.abroad.TaiwanRecordExample">
+    delete from abroad_taiwan_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.abroad.TaiwanRecord">
+    insert into abroad_taiwan_record (id, cadre_id, record_date, 
+      start_date, end_date, reason, 
+      passport_code, handle_type, expect_date, 
+      handle_date, handle_user_id, remark, 
+      create_time, is_deleted)
+    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{recordDate,jdbcType=DATE}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
+      #{passportCode,jdbcType=VARCHAR}, #{handleType,jdbcType=TINYINT}, #{expectDate,jdbcType=DATE}, 
+      #{handleDate,jdbcType=DATE}, #{handleUserId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.abroad.TaiwanRecord">
+    insert into abroad_taiwan_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="recordDate != null">
+        record_date,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="passportCode != null">
+        passport_code,
+      </if>
+      <if test="handleType != null">
+        handle_type,
+      </if>
+      <if test="expectDate != null">
+        expect_date,
+      </if>
+      <if test="handleDate != null">
+        handle_date,
+      </if>
+      <if test="handleUserId != null">
+        handle_user_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="recordDate != null">
+        #{recordDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="passportCode != null">
+        #{passportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleType != null">
+        #{handleType,jdbcType=TINYINT},
+      </if>
+      <if test="expectDate != null">
+        #{expectDate,jdbcType=DATE},
+      </if>
+      <if test="handleDate != null">
+        #{handleDate,jdbcType=DATE},
+      </if>
+      <if test="handleUserId != null">
+        #{handleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.abroad.TaiwanRecordExample" resultType="java.lang.Long">
+    select count(*) from abroad_taiwan_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update abroad_taiwan_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordDate != null">
+        record_date = #{record.recordDate,jdbcType=DATE},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passportCode != null">
+        passport_code = #{record.passportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleType != null">
+        handle_type = #{record.handleType,jdbcType=TINYINT},
+      </if>
+      <if test="record.expectDate != null">
+        expect_date = #{record.expectDate,jdbcType=DATE},
+      </if>
+      <if test="record.handleDate != null">
+        handle_date = #{record.handleDate,jdbcType=DATE},
+      </if>
+      <if test="record.handleUserId != null">
+        handle_user_id = #{record.handleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update abroad_taiwan_record
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      record_date = #{record.recordDate,jdbcType=DATE},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      passport_code = #{record.passportCode,jdbcType=VARCHAR},
+      handle_type = #{record.handleType,jdbcType=TINYINT},
+      expect_date = #{record.expectDate,jdbcType=DATE},
+      handle_date = #{record.handleDate,jdbcType=DATE},
+      handle_user_id = #{record.handleUserId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.abroad.TaiwanRecord">
+    update abroad_taiwan_record
+    <set>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="passportCode != null">
+        passport_code = #{passportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleType != null">
+        handle_type = #{handleType,jdbcType=TINYINT},
+      </if>
+      <if test="expectDate != null">
+        expect_date = #{expectDate,jdbcType=DATE},
+      </if>
+      <if test="handleDate != null">
+        handle_date = #{handleDate,jdbcType=DATE},
+      </if>
+      <if test="handleUserId != null">
+        handle_user_id = #{handleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.abroad.TaiwanRecord">
+    update abroad_taiwan_record
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      record_date = #{recordDate,jdbcType=DATE},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      reason = #{reason,jdbcType=VARCHAR},
+      passport_code = #{passportCode,jdbcType=VARCHAR},
+      handle_type = #{handleType,jdbcType=TINYINT},
+      expect_date = #{expectDate,jdbcType=DATE},
+      handle_date = #{handleDate,jdbcType=DATE},
+      handle_user_id = #{handleUserId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.abroad.TaiwanRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from abroad_taiwan_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -222,7 +222,7 @@ public class SafeBoxService extends BaseMapper {
             PassportExample example = new PassportExample();
             example.createCriteria().andSafeBoxIdEqualTo(safeBoxId).
                     andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP);
-            int keepCount = passportMapper.countByExample(example);
+            long keepCount = passportMapper.countByExample(example);
 
             Row header = sheet.createRow(rowNum);
             header.setHeight((short) (35.7 * 18));

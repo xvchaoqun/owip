@@ -216,7 +216,7 @@ public class UserPassportController extends BaseController {
             return;
         }
 
-        int count = passportDrawMapper.countByExample(example);
+        long count = passportDrawMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

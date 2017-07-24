@@ -2302,52 +2302,52 @@ public class PassportDrawExample {
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportEqualTo(Boolean value) {
+        public Criteria andUsePassportEqualTo(Byte value) {
             addCriterion("use_passport =", value, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportNotEqualTo(Boolean value) {
+        public Criteria andUsePassportNotEqualTo(Byte value) {
             addCriterion("use_passport <>", value, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportGreaterThan(Boolean value) {
+        public Criteria andUsePassportGreaterThan(Byte value) {
             addCriterion("use_passport >", value, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andUsePassportGreaterThanOrEqualTo(Byte value) {
             addCriterion("use_passport >=", value, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportLessThan(Boolean value) {
+        public Criteria andUsePassportLessThan(Byte value) {
             addCriterion("use_passport <", value, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportLessThanOrEqualTo(Boolean value) {
+        public Criteria andUsePassportLessThanOrEqualTo(Byte value) {
             addCriterion("use_passport <=", value, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportIn(List<Boolean> values) {
+        public Criteria andUsePassportIn(List<Byte> values) {
             addCriterion("use_passport in", values, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportNotIn(List<Boolean> values) {
+        public Criteria andUsePassportNotIn(List<Byte> values) {
             addCriterion("use_passport not in", values, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportBetween(Boolean value1, Boolean value2) {
+        public Criteria andUsePassportBetween(Byte value1, Byte value2) {
             addCriterion("use_passport between", value1, value2, "usePassport");
             return (Criteria) this;
         }
 
-        public Criteria andUsePassportNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andUsePassportNotBetween(Byte value1, Byte value2) {
             addCriterion("use_passport not between", value1, value2, "usePassport");
             return (Criteria) this;
         }

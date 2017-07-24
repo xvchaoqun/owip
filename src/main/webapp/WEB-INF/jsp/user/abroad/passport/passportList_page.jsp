@@ -29,6 +29,7 @@
                                         <tr>
                                             <th style="width: 200px">证件名称</th>
                                             <th>证件号码</th>
+                                            <th style="width: 100px">证件首页</th>
                                             <th>发证机关</th>
                                             <th style="width: 100px">发证日期</th>
                                             <th style="width: 100px">有效期</th>
@@ -41,6 +42,12 @@
                                             <tr>
                                                 <td>${passportTypeMap.get(passport.classId).name}</td>
                                                 <td>${passport.code}</td>
+                                                <td>
+                                                    <c:if test="${not empty passport.pic}">
+                                                    <a class="various" title="${passport.code}.jpg" data-path="${cm:encodeURI(passport.pic)}"
+                                                       data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(passport.pic)}">查看</a>
+                                                    </c:if>
+                                                </td>
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
@@ -77,6 +84,7 @@
                                         <tr>
                                             <th style="width: 200px">证件名称</th>
                                             <th>证件号码</th>
+                                            <th style="width: 100px">证件首页</th>
                                             <th>发证机关</th>
                                             <th style="width: 100px">发证日期</th>
                                             <th style="width: 100px">有效期</th>
@@ -90,6 +98,12 @@
                                             <tr>
                                                 <td>${passportTypeMap.get(passport.classId).name}</td>
                                                 <td>${passport.code}</td>
+                                                <td>
+                                                    <c:if test="${not empty passport.pic}">
+                                                        <a class="various" title="${passport.code}.jpg" data-path="${cm:encodeURI(passport.pic)}"
+                                                           data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(passport.pic)}">查看</a>
+                                                    </c:if>
+                                                </td>
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
@@ -139,6 +153,7 @@
                                         <tr>
                                             <th style="width: 200px">证件名称</th>
                                             <th>证件号码</th>
+                                            <th style="width: 100px">证件首页</th>
                                             <th>发证机关</th>
                                             <th style="width: 100px">发证日期</th>
                                             <th style="width: 100px">有效期</th>
@@ -151,6 +166,12 @@
                                             <tr>
                                                 <td>${passportTypeMap.get(passport.classId).name}</td>
                                                 <td>${passport.code}</td>
+                                                <td>
+                                                    <c:if test="${not empty passport.pic}">
+                                                        <a class="various" title="${passport.code}.jpg" data-path="${cm:encodeURI(passport.pic)}"
+                                                           data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(passport.pic)}">查看</a>
+                                                    </c:if>
+                                                </td>
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
@@ -189,3 +210,10 @@
         height:38px;
     }
 </style>
+<script>
+    register_fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}&filename={1}" target="_blank">点击下载</a>】</div></div>'
+                        .format($(this.element).data('path'), this.title);
+    });
+</script>

@@ -2,13 +2,12 @@ package persistence.abroad;
 
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface PassportDrawMapper {
-    int countByExample(PassportDrawExample example);
+    long countByExample(PassportDrawExample example);
 
     int deleteByExample(PassportDrawExample example);
 

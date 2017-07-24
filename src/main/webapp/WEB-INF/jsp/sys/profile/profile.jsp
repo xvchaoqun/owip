@@ -256,12 +256,8 @@
             //$('#user-profile input[type=file]').ace_file_input('reset_input');
             $('#user-profile').find('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${_user.username}'}]);
           })
-  $('.date-picker').datepicker({
-    language:"zh-CN",
-    autoclose: true,
-    todayHighlight: true,
-    defaultViewDate:{year:1980}
-  })
+
+  register_date($('.date-picker'), {defaultViewDate:{year:1980}})
   $("#user-profile form").validate({
     submitHandler: function (form) {
       $(form).ajaxSubmit({

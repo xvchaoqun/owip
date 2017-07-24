@@ -44,20 +44,6 @@ public class ${TableName}Controller extends BaseController {
     @RequestMapping("/${tableName}")
     public String ${tableName}() {
 
-        return "index";
-    }
-    @RequiresPermissions("${tableName}:list")
-    @RequestMapping("/${tableName}_page")
-    public String ${tableName}_page(HttpServletResponse response,
-    @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
-    @OrderParam(required = false, defaultValue = "desc") String order,
-    <#list searchColumnBeans as column>
-        <#if column.type=="varchar"||column.type=="text"||column.type=="datetime"||column.type=="date">String<#elseif column.type=="int">Integer</#if> ${tbn(column.name, "tableName")},
-    </#list>
-    @RequestParam(required = false, defaultValue = "0") int export,
-    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-    Integer pageSize, Integer pageNo, ModelMap modelMap) {
-
         return "${folder}/${tableName}/${tableName}_page";
     }
 
@@ -104,7 +90,7 @@ public class ${TableName}Controller extends BaseController {
             return;
         }
 
-        int count = ${tableName}Mapper.countByExample(example);
+        long count = ${tableName}Mapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -199,7 +185,7 @@ public class ${TableName}Controller extends BaseController {
 
         List<${TableName}> records = ${tableName}Mapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {<#list tableColumns as column>"${column.comments}"<#if column_has_next>,</#if></#list>};
+        String[] titles = {<#list tableColumns as column>"${column.comments}|100"<#if column_has_next>,</#if></#list>};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ${TableName} record = records.get(i);

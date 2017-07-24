@@ -60,11 +60,6 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $('.date-picker').datepicker({
-        language:"zh-CN",
-        autoclose: true,
-        todayHighlight: true
-    })
-
+    register_date($('.date-picker'))
     $.fileInput($('#modalForm input[type=file]'))
 </script>

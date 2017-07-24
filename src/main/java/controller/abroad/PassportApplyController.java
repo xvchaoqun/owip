@@ -1,6 +1,7 @@
 package controller.abroad;
 
 import controller.BaseController;
+import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyView;
 import domain.abroad.PassportApplyViewExample;
@@ -54,7 +55,8 @@ public class PassportApplyController extends BaseController {
 
         PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
         modelMap.put("passportApply", passportApply);
-        modelMap.put("passports", passportService.findByCadreId(passportApply.getCadreId()));
+        Map<Integer, Passport> passportMap = passportService.findByCadreId(passportApply.getCadreId());
+        modelMap.put("passports", passportMap.values());
 
         return "abroad/passportApply/passportApply_check";
     }

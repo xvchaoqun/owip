@@ -168,10 +168,10 @@
 <script>
 <c:if test="${param.type=='approval'}">
   $("#agree").click(function(){
-    loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=1");
+    $.loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=1");
   });
   $("#disagree").click(function(){
-    loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=0");
+    $.loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=0");
   });
 </c:if>
 </script>

@@ -3,6 +3,8 @@ package domain.abroad;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -34,9 +36,22 @@ public class Passport implements Serializable {
         return CmTag.getSafeBoxMap().get(safeBoxId);
     }
 
+    public String getRefuseReturnReason(){
+
+        if(BooleanUtils.isTrue(isLent)){
+            PassportDraw passportDraw = CmTag.getRefuseReturnPassportDraw(id);
+            if(passportDraw!=null)
+                return StringUtils.defaultIfBlank(passportDraw.getReturnRemark(), "拒不交回");
+        }
+
+        return null;
+    }
+
     private Integer id;
 
     private Integer applyId;
+
+    private Integer taiwanRecordId;
 
     private Integer cadreId;
 
@@ -53,6 +68,8 @@ public class Passport implements Serializable {
     private Date keepDate;
 
     private Integer safeBoxId;
+
+    private String pic;
 
     private Boolean isLent;
 
@@ -102,6 +119,14 @@ public class Passport implements Serializable {
 
     public void setApplyId(Integer applyId) {
         this.applyId = applyId;
+    }
+
+    public Integer getTaiwanRecordId() {
+        return taiwanRecordId;
+    }
+
+    public void setTaiwanRecordId(Integer taiwanRecordId) {
+        this.taiwanRecordId = taiwanRecordId;
     }
 
     public Integer getCadreId() {
@@ -166,6 +191,14 @@ public class Passport implements Serializable {
 
     public void setSafeBoxId(Integer safeBoxId) {
         this.safeBoxId = safeBoxId;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic == null ? null : pic.trim();
     }
 
     public Boolean getIsLent() {

@@ -45,17 +45,29 @@
       <if test="status != null">
         and dwf.status = #{status}
       </if>
-      <if test="unitType != null">
-        and dwf.unit_type = #{unitType}
+      <if test="unitTypes != null and unitTypes.length>0">
+        and dwf.unit_type IN
+        <foreach collection="unitTypes" item="unitType" separator="," open="(" close=")">
+          #{unitType}
+        </foreach>
       </if>
-      <if test="year != null">
-        and dwf.year = #{year}
+      <if test="startYear != null">
+        and dwf.year >= #{startYear}
       </if>
-      <if test="workType != null">
-        and dwf.work_type = #{workType}
+      <if test="endYear != null">
+        and dwf.year <![CDATA[<=]]> #{endYear}
       </if>
-      <if test="privacyType != null">
-        and dwf.privacy_type = #{privacyType}
+      <if test="workTypes != null and workTypes.length>0">
+        and dwf.work_type IN
+        <foreach collection="workTypes" item="workType" separator="," open="(" close=")">
+          #{workType}
+        </foreach>
+      </if>
+      <if test="privacyTypes != null and privacyTypes.length>0">
+        and dwf.privacy_type IN
+        <foreach collection="privacyTypes" item="privacyType" separator="," open="(" close=")">
+          #{privacyType}
+        </foreach>
       </if>
     </where>
   </sql>

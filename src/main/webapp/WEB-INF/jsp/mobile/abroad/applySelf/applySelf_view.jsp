@@ -300,15 +300,15 @@
 <script>
   <c:if test="${param.status==0}">
   $("#agree").click(function(){
-    loadModal("${ctx}/m/applySelf_approval?id=${applySelf.id}&status=1&type=${param.type}");
+    $.loadModal("${ctx}/m/applySelf_approval?id=${applySelf.id}&status=1&type=${param.type}");
   });
   $("#disagree").click(function(){
-    loadModal("${ctx}/m/applySelf_approval?id=${applySelf.id}&status=0&type=${param.type}");
+    $.loadModal("${ctx}/m/applySelf_approval?id=${applySelf.id}&status=0&type=${param.type}");
   });
 </c:if>
 <c:if test="${param.status==1}">
   $("#msgBtn").click(function(){
-    loadModal("${ctx}/m/shortMsg_view?id=${applySelf.id}&type=applySelf");
+    $.loadModal("${ctx}/m/shortMsg_view?id=${applySelf.id}&type=applySelf");
   });
 </c:if>
 </script>

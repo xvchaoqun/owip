@@ -77,6 +77,7 @@
                     <div class="col-xs-6">
                     <input type="radio" name="usePassport" value="0" class="bigger"> 没有使用证件出国（境）
                     <input type="radio" name="usePassport" value="1" class="bigger"> 违规使用证件出国（境）
+                    <input type="radio" name="usePassport" value="2" class="bigger"> 拒不交回证件
                     </div>
                 </div>
                 <div id="illegalUsePassport" style="display: none">
@@ -223,9 +224,5 @@
             });
         }
     });
-    $('.date-picker').datepicker({
-        language:"zh-CN",
-        autoclose: true,
-        todayHighlight: true
-    })
+    register_date($('.date-picker'))
 </script>

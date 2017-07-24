@@ -667,7 +667,7 @@
     </shiro:hasRole>--%>
 
     $(".addBtn").click(function(){
-        loadModal("${ctx}/memberApply_au");
+        $.loadModal("${ctx}/memberApply_au");
     });
 
     function goto_next(gotoNext){
@@ -712,13 +712,13 @@
         var url = "${ctx}/apply_active?ids[]="+userId;
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
-        loadModal(url);
+        $.loadModal(url);
     }
     function apply_candidate(userId, gotoNext){
         var url = "${ctx}/apply_candidate?ids[]="+userId;
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
-        loadModal(url);
+        $.loadModal(url);
     }
     function apply_candidate_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
@@ -739,7 +739,7 @@
         var url = "${ctx}/apply_plan?ids[]="+userId;
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
-        loadModal(url);
+        $.loadModal(url);
     }
     function apply_plan_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
@@ -760,7 +760,7 @@
         var url = "${ctx}/apply_draw?ids[]="+userId;
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
-        loadModal(url);
+        $.loadModal(url);
     }
     /*function apply_draw_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
@@ -780,7 +780,7 @@
         var url = "${ctx}/apply_grow?ids[]="+userId;
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
-        loadModal(url);
+        $.loadModal(url);
     }
     function apply_grow_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {
@@ -812,7 +812,7 @@
         var url = "${ctx}/apply_positive?ids[]="+userId;
         if(gotoNext!=undefined)
             url += "&gotoNext="+ gotoNext;
-        loadModal(url)
+        $.loadModal(url)
     }
     function apply_positive_check(userId, gotoNext){
         bootbox.confirm("确定通过该申请？", function (result) {

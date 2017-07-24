@@ -12,6 +12,7 @@ import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawExample;
+import domain.abroad.TaiwanRecord;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.base.ShortMsg;
@@ -390,7 +391,27 @@ public class ShortMsgService extends BaseMapper {
         bean.setSender(sender);
         bean.setReceiver(receiver);
 
-        if(StringUtils.equals(type, "passport")){
+        if(StringUtils.equals(type, "passportInfo")){ // 发送证件信息
+
+            Passport passport = passportMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.CONTENT_TPL_PASSPORT_INFO;
+
+            ContentTpl tpl = getShortMsgTpl(key);
+            bean.setType(tpl.getName());
+
+            SysUserView uv = passport.getUser();
+            bean.setReceiver(uv.getId()); // 覆盖
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
+
+            MetaType passportClass = passport.getPassportClass();
+            String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName(), passport.getCode(),
+                    DateUtils.formatDate(passport.getIssueDate(), DateUtils.YYYY_MM_DD_CHINA),
+                    DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD_CHINA));
+            bean.setContent(msg);
+            bean.setMobile(mobile);
+
+        }else if(StringUtils.equals(type, "passport")){ // 取消集中管理-证件到期/不再担任职务/作废
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORT_EXPIRE;
@@ -411,6 +432,30 @@ public class ShortMsgService extends BaseMapper {
 
             MetaType passportClass = passport.getPassportClass();
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName());
+            bean.setContent(msg);
+            bean.setMobile(mobile);
+
+        }else if(StringUtils.equals(type, "passportKeep")){ // 证件集中管理-添加证件/新办证件交回
+
+            Passport passport = passportMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.CONTENT_TPL_PASSPORT_KEEP_ADD;
+            if(passport.getApplyId()!=null){
+                key = SystemConstants.CONTENT_TPL_PASSPORT_KEEP_APPLY;
+            }
+
+            ContentTpl tpl = getShortMsgTpl(key);
+            bean.setType(tpl.getName());
+
+            SysUserView uv = passport.getUser();
+            bean.setReceiver(uv.getId()); // 覆盖
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
+
+            MetaType passportClass = passport.getPassportClass();
+            String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                    passportClass.getName(), passport.getCode(),
+                    DateUtils.formatDate(passport.getIssueDate(), DateUtils.YYYY_MM_DD_CHINA),
+                    DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD_CHINA));
             bean.setContent(msg);
             bean.setMobile(mobile);
 
@@ -490,6 +535,21 @@ public class ShortMsgService extends BaseMapper {
             String msg = MessageFormat.format(tpl.getContent(), msgTitle, passportClass.getName(),
                     DateUtils.formatDate(passportApply.getApproveTime(), DateUtils.YYYY_MM_DD_CHINA),
                     DateUtils.formatDate(passportApply.getExpectDate(), DateUtils.YYYY_MM_DD_CHINA));
+            bean.setContent(msg);
+            bean.setMobile(mobile);
+        }else if(StringUtils.equals(type, "taiwanRecordHandle")){ // 因公赴台备案-催交证件
+            TaiwanRecord taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(id);
+            String key = SystemConstants.CONTENT_TPL_TAIWANRECORD_HANDLE;
+            ContentTpl tpl = getShortMsgTpl(key);
+            bean.setType(tpl.getName());
+
+            SysUserView uv = taiwanRecord.getUser();
+            bean.setReceiver(uv.getId()); // 覆盖
+            String msgTitle = userBeanService.getMsgTitle(uv.getId());
+            String mobile = userBeanService.getMsgMobile(uv.getId());
+
+            String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                    DateUtils.formatDate(taiwanRecord.getExpectDate(), DateUtils.YYYY_MM_DD_CHINA));
             bean.setContent(msg);
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportApplySubmit")){

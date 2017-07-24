@@ -81,7 +81,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/shortMsgTpl_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '模板名称', name: 'name', width: 350},
+            {label: '模板名称', name: 'name', width: 350, align:'left'},
             {
                 label: '定向发送', name: '_verify', formatter: function (cellvalue, options, rowObject) {
                 return '<button class="popupBtn btn btn-success btn-xs" data-url="${ctx}/shortMsgTpl_send?id={0}"><i class="fa fa-check"></i> 定向发送</button>'

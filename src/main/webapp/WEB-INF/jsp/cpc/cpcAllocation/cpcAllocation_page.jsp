@@ -81,7 +81,7 @@
             SysMsg.info("请选择一个单位。");
             return;
         }
-        loadModal("${ctx}/cpcAllocation_au?unitId=" + unitIds[0]);
+        $.loadModal("${ctx}/cpcAllocation_au?unitId=" + unitIds[0]);
     }
 
     function _del(btn){

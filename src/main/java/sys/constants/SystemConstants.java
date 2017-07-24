@@ -1358,6 +1358,19 @@ public class SystemConstants {
         PASSPORT_DRAW_DRAW_STATUS_MAP.put(PASSPORT_DRAW_DRAW_STATUS_ABOLISH, "已作废");
     }
 
+    // 归还证件处理类别， 因私出国、因公赴台长期（1：持证件出国（境） 0：未持证件出国（境） 2：拒不交回证件）
+    //                  处理其他事务（1：违规使用证件出国（境）0：没有使用证件出国（境） 2：拒不交回证件）
+    public final static byte PASSPORT_DRAW_USEPASSPORT_UNUSE = 0;
+    public final static byte PASSPORT_DRAW_USEPASSPORT_USE = 1;
+    public final static byte PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN = 2;
+    public final static Map<Byte, String> PASSPORT_DRAW_USEPASSPORT_MAP = new LinkedHashMap<>();
+
+    static {
+        PASSPORT_DRAW_USEPASSPORT_MAP.put(PASSPORT_DRAW_USEPASSPORT_USE, "持证件出国（境）/违规使用证件出国（境）");
+        PASSPORT_DRAW_USEPASSPORT_MAP.put(PASSPORT_DRAW_USEPASSPORT_UNUSE, "未持证件出国（境）");
+        PASSPORT_DRAW_USEPASSPORT_MAP.put(PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN, "拒不交回证件");
+    }
+
     // 因私出国审批人类别  1本单位正职 2分管校领导 3 书记 4 校长
     public final static byte APPROVER_TYPE_UNIT = 1;
     public final static byte APPROVER_TYPE_LEADER = 2;
@@ -1380,6 +1393,16 @@ public class SystemConstants {
     // 管理员审批类型，0初审，1终审（type_id为null时）
     public final static byte APPROVER_LOG_OD_TYPE_FIRST = 0;
     public final static byte APPROVER_LOG_OD_TYPE_LAST = 1;
+
+    // 因公赴台备案-办理新证件方式，使用组织部函件办理、使用国台办批件办理
+    public final static byte TAIWAN_RECORD_HANDLE_TYPE_OW =1;
+    public final static byte TAIWAN_RECORD_HANDLE_TYPE_OFFICE = 2;
+    public final static Map<Byte, String> TAIWAN_RECORD_HANDLE_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        TAIWAN_RECORD_HANDLE_TYPE_MAP.put(TAIWAN_RECORD_HANDLE_TYPE_OW, "使用组织部函件办理");
+        TAIWAN_RECORD_HANDLE_TYPE_MAP.put(TAIWAN_RECORD_HANDLE_TYPE_OFFICE, "使用国台办批件办理");
+    }
 
     // 内容模板类别  1 短信
     public final static byte CONTENT_TPL_TYPE_SHORTMSG = 1;
@@ -1425,14 +1448,18 @@ public class SystemConstants {
     public final static String CONTENT_TPL_APPLYSELF_SUBMIT_INFO = "ct_applyself_submit_info"; // 干部提交因私申请，通知管理员
     public final static String CONTENT_TPL_APPLYSELF_PASS_INFO = "ct_applyself_pass_info"; // 干部因私申请通过全部领导审批，通知管理员
     public final static String CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO = "ct_passportDraw_submit_info"; // 干部提交领取证件，通知管理员
+    public final static String CONTENT_TPL_PASSPORT_INFO= "ct_passport_info";
     public final static String CONTENT_TPL_PASSPORT_EXPIRE = "ct_passport_expire";
     public final static String CONTENT_TPL_PASSPORT_DISMISS = "ct_passport_dismiss";
     public final static String CONTENT_TPL_PASSPORT_ABOLISH = "ct_passport_abolish";
+    public final static String CONTENT_TPL_PASSPORT_KEEP_ADD = "ct_passport_keep_add";
+    public final static String CONTENT_TPL_PASSPORT_KEEP_APPLY = "ct_passport_keep_apply";
     public final static String CONTENT_TPL_APPLYSELF_PASS = "ct_applySelf_pass";
     public final static String CONTENT_TPL_APPLYSELF_UNPASS = "ct_applySelf_unpass";
     public final static String CONTENT_TPL_PASSPORTAPPLY_PASS = "ct_passportApply_pass";
     public final static String CONTENT_TPL_PASSPORTAPPLY_UNPASS = "ct_passportApply_unpass";
     public final static String CONTENT_TPL_PASSPORTAPPLY_DRAW = "ct_passportApply_draw";
+    public final static String CONTENT_TPL_TAIWANRECORD_HANDLE = "ct_taiwanrecord_handle";
     public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT = "ct_passportApply_submit";
     public final static String CONTENT_TPL_PASSPORTAPPLY_SUBMIT_ADMIN = "ct_passportApply_submit_admin";
     public final static String CONTENT_TPL_PASSPORTDRAW = "ct_passportDraw";

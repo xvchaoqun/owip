@@ -8,6 +8,7 @@ import bean.XlsUpload;
 import controller.BaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
+import domain.abroad.TaiwanRecord;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -429,6 +430,51 @@ public class PassportController extends BaseController {
     }
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+     @RequestMapping("/passport_uploadPic")
+     public String passport_uploadPic() {
+
+        return "abroad/passport/passport_uploadPic";
+    }
+
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequestMapping(value = "/passport_uploadPic", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passport_uploadPic(int id, String _base64,
+                                     @RequestParam(required = false, defaultValue = "0") Integer _rotate,
+                                     MultipartFile _pic) throws IOException {
+
+        Passport record = new Passport();
+        record.setId(id);
+
+        String realPath = FILE_SEPARATOR
+                + "passport_pic" + FILE_SEPARATOR  // passport_cancel -> passport_lost 20160620
+                + UUID.randomUUID().toString();
+        if (_pic != null && !_pic.isEmpty()) {
+
+            String ext = FileUtils.getExtention(_pic.getOriginalFilename());
+            String savePath = realPath + ext;
+            FileUtils.copyFile(_pic, new File(springProps.uploadPath + savePath));
+            record.setPic(savePath);
+
+        }else if(StringUtils.isNotBlank(_base64)) {
+
+            String savePath =realPath + ".jpg";
+            FileUtils.mkdirs(springProps.uploadPath + savePath);
+            Thumbnails.of(ImageUtils.decodeBase64ToBufferedImage(_base64.split("base64,")[1]))
+                    .scale(1f)
+                    .rotate(_rotate).toFile(springProps.uploadPath + savePath);
+            record.setPic(savePath);
+        }
+
+        if(record.getPic()!=null){
+
+            passportService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "上传证件首页：%s", record.getId()));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
      @RequestMapping("/updateLostProof")
      public String updateLostProof(int id, ModelMap modelMap) {
 
@@ -522,9 +568,34 @@ public class PassportController extends BaseController {
     }
 
     @RequiresPermissions("passport:edit")
+    @RequestMapping(value = "/passport_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map passport_check(int cadreId, int classId) {
+
+        Map<String, Object> resultMap = success();
+
+        int result = 0;
+        Map<Integer, Passport> passportMap = passportService.findByCadreId(cadreId);
+        if(passportMap.get(classId)!=null){
+            result = 1; // 已经拥有该证件
+        }
+        if(passportApplyService.checkApplyPassButNotHandle(cadreId, classId)){
+            result = 2; // 申请办理已通过，还未交证件
+        }
+
+        if(passportApplyService.checkNewApply(cadreId, classId)){
+            result = 3; // 新申请
+        }
+
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+    @RequiresPermissions("passport:edit")
     @RequestMapping(value = "/passport_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passport_au(String op, Passport record, Integer applyId,
+    public Map do_passport_au(String op, Passport record,
+                              Integer applyId, Integer taiwanRecordId,
                               String _issueDate, String _expiryDate,
                               String _keepDate,
                               Byte type,
@@ -573,6 +644,7 @@ public class PassportController extends BaseController {
                 record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_ADD);
         }
 
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         if (id == null) {
             if (type == null)
                 record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
@@ -582,8 +654,12 @@ public class PassportController extends BaseController {
             record.setIsLent(false);
             record.setCancelConfirm(false);
             record.setCreateTime(new Date());
-            passportService.add(record, applyId);
+            passportService.add(record, applyId, taiwanRecordId);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
+
+            // 添加证件后需要短信提醒
+            resultMap.put("id", record.getId());
+
         } else {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
@@ -606,7 +682,7 @@ public class PassportController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
         }
 
-        return success(FormUtils.SUCCESS);
+        return resultMap;
     }
 
     // 下载取消集中管理证明
@@ -650,12 +726,13 @@ public class PassportController extends BaseController {
 
     @RequiresPermissions("passport:edit")
     @RequestMapping("/passport_au")
-    public String passport_au(String op, Integer id, Integer type, Integer applyId, ModelMap modelMap) {
+    public String passport_au(String op, Integer id, Integer type,
+                              Integer applyId, Integer taiwanRecordId, ModelMap modelMap) {
 
         modelMap.put("type", type);
-
+        Passport passport = null;
         if (id != null) {
-            Passport passport = passportMapper.selectByPrimaryKey(id);
+            passport = passportMapper.selectByPrimaryKey(id);
 
             modelMap.put("type", passport.getType());
 
@@ -668,26 +745,23 @@ public class PassportController extends BaseController {
                     throw new RuntimeException("该证件不可以进行更新操作");
                 }
             }
-
-            modelMap.put("passport", passport);
-
-            CadreView cadre = cadreService.findAll().get(passport.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
-
         } else if (applyId != null) {
+
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
-            Passport passport = new Passport();
+            passport = new Passport();
             passport.setCadreId(passportApply.getCadreId());
             passport.setClassId(passportApply.getClassId());
-            modelMap.put("passport", passport);
 
-            CadreView cadre = cadreService.findAll().get(passport.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
+        }else if(taiwanRecordId!=null){
+
+            TaiwanRecord taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(taiwanRecordId);
+            MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
+            passport = new Passport();
+            passport.setCadreId(taiwanRecord.getCadreId());
+            passport.setClassId(passportTwType.getId());
         }
+
+        modelMap.put("passport", passport);
 
         return "abroad/passport/passport_au";
     }

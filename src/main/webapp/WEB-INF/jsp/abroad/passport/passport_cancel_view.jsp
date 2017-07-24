@@ -38,6 +38,6 @@
         $.print('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
     });
     $("#updateProof").click(function(){
-        loadModal("${ctx}/updateCancelPic?id=${passport.id}")
+        $.loadModal("${ctx}/updateCancelPic?id=${passport.id}")
     });
 </script>

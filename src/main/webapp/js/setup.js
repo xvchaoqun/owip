@@ -274,26 +274,6 @@ $.ajaxSetup({
         //SysMsg.error('系统异常，请稍后再试。', '系统异常');
     }
 });
-var _width;
-function loadModal(url, width, dragTarget) { // dragTarget：拖拽位置
-    if (width > 0) {
-        _width = width;
-        $('#modal .modal-dialog').addClass("width" + width);
-    } else {
-        $('#modal .modal-dialog').removeClass("width" + _width);
-    }
-    dragTarget = dragTarget || ".modal-header";
-
-    $('#modal .modal-content').load(url, function (data) {
-        if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
-    });
-}
-
-_.templateSettings = {
-    evaluate: /\{\{([\s\S]+?)\}\}/g,
-    interpolate: /\{\{=([\s\S]+?)\}\}/g,
-    escape: /\{\{-([\s\S]+?)\}\}/g
-};
 
 function msg_prompt(elem, event) {
     //  alert(0)
@@ -362,14 +342,14 @@ $(document).on("click", ".myTableDiv .editBtn", function () {
     var $div = $(this).closest("div.myTableDiv");
     var url = $div.data("url-au");
     if ((id > 0))url = url.split("?")[0] + "?id=" + id;
-    loadModal(url, $(this).data("width"));
+    $.loadModal(url, $(this).data("width"));
 });
 
 // 打开弹出框modal
 $(document).on("click", ".popupBtn", function (e) {
 
     e.stopPropagation();
-    loadModal($(this).data("url"), $(this).data("width"));
+    $.loadModal($(this).data("url"), $(this).data("width"));
 });
 
 $(document).on("click", ".openUrl", function (e) {
@@ -424,7 +404,7 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function () {
             }
         })
     } else {
-        loadModal(url, _this.data("width"));
+        $.loadModal(url, _this.data("width"));
     }
 });
 
@@ -477,7 +457,7 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
             $("#item-content").hide().html(html).fadeIn("slow");
         })
     } else {
-        loadModal(url, $(this).data("width"));
+        $.loadModal(url, $(this).data("width"));
     }
 });
 
@@ -519,7 +499,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
             $("#item-content").hide().html(html).fadeIn("slow");
         })
     } else {
-        loadModal(url, $(this).data("width"));
+        $.loadModal(url, $(this).data("width"));
     }
 });
 

@@ -19,6 +19,7 @@ import persistence.abroad.PassportDrawFileMapper;
 import persistence.abroad.PassportDrawMapper;
 import persistence.abroad.PassportMapper;
 import persistence.abroad.SafeBoxMapper;
+import persistence.abroad.TaiwanRecordMapper;
 import persistence.base.ContentTplMapper;
 import persistence.base.CountryMapper;
 import persistence.base.LocationMapper;
@@ -271,6 +272,8 @@ public class BaseMapper {
     protected PassportApplyMapper passportApplyMapper;
     @Autowired
     protected PassportApplyViewMapper passportApplyViewMapper;
+    @Autowired
+    protected TaiwanRecordMapper taiwanRecordMapper;
 
     @Autowired
     protected EnterApplyMapper enterApplyMapper;

@@ -2,6 +2,7 @@ package controller.global;
 
 import bean.UserBean;
 import controller.BaseController;
+import domain.abroad.Passport;
 import domain.cadre.Cadre;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
@@ -133,6 +134,8 @@ public class CommonController extends BaseController {
             Integer pageSize,
             // key=0，选项value=cadreId key=1 ，选项value=userId
             @RequestParam(defaultValue = "0", required = false) Byte key,
+            // 出国境带出台湾证件号码
+            @RequestParam(defaultValue = "0", required = false) boolean abroad,
             Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -187,6 +190,11 @@ public class CommonController extends BaseController {
                     if (extJzg != null) {
                         option.put("unit", extJzg.getDwmc());
                     }
+                }
+                if(abroad){
+                    Passport twPassport = passportService.findTwPassport(cadre.getId());
+                    if(twPassport!=null)
+                        option.put("twPassportCode", twPassport.getCode());
                 }
                 options.add(option);
             }

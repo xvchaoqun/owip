@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,9 +48,25 @@ public class DispatchWorkFileController extends BaseController {
 
     @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping("/dispatchWorkFile")
-    public String dispatchWorkFile_page(@RequestParam(required = false, defaultValue = "1") Boolean status, ModelMap modelMap) {
+    public String dispatchWorkFile_page(@RequestParam(required = false, defaultValue = "1") Boolean status,
+                                        @RequestParam(required = false, value = "unitTypes")Integer[] unitTypes,
+                                        @RequestParam(required = false, value = "workTypes")Integer[] workTypes,
+                                        @RequestParam(required = false, value = "privacyTypes")Integer[] privacyTypes,
+                                        ModelMap modelMap) {
 
         modelMap.put("status", status);
+
+        if (unitTypes!=null) {
+            modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+        }
+
+        if (workTypes!=null) {
+            modelMap.put("selectWorkTypes", Arrays.asList(workTypes));
+        }
+
+        if (privacyTypes!=null) {
+            modelMap.put("selectPrivacyTypes", Arrays.asList(privacyTypes));
+        }
 
         return "dispatch/dispatchWorkFile/dispatchWorkFile_page";
     }
@@ -59,10 +76,11 @@ public class DispatchWorkFileController extends BaseController {
     public void dispatchWorkFile_data(HttpServletResponse response,
                                       Byte type,
                                       @RequestParam(required = false, defaultValue = "1") Boolean status,
-                                      Integer unitType,
-                                      Integer year,
-                                      Integer workType,
-                                      Integer privacyType,
+                                      Integer startYear,
+                                      Integer endYear,
+                                      @RequestParam(required = false, value = "unitTypes")Integer[] unitTypes,
+                                      @RequestParam(required = false, value = "workTypes")Integer[] workTypes,
+                                      @RequestParam(required = false, value = "privacyTypes")Integer[] privacyTypes,
                                       @RequestParam(required = false, defaultValue = "0") int export,
                                       @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                       Integer pageSize, Integer pageNo) throws IOException {
@@ -74,7 +92,6 @@ public class DispatchWorkFileController extends BaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-
 
         /*if (export == 1) {
             if (ids != null && ids.length > 0)
@@ -91,14 +108,14 @@ public class DispatchWorkFileController extends BaseController {
         }
 
         long count = iDispatchMapper.countDispatchWorkFiles(isAdmin, postIds, type, status,
-                unitType, year, workType, privacyType);
-        ;
+                unitTypes, startYear, endYear,  workTypes, privacyTypes);
+
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<DispatchWorkFile> records = iDispatchMapper.findDispatchWorkFiles(isAdmin, postIds, type, status,
-                unitType, year, workType, privacyType, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                unitTypes, startYear, endYear, workTypes, privacyTypes, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

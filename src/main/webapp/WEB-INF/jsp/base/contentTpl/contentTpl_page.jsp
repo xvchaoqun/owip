@@ -103,7 +103,7 @@
             { label: '类型', name: 'type',  formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
             }},
-            { label: '内容', name: 'content', width: 450},
+            { label: '内容', name: 'content', width: 450, align:'left'},
             { label: '模板类型', name: 'contentType', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_CONTENT_TYPE_MAP[cellvalue];
             }},

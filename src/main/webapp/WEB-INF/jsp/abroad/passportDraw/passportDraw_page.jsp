@@ -396,9 +396,18 @@
                             rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_DRAW}') {
                         return '-';
                     }
+
+                    if(rowObject.usePassport=='${PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                        return '拒不交回'
+                    }
+
                     return '<button data-url="${ctx}/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-reply"></i> 归还证件</button>'
+                }, title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                    if(rawObject.usePassport=='${PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                        return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'+rawObject.returnRemark+'"';
+                    }
                 }
             },
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {

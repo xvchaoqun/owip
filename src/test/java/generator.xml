@@ -77,21 +77,23 @@
       </table>-->
       <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
       </table>-->
-     <!-- <table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw">
+      <!--<table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw" mapperName="abroad.PassportDrawMapper">
       </table>-->
       <!--
       <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
       </table>-->
-      <!--<table tableName="abroad_passport" domainObjectName="abroad.Passport">
-      </table>-->
+      <table tableName="abroad_passport" domainObjectName="abroad.Passport" mapperName="abroad.PassportMapper">
+      </table>
 
       <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
       </table>-->
       <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
       </table>
       <table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
+      </table>
+      -->
+     <!-- <table tableName="abroad_taiwan_record" domainObjectName="abroad.TaiwanRecord" mapperName="abroad.TaiwanRecordMapper">
       </table>-->
-
 
     <!--  <table tableName="ow_enter_apply" domainObjectName="member.EnterApply">
       </table>-->
@@ -464,9 +466,9 @@
       <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>-->
-      <table tableName="sys_feedback" domainObjectName="sys.Feedback" mapperName="sys.FeedbackMapper">
+      <!--<table tableName="sys_feedback" domainObjectName="sys.Feedback" mapperName="sys.FeedbackMapper">
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-      </table>
+      </table>-->
 
       <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
       </table>-->

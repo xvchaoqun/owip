@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
     function _au(id) {
         url = "${ctx}/unitTransfer_au?unitId=${param.unitId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function _del(id){

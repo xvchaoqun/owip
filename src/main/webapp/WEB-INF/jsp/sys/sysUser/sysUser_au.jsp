@@ -78,7 +78,7 @@
 						success:function(ret){
 							if(ret.success){
 								if(ret.error){
-									$.tip($(form), ret.field, ret.msg)
+									$.tip({$form:$(form), field:ret.field, msg:ret.msg})
 									return;
 								}
 

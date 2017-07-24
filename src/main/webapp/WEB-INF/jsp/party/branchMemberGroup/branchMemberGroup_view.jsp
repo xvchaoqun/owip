@@ -65,7 +65,7 @@ pageEncoding="UTF-8" %>
         }
         url = "${ctx}/branchMemberGroup_au?type=view&branchId=${param.branchId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function _del(){
@@ -102,7 +102,7 @@ pageEncoding="UTF-8" %>
             return ;
         }
 
-        loadModal("${ctx}/branch_member?id="+ id);
+        $.loadModal("${ctx}/branch_member?id="+ id);
     }
 
     $('[data-rel="select2"]').select2({width:300});

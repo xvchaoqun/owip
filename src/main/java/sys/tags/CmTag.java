@@ -5,6 +5,7 @@ import bean.ApproverTypeBean;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.Passport;
+import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
 import domain.abroad.SafeBox;
 import domain.base.MetaClass;
@@ -545,6 +546,11 @@ public class CmTag {
     public static Passport getPassport(Integer id) {
 
         return passportMapper.selectByPrimaryKey(id);
+    }
+    // 拒绝归还证件借出记录
+    public static PassportDraw getRefuseReturnPassportDraw(Integer passportId) {
+
+        return passportDrawService.getRefuseReturnPassportDraw(passportId);
     }
 
     public static List<PassportDrawFile> getPassportDrawFiles(Integer id) {

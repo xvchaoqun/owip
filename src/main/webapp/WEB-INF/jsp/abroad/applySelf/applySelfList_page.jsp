@@ -242,7 +242,7 @@
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
 
         $(".approvalBtn").click(function () {
-            loadModal("${ctx}/applySelf_approval?applySelfId=" + $(this).data("id") + "&approvalTypeId=" + $(this).data("approvaltypeid"));
+            $.$.loadModal("${ctx}/applySelf_approval?applySelfId=" + $(this).data("id") + "&approvalTypeId=" + $(this).data("approvaltypeid"));
         });
     });
     $(window).triggerHandler('resize.jqGrid');

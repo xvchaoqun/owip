@@ -52,7 +52,7 @@ jQuery.validator.setDefaults({
     errorPlacement: function (error, element) {
         if (error.html() != '') {
             //$("label:first", element.closest(".form-group")).css("color", "red")
-            $.tip(element.closest("form"), element.attr("name"), error.text())
+            $.tip({$form:element.closest("form"), field:element.attr("name"), msg:error.text()})
         }
     }
     /*
@@ -135,6 +135,12 @@ jQuery.validator.addMethod("isZipCode", function (value, element) {
 
 /*========jquery.validate.extend=====end===*/
 
+_.templateSettings = {
+    evaluate: /\{\{([\s\S]+?)\}\}/g,
+    interpolate: /\{\{=([\s\S]+?)\}\}/g,
+    escape: /\{\{-([\s\S]+?)\}\}/g
+};
+
 var SysMsg = {};
 SysMsg.error = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -211,35 +217,61 @@ SysMsg.confirm = function (msg, title, callback) {
     });
 };
 
+var _modal_width;
 (function ($) {
     $.extend({
-        tip: function ($form, fieldName, popMsg) {
+        loadModal:function(url, width, dragTarget) { // dragTarget：拖拽位置
+            //$("#modal").modal('hide');
+            if (width > 0) {
+                _modal_width = width;
+                $('#modal .modal-dialog').addClass("width" + width);
+            } else {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width);
+            }
+            dragTarget = dragTarget || ".modal-header";
 
-            var $field = $("[name=" + fieldName + "]", $form);
-            if ($field.closest(".input-group").length > 0) {
-                $field = $field.closest(".input-group")
-            } else if ($field.is('[data-rel="select2"]')
-                || $field.is('[data-rel="select2-ajax"]')
-                || $field.hasClass("select2-hidden-accessible")) {
-                $field = $field.closest("div").find(".select2-container");
-            } else if ($field.closest(".ace-file-input").length > 0) {
-                $field = $field.closest(".ace-file-input")
-            } else if ($field.is(":radio")) {
-                $field = $field.closest("div")
+            $('#modal .modal-content').load(url, function (data) {
+                if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
+            });
+        },
+        tip: function (params) {
+
+            var $target = params.$target;
+            var $container = params.$container;
+            var msg = params.msg;
+            var my = params.my;
+            var at = params.at;
+
+            if($target==undefined) {
+
+                var $form = params.$form;
+                var field = params.field;
+                $target = $("[name=" + field + "]", $form);
+                if ($target.closest(".input-group").length > 0) {
+                    $target = $target.closest(".input-group")
+                } else if ($target.is('[data-rel="select2"]')
+                    || $target.is('[data-rel="select2-ajax"]')
+                    || $target.hasClass("select2-hidden-accessible")) {
+                    $target = $target.closest("div").find(".select2-container");
+                } else if ($target.closest(".ace-file-input").length > 0) {
+                    $target = $target.closest(".ace-file-input")
+                } else if ($target.is(":radio")) {
+                    $target = $target.closest("div")
+                }
+                $container = $form;
+                if ($form.closest("#modal").length > 0) {
+                    $container = $form.closest("#modal");
+                }
             }
-            var $container = $form;
-            if ($form.closest("#modal").length > 0) {
-                $container = $form.closest("#modal");
-            }
-            $field.qtip({
-                content: popMsg,
+            $target.qtip({
+                content: msg,
                 show: true, hide: {
                     event: 'unfocus',
                     inactive: 1000
                 }, position: {
                     container: $container,
-                    my: $field.data("my") || 'left center',
-                    at: $field.data("at") || 'right center'
+                    my: my || $target.data("my") || 'left center',
+                    at: at || $target.data("at") || 'right center'
                 }
             });
         },
@@ -636,7 +668,7 @@ try {
 
     $.jgrid.formatter.NoMultiSpace = function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return ''
-        console.log(cellvalue)
+        //console.log(cellvalue)
         return cellvalue.NoMultiSpace();
     };
     $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {

@@ -57,14 +57,14 @@ pageEncoding="UTF-8" %>
 
     function unitAdmin_page(groupId){
         var url = "${ctx}/unitAdmin?groupId="+groupId;
-        loadModal(url, 1000);
+        $.loadModal(url, 1000);
     }
 
 
     function _au(id) {
         var url = "${ctx}/unitAdminGroup_au?unitId=${param.unitId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function _del(id){

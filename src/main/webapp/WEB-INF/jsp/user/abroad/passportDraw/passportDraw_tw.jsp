@@ -327,11 +327,7 @@
   });
   $('#applyForm [data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
-  $('.date-picker').datepicker({
-    language:"zh-CN",
-    autoclose: true,
-    todayHighlight: true
-  })
+  register_date($('.date-picker'))
   register_user_select($('[data-rel="select2-ajax"]'));
   $('textarea.limited').inputlimiter();
 </script>

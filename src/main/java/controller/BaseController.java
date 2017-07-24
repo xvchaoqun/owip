@@ -17,6 +17,7 @@ import service.abroad.PassportApplyService;
 import service.abroad.PassportDrawService;
 import service.abroad.PassportService;
 import service.abroad.SafeBoxService;
+import service.abroad.TaiwanRecordService;
 import service.analysis.StatCadreService;
 import service.analysis.StatPartyMemberService;
 import service.analysis.StatService;
@@ -176,6 +177,8 @@ public class BaseController extends BaseMapper {
     protected PassportService passportService;
     @Autowired
     protected SafeBoxService safeBoxService;
+    @Autowired
+    protected TaiwanRecordService taiwanRecordService;
 
     @Autowired
     protected EnterApplyService enterApplyService;

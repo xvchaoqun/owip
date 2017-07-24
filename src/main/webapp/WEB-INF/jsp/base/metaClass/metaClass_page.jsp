@@ -118,7 +118,7 @@
 
     function openView(classId, pageNo){
         pageNo = pageNo||1;
-        loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
+        $.loadModal( "${ctx}/metaClass_type?id="+classId + "&pageNo="+pageNo,
                 '<shiro:hasRole name="${ROLE_ADMIN}">800</shiro:hasRole><shiro:lacksRole name="${ROLE_ADMIN}">400</shiro:lacksRole>');
     }
 

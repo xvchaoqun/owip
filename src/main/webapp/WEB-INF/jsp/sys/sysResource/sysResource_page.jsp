@@ -86,13 +86,13 @@
 
     function _appendChild(parentId) {
         url = "${ctx}/sysResource_au?parentId=" + parentId;
-        loadModal(url);
+        $.loadModal(url);
 
     }
     function _update(id) {
 
         url = "${ctx}/sysResource_au?id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function _del(id, parentid) {

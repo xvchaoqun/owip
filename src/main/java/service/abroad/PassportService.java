@@ -3,11 +3,11 @@ package service.abroad;
 import bean.XlsPassport;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
-import domain.abroad.PassportApplyExample;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawExample;
 import domain.abroad.PassportExample;
 import domain.abroad.SafeBox;
+import domain.abroad.TaiwanRecord;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -28,7 +28,9 @@ import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PassportService extends BaseMapper {
@@ -39,6 +41,8 @@ public class PassportService extends BaseMapper {
     private CadreService cadreService;
     @Autowired
     private SafeBoxService safeBoxService;
+    @Autowired
+    private PassportApplyService passportApplyService;
 
     @Transactional
     public int importPassports(final List<XlsPassport> passports, byte type) {
@@ -82,7 +86,7 @@ public class PassportService extends BaseMapper {
                 throw new RuntimeException("导入失败，工作证号：" + uRow.getUserCode() + "[" + mcPassportType.getName() + "]重复");
             }
 
-            add(record, null);
+            add(record, null, null);
 
             success++;
         }
@@ -90,12 +94,27 @@ public class PassportService extends BaseMapper {
         return success;
     }
 
-    public List<Passport> findByCadreId(int cadreId) {
+    // <passportClassId, Passport>
+    public Map<Integer, Passport> findByCadreId(int cadreId) {
 
         PassportSearchBean bean = new PassportSearchBean(null, cadreId, null, null,
                 SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
+        Map<Integer, Passport> passportMap = new HashMap<>();
+        List<Passport> passports = iAbroadMapper.selectPassportList(bean, new RowBounds());
+        for (Passport passport : passports) {
+            passportMap.put(passport.getClassId(), passport);
+        }
 
-        return iAbroadMapper.selectPassportList(bean, new RowBounds());
+        return passportMap;
+    }
+
+    // 查找干部的台湾通行证
+    public Passport findTwPassport(int cadreId){
+
+        MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
+        Map<Integer, Passport> passportMap = findByCadreId(cadreId);
+
+        return passportMap.get(passportTwType.getId());
     }
 
     // 判断是否重复（更新时，不修改类别） 0 不重复  1证件号码重复 2证件类别重复
@@ -140,14 +159,17 @@ public class PassportService extends BaseMapper {
     }
 
     @Transactional
-    public int add(Passport record, Integer applyId) {
+    public int add(Passport record, Integer applyId, Integer taiwanRecordId) {
 
         Assert.isTrue(0 == idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
 
+        int cadreId = record.getCadreId();
+        int classId = record.getClassId();
+
         if (applyId != null) { // 交证件
             PassportApply _passportApply = passportApplyMapper.selectByPrimaryKey(applyId);
-            Assert.isTrue(_passportApply.getCadreId().intValue() == record.getCadreId().intValue(), "wrong cadreId");
-            Assert.isTrue(_passportApply.getClassId().intValue() == record.getClassId().intValue(), "wrong classId");
+            Assert.isTrue(_passportApply.getCadreId().intValue() == cadreId, "wrong cadreId");
+            Assert.isTrue(_passportApply.getClassId().intValue() == classId, "wrong classId");
 
             PassportApply passportApply = new PassportApply();
             passportApply.setId(applyId);
@@ -158,21 +180,30 @@ public class PassportService extends BaseMapper {
             record.setKeepDate(new Date()); // 集中保管日期为交证件日期
             record.setCadreId(_passportApply.getCadreId()); // 确认
             record.setApplyId(applyId);
+        }else if (taiwanRecordId != null) { // 因公赴台备案-交证件
+            TaiwanRecord _taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(taiwanRecordId);
+            MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
+            Assert.isTrue(_taiwanRecord.getCadreId().intValue() == cadreId, "wrong cadreId");
+            Assert.isTrue(passportTwType.getId().intValue() == classId, "wrong classId");
+
+            TaiwanRecord taiwanRecord = new TaiwanRecord();
+            taiwanRecord.setId(taiwanRecordId);
+            taiwanRecord.setHandleDate(new Date());
+            taiwanRecord.setHandleUserId(ShiroHelper.getCurrentUserId());
+            taiwanRecordMapper.updateByPrimaryKeySelective(taiwanRecord);
+
+            record.setKeepDate(new Date()); // 集中保管日期为交证件日期
+            record.setCadreId(_taiwanRecord.getCadreId()); // 确认
+            record.setTaiwanRecordId(taiwanRecordId);
         }else{
             /**
              * 2017.05.23 直接添加证件时，系统检测一下在“批准办理新证件（未交证件）”中是否有这个人申请办理此类证件的记录。
              * 如果有，就不允许在这里添加；如果没有，就可以在这里添加
              */
-            PassportApplyExample example = new PassportApplyExample();
-            example.createCriteria().andCadreIdEqualTo(record.getCadreId())
-                    .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
-                    .andAbolishEqualTo(false).andClassIdEqualTo(record.getClassId())
-                    .andHandleDateIsNull().andIsDeletedEqualTo(false);
-            if (passportApplyMapper.countByExample(example) > 0) {
-                MetaType passportClass = CmTag.getMetaType(record.getClassId());
+            if (passportApplyService.checkApplyPassButNotHandle(cadreId, classId)) {
+                MetaType passportClass = CmTag.getMetaType(classId);
                 throw new RuntimeException("该干部已经申请办理了" + passportClass.getName() + "，当前申请已通过，请办理证件交回");
             }
-
         }
 
         return passportMapper.insertSelective(record);

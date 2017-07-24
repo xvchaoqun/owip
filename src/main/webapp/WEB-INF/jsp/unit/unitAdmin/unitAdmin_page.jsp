@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
     function unitAdmin_au(id) {
         var url = "${ctx}/unitAdmin_au?groupId=${param.groupId}";
         if (id > 0)  url += "&id=" + id;
-        loadModal(url);
+        $.loadModal(url);
     }
 
     function unitAdmin_del(id){

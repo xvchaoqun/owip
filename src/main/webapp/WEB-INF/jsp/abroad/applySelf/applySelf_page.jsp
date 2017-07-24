@@ -270,7 +270,7 @@
             {label: '出行时间', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '回国时间', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
-                label: '出行天数', name: 'code', width: 80, formatter: function (cellvalue, options, rowObject) {
+                label: '出行天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.dayDiff(rowObject.startDate, rowObject.endDate);
             }
             },

@@ -365,7 +365,7 @@
 
         // 删除期间工作时调用
         function showSubWork(id) {
-            loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
+            $.loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
         }
 
         $('#searchForm [data-rel="select2"]').select2();

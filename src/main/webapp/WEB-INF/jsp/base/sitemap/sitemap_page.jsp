@@ -73,14 +73,14 @@
     function _appendChild(fid) {
         url = "${ctx}/sitemap_au?fid=" + fid;
 
-        loadModal(url);
+        $.loadModal(url);
 
     }
     function _update(id) {
 
         url = "${ctx}/sitemap_au?id=" + id;
 
-        loadModal(url);
+        $.loadModal(url);
 
     }
 

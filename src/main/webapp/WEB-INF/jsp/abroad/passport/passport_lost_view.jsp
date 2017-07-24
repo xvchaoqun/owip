@@ -35,6 +35,6 @@
         $.print('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');
     });
     $("#updateProof").click(function(){
-        loadModal("${ctx}/updateLostProof?id=${passport.id}")
+        $.loadModal("${ctx}/updateLostProof?id=${passport.id}")
     });
 </script>

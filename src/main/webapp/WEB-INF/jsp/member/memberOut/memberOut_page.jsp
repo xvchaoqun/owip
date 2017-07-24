@@ -346,7 +346,7 @@
     }
     function apply_deny(id, type, goToNext) {
 
-        loadModal("${ctx}/memberOut_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+        $.loadModal("${ctx}/memberOut_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(btn, id, type, goToNext) {
         $(btn).attr("disabled", "disabled");
@@ -509,7 +509,7 @@
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             }
 
-            loadModal("${ctx}/memberOut_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberOut_back?ids[]={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

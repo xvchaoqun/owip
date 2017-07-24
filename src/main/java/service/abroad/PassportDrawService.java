@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.ShortMsgService;
 import shiro.ShiroHelper;
@@ -92,6 +93,20 @@ public class PassportDrawService extends BaseMapper {
         logger.info(String.format("领取证件之后催交证件短信通知，发送成功%s/%s条", count, passportDraws.size()));
 
         logger.debug("====领取证件之后催交证件短信通知...end====");
+    }
+
+    // 拒绝归还证件借出记录
+    public PassportDraw getRefuseReturnPassportDraw(int passportId) {
+
+        PassportDrawExample example = new PassportDrawExample();
+        example.createCriteria().andPassportIdEqualTo(passportId).andIsDeletedEqualTo(false)
+                .andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW)
+                .andUsePassportEqualTo(SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN);
+        List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
+
+        Assert.isTrue(passportDraws.size()<=1, "证件拒绝归还状态异常");
+
+        return (passportDraws.size()==1)?passportDraws.get(0):null;
     }
 
     public List<PassportDrawFile> getPassportDrawFiles(int drawId) {
@@ -188,21 +203,23 @@ public class PassportDrawService extends BaseMapper {
 
         updateByPrimaryKeySelective(record);
 
-        // 将证件标记为未借出
-        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
-        Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
-        if (!passport.getIsLent()) {
-            throw new RuntimeException("该证件未借出");
-        }
-        Passport _record = new Passport();
-        _record.setId(passport.getId());
-        _record.setIsLent(false);
-        passportMapper.updateByPrimaryKeySelective(_record);
+        if(record.getUsePassport() != SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) {
+            // 将证件标记为未借出
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+            Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
+            if (!passport.getIsLent()) {
+                throw new RuntimeException("该证件未借出");
+            }
+            Passport _record = new Passport();
+            _record.setId(passport.getId());
+            _record.setIsLent(false);
+            passportMapper.updateByPrimaryKeySelective(_record);
 
-        // 归还证件后通知本人
-        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
-                null, "passportDrawReturnSuccess", passportDraw.getId());
-        shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
+            // 归还证件后通知本人
+            ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
+                    null, "passportDrawReturnSuccess", passportDraw.getId());
+            shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
+        }
     }
 
     // 重置归还状态为 “未归还”
@@ -229,7 +246,7 @@ public class PassportDrawService extends BaseMapper {
         }
 
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
-        int rownum = passportDrawMapper.countByExample(example);
+        long rownum = passportDrawMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

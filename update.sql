@@ -1,4 +1,17 @@
 
+2017-7-24
+ALTER TABLE `abroad_passport`
+	ADD COLUMN `taiwan_record_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '如果是因公赴台备案' AFTER `apply_id`,
+	ADD CONSTRAINT `FK_abroad_passport_abroad_taiwan_record` FOREIGN KEY (`taiwan_record_id`) REFERENCES `abroad_taiwan_record` (`id`) ON DELETE RESTRICT;
+
+ALTER TABLE `abroad_passport_draw`
+	CHANGE COLUMN `use_passport` `use_passport` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '归还证件处理类别， 因私出国、因公赴台长期（1：持证件出国（境） 0：未持证件出国（境） 2：拒不交回证件） 处理其他事务（1：违规使用证件出国（境）0：没有使用证件出国（境） 2：拒不交回证件）' AFTER `attachment_filename`;
+
+ALTER TABLE `abroad_passport`
+	ADD COLUMN `pic` VARCHAR(255) NULL DEFAULT NULL COMMENT '上传证件首页' AFTER `safe_box_id`;
+
+
+
 2017-7-11
 ALTER TABLE `sys_feedback`
 	ADD COLUMN `fid` INT(10) UNSIGNED NULL COMMENT '回复主题' AFTER `id`,

@@ -233,7 +233,7 @@
     }
     function apply_deny(id, type, goToNext) {
 
-        loadModal("${ctx}/memberQuit_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+        $.loadModal("${ctx}/memberQuit_deny?id=" + id + "&type="+type +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
 
     function apply_pass(id, type, goToNext) {
@@ -357,7 +357,7 @@
                 if(minStatus==undefined || minStatus>rowData.status) minStatus = rowData.status;
             }
 
-            loadModal("${ctx}/memberQuit_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberQuit_back?ids[]={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

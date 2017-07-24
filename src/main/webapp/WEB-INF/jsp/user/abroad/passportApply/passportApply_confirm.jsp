@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
         $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}", cadreId:"${param.cadreId}"},function(ret){
             if(ret.success){
                 <c:if test="${param.auth!='admin'}">
-                loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));
+                $.loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));
                 $.loadPage({url:"${ctx}/user/passport?type=2"});
                 </c:if>
                 <c:if test="${param.auth=='admin'}">

@@ -43,19 +43,22 @@ public interface IDispatchMapper {
             @Param("postIds") List<Integer> postIds,
             @Param("type") Byte type,
             @Param("status") Boolean status,
-            @Param("unitType") Integer unitType,
-            @Param("year") Integer year,
-            @Param("workType") Integer workType,
-            @Param("privacyType") Integer privacyType, RowBounds rowBounds);
+            @Param("unitTypes") Integer[] unitTypes,
+            @Param("startYear") Integer startYear,
+            @Param("endYear") Integer endYear,
+            @Param("workTypes") Integer[] workTypes,
+            @Param("privacyTypes") Integer[] privacyTypes,
+            RowBounds rowBounds);
     int countDispatchWorkFiles(
             @Param("isAdmin") boolean isAdmin,
             @Param("postIds") List<Integer> postIds,
             @Param("type") Byte type,
             @Param("status") Boolean status,
-            @Param("unitType") Integer unitType,
-            @Param("year") Integer year,
-            @Param("workType") Integer workType,
-            @Param("privacyType") Integer privacyType);
+            @Param("unitTypes") Integer[] unitTypes,
+            @Param("startYear") Integer startYear,
+            @Param("endYear") Integer endYear,
+            @Param("workTypes") Integer[] workTypes,
+            @Param("privacyTypes") Integer[] privacyTypes);
 
     @ResultMap("persistence.dispatch.DispatchCadreViewMapper.BaseResultMap")
     @Select("select dcv.* from dispatch_cadre_view dcv left join cadre_view cv on cv.id=dcv.cadre_id where dcv.unit_id=#{unitId} and dcv.type=2 and dcv.year between 2013 and 2017 order by  dcv.year desc, cv.sort_order desc")

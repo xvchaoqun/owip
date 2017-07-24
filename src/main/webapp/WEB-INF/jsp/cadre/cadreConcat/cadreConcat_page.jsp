@@ -63,7 +63,7 @@ pageEncoding="UTF-8" %>
 <script>
 
     function _au() {
-        loadModal("${ctx}/cadreConcat_au?cadreId=${param.cadreId}");
+        $.loadModal("${ctx}/cadreConcat_au?cadreId=${param.cadreId}");
     }
 
     function _reload(){

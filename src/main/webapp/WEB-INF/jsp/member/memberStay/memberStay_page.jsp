@@ -375,11 +375,11 @@
     }
     function apply_deny(id, type, goToNext) {
 
-        loadModal("${ctx}/memberStay_deny?id=" + id + "&type=" + type + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"));
+        $.loadModal("${ctx}/memberStay_deny?id=" + id + "&type=" + type + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"));
     }
     function apply_pass(id, type, goToNext) {
         if (type == 2) {
-            loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(id) + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"))
+            $.loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(id) + "&goToNext=" + ((goToNext != undefined && goToNext) ? "1" : "0"))
         } else {
             // bootbox.confirm("确定通过该申请？", function (result) {
             //   if (result) {
@@ -600,7 +600,7 @@
                 return;
             }
 
-            loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(ids))
+            $.loadModal("${ctx}/memberStay_transfer?ids[]={0}".format(ids))
         }
     });
     </c:if>
@@ -629,7 +629,7 @@
                 if (minStatus == undefined || minStatus > rowData.status) minStatus = rowData.status;
             }
 
-            loadModal("${ctx}/memberStay_back?ids[]={0}&status={1}".format(ids, minStatus))
+            $.loadModal("${ctx}/memberStay_back?ids[]={0}&status={1}".format(ids, minStatus))
         }
     });
     </c:if>

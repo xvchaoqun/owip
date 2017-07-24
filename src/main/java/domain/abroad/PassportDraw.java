@@ -123,7 +123,7 @@ public class PassportDraw implements Serializable {
 
     private String attachmentFilename;
 
-    private Boolean usePassport;
+    private Byte usePassport;
 
     private Boolean isDeleted;
 
@@ -401,11 +401,11 @@ public class PassportDraw implements Serializable {
         this.attachmentFilename = attachmentFilename == null ? null : attachmentFilename.trim();
     }
 
-    public Boolean getUsePassport() {
+    public Byte getUsePassport() {
         return usePassport;
     }
 
-    public void setUsePassport(Boolean usePassport) {
+    public void setUsePassport(Byte usePassport) {
         this.usePassport = usePassport;
     }
 

@@ -10,7 +10,7 @@
              data-url-co="${ctx}/dispatchWorkFile_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.unitType ||not empty param.year ||not empty param.workType ||not empty param.privacyType || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.unitTypes ||not empty param.startYear ||not empty param.endYear ||not empty param.workTypes ||not empty param.privacyTypes || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status}">active</c:if>">
@@ -84,48 +84,33 @@
 
                                         <div class="form-group">
                                             <label>发文单位</label>
-                                            <select data-rel="select2" name="unitType" data-placeholder="请选择"
-                                                    data-width="270">
-                                                <option></option>
+                                            <select class="multiselect" multiple="" name="unitTypes">
                                                 <c:import url="/metaTypes?__code=mc_dwf_unit_type"/>
                                             </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=unitType]").val('${param.unitType}');
-                                            </script>
                                         </div>
                                         <div class="form-group">
                                             <label>年度</label>
-
-                                            <div class="input-group">
-                                                <input class="form-control date-picker" placeholder="请选择年份" name="year"
-                                                       type="text"
-                                                       data-date-format="yyyy" data-date-min-view-mode="2"
-                                                       value="${param.year}"/>
-                                                <span class="input-group-addon"> <i
-                                                        class="fa fa-calendar bigger-110"></i></span>
-                                            </div>
+                                            <input style="width: 70px;" class="form-control date-picker" placeholder="起始年份" name="startYear"
+                                                   type="text"
+                                                   data-date-format="yyyy" data-date-min-view-mode="2"
+                                                   value="${param.startYear}"/>
+                                            -
+                                            <input style="width: 70px;" class="form-control date-picker" placeholder="结束年份" name="endYear"
+                                                   type="text"
+                                                   data-date-format="yyyy" data-date-min-view-mode="2"
+                                                   value="${param.endYear}"/>
                                         </div>
                                         <div class="form-group">
                                             <label>所属专项工作</label>
-                                            <select data-rel="select2" name="workType" data-placeholder="请选择"
-                                                    data-width="270">
-                                                <option></option>
+                                            <select class="multiselect" multiple="" name="workTypes">
                                                 <c:import url="/metaTypes?__code=mc_dwf_work_type"/>
                                             </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=workType]").val('${param.workType}');
-                                            </script>
                                         </div>
                                         <div class="form-group">
                                             <label>保密级别</label>
-                                            <select data-rel="select2" name="privacyType" data-placeholder="请选择"
-                                                    data-width="270">
-                                                <option></option>
+                                            <select class="multiselect" multiple="" name="privacyTypes">
                                                 <c:import url="/metaTypes?__code=mc_dwf_privacy_type"/>
                                             </select>
-                                            <script type="text/javascript">
-                                                $("#searchForm select[name=privacyType]").val('${param.privacyType}');
-                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -153,28 +138,21 @@
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i
-            class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i
-            class="fa fa-arrow-down"></i></a>
+    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+    <input type="text" value="1" style="height:20px;" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
+    register_multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
+    register_multiselect($('#searchForm select[name=workTypes]'), ${cm:toJSONArray(selectWorkTypes)});
+    register_multiselect($('#searchForm select[name=privacyTypes]'), ${cm:toJSONArray(selectPrivacyTypes)});
+
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchWorkFile_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '发文单位', name: 'unitType', width: 120, formatter: $.jgrid.formatter.MetaType, frozen: true},
-            {label: '年度', name: 'year', width: 75, frozen: true},
-            {label: '所属专项工作', name: 'workType', width: 180, formatter: $.jgrid.formatter.MetaType, frozen: true},
-            {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
-            }, frozen: true
-            },
-            {label: '发文号', name: 'code', width: 150},
-            {label: '发文日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '文件名', width: 360, name: 'fileName', align:'left'},
+            {label: '文件名', width: 360, name: 'fileName', align:'left', frozen: true},
             {
                 label: '文件', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
@@ -198,6 +176,16 @@
                 return ret;
             }
             },
+            {label: '发文单位', name: 'unitType', width: 120, formatter: $.jgrid.formatter.MetaType},
+            {label: '发文号', name: 'code', width: 150},
+            {label: '发文日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '年度', name: 'year', width: 75},
+            {
+                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
+                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
+            }
+            },
+            {label: '所属专项工作', name: 'workType', width: 180, formatter: $.jgrid.formatter.MetaType},
             {label: '保密级别', name: 'privacyType', width: 120, formatter: $.jgrid.formatter.MetaType},
             {
                 label: '查看权限', name: '_auth', width: 120, formatter: function (cellvalue, options, rowObject) {

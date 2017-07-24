@@ -53,6 +53,11 @@
                     <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
                 </li>
             </shiro:hasAnyRoles>
+            <shiro:hasPermission name="shortMsgTpl:*">
+                <li>
+                    <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="ace-icon fa fa-msg"></i> 定向短信</a>
+                </li>
+            </shiro:hasPermission>
             <li>
                 <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
             </li>

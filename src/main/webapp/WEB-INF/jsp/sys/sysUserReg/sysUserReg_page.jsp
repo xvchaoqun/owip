@@ -137,7 +137,7 @@
     }
     function apply_deny(id, goToNext) {
 
-        loadModal("${ctx}/sysUserReg_deny?id=" + id  +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
+        $.loadModal("${ctx}/sysUserReg_deny?id=" + id  +"&goToNext="+((goToNext!=undefined&&goToNext)?"1":"0"));
     }
     function apply_pass(id, goToNext) {
         bootbox.confirm("确定通过该申请？", function (result) {

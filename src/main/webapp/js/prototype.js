@@ -42,7 +42,7 @@ String.prototype.trim2=function() {
 /**把连续的空格替换成一个空格**/
 String.prototype.NoMultiSpace = function()
 {
-    return this.replace(/\s{2}/g, " ").trim2();
+    return this.replace(/\s+/g, " ").trim2();
 }
 
 String.prototype.htmlencode = function(){

@@ -144,7 +144,12 @@
             {label: '党派加入时间', name: 'owGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {
-                return $.trim(cellvalue)==''?"否":"是";
+                var str = "否";
+                var ms = $.trim(cellvalue);
+                if(ms!='' && (ms=='${MEMBER_STATUS_NORMAL}' || ms=='${MEMBER_STATUS_TRANSFER}')){
+                    str = "是";
+                }
+                return str;
             }, cellattr:function(rowId, val, rowObject, cm, rdata) {
                 return ($.trim(rowObject.memberStatus)=='')?"":"class='danger'";
             }},

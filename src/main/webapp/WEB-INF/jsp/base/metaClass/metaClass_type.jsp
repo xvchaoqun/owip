@@ -124,7 +124,7 @@
         var url = "${ctx}/metaType_au?classId=${metaClass.id}&pageNo=${commonList.pageNo}";
         if(id>0) url += "&id="+id;
 
-        loadModal(url);
+        $.loadModal(url);
     }
 
     $('#modalForm [data-rel="select2"]').select2();

@@ -192,7 +192,7 @@ public class PassportDrawController extends BaseController {
             return;
         }
 
-        int count = passportDrawMapper.countByExample(example);
+        long count = passportDrawMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -318,7 +318,7 @@ public class PassportDrawController extends BaseController {
     @ResponseBody
     public Map do_passportDraw_return(@CurrentUser SysUserView loginUser,
                                       HttpServletRequest request,
-                                      Boolean usePassport,
+                                      byte usePassport,
                                       String  _realReturnDate,
                                     MultipartFile _attachment,
                                     MultipartFile _useRecord,
@@ -404,7 +404,9 @@ public class PassportDrawController extends BaseController {
         record.setReturnRemark(remark);
         if(record.getRealReturnDate()==null) // 默认当天为归还时间
             record.setRealReturnDate(new Date());
-        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
+
+        if(usePassport != SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN)
+            record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
 
         passportDrawService.returnPassport(record);
 
