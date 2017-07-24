@@ -33,4 +33,8 @@ public interface CountMapper {
     @Select("select count(*) from abroad_apply_self where status=1 and is_finish=0 and flow_node in(-1,0) and is_deleted=0")
     public int abroadApplySelf();
 
+    // 因公赴台备案-提醒管理员选择办理新证件方式记录数量
+    @Select("select count(*) from abroad_taiwan_record where end_date<=now() and handle_type is null and is_deleted=0")
+    public int taiwanRecordHandleType();
+
 }

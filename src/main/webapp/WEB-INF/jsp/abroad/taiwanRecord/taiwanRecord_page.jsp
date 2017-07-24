@@ -12,11 +12,11 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="taiwanRecord:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/taiwanRecord_au"><i class="fa fa-plus"></i> 添加</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                    <button id="editBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/taiwanRecord_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
-                        修改</a>
+                        修改</button>
                 </shiro:hasPermission>
                 <button id="handleBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                         data-url="${ctx}/shortMsg_view" data-querystr="&type=taiwanRecordHandle">
@@ -29,7 +29,7 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
-                    </button>
+                    </button>【注：上交证件后不可删除】
                 </shiro:hasPermission>
                <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -121,6 +121,12 @@ pageEncoding="UTF-8" %>
                 label: '办理新证件方式', name: 'handleType', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.TAIWAN_RECORD_HANDLE_TYPE_MAP[cellvalue]
+            },cellattr:function(rowId, val, rowObject, cm, rdata) {
+                if($.trim(rowObject.handleType)=='') {
+                    var _date = rowObject.endDate;
+                    if (_date <= new Date().format('yyyy-MM-dd'))
+                        return "class='danger'";
+                }
             }
             },
             { label: '新证件应交组织部日期',name: '_expectDate', width: 160, formatter: function (cellvalue, options, rowObject) {
@@ -168,6 +174,7 @@ pageEncoding="UTF-8" %>
             saveJqgridSelected("#"+this.id);
             var rowData = $(this).getRowData(id);
             $("#handleBtn").prop("disabled",($.trim(rowData.expectDate)=='' || $.trim(rowData.handleDate)!=''));
+            $("#editBtn").prop("disabled", $.trim(rowData.handleDate)!='');
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');

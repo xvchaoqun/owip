@@ -362,6 +362,10 @@
                 width: 110,
                 formatter: function (cellvalue, options, rowObject) {
 
+                    if(rowObject.usePassport=='${PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                        return '-'
+                    }
+
                     if(rowObject.passport.type=='${PASSPORT_TYPE_CANCEL}' && rowObject.passport.cancelConfirm)
                         return '-';
 
@@ -411,6 +415,10 @@
                 }
             },
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.usePassport=='${PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
+                    return '-'
+                }
 
                 if(rowObject.drawStatus != '${PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&
                         rowObject.passport.type=='${PASSPORT_TYPE_LOST}'){

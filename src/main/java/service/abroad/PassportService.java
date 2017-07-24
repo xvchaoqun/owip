@@ -182,6 +182,13 @@ public class PassportService extends BaseMapper {
             record.setApplyId(applyId);
         }else if (taiwanRecordId != null) { // 因公赴台备案-交证件
             TaiwanRecord _taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(taiwanRecordId);
+
+            if(_taiwanRecord==null || _taiwanRecord.getIsDeleted()
+                    || _taiwanRecord.getHandleDate() != null){
+                // 上交后不允许修改
+                throw new RuntimeException("因公赴台备案状态异常");
+            }
+
             MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
             Assert.isTrue(_taiwanRecord.getCadreId().intValue() == cadreId, "wrong cadreId");
             Assert.isTrue(passportTwType.getId().intValue() == classId, "wrong classId");

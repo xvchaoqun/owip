@@ -53,7 +53,7 @@
 
             <div class="col-xs-6">
                 <div class="input-group">
-                    <input class="form-control date-picker" name="endDate" type="text"
+                    <input required class="form-control date-picker" name="endDate" type="text"
                            data-date-format="yyyy-mm-dd" value="${cm:formatDate(taiwanRecord.endDate,'yyyy-MM-dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
@@ -129,7 +129,15 @@
         $("input[name=_reason][value='${reason}']").prop("checked", true);
     }
     </c:forEach>
-    <c:if test="${not empty taiwanRecord}">
+    <c:if test="${not empty taiwanRecord && empty taiwanRecord.passportCode}">
+        <c:if test="${empty taiwanRecord.handleDate}">
+        $("#modalForm select[name=handleType]").select2();
+        </c:if>
+        <c:if test="${not empty taiwanRecord.handleDate}">
+        $("#modalForm select[name=handleType]").select2({theme: "default"}).trigger("change").prop("disabled", true);
+        </c:if>
+    </c:if>
+    <c:if test="${not empty taiwanRecord.passportCode}">
     $("#modalForm select[name=handleType]").select2({theme: "default"}).val(null).trigger("change").prop("disabled", true);
     </c:if>
     <c:if test="${empty taiwanRecord}">

@@ -178,10 +178,13 @@ public class TaiwanRecordController extends BaseController {
     public Map do_taiwanRecord_expectDate(Integer id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectDate) throws IOException {
 
         TaiwanRecord record = new TaiwanRecord();
-        record.setId(id);
         record.setExpectDate(expectDate);
 
-        taiwanRecordMapper.updateByPrimaryKeySelective(record);
+        TaiwanRecordExample example = new TaiwanRecordExample();
+        example.createCriteria().andIdEqualTo(id).andIsDeletedEqualTo(false)
+                .andHandleDateIsNull(); // 交证件后不可修改
+
+        taiwanRecordMapper.updateByExampleSelective(record, example);
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "[因公赴台备案]修改新证件应交组织部日期：%s", id));
         return success(FormUtils.SUCCESS);

@@ -549,6 +549,9 @@ public class ShortMsgService extends BaseMapper {
             String mobile = userBeanService.getMsgMobile(uv.getId());
 
             String msg = MessageFormat.format(tpl.getContent(), msgTitle,
+                    DateUtils.formatDate(taiwanRecord.getRecordDate(), DateUtils.YYYY_MM_DD_CHINA),
+                    DateUtils.formatDate(taiwanRecord.getStartDate(), DateUtils.YYYY_MM_DD_CHINA),
+                    DateUtils.formatDate(taiwanRecord.getEndDate(), DateUtils.YYYY_MM_DD_CHINA),
                     DateUtils.formatDate(taiwanRecord.getExpectDate(), DateUtils.YYYY_MM_DD_CHINA));
             bean.setContent(msg);
             bean.setMobile(mobile);

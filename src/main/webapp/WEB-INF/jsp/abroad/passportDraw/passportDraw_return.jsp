@@ -125,7 +125,7 @@
                 <div class="row">
                 <div class="col-xs-6" style="width: 500px;">
                 <input type="hidden" value="${param.id}" name="id">
-                <div class="form-group">
+                <div class="form-group refuseReturnPassport">
                     <label class="col-xs-4 control-label">实交组织部日期</label>
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 300px">

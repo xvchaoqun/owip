@@ -65,7 +65,9 @@ public class PassportDrawService extends BaseMapper {
         // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andIsDeletedEqualTo(false).
-                andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW).andReturnDateLessThan(today);
+                andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW)
+                .andUsePassportNotEqualTo(SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) // 拒不交回不需要短信提醒
+                .andReturnDateLessThan(today);
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
         for (PassportDraw passportDraw : passportDraws) {
 

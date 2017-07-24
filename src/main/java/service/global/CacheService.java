@@ -86,6 +86,7 @@ public class CacheService extends BaseController{
         countCache.put(SystemConstants.CACHEKEY_MODIFY_BASE_APPLY, countMapper.modifyBaseApply());
         countCache.put(SystemConstants.CACHEKEY_ABROAD_PASSPORT_APPLY, countMapper.abroadPassportApply());
         countCache.put(SystemConstants.CACHEKEY_ABROAD_APPLY_SELF, countMapper.abroadApplySelf());
+        countCache.put(SystemConstants.CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE, countMapper.taiwanRecordHandleType());
 
         List<Map> modifyTableApplyCounts = countMapper.modifyTableApply();
         for (Map entity : modifyTableApplyCounts) {

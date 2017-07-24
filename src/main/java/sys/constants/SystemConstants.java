@@ -1525,6 +1525,8 @@ public class SystemConstants {
     public final static byte CACHEKEY_PASSPORT_DRAW_TYPE_OTHER = 19;
     public final static byte CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF = 20;
 
+    public final static byte CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE = 21;
+
     public final static Map<Byte, String> CACHEKEY_MAP = new LinkedHashMap<>();
 
     static {
@@ -1550,6 +1552,8 @@ public class SystemConstants {
         CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_TW, "因公赴台-领取证件");
         CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_OTHER, "其他事务-领取证件");
         CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国-领取证件");
+
+        CACHEKEY_MAP.put(CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE, "因公赴台备案-提醒管理员选择办理新证件方式");
     }
 
     // 审批记录类型

@@ -1,5 +1,11 @@
 
 2017-7-24
+ALTER TABLE `abroad_taiwan_record`
+	CHANGE COLUMN `start_date` `start_date` DATE NOT NULL COMMENT '离境时间' AFTER `record_date`,
+	CHANGE COLUMN `end_date` `end_date` DATE NOT NULL COMMENT '回国时间' AFTER `start_date`;
+
+
+2017-7-24
 ALTER TABLE `abroad_passport`
 	ADD COLUMN `taiwan_record_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '如果是因公赴台备案' AFTER `apply_id`,
 	ADD CONSTRAINT `FK_abroad_passport_abroad_taiwan_record` FOREIGN KEY (`taiwan_record_id`) REFERENCES `abroad_taiwan_record` (`id`) ON DELETE RESTRICT;

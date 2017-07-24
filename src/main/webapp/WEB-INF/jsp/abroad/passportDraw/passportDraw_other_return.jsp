@@ -175,6 +175,12 @@
         if(val==1){
             $("#illegalUsePassport").slideDown();
         }
+        if(val==2){ // 拒不交回
+            $("#illegalUsePassport").slideUp();
+            $("textarea[name=remark]").attr("required", "required");
+        }else{
+            $("textarea[name=remark]").removeAttr("required");
+        }
     });
     $("input[type=submit]").click(function(){
 
