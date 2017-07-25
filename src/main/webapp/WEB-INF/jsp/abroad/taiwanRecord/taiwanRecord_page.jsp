@@ -124,7 +124,7 @@ pageEncoding="UTF-8" %>
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
                 if($.trim(rowObject.handleType)=='') {
                     var _date = rowObject.endDate;
-                    if (_date <= new Date().format('yyyy-MM-dd'))
+                    if ($.trim(rowObject.passportCode)=='' && _date <= new Date().format('yyyy-MM-dd'))
                         return "class='danger'";
                 }
             }

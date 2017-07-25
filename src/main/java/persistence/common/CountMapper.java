@@ -34,7 +34,7 @@ public interface CountMapper {
     public int abroadApplySelf();
 
     // 因公赴台备案-提醒管理员选择办理新证件方式记录数量
-    @Select("select count(*) from abroad_taiwan_record where end_date<=now() and handle_type is null and is_deleted=0")
+    @Select("select count(*) from abroad_taiwan_record where handle_type is null and passport_code is null and end_date<=now()  and is_deleted=0")
     public int taiwanRecordHandleType();
 
 }
