@@ -1,8 +1,9 @@
 package mixin;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonIgnoreProperties(value = {"userId", "typeId", "unitId", "remark", "sortOrder"})
+@JsonPropertyOrder(value = {"user.code", "user.realname", "unit.unitType.name",
+        "unit.name", "title", "typeId", "postId", "cadreDpType", "cadreGrowTime", "mobile", "email"})
 public class CadreMixin {
 
 }

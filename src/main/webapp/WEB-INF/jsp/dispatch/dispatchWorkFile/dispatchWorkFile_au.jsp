@@ -138,7 +138,7 @@ pageEncoding="UTF-8"%>
 
 	register_date($('.date-picker'));
 
-	register_fileupload($("#modalForm input[type=file]"));
+	$.fileInput($("#modalForm input[type=file]"));
 
     $('#modalForm [data-rel="select2"]').select2();
     $('#modalForm select[name="privacyType"]').select2({templateSelection: function format(state) {

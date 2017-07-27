@@ -35,6 +35,8 @@ import sys.utils.ExportHelper;
 import sys.utils.NumberUtils;
 import sys.utils.PropertiesUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class CadreExportService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
 
-    public SXSSFWorkbook export(Byte status, CadreViewExample example) {
+    public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType) {
 
         String cadreType = SystemConstants.CADRE_STATUS_MAP.get(status);
 
@@ -92,97 +94,54 @@ public class CadreExportService extends BaseMapper {
         }
 
         int count = records.size();
-        String[] titles = {"工作证号","姓名","部门属性","所在单位","现任职务",
-                "所在单位及职务","行政级别","职务属性", "是否正职","性别",
-                "民族","籍贯","出生地","身份证号","出生时间",
-                "年龄","党派","党派加入时间","参加工作时间","到校时间",
-                "最高学历","最高学位","毕业时间","学习方式","毕业学校",
-                "学校类型","所学专业","全日制教育学历","全日制教育毕业院校系及专业","在职教育学历","在职教育毕业院系及专业",
-                "岗位类别", "主岗等级","专业技术职务",
-                "专技职务评定时间","专技职务等级","专技岗位分级时间","管理岗位等级", "管理岗位分级时间",
-                "现职务任命文件","任现职时间","现职务始任时间","现职务始任年限","现职级始任时间",
-                "任现职级年限","兼任单位及职务", "兼任职务现任时间", "兼任职务始任时间", "是否双肩挑",
-                "双肩挑单位","联系方式","党委委员", "纪委委员","电子信箱",
-                "所属党组织","备注"};
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|100", "部门属性|150", "所在单位|300", "现任职务|160",
+                "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120", "性别|50",
+                "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
+                "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
+                "最高学历|120", "最高学位|120", "毕业时间|100", "学习方式|120", "毕业学校|200",
+                "学校类型|100", "所学专业|200", "全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150",
+                "在职教育毕业院系及专业|400", "岗位类别|100", "主岗等级|160", "专业技术职务|150", "专技职务评定时间|200",
+                "专技职务等级|200", "专技岗位分级时间|200", "管理岗位等级|120", "管理岗位分级时间|200",  "现职务任命文件|150",
+                "任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150",  "任现职级年限|120",
+                "兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
+                "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
+                "备注|500"}));
 
-        int columnCount = titles.length;
-        Row firstRow = sheet.createRow(rowNum++);
-        firstRow.setHeight((short) (35.7 * 12));
-        for (int i = 0; i < columnCount; i++) {
-            Cell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(ExportHelper.getHeadStyle(wb));
+        if(exportType==1) {
+            //新增一个角色，限制查看中层干部库权限，
+            // 字段为：工作证号，姓名，部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
+            List<String> _titles = new ArrayList<>();
+            int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
+            for (int exportCloumn : exportCloumns) {
+                _titles.add(titles.get(exportCloumn - 1));
+            }
+            titles.clear();
+            titles.addAll(_titles);
         }
 
-        int columnIndex = 0;
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 工作证号
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 300));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 160));
+        int columnCount = titles.size();
+        Row firstRow = sheet.createRow(rowNum++);
+        firstRow.setHeight((short) (35.7 * 12));
 
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 300)); // 所在单位及职务
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 50));
+        int width;
+        for (int i = 0; i < columnCount; i++) {
 
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 民族
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
+            String _title = titles.get(i);
+            String[] split = _title.split("\\|");
 
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 50));// 年龄
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
+            Cell cell = firstRow.createCell(i);
+            cell.setCellValue(split[0]);
+            cell.setCellStyle(ExportHelper.getHeadStyle(wb));
 
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120)); // 最高学历
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 学校类型
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 400));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 400));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 160));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200)); // 专技职务评定时间
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150)); // 现职务任命文件
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));//任现职级年限
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 250));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 180));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 120));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 200));
-
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 500));
-        sheet.setColumnWidth(columnIndex++, (short) (35.7 * 500));
+            if(split.length>1) {
+                try {
+                    width = Integer.valueOf(split[1]);
+                    sheet.setColumnWidth(i, (short) (35.7 * width));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
 
         for (int i = 0; i < count; i++) {
             CadreView record = records.get(i);
@@ -313,7 +272,7 @@ public class CadreExportService extends BaseMapper {
             }
 
             Unit unit = record.getUnit();
-            String[] values = {
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
                     sysUser.getCode(),
                     sysUser.getRealname(),
                     unit==null?"":unit.getUnitType().getName(),
@@ -381,14 +340,26 @@ public class CadreExportService extends BaseMapper {
 
                     partyFullName,
                     record.getRemark()
-            };
+            }));
+
+            if(exportType==1) {
+                //新增一个角色，限制查看中层干部库权限，
+                // 字段为：工作证号，姓名，部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
+                List<String> _values = new ArrayList<>();
+                int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
+                for (int exportCloumn : exportCloumns) {
+                    _values.add(values.get(exportCloumn - 1));
+                }
+                values.clear();
+                values.addAll(_values);
+            }
 
             Row row = sheet.createRow(rowNum++);
             row.setHeight((short) (35.7 * 18));
             for (int j = 0; j < columnCount; j++) {
 
                 Cell cell = row.createCell(j);
-                String value = values[j];
+                String value = values.get(j);
                 if(StringUtils.isBlank(value)) value="-";
                 cell.setCellValue(value);
                 cell.setCellStyle(ExportHelper.getBodyStyle(wb));

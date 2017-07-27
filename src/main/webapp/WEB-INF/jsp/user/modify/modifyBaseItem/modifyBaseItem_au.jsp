@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
                             <input type="file" name="_avatar" id="_avatar"/>
                             </div>
                             <script>
-                                $("#_avatar").ace_file_input({
+                                $.fileInput($("#_avatar"), {
                                     style:'well',
                                     btn_choose:'更换头像',
                                     btn_change:null,
@@ -42,14 +42,7 @@ pageEncoding="UTF-8"%>
                                     previewHeight: 198,
                                     allowExt: ['jpg', 'jpeg', 'png', 'gif'],
                                     allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-                                }).off('file.error.ace').on("file.error.ace",function(e, info){
-                                    var size = info.error_list['size'];
-                                    if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(1024*1024)}M大小".format(size));
-                                    var ext = info.error_count['ext'];
-                                    var mime = info.error_count['mime'];
-                                    if(ext!=undefined||mime!=undefined) alert("请上传图片文件（jpg或png格式)".format(ext));
-                                    e.preventDefault();
-                                });
+                                })
                                 $("#_avatar").ace_file_input('show_file_list', [{type: 'image',
                                     name: '${ctx}/avatar?path=${cm:encodeURI(record.modifyValue)}'}]);
                             </script>

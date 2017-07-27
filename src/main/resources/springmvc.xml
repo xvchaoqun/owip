@@ -118,7 +118,7 @@
 	<bean id="multipartResolver"
 		class="sys.spring.CustomCommonsMultipartResolver">
 		 <property name="resolveLazily" value="true"/>
-		<!-- 设置上传文件的最大尺寸为10MB--> 
+		<!-- 设置上传文件的最大尺寸-->
 		<property name="maxUploadSize" value="${upload.maxSize}"/>
 	</bean>
 

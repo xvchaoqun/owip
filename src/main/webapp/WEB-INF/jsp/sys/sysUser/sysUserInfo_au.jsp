@@ -161,7 +161,7 @@
     }
 </style>
 <script>
-    $("#_avatar").ace_file_input({
+    $.fileInput($("#_avatar"), {
         style:'well',
         btn_choose:'更换头像',
         btn_change:null,
@@ -172,7 +172,8 @@
         previewHeight: 198,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    }).end().find('button[type=reset]').on(ace.click_event, function(){
+    });
+    $("#_avatar").find('button[type=reset]').on(ace.click_event, function(){
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
         $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${sysUser.username}'}]);
     });

@@ -138,7 +138,7 @@
         $.print('${ctx}/pic?path=${cm:encodeURI(passport.cancelPic)}');
     });
 
-    $('input[type=file]').ace_file_input({
+    $.fileInput($('input[type=file]'),{
         style:'well',
         btn_choose:'请选择签字拍照',
         btn_change:null,
@@ -160,9 +160,9 @@
             $("input[name=_base64]").val('');
             return true;
         }
-    }).end().find('button[type=reset]').on(ace.click_event, function(){
+    })/*.end().find('button[type=reset]').on(ace.click_event, function(){
         $('input[type=file]').ace_file_input('reset_input');
-    });
+    });*/
     $("#submit").click(function(){
         if($('input[type=file]').val()=='' && $("input[name=_base64]").val()==''){
             SysMsg.info("请选择签字图片或进行拍照。");

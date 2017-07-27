@@ -318,7 +318,7 @@
         //autosize($('#form-field-tags'));
     }
 
-    $('input[type=file][name=_useRecord]').ace_file_input({
+    $.fileInput($('input[type=file][name=_useRecord]'),{
         style:'well',
         btn_choose:'请点击选择证件使用记录拍照',
         btn_change:null,
@@ -338,10 +338,10 @@
             $("input[name=_base64]").val('');
             return true;
         }
-    }).end().find('button[type=reset]').on(ace.click_event, function(){
+    })/*.end().find('button[type=reset]').on(ace.click_event, function(){
 
         $('input[type=file][name=_useRecord]').ace_file_input('reset_input');
-    })
+    })*/
 
     $.fileInput($('input[type=file][name=_attachment]'),{
         allowExt: ['pdf']

@@ -123,7 +123,7 @@
 </div>
 
 <script>
-    register_fileupload($("#modalForm input[type=file]"));
+    $.fileInput($("#modalForm input[type=file]"));
 
     function inspectorTypeChange(){
         var $inspectorType = $("select[name=inspectorType]");

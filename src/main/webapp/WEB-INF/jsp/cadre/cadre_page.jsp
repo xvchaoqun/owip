@@ -29,26 +29,28 @@
 
                             <li class="<c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">active</c:if>">
                                 <a href="javascript:;" data-url="/cadre?status=${CADRE_STATUS_MIDDLE_LEAVE}"
-                                   class="loadPage"><i
-                                        class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
+                                   class="loadPage"><i class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_MIDDLE_LEAVE)}</a>
                             </li>
+                            <shiro:hasPermission name="cadre:list">
                             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                                 <a class="popupBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/cadre/search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
                             </div>
-
+                            </shiro:hasPermission>
                         </ul>
                     </shiro:lacksRole>
                     <div class="tab-content">
                         <div id="home4" class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
+                                    <shiro:hasPermission name="cadre:list">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"
                                             data-title="重新任用"
                                             data-msg="确定重新任用这{0}个干部吗？（添加到考察对象中）"
                                             data-url="${ctx}/cadre_re_assign" data-callback="_reAssignCallback">
                                         <i class="fa fa-reply"></i> 重新任用
                                     </button>
+                                    </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
@@ -93,10 +95,12 @@
                                        data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                             class="fa fa-download"></i> 导出</a>
                                     <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                        <shiro:hasPermission name="cadre:exportFamliy">
                                         <a class="jqExportBtn btn btn-success btn-sm"
                                            data-url="${ctx}/cadreFamliy_data"
                                            data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                                 class="fa fa-download"></i> 导出家庭成员</a>
+                                        </shiro:hasPermission>
                                     </c:if>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:del">
@@ -386,12 +390,9 @@
     }
 </style>
 <script type="text/template" id="sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i
-            class="fa fa-arrow-up"></i></a>
-    <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i
-            class="fa fa-arrow-down"></i></a>
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
+<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
@@ -417,7 +418,7 @@
         //forceFit:true,
         rownumbers: true,
         url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadre
+        colModel: ${cm:isPermitted("cadre:list")?"colModels.cadre":"colModels.cadre2"}
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });
@@ -428,7 +429,7 @@
         //forceFit:true,
         rownumbers: true,
         url: '${ctx}/cadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadreLeave
+        colModel: ${cm:isPermitted("cadre:list")?"colModels.cadreLeave":"colModels.cadreLeave2"}
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });

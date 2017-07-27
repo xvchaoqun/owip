@@ -147,7 +147,7 @@
         $(".webcam-container").modal('show').draggable({handle :".modal-header"});
     }
 
-    $('input[type=file][name=_pic]').ace_file_input({
+    $.fileInput($('input[type=file][name=_pic]'),{
         style:'well',
         btn_choose:'请点击选择证件首页图片',
         btn_change:null,
@@ -167,10 +167,10 @@
             $("input[name=_base64]").val('');
             return true;
         }
-    }).end().find('button[type=reset]').on(ace.click_event, function(){
+    })/*.end().find('button[type=reset]').on(ace.click_event, function(){
 
         $('input[type=file][name=_pic]').ace_file_input('reset_input');
-    })
+    })*/
     <c:if test="${not empty passport.pic}">
     $('input[type=file][name=_pic]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/pic?path=${cm:encodeURI(passport.pic)}&_=<%=new Date().getTime()%>'}]);
     </c:if>

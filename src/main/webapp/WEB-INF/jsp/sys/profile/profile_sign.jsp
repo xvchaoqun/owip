@@ -72,7 +72,7 @@
   }
 </style>
 <script>
-  $('input[type=file]').ace_file_input({
+  $.fileInput($('input[type=file]'),{
     style:'well',
     btn_choose:'请选择手写签名',
     btn_change:null,
@@ -83,7 +83,8 @@
     previewHeight: 198,
     allowExt: ['jpg', 'jpeg', 'png', 'gif'],
     allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-  }).end().find('button[type=reset]').on(ace.click_event, function(){
+  })
+  $('#signForm button[type=reset]').on(ace.click_event, function(){
     <c:if test="${not empty _user.sign}">
     $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign'}]);
     </c:if>

@@ -10,6 +10,7 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,6 +94,7 @@ public class CadreFamliyController extends BaseController {
         }
 
         if (export == 1) {
+            SecurityUtils.getSubject().checkPermission("cadre:exportFamliy");
             if(ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
             cadreFamliy_export(ids, SystemConstants.CADRE_STATUS_MIDDLE, response);
@@ -230,7 +232,7 @@ public class CadreFamliyController extends BaseController {
 
         List<CadreFamliy> cadreFamliys = iCadreMapper.getCadreFamliys(cadreIds, status);
         int rownum = cadreFamliys.size();
-        String[] titles = {"工号", "干部", "所在单位及职务", "称谓","姓名","政治面貌","工作单位及职务"};
+        String[] titles = {"工号|100", "干部|80", "所在单位及职务|400", "称谓|100","姓名|80","政治面貌|100","工作单位及职务|500"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreFamliy cadreFamliy = cadreFamliys.get(i);

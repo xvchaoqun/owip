@@ -565,27 +565,48 @@ var _modal_width;
                 }
             }
         },
-        fileInput: function ($input, params) {
-            $input.ace_file_input($.extend({
-                no_file: '请选择文件 ...',
-                btn_choose: '选择',
-                btn_change: '更改',
-                droppable: false,
-                onchange: null,
-                thumbnail: false,
-                maxSize: _uploadMaxSize,
-                //whitelist:'gif|png|jpg|jpeg'
-                //blacklist:'exe|php'
-                //onchange:''
-            }, params)).off('file.error.ace').on("file.error.ace", function (e, info) {
+        fileInput: function ($files, params) {
 
-                var size = info.error_list['size'];
-                if (size != undefined) SysMsg.error("文件{0}超过{1}M大小".format(size, _uploadMaxSize / (1024 * 1024)));
-                var ext = info.error_count['ext'];
-                var mime = info.error_count['mime'];
-                if (ext != undefined || mime != undefined) SysMsg.error("文件格式有误");
-                e.preventDefault();
-            });
+            params = params || {};
+            var maxSize = params.maxSize||_uploadMaxSize;
+            $files.each(function() {
+                var $file = $(this)
+                $file.ace_file_input($.extend({
+                    no_file: '请选择文件 ...',
+                    btn_choose: '选择',
+                    btn_change: '更改',
+                    droppable: false,
+                    onchange: null,
+                    maxSize: maxSize,
+                    thumbnail: false //| true | large
+                    //whitelist:'gif|png|jpg|jpeg'
+                    //blacklist:'exe|php'
+                    //onchange:''
+                    //
+                }, params)).off('file.error.ace').on("file.error.ace", function (e, info) {
+                    var size = info.error_list['size'];
+                    if (size != undefined){
+                        $.tip({
+                            $target: $file.closest(".ace-file-input"), $container: $("#pageContent")||$("body"),
+                            msg: "文件<span class='text-danger'>[{0}]</span>超过{1}M大小".format(size, _uploadMaxSize / (1024 * 1024)),
+                            my: 'left center', at: 'right center'
+                        });
+                        return;
+                    }
+                    var ext = info.error_count['ext'];
+                    var mime = info.error_count['mime'];
+                    console.log(info.error_count)
+                    if (ext >0 || mime >0){
+                        $.tip({
+                            $target: $file.closest(".ace-file-input"), $container: $("#pageContent")||$("body"),
+                            msg: "文件格式有误，请上传{0}格式的文件".format(params.allowExt),
+                            my: 'left center', at: 'right center'
+                        });
+                        return;
+                    }
+                    e.preventDefault();
+                });
+            })
         },
         swfPreview: function (filepath, filename, hrefLabel, plainText) {
             filepath = $.trim(filepath);

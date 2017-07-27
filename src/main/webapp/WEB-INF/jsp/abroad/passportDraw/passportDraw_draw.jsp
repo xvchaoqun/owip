@@ -148,7 +148,7 @@
     <input type="button" class="hideView btn btn-default" value="返回" style="width: 150px"/>
 </div>
 <script>
-    $('input[type=file]').ace_file_input({
+    $.fileInput($('input[type=file]'),{
         style:'well',
         btn_choose:'请选择证件拍照',
         btn_change:null,
@@ -159,9 +159,10 @@
         //previewHeight: 75,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    }).end().find('button[type=reset]').on(ace.click_event, function(){
+    })
+    /*$('button[type=reset]').on(ace.click_event, function(){
         $('input[type=file]').ace_file_input('reset_input');
-    });
+    });*/
 
     var msg;
     $("input[type=submit]").click(function(){

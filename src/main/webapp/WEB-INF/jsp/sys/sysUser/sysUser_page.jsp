@@ -267,7 +267,7 @@
 
         var form = modal.find('form:eq(0)');
         var file = form.find('input[type=file]').eq(0);
-        file.ace_file_input({
+        $.fileInput(file, {
             style:'well',
             btn_choose:'点击选择新头像',
             btn_change:null,
@@ -282,7 +282,8 @@
             previewHeight: 198,
             allowExt: ['jpg', 'jpeg', 'png', 'gif'],
             allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-        });
+        })
+
         if($(this).data("hasimg")) {
             var path = '${ctx}/avatar/'+$(this).data("username") +"?_="+new Date().getTime();
             file.ace_file_input('show_file_list', [{type: 'image', name:path, title:''}]);

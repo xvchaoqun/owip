@@ -202,7 +202,7 @@
 </div>
 
 <script>
-	$('#modalForm input[type=file]').ace_file_input({
+	$.fileInput($('#modalForm input[type=file]'),{
 		no_file:'请选择证书图片 ...',
 		btn_choose:'选择',
 		btn_change:'更改',
@@ -212,9 +212,6 @@
 		maxSize:${_uploadMaxSize/2},
 		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
 		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-	}).off('file.error.ace').on("file.error.ace",function(e, info){
-		var size = info.error_list['size'];
-		if(size!=undefined) alert("文件{0}超过${_uploadMaxSize/(2*1024*1024)}M大小".format(size))
 	});
 	$("#modal :checkbox").bootstrapSwitch();
 	function hasDegreeChange(){

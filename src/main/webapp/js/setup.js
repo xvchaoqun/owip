@@ -1273,22 +1273,6 @@ function register_date($date, params) {
         clearBtn: true
     }, params))
 }
-//文件上传
-function register_fileupload($file, params) {
-
-    $file.ace_file_input($.extend({
-        no_file: '请选择文件 ...',
-        btn_choose: '选择',
-        btn_change: '更改',
-        droppable: false,
-        onchange: null,
-        thumbnail: false //| true | large
-        //whitelist:'gif|png|jpg|jpeg'
-        //blacklist:'exe|php'
-        //onchange:''
-        //
-    }, params));
-}
 // 日历时间
 function register_datetime($date, params) {
     $date.datetimepicker($.extend({

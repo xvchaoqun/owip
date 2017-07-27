@@ -152,7 +152,7 @@
         //autosize($('#form-field-tags'));
     }
 
-    $('input[type=file]').ace_file_input({
+    $.fileInput($('input[type=file]'),{
         style:'well',
         btn_choose:'请选择证件使用记录拍照',
         btn_change:null,
@@ -163,9 +163,10 @@
         previewHeight: 100,
         allowExt: ['jpg', 'jpeg', 'png', 'gif'],
         allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    }).end().find('button[type=reset]').on(ace.click_event, function(){
-        $('input[type=file]').ace_file_input('reset_input');
     });
+    /*$('button[type=reset]').on(ace.click_event, function(){
+        $('input[type=file]').ace_file_input('reset_input');
+    });*/
 
     $("input[name=usePassport]").click(function(){
         var val = $(this).val();
