@@ -1,14 +1,6 @@
 ############
 ## 视图权限
-drop user data@219.224.19.33;
-revoke select on owip.ext_branch_view from data@219.224.19.33;
-select host,user from mysql.user;
-show grants for data@219.224.19.33;
-GRANT SELECT ON `owip`.`ext_branch_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
-GRANT SELECT ON `owip`.`ext_member_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
-GRANT SELECT ON `owip`.`ext_cadre_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
-flush privileges;
-
+GRANT SELECT ON `owip`.ext_cadre_view TO 'cadre'@'%' identified by '!@#cadreQAZ';
 ############
 # 重置因私申请审批状态
 delete from abroad_approval_log where apply_id=203;
