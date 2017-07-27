@@ -327,7 +327,7 @@ public class CadreController extends BaseController {
         if (ShiroHelper.isPermitted("cadre:list")) {
             JSONUtils.jsonp(resultMap);
         } else {
-            JSONUtils.jsonpAntPathFilters(resultMap, "user", "user.code", "user.realname", "unit", "unit.unitType", "unit.unitType.name",
+            JSONUtils.jsonpAntPathFilters(resultMap, "id", "user", "user.code", "user.realname", "unit", "unit.unitType", "unit.unitType.name",
                     "unit.name", "title", "typeId", "postId", "dpTypeId", "cadreDpType", "cadreGrowTime", "mobile", "email");
         }
     }
