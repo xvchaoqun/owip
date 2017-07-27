@@ -59,13 +59,8 @@ where p.is_deleted=0 order by p.sort_order desc;
 --  View definition for `abroad_passport_apply_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `abroad_passport_apply_view`;
-CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `abroad_passport_apply_view` AS select `apa`.`id` AS `id`,`apa`.`cadre_id` AS `cadre_id`,`apa`.`class_id` AS `class_id`,`apa`.`apply_date` AS `apply_date`,
-`apa`.`status` AS `status`,`apa`.`abolish` AS `abolish`,`apa`.`user_id` AS `user_id`,`apa`.`approve_time` AS `approve_time`,
-`apa`.`expect_date` AS `expect_date`,`apa`.`handle_date` AS `handle_date`,
-`apa`.`handle_user_id` AS `handle_user_id`,`apa`.`remark` AS `remark`,`apa`.`create_time` AS `create_time`,
-`apa`.`ip` AS `ip`,`ap`.`id` AS `passport_id`,`ap`.`code` AS `code` , apa.is_deleted from (`abroad_passport_apply` `apa`
-left join `abroad_passport` `ap` on((`ap`.`apply_id` = `apa`.`id`)))  ;
-
+CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `abroad_passport_apply_view` AS
+select apa.`*` , ap.id as passport_id, ap.code from abroad_passport_apply apa  left join abroad_passport ap on ap.apply_id=apa.id ;
 -- ----------------------------
 --  View definition for `cadre_inspect_view`
 -- ----------------------------
@@ -184,7 +179,9 @@ left join (select cadre_id, verify_work_time from verify_work_time where status=
 --  View definition for `cis_inspector_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `cis_inspector_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cis_inspector_view` AS select `ci`.`id` AS `id`,`ci`.`user_id` AS `user_id`,`ci`.`sort_order` AS `sort_order`,`ci`.`status` AS `status`,`uv`.`username` AS `username`,`uv`.`code` AS `code`,`uv`.`realname` AS `realname` from (`cis_inspector` `ci` left join `sys_user_view` `uv` on((`ci`.`user_id` = `uv`.`id`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cis_inspector_view` AS
+select ci.*, uv.username, uv.code, uv.realname
+from cis_inspector ci left join sys_user_view uv on ci.user_id = uv.id;
 
 -- ----------------------------
 --  View definition for `cis_inspect_obj_view`
@@ -197,13 +194,17 @@ where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq de
 --  View definition for `dispatch_cadre_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_cadre_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_cadre_view` AS select `dc`.`id` AS `id`,`dc`.`dispatch_id` AS `dispatch_id`,`dc`.`cadre_id` AS `cadre_id`,`dc`.`type` AS `type`,`dc`.`cadre_type_id` AS `cadre_type_id`,`dc`.`way_id` AS `way_id`,`dc`.`procedure_id` AS `procedure_id`,`dc`.`post` AS `post`,`dc`.`post_id` AS `post_id`,`dc`.`admin_level_id` AS `admin_level_id`,`dc`.`unit_id` AS `unit_id`,`dc`.`remark` AS `remark`,`dc`.`sort_order` AS `sort_order`,`d`.`year` AS `year`,`d`.`dispatch_type_id` AS `dispatch_type_id`,`d`.`code` AS `code`,`d`.`has_checked` AS `has_checked` from ((`dispatch_cadre` `dc` join `dispatch` `d`) join `dispatch_type` `dt`) where ((`dc`.`dispatch_id` = `d`.`id`) and (`d`.`dispatch_type_id` = `dt`.`id`)) order by `d`.`year` desc,`dt`.`sort_order` desc,`d`.`code` desc,`dc`.`type`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_cadre_view` AS
+select dc.*, d.year, d.dispatch_type_id, d.code , d.has_checked from dispatch_cadre dc, dispatch d, dispatch_type dt
+    where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
 
 -- ----------------------------
 --  View definition for `dispatch_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_view` AS select `d`.`id` AS `id`,`d`.`year` AS `year`,`d`.`dispatch_type_id` AS `dispatch_type_id`,`d`.`code` AS `code`,`d`.`meeting_time` AS `meeting_time`,`d`.`pub_time` AS `pub_time`,`d`.`work_time` AS `work_time`,`d`.`appoint_count` AS `appoint_count`,`d`.`real_appoint_count` AS `real_appoint_count`,`d`.`dismiss_count` AS `dismiss_count`,`d`.`real_dismiss_count` AS `real_dismiss_count`,`d`.`has_checked` AS `has_checked`,`d`.`file` AS `file`,`d`.`file_name` AS `file_name`,`d`.`ppt` AS `ppt`,`d`.`ppt_name` AS `ppt_name`,`d`.`remark` AS `remark`,`d`.`sort_order` AS `sort_order` from (`dispatch` `d` join `dispatch_type` `dt`) where (`d`.`dispatch_type_id` = `dt`.`id`) order by `d`.`year` desc,`dt`.`sort_order` desc,`d`.`code` desc;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_view` AS
+select d.* from dispatch d, dispatch_type dt
+    where d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc ;
 
 -- ----------------------------
 --  View definition for `ext_branch_view`
@@ -256,34 +257,41 @@ left join base_meta_type bmt on op.class_id = bmt.id
 left join ow_branch ob on om.branch_id=ob.id
 where om.status=1 and om.user_id=u.id and ui.user_id=u.id;
 
---出国暂留当做转出
-/*
-select u.code as sid, ui.realname, om.status, om.`type`, om.political_status  from sys_user u, sys_user_info ui, ow_member om
-where om.user_id=u.id and ui.user_id=u.id and om.user_id not in(select user_id from ow_member_stay where status=3)
-union all
-select su.code as sid, sui.realname, (oga.status+1) as status, om.type, om.political_status
-from ow_member_stay oga, ow_member om, sys_user su, sys_user_info sui where oga.status=3 and oga.user_id=om.user_id and oga.user_id=su.id and sui.user_id=su.id;
-*/
+-- 出国暂留当做转出
+-- select u.code as sid, ui.realname, om.status, om.`type`, om.political_status  from sys_user u, sys_user_info ui, ow_member om
+-- where om.user_id=u.id and ui.user_id=u.id and om.user_id not in(select user_id from ow_member_stay where status=3)
+-- union all
+-- select su.code as sid, sui.realname, (oga.status+1) as status, om.type, om.political_status
+-- from ow_member_stay oga, ow_member om, sys_user su, sys_user_info sui where oga.status=3 and oga.user_id=om.user_id and oga.user_id=su.id and sui.user_id=su.id;
 
 
 -- ----------------------------
 --  View definition for `ow_branch_member_group_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_member_group_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_member_group_view` AS select `bmg`.`id` AS `id`,`bmg`.`fid` AS `fid`,`bmg`.`branch_id` AS `branch_id`,`bmg`.`name` AS `name`,`bmg`.`is_present` AS `is_present`,`bmg`.`tran_time` AS `tran_time`,`bmg`.`actual_tran_time` AS `actual_tran_time`,`bmg`.`appoint_time` AS `appoint_time`,`bmg`.`dispatch_unit_id` AS `dispatch_unit_id`,`bmg`.`sort_order` AS `sort_order`,`bmg`.`is_deleted` AS `is_deleted`,`b`.`party_id` AS `party_id` from (`ow_branch_member_group` `bmg` join `ow_branch` `b`) where (`bmg`.`branch_id` = `b`.`id`);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_member_group_view` AS
+SELECT bmg.`*`, b.party_id from ow_branch_member_group bmg, ow_branch b where bmg.branch_id=b.id ;
 
 -- ----------------------------
 --  View definition for `ow_branch_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_view` AS select `b`.`id` AS `id`,`b`.`code` AS `code`,`b`.`name` AS `name`,`b`.`short_name` AS `short_name`,`b`.`party_id` AS `party_id`,`b`.`type_id` AS `type_id`,`b`.`is_staff` AS `is_staff`,`b`.`is_prefessional` AS `is_prefessional`,`b`.`is_base_team` AS `is_base_team`,`b`.`unit_type_id` AS `unit_type_id`,`b`.`is_enterprise_big` AS `is_enterprise_big`,`b`.`is_enterprise_nationalized` AS `is_enterprise_nationalized`,`b`.`is_union` AS `is_union`,`b`.`phone` AS `phone`,`b`.`fax` AS `fax`,`b`.`email` AS `email`,`b`.`found_time` AS `found_time`,`b`.`transfer_count` AS `transfer_count`,`b`.`sort_order` AS `sort_order`,`b`.`create_time` AS `create_time`,`b`.`update_time` AS `update_time`,`b`.`is_deleted` AS `is_deleted`,`mtmp`.`num` AS `member_count`,`mtmp`.`s_num` AS `student_member_count`,`mtmp2`.`t_num` AS `teacher_member_count`,`mtmp2`.`t2_num` AS `retire_member_count`,`gtmp`.`num` AS `group_count`,`gtmp2`.`num` AS `present_group_count` from ((((`db_owip`.`ow_branch` `b` left join (select sum(if((`db_owip`.`ow_member`.`type` = 2),1,0)) AS `s_num`,count(0) AS `num`,`db_owip`.`ow_member`.`branch_id` AS `branch_id` from `db_owip`.`ow_member` where (`db_owip`.`ow_member`.`status` = 1) group by `db_owip`.`ow_member`.`branch_id`) `mtmp` on((`mtmp`.`branch_id` = `b`.`id`))) left join (select sum(if((`ow_member_teacher`.`is_retire` = 0),1,0)) AS `t_num`,sum(if((`ow_member_teacher`.`is_retire` = 1),1,0)) AS `t2_num`,count(0) AS `num`,`ow_member_teacher`.`branch_id` AS `branch_id` from `db_owip`.`ow_member_teacher` where (`ow_member_teacher`.`status` = 1) group by `ow_member_teacher`.`branch_id`) `mtmp2` on((`mtmp2`.`branch_id` = `b`.`id`))) left join (select count(0) AS `num`,`db_owip`.`ow_branch_member_group`.`branch_id` AS `branch_id` from `db_owip`.`ow_branch_member_group` group by `db_owip`.`ow_branch_member_group`.`branch_id`) `gtmp` on((`gtmp`.`branch_id` = `b`.`id`))) left join (select count(0) AS `num`,`db_owip`.`ow_branch_member_group`.`branch_id` AS `branch_id` from `db_owip`.`ow_branch_member_group` where (`db_owip`.`ow_branch_member_group`.`is_present` = 1) group by `db_owip`.`ow_branch_member_group`.`branch_id`) `gtmp2` on((`gtmp2`.`branch_id` = `b`.`id`)));
-
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_view` AS
+select b.*,  mtmp.num as member_count,mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count from ow_branch b
+left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group group by branch_id) gtmp on gtmp.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_present=1 group by  branch_id) gtmp2 on gtmp2.branch_id=b.id;
 
 -- ----------------------------
 --  View definition for `ow_member_abroad_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_abroad_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_abroad_view` AS select `ea`.`id` AS `id`,`ea`.`lsh` AS `lsh`,`ea`.`gzzh` AS `gzzh`,`ea`.`gj` AS `gj`,`ea`.`jfly` AS `jfly`,`ea`.`cgjlb` AS `cgjlb`,`ea`.`cgjfs` AS `cgjfs`,`ea`.`yqdw` AS `yqdw`,`ea`.`yqdwdz` AS `yqdwdz`,`ea`.`yqr` AS `yqr`,`ea`.`sqrzc` AS `sqrzc`,`ea`.`sqrsjh` AS `sqrsjh`,`ea`.`sqryx` AS `sqryx`,`ea`.`yjcfsj` AS `yjcfsj`,`ea`.`ygsj` AS `ygsj`,`ea`.`yjtlts` AS `yjtlts`,`ea`.`sjcfsj` AS `sjcfsj`,`ea`.`sgsj` AS `sgsj`,`ea`.`sjtlts` AS `sjtlts`,`ea`.`yq1s` AS `yq1s`,`ea`.`yq1z` AS `yq1z`,`ea`.`yq2s` AS `yq2s`,`ea`.`yq2z` AS `yq2z`,`ea`.`pzwh` AS `pzwh`,`ea`.`cgjzt` AS `cgjzt`,`m`.`user_id` AS `user_id`,`u`.`realname` AS `realname`,`u`.`code` AS `code`,`u`.`gender` AS `gender`,`m`.`party_id` AS `party_id`,`m`.`branch_id` AS `branch_id` from ((`ext_abroad` `ea` join `sys_user_view` `u`) join `ow_member` `m`) where ((`ea`.`gzzh` = `u`.`code`) and (`u`.`id` = `m`.`user_id`));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_abroad_view` AS
+select ea.`*`, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id
+from ext_abroad ea , sys_user_view u, ow_member m where ea.gzzh=u.code and u.id=m.user_id ;
 
 -- ----------------------------
 --  View definition for `ow_member_apply_view`
@@ -298,7 +306,8 @@ left join ow_member m  on ma.user_id = m.user_id) tmp;
 --  View definition for `ow_member_outflow_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_member_outflow_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_outflow_view` AS select `omo`.`id` AS `id`,`omo`.`user_id` AS `user_id`,`omo`.`type` AS `type`,`omo`.`party_name` AS `party_name`,`omo`.`branch_name` AS `branch_name`,`omo`.`party_id` AS `party_id`,`omo`.`branch_id` AS `branch_id`,`omo`.`original_job` AS `original_job`,`omo`.`direction` AS `direction`,`omo`.`flow_time` AS `flow_time`,`omo`.`province` AS `province`,`omo`.`reason` AS `reason`,`omo`.`has_papers` AS `has_papers`,`omo`.`or_status` AS `or_status`,`omo`.`status` AS `status`,`omo`.`is_back` AS `is_back`,`omo`.`remark` AS `remark`,`omo`.`create_time` AS `create_time`,`om`.`status` AS `member_status` from (`ow_member_outflow` `omo` join `ow_member` `om`) where (`omo`.`user_id` = `om`.`user_id`);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_outflow_view` AS
+SELECT omo.*, om.`status` as member_status from ow_member_outflow omo, ow_member om where omo.user_id=om.user_id  ;
 
 -- ----------------------------
 --  View definition for `ow_member_stay_view`
@@ -359,7 +368,8 @@ where m.user_id=t.user_id and m.party_id=p.id and m.user_id =u.id and ui.user_id
 --  View definition for `ow_party_member_group_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_member_group_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_group_view` AS select `opmg`.`id` AS `id`,`opmg`.`fid` AS `fid`,`opmg`.`party_id` AS `party_id`,`opmg`.`name` AS `name`,`opmg`.`is_present` AS `is_present`,`opmg`.`tran_time` AS `tran_time`,`opmg`.`actual_tran_time` AS `actual_tran_time`,`opmg`.`appoint_time` AS `appoint_time`,`opmg`.`dispatch_unit_id` AS `dispatch_unit_id`,`opmg`.`sort_order` AS `sort_order`,`opmg`.`is_deleted` AS `is_deleted`,`op`.`sort_order` AS `party_sort_order` from (`ow_party_member_group` `opmg` join `ow_party` `op`) where (`opmg`.`party_id` = `op`.`id`);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_member_group_view` AS
+select opmg.*, op.sort_order as party_sort_order from ow_party_member_group opmg, ow_party op where opmg.party_id=op.id ;
 
 -- ----------------------------
 --  View definition for `ow_party_member_view`
@@ -405,8 +415,15 @@ left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 --  View definition for `ow_party_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_view` AS select `p`.`id` AS `id`,`p`.`code` AS `code`,`p`.`name` AS `name`,`p`.`short_name` AS `short_name`,`p`.`url` AS `url`,`p`.`unit_id` AS `unit_id`,`p`.`class_id` AS `class_id`,`p`.`type_id` AS `type_id`,`p`.`unit_type_id` AS `unit_type_id`,`p`.`is_enterprise_big` AS `is_enterprise_big`,`p`.`is_enterprise_nationalized` AS `is_enterprise_nationalized`,`p`.`is_separate` AS `is_separate`,`p`.`phone` AS `phone`,`p`.`fax` AS `fax`,`p`.`email` AS `email`,`p`.`found_time` AS `found_time`,`p`.`sort_order` AS `sort_order`,`p`.`create_time` AS `create_time`,`p`.`update_time` AS `update_time`,`p`.`is_deleted` AS `is_deleted`,`btmp`.`num` AS `branch_count`,`mtmp`.`num` AS `member_count`,`mtmp`.`s_num` AS `student_member_count`,`mtmp2`.`t_num` AS `teacher_member_count`,`mtmp2`.`t2_num` AS `retire_member_count`,`pmgtmp`.`num` AS `group_count`,`pmgtmp2`.`num` AS `present_group_count` from (((((`db_owip`.`ow_party` `p` left join (select count(0) AS `num`,`db_owip`.`ow_branch`.`party_id` AS `party_id` from `db_owip`.`ow_branch` group by `db_owip`.`ow_branch`.`party_id`) `btmp` on((`btmp`.`party_id` = `p`.`id`))) left join (select sum(if((`db_owip`.`ow_member`.`type` = 2),1,0)) AS `s_num`,count(0) AS `num`,`db_owip`.`ow_member`.`party_id` AS `party_id` from `db_owip`.`ow_member` where (`db_owip`.`ow_member`.`status` = 1) group by `db_owip`.`ow_member`.`party_id`) `mtmp` on((`mtmp`.`party_id` = `p`.`id`))) left join (select sum(if((`ow_member_teacher`.`is_retire` = 0),1,0)) AS `t_num`,sum(if((`ow_member_teacher`.`is_retire` = 1),1,0)) AS `t2_num`,count(0) AS `num`,`ow_member_teacher`.`party_id` AS `party_id` from `db_owip`.`ow_member_teacher` where (`ow_member_teacher`.`status` = 1) group by `ow_member_teacher`.`party_id`) `mtmp2` on((`mtmp2`.`party_id` = `p`.`id`))) left join (select count(0) AS `num`,`db_owip`.`ow_party_member_group`.`party_id` AS `party_id` from `db_owip`.`ow_party_member_group` group by `db_owip`.`ow_party_member_group`.`party_id`) `pmgtmp` on((`pmgtmp`.`party_id` = `p`.`id`))) left join (select count(0) AS `num`,`db_owip`.`ow_party_member_group`.`party_id` AS `party_id` from `db_owip`.`ow_party_member_group` where (`db_owip`.`ow_party_member_group`.`is_present` = 1) group by `db_owip`.`ow_party_member_group`.`party_id`) `pmgtmp2` on((`pmgtmp2`.`party_id` = `p`.`id`)));
-
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_view` AS
+select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count,
+mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
+left join (select count(*) as num, party_id from ow_branch group by party_id) btmp on btmp.party_id=p.id
+left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
+left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
+count(*) as num, party_id from ow_member_teacher where status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
+left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id  ;
 -- ----------------------------
 --  View definition for `sys_user_view`
 -- ----------------------------
