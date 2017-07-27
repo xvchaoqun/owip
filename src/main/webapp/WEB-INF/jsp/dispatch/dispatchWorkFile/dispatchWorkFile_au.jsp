@@ -138,7 +138,14 @@ pageEncoding="UTF-8"%>
 
 	register_date($('.date-picker'));
 
-	$.fileInput($("#modalForm input[type=file]"));
+	$.fileInput($("#modalForm input[name=_pdfFilePath]"),{
+		allowExt: ['pdf'],
+		allowMime: ['application/pdf']
+	});
+	$.fileInput($("#modalForm input[name=_wordFilePath]"),{
+		allowExt: ['doc', 'docx'],
+		allowMime: ['application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+	});
 
     $('#modalForm [data-rel="select2"]').select2();
     $('#modalForm select[name="privacyType"]').select2({templateSelection: function format(state) {
