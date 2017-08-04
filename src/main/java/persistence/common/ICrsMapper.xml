@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.ICrsMapper">
+
+    <resultMap id="ExpertBaseResultMap" type="persistence.common.bean.ICrsExpert"
+               extends="persistence.crs.CrsExpertViewMapper.BaseResultMap">
+        <result column="post_count" jdbcType="INTEGER" property="postCount" />
+    </resultMap>
+
+    <update id="recommend" parameterType="map">
+        update crs_applicant
+        <set>
+            is_recommend = #{record.isRecommend},
+            recommend_ow = #{record.recommendOw},
+            recommend_cadre = #{record.recommendCadre},
+            recommend_crowd = #{record.recommendCrowd},
+            <if test="record.isRecommend and record.recommendPdf != null">
+                recommend_pdf = #{record.recommendPdf},
+            </if>
+            <if test="!record.isRecommend">
+                recommend_pdf = null,
+            </if>
+        </set>
+        where id=#{record.id}
+    </update>
+
+    <sql id="searchExperts">
+        from crs_expert_view ce left join
+        (select cpe.user_id, count(cp.id) as post_count from crs_post_expert cpe,
+        crs_post cp where cpe.post_id=cp.id and cp.status!=3
+        <if test="meetingTimeStart!=null">
+            and cp.meeting_time >= #{meetingTimeStart}
+        </if>
+        <if test="meetingTimeEnd!=null">
+            and cp.meeting_time <![CDATA[<=]]> #{meetingTimeEnd}
+        </if>
+        group by cpe.user_id
+        ) p on p.user_id=ce.user_id
+        <where>
+            <if test="userId!=null">
+                and ce.user_id = #{userId}
+            </if>
+            <if test="status!=null">
+                and ce.status = #{status}
+            </if>
+        </where>
+    </sql>
+    <select id="findExperts" resultMap="ExpertBaseResultMap" parameterType="map">
+        select ce.*, if(isnull(p.post_count), 0, p.post_count) as post_count
+        <include refid="searchExperts"/>
+        <if test="orderType==null || orderType==0">
+            order by ce.cadre_status desc, ce.cadre_sort_order desc
+        </if>
+        <if test="orderType==1">
+            order by post_count desc, ce.cadre_status desc, ce.cadre_sort_order desc
+        </if>
+    </select>
+
+    <select id="countExperts" parameterType="map" resultType="java.lang.Integer">
+        select count(DISTINCT ce.id)
+        <include refid="searchExperts"/>
+    </select>
+</mapper>

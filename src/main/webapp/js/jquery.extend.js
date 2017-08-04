@@ -241,6 +241,7 @@ var _modal_width;
             var msg = params.msg;
             var my = params.my;
             var at = params.at;
+            var type = params.type || "info";
 
             if($target==undefined) {
 
@@ -263,8 +264,12 @@ var _modal_width;
                     $container = $form.closest("#modal");
                 }
             }
+            var label='<i class="fa fa-warning red"></i> ';
+            if(type=="success"){
+                label='<i class="fa fa-info-circle green"></i> ';
+            }
             $target.qtip({
-                content: msg,
+                content: label+msg,
                 show: true, hide: {
                     event: 'unfocus',
                     inactive: 1000

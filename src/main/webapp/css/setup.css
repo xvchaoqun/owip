@@ -156,6 +156,10 @@ body {
     text-align: right;
 }
 
+.table.table-unhover2 tbody tr:hover td {
+    background-color: transparent;
+}
+
 /*jqgrid start*/
 .table > thead > tr > th:last-child {
     border-right-color: inherit !important; /*覆盖ace， jqgrid*/
@@ -182,6 +186,10 @@ body {
 }
 
 .rownumbers #jqGrid_cb {
+    text-align: left !important;
+}
+
+.rownumbers #jqGrid2_cb {
     text-align: left !important;
 }
 
@@ -708,6 +716,14 @@ form .form-actions {
     height: 750px;
     text-align: center;
     line-height: 750px;
+    overflow: hidden;
+}
+
+.swf-file-view {
+    width: 730px;
+    line-height: 750px;
+    text-align: center;
+    height: 750px;
     overflow: hidden;
 }
 

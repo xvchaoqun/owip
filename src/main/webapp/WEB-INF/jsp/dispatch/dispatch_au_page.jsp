@@ -52,6 +52,7 @@
             var $this = $(this);
             var $form = $this.closest("form");
             var $btn = $("button", $form).button('loading');
+            var viewHtml = $("#dispatch-file-view").html()
             $("#dispatch-file-view").html('<img src="${ctx}/img/loading.gif"/>')
             $form.ajaxSubmit({
                 success: function (ret) {
@@ -61,12 +62,14 @@
 
                         $("#modalForm input[name=file]").val(ret.file);
                         $("#modalForm input[name=fileName]").val(ret.fileName);
+                    }else{
+                        $("#dispatch-file-view").html(viewHtml)
                     }
                     $btn.button('reset');
-                    $this.attr("disabled", false);
+                    $this.removeAttr("disabled");
                 }
             });
-            $this.attr("disabled", true);
+            $this.attr("disabled", "disabled");
         }
     });
 </script>

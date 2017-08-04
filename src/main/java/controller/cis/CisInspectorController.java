@@ -44,12 +44,13 @@ public class CisInspectorController extends BaseController {
     @RequiresPermissions("cisInspector:list")
     @RequestMapping("/cisInspector")
     public String cisInspector(HttpServletResponse response,
+                                    Integer userId,
                                     @RequestParam(required = false,
                                             defaultValue = SystemConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                                     ModelMap modelMap) {
 
         modelMap.put("status", status);
-
+        if(userId!= null) modelMap.put("sysUser", sysUserService.findById(userId));
         return "cis/cisInspector/cisInspector_page";
     }
 

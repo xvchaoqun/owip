@@ -82,9 +82,10 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
                                             <label>考察组成员</label>
-                                            <input class="form-control search-query" name="userId" type="text"
-                                                   value="${param.userId}"
-                                                   placeholder="请输入考察组成员">
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}" data-width="350"
+                                                    name="userId" data-placeholder="请输入账号或姓名或工号">
+                                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                            </select>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -117,12 +118,13 @@
 <a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
+    register_user_select($('#searchForm select[name=userId]'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/cisInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '考察组成员', name: 'realname'},
             {label: '工作证号', name: 'code'},
-            {label: '考察干部', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
+            {label: '考察干部', name: '_cadres', formatter: function (cellvalue, options, rowObject) {
                     return '<a href="#${ctx}/cisInspectObj?cls=1&inspectorId={0}" target="_blank">查看</a>'
                                     .format(encodeURI(rowObject.id));
             }},
@@ -132,9 +134,10 @@
             }, frozen: true
             }
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+
+    $(window).triggerHandler('resize.jqGrid');
+    $.initNavGrid("jqGrid", "jqGridPager");
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

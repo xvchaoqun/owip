@@ -1,6 +1,7 @@
 package controller.dispatch;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
 import domain.dispatch.DispatchExample.Criteria;
@@ -26,6 +27,7 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FileUtils;
@@ -190,8 +192,9 @@ public class DispatchController extends BaseController {
 
         String originalFilename = _file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
-            throw new RuntimeException("任免文件格式错误，请上传pdf文件");
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
+                && !ContentTypeUtils.isFormat(_file, "pdf")) {
+            throw new OpException("任免文件格式错误，请上传pdf文件");
         }
 
         String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");

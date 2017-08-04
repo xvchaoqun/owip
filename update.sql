@@ -1,4 +1,53 @@
 
+2017-8-4
+update sys_resource set permission = replace(permission, 'recruit', 'crs') where permission like 'recruit%';
+update sys_resource set url = replace(url, '/recruit', '/crs') where url like '/recruit%';
+
+（以下已删除替换，不需更新）
+RENAME TABLE `recruit_post` TO `crs_post`;
+RENAME TABLE `recruit_template` TO `crs_template`;
+
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '招聘类型' AFTER `year`,
+	ADD COLUMN `seq` INT(10) UNSIGNED NOT NULL COMMENT '编号，招聘类型+序号，eg：竞争上岗[2017]1号、公开招聘[2017]100号' AFTER `type`;
+ALTER TABLE `crs_post`
+	CHANGE COLUMN `sign_status` `sign_status` TINYINT(3) UNSIGNED NOT NULL COMMENT '报名状态，1未启动报名、2正在报名、3报名结束' AFTER `qualification`;
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `notice` VARCHAR(255) NULL COMMENT '招聘公告，pdf文件' AFTER `unit_id`,
+	ADD COLUMN `qualification_group_id` INT UNSIGNED NULL COMMENT '任职资格组合' AFTER `qualification`;
+ALTER TABLE `crs_post`
+	CHANGE COLUMN `qualification_group_id` `post_require_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '岗位要求' AFTER `qualification`;
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `start_time` DATETIME NULL DEFAULT NULL COMMENT '报名开启时间' AFTER `post_require_id`,
+	ADD COLUMN `end_time` DATETIME NULL DEFAULT NULL COMMENT '报名关闭时间' AFTER `start_time`,
+	CHANGE COLUMN `sign_status` `enroll_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '报名状态，0 根据报名时间而定 1 强制开启、2 强制关闭、3 暂停报名' AFTER `end_time`;
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `meeting_time` DATETIME NULL COMMENT '招聘会时间，招聘会状态：未召开、已召开' AFTER `enroll_status`,
+	ADD COLUMN `meeting_address` VARCHAR(100) NULL COMMENT '招聘会地点' AFTER `meeting_time`,
+	DROP COLUMN `meeting_status`;
+
+ALTER TABLE `crs_post`
+	DROP COLUMN `meeting_time`,
+	DROP COLUMN `meeting_address`;
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `meeting_time` DATETIME NOT NULL COMMENT '招聘会时间，招聘会状态：未召开、已召开' AFTER `enroll_status`,
+	ADD COLUMN `meeting_address` VARCHAR(100) NOT NULL COMMENT '招聘会地点' AFTER `meeting_time`,
+	ADD COLUMN `meeting_status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '招聘会是否完成' AFTER `meeting_address`;
+
+
+ALTER TABLE `crs_post`
+	CHANGE COLUMN `enroll_status` `enroll_status` TINYINT(3) UNSIGNED NOT NULL COMMENT '报名状态，0 根据报名时间而定 1 强制开启、2 强制关闭、3 暂停报名' AFTER `end_time`,
+	CHANGE COLUMN `meeting_time` `meeting_time` DATETIME NULL COMMENT '招聘会时间，招聘会状态：未召开、已召开' AFTER `enroll_status`,
+	CHANGE COLUMN `meeting_address` `meeting_address` VARCHAR(100) NULL COMMENT '招聘会地点' AFTER `meeting_time`,
+	CHANGE COLUMN `meeting_status` `meeting_status` TINYINT(1) UNSIGNED NULL COMMENT '招聘会是否完成' AFTER `meeting_address`,
+	CHANGE COLUMN `committee_status` `committee_status` TINYINT(1) UNSIGNED NULL COMMENT '常委会情况，未上会、已上会' AFTER `meeting_status`;
+
+
 2017-7-24
 ALTER TABLE `abroad_taiwan_record`
 	CHANGE COLUMN `start_date` `start_date` DATE NOT NULL COMMENT '离境时间' AFTER `record_date`,

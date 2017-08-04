@@ -279,18 +279,7 @@
                 }
               }
             });
-          },
-          errorPlacement: function (error, element) {
-            //console.log(error)
-            if($(element).hasClass("date-picker")){
-              $(element).closest('div.form-group').removeClass('has-success').addClass('has-error');
-              error.insertAfter($(element).closest("div.input-group").parent());
-            }else {
-              $(element).closest('div.form-group').removeClass('has-success').addClass('has-error');
-              error.insertAfter($(element).parent());
-            }
-          }
-        });
+          }});
 
         $('#modalForm select[name=politicalStatus]').change(function(){
           var $input = $("#modalForm  input[name=_positiveTime]");

@@ -153,7 +153,7 @@ public class CommonController extends BaseController {
         if (status != null) {
             cadreStatusSet.add(status);
         } else {
-            if(types==null) {
+            if (types == null) {
                 if (type == 1) {
                     cadreStatusSet = SystemConstants.CADRE_STATUS_SET;
                 } else if (type == 2) {
@@ -161,7 +161,7 @@ public class CommonController extends BaseController {
                 } else if (type == 3) {
                     cadreStatusSet = SystemConstants.CADRE_STATUS_LEAVE_SET;
                 }
-            }else{
+            } else {
                 cadreStatusSet = new HashSet<>(Arrays.asList(types));
             }
         }
@@ -179,7 +179,7 @@ public class CommonController extends BaseController {
             for (Cadre cadre : cadres) {
                 Map<String, String> option = new HashMap<>();
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
-                option.put("id", (key==0)?(cadre.getId() + ""):(cadre.getUserId()+""));
+                option.put("id", (key == 0) ? (cadre.getId() + "") : (cadre.getUserId() + ""));
                 option.put("text", uv.getRealname());
                 option.put("mobile", uv.getMobile());
                 option.put("title", cadre.getTitle());
@@ -191,9 +191,9 @@ public class CommonController extends BaseController {
                         option.put("unit", extJzg.getDwmc());
                     }
                 }
-                if(abroad){
+                if (abroad) {
                     Passport twPassport = passportService.findTwPassport(cadre.getId());
-                    if(twPassport!=null)
+                    if (twPassport != null)
                         option.put("twPassportCode", twPassport.getCode());
                 }
                 options.add(option);
@@ -339,8 +339,8 @@ public class CommonController extends BaseController {
     @RequestMapping("/cadreReserve_selects")
     @ResponseBody
     public Map cadreReserve_selects(Integer pageSize, Integer pageNo,
-                               Byte reserveStatus,
-                               Byte reserveType, String searchStr) throws IOException {
+                                    Byte reserveStatus,
+                                    Byte reserveType, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;

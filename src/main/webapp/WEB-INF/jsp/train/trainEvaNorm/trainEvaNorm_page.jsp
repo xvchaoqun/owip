@@ -152,8 +152,8 @@
 
     var currentExpandRows = [];
     function subGridRowColapsed(parentRowID, parentRowKey) {
-        $(".switchBtn i", '#' + parentRowKey).removeClass("fa-folder-open-o");
-        $(".switchBtn span", '#' + parentRowKey).html("查看评估指标");
+        $(".switchBtn i", '#jqGrid2 #' + parentRowKey).removeClass("fa-folder-open-o");
+        $(".switchBtn span", '#jqGrid2 #' + parentRowKey).html("查看评估指标");
         currentExpandRows.remove(parentRowKey);
         //console.log(currentExpandRows)
     }
@@ -161,8 +161,8 @@
     // the ID of the grid tow  and the primary key of the row
     function subGridRowExpanded(parentRowID, parentRowKey) {
 
-        $(".switchBtn i", '#' + parentRowKey).addClass("fa-folder-open-o");
-        $(".switchBtn span", '#' + parentRowKey).html("隐藏评估指标");
+        $(".switchBtn i", '#jqGrid2 #' + parentRowKey).addClass("fa-folder-open-o");
+        $(".switchBtn span", '#jqGrid2 #' + parentRowKey).html("隐藏评估指标");
         currentExpandRows.remove(parentRowKey);
         currentExpandRows.push(parentRowKey);
         //console.log(currentExpandRows)

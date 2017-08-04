@@ -113,8 +113,8 @@ $(window).on('resize.jqGrid2', function () {
         gridWidth -= $(".nav-list").width()
     }
     var widthReduce = $(".jqGrid2").data("width-reduce");
-    if (widthReduce != undefined && Math.abs(widthReduce) > 0) {
-        gridWidth = gridWidth - widthReduce;
+    if (widthReduce != undefined) {
+        gridWidth = gridWidth - parseInt(widthReduce);
     }
     $(".jqGrid2").jqGrid('setGridWidth', gridWidth);
     var height = 0;
@@ -127,7 +127,14 @@ $(window).on('resize.jqGrid2', function () {
     navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
     if (navHeight == null) navHeight = 0;
 
-    $(".jqGrid2").setGridHeight($(window).height() - 390 - height - navHeight);
+    var gridHeight = $(window).height() - 390 - height - navHeight;
+
+    var heightReduce = $(".jqGrid2").data("height-reduce");
+    if (heightReduce != undefined) {
+        gridHeight = gridHeight - parseInt(heightReduce);
+    }
+
+    $(".jqGrid2").setGridHeight(gridHeight);
 });
 // 不改变宽度
 $(window).on('resize.jqGrid3', function () {
@@ -444,17 +451,18 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
     }
     //url += (querystr&&querystr!='')?(querystr):"";
     if (openBy == 'page') {
-        var $container = $("#body-content");
-        $container.showLoading({
+        var loadEl = $(this).data("load-el");
+        var $maskEl = $(loadEl || "#body-content");
+        $maskEl.showLoading({
             'afterShow': function () {
                 setTimeout(function () {
-                    $container.hideLoading();
+                    $maskEl.hideLoading();
                 }, 2000);
             }
         });
         $.get(url, {}, function (html) {
-            $container.hideLoading().hide();
-            $("#item-content").hide().html(html).fadeIn("slow");
+            $maskEl.hideLoading().hide();
+            $(loadEl || "#item-content").hide().html(html).fadeIn("slow");
         })
     } else {
         $.loadModal(url, $(this).data("width"));
@@ -725,35 +733,48 @@ $(document).on("click", ".loadPage", function () {
 
     var queryString = _this.data("querystr");
     var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
-    var maskEl = _this.data("mask-el") || "#page-content";
-
-    $.loadPage({url:url, maskEl:maskEl, callback: function () {
+    var loadEl = _this.data("load-el") || "#page-content";
+    var maskEl = _this.data("mask-el") || loadEl || "#page-content";
+    var fn = _this.data("callback");
+    console.log("maskEl="+maskEl)
+    $.loadPage({url:url, loadEl:loadEl, maskEl:maskEl, callback: function () {
         $("#modal").modal('hide');
         clearJqgridSelected();
+        if (fn) {
+            // console.log(_this)
+            window[fn](_this);
+        }
     }})
 });
 
 // 搜索 for jqgrid
 $(document).on("click", " .jqSearchBtn", function () {
-    var $div = $(this).closest(".myTableDiv");
-    var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
+
+    var $this = $(this);
+    var $div = $this.closest(".myTableDiv");
+    var url = $this.data("url") || $div.data("url-page");
+    //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
+    var $target = $($this.data("target")|| $div.data("target")||"#page-content");
+    var $form = $($this.data("form")||"div.myTableDiv #searchForm");
+
     $target.renderUrl({
-        url: $div.data("url-page"),
-        params: $("div.myTableDiv #searchForm").serialize()
+        url: url,
+        params: $form.serialize()
     });
 });
 
 // 重置
 $(document).on("click", " .resetBtn", function () {
 
-    //var $div = $(".myTableDiv");
-    var $div = $(this).closest(".myTableDiv");
-    var querystr = $(this).data("querystr");
+    var $this = $(this);
+    var querystr = $this.data("querystr");
+    var $div = $this.closest(".myTableDiv");
+    //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
+    var $target = $($this.data("target")|| $div.data("target")||"#page-content");
+    var url = $this.data("url") || $div.data("url-page");
 
-    var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    // _tunePage(1, "", $div.data("url-page"), $target, "", "&" + querystr);
     $target.renderUrl({
-        url: $div.data("url-page"),
+        url: url,
         params: "&" + querystr
     });
 });
@@ -1003,9 +1024,10 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
 
 // 内页展示
 $(document).on("click", ".openView", function () {
-    $(this).attr("disabled", "disabled");
-    $.loadView($(this).data("url"), function () {
-        $(this).removeAttr("disabled");
+    var $this = $(this);
+    $this.attr("disabled", "disabled");
+    $.loadView($this.data("url"), function () {
+        $this.removeAttr("disabled");
     });
 });
 

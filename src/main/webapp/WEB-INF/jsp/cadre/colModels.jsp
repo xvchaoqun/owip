@@ -160,16 +160,6 @@
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        /*{
-            label: '现职务始任年限',
-            width: 120,
-            name: 'mainCadrePost.dispatchCadreRelateBean.first.workTime',
-            formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                var year = yearOffNow(cellvalue);
-                return year == 0 ? "未满一年" : year;
-            }
-        },*/
         {
             label: '现职务始任年限',
             width: 120,
@@ -182,30 +172,10 @@
         {
             label: '现职级始任时间',
             width: 120,
-            name: 'presentAdminLevel.startDispatch.workTime',
+            name: 'sWorkTime',
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        /*{
-            label: '任现职级年限',
-            width: 120,
-            name: 'workYear',
-            formatter: function (cellvalue, options, rowObject) {
-                //console.log(rowObject.endDispatch)
-                if (rowObject.presentAdminLevel == undefined || rowObject.presentAdminLevel.startDispatch == undefined) return '';
-
-                var end;
-                if (rowObject.presentAdminLevel.endDispatch != undefined)
-                    end = rowObject.presentAdminLevel.endDispatch.workTime;
-                if (rowObject.presentAdminLevel.adminLevelId == rowObject.mainCadrePost.adminLevelId)
-                    end = new Date().format("yyyy-MM-dd");
-                if (rowObject.presentAdminLevel.startDispatch.workTime == undefined || end == undefined) return '';
-
-                var month = $.monthDiff(rowObject.presentAdminLevel.startDispatch.workTime, end);
-                var year = Math.floor(month / 12);
-                return year == 0 ? "未满一年" : year;
-            }
-        },*/
         {
             label: '任现职级年限',
             width: 120,

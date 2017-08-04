@@ -4,6 +4,18 @@ Source Server Version: 5.7.10
 Source Database: db_owip
 Date: 2017/6/1 12:41:29
 */
+DROP VIEW IF EXISTS `crs_expert_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `crs_expert_view` AS
+select ce.*, uv.username, uv.code, uv.realname,
+c.id as cadre_id, c.title as cadre_title, c.status as cadre_status, c.sort_order as cadre_sort_order
+from crs_expert ce
+left join cadre c on ce.user_id=c.user_id
+left join sys_user_view uv on ce.user_id=uv.id;
+
+
+DROP VIEW IF EXISTS `crs_applicant_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_view` AS
+ select *, if(special_status||require_check_status=1, 1, 0) as is_require_check_pass from crs_applicant ;
 
 DROP VIEW IF EXISTS `ow_member_out_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS

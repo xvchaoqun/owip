@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
     <form class="form-inline" action="${ctx}/cadreLeaderUnit_au" id="modalForm" method="post">
         <div class="form-group">
             <input type="hidden" name="leaderId" value="${cadreLeader.id}">
-            <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects?status=1"
+            <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects?status=1"
                     name="unitId" data-placeholder="请选择单位">
                 <option></option>
             </select>
@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
                 </c:forEach>
             </select>
         </div>
-        <input type="submit" class="btn btn-sm btn-primary" value="添加"/>
+        <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/>
     </form>
     <div class="space-10"></div>
 </shiro:hasPermission>
@@ -89,8 +89,16 @@ pageEncoding="UTF-8"%>
     </div>
 </div>
 <script>
-    $("#modal form").validate({
+    $("#submitBtn", "#modalForm").click(function(){$("#modalForm").submit();return false;})
+    $("#modalForm").validate({
         submitHandler: function (form) {
+            var unitId = $.trim($("select[name=unitId]", form).val());
+            var typeId = $.trim($("select[name=typeId]", form).val());
+            //console.log(unitId)
+            if(unitId=='' || typeId==''){
+                $.tip({$target:$("#submitBtn", form), at:"top center",my:"bottom center", msg:"请选择单位和类别"});
+                return;
+            }
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -99,32 +107,8 @@ pageEncoding="UTF-8"%>
                     }
                 }
             });
-        },errorPlacement:function(error, element){
-
-        },invalidHandler:function(form, validator){
-            //var errors = validator.numberOfInvalids();
-            SysMsg.warning("请选择单位和类别", '错误');
         }
     });
     $('[data-rel="select2"]').select2();
-    $('#modal [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+    register_ajax_select($('#modal [data-rel="select2-ajax"]'))
 </script>

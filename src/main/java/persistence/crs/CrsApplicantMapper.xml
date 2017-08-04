@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.crs.CrsApplicantMapper">
+  <resultMap id="BaseResultMap" type="domain.crs.CrsApplicant">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
+    <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
+    <result column="recommend_ow" jdbcType="VARCHAR" property="recommendOw" />
+    <result column="recommend_cadre" jdbcType="VARCHAR" property="recommendCadre" />
+    <result column="recommend_crowd" jdbcType="VARCHAR" property="recommendCrowd" />
+    <result column="recommend_pdf" jdbcType="VARCHAR" property="recommendPdf" />
+    <result column="info_check_status" jdbcType="TINYINT" property="infoCheckStatus" />
+    <result column="info_check_remark" jdbcType="VARCHAR" property="infoCheckRemark" />
+    <result column="require_check_status" jdbcType="TINYINT" property="requireCheckStatus" />
+    <result column="require_check_remark" jdbcType="VARCHAR" property="requireCheckRemark" />
+    <result column="special_status" jdbcType="BIT" property="specialStatus" />
+    <result column="special_pdf" jdbcType="VARCHAR" property="specialPdf" />
+    <result column="special_remark" jdbcType="VARCHAR" property="specialRemark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, post_id, enroll_time, is_recommend, recommend_ow, recommend_cadre, recommend_crowd, 
+    recommend_pdf, info_check_status, info_check_remark, require_check_status, require_check_remark, 
+    special_status, special_pdf, special_remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.crs.CrsApplicantExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from crs_applicant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from crs_applicant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from crs_applicant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.crs.CrsApplicantExample">
+    delete from crs_applicant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.crs.CrsApplicant">
+    insert into crs_applicant (id, user_id, post_id, 
+      enroll_time, is_recommend, recommend_ow, 
+      recommend_cadre, recommend_crowd, recommend_pdf, 
+      info_check_status, info_check_remark, require_check_status, 
+      require_check_remark, special_status, special_pdf, 
+      special_remark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
+      #{enrollTime,jdbcType=TIMESTAMP}, #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, 
+      #{recommendCadre,jdbcType=VARCHAR}, #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, 
+      #{infoCheckStatus,jdbcType=TINYINT}, #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, 
+      #{requireCheckRemark,jdbcType=VARCHAR}, #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, 
+      #{specialRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.crs.CrsApplicant">
+    insert into crs_applicant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="enrollTime != null">
+        enroll_time,
+      </if>
+      <if test="isRecommend != null">
+        is_recommend,
+      </if>
+      <if test="recommendOw != null">
+        recommend_ow,
+      </if>
+      <if test="recommendCadre != null">
+        recommend_cadre,
+      </if>
+      <if test="recommendCrowd != null">
+        recommend_crowd,
+      </if>
+      <if test="recommendPdf != null">
+        recommend_pdf,
+      </if>
+      <if test="infoCheckStatus != null">
+        info_check_status,
+      </if>
+      <if test="infoCheckRemark != null">
+        info_check_remark,
+      </if>
+      <if test="requireCheckStatus != null">
+        require_check_status,
+      </if>
+      <if test="requireCheckRemark != null">
+        require_check_remark,
+      </if>
+      <if test="specialStatus != null">
+        special_status,
+      </if>
+      <if test="specialPdf != null">
+        special_pdf,
+      </if>
+      <if test="specialRemark != null">
+        special_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="enrollTime != null">
+        #{enrollTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRecommend != null">
+        #{isRecommend,jdbcType=BIT},
+      </if>
+      <if test="recommendOw != null">
+        #{recommendOw,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendCadre != null">
+        #{recommendCadre,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendCrowd != null">
+        #{recommendCrowd,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendPdf != null">
+        #{recommendPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCheckStatus != null">
+        #{infoCheckStatus,jdbcType=TINYINT},
+      </if>
+      <if test="infoCheckRemark != null">
+        #{infoCheckRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="requireCheckStatus != null">
+        #{requireCheckStatus,jdbcType=TINYINT},
+      </if>
+      <if test="requireCheckRemark != null">
+        #{requireCheckRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="specialStatus != null">
+        #{specialStatus,jdbcType=BIT},
+      </if>
+      <if test="specialPdf != null">
+        #{specialPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRemark != null">
+        #{specialRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.crs.CrsApplicantExample" resultType="java.lang.Long">
+    select count(*) from crs_applicant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update crs_applicant
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.enrollTime != null">
+        enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isRecommend != null">
+        is_recommend = #{record.isRecommend,jdbcType=BIT},
+      </if>
+      <if test="record.recommendOw != null">
+        recommend_ow = #{record.recommendOw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recommendCadre != null">
+        recommend_cadre = #{record.recommendCadre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recommendCrowd != null">
+        recommend_crowd = #{record.recommendCrowd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recommendPdf != null">
+        recommend_pdf = #{record.recommendPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.infoCheckStatus != null">
+        info_check_status = #{record.infoCheckStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.infoCheckRemark != null">
+        info_check_remark = #{record.infoCheckRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireCheckStatus != null">
+        require_check_status = #{record.requireCheckStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.requireCheckRemark != null">
+        require_check_remark = #{record.requireCheckRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialStatus != null">
+        special_status = #{record.specialStatus,jdbcType=BIT},
+      </if>
+      <if test="record.specialPdf != null">
+        special_pdf = #{record.specialPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialRemark != null">
+        special_remark = #{record.specialRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update crs_applicant
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
+      is_recommend = #{record.isRecommend,jdbcType=BIT},
+      recommend_ow = #{record.recommendOw,jdbcType=VARCHAR},
+      recommend_cadre = #{record.recommendCadre,jdbcType=VARCHAR},
+      recommend_crowd = #{record.recommendCrowd,jdbcType=VARCHAR},
+      recommend_pdf = #{record.recommendPdf,jdbcType=VARCHAR},
+      info_check_status = #{record.infoCheckStatus,jdbcType=TINYINT},
+      info_check_remark = #{record.infoCheckRemark,jdbcType=VARCHAR},
+      require_check_status = #{record.requireCheckStatus,jdbcType=TINYINT},
+      require_check_remark = #{record.requireCheckRemark,jdbcType=VARCHAR},
+      special_status = #{record.specialStatus,jdbcType=BIT},
+      special_pdf = #{record.specialPdf,jdbcType=VARCHAR},
+      special_remark = #{record.specialRemark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.crs.CrsApplicant">
+    update crs_applicant
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="enrollTime != null">
+        enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRecommend != null">
+        is_recommend = #{isRecommend,jdbcType=BIT},
+      </if>
+      <if test="recommendOw != null">
+        recommend_ow = #{recommendOw,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendCadre != null">
+        recommend_cadre = #{recommendCadre,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendCrowd != null">
+        recommend_crowd = #{recommendCrowd,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendPdf != null">
+        recommend_pdf = #{recommendPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="infoCheckStatus != null">
+        info_check_status = #{infoCheckStatus,jdbcType=TINYINT},
+      </if>
+      <if test="infoCheckRemark != null">
+        info_check_remark = #{infoCheckRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="requireCheckStatus != null">
+        require_check_status = #{requireCheckStatus,jdbcType=TINYINT},
+      </if>
+      <if test="requireCheckRemark != null">
+        require_check_remark = #{requireCheckRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="specialStatus != null">
+        special_status = #{specialStatus,jdbcType=BIT},
+      </if>
+      <if test="specialPdf != null">
+        special_pdf = #{specialPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="specialRemark != null">
+        special_remark = #{specialRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.crs.CrsApplicant">
+    update crs_applicant
+    set user_id = #{userId,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=INTEGER},
+      enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
+      is_recommend = #{isRecommend,jdbcType=BIT},
+      recommend_ow = #{recommendOw,jdbcType=VARCHAR},
+      recommend_cadre = #{recommendCadre,jdbcType=VARCHAR},
+      recommend_crowd = #{recommendCrowd,jdbcType=VARCHAR},
+      recommend_pdf = #{recommendPdf,jdbcType=VARCHAR},
+      info_check_status = #{infoCheckStatus,jdbcType=TINYINT},
+      info_check_remark = #{infoCheckRemark,jdbcType=VARCHAR},
+      require_check_status = #{requireCheckStatus,jdbcType=TINYINT},
+      require_check_remark = #{requireCheckRemark,jdbcType=VARCHAR},
+      special_status = #{specialStatus,jdbcType=BIT},
+      special_pdf = #{specialPdf,jdbcType=VARCHAR},
+      special_remark = #{specialRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.crs.CrsApplicantExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from crs_applicant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

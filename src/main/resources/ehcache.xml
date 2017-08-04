@@ -4,7 +4,31 @@
     <diskStore path="D:\ehcache\owip"/>
     <!-- service 缓存 -->
 
-    <cache name="RecruitTemplates"
+    <cache name="CrsTemplates"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="CrsPostRequire:ALL"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="CrsRequireRules"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="CrsRuleItems"
            eternal="false"
            maxElementsInMemory="2000"
            overflowToDisk="false"

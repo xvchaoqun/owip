@@ -168,16 +168,16 @@
 
     var currentExpandRows = [];
     function subGridRowColapsed(parentRowID, parentRowKey) {
-        $(".switchBtn i", '#' + parentRowKey).removeClass("fa-folder-open-o");
-        $(".switchBtn span", '#' + parentRowKey).html("查看期间工作");
+        $(".switchBtn i", '#jqGrid_cadreWork #' + parentRowKey).removeClass("fa-folder-open-o");
+        $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("查看期间工作");
         currentExpandRows.remove(parentRowKey);
     }
     // the event handler on expanding parent row receives two parameters
     // the ID of the grid tow  and the primary key of the row
     function subGridRowExpanded(parentRowID, parentRowKey) {
 
-        $(".switchBtn i", '#' + parentRowKey).addClass("fa-folder-open-o");
-        $(".switchBtn span", '#' + parentRowKey).html("隐藏期间工作");
+        $(".switchBtn i", '#jqGrid_cadreWork #' + parentRowKey).addClass("fa-folder-open-o");
+        $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("隐藏期间工作");
         currentExpandRows.push(parentRowKey);
 
         var childGridID = parentRowID + "_table";

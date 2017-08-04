@@ -11,12 +11,12 @@ pageEncoding="UTF-8"%>
     <form class="form-inline" action="${ctx}/historyUnit_au" id="modalForm" method="post">
         <div class="form-group">
             <input type="hidden" name="unitId" value="${unit.id}">
-            <select data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects?status=2"
+            <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects?status=2"
                     name="oldUnitId" data-placeholder="请选择历史单位">
                 <option></option>
             </select>
         </div>
-        <input type="submit" class="btn btn-sm btn-primary" value="添加"/>
+        <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/>
     </form>
     <div class="space-10"></div>
 </shiro:hasPermission>
@@ -96,8 +96,16 @@ pageEncoding="UTF-8"%>
     </div>
 </div>
 <script>
+    $("#submitBtn", "#modalForm").click(function(){$("#modalForm").submit();return false;})
     $("#modal form").validate({
         submitHandler: function (form) {
+            var oldUnitId = $.trim($("select[name=oldUnitId]", form).val());
+            if(oldUnitId==''){
+                $.tip({$target:$("select[name=oldUnitId]", form).closest("div").find(".select2-container"),
+                    at:"top center",my:"bottom center", msg:"请选择历史单位"});
+                return;
+            }
+
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -106,32 +114,7 @@ pageEncoding="UTF-8"%>
                     }
                 }
             });
-        },errorPlacement:function(error, element){
-
-        },invalidHandler:function(form, validator){
-            //var errors = validator.numberOfInvalids();
-            SysMsg.error("请选择历史单位", '错误');
         }
     });
-
-    $('#modal [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+    register_ajax_select($('#modal [data-rel="select2-ajax"]'))
 </script>

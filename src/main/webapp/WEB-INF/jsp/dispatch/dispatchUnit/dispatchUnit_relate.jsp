@@ -106,32 +106,8 @@
                     }
                 }
             });
-        },errorPlacement:function(error, element){
-
-        },invalidHandler:function(form, validator){
-            //var errors = validator.numberOfInvalids();
-            SysMsg.error("请选择关联单位", '错误');
         }
     });
 
-    $('#modal [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+    register_ajax_select($('#modal [data-rel="select2-ajax"]'))
 </script>

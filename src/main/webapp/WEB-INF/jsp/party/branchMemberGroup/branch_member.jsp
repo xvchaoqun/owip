@@ -180,12 +180,7 @@
                     }
                 }
             });
-        }/*, errorPlacement: function (error, element) {
-
-        }, invalidHandler: function (form, validator) {
-            //var errors = validator.numberOfInvalids();
-            SysMsg.error("请选择用户和类别", '错误');
-        }*/
+        }
     });
     register_user_select($('#modalForm select[name=userId]'));
 </script>

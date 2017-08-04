@@ -69,6 +69,16 @@ import service.cis.CisObjInspectorService;
 import service.cis.CisObjUnitService;
 import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
+import service.crs.CrsApplicantCheckService;
+import service.crs.CrsApplicantService;
+import service.crs.CrsExpertService;
+import service.crs.CrsPostExpertService;
+import service.crs.CrsPostFileService;
+import service.crs.CrsPostRequireService;
+import service.crs.CrsPostService;
+import service.crs.CrsRequireRuleService;
+import service.crs.CrsRuleItemService;
+import service.crs.CrsTemplateService;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
@@ -111,8 +121,6 @@ import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.party.RetireApplyService;
-import service.recruit.RecruitPostService;
-import service.recruit.RecruitTemplateService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
 import service.sys.FeedbackService;
@@ -347,9 +355,25 @@ public class BaseController extends BaseMapper {
     protected TrainInspectorCourseService trainInspectorCourseService;
 
     @Autowired
-    protected RecruitPostService recruitPostService;
+    protected CrsPostService crsPostService;
     @Autowired
-    protected RecruitTemplateService recruitTemplateService;
+    protected CrsPostRequireService crsPostRequireService;
+    @Autowired
+    protected CrsRequireRuleService crsRequireRuleService;
+    @Autowired
+    protected CrsRuleItemService crsRuleItemService;
+    @Autowired
+    protected CrsPostExpertService crsPostExpertService;
+    @Autowired
+    protected CrsTemplateService crsTemplateService;
+    @Autowired
+    protected CrsExpertService crsExpertService;
+    @Autowired
+    protected CrsApplicantService crsApplicantService;
+    @Autowired
+    protected CrsApplicantCheckService crsApplicantCheckService;
+    @Autowired
+    protected CrsPostFileService crsPostFileService;
 
     @Autowired
     protected VerifyAgeService verifyAgeService;

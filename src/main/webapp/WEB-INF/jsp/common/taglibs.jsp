@@ -193,13 +193,29 @@
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH%>" var="TRAIN_INSPECTOR_COURSE_STATUS_FINISH"/>
 <c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_MAP%>" var="TRAIN_INSPECTOR_COURSE_STATUS_MAP"/>
 
+<c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
+<c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
+<c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>
 
-<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_MAP%>" var="RECRUIT_POST_STATUS_MAP"/>
-<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_NORMAL%>" var="RECRUIT_POST_STATUS_NORMAL"/>
-<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_FINISH%>" var="RECRUIT_POST_STATUS_FINISH"/>
-<c:set value="<%=SystemConstants.RECRUIT_POST_STATUS_DELETE%>" var="RECRUIT_POST_STATUS_DELETE"/>
+<c:set value="<%=SystemConstants.CRS_POST_TYPE_MAP%>" var="CRS_POST_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.RECRUIT_TEMPLATE_TYPE_MAP%>" var="RECRUIT_TEMPLATE_TYPE_MAP"/>
+<c:set value="<%=SystemConstants.CRS_POST_RULE_TYPE_MAP%>" var="CRS_POST_RULE_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_MAP%>" var="CRS_POST_ENROLL_STATUS_MAP"/>
+
+<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_MAP%>" var="CRS_POST_EXPERT_ROLE_MAP"/>
+
+<c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_MAP%>" var="CRS_POST_FILE_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS"/>
+<c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS"/>
+
+<c:set value="<%=SystemConstants.CRS_POST_STATUS_MAP%>" var="CRS_POST_STATUS_MAP"/>
+<c:set value="<%=SystemConstants.CRS_POST_STATUS_NORMAL%>" var="CRS_POST_STATUS_NORMAL"/>
+<c:set value="<%=SystemConstants.CRS_POST_STATUS_FINISH%>" var="CRS_POST_STATUS_FINISH"/>
+<c:set value="<%=SystemConstants.CRS_POST_STATUS_DELETE%>" var="CRS_POST_STATUS_DELETE"/>
+
+<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_MAP%>" var="CRS_TEMPLATE_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.VERIFY_STATUS_DEL%>" var="VERIFY_STATUS_DEL"/>
 

@@ -1,0 +1,256 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="space-4"></div>
+<c:set var="_query"
+       value="${not empty param.userId ||not empty param.enrollTime || not empty param.code || not empty param.sort}"/>
+<div class="jqgrid-vertical-offset buttons">
+    <c:if test="${param.cls==1}">
+    <shiro:hasPermission name="crsApplicant:edit">
+        <a class="popupBtn btn btn-info btn-sm"
+           data-url="${ctx}/crsApplicant_au?postId=${param.postId}"><i class="fa fa-plus"></i> 添加</a>
+        <%--  <a class="jqOpenViewBtn btn btn-primary btn-sm"
+             data-url="${ctx}/crsApplicant_au"
+             data-grid-id="#jqGrid2"
+             data-querystr="&postId=${param.postId}"><i class="fa fa-edit"></i>
+              修改</a>--%>
+    </shiro:hasPermission>
+
+        <a class="jqOpenViewBtn btn btn-warning btn-sm"
+           data-url="${ctx}/crsApplicant_infoCheck"
+           data-id-name="applicantId"
+           data-grid-id="#jqGrid2"><i class="fa fa-check-circle"></i> 信息审核</a>
+    </c:if>
+    <c:if test="${param.cls==4}">
+        <a class="jqOpenViewBtn btn btn-warning btn-sm"
+           data-url="${ctx}/crsApplicant_requireCheck"
+           data-id-name="applicantId" data-width="1000"
+           data-grid-id="#jqGrid2"><i class="fa fa-hourglass-1"></i> 资格审核</a>
+    </c:if>
+    <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-success btn-sm"
+       data-open-by="page"
+       data-load-el="#step-item-content"
+       data-grid-id="#jqGrid2"
+       data-querystr="&cls=${param.cls}"
+       data-url="${ctx}/crsApplicant_recommend"><i class="fa fa-thumbs-o-up"></i> 推荐/自荐</a>
+
+    <c:if test="${param.cls==5}">
+        <button id="unSpecialBtn" class="jqItemBtn btn btn-warning btn-sm"
+                data-title="取消破格"
+                data-msg="确定取消破格？"
+                data-grid-id="#jqGrid2"
+                data-querystr="specialStatus=0"
+                data-callback="_reload"
+                data-url="${ctx}/crsApplicant_special"><i class="fa fa-star-o"></i> 取消破格
+        </button>
+    </c:if>
+    <c:if test="${param.cls==6}">
+        <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-warning btn-sm"
+           data-open-by="page"
+           data-load-el="#step-item-content"
+           data-grid-id="#jqGrid2"
+           data-querystr="&cls=${param.cls}"
+           data-url="${ctx}/crsApplicant_special"><i class="fa fa-star"></i> 破格</a>
+    </c:if>
+    <%-- <shiro:hasPermission name="crsApplicant:del">
+         <button data-url="${ctx}/crsApplicant_batchDel"
+                 data-title="删除"
+                 data-msg="确定删除这{0}条数据？"
+                 data-grid-id="#jqGrid2"
+                 class="jqBatchBtn btn btn-danger btn-sm">
+             <i class="fa fa-trash"></i> 删除
+         </button>
+     </shiro:hasPermission>--%>
+    <%--<a class="jqExportBtn btn btn-primary btn-sm tooltip-info"
+       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+        <i class="fa fa-download"></i> 导出</a>--%>
+</div>
+<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+    <div class="widget-header">
+        <h4 class="widget-title">搜索</h4>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main no-padding">
+            <form class="form-inline search-form" id="searchForm2">
+                <div class="form-group">
+                    <label>用户</label>
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1"
+                            name="userId" data-placeholder="请输入账号或姓名或学工号">
+                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>报名时间</label>
+                    <div class="input-group tooltip-success" data-rel="tooltip" title="报名时间范围">
+                        <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
+                        <input placeholder="请选择报名时间范围" data-rel="date-range-picker"
+                               class="form-control date-range-picker" type="text"
+                               name="enrollTime" value="${param.enrollTime}"/>
+                    </div>
+                </div>
+                <div class="clearfix form-actions center">
+                    <a class="jqSearchBtn btn btn-default btn-sm"
+                       data-target="#step-item-content"
+                       data-form="#searchForm2"
+                       data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
+
+                    <c:if test="${_query}">&nbsp;
+                        <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                data-target="#step-item-content"
+                                data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${param.cls}">
+                            <i class="fa fa-reply"></i> 重置
+                        </button>
+                    </c:if>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="rownumbers">
+    <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="40"></table>
+    <div id="jqGridPager2"></div>
+</div>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<script>
+    function _reload() {
+        $("#jqGrid2").trigger("reloadGrid");
+    }
+    register_user_select($("#searchForm2 select[name=userId]"))
+    $("#jqGrid2").jqGrid({
+        pager: "#jqGridPager2",
+        rownumbers: true,
+        url: '${ctx}/crsApplicant_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            {
+                label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',
+                formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}
+            },
+            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 120},
+            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
+            {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
+            {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
+            {label: '民族', name: 'cadre.nation', width: 60},
+            {
+                label: '党派', name: 'cadre.cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+                if (cellvalue == 0) return "中共党员"
+                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
+                return "-";
+            }
+            },
+            {
+                label: '党派加入时间',
+                name: 'cadre.cadreGrowTime',
+                width: 120,
+                formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '-';
+                    return cellvalue.substr(0, 10);
+                }
+            },
+            {label: '最高学历', name: 'cadre.eduId', formatter: $.jgrid.formatter.MetaType},
+            {label: '最高学位', name: 'cadre.degree'},
+            {label: '毕业学校', name: 'cadre.school', width: 150},
+            {label: '所学专业', name: 'cadre.major', width: 180, align: 'left'},
+            {
+                label: '参加工作时间',
+                name: 'cadre.workStartTime',
+                width: 120,
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {label: '到校时间', name: 'cadre.arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '专业技术职务', name: 'cadre.proPost', width: 120},
+            {
+                label: '专技职务评定时间',
+                name: 'cadre.proPostTime',
+                width: 130,
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {label: '专技岗位等级', name: 'cadre.proPostLevel', width: 150},
+            {
+                label: '专技岗位分级时间',
+                name: 'cadre.proPostLevelTime',
+                width: 130,
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {label: '管理岗位等级', name: 'cadre.manageLevel', width: 150},
+            {
+                label: '管理岗位分级时间',
+                name: 'cadre.manageLevelTime',
+                width: 130,
+                formatter: 'date',
+                formatoptions: {newformat: 'Y-m-d'}
+            },
+            {
+                label: '推荐/自荐', name: 'isRecommend', width: 180, formatter: function (cellvalue, options, rowObject) {
+
+                var str = [];
+                if (cellvalue) {
+                    if ($.trim(rowObject.recommendOw) != '') str.push(rowObject.recommendOw);
+                    if ($.trim(rowObject.recommendCadre) != '') str.push(rowObject.recommendCadre);
+                    if ($.trim(rowObject.recommendCrowd) != '') str.push(rowObject.recommendCrowd);
+
+                    return $.swfPreview(rowObject.recommendPdf, "${crsPost.name}-推荐-" + rowObject.user.realname + ".pdf", str.join(","));
+                } else {
+                    return "个人报名";
+                }
+                return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-item-content" ' +
+                        'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${param.cls}">推荐/自荐</a>'.format(rowObject.id);
+            }
+            }
+            <c:if test="${param.cls==5}">
+            , {
+                label: '通过方式',
+                name: '_isRequireCheckPass',
+                width: 120,
+                formatter: function (cellvalue, options, rowObject) {
+                    //console.log(rowObject.requireCheckStatus =='${CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS}'&& rowObject.isRequireCheckPass)
+                    return (rowObject.requireCheckStatus == '${CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS}' && rowObject.isRequireCheckPass) ? '破格通过' : '审核通过';
+                }
+            }
+            </c:if>
+            , {
+                hidden: true, name: 'isRequireCheckPass', formatter: function (cellvalue, options, rowObject) {
+                    return (rowObject.requireCheckStatus == '${CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS}' && rowObject.isRequireCheckPass) ? 1 : 0;
+                }
+            }
+        ]
+        <c:if test="${param.cls==5}">
+        ,
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id);
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#unSpecialBtn").prop("disabled", true);
+            } else if (status) {
+                var rowData = $(this).getRowData(id);
+                //console.log(rowData);
+                $("#unSpecialBtn").prop("disabled", rowData.isRequireCheckPass == 0);
+            } else {
+                $("#unSpecialBtn").prop("disabled", true);
+            }
+        },
+        rowattr: function (rowData, rowObject, rowId) {
+
+            if ((rowObject.requireCheckStatus == '${CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS}' && rowObject.isRequireCheckPass)) {
+                return {'class': 'warning'}
+            }
+        }
+        </c:if>
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid2');
+    $.initNavGrid("jqGrid2", "jqGridPager2");
+    $('#searchForm [data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
+</script>

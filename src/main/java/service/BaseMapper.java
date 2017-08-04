@@ -74,6 +74,7 @@ import persistence.common.CommonMapper;
 import persistence.common.IAbroadMapper;
 import persistence.common.ICadreMapper;
 import persistence.common.ICpcMapper;
+import persistence.common.ICrsMapper;
 import persistence.common.IDispatchMapper;
 import persistence.common.IMemberMapper;
 import persistence.common.IModifyMapper;
@@ -85,6 +86,18 @@ import persistence.common.StatCadreMapper;
 import persistence.common.StatMemberMapper;
 import persistence.cpc.CpcAllocationMapper;
 import persistence.crp.CrpRecordMapper;
+import persistence.crs.CrsApplicantCheckMapper;
+import persistence.crs.CrsApplicantMapper;
+import persistence.crs.CrsApplicantViewMapper;
+import persistence.crs.CrsExpertMapper;
+import persistence.crs.CrsExpertViewMapper;
+import persistence.crs.CrsPostExpertMapper;
+import persistence.crs.CrsPostFileMapper;
+import persistence.crs.CrsPostMapper;
+import persistence.crs.CrsPostRequireMapper;
+import persistence.crs.CrsRequireRuleMapper;
+import persistence.crs.CrsRuleItemMapper;
+import persistence.crs.CrsTemplateMapper;
 import persistence.dispatch.DispatchCadreMapper;
 import persistence.dispatch.DispatchCadreRelateMapper;
 import persistence.dispatch.DispatchCadreViewMapper;
@@ -141,8 +154,6 @@ import persistence.party.PartyMemberMapper;
 import persistence.party.PartyMemberViewMapper;
 import persistence.party.PartyViewMapper;
 import persistence.party.RetireApplyMapper;
-import persistence.recruit.RecruitPostMapper;
-import persistence.recruit.RecruitTemplateMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -468,11 +479,32 @@ public class BaseMapper {
     @Autowired
     protected TrainInspectorCourseMapper trainInspectorCourseMapper;
 
-
     @Autowired
-    protected RecruitPostMapper recruitPostMapper;
+    protected CrsTemplateMapper crsTemplateMapper;
     @Autowired
-    protected RecruitTemplateMapper recruitTemplateMapper;
+    protected CrsExpertMapper crsExpertMapper;
+    @Autowired
+    protected CrsExpertViewMapper crsExpertViewMapper;
+    @Autowired
+    protected CrsApplicantMapper crsApplicantMapper;
+    @Autowired
+    protected CrsApplicantViewMapper crsApplicantViewMapper;
+    @Autowired
+    protected CrsApplicantCheckMapper crsApplicantCheckMapper;
+    @Autowired
+    protected CrsPostMapper crsPostMapper;
+    @Autowired
+    protected CrsPostRequireMapper crsPostRequireMapper;
+    @Autowired
+    protected CrsRequireRuleMapper crsRequireRuleMapper;
+    @Autowired
+    protected CrsRuleItemMapper crsRuleItemMapper;
+    @Autowired
+    protected CrsPostExpertMapper crsPostExpertMapper;
+    @Autowired
+    protected CrsPostFileMapper crsPostFileMapper;
+    @Autowired
+    protected ICrsMapper iCrsMapper;
 
     @Autowired
     protected VerifyAgeMapper verifyAgeMapper;

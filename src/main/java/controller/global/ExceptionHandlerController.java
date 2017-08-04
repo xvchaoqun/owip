@@ -90,12 +90,17 @@ public class ExceptionHandlerController {
         return resultMap;
     }
 
-    @ExceptionHandler({RuntimeException.class, FileNotFoundException.class})
+    @ExceptionHandler({RuntimeException.class, FileNotFoundException.class, OpException.class})
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
         logger.error(getMsg(request, ex), ex);
-        String msg = (ex instanceof FileNotFoundException)?"文件不存在":"系统异常，请稍后重试";
+        String msg = "系统异常，请稍后重试";
+        if(ex instanceof FileNotFoundException){
+            msg = "文件不存在";
+        }else if(ex instanceof OpException){
+            msg = ex.getMessage();
+        }
         //ex.printStackTrace();
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {

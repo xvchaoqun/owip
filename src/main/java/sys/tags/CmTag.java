@@ -17,6 +17,8 @@ import domain.cadre.CadreFamliy;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cis.CisInspectorView;
+import domain.crs.CrsPost;
+import domain.crs.CrsRequireRule;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
@@ -53,6 +55,8 @@ import service.cadre.CadrePostService;
 import service.cadre.CadreService;
 import service.cis.CisInspectObjService;
 import service.cis.CisInspectorService;
+import service.crs.CrsPostService;
+import service.crs.CrsRequireRuleService;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
@@ -128,6 +132,9 @@ public class CmTag {
     static TrainEvaNormService trainEvaNormService = (TrainEvaNormService) context.getBean("trainEvaNormService");
     static TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
     static TrainCourseService trainCourseService = (TrainCourseService) context.getBean("trainCourseService");
+
+    static CrsRequireRuleService crsRequireRuleService = (CrsRequireRuleService) context.getBean("crsRequireRuleService");
+    static CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
 
     public static String toJSONObject(Object obj) {
 
@@ -631,5 +638,16 @@ public class CmTag {
     public static Integer evaIsClosed(Integer courseId) {
 
         return trainCourseService.evaIsClosed(courseId);
+    }
+
+
+    public static Map<Integer, CrsRequireRule> getCrsRequireRules(Integer postRequireId) {
+
+        return crsRequireRuleService.findAll(postRequireId);
+    }
+
+    public static CrsPost getCrsPost(Integer id) {
+
+        return crsPostService.get(id);
     }
 }
