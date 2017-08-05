@@ -10,11 +10,9 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_type" jdbcType="TINYINT" property="userType" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.sys.SysApprovalLog">
-    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,28 +73,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_id, apply_user_id, type, stage, user_id, user_type, status, create_time, 
+    id, record_id, apply_user_id, type, stage, user_id, user_type, status, remark, create_time, 
     ip
   </sql>
-  <sql id="Blob_Column_List">
-    remark
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="domain.sys.SysApprovalLogExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_approval_log
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="domain.sys.SysApprovalLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -111,11 +90,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from sys_approval_log
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -132,12 +109,12 @@
   <insert id="insert" parameterType="domain.sys.SysApprovalLog">
     insert into sys_approval_log (id, record_id, apply_user_id, 
       type, stage, user_id, 
-      user_type, status, create_time, 
-      ip, remark)
+      user_type, status, remark, 
+      create_time, ip)
     values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{applyUserId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{stage,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{userType,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR})
+      #{userType,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysApprovalLog">
     insert into sys_approval_log
@@ -166,14 +143,14 @@
       <if test="status != null">
         status,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
       <if test="ip != null">
         ip,
-      </if>
-      <if test="remark != null">
-        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -201,14 +178,14 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -245,33 +222,16 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update sys_approval_log
-    set id = #{record.id,jdbcType=INTEGER},
-      record_id = #{record.recordId,jdbcType=INTEGER},
-      apply_user_id = #{record.applyUserId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
-      stage = #{record.stage,jdbcType=VARCHAR},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      user_type = #{record.userType,jdbcType=TINYINT},
-      status = #{record.status,jdbcType=TINYINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +246,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       user_type = #{record.userType,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -316,30 +277,16 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.sys.SysApprovalLog">
-    update sys_approval_log
-    set record_id = #{recordId,jdbcType=INTEGER},
-      apply_user_id = #{applyUserId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
-      stage = #{stage,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
-      user_type = #{userType,jdbcType=TINYINT},
-      status = #{status,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      ip = #{ip,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.sys.SysApprovalLog">
@@ -351,26 +298,11 @@
       user_id = #{userId,jdbcType=INTEGER},
       user_type = #{userType,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.sys.SysApprovalLogExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_approval_log
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysApprovalLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

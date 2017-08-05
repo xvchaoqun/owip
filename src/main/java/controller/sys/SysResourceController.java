@@ -3,6 +3,7 @@ package controller.sys;
 import controller.BaseController;
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
+import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -102,14 +103,14 @@ public class SysResourceController extends BaseController {
 			sysResourceService.insert(record);
 
 			resultMap.put("data",record);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(record, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 			
 		}else{
 			
 			sysResourceService.updateByPrimaryKeySelective(record);
 			resultMap.put("data", sysResourceMapper.selectByPrimaryKey(record.getId()));
 
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(record, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 		}
 		
 		return resultMap;

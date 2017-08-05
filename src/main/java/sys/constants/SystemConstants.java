@@ -1663,11 +1663,13 @@ public class SystemConstants {
 
     // 审批记录类型
     public final static byte SYS_APPROVAL_LOG_TYPE_APPLYSELF = 1; // 因私出国
+    public final static byte SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT = 2; // 干部招聘-报名审核
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘审核");
 
     }
 

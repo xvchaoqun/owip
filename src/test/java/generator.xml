@@ -55,11 +55,11 @@
         </table>-->
      <!-- <table tableName="crs_expert" domainObjectName="crs.CrsExpert" mapperName="crs.CrsExpertMapper">
       </table>-->
-      <table tableName="crs_expert_view" domainObjectName="crs.CrsExpertView" mapperName="crs.CrsExpertViewMapper"
+      <!--<table tableName="crs_expert_view" domainObjectName="crs.CrsExpertView" mapperName="crs.CrsExpertViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
 
       <!--<table tableName="train" domainObjectName="train.Train">
           <columnOverride column="note" jdbcType="VARCHAR"></columnOverride>
@@ -456,9 +456,9 @@
       </table>
 
       -->
-<!--
       <table tableName="sys_approval_log" domainObjectName="sys.SysApprovalLog" mapperName="sys.SysApprovalLogMapper">
-      </table>-->
+          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+      </table>
     <!--<table tableName="sys_log" domainObjectName="sys.SysLog">
       <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
     </table>-->

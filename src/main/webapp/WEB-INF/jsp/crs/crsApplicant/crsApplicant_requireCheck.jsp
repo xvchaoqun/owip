@@ -73,7 +73,7 @@
             <label class="col-xs-3 control-label">审核说明</label>
 
             <div class="col-xs-6">
-                <textarea class="form-control limited" rows="6" name="remark"></textarea>
+                <textarea class="form-control limited" rows="6" name="remark">${crsApplicant.requireCheckRemark}</textarea>
             </div>
         </div>
     </form>
@@ -138,7 +138,7 @@
             var ruleCount = $("#checkTable .op").length;
             var checkedRuleCount = $("#checkTable .op .disabled").length;
             var passRuleCount = $("#checkTable .op .agree.disabled").length;
-            console.log("ruleCount="+ruleCount +" checkedRuleCount="+checkedRuleCount +" passRuleCount="+passRuleCount);
+            //console.log("ruleCount="+ruleCount +" checkedRuleCount="+checkedRuleCount +" passRuleCount="+passRuleCount);
             if(ruleCount != checkedRuleCount){
                 $.tip({$target:$("#checkTable .op:not(:has(.disabled))"), msg:"请对该项进行审核"})
                 return;
@@ -146,7 +146,7 @@
 
             if(ruleCount != passRuleCount){
                 var $remark = $("textarea[name=remark]", form);
-                console.log("$remark=" + $remark.val());
+                //console.log("$remark=" + $remark.val());
                 if($.trim($remark.val())=="") {
                     $remark.focus();
                     $.tip({$target:$remark, msg: "请填写审核说明"});

@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -100,11 +101,11 @@ public class SysRoleController extends BaseController {
 				throw new IllegalArgumentException("角色不能为空");
 			}
 			sysRoleService.insert(sysRole);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}else{
 			SysRole oldSysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
 			sysRoleService.updateByPrimaryKeySelective(sysRole, sysRole.getRole(), oldSysRole.getRole());
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, false)));
+			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}
 		
 		return success(FormUtils.SUCCESS);

@@ -35,7 +35,7 @@ public class CrsApplicantCheckController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("crsApplicant:list")
+    @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_infoCheck", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplicant_infoCheck(int id, boolean status, String remark) {
@@ -45,7 +45,7 @@ public class CrsApplicantCheckController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("crsApplicant:list")
+    @RequiresPermissions("crsApplicant:edit")
     @RequestMapping("/crsApplicant_infoCheck")
     public String crsApplicant_infoCheck(int applicantId, ModelMap modelMap) {
 
@@ -55,7 +55,7 @@ public class CrsApplicantCheckController extends BaseController {
         return "crs/crsApplicant/crsApplicant_infoCheck";
     }
 
-    @RequiresPermissions("crsApplicant:list")
+    @RequiresPermissions("crsApplicant:edit")
     @RequestMapping("/crsApplicant_requireCheck")
     public String crsApplicant_requireCheck(int applicantId, ModelMap modelMap) {
 
@@ -80,7 +80,7 @@ public class CrsApplicantCheckController extends BaseController {
         return "crs/crsApplicant/crsApplicant_requireCheck";
     }
 
-    @RequiresPermissions("crsApplicant:list")
+    @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_requireCheckItem", method = RequestMethod.POST)
     @ResponseBody
     public Map crsApplicant_requireCheckItem(int applicantId, int ruleId, boolean status) {
@@ -89,12 +89,21 @@ public class CrsApplicantCheckController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("crsApplicant:list")
+    @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_requireCheck", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplicant_requireCheck(int id, boolean status, String remark) {
 
         crsApplicantCheckService.requireCheck(id, status, remark);
+
+        return success(FormUtils.SUCCESS);
+    }
+    @RequiresPermissions("crsApplicant:edit")
+    @RequestMapping(value = "/crsApplicant_requireCheck_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map crsApplicant_requireCheck_back(int id) {
+
+        crsApplicantCheckService.requireCheck_back(id);
 
         return success(FormUtils.SUCCESS);
     }
@@ -114,12 +123,12 @@ public class CrsApplicantCheckController extends BaseController {
     @RequestMapping(value = "/crsApplicant_special", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplicant_special(CrsApplicant record,
-                                         String file,
+                                         String filePath,
                                          HttpServletRequest request) {
 
         boolean specialStatus = BooleanUtils.isTrue(record.getSpecialStatus());
         crsApplicantCheckService.special(record.getId(), specialStatus,
-                file, record.getSpecialRemark());
+                filePath, record.getSpecialRemark());
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, (specialStatus ? "" : "取消") + "破格操作：%s", record.getId()));
         return success(FormUtils.SUCCESS);

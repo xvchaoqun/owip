@@ -13,7 +13,7 @@
     <div class="widget-toolbar no-border">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
+          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${SYS_APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
         </li>
       </ul>
     </div>
@@ -42,7 +42,7 @@
         //return cellvalue==0?"未通过":"通过";
         return _cMap.SYS_APPROVAL_LOG_STATUS_MAP[rowObject.status];
       } },
-      { label:'备注',  name: 'remark', width: 450 },
+      { label:'备注',  name: 'remark', width: 450, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
       { label:'IP',  name: 'ip', width: 150 },{hidden: true, name: 'status'}
     ],
     rowattr: function(rowData, currentObj, rowId)

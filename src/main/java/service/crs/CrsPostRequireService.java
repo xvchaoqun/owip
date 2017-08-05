@@ -68,10 +68,12 @@ public class CrsPostRequireService extends BaseMapper {
         MetaType vicePost = codeKeyMap.get("mt_admin_level_vice");
         String lpWorkTime = record.getLpWorkTime()==null?"":DateUtils.yearOffNow_cn(record.getLpWorkTime());
 
-        if(postId.intValue() == mainPost.getId()){
-            resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_ZCJ, lpWorkTime);
-        }else if(postId.intValue()==vicePost.getId()){
-            resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_FCJ, lpWorkTime);
+        if(postId != null) {
+            if (postId.intValue() == mainPost.getId()) {
+                resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_ZCJ, lpWorkTime);
+            } else if (postId.intValue() == vicePost.getId()) {
+                resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_FCJ, lpWorkTime);
+            }
         }
 
         String workStartTime = record.getWorkStartTime()==null?null:DateUtils.yearOffNow_cn(record.getWorkStartTime());

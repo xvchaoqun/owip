@@ -157,7 +157,7 @@ public class ApplySelfController extends BaseController {
             if (nowTime.compareTo("0800") >= 0 && nowTime.compareTo("2030") <= 0) {
 
                 Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
-                logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, false));
+                logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
             }
         }
 

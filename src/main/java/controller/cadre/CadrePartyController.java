@@ -136,7 +136,7 @@ public class CadrePartyController extends BaseController {
         }
 
         cadreService.addOrUPdateCadreParty(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部党派：%s", JSONUtils.toString(record, false)));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部党派：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 
         return success(FormUtils.SUCCESS);
     }

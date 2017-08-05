@@ -7,7 +7,7 @@
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${param.cls==1}">
     <shiro:hasPermission name="crsApplicant:edit">
-        <a class="popupBtn btn btn-info btn-sm"
+        <a class="popupBtn btn btn-primary btn-sm"
            data-url="${ctx}/crsApplicant_au?postId=${param.postId}"><i class="fa fa-plus"></i> 添加</a>
         <%--  <a class="jqOpenViewBtn btn btn-primary btn-sm"
              data-url="${ctx}/crsApplicant_au"
@@ -52,6 +52,23 @@
            data-querystr="&cls=${param.cls}"
            data-url="${ctx}/crsApplicant_special"><i class="fa fa-star"></i> 破格</a>
     </c:if>
+    <c:if test="${param.cls==5 || param.cls==6}">
+        <button id="unSpecialBtn" class="jqItemBtn btn btn-primary btn-sm"
+                data-title="重新审核"
+                data-msg="确定重新审核？"
+                data-grid-id="#jqGrid2"
+                data-callback="_reload"
+                data-url="${ctx}/crsApplicant_requireCheck_back"><i class="fa fa-reply"></i> 重新审核
+        </button>
+    </c:if>
+
+    <button class="jqOpenViewBtn btn btn-info btn-sm"
+            data-grid-id="#jqGrid2"
+            data-url="${ctx}/sysApprovalLog"
+            data-width="800"
+            data-querystr="&popup=1&type=${SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT}">
+        <i class="fa fa-history"></i> 操作记录
+    </button>
     <%-- <shiro:hasPermission name="crsApplicant:del">
          <button data-url="${ctx}/crsApplicant_batchDel"
                  data-title="删除"
@@ -126,7 +143,7 @@
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
-        url: '${ctx}/crsApplicant_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/crsApplicant_data?callback=?&postId=${param.postId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',

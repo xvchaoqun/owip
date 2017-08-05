@@ -112,7 +112,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.crs.CrsApplicant">
+  <insert keyProperty="id" id="insert" parameterType="domain.crs.CrsApplicant">
     insert into crs_applicant (id, user_id, post_id, 
       enroll_time, is_recommend, recommend_ow, 
       recommend_cadre, recommend_crowd, recommend_pdf, 
@@ -126,7 +126,7 @@
       #{requireCheckRemark,jdbcType=VARCHAR}, #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, 
       #{specialRemark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.crs.CrsApplicant">
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.crs.CrsApplicant">
     insert into crs_applicant
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

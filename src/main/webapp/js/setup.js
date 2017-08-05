@@ -736,7 +736,7 @@ $(document).on("click", ".loadPage", function () {
     var loadEl = _this.data("load-el") || "#page-content";
     var maskEl = _this.data("mask-el") || loadEl || "#page-content";
     var fn = _this.data("callback");
-    console.log("maskEl="+maskEl)
+    //console.log("maskEl="+maskEl)
     $.loadPage({url:url, loadEl:loadEl, maskEl:maskEl, callback: function () {
         $("#modal").modal('hide');
         clearJqgridSelected();

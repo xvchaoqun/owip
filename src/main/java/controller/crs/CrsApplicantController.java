@@ -53,7 +53,7 @@ public class CrsApplicantController extends BaseController {
 
 
         modelMap.put("crsPost", crsPostService.get(postId));
-        if(userId!=null){
+        if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
 
@@ -83,7 +83,7 @@ public class CrsApplicantController extends BaseController {
         CrsApplicantViewExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId);
         example.setOrderByClause("enroll_time asc");
 
-        switch (cls){
+        switch (cls) {
             case 1:
                 criteria.andInfoCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
                 break;
@@ -161,6 +161,7 @@ public class CrsApplicantController extends BaseController {
             record.setEnrollTime(new Date());
             crsApplicantService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加报名人员：%s", record.getId()));
+
         } else {
 
             crsApplicantService.updateByPrimaryKeySelective(record);
@@ -196,10 +197,10 @@ public class CrsApplicantController extends BaseController {
     @RequestMapping(value = "/crsApplicant_recommend", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplicant_recommend(CrsApplicant record,
-                                         String file,
+                                         String filePath,
                                          HttpServletRequest request) {
 
-        record.setRecommendPdf(file);
+        record.setRecommendPdf(filePath);
         crsApplicantCheckService.recommend(record);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位报名自荐/推荐：%s", record.getId()));
@@ -251,7 +252,7 @@ public class CrsApplicantController extends BaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("crsApplicant:del")
+    /*@RequiresPermissions("crsApplicant:del")
     @RequestMapping(value = "/crsApplicant_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsApplicant_del(HttpServletRequest request, Integer id) {
@@ -276,7 +277,7 @@ public class CrsApplicantController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void crsApplicant_export(CrsApplicantViewExample example, HttpServletResponse response) {
 

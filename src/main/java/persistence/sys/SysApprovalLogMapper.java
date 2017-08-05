@@ -18,10 +18,6 @@ public interface SysApprovalLogMapper {
 
     int insertSelective(SysApprovalLog record);
 
-    List<SysApprovalLog> selectByExampleWithBLOBsWithRowbounds(SysApprovalLogExample example, RowBounds rowBounds);
-
-    List<SysApprovalLog> selectByExampleWithBLOBs(SysApprovalLogExample example);
-
     List<SysApprovalLog> selectByExampleWithRowbounds(SysApprovalLogExample example, RowBounds rowBounds);
 
     List<SysApprovalLog> selectByExample(SysApprovalLogExample example);
@@ -30,13 +26,9 @@ public interface SysApprovalLogMapper {
 
     int updateByExampleSelective(@Param("record") SysApprovalLog record, @Param("example") SysApprovalLogExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") SysApprovalLog record, @Param("example") SysApprovalLogExample example);
-
     int updateByExample(@Param("record") SysApprovalLog record, @Param("example") SysApprovalLogExample example);
 
     int updateByPrimaryKeySelective(SysApprovalLog record);
-
-    int updateByPrimaryKeyWithBLOBs(SysApprovalLog record);
 
     int updateByPrimaryKey(SysApprovalLog record);
 }

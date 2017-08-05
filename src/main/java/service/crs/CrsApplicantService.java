@@ -2,16 +2,21 @@ package service.crs;
 
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;
+import mixin.MixinUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.sys.SysApprovalLogService;
 import sys.constants.SystemConstants;
-
-import java.util.Arrays;
+import sys.utils.JSONUtils;
 
 @Service
 public class CrsApplicantService extends BaseMapper {
+
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
     public boolean idDuplicate(Integer id, int postId, int userId) {
 
@@ -29,9 +34,15 @@ public class CrsApplicantService extends BaseMapper {
 
         Assert.isTrue(!idDuplicate(null, record.getPostId(), record.getUserId()), "报名重复");
         crsApplicantMapper.insertSelective(record);
+
+        sysApprovalLogService.add(record.getId(), record.getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
+                "添加报名人员", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                JSONUtils.toString(record, MixinUtils.baseMixins(), false));
     }
 
-    @Transactional
+    /*@Transactional
     public void del(Integer id) {
 
         crsApplicantMapper.deleteByPrimaryKey(id);
@@ -45,13 +56,22 @@ public class CrsApplicantService extends BaseMapper {
         CrsApplicantExample example = new CrsApplicantExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         crsApplicantMapper.deleteByExample(example);
-    }
+    }*/
 
     @Transactional
-    public int updateByPrimaryKeySelective(CrsApplicant record) {
+    public void updateByPrimaryKeySelective(CrsApplicant record) {
+
+        CrsApplicant oldRecord = crsApplicantMapper.selectByPrimaryKey(record.getId());
+
         //Assert.isTrue(!idDuplicate(record.getId(), record.getPostId(), record.getUserId()), "报名重复");
         record.setPostId(null);
         record.setUserId(null);
-        return crsApplicantMapper.updateByPrimaryKeySelective(record);
+        crsApplicantMapper.updateByPrimaryKeySelective(record);
+
+        sysApprovalLogService.add(record.getId(), record.getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
+                "更新报名人员", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                JSONUtils.toString(oldRecord, MixinUtils.baseMixins(), false));
     }
 }

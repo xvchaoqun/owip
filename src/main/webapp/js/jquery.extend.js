@@ -222,11 +222,13 @@ var _modal_width;
     $.extend({
         loadModal:function(url, width, dragTarget) { // dragTarget：拖拽位置
             //$("#modal").modal('hide');
+            //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
                 _modal_width = width;
-                $('#modal .modal-dialog').addClass("width" + width);
             } else {
                 $('#modal .modal-dialog').removeClass("width" + _modal_width);
+                _modal_width = undefined;
             }
             dragTarget = dragTarget || ".modal-header";
 
@@ -694,8 +696,9 @@ try {
 
     $.jgrid.formatter.NoMultiSpace = function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return ''
-        //console.log(cellvalue)
-        return cellvalue.NoMultiSpace();
+       // console.log(cellvalue)
+        return $('<p>'+cellvalue.NoMultiSpace()+'</p>').text()
+        //return cellvalue.NoMultiSpace();
     };
     $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return ''

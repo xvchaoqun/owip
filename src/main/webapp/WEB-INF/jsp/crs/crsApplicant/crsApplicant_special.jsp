@@ -51,7 +51,7 @@
                   enctype="multipart/form-data">
               <div class="row">
                 <input type="hidden" name="id" value="${crsApplicant.id}">
-                <input type="hidden" name="file">
+                <input type="hidden" name="filePath" value="${crsApplicant.specialPdf}">
                 <input type="hidden" name="specialStatus" value="1">
                 <div class="form-group">
                   <label class="col-xs-3 control-label">备注</label>
@@ -87,15 +87,15 @@
       var $form = $this.closest("form");
       var $btn = $("button", $form).button('loading');
       var viewHtml = $("#dispatch-file-view").html()
-      $("#dispatch-file-view").html('<img src="${ctx}/img/loading.gif"/>')
+      $("#dispatch-file-view").html('<img src="${ctx}/img/loading.gif"/>');
       $form.ajaxSubmit({
         success: function (ret) {
           if (ret.success) {
             //console.log(ret)
             $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.file));
 
-            $("#modalForm input[name=file]").val(ret.file);
-            $("#modalForm input[name=fileName]").val(ret.fileName);
+            $("#modalForm input[name=filePath]").val(ret.file);
+            //$("#modalForm input[name=fileName]").val(ret.fileName);
           }else{
             $("#dispatch-file-view").html(viewHtml)
           }
@@ -109,6 +109,11 @@
 
   $("#modalForm").validate({
     submitHandler: function (form) {
+      var file = $("#modalForm input[name=filePath]").val();
+      if($.trim(file)==''){
+        $.tip({$target:$(".btn-upload-form"), my:'top center', at:'bottom center', msg:"请上传pdf证明文件"})
+        return;
+      }
       $(form).ajaxSubmit({
         success:function(ret){
           if(ret.success){

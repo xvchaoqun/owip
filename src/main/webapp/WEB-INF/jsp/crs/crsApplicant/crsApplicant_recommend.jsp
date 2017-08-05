@@ -21,7 +21,7 @@
                   enctype="multipart/form-data">
               <div class="row">
                 <input type="hidden" name="id" value="${crsApplicant.id}">
-                <input type="hidden" name="file">
+                <input type="hidden" name="filePath" value="${crsApplicant.recommendPdf}">
 
                 <div class="form-group">
                   <label class="col-xs-3 control-label">推荐/自荐</label>
@@ -125,7 +125,7 @@
             //console.log(ret)
             $("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.file));
 
-            $("#modalForm input[name=file]").val(ret.file);
+            $("#modalForm input[name=filePath]").val(ret.file);
             $("#modalForm input[name=fileName]").val(ret.fileName);
           }else{
             $("#dispatch-file-view").html(viewHtml)
@@ -147,7 +147,7 @@
 
       var isRecommend = $("input[name=isRecommend]").bootstrapSwitch("state");
       if(isRecommend){
-        var file = $("#modalForm input[name=file]").val();
+        var file = $("#modalForm input[name=filePath]").val();
         if($.trim(file)==''){
           $.tip({$target:$(".btn-upload-form"), my:'top center', at:'bottom center', msg:"请上传pdf扫描文件"})
           return;

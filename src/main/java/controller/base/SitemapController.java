@@ -5,6 +5,7 @@ import domain.base.Sitemap;
 import domain.base.SitemapExample;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -58,12 +59,12 @@ public class SitemapController extends BaseController {
         if(sitemap.getId() == null){
 
             sitemapService.insert(sitemap);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加网站导航：%s", JSONUtils.toString(sitemap, false)));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加网站导航：%s", JSONUtils.toString(sitemap, MixinUtils.baseMixins(),  false)));
 
         }else{
 
             sitemapService.updateByPrimaryKeySelective(sitemap);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新网站导航：%s", JSONUtils.toString(sitemap, false)));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新网站导航：%s", JSONUtils.toString(sitemap, MixinUtils.baseMixins(), false)));
         }
 
         return success(FormUtils.SUCCESS);

@@ -282,7 +282,7 @@ public class UserApplySelfController extends BaseController {
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
                     "添加因私出国申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                    JSONUtils.toString(record, false));
+                    JSONUtils.toString(record, MixinUtils.baseMixins(), false));
         }else{
 
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
@@ -307,7 +307,7 @@ public class UserApplySelfController extends BaseController {
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
                     "修改因私出国申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                    JSONUtils.toString(applySelf, false));
+                    JSONUtils.toString(applySelf, MixinUtils.baseMixins(), false));
         }
         Integer applyId = record.getId();
         for (ApplySelfFile applySelfFile : applySelfFiles) {

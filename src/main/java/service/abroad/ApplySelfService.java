@@ -32,6 +32,7 @@ import domain.cadre.CadreExample;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -257,7 +258,7 @@ public class ApplySelfService extends BaseMapper {
             // 校验用，以防万一
             if(size>1 && !StringUtils.equals(key, SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2)){
                 logger.error("因私审批系统发送短信异常："
-                        + JSONUtils.toString(applySelf, false));
+                        + JSONUtils.toString(applySelf, MixinUtils.baseMixins(), false));
                 return resultMap;
             }
         }

@@ -121,10 +121,10 @@ public class CadrePostController extends BaseController {
 
         if (id == null) {
             cadrePostService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, false)));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         } else {
             cadrePostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, false)));
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         }
 
         return success(FormUtils.SUCCESS);
