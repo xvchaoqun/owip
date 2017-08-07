@@ -27,3 +27,4 @@
 <div class="col-xs-12" id="step-item-content" <%--style="min-height: 500px;"--%>>
 <c:import url="${ctx}/crsPost_detail/step1_notice?id=${param.id}"/>
 </div>
+<div style="clear: both"></div>

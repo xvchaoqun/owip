@@ -36,7 +36,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
-                    <div class="tab-content padding-4" id="step-content" style="display:table">
+                    <div class="tab-content padding-4" id="step-content">
                     <c:import url="${ctx}/crsPost_detail/step?id=${param.id}&step=1"/>
                     </div>
                 </div>
@@ -53,10 +53,12 @@
     }
 
     $("#upload-file").change(function () {
-        if ($("#upload-file").val() != "") {
+        //console.log($(this).val())
+        if ($(this).val() != "") {
             var $this = $(this);
             var $form = $this.closest("form");
             var $btn = $("button", $form).button('loading');
+            var preHtml = $(".swf-file-view").html();
             $(".swf-file-view").html('<img src="${ctx}/img/loading.gif"/>')
             $form.ajaxSubmit({
                 success: function (ret) {
@@ -66,6 +68,8 @@
 
                         $("#modalForm input[name=file]").val(ret.file);
                         $("#modalForm input[name=fileName]").val(ret.fileName);
+                    }else{
+                        $(".swf-file-view").html(preHtml);
                     }
                     $btn.button('reset');
                     $this.attr("disabled", false);

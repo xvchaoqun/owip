@@ -41,3 +41,4 @@
 <div class="col-xs-12" id="step-item-content">
     <c:import url="${ctx}/crsPostExpert?id=${param.id}"/>
 </div>
+<div style="clear: both"></div>

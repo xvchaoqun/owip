@@ -23,7 +23,7 @@
                 </div>
             </ul>
 
-            <div class="tab-content">
+            <div class="tab-content" style="padding: 5px 4px 0px">
                 <table id="statTable" border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;width:860pt'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>

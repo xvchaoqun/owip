@@ -2,11 +2,11 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="space-4"></div>
-<div class="widget-box">
+<div class="widget-box" style="width: 750px">
     <div class="widget-header">
         <h4 class="smaller">
             任职资格
-            <div style="position: absolute; left:125px;top:8px;">
+            <div class="pull-right" style="margin-right: 10px">
                 <button type="button"
                         data-width="750" data-url="${ctx}/crsPost_qualification?id=${param.id}"
                         class="popupBtn btn btn-xs btn-success">
@@ -23,11 +23,11 @@
     </div>
 </div>
 
-<div class="widget-box">
+<div class="widget-box" style="width: 750px">
     <div class="widget-header">
         <h4 class="smaller">
             岗位要求
-            <div style="position: absolute; left:125px;top:8px;">
+            <div class="pull-right" style="margin-right: 10px">
                 <button type="button"
                         data-width="750" data-url="${ctx}/crsPost_detail/step1_require_au?id=${param.id}"
                         class="popupBtn btn btn-xs btn-success">

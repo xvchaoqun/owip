@@ -55,3 +55,4 @@
 <div class="col-xs-12" id="step-item-content">
     <c:import url="${ctx}/crsApplicant?postId=${param.id}&cls=1"/>
 </div>
+<div style="clear: both"></div>
