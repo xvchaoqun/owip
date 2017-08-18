@@ -22,7 +22,7 @@
 <body>
 <div class="top">
     <div class="w1000">
-        <div class="logo"><img src="${ctx}/public/logo" /></div>
+        <div class="logo"><img src="${ctx}/img/logo.png?_=${cm:lastModified(cm:getImgFilePath("logo.png"))}" /></div>
         <div class="txt">${_plantform_name}</div>
     </div>
 </div>

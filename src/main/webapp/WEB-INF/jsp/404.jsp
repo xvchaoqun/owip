@@ -17,7 +17,7 @@
   <div id="navbar" class="navbar navbar-default" id="top">
     <div class="navbar-container" id="navbar-container">
       <div class="navbar-header pull-left hidden-xs hidden-sm">
-        <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}/public/logoWhite"></div>
+        <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}/img/logo_white.png?_=${cm:lastModified(cm:getImgFilePath("logo_white.png"))}"></div>
         <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
       </div>
       <div class="navbar-header pull-left hidden-md hidden-lg ">

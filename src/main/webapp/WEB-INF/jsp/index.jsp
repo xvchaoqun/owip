@@ -28,7 +28,7 @@
         </shiro:lacksRole>
         <div class="navbar-header pull-left hidden-xs hidden-sm">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'"><img
-                    src="${ctx}/public/logoWhite"></div>
+                    src="${ctx}/img/logo_white.png?_=${cm:lastModified(cm:getImgFilePath("logo_white.png"))}"></div>
             <div class="txt" style="cursor: pointer;" onclick="location.href='#'">${_plantform_name}</div>
         </div>
 

@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
-import domain.sys.SysConfig;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +17,6 @@ import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
-import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
 import sys.utils.ConfigUtil;
 import sys.utils.DownloadUtils;
@@ -170,7 +168,7 @@ public class FileController extends BaseController {
                     RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)));
         }
     }
-    @RequestMapping("/public/logo")
+    /*@RequestMapping("/public/logo")
     public void logo(HttpServletResponse response, HttpServletRequest request){
 
         SysConfig sysConfig = CmTag.getSysConfig();
@@ -199,7 +197,7 @@ public class FileController extends BaseController {
             ImageUtils.displayImage(FileUtils.getBytes(imagepath), response);
         }catch (Exception ex){
         }
-    }
+    }*/
 
     // 手写签名
     @RequestMapping("/sign")
