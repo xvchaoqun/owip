@@ -234,7 +234,7 @@
         previewWidth: 400,
         previewHeight: 200,
         allowExt: ['jpg'],
-        allowMime: ['image/jpg']
+        allowMime: ['image/jpg','image/jpeg']
     });
     <c:if test="${not empty sysConfig.loginBg}">
     $("#_loginBg").find('button[type=reset]').on(ace.click_event, function () {
