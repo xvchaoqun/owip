@@ -56,7 +56,7 @@ public class SysConfigService extends BaseMapper {
             FileUtils.copyFile(springProps.uploadPath + sysConfig.getLogoWhite(), CmTag.getImgFolder() + "logo_white.png");
         }
         if(StringUtils.isNotBlank(sysConfig.getLoginBg())) {
-            FileUtils.copyFile(springProps.uploadPath + sysConfig.getLoginBg(), CmTag.getImgFolder() + "login_bg.png");
+            FileUtils.copyFile(springProps.uploadPath + sysConfig.getLoginBg(), CmTag.getImgFolder() + "login_bg.jpg");
         }
     }
 }

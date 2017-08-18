@@ -22,14 +22,14 @@
 <body>
 <div class="top">
     <div class="w1000">
-        <div class="logo"><img src="${ctx}/img/logo.png?_=${cm:lastModified(cm:getImgFilePath("login_bg.png"))}" /></div>
+        <div class="logo"><img src="${ctx}/img/logo.png?_=${cm:lastModified(cm:getImgFilePath("logo.png"))}" /></div>
         <div class="txt">${_plantform_name}</div>
     </div>
 </div>
 <div class="login_box ${sysConfig.displayLoginMsg?'':'no-msg'}">
 
     <div class="bg">
-        <img src="${ctx}/img/login_bg.png?_=${cm:lastModified(cm:getImgFilePath("login_bg.png"))}" />
+        <img src="${ctx}/img/login_bg.jpg?_=${cm:lastModified(cm:getImgFilePath("login_bg.jpg"))}" />
     </div>
     <div class="w1000 login_con">
         <div id="login" class="visible login-layout" >
