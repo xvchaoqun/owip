@@ -268,7 +268,7 @@ public class PassportDrawService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "中层干部" + type + "证件使用记录");
+            headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "中层干部" + type + "证件使用记录");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 14));
             rowNum++;
         }

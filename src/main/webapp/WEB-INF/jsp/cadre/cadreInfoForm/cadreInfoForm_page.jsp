@@ -83,7 +83,7 @@ td.padding10{
         <tr>
             <td colspan="13">
                 <p class="p1">
-                    <span class="s1">北京师范大学干部信息采集表</span>
+                    <span class="s1">${_school}干部信息采集表</span>
                 </p>
             </td>
         </tr>

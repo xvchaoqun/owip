@@ -20,7 +20,7 @@
 									<img src="${ctx}/extend/img/logo_white.png">
 								</div>
 								<h1 class="white">
-									组织工作一体化平台
+									${sysConfig.mobilePlantformName}
 									<div style="font-size:smaller">（因私出国境审批）</div>
 								</h1>
 							</div>
@@ -69,7 +69,7 @@
 								</div><!-- /.login-box -->
 							</div><!-- /.position-relative -->
 							<div class="center" style="padding-top: 50px">
-								<h4 class="white" id="id-company-text"><fmt:message key="site.school" bundle="${spring}"/>党委组织部<span class="blue bolder">&copy;2016</span></h4>
+								<h4 class="white" id="id-company-text">${sysConfig.schoolName}党委组织部<span class="blue bolder">&copy;2016</span></h4>
 							</div>
 						</div>
 					</div><!-- /.col -->

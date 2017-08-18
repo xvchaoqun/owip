@@ -38,7 +38,7 @@
   <col class=xl632001 width=71 span=3 style='width:53pt'>
   <tr height=75 style='mso-height-source:userset;height:56.25pt'>
     <td colspan=18 height=75 class=xl822001 width=1107 style='height:56.25pt;
-  width:839pt'>北京师范大学内设机构干部配备统计表</td>
+  width:839pt'>${_school}内设机构干部配备统计表</td>
 
   </tr>
   <tr height=45 style='mso-height-source:userset;height:33.75pt'>

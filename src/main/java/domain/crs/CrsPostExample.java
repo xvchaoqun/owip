@@ -2,6 +2,7 @@ package domain.crs;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CrsPostExample {
@@ -103,6 +104,32 @@ public class CrsPostExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -415,6 +442,76 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andJobIsNull() {
+            addCriterion("job is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobIsNotNull() {
+            addCriterion("job is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobEqualTo(String value) {
+            addCriterion("job =", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotEqualTo(String value) {
+            addCriterion("job <>", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobGreaterThan(String value) {
+            addCriterion("job >", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobGreaterThanOrEqualTo(String value) {
+            addCriterion("job >=", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobLessThan(String value) {
+            addCriterion("job <", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobLessThanOrEqualTo(String value) {
+            addCriterion("job <=", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobLike(String value) {
+            addCriterion("job like", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotLike(String value) {
+            addCriterion("job not like", value, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobIn(List<String> values) {
+            addCriterion("job in", values, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotIn(List<String> values) {
+            addCriterion("job not in", values, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobBetween(String value1, String value2) {
+            addCriterion("job between", value1, value2, "job");
+            return (Criteria) this;
+        }
+
+        public Criteria andJobNotBetween(String value1, String value2) {
+            addCriterion("job not between", value1, value2, "job");
+            return (Criteria) this;
+        }
+
         public Criteria andAdminLevelIsNull() {
             addCriterion("admin_level is null");
             return (Criteria) this;
@@ -532,6 +629,66 @@ public class CrsPostExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumIsNull() {
+            addCriterion("num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumIsNotNull() {
+            addCriterion("num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumEqualTo(Integer value) {
+            addCriterion("num =", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotEqualTo(Integer value) {
+            addCriterion("num <>", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumGreaterThan(Integer value) {
+            addCriterion("num >", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("num >=", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumLessThan(Integer value) {
+            addCriterion("num <", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumLessThanOrEqualTo(Integer value) {
+            addCriterion("num <=", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumIn(List<Integer> values) {
+            addCriterion("num in", values, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotIn(List<Integer> values) {
+            addCriterion("num not in", values, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumBetween(Integer value1, Integer value2) {
+            addCriterion("num between", value1, value2, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("num not between", value1, value2, "num");
             return (Criteria) this;
         }
 
@@ -1115,6 +1272,66 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andQuitDeadlineIsNull() {
+            addCriterion("quit_deadline is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineIsNotNull() {
+            addCriterion("quit_deadline is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineEqualTo(Date value) {
+            addCriterion("quit_deadline =", value, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineNotEqualTo(Date value) {
+            addCriterion("quit_deadline <>", value, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineGreaterThan(Date value) {
+            addCriterion("quit_deadline >", value, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineGreaterThanOrEqualTo(Date value) {
+            addCriterion("quit_deadline >=", value, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineLessThan(Date value) {
+            addCriterion("quit_deadline <", value, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineLessThanOrEqualTo(Date value) {
+            addCriterion("quit_deadline <=", value, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineIn(List<Date> values) {
+            addCriterion("quit_deadline in", values, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineNotIn(List<Date> values) {
+            addCriterion("quit_deadline not in", values, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineBetween(Date value1, Date value2) {
+            addCriterion("quit_deadline between", value1, value2, "quitDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitDeadlineNotBetween(Date value1, Date value2) {
+            addCriterion("quit_deadline not between", value1, value2, "quitDeadline");
+            return (Criteria) this;
+        }
+
         public Criteria andMeetingStatusIsNull() {
             addCriterion("meeting_status is null");
             return (Criteria) this;
@@ -1482,6 +1699,386 @@ public class CrsPostExample {
 
         public Criteria andStatusNotBetween(Byte value1, Byte value2) {
             addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountIsNull() {
+            addCriterion("stat_expert_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountIsNotNull() {
+            addCriterion("stat_expert_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountEqualTo(Integer value) {
+            addCriterion("stat_expert_count =", value, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountNotEqualTo(Integer value) {
+            addCriterion("stat_expert_count <>", value, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountGreaterThan(Integer value) {
+            addCriterion("stat_expert_count >", value, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("stat_expert_count >=", value, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountLessThan(Integer value) {
+            addCriterion("stat_expert_count <", value, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountLessThanOrEqualTo(Integer value) {
+            addCriterion("stat_expert_count <=", value, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountIn(List<Integer> values) {
+            addCriterion("stat_expert_count in", values, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountNotIn(List<Integer> values) {
+            addCriterion("stat_expert_count not in", values, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountBetween(Integer value1, Integer value2) {
+            addCriterion("stat_expert_count between", value1, value2, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatExpertCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("stat_expert_count not between", value1, value2, "statExpertCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountIsNull() {
+            addCriterion("stat_give_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountIsNotNull() {
+            addCriterion("stat_give_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountEqualTo(Integer value) {
+            addCriterion("stat_give_count =", value, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountNotEqualTo(Integer value) {
+            addCriterion("stat_give_count <>", value, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountGreaterThan(Integer value) {
+            addCriterion("stat_give_count >", value, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("stat_give_count >=", value, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountLessThan(Integer value) {
+            addCriterion("stat_give_count <", value, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountLessThanOrEqualTo(Integer value) {
+            addCriterion("stat_give_count <=", value, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountIn(List<Integer> values) {
+            addCriterion("stat_give_count in", values, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountNotIn(List<Integer> values) {
+            addCriterion("stat_give_count not in", values, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountBetween(Integer value1, Integer value2) {
+            addCriterion("stat_give_count between", value1, value2, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatGiveCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("stat_give_count not between", value1, value2, "statGiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountIsNull() {
+            addCriterion("stat_back_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountIsNotNull() {
+            addCriterion("stat_back_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountEqualTo(Integer value) {
+            addCriterion("stat_back_count =", value, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountNotEqualTo(Integer value) {
+            addCriterion("stat_back_count <>", value, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountGreaterThan(Integer value) {
+            addCriterion("stat_back_count >", value, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("stat_back_count >=", value, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountLessThan(Integer value) {
+            addCriterion("stat_back_count <", value, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountLessThanOrEqualTo(Integer value) {
+            addCriterion("stat_back_count <=", value, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountIn(List<Integer> values) {
+            addCriterion("stat_back_count in", values, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountNotIn(List<Integer> values) {
+            addCriterion("stat_back_count not in", values, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountBetween(Integer value1, Integer value2) {
+            addCriterion("stat_back_count between", value1, value2, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatBackCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("stat_back_count not between", value1, value2, "statBackCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileIsNull() {
+            addCriterion("stat_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileIsNotNull() {
+            addCriterion("stat_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileEqualTo(String value) {
+            addCriterion("stat_file =", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNotEqualTo(String value) {
+            addCriterion("stat_file <>", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileGreaterThan(String value) {
+            addCriterion("stat_file >", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileGreaterThanOrEqualTo(String value) {
+            addCriterion("stat_file >=", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileLessThan(String value) {
+            addCriterion("stat_file <", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileLessThanOrEqualTo(String value) {
+            addCriterion("stat_file <=", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileLike(String value) {
+            addCriterion("stat_file like", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNotLike(String value) {
+            addCriterion("stat_file not like", value, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileIn(List<String> values) {
+            addCriterion("stat_file in", values, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNotIn(List<String> values) {
+            addCriterion("stat_file not in", values, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileBetween(String value1, String value2) {
+            addCriterion("stat_file between", value1, value2, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNotBetween(String value1, String value2) {
+            addCriterion("stat_file not between", value1, value2, "statFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameIsNull() {
+            addCriterion("stat_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameIsNotNull() {
+            addCriterion("stat_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameEqualTo(String value) {
+            addCriterion("stat_file_name =", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameNotEqualTo(String value) {
+            addCriterion("stat_file_name <>", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameGreaterThan(String value) {
+            addCriterion("stat_file_name >", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("stat_file_name >=", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameLessThan(String value) {
+            addCriterion("stat_file_name <", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameLessThanOrEqualTo(String value) {
+            addCriterion("stat_file_name <=", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameLike(String value) {
+            addCriterion("stat_file_name like", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameNotLike(String value) {
+            addCriterion("stat_file_name not like", value, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameIn(List<String> values) {
+            addCriterion("stat_file_name in", values, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameNotIn(List<String> values) {
+            addCriterion("stat_file_name not in", values, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameBetween(String value1, String value2) {
+            addCriterion("stat_file_name between", value1, value2, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatFileNameNotBetween(String value1, String value2) {
+            addCriterion("stat_file_name not between", value1, value2, "statFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateIsNull() {
+            addCriterion("stat_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateIsNotNull() {
+            addCriterion("stat_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateEqualTo(Date value) {
+            addCriterionForJDBCDate("stat_date =", value, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("stat_date <>", value, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("stat_date >", value, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("stat_date >=", value, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateLessThan(Date value) {
+            addCriterionForJDBCDate("stat_date <", value, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("stat_date <=", value, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateIn(List<Date> values) {
+            addCriterionForJDBCDate("stat_date in", values, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("stat_date not in", values, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("stat_date between", value1, value2, "statDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("stat_date not between", value1, value2, "statDate");
             return (Criteria) this;
         }
     }

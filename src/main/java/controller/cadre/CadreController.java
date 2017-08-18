@@ -40,13 +40,13 @@ import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -337,7 +337,7 @@ public class CadreController extends BaseController {
         SXSSFWorkbook wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list")?0:1);
 
         String cadreType = SystemConstants.CADRE_STATUS_MAP.get(status);
-        String fileName = PropertiesUtils.getString("site.school") + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }

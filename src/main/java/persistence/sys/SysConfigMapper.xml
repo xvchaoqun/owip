@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sys.SysConfigMapper">
+  <resultMap id="BaseResultMap" type="domain.sys.SysConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="xss_ignore_uri" jdbcType="VARCHAR" property="xssIgnoreUri" />
+    <result column="upload_max_size" jdbcType="INTEGER" property="uploadMaxSize" />
+    <result column="short_msg_url" jdbcType="VARCHAR" property="shortMsgUrl" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    <result column="site_copyright" jdbcType="VARCHAR" property="siteCopyright" />
+    <result column="site_home" jdbcType="VARCHAR" property="siteHome" />
+    <result column="site_keywords" jdbcType="VARCHAR" property="siteKeywords" />
+    <result column="site_description" jdbcType="VARCHAR" property="siteDescription" />
+    <result column="site_name" jdbcType="VARCHAR" property="siteName" />
+    <result column="site_short_name" jdbcType="VARCHAR" property="siteShortName" />
+    <result column="mobile_plantform_name" jdbcType="VARCHAR" property="mobilePlantformName" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="logo_white" jdbcType="VARCHAR" property="logoWhite" />
+    <result column="login_bg" jdbcType="VARCHAR" property="loginBg" />
+    <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
+    <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, site_copyright, 
+    site_home, site_keywords, site_description, site_name, site_short_name, mobile_plantform_name, 
+    logo, logo_white, login_bg, login_msg, display_login_msg
+  </sql>
+  <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sys.SysConfigExample">
+    delete from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sys.SysConfig">
+    insert into sys_config (id, xss_ignore_uri, upload_max_size, 
+      short_msg_url, school_name, site_copyright, 
+      site_home, site_keywords, site_description, 
+      site_name, site_short_name, mobile_plantform_name, 
+      logo, logo_white, login_bg, 
+      login_msg, display_login_msg)
+    values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
+      #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
+      #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, 
+      #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, 
+      #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sys.SysConfig">
+    insert into sys_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="xssIgnoreUri != null">
+        xss_ignore_uri,
+      </if>
+      <if test="uploadMaxSize != null">
+        upload_max_size,
+      </if>
+      <if test="shortMsgUrl != null">
+        short_msg_url,
+      </if>
+      <if test="schoolName != null">
+        school_name,
+      </if>
+      <if test="siteCopyright != null">
+        site_copyright,
+      </if>
+      <if test="siteHome != null">
+        site_home,
+      </if>
+      <if test="siteKeywords != null">
+        site_keywords,
+      </if>
+      <if test="siteDescription != null">
+        site_description,
+      </if>
+      <if test="siteName != null">
+        site_name,
+      </if>
+      <if test="siteShortName != null">
+        site_short_name,
+      </if>
+      <if test="mobilePlantformName != null">
+        mobile_plantform_name,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="logoWhite != null">
+        logo_white,
+      </if>
+      <if test="loginBg != null">
+        login_bg,
+      </if>
+      <if test="loginMsg != null">
+        login_msg,
+      </if>
+      <if test="displayLoginMsg != null">
+        display_login_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="xssIgnoreUri != null">
+        #{xssIgnoreUri,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadMaxSize != null">
+        #{uploadMaxSize,jdbcType=INTEGER},
+      </if>
+      <if test="shortMsgUrl != null">
+        #{shortMsgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="siteCopyright != null">
+        #{siteCopyright,jdbcType=VARCHAR},
+      </if>
+      <if test="siteHome != null">
+        #{siteHome,jdbcType=VARCHAR},
+      </if>
+      <if test="siteKeywords != null">
+        #{siteKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="siteDescription != null">
+        #{siteDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="siteName != null">
+        #{siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="siteShortName != null">
+        #{siteShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePlantformName != null">
+        #{mobilePlantformName,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="logoWhite != null">
+        #{logoWhite,jdbcType=VARCHAR},
+      </if>
+      <if test="loginBg != null">
+        #{loginBg,jdbcType=VARCHAR},
+      </if>
+      <if test="loginMsg != null">
+        #{loginMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="displayLoginMsg != null">
+        #{displayLoginMsg,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sys.SysConfigExample" resultType="java.lang.Long">
+    select count(*) from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.xssIgnoreUri != null">
+        xss_ignore_uri = #{record.xssIgnoreUri,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadMaxSize != null">
+        upload_max_size = #{record.uploadMaxSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.shortMsgUrl != null">
+        short_msg_url = #{record.shortMsgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolName != null">
+        school_name = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteCopyright != null">
+        site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteHome != null">
+        site_home = #{record.siteHome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteKeywords != null">
+        site_keywords = #{record.siteKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteDescription != null">
+        site_description = #{record.siteDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteName != null">
+        site_name = #{record.siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteShortName != null">
+        site_short_name = #{record.siteShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilePlantformName != null">
+        mobile_plantform_name = #{record.mobilePlantformName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null">
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logoWhite != null">
+        logo_white = #{record.logoWhite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginBg != null">
+        login_bg = #{record.loginBg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginMsg != null">
+        login_msg = #{record.loginMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.displayLoginMsg != null">
+        display_login_msg = #{record.displayLoginMsg,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_config
+    set id = #{record.id,jdbcType=INTEGER},
+      xss_ignore_uri = #{record.xssIgnoreUri,jdbcType=VARCHAR},
+      upload_max_size = #{record.uploadMaxSize,jdbcType=INTEGER},
+      short_msg_url = #{record.shortMsgUrl,jdbcType=VARCHAR},
+      school_name = #{record.schoolName,jdbcType=VARCHAR},
+      site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
+      site_home = #{record.siteHome,jdbcType=VARCHAR},
+      site_keywords = #{record.siteKeywords,jdbcType=VARCHAR},
+      site_description = #{record.siteDescription,jdbcType=VARCHAR},
+      site_name = #{record.siteName,jdbcType=VARCHAR},
+      site_short_name = #{record.siteShortName,jdbcType=VARCHAR},
+      mobile_plantform_name = #{record.mobilePlantformName,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      logo_white = #{record.logoWhite,jdbcType=VARCHAR},
+      login_bg = #{record.loginBg,jdbcType=VARCHAR},
+      login_msg = #{record.loginMsg,jdbcType=VARCHAR},
+      display_login_msg = #{record.displayLoginMsg,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sys.SysConfig">
+    update sys_config
+    <set>
+      <if test="xssIgnoreUri != null">
+        xss_ignore_uri = #{xssIgnoreUri,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadMaxSize != null">
+        upload_max_size = #{uploadMaxSize,jdbcType=INTEGER},
+      </if>
+      <if test="shortMsgUrl != null">
+        short_msg_url = #{shortMsgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null">
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="siteCopyright != null">
+        site_copyright = #{siteCopyright,jdbcType=VARCHAR},
+      </if>
+      <if test="siteHome != null">
+        site_home = #{siteHome,jdbcType=VARCHAR},
+      </if>
+      <if test="siteKeywords != null">
+        site_keywords = #{siteKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="siteDescription != null">
+        site_description = #{siteDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="siteName != null">
+        site_name = #{siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="siteShortName != null">
+        site_short_name = #{siteShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePlantformName != null">
+        mobile_plantform_name = #{mobilePlantformName,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="logoWhite != null">
+        logo_white = #{logoWhite,jdbcType=VARCHAR},
+      </if>
+      <if test="loginBg != null">
+        login_bg = #{loginBg,jdbcType=VARCHAR},
+      </if>
+      <if test="loginMsg != null">
+        login_msg = #{loginMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="displayLoginMsg != null">
+        display_login_msg = #{displayLoginMsg,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sys.SysConfig">
+    update sys_config
+    set xss_ignore_uri = #{xssIgnoreUri,jdbcType=VARCHAR},
+      upload_max_size = #{uploadMaxSize,jdbcType=INTEGER},
+      short_msg_url = #{shortMsgUrl,jdbcType=VARCHAR},
+      school_name = #{schoolName,jdbcType=VARCHAR},
+      site_copyright = #{siteCopyright,jdbcType=VARCHAR},
+      site_home = #{siteHome,jdbcType=VARCHAR},
+      site_keywords = #{siteKeywords,jdbcType=VARCHAR},
+      site_description = #{siteDescription,jdbcType=VARCHAR},
+      site_name = #{siteName,jdbcType=VARCHAR},
+      site_short_name = #{siteShortName,jdbcType=VARCHAR},
+      mobile_plantform_name = #{mobilePlantformName,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      logo_white = #{logoWhite,jdbcType=VARCHAR},
+      login_bg = #{loginBg,jdbcType=VARCHAR},
+      login_msg = #{loginMsg,jdbcType=VARCHAR},
+      display_login_msg = #{displayLoginMsg,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -22,6 +22,14 @@
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": true
+    },{
+      "table": "sys_config",
+      "key": "id",
+      "searchColumns": "id",
+      "showColumns": "",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
     }
   ]
 }

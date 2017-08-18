@@ -26,13 +26,14 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.member.MemberService;
+import service.sys.SysConfigService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.NumberUtils;
-import sys.utils.PropertiesUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,8 @@ public class PartyMemberService extends BaseMapper {
     protected BranchService branchService;
     @Autowired
     protected MemberService memberService;
+    @Autowired
+    protected SysConfigService sysConfigService;
 
     // 导出列表中分党委的所有委员
     public SXSSFWorkbook export(PartyMemberViewExample example) {
@@ -87,7 +90,7 @@ public class PartyMemberService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "分党委委员");
+            headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "分党委委员");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }

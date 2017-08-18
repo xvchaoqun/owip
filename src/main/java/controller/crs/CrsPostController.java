@@ -60,6 +60,7 @@ public class CrsPostController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(expertUserId));
         }
         modelMap.put("status", status);
+
         return "crs/crsPost/crsPost_page";
     }
 
@@ -315,9 +316,9 @@ public class CrsPostController extends BaseController {
             CrsPost record = new CrsPost();
             record.setId(id);
             record.setIsPublish(publish);
-            if (!publish) {
+            /*if (!publish) {
                 record.setStatus(SystemConstants.CRS_POST_STATUS_DELETE);
-            }
+            }*/
 
             crsPostService.updateByPrimaryKeySelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "岗位：%s", id));

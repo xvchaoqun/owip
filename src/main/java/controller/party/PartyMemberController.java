@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -298,7 +298,7 @@ public class PartyMemberController extends BaseController {
     public void partyMember_export(PartyMemberViewExample example, HttpServletResponse response) {
 
         SXSSFWorkbook wb = partyMemberService.export(example);
-        String fileName = PropertiesUtils.getString("site.school")
+        String fileName = CmTag.getSysConfig().getSchoolName()
                 + "分党委委员(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }

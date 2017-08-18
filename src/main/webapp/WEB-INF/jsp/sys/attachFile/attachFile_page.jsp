@@ -84,7 +84,7 @@ pageEncoding="UTF-8" %>
             { label: '唯一标识',name: 'code',frozen:true, align:'left', width: 180},
             { label: '下载地址',name: 'id', width: 550, align:'left', formatter:function(cellvalue, options, rowObject){
                 return '<a href="{0}/attach?code={1}" target="_blank">{0}/attach?code={1}</a>'
-                        .format('<fmt:message key="site.home" bundle="${spring}"/>', rowObject.code);
+                        .format('${sysConfig.siteHome}', rowObject.code);
             },frozen:true},
             { label: '扩展名',name: 'ext'},
             { label: '类别', name: 'type', formatter:function(cellvalue, options, rowObject){

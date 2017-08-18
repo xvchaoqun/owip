@@ -2,6 +2,8 @@ package service.crs;
 
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;
+import domain.crs.CrsApplicantView;
+import domain.crs.CrsApplicantViewExample;
 import mixin.MixinUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,23 @@ import service.sys.SysApprovalLogService;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
+import java.util.List;
+
 @Service
 public class CrsApplicantService extends BaseMapper {
 
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+
+    // 获取资格审核推荐通过人员列表
+    public List<CrsApplicantView> getPassedCrsApplicants(int postId){
+
+        CrsApplicantViewExample example = new CrsApplicantViewExample();
+        example.createCriteria().andPostIdEqualTo(postId)
+                .andIsRequireCheckPassEqualTo(true);
+
+        return crsApplicantViewMapper.selectByExample(example);
+    }
 
     public boolean idDuplicate(Integer id, int postId, int userId) {
 

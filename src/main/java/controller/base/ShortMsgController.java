@@ -119,7 +119,7 @@ public class ShortMsgController extends BaseController {
             criteria.andCreateTimeLessThanOrEqualTo(_sendTime.getEnd());
         }
 
-        int count = shortMsgMapper.countByExample(example);
+        long count = shortMsgMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

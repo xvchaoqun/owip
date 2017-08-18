@@ -9,8 +9,11 @@
                     <a href="javascript:" class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
-                </h4>
 
+                </h4>
+                <span class="text text-info bolder" style="cursor: auto">
+                    招聘岗位：${crsPost.name}
+                </span>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -45,6 +48,11 @@
     </div>
 </div>
 <script>
+
+    function _stepContentReload(){
+        $("#step-content li.active .loadPage").click()
+    }
+
     function _menuSelected($aHref){
 
         var $nav = $aHref.closest(".nav");

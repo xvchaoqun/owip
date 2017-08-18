@@ -31,10 +31,10 @@ import service.party.BranchService;
 import service.party.PartyService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
-import sys.utils.PropertiesUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -83,7 +83,7 @@ public class CadreInspectExportService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") +"考察对象一览表");
+            headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"考察对象一览表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }

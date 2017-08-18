@@ -119,7 +119,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<fmt:message key="site.school" bundle="${spring}"/>党委组织部<span class="blue bolder">&copy;2016</span>
+							${sysConfig.schoolName}党委组织部<span class="blue bolder">&copy;2016</span>
 						</span>
 					</div>
 				</div>

@@ -31,10 +31,10 @@ import service.party.BranchService;
 import service.party.PartyService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
-import sys.utils.PropertiesUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -85,9 +85,9 @@ public class CadreReserveExportService extends BaseMapper {
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
             if(cadreReserveType!=null)
-                headerCell.setCellValue(PropertiesUtils.getString("site.school") +"后备干部（" + cadreReserveType +"）一览表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"后备干部（" + cadreReserveType +"）一览表");
             else
-                headerCell.setCellValue(PropertiesUtils.getString("site.school") +"后备干部一览表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() +"后备干部一览表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }

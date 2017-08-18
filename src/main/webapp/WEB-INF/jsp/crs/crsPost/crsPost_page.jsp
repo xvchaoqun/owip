@@ -172,6 +172,7 @@
             }, width: 180, frozen: true
             },
             {label: '招聘岗位', name: 'name', width:'300'},
+            {label: '分管工作', name: 'job', width:'300', formatter: $.jgrid.formatter.NoMultiSpace},
             {
                 label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -180,6 +181,7 @@
             },
             {label: '所属单位', name: 'unit.name', width: 200},
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
+            {label: '招聘人数', name: 'num', width: 80},
            /* {label: '基本条件', name: 'requirement', formatter: function (cellvalue, options, rowObject) {
                 var op=($.trim(cellvalue)=='') ?'编辑':'查看'
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/crsPost_requirement?id={0}">{1}</a>'
@@ -197,7 +199,7 @@
             }},
             {label: '招聘会情况', name: 'meetingStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return cellvalue ? "已召开" : "未召开";
+                return cellvalue ? "已完成" : "未完成";
             }},
             {label: '常委会情况', name: 'committeeStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -213,7 +215,7 @@
                 if (cellvalue == undefined) return '';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];
             }},
-            {label: '备注', name: 'remark', width: 350}
+            {label: '备注', name: 'remark', width: 350, formatter: $.jgrid.formatter.NoMultiSpace}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');

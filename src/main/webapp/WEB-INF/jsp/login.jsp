@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta charset="utf-8"/>
 <title>${_plantform_name}</title>
-<link href="${ctx}/extend/css/login.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/css/login.css" rel="stylesheet" type="text/css" />
 <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
     <script type="text/javascript">
@@ -22,19 +22,17 @@
 <body>
 <div class="top">
     <div class="w1000">
-        <div class="logo"><img src="${ctx}<fmt:message key="site.logo" bundle="${spring}"/>" /></div>
+        <div class="logo"><img src="${ctx}/public/logo" /></div>
         <div class="txt">${_plantform_name}</div>
     </div>
 </div>
-<div class="login_box">
+<div class="login_box ${sysConfig.displayLoginMsg?'':'no-msg'}">
 
     <div class="bg">
-        <img src="${ctx}/extend/img/login_bg.jpg" />
+        <img src="${ctx}/public/loginBg" />
     </div>
     <div class="w1000 login_con">
-
         <div id="login" class="visible login-layout" >
-
             <div class="login-error" style="display: none">
             <i class="fa fa-times"></i> ${error}</div>
             <form id="login-form" method="POST" action="${ctx}/login">
@@ -50,25 +48,12 @@
                 <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
             </dd>
             </form>
-            <div class="note visible" id="note">
-                <ul>
-                    <li><a href="${ctx}/faq?type=2" target="_blank" class="to_reg_btn">新生党员组织关系转入填写说明</a>
-                        <img src="/extend/img/new.gif">
-                    </li>
-                    <li><a href="${ctx}/faq?type=1" target="_blank" class="to_reg_btn">新教师党员组织关系转入填写说明</a>
-                        <img src="/extend/img/new.gif">
-                    </li>
-                </ul>
+
+            <div class="msg">
+                ${sysConfig.loginMsg}
             </div>
         </div>
         <div class="login-layout" id="reg">
-            <div class="reg-tip" >
-                <ol>
-                    <li>
-                    如果您已经有信息门户的账号，请不要在此注册。
-                </li>
-                <li>手机号码可用于密码找回，请正确填写。</li>
-                </ol></div>
             <form id="reg-form" method="POST" action="${ctx}/reg">
                 <dt>登录账号</dt><dd><div class="input_box"><input name="username" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><input name="passwd" type="password"/></div></dd>
@@ -98,7 +83,9 @@
                 <dt></dt><dd><a href="javascript:" class="submit_btn" id="reg_btn"></a></dd>
                 <dt></dt><dd><a href="" class="to_login_btn" data-target="#login">返回登录</a></dd>
             </form>
+
         </div>
+
     </div>
 
 </div>

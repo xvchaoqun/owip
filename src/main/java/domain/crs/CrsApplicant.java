@@ -53,6 +53,10 @@ public class CrsApplicant implements Serializable {
 
     private String specialRemark;
 
+    private Integer recommendFirstCount;
+
+    private Integer recommendSecondCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -181,5 +185,21 @@ public class CrsApplicant implements Serializable {
 
     public void setSpecialRemark(String specialRemark) {
         this.specialRemark = specialRemark == null ? null : specialRemark.trim();
+    }
+
+    public Integer getRecommendFirstCount() {
+        return recommendFirstCount;
+    }
+
+    public void setRecommendFirstCount(Integer recommendFirstCount) {
+        this.recommendFirstCount = recommendFirstCount;
+    }
+
+    public Integer getRecommendSecondCount() {
+        return recommendSecondCount;
+    }
+
+    public void setRecommendSecondCount(Integer recommendSecondCount) {
+        this.recommendSecondCount = recommendSecondCount;
     }
 }

@@ -30,6 +30,7 @@ import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
 import domain.sys.HtmlFragment;
+import domain.sys.SysConfig;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import domain.train.TrainEvaNorm;
@@ -70,6 +71,7 @@ import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.party.RetireApplyService;
 import service.sys.HtmlFragmentService;
+import service.sys.SysConfigService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import service.train.TrainCourseService;
@@ -97,6 +99,8 @@ public class CmTag {
     static CacheService cacheService = (CacheService) context.getBean("cacheService");
     static HtmlFragmentService htmlFragmentService = (HtmlFragmentService) context.getBean("htmlFragmentService");
     static HtmlFragmentMapper htmlFragmentMapper = (HtmlFragmentMapper) context.getBean("htmlFragmentMapper");
+    static SysConfigService sysConfigService = (SysConfigService) context.getBean("sysConfigService");
+
     static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
     static CadreService cadreService = (CadreService) context.getBean("cadreService");
     static CadrePostService cadrePostService = (CadrePostService) context.getBean("cadrePostService");
@@ -135,6 +139,11 @@ public class CmTag {
 
     static CrsRequireRuleService crsRequireRuleService = (CrsRequireRuleService) context.getBean("crsRequireRuleService");
     static CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
+
+    public static SysConfig getSysConfig() {
+
+        return sysConfigService.get();
+    }
 
     public static String toJSONObject(Object obj) {
 
@@ -565,6 +574,7 @@ public class CmTag {
 
         return passportMapper.selectByPrimaryKey(id);
     }
+
     // 拒绝归还证件借出记录
     public static PassportDraw getRefuseReturnPassportDraw(Integer passportId) {
 
@@ -649,5 +659,10 @@ public class CmTag {
     public static CrsPost getCrsPost(Integer id) {
 
         return crsPostService.get(id);
+    }
+
+    public static String getShortPic(String picPath) {
+
+        return (picPath.contains(".") ? picPath.substring(0, picPath.lastIndexOf(".")) : picPath) + "_s.jpg";
     }
 }

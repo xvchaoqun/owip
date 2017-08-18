@@ -1143,9 +1143,9 @@ public class SystemConstants {
     static {
 
         CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_DEFAULT, "根据报名时间而定");
-        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_OPEN, "强制开启");
-        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_CLOSED, "强制关闭");
-        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_PAUSE, "暂停报名");
+        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_OPEN, "开启");
+        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_CLOSED, "关闭");
+        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_PAUSE, "暂停");
     }
 
     // 干部招聘 岗位专家角色， 1 组长 2 校领导 3 成员
@@ -1539,6 +1539,16 @@ public class SystemConstants {
         SHORT_MSG_RECEIVER_STATUS_MAP.put(SHORT_MSG_RECEIVER_STATUS_DELETE, "已失效");
     }
 
+    // 短信关联类型
+    public final static byte SHORT_MSG_RELATE_TYPE_CONTENT_TPL = 1;
+    public final static byte SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL = 2;
+    public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_CONTENT_TPL, "短信模板");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL, "定向短信");
+    }
+
     // 内容模板引擎  1 MessageFormat
     public final static byte CONTENT_TPL_ENGINE_MESSAGEFORMAT = 1;
     public final static Map<Byte, String> CONTENT_TPL_ENGINE_MAP = new LinkedHashMap<>();
@@ -1585,8 +1595,28 @@ public class SystemConstants {
     // 书记审批通知
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY = "ct_applyself_approval_secretary";
     // 校长审批通知
-    public final static String APPLYSELF_APPROVAL_MASTER = "ct_applyself_approval_master";
+    public final static String CONTENT_TPL_APPLYSELF_APPROVAL_MASTER = "ct_applyself_approval_master";
 
+    /*******干部招聘*******/
+    // 通知1：预通知（没有确定时间和地点）
+    public final static String CONTENT_TPL_CRS_MSG_1 = "ct_crs_msg_1";
+    // 通知2：预通知（初步确定了时间，未确定地点）
+    public final static String CONTENT_TPL_CRS_MSG_2 = "ct_crs_msg_2";
+    // 通知3：正式通知（明确了时间和地点）
+    public final static String CONTENT_TPL_CRS_MSG_3 = "ct_crs_msg_3";
+    // 通知4：招聘会前一天提醒
+    public final static String CONTENT_TPL_CRS_MSG_4 = "ct_crs_msg_4";
+    // 通知5：招聘会前一小时提醒
+    public final static String CONTENT_TPL_CRS_MSG_5 = "ct_crs_msg_5";
+
+    public final static Map<String, String> CRS_SHORT_MSG_TPL_MAP = new LinkedHashMap<>();
+    static {
+        CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_1, "通知1：预通知（没有确定时间和地点）");
+        CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_2, "通知2：预通知（初步确定了时间，未确定地点）");
+        CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_3, "通知3：正式通知（明确了时间和地点）");
+        CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_4, "通知4：招聘会前一天提醒");
+        CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_5, "通知5：招聘会前一小时提醒");
+    }
 
 	/*public final static Map<String, String> SHORT_MSG_KEY_MAP = new LinkedHashMap<>();
     static {

@@ -28,7 +28,6 @@ import sys.tags.CmTag;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
-import sys.utils.PropertiesUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -147,7 +146,7 @@ public class AbroadReportController extends BaseController {
         map.put("name", user.getRealname());
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
-        map.put("unit", PropertiesUtils.getString("report.unit.prefix") + unit);
+        map.put("unit", CmTag.getSysConfig().getSchoolName() + unit);
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
 
@@ -215,7 +214,7 @@ public class AbroadReportController extends BaseController {
         map.put("name", user.getRealname());
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
-        map.put("unit", PropertiesUtils.getString("report.unit.prefix") + unit);
+        map.put("unit", CmTag.getSysConfig().getSchoolName() + unit);
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
 

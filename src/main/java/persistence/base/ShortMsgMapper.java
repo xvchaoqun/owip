@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface ShortMsgMapper {
-    int countByExample(ShortMsgExample example);
+    long countByExample(ShortMsgExample example);
 
     int deleteByExample(ShortMsgExample example);
 

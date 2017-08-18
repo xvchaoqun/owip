@@ -28,7 +28,7 @@
         </shiro:lacksRole>
         <div class="navbar-header pull-left hidden-xs hidden-sm">
             <div class="logo" style="cursor: pointer;" onclick="location.href='#'"><img
-                    src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
+                    src="${ctx}/public/logoWhite"></div>
             <div class="txt" style="cursor: pointer;" onclick="location.href='#'">${_plantform_name}</div>
         </div>
 
@@ -98,7 +98,7 @@
         <div class="footer-inner">
             <div class="footer-content">
             <span class="bigger-120">
-                <fmt:message key="site.copyright" bundle="${spring}"/>
+                ${sysConfig.siteCopyright}
             </span>
             </div>
         </div>

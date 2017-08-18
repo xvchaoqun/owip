@@ -285,6 +285,126 @@ public class ShortMsgExample {
             return (Criteria) this;
         }
 
+        public Criteria andRelateIdIsNull() {
+            addCriterion("relate_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdIsNotNull() {
+            addCriterion("relate_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdEqualTo(Integer value) {
+            addCriterion("relate_id =", value, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdNotEqualTo(Integer value) {
+            addCriterion("relate_id <>", value, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdGreaterThan(Integer value) {
+            addCriterion("relate_id >", value, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("relate_id >=", value, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdLessThan(Integer value) {
+            addCriterion("relate_id <", value, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdLessThanOrEqualTo(Integer value) {
+            addCriterion("relate_id <=", value, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdIn(List<Integer> values) {
+            addCriterion("relate_id in", values, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdNotIn(List<Integer> values) {
+            addCriterion("relate_id not in", values, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdBetween(Integer value1, Integer value2) {
+            addCriterion("relate_id between", value1, value2, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("relate_id not between", value1, value2, "relateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeIsNull() {
+            addCriterion("relate_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeIsNotNull() {
+            addCriterion("relate_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeEqualTo(Byte value) {
+            addCriterion("relate_type =", value, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeNotEqualTo(Byte value) {
+            addCriterion("relate_type <>", value, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeGreaterThan(Byte value) {
+            addCriterion("relate_type >", value, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("relate_type >=", value, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeLessThan(Byte value) {
+            addCriterion("relate_type <", value, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("relate_type <=", value, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeIn(List<Byte> values) {
+            addCriterion("relate_type in", values, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeNotIn(List<Byte> values) {
+            addCriterion("relate_type not in", values, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeBetween(Byte value1, Byte value2) {
+            addCriterion("relate_type between", value1, value2, "relateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelateTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("relate_type not between", value1, value2, "relateType");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;

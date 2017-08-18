@@ -2,45 +2,64 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="space-4"></div>
-<div class="widget-box" style="width: 750px">
+<div class="row" style="width: 1400px">
+    <div style="width: 770px;float: left;margin-right: 25px">
+<div class="widget-box">
     <div class="widget-header">
         <h4 class="smaller">
             任职资格
+            <c:if test="${not empty crsPost.qualification}">
             <div class="pull-right" style="margin-right: 10px">
                 <button type="button"
-                        data-width="750" data-url="${ctx}/crsPost_qualification?id=${param.id}"
-                        class="popupBtn btn btn-xs btn-success">
+                        data-load-el="#qualification-content"
+                        data-url="${ctx}/crsPost_qualification?id=${param.id}"
+                        class="loadPage btn btn-xs btn-success">
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
                 </button>
             </div>
+            </c:if>
         </h4>
     </div>
     <div class="widget-body">
-        <div class="widget-main">
+        <div class="widget-main" id="qualification-content" style="min-height: 570px">
             ${crsPost.qualification}
+            <c:if test="${empty crsPost.qualification}">
+                <c:import url="${ctx}/crsPost_qualification?id=${param.id}"/>
+            </c:if>
         </div>
     </div>
 </div>
-
-<div class="widget-box" style="width: 750px">
+    </div>
+    <div style="width: 550px; float:left">
+<div class="widget-box">
     <div class="widget-header">
         <h4 class="smaller">
-            岗位要求
+            岗位具体要求（用于资格审核）
+            <c:if test="${not empty crsPostRequire}">
             <div class="pull-right" style="margin-right: 10px">
                 <button type="button"
-                        data-width="750" data-url="${ctx}/crsPost_detail/step1_require_au?id=${param.id}"
-                        class="popupBtn btn btn-xs btn-success">
+                        data-load-el="#require-content"
+                        data-url="${ctx}/crsPost_detail/step1_require_au?id=${param.id}"
+                        class="loadPage btn btn-xs btn-success">
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
                 </button>
             </div>
+            </c:if>
         </h4>
     </div>
     <div class="widget-body">
-        <div class="widget-main">
+        <div class="widget-main" id="require-content">
+            <c:if test="${empty crsPostRequire}">
+                <c:import url="${ctx}/crsPost_detail/step1_require_au?id=${param.id}"/>
+            </c:if>
+            <c:if test="${not empty crsPostRequire}">
             <div style="font-size: 16px; font-weight: bolder">${crsPostRequire.name}：</div>
             <jsp:include page="/WEB-INF/jsp/crs/crsPostRequire/postRequire.jsp"/>
+            </c:if>
         </div>
     </div>
+</div>
+        </div>
 </div>

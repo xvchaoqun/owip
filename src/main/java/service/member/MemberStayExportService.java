@@ -25,10 +25,10 @@ import service.sys.StudentInfoService;
 import service.sys.TeacherInfoService;
 import service.sys.UserBeanService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
-import sys.utils.PropertiesUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -80,9 +80,9 @@ public class MemberStayExportService extends BaseMapper {
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
             if(type == SystemConstants.MEMBER_STAY_TYPE_ABROAD)
-                headerCell.setCellValue(PropertiesUtils.getString("site.school") + "出国（境）毕业生党员组织关系暂留汇总表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表");
             else
-                headerCell.setCellValue(PropertiesUtils.getString("site.school") + "非出国（境）毕业生党员组织关系暂留汇总表");
+                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "非出国（境）毕业生党员组织关系暂留汇总表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }

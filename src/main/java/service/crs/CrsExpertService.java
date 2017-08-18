@@ -32,6 +32,14 @@ public class CrsExpertService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
 
+    public List<CrsExpertView> getExperts(byte status){
+
+        CrsExpertViewExample example = new CrsExpertViewExample();
+        example.createCriteria().andStatusEqualTo(status);
+        example.setOrderByClause("sort_order desc");
+        return crsExpertViewMapper.selectByExample(example);
+    }
+
     @Transactional
     public void batchAdd(Integer[] userIds) {
 
@@ -46,7 +54,48 @@ public class CrsExpertService extends BaseMapper {
         }
     }
 
-    // key是userId
+    // 拱批量选择专家
+    public TreeNode getTree(Set<Integer> selectIdSet) {
+
+        if (null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "请选择";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+        for (Map.Entry<Byte, String> entry : SystemConstants.CRS_EXPERT_STATUS_MAP.entrySet()) {
+            TreeNode groupNode = new TreeNode();
+            groupNode.title = entry.getValue();
+            groupNode.expand = true;
+            groupNode.isFolder = true;
+            groupNode.hideCheckbox = true;
+            List<TreeNode> children = new ArrayList<TreeNode>();
+            groupNode.children = children;
+
+            List<CrsExpertView> inspectors = getExperts(entry.getKey());
+
+            for (CrsExpertView expert : inspectors) {
+
+                TreeNode node = new TreeNode();
+                node.title = expert.getRealname() + "-" + expert.getCode();
+                node.key = expert.getUserId() + "";
+
+                if (selectIdSet.contains(expert.getUserId())) {
+                    node.select = true;
+                }
+                children.add(node);
+            }
+
+            rootChildren.add(groupNode);
+        }
+
+        return root;
+    }
+
+    // 批量添加专家 key是userId
     public TreeNode getTree(Set<CadreView> cadreList, // 干部列表
                             Set<Integer> disabledIdSet,// 不可选干部
                             boolean enableSelect, // 是否有选择框

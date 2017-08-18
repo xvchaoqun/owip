@@ -14,6 +14,7 @@
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=1'><i
                 class="fa fa-info-circle"></i> 信息审核（待审核）
+                <span class="badge badge-primary">${count[1]}</span>
         </a>
     </li>
     <li>
@@ -21,6 +22,7 @@
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=2'><i
                 class="fa fa-check-circle"></i> 信息审核（通过）
+            <span class="badge badge-primary">${count[2]}</span>
         </a>
     </li>
     <li>
@@ -28,6 +30,7 @@
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=3'><i
                 class="fa fa-times-circle"></i> 信息审核（未通过）
+            <span class="badge badge-primary">${count[3]}</span>
         </a>
     </li>
     <li>
@@ -35,6 +38,7 @@
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=4'><i
                 class="fa fa-hourglass-1"></i> 资格审核（待审核）
+            <span class="badge badge-primary">${count[4]}</span>
         </a>
     </li>
     <li>
@@ -42,6 +46,7 @@
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=5'><i
                 class="fa fa-check-circle"></i> 资格审核（通过）
+            <span class="badge badge-primary">${count[5]}</span>
         </a>
     </li>
     <li>
@@ -49,6 +54,7 @@
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=6'><i
                 class="fa fa-times-circle"></i> 资格审核（未通过）
+            <span class="badge badge-primary">${count[6]}</span>
         </a>
     </li>
 </ul>

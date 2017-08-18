@@ -395,19 +395,11 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function () {
     url += (querystr != undefined) ? (querystr) : "";
     if (openBy == 'page') {
         var $container = $("#body-content");
-        $container.showLoading({
-            'afterShow': function () {
-                setTimeout(function () {
-                    $container.hideLoading();
-                }, 2000);
-            }
-        });
+        $container.mask()
         $.get(url, {}, function (html) {
+            $container.unmask().hide();
             if (!html.startWith("{")) {
-                $container.hideLoading().hide();
                 $("#item-content").hide().html(html).fadeIn("slow");
-            } else {
-                $container.hideLoading().hide();
             }
         })
     } else {
@@ -453,15 +445,9 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
     if (openBy == 'page') {
         var loadEl = $(this).data("load-el");
         var $maskEl = $(loadEl || "#body-content");
-        $maskEl.showLoading({
-            'afterShow': function () {
-                setTimeout(function () {
-                    $maskEl.hideLoading();
-                }, 2000);
-            }
-        });
+        $maskEl.mask();
         $.get(url, {}, function (html) {
-            $maskEl.hideLoading().hide();
+            $maskEl.unmask().hide();
             $(loadEl || "#item-content").hide().html(html).fadeIn("slow");
         })
     } else {
@@ -495,15 +481,9 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
 
     if (openBy == 'page') {
         var $container = $("#body-content");
-        $container.showLoading({
-            'afterShow': function () {
-                setTimeout(function () {
-                    $container.hideLoading();
-                }, 2000);
-            }
-        });
+        $container.mask()
         $.get(url, {}, function (html) {
-            $container.hideLoading().hide();
+            $container.unmask().hide();
             $("#item-content").hide().html(html).fadeIn("slow");
         })
     } else {
@@ -1277,13 +1257,17 @@ function register_party_select($select, width) {
 }
 
 // 数字输入框
-$(document).on("blur", "input.num", function () {
+/*$(document).on("blur, keyup", "input.num", function () {
     var str = $(this).val();
     var num = parseInt(str);
     //console.log(parseInt(str))
     if (isNaN(num)) {
         $(this).val('');
     }
+});*/
+$(document).on("blur keyup keydown paste change", "input.num", function () {
+    var str = $(this).val();
+    $(this).val(str.replace(/[^\d|\.]/g,''))
 });
 
 // 日历

@@ -18,7 +18,7 @@
 <div id="navbar" class="navbar navbar-default" id="top">
   <div class="navbar-container" id="navbar-container">
     <div class="navbar-header pull-left hidden-xs hidden-sm">
-      <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}<fmt:message key="site.logo_white" bundle="${spring}"/>"></div>
+      <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><img src="${ctx}/public/logoWhite"></div>
       <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
     </div>
     <div class="navbar-header pull-left hidden-md hidden-lg ">
@@ -55,12 +55,12 @@
       <div class="bs-docs-section">
         <h1 id="download" class="page-header">帮助文档下载</h1>
         <div class="bs-callout bs-callout-warning">
-            <h4>北京师范大学组织工作管理与服务平台用户手册-党建分册</h4>
+            <h4>${_school}${_plantform_name}用户手册-党建分册</h4>
             <a href="/attach?code=af_help_dj"
                class="btn btn-lg btn-outline" target="_blank">下载文档</a>
         </div>
         <div class="bs-callout bs-callout-warning">
-          <h4>组织工作管理与服务一体化平台（党建部分使用说明）</h4>
+          <h4>${_plantform_name}（党建部分使用说明）</h4>
           <p>
             <a href="/attach?code=af_ppt_dj"
                class="btn btn-lg btn-outline" target="_blank">下载文档</a>
@@ -137,7 +137,7 @@
       <div class="footer-inner">
         <div class="footer-content">
             <span class="bigger-120">
-                <fmt:message key="site.school" bundle="${spring}"/>党委组织部 <span class="blue bolder">&copy;2016</span>
+                ${sysConfig.schoolName}党委组织部 <span class="blue bolder">&copy;2016</span>
             </span>
         </div>
       </div>

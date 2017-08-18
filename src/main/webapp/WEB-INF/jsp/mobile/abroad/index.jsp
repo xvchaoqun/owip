@@ -36,7 +36,7 @@
 					<!-- #section:basics/navbar.layout.brand -->
 					<a href="javascript:;" class="navbar-brand">
 						<span style="font-size: 16px; font-weight: bold">
-							组织工作一体化平台
+							${sysConfig.mobilePlantformName}
 						</span>
 					</a>
 				</div>
@@ -134,7 +134,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<fmt:message key="site.school" bundle="${spring}"/>党委组织部<span class="blue bolder">&copy;2016</span>
+							${sysConfig.schoolName}党委组织部<span class="blue bolder">&copy;2016</span>
 						</span>
 					</div>
 				</div>

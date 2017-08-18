@@ -74,6 +74,47 @@ SysMsg.confirm = function (msg, title, callback) {
     });
 };
 
+var _modal_width;
+(function ($) {
+    $.extend({
+        loadModal: function (url, width, dragTarget) { // dragTarget：拖拽位置
+            //$("#modal").modal('hide');
+            //console.log("width="+width + " _modal_width=" + _modal_width);
+            if (width > 0) {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
+                _modal_width = width;
+            } else {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width);
+                _modal_width = undefined;
+            }
+            dragTarget = dragTarget || ".modal-header";
+
+            $('#modal .modal-content').load(url, function (data) {
+                if (!data.startWith("{")) $("#modal").modal('show');
+            });
+        }
+    });
+    /*$.fn.mask = function (options) {
+        //console.log(options)
+        options = options || {};
+        if(options.hide!=undefined && options.hide>0) {
+            options = $.extend(options, {
+                'afterShow': function () {
+                    setTimeout(function () {
+                        $this.hideLoading();
+                    }, options.hide);
+                }
+            })
+        }
+        var $this = $(this);
+        return $this.showLoading(options);
+    };
+    $.fn.unmask = function(){
+        var $this = $(this);
+        return $this.hideLoading();
+    }*/
+})(jQuery);
+
 try {
     bootbox.setDefaults({locale: 'zh_CN'});
 

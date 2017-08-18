@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>任职资格</h3>
-</div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/crsPost_qualification" id="modalForm" method="post">
         <input type="hidden" name="id" value="${crsPost.id}">
@@ -26,9 +22,11 @@ pageEncoding="UTF-8"%>
 			</div>
     </form>
 </div>
-<div class="modal-footer">
-    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="确定"/>
+<div class="modal-footer center">
+    <c:if test="${not empty crsPost.qualification}">
+    <a href="javascript:;" onclick="_stepContentReload()" class="btn btn-default">取消</a>
+    </c:if>
+    <input type="button" id="submitBtn" class="btn btn-primary" value="确定"/>
 </div>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
@@ -40,7 +38,7 @@ pageEncoding="UTF-8"%>
         height: '400px',
         width: '720px'
     });
-    $("#modal form select[name=type]").on("change",function(){
+    $("#modalForm select[name=type]").on("change",function(){
         var type = $(this).val();
         if(type>0) {
             ke.html(templateMap[type].content);
@@ -49,14 +47,15 @@ pageEncoding="UTF-8"%>
             ke.readonly(false);
         }
     });
+
+    $("#submitBtn").click(function(){$("#modalForm").submit(); return false;})
     $("#modalForm").validate({
         submitHandler: function (form) {
             $("#modalForm input[name=qualification]").val(ke.html());
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        $("#modal").modal('hide');
-                        $("#step-content li.active .loadPage").click()
+                        _stepContentReload()
                     }
                 }
             });

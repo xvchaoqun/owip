@@ -52,7 +52,7 @@ jQuery.validator.setDefaults({
     errorPlacement: function (error, element) {
         if (error.html() != '') {
             //$("label:first", element.closest(".form-group")).css("color", "red")
-            $.tip({$form:element.closest("form"), field:element.attr("name"), msg:error.text()})
+            $.tip({$form: element.closest("form"), field: element.attr("name"), msg: error.text()})
         }
     }
     /*
@@ -220,7 +220,7 @@ SysMsg.confirm = function (msg, title, callback) {
 var _modal_width;
 (function ($) {
     $.extend({
-        loadModal:function(url, width, dragTarget) { // dragTarget：拖拽位置
+        loadModal: function (url, width, dragTarget) { // dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
@@ -245,7 +245,7 @@ var _modal_width;
             var at = params.at;
             var type = params.type || "info";
 
-            if($target==undefined) {
+            if ($target == undefined) {
 
                 var $form = params.$form;
                 var field = params.field;
@@ -266,12 +266,12 @@ var _modal_width;
                     $container = $form.closest("#modal");
                 }
             }
-            var label='<i class="fa fa-warning red"></i> ';
-            if(type=="success"){
-                label='<i class="fa fa-info-circle green"></i> ';
+            var label = '<i class="fa fa-warning red"></i> ';
+            if (type == "success") {
+                label = '<i class="fa fa-info-circle green"></i> ';
             }
             $target.qtip({
-                content: label+msg,
+                content: label + msg,
                 show: true, hide: {
                     event: 'unfocus',
                     inactive: 1000
@@ -421,20 +421,14 @@ var _modal_width;
             var $loading = $(loading || "#main-container");
             bootbox.confirm(msg, function (result) {
                 if (result) {
-                    $loading.showLoading({
-                        'afterShow': function () {
-                            setTimeout(function () {
-                                $loading.hideLoading();
-                            }, 10000);
-                        }
-                    });
+                    $loading.mask({hide:10000})
                     $.post(url, {}, function (ret) {
                         if (ret.success) {
                             if (callback) {
                                 // console.log(_this)
                                 window[callback](_this);
                             }
-                            $loading.hideLoading();
+                            $loading.unmask();
                         }
                     });
                 }
@@ -478,26 +472,20 @@ var _modal_width;
         // 加载主区域
         loadPage: function (options) {
             //console.log(options)
-            options = options||{};
+            options = options || {};
             var url = options.url;
-            var $maskEl = options.$maskEl || $(options.maskEl||"#page-content");
-            var $loadEl = options.$loadEl || $(options.loadEl||"#page-content");
+            var $maskEl = options.$maskEl || $(options.maskEl || "#page-content");
+            var $loadEl = options.$loadEl || $(options.loadEl || "#page-content");
             var callback = options.callback;
 
             NProgress.start();
 
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
-            $maskEl.showLoading({
-                'afterShow': function () {
-                    setTimeout(function () {
-                        $maskEl.hideLoading();
-                        //if (typeof callback == 'function') callback();
-                    }, 2000);
-                }
-            });
-            $.ajax({url: url, data: {}, cache: false, success: function (html) {
-                    $maskEl.hideLoading();
+            $maskEl.mask();
+            $.ajax({
+                url: url, data: {}, cache: false, success: function (html) {
+                    $maskEl.unmask();
                     $loadEl.html(html);
                     if (typeof callback == 'function') callback();
                     NProgress.done();
@@ -518,16 +506,9 @@ var _modal_width;
             }
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
-            $maskEl.showLoading({
-                'afterShow': function () {
-                    setTimeout(function () {
-                        $maskEl.hideLoading();
-                        //if (typeof fn == 'function') fn();
-                    }, 2000);
-                }
-            });
+            $maskEl.mask();
             $.get(url, {}, function (html) {
-                $maskEl.hideLoading();
+                $maskEl.unmask();
                 $("#body-content").hide();
                 $("#item-content").hide().html(html).fadeIn("slow");
                 if (typeof fn == 'function') fn();
@@ -575,8 +556,8 @@ var _modal_width;
         fileInput: function ($files, params) {
 
             params = params || {};
-            var maxSize = params.maxSize||_uploadMaxSize;
-            $files.each(function() {
+            var maxSize = params.maxSize || _uploadMaxSize;
+            $files.each(function () {
                 var $file = $(this)
                 $file.ace_file_input($.extend({
                     no_file: '请选择文件 ...',
@@ -592,9 +573,9 @@ var _modal_width;
                     //
                 }, params)).off('file.error.ace').on("file.error.ace", function (e, info) {
                     var size = info.error_list['size'];
-                    if (size != undefined){
+                    if (size != undefined) {
                         $.tip({
-                            $target: $file.closest(".ace-file-input"), $container: $("#pageContent")||$("body"),
+                            $target: $file.closest(".ace-file-input"), $container: $("#pageContent") || $("body"),
                             msg: "文件<span class='text-danger'>[{0}]</span>超过{1}M大小".format(size, _uploadMaxSize / (1024 * 1024)),
                             my: 'left center', at: 'right center'
                         });
@@ -603,9 +584,9 @@ var _modal_width;
                     var ext = info.error_count['ext'];
                     var mime = info.error_count['mime'];
                     console.log(info.error_count)
-                    if (ext >0 || mime >0){
+                    if (ext > 0 || mime > 0) {
                         $.tip({
-                            $target: $file.closest(".ace-file-input"), $container: $("#pageContent")||$("body"),
+                            $target: $file.closest(".ace-file-input"), $container: $("#pageContent") || $("body"),
                             msg: "文件格式有误，请上传{0}格式的文件".format(params.allowExt),
                             my: 'left center', at: 'right center'
                         });
@@ -627,9 +608,9 @@ var _modal_width;
                 return $.trim(plainText);
         }
     });
-    $.fn.loadPage = function( options ) {
+    $.fn.loadPage = function (options) {
         var _options = {};
-        if(typeof options=="string"){
+        if (typeof options == "string") {
             _options.url = options;
             _options.$maskEl = $(this);
         }
@@ -637,6 +618,25 @@ var _modal_width;
         _options.$loadEl = $(this);
         $.loadPage(_options);
     };
+    $.fn.mask = function (options) {
+        //console.log(options)
+        options = options || {};
+        if(options.hide!=undefined && options.hide>0) {
+            options = $.extend(options, {
+                'afterShow': function () {
+                    setTimeout(function () {
+                        $this.hideLoading();
+                    }, options.hide);
+                }
+            })
+        }
+        var $this = $(this);
+        return $this.showLoading(options);
+    };
+    $.fn.unmask = function(){
+        var $this = $(this);
+        return $this.hideLoading();
+    }
 })(jQuery);
 try {
     bootbox.setDefaults({locale: 'zh_CN'});
@@ -696,8 +696,8 @@ try {
 
     $.jgrid.formatter.NoMultiSpace = function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return ''
-       // console.log(cellvalue)
-        return $('<p>'+cellvalue.NoMultiSpace()+'</p>').text()
+        // console.log(cellvalue)
+        return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
         //return cellvalue.NoMultiSpace();
     };
     $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {

@@ -19,6 +19,10 @@ public class ShortMsg implements Serializable {
 
     private Integer receiverId;
 
+    private Integer relateId;
+
+    private Byte relateType;
+
     private String type;
 
     private String mobile;
@@ -59,6 +63,22 @@ public class ShortMsg implements Serializable {
 
     public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public Integer getRelateId() {
+        return relateId;
+    }
+
+    public void setRelateId(Integer relateId) {
+        this.relateId = relateId;
+    }
+
+    public Byte getRelateType() {
+        return relateType;
+    }
+
+    public void setRelateType(Byte relateType) {
+        this.relateType = relateType;
     }
 
     public String getType() {

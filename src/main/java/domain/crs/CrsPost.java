@@ -1,6 +1,7 @@
 package domain.crs;
 
 import domain.unit.Unit;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,8 +9,41 @@ import java.util.Date;
 
 public class CrsPost implements Serializable {
 
-    public Unit getUnit(){
+    public Unit getUnit() {
         return CmTag.getUnit(unitId);
+    }
+
+    public Boolean getAutoSwitch(){
+        return enrollStatus == SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT;
+    }
+
+    public Byte getSwitchStatus() {
+
+        // 手动开关判断
+        if (enrollStatus != SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT) {
+            return enrollStatus;
+        }
+
+        // 自动开关判断
+        Date now = new Date();
+        if (startTime != null && endTime != null) {
+
+            if (now.after(startTime) && now.before(endTime)) {
+                return SystemConstants.CRS_POST_ENROLL_STATUS_OPEN;
+            }
+        } else if (startTime != null) {
+
+            if (now.after(startTime)) {
+                return SystemConstants.CRS_POST_ENROLL_STATUS_OPEN;
+            }
+        } else if (endTime != null) {
+
+            if (now.before(endTime)) {
+                return SystemConstants.CRS_POST_ENROLL_STATUS_OPEN;
+            }
+        }
+
+        return SystemConstants.CRS_POST_ENROLL_STATUS_CLOSED;
     }
 
     private Integer id;
@@ -22,9 +56,13 @@ public class CrsPost implements Serializable {
 
     private String name;
 
+    private String job;
+
     private Integer adminLevel;
 
     private Integer unitId;
+
+    private Integer num;
 
     private String notice;
 
@@ -44,6 +82,8 @@ public class CrsPost implements Serializable {
 
     private String meetingAddress;
 
+    private Date quitDeadline;
+
     private Boolean meetingStatus;
 
     private Boolean committeeStatus;
@@ -55,6 +95,18 @@ public class CrsPost implements Serializable {
     private Boolean isPublish;
 
     private Byte status;
+
+    private Integer statExpertCount;
+
+    private Integer statGiveCount;
+
+    private Integer statBackCount;
+
+    private String statFile;
+
+    private String statFileName;
+
+    private Date statDate;
 
     private static final long serialVersionUID = 1L;
 
@@ -98,6 +150,14 @@ public class CrsPost implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job == null ? null : job.trim();
+    }
+
     public Integer getAdminLevel() {
         return adminLevel;
     }
@@ -112,6 +172,14 @@ public class CrsPost implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public String getNotice() {
@@ -186,6 +254,14 @@ public class CrsPost implements Serializable {
         this.meetingAddress = meetingAddress == null ? null : meetingAddress.trim();
     }
 
+    public Date getQuitDeadline() {
+        return quitDeadline;
+    }
+
+    public void setQuitDeadline(Date quitDeadline) {
+        this.quitDeadline = quitDeadline;
+    }
+
     public Boolean getMeetingStatus() {
         return meetingStatus;
     }
@@ -232,5 +308,53 @@ public class CrsPost implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Integer getStatExpertCount() {
+        return statExpertCount;
+    }
+
+    public void setStatExpertCount(Integer statExpertCount) {
+        this.statExpertCount = statExpertCount;
+    }
+
+    public Integer getStatGiveCount() {
+        return statGiveCount;
+    }
+
+    public void setStatGiveCount(Integer statGiveCount) {
+        this.statGiveCount = statGiveCount;
+    }
+
+    public Integer getStatBackCount() {
+        return statBackCount;
+    }
+
+    public void setStatBackCount(Integer statBackCount) {
+        this.statBackCount = statBackCount;
+    }
+
+    public String getStatFile() {
+        return statFile;
+    }
+
+    public void setStatFile(String statFile) {
+        this.statFile = statFile == null ? null : statFile.trim();
+    }
+
+    public String getStatFileName() {
+        return statFileName;
+    }
+
+    public void setStatFileName(String statFileName) {
+        this.statFileName = statFileName == null ? null : statFileName.trim();
+    }
+
+    public Date getStatDate() {
+        return statDate;
+    }
+
+    public void setStatDate(Date statDate) {
+        this.statDate = statDate;
     }
 }

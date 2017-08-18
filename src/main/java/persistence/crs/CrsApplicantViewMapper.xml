@@ -18,6 +18,8 @@
     <result column="special_status" jdbcType="BIT" property="specialStatus" />
     <result column="special_pdf" jdbcType="VARCHAR" property="specialPdf" />
     <result column="special_remark" jdbcType="VARCHAR" property="specialRemark" />
+    <result column="recommend_first_count" jdbcType="INTEGER" property="recommendFirstCount" />
+    <result column="recommend_second_count" jdbcType="INTEGER" property="recommendSecondCount" />
     <result column="is_require_check_pass" jdbcType="BOOLEAN" property="isRequireCheckPass" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -52,7 +54,8 @@
   <sql id="Base_Column_List">
     id, user_id, post_id, enroll_time, is_recommend, recommend_ow, recommend_cadre, recommend_crowd, 
     recommend_pdf, info_check_status, info_check_remark, require_check_status, require_check_remark, 
-    special_status, special_pdf, special_remark, is_require_check_pass
+    special_status, special_pdf, special_remark, recommend_first_count, recommend_second_count, 
+    is_require_check_pass
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsApplicantViewExample" resultMap="BaseResultMap">
     select

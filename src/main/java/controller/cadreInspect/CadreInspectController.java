@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -225,7 +225,7 @@ public class CadreInspectController extends BaseController {
 
         SXSSFWorkbook wb = cadreInspectExportService.export(example);
 
-        String fileName = PropertiesUtils.getString("site.school") + "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+        String fileName = CmTag.getSysConfig().getSchoolName() + "考察对象_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 

@@ -97,6 +97,7 @@ import persistence.crs.CrsPostMapper;
 import persistence.crs.CrsPostRequireMapper;
 import persistence.crs.CrsRequireRuleMapper;
 import persistence.crs.CrsRuleItemMapper;
+import persistence.crs.CrsShortMsgMapper;
 import persistence.crs.CrsTemplateMapper;
 import persistence.dispatch.DispatchCadreMapper;
 import persistence.dispatch.DispatchCadreRelateMapper;
@@ -159,6 +160,7 @@ import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
 import persistence.sys.StudentInfoMapper;
 import persistence.sys.SysApprovalLogMapper;
+import persistence.sys.SysConfigMapper;
 import persistence.sys.SysLogMapper;
 import persistence.sys.SysLoginLogMapper;
 import persistence.sys.SysOnlineStaticMapper;
@@ -494,6 +496,8 @@ public class BaseMapper {
     @Autowired
     protected CrsPostMapper crsPostMapper;
     @Autowired
+    protected CrsShortMsgMapper crsShortMsgMapper;
+    @Autowired
     protected CrsPostRequireMapper crsPostRequireMapper;
     @Autowired
     protected CrsRequireRuleMapper crsRequireRuleMapper;
@@ -557,6 +561,8 @@ public class BaseMapper {
     protected ModifyTableApplyMapper modifyTableApplyMapper;
 
     @Autowired
+    protected SysConfigMapper sysConfigMapper;
+    @Autowired
     protected SysApprovalLogMapper sysApprovalLogMapper;
     @Autowired
     protected SysUserSyncMapper sysUserSyncMapper;
@@ -576,10 +582,6 @@ public class BaseMapper {
     protected SysRoleMapper sysRoleMapper;
     @Autowired
     protected SysResourceMapper sysResourceMapper;
-    @Autowired
-    protected MetaClassMapper metaClassMapper;
-    @Autowired
-    protected MetaTypeMapper metaTypeMapper;
     @Autowired
     protected AttachFileMapper attachFileMapper;
     @Autowired
@@ -626,6 +628,10 @@ public class BaseMapper {
 
     @Autowired
     protected LocationMapper locationMapper;
+    @Autowired
+    protected MetaClassMapper metaClassMapper;
+    @Autowired
+    protected MetaTypeMapper metaTypeMapper;
     @Autowired
     protected CountryMapper countryMapper;
     @Autowired

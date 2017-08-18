@@ -5,8 +5,9 @@
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="crsApplicant:edit">
         <a class="popupBtn btn btn-info btn-sm"
-           data-url="${ctx}/crsPostExpert_au?postId=${param.id}">
-            <i class="fa fa-plus"></i> 添加</a>
+           data-width="700"
+           data-url="${ctx}/crsPostExperts?postId=${param.id}">
+            <i class="fa fa-gear"></i> 设置专家组成员</a>
         <a class="jqOpenViewBtn btn btn-primary btn-sm"
            data-url="${ctx}/crsPostExpert_au"
            data-grid-id="#jqGrid2"

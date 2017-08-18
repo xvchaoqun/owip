@@ -88,7 +88,7 @@ public class ShortMsgTplController extends BaseController {
             criteria.andCreateTimeLessThanOrEqualTo(_sendTime.getEnd());
         }
 
-        int count = shortMsgMapper.countByExample(example);
+        long count = shortMsgMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -237,14 +237,16 @@ public class ShortMsgTplController extends BaseController {
         if (roleId != null) {
             sysRole = sysRoleService.findAll().get(roleId);
         }
-        ShortMsgBean shortMsg = new ShortMsgBean();
-        shortMsg.setReceiver(receiverId);
-        shortMsg.setSender(ShiroHelper.getCurrentUserId());
-        shortMsg.setContent(shortMsgTpl.getContent());
-        shortMsg.setMobile(mobile);
-        shortMsg.setType((sysRole != null ? (sysRole.getDescription() + "-") : "") + shortMsgTpl.getName());
+        ShortMsgBean bean = new ShortMsgBean();
+        bean.setRelateId(shortMsgTpl.getId());
+        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL);
+        bean.setReceiver(receiverId);
+        bean.setSender(ShiroHelper.getCurrentUserId());
+        bean.setContent(shortMsgTpl.getContent());
+        bean.setMobile(mobile);
+        bean.setType((sysRole != null ? (sysRole.getDescription() + "-") : "") + shortMsgTpl.getName());
 
-        shortMsgService.send(shortMsg, ContextHelper.getRealIp());
+        shortMsgService.send(bean, ContextHelper.getRealIp());
         return success(FormUtils.SUCCESS);
     }
 

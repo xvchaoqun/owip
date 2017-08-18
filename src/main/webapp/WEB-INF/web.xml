@@ -7,7 +7,7 @@
     <display-name>Archetype Created Web Application</display-name>
 
     <!--BNU CAS -->
-    <filter>
+    <!--<filter>
         <filter-name>CAS Single Sign Out Filter</filter-name>
         <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
     </filter>
@@ -38,7 +38,7 @@
     <filter-mapping>
         <filter-name>CASHttpServletRequestWrapperFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <!-- urlrewrite -->
     <filter>

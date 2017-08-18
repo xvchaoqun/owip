@@ -5,11 +5,29 @@ package bean;
  */
 public class ShortMsgBean {
 
+    private Integer relateId;
+    private Byte relateType;
     private Integer sender;
     private Integer receiver;
     private String mobile;
     private String content;
     private String type;
+
+    public Integer getRelateId() {
+        return relateId;
+    }
+
+    public void setRelateId(Integer relateId) {
+        this.relateId = relateId;
+    }
+
+    public Byte getRelateType() {
+        return relateType;
+    }
+
+    public void setRelateType(Byte relateType) {
+        this.relateType = relateType;
+    }
 
     public Integer getSender() {
         return sender;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,38 @@ import java.util.Map;
 public class CrsPostExpertController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("crsPostExpert:list")
+    @RequestMapping("/crsPostExperts_tree")
+    @ResponseBody
+    public Map crsPostExperts_tree(int postId, byte role) throws IOException {
+
+        List<Integer> expertUserIds = crsPostExpertService.getExpertUserIds(postId, role);
+        TreeNode tree = crsExpertService.getTree(new HashSet<>(expertUserIds));
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("crsPostExpert:list")
+    @RequestMapping("/crsPostExperts")
+    public String crsPostExperts() throws IOException {
+
+        return "crs/crsPostExpert/crsPostExperts";
+    }
+
+    @RequiresPermissions("crsPostExpert:edit")
+    @RequestMapping(value = "/crsPostExperts", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsPostExperts(Integer postId,
+                                 @RequestParam(value = "headUserIds[]", required = false) Integer[] headUserIds,
+                                 @RequestParam(value = "leaderUserIds[]", required = false) Integer[] leaderUserIds,
+                                 @RequestParam(value = "memberUserIds[]", required = false) Integer[] memberUserIds) {
+
+        crsPostExpertService.updateExpertUserIds(postId, headUserIds, leaderUserIds, memberUserIds);
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("crsPostExpert:list")
     @RequestMapping("/crsPostExpert")

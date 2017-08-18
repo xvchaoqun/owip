@@ -13,8 +13,8 @@
 <c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
-<c:set value="组织工作管理与服务一体化平台" var="_plantform_name"/>
-<c:set value="组工系统" var="_plantform_short_name"/>
+<c:set value="${sysConfig.siteName}" var="_plantform_name"/>
+<c:set value="${sysConfig.siteShortName}" var="_plantform_short_name"/>
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="<%=DateUtils.getDateBeforeOrAfterYears(new Date(), -1)%>" var="yearAgo"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="today"/>
@@ -26,7 +26,6 @@
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
 <fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
-<fmt:message key="site.school" bundle="${spring}" var="_school"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
@@ -201,10 +200,21 @@
 
 <c:set value="<%=SystemConstants.CRS_POST_RULE_TYPE_MAP%>" var="CRS_POST_RULE_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT%>" var="CRS_POST_ENROLL_STATUS_DEFAULT"/>
+<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_OPEN%>" var="CRS_POST_ENROLL_STATUS_OPEN"/>
+<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_CLOSED%>" var="CRS_POST_ENROLL_STATUS_CLOSED"/>
+<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_PAUSE%>" var="CRS_POST_ENROLL_STATUS_PAUSE"/>
 <c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_MAP%>" var="CRS_POST_ENROLL_STATUS_MAP"/>
 
+<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_HEAD%>" var="CRS_POST_EXPERT_ROLE_HEAD"/>
+<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_LEADER%>" var="CRS_POST_EXPERT_ROLE_LEADER"/>
+<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_MEMBER%>" var="CRS_POST_EXPERT_ROLE_MEMBER"/>
 <c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_MAP%>" var="CRS_POST_EXPERT_ROLE_MAP"/>
 
+<c:set value="<%=SystemConstants.CRS_SHORT_MSG_TPL_MAP%>" var="CRS_SHORT_MSG_TPL_MAP"/>
+
+<c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_PIC%>" var="CRS_POST_FILE_TYPE_PIC"/>
+<c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_AUDIO%>" var="CRS_POST_FILE_TYPE_AUDIO"/>
 <c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_MAP%>" var="CRS_POST_FILE_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS"/>

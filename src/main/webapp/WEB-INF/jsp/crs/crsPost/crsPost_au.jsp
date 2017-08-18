@@ -22,7 +22,10 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">招聘类型</label>
 				<div class="col-xs-6">
-					<select  class="form-control" name="type" data-rel="select2" data-placeholder="请选择所属单位">
+					<select  class="form-control" name="type"
+							 data-rel="select2"
+							 data-width="273"
+							 data-placeholder="请选择所属单位">
 						<option></option>
 						<c:forEach items="${CRS_POST_TYPE_MAP}" var="type">
 							<option value="${type.key}">${type.value}</option>
@@ -47,9 +50,16 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label">分管工作</label>
+				<div class="col-xs-6">
+					<textarea class="form-control limited" maxlength="100" name="job" rows="5">${crsPost.job}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2" name="adminLevel" data-placeholder="请选择行政级别">
+					<select required data-rel="select2" data-width="273"
+							name="adminLevel" data-placeholder="请选择行政级别">
 						<option></option>
 						<jsp:include page="/metaTypes?__code=mc_admin_level"/>
 					</select>
@@ -61,7 +71,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">所属单位</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2-ajax" required data-ajax-url="${ctx}/unit_selects?status=1"
+					<select required data-rel="select2-ajax"
+							data-width="273" data-ajax-url="${ctx}/unit_selects?status=1"
 							name="unitId" data-placeholder="请选择单位">
 						<option value="${crsPost.unit.id}">${crsPost.unit.name}</option>
 					</select>
@@ -70,10 +81,16 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">部门属性</label>
 				<div class="col-xs-6">
-					<input type="text" disabled name="unitType" value="${crsPost.unit.unitType.name}">
+					<input class="form-control" type="text" disabled name="unitType" value="${crsPost.unit.unitType.name}">
 				</div>
 			</div>
-
+		<div class="form-group">
+			<label class="col-xs-3 control-label">招聘人数</label>
+			<div class="col-xs-6">
+				<input class="form-control num" type="text" name="num"
+					   value="${crsPost.num}">
+			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">

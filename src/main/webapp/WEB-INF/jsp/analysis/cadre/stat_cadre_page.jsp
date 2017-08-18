@@ -27,7 +27,7 @@
                 <table id="statTable" border=0 cellpadding=0 cellspacing=0
                        style='border-collapse:collapse;table-layout:fixed;width:860pt'>
                     <tr height=41 style='mso-height-source:userset;height:31.15pt'>
-                        <td colspan=14 height=41 class=xl97>北京师范大学中层领导干部情况统计表
+                        <td colspan=14 height=41 class=xl97>${_school}中层领导干部情况统计表
                             <c:if test="${empty param.type}">（所有中层干部）</c:if>
                             <c:if test="${not empty param.type}">（${UNIT_TYPE_ATTR_MAP.get(param.type)}）</c:if>
                             </td>

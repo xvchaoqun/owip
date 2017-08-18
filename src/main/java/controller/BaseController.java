@@ -1,8 +1,10 @@
 package controller;
 
-import org.apache.commons.lang.StringUtils;
+import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.SpringProps;
@@ -78,6 +80,7 @@ import service.crs.CrsPostRequireService;
 import service.crs.CrsPostService;
 import service.crs.CrsRequireRuleService;
 import service.crs.CrsRuleItemService;
+import service.crs.CrsShortMsgService;
 import service.crs.CrsTemplateService;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
@@ -128,6 +131,7 @@ import service.sys.HtmlFragmentService;
 import service.sys.LogService;
 import service.sys.StudentInfoService;
 import service.sys.SysApprovalLogService;
+import service.sys.SysConfigService;
 import service.sys.SysLoginLogService;
 import service.sys.SysResourceService;
 import service.sys.SysRoleService;
@@ -153,11 +157,16 @@ import service.unit.UnitTransferService;
 import service.verify.VerifyAgeService;
 import service.verify.VerifyWorkTimeService;
 import shiro.PasswordHelper;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 public class BaseController extends BaseMapper {
@@ -357,6 +366,8 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CrsPostService crsPostService;
     @Autowired
+    protected CrsShortMsgService crsShortMsgService;
+    @Autowired
     protected CrsPostRequireService crsPostRequireService;
     @Autowired
     protected CrsRequireRuleService crsRequireRuleService;
@@ -433,14 +444,14 @@ public class BaseController extends BaseMapper {
     protected TeacherInfoService teacherService;
     @Autowired
     protected StudentInfoService studentService;
+
+
+    @Autowired
+    protected SysConfigService sysConfigService;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
     @Autowired
     protected SysUserSyncService sysUserSyncService;
-    @Autowired
-    protected LocationService locationService;
-    @Autowired
-    protected CountryService countryService;
     @Autowired
     protected SysUserService sysUserService;
     @Autowired
@@ -451,10 +462,6 @@ public class BaseController extends BaseMapper {
     protected SysResourceService sysResourceService;
     @Autowired
     protected ShortMsgService shortMsgService;
-    @Autowired
-    protected ContentTplService contentTplService;
-    @Autowired
-    protected SitemapService sitemapService;
     @Autowired
     protected LogService logService;
     @Autowired
@@ -467,6 +474,15 @@ public class BaseController extends BaseMapper {
     protected FeedbackService feedbackService;
 
     @Autowired
+    protected ContentTplService contentTplService;
+    @Autowired
+    protected LocationService locationService;
+    @Autowired
+    protected CountryService countryService;
+    @Autowired
+    protected SitemapService sitemapService;
+
+    @Autowired
     protected CadreExportService cadreExportService;
     @Autowired
     protected StatCadreService statCadreService;
@@ -474,7 +490,6 @@ public class BaseController extends BaseMapper {
     protected StatPartyMemberService statPartyMemberService;
     @Autowired
     protected StatService statService;
-
     @Autowired
     protected StatTrainService statTrainService;
 
@@ -493,6 +508,66 @@ public class BaseController extends BaseMapper {
         FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + filePath,
                 springProps.uploadPath + swfPath, springProps.swfToolsLanguagedir);
     }
+
+    /**
+     * 上传文件
+     *
+     * @param file
+     * @param saveFolder
+     * @param type       = pdf pic
+     * @param sImgWidth
+     * @param sImgHeight
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String upload(MultipartFile file, String saveFolder,
+                         String type,
+                         int sImgWidth,
+                         int sImgHeight) throws IOException, InterruptedException {
+
+        if (file == null || file.isEmpty()) return null;
+
+        String realPath = FILE_SEPARATOR + saveFolder +
+                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
+                FILE_SEPARATOR + UUID.randomUUID().toString();
+        String originalFilename = file.getOriginalFilename();
+        String savePath = realPath + FileUtils.getExtention(originalFilename);
+        FileUtils.copyFile(file, new File(springProps.uploadPath + savePath));
+
+        if (StringUtils.equalsIgnoreCase(type, "pdf")) {
+
+            String swfPath = realPath + ".swf";
+            pdf2Swf(savePath, swfPath);
+
+        } else if (StringUtils.equalsIgnoreCase(type, "pic")) {
+
+            String shortImgPath = realPath + "_s.jpg";
+            Thumbnails.of(file.getInputStream())
+                    .size(sImgWidth, sImgHeight)
+                    .outputFormat("jpg")
+                    .outputQuality(1.0f)
+                    .toFile(springProps.uploadPath + shortImgPath);
+        }
+
+        return savePath;
+    }
+
+    public String upload(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+
+        return upload(file, saveFolder, null, 0, 0);
+    }
+
+    public String uploadPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+
+        return upload(file, saveFolder, "pdf", 0, 0);
+    }
+
+    public String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException, InterruptedException {
+
+        return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
+    }
+
 
     // 未登录操作日志
     public String addLog(Integer userId, String username, String logType, String content, Object... params) {
@@ -524,6 +599,7 @@ public class BaseController extends BaseMapper {
         resultMap.put("msg", StringUtils.defaultIfBlank(msg, "success"));
         return resultMap;
     }
+
     public static Map<String, Object> formValidError(String fieldName, String msg) {
 
         Map<String, Object> resultMap = success(msg);
@@ -554,7 +630,7 @@ public class BaseController extends BaseMapper {
 
         Map map = new HashMap<>();
 
-        //map.put("_uploadPath", springProps.uploadPath);
+        map.put("sysConfig", CmTag.getSysConfig());
 
         map.put("partyMap", partyService.findAll());
         map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));

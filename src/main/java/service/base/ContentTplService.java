@@ -5,8 +5,8 @@ import domain.base.ContentTplExample;
 import domain.base.ShortMsgReceiver;
 import domain.base.ShortMsgReceiverExample;
 import domain.sys.SysUserView;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -54,7 +54,7 @@ public class ContentTplService extends BaseMapper {
         String code = "";
         int count = 0;
         do {
-            code = prefix + "_" + RandomStringUtils.randomAlphanumeric(6).toLowerCase();
+            code = prefix + "_" + RandomStringUtils.randomAlphanumeric(8).toLowerCase();
             ContentTplExample example = new ContentTplExample();
             example.createCriteria().andCodeEqualTo(code);
             count = contentTplMapper.countByExample(example);
@@ -76,7 +76,9 @@ public class ContentTplService extends BaseMapper {
     @Transactional
     @CacheEvict(value="ContentTpl:Code:ALL", allEntries = true)
     public void insertSelective(ContentTpl record){
-
+        if(StringUtils.isBlank(record.getCode())){
+            record.setCode(genCode());
+        }
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
         contentTplMapper.insertSelective(record);
     }

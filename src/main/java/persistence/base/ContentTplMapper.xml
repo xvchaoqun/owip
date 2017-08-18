@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.base.ContentTpl" >
+  <insert keyProperty="id" id="insert" parameterType="domain.base.ContentTpl" >
     insert into base_content_tpl (id, name, remark, 
       role_id, type, code, 
       content, content_type, engine, 
@@ -121,7 +121,7 @@
       #{paramCount,jdbcType=INTEGER}, #{paramNames,jdbcType=VARCHAR}, #{paramDefValues,jdbcType=VARCHAR}, 
       #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.base.ContentTpl" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.base.ContentTpl" >
     insert into base_content_tpl
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -2,11 +2,7 @@ package controller.crs;
 
 import controller.BaseController;
 import domain.crs.CrsPostFile;
-import domain.crs.CrsPostFileExample;
-import domain.crs.CrsPostFileExample.Criteria;
-import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
-import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,12 +34,20 @@ public class CrsPostFileController extends BaseController {
 
     @RequiresPermissions("crsPostFile:list")
     @RequestMapping("/crsPostFile")
-    public String crsPostFile() {
+    public String crsPostFile(int postId, ModelMap modelMap) {
+
+        modelMap.put("crsPost", crsPostMapper.selectByPrimaryKey(postId));
+
+        List<CrsPostFile> images = crsPostFileService.getPostFiles(postId, SystemConstants.CRS_POST_FILE_TYPE_PIC);
+        List<CrsPostFile> audios = crsPostFileService.getPostFiles(postId, SystemConstants.CRS_POST_FILE_TYPE_AUDIO);
+
+        modelMap.put("images", images);
+        modelMap.put("audios", audios);
 
         return "crs/crsPostFile/crsPostFile_page";
     }
 
-    @RequiresPermissions("crsPostFile:list")
+   /* @RequiresPermissions("crsPostFile:list")
     @RequestMapping("/crsPostFile_data")
     public void crsPostFile_data(HttpServletResponse response,
                                  Integer postId,
@@ -86,7 +87,7 @@ public class CrsPostFileController extends BaseController {
         //baseMixins.put(crsPostFile.class, crsPostFileMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
-    }
+    }*/
 
     @RequiresPermissions("crsPostFile:edit")
     @RequestMapping(value = "/crsPostFile_au", method = RequestMethod.POST)
@@ -109,7 +110,7 @@ public class CrsPostFileController extends BaseController {
             record.setFile(savePath);
 
             if(StringUtils.isBlank(record.getFileName())){
-                record.setFileName(FileUtils.getFileName(originalFilename));
+                record.setFileName(originalFilename);
             }
         }
 
@@ -123,7 +124,53 @@ public class CrsPostFileController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新招聘会记录文件：%s", record.getId()));
         }
 
-        return success(FormUtils.SUCCESS);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("record", record);
+        return resultMap;
+    }
+
+    // 批量上传图片或音频
+    @RequiresPermissions("crsPostFile:edit")
+    @RequestMapping(value = "/crsPostFile_batchUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsPostFile_batchUpload(byte type, int postId, MultipartFile[] _files, HttpServletRequest request) {
+
+        List<CrsPostFile> records = new ArrayList<>();
+        if(_files!=null){
+            for (MultipartFile _file : _files) {
+
+                if(_file==null || _file.isEmpty()) continue;
+
+                CrsPostFile record = new CrsPostFile();
+                record.setType(type);
+                record.setPostId(postId);
+                record.setCreateTime(new Date());
+
+                String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
+                String realPath = FILE_SEPARATOR
+                        + "crs_post_file" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
+                        + "file" + FILE_SEPARATOR
+                        + UUID.randomUUID().toString();
+                String originalFilename = _file.getOriginalFilename();
+                String savePath = realPath + FileUtils.getExtention(originalFilename);
+                FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+
+                record.setFile(savePath);
+
+                if(StringUtils.isBlank(record.getFileName())){
+                    record.setFileName(originalFilename);
+                }
+
+                records.add(record);
+            }
+        }
+
+        crsPostFileService.batchAdd(records);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加招聘会记录文件：%s", JSONUtils.toString(records, false)));
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("records", records);
+        return resultMap;
     }
 
     @RequiresPermissions("crsPostFile:edit")

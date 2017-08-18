@@ -7,14 +7,32 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CrsPostFileService extends BaseMapper {
+
+    public List<CrsPostFile> getPostFiles(int postId, byte type){
+
+        CrsPostFileExample example = new CrsPostFileExample();
+        example.createCriteria().andPostIdEqualTo(postId).andTypeEqualTo(type);
+
+        return crsPostFileMapper.selectByExample(example);
+    }
 
     @Transactional
     public void insertSelective(CrsPostFile record) {
 
         crsPostFileMapper.insertSelective(record);
+    }
+
+    @Transactional
+    public void batchAdd(List<CrsPostFile> records) {
+
+        for (CrsPostFile record : records) {
+
+            crsPostFileMapper.insertSelective(record);
+        }
     }
 
     @Transactional
@@ -37,4 +55,5 @@ public class CrsPostFileService extends BaseMapper {
     public int updateByPrimaryKeySelective(CrsPostFile record) {
         return crsPostFileMapper.updateByPrimaryKeySelective(record);
     }
+
 }

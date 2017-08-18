@@ -424,6 +424,15 @@
            timeToLiveSeconds="0"
            memoryStoreEvictionPolicy="LRU"/>
     <!--shiro缓存-->
+    <cache name="SysConfig"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="SysUserView:ID_"
            maxEntriesLocalHeap="2000"
            eternal="false"

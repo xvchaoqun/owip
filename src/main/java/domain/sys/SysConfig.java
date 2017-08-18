@@ -1,0 +1,177 @@
+package domain.sys;
+
+import java.io.Serializable;
+
+public class SysConfig implements Serializable {
+    private Integer id;
+
+    private String xssIgnoreUri;
+
+    private Integer uploadMaxSize;
+
+    private String shortMsgUrl;
+
+    private String schoolName;
+
+    private String siteCopyright;
+
+    private String siteHome;
+
+    private String siteKeywords;
+
+    private String siteDescription;
+
+    private String siteName;
+
+    private String siteShortName;
+
+    private String mobilePlantformName;
+
+    private String logo;
+
+    private String logoWhite;
+
+    private String loginBg;
+
+    private String loginMsg;
+
+    private Boolean displayLoginMsg;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getXssIgnoreUri() {
+        return xssIgnoreUri;
+    }
+
+    public void setXssIgnoreUri(String xssIgnoreUri) {
+        this.xssIgnoreUri = xssIgnoreUri == null ? null : xssIgnoreUri.trim();
+    }
+
+    public Integer getUploadMaxSize() {
+        return uploadMaxSize;
+    }
+
+    public void setUploadMaxSize(Integer uploadMaxSize) {
+        this.uploadMaxSize = uploadMaxSize;
+    }
+
+    public String getShortMsgUrl() {
+        return shortMsgUrl;
+    }
+
+    public void setShortMsgUrl(String shortMsgUrl) {
+        this.shortMsgUrl = shortMsgUrl == null ? null : shortMsgUrl.trim();
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName == null ? null : schoolName.trim();
+    }
+
+    public String getSiteCopyright() {
+        return siteCopyright;
+    }
+
+    public void setSiteCopyright(String siteCopyright) {
+        this.siteCopyright = siteCopyright == null ? null : siteCopyright.trim();
+    }
+
+    public String getSiteHome() {
+        return siteHome;
+    }
+
+    public void setSiteHome(String siteHome) {
+        this.siteHome = siteHome == null ? null : siteHome.trim();
+    }
+
+    public String getSiteKeywords() {
+        return siteKeywords;
+    }
+
+    public void setSiteKeywords(String siteKeywords) {
+        this.siteKeywords = siteKeywords == null ? null : siteKeywords.trim();
+    }
+
+    public String getSiteDescription() {
+        return siteDescription;
+    }
+
+    public void setSiteDescription(String siteDescription) {
+        this.siteDescription = siteDescription == null ? null : siteDescription.trim();
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName == null ? null : siteName.trim();
+    }
+
+    public String getSiteShortName() {
+        return siteShortName;
+    }
+
+    public void setSiteShortName(String siteShortName) {
+        this.siteShortName = siteShortName == null ? null : siteShortName.trim();
+    }
+
+    public String getMobilePlantformName() {
+        return mobilePlantformName;
+    }
+
+    public void setMobilePlantformName(String mobilePlantformName) {
+        this.mobilePlantformName = mobilePlantformName == null ? null : mobilePlantformName.trim();
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo == null ? null : logo.trim();
+    }
+
+    public String getLogoWhite() {
+        return logoWhite;
+    }
+
+    public void setLogoWhite(String logoWhite) {
+        this.logoWhite = logoWhite == null ? null : logoWhite.trim();
+    }
+
+    public String getLoginBg() {
+        return loginBg;
+    }
+
+    public void setLoginBg(String loginBg) {
+        this.loginBg = loginBg == null ? null : loginBg.trim();
+    }
+
+    public String getLoginMsg() {
+        return loginMsg;
+    }
+
+    public void setLoginMsg(String loginMsg) {
+        this.loginMsg = loginMsg == null ? null : loginMsg.trim();
+    }
+
+    public Boolean getDisplayLoginMsg() {
+        return displayLoginMsg;
+    }
+
+    public void setDisplayLoginMsg(Boolean displayLoginMsg) {
+        this.displayLoginMsg = displayLoginMsg;
+    }
+}

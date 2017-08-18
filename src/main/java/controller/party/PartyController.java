@@ -98,7 +98,7 @@ public class PartyController extends BaseController {
 
         if(export==2){
             XSSFWorkbook wb = partyExportService.toXlsx();
-            ExportHelper.output(wb, PropertiesUtils.getString("site.school") +
+            ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() +
                     "各分党委、党总支、直属党支部基本情况表.xlsx", response);
             return null;
         }

@@ -112,6 +112,8 @@ public class ShortMsgService extends BaseMapper {
         bean.setReceiver(uv.getId());
         bean.setMobile(uv.getMobile());
         bean.setContent(msg);
+        bean.setRelateId(tpl.getId());
+        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
         bean.setType(tpl.getName());
         try {
 
@@ -227,6 +229,8 @@ public class ShortMsgService extends BaseMapper {
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
                 bean.setType(tpl.getName());
 
                 send(bean, ip);
@@ -274,6 +278,8 @@ public class ShortMsgService extends BaseMapper {
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
                 bean.setType(tpl.getName());
 
                 send(bean, ip);
@@ -314,6 +320,8 @@ public class ShortMsgService extends BaseMapper {
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
                 bean.setType(tpl.getName());
 
                 send(bean, ip);
@@ -363,6 +371,8 @@ public class ShortMsgService extends BaseMapper {
                 bean.setReceiver(userId);
                 bean.setMobile(mobile);
                 bean.setContent(msg);
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
                 bean.setType(tpl.getName());
 
                 send(bean, ip);
@@ -390,6 +400,7 @@ public class ShortMsgService extends BaseMapper {
         ShortMsgBean bean = new ShortMsgBean();
         bean.setSender(sender);
         bean.setReceiver(receiver);
+        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
 
         if(StringUtils.equals(type, "passportInfo")){ // 发送证件信息
 
@@ -397,6 +408,7 @@ public class ShortMsgService extends BaseMapper {
             String key = SystemConstants.CONTENT_TPL_PASSPORT_INFO;
 
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passport.getUser();
@@ -423,6 +435,7 @@ public class ShortMsgService extends BaseMapper {
             }
 
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passport.getUser();
@@ -444,6 +457,7 @@ public class ShortMsgService extends BaseMapper {
             }
 
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passport.getUser();
@@ -474,12 +488,14 @@ public class ShortMsgService extends BaseMapper {
             boolean status = (lastVal.getValue()!=null && lastVal.getValue()==1);
             if(status) {
                 ContentTpl tpl = getShortMsgTpl(key);
+                bean.setRelateId(tpl.getId());
                 bean.setType(tpl.getName());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle);
                 bean.setContent(msg);
             }else{
                 key = SystemConstants.CONTENT_TPL_APPLYSELF_UNPASS;
                 ContentTpl tpl = getShortMsgTpl(key);
+                bean.setRelateId(tpl.getId());
                 bean.setType(tpl.getName());
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         StringUtils.defaultIfBlank(applySelf.getApprovalRemark(), "无"));
@@ -492,6 +508,7 @@ public class ShortMsgService extends BaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_PASS;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
@@ -509,6 +526,7 @@ public class ShortMsgService extends BaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_UNPASS;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
@@ -524,6 +542,7 @@ public class ShortMsgService extends BaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_DRAW;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
@@ -541,6 +560,7 @@ public class ShortMsgService extends BaseMapper {
             TaiwanRecord taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_TAIWANRECORD_HANDLE;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = taiwanRecord.getUser();
@@ -559,6 +579,7 @@ public class ShortMsgService extends BaseMapper {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT; // 发给干部
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportApply.getApplyUser();
@@ -575,6 +596,7 @@ public class ShortMsgService extends BaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
@@ -592,6 +614,7 @@ public class ShortMsgService extends BaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_RETURN;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
@@ -611,6 +634,7 @@ public class ShortMsgService extends BaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS;
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
@@ -644,6 +668,7 @@ public class ShortMsgService extends BaseMapper {
             }
 
             ContentTpl tpl = getShortMsgTpl(key);
+            bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
 
             SysUserView uv = passportDraw.getUser();
@@ -691,6 +716,17 @@ public class ShortMsgService extends BaseMapper {
         httppost.addHeader("content-type", "application/json");
         CloseableHttpResponse res = null;
         try {
+            ShortMsg record = new ShortMsg();
+            record.setRelateId(shortMsgBean.getRelateId());
+            record.setRelateType(shortMsgBean.getRelateType());
+            record.setCreateTime(new Date());
+            record.setMobile(mobile);
+            record.setContent(content);
+            record.setReceiverId(receiver);
+            record.setSenderId(sender);
+            record.setType(type);
+            record.setIp(ip);
+
             if(springProps.shortMsgSend){
                 res = httpclient.execute(httppost);
                 if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -701,31 +737,16 @@ public class ShortMsgService extends BaseMapper {
                     JsonElement errcode = jsonObject.get("errcode");
                     boolean status = (errcode.getAsInt() == 0);
 
-                    ShortMsg record = new ShortMsg();
-                    record.setCreateTime(new Date());
-                    record.setMobile(mobile);
-                    record.setContent(content);
-                    record.setReceiverId(receiver);
-                    record.setSenderId(sender);
-                    record.setType(type);
                     record.setStatus(status);
                     record.setRet(ret);
-                    record.setIp(ip);
                     shortMsgMapper.insertSelective(record);
 
                     return status;
                 }
             }else{
-                ShortMsg record = new ShortMsg();
-                record.setCreateTime(new Date());
-                record.setMobile(mobile);
-                record.setContent(content);
-                record.setReceiverId(receiver);
-                record.setSenderId(sender);
-                record.setType(type);
+
                 record.setRemark("test");
                 record.setStatus(false);
-                record.setIp(ip);
                 shortMsgMapper.insertSelective(record);
 
                 return true;
@@ -738,11 +759,11 @@ public class ShortMsgService extends BaseMapper {
         return false;
     }
 
-    @Transactional
+   /* @Transactional
     public int insertSelective(ShortMsg record){
 
         return shortMsgMapper.insertSelective(record);
-    }
+    }*/
     @Transactional
     public void del(Integer id){
 

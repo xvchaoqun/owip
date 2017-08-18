@@ -252,7 +252,7 @@ public class ApplySelfService extends BaseMapper {
                 key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY;
             } else if (type == SystemConstants.APPROVER_TYPE_MASTER) { // 校长审批
 
-                key = SystemConstants.APPLYSELF_APPROVAL_MASTER;
+                key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_MASTER;
             }
 
             // 校验用，以防万一
@@ -273,6 +273,8 @@ public class ApplySelfService extends BaseMapper {
                 bean.setReceiver(userId);
                 ContentTpl tpl = shortMsgService.getShortMsgTpl(key);
                 String msgTpl = tpl.getContent();
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
                 bean.setType(tpl.getName());
                 String msg = null;
                 switch (key){

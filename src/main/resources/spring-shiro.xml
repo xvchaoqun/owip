@@ -133,6 +133,7 @@
                 /m/login = anon
                 /m/logout = anon
 
+                /public/** = anon
                 /api/** = anon
                 /faq = anon
                 /find_pass/** = anon

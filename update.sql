@@ -1,4 +1,41 @@
 
+2017-8-18
+ALTER TABLE `crs_post`
+	ADD COLUMN `job` VARCHAR(200) NULL COMMENT '分管工作' AFTER `name`,
+	ADD COLUMN `num` INT(10) UNSIGNED NULL COMMENT '招聘人数' AFTER `unit_id`;
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `quit_deadline` DATETIME NULL DEFAULT NULL COMMENT '退出报名的最后期限' AFTER `meeting_address`;
+
+ALTER TABLE `base_short_msg`
+	ADD COLUMN `content_tpl_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联模板' AFTER `receiver_id`;
+ALTER TABLE `base_short_msg`
+	CHANGE COLUMN `content_tpl_id` `relate_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联模板' AFTER `receiver_id`,
+	ADD COLUMN `relate_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '关联类别，1 模板 2 定向短信' AFTER `relate_id`;
+
+update base_short_msg bsm, base_content_tpl bct set bsm.relate_id = bct.id, relate_type=1 where bsm.`type`=bct.name;
+
+update base_short_msg bsm, base_short_msg_tpl bsmt set bsm.relate_id = bsmt.id, relate_type=2 where bsm.`type`=bsmt.name and bsm.relate_id is null;
+
+ALTER TABLE `crs_post_expert`
+	CHANGE COLUMN `remark` `remark` VARCHAR(50) NULL COMMENT '备注' AFTER `sort_order`;
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `stat_expert_count` INT UNSIGNED NULL COMMENT '招聘会专家组人数，专家组推荐意见汇总' AFTER `status`,
+	ADD COLUMN `stat_give_count` INT UNSIGNED NULL COMMENT '发出推荐票数量' AFTER `stat_expert_count`,
+	ADD COLUMN `stat_back_count` INT UNSIGNED NULL COMMENT '收回数量' AFTER `stat_give_count`,
+	ADD COLUMN `stat_file` VARCHAR(200) NULL COMMENT '表扫描件' AFTER `stat_back_count`,
+	ADD COLUMN `stat_date` DATE NULL COMMENT '记录日期' AFTER `stat_file`;
+
+	ALTER TABLE `crs_applicant`
+	ADD COLUMN `recommend_first_count` INT UNSIGNED NULL DEFAULT NULL COMMENT '推荐排第一票数' AFTER `special_remark`,
+	ADD COLUMN `recommend_second_count` INT UNSIGNED NULL DEFAULT NULL COMMENT '推荐排第二票数' AFTER `recommend_first_count`;
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `stat_file_name` VARCHAR(100) NULL DEFAULT NULL AFTER `stat_file`;
+
+
+
 2017-8-4
 update sys_resource set permission = replace(permission, 'recruit', 'crs') where permission like 'recruit%';
 update sys_resource set url = replace(url, '/recruit', '/crs') where url like '/recruit%';

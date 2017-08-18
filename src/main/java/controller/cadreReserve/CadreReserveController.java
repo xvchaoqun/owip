@@ -29,12 +29,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -352,10 +352,10 @@ public class CadreReserveController extends BaseController {
         SXSSFWorkbook wb = cadreReserveExportService.export(reserveType, example);
 
         String cadreReserveType = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(reserveType);
-        String fileName = PropertiesUtils.getString("site.school") + "后备干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+        String fileName = CmTag.getSysConfig().getSchoolName() + "后备干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
 
         if (cadreReserveType != null)
-            fileName = PropertiesUtils.getString("site.school") + "后备干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
+            fileName = CmTag.getSysConfig().getSchoolName() + "后备干部（" + cadreReserveType + "）_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
 
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }

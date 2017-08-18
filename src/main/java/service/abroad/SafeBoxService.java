@@ -32,10 +32,10 @@ import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.awt.Color;
@@ -205,7 +205,7 @@ public class SafeBoxService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            headerCell.setCellValue(PropertiesUtils.getString("site.school") + "干部因私出国（境）证件一览表");
+            headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "干部因私出国（境）证件一览表");
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }
@@ -285,7 +285,7 @@ public class SafeBoxService extends BaseMapper {
             }
 
         }
-        String fileName = PropertiesUtils.getString("site.school") + "干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        String fileName = CmTag.getSysConfig().getSchoolName() + "干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 

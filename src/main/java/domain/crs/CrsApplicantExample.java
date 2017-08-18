@@ -1144,6 +1144,126 @@ public class CrsApplicantExample {
             addCriterion("special_remark not between", value1, value2, "specialRemark");
             return (Criteria) this;
         }
+
+        public Criteria andRecommendFirstCountIsNull() {
+            addCriterion("recommend_first_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountIsNotNull() {
+            addCriterion("recommend_first_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountEqualTo(Integer value) {
+            addCriterion("recommend_first_count =", value, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountNotEqualTo(Integer value) {
+            addCriterion("recommend_first_count <>", value, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountGreaterThan(Integer value) {
+            addCriterion("recommend_first_count >", value, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("recommend_first_count >=", value, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountLessThan(Integer value) {
+            addCriterion("recommend_first_count <", value, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountLessThanOrEqualTo(Integer value) {
+            addCriterion("recommend_first_count <=", value, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountIn(List<Integer> values) {
+            addCriterion("recommend_first_count in", values, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountNotIn(List<Integer> values) {
+            addCriterion("recommend_first_count not in", values, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountBetween(Integer value1, Integer value2) {
+            addCriterion("recommend_first_count between", value1, value2, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendFirstCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("recommend_first_count not between", value1, value2, "recommendFirstCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountIsNull() {
+            addCriterion("recommend_second_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountIsNotNull() {
+            addCriterion("recommend_second_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountEqualTo(Integer value) {
+            addCriterion("recommend_second_count =", value, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountNotEqualTo(Integer value) {
+            addCriterion("recommend_second_count <>", value, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountGreaterThan(Integer value) {
+            addCriterion("recommend_second_count >", value, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("recommend_second_count >=", value, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountLessThan(Integer value) {
+            addCriterion("recommend_second_count <", value, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountLessThanOrEqualTo(Integer value) {
+            addCriterion("recommend_second_count <=", value, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountIn(List<Integer> values) {
+            addCriterion("recommend_second_count in", values, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountNotIn(List<Integer> values) {
+            addCriterion("recommend_second_count not in", values, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountBetween(Integer value1, Integer value2) {
+            addCriterion("recommend_second_count between", value1, value2, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendSecondCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("recommend_second_count not between", value1, value2, "recommendSecondCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

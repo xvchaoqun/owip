@@ -78,15 +78,15 @@ public class ApplySelfController extends BaseController {
 
         int userId = loginUser.getId();
         if (!applySelfService.canApproval(userId, applySelfId, approvalTypeId))
-            throw new RuntimeException("您没有权限进行审批");
+            return failed("您没有权限进行审批");
 
         Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
         Integer result = approvalResultMap.get(approvalTypeId).getValue();
         if (result != null && result != -1) {
-            throw new RuntimeException("重复审批");
+            return failed("重复审批");
         }
         if (result != null && result == -1) {
-            throw new RuntimeException("不需该审批人身份进行审批");
+            return failed("不需该审批人身份进行审批");
         }
         if (approvalTypeId == -1) { // 管理员初审
             Assert.isTrue(result == null, "null");

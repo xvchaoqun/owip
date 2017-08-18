@@ -9,13 +9,13 @@
                 class="fa fa-bullhorn"></i> 招聘会信息
         </a>
     </li>
-    <li>
+    <%--<li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsPost_detail/step3_meeting?id=${param.id}'><i
                 class="fa fa-calendar-o"></i> 纪监办函询
         </a>
-    </li>
+    </li>--%>
     <li class="active">
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
@@ -23,17 +23,17 @@
                 class="fa fa-calendar-o"></i> 专家组
         </a>
     </li>
-    <li>
+  <%--  <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsPost_detail/step3_material?id=${param.id}'><i
                 class="fa fa-calendar-o"></i> 招聘会材料
         </a>
-    </li>
+    </li>--%>
     <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
-           data-url='${ctx}/crsPostFile?id=${param.id}'><i
+           data-url='${ctx}/crsPostFile?postId=${param.id}'><i
                 class="fa fa-tasks"></i> 招聘会记录
         </a>
     </li>

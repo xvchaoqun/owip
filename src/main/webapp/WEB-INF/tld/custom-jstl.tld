@@ -37,6 +37,12 @@
 		<function-signature>java.lang.String getCssFilePath(java.lang.String)</function-signature>
 	</function>
 
+	<function>
+		<name>getShortPic</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String getShortPic(java.lang.String)</function-signature>
+	</function>
+
   	<function>
 	  	<name>getParentIdSet</name>
 	  	<function-class>sys.tags.CmTag</function-class>

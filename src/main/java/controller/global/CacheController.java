@@ -21,7 +21,7 @@ public class CacheController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 清除ehcache所有的缓存
-    @RequiresPermissions("admin:cache")
+    @RequiresPermissions("sysConfig:cache")
     @RequestMapping("/clear")
     @ResponseBody
     public Map clearCache() {
@@ -43,7 +43,7 @@ public class CacheController extends BaseController {
     }
 
     // 刷新location缓存
-    @RequiresPermissions("admin:cache")
+    @RequiresPermissions("sysConfig:cache")
     @RequestMapping("/flush_location_JSON")
     @ResponseBody
     public Map flush_location_JSON() {
@@ -53,7 +53,7 @@ public class CacheController extends BaseController {
     }
 
     // 刷新元数据缓存
-    @RequiresPermissions("admin:cache")
+    @RequiresPermissions("sysConfig:cache")
     @RequestMapping("/flush_metadata_JSON")
     @ResponseBody
     public Map flush_metadata_JSON() {

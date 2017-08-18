@@ -32,12 +32,12 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,9 +114,9 @@ public class MemberStayController extends BaseController {
         if(export==2){
 
             SXSSFWorkbook wb = memberStayExportService.toXlsx(type);
-            String fileName = PropertiesUtils.getString("site.school") + "出国（境）毕业生党员组织关系暂留汇总表";
+            String fileName = CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表";
             if(type == SystemConstants.MEMBER_STAY_TYPE_INTERNAL)
-                fileName = PropertiesUtils.getString("site.school") +"非出国（境）毕业生党员组织关系暂留汇总表";
+                fileName = CmTag.getSysConfig().getSchoolName() +"非出国（境）毕业生党员组织关系暂留汇总表";
 
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;

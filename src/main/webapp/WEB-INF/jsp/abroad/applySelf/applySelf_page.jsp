@@ -233,15 +233,9 @@
         }
 
         var $container = $("#body-content");
-        $container.showLoading({
-            'afterShow': function () {
-                setTimeout(function () {
-                    $container.hideLoading();
-                }, 2000);
-            }
-        });
+        $container.mask()
         $.get(url, {}, function (html) {
-            $container.hideLoading().hide();
+            $container.unmask().hide();
             $("#item-content").hide().html(html).fadeIn("slow");
         })
 

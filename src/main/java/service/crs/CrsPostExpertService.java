@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +18,62 @@ import java.util.List;
  */
 @Service
 public class CrsPostExpertService extends BaseMapper {
+
+    public List<Integer> getExpertUserIds(int postId, byte role) {
+
+        CrsPostExpertExample example = new CrsPostExpertExample();
+        example.createCriteria().andPostIdEqualTo(postId).andRoleEqualTo(role);
+
+        List<CrsPostExpert> crsPostExperts = crsPostExpertMapper.selectByExample(example);
+        List<Integer> expertIds = new ArrayList<>();
+        for (CrsPostExpert crsPostExpert : crsPostExperts) {
+            expertIds.add(crsPostExpert.getUserId());
+        }
+
+        return expertIds;
+    }
+
+    @Transactional
+    public void updateExpertUserIds(int postId, Integer[] headUserIds, Integer[] leaderUserIds, Integer[] memberUserIds){
+
+        CrsPostExpertExample example = new CrsPostExpertExample();
+        example.createCriteria().andPostIdEqualTo(postId);
+        crsPostExpertMapper.deleteByExample(example);
+
+        if(headUserIds!=null) {
+            for (Integer userId : headUserIds) {
+
+                CrsPostExpert record = new CrsPostExpert();
+                record.setPostId(postId);
+                record.setUserId(userId);
+                record.setRole(SystemConstants.CRS_POST_EXPERT_ROLE_HEAD);
+                crsPostExpertMapper.insert(record);
+            }
+        }
+
+        if(leaderUserIds!=null) {
+            for (Integer userId : leaderUserIds) {
+
+                CrsPostExpert record = new CrsPostExpert();
+                record.setPostId(postId);
+                record.setUserId(userId);
+                record.setRole(SystemConstants.CRS_POST_EXPERT_ROLE_LEADER);
+                crsPostExpertMapper.insert(record);
+            }
+        }
+
+        if(memberUserIds!=null) {
+            for (Integer userId : memberUserIds) {
+
+                CrsPostExpert record = new CrsPostExpert();
+                record.setPostId(postId);
+                record.setUserId(userId);
+                record.setRole(SystemConstants.CRS_POST_EXPERT_ROLE_MEMBER);
+                crsPostExpertMapper.insert(record);
+            }
+        }
+    }
+
 
     public boolean idDuplicate(Integer id, int postId, int userId) {
 
@@ -89,4 +147,5 @@ public class CrsPostExpertService extends BaseMapper {
             crsPostExpertMapper.updateByPrimaryKeySelective(record);
         }
     }
+
 }
