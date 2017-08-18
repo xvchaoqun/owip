@@ -27,11 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import sys.constants.SystemConstants;
-import sys.utils.ConfigUtil;
+import sys.tags.CmTag;
 import sys.utils.FileUtils;
 import sys.utils.JSONUtils;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -144,21 +143,12 @@ public class CacheService extends BaseController{
     }
 
 
-    public static String getCssFolder(){
-
-        return ConfigUtil.defaultHomePath() + File.separator + "css";
-    }
-
-    public static String getJsFolder(){
-
-        return ConfigUtil.defaultHomePath() + File.separator + "js";
-    }
 
     // 刷新地区js数据
     public void flushLocation(){
 
         String content = "function Location() {this.items=" + locationService.toJSON() + ";}";
-        FileUtils.writerText(getJsFolder(), content, "location.js", false);
+        FileUtils.writerText(CmTag.getJsFolder(), content, "location.js", false);
 
         logger.info("==============刷新location.js成功=================");
     }
@@ -226,7 +216,7 @@ public class CacheService extends BaseController{
         cMap.remove("safeBoxMap");
 
         try {
-            FileUtils.writerText(getJsFolder(), "var _cMap=" + mapper.writeValueAsString(cMap), "metadata.js", false);
+            FileUtils.writerText(CmTag.getJsFolder(), "var _cMap=" + mapper.writeValueAsString(cMap), "metadata.js", false);
             logger.info("==============刷新metadata.js成功=================");
         } catch (JsonProcessingException e) {
             e.printStackTrace();

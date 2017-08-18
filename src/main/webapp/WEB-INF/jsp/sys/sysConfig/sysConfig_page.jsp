@@ -88,21 +88,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">登录页LOGO</label>
+                <label class="col-xs-3 control-label">登录页LOGO（PNG格式图片）</label>
 
                 <div class="col-xs-6 logo">
                     <input type="file" name="_logo" id="_logo"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">后台LOGO（白色）</label>
+                <label class="col-xs-3 control-label">后台LOGO（PNG格式图片）</label>
 
                 <div class="col-xs-6 logoWhite">
                     <input type="file" name="_logoWhite" id="_logoWhite"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">登录页背景</label>
+                <label class="col-xs-3 control-label">登录页背景（PNG格式图片）</label>
 
                 <div class="col-xs-6 loginBg">
                     <input type="file" name="_loginBg" id="_loginBg"/>
@@ -181,8 +181,8 @@
         droppable: true,
         previewWidth: 269,
         previewHeight: 58,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        allowExt: ['png'],
+        allowMime: ['image/png']
     });
     <c:if test="${not empty sysConfig.logo}">
     $("#_logo").find('button[type=reset]').on(ace.click_event, function () {
@@ -207,8 +207,8 @@
         droppable: true,
         previewWidth: 269,
         previewHeight: 58,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        allowExt: ['png'],
+        allowMime: ['image/png']
     });
     <c:if test="${not empty sysConfig.logoWhite}">
     $("#_logoWhite").find('button[type=reset]').on(ace.click_event, function () {
@@ -233,8 +233,8 @@
         droppable: true,
         previewWidth: 400,
         previewHeight: 200,
-        allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-        allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        allowExt: ['png'],
+        allowMime: ['image/png']
     });
     <c:if test="${not empty sysConfig.loginBg}">
     $("#_loginBg").find('button[type=reset]').on(ace.click_event, function () {

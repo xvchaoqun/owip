@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.base.ContentTpl;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsPost;
+import domain.crs.CrsPostExample;
 import domain.crs.CrsShortMsg;
 import domain.crs.CrsShortMsgExample;
 import org.apache.commons.lang3.BooleanUtils;
@@ -235,11 +236,14 @@ public class CrsPostDetailStep3Controller extends BaseController {
 
 
         CrsPost record = new CrsPost();
-        record.setId(postId);
         record.setMeetingStatus(true);
         record.setStatus(SystemConstants.CRS_POST_STATUS_FINISH);
 
-        crsPostService.updateByPrimaryKeySelective(record);
+        CrsPostExample example = new CrsPostExample();
+        example.createCriteria().andIdEqualTo(postId)
+                .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL);
+
+        crsPostMapper.updateByExampleSelective(record, example);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "招聘会完成：%s", postId));
         return success(FormUtils.SUCCESS);

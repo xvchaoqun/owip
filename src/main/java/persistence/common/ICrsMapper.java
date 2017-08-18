@@ -31,6 +31,8 @@ public interface ICrsMapper {
 
     // 领取证件申请数量
     @ResultType(java.util.HashMap.class)
-    @Select("select count(*) as num, info_check_status, require_check_status, is_require_check_pass from crs_applicant_view group by info_check_status, require_check_status, is_require_check_pass")
-    public List<Map> applicantStatic();
+    @Select("select count(*) as num, info_check_status, require_check_status, is_require_check_pass " +
+            "from crs_applicant_view group by info_check_status, require_check_status, is_require_check_pass " +
+            "where post_id=#{postId}")
+    public List<Map> applicantStatic(@Param("postId") Integer postId);
 }

@@ -22,7 +22,7 @@
     <div class="widget-body">
         <div class="widget-main" id="requirement-content" style="min-height: 570px">
             ${crsPost.requirement}
-            <c:if test="${empty crsPost.requirement}">
+            <c:if test="${fn:trim(crsPost.requirement)==''}">
                 <c:import url="${ctx}/crsPost_requirement?id=${param.id}"/>
             </c:if>
         </div>

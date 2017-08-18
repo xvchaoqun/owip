@@ -80,6 +80,7 @@ import service.train.TrainEvaRankService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
+import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
@@ -167,14 +168,34 @@ public class CmTag {
         return cacheService.getCacheCount(countCacheKeys);
     }
 
+    public static String getCssFolder(){
+
+        return ConfigUtil.defaultHomePath() + File.separator + "css";
+    }
+
+    public static String getJsFolder(){
+
+        return ConfigUtil.defaultHomePath() + File.separator + "js";
+    }
+
+    public static String getImgFolder(){
+
+        return ConfigUtil.defaultHomePath() + File.separator + "img" + File.separator;
+    }
+
     public static String getJsFilePath(String jsFileName) {
 
-        return cacheService.getJsFolder() + File.separator + jsFileName;
+        return getJsFolder() + File.separator + jsFileName;
+    }
+
+    public static String getImgFilePath(String imgFileName) {
+
+        return getImgFolder() + File.separator + imgFileName;
     }
 
     public static String getCssFilePath(String cssFileName) {
 
-        return cacheService.getCssFolder() + File.separator + cssFileName;
+        return getCssFolder() + File.separator + cssFileName;
     }
 
     public static HtmlFragment getHtmlFragment(String code) {
