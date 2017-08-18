@@ -6,7 +6,7 @@
         <div class="page-header">
 
             <h1>
-                系统配置
+                系统基础设置
             </h1>
         </div>
         <form class="form-horizontal" action="${ctx}/sysConfig_au" id="configForm" method="post">
@@ -138,7 +138,7 @@
         <div class="page-header">
 
             <h1>
-                系统功能
+                其他设置
             </h1>
         </div>
 
