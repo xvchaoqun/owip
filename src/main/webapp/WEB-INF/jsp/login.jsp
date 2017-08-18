@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta charset="utf-8"/>
 <title>${_plantform_name}</title>
-<link href="${ctx}/css/login.css" rel="stylesheet" type="text/css" />
+<link href="${ctx}/css/login.css?_=${cm:lastModified(cm:getCssFilePath("login.css"))}" rel="stylesheet" type="text/css" />
 <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
     <script type="text/javascript">

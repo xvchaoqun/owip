@@ -2,8 +2,8 @@
 body{overflow:hidden;background:#dbf5ff;margin:0px;padding:0px;color:#333;position:relative;font:14px "微软雅黑","宋体",Verdana,Geneva,sans-serif;min-width:1000px;width:expression((documentElement.clientWidth < 1000) ? "1000px" : "100%" );}
 div,form,img,dl,dt,dd,p,h1,h2,h3,h4,input{margin:0px; padding:0px;border:0;list-style:none;}
 div{width:auto}
-a{cursor:pointer;text-decoration:none;color:#333}
-a:hover{color:#e51212}
+dd a{cursor:pointer;text-decoration:none;color:#333}
+dd a:hover{color:#e51212}
 iframe{background: transparent;}
 .w1000{width:1000px;margin:0 auto;}
 .clear{clear:both;}
@@ -78,9 +78,9 @@ iframe{background: transparent;}
 
 .login_box #login .msg{
 	position: relative;
-	top: -560px;
-	left: 460px;
-	width: 350px;
+	top: -580px;
+	left: 430px;
+	width: 380px;
 	/* border: 1px solid; */
 	padding-top: 500px;
 }
