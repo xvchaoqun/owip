@@ -13,27 +13,24 @@
   <link href="${ctx}/extend/css/faq.css" rel="stylesheet" type="text/css" />
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body style="background-color: #f8f8f8">
 <div class="top">
   <div class="w1000">
     <div class="logo"><img src="${ctx}/img/logo.png?_=${cm:lastModified(cm:getImgFilePath("logo.png"))}" /></div>
     <div class="txt">${_plantform_name}</div>
   </div>
 </div>
-<c:choose>
-  <c:when test="${param.type==1}">
-    <c:set var="noteType" value="${HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_TEACHER}"/>
-  </c:when>
-  <c:when test="${param.type==2}">
-    <c:set var="noteType" value="${HTML_FRAGMENT_MEMBER_IN_NOTE_FRONT_STUDENT}"/>
-  </c:when>
-  <c:otherwise>
-    <c:redirect url="/"/>
-  </c:otherwise>
-</c:choose>
-<div class="container">
-<div class="row">
-${cm:getHtmlFragment(noteType).content}
+<c:if test="${empty param.type}">
+  <c:redirect url="/"/>
+</c:if>
+<c:set var="htmlFragment" value="${cm:getHtmlFragment(param.type)}"/>
+<c:if test="${empty htmlFragment}">
+  <c:redirect url="/"/>
+</c:if>
+
+<div class="container" style="background-color: #fff">
+<div class="row" style="padding: 0 100px 0 100px">
+${htmlFragment.content}
 </div>
 </div>
 <!--[if !IE]> -->

@@ -432,7 +432,6 @@ public class SysUserService extends BaseMapper {
         if (users.size() == 0) return roles;
 
         SysUser user = users.get(0);
-
         Set<Integer> roleIds = getUserRoleIdSet(user.getRoleIds());
         Map<Integer, SysRole> roleMap = sysRoleService.findAll();
         for (Integer roleId : roleIds) {
@@ -440,6 +439,13 @@ public class SysUserService extends BaseMapper {
             if (role != null)
                 roles.add(role);
         }
+
+        // 教职工拥有的基础角色
+        if(user.getType()==SystemConstants.USER_TYPE_JZG) {
+            SysRole sysRole = sysRoleService.getByRole(SystemConstants.ROLE_TEACHER);
+            if(sysRole!=null) roles.add(sysRole);
+        }
+
         return roles;
     }
 

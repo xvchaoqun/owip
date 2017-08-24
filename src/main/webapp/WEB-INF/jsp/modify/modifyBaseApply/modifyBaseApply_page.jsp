@@ -144,7 +144,7 @@
             }
             },
             {label: '最后审核时间', name: 'checkTime', width: 150},
-            {label: '最后审核IP', name: 'checkIp'},
+            {label: '最后审核IP', name: 'checkIp', width: 120},
             </shiro:hasRole>
             </c:if>
             {

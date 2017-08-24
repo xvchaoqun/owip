@@ -60,6 +60,9 @@ public class SystemConstants {
     public static final String ROLE_BRANCHADMIN = "branchAdmin";
     public static final String ROLE_ODADMIN = "odAdmin";
     public static final String ROLE_CADREADMIN = "cadreAdmin";
+
+    public static final String ROLE_TEACHER = "role_teacher"; // 教职工
+
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
     static {
@@ -75,6 +78,8 @@ public class SystemConstants {
         ROLE_MAP.put(ROLE_BRANCHADMIN, "党支部管理员");
         ROLE_MAP.put(ROLE_ODADMIN, "组织部管理员");
         ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
+
+        ROLE_MAP.put(ROLE_TEACHER, "教职工");
     }
 
     // 系统特殊的权限（与数据库对应）

@@ -209,7 +209,7 @@ public class MemberTransferService extends BaseMapper {
         Member member = memberMapper.selectByPrimaryKey(userId);
         member.setPartyId(memberTransfer.getToPartyId());
         member.setBranchId(memberTransfer.getToBranchId());
-        memberMapper.updateByPrimaryKey(member);
+        memberMapper.updateByPrimaryKeySelective(member);
     }
 
     @Transactional

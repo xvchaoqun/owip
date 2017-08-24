@@ -37,13 +37,24 @@
        <!-- <table tableName="crs_post_file" domainObjectName="crs.CrsPostFile"  mapperName="crs.CrsPostFileMapper">
         </table>-->
       <!--<table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
-      </table>-->
-     <!-- <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"
+      </table>
+      <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
       </table>-->
+      <!--<table tableName="crs_applicant_adjust" domainObjectName="crs.CrsApplicantAdjust"  mapperName="crs.CrsApplicantAdjustMapper">
+      </table>-->
+      <table tableName="crs_applicant_adjust_view" domainObjectName="crs.CrsApplicantAdjustView"  mapperName="crs.CrsApplicantAdjustViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+     <!-- <table tableName="crs_applicant_adjust_item" domainObjectName="crs.CrsApplicantAdjustItem"
+             mapperName="crs.CrsApplicantAdjustItemMapper">
+      </table>-->
+
       <!--<table tableName="crs_applicant_check" domainObjectName="crs.CrsApplicantCheck"  mapperName="crs.CrsApplicantCheckMapper">
       </table>-->
       <!--<table tableName="crs_post_require" domainObjectName="crs.CrsPostRequire" mapperName="crs.CrsPostRequireMapper">
@@ -460,11 +471,11 @@
 
       -->
 
-      <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+     <!-- <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
           <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
           <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
       </table>
-
+-->
       <!--<table tableName="sys_approval_log" domainObjectName="sys.SysApprovalLog" mapperName="sys.SysApprovalLogMapper">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>-->

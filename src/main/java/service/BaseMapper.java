@@ -86,6 +86,8 @@ import persistence.common.StatCadreMapper;
 import persistence.common.StatMemberMapper;
 import persistence.cpc.CpcAllocationMapper;
 import persistence.crp.CrpRecordMapper;
+import persistence.crs.CrsApplicantAdjustMapper;
+import persistence.crs.CrsApplicantAdjustViewMapper;
 import persistence.crs.CrsApplicantCheckMapper;
 import persistence.crs.CrsApplicantMapper;
 import persistence.crs.CrsApplicantViewMapper;
@@ -491,6 +493,10 @@ public class BaseMapper {
     protected CrsApplicantMapper crsApplicantMapper;
     @Autowired
     protected CrsApplicantViewMapper crsApplicantViewMapper;
+    @Autowired
+    protected CrsApplicantAdjustMapper crsApplicantAdjustMapper;
+    @Autowired
+    protected CrsApplicantAdjustViewMapper crsApplicantAdjustViewMapper;
     @Autowired
     protected CrsApplicantCheckMapper crsApplicantCheckMapper;
     @Autowired

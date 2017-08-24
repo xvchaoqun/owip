@@ -6,7 +6,6 @@ import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -80,7 +79,9 @@ public class CrsApplicantController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CrsApplicantViewExample example = new CrsApplicantViewExample();
-        CrsApplicantViewExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId);
+        CrsApplicantViewExample.Criteria criteria = example.createCriteria()
+                .andPostIdEqualTo(postId)
+                .andStatusEqualTo(SystemConstants.AVAILABLE);
         example.setOrderByClause("enroll_time asc");
 
         switch (cls) {
@@ -148,25 +149,10 @@ public class CrsApplicantController extends BaseController {
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsApplicant_au(CrsApplicant record, HttpServletRequest request) {
+    public Map do_crsApplicant_au(int postId, int userId, HttpServletRequest request) {
 
-        Integer id = record.getId();
-
-        if (crsApplicantService.idDuplicate(id, record.getPostId(), record.getUserId())) {
-            return failed("添加重复");
-        }
-
-        record.setIsRecommend(BooleanUtils.isTrue(record.getIsRecommend()));
-        if (id == null) {
-            record.setEnrollTime(new Date());
-            crsApplicantService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加报名人员：%s", record.getId()));
-
-        } else {
-
-            crsApplicantService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新报名人员：%s", record.getId()));
-        }
+        CrsApplicant crsApplicant = crsApplicantService.apply(postId, userId);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加报名人员：%s", crsApplicant.getId()));
 
         return success(FormUtils.SUCCESS);
     }

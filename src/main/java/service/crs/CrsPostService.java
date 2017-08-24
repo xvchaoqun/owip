@@ -32,6 +32,7 @@ public class CrsPostService extends BaseMapper {
 
         Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
             @Override
             public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
                     throws JsonParseException {
@@ -45,10 +46,10 @@ public class CrsPostService extends BaseMapper {
 
             @Override
             public Integer deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-                    throws JsonParseException{
+                    throws JsonParseException {
 
                 String str = StringUtils.trimToNull(json.getAsString());
-                if(str == null) return 0;
+                if (str == null) return 0;
                 try {
                     return Integer.valueOf(str);
                 } catch (Exception e) {
@@ -69,7 +70,7 @@ public class CrsPostService extends BaseMapper {
         crsPostMapper.updateByPrimaryKeySelective(cp);
 
         List<CrsApplicatStatBean> applicatStatBeans = statBean.getApplicatStatBeans();
-        if(applicatStatBeans!= null) {
+        if (applicatStatBeans != null) {
             for (CrsApplicatStatBean applicatStatBean : applicatStatBeans) {
                 CrsApplicant ca = new CrsApplicant();
                 ca.setId(applicatStatBean.getApplicantId());
@@ -84,6 +85,13 @@ public class CrsPostService extends BaseMapper {
     public CrsPost get(int id) {
 
         return crsPostMapper.selectByPrimaryKey(id);
+    }
+
+    public List<CrsPost> get(List<Integer> ids) {
+
+        CrsPostExample example = new CrsPostExample();
+        example.createCriteria().andIdIn(ids);
+        return crsPostMapper.selectByExample(example);
     }
 
     // 生成编号

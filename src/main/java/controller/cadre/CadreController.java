@@ -327,6 +327,7 @@ public class CadreController extends BaseController {
         if (ShiroHelper.isPermitted("cadre:list")) {
             JSONUtils.jsonp(resultMap);
         } else {
+            // 没有干部管理员的权限，只能看到部分字段
             JSONUtils.jsonpAntPathFilters(resultMap, "id", "user", "user.code", "user.realname", "unit", "unit.unitType", "unit.unitType.name",
                     "unit.name", "title", "typeId", "postId", "dpTypeId", "cadreDpType", "cadreGrowTime", "mobile", "email");
         }

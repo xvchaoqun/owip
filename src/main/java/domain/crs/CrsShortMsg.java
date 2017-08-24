@@ -1,9 +1,18 @@
 package domain.crs;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CrsShortMsg implements Serializable {
+
+    public String getPostName(){
+
+        CrsPost crsPost = CmTag.getCrsPost(postId);
+        return (crsPost!=null)?crsPost.getName():null;
+    }
+
     private Integer id;
 
     private Integer postId;

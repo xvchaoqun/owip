@@ -1,4 +1,18 @@
 
+2017-8-24
+ALTER TABLE `crs_applicant`
+	ADD COLUMN `is_quit` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否退出' AFTER `enroll_time`;
+
+	ALTER TABLE `crs_applicant`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '状态， 1 正常 0 已删除' AFTER `recommend_second_count`;
+
+update crs_applicant set status=1;
+
+ALTER TABLE `crs_applicant`
+	COMMENT='报名人员，唯一 (user_id， post_id, status=1） ';
+
+更新crs_applicant_view
+
 2017-8-18
 ALTER TABLE `crs_post`
 	ADD COLUMN `job` VARCHAR(200) NULL COMMENT '分管工作' AFTER `name`,

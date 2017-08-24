@@ -68,6 +68,7 @@ public class HtmlFragmentController extends BaseController {
 
         HtmlFragmentExample example = new HtmlFragmentExample();
         HtmlFragmentExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("id desc");
 
         if (!ShiroHelper.hasRole(SystemConstants.ROLE_ADMIN)) {
 

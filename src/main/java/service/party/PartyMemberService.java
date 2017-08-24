@@ -324,7 +324,7 @@ public class PartyMemberService extends BaseMapper {
         record.setIsAdmin(old.getIsAdmin());
         record.setSortOrder(old.getSortOrder());
         record.setGroupId(old.getGroupId());
-        partyMemberMapper.updateByPrimaryKey(record);
+        partyMemberMapper.updateByPrimaryKeySelective(record);
 
         // 如果以前不是管理员，但是选择的类别是自动设定为管理员
         if (!record.getIsAdmin() && autoAdmin) {

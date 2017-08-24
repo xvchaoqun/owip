@@ -4,7 +4,13 @@
 
     <resultMap id="ExpertBaseResultMap" type="persistence.common.bean.ICrsExpert"
                extends="persistence.crs.CrsExpertViewMapper.BaseResultMap">
-        <result column="post_count" jdbcType="INTEGER" property="postCount" />
+        <result column="post_count" jdbcType="INTEGER" property="postCount"/>
+    </resultMap>
+
+    <resultMap id="PostBaseResultMap" type="persistence.common.bean.ICrsPost"
+               extends="persistence.crs.CrsPostMapper.BaseResultMap">
+        <result column="applicant_id" jdbcType="INTEGER" property="applicantId"/>
+        <result column="applicant_is_quit" jdbcType="BIT" property="applicantIsQuit"/>
     </resultMap>
 
     <update id="recommend" parameterType="map">
@@ -55,9 +61,23 @@
             order by post_count desc, ce.cadre_status desc, ce.cadre_sort_order desc
         </if>
     </select>
-
     <select id="countExperts" parameterType="map" resultType="java.lang.Integer">
         select count(DISTINCT ce.id)
         <include refid="searchExperts"/>
+    </select>
+
+
+    <sql id="searchPosts">
+        from crs_post cp, crs_applicant ca
+        where ca.user_id=#{userId} and ca.status=1 and ca.post_id=cp.id and cp.status=#{postStatus}
+    </sql>
+    <select id="findUserApplyCrsPosts" resultMap="PostBaseResultMap" parameterType="map">
+        select cp.*, ca.id as applicant_id, ca.is_quit as applicant_is_quit
+        <include refid="searchPosts"/>
+        order by cp.create_time desc
+    </select>
+    <select id="countUserApplyCrsPosts" parameterType="map" resultType="java.lang.Integer">
+        select count(cp.id)
+        <include refid="searchPosts"/>
     </select>
 </mapper>

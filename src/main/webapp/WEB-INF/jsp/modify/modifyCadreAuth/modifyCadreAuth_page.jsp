@@ -88,7 +88,7 @@ pageEncoding="UTF-8" %>
                 return cellvalue ? "是" : "否"
             }},
             { label: '创建人',name: 'addUser.realname'},
-            { label: 'IP',name: 'addIp'}
+            { label: 'IP',name: 'addIp', width: 120}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');

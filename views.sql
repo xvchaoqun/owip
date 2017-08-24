@@ -4,6 +4,13 @@ Source Server Version: 5.7.10
 Source Database: db_owip
 Date: 2017/6/1 12:41:29
 */
+--
+DROP VIEW IF EXISTS `crs_applicant_adjust_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_adjust_view` AS
+select caa.* from crs_applicant_adjust caa
+        left join crs_post cp on (cp.meeting_status = 0 or cp.meeting_status is null)
+        and find_in_set(cp.id , caa.after_post_ids) group by caa.id having count(cp.id)>0 ;
+
 DROP VIEW IF EXISTS `crs_expert_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_expert_view` AS
 select ce.*, uv.username, uv.code, uv.realname,

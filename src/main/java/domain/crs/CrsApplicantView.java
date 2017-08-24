@@ -29,6 +29,8 @@ public class CrsApplicantView implements Serializable {
 
     private Date enrollTime;
 
+    private Boolean isQuit;
+
     private Boolean isRecommend;
 
     private String recommendOw;
@@ -56,6 +58,8 @@ public class CrsApplicantView implements Serializable {
     private Integer recommendFirstCount;
 
     private Integer recommendSecondCount;
+
+    private Byte status;
 
     private Boolean isRequireCheckPass;
 
@@ -91,6 +95,14 @@ public class CrsApplicantView implements Serializable {
 
     public void setEnrollTime(Date enrollTime) {
         this.enrollTime = enrollTime;
+    }
+
+    public Boolean getIsQuit() {
+        return isQuit;
+    }
+
+    public void setIsQuit(Boolean isQuit) {
+        this.isQuit = isQuit;
     }
 
     public Boolean getIsRecommend() {
@@ -203,6 +215,14 @@ public class CrsApplicantView implements Serializable {
 
     public void setRecommendSecondCount(Integer recommendSecondCount) {
         this.recommendSecondCount = recommendSecondCount;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public Boolean getIsRequireCheckPass() {

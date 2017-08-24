@@ -38,10 +38,10 @@
         data: ${cm:toJSONArray(records)},
         colModel: [
             {label: '提交人', name: 'submitUser.realname'},
-            {label: '提交IP', name: 'submitIp'},
+            {label: '提交IP', name: 'submitIp', width: 120},
             {label: '提交时间', name: 'submitTime', width: 150},
             {label: '修改人', name: 'updateUser.realname'},
-            {label: '修改IP', name: 'updateIp'},
+            {label: '修改IP', name: 'updateIp', width: 120},
             {label: '修改时间', name: 'updateTime', width: 150},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

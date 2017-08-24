@@ -120,7 +120,7 @@ public class TrainInspectorService extends BaseMapper {
                     TrainInspector record = new TrainInspector();
                     record.setId(trainInspector.getId());
                     record.setRealname(rowBean.getRealname());
-                    trainInspectorMapper.updateByPrimaryKey(record);
+                    trainInspectorMapper.updateByPrimaryKeySelective(record);
                 }else{
 
                     TrainInspector record = new TrainInspector();

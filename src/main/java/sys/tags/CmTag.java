@@ -682,6 +682,11 @@ public class CmTag {
         return crsPostService.get(id);
     }
 
+    public static List<CrsPost> getCrsPost(List<Integer> ids) {
+
+        return crsPostService.get(ids);
+    }
+
     public static String getShortPic(String picPath) {
 
         return (picPath.contains(".") ? picPath.substring(0, picPath.lastIndexOf(".")) : picPath) + "_s.jpg";

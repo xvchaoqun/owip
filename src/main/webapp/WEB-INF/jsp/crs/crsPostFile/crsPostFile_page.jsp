@@ -20,7 +20,7 @@
                                 </button>
                                 <input type="hidden" name="postId" value="${param.postId}">
                                 <input type="hidden" name="type" value="${CRS_POST_FILE_TYPE_PIC}">
-                                <input type="file" name="_files"  multiple="multiple" id="upload-image">
+                                <input type="file" name="_files" data-allow-ext="jpg|jpeg|gif|bmp|png"  multiple="multiple" id="upload-image">
                             </form>
                         </div>
                         <div style="float: left">
@@ -35,7 +35,7 @@
                                 </button>
                                 <input type="hidden" name="postId" value="${param.postId}">
                                 <input type="hidden" name="type" value="${CRS_POST_FILE_TYPE_AUDIO}">
-                                <input type="file" name="_files" multiple="multiple" id="upload-audio">
+                                <input type="file" name="_files" data-allow-ext="mp3|wma|wav" multiple="multiple" id="upload-audio">
                             </form>
                         </div>
                     </div>
@@ -194,8 +194,23 @@
         if ($(this).val() != "") {
             var $this = $(this);
             var $form = $this.closest("form");
-            var $btn = $("button", $form).button('loading');
 
+            var allowExt = $this.data("allow-ext");
+            var hasNotAllowExt = false;
+            $.each(this.files, function (i, file) {
+                console.log(file)
+                var re = new RegExp("\\.("+allowExt+")$", "i")
+                if(!re.test(file.name)){
+                    SysMsg.info("请上传 "+allowExt+" 类型的文件")
+                    hasNotAllowExt = true;
+                    return;
+                }
+            });
+            if(hasNotAllowExt){
+                return;
+            }
+
+            var $btn = $("button", $form).button('loading');
             $form.ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {

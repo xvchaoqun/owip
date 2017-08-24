@@ -345,6 +345,66 @@ public class CrsApplicantViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsQuitIsNull() {
+            addCriterion("is_quit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitIsNotNull() {
+            addCriterion("is_quit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitEqualTo(Boolean value) {
+            addCriterion("is_quit =", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotEqualTo(Boolean value) {
+            addCriterion("is_quit <>", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitGreaterThan(Boolean value) {
+            addCriterion("is_quit >", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_quit >=", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitLessThan(Boolean value) {
+            addCriterion("is_quit <", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_quit <=", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitIn(List<Boolean> values) {
+            addCriterion("is_quit in", values, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotIn(List<Boolean> values) {
+            addCriterion("is_quit not in", values, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_quit between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_quit not between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
         public Criteria andIsRecommendIsNull() {
             addCriterion("is_recommend is null");
             return (Criteria) this;
@@ -1262,6 +1322,66 @@ public class CrsApplicantViewExample {
 
         public Criteria andRecommendSecondCountNotBetween(Integer value1, Integer value2) {
             addCriterion("recommend_second_count not between", value1, value2, "recommendSecondCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Byte value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Byte value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Byte value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Byte value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Byte> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Byte> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Byte value1, Byte value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
 

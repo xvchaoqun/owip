@@ -256,7 +256,8 @@
         uploadJson : '${ctx}/ke/upload_json',
         fileManagerJson : '${ctx}/ke/file_manager_json',
         height: '350px',
-        width: '680px'
+        width: '680px',
+        cssPath : '${ctx}/assets/css/font-awesome.css'
     });
 
     $("#submitBtn").click(function () {

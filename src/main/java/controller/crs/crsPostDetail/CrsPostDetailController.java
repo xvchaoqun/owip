@@ -30,7 +30,7 @@ public class CrsPostDetailController extends BaseController {
 
         if(step==2){
             int[] count = new int[]{-1, 0,0,0,0,0,0};
-            List<Map> sta = iCrsMapper.applicantStatic(id);
+            List<Map> sta = iCrsMapper.applicantStatic(id, SystemConstants.AVAILABLE);
             for (Map entity : sta) {
                 byte info_check_status = -1;
                 if(entity.get("info_check_status")!=null){

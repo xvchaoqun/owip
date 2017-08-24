@@ -94,15 +94,15 @@
                                     <a class="jqExportBtn btn btn-success btn-sm"
                                        data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                             class="fa fa-download"></i> 导出</a>
-                                    <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                        <shiro:hasPermission name="cadre:exportFamliy">
+                                </shiro:hasPermission>
+                                <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                    <shiro:hasPermission name="cadre:exportFamliy">
                                         <a class="jqExportBtn btn btn-success btn-sm"
                                            data-url="${ctx}/cadreFamliy_data"
                                            data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                                 class="fa fa-download"></i> 导出家庭成员</a>
-                                        </shiro:hasPermission>
-                                    </c:if>
-                                </shiro:hasPermission>
+                                    </shiro:hasPermission>
+                                </c:if>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"

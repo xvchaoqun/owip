@@ -34,17 +34,8 @@ public class UserMemberController extends BaseController {
     public String student_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         int userId = loginUser.getId();
-
         MemberStudent memberStudent = memberStudentService.get(userId);
         modelMap.put("memberStudent", memberStudent);
-
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
 
         return "user/member/member/student_base";
     }
@@ -56,13 +47,6 @@ public class UserMemberController extends BaseController {
 
         MemberTeacher memberTeacher = memberTeacherService.get(userId);
         modelMap.put("memberTeacher", memberTeacher);
-
-        modelMap.put("GENDER_MALE_MAP", SystemConstants.GENDER_MAP);
-        modelMap.put("MEMBER_SOURCE_MAP", SystemConstants.MEMBER_SOURCE_MAP);
-
-        modelMap.put("branchMap", branchService.findAll());
-        modelMap.put("partyMap", partyService.findAll());
-        modelMap.put("MEMBER_POLITICAL_STATUS_MAP", SystemConstants.MEMBER_POLITICAL_STATUS_MAP);
 
         return "user/member/member/teacher_base";
     }
