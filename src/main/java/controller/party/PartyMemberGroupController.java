@@ -223,7 +223,7 @@ public class PartyMemberGroupController extends BaseController {
     @RequiresPermissions("partyMemberGroup:del")
     @RequestMapping(value = "/partyMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request,
+    public Map partyMemberGroup_batchDel(HttpServletRequest request,
                         @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 

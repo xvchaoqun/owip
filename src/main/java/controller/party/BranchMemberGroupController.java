@@ -245,7 +245,7 @@ public class BranchMemberGroupController extends BaseController {
     @RequiresPermissions("branchMemberGroup:del")
     @RequestMapping(value = "/branchMemberGroup_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request,
+    public Map branchMemberGroup_batchDel(HttpServletRequest request,
                         @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 

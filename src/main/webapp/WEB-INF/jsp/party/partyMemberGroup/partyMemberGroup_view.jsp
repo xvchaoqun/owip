@@ -2,18 +2,28 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="jqgrid-vertical-offset buttons">
-    <button class="btn btn-primary btn-xs" onclick="_au()">
+    <button class="popupBtn btn btn-primary btn-xs" data-url="${ctx}/partyMemberGroup_au?type=view&partyId=${param.partyId}">
         <i class="fa fa-users"></i> 添加分党委班子
     </button>
-    <a href="javascript:;" onclick="_au(1)" class="btn btn-primary btn-xs" >
+    <a href="javascript:;"
+       data-url="${ctx}/partyMemberGroup_au"
+       data-grid-id="#jqGrid2"
+       data-querystr="&type=view&partyId=${param.partyId}"
+       class="jqOpenViewBtn btn btn-primary btn-xs" >
         <i class="fa fa-edit"></i> 修改信息</a>
 
-    <button onclick="_editMember()" class="btn btn-warning btn-xs">
+    <%--<button onclick="_editMember()" class="btn btn-warning btn-xs">
         <i class="fa fa-user"></i> 编辑委员
-    </button>
+    </button>--%>
 
     <shiro:hasPermission name="partyMemberGroup:del">
-        <a class="btn btn-danger btn-xs" onclick="_del()"><i class="fa fa-trash"></i> 删除</a>
+        <button data-url="${ctx}/partyMemberGroup_batchDel"
+                data-title="删除"
+                data-msg="确定删除这{0}条数据？"
+                data-grid-id="#jqGrid2"
+                class="jqBatchBtn btn btn-danger btn-xs">
+            <i class="fa fa-trash"></i> 删除
+        </button>
     </shiro:hasPermission>
 </div>
 <div class="space-4"></div>
@@ -49,59 +59,9 @@ pageEncoding="UTF-8" %>
         }
     }).jqGrid("setFrozenColumns");
 
-    function _au(type) {
-        if(type==1) {
-            var grid = $("#jqGrid2");
-            var id = grid.getGridParam("selrow");
-            var ids = grid.getGridParam("selarrrow")
-            if (!id || ids.length > 1) {
-                SysMsg.warning("请选择一行", "提示");
-                return;
-            }
-        }
-
-        url = "${ctx}/partyMemberGroup_au?type=view&partyId=${param.partyId}";
-        if (id > 0)  url += "&id=" + id;
-        $.loadModal(url);
-    }
-
-    function _del(){
-        var grid = $("#jqGrid2");
-        var id  = grid.getGridParam("selrow");
-        var ids  = grid.getGridParam("selarrrow")
-        if(!id || ids.length>1){
-            SysMsg.warning("请选择一行", "提示");
-            return ;
-        }
-
-        bootbox.confirm("确定删除该记录吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/partyMemberGroup_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
-        });
-    }
     function _reload(){
         $("#modal").modal('hide');
         $("#view-box .tab-content").loadPage("${ctx}/partyMemberGroup_view?${cm:encodeQueryString(pageContext.request.queryString)}");
     }
 
-    function _editMember(){
-        var grid = $("#jqGrid2");
-        var id  = grid.getGridParam("selrow");
-        var ids  = grid.getGridParam("selarrrow")
-        if(!id || ids.length>1){
-            SysMsg.warning("请选择一行", "提示");
-            return ;
-        }
-
-        $.loadModal("${ctx}/party_member?id="+ id);
-    }
-
-    $('[data-rel="select2"]').select2({width:300});
-    $('[data-rel="tooltip"]').tooltip();
 </script>
