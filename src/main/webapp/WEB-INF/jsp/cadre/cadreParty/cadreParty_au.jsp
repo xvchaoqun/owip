@@ -49,7 +49,7 @@
                         <jsp:include page="/metaTypes?__code=mc_democratic_party"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modalForm select[name=classId]").val(${cadreParty.dpTypeId});
+                        $("#modalForm select[name=classId]").val(${cadreParty.classId});
                     </script>
                 </div>
             </div>

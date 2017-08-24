@@ -138,7 +138,7 @@
             <c:if test="${param.type==1}">
             {label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
             {label: '党派加入时间', name: 'dpGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
-            {label: '担任党派职务', name: 'dpPost', width: 250},
+            {label: '担任党派职务', name: 'dpPost',align:'left',  width: 250},
             </c:if>
             <c:if test="${param.type==2}">
             {label: '党派加入时间', name: 'owGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
@@ -155,9 +155,9 @@
             }},
             </c:if>
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
-            {label: '所在单位', name: 'unit.name', width: 200},
-            {label: '现任职务', name: 'post', width: 350},
-            {label: '所在单位及职务', name: 'title', width: 350},
+            {label: '所在单位', name: 'unit.name',align:'left',  width: 200},
+            {label: '现任职务', name: 'post', align:'left', width: 250},
+            {label: '所在单位及职务', name: 'title',  align:'left', width: 350},
             {
                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
@@ -178,10 +178,10 @@
             }
             },
             <c:if test="${param.type==1}">
-            {label: '备注', name: 'dpRemark', width: 350}, {name: 'dpId', key:true, hidden:true}
+            {label: '备注', name: 'dpRemark', align:'left', width: 350}, {name: 'dpId', key:true, hidden:true}
             </c:if>
             <c:if test="${param.type==2}">
-            {label: '备注', name: 'owRemark', width: 350}, {name: 'owId', key:true, hidden:true}
+            {label: '备注', name: 'owRemark', align:'left', width: 350}, {name: 'owId', key:true, hidden:true}
             </c:if>
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
