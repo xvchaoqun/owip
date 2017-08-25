@@ -36,9 +36,9 @@ public class SysLoginLogService extends BaseMapper {
     private SessionDAO sessionDAO;
 
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
-    public String log(Integer userId, String username, byte type, boolean isSuccess, String remark){
+    public String log(Integer userId, String username, byte type, boolean isSuccess, String remark) {
 
-        OnlineSession session = (OnlineSession) SecurityUtils.getSubject().getSession();
+        OnlineSession session = (OnlineSession) sessionDAO.readSession(SecurityUtils.getSubject().getSession().getId());
 
         String userAgent = session.getUserAgent();
         String ip = session.getHost();
@@ -59,7 +59,7 @@ public class SysLoginLogService extends BaseMapper {
         example.createCriteria().andUsernameEqualTo(username);
         example.setOrderByClause("login_time desc");
         List<SysLoginLog> sysLoginLogs = sysLoginLogMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(sysLoginLogs.size()==1){
+        if (sysLoginLogs.size() == 1) {
             SysLoginLog lastLoginLog = sysLoginLogs.get(0);
             _loginLog.setLastLoginIp(lastLoginLog.getLoginIp());
             _loginLog.setLastLoginTime(lastLoginLog.getLoginTime());
@@ -73,7 +73,7 @@ public class SysLoginLogService extends BaseMapper {
     }
 
     // 记录评课用户登录日记 , 如果没登录成功，那么userId=null
-    public String trainInspectorLoginlog(Integer userId, String username, boolean isSuccess, String remark){
+    public String trainInspectorLoginlog(Integer userId, String username, boolean isSuccess, String remark) {
 
         HttpServletRequest request = ContextHelper.getRequest();
         /*  ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();*/
@@ -96,7 +96,7 @@ public class SysLoginLogService extends BaseMapper {
         example.createCriteria().andTypeEqualTo(type).andUsernameEqualTo(username);
         example.setOrderByClause("login_time desc");
         List<SysLoginLog> sysLoginLogs = sysLoginLogMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(sysLoginLogs.size()==1){
+        if (sysLoginLogs.size() == 1) {
             SysLoginLog lastLoginLog = sysLoginLogs.get(0);
             _loginLog.setLastLoginIp(lastLoginLog.getLoginIp());
             _loginLog.setLastLoginTime(lastLoginLog.getLoginTime());
@@ -108,13 +108,13 @@ public class SysLoginLogService extends BaseMapper {
     }
 
     // 获取当前在线用户
-    public List<LoginUser> getLoginUsers(){
+    public List<LoginUser> getLoginUsers() {
 
         List<LoginUser> loginUsers = new ArrayList<>();
         Collection<Session> sessions = sessionDAO.getActiveSessions();
-        for(Session session:sessions){
+        for (Session session : sessions) {
 
-            OnlineSession onlineSession = (OnlineSession)session;
+            OnlineSession onlineSession = (OnlineSession) session;
             LoginUser loginUser = new LoginUser();
             loginUser.setSid(String.valueOf(onlineSession.getId()));
             loginUser.setIp(onlineSession.getHost());
@@ -124,8 +124,8 @@ public class SysLoginLogService extends BaseMapper {
             loginUser.setStartTimestamp(onlineSession.getStartTimestamp());
             loginUser.setLastAccessTime(onlineSession.getLastAccessTime());
             loginUser.setTimeOut(onlineSession.getTimeout());
-            PrincipalCollection principals = (PrincipalCollection)onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-            if(principals!=null) {
+            PrincipalCollection principals = (PrincipalCollection) onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            if (principals != null) {
                 ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
                 loginUser.setShiroUser(shiroUser);
                 loginUsers.add(loginUser);
