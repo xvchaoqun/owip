@@ -48,8 +48,11 @@ pageEncoding="UTF-8" %>
             { label: '最新操作时间', name: 'lastAccessTime', width: 200 },
             { label: '登录时间', name: 'startTimestamp', width: 200 },
             { label:'登录IP', name: 'ip', width: 150},
-            { label: '国家', name: 'country', width: 120},
-            { label: '地区', name: 'area', align:'left', width: 250},
+            { label: '登录地点', name: 'country', width: 120},
+            { label: '地区', name: 'area', align:'left', width: 250,formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.country=='局域网') return '校内';
+                return $.trim(cellvalue);
+            }},
             { label: '客户端', name: 'userAgent', align:'left', width: 250},
             { label: '超时（分钟）', name: 'timeOut', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue/(1000*60)
