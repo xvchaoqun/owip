@@ -27,9 +27,17 @@ public class SysLoginLog implements Serializable {
 
     private String loginIp;
 
+    private String country;
+
+    private String area;
+
     private Date lastLoginTime;
 
     private String lastLoginIp;
+
+    private String lastCountry;
+
+    private String lastArea;
 
     private String agent;
 
@@ -81,6 +89,22 @@ public class SysLoginLog implements Serializable {
         this.loginIp = loginIp == null ? null : loginIp.trim();
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area == null ? null : area.trim();
+    }
+
     public Date getLastLoginTime() {
         return lastLoginTime;
     }
@@ -95,6 +119,22 @@ public class SysLoginLog implements Serializable {
 
     public void setLastLoginIp(String lastLoginIp) {
         this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
+    }
+
+    public String getLastCountry() {
+        return lastCountry;
+    }
+
+    public void setLastCountry(String lastCountry) {
+        this.lastCountry = lastCountry == null ? null : lastCountry.trim();
+    }
+
+    public String getLastArea() {
+        return lastArea;
+    }
+
+    public void setLastArea(String lastArea) {
+        this.lastArea = lastArea == null ? null : lastArea.trim();
     }
 
     public String getAgent() {

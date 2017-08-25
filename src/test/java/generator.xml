@@ -46,11 +46,11 @@
       </table>-->
       <!--<table tableName="crs_applicant_adjust" domainObjectName="crs.CrsApplicantAdjust"  mapperName="crs.CrsApplicantAdjustMapper">
       </table>-->
-      <table tableName="crs_applicant_adjust_view" domainObjectName="crs.CrsApplicantAdjustView"  mapperName="crs.CrsApplicantAdjustViewMapper"
+      <!--<table tableName="crs_applicant_adjust_view" domainObjectName="crs.CrsApplicantAdjustView"  mapperName="crs.CrsApplicantAdjustViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
-      </table>
+      </table>-->
      <!-- <table tableName="crs_applicant_adjust_item" domainObjectName="crs.CrsApplicantAdjustItem"
              mapperName="crs.CrsApplicantAdjustItemMapper">
       </table>-->
@@ -475,7 +475,10 @@
           <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
           <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
       </table>
--->
+    -->
+     <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
+          <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
+      </table>-->
       <!--<table tableName="sys_approval_log" domainObjectName="sys.SysApprovalLog" mapperName="sys.SysApprovalLogMapper">
           <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
       </table>-->
@@ -498,8 +501,9 @@
       </table>-->
       <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
       </table>-->
-   <!-- <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog">
-    </table>-->
+    <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
+        <columnOverride column="agent" jdbcType="VARCHAR"></columnOverride>
+    </table>
      <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
       </table>-->
    <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">

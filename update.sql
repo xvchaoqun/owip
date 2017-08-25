@@ -1,4 +1,11 @@
 
+
+ALTER TABLE `sys_login_log`
+	ADD COLUMN `country` VARCHAR(200) NULL DEFAULT NULL COMMENT '国家' AFTER `login_ip`,
+	ADD COLUMN `area` VARCHAR(200) NULL DEFAULT NULL COMMENT '地区' AFTER `country`,
+	ADD COLUMN `last_country` VARCHAR(200) NULL DEFAULT NULL COMMENT '上次国家' AFTER `last_login_ip`,
+	ADD COLUMN `last_area` VARCHAR(200) NULL DEFAULT NULL COMMENT '上次地区' AFTER `last_country`;
+
 2017-8-24
 ALTER TABLE `crs_applicant`
 	ADD COLUMN `is_quit` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否退出' AFTER `enroll_time`;

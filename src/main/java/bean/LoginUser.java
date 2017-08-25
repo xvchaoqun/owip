@@ -11,6 +11,9 @@ public class LoginUser {
 
     private String sid; //session id
     private String ip; //登录ip
+    private String country;
+    private String area;
+    private String userAgent;
     private ShiroUser shiroUser;
     private Date lastAccessTime;
     private Date startTimestamp;
@@ -30,6 +33,30 @@ public class LoginUser {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
     }
 
     public ShiroUser getShiroUser() {

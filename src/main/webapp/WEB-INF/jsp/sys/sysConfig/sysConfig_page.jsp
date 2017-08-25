@@ -6,7 +6,28 @@
         <div class="page-header">
 
             <h1>
-                系统基础设置
+                <i class="fa fa-soundcloud"></i> 缓存管理
+            </h1>
+        </div>
+        <div class="buttons">
+            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/clear" data-msg="确定清空系统缓存？">清空缓存
+            </button>
+
+            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_metadata_JSON"
+                    data-msg="重新生成元数据资源文件？">
+                重新生成元数据资源文件（metadata.js）
+            </button>
+
+            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_location_JSON"
+                    data-msg="重新生成省地市资源文件？">
+                重新生成省地市资源文件（location.js）
+            </button>
+        </div>
+        <br/>
+
+        <div class="page-header">
+            <h1>
+                <i class="fa fa-gears"></i> 系统设置
             </h1>
         </div>
         <form class="form-horizontal" action="${ctx}/sysConfig_au" id="configForm" method="post">
@@ -112,10 +133,23 @@
                 <label class="col-xs-3 control-label">登录页公告</label>
 
                 <div class="col-xs-6">
+                    <div style="float: left">
                     <textarea id="loginMsg">
                         ${sysConfig.loginMsg}
                     </textarea>
-                    <input type="hidden" name="loginMsg">
+                        <input type="hidden" name="loginMsg">
+                    </div>
+                    <div style="float:left; margin-left: 10px; padding-top: 30px">
+                        <a href="javascript:;" class="popupBtn btn btn-warning btn-xs"
+                           data-width="750"
+                           data-url="${ctx}/sysConfigLoginMsg_au"><i class="fa fa-save"></i> 保存为常用公告</a>
+
+                        <div class="space-4"></div>
+
+                        <div id="sysConfigLoginMsg">
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -129,28 +163,18 @@
         </form>
 
         <div class="clearfix form-actions center">
+            <button class="hashchange btn btn-default" type="button">
+                <i class="ace-icon fa fa-reply bigger-110"></i>
+                重置
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <button id="submitBtn" class="btn btn-info" type="button">
                 <i class="ace-icon fa fa-check bigger-110"></i>
                 更新
             </button>
         </div>
 
-        <div class="page-header">
 
-            <h1>
-                其他设置
-            </h1>
-        </div>
-
-            <button class="btn btn-success confirm" data-url="${ctx}/cache/clear" data-msg="确定清空系统缓存？">清空缓存</button>
-
-            <button class="btn btn-success confirm" data-url="${ctx}/cache/flush_metadata_JSON" data-msg="重新生成元数据资源文件？">
-                重新生成元数据资源文件（metadata.js）
-            </button>
-
-            <button class="btn btn-success confirm" data-url="${ctx}/cache/flush_location_JSON" data-msg="重新生成省地市资源文件？">
-                重新生成省地市资源文件（location.js）
-            </button>
     </div>
 </div>
 <style>
@@ -169,6 +193,7 @@
     .loginBg .ace-file-input {
         width: 405px;
     }
+
 </style>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
@@ -234,7 +259,7 @@
         previewWidth: 400,
         previewHeight: 200,
         allowExt: ['jpg'],
-        allowMime: ['image/jpg','image/jpeg']
+        allowMime: ['image/jpg', 'image/jpeg']
     });
     <c:if test="${not empty sysConfig.loginBg}">
     $("#_loginBg").find('button[type=reset]').on(ace.click_event, function () {
@@ -252,12 +277,23 @@
 
     var ke = KindEditor.create('#loginMsg', {
         filterMode: false,
-        allowFileManager : true,
-        uploadJson : '${ctx}/ke/upload_json',
-        fileManagerJson : '${ctx}/ke/file_manager_json',
+        allowFileManager: true,
+        items: [
+            'source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste',
+            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+            'superscript', 'clearhtml', 'quickformat', 'selectall',
+            'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+            'flash', 'media', 'insertfile', 'table', 'hr',
+            'anchor', 'link', 'unlink', '|', 'fullscreen'
+        ],
+        uploadJson: '${ctx}/ke/upload_json',
+        fileManagerJson: '${ctx}/ke/file_manager_json',
         height: '350px',
-        width: '680px',
-        cssPath : '${ctx}/assets/css/font-awesome.css'
+        width: '400px',
+        minWidth: 400,
+        cssPath: '${ctx}/assets/css/font-awesome.css'
     });
 
     $("#submitBtn").click(function () {
@@ -278,6 +314,12 @@
             });
         }
     });
+
+    function _reloadLoginMsg() {
+        $("#sysConfigLoginMsg").load("${ctx}/sysConfigLoginMsg?_=" + new Date().getTime());
+    }
+    _reloadLoginMsg();
+
     $("#configForm :checkbox").bootstrapSwitch();
     $('#configForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

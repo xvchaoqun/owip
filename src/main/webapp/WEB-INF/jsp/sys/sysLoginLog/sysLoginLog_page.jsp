@@ -86,9 +86,12 @@
             },frozen:true },
             { label: '登录时间', name: 'loginTime', width: 150},
             { label: '登录IP', name: 'loginIp', width: 120},
+            { label: '国家', name: 'country', width: 120},
+            { label: '地区', name: 'area', align:'left', width: 250},
             { label: '上次登录时间', name: 'lastLoginTime', width: 150},
             { label: '上次登录IP', name: 'lastLoginIp', width: 120},
-
+            { label: '上次登录国家', name: 'lastCountry', width: 120},
+            { label: '上次登录地区', name: 'lastArea', align:'left', width: 250},
             { label: '类别', name: 'type', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.LOGIN_TYPE_MAP[cellvalue];
             }},

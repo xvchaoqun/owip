@@ -162,6 +162,7 @@ import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
 import persistence.sys.StudentInfoMapper;
 import persistence.sys.SysApprovalLogMapper;
+import persistence.sys.SysConfigLoginMsgMapper;
 import persistence.sys.SysConfigMapper;
 import persistence.sys.SysLogMapper;
 import persistence.sys.SysLoginLogMapper;
@@ -568,6 +569,8 @@ public class BaseMapper {
 
     @Autowired
     protected SysConfigMapper sysConfigMapper;
+    @Autowired
+    protected SysConfigLoginMsgMapper sysConfigLoginMsgMapper;
     @Autowired
     protected SysApprovalLogMapper sysApprovalLogMapper;
     @Autowired

@@ -72,7 +72,7 @@ public class SysLoginLogController extends BaseController {
 			criteria.andLoginIpLike("%" + ip + "%");
 		}
 
-		int count = sysLoginLogMapper.countByExample(example);
+		long count = sysLoginLogMapper.countByExample(example);
 		if((pageNo-1)*pageSize >= count){
 			
 			pageNo = Math.max(1, pageNo-1);

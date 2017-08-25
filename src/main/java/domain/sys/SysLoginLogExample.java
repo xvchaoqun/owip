@@ -425,6 +425,146 @@ public class SysLoginLogExample {
             return (Criteria) this;
         }
 
+        public Criteria andCountryIsNull() {
+            addCriterion("country is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIsNotNull() {
+            addCriterion("country is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryEqualTo(String value) {
+            addCriterion("country =", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotEqualTo(String value) {
+            addCriterion("country <>", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryGreaterThan(String value) {
+            addCriterion("country >", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryGreaterThanOrEqualTo(String value) {
+            addCriterion("country >=", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLessThan(String value) {
+            addCriterion("country <", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLessThanOrEqualTo(String value) {
+            addCriterion("country <=", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLike(String value) {
+            addCriterion("country like", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotLike(String value) {
+            addCriterion("country not like", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIn(List<String> values) {
+            addCriterion("country in", values, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotIn(List<String> values) {
+            addCriterion("country not in", values, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryBetween(String value1, String value2) {
+            addCriterion("country between", value1, value2, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotBetween(String value1, String value2) {
+            addCriterion("country not between", value1, value2, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIsNull() {
+            addCriterion("area is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIsNotNull() {
+            addCriterion("area is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaEqualTo(String value) {
+            addCriterion("area =", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaNotEqualTo(String value) {
+            addCriterion("area <>", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaGreaterThan(String value) {
+            addCriterion("area >", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaGreaterThanOrEqualTo(String value) {
+            addCriterion("area >=", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaLessThan(String value) {
+            addCriterion("area <", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaLessThanOrEqualTo(String value) {
+            addCriterion("area <=", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaLike(String value) {
+            addCriterion("area like", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaNotLike(String value) {
+            addCriterion("area not like", value, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaIn(List<String> values) {
+            addCriterion("area in", values, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaNotIn(List<String> values) {
+            addCriterion("area not in", values, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaBetween(String value1, String value2) {
+            addCriterion("area between", value1, value2, "area");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaNotBetween(String value1, String value2) {
+            addCriterion("area not between", value1, value2, "area");
+            return (Criteria) this;
+        }
+
         public Criteria andLastLoginTimeIsNull() {
             addCriterion("last_login_time is null");
             return (Criteria) this;
@@ -552,6 +692,146 @@ public class SysLoginLogExample {
 
         public Criteria andLastLoginIpNotBetween(String value1, String value2) {
             addCriterion("last_login_ip not between", value1, value2, "lastLoginIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryIsNull() {
+            addCriterion("last_country is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryIsNotNull() {
+            addCriterion("last_country is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryEqualTo(String value) {
+            addCriterion("last_country =", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryNotEqualTo(String value) {
+            addCriterion("last_country <>", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryGreaterThan(String value) {
+            addCriterion("last_country >", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryGreaterThanOrEqualTo(String value) {
+            addCriterion("last_country >=", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryLessThan(String value) {
+            addCriterion("last_country <", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryLessThanOrEqualTo(String value) {
+            addCriterion("last_country <=", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryLike(String value) {
+            addCriterion("last_country like", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryNotLike(String value) {
+            addCriterion("last_country not like", value, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryIn(List<String> values) {
+            addCriterion("last_country in", values, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryNotIn(List<String> values) {
+            addCriterion("last_country not in", values, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryBetween(String value1, String value2) {
+            addCriterion("last_country between", value1, value2, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastCountryNotBetween(String value1, String value2) {
+            addCriterion("last_country not between", value1, value2, "lastCountry");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaIsNull() {
+            addCriterion("last_area is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaIsNotNull() {
+            addCriterion("last_area is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaEqualTo(String value) {
+            addCriterion("last_area =", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaNotEqualTo(String value) {
+            addCriterion("last_area <>", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaGreaterThan(String value) {
+            addCriterion("last_area >", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaGreaterThanOrEqualTo(String value) {
+            addCriterion("last_area >=", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaLessThan(String value) {
+            addCriterion("last_area <", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaLessThanOrEqualTo(String value) {
+            addCriterion("last_area <=", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaLike(String value) {
+            addCriterion("last_area like", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaNotLike(String value) {
+            addCriterion("last_area not like", value, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaIn(List<String> values) {
+            addCriterion("last_area in", values, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaNotIn(List<String> values) {
+            addCriterion("last_area not in", values, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaBetween(String value1, String value2) {
+            addCriterion("last_area between", value1, value2, "lastArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastAreaNotBetween(String value1, String value2) {
+            addCriterion("last_area not between", value1, value2, "lastArea");
             return (Criteria) this;
         }
 

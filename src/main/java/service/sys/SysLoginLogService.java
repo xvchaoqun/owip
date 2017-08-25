@@ -4,6 +4,7 @@ import bean.LoginUser;
 import domain.sys.SysLoginLog;
 import domain.sys.SysLoginLogExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.shiro.OnlineSession;
 import sys.utils.ContentUtils;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -36,17 +38,18 @@ public class SysLoginLogService extends BaseMapper {
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
     public String log(Integer userId, String username, byte type, boolean isSuccess, String remark){
 
-        HttpServletRequest request = ContextHelper.getRequest();
-        /*  ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();*/
+        OnlineSession session = (OnlineSession) SecurityUtils.getSubject().getSession();
 
-        String userAgent = RequestUtils.getUserAgent(request);
-        String ip = IpUtils.getRealIp(request);
+        String userAgent = session.getUserAgent();
+        String ip = session.getHost();
 
         SysLoginLog _loginLog = new SysLoginLog();
         _loginLog.setUserId(userId);
         _loginLog.setUsername(ContentUtils.substr(username, 0, 50, "..."));
         _loginLog.setAgent(userAgent);
         _loginLog.setLoginIp(ip);
+        _loginLog.setCountry(session.getCountry());
+        _loginLog.setArea(session.getArea());
         _loginLog.setType(type);
         _loginLog.setSuccess(isSuccess);
         _loginLog.setRemark(remark);
@@ -60,6 +63,8 @@ public class SysLoginLogService extends BaseMapper {
             SysLoginLog lastLoginLog = sysLoginLogs.get(0);
             _loginLog.setLastLoginIp(lastLoginLog.getLoginIp());
             _loginLog.setLastLoginTime(lastLoginLog.getLoginTime());
+            _loginLog.setLastCountry(lastLoginLog.getCountry());
+            _loginLog.setLastArea(lastLoginLog.getArea());
         }
 
         sysLoginLogMapper.insertSelective(_loginLog);
@@ -108,13 +113,18 @@ public class SysLoginLogService extends BaseMapper {
         List<LoginUser> loginUsers = new ArrayList<>();
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         for(Session session:sessions){
+
+            OnlineSession onlineSession = (OnlineSession)session;
             LoginUser loginUser = new LoginUser();
-            loginUser.setSid(String.valueOf(session.getId()));
-            loginUser.setIp(session.getHost());
-            loginUser.setStartTimestamp(session.getStartTimestamp());
-            loginUser.setLastAccessTime(session.getLastAccessTime());
-            loginUser.setTimeOut(session.getTimeout());
-            PrincipalCollection principals = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            loginUser.setSid(String.valueOf(onlineSession.getId()));
+            loginUser.setIp(onlineSession.getHost());
+            loginUser.setCountry(onlineSession.getCountry());
+            loginUser.setArea(onlineSession.getArea());
+            loginUser.setUserAgent(onlineSession.getUserAgent());
+            loginUser.setStartTimestamp(onlineSession.getStartTimestamp());
+            loginUser.setLastAccessTime(onlineSession.getLastAccessTime());
+            loginUser.setTimeOut(onlineSession.getTimeout());
+            PrincipalCollection principals = (PrincipalCollection)onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
             if(principals!=null) {
                 ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
                 loginUser.setShiroUser(shiroUser);

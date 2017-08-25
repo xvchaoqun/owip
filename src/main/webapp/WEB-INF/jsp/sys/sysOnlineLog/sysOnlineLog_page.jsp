@@ -33,7 +33,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/sysOnlineLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '会话ID', name: 'sid', width: 280,frozen:true },
+            /*{ label: '会话ID', name: 'sid', width: 280,frozen:true },*/
             { label: '账号', name: 'shiroUser.username', width: 150,frozen:true },
             { label: '姓名', name: 'shiroUser.realname', width: 120, formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
@@ -44,10 +44,13 @@ pageEncoding="UTF-8" %>
                 return $.map(cellvalue, function(item){
                     return _cMap.ROLE_MAP[item];
                 });
-            },frozen:true},
+            }},
             { label: '最新操作时间', name: 'lastAccessTime', width: 200 },
             { label: '登录时间', name: 'startTimestamp', width: 200 },
             { label:'登录IP', name: 'ip', width: 150},
+            { label: '国家', name: 'country', width: 120},
+            { label: '地区', name: 'area', align:'left', width: 250},
+            { label: '客户端', name: 'userAgent', align:'left', width: 250},
             { label: '超时（分钟）', name: 'timeOut', width: 100, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue/(1000*60)
             } },{hidden:true, key:true, name:'sid'}

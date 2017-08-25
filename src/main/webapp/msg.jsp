@@ -18,7 +18,9 @@
 </head>
 <body>
 <%
-  String url="https://weixin.bnu.edu.cn/sms/massms.php?id=2";
+    out.println( "user-agent = " + request.getHeader("user-agent"));
+    out.println( "<br/>User-Agent = " + request.getHeader("User-Agent"));
+    String url="https://weixin.bnu.edu.cn/sms/massms.php?id=2";
   String formStatusData="{\"mobile\":\"13810487549\", \"content\":\"孙秋瑞同志，您好！您提交的领取使用大陆居民往来台湾通行证的申请（编码为：D34）已通过审批，请派人携带有效证件（教工卡、学生卡或身份证）并凭此短信到组织部（主楼A306）领取证件。谢谢！\"}";
   StringEntity params =new StringEntity(formStatusData,"UTF-8");
   CloseableHttpClient httpclient = HttpClients.createDefault();
