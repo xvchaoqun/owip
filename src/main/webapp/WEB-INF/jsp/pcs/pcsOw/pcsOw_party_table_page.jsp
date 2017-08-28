@@ -43,8 +43,10 @@
                 <th>${memberCount}</th>
                 <th>${expectMemberCount}</th>
                 <th>${actualMemberCount}</th>
-                <th><fmt:formatNumber value="${actualMemberCount/expectMemberCount}" type="percent"
-                                      pattern="#0.00%"/></th>
+                <th><c:if test="${expectMemberCount>0}">
+                    <fmt:formatNumber value="${actualMemberCount/expectMemberCount}" type="percent"
+                                      pattern="#0.00%"/>
+                </c:if></th>
             </tr>
             </tfoot>
         </table>

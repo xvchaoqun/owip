@@ -147,8 +147,8 @@ public class PcsExportService extends BaseMapper {
             memberCount += (Integer) politicalStatusMap.get(status);
         }
         Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount();
-        int expect = schoolMemberCount.get("expect").intValue();
-        int actual = schoolMemberCount.get("actual").intValue();
+        int expect = (schoolMemberCount.get("expect")==null)?0:schoolMemberCount.get("expect").intValue();
+        int actual = (schoolMemberCount.get("actual")==null)?0:schoolMemberCount.get("actual").intValue();
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
