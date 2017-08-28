@@ -1,27 +1,34 @@
 package servcie;
 
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.ResourceUtils;
 import service.analysis.StatCadreService;
 import service.member.MemberStayExportService;
 import service.party.PartyExportService;
 import sys.constants.SystemConstants;
+import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by fafa on 2015/11/9.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:applicationContext.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class ExportServiceTest {
 
     @Autowired
@@ -32,6 +39,51 @@ public class ExportServiceTest {
 
     @Autowired
     PartyExportService partyExportService;
+
+    public XSSFFont getFont(XSSFWorkbook workbook) {
+        XSSFFont font = workbook.createFont();
+        font.setUnderline(Font.U_SINGLE); //下划线
+        return font;
+    }
+
+    private XSSFRichTextString UnderLineIndex(String str, Font font) {
+        XSSFRichTextString richString = null;
+        richString = new XSSFRichTextString(str);
+        richString.applyFont(6, 30, font);  //下划线的起始位置，结束位置
+        richString.applyFont(39, 50, font);
+
+        return richString;
+    }
+
+    @Test
+    public void ex() throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/dw-2-1.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFRow row = sheet.getRow(1);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue().replace("name", "是山水电费水电费水电费是的上大三的大队东师范").replace("branchCount", "13");
+        cell.setCellValue(str);
+        //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
+
+        int startRow = 5;
+        int rowCount = 20;
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount-1);
+        for (int i = 0; i < rowCount; i++) {
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+        }
+
+
+        FileOutputStream output = new FileOutputStream(new File("D:/tmp/test111.xlsx"));
+        wb.write(output);
+        output.close();
+    }
 
     @Test
     public void stat() throws IOException {

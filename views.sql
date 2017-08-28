@@ -4,6 +4,38 @@ Source Server Version: 5.7.10
 Source Database: db_owip
 Date: 2017/6/1 12:41:29
 */
+DROP VIEW IF EXISTS `pcs_branch_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view` AS
+select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count from ow_branch_view ob
+where ob.is_deleted=0
+union all
+select  op.id as party_id, null as branch_id, op.name, op.member_count from ow_party_view op, base_meta_type bmt
+where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' order by member_count desc;
+
+DROP VIEW IF EXISTS `pcs_candidate_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_candidate_view` AS
+SELECT pc.*, omt.code, omt.realname, c.title, omt.ext_unit, omt.gender, omt.nation, omt.birth, omt.grow_time, omt.work_time, omt.pro_post,
+pr.party_id, pr.branch_id, pr.config_id, pr.stage
+from pcs_candidate pc
+left join ow_member_teacher omt on omt.user_id = pc.user_id
+left join cadre c on c.user_id = pc.user_id and c.status in(1, 6)
+, pcs_recommend pr where pc.recommend_id=pr.id;
+
+--  党支部名称、党员数、应参会党员数、实参会党员数、推荐情况
+/*DROP VIEW IF EXISTS `pcs_recommend_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_recommend_view` AS
+select pr.id, ob.party_id, ob.id as branch_id, pr.expect_member_count, pr.actual_member_count,
+pc.id as config_id, pr.is_finished, pr.stage, ob.name, ob.member_count from ow_branch_view ob
+left join pcs_config pc on pc.is_current=1
+left join pcs_recommend pr on pr.branch_id=ob.id and pr.config_id=pc.id
+where ob.is_deleted=0
+union all
+select pr.id, op.id as party_id, pr.branch_id, pr.expect_member_count, pr.actual_member_count,
+pc.id as config_id, pr.is_finished, pr.stage, op.name, op.member_count from ow_party_view op
+left join pcs_config pc on pc.is_current=1
+left join pcs_recommend pr on pr.party_id=op.id and pr.config_id=pc.id, base_meta_type bmt
+where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' ;*/
+
 --
 DROP VIEW IF EXISTS `crs_applicant_adjust_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_adjust_view` AS
@@ -437,7 +469,7 @@ DROP VIEW IF EXISTS `ow_party_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_view` AS
 select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count,
 mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
-left join (select count(*) as num, party_id from ow_branch group by party_id) btmp on btmp.party_id=p.id
+left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
 left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
 count(*) as num, party_id from ow_member_teacher where status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id

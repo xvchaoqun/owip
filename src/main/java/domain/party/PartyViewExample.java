@@ -1,6 +1,5 @@
 package domain.party;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1413,52 +1412,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountEqualTo(Long value) {
+        public Criteria andBranchCountEqualTo(Integer value) {
             addCriterion("branch_count =", value, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountNotEqualTo(Long value) {
+        public Criteria andBranchCountNotEqualTo(Integer value) {
             addCriterion("branch_count <>", value, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountGreaterThan(Long value) {
+        public Criteria andBranchCountGreaterThan(Integer value) {
             addCriterion("branch_count >", value, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountGreaterThanOrEqualTo(Long value) {
+        public Criteria andBranchCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("branch_count >=", value, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountLessThan(Long value) {
+        public Criteria andBranchCountLessThan(Integer value) {
             addCriterion("branch_count <", value, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountLessThanOrEqualTo(Long value) {
+        public Criteria andBranchCountLessThanOrEqualTo(Integer value) {
             addCriterion("branch_count <=", value, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountIn(List<Long> values) {
+        public Criteria andBranchCountIn(List<Integer> values) {
             addCriterion("branch_count in", values, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountNotIn(List<Long> values) {
+        public Criteria andBranchCountNotIn(List<Integer> values) {
             addCriterion("branch_count not in", values, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountBetween(Long value1, Long value2) {
+        public Criteria andBranchCountBetween(Integer value1, Integer value2) {
             addCriterion("branch_count between", value1, value2, "branchCount");
             return (Criteria) this;
         }
 
-        public Criteria andBranchCountNotBetween(Long value1, Long value2) {
+        public Criteria andBranchCountNotBetween(Integer value1, Integer value2) {
             addCriterion("branch_count not between", value1, value2, "branchCount");
             return (Criteria) this;
         }
@@ -1473,52 +1472,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountEqualTo(Long value) {
+        public Criteria andMemberCountEqualTo(Integer value) {
             addCriterion("member_count =", value, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountNotEqualTo(Long value) {
+        public Criteria andMemberCountNotEqualTo(Integer value) {
             addCriterion("member_count <>", value, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountGreaterThan(Long value) {
+        public Criteria andMemberCountGreaterThan(Integer value) {
             addCriterion("member_count >", value, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountGreaterThanOrEqualTo(Long value) {
+        public Criteria andMemberCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("member_count >=", value, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountLessThan(Long value) {
+        public Criteria andMemberCountLessThan(Integer value) {
             addCriterion("member_count <", value, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountLessThanOrEqualTo(Long value) {
+        public Criteria andMemberCountLessThanOrEqualTo(Integer value) {
             addCriterion("member_count <=", value, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountIn(List<Long> values) {
+        public Criteria andMemberCountIn(List<Integer> values) {
             addCriterion("member_count in", values, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountNotIn(List<Long> values) {
+        public Criteria andMemberCountNotIn(List<Integer> values) {
             addCriterion("member_count not in", values, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountBetween(Long value1, Long value2) {
+        public Criteria andMemberCountBetween(Integer value1, Integer value2) {
             addCriterion("member_count between", value1, value2, "memberCount");
             return (Criteria) this;
         }
 
-        public Criteria andMemberCountNotBetween(Long value1, Long value2) {
+        public Criteria andMemberCountNotBetween(Integer value1, Integer value2) {
             addCriterion("member_count not between", value1, value2, "memberCount");
             return (Criteria) this;
         }
@@ -1533,52 +1532,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountEqualTo(BigDecimal value) {
+        public Criteria andStudentMemberCountEqualTo(Integer value) {
             addCriterion("student_member_count =", value, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountNotEqualTo(BigDecimal value) {
+        public Criteria andStudentMemberCountNotEqualTo(Integer value) {
             addCriterion("student_member_count <>", value, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountGreaterThan(BigDecimal value) {
+        public Criteria andStudentMemberCountGreaterThan(Integer value) {
             addCriterion("student_member_count >", value, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andStudentMemberCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("student_member_count >=", value, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountLessThan(BigDecimal value) {
+        public Criteria andStudentMemberCountLessThan(Integer value) {
             addCriterion("student_member_count <", value, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andStudentMemberCountLessThanOrEqualTo(Integer value) {
             addCriterion("student_member_count <=", value, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountIn(List<BigDecimal> values) {
+        public Criteria andStudentMemberCountIn(List<Integer> values) {
             addCriterion("student_member_count in", values, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountNotIn(List<BigDecimal> values) {
+        public Criteria andStudentMemberCountNotIn(List<Integer> values) {
             addCriterion("student_member_count not in", values, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andStudentMemberCountBetween(Integer value1, Integer value2) {
             addCriterion("student_member_count between", value1, value2, "studentMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andStudentMemberCountNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andStudentMemberCountNotBetween(Integer value1, Integer value2) {
             addCriterion("student_member_count not between", value1, value2, "studentMemberCount");
             return (Criteria) this;
         }
@@ -1593,52 +1592,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountEqualTo(BigDecimal value) {
+        public Criteria andTeacherMemberCountEqualTo(Integer value) {
             addCriterion("teacher_member_count =", value, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountNotEqualTo(BigDecimal value) {
+        public Criteria andTeacherMemberCountNotEqualTo(Integer value) {
             addCriterion("teacher_member_count <>", value, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountGreaterThan(BigDecimal value) {
+        public Criteria andTeacherMemberCountGreaterThan(Integer value) {
             addCriterion("teacher_member_count >", value, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andTeacherMemberCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("teacher_member_count >=", value, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountLessThan(BigDecimal value) {
+        public Criteria andTeacherMemberCountLessThan(Integer value) {
             addCriterion("teacher_member_count <", value, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andTeacherMemberCountLessThanOrEqualTo(Integer value) {
             addCriterion("teacher_member_count <=", value, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountIn(List<BigDecimal> values) {
+        public Criteria andTeacherMemberCountIn(List<Integer> values) {
             addCriterion("teacher_member_count in", values, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountNotIn(List<BigDecimal> values) {
+        public Criteria andTeacherMemberCountNotIn(List<Integer> values) {
             addCriterion("teacher_member_count not in", values, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andTeacherMemberCountBetween(Integer value1, Integer value2) {
             addCriterion("teacher_member_count between", value1, value2, "teacherMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherMemberCountNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andTeacherMemberCountNotBetween(Integer value1, Integer value2) {
             addCriterion("teacher_member_count not between", value1, value2, "teacherMemberCount");
             return (Criteria) this;
         }
@@ -1653,52 +1652,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountEqualTo(BigDecimal value) {
+        public Criteria andRetireMemberCountEqualTo(Integer value) {
             addCriterion("retire_member_count =", value, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountNotEqualTo(BigDecimal value) {
+        public Criteria andRetireMemberCountNotEqualTo(Integer value) {
             addCriterion("retire_member_count <>", value, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountGreaterThan(BigDecimal value) {
+        public Criteria andRetireMemberCountGreaterThan(Integer value) {
             addCriterion("retire_member_count >", value, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andRetireMemberCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("retire_member_count >=", value, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountLessThan(BigDecimal value) {
+        public Criteria andRetireMemberCountLessThan(Integer value) {
             addCriterion("retire_member_count <", value, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andRetireMemberCountLessThanOrEqualTo(Integer value) {
             addCriterion("retire_member_count <=", value, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountIn(List<BigDecimal> values) {
+        public Criteria andRetireMemberCountIn(List<Integer> values) {
             addCriterion("retire_member_count in", values, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountNotIn(List<BigDecimal> values) {
+        public Criteria andRetireMemberCountNotIn(List<Integer> values) {
             addCriterion("retire_member_count not in", values, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andRetireMemberCountBetween(Integer value1, Integer value2) {
             addCriterion("retire_member_count between", value1, value2, "retireMemberCount");
             return (Criteria) this;
         }
 
-        public Criteria andRetireMemberCountNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andRetireMemberCountNotBetween(Integer value1, Integer value2) {
             addCriterion("retire_member_count not between", value1, value2, "retireMemberCount");
             return (Criteria) this;
         }
@@ -1713,52 +1712,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountEqualTo(Long value) {
+        public Criteria andGroupCountEqualTo(Integer value) {
             addCriterion("group_count =", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountNotEqualTo(Long value) {
+        public Criteria andGroupCountNotEqualTo(Integer value) {
             addCriterion("group_count <>", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountGreaterThan(Long value) {
+        public Criteria andGroupCountGreaterThan(Integer value) {
             addCriterion("group_count >", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountGreaterThanOrEqualTo(Long value) {
+        public Criteria andGroupCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("group_count >=", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountLessThan(Long value) {
+        public Criteria andGroupCountLessThan(Integer value) {
             addCriterion("group_count <", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountLessThanOrEqualTo(Long value) {
+        public Criteria andGroupCountLessThanOrEqualTo(Integer value) {
             addCriterion("group_count <=", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountIn(List<Long> values) {
+        public Criteria andGroupCountIn(List<Integer> values) {
             addCriterion("group_count in", values, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountNotIn(List<Long> values) {
+        public Criteria andGroupCountNotIn(List<Integer> values) {
             addCriterion("group_count not in", values, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountBetween(Long value1, Long value2) {
+        public Criteria andGroupCountBetween(Integer value1, Integer value2) {
             addCriterion("group_count between", value1, value2, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountNotBetween(Long value1, Long value2) {
+        public Criteria andGroupCountNotBetween(Integer value1, Integer value2) {
             addCriterion("group_count not between", value1, value2, "groupCount");
             return (Criteria) this;
         }
@@ -1773,52 +1772,52 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountEqualTo(Long value) {
+        public Criteria andPresentGroupCountEqualTo(Integer value) {
             addCriterion("present_group_count =", value, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountNotEqualTo(Long value) {
+        public Criteria andPresentGroupCountNotEqualTo(Integer value) {
             addCriterion("present_group_count <>", value, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountGreaterThan(Long value) {
+        public Criteria andPresentGroupCountGreaterThan(Integer value) {
             addCriterion("present_group_count >", value, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountGreaterThanOrEqualTo(Long value) {
+        public Criteria andPresentGroupCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("present_group_count >=", value, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountLessThan(Long value) {
+        public Criteria andPresentGroupCountLessThan(Integer value) {
             addCriterion("present_group_count <", value, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountLessThanOrEqualTo(Long value) {
+        public Criteria andPresentGroupCountLessThanOrEqualTo(Integer value) {
             addCriterion("present_group_count <=", value, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountIn(List<Long> values) {
+        public Criteria andPresentGroupCountIn(List<Integer> values) {
             addCriterion("present_group_count in", values, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountNotIn(List<Long> values) {
+        public Criteria andPresentGroupCountNotIn(List<Integer> values) {
             addCriterion("present_group_count not in", values, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountBetween(Long value1, Long value2) {
+        public Criteria andPresentGroupCountBetween(Integer value1, Integer value2) {
             addCriterion("present_group_count between", value1, value2, "presentGroupCount");
             return (Criteria) this;
         }
 
-        public Criteria andPresentGroupCountNotBetween(Long value1, Long value2) {
+        public Criteria andPresentGroupCountNotBetween(Integer value1, Integer value2) {
             addCriterion("present_group_count not between", value1, value2, "presentGroupCount");
             return (Criteria) this;
         }

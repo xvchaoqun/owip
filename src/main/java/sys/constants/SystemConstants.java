@@ -62,6 +62,7 @@ public class SystemConstants {
     public static final String ROLE_CADREADMIN = "cadreAdmin";
 
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
+    public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
 
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
@@ -80,6 +81,7 @@ public class SystemConstants {
         ROLE_MAP.put(ROLE_CADREADMIN, "干部管理员");
 
         ROLE_MAP.put(ROLE_TEACHER, "教职工");
+        ROLE_MAP.put(ROLE_PCS_ADMIN, "党代会管理员");
     }
 
     // 系统特殊的权限（与数据库对应）
@@ -1028,6 +1030,40 @@ public class SystemConstants {
         CRP_RECORD_TYPE_MAP.put(CRP_RECORD_TYPE_TRANSFER, "外单位到本校挂职");
     }
 
+    // 党代会管理，委员分类，  1 党委委员 2 纪委委员
+    public final static byte PCS_USER_TYPE_DW = 1;
+    public final static byte PCS_USER_TYPE_JW = 2;
+    public final static Map<Byte, String> PCS_USER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_USER_TYPE_MAP.put(PCS_USER_TYPE_DW, "党委委员");
+        PCS_USER_TYPE_MAP.put(PCS_USER_TYPE_JW, "纪委委员");
+    }
+
+    // 党代会管理员类型， 1 书记 2 副书记 3 普通管理员（通常由书记指定一人）
+    public final static byte PCS_ADMIN_TYPE_SECRETARY = 1;
+    public final static byte PCS_ADMIN_TYPE_VICE_SECRETARY = 2;
+    public final static byte PCS_ADMIN_TYPE_NORMAL = 3;
+    public final static Map<Byte, String> PCS_ADMIN_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_SECRETARY, "书记");
+        PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_VICE_SECRETARY, "副书记");
+        PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_NORMAL, "普通管理员");
+    }
+
+    // 党代会阶段，1 一上一下 2 二上二下 3 三上三下
+    public final static byte PCS_STAGE_FIRST = 1;
+    public final static byte PCS_STAGE_SECOND = 2;
+    public final static byte PCS_STAGE_THIRD = 3;
+    public final static Map<Byte, String> PCS_STAGE_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_STAGE_MAP.put(PCS_STAGE_FIRST, "一上一下");
+        PCS_STAGE_MAP.put(PCS_STAGE_SECOND, "二上二下");
+        PCS_STAGE_MAP.put(PCS_STAGE_THIRD, "三上三下");
+    }
+
     // 干部培训 评课账号的状态
     public final static byte TRAIN_INSPECTOR_STATUS_INIT = 0;
     public final static byte TRAIN_INSPECTOR_STATUS_ABOLISH = 1;
@@ -1602,7 +1638,9 @@ public class SystemConstants {
     // 校长审批通知
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_MASTER = "ct_applyself_approval_master";
 
-    /*******干部招聘*******/
+    /*******
+     * 干部招聘
+     *******/
     // 通知1：预通知（没有确定时间和地点）
     public final static String CONTENT_TPL_CRS_MSG_1 = "ct_crs_msg_1";
     // 通知2：预通知（初步确定了时间，未确定地点）
@@ -1615,6 +1653,7 @@ public class SystemConstants {
     public final static String CONTENT_TPL_CRS_MSG_5 = "ct_crs_msg_5";
 
     public final static Map<String, String> CRS_SHORT_MSG_TPL_MAP = new LinkedHashMap<>();
+
     static {
         CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_1, "通知1：预通知（没有确定时间和地点）");
         CRS_SHORT_MSG_TPL_MAP.put(CONTENT_TPL_CRS_MSG_2, "通知2：预通知（初步确定了时间，未确定地点）");

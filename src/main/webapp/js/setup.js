@@ -985,6 +985,9 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
     var $this = $(this);
     var url = $this.data("url");
     if(url!='') {
+
+        if(url=='-1') return; // 不响应
+
         $.loadPage({
             url:url,
             maskEl:"#view-box .tab-content",
@@ -996,7 +999,7 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
                 clearJqgridSelected();
             }
         })
-    }else {
+    }else{
         SysMsg.warning("暂缓开通该功能");
     }
 });

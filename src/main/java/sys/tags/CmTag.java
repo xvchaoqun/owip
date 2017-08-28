@@ -455,6 +455,12 @@ public class CmTag {
         return sysUserService.findPermissions(username);
     }
 
+    public static String getUserUnit(Integer userId) {
+
+        SysUserView uv = sysUserService.findById(userId);
+        return sysUserService.getUnit(uv);
+    }
+
     public static Unit getUnit(Integer unitId) {
 
         return unitService.findAll().get(unitId);

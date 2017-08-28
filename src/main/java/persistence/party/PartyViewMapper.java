@@ -7,7 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface PartyViewMapper {
-    int countByExample(PartyViewExample example);
+    long countByExample(PartyViewExample example);
 
     List<PartyView> selectByExampleWithRowbounds(PartyViewExample example, RowBounds rowBounds);
 

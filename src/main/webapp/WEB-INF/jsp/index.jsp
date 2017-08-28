@@ -41,12 +41,11 @@
         </div>
 
     </div>
-    <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
-        <ul class="nav nav-pills">
-
+    <div class="navbar-buttons navbar-header pull-right" role="navigation">
+        <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
             <li class="">
                 <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i>
-                    <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
+                    <span>${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
             </li>
             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
                 <li class="<c:if test="${_path=='/help'}">active</c:if>">
@@ -55,13 +54,39 @@
             </shiro:hasAnyRoles>
             <shiro:hasPermission name="shortMsgTpl:*">
                 <li>
-                    <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="ace-icon fa fa-msg"></i> 定向短信</a>
+                    <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i> 定向短信</a>
                 </li>
             </shiro:hasPermission>
             <li>
                 <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
             </li>
         </ul>
+        <ul class="nav nav-pills hidden-lg" style="margin-left: 0px">
+        <li class="dropdown">
+
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span> ${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span>
+                 <i class="fa fa-caret-down"> </i></a>
+            <ul class="dropdown-menu">
+                <li class="">
+                    <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i> 个人信息
+                    </a>
+                </li>
+                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+                    <li class="<c:if test="${_path=='/help'}">active</c:if>">
+                        <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
+                    </li>
+                </shiro:hasAnyRoles>
+                <shiro:hasPermission name="shortMsgTpl:*">
+                    <li>
+                        <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i> 定向短信</a>
+                    </li>
+                </shiro:hasPermission>
+                <li>
+                    <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
+                </li>
+            </ul>
+        </li>
+            </ul>
     </div>
     <!-- /.navbar-container -->
 </div>

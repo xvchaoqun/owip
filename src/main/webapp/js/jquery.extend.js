@@ -329,6 +329,14 @@ var _modal_width;
 
             return $.trim(realname);
         },
+        user: function (userId, label) {
+
+            if (userId > 0 && $.trim(label) != '')
+            return '<a href="javascript:;" class="openView" data-url="{2}/sysUser_view?userId={0}">{1}</a>'
+                .format(userId, label, ctx);
+
+            return $.trim(label);
+        },
         //计算天数差的函数，通用
         dayDiff: function (sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
             var aDate, oDate1, oDate2, iDays
@@ -344,6 +352,7 @@ var _modal_width;
         //计算月份差
         monthDiff: function (date1, date2) {
             //默认格式为"2003-03-03",根据自己需要改格式和方法
+           // console.log("date1=" + date1)
             var year1 = date1.substr(0, 4);
             var year2 = date2.substr(0, 4);
             var month1 = date1.substr(5, 2);

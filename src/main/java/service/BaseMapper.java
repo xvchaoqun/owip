@@ -79,6 +79,7 @@ import persistence.common.IDispatchMapper;
 import persistence.common.IMemberMapper;
 import persistence.common.IModifyMapper;
 import persistence.common.IPartyMapper;
+import persistence.common.IPcsMapper;
 import persistence.common.ISysMapper;
 import persistence.common.ITrainMapper;
 import persistence.common.IUnitMapper;
@@ -157,6 +158,15 @@ import persistence.party.PartyMemberMapper;
 import persistence.party.PartyMemberViewMapper;
 import persistence.party.PartyViewMapper;
 import persistence.party.RetireApplyMapper;
+import persistence.pcs.PcsAdminMapper;
+import persistence.pcs.PcsAdminReportMapper;
+import persistence.pcs.PcsCandidateChosenMapper;
+import persistence.pcs.PcsCandidateMapper;
+import persistence.pcs.PcsCandidateViewMapper;
+import persistence.pcs.PcsConfigMapper;
+import persistence.pcs.PcsIssueMapper;
+import persistence.pcs.PcsProposalMapper;
+import persistence.pcs.PcsRecommendMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -463,6 +473,27 @@ public class BaseMapper {
 
     @Autowired
     protected CrpRecordMapper crpRecordMapper;
+
+    @Autowired
+    protected IPcsMapper iPcsMapper;
+    @Autowired
+    protected PcsIssueMapper pcsIssueMapper;
+    @Autowired
+    protected PcsAdminMapper pcsAdminMapper;
+    @Autowired
+    protected PcsAdminReportMapper pcsAdminReportMapper;
+    @Autowired
+    protected PcsCandidateMapper pcsCandidateMapper;
+    @Autowired
+    protected PcsCandidateViewMapper pcsCandidateViewMapper;
+    @Autowired
+    protected PcsCandidateChosenMapper pcsCandidateChosenMapper;
+    @Autowired
+    protected PcsConfigMapper pcsConfigMapper;
+    @Autowired
+    protected PcsProposalMapper pcsProposalMapper;
+    @Autowired
+    protected PcsRecommendMapper pcsRecommendMapper;
 
     @Autowired
     protected CpcAllocationMapper cpcAllocationMapper;

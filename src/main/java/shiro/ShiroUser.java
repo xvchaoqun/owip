@@ -83,13 +83,6 @@ public class ShiroUser implements Serializable {
 
     public Set<String> getPermissions() {
 
-        /*if (permissions == null) {
-            Set<String> _p = CmTag.findPermissions(username);
-            Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
-            _permissions.addAll(_p);
-            _permissions = filterMenus(getApproverTypeBean(), getRoles(), _permissions);
-            permissions = _permissions;
-        }*/
         return CmTag.findPermissions(username);
     }
 

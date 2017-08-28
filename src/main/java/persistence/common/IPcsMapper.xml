@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.IPcsMapper">
+
+
+    <!--分党委推荐汇总情况（统计已上报数据）-->
+    <resultMap id="PartyBaseResultMap" type="persistence.common.bean.PcsPartyBean"
+               extends="persistence.party.PartyViewMapper.BaseResultMap">
+        <result column="stage" jdbcType="TINYINT" property="stage"/>
+        <result column="config_id" jdbcType="INTEGER" property="configId"/>
+        <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
+        <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
+        <result column="report_id" jdbcType="INTEGER" property="reportId"/>
+    </resultMap>
+    <sql id="searchPcsPartyBeans">
+        where op.is_deleted=0
+        <if test="partyId!=null">
+            and op.party_id=#{partyId}
+        </if>
+    </sql>
+    <select id="selectPcsPartyBeans" resultMap="PartyBaseResultMap" parameterType="map">
+        select op.*, ${stage} as stage, ${configId} as config_id, pr.expect_member_count,
+        pr.actual_member_count, par.id as report_id from ow_party_view op
+        left join
+        (select pr.party_id,
+        sum(pr.expect_member_count) as expect_member_count,
+        sum(pr.actual_member_count) as actual_member_count from pcs_recommend pr, pcs_admin_report par
+        where pr.stage=#{stage} and pr.config_id=#{configId} and pr.party_id=par.party_id group by pr.party_id) pr on op.id = pr.party_id
+        left join pcs_admin_report par on par.stage=#{stage} and par.party_id = pr.party_id
+        <include refid="searchPcsPartyBeans"/>
+        order by op.sort_order desc
+    </select>
+    <select id="countPcsPartyBeans" parameterType="map" resultType="java.lang.Integer">
+        select count(*) from ow_party_view op
+        <include refid="searchPcsPartyBeans"/>
+    </select>
+
+    <!--党支部推荐汇总情况-->
+    <resultMap id="BranchBaseResultMap" type="persistence.common.bean.PcsBranchBean">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="party_id" jdbcType="INTEGER" property="partyId"/>
+        <result column="branch_id" jdbcType="INTEGER" property="branchId"/>
+        <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
+        <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
+        <result column="config_id" jdbcType="INTEGER" property="configId"/>
+        <result column="is_finished" jdbcType="TINYINT" property="isFinished"/>
+        <result column="stage" jdbcType="TINYINT" property="stage"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
+    </resultMap>
+    <sql id="searchPcsBranchBeans">
+        where pbv.party_id = #{partyId}
+        <if test="branchId!=null">
+            and pbv.branch_id=#{branchId}
+        </if>
+    </sql>
+    <select id="selectPcsBranchBeans" resultMap="BranchBaseResultMap" parameterType="map">
+        select pr.id, pbv.*, ${stage} as stage, ${configId} as config_id,
+        pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch_view pbv
+        left join (select * from pcs_recommend where stage=#{stage} and config_id=#{configId}) pr
+        on pr.party_id=pbv.party_id and ((pbv.branch_id is null and pr.branch_id is null) or pbv.branch_id=pr.branch_id)
+        <include refid="searchPcsBranchBeans"/>
+        order by pbv.member_count desc, pbv.party_id asc, pbv.branch_id asc
+    </select>
+    <select id="countPcsBranchBeans" parameterType="map" resultType="java.lang.Integer">
+        select count(*) from pcs_branch_view pbv
+        <include refid="searchPcsBranchBeans"/>
+    </select>
+
+    <resultMap id="CandidateBaseResultMap" type="persistence.common.bean.IPcsCandidateView"
+               extends="persistence.pcs.PcsCandidateViewMapper.BaseResultMap">
+        <result column="party_ids" jdbcType="VARCHAR" property="partyIds"/>
+        <result column="branch_ids" jdbcType="VARCHAR" property="branchIds"/>
+        <result column="branch_count" jdbcType="INTEGER" property="branchCount"/>
+        <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
+        <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
+        <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
+
+        <result column="chosen_id" jdbcType="INTEGER" property="chosenId"/>
+    </resultMap>
+
+    <!--分党委每个被推荐人的情况（只统计已上报）-->
+    <select id="selectPartyCandidates" resultMap="CandidateBaseResultMap" parameterType="map">
+       select a.user_id, pcc.id as chosen_id, a.code, a.realname, a.title, a.ext_unit, a.gender,a.nation,
+			a.birth,a.grow_time, a.work_time, a.pro_post, a.type, group_concat(distinct a.party_id) as party_ids,
+			group_concat(a.branch_ids) as branch_ids, sum(a.branch_count) as branch_count,
+			sum(b.member_count) as member_count, sum(b.expect_member_count) as expect_member_count,
+			sum(b.actual_member_count) as actual_member_count from
+		   (
+			select pcv.*,
+		   group_concat(distinct pcv.party_id) as party_ids,
+        group_concat(pcv.branch_id) as branch_ids,
+        count(pcv.id) as branch_count
+        from pcs_candidate_view pcv, pcs_admin_report par
+        where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.party_id=par.party_id
+         group by pcv.party_id, pcv.user_id, pcv.type
+         ) a left join(
+         select opv.id,opv.member_count, pr.expect_member_count, pr.actual_member_count  from ow_party_view  opv
+        , (select tmp.party_id, sum(tmp.expect_member_count) as expect_member_count,
+          sum(tmp.actual_member_count) as actual_member_count from pcs_recommend tmp, pcs_admin_report par
+		  where tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.party_id=par.party_id
+		  group by party_id ) pr
+		   where  pr.party_id=opv.id and opv.is_deleted=0 ) b
+		   on b.id=a.party_id
+
+            left join pcs_candidate_chosen pcc on a.config_id=pcc.config_id
+        and a.stage=pcc.stage and a.type=pcc.type and a.user_id=pcc.user_id
+
+		   where a.type=#{candidateType}
+                <if test="userId!=null">
+                    and a.user_id=#{userId}
+                </if>
+                <if test="isChosen">
+                    and pcc.id is not null
+                </if>
+		   group by a.user_id, a.type
+        order by
+        <if test="isChosen">
+            pcc.sort_order asc
+        </if>
+        <if test="isChosen==null or !isChosen">
+          branch_count desc
+        </if>
+    </select>
+    <select id="countPartyCandidates" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct pcv.user_id) from pcs_candidate_view pcv
+        left join pcs_candidate_chosen pcc on pcv.config_id=pcc.config_id
+        and pcv.stage=pcc.stage and pcv.type=pcc.type and pcv.user_id=pcc.user_id
+        , pcs_admin_report par
+        <where>
+            <if test="userId!=null">
+                and pcv.user_id=#{userId}
+            </if>
+            <if test="isChosen">
+                and pcc.id is not null
+            </if>
+            and pcv.config_id=#{configId} and pcv.stage=#{stage}
+            and pcv.type=#{candidateType} and pcv.party_id=par.party_id
+        </where>
+    </select>
+
+    <!--党支部每个被推荐人的情况-->
+    <sql id="searchBranchCandidates">
+        <where>
+            <if test="userId!=null">
+                and pcv.user_id=#{userId}
+            </if>
+            and pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType} and
+            pcv.party_id=#{partyId}
+        </where>
+    </sql>
+    <select id="selectBranchCandidates" resultMap="CandidateBaseResultMap" parameterType="map">
+        select pcv.*,
+        group_concat(distinct pcv.party_id) as party_ids,
+        group_concat(pcv.branch_id) as branch_ids,
+        count(pcv.id) as branch_count,
+        sum(ifnull(prv.member_count,0)) as member_count,
+        sum(ifnull(prv.expect_member_count, 0)) as expect_member_count,
+        sum(ifnull(prv.actual_member_count, 0)) as actual_member_count
+        from pcs_candidate_view pcv
+        left join (select pbv.*, pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch_view pbv
+        left join pcs_recommend pr on pr.party_id=pbv.party_id and
+        ((pbv.branch_id is null and pr.branch_id is null) or pbv.branch_id=pr.branch_id)) prv on
+        prv.party_id=pcv.party_id and
+        ((prv.branch_id is null and pcv.branch_id is null) or prv.branch_id=pcv.branch_id)
+        <include refid="searchBranchCandidates"/>
+        group by pcv.user_id
+        order by branch_count desc
+    </select>
+    <select id="countBranchCandidates" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct pcv.user_id) from pcs_candidate_view pcv
+        <include refid="searchBranchCandidates"/>
+    </select>
+</mapper>

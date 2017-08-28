@@ -34,6 +34,25 @@ public class PartyService extends BaseMapper {
     @Autowired
     private OrgAdminService orgAdminService;
 
+    // 判断partyId和branchId的有效性
+    public boolean isPartyContainBranch(int partyId, Integer branchId) {
+
+        Party party = findAll().get(partyId);
+        if (party == null) return false;
+
+        if (branchId != null) {
+
+            Branch branch = branchService.findAll().get(branchId);
+            return (branch != null && branch.getPartyId() == partyId);
+        } else {
+
+            Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
+            MetaType directBranchType = codeKeyMap.get("mt_direct_branch");
+            // 直属党支部返回true
+            return (party.getClassId() == directBranchType.getId());
+        }
+    }
+
     // 是否直属党支部
     public boolean isDirectBranch(int partyId) {
 
@@ -122,7 +141,7 @@ public class PartyService extends BaseMapper {
 
                 // 删除所有的分党委管理员
                 orgAdminService.delAllOrgAdmin(id, null);
-            }else{
+            } else {
                 record.setSortOrder(getNextSortOrder("ow_party", "is_deleted=0")); // 恢复：更新排序
             }
 

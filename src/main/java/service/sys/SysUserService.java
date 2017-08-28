@@ -7,6 +7,7 @@ import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
 import domain.party.EnterApply;
+import domain.pcs.PcsAdmin;
 import domain.sys.SysResource;
 import domain.sys.SysRole;
 import domain.sys.SysUser;
@@ -29,6 +30,7 @@ import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.party.EnterApplyService;
+import service.pcs.PcsAdminService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -57,6 +59,9 @@ public class SysUserService extends BaseMapper {
     protected ExtYjsService extYjsService;
     @Autowired
     protected ExtBksService extBksService;
+
+    @Autowired
+    protected PcsAdminService pcsAdminService;
 
     // 获取用户所在的学校人事库或学生库中的单位名称
     public String getUnit(SysUserView sysUser) {
@@ -440,12 +445,6 @@ public class SysUserService extends BaseMapper {
                 roles.add(role);
         }
 
-        // 教职工拥有的基础角色
-        if(user.getType()==SystemConstants.USER_TYPE_JZG) {
-            SysRole sysRole = sysRoleService.getByRole(SystemConstants.ROLE_TEACHER);
-            if(sysRole!=null) roles.add(sysRole);
-        }
-
         return roles;
     }
 
@@ -527,7 +526,6 @@ public class SysUserService extends BaseMapper {
         sysUserMapper.updateByPrimaryKeySelective(user);
     }
 
-
     /**
      * 特殊的用户权限过滤
      */
@@ -535,6 +533,16 @@ public class SysUserService extends BaseMapper {
 
         ApproverTypeBean approverTypeBean =  applySelfService.getApproverTypeBean(userId);
 
+        // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
+        if (userRoles.contains(SystemConstants.ROLE_PCS_ADMIN)) {
+
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
+            if(pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY){
+                userPermissions.remove("pcsPartyAdmin:*");
+            }
+        }
+
+        // 干部
         if (userRoles.contains(SystemConstants.ROLE_CADRE)) {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 

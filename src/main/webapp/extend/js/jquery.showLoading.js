@@ -37,7 +37,7 @@ jQuery.fn.showLoading = function(options) {
     jQuery.extend(settings, options);
     
     var loadingDiv = jQuery('<div style="text-align:center"></div>');
-    var overlayDiv = jQuery('<div><i class="close fa fa-times red fa-lg">X</i></div>');
+    var overlayDiv = jQuery('<div><i class="close fa fa-times-circle blue fa-3x"></i></div>');
 
     //
     // Set up ID and classes
@@ -78,7 +78,13 @@ jQuery.fn.showLoading = function(options) {
     if ( settings.addClass ){
 	jQuery(overlayDiv).addClass(settings.addClass + '-overlay');
     }
-    
+
+    // 主动关闭窗口
+    var $this = $(this);
+    jQuery(overlayDiv).on("click", ".close", function(){
+        $this.hideLoading();
+    })
+
     //
     // Set overlay position
     //

@@ -152,14 +152,10 @@
         colModel: [
             { label: '账号', name: 'username', width: 150,frozen:true },
             { label: '学工号', name: 'code', width: 150, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                return $.user(rowObject.id, cellvalue);
             },frozen:true },
             { label: '姓名',name: 'realname', width: 120, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                return $.user(rowObject.id, cellvalue);
             },frozen:true  },
             { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'

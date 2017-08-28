@@ -13,6 +13,7 @@ import domain.member.Member;
 import domain.member.MemberInflow;
 import domain.sys.SysUserView;
 import domain.sys.SysUserViewExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -422,7 +423,9 @@ public class CommonController extends BaseController {
     // 根据类别、状态、账号或姓名或学工号 查询 党员
     @RequestMapping("/member_selects")
     @ResponseBody
-    public Map member_selects(Integer pageSize, Byte type, Byte status, Integer pageNo, String searchStr) throws IOException {
+    public Map member_selects(Integer pageSize, Byte type, Byte status,
+                              Boolean noAuth, // 默认需要读取权限
+                              Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -435,11 +438,16 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        Subject subject = SecurityUtils.getSubject();
-        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
-                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
-        List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-        List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+        boolean addPermits = false;
+        List<Integer> adminPartyIdList = null;
+        List<Integer> adminBranchIdList = null;
+        if (BooleanUtils.isNotTrue(noAuth)){
+            Subject subject = SecurityUtils.getSubject();
+            addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
+                    || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+            adminPartyIdList = loginUserService.adminPartyIdList();
+            adminBranchIdList = loginUserService.adminBranchIdList();
+        }
 
         int count = iMemberMapper.countMember(type, status, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {

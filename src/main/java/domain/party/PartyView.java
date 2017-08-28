@@ -1,7 +1,6 @@
 package domain.party;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class PartyView implements Serializable {
@@ -45,19 +44,19 @@ public class PartyView implements Serializable {
 
     private Boolean isDeleted;
 
-    private Long branchCount;
+    private Integer branchCount;
 
-    private Long memberCount;
+    private Integer memberCount;
 
-    private BigDecimal studentMemberCount;
+    private Integer studentMemberCount;
 
-    private BigDecimal teacherMemberCount;
+    private Integer teacherMemberCount;
 
-    private BigDecimal retireMemberCount;
+    private Integer retireMemberCount;
 
-    private Long groupCount;
+    private Integer groupCount;
 
-    private Long presentGroupCount;
+    private Integer presentGroupCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -221,59 +220,59 @@ public class PartyView implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getBranchCount() {
+    public Integer getBranchCount() {
         return branchCount;
     }
 
-    public void setBranchCount(Long branchCount) {
+    public void setBranchCount(Integer branchCount) {
         this.branchCount = branchCount;
     }
 
-    public Long getMemberCount() {
+    public Integer getMemberCount() {
         return memberCount;
     }
 
-    public void setMemberCount(Long memberCount) {
+    public void setMemberCount(Integer memberCount) {
         this.memberCount = memberCount;
     }
 
-    public BigDecimal getStudentMemberCount() {
+    public Integer getStudentMemberCount() {
         return studentMemberCount;
     }
 
-    public void setStudentMemberCount(BigDecimal studentMemberCount) {
+    public void setStudentMemberCount(Integer studentMemberCount) {
         this.studentMemberCount = studentMemberCount;
     }
 
-    public BigDecimal getTeacherMemberCount() {
+    public Integer getTeacherMemberCount() {
         return teacherMemberCount;
     }
 
-    public void setTeacherMemberCount(BigDecimal teacherMemberCount) {
+    public void setTeacherMemberCount(Integer teacherMemberCount) {
         this.teacherMemberCount = teacherMemberCount;
     }
 
-    public BigDecimal getRetireMemberCount() {
+    public Integer getRetireMemberCount() {
         return retireMemberCount;
     }
 
-    public void setRetireMemberCount(BigDecimal retireMemberCount) {
+    public void setRetireMemberCount(Integer retireMemberCount) {
         this.retireMemberCount = retireMemberCount;
     }
 
-    public Long getGroupCount() {
+    public Integer getGroupCount() {
         return groupCount;
     }
 
-    public void setGroupCount(Long groupCount) {
+    public void setGroupCount(Integer groupCount) {
         this.groupCount = groupCount;
     }
 
-    public Long getPresentGroupCount() {
+    public Integer getPresentGroupCount() {
         return presentGroupCount;
     }
 
-    public void setPresentGroupCount(Long presentGroupCount) {
+    public void setPresentGroupCount(Integer presentGroupCount) {
         this.presentGroupCount = presentGroupCount;
     }
 }

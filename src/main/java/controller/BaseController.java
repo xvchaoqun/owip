@@ -124,6 +124,13 @@ import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.party.RetireApplyService;
+import service.pcs.PcsAdminService;
+import service.pcs.PcsCandidateService;
+import service.pcs.PcsConfigService;
+import service.pcs.PcsExportService;
+import service.pcs.PcsOwService;
+import service.pcs.PcsProposalService;
+import service.pcs.PcsRecommendService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
 import service.sys.FeedbackService;
@@ -344,6 +351,21 @@ public class BaseController extends BaseMapper {
 
     @Autowired
     protected CrpRecordService crpRecordService;
+
+    @Autowired
+    protected PcsAdminService pcsAdminService;
+    @Autowired
+    protected PcsExportService pcsExportService;
+    @Autowired
+    protected PcsCandidateService pcsCandidateService;
+    @Autowired
+    protected PcsConfigService pcsConfigService;
+    @Autowired
+    protected PcsProposalService pcsProposalService;
+    @Autowired
+    protected PcsRecommendService pcsRecommendService;
+    @Autowired
+    protected PcsOwService pcsOwService;
 
     @Autowired
     protected CpcAllocationService cpcAllocationService;

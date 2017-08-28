@@ -232,10 +232,17 @@
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false"></table>-->
-     <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView"
+     <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
+            <columnOverride column="branch_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="student_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="teacher_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
       </table>-->
      <!-- <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -413,6 +420,29 @@
       <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
       </table>-->
 
+
+      <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
+      </table>-->
+      <!-- <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
+      </table>-->
+     <!-- <table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
+      </table>-->
+      <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">
+      </table>-->
+      <!--<table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
+      </table>-->
+      <table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
+      </table>
+      <table tableName="pcs_candidate_view" domainObjectName="pcs.PcsCandidateView" mapperName="pcs.PcsCandidateViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+      </table>
+      <table tableName="pcs_candidate_chosen" domainObjectName="pcs.PcsCandidateChosen" mapperName="pcs.PcsCandidateChosenMapper">
+      </table>
+      <!--<table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
+      </table>-->
+
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
       </table>-->
       <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
@@ -501,9 +531,9 @@
       </table>-->
       <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
       </table>-->
-    <table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
+    <!--<table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
         <columnOverride column="agent" jdbcType="VARCHAR"></columnOverride>
-    </table>
+    </table>-->
      <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
       </table>-->
    <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">

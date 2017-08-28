@@ -13,6 +13,55 @@
 .navbar-default, html{
     min-width: 1290px;
 }*/
+@media (min-width: 768px) and (max-width: 991px) {
+    .hidden-sm {
+        display: block !important;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .hidden-md {
+        display: block !important;
+    }
+}
+@media (min-width: 1200px) {
+    .hidden-lg {
+        display: block !important;
+    }
+}
+
+@media (max-width: 725px) {
+    .navbar .nav .dropdown-toggle span{
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1098px) {
+    .hidden-sm {
+        display: none !important;
+    }
+}
+@media (max-width: 1499px) and (min-width: 1099px) {
+    .hidden-md {
+        display: none !important;
+    }
+}
+@media (min-width: 1500px) {
+    .hidden-lg {
+        display: none !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar .navbar-toggle {
+        display: block !important;
+    }
+}
+@media (min-width: 1099px) {
+    .navbar .navbar-toggle {
+        display: none !important;
+    }
+}
+
 .navbar-fixed-top + .main-container {
     padding-top: 101px;
 }
@@ -25,14 +74,33 @@
     }
 }
 .breadcrumb,
-.nav-list > li > a,
+.navbar .nav-list > li > a,
 body {
     font-size: 14px;
 }
 
-.nav-tabs.tab-color-blue > li > a,
-.nav-tabs.tab-color-blue > li > a:focus {
+ .nav-tabs.tab-color-blue > li > a,
+ .nav-tabs.tab-color-blue > li > a:focus {
     background-color: #337ab7;
+}
+.navbar .nav{
+    padding-bottom: 8px;
+}
+.navbar-buttons{
+    padding-top: 42px !important;
+}
+.navbar .nav .dropdown-menu{
+    left: -80px;
+    right: 0px;
+}
+.navbar .nav .dropdown .dropdown-menu li{
+    margin-right: 20px;
+}
+.dropdown-menu>li>a {
+    font-size: 18px;
+}
+.navbar .nav-pills .open .dropdown-toggle, .navbar .nav>li.dropdown.open.active>a:hover, .navbar .nav>li.dropdown>a:focus{
+    color:#0068bf !important;
 }
 
 .tags .tag {
@@ -184,7 +252,12 @@ body {
 .ui-th-column {
     text-align: center !important;
 }
-
+/*header部分换行*/
+/*th.ui-th-column div{
+    white-space:normal !important;
+    height:auto !important;
+    padding:0px;
+}*/
 .rownumbers #jqGrid_cb {
     text-align: left !important;
 }

@@ -11,3 +11,10 @@
 	opacity: 0.6;
 	filter: alpha(opacity = 60);
 }
+
+.loading-indicator-overlay .close{
+	padding: 30px;
+}
+.loading-indicator-overlay .close:hover, .loading-indicator-overlay .close:focus{
+	opacity: 1;
+}

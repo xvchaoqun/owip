@@ -10,7 +10,7 @@
             </h1>
         </div>
         <div class="buttons">
-            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/clear" data-msg="确定清空系统缓存？">清空缓存
+            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/clear" data-callback="_reload" data-msg="确定清空系统缓存？">清空缓存
             </button>
 
             <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_metadata_JSON"
@@ -315,6 +315,9 @@
         }
     });
 
+    function _reload(){
+        $.hashchange();
+    }
     function _reloadLoginMsg() {
         $("#sysConfigLoginMsg").load("${ctx}/sysConfigLoginMsg?_=" + new Date().getTime());
     }

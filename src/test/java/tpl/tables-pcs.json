@@ -1,0 +1,55 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "pcs",
+  "tables": [
+    {
+      "table": "pcs_config",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,is_current,create_time",
+      "excludeEditColumns": "id,create_time",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "pcs_admin",
+      "key": "id",
+      "searchColumns": "party_id,user_id",
+      "showColumns": "config_id,party_id,user_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "pcs_recommend",
+      "key": "id",
+      "searchColumns": "party_id,branch_id",
+      "showColumns": "party_id,branch_id,expect_member_count,actual_member_count,config_id,is_finished",
+      "excludeEditColumns": "id,is_finished",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "pcs_candidate",
+      "key": "id",
+      "searchColumns": "recommend_id,type",
+      "showColumns": "recommend_id,user_id,type,add_time",
+      "excludeEditColumns": "id,add_time",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "pcs_proposal",
+      "key": "id",
+      "searchColumns": "config_id",
+      "showColumns": "user_id,type,config_id,add_time",
+      "excludeEditColumns": "id,add_time",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    }
+  ]
+}

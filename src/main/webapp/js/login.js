@@ -52,13 +52,7 @@ $(function(){
             //$form.submit();
             $form.ajaxSubmit({
                 success: function (data) {
-                    //alert(data)
-                    try {
-                        data = JSON.parse(data)
-                    } catch (e) {
-                        location.reload();
-                    }
-                    //console.log(ret)
+                    //console.log(data)
                     if (data.success) {
                         location.href = data.url + location.hash;
                     } else {

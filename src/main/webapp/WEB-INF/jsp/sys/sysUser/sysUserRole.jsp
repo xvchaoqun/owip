@@ -29,7 +29,11 @@
 				children: treeData,
 				onClick:function(node, event){
 					if(node.data.unselectable){
-						$(event.target).qtip({content:"该角色由系统自动维护，不可以手动修改",show: true});
+						$.tip({
+							$target: $(event.target).closest(".dynatree-node"), $container: $("#modal"),
+							msg: "该角色由系统自动维护，不可以手动修改", my: 'bottom left', at: 'top center'
+						})
+						//$(event.target).qtip({content:"该角色由系统自动维护，不可以手动修改",show: true,container:$("#modal")});
 					}
 				},
 				onSelect: function(select, node) {
