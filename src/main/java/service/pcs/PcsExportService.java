@@ -147,8 +147,10 @@ public class PcsExportService extends BaseMapper {
             memberCount += (Integer) politicalStatusMap.get(status);
         }
         Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount();
-        int expect = (schoolMemberCount.get("expect")==null)?0:schoolMemberCount.get("expect").intValue();
-        int actual = (schoolMemberCount.get("actual")==null)?0:schoolMemberCount.get("actual").intValue();
+        int expect = (schoolMemberCount == null || schoolMemberCount.get("expect") == null)
+                ? 0 : schoolMemberCount.get("expect").intValue();
+        int actual = (schoolMemberCount == null || schoolMemberCount.get("actual") == null)
+                ? 0 : schoolMemberCount.get("actual").intValue();
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
@@ -292,7 +294,7 @@ public class PcsExportService extends BaseMapper {
             actualMemberCount += NumberUtils.trimToZero(bean.getActualMemberCount());
         }
 
-        if(rowCount>0) {
+        if (rowCount > 0) {
             row = sheet.getRow(startRow++);
             int column = 2;
             cell = row.getCell(column++);
@@ -305,7 +307,7 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(percent(actualMemberCount, expectMemberCount));
         }
 
-        row = sheet.getRow(startRow + 2 + (rowCount==0?1:0));
+        row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
@@ -370,7 +372,7 @@ public class PcsExportService extends BaseMapper {
             actualMemberCount += NumberUtils.trimToZero(bean.getActualMemberCount());
         }
 
-        if(rowCount>0) {
+        if (rowCount > 0) {
             row = sheet.getRow(startRow++);
             int column = 2;
             cell = row.getCell(column++);
@@ -507,7 +509,7 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(NumberUtils.trimToZero(bean.getActualMemberCount()));
         }
 
-        row = sheet.getRow(startRow + 2 + (rowCount==0?1:0));
+        row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
