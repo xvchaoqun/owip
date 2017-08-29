@@ -10,13 +10,16 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PcsRecommendService extends BaseMapper {
@@ -82,6 +85,27 @@ public class PcsRecommendService extends BaseMapper {
 
         int recommendId = record.getId();
 
+        // 已下发名单
+        Set<Integer> dwIssueUserIdSet = new HashSet<>();
+        Set<Integer> jwIssueUserIdSet = new HashSet<>();
+        if(stage == SystemConstants.PCS_STAGE_SECOND || stage == SystemConstants.PCS_STAGE_THIRD){
+
+            byte _stage = (stage == SystemConstants.PCS_STAGE_SECOND)?
+                    SystemConstants.PCS_STAGE_FIRST: SystemConstants.PCS_STAGE_SECOND;
+            List<IPcsCandidateView> dwCandidates =
+                    iPcsMapper.selectPartyCandidates(null, true, configId,
+                            _stage, SystemConstants.PCS_USER_TYPE_DW, new RowBounds());
+            for (IPcsCandidateView dwCandidate : dwCandidates) {
+                dwIssueUserIdSet.add(dwCandidate.getUserId());
+            }
+            List<IPcsCandidateView> jwCandidates =
+                    iPcsMapper.selectPartyCandidates(null, true, configId,
+                            _stage, SystemConstants.PCS_USER_TYPE_JW, new RowBounds());
+            for (IPcsCandidateView jwCandidate : jwCandidates) {
+                jwIssueUserIdSet.add(jwCandidate.getUserId());
+            }
+        }
+
         // 添加党委委员
         pcsCandidateService.clear(recommendId, SystemConstants.PCS_USER_TYPE_DW);
         if(dwCandidateIds!=null){
@@ -100,6 +124,7 @@ public class PcsRecommendService extends BaseMapper {
                 _pcsCandidate.setType(SystemConstants.PCS_USER_TYPE_DW);
                 _pcsCandidate.setIsFromStage(isFromStage);
                 _pcsCandidate.setAddTime(new Date());
+                _pcsCandidate.setIsFromStage(dwIssueUserIdSet.contains(userId));
 
                 pcsCandidateService.insertSelective(_pcsCandidate);
             }
@@ -123,6 +148,7 @@ public class PcsRecommendService extends BaseMapper {
                 _pcsCandidate.setType(SystemConstants.PCS_USER_TYPE_JW);
                 _pcsCandidate.setIsFromStage(isFromStage);
                 _pcsCandidate.setAddTime(new Date());
+                _pcsCandidate.setIsFromStage(jwIssueUserIdSet.contains(userId));
 
                 pcsCandidateService.insertSelective(_pcsCandidate);
             }

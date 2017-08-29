@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +130,7 @@ public class PcsRecommendController extends BaseController {
         }
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = pcsConfig.getId();
 
         PcsBranchBean record = new PcsBranchBean();
         record.setPartyId(partyId);
@@ -146,12 +149,16 @@ public class PcsRecommendController extends BaseController {
             }
         }
 
-        record.setConfigId(pcsConfig.getId());
+        record.setConfigId(configId);
         modelMap.put("pcsRecommend", record);
 
         // 读取党委委员、纪委委员
-        List<PcsCandidateView> dwCandidates = pcsCandidateService.find(record.getPartyId(), record.getBranchId(), SystemConstants.PCS_USER_TYPE_DW);
-        List<PcsCandidateView> jwCandidates = pcsCandidateService.find(record.getPartyId(), record.getBranchId(), SystemConstants.PCS_USER_TYPE_JW);
+        List<PcsCandidateView> dwCandidates =
+                pcsCandidateService.find(record.getPartyId(),
+                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_DW);
+        List<PcsCandidateView> jwCandidates =
+                pcsCandidateService.find(record.getPartyId(),
+                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 
@@ -161,28 +168,51 @@ public class PcsRecommendController extends BaseController {
         return "pcs/pcsRecommend/pcsRecommend_au";
     }
 
+
+    @RequiresPermissions("pcsRecommend:list")
+    @RequestMapping("/pcsRecommend_candidates")
+    public String pcsRecommend_candidates(byte stage, byte type, ModelMap modelMap) {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int configId = pcsAdmin.getConfigId();
+        List<IPcsCandidateView> candidates =
+                iPcsMapper.selectPartyCandidates(null, true, configId, stage, type, new RowBounds());
+
+        modelMap.put("candidates", candidates);
+        return "pcs/pcsRecommend/pcsRecommend_candidates";
+    }
+
     @RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_selectUser", method = RequestMethod.POST)
-    public void do_pcsRecommend_selectUser(int userId, HttpServletResponse response) throws IOException {
+    public void do_pcsRecommend_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
+                                           HttpServletResponse response) throws IOException {
 
-        MemberTeacher memberTeacher = memberTeacherService.get(userId);
-        CadreView cv = cadreService.dbFindByUserId(userId);
+        List<PcsCandidateView> candidates = new ArrayList<>();
+        if(userIds!=null){
+            for (Integer userId : userIds) {
 
-        PcsCandidateView candidate = new PcsCandidateView();
-        candidate.setUserId(memberTeacher.getUserId());
-        candidate.setCode(memberTeacher.getCode());
-        candidate.setRealname(memberTeacher.getRealname());
-        candidate.setTitle(cv==null?null:cv.getTitle());
-        candidate.setExtUnit(memberTeacher.getExtUnit());
-        candidate.setGender(memberTeacher.getGender());
-        candidate.setNation(memberTeacher.getNation());
-        candidate.setBirth(memberTeacher.getBirth());
-        candidate.setGrowTime(memberTeacher.getGrowTime());
-        candidate.setWorkTime(memberTeacher.getWorkTime());
-        candidate.setProPost(memberTeacher.getProPost());
+                MemberTeacher memberTeacher = memberTeacherService.get(userId);
+                CadreView cv = cadreService.dbFindByUserId(userId);
+
+                PcsCandidateView candidate = new PcsCandidateView();
+                candidate.setUserId(memberTeacher.getUserId());
+                candidate.setCode(memberTeacher.getCode());
+                candidate.setRealname(memberTeacher.getRealname());
+                candidate.setTitle(cv==null?null:cv.getTitle());
+                candidate.setExtUnit(memberTeacher.getExtUnit());
+                candidate.setGender(memberTeacher.getGender());
+                candidate.setNation(memberTeacher.getNation());
+                candidate.setBirth(memberTeacher.getBirth());
+                candidate.setGrowTime(memberTeacher.getGrowTime());
+                candidate.setWorkTime(memberTeacher.getWorkTime());
+                candidate.setProPost(memberTeacher.getProPost());
+
+                candidates.add(candidate);
+            }
+        }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("candidate", candidate);
+        resultMap.put("candidates", candidates);
         JSONUtils.write(response, resultMap);
         //logger.info(addLog(SystemConstants.LOG_ADMIN, "党支部推荐情况-选择教职工委员：%s-%s", type, userId));
     }

@@ -1052,16 +1052,16 @@ public class SystemConstants {
         PCS_ADMIN_TYPE_MAP.put(PCS_ADMIN_TYPE_NORMAL, "普通管理员");
     }
 
-    // 党代会阶段，1 一上一下 2 二上二下 3 三上三下
+    // 党代会阶段，1 一下一上 2 二下二上 3 三下三上
     public final static byte PCS_STAGE_FIRST = 1;
     public final static byte PCS_STAGE_SECOND = 2;
     public final static byte PCS_STAGE_THIRD = 3;
     public final static Map<Byte, String> PCS_STAGE_MAP = new LinkedHashMap<>();
 
     static {
-        PCS_STAGE_MAP.put(PCS_STAGE_FIRST, "一上一下");
-        PCS_STAGE_MAP.put(PCS_STAGE_SECOND, "二上二下");
-        PCS_STAGE_MAP.put(PCS_STAGE_THIRD, "三上三下");
+        PCS_STAGE_MAP.put(PCS_STAGE_FIRST, "一下一上");
+        PCS_STAGE_MAP.put(PCS_STAGE_SECOND, "二下二上");
+        PCS_STAGE_MAP.put(PCS_STAGE_THIRD, "三下三上");
     }
 
     // 干部培训 评课账号的状态

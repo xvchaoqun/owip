@@ -23,13 +23,15 @@
                                 </span>
                             </div>
                             <c:if test="${cls==2}">
+                                <c:set var="_stage" value="${param.stage==PCS_STAGE_FIRST?'二下':''}
+                                ${param.stage==PCS_STAGE_SECOND?'三下':''}"/>
                             <button data-url="${ctx}/pcsOw_choose"
-                                    data-title="入选“二下”名单"
-                                    data-msg="确定将这{0}位被推荐人列入“二下”名单吗？"
+                                    data-title="入选“${_stage}”名单"
+                                    data-msg="确定将这{0}位被推荐人列入“${_stage}”名单吗？"
                                     data-grid-id="#jqGrid"
                                     data-querystr="stage=${param.stage}&type=${type}&isChosen=1" ${hasIssue?"disabled":""}
                                     class="jqBatchBtn btn btn-warning">
-                                <i class="fa fa-level-down"></i> 入选“二下”名单
+                                <i class="fa fa-level-down"></i> 入选“${_stage}”名单
                             </button>
 
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=4-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
@@ -197,11 +199,13 @@
                 </c:if>
             }},
             {label: '被推荐提名人姓名', name: 'realname', width: 150, frozen:true},
+            <c:if test="${cls==4}">
             {
                 label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.chosenId, url:"${ctx}/pcsCandidateChosen_changeOrder"})
             }, frozen: true
             },
+            </c:if>
             {label: '推荐提名的党支部数', name: 'branchCount', width: 160},
             {label: '推荐党支部所含党员数', name: 'memberCount', width: 170},
             {label: '推荐党支部应参会党员数', name: 'expectMemberCount', width: 190},
@@ -235,7 +239,17 @@
                 formatter: function (cellvalue, options, rowObject) {
                     return ($.trim(rowObject.title) == '') ? $.trim(rowObject.extUnit) : $.trim(rowObject.title);
                 }
-            }, {hidden: true, key: true, name: 'userId'}
+            }<c:if test="${param.stage == PCS_STAGE_SECOND || param.stage == PCS_STAGE_THIRD}">
+            ,{
+                label: '备注',
+                name: '_remark',
+                width: 300,
+                align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.isFromStage ? "“${param.stage == PCS_STAGE_SECOND?"二下":"三下"}”名单成员" : "另选他人";
+                }
+            }
+            </c:if>, {hidden: true, key: true, name: 'userId'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');

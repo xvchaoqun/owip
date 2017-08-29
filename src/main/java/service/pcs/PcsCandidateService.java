@@ -18,10 +18,13 @@ public class PcsCandidateService extends BaseMapper {
     public static final String TABLE_NAME = "pcs_candidate";
 
     // 读取党委委员、纪委委员
-    public List<PcsCandidateView> find(int partyId, Integer branchId, byte type){
+    public List<PcsCandidateView> find(int partyId, Integer branchId, int configId, byte stage, byte type){
 
         PcsCandidateViewExample example = new PcsCandidateViewExample();
-        PcsCandidateViewExample.Criteria criteria = example.createCriteria().andPartyIdEqualTo(partyId).andTypeEqualTo(type);
+        PcsCandidateViewExample.Criteria criteria =
+                example.createCriteria().andPartyIdEqualTo(partyId)
+                        .andConfigIdEqualTo(configId).andStageEqualTo(stage)
+                        .andTypeEqualTo(type);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
         example.setOrderByClause("sort_order asc");
         return pcsCandidateViewMapper.selectByExample(example);

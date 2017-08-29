@@ -53,6 +53,13 @@
                                 &nbsp;
                             <a href="javascript:;" onclick="_addDwUser()" class="btn btn-primary btn-sm ${hasReport?"disabled":""}">
                                 <i class="fa fa-plus-circle"></i> 添加</a>
+                                <c:if test="${param.stage==PCS_STAGE_SECOND || param.stage==PCS_STAGE_THIRD}">
+                                <a href="javascript:;" class="popupBtn btn btn-info btn-sm ${hasReport?"disabled":""}"
+                                        data-width="900"
+                                        data-url="${ctx}/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
+                                        ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_USER_TYPE_DW}">
+                                    <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
+                                </c:if>
                                 </span>
                                         <a style="margin-left: 30px" data-toggle="collapse" data-parent="#accordion"
                                            href="#collapseOne">
@@ -82,6 +89,14 @@
                                 &nbsp;
                             <a href="javascript:;" onclick="_addJwUser()" class="btn btn-primary btn-sm ${hasReport?"disabled":""}">
                                 <i class="fa fa-plus-circle"></i> 添加</a>
+
+                                <c:if test="${param.stage==PCS_STAGE_SECOND || param.stage==PCS_STAGE_THIRD}">
+                                    <a href="javascript:;" class="popupBtn btn btn-info btn-sm ${hasReport?"disabled":""}"
+                                       data-width="900"
+                                       data-url="${ctx}/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
+                                        ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_USER_TYPE_JW}">
+                                        <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
+                                </c:if>
                                 </span>
 
                                         <a style="margin-left: 30px" data-toggle="collapse" data-parent="#accordion"
@@ -344,10 +359,10 @@
             return;
         }
 
-        $.post("${ctx}/pcsRecommend_selectUser", {userId: userId}, function (ret) {
+        $.post("${ctx}/pcsRecommend_selectUser", {"userIds[]": userId}, function (ret) {
             if (ret.success) {
                 // console.log(ret.candidate)
-                $jqGrid.jqGrid("addRowData", ret.candidate.userId, ret.candidate, "last");
+                $jqGrid.jqGrid("addRowData", ret.candidates[0].userId, ret.candidates[0], "last");
                 $select.val(null).trigger("change");
                 $select.closest(".panel").find(".tip .count").html($jqGrid.jqGrid("getDataIDs").length);
             }

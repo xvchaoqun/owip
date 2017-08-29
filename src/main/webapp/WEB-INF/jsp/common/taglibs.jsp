@@ -199,6 +199,11 @@
 <c:set value="<%=SystemConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
 <c:set value="<%=SystemConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.PCS_STAGE_FIRST%>" var="PCS_STAGE_FIRST"/>
+<c:set value="<%=SystemConstants.PCS_STAGE_SECOND%>" var="PCS_STAGE_SECOND"/>
+<c:set value="<%=SystemConstants.PCS_STAGE_THIRD%>" var="PCS_STAGE_THIRD"/>
+<c:set value="<%=SystemConstants.PCS_STAGE_MAP%>" var="PCS_STAGE_MAP"/>
+
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>

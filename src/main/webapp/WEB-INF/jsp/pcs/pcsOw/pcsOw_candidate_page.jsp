@@ -185,6 +185,17 @@
                     return ($.trim(rowObject.title) == '') ? $.trim(rowObject.extUnit) : $.trim(rowObject.title);
                 }
             }
+            <c:if test="${param.stage == PCS_STAGE_SECOND || param.stage == PCS_STAGE_THIRD}">
+            ,{
+                label: '备注',
+                name: '_remark',
+                width: 300,
+                align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.isFromStage ? "“${param.stage == PCS_STAGE_SECOND?"二下":"三下"}”名单成员" : "另选他人";
+                }
+            }
+            </c:if>
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid2');

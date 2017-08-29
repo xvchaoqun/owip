@@ -11,6 +11,7 @@
   </li>
   <li class="<c:if test="${cls==3}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/pcsParty?cls=3&stage=${param.stage}">
-      <i class="fa fa-hand-paper-o"></i> 上报（“一上”）</a>
+      <i class="fa fa-hand-paper-o"></i> 上报（“${param.stage==PCS_STAGE_FIRST?"一上":""}
+      ${param.stage==PCS_STAGE_SECOND?"二上":""}${param.stage==PCS_STAGE_THIRD?"三上":""}”）</a>
   </li>
 </ul>

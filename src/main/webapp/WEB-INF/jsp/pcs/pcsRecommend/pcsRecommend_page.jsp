@@ -10,8 +10,11 @@ pageEncoding="UTF-8" %>
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.branchId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <a class="popupBtn btn btn-success btn-sm" data-url="${ctx}/pcsRecommend_form_download">
-                    <i class="fa fa-download"></i> 表格下载</a>
+                <a class="popupBtn btn btn-success btn-sm"
+                   data-url="${ctx}/pcsRecommend_form_download?stage=${param.stage}">
+                    <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"表格下载":""}
+                    ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
+                    ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

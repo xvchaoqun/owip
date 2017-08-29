@@ -55,6 +55,10 @@ public class PcsPartyController extends BaseController {
         XSSFWorkbook wb = null;
         String fileName = null;
         switch (file){
+            case "1-1":
+                wb = pcsExportService.exportIssueCandidates(configId, stage, type);
+                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type) + "候选人推荐提名汇总表";
+                break;
             case "2-1":
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
                 fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type)

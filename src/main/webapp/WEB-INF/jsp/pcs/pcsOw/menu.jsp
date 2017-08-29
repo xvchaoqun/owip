@@ -15,7 +15,8 @@
   </li>
   <li class="<c:if test="${cls==4}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/pcsOw?cls=4&stage=${param.stage}">
-      <i class="fa fa-level-down"></i> “二下”名单</a>
+      <i class="fa fa-level-down"></i> “${param.stage==PCS_STAGE_FIRST?"二下":""}
+      ${param.stage==PCS_STAGE_SECOND?"三下":""}”名单</a>
   </li>
 
 </ul>

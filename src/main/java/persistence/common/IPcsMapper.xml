@@ -81,7 +81,7 @@
 
     <!--分党委每个被推荐人的情况（只统计已上报）-->
     <select id="selectPartyCandidates" resultMap="CandidateBaseResultMap" parameterType="map">
-       select a.user_id, pcc.id as chosen_id, a.code, a.realname, a.title, a.ext_unit, a.gender,a.nation,
+       select a.user_id, a.is_from_stage, pcc.id as chosen_id, a.code, a.realname, a.title, a.ext_unit, a.gender,a.nation,
 			a.birth,a.grow_time, a.work_time, a.pro_post, a.type, group_concat(distinct a.party_id) as party_ids,
 			group_concat(a.branch_ids) as branch_ids, sum(a.branch_count) as branch_count,
 			sum(b.member_count) as member_count, sum(b.expect_member_count) as expect_member_count,
