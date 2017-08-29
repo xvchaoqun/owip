@@ -2,6 +2,14 @@
 
 2017-8-29
 ALTER TABLE `pcs_recommend`
+	DROP INDEX `party_id_branch_id_config_id`;
+
+	ALTER TABLE `pcs_recommend`
+	ADD UNIQUE INDEX `party_id_branch_id_config_id_is_finished` (`party_id`, `branch_id`, `config_id`, `is_finished`);
+
+ow_party_view
+
+ALTER TABLE `pcs_recommend`
 	CHANGE COLUMN `stage` `stage` TINYINT(3) UNSIGNED NOT NULL COMMENT '阶段，1 一下一上 2 二下二上 3 三下三上' AFTER `is_finished`;
 
 pcs_candidate_view

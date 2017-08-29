@@ -31,11 +31,13 @@ public interface IMemberMapper {
                                                   @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
     // 根据类别、状态、账号、姓名、学工号查找党员
-    List<Member> selectMemberList(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
+    List<Member> selectMemberList(@Param("type")Byte type, @Param("politicalStatus")Byte politicalStatus,
+                                  @Param("status")Byte status, @Param("search") String search,
                                   @Param("addPermits")Boolean addPermits,
                                   @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                                   @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
-    int countMember(@Param("type")Byte type, @Param("status")Byte status, @Param("search") String search,
+    int countMember(@Param("type")Byte type, @Param("politicalStatus")Byte politicalStatus,
+                    @Param("status")Byte status, @Param("search") String search,
                     @Param("addPermits")Boolean addPermits,
                     @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                     @Param("adminBranchIdList")List<Integer> adminBranchIdList);

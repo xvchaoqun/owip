@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <h4 class="widget-title lighter smaller"
-            style="position:absolute; top: -50px; left: 460px; ">
+            style="position:absolute; top: -50px; left: 550px; ">
 
             <a href="javascript:" class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-reply"></i>
@@ -46,7 +46,7 @@
                                             class="fa fa-users"></i>   党委委员</span>
                             <span style="margin-left: 20px">
                             <select id="dwUserId" data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
+                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL}"
                                     data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
                             </select>
@@ -82,7 +82,7 @@
                                             class="fa fa-users"></i>   纪委委员</span>
                             <span style="margin-left: 20px">
                             <select id="jwUserId" data-rel="select2-ajax"
-                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
+                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL}"
                                     data-placeholder="请输入账号或姓名或学工号">
                                 <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
                             </select>

@@ -1582,6 +1582,66 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPositiveCountIsNull() {
+            addCriterion("positive_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountIsNotNull() {
+            addCriterion("positive_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountEqualTo(Integer value) {
+            addCriterion("positive_count =", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountNotEqualTo(Integer value) {
+            addCriterion("positive_count <>", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountGreaterThan(Integer value) {
+            addCriterion("positive_count >", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("positive_count >=", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountLessThan(Integer value) {
+            addCriterion("positive_count <", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountLessThanOrEqualTo(Integer value) {
+            addCriterion("positive_count <=", value, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountIn(List<Integer> values) {
+            addCriterion("positive_count in", values, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountNotIn(List<Integer> values) {
+            addCriterion("positive_count not in", values, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountBetween(Integer value1, Integer value2) {
+            addCriterion("positive_count between", value1, value2, "positiveCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositiveCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("positive_count not between", value1, value2, "positiveCount");
+            return (Criteria) this;
+        }
+
         public Criteria andTeacherMemberCountIsNull() {
             addCriterion("teacher_member_count is null");
             return (Criteria) this;

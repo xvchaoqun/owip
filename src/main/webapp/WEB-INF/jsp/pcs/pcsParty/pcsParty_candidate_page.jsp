@@ -159,9 +159,8 @@
                 }
             }
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     register_user_select($('#searchForm select[name=userId]'));
 </script>

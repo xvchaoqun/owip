@@ -25,6 +25,7 @@
     <result column="branch_count" jdbcType="INTEGER" property="branchCount" />
     <result column="member_count" jdbcType="INTEGER" property="memberCount" />
     <result column="student_member_count" jdbcType="INTEGER" property="studentMemberCount" />
+    <result column="positive_count" jdbcType="INTEGER" property="positiveCount" />
     <result column="teacher_member_count" jdbcType="INTEGER" property="teacherMemberCount" />
     <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount" />
     <result column="group_count" jdbcType="INTEGER" property="groupCount" />
@@ -63,7 +64,7 @@
     id, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, is_enterprise_big, 
     is_enterprise_nationalized, is_separate, phone, fax, email, found_time, sort_order, 
     create_time, update_time, is_deleted, branch_count, member_count, student_member_count, 
-    teacher_member_count, retire_member_count, group_count, present_group_count
+    positive_count, teacher_member_count, retire_member_count, group_count, present_group_count
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyViewExample" resultMap="BaseResultMap">
     select

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import persistence.common.bean.PcsPartyBean;
+import persistence.common.bean.PcsPrAllocateBean;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,6 +17,16 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IPcsMapper {
+
+
+    // 党代表分配方案，configId是非搜索字段，仅用于创建视图数据
+    public List<PcsPrAllocateBean> selectPcsPrAllocateBeans(
+            @Param("configId") int configId,
+            @Param("partyId") Integer partyId,
+            RowBounds rowBounds);
+
+    public int countPcsPrAllocateBeans( @Param("configId") int configId,
+                                        @Param("partyId") Integer partyId);
 
 
     // 全校 应参会党员总数/实参会党员总数
@@ -44,8 +55,6 @@ public interface IPcsMapper {
 
     public int countPcsBranchBeans(@Param("partyId") int partyId,
                                    @Param("branchId") Integer branchId);
-
-
 
     // 分党委两委委员推荐提名情况
     public List<IPcsCandidateView> selectPartyCandidates(@Param("userId") Integer userId,

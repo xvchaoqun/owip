@@ -254,11 +254,16 @@ public class PcsExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        XSSFRow row = sheet.getRow(1);
+        XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("name", party.getName())
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                .replace("name", party.getName());
         cell.setCellValue(str);
 
         // 汇总
@@ -336,7 +341,7 @@ public class PcsExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        XSSFRow row = sheet.getRow(1);
+        XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));

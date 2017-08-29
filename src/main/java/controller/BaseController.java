@@ -129,6 +129,7 @@ import service.pcs.PcsCandidateService;
 import service.pcs.PcsConfigService;
 import service.pcs.PcsExportService;
 import service.pcs.PcsOwService;
+import service.pcs.PcsPrAlocateService;
 import service.pcs.PcsProposalService;
 import service.pcs.PcsRecommendService;
 import service.sys.AttachFileService;
@@ -366,6 +367,8 @@ public class BaseController extends BaseMapper {
     protected PcsRecommendService pcsRecommendService;
     @Autowired
     protected PcsOwService pcsOwService;
+    @Autowired
+    protected PcsPrAlocateService pcsPrAlocateService;
 
     @Autowired
     protected CpcAllocationService cpcAllocationService;

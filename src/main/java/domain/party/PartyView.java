@@ -50,6 +50,8 @@ public class PartyView implements Serializable {
 
     private Integer studentMemberCount;
 
+    private Integer positiveCount;
+
     private Integer teacherMemberCount;
 
     private Integer retireMemberCount;
@@ -242,6 +244,14 @@ public class PartyView implements Serializable {
 
     public void setStudentMemberCount(Integer studentMemberCount) {
         this.studentMemberCount = studentMemberCount;
+    }
+
+    public Integer getPositiveCount() {
+        return positiveCount;
+    }
+
+    public void setPositiveCount(Integer positiveCount) {
+        this.positiveCount = positiveCount;
     }
 
     public Integer getTeacherMemberCount() {

@@ -79,9 +79,8 @@ pageEncoding="UTF-8" %>
                 return ("{0}-{1}-{2}".format(rowObject.partyId, $.trim(rowObject.branchId)==''?0:rowObject.branchId, rowObject.configId))
             } }
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

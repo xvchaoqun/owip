@@ -115,9 +115,8 @@
                         .format(rowObject.id);
             }}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     register_party_select($('#searchForm select[name=partyId]'));
 </script>

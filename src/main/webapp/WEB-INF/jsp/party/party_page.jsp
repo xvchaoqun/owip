@@ -239,6 +239,9 @@ pageEncoding="UTF-8" %>
             { label:'党员总数', name: 'memberCount', width: 80, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
             }},
+            { label:'正式党员总数', name: 'positiveCount', width: 120, formatter:function(cellvalue, options, rowObject){
+                return cellvalue==undefined?0:cellvalue;
+            }},
             { label:'在职教职工', name: 'teacherMemberCount', width: 90, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined|| cellvalue==0) return 0;
                 return '<a href="#${ctx}/member?cls=2&partyId={0}" target="_blank">{1}</a>'.format(rowObject.id, cellvalue);

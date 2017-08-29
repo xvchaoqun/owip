@@ -82,9 +82,8 @@ pageEncoding="UTF-8" %>
             { label: '${column.comments}',name: '${tbn(column.name, "tableName")}'}<#if column_has_next>,</#if>
             </#list>
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

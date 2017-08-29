@@ -3,6 +3,34 @@
 <mapper namespace="persistence.common.IPcsMapper">
 
 
+    <!--党代表分配方案-->
+    <resultMap id="PcsPrAllocateBaseResultMap" type="persistence.common.bean.PcsPrAllocateBean"
+               extends="persistence.pcs.PcsPrAllocateMapper.BaseResultMap">
+        <result column="party_id" jdbcType="INTEGER" property="partyId"/>
+        <result column="party_name" jdbcType="VARCHAR" property="partyName"/>
+        <result column="positive_count" jdbcType="INTEGER" property="positiveCount"/>
+        <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
+    </resultMap>
+    <sql id="searchPcsPrAllocateBeans">
+        where op.is_deleted=0
+        <if test="partyId!=null">
+            and op.id=${partyId}
+        </if>
+    </sql>
+    <select id="selectPcsPrAllocateBeans" resultMap="PcsPrAllocateBaseResultMap" parameterType="map">
+        select ppa.id, op.id as party_id, op.name as party_name, op.member_count, op.positive_count,
+        ${configId} as config_id, ppa.pro_count,
+        ppa.stu_count, ppa.retire_count, ppa.female_count, ppa.minority_count, ppa.under_fifty_count
+        from ow_party_view op
+        left join (select * from pcs_pr_allocate where config_id=#{configId}) ppa on op.id=ppa.party_id
+        <include refid="searchPcsPrAllocateBeans"/>
+        order by op.sort_order desc
+    </select>
+    <select id="countPcsPrAllocateBeans" parameterType="map" resultType="java.lang.Integer">
+        select count(*) from ow_party_view op
+        <include refid="searchPcsPrAllocateBeans"/>
+    </select>
+
     <!--分党委推荐汇总情况（统计已上报数据）-->
     <resultMap id="PartyBaseResultMap" type="persistence.common.bean.PcsPartyBean"
                extends="persistence.party.PartyViewMapper.BaseResultMap">

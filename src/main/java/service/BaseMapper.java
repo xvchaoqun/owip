@@ -165,6 +165,7 @@ import persistence.pcs.PcsCandidateMapper;
 import persistence.pcs.PcsCandidateViewMapper;
 import persistence.pcs.PcsConfigMapper;
 import persistence.pcs.PcsIssueMapper;
+import persistence.pcs.PcsPrAllocateMapper;
 import persistence.pcs.PcsProposalMapper;
 import persistence.pcs.PcsRecommendMapper;
 import persistence.sys.AttachFileMapper;
@@ -494,6 +495,8 @@ public class BaseMapper {
     protected PcsProposalMapper pcsProposalMapper;
     @Autowired
     protected PcsRecommendMapper pcsRecommendMapper;
+    @Autowired
+    protected PcsPrAllocateMapper pcsPrAllocateMapper;
 
     @Autowired
     protected CpcAllocationMapper cpcAllocationMapper;

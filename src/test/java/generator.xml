@@ -240,6 +240,7 @@
             <columnOverride column="member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="student_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="teacher_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="positive_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
@@ -431,7 +432,7 @@
       </table>-->
       <!--<table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
       </table>-->
-      <table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
+      <!--<table tableName="pcs_candidate" domainObjectName="pcs.PcsCandidate" mapperName="pcs.PcsCandidateMapper">
       </table>
       <table tableName="pcs_candidate_view" domainObjectName="pcs.PcsCandidateView" mapperName="pcs.PcsCandidateViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -439,10 +440,24 @@
              enableDeleteByExample="false">
       </table>
       <table tableName="pcs_candidate_chosen" domainObjectName="pcs.PcsCandidateChosen" mapperName="pcs.PcsCandidateChosenMapper">
-      </table>
+      </table>-->
       <!--<table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
       </table>-->
 
+   <!--  <table tableName="pcs_pr_allocate" domainObjectName="pcs.PcsPrAllocate" mapperName="pcs.PcsPrAllocateMapper">
+      </table>-->
+      <!-- <table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
+      </table>
+      <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
+      </table>-->
+     <!-- <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView" mapperName="pcs.PcsPrCandidateViewMapper"
+             enableInsert="false" enableUpdateByPrimaryKey="false"
+             enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+             enableDeleteByExample="false">
+          <columnOverride column="user_type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+      </table>
+
+-->
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
       </table>-->
       <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
