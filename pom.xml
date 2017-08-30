@@ -653,6 +653,7 @@
           <include>css/a.min.css</include>
           <include>css/ie9.css</include>
           <include>js/extra.js</include>
+          <include>js/jquery.stickyheader.js</include>
           <!--<include>mobile/js/main.js</include>
           <include>mobile/css/main.css</include>-->
         </includes>
@@ -666,6 +667,19 @@
 
         <!-- 聚合文件 -->
         <aggregations>
+
+       <!--   <aggregation>
+            &lt;!&ndash; 合并每一个文件后插入一新行 &ndash;&gt;
+            <insertNewLine>true</insertNewLine>
+            &lt;!&ndash; 需合并文件的根文件夹 &ndash;&gt;
+            <inputDir>${basedir}/src/main/webapp</inputDir>
+            &lt;!&ndash; 最终合并的输出文件 &ndash;&gt;
+            <output>${basedir}/src/main/webapp/js/jquery.stickyheader.js</output>
+            &lt;!&ndash; 把以下js文件合并成一个js文件，是按顺序合并的 &ndash;&gt;
+            <includes>
+              <include>extend/js/jquery.stickyheader.js</include>
+            </includes>
+          </aggregation>-->
 
           <aggregation>
             <!-- 合并每一个文件后插入一新行 -->

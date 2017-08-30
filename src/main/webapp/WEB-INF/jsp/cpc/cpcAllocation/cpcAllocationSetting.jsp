@@ -72,9 +72,6 @@
 
     -->
 </style>
-<link rel="stylesheet" type="text/css" href="${ctx}/css/component.css"/>
-<script src="${ctx}/js/jquery.ba-throttle-debounce.js"></script>
-<script src="${ctx}/js/jquery.stickyheader.js"></script>
 <script>
     $(function () {
         stickheader();

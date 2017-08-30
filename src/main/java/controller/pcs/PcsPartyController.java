@@ -138,7 +138,7 @@ public class PcsPartyController extends BaseController {
         int configId = currentPcsConfig.getId();
 
         if(pcsAdminService.hasReport(partyId, configId, stage)){
-            return failed("您所在分党委已经上报或组织部已下发名单，无法上报。");
+            return failed("您所在分党委已经上报或组织部已下发名单。");
         }
 
         pcsAdminService.report(partyId, configId, stage);

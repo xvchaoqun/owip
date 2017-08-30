@@ -105,7 +105,7 @@ public class PcsRecommendService extends BaseMapper {
                 jwIssueUserIdSet.add(jwCandidate.getUserId());
             }
         }
-
+        Date now = new Date();
         // 添加党委委员
         pcsCandidateService.clear(recommendId, SystemConstants.PCS_USER_TYPE_DW);
         if(dwCandidateIds!=null){
@@ -123,7 +123,7 @@ public class PcsRecommendService extends BaseMapper {
                 _pcsCandidate.setUserId(userId);
                 _pcsCandidate.setType(SystemConstants.PCS_USER_TYPE_DW);
                 _pcsCandidate.setIsFromStage(isFromStage);
-                _pcsCandidate.setAddTime(new Date());
+                _pcsCandidate.setAddTime(now);
                 _pcsCandidate.setIsFromStage(dwIssueUserIdSet.contains(userId));
 
                 pcsCandidateService.insertSelective(_pcsCandidate);
@@ -147,7 +147,7 @@ public class PcsRecommendService extends BaseMapper {
                 _pcsCandidate.setUserId(userId);
                 _pcsCandidate.setType(SystemConstants.PCS_USER_TYPE_JW);
                 _pcsCandidate.setIsFromStage(isFromStage);
-                _pcsCandidate.setAddTime(new Date());
+                _pcsCandidate.setAddTime(now);
                 _pcsCandidate.setIsFromStage(jwIssueUserIdSet.contains(userId));
 
                 pcsCandidateService.insertSelective(_pcsCandidate);

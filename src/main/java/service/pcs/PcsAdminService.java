@@ -1,6 +1,8 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.base.MetaType;
+import domain.party.Party;
 import domain.party.PartyMemberView;
 import domain.party.PartyMemberViewExample;
 import domain.pcs.PcsAdmin;
@@ -8,12 +10,16 @@ import domain.pcs.PcsAdminExample;
 import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsAdminReportExample;
 import domain.pcs.PcsConfig;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.party.PartyMemberService;
+import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -38,6 +44,10 @@ public class PcsAdminService extends BaseMapper {
     private PcsConfigService pcsConfigService;
     @Autowired
     private PcsOwService pcsOwService;
+    @Autowired
+    private PartyMemberService partyMemberService;
+    @Autowired
+    private PartyService partyService;
 
     // 判断是否上报
     public boolean hasReport(int partyId, int configId, byte stage){
@@ -179,11 +189,34 @@ public class PcsAdminService extends BaseMapper {
     @Transactional
     public void add(PcsAdmin record) {
 
-        // 只能添加普通管理员
-        record.setType(SystemConstants.PCS_ADMIN_TYPE_NORMAL);
+        int userId = record.getUserId();
+        byte type = SystemConstants.PCS_ADMIN_TYPE_NORMAL;
+
+        PartyMemberView pmv = partyMemberService.getPartyMemberView(userId);
+        if(pmv!=null){
+
+            Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
+            MetaType partySecretaryType = codeKeyMap.get("mt_party_secretary");
+            MetaType partyViceSecretaryType = codeKeyMap.get("mt_party_vice_secretary");
+
+            if(pmv.getPostId().intValue()==partySecretaryType.getId()){
+                type = SystemConstants.PCS_ADMIN_TYPE_SECRETARY;
+            }else if(pmv.getPostId().intValue()==partyViceSecretaryType.getId()){
+                type = SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY;
+            }
+
+            if(type != SystemConstants.PCS_ADMIN_TYPE_NORMAL){
+                if(pmv.getPartyId().intValue()!=record.getPartyId()){
+                    Party party = partyService.findAll().get(record.getPartyId());
+                    throw new OpException("{0}是{1}的{2}，不可以添加为别的分党委的管理员。",
+                            pmv.getRealname(), party.getName(), SystemConstants.PCS_ADMIN_TYPE_MAP.get(type));
+                }
+            }
+        }
+
+        record.setType(type);
         pcsAdminMapper.insertSelective(record);
 
-        Integer userId = record.getUserId();
         SysUserView uv = sysUserService.findById(userId);
         sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
     }
@@ -203,5 +236,21 @@ public class PcsAdminService extends BaseMapper {
         PcsAdminExample example = new PcsAdminExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         pcsAdminMapper.deleteByExample(example);
+    }
+
+    // 更新管理员手机号码
+    @Transactional
+    public void updateInfo(int id, String remark, String mobile) {
+
+        PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
+        PcsAdmin _pcsAdmin = new PcsAdmin();
+        _pcsAdmin.setId(id);
+        _pcsAdmin.setRemark(StringUtils.trimToEmpty(remark));
+
+        SysUserInfo record = new SysUserInfo();
+        record.setUserId(pcsAdmin.getUserId());
+        record.setMobile(mobile);
+
+        sysUserService.insertOrUpdateUserInfoSelective(record);
     }
 }

@@ -16,6 +16,8 @@ public class PcsPrCandidate implements Serializable {
 
     private Boolean isFromStage;
 
+    private Integer sortOrder;
+
     private Date addTime;
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +68,14 @@ public class PcsPrCandidate implements Serializable {
 
     public void setIsFromStage(Boolean isFromStage) {
         this.isFromStage = isFromStage;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Date getAddTime() {

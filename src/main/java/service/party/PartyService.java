@@ -7,6 +7,8 @@ import domain.party.Party;
 import domain.party.PartyExample;
 import domain.party.PartyMemberGroup;
 import domain.party.PartyMemberGroupExample;
+import domain.party.PartyView;
+import domain.party.PartyViewExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,16 @@ public class PartyService extends BaseMapper {
     private PartyMemberGroupService partyMemberGroupService;
     @Autowired
     private OrgAdminService orgAdminService;
+
+
+    public PartyView getPartyView(int partyId){
+
+        PartyViewExample example = new PartyViewExample();
+        example.createCriteria().andIdEqualTo(partyId);
+
+        List<PartyView> partyViews = partyViewMapper.selectByExample(example);
+        return partyViews.size()==0?null:partyViews.get(0);
+    }
 
     // 判断partyId和branchId的有效性
     public boolean isPartyContainBranch(int partyId, Integer branchId) {

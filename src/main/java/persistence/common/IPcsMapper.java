@@ -28,6 +28,18 @@ public interface IPcsMapper {
     public int countPcsPrAllocateBeans( @Param("configId") int configId,
                                         @Param("partyId") Integer partyId);
 
+    // 党代表候选人初步人选名单（分党委）
+    public List<IPcsCandidateView> selectPcsPrPartyCandidates(@Param("userId") Integer userId,
+                                                          @Param("configId") int configId,
+                                                          @Param("stage") int stage,
+                                                          @Param("partyId") int partyId,
+                                                          RowBounds rowBounds);
+
+    public int countPcsPrPartyCandidates(@Param("userId") Integer userId,
+                                     @Param("configId") int configId,
+                                     @Param("stage") int stage,
+                                     @Param("partyId") int partyId);
+
 
     // 全校 应参会党员总数/实参会党员总数
     @ResultType(java.util.HashMap.class)

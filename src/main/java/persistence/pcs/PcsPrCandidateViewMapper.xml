@@ -8,6 +8,7 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
@@ -58,9 +59,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, vote, is_from_stage, add_time, code, realname, gender, 
-    birth, nation, user_type, edu_id, post, grow_time, work_time, pro_post, education, 
-    is_retire, edu_level, party_id, branch_id, config_id, stage
+    id, recommend_id, user_id, type, vote, is_from_stage, sort_order, add_time, code, 
+    realname, gender, birth, nation, user_type, edu_id, post, grow_time, work_time, pro_post, 
+    education, is_retire, edu_level, party_id, branch_id, config_id, stage
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateViewExample" resultMap="BaseResultMap">
     select

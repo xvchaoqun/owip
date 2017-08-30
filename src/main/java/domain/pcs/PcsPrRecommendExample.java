@@ -1,6 +1,7 @@
 package domain.pcs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PcsPrRecommendExample {
@@ -641,6 +642,126 @@ public class PcsPrRecommendExample {
 
         public Criteria andHasReportNotBetween(Boolean value1, Boolean value2) {
             addCriterion("has_report not between", value1, value2, "hasReport");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdIsNull() {
+            addCriterion("report_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdIsNotNull() {
+            addCriterion("report_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdEqualTo(Integer value) {
+            addCriterion("report_user_id =", value, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdNotEqualTo(Integer value) {
+            addCriterion("report_user_id <>", value, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdGreaterThan(Integer value) {
+            addCriterion("report_user_id >", value, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("report_user_id >=", value, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdLessThan(Integer value) {
+            addCriterion("report_user_id <", value, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("report_user_id <=", value, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdIn(List<Integer> values) {
+            addCriterion("report_user_id in", values, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdNotIn(List<Integer> values) {
+            addCriterion("report_user_id not in", values, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("report_user_id between", value1, value2, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("report_user_id not between", value1, value2, "reportUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeIsNull() {
+            addCriterion("report_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeIsNotNull() {
+            addCriterion("report_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeEqualTo(Date value) {
+            addCriterion("report_time =", value, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeNotEqualTo(Date value) {
+            addCriterion("report_time <>", value, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeGreaterThan(Date value) {
+            addCriterion("report_time >", value, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("report_time >=", value, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeLessThan(Date value) {
+            addCriterion("report_time <", value, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeLessThanOrEqualTo(Date value) {
+            addCriterion("report_time <=", value, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeIn(List<Date> values) {
+            addCriterion("report_time in", values, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeNotIn(List<Date> values) {
+            addCriterion("report_time not in", values, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeBetween(Date value1, Date value2) {
+            addCriterion("report_time between", value1, value2, "reportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportTimeNotBetween(Date value1, Date value2) {
+            addCriterion("report_time not between", value1, value2, "reportTime");
             return (Criteria) this;
         }
 

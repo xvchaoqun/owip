@@ -24,6 +24,8 @@ public class PcsAdmin implements Serializable {
 
     private Integer configId;
 
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -64,5 +66,13 @@ public class PcsAdmin implements Serializable {
 
     public void setConfigId(Integer configId) {
         this.configId = configId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

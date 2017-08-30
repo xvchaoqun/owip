@@ -16,13 +16,29 @@ public class PcsPrAlocateService extends BaseMapper {
 
     // 批量设置
     @Transactional
-    public void batchAdd(int configId, List<PcsPrAllocate> records) {
+    public void batchUpdate(int configId, List<PcsPrAllocate> records) {
 
         for (PcsPrAllocate record : records) {
 
-            record.setConfigId(configId);
-            insertSelective(record);
+            PcsPrAllocate pcsPrAllocate = get(configId, record.getPartyId());
+            if(pcsPrAllocate!=null){
+                record.setId(pcsPrAllocate.getId());
+                pcsPrAllocateMapper.updateByPrimaryKeySelective(record);
+            }else {
+                record.setConfigId(configId);
+                pcsPrAllocateMapper.insertSelective(record);
+            }
         }
+    }
+
+    public PcsPrAllocate get(int configId, int partyId){
+
+        PcsPrAllocateExample example = new PcsPrAllocateExample();
+        PcsPrAllocateExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId)
+                .andPartyIdEqualTo(partyId);
+
+        List<PcsPrAllocate> pcsPrAllocates = pcsPrAllocateMapper.selectByExample(example);
+        return (pcsPrAllocates.size()==0)?null:pcsPrAllocates.get(0);
     }
 
     public boolean idDuplicate(Integer id, int configId, int partyId) {

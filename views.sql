@@ -4,6 +4,18 @@ Source Server Version: 5.7.10
 Source Database: db_owip
 Date: 2017/6/1 12:41:29
 */
+
+DROP VIEW IF EXISTS `pcs_pr_candidate_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_pr_candidate_view` AS SELECT pc.*, uv.code, uv.realname, uv.gender, uv.birth, uv.nation, if(isnull(c.id), if(isnull(omt.user_id), 3 , 2), 1) as user_type, c.edu_id as edu_id, c.post,
+  ifnull(omt.grow_time, oms.grow_time) as grow_time,  omt.work_time, omt.pro_post, omt.education, omt.is_retire, oms.edu_level,
+pr.party_id, pr.branch_id, pr.config_id, pr.stage
+from pcs_pr_candidate pc
+left join sys_user_view uv on uv.id=pc.user_id
+left join cadre_view c on c.user_id = pc.user_id and c.status in(1, 6)
+left join ow_member_teacher omt on omt.user_id = pc.user_id
+left join ow_member_student oms on oms.user_id = pc.user_id
+, pcs_recommend pr where pc.recommend_id=pr.id;
+
 DROP VIEW IF EXISTS `pcs_branch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view` AS
 select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count from ow_branch_view ob
@@ -468,14 +480,14 @@ left join cadre_party ow on ow.user_id= opm.user_id and ow.type = 2;
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_party_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_party_view` AS
-select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count,
+select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
 mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, pmgtmp.num as group_count, pmgtmp2.num as present_group_count from ow_party p
 left join (select count(*) as num, party_id from ow_branch where is_deleted=0 group by party_id) btmp on btmp.party_id=p.id
-left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
+left join (select sum(if(type=2, 1, 0)) as s_num, sum(if(political_status=2, 1, 0)) as positive_count, count(*) as num,  party_id from ow_member where  status=1 group by party_id) mtmp on mtmp.party_id=p.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
 count(*) as num, party_id from ow_member_teacher where status=1 group by party_id) mtmp2 on mtmp2.party_id=p.id
 left join (select count(*) as num, party_id from ow_party_member_group group by party_id) pmgtmp on pmgtmp.party_id=p.id
-left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id  ;
+left join (select count(*) as num, party_id from ow_party_member_group where is_present=1 group by party_id) pmgtmp2 on pmgtmp2.party_id=p.id;
 -- ----------------------------
 --  View definition for `sys_user_view`
 -- ----------------------------

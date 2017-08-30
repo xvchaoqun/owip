@@ -60,6 +60,16 @@ public class PartyMemberService extends BaseMapper {
     @Autowired
     protected SysConfigService sysConfigService;
 
+    // 获取现任分党委委员
+    public PartyMemberView getPartyMemberView(int userId){
+
+        PartyMemberViewExample example = new PartyMemberViewExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+
+        List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
+        return records.size()==0?null:records.get(0);
+    }
+
     // 导出列表中分党委的所有委员
     public SXSSFWorkbook export(PartyMemberViewExample example) {
 

@@ -423,9 +423,15 @@ public class CommonController extends BaseController {
     // 根据类别、状态、账号或姓名或学工号 查询 党员
     @RequestMapping("/member_selects")
     @ResponseBody
-    public Map member_selects(Integer pageSize, Byte type, Byte politicalStatus, Byte status,
+    public Map member_selects(Integer pageSize,
+                              Integer partyId,
+                              Byte type,
+                              Boolean isRetire,
+                              Byte politicalStatus,
+                              Byte status,
                               Boolean noAuth, // 默认需要读取权限
-                              Integer pageNo, String searchStr) throws IOException {
+                              Integer pageNo,
+                              String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -449,13 +455,13 @@ public class CommonController extends BaseController {
             adminBranchIdList = loginUserService.adminBranchIdList();
         }
 
-        int count = iMemberMapper.countMember(type,  politicalStatus, status,
+        int count = iMemberMapper.countMember(partyId, type, isRetire, politicalStatus, status,
                 searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Member> members = iMemberMapper.selectMemberList(type, politicalStatus,status, searchStr,
+        List<Member> members = iMemberMapper.selectMemberList(partyId, type, isRetire, politicalStatus,status, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();

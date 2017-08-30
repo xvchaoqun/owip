@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
 import domain.pcs.PcsAdminExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -20,6 +21,7 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -120,7 +122,34 @@ public class PcsAdminController extends BaseController {
     @RequiresPermissions("pcsAdmin:edit")
     @RequestMapping(value = "/pcsAdmin_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsAdmin_au(PcsAdmin record, HttpServletRequest request) {
+    public Map do_pcsAdmin_au(int id, String remark, String mobile, HttpServletRequest request) {
+
+
+        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
+
+        pcsAdminService.updateInfo(id, remark, mobile);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改党代会分党委管理员信息：%s", id));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsAdmin:edit")
+    @RequestMapping("/pcsAdmin_au")
+    public String pcsAdmin_au(int id, ModelMap modelMap) {
+
+        PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
+        modelMap.put("pcsAdmin", pcsAdmin);
+        SysUserView sysUser = sysUserService.findById(pcsAdmin.getUserId());
+        modelMap.put("sysUser", sysUser);
+
+        return "pcs/pcsAdmin/pcsAdmin_au";
+    }
+
+    @RequiresPermissions("pcsAdmin:edit")
+    @RequestMapping(value = "/pcsAdmin_add", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsAdmin_add(PcsAdmin record, HttpServletRequest request) {
 
 
         if (pcsAdminService.idDuplicate(null, record.getUserId())) {
@@ -134,12 +163,12 @@ public class PcsAdminController extends BaseController {
     }
 
     @RequiresPermissions("pcsAdmin:edit")
-    @RequestMapping("/pcsAdmin_au")
-    public String pcsAdmin_au(ModelMap modelMap) {
+    @RequestMapping("/pcsAdmin_add")
+    public String pcsAdmin_add(ModelMap modelMap) {
 
         modelMap.put("pcsConfig", pcsConfigService.getCurrentPcsConfig());
 
-        return "pcs/pcsAdmin/pcsAdmin_au";
+        return "pcs/pcsAdmin/pcsAdmin_add";
     }
 
     @RequiresPermissions("pcsAdmin:del")

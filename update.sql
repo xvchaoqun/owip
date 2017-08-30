@@ -1,5 +1,6 @@
 
 
+
 2017-8-29
 ALTER TABLE `pcs_recommend`
 	DROP INDEX `party_id_branch_id_config_id`;
@@ -14,6 +15,8 @@ ALTER TABLE `pcs_recommend`
 
 pcs_candidate_view
 
+ALTER TABLE `pcs_admin`
+	ADD COLUMN `remark` VARCHAR(255) NULL COMMENT '备注' AFTER `config_id`;
 
 2017-8-29
 ALTER TABLE `sys_login_log`

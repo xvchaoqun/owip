@@ -7,6 +7,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, party_id, user_id, type, config_id
+    id, party_id, user_id, type, config_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsAdminExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsAdmin">
     insert into pcs_admin (id, party_id, user_id, 
-      type, config_id)
+      type, config_id, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{configId,jdbcType=INTEGER})
+      #{type,jdbcType=TINYINT}, #{configId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsAdmin">
     insert into pcs_admin
@@ -123,6 +126,9 @@
       <if test="configId != null">
         config_id,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +145,9 @@
       </if>
       <if test="configId != null">
         #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="record.configId != null">
         config_id = #{record.configId,jdbcType=INTEGER},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
-      config_id = #{record.configId,jdbcType=INTEGER}
+      config_id = #{record.configId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="configId != null">
         config_id = #{configId,jdbcType=INTEGER},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +221,8 @@
     set party_id = #{partyId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
-      config_id = #{configId,jdbcType=INTEGER}
+      config_id = #{configId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsAdminExample" resultMap="BaseResultMap">

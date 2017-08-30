@@ -24,6 +24,8 @@ public class TeacherInfo implements Serializable {
 
     private Date arriveTime;
 
+    private Date workTime;
+
     private Date workStartTime;
 
     private String workBreak;
@@ -164,6 +166,14 @@ public class TeacherInfo implements Serializable {
 
     public void setArriveTime(Date arriveTime) {
         this.arriveTime = arriveTime;
+    }
+
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
     }
 
     public Date getWorkStartTime() {

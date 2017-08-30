@@ -1064,6 +1064,40 @@ public class SystemConstants {
         PCS_STAGE_MAP.put(PCS_STAGE_THIRD, "三下三上");
     }
 
+    // 党代表类型，1 专业技术人员和干部 2 学生代表 3 离退休代表
+    public final static byte PCS_PR_TYPE_PRO = 1;
+    public final static byte PCS_PR_TYPE_STU = 2;
+    public final static byte PCS_PR_TYPE_RETIRE = 3;
+    public final static Map<Byte, String> PCS_PR_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_PR_TYPE_MAP.put(PCS_PR_TYPE_PRO, "专业技术人员和干部");
+        PCS_PR_TYPE_MAP.put(PCS_PR_TYPE_STU, "学生代表");
+        PCS_PR_TYPE_MAP.put(PCS_PR_TYPE_RETIRE, "离退休代表");
+    }
+    // 党代表用户类型，1 干部 2 普通教师 3 学生
+    public final static byte PCS_PR_USER_TYPE_CADRE = 1;
+    public final static byte PCS_PR_USER_TYPE_TEACHER = 2;
+    public final static byte PCS_PR_USER_TYPE_STU = 3;
+    public final static Map<Byte, String> PCS_PR_USER_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_PR_USER_TYPE_MAP.put(PCS_PR_USER_TYPE_CADRE, "干部");
+        PCS_PR_USER_TYPE_MAP.put(PCS_PR_USER_TYPE_TEACHER, "普通教师");
+        PCS_PR_USER_TYPE_MAP.put(PCS_PR_USER_TYPE_STU, "学生");
+    }
+    // 党代表名单填报审核情况，0 待审核 1 审核通过 2 审核不通过
+    public final static byte PCS_PR_RECOMMEND_STATUS_INIT = 0;
+    public final static byte PCS_PR_RECOMMEND_STATUS_PASS = 1;
+    public final static byte PCS_PR_RECOMMEND_STATUS_DENY = 2;
+    public final static Map<Byte, String> PCS_PR_RECOMMEND_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_PR_RECOMMEND_STATUS_MAP.put(PCS_PR_RECOMMEND_STATUS_INIT, "待审核");
+        PCS_PR_RECOMMEND_STATUS_MAP.put(PCS_PR_RECOMMEND_STATUS_PASS, "审核通过");
+        PCS_PR_RECOMMEND_STATUS_MAP.put(PCS_PR_RECOMMEND_STATUS_DENY, "审核不通过");
+    }
+
     // 干部培训 评课账号的状态
     public final static byte TRAIN_INSPECTOR_STATUS_INIT = 0;
     public final static byte TRAIN_INSPECTOR_STATUS_ABOLISH = 1;

@@ -204,6 +204,15 @@
 <c:set value="<%=SystemConstants.PCS_STAGE_THIRD%>" var="PCS_STAGE_THIRD"/>
 <c:set value="<%=SystemConstants.PCS_STAGE_MAP%>" var="PCS_STAGE_MAP"/>
 
+<c:set value="<%=SystemConstants.PCS_PR_TYPE_PRO%>" var="PCS_PR_TYPE_PRO"/>
+<c:set value="<%=SystemConstants.PCS_PR_TYPE_STU%>" var="PCS_PR_TYPE_STU"/>
+<c:set value="<%=SystemConstants.PCS_PR_TYPE_RETIRE%>" var="PCS_PR_TYPE_RETIRE"/>
+<c:set value="<%=SystemConstants.PCS_PR_TYPE_MAP%>" var="PCS_PR_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_CADRE%>" var="PCS_PR_USER_TYPE_CADRE"/>
+<c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_TEACHER%>" var="PCS_PR_USER_TYPE_TEACHER"/>
+<c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_STU%>" var="PCS_PR_USER_TYPE_STU"/>
+
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>

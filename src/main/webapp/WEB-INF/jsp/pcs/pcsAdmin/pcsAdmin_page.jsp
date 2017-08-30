@@ -12,12 +12,18 @@
                    value="${not empty param.partyId ||not empty param.userId || not empty param.type || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="pcsAdmin:edit">
-                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsAdmin_au"><i class="fa fa-plus"></i> 添加普通管理员</a>
+                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsAdmin_add"><i class="fa fa-plus"></i> 添加管理员</a>
                     <a class="confirm btn btn-success btn-sm"
                        data-url="${ctx}/pcsAdmin_sync"
                        data-title="同步党代会管理员"
                        data-msg="确定同步每个分党委的书记、副书记为当前党代会的管理员？" data-callback="_reload"><i class="fa fa-random"></i>
                         同步党代会管理员</a>
+
+                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                       data-url="${ctx}/pcsAdmin_au"
+                       data-grid-id="#jqGrid"
+                       data-querystr="&"><i class="fa fa-edit"></i>
+                        修改管理员信息</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="pcsAdmin:del">
                     <button data-url="${ctx}/pcsAdmin_batchDel"
@@ -50,7 +56,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>教职工</label>
+                                <label>用户</label>
                                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
@@ -106,6 +112,9 @@
                 return $.user(rowObject.userId, cellvalue);
             }, frozen: true
             },
+            {
+                label: '手机号码', name: 'user.mobile',width:120
+            },
             {label: '工作证号', name: 'user.code', width: 120, frozen: true},
             {label: '所在单位', name: 'unit', width: 300, align:'left', frozen: true},
             {
@@ -113,7 +122,8 @@
                 if ($.trim(cellvalue) == '') return '-'
                 return _cMap.PCS_ADMIN_TYPE_MAP[cellvalue];
             }
-            }
+            },
+            { label: '备注',name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

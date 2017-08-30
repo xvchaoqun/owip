@@ -16,6 +16,8 @@ public class PcsPrCandidateView implements Serializable {
 
     private Boolean isFromStage;
 
+    private Integer sortOrder;
+
     private Date addTime;
 
     private String code;
@@ -102,6 +104,14 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setIsFromStage(Boolean isFromStage) {
         this.isFromStage = isFromStage;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Date getAddTime() {

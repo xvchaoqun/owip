@@ -11,6 +11,8 @@
     <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount" />
     <result column="actual_positive_member_count" jdbcType="INTEGER" property="actualPositiveMemberCount" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
+    <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,7 +75,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, config_id, stage, party_id, expect_member_count, expect_positive_member_count, 
-    actual_member_count, actual_positive_member_count, has_report, status
+    actual_member_count, actual_positive_member_count, has_report, report_user_id, report_time, 
+    status
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrRecommendExample" resultMap="BaseResultMap">
     select
@@ -105,17 +108,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.pcs.PcsPrRecommend">
+  <insert keyProperty="id" id="insert" parameterType="domain.pcs.PcsPrRecommend">
     insert into pcs_pr_recommend (id, config_id, stage, 
       party_id, expect_member_count, expect_positive_member_count, 
       actual_member_count, actual_positive_member_count, 
-      has_report, status)
+      has_report, report_user_id, report_time, 
+      status)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
       #{partyId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{expectPositiveMemberCount,jdbcType=INTEGER}, 
       #{actualMemberCount,jdbcType=INTEGER}, #{actualPositiveMemberCount,jdbcType=INTEGER}, 
-      #{hasReport,jdbcType=BIT}, #{status,jdbcType=TINYINT})
+      #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.pcs.PcsPrRecommend">
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.pcs.PcsPrRecommend">
     insert into pcs_pr_recommend
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -144,6 +149,12 @@
       </if>
       <if test="hasReport != null">
         has_report,
+      </if>
+      <if test="reportUserId != null">
+        report_user_id,
+      </if>
+      <if test="reportTime != null">
+        report_time,
       </if>
       <if test="status != null">
         status,
@@ -176,6 +187,12 @@
       </if>
       <if test="hasReport != null">
         #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="reportUserId != null">
+        #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -218,6 +235,12 @@
       <if test="record.hasReport != null">
         has_report = #{record.hasReport,jdbcType=BIT},
       </if>
+      <if test="record.reportUserId != null">
+        report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportTime != null">
+        report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -237,6 +260,8 @@
       actual_member_count = #{record.actualMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{record.actualPositiveMemberCount,jdbcType=INTEGER},
       has_report = #{record.hasReport,jdbcType=BIT},
+      report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      report_time = #{record.reportTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -269,6 +294,12 @@
       <if test="hasReport != null">
         has_report = #{hasReport,jdbcType=BIT},
       </if>
+      <if test="reportUserId != null">
+        report_user_id = #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -285,6 +316,8 @@
       actual_member_count = #{actualMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{actualPositiveMemberCount,jdbcType=INTEGER},
       has_report = #{hasReport,jdbcType=BIT},
+      report_user_id = #{reportUserId,jdbcType=INTEGER},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

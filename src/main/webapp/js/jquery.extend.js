@@ -52,7 +52,9 @@ jQuery.validator.setDefaults({
     errorPlacement: function (error, element) {
         if (error.html() != '') {
             //$("label:first", element.closest(".form-group")).css("color", "red")
-            $.tip({$form: element.closest("form"), field: element.attr("name"), msg: error.text()})
+            //console.log(element.data("container"))
+            $.tip({$form: element.closest("form"),$container:$(element.data("container")),
+                field: element.attr("name"), msg: error.text()})
         }
     }
     /*
@@ -240,6 +242,7 @@ var _modal_width;
 
             var $target = params.$target;
             var $container = params.$container;
+            if($container!=undefined && $container.is(":hidden")) return;
             var msg = params.msg;
             var my = params.my;
             var at = params.at;
@@ -725,7 +728,7 @@ try {
     toastr.options = {
         "closeButton": true,
         "debug": false,
-        "positionClass": "toast-top-full-width",
+        "positionClass": "toast-bottom-full-width",
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "1000",

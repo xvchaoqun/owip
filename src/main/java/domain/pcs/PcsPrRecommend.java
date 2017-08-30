@@ -1,6 +1,7 @@
 package domain.pcs;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class PcsPrRecommend implements Serializable {
     private Integer id;
@@ -20,6 +21,10 @@ public class PcsPrRecommend implements Serializable {
     private Integer actualPositiveMemberCount;
 
     private Boolean hasReport;
+
+    private Integer reportUserId;
+
+    private Date reportTime;
 
     private Byte status;
 
@@ -95,6 +100,22 @@ public class PcsPrRecommend implements Serializable {
 
     public void setHasReport(Boolean hasReport) {
         this.hasReport = hasReport;
+    }
+
+    public Integer getReportUserId() {
+        return reportUserId;
+    }
+
+    public void setReportUserId(Integer reportUserId) {
+        this.reportUserId = reportUserId;
+    }
+
+    public Date getReportTime() {
+        return reportTime;
+    }
+
+    public void setReportTime(Date reportTime) {
+        this.reportTime = reportTime;
     }
 
     public Byte getStatus() {
