@@ -552,7 +552,9 @@ public class PcsPrExportService extends BaseMapper {
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+        String str = cell.getStringCellValue()
+                .replace("title", title)
+                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
         if (partyId != null) {
             str = str.replace("deadline", deadline);
         }
@@ -623,7 +625,9 @@ public class PcsPrExportService extends BaseMapper {
 
         row = sheet.getRow(nextRow);
         cell = row.getCell(0);
-        str = cell.getStringCellValue().replace("nextStageShort", nextStageStr);
+        str = cell.getStringCellValue()
+                .replace("rate", rate)
+                .replace("nextStageShort", nextStageStr);
         cell.setCellValue(str);
 
         PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId, stage, partyId, null);
