@@ -91,7 +91,7 @@
                     <th colspan="10">
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
-                                    autocomplete="off"  ${!allowModify?"disabled":""}
+                                    autocomplete="off"
                                     class="btn btn-success btn-lg btn-block"><i class="fa fa-random"></i> 保存
                             </button>
                         </div>
