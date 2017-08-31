@@ -533,7 +533,8 @@ public class PcsExportService extends BaseMapper {
         startRow = startRow + 2 + (rowCount == 0 ? 1 : 0);
         row = sheet.getRow(startRow);
         try {
-            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, 11));
+            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow-1, 0, startRow-1, row.getLastCellNum()-1));
+            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, row.getLastCellNum()-1));
         }catch (Exception e){
 
         }
