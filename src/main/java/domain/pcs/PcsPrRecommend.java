@@ -28,6 +28,8 @@ public class PcsPrRecommend implements Serializable {
 
     private Byte status;
 
+    private String checkRemark;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -124,5 +126,13 @@ public class PcsPrRecommend implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getCheckRemark() {
+        return checkRemark;
+    }
+
+    public void setCheckRemark(String checkRemark) {
+        this.checkRemark = checkRemark == null ? null : checkRemark.trim();
     }
 }

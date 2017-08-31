@@ -64,11 +64,11 @@
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
-                label: '职别', name: 'proPost', width: 200, formatter: function (cellvalue, options, rowObject) {
+                label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                     return '干部';
                 } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
-                    return (rowObject.isRetire) ? "离退休" : cellvalue;
+                    return (rowObject.isRetire) ? "离退休" : $.trim(cellvalue);
                 }
                 return $.trim(rowObject.eduLevel);
             }
@@ -76,7 +76,7 @@
             {
                 label: '职务',
                 name: 'post',
-                width: 350,
+                width: 150,
                 align: 'left', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                     return $.trim(cellvalue);
@@ -93,7 +93,7 @@
         if(userIds.length==0) return;
 
         var $jqGrid = $("#jqGrid${param.type}");
-        $.post("${ctx}/pcsRecommend_selectUser", {userIds: userIds}, function (ret) {
+        $.post("${ctx}/pcsPrParty_selectUser", {userIds: userIds, stage:${param.stage}}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');
                 $.each(ret.candidates, function(i, candidate){

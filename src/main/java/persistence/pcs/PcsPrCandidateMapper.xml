@@ -6,6 +6,9 @@
     <result column="recommend_id" jdbcType="INTEGER" property="recommendId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, vote, is_from_stage, sort_order, add_time
+    id, recommend_id, user_id, type, gender, birth, nation, vote, is_from_stage, sort_order, 
+    add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateExample" resultMap="BaseResultMap">
     select
@@ -104,11 +108,13 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate (id, recommend_id, user_id, 
-      type, vote, is_from_stage, 
-      sort_order, add_time)
+      type, gender, birth, nation, 
+      vote, is_from_stage, sort_order, 
+      add_time)
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{vote,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP})
+      #{type,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
+      #{vote,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{addTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate
@@ -124,6 +130,15 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="nation != null">
+        nation,
       </if>
       <if test="vote != null">
         vote,
@@ -150,6 +165,15 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
       </if>
       <if test="vote != null">
         #{vote,jdbcType=INTEGER},
@@ -186,6 +210,15 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
       <if test="record.vote != null">
         vote = #{record.vote,jdbcType=INTEGER},
       </if>
@@ -209,6 +242,9 @@
       recommend_id = #{record.recommendId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      gender = #{record.gender,jdbcType=TINYINT},
+      birth = #{record.birth,jdbcType=DATE},
+      nation = #{record.nation,jdbcType=VARCHAR},
       vote = #{record.vote,jdbcType=INTEGER},
       is_from_stage = #{record.isFromStage,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -228,6 +264,15 @@
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
       </if>
       <if test="vote != null">
         vote = #{vote,jdbcType=INTEGER},
@@ -249,6 +294,9 @@
     set recommend_id = #{recommendId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      gender = #{gender,jdbcType=TINYINT},
+      birth = #{birth,jdbcType=DATE},
+      nation = #{nation,jdbcType=VARCHAR},
       vote = #{vote,jdbcType=INTEGER},
       is_from_stage = #{isFromStage,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},

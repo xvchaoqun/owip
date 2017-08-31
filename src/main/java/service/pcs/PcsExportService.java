@@ -20,6 +20,7 @@ import service.BaseMapper;
 import service.analysis.StatService;
 import service.party.PartyService;
 import sys.constants.SystemConstants;
+import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.NumberUtils;
@@ -529,7 +530,13 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(NumberUtils.trimToZero(bean.getActualMemberCount()));
         }
 
-        row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
+        startRow = startRow + 2 + (rowCount == 0 ? 1 : 0);
+        row = sheet.getRow(startRow);
+        try {
+            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, 11));
+        }catch (Exception e){
+
+        }
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
@@ -551,9 +558,15 @@ public class PcsExportService extends BaseMapper {
             title = "中国共产党北京师范大学第十三届纪律检查委员会委员";
         }
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-1-1.xlsx"));
+        String filename = "wy-1-1.xlsx";
+        if(stage == SystemConstants.PCS_STAGE_SECOND){
+            filename = "wy-3-1-1.xlsx";
+        }
+
+        String typeName = SystemConstants.PCS_USER_TYPE_MAP.get(type);
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
-        wb.setSheetName(0, SystemConstants.PCS_USER_TYPE_MAP.get(type));
+        wb.setSheetName(0, typeName);
         XSSFSheet sheet = wb.getSheetAt(0);
 
         XSSFRow row = sheet.getRow(0);
@@ -561,6 +574,20 @@ public class PcsExportService extends BaseMapper {
         String str = cell.getStringCellValue()
                 .replace("title", title)
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+        cell.setCellValue(str);
+
+        if(stage == SystemConstants.PCS_STAGE_FIRST) {
+            row = sheet.getRow(2);
+            cell = row.getCell(0);
+            str = cell.getStringCellValue()
+                    .replaceAll("type", typeName);
+            cell.setCellValue(str);
+        }
+
+        row = sheet.getRow(3);
+        cell = row.getCell(1);
+        str = cell.getStringCellValue()
+                .replace("type", typeName);
         cell.setCellValue(str);
 
         int startRow = 5;

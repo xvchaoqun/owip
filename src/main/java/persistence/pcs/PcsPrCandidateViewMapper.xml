@@ -6,15 +6,15 @@
     <result column="recommend_id" jdbcType="INTEGER" property="recommendId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
-    <result column="gender" jdbcType="TINYINT" property="gender" />
-    <result column="birth" jdbcType="DATE" property="birth" />
-    <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="user_type" jdbcType="TINYINT" property="userType" />
     <result column="edu_id" jdbcType="INTEGER" property="eduId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -25,7 +25,6 @@
     <result column="is_retire" jdbcType="BIT" property="isRetire" />
     <result column="edu_level" jdbcType="VARCHAR" property="eduLevel" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
-    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="stage" jdbcType="TINYINT" property="stage" />
   </resultMap>
@@ -59,9 +58,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, vote, is_from_stage, sort_order, add_time, code, 
-    realname, gender, birth, nation, user_type, edu_id, post, grow_time, work_time, pro_post, 
-    education, is_retire, edu_level, party_id, branch_id, config_id, stage
+    id, recommend_id, user_id, type, gender, birth, nation, vote, is_from_stage, sort_order, 
+    add_time, code, realname, user_type, edu_id, post, grow_time, work_time, pro_post, 
+    education, is_retire, edu_level, party_id, config_id, stage
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateViewExample" resultMap="BaseResultMap">
     select

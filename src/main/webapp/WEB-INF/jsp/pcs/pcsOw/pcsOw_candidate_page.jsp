@@ -40,7 +40,7 @@
                                 </span>
 
                                     <a href="${ctx}/pcsOw_export?file=2-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                        <i class="fa fa-download"></i> 下载${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表</a>
+                                        <i class="fa fa-download"></i> 附表2-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（院系级党组织用）</a>
                                 </div>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

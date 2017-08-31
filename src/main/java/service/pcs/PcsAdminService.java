@@ -7,8 +7,6 @@ import domain.party.PartyMemberView;
 import domain.party.PartyMemberViewExample;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
-import domain.pcs.PcsAdminReport;
-import domain.pcs.PcsAdminReportExample;
 import domain.pcs.PcsConfig;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
@@ -21,13 +19,10 @@ import service.base.MetaTypeService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
-import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-import sys.utils.ContextHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -43,42 +38,9 @@ public class PcsAdminService extends BaseMapper {
     @Autowired
     private PcsConfigService pcsConfigService;
     @Autowired
-    private PcsOwService pcsOwService;
-    @Autowired
     private PartyMemberService partyMemberService;
     @Autowired
     private PartyService partyService;
-
-    // 判断是否上报
-    public boolean hasReport(int partyId, int configId, byte stage){
-
-        // 分党委已经下发名单
-        if(pcsOwService.hasIssue(configId, stage)) return true;
-
-        PcsAdminReportExample example = new PcsAdminReportExample();
-        example.createCriteria().andPartyIdEqualTo(partyId)
-                .andConfigIdEqualTo(configId)
-                .andStageEqualTo(stage);
-
-        return pcsAdminReportMapper.countByExample(example)>0;
-    }
-
-    // 管理员上报，上报后数据不可修改
-    @Transactional
-    public void report(int partyId, int configId, byte stage) {
-
-        Integer userId = ShiroHelper.getCurrentUserId();
-
-        PcsAdminReport record = new PcsAdminReport();
-        record.setPartyId(partyId);
-        record.setUserId(userId);
-        record.setConfigId(configId);
-        record.setStage(stage);
-        record.setCreateTime(new Date());
-        record.setIp(ContextHelper.getRealIp());
-
-        pcsAdminReportMapper.insertSelective(record);
-    }
 
     // 后台同步当前党代会管理员角色：
     // 1、删除所有非当前党代会的所有管理员
@@ -246,6 +208,7 @@ public class PcsAdminService extends BaseMapper {
         PcsAdmin _pcsAdmin = new PcsAdmin();
         _pcsAdmin.setId(id);
         _pcsAdmin.setRemark(StringUtils.trimToEmpty(remark));
+        pcsAdminMapper.updateByPrimaryKeySelective(_pcsAdmin);
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(pcsAdmin.getUserId());

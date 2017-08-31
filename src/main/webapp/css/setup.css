@@ -327,6 +327,10 @@ body {
     /*padding-right: 30px;*/
 }
 
+.table thead.multi tr{
+    background-image: none!important;
+}
+
 .date-range-picker {
     min-width: 190px;
 }

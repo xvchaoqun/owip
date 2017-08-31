@@ -19,6 +19,8 @@ import java.util.List;
  */
 public interface IMemberMapper {
 
+
+
     @Select("select max(code) from ow_member_stay where left(code, 4)=#{year}")
     String getMemberStayMaxCode(@Param("year") int year);
 

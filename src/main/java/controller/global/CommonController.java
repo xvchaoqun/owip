@@ -425,10 +425,10 @@ public class CommonController extends BaseController {
     @ResponseBody
     public Map member_selects(Integer pageSize,
                               Integer partyId,
-                              Byte type,
+                              Byte type, // 党员类别
                               Boolean isRetire,
                               Byte politicalStatus,
-                              Byte status,
+                              Byte status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
                               Integer pageNo,
                               String searchStr) throws IOException {

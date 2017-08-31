@@ -107,7 +107,7 @@ public class PcsRecommendController extends BaseController {
             return failed("参数有误。");
         }
 
-        if(pcsAdminService.hasReport(partyId, pcsAdmin.getConfigId(), stage)){
+        if(!pcsPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage)){
             return failed("已上报数据或已下发名单，不可修改。");
         }
 
@@ -163,7 +163,7 @@ public class PcsRecommendController extends BaseController {
         modelMap.put("jwCandidates", jwCandidates);
 
 
-        modelMap.put("hasReport", pcsAdminService.hasReport(partyId, pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage));
 
         return "pcs/pcsRecommend/pcsRecommend_au";
     }

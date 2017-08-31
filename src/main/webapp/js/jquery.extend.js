@@ -273,6 +273,7 @@ var _modal_width;
             if (type == "success") {
                 label = '<i class="fa fa-info-circle green"></i> ';
             }
+            //console.log($target)
             $target.qtip({
                 content: label + msg,
                 show: true, hide: {

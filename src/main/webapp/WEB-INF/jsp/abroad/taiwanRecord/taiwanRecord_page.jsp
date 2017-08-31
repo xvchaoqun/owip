@@ -133,7 +133,8 @@ pageEncoding="UTF-8" %>
                 if($.trim(rowObject.passportCode)!='' ||
                         rowObject.handleType!='${TAIWAN_RECORD_HANDLE_TYPE_OFFICE}') return '-'
 
-                if($.trim(rowObject.handleDate)!='') return rowObject.expectDate.substr(0,10);
+                //if($.trim(rowObject.handleDate)!='') return rowObject.expectDate.substr(0,10);
+                if($.trim(rowObject.expectDate)!='') return rowObject.expectDate.substr(0,10);
 
                 return ((rowObject.expectDate==undefined)?"":rowObject.expectDate.substr(0,10)) +
                         '&nbsp;<button data-url="${ctx}/taiwanRecord_expectDate?id={0}" class="popupBtn btn btn-primary btn-xs">'

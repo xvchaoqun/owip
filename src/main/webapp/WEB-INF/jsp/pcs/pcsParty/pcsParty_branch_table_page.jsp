@@ -7,8 +7,8 @@
         <div class="tabbable" style="margin: 10px 20px; width: 900px">
             <div class="space-4"></div>
             <a class="pull-right" style="margin-bottom: 10px" href="${ctx}/pcsParty_export?file=3&stage=${param.stage}" >
-                <i class="fa fa-download"></i> 推荐提名情况汇总表</a>
-        <table class="table table-bordered table-striped">
+                <i class="fa fa-download"></i> 附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）</a>
+        <table class="table table-bordered table-striped"  data-offset-height="101">
             <thead>
             <tr>
                 <th width="50">序号</th>
@@ -56,3 +56,6 @@
             </div>
     </div>
 </div>
+<script>
+    stickheader();
+</script>

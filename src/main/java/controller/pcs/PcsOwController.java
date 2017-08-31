@@ -52,23 +52,26 @@ public class PcsOwController extends BaseController {
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
                 fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type)
-                        + String.format("候选人推荐提名汇总表（%s）", party.getName());
+                        + String.format("附表2-%s. 党委委员候选人推荐提名汇总表（院系级党组织用）（%s）", type, party.getName());
                 break;
             case "4-1":
                 wb = pcsExportService.exportPartyCandidates(null, configId, stage, type);
-                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type) + "候选人推荐提名汇总表（组织部用）";
+                fileName = String.format("附表4-%s. %s候选人推荐提名汇总表（组织部用）", type,
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case "5-1":
                 wb = pcsExportService.exportPartyCandidates2(configId, stage, type);
-                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type) + "候选人推荐提名汇总表（报上级用）";
+                fileName = String.format("附表5-%s. %s候选人推荐提名汇总表（报上级用）", type,
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case "6":
                 wb = pcsExportService.exportRecommends_6(configId, stage);
-                fileName = "参加两委委员候选人推荐提名情况汇总表（组织部用）";
+                fileName = "附表6. 参加两委委员候选人推荐提名情况汇总表（组织部用）";
                 break;
             case "7-1":
                 wb = pcsExportService.exportPartyCandidates(true, configId, stage, type);
-                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type) + "选人推荐提名汇总表（组织部用）";
+                fileName = String.format("附表7-%s. %s候选人推荐提名汇总表（组织部用）", type,
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
         }
 

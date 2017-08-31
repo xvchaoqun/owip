@@ -57,16 +57,17 @@ public class PcsPartyController extends BaseController {
         switch (file){
             case "1-1":
                 wb = pcsExportService.exportIssueCandidates(configId, stage, type);
-                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type) + "候选人推荐提名汇总表";
+                fileName = String.format("附表1-%s. %s候选人推荐提名汇总表（党支部用）", type,
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case "2-1":
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
-                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type)
-                        + String.format("候选人推荐提名汇总表（%s）", party.getName());
+                fileName = String.format("附表2-%s. %s候选人推荐提名汇总表（院系级党组织用）", type,
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case "3":
                 wb = pcsExportService.exportRecommends_3(configId, stage, partyId);
-                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（%s）", party.getName());
+                fileName = "附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）";
                 break;
         }
 
@@ -120,7 +121,7 @@ public class PcsPartyController extends BaseController {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
 
-        modelMap.put("hasReport", pcsAdminService.hasReport(pcsAdmin.getPartyId(), pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPartyService.allowModify(pcsAdmin.getPartyId(), pcsAdmin.getConfigId(), stage));
         return "pcs/pcsParty/pcsParty_report_page";
     }
 
@@ -137,11 +138,11 @@ public class PcsPartyController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        if(pcsAdminService.hasReport(partyId, configId, stage)){
+        if(!pcsPartyService.allowModify(partyId, configId, stage)){
             return failed("您所在分党委已经上报或组织部已下发名单。");
         }
 
-        pcsAdminService.report(partyId, configId, stage);
+        pcsPartyService.report(partyId, configId, stage);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]上报-%s(%s)", currentPcsConfig.getName(),
                 SystemConstants.PCS_STAGE_MAP.get(stage)));

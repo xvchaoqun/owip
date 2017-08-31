@@ -51,10 +51,10 @@
                                 <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
                             </select>
                                 &nbsp;
-                            <a href="javascript:;" onclick="_addDwUser()" class="btn btn-primary btn-sm ${hasReport?"disabled":""}">
+                            <a href="javascript:;" onclick="_addDwUser()" class="btn btn-primary btn-sm ${!allowModify?"disabled":""}">
                                 <i class="fa fa-plus-circle"></i> 添加</a>
                                 <c:if test="${param.stage==PCS_STAGE_SECOND || param.stage==PCS_STAGE_THIRD}">
-                                <a href="javascript:;" class="popupBtn btn btn-info btn-sm ${hasReport?"disabled":""}"
+                                <a href="javascript:;" class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
                                         data-width="900"
                                         data-url="${ctx}/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
                                         ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_USER_TYPE_DW}">
@@ -87,11 +87,11 @@
                                 <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
                             </select>
                                 &nbsp;
-                            <a href="javascript:;" onclick="_addJwUser()" class="btn btn-primary btn-sm ${hasReport?"disabled":""}">
+                            <a href="javascript:;" onclick="_addJwUser()" class="btn btn-primary btn-sm ${!allowModify?"disabled":""}">
                                 <i class="fa fa-plus-circle"></i> 添加</a>
 
                                 <c:if test="${param.stage==PCS_STAGE_SECOND || param.stage==PCS_STAGE_THIRD}">
-                                    <a href="javascript:;" class="popupBtn btn btn-info btn-sm ${hasReport?"disabled":""}"
+                                    <a href="javascript:;" class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
                                        data-width="900"
                                        data-url="${ctx}/pcsRecommend_candidates?stage=${param.stage==PCS_STAGE_SECOND
                                         ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_USER_TYPE_JW}">
@@ -118,12 +118,12 @@
                         </form>
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="saveBtn" data-loading-text="保存中..." data-success-text="已保存成功"
-                                    autocomplete="off" ${hasReport?"disabled":""}
+                                    autocomplete="off" ${!allowModify?"disabled":""}
                                     class="btn btn-primary btn-lg"><i class="fa fa-save"></i> 保存
                             </button>
 
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
-                                    autocomplete="off"  ${hasReport?"disabled":""}
+                                    autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交推荐票
                             </button>
                         </div>
@@ -202,7 +202,7 @@
         {
             label: '移除', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
             //console.log(options)
-            return '<button ${hasReport?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
+            return '<button ${!allowModify?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
                     .format(rowObject.userId, options.gid)
         }
         },
@@ -247,8 +247,16 @@
         datatype: "local",
         rowNum: dwCandidates.length,
         data: dwCandidates,
-        colModel: colModel
-    }).jqGrid('sortableRows');
+        colModel: colModel,
+        gridComplete:function(){
+            <c:if test="${!allowModify}">
+            $("#recommendForm input, .panel input, .panel select").prop("disabled", true);
+            </c:if>
+        }
+    });
+    <c:if test="${allowModify}">
+    $("#jqGrid1").jqGrid('sortableRows')
+    </c:if>
     $("#jqGrid2").jqGrid({
         pager: null,
         rownumbers: true,
@@ -257,8 +265,16 @@
         datatype: "local",
         rowNum: jwCandidates.length,
         data: jwCandidates,
-        colModel: colModel
-    }).jqGrid('sortableRows');
+        colModel: colModel,
+        gridComplete:function(){
+            <c:if test="${!allowModify}">
+            $("#recommendForm input, .panel input, .panel select").prop("disabled", true);
+            </c:if>
+        }
+    });
+    <c:if test="${allowModify}">
+    $("#jqGrid2").jqGrid('sortableRows')
+    </c:if>
     $(window).triggerHandler('resize.jqGrid4');
 
     $("#saveBtn").click(function () {

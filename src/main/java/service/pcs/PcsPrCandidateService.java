@@ -9,12 +9,46 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PcsPrCandidateService extends BaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_candidate";
+
+    // 获得某个分党委入选名单列表
+    public Map<Integer, PcsPrCandidateView> findSelectedMap(int configId, byte stage, int partyId){
+
+        Map<Integer, PcsPrCandidateView> resultMap = new LinkedHashMap<>();
+
+        PcsPrCandidateViewExample example = createExample(configId, stage, partyId, null);
+        List<PcsPrCandidateView> pcsPrCandidateViews = pcsPrCandidateViewMapper.selectByExample(example);
+        for (PcsPrCandidateView ca : pcsPrCandidateViews) {
+
+            resultMap.put(ca.getUserId(), ca);
+        }
+
+        return resultMap;
+    }
+
+    // 用于查询入选名单
+    public PcsPrCandidateViewExample createExample(int configId, byte stage, Integer partyId, Integer userId){
+
+        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).
+                andStageEqualTo(stage);
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        example.setOrderByClause("type asc, vote desc, sort_order asc");
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
+        }
+
+        return example;
+    }
 
     // 获得分党委某个类型下的被推荐人
     public List<PcsPrCandidateView> find(int configId, byte stage, byte type, int partyId){
@@ -26,6 +60,17 @@ public class PcsPrCandidateService extends BaseMapper {
         example.setOrderByClause("sort_order asc");
 
         return pcsPrCandidateViewMapper.selectByExample(example);
+    }
+
+    // 同一阶段，同一用户只能选一次（即不同分党委不能同时选一个人，因为要保证本分党委推荐本单位的人）
+    public PcsPrCandidateView find(int userId, int configId, byte stage){
+
+        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andConfigIdEqualTo(configId).andStageEqualTo(stage);
+
+        List<PcsPrCandidateView> pcsPrCandidateViews = pcsPrCandidateViewMapper.selectByExample(example);
+        return pcsPrCandidateViews.size()>0?pcsPrCandidateViews.get(0):null;
     }
 
     // 清空一个党支部推荐的党委或纪委委员

@@ -17,7 +17,7 @@ public class PcsCandidateService extends BaseMapper {
 
     public static final String TABLE_NAME = "pcs_candidate";
 
-    // 读取党委委员、纪委委员
+    // 读取党支部下的党委委员、纪委委员
     public List<PcsCandidateView> find(int partyId, Integer branchId, int configId, byte stage, byte type){
 
         PcsCandidateViewExample example = new PcsCandidateViewExample();

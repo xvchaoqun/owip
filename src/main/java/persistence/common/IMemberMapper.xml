@@ -4,13 +4,7 @@
 
     <sql id="member_selects_permits">
         <if test="isRetire!=null">
-            left join sys_teacher_info ti on ti.user_id=u.user_id
-            <if test="isRetire">
-                and ti.is_retire = 1
-            </if>
-            <if test="!isRetire">
-                and (ti.is_retire = 0 or ti.is_retire is null)
-            </if>
+            , sys_teacher_info ti
         </if>
         where m.user_id= u.id
         <if test="partyId!=null">
@@ -24,6 +18,15 @@
         </if>
         <if test="status!=null">
             and m.status =#{status}
+        </if>
+        <if test="isRetire!=null">
+           and ti.user_id=u.user_id
+            <if test="isRetire">
+                and ti.is_retire = 1
+            </if>
+            <if test="!isRetire">
+                and (ti.is_retire <![CDATA[<>]]> 1)
+            </if>
         </if>
         <if test="addPermits">
             <if test="adminPartyIdList.size>0 and adminBranchIdList.size>0">

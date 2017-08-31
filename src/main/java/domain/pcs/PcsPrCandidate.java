@@ -12,6 +12,12 @@ public class PcsPrCandidate implements Serializable {
 
     private Byte type;
 
+    private Byte gender;
+
+    private Date birth;
+
+    private String nation;
+
     private Integer vote;
 
     private Boolean isFromStage;
@@ -52,6 +58,30 @@ public class PcsPrCandidate implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
     }
 
     public Integer getVote() {

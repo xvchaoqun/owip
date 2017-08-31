@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsParty"
+             data-url-page="${ctx}/pcsPrParty"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
@@ -16,7 +16,7 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="popupBtn btn btn-success btn-sm"
                                data-url="${ctx}/pcsPrParty_form_download?stage=${param.stage}">
-                                <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"表格下载":""}
+                                <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                                 ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                                 ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
                             <button class="openView btn btn-primary btn-sm"
@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             <label>被推荐人</label>
                                             <select name="userId" data-rel="select2-ajax"
-                                                    data-ajax-url="${ctx}/member_selects?noAuth=1&type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
+                                                    data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${partyId}&type=${MEMBER_TYPE_TEACHER}&status=${MEMBER_STATUS_NORMAL}"
                                                     data-placeholder="请输入账号或姓名或学工号">
                                                 <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
                                             </select>
@@ -79,7 +79,7 @@
         url: '${ctx}/pcsPrParty_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '党代表类型', name: 'type', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return _cMap.PCS_PR_TYPE_MAP[cellvalue]
             }
@@ -119,27 +119,25 @@
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {
-                label: '职别', name: 'proPost', width: 200, formatter: function (cellvalue, options, rowObject) {
+                label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                     return '干部';
                 } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
-                    return (rowObject.isRetire) ? "离退休" : cellvalue;
+                    return (rowObject.isRetire) ? "离退休" : $.trim(cellvalue);
                 }
                 return $.trim(rowObject.eduLevel);
             }
             },
             {
                 label: '职务',
-                name: 'post',
-                width: 350,
-                align: 'left', formatter: function (cellvalue, options, rowObject) {
+                name: 'post', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                     return $.trim(cellvalue);
                 }
                 return "-"
             }
             },
-            {label: '票数', name: 'vote', width: 200}
+            {label: '票数', name: 'vote', width: 80}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -372,6 +372,196 @@ public class PcsPrCandidateViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andGenderIsNull() {
+            addCriterion("gender is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIsNotNull() {
+            addCriterion("gender is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderEqualTo(Byte value) {
+            addCriterion("gender =", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotEqualTo(Byte value) {
+            addCriterion("gender <>", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThan(Byte value) {
+            addCriterion("gender >", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThanOrEqualTo(Byte value) {
+            addCriterion("gender >=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThan(Byte value) {
+            addCriterion("gender <", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThanOrEqualTo(Byte value) {
+            addCriterion("gender <=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIn(List<Byte> values) {
+            addCriterion("gender in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotIn(List<Byte> values) {
+            addCriterion("gender not in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderBetween(Byte value1, Byte value2) {
+            addCriterion("gender between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotBetween(Byte value1, Byte value2) {
+            addCriterion("gender not between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIsNull() {
+            addCriterion("birth is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIsNotNull() {
+            addCriterion("birth is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthEqualTo(Date value) {
+            addCriterionForJDBCDate("birth =", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotEqualTo(Date value) {
+            addCriterionForJDBCDate("birth <>", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthGreaterThan(Date value) {
+            addCriterionForJDBCDate("birth >", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birth >=", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthLessThan(Date value) {
+            addCriterionForJDBCDate("birth <", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birth <=", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIn(List<Date> values) {
+            addCriterionForJDBCDate("birth in", values, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotIn(List<Date> values) {
+            addCriterionForJDBCDate("birth not in", values, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birth between", value1, value2, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birth not between", value1, value2, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIsNull() {
+            addCriterion("nation is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIsNotNull() {
+            addCriterion("nation is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationEqualTo(String value) {
+            addCriterion("nation =", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotEqualTo(String value) {
+            addCriterion("nation <>", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationGreaterThan(String value) {
+            addCriterion("nation >", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationGreaterThanOrEqualTo(String value) {
+            addCriterion("nation >=", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLessThan(String value) {
+            addCriterion("nation <", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLessThanOrEqualTo(String value) {
+            addCriterion("nation <=", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLike(String value) {
+            addCriterion("nation like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotLike(String value) {
+            addCriterion("nation not like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIn(List<String> values) {
+            addCriterion("nation in", values, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotIn(List<String> values) {
+            addCriterion("nation not in", values, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationBetween(String value1, String value2) {
+            addCriterion("nation between", value1, value2, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotBetween(String value1, String value2) {
+            addCriterion("nation not between", value1, value2, "nation");
+            return (Criteria) this;
+        }
+
         public Criteria andVoteIsNull() {
             addCriterion("vote is null");
             return (Criteria) this;
@@ -749,196 +939,6 @@ public class PcsPrCandidateViewExample {
 
         public Criteria andRealnameNotBetween(String value1, String value2) {
             addCriterion("realname not between", value1, value2, "realname");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIsNull() {
-            addCriterion("gender is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIsNotNull() {
-            addCriterion("gender is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderEqualTo(Byte value) {
-            addCriterion("gender =", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotEqualTo(Byte value) {
-            addCriterion("gender <>", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderGreaterThan(Byte value) {
-            addCriterion("gender >", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderGreaterThanOrEqualTo(Byte value) {
-            addCriterion("gender >=", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderLessThan(Byte value) {
-            addCriterion("gender <", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderLessThanOrEqualTo(Byte value) {
-            addCriterion("gender <=", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIn(List<Byte> values) {
-            addCriterion("gender in", values, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotIn(List<Byte> values) {
-            addCriterion("gender not in", values, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderBetween(Byte value1, Byte value2) {
-            addCriterion("gender between", value1, value2, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotBetween(Byte value1, Byte value2) {
-            addCriterion("gender not between", value1, value2, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthIsNull() {
-            addCriterion("birth is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthIsNotNull() {
-            addCriterion("birth is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthEqualTo(Date value) {
-            addCriterionForJDBCDate("birth =", value, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthNotEqualTo(Date value) {
-            addCriterionForJDBCDate("birth <>", value, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthGreaterThan(Date value) {
-            addCriterionForJDBCDate("birth >", value, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("birth >=", value, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthLessThan(Date value) {
-            addCriterionForJDBCDate("birth <", value, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("birth <=", value, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthIn(List<Date> values) {
-            addCriterionForJDBCDate("birth in", values, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthNotIn(List<Date> values) {
-            addCriterionForJDBCDate("birth not in", values, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("birth between", value1, value2, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andBirthNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("birth not between", value1, value2, "birth");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationIsNull() {
-            addCriterion("nation is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationIsNotNull() {
-            addCriterion("nation is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationEqualTo(String value) {
-            addCriterion("nation =", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationNotEqualTo(String value) {
-            addCriterion("nation <>", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationGreaterThan(String value) {
-            addCriterion("nation >", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationGreaterThanOrEqualTo(String value) {
-            addCriterion("nation >=", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationLessThan(String value) {
-            addCriterion("nation <", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationLessThanOrEqualTo(String value) {
-            addCriterion("nation <=", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationLike(String value) {
-            addCriterion("nation like", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationNotLike(String value) {
-            addCriterion("nation not like", value, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationIn(List<String> values) {
-            addCriterion("nation in", values, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationNotIn(List<String> values) {
-            addCriterion("nation not in", values, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationBetween(String value1, String value2) {
-            addCriterion("nation between", value1, value2, "nation");
-            return (Criteria) this;
-        }
-
-        public Criteria andNationNotBetween(String value1, String value2) {
-            addCriterion("nation not between", value1, value2, "nation");
             return (Criteria) this;
         }
 
@@ -1579,66 +1579,6 @@ public class PcsPrCandidateViewExample {
 
         public Criteria andPartyIdNotBetween(Integer value1, Integer value2) {
             addCriterion("party_id not between", value1, value2, "partyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdIsNull() {
-            addCriterion("branch_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdIsNotNull() {
-            addCriterion("branch_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdEqualTo(Integer value) {
-            addCriterion("branch_id =", value, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdNotEqualTo(Integer value) {
-            addCriterion("branch_id <>", value, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdGreaterThan(Integer value) {
-            addCriterion("branch_id >", value, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("branch_id >=", value, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdLessThan(Integer value) {
-            addCriterion("branch_id <", value, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdLessThanOrEqualTo(Integer value) {
-            addCriterion("branch_id <=", value, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdIn(List<Integer> values) {
-            addCriterion("branch_id in", values, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdNotIn(List<Integer> values) {
-            addCriterion("branch_id not in", values, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdBetween(Integer value1, Integer value2) {
-            addCriterion("branch_id between", value1, value2, "branchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("branch_id not between", value1, value2, "branchId");
             return (Criteria) this;
         }
 

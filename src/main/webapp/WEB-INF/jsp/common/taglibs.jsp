@@ -213,6 +213,10 @@
 <c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_TEACHER%>" var="PCS_PR_USER_TYPE_TEACHER"/>
 <c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_STU%>" var="PCS_PR_USER_TYPE_STU"/>
 
+<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT%>" var="PCS_PR_RECOMMEND_STATUS_INIT"/>
+<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS%>" var="PCS_PR_RECOMMEND_STATUS_PASS"/>
+<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY%>" var="PCS_PR_RECOMMEND_STATUS_DENY"/>
+
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>

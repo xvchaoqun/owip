@@ -86,6 +86,59 @@ public class ExportServiceTest {
     }
 
     @Test
+    public void ex2() throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-3.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue().replace("stage", "一下一上")
+                .replace("deadline", "9月6号前");
+        cell.setCellValue(str);
+        //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue().replace("party", "中共北京师范大学教育学部委员会");
+        cell.setCellValue(str);
+
+        row = sheet.getRow(2);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue().replace("mc", "22")
+                .replace("tc", "11").replace("sc", "11").replace("rc", "11");
+        cell.setCellValue(str);
+
+
+        row = sheet.getRow(3);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue().replace("nextStageShort", "二下");
+        cell.setCellValue(str);
+
+
+        int startRow = 5;
+        int rowCount = 8;
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount-1);
+        for (int i = 0; i < rowCount; i++) {
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+        }
+
+        row = sheet.getRow(startRow);
+        cell = row.getCell(0);
+        cell.setCellValue("日期： 2017年8月31日");
+
+        FileOutputStream output = new FileOutputStream(new File("D:/tmp/test111.xlsx"));
+        wb.write(output);
+        output.close();
+    }
+
+    @Test
     public void stat() throws IOException {
 
         XSSFWorkbook wb = cadreStatService.toXlsx();

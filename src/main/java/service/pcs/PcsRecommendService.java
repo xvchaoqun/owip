@@ -29,7 +29,7 @@ public class PcsRecommendService extends BaseMapper {
     @Autowired
     private PcsCandidateService pcsCandidateService;
     @Autowired
-    private PcsAdminService pcsAdminService;
+    private PcsPartyService pcsPartyService;
 
     // 获取一个已经推荐的票
     public PcsBranchBean get(int partyId, Integer branchId, int configId, byte stage) {
@@ -62,7 +62,7 @@ public class PcsRecommendService extends BaseMapper {
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        if(pcsAdminService.hasReport(partyId, configId, stage)){
+        if(!pcsPartyService.allowModify(partyId, configId, stage)){
             throw  new OpException("已上报数据或已下发名单，不可修改。");
         }
 

@@ -4,18 +4,18 @@
 <jsp:include page="menu.jsp"/>
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
-        <h4>党委委员推荐提名汇总表</h4>
+        <h4>附表2-1. 党委委员候选人推荐提名汇总表（院系级党组织用）</h4>
         <a href="${ctx}/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_DW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
-        <h4>纪委委员推荐提名汇总表</h4>
+        <h4>附表2-2. 纪委委员候选人推荐提名汇总表（院系级党组织用）</h4>
         <a href="${ctx}/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_JW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
     <div class="bs-callout bs-callout-info">
-        <h4>党员参与推荐提名情况统计表</h4>
+        <h4>附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）</h4>
         <a href="${ctx}/pcsParty_export?file=3&stage=${param.stage}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载</a>
     </div>
@@ -23,8 +23,8 @@
 </div>
 
 <div class="modal-footer center" style="margin-top: 20px">
-    <button id="submitBtn" ${hasReport?"disabled":""}
-            class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${hasReport?"已上报数据":"上报"}
+    <button id="submitBtn" ${!allowModify?"disabled":""}
+            class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${!allowModify?"已上报数据":"上&nbsp;&nbsp;报"}
     </button>
 </div>
 <style>
@@ -76,14 +76,14 @@
             buttons: {
                 confirm: {
                     label: '<i class="fa fa-check"></i> 确认上报',
-                    className: 'btn-success'
+                    className: 'btn-danger'
                 },
                 cancel: {
                     label: '<i class="fa fa-reply"></i> 返回',
                     className: 'btn-default btn-show'
                 }
             },
-            message: "上报数据后不可以修改，请认真核实后上报。",
+            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'>上报数据后不可以修改，请认真核实后上报。</div>",
             callback: function (result) {
                 if (result) {
                     $.post("${ctx}/pcsParty_report", {stage:${param.stage}}, function (ret) {

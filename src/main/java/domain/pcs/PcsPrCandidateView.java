@@ -12,6 +12,12 @@ public class PcsPrCandidateView implements Serializable {
 
     private Byte type;
 
+    private Byte gender;
+
+    private Date birth;
+
+    private String nation;
+
     private Integer vote;
 
     private Boolean isFromStage;
@@ -23,12 +29,6 @@ public class PcsPrCandidateView implements Serializable {
     private String code;
 
     private String realname;
-
-    private Byte gender;
-
-    private Date birth;
-
-    private String nation;
 
     private Byte userType;
 
@@ -49,8 +49,6 @@ public class PcsPrCandidateView implements Serializable {
     private String eduLevel;
 
     private Integer partyId;
-
-    private Integer branchId;
 
     private Integer configId;
 
@@ -88,6 +86,30 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
     }
 
     public Integer getVote() {
@@ -136,30 +158,6 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation == null ? null : nation.trim();
     }
 
     public Byte getUserType() {
@@ -240,14 +238,6 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setPartyId(Integer partyId) {
         this.partyId = partyId;
-    }
-
-    public Integer getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(Integer branchId) {
-        this.branchId = branchId;
     }
 
     public Integer getConfigId() {

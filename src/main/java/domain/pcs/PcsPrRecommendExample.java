@@ -824,6 +824,76 @@ public class PcsPrRecommendExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andCheckRemarkIsNull() {
+            addCriterion("check_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkIsNotNull() {
+            addCriterion("check_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkEqualTo(String value) {
+            addCriterion("check_remark =", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkNotEqualTo(String value) {
+            addCriterion("check_remark <>", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkGreaterThan(String value) {
+            addCriterion("check_remark >", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("check_remark >=", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkLessThan(String value) {
+            addCriterion("check_remark <", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkLessThanOrEqualTo(String value) {
+            addCriterion("check_remark <=", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkLike(String value) {
+            addCriterion("check_remark like", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkNotLike(String value) {
+            addCriterion("check_remark not like", value, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkIn(List<String> values) {
+            addCriterion("check_remark in", values, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkNotIn(List<String> values) {
+            addCriterion("check_remark not in", values, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkBetween(String value1, String value2) {
+            addCriterion("check_remark between", value1, value2, "checkRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckRemarkNotBetween(String value1, String value2) {
+            addCriterion("check_remark not between", value1, value2, "checkRemark");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

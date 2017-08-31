@@ -2,6 +2,7 @@ package domain.pcs;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class PcsPrCandidateExample {
@@ -103,6 +104,32 @@ public class PcsPrCandidateExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -342,6 +369,196 @@ public class PcsPrCandidateExample {
 
         public Criteria andTypeNotBetween(Byte value1, Byte value2) {
             addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIsNull() {
+            addCriterion("gender is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIsNotNull() {
+            addCriterion("gender is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderEqualTo(Byte value) {
+            addCriterion("gender =", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotEqualTo(Byte value) {
+            addCriterion("gender <>", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThan(Byte value) {
+            addCriterion("gender >", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThanOrEqualTo(Byte value) {
+            addCriterion("gender >=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThan(Byte value) {
+            addCriterion("gender <", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThanOrEqualTo(Byte value) {
+            addCriterion("gender <=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIn(List<Byte> values) {
+            addCriterion("gender in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotIn(List<Byte> values) {
+            addCriterion("gender not in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderBetween(Byte value1, Byte value2) {
+            addCriterion("gender between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotBetween(Byte value1, Byte value2) {
+            addCriterion("gender not between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIsNull() {
+            addCriterion("birth is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIsNotNull() {
+            addCriterion("birth is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthEqualTo(Date value) {
+            addCriterionForJDBCDate("birth =", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotEqualTo(Date value) {
+            addCriterionForJDBCDate("birth <>", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthGreaterThan(Date value) {
+            addCriterionForJDBCDate("birth >", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birth >=", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthLessThan(Date value) {
+            addCriterionForJDBCDate("birth <", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birth <=", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIn(List<Date> values) {
+            addCriterionForJDBCDate("birth in", values, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotIn(List<Date> values) {
+            addCriterionForJDBCDate("birth not in", values, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birth between", value1, value2, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birth not between", value1, value2, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIsNull() {
+            addCriterion("nation is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIsNotNull() {
+            addCriterion("nation is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationEqualTo(String value) {
+            addCriterion("nation =", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotEqualTo(String value) {
+            addCriterion("nation <>", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationGreaterThan(String value) {
+            addCriterion("nation >", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationGreaterThanOrEqualTo(String value) {
+            addCriterion("nation >=", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLessThan(String value) {
+            addCriterion("nation <", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLessThanOrEqualTo(String value) {
+            addCriterion("nation <=", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLike(String value) {
+            addCriterion("nation like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotLike(String value) {
+            addCriterion("nation not like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIn(List<String> values) {
+            addCriterion("nation in", values, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotIn(List<String> values) {
+            addCriterion("nation not in", values, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationBetween(String value1, String value2) {
+            addCriterion("nation between", value1, value2, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotBetween(String value1, String value2) {
+            addCriterion("nation not between", value1, value2, "nation");
             return (Criteria) this;
         }
 

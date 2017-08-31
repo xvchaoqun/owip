@@ -3,25 +3,32 @@ package service.pcs;
 import controller.global.OpException;
 import controller.pcs.PcsPrCandidateFormBean;
 import domain.member.Member;
+import domain.party.Party;
 import domain.pcs.PcsPrCandidate;
+import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrRecommend;
 import domain.pcs.PcsPrRecommendExample;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.member.MemberService;
+import service.party.PartyService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PcsPrPartyService extends BaseMapper {
@@ -36,18 +43,27 @@ public class PcsPrPartyService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private PcsPrCandidateService pcsPrCandidateService;
+    @Autowired
+    private PartyService partyService;
 
-    // 分党委是否已上报
-    public boolean hasReport(int partyId, int configId, byte stage){
+    // 分党委是否可以修改当前阶段的数据
+    public boolean allowModify(int partyId, int configId, byte stage){
 
-        // 分党委已经下发名单
-        //if(pcsOwService.hasIssue(configId, stage)) return true;
+        // 二下二上和三下三上，在组织部审批通过上一阶段前，不可填写
+        if(stage==SystemConstants.PCS_STAGE_SECOND){
+            PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_FIRST, partyId);
+            if(_check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+        }else if(stage==SystemConstants.PCS_STAGE_THIRD){
+            PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+            if(_check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+        }
 
+        // 分党委已经上报之后，不可修改数据
         PcsPrRecommend pcsPrRecommend = getPcsPrRecommend(configId, stage, partyId);
-        return (pcsPrRecommend!=null && BooleanUtils.isTrue(pcsPrRecommend.getHasReport()));
+        return (pcsPrRecommend==null || BooleanUtils.isNotTrue(pcsPrRecommend.getHasReport()));
     }
 
-    // 管理员上报，上报后数据不可修改
+    // 分党委管理员上报，上报后数据不可修改
     @Transactional
     public void report(int partyId, int configId, byte stage) {
 
@@ -57,9 +73,12 @@ public class PcsPrPartyService extends BaseMapper {
         if(pcsPrRecommend==null) throw new OpException("提交的数据有误。");
 
         PcsPrRecommend record = new PcsPrRecommend();
+        record.setId(pcsPrRecommend.getId());
         record.setHasReport(true);
         record.setReportUserId(userId);
         record.setReportTime(new Date());
+        // 上报后待审核
+        record.setStatus(SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT);
 
         pcsPrRecommendMapper.updateByPrimaryKeySelective(record);
     }
@@ -80,15 +99,15 @@ public class PcsPrPartyService extends BaseMapper {
                        PcsPrRecommend record,
                        List<PcsPrCandidateFormBean> beans) {
 
-        /*if(pcsAdminService.hasReport(partyId, configId, stage)){
-            throw  new OpException("已上报数据或已下发名单，不可修改。");
-        }*/
+        if(!allowModify(partyId, configId, stage)){
+            throw  new OpException("已上报数据或上一阶段未审核通过，不可修改。");
+        }
 
         record.setConfigId(configId);
         record.setStage(stage);
         record.setPartyId(partyId);
         record.setHasReport(false);
-        record.setStatus(SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT);
+        //record.setStatus(SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT);
 
         PcsPrRecommend pcsPrRecommend = getPcsPrRecommend(configId, stage, partyId);
         if(pcsPrRecommend==null || pcsPrRecommend.getId()==null){
@@ -96,6 +115,13 @@ public class PcsPrPartyService extends BaseMapper {
         }else{
             record.setId(pcsPrRecommend.getId());
             pcsPrRecommendMapper.updateByPrimaryKeySelective(record);
+        }
+
+        Map<Integer, PcsPrCandidateView> selectedMap = new LinkedHashMap<>();
+        if(stage == SystemConstants.PCS_STAGE_SECOND){
+            selectedMap = pcsPrCandidateService.findSelectedMap(configId, SystemConstants.PCS_STAGE_FIRST, partyId);
+        }else if(stage == SystemConstants.PCS_STAGE_THIRD){
+            selectedMap = pcsPrCandidateService.findSelectedMap(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
         }
 
         int recommendId = record.getId();
@@ -111,18 +137,18 @@ public class PcsPrPartyService extends BaseMapper {
                 int userId = bean.getUserId();
                 SysUserView uv = sysUserService.findById(userId);
                 if(uv==null){
-                    throw new OpException("用户不存在：%s", userId+"");
+                    throw new OpException("用户不存在：{0}", userId+"");
                 }
 
                 Member member = memberService.get(userId);
                 if(member== null && member.getPoliticalStatus()
                         != SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
-                    throw new OpException("用户%s不是正式党员", uv.getRealname());
+                    throw new OpException("用户{0}不是正式党员", uv.getRealname());
                 }
 
                 int memberPartyId = member.getPartyId();
                 if(memberPartyId != partyId){
-                    throw new OpException("用户%s不是本单位人员", uv.getRealname());
+                    throw new OpException("用户{0}不是本单位人员", uv.getRealname());
                 }
 
                 // 类型校验
@@ -130,20 +156,27 @@ public class PcsPrPartyService extends BaseMapper {
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
                     if(member.getType()!=SystemConstants.MEMBER_TYPE_TEACHER
                             || teacherInfo==null || BooleanUtils.isTrue(teacherInfo.getIsRetire())){
-                        throw new OpException("用户%s不是在职教职工", uv.getRealname());
+                        throw new OpException("用户{0}不是在职教职工", uv.getRealname());
                     }
                 }else if(type ==SystemConstants.PCS_PR_TYPE_RETIRE){
 
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
                     if(teacherInfo==null || BooleanUtils.isNotTrue(teacherInfo.getIsRetire())){
-                        throw new OpException("用户%s不是离退休教职工", uv.getRealname());
+                        throw new OpException("用户{0}不是离退休教职工", uv.getRealname());
                     }
                 }else if(type ==SystemConstants.PCS_PR_TYPE_STU){
                     if(member.getType()!=SystemConstants.MEMBER_TYPE_STUDENT){
-                        throw new OpException("用户%s不是学生", uv.getRealname());
+                        throw new OpException("用户{0}不是学生", uv.getRealname());
                     }
                 }else{
-                    throw new OpException("用户%s类型有误", uv.getRealname());
+                    throw new OpException("用户{0}类型有误", uv.getRealname());
+                }
+
+                PcsPrCandidateView pcsPrCandidateView = pcsPrCandidateService.find(userId, configId, stage);
+                if(pcsPrCandidateView!=null){
+                    Party party = partyService.findAll().get(pcsPrCandidateView.getPartyId());
+                    throw new OpException("用户{0}已是{1}的被推荐人，不可重复推荐。",
+                            pcsPrCandidateView.getRealname(), party.getName());
                 }
 
                 PcsPrCandidate _candidate = new PcsPrCandidate();
@@ -151,8 +184,11 @@ public class PcsPrPartyService extends BaseMapper {
                 _candidate.setType(type);
                 _candidate.setUserId(userId);
                 _candidate.setVote(bean.getVote());
+                _candidate.setGender(bean.getGender());
+                _candidate.setBirth(DateUtils.parseDate(bean.getBirth(), DateUtils.YYYY_MM_DD));
+                _candidate.setNation(StringUtils.trim(bean.getNation()));
                 _candidate.setAddTime(now);
-                _candidate.setIsFromStage(false);
+                _candidate.setIsFromStage(selectedMap.containsKey(userId));
 
                 pcsPrCandidateService.insertSelective(_candidate);
             }

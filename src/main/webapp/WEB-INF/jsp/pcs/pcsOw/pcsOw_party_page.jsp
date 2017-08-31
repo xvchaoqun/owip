@@ -8,7 +8,7 @@
              data-url-page="${ctx}/pcsOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.userId|| not empty param.sort}"/>
+                   value="${not empty param.partyId|| not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="candidate-table tab-content">

@@ -14,34 +14,35 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
-                        <form class="form-inline" action="${ctx}/pcsPrParty_candidate_au" id="recommendForm" method="post">
+                        <form class="form-inline" action="${ctx}/pcsPrParty_candidate_au" id="recommendForm"
+                              method="post">
                             <input type="hidden" name="stage" value="${param.stage}">
                             <table class="form-table">
                                 <tr>
                                     <td class="">所有党员总数：</td>
-                                    <td width="200">${partyView.memberCount}</td>
+                                    <td width="60">${partyView.memberCount}</td>
                                     <td>其中正式党员：</td>
-                                    <td width="60">${partyView.positiveCount} 名</td>
+                                    <td width="60">${partyView.positiveCount}</td>
                                     <td>应参会党员数：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="expectMemberCount"
-                                               value="${pcsRecommend.expectMemberCount}"></td>
+                                               value="${pcsPrRecommend.expectMemberCount}"></td>
                                     <td>其中正式党员：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="expectPositiveMemberCount"
-                                               value="${pcsRecommend.expectPositiveMemberCount}"></td>
+                                               value="${pcsPrRecommend.expectPositiveMemberCount}"></td>
                                     <td>实参会党员数：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="actualMemberCount"
-                                               value="${pcsRecommend.actualMemberCount}"></td>
+                                               value="${pcsPrRecommend.actualMemberCount}"></td>
                                     <td>其中正式党员：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="actualPositiveMemberCount"
-                                               value="${pcsRecommend.actualPositiveMemberCount}"></td>
+                                               value="${pcsPrRecommend.actualPositiveMemberCount}"></td>
                                 </tr>
                             </table>
                             <div id="accordion">
@@ -53,6 +54,7 @@
                                     </c:if>
                                     <c:if test="${_type.key==PCS_PR_TYPE_STU}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_STUDENT}"/>
+                                        <c:set var="_isRetire" value=""/>
                                     </c:if>
                                     <c:if test="${_type.key==PCS_PR_TYPE_RETIRE}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
@@ -70,15 +72,16 @@
                                                 </select>
                                                 &nbsp;
                                             <a href="javascript:;" onclick="_addUser(${_type.key})"
-                                               class="btn btn-primary btn-sm ${hasReport?"disabled":""}">
+                                               class="btn btn-primary btn-sm ${!allowModify?"disabled":""}">
                                                 <i class="fa fa-plus-circle"></i> 添加</a>
                                                 <c:if test="${param.stage==PCS_STAGE_SECOND || param.stage==PCS_STAGE_THIRD}">
                                                     <a href="javascript:;"
-                                                       class="popupBtn btn btn-info btn-sm ${hasReport?"disabled":""}"
+                                                       class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
                                                        data-width="900"
                                                        data-url="${ctx}/pcsPrParty_candidates?stage=${param.stage==PCS_STAGE_SECOND
-                                                        ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${PCS_PR_TYPE_PRO}">
-                                                        <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
+                                                        ?PCS_STAGE_FIRST:PCS_STAGE_SECOND}&type=${_type.key}">
+                                                        <i class="fa fa-plus-circle"></i>
+                                                        从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
                                                 </c:if>
                                                 </span>
                                                 <a style="margin-left: 30px" data-toggle="collapse"
@@ -90,7 +93,8 @@
                                                         class="count">${fn:length(candidatesMap.get(_type.key))}</span>人，可拖拽行进行排序</span>
                                             </h3>
                                         </div>
-                                        <div id="collapse${_type.key}" class="panel-collapse collapse ${_type.key==PCS_PR_TYPE_PRO?"in":""}">
+                                        <div id="collapse${_type.key}"
+                                             class="panel-collapse collapse ${_type.key==PCS_PR_TYPE_PRO?"in":""}">
                                             <div class="panel-body">
                                                 <table id="jqGrid${_type.key}" data-width-reduce="30"
                                                        class="jqGrid4 table-striped"></table>
@@ -102,7 +106,7 @@
                         </form>
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
-                                    autocomplete="off"  ${hasReport?"disabled":""}
+                                    autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交名单
                             </button>
                         </div>
@@ -146,7 +150,7 @@
     }
 
     .modal .tip ul {
-        margin-left: 150px;
+        margin-left: 50px;
     }
 
     .modal .tip ul li {
@@ -162,18 +166,51 @@
         font-weight: bolder;
         text-align: center;
     }
-
-    .panel input.vote{
-        width:60px!important;
-        padding: 0px!important;
+    .panel{
+        margin-bottom: 10px;
+    }
+    .panel input.vote {
+        width: 60px !important;
+        padding: 0px !important;
         text-align: center;
         font-weight: bolder;
         font-size: 18px;
         color: red;
     }
-    .panel span.title{
+
+    .panel input.nation {
+        width: 120px !important;
+        padding: 0px !important;
+        text-align: center;
+        font-weight: bolder;
+        height: 27px;
+        color: darkgreen;
+    }
+
+    .panel input.birth {
+        width: 100px !important;
+        padding: 0px !important;
+        text-align: center;
+        font-weight: bolder;
+        height: 27px;
+        color: darkgreen;
+    }
+
+    .panel select.gender {
+        width: 50px !important;
+        padding: 0px !important;
+        height: 27px;
+        font-weight: bolder;
+        color: darkgreen;
+    }
+
+    .panel span.title {
         font-weight: bolder;
         color: #669fc7
+    }
+    .panel select[disabled]{
+        color: #848484!important;
+        background-color: #eee!important;
     }
 </style>
 <script type="text/template" id="confirmTpl">
@@ -200,12 +237,25 @@
         <div>请确认以上信息准确无误后提交</div>
     </div>
 </script>
+<script type="text/template" id="genderTpl">
+    <select required name="gender{{=userId}}" class="gender"
+            data-container="{{=container}}">
+        <option></option>
+        <option {{=(gender==${GENDER_MALE})?'selected':''}} value="${GENDER_MALE}">男</option>
+        <option {{=(gender==${GENDER_FEMALE})?'selected':''}} value="${GENDER_FEMALE}">女</option>
+    </select>
+</script>
 <script>
+
+    function _container(gid) {
+        var panelId = $("#" + gid).closest(".panel").prop("id");
+        return '#' + panelId + ' .panel-collapse';
+    }
     var colModel = [
         {
             label: '移除', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
             //console.log(options)
-            return '<button ${hasReport?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
+            return '<button ${!allowModify?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
                     .format(rowObject.userId, options.gid)
         }
         },
@@ -214,18 +264,35 @@
         {
             label: '票数', name: 'vote', formatter: function (cellvalue, options, rowObject) {
 
-            var panelId = $("#"+options.gid).closest(".panel").prop("id");
-            return ('<input required type="text" name="vote{0}" data-container="#'
-            + panelId +' .panel-collapse"  class="vote num" maxlength="4">')
-                    .format(rowObject.userId)
+            return ('<input required type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
+                    .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
         }
         },
         {
-            label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
+            label: '性别', name: 'gender', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+            return _.template($("#genderTpl").html().NoMultiSpace())({
+                gender: cellvalue,
+                userId: rowObject.userId,
+                container: _container(options.gid)
+            })
+        }
         },
-        {label: '出生年月', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {label: '民族', name: 'nation', width: 60},
+         {
+         label: '出生年月', width: 150, name: 'birth', formatter: function (cellvalue, options, rowObject) {
+
+         return ('<input required type="text" name="birth{0}" data-container="{1}" data-date-format="yyyy-mm-dd" value="{2}" class="birth date-picker">')
+         .format(rowObject.userId, _container(options.gid), ($.trim(cellvalue) != '') ? cellvalue.substr(0, 10) : "");
+         }
+         },
+        /* {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},*/
+        {
+            label: '民族', name: 'nation', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+            return ('<input required type="text" name="nation{0}" value="{2}" data-container="{1}"  class="nation" maxlength="6">')
+                    .format(rowObject.userId, _container(options.gid), $.trim(cellvalue))
+        }
+        },
         {
             label: '学历', name: '_learn', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
@@ -253,11 +320,11 @@
             formatoptions: {newformat: 'Y-m-d'}
         },
         {
-            label: '职别', name: 'proPost', width: 200, formatter: function (cellvalue, options, rowObject) {
+            label: '职别', name: 'proPost', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                 return '干部';
             } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
-                return (rowObject.isRetire) ? "离退休" : cellvalue;
+                return (rowObject.isRetire) ? "离退休" : $.trim(cellvalue);
             }
             return $.trim(rowObject.eduLevel);
         }
@@ -265,7 +332,7 @@
         {
             label: '职务',
             name: 'post',
-            width: 350,
+            width: 150,
             align: 'left', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                 return $.trim(cellvalue);
@@ -275,65 +342,53 @@
         }, {hidden: true, key: true, name: 'userId'}
     ];
 
-    var proCandidates = ${cm:toJSONArray(candidatesMap.get(PCS_PR_TYPE_PRO))};
-    var stuCandidates = ${cm:toJSONArray(candidatesMap.get(PCS_PR_TYPE_STU))};
-    var retireCandidates = ${cm:toJSONArray(candidatesMap.get(PCS_PR_TYPE_RETIRE))};
-    $("#jqGrid1").jqGrid({
+    <c:forEach items="${PCS_PR_TYPE_MAP}" var="_type">
+    var candidates_${_type.key} = ${cm:toJSONArray(candidatesMap.get(_type.key))};
+    var jqGrid = $("#jqGrid${_type.key}").jqGrid({
         pager: null,
         rownumbers: true,
         multiselect: false,
         height: 350,
         datatype: "local",
-        rowNum: proCandidates.length,
-        data: proCandidates,
-        colModel: colModel
-    }).jqGrid('sortableRows');
-    $("#jqGrid2").jqGrid({
-        pager: null,
-        rownumbers: true,
-        multiselect: false,
-        height: 350,
-        datatype: "local",
-        rowNum: stuCandidates.length,
-        data: stuCandidates,
-        colModel: colModel
-    }).jqGrid('sortableRows');
-
-    $("#jqGrid3").jqGrid({
-        pager: null,
-        rownumbers: true,
-        multiselect: false,
-        height: 350,
-        datatype: "local",
-        rowNum: retireCandidates.length,
-        data: retireCandidates,
-        colModel: colModel
-    }).jqGrid('sortableRows');
-
+        rowNum: candidates_${_type.key}.length,
+        data: candidates_${_type.key},
+        colModel: colModel,
+        gridComplete:function(){
+            <c:if test="${allowModify}">
+            register_date($('.date-picker'));
+            </c:if>
+            <c:if test="${!allowModify}">
+            $("#recommendForm input, .panel input, .panel select").prop("disabled", true);
+            </c:if>
+        }
+    });
+    <c:if test="${allowModify}">
+    jqGrid.jqGrid('sortableRows');
+    </c:if>
+    </c:forEach>
     $(window).triggerHandler('resize.jqGrid4');
 
     $("#submitBtn").click(function () {
-        var $null_vote = null;
-        $("input.vote").each(function(){
+        var $null = null;
+        $(".gender, .vote, .birth, .nation", ".panel").each(function () {
             var $this = $(this);
-            var vote = $.trim($this.val());
-            if(vote=='' || vote<=0){
-                $null_vote = $this;
-                $this.val('');
+            if ($.trim($this.val()) == '') {
+                $null = $this;
                 return false;
             }
         });
-        if($null_vote!=null){
-            var $panel = $null_vote.closest('.panel');
+        //console.log($null)
+        if ($null != null) {
+            var $panel = $null.closest('.panel');
             var $title = $panel.find('span.title');
-            $.tip({$target:$title,
+            $.tip({
+                $target: $title,
                 //$container:$panel,
-                at:"top center",
-                my:"bottom left",
-                msg:'请填写完整{0}中每个人的票数'
-                        .format($.trim($title.text()))});
-
-          //  return;
+                at: "top center",
+                my: "bottom left",
+                msg: '请填写完整{0}中每个人的信息'
+                        .format($.trim($title.text()))
+            });
         }
 
         $("#recommendForm").submit();
@@ -348,42 +403,30 @@
 
     function _ajaxSubmit(form) {
 
-        var proUserIds = $("#jqGrid1").jqGrid("getDataIDs");
-        var stuUserIds = $("#jqGrid2").jqGrid("getDataIDs");
-        var retireUserIds = $("#jqGrid3").jqGrid("getDataIDs");
         var items = [];
-        $.each(proUserIds, function (i, userId) {
-            var $vote = $("[role='row'][id=" + userId + "] input.vote", "#jqGrid1");
+        <c:forEach items="${PCS_PR_TYPE_MAP}" var="_type">
+        $.each($("#jqGrid${_type.key}").jqGrid("getDataIDs"), function (i, userId) {
+            var $row = $("[role='row'][id=" + userId + "]", "#jqGrid${_type.key}");
             var item = {};
-            item.type = ${PCS_PR_TYPE_PRO};
+            item.type = ${_type.key};
             item.userId = userId;
-            item.vote = $.trim($vote.val());
+            item.vote = $.trim($("input.vote", $row).val());
+            item.gender = $.trim($("select.gender", $row).val());
+            item.birth = $.trim($("input.birth", $row).val());
+            item.nation = $.trim($("input.nation", $row).val());
             items.push(item);
         });
-        $.each(stuUserIds, function (i, userId) {
-            var $vote = $("[role='row'][id=" + userId + "] input.vote", "#jqGrid2");
-            var item = {};
-            item.type = ${PCS_PR_TYPE_STU};
-            item.userId = userId;
-            item.vote = $.trim($vote.val());
-            items.push(item);
-        });
-        $.each(retireUserIds, function (i, userId) {
-            var $vote = $("[role='row'][id=" + userId + "] input.vote", "#jqGrid3");
-            var item = {};
-            item.type = ${PCS_PR_TYPE_RETIRE};
-            item.userId = userId;
-            item.vote = $.trim($vote.val());
-            items.push(item);
-        });
+        </c:forEach>
 
+        //console.log(items)
         $(form).ajaxSubmit({
             data: {items: new Base64().encode(JSON.stringify(items))},
             success: function (ret) {
                 if (ret.success) {
-                    SysMsg.success("提交成功。", function () {
+                    /*SysMsg.success("提交成功。", function () {
                         $.hideView();
-                    });
+                    });*/
+                    $.hideView();
                 }
             }
         });

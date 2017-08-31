@@ -1,6 +1,18 @@
 
 
 
+
+2017-9-1
+ALTER TABLE `pcs_admin_report`
+	ADD UNIQUE INDEX `party_id_config_id_stage` (`party_id`, `config_id`, `stage`);
+
+ALTER TABLE `pcs_recommend`
+	DROP INDEX `party_id_branch_id_config_id_is_finished`;
+
+	ALTER TABLE `pcs_recommend`
+	ADD UNIQUE INDEX `party_id_branch_id_config_id_stage` (`party_id`, `branch_id`, `config_id`, `stage`);
+
+
 2017-8-29
 ALTER TABLE `pcs_recommend`
 	DROP INDEX `party_id_branch_id_config_id`;

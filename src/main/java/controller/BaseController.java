@@ -129,8 +129,11 @@ import service.pcs.PcsCandidateService;
 import service.pcs.PcsConfigService;
 import service.pcs.PcsExportService;
 import service.pcs.PcsOwService;
+import service.pcs.PcsPartyService;
 import service.pcs.PcsPrAlocateService;
 import service.pcs.PcsPrCandidateService;
+import service.pcs.PcsPrExportService;
+import service.pcs.PcsPrOwService;
 import service.pcs.PcsPrPartyService;
 import service.pcs.PcsProposalService;
 import service.pcs.PcsRecommendService;
@@ -370,11 +373,18 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected PcsOwService pcsOwService;
     @Autowired
+    protected PcsPartyService pcsPartyService;
+
+    @Autowired
     protected PcsPrAlocateService pcsPrAlocateService;
     @Autowired
     protected PcsPrPartyService pcsPrPartyService;
     @Autowired
     protected PcsPrCandidateService pcsPrCandidateService;
+    @Autowired
+    protected PcsPrExportService pcsPrExportService;
+    @Autowired
+    protected PcsPrOwService pcsPrOwService;
 
     @Autowired
     protected CpcAllocationService cpcAllocationService;

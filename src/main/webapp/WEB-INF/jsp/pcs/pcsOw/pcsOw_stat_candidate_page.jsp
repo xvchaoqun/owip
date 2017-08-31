@@ -31,14 +31,20 @@
                                     data-grid-id="#jqGrid"
                                     data-querystr="stage=${param.stage}&type=${type}&isChosen=1" ${hasIssue?"disabled":""}
                                     class="jqBatchBtn btn btn-warning">
-                                <i class="fa fa-level-down"></i> 入选“${_stage}”名单
+                                <i class="fa fa-level-down"></i>
+                                <c:if test="${param.stage!=PCS_STAGE_THIRD}">
+                                入选“${_stage}”名单
+                                </c:if>
+                                <c:if test="${param.stage==PCS_STAGE_THIRD}">
+                                    预备人选
+                                </c:if>
                             </button>
 
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=4-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                    <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}（组织部用）</a>
+                                    <i class="fa fa-download"></i> 附表4-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（组织部用）</a>
 
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=5-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                    <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}（报上级用）</a>
+                                    <i class="fa fa-download"></i> 附表5-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（报上级用）</a>
                             </c:if>
                             <c:if test="${cls==4}">
                                 <button data-url="${ctx}/pcsOw_choose"
@@ -49,15 +55,16 @@
                                         class="jqBatchBtn btn btn-danger">
                                     <i class="fa fa-times"></i> 删除
                                 </button>
+                                <c:if test="${param.stage!=PCS_STAGE_THIRD}">
                                     &nbsp;&nbsp;
                                 <button data-url="${ctx}/pcsOw_issue" id="issueBtn"
                                         class="jqBatchBtn btn btn-success" ${hasIssue?"disabled":""}>
                                     <i class="fa fa-level-down"></i>
                                         ${hasIssue?"已下发名单":"下发名单"}
                                 </button>
-
+                                </c:if>
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                    <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}（组织部用）</a>
+                                    <i class="fa fa-download"></i> 附表7-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（组织部用）</a>
                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
