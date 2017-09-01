@@ -171,6 +171,32 @@ public class PcsAdminController extends BaseController {
         return "pcs/pcsAdmin/pcsAdmin_add";
     }
 
+    @RequiresPermissions("pcsAdmin:edit")
+    @RequestMapping(value = "/pcsAdmin_msg", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsAdmin_msg(byte type, // type=1 两委委员 type=2 党代表
+                               byte stage,
+                               byte adminType, String mobile, String msg, HttpServletRequest request) {
+
+        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
+
+        Map<String, Integer> result = pcsAdminService.sendMsg(type, stage, adminType, mobile, msg);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "发送短信给分党委管理员：%s-%s", msg, mobile));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("totalCount", result.get("total"));
+        resultMap.put("successCount", result.get("success"));
+        return resultMap;
+    }
+
+    @RequiresPermissions("pcsAdmin:edit")
+    @RequestMapping("/pcsAdmin_msg")
+    public String pcsAdmin_msg() {
+
+        return "pcs/pcsAdmin/pcsAdmin_msg";
+    }
+
     @RequiresPermissions("pcsAdmin:del")
     @RequestMapping(value = "/pcsAdmin_batchDel", method = RequestMethod.POST)
     @ResponseBody

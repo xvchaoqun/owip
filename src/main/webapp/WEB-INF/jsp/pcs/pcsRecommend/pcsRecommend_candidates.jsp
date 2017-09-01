@@ -46,14 +46,14 @@
                 sortable: true,
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
-            },{
+            }/*,{
                 label: '参加工作时间',
                 name: 'workTime',
                 width: 120,
                 sortable: true,
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
-            },{
+            }*/,{
                 label: '所在单位及职务',
                 name: '_title',
                 width: 350,

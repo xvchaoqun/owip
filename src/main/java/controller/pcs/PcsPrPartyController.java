@@ -77,11 +77,11 @@ public class PcsPrPartyController extends BaseController {
                 break;
             case "3":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
-                fileName = String.format("附件3. 分党委酝酿代表候选人初步名单（分党委上报组织部）（%s）", party.getName());
+                fileName = String.format("分党委酝酿党员代表大会代表候选人初步人选名单（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "4":
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                fileName = String.format("附件4. 分党委酝酿代表候选人初步人选统计表（分党委上报组织部）（%s）", party.getName());
+                fileName = String.format("分党委酝酿党员代表大会代表候选人初步人选统计表（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
         }
 
@@ -164,12 +164,12 @@ public class PcsPrPartyController extends BaseController {
         int configId = currentPcsConfig.getId();
 
         if (!pcsPrPartyService.allowModify(partyId, configId, stage)) {
-            return failed("您所在分党委已经上报或组织部已下发名单。");
+            return failed("您所在分党委已经报送或组织部已下发名单。");
         }
 
         pcsPrPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]上报-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 SystemConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);
@@ -249,7 +249,7 @@ public class PcsPrPartyController extends BaseController {
         int configId = pcsAdmin.getConfigId();
 
         if(!pcsPrPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage)){
-            return failed("已上报数据或已下发名单，不可修改。");
+            return failed("已报送数据或已下发名单，不可修改。");
         }
 
         List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);

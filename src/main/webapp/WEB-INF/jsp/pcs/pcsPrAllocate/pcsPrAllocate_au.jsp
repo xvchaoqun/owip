@@ -4,7 +4,7 @@
     <div class="col-xs-12">
         <div class="allocateTable">
             <div class="search">
-                分党委名称：<input type="text" id="searchInput"> <a href="javascript:;" id="clearBtn"><i class="fa fa-times-circle fa-lg grey"></i></a>
+                院系级党委、党总支、直属党支部：<input type="text" id="searchInput"> <a href="javascript:;" id="clearBtn"><i class="fa fa-times-circle fa-lg grey"></i></a>
             </div>
             <table class="table table-bordered table-striped" data-offset-top="101">
 
@@ -12,7 +12,7 @@
 
                 <tr>
                     <th width="40" rowspan="2">序号</th>
-                    <th rowspan="2">院系级党组织名称</th>
+                    <th rowspan="2">院系级党委、党总支、直属党支部</th>
                     <th rowspan="2" width="60">正式党员数</th>
                     <th rowspan="2" width="70">代表总数</th>
                     <th colspan="3">代表构成</th>

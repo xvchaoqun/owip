@@ -19,9 +19,12 @@
                                 <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                                 ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                                 ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
-                            <button class="openView btn btn-primary btn-sm"
+                            <button class="openView btn btn-warning btn-sm"
                                     data-url="${ctx}/pcsPrParty_candidate_au?stage=${param.stage}"
-                                    ><i class="fa fa-sign-in"></i> 上传名单</button>
+                                    ><i class="fa fa-sign-in"></i> 上传党代表候选人初步人选名单</button>
+
+                            <a style="margin-left: 20px;" href="${ctx}/pcsPrParty_export?file=3&stage=${param.stage}">
+                                <i class="fa fa-download"></i> 分党委酝酿党员代表大会代表候选人初步人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -93,7 +96,7 @@
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'nation', width: 60},
             {
-                label: '学历', name: '_learn', formatter: function (cellvalue, options, rowObject) {
+                label: '学历学位', name: '_learn', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                     return $.jgrid.formatter.MetaType(rowObject.eduId);
                 } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
@@ -101,7 +104,7 @@
                 }
                 return "-"
             }
-            },
+            },/*
             {
                 label: '参加工作时间',
                 name: 'workTime',
@@ -109,7 +112,7 @@
                 sortable: true,
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
-            },
+            },*/
             {
                 label: '入党时间',
                 name: 'growTime',

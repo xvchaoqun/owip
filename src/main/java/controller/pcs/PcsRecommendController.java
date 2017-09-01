@@ -43,8 +43,17 @@ public class PcsRecommendController extends BaseController {
 
     @RequiresPermissions("pcsRecommend:list")
     @RequestMapping("/pcsRecommend")
-    public String pcsRecommend() {
+    public String pcsRecommend(Integer branchId, ModelMap modelMap) {
 
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int partyId = pcsAdmin.getPartyId();
+
+        modelMap.put("partyId", partyId);
+        modelMap.put("isDirectBranch", partyService.isDirectBranch(partyId));
+
+        if(branchId!=null){
+            modelMap.put("branch", branchService.findAll().get(branchId));
+        }
         return "pcs/pcsRecommend/pcsRecommend_page";
     }
 
@@ -52,6 +61,7 @@ public class PcsRecommendController extends BaseController {
     @RequestMapping("/pcsRecommend_data")
     public void pcsRecommend_data(HttpServletResponse response,
                                   byte stage,
+                                  Integer branchId,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -68,13 +78,13 @@ public class PcsRecommendController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeans(partyId, null);
+        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null,
+                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -108,7 +118,7 @@ public class PcsRecommendController extends BaseController {
         }
 
         if(!pcsPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage)){
-            return failed("已上报数据或已下发名单，不可修改。");
+            return failed("已报送数据或已下发名单，不可修改。");
         }
 
         pcsRecommendService.submit(stage, partyId, branchId,

@@ -130,15 +130,31 @@ public class PcsOwController extends BaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, new RowBounds());
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, null, new RowBounds());
         modelMap.put("records", records);
 
         return "pcs/pcsOw/pcsOw_party_table_page";
     }
 
+    // 单个分党委下的详情
+    @RequiresPermissions("pcsOw:list")
+    @RequestMapping("/pcsOw_party_detail_page")
+    public String pcsOw_party_detail_page() {
+
+        return "pcs/pcsOw/pcsOw_party_detail_page";
+    }
+
+    // 单个分党委下的支部情况
+    @RequiresPermissions("pcsOw:list")
+    @RequestMapping("/pcsPrOw_party_branch_page")
+    public String pcsPrOw_party_branch_page() {
+
+        return "pcs/pcsOw/pcsPrOw_party_branch_page";
+    }
+
     // 单个分党委下的汇总情况
     @RequiresPermissions("pcsOw:list")
-    @RequestMapping("/pcsOw_candidate_page")
+    @RequestMapping("/pcsOw_party_candidate_page")
     public String pcsOw_candidate_page(int partyId,
                                        Integer userId,
                                        @RequestParam(required = false,
@@ -151,7 +167,7 @@ public class PcsOwController extends BaseController {
         modelMap.put("party", partyService.findAll().get(partyId));
         modelMap.put("type", type);
 
-        return "pcs/pcsOw/pcsOw_candidate_page";
+        return "pcs/pcsOw/pcsOw_party_candidate_page";
     }
 
     @RequiresPermissions("pcsOw:report")
@@ -289,6 +305,7 @@ public class PcsOwController extends BaseController {
     @RequestMapping("/pcsOw_party_data")
     public void pcsOw_party_data(HttpServletResponse response,
                                  byte stage,
+                                 Boolean hasReport,
                                  Integer partyId,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -303,13 +320,13 @@ public class PcsOwController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countPcsPartyBeans(partyId);
+        int count = iPcsMapper.countPcsPartyBeans(configId, stage, partyId, hasReport);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, partyId,
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, partyId,hasReport,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

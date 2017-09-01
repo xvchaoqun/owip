@@ -110,7 +110,8 @@ public class PcsPrOwController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null, new RowBounds());
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null,
+                null, null, new RowBounds());
         modelMap.put("records", records);
 
         return "pcs/pcsPrOw/pcsPrOw_allocate_table_page";
@@ -286,6 +287,8 @@ public class PcsPrOwController extends BaseController {
     public void pcsPrOw_party_data(HttpServletResponse response,
                                    byte stage,
                                    Integer partyId,
+                                   Boolean hasReport,
+                                   Byte recommendStatus,
                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -299,13 +302,13 @@ public class PcsPrOwController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countPcsPrPartyBeans(partyId);
+        int count = iPcsMapper.countPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, partyId,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

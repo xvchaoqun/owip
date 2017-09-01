@@ -58,12 +58,12 @@ public class PcsPrPartyService extends BaseMapper {
             if(_check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
         }
 
-        // 分党委已经上报之后，不可修改数据
+        // 分党委已经报送之后，不可修改数据
         PcsPrRecommend pcsPrRecommend = getPcsPrRecommend(configId, stage, partyId);
         return (pcsPrRecommend==null || BooleanUtils.isNotTrue(pcsPrRecommend.getHasReport()));
     }
 
-    // 分党委管理员上报，上报后数据不可修改
+    // 分党委管理员报送，报送后数据不可修改
     @Transactional
     public void report(int partyId, int configId, byte stage) {
 
@@ -72,12 +72,16 @@ public class PcsPrPartyService extends BaseMapper {
         PcsPrRecommend pcsPrRecommend = getPcsPrRecommend(configId, stage, partyId);
         if(pcsPrRecommend==null) throw new OpException("提交的数据有误。");
 
+        if(!allowModify(partyId, configId, stage)){
+            throw new OpException("您已经报送，请勿重复操作。");
+        }
+
         PcsPrRecommend record = new PcsPrRecommend();
         record.setId(pcsPrRecommend.getId());
         record.setHasReport(true);
         record.setReportUserId(userId);
         record.setReportTime(new Date());
-        // 上报后待审核
+        // 报送后待审核
         record.setStatus(SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT);
 
         pcsPrRecommendMapper.updateByPrimaryKeySelective(record);
@@ -100,7 +104,7 @@ public class PcsPrPartyService extends BaseMapper {
                        List<PcsPrCandidateFormBean> beans) {
 
         if(!allowModify(partyId, configId, stage)){
-            throw  new OpException("已上报数据或上一阶段未审核通过，不可修改。");
+            throw  new OpException("已报送数据或上一阶段未审核通过，不可修改。");
         }
 
         record.setConfigId(configId);

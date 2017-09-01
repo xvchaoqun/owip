@@ -1617,11 +1617,13 @@ public class SystemConstants {
     // 短信关联类型
     public final static byte SHORT_MSG_RELATE_TYPE_CONTENT_TPL = 1;
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL = 2;
+    public final static byte SHORT_MSG_RELATE_TYPE_SHORT_PCS = 3; // 党代会
     public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_CONTENT_TPL, "短信模板");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL, "定向短信");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_PCS, "党代会");
     }
 
     // 内容模板引擎  1 MessageFormat

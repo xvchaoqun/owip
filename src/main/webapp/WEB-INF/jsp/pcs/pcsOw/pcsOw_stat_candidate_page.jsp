@@ -141,8 +141,9 @@
     .candidate-table .frozen-bdiv.ui-jqgrid-bdiv {
         top: 44px !important;
     }
-    #jqGrid_actualMemberCount{
+    #jqGrid_actualMemberCount, #jqGrid_branchCount, #jqGrid_memberCount, #jqGrid_expectMemberCount{
         padding: 0;
+        font-size: 11px;
     }
 
     .modal .tip ul{
@@ -213,9 +214,9 @@
             }, frozen: true
             },
             </c:if>
-            {label: '推荐提名的党支部数', name: 'branchCount', width: 160},
-            {label: '推荐党支部所含党员数', name: 'memberCount', width: 170},
-            {label: '推荐党支部应参会党员数', name: 'expectMemberCount', width: 190},
+            {label: '推荐提名<div>的党支部数</div>', name: 'branchCount'},
+            {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
+            {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
             {label: '推荐党支部实参会党员数<div style="font-size: 8px">（推荐提名的党员数）</div>', name: 'actualMemberCount', width: 180},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
@@ -231,14 +232,14 @@
                 sortable: true,
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
-            },{
+            }/*,{
                 label: '参加工作时间',
                 name: 'workTime',
                 width: 120,
                 sortable: true,
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
-            },{
+            }*/,{
                 label: '所在单位及职务',
                 name: '_title',
                 width: 350,

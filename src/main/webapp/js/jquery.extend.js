@@ -208,7 +208,7 @@ var _modal_width;
             }
             var label = '<i class="fa fa-warning red"></i> ';
             if (type == "success") {
-                label = '<i class="fa fa-info-circle green"></i> ';
+                label = '<i class="fa fa-check-circle green"></i> ';
             }
             //console.log($target)
             $target.qtip({

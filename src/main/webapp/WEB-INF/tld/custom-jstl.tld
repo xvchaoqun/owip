@@ -240,9 +240,14 @@
 		<function-signature>java.lang.Integer  getDayCountBetweenDate(java.util.Date, java.util.Date)</function-signature>
 	</function>
 	<function>
-		<name>parseInt</name>
+		<name>toInt</name>
 		<function-class>sys.utils.TagUtils</function-class>
-		<function-signature>java.lang.Integer parseInt(java.lang.String)</function-signature>
+		<function-signature>java.lang.Integer toInt(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>toByte</name>
+		<function-class>sys.utils.TagUtils</function-class>
+		<function-signature>java.lang.Byte toByte(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>inverseMap</name>

@@ -42,7 +42,7 @@ public class PcsPrCandidateService extends BaseMapper {
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        example.setOrderByClause("type asc, vote desc, sort_order asc");
+        example.setOrderByClause("party_sort_order desc, type asc, vote desc, sort_order asc");
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }

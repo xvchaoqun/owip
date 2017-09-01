@@ -62,12 +62,12 @@ public class PcsPartyController extends BaseController {
                 break;
             case "2-1":
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
-                fileName = String.format("附表2-%s. %s候选人推荐提名汇总表（院系级党组织用）", type,
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                fileName = String.format("%s候选人初步人选推荐提名汇总表（“%s”阶段）",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type), SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "3":
                 wb = pcsExportService.exportRecommends_3(configId, stage, partyId);
-                fileName = "附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）";
+                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
         }
 
@@ -126,6 +126,27 @@ public class PcsPartyController extends BaseController {
     }
 
     @RequiresPermissions("pcsParty:report")
+    @RequestMapping(value = "/pcsParty_report_check", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsParty_report_check(byte stage) {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        if (pcsAdmin == null) {
+            throw new UnauthorizedException();
+        }
+        int partyId = pcsAdmin.getPartyId();
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        List<PcsBranchBean> pcsBranchBeans = pcsPartyService.notFinishedPcsBranchBeans(partyId, configId, stage);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("beans", pcsBranchBeans);
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("pcsParty:report")
     @RequestMapping(value = "/pcsParty_report", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsParty_report(byte stage) {
@@ -139,12 +160,12 @@ public class PcsPartyController extends BaseController {
         int configId = currentPcsConfig.getId();
 
         if(!pcsPartyService.allowModify(partyId, configId, stage)){
-            return failed("您所在分党委已经上报或组织部已下发名单。");
+            return failed("您已经报送，请勿重复操作。");
         }
 
         pcsPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]上报-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 SystemConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);

@@ -13,6 +13,7 @@
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="pcsAdmin:edit">
                     <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsAdmin_add"><i class="fa fa-plus"></i> 添加管理员</a>
+
                     <a class="confirm btn btn-success btn-sm"
                        data-url="${ctx}/pcsAdmin_sync"
                        data-title="同步党代会管理员"

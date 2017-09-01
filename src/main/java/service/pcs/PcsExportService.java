@@ -251,7 +251,7 @@ public class PcsExportService extends BaseMapper {
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-3.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-3_5.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -324,9 +324,9 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(percent(actualMemberCount, expectMemberCount));
         }
 
-        row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
+   /*     row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
-        cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+        cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));*/
 
         return wb;
     }
@@ -336,7 +336,7 @@ public class PcsExportService extends BaseMapper {
      */
     public XSSFWorkbook exportRecommends_6(int configId, byte stage) throws IOException {
 
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, new RowBounds());
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, null, new RowBounds());
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-6.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -437,12 +437,24 @@ public class PcsExportService extends BaseMapper {
         List<IPcsCandidateView> candidates =
                 iPcsMapper.selectBranchCandidates(null, configId, stage, type, partyId, new RowBounds());
 
+
+
+        String deadline = "";
+        switch (stage) {
+            case SystemConstants.PCS_STAGE_FIRST:
+                deadline = "9月6日前";
+                break;
+            case SystemConstants.PCS_STAGE_SECOND:
+                deadline = "9月11日前";
+                break;
+        }
+
         String title = "中国共产党北京师范大学第十三届委员会委员";
         if (type == SystemConstants.PCS_USER_TYPE_JW) {
             title = "中国共产党北京师范大学第十三届纪律检查委员会委员";
         }
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-2-1.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-2-1_3.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         wb.setSheetName(0, SystemConstants.PCS_USER_TYPE_MAP.get(type));
         XSSFSheet sheet = wb.getSheetAt(0);
@@ -451,20 +463,26 @@ public class PcsExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
+                .replace("deadline", deadline)
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("name", party.getName())
+                .replace("name", party.getName());
+        cell.setCellValue(str);
+
+        row = sheet.getRow(2);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
                 .replace("branch", branchCount + "")
                 .replace("member", memberCount + "")
                 .replace("expect", expectMemberCount + "")
                 .replace("actual", actualMemberCount + "");
         cell.setCellValue(str);
 
-        int startRow = 4;
+        int startRow = 5;
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
@@ -511,10 +529,10 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
-            // 参加工作时间
+          /*  // 参加工作时间
             String workTime = DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM");
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(workTime));
+            cell.setCellValue(StringUtils.trimToEmpty(workTime));*/
 
             // 所在单位及职务
             cell = row.getCell(column++);

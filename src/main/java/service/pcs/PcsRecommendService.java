@@ -63,7 +63,7 @@ public class PcsRecommendService extends BaseMapper {
         int configId = pcsConfig.getId();
 
         if(!pcsPartyService.allowModify(partyId, configId, stage)){
-            throw  new OpException("已上报数据或已下发名单，不可修改。");
+            throw  new OpException("已报送数据或已下发名单，不可修改。");
         }
 
         PcsRecommend record = new PcsRecommend();

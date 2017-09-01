@@ -12,7 +12,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">保险柜编号：${safeBoxMap.get(cm:parseInt(param.safeBoxId)).code}</a>
+                    <a href="javascript:;">保险柜编号：${safeBoxMap.get(cm:toInt(param.safeBoxId)).code}</a>
                 </li>
             </ul>
         </div>

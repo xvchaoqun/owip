@@ -15,7 +15,7 @@ public class PcsBranchBean implements Serializable {
 
     private Integer configId;
 
-    private Byte isFinished;
+    private Boolean isFinished;
 
     private Byte stage;
 
@@ -73,11 +73,11 @@ public class PcsBranchBean implements Serializable {
         this.configId = configId;
     }
 
-    public Byte getIsFinished() {
+    public Boolean getIsFinished() {
         return isFinished;
     }
 
-    public void setIsFinished(Byte isFinished) {
+    public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
     }
 

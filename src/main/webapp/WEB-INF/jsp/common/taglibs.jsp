@@ -194,6 +194,8 @@
 
 <c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_MAP%>" var="PCS_ADMIN_TYPE_MAP"/>
 <c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_NORMAL%>" var="PCS_ADMIN_TYPE_NORMAL"/>
+<c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_SECRETARY%>" var="PCS_ADMIN_TYPE_SECRETARY"/>
+<c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY%>" var="PCS_ADMIN_TYPE_VICE_SECRETARY"/>
 
 <c:set value="<%=SystemConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
 <c:set value="<%=SystemConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
@@ -216,6 +218,7 @@
 <c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT%>" var="PCS_PR_RECOMMEND_STATUS_INIT"/>
 <c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS%>" var="PCS_PR_RECOMMEND_STATUS_PASS"/>
 <c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY%>" var="PCS_PR_RECOMMEND_STATUS_DENY"/>
+<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_MAP%>" var="PCS_PR_RECOMMEND_STATUS_MAP"/>
 
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>

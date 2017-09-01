@@ -380,16 +380,18 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function () {
 
     var _this = $(this);
     var openBy = _this.data("open-by");
+    var needId = $(this).data("need-id");
+    if (needId == undefined) needId = true;
     var idName = _this.data("id-name") || 'id';
     var grid = $("#jqGrid");
     var id = grid.getGridParam("selrow");
     var ids = grid.getGridParam("selarrrow");
-    if (!id || ids.length > 1) {
+    if (needId && (!id || ids.length > 1)) {
         SysMsg.warning("请选择一行", "提示");
         return;
     }
 
-    saveJqgridSelected("#jqGrid");
+    if (needId) saveJqgridSelected("#jqGrid");
 
     var url = _this.data("url");
     if ($.trim(url) == '') {

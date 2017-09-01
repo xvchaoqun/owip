@@ -42,7 +42,9 @@
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
                                                name="actualPositiveMemberCount"
-                                               value="${pcsPrRecommend.actualPositiveMemberCount}"></td>
+                                               value="${pcsPrRecommend.actualPositiveMemberCount}">
+                                        <a href="javascript:;" onclick="_tipPopup()" class="text-success">应到会人数如何计算？</a>
+                                    </td>
                                 </tr>
                             </table>
                             <div id="accordion">
@@ -108,7 +110,7 @@
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"  ${!allowModify?"disabled":""}
-                                    class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交名单
+                                    class="btn btn-success btn-lg"><i class="fa fa-random"></i> 保存名单
                             </button>
                         </div>
                     </div>
@@ -129,8 +131,14 @@
         white-space: nowrap;
     }
 
-    .form-table input {
-        width: 50px;
+    .form-table input, .form-table input:focus{
+        width: 60px;
+        background-color: #f2dede;
+        border: solid 1px darkred;
+        font-size: 20px;
+        font-weight: bolder;
+        color: #000!important;
+        text-align: center !important;
     }
 
     .form-table tr td:nth-child(odd) {
@@ -213,7 +221,34 @@
         color: #848484!important;
         background-color: #eee!important;
     }
+    .confirm-modal .modal-dialog{
+        width: 800px;
+    }
 </style>
+<script type="text/template" id="alertTpl">
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <a name="OLE_LINK4"></a><a name="OLE_LINK3"></a><b><span style="font-size:14.0pt;font-family:宋体;">党员大会进行选举时，有选举权的到会人数超过应到会人数的<span>4/5</span>，会议有效。为了保证选举工作能够顺利进行，党员因下列情况不能参加选举的，经报上级党组织同意，并经支部党员大会通过，可以不计算在应到会人数之内：</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>1</span>）患有精神病或因其他疾病导致不能表达本人意志的。</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>2</span>）出国半年以上的。</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>3</span>）虽未受到留党察看以上党纪处分，但正在服刑的。</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>4</span>）年老体弱卧床不起和长期生病、生活不能自理的。</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>5</span>）工作调动，下派锻炼，外出学习或工作半年以上等，按规定应转走正式组织关系而没有转走的。</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>6</span>）已经回原籍长期居住的离退休人员中的党员，因特殊情况，没有从原单位转出党员组织关系、确实不能参加选举的。</span></b><span style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <b><span style="font-size:14.0pt;font-family:宋体;">凡上述情况之外的党员不能参加党员大会进行选举，仍应计算在应到会人数之列。</span></b><br />
+</script>
 <script type="text/template" id="confirmTpl">
     <div class="tip">
         <ul>
@@ -247,7 +282,15 @@
     </select>
 </script>
 <script>
+    function _tipPopup(){
 
+        var msg = _.template($("#alertTpl").html());
+        bootbox.alert({
+            className: "confirm-modal",
+            message: msg,
+            title: '应到会人数如何计算？'
+        });
+    }
     function _container(gid) {
         var panelId = $("#" + gid).closest(".panel").prop("id");
         return '#' + panelId + ' .panel-collapse';
@@ -295,7 +338,7 @@
         }
         },
         {
-            label: '学历', name: '_learn', formatter: function (cellvalue, options, rowObject) {
+            label: '学历学位', name: '_learn', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                 return $.jgrid.formatter.MetaType(rowObject.eduId);
             } else if (rowObject.userType == '${PCS_PR_USER_TYPE_TEACHER}') {
@@ -303,7 +346,7 @@
             }
             return "-"
         }
-        },
+        },/*
         {
             label: '参加工作时间',
             name: 'workTime',
@@ -311,7 +354,7 @@
             sortable: true,
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
-        },
+        },*/
         {
             label: '入党时间',
             name: 'growTime',

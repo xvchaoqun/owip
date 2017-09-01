@@ -5,6 +5,7 @@ import bean.ShortMsgBean;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.Passport;
@@ -696,15 +697,15 @@ public class ShortMsgService extends BaseMapper {
         if(receiver!=null) {
             uv = sysUserService.findById(receiver);
             if (uv == null) {
-                throw new RuntimeException("用户不存在。");
+                throw new OpException("用户不存在。");
             }
         }
         String mobile = shortMsgBean.getMobile();
         if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
-            throw new RuntimeException("手机号码有误："+ mobile+", realname="+uv.getRealname() + ", code="+ uv.getCode());
+            throw new OpException("{0}（工号：{1}）手机号码有误（{2}）", uv.getRealname(), uv.getCode(), mobile);
         }
         if(StringUtils.isBlank(content)){
-            throw new RuntimeException("发送内容为空。");
+            throw new OpException("短信发送内容为空。");
         }
 
         String url= springProps.shortMsgUrl;

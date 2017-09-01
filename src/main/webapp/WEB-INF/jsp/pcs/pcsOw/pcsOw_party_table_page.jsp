@@ -13,9 +13,9 @@
                 <th width="50">序号</th>
                 <th>分党委名称</th>
                 <th width="20" style="white-space: nowrap">党员数</th>
-                <th width="80" style="white-space: nowrap">应参会党员数</th>
-                <th width="80" style="white-space: nowrap">实参会党员数</th>
-                <th width="80" style="white-space: nowrap">参会比率</th>
+                <th width="120" style="white-space: nowrap">应参会党员数</th>
+                <th width="120" style="white-space: nowrap">实参会党员数</th>
+                <th width="120" style="white-space: nowrap">参会比率</th>
             </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                 <c:set var="actualMemberCount" value="${actualMemberCount+record.actualMemberCount}"/>
                 <tr>
                     <td>${vs.count}</td>
-                    <td>${record.name}</td>
+                    <td style="text-align: left;white-space: nowrap;">${record.name}</td>
                     <td>${record.memberCount}</td>
                     <td>${record.expectMemberCount}</td>
                     <td>${record.actualMemberCount}</td>
@@ -53,6 +53,12 @@
             </div>
     </div>
 </div>
+<style>
+    .table thead tr th,
+    .table tbody tr td{
+        text-align: center;
+    }
+</style>
 <script>
     stickheader();
 </script>

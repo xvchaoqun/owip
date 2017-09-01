@@ -87,7 +87,7 @@ public class PcsPrExportService extends BaseMapper {
         int actualMemberCount = 0;
         int actualPositiveMemberCount = 0;
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null, new RowBounds());
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null, null, null, new RowBounds());
         int startRow = 3;
         int rowCount = records.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
@@ -305,11 +305,11 @@ public class PcsPrExportService extends BaseMapper {
     }
 
     /**
-     * 附件4. 分党委酝酿代表候选人初步人选统计表（分党委上报组织部）
+     * 附件4. 分党委酝酿代表候选人初步人选统计表（分党委报送组织部）
      */
     public XSSFWorkbook exportPartyAllocate(int configId, byte stage, int partyId) throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-4.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-4_9.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -518,12 +518,12 @@ public class PcsPrExportService extends BaseMapper {
         return wb;
     }
     /**
-     * 附件3. 分党委酝酿代表候选人初步名单（分党委上报组织部）
+     * 附件3. 分党委酝酿代表候选人初步名单（分党委报送组织部）
      * 附件5. 各分党委酝酿代表候选人初步名单汇总表（组织部汇总）
      */
     public XSSFWorkbook exportPartyCandidates(int configId, byte stage, Integer partyId) throws IOException {
 
-        String filename = "pr-3.xlsx";
+        String filename = "pr-3_8.xlsx";
         if (partyId == null) {
             filename = "pr-5.xlsx";
         }
@@ -693,6 +693,7 @@ public class PcsPrExportService extends BaseMapper {
                     edu = metaTypeService.getName(cv.getEduId());
                     workTime = DateUtils.formatDate(cv.getWorkTime(), "yyyy.MM");
                     post = cv.getPost();
+                    proPost = "干部";
                 } else {
                     // 是普通教师
                     edu = teacherInfo.getEducation();
@@ -708,10 +709,10 @@ public class PcsPrExportService extends BaseMapper {
             // 学历
             cell = row.getCell(column++);
             cell.setCellValue(edu);
-
+/*
             // 参加工作时间
             cell = row.getCell(column++);
-            cell.setCellValue(workTime);
+            cell.setCellValue(workTime);*/
 
             // 入党时间
             String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");

@@ -8,12 +8,16 @@
              data-url-page="${ctx}/pcsOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.partyId|| not empty param.sort}"/>
+                   value="${not empty param.partyId|| not empty param.hasReport|| not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
-
+                        <div class="jqgrid-vertical-offset buttons">
+                            <a class="popupBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促</a>
+                        </div>
+                        <div class="space-4"></div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
@@ -34,6 +38,18 @@
                                                     name="partyId" data-placeholder="请选择">
                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>推荐情况</label>
+                                            <select data-rel="select2"
+                                                    name="hasReport" data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="1">已上报</option>
+                                                <option value="0">未上报</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=hasReport]").val("${param.hasReport}")
+                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -60,41 +76,6 @@
         <div id="item-content"></div>
     </div>
 </div>
-<style>
-    .type-select{
-        padding: 10px 0 0 5px;
-    }
-    .type-select .typeCheckbox{
-        padding: 10px;
-        cursor: pointer;
-    }
-    .type-select .typeCheckbox.checked{
-        color: darkred;
-        font-weight: bolder;
-    }
-    .candidate-table{
-        padding-top: 0px !important;
-    }
-    .candidate-table th.ui-th-column div{
-        white-space:normal !important;
-        height:auto !important;
-        padding:0px;
-    }
-    .candidate-table .frozen-bdiv.ui-jqgrid-bdiv {
-        top: 43px !important;
-    }
-    #jqGrid_actualMemberCount{
-        padding: 0;
-    }
-
-    .modal .tip ul{
-        margin-left: 150px;
-    }
-    .modal .tip ul li{
-        font-size: 25px;
-        text-align: left;
-    }
-</style>
 <script>
     $("#jqGrid").jqGrid({
         rownumbers: true,
@@ -111,7 +92,7 @@
                 var hasReport = (cellvalue==undefined)?false:(cellvalue>0);
                 if(!hasReport) return "未上报"
                 return ('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsOw_candidate_page?stage=${param.stage}&partyId={0}"><i class="fa fa-hand-paper-o"></i> 已上报</button>')
+                'data-url="${ctx}/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa fa-hand-paper-o"></i> 已上报</button>')
                         .format(rowObject.id);
             }}
         ]
@@ -119,4 +100,5 @@
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     register_party_select($('#searchForm select[name=partyId]'));
+    $('[data-rel="select2"]').select2();
 </script>

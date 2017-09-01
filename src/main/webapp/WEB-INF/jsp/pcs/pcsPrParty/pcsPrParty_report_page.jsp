@@ -4,13 +4,13 @@
 <jsp:include page="menu.jsp"/>
 <div style="padding: 20px;">
     <div class="bs-callout bs-callout-warning">
-        <h4>附件3. 分党委酝酿代表候选人初步名单（分党委上报组织部）</h4>
+        <h4>分党委酝酿党员代表大会代表候选人初步人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
         <a href="${ctx}/pcsPrParty_export?file=3&stage=${param.stage}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
 
     <div class="bs-callout bs-callout-warning">
-        <h4>附件4. 分党委酝酿代表候选人初步人选统计表（分党委上报组织部）</h4>
+        <h4>分党委酝酿党员代表大会代表候选人初步人选统计表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</h4>
         <a href="${ctx}/pcsPrParty_export?file=4&stage=${param.stage}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
@@ -18,7 +18,7 @@
 
 <div class="modal-footer center" style="margin-top: 20px">
     <button id="submitBtn" ${!allowModify?"disabled":""}
-            class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${!allowModify?"已上报数据":"上&nbsp;&nbsp;报"}
+            class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${!allowModify?"已报送数据":"报&nbsp;&nbsp;送"}
     </button>
 </div>
 <style>
@@ -69,7 +69,7 @@
             className: "confirm-modal",
             buttons: {
                 confirm: {
-                    label: '<i class="fa fa-check"></i> 确认上报',
+                    label: '<i class="fa fa-check"></i> 确认报送',
                     className: 'btn-danger'
                 },
                 cancel: {
@@ -77,7 +77,7 @@
                     className: 'btn-default btn-show'
                 }
             },
-            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'>上报数据后不可以修改，请认真核实后上报。<div>",
+            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'>报送之前务必下载汇总表。报送之后不可以修改，请认真核实后报送。<div>",
             callback: function (result) {
                 if (result) {
                     $.post("${ctx}/pcsPrParty_report", {stage:${param.stage}}, function (ret) {
@@ -88,7 +88,7 @@
                     });
                 }
             },
-            title: '上报'
+            title: '报送'
         });
 
         return false;

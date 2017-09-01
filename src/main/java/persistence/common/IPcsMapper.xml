@@ -44,6 +44,15 @@
         <if test="partyId!=null">
             and op.party_id=#{partyId}
         </if>
+        <if test="hasReport">
+            and ppr.has_report=1
+        </if>
+        <if test="hasReport==null or !hasReport">
+            and ppr.id is null or ppr.has_report=0
+        </if>
+        <if test="recommendStatus!=null">
+            and ppr.status=#{recommendStatus}
+        </if>
     </sql>
     <select id="selectPcsPrPartyBeans" resultMap="PrPartyBaseResultMap" parameterType="map">
         select op.*, ${stage} as stage, ${configId} as config_id,
@@ -56,6 +65,7 @@
     </select>
     <select id="countPcsPrPartyBeans" parameterType="map" resultType="java.lang.Integer">
         select count(*) from ow_party_view op
+        left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.id = ppr.party_id
         <include refid="searchPcsPrPartyBeans"/>
     </select>
 
@@ -101,6 +111,14 @@
         <if test="partyId!=null">
             and op.party_id=#{partyId}
         </if>
+        <if test="hasReport!=null">
+            <if test="hasReport">
+                and par.id is not null
+            </if>
+            <if test="!hasReport">
+                and par.id is null
+            </if>
+        </if>
     </sql>
     <select id="selectPcsPartyBeans" resultMap="PartyBaseResultMap" parameterType="map">
         select op.*, ${stage} as stage, ${configId} as config_id, pr.expect_member_count,
@@ -120,6 +138,8 @@
     </select>
     <select id="countPcsPartyBeans" parameterType="map" resultType="java.lang.Integer">
         select count(*) from ow_party_view op
+        left join pcs_admin_report par on par.config_id=#{configId}
+        and par.stage=#{stage} and par.party_id = op.id
         <include refid="searchPcsPartyBeans"/>
     </select>
 
@@ -131,7 +151,7 @@
         <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount"/>
         <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount"/>
         <result column="config_id" jdbcType="INTEGER" property="configId"/>
-        <result column="is_finished" jdbcType="TINYINT" property="isFinished"/>
+        <result column="is_finished" jdbcType="BIT" property="isFinished"/>
         <result column="stage" jdbcType="TINYINT" property="stage"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="member_count" jdbcType="INTEGER" property="memberCount"/>

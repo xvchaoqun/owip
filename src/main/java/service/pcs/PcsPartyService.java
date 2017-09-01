@@ -1,15 +1,21 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsAdminReportExample;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.common.bean.PcsBranchBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.utils.ContextHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lm on 2017/8/31.
@@ -26,7 +32,7 @@ public class PcsPartyService extends BaseMapper {
         // 分党委已经下发名单之后，则分党委不可修改数据
         if(pcsOwService.hasIssue(configId, stage)) return false;
 
-        // 分党委已经上报，不可以修改数据
+        // 分党委已经报送，不可以修改数据
         PcsAdminReportExample example = new PcsAdminReportExample();
         example.createCriteria().andPartyIdEqualTo(partyId)
                 .andConfigIdEqualTo(configId)
@@ -35,9 +41,27 @@ public class PcsPartyService extends BaseMapper {
         return pcsAdminReportMapper.countByExample(example)==0;
     }
 
-    // 管理员上报，上报后数据不可修改
+    // 报送之前，需要先判断一下是不是所有的支部的推荐情况都完成了
+    public List<PcsBranchBean> notFinishedPcsBranchBeans(int partyId, int configId, byte stage){
+        List<PcsBranchBean> records = new ArrayList<>();
+        List<PcsBranchBean> pcsBranchBeans = iPcsMapper
+                .selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
+        for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
+
+            if(BooleanUtils.isNotTrue(pcsBranchBean.getIsFinished())) records.add(pcsBranchBean);
+        }
+
+        return records;
+    }
+
+    // 管理员报送，报送后数据不可修改
     @Transactional
     public void report(int partyId, int configId, byte stage) {
+
+        int size = notFinishedPcsBranchBeans(partyId, configId, stage).size();
+        if(size>0){
+            throw new OpException("您还有{0}个支部没有完成填报。", size);
+        }
 
         Integer userId = ShiroHelper.getCurrentUserId();
 

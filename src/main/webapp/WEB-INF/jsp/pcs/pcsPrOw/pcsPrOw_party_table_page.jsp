@@ -67,7 +67,7 @@
             </td>
             <td>
                 <c:if test="${expectCount>0}">
-                    <fmt:formatNumber value="${(cm:parseInt(actualCount) - expectCount)/expectCount}"
+                    <fmt:formatNumber value="${(cm:toInt(actualCount) - expectCount)/expectCount}"
                                       type="percent"
                                       pattern="#0.0%"/>
                 </c:if>

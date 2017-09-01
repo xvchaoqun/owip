@@ -11,7 +11,7 @@ public class OpException extends RuntimeException {
         super(message);
     }
 
-    public OpException(String message, String... params) {
+    public OpException(String message, Object... params) {
 
         super(MessageFormat.format(message, params));
     }

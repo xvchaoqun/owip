@@ -94,7 +94,7 @@
                         .format(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
             { label: '类别',  name: 'type', width: 220,frozen:true, align:"left" },
-            { label: '手机号码',  name: 'mobile',frozen:true },
+            { label: '手机号码',  name: 'mobile',frozen:true, width: 120 },
             { label: '短信内容',  name: 'content', width: 350},
             { label: '发送时间',  name: 'createTime', width: 150},
             { label: 'IP',  name: 'ip', width: 150},

@@ -8,12 +8,17 @@
              data-url-page="${ctx}/pcsPrOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.partyId|| not empty param.sort}"/>
+                   value="${not empty param.partyId||not empty param.hasReport||not empty param.recommendStatus
+                   || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
-
+                        <div class="jqgrid-vertical-offset buttons">
+                            <a class="popupBtn btn btn-warning btn-sm"
+                               data-url="${ctx}/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促</a>
+                        </div>
+                        <div class="space-4"></div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
@@ -34,6 +39,31 @@
                                                     name="partyId" data-placeholder="请选择">
                                                 <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>推荐情况</label>
+                                            <select data-rel="select2"
+                                                    name="hasReport" data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="1">已上报</option>
+                                                <option value="0">未上报</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=hasReport]").val("${param.hasReport}")
+                                            </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>审核情况</label>
+                                            <select data-rel="select2"
+                                                    name="recommendStatus" data-placeholder="请选择">
+                                                <option></option>
+                                                <c:forEach items="${PCS_PR_RECOMMEND_STATUS_MAP}" var="_type">
+                                                <option value="${_type.key}">${_type.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=recommendStatus]").val("${param.recommendStatus}")
+                                            </script>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -94,4 +124,5 @@
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     register_party_select($('#searchForm select[name=partyId]'));
+    $('[data-rel="select2"]').select2();
 </script>
