@@ -135,7 +135,7 @@ $(window).on('resize.jqGrid2', function () {
         if (heightReduce != undefined) {
             gridHeight = gridHeight - parseInt(heightReduce);
         }
-        console.log(" gridWidth=" + gridWidth + "gridHeight=" + gridHeight)
+        //console.log(" gridWidth=" + gridWidth + "gridHeight=" + gridHeight)
         $jqgrid.setGridHeight(gridHeight);
     })
 
@@ -165,6 +165,7 @@ $(window).on('resize.jqGrid4', function () {
             _gridWidth = _gridWidth - widthReduce;
         }
         $(this).jqGrid('setGridWidth', _gridWidth);
+       // console.log(" gridWidth=" + gridWidth)
     });
 });
 //resize on sidebar collapse/expand

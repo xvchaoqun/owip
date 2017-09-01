@@ -244,6 +244,7 @@
     ];
     $("#jqGrid1").jqGrid({
         pager: null,
+        responsive:false,
         rownumbers: true,
         multiselect: false,
         height: 400,
@@ -262,6 +263,7 @@
     </c:if>
     $("#jqGrid2").jqGrid({
         pager: null,
+        responsive:false,
         rownumbers: true,
         multiselect: false,
         height: 400,

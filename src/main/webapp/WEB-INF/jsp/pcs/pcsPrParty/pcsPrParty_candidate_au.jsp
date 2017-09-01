@@ -347,6 +347,7 @@
     var candidates_${_type.key} = ${cm:toJSONArray(candidatesMap.get(_type.key))};
     var jqGrid = $("#jqGrid${_type.key}").jqGrid({
         pager: null,
+        responsive:false,
         rownumbers: true,
         multiselect: false,
         height: 350,
