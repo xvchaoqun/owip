@@ -1,4 +1,20 @@
 
+== 清空党代会，除管理员、当前党代会设置两表外
+SET FOREIGN_KEY_CHECKS=0;
+
+truncate pcs_admin_report;
+truncate pcs_candidate;
+truncate pcs_candidate_chosen;
+truncate pcs_issue;
+truncate pcs_proposal;
+truncate pcs_pr_allocate;
+truncate pcs_pr_candidate;
+truncate pcs_pr_recommend;
+truncate pcs_recommend;
+
+SET FOREIGN_KEY_CHECKS=1;
+====
+
 SET FOREIGN_KEY_CHECKS=0;
 truncate base_cadre;
 
