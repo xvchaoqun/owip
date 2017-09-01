@@ -7,7 +7,7 @@
             <div class="space-4"></div>
             <a class="pull-right" style="margin-bottom: 10px" href="${ctx}/pcsOw_export?file=6&stage=${param.stage}" >
                 <i class="fa fa-download"></i> 附表6. 参加两委委员候选人推荐提名情况汇总表（组织部用）</a>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" data-offset-top="101">
             <thead>
             <tr>
                 <th width="50">序号</th>
@@ -53,3 +53,6 @@
             </div>
     </div>
 </div>
+<script>
+    stickheader();
+</script>

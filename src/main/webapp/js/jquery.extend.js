@@ -32,23 +32,7 @@ jQuery.validator.setDefaults({
     highlight: function (e) {
     },
     success: function (errorElement) {
-        /* var id = errorElement.attr("id");
-         var fieldName = id.substr(0, id.length-6);
-         console.log(fieldName)
-         var $field = $("[name="+fieldName+"]", $("#modalForm"))
-         $("label:first", $field.closest(".form-group")).css("color", "")*/
     },
-    /*success: function (e) {
-     //console.log(e)
-     //console.log(e.closest('.uploader').find(".help-block"))
-     $(e).closest('div.form-group').removeClass('has-error').addClass('has-success')
-
-     // 文件上传特殊处理
-     e.closest('.uploader').find(".help-block").remove();
-
-     $(e).removeClass('has-error').addClass('has-success')
-     $(e).parent().removeClass('has-error').addClass('has-success')
-     },*/
     errorPlacement: function (error, element) {
         if (error.html() != '') {
             //$("label:first", element.closest(".form-group")).css("color", "red")
@@ -57,53 +41,6 @@ jQuery.validator.setDefaults({
                 field: element.attr("name"), msg: error.text()})
         }
     }
-    /*
-     errorPlacement: function (error, element) {
-
-     $(element).closest('div.form-group').removeClass('has-success')
-
-     if(error.html()!='') {
-     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
-     }
-
-     // 文件上传特殊处理
-     if(element.is(':file')){
-
-     //console.log(element)
-     var $uploaderdiv = element.closest('.uploader');
-     $uploaderdiv.removeClass('has-success');
-     error.appendTo($uploaderdiv)
-     return;
-     }
-
-     /!*if(element.parent().is('.input-group')){
-
-     error.insertAfter(element.parent().parent())
-     return;
-     }*!/
-
-     //console.log($(element).hasClass("date-picker")+"==================1111")
-     if(element.is(":checkbox")){
-     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
-     error.insertAfter(element.closest('div'));
-     }else if(element.is(":radio") ){
-     var parent = element.closest(".radio").parent();
-     parent.removeClass('has-success').addClass('has-error')
-     error.insertAfter(parent);
-     }else if(element.is("select") ){
-     //console.log("==================")
-     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
-     error.appendTo($(element).parent());
-     }else if($(element).hasClass("date-picker")){
-     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
-     error.insertAfter($(element).closest("div.input-group"));
-     }else {
-     //element.parent().remove('.has-success').addClass('has-error')
-     //error.insertAfter(element.parent());
-     $(element).closest('div.form-group').removeClass('has-success').addClass('has-error')
-     error.insertAfter(element);
-     }
-     }*/
 })
 
 //中文字两个字节

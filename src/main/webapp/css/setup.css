@@ -162,8 +162,8 @@ body {
     font-weight: bolder;
 }
 
-/*搜索框点击收起、排序数字*/
-.widget-header, a.change-order {
+/*搜索框、面板点击收起、排序数字*/
+.widget-header, .panel-heading, a.change-order {
     /*background-image: none;
     background: none;*/
     cursor: pointer;

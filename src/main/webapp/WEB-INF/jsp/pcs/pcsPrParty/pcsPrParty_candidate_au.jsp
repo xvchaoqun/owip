@@ -84,14 +84,14 @@
                                                         从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
                                                 </c:if>
                                                 </span>
-                                                <a style="margin-left: 30px" data-toggle="collapse"
-                                                   data-parent="#accordion"
-                                                   href="#collapse${_type.key}">
-                                                    点击这里进行展开/折叠
-                                                </a>
                                                 <span class="tip">已选<span
                                                         class="count">${fn:length(candidatesMap.get(_type.key))}</span>人，可拖拽行进行排序</span>
                                             </h3>
+                                            <div class="panel-toolbar">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse${_type.key}">
+                                                    <i class="ace-icon fa fa-chevron-${_type.key==PCS_PR_TYPE_PRO?"up":"down"}"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div id="collapse${_type.key}"
                                              class="panel-collapse collapse ${_type.key==PCS_PR_TYPE_PRO?"in":""}">
@@ -117,6 +117,25 @@
     </div>
 </div>
 <style>
+    .panel-toolbar {
+        padding: 0 10px;
+        line-height: 53px;
+        float: right;
+        position: relative;
+        display: inline;
+        top: -43px;
+    }
+    .panel-toolbar:before {
+        display: inline-block;
+        content: "";
+        position: absolute;
+        top: 3px;
+        bottom: 3px;
+        left: -15px;
+        border: 1px solid #d9d9d9;
+        border-width: 0 1px 0 0;
+    }
+
     .form-table {
         margin: 0 10px 10px 0px;
         border: 1px solid #e5e5e5;

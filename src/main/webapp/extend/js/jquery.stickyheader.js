@@ -92,7 +92,7 @@ function stickheader($table) {
 							// When top of viewport is in the table itself
 							$stickyHead.add($stickyInsct).css({
 								opacity: 1,
-								top: $w.scrollTop() - $t.offset().top + ($t.data("offset-height")||0)
+								top: $w.scrollTop() - $t.offset().top + ($t.data("offset-top")||0)
 							});
 						} else {
 							// When top of viewport is above or below table

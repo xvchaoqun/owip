@@ -5,7 +5,7 @@
     <a href="${ctx}/pcsPrOw_export?file=${empty param.partyId?6:4}&partyId=${param.partyId}&stage=${param.stage}">
         <i class="fa fa-download"></i> ${empty param.partyId?"附件6. 各分党委酝酿代表候选人初步人选统计表（组织部汇总）":"附件4. 分党委酝酿代表候选人初步人选统计表（分党委上报组织部）"}</a>
     <div class="space-4"></div>
-    <table class="table table-bordered table-striped" data-offset-height="101">
+    <table class="table table-bordered table-striped" data-offset-top="101">
         <thead class="multi">
         <tr>
             <th width="40" rowspan="2">序号</th>

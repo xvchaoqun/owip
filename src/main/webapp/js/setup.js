@@ -1,4 +1,3 @@
-
 // 恢复重新加载之前滚动位置及选中的行状态
 var jgrid_sid, jgrid_left, jgrid_top;
 function saveJqgridSelected(jqGridId) {
@@ -22,12 +21,12 @@ function loadJqgridSelected(jqGridId) {
             ids.push(jgrid_sid[jqGridId][i])
         }
 
-        ids.forEach(function(item, i){
+        ids.forEach(function (item, i) {
             $(jqGridId).jqGrid("setSelection", item);
         });
     }
 }
-function clearJqgridSelected(){
+function clearJqgridSelected() {
     // 清空jqGrid选择
     jgrid_sid = undefined;
 }
@@ -97,7 +96,7 @@ $(window).on('resize.jqGrid', function () {
     //console.log("document.body.scrollHeight=" + document.body.scrollHeight + " $(window).height()=" + $(window).height())
     //console.log("height=" + height + " navHeight=" + navHeight)
     var minusHeight = 320;
-    if($(".jqGrid").getGridParam("pager")==false){
+    if ($(".jqGrid").getGridParam("pager") == false) {
         minusHeight -= 45;
     }
     $(".jqGrid").setGridHeight($(window).height() - minusHeight - height - navHeight)
@@ -112,29 +111,34 @@ $(window).on('resize.jqGrid2', function () {
     if ($("#menu-toggler").is(":hidden")) { // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
-    var widthReduce = $(".jqGrid2").data("width-reduce");
-    if (widthReduce != undefined) {
-        gridWidth = gridWidth - parseInt(widthReduce);
-    }
-    $(".jqGrid2").jqGrid('setGridWidth', gridWidth);
-    var height = 0;
-    $("#item-content .jqgrid-vertical-offset").each(function () {
-        height += $(this).height();
-        //alert(height)
-    });
+    $(".jqGrid2").each(function(){
+        var $jqgrid = $(this);
+        var widthReduce = $jqgrid.data("width-reduce");
+        if (widthReduce != undefined) {
+            gridWidth = gridWidth - parseInt(widthReduce);
+        }
 
-    var navHeight = $(".nav.nav-tabs").height();
-    navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
-    if (navHeight == null) navHeight = 0;
+        $jqgrid.jqGrid('setGridWidth', gridWidth);
+        var height = 0;
+        $("#item-content .jqgrid-vertical-offset").each(function () {
+            height += $(this).height();
+            //alert(height)
+        });
 
-    var gridHeight = $(window).height() - 390 - height - navHeight;
+        var navHeight = $(".nav.nav-tabs").height();
+        navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
+        if (navHeight == null) navHeight = 0;
 
-    var heightReduce = $(".jqGrid2").data("height-reduce");
-    if (heightReduce != undefined) {
-        gridHeight = gridHeight - parseInt(heightReduce);
-    }
+        var gridHeight = $(window).height() - 390 - height - navHeight;
 
-    $(".jqGrid2").setGridHeight(gridHeight);
+        var heightReduce = $jqgrid.data("height-reduce");
+        if (heightReduce != undefined) {
+            gridHeight = gridHeight - parseInt(heightReduce);
+        }
+        console.log(" gridWidth=" + gridWidth + "gridHeight=" + gridHeight)
+        $jqgrid.setGridHeight(gridHeight);
+    })
+
 });
 // 不改变宽度
 $(window).on('resize.jqGrid3', function () {
@@ -183,7 +187,10 @@ $(document).on('shown.ace.widget hidden.ace.widget', function (ev) {
 $(document).on("click", ".widget-header", function () {
     $("a[data-action=collapse]", this).click()
 });
-$(document).on("click", ".widget-header a[data-action=collapse]", function (e) {
+$(document).on("click", ".panel-heading", function () {
+    $("a[data-toggle=collapse]", this).click()
+});
+$(document).on("click", ".widget-header a[data-action=collapse], .panel-heading a[data-toggle=collapse]", function (e) {
     e.stopPropagation();
 });
 
@@ -599,7 +606,7 @@ $(document).on("click", ".jqOrderBtn", function () {
     });
 });
 
-function _refreshMenu(url){
+function _refreshMenu(url) {
 
     // 处理左侧菜单
     $("#sidebar .nav-list li").removeClass("active").removeClass("open")
@@ -644,9 +651,11 @@ $(window).bind("hashchange", function () {
     var hash = location.hash;
     //console.log("hash=" + hash)
     if (hash == '') {
-        $("#page-content").renderUrl({url: ctx + '/index',fn:function(){
-            _refreshMenu('#');
-        }});
+        $("#page-content").renderUrl({
+            url: ctx + '/index', fn: function () {
+                _refreshMenu('#');
+            }
+        });
         return;
     }
     var url = hash.substr(1);
@@ -680,18 +689,19 @@ $(window).bind("hashchange", function () {
                 SysMsg.info("您没有权限访问。", "没有权限", function () {
                     location.href = ctx + "/";
                 });
-            }if (jqXHR.status == 404) {
-                SysMsg.info("页面不存在。",function(){
+            }
+            if (jqXHR.status == 404) {
+                SysMsg.info("页面不存在。", function () {
                     history.back();
                     //location.href = ctx + "/";
                 });
-            }else {
+            } else {
                 SysMsg.info("系统错误，请稍后再试。");
             }
 
             NProgress.done();
         });
-    }).fail(function(){
+    }).fail(function () {
         SysMsg.info("系统错误，请稍后再试。");
 
         NProgress.done();
@@ -717,14 +727,16 @@ $(document).on("click", ".loadPage", function () {
     var maskEl = _this.data("mask-el") || loadEl || "#page-content";
     var fn = _this.data("callback");
     //console.log("maskEl="+maskEl)
-    $.loadPage({url:url, loadEl:loadEl, maskEl:maskEl, callback: function () {
-        $("#modal").modal('hide');
-        clearJqgridSelected();
-        if (fn) {
-            // console.log(_this)
-            window[fn](_this);
+    $.loadPage({
+        url: url, loadEl: loadEl, maskEl: maskEl, callback: function () {
+            $("#modal").modal('hide');
+            clearJqgridSelected();
+            if (fn) {
+                // console.log(_this)
+                window[fn](_this);
+            }
         }
-    }})
+    })
 });
 
 // 搜索 for jqgrid
@@ -734,8 +746,8 @@ $(document).on("click", " .jqSearchBtn", function () {
     var $div = $this.closest(".myTableDiv");
     var url = $this.data("url") || $div.data("url-page");
     //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    var $target = $($this.data("target")|| $div.data("target")||"#page-content");
-    var $form = $($this.data("form")||"div.myTableDiv #searchForm");
+    var $target = $($this.data("target") || $div.data("target") || "#page-content");
+    var $form = $($this.data("form") || "div.myTableDiv #searchForm");
 
     $target.renderUrl({
         url: url,
@@ -750,7 +762,7 @@ $(document).on("click", " .resetBtn", function () {
     var querystr = $this.data("querystr");
     var $div = $this.closest(".myTableDiv");
     //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    var $target = $($this.data("target")|| $div.data("target")||"#page-content");
+    var $target = $($this.data("target") || $div.data("target") || "#page-content");
     var url = $this.data("url") || $div.data("url-page");
 
     $target.renderUrl({
@@ -984,14 +996,14 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
 
     var $this = $(this);
     var url = $this.data("url");
-    if(url!='') {
+    if (url != '') {
 
-        if(url=='-1') return; // 不响应
+        if (url == '-1') return; // 不响应
 
         $.loadPage({
-            url:url,
-            maskEl:"#view-box .tab-content",
-            loadEl:"#view-box .tab-content",
+            url: url,
+            maskEl: "#view-box .tab-content",
+            loadEl: "#view-box .tab-content",
             callback: function () {
                 $("#view-box .widget-toolbar .nav-tabs li").removeClass("active");
                 $this.closest("li").addClass("active");
@@ -999,7 +1011,7 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
                 clearJqgridSelected();
             }
         })
-    }else{
+    } else {
         SysMsg.warning("暂缓开通该功能");
     }
 });
@@ -1261,16 +1273,16 @@ function register_party_select($select, width) {
 
 // 数字输入框
 /*$(document).on("blur, keyup", "input.num", function () {
-    var str = $(this).val();
-    var num = parseInt(str);
-    //console.log(parseInt(str))
-    if (isNaN(num)) {
-        $(this).val('');
-    }
-});*/
+ var str = $(this).val();
+ var num = parseInt(str);
+ //console.log(parseInt(str))
+ if (isNaN(num)) {
+ $(this).val('');
+ }
+ });*/
 $(document).on("blur keyup keydown paste change", "input.num", function () {
     var str = $(this).val();
-    $(this).val(str.replace(/[^\d|\.]/g,''))
+    $(this).val(str.replace(/[^\d|\.]/g, ''))
 });
 
 // 日历

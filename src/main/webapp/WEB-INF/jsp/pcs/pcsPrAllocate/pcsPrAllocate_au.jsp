@@ -6,7 +6,7 @@
             <div class="search">
                 分党委名称：<input type="text" id="searchInput"> <a href="javascript:;" id="clearBtn"><i class="fa fa-times-circle fa-lg grey"></i></a>
             </div>
-            <table class="table table-bordered table-striped" data-offset-height="101">
+            <table class="table table-bordered table-striped" data-offset-top="101">
 
                 <thead class="multi">
 
