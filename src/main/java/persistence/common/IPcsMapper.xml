@@ -108,10 +108,13 @@
         left join
         (select pr.party_id,
         sum(pr.expect_member_count) as expect_member_count,
-        sum(pr.actual_member_count) as actual_member_count from pcs_recommend pr, pcs_admin_report par
-        where pr.stage=#{stage} and pr.config_id=#{configId} and pr.party_id=par.party_id group by pr.party_id) pr on
+        sum(pr.actual_member_count) as actual_member_count from pcs_recommend pr
+        where pr.stage=#{stage} and pr.config_id=#{configId} and pr.party_id
+        in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
+        group by pr.party_id) pr on
         op.id = pr.party_id
-        left join pcs_admin_report par on par.stage=#{stage} and par.party_id = pr.party_id
+        left join pcs_admin_report par on par.config_id=#{configId}
+        and par.stage=#{stage} and par.party_id = pr.party_id
         <include refid="searchPcsPartyBeans"/>
         order by op.sort_order desc
     </select>
@@ -170,21 +173,24 @@
         a.gender,a.nation,
         a.birth,a.grow_time, a.work_time, a.pro_post, a.type, group_concat(distinct a.party_id) as party_ids,
         group_concat(a.branch_ids) as branch_ids, sum(a.branch_count) as branch_count,
-        sum(b.member_count) as member_count, sum(b.expect_member_count) as expect_member_count,
+        a.member_count, sum(b.expect_member_count) as expect_member_count,
         sum(b.actual_member_count) as actual_member_count from
         (
-        select pcv.*,
+        select pcv.*, sum(pbv.member_count) member_count,
         group_concat(distinct pcv.party_id) as party_ids,
         group_concat(pcv.branch_id) as branch_ids,
         count(pcv.id) as branch_count
-        from pcs_candidate_view pcv, pcs_admin_report par
-        where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.party_id=par.party_id
+        from pcs_candidate_view pcv
+        left join pcs_branch_view pbv on pcv.party_id= pbv.party_id and ((pbv.branch_id is null and pcv.branch_id is null) or pbv.branch_id=pcv.branch_id)
+        where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.party_id
+        in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         group by pcv.party_id, pcv.user_id, pcv.type
         ) a left join(
         select opv.id,opv.member_count, pr.expect_member_count, pr.actual_member_count from ow_party_view opv
         , (select tmp.party_id, sum(tmp.expect_member_count) as expect_member_count,
-        sum(tmp.actual_member_count) as actual_member_count from pcs_recommend tmp, pcs_admin_report par
-        where tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.party_id=par.party_id
+        sum(tmp.actual_member_count) as actual_member_count from pcs_recommend tmp
+        where tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.party_id
+        in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         group by party_id ) pr
         where pr.party_id=opv.id and opv.is_deleted=0 ) b
         on b.id=a.party_id
@@ -212,7 +218,6 @@
         select count(distinct pcv.user_id) from pcs_candidate_view pcv
         left join pcs_candidate_chosen pcc on pcv.config_id=pcc.config_id
         and pcv.stage=pcc.stage and pcv.type=pcc.type and pcv.user_id=pcc.user_id
-        , pcs_admin_report par
         <where>
             <if test="userId!=null">
                 and pcv.user_id=#{userId}
@@ -221,7 +226,8 @@
                 and pcc.id is not null
             </if>
             and pcv.config_id=#{configId} and pcv.stage=#{stage}
-            and pcv.type=#{candidateType} and pcv.party_id=par.party_id
+            and pcv.type=#{candidateType} and pcv.party_id
+            in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         </where>
     </select>
 
