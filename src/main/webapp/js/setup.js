@@ -190,7 +190,7 @@ $(document).on("click", ".widget-header", function () {
 $(document).on("click", ".panel-heading", function () {
     $("a[data-toggle=collapse]", this).click()
 });
-$(document).on("click", ".widget-header a[data-action=collapse], .panel-heading a[data-toggle=collapse]", function (e) {
+$(document).on("click", ".widget-header a[data-action=collapse],.panel-heading .select2,.panel-heading a,.panel-heading button, .panel-heading input, .panel-heading a[data-toggle=collapse]", function (e) {
     e.stopPropagation();
 });
 

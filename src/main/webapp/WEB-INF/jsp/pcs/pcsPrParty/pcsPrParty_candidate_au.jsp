@@ -86,12 +86,13 @@
                                                 </span>
                                                 <span class="tip">已选<span
                                                         class="count">${fn:length(candidatesMap.get(_type.key))}</span>人，可拖拽行进行排序</span>
+                                                <div class="panel-toolbar">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse${_type.key}">
+                                                        <i class="ace-icon fa fa-chevron-${_type.key==PCS_PR_TYPE_PRO?"up":"down"}"></i>
+                                                    </a>
+                                                </div>
                                             </h3>
-                                            <div class="panel-toolbar">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse${_type.key}">
-                                                    <i class="ace-icon fa fa-chevron-${_type.key==PCS_PR_TYPE_PRO?"up":"down"}"></i>
-                                                </a>
-                                            </div>
+
                                         </div>
                                         <div id="collapse${_type.key}"
                                              class="panel-collapse collapse ${_type.key==PCS_PR_TYPE_PRO?"in":""}">
@@ -123,7 +124,7 @@
         float: right;
         position: relative;
         display: inline;
-        top: -43px;
+        top: -10px;
     }
     .panel-toolbar:before {
         display: inline-block;
