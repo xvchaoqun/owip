@@ -61,11 +61,13 @@
                                     <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
                                 </c:if>
                                 </span>
-                                        <a style="margin-left: 30px" data-toggle="collapse" data-parent="#accordion"
-                                           href="#collapseOne">
-                                            点击这里进行展开/折叠
-                                        </a>
                                         <span class="tip">已选<span class="count">${fn:length(dwCandidates)}</span>人，可拖拽行进行排序</span>
+
+                                        <div class="panel-toolbar">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                <i class="ace-icon fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
                                     </h3>
                                 </div>
                                 <div id="collapseOne" class="panel-collapse collapse in">
@@ -98,12 +100,13 @@
                                         <i class="fa fa-plus-circle"></i> 从“${param.stage==PCS_STAGE_SECOND?"二下":"三下"}”名单中添加</a>
                                 </c:if>
                                 </span>
-
-                                        <a style="margin-left: 30px" data-toggle="collapse" data-parent="#accordion"
-                                           href="#collapseTwo">
-                                            点击这里进行展开/折叠
-                                        </a>
                                         <span class="tip">已选<span class="count">${fn:length(jwCandidates)}</span>人，可拖拽行进行排序</span>
+
+                                        <div class="panel-toolbar">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                                <i class="ace-icon fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
                                     </h3>
 
                                 </div>

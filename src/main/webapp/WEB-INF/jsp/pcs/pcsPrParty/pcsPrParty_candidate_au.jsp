@@ -118,25 +118,6 @@
     </div>
 </div>
 <style>
-    .panel-toolbar {
-        padding: 0 10px;
-        line-height: 53px;
-        float: right;
-        position: relative;
-        display: inline;
-        top: -10px;
-    }
-    .panel-toolbar:before {
-        display: inline-block;
-        content: "";
-        position: absolute;
-        top: 3px;
-        bottom: 3px;
-        left: -15px;
-        border: 1px solid #d9d9d9;
-        border-width: 0 1px 0 0;
-    }
-
     .form-table {
         margin: 0 10px 10px 0px;
         border: 1px solid #e5e5e5;
