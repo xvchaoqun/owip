@@ -4,6 +4,7 @@ import domain.cadre.CadreView;
 import domain.member.MemberStudentExample;
 import domain.member.MemberTeacherExample;
 import domain.party.PartyView;
+import domain.party.PartyViewExample;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
@@ -29,6 +30,7 @@ import service.sys.StudentInfoService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import sys.constants.SystemConstants;
+import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.NumberUtils;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -195,53 +198,21 @@ public class PcsPrExportService extends BaseMapper {
                 stageStr = "三上";
                 break;
         }
-        String mc = "";
-        String tc = "";
-        String sc = "";
-        String rc = "";
-        {
-            int totalMemberCount = 0;
-            // 全校
-            {
-                MemberTeacherExample example = new MemberTeacherExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireNotEqualTo(true);
-                long count = memberTeacherMapper.countByExample(example);
-                totalMemberCount += count;
-                tc = count + "";
-            }
-            {
-                MemberTeacherExample example = new MemberTeacherExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireEqualTo(true);
-                long count = memberTeacherMapper.countByExample(example);
-                totalMemberCount += count;
-                rc = count + "";
-            }
 
-            {
-                MemberStudentExample example = new MemberStudentExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
-                long count = memberStudentMapper.countByExample(example);
-                totalMemberCount += count;
-                sc = count + "";
-            }
-
-            mc = totalMemberCount + "";
-        }
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap();
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
-                .replace("mc", mc)
-                .replace("tc", tc)
-                .replace("sc", sc)
-                .replace("rc", rc);
+                .replace("mc", schoolMemberCountMap.get("mc"))
+                .replace("tc", schoolMemberCountMap.get("tc"))
+                .replace("sc", schoolMemberCountMap.get("sc"))
+                .replace("rc", schoolMemberCountMap.get("rc"));
         cell.setCellValue(str);
 
         row = sheet.getRow(5);
@@ -250,52 +221,8 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
 
         PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-        int expectTotal = pcsPrAllocate.getProCount() + pcsPrAllocate.getStuCount() + pcsPrAllocate.getRetireCount();
-        row = sheet.getRow(4);
-        int colomn = 3;
-        cell = row.getCell(colomn++);
-        cell.setCellValue(expectTotal);
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getProCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getStuCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getRetireCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getFemaleCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getMinorityCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getUnderFiftyCount());
-
         PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null);
-        int actualTotal = realPcsPrAllocate.getProCount() +
-                realPcsPrAllocate.getStuCount() + realPcsPrAllocate.getRetireCount();
-        row = sheet.getRow(5);
-        colomn = 3;
-        cell = row.getCell(colomn++);
-        cell.setCellValue(actualTotal);
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getProCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getStuCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getRetireCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getFemaleCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getMinorityCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getUnderFiftyCount());
-
-        int balance = actualTotal - expectTotal;
-        row = sheet.getRow(6);
-        cell = row.getCell(3);
-        cell.setCellValue(balance);
-
-        row = sheet.getRow(7);
-        cell = row.getCell(3);
-        cell.setCellValue(percent(balance, expectTotal));
+        renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
 
         row = sheet.getRow(8);
         cell = row.getCell(0);
@@ -357,57 +284,222 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
 
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
-        int expectTotal = pcsPrAllocate.getProCount() + pcsPrAllocate.getStuCount() + pcsPrAllocate.getRetireCount();
-        row = sheet.getRow(5);
-        int colomn = 3;
-        cell = row.getCell(colomn++);
-        cell.setCellValue(expectTotal);
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getProCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getStuCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getRetireCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getFemaleCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getMinorityCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(pcsPrAllocate.getUnderFiftyCount());
-
         PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
-        int actualTotal = realPcsPrAllocate.getProCount() +
-                realPcsPrAllocate.getStuCount() + realPcsPrAllocate.getRetireCount();
-        row = sheet.getRow(6);
-        colomn = 3;
-        cell = row.getCell(colomn++);
-        cell.setCellValue(actualTotal);
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getProCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getStuCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getRetireCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getFemaleCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getMinorityCount());
-        cell = row.getCell(colomn++);
-        cell.setCellValue(realPcsPrAllocate.getUnderFiftyCount());
-
-        int balance = actualTotal - expectTotal;
-        row = sheet.getRow(7);
-        cell = row.getCell(3);
-        cell.setCellValue(balance);
-        row = sheet.getRow(8);
-        cell = row.getCell(3);
-        cell.setCellValue(percent(balance, expectTotal));
-
+        renderParty(sheet, 5, 3, pcsPrAllocate, realPcsPrAllocate);
 
         row = sheet.getRow(9);
         cell = row.getCell(0);
         cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
+        return wb;
+    }
+
+    public Map<String, String> getSchoolMemberCountMap() {
+
+        Map<String, String> map = new HashMap<>();
+        String mc = "";
+        String tc = "";
+        String sc = "";
+        String rc = "";
+        int totalMemberCount = 0;
+        // 全校
+        {
+            MemberTeacherExample example = new MemberTeacherExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                    .andIsRetireNotEqualTo(true);
+            long count = memberTeacherMapper.countByExample(example);
+            totalMemberCount += count;
+            tc = count + "";
+        }
+        {
+            MemberTeacherExample example = new MemberTeacherExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                    .andIsRetireEqualTo(true);
+            long count = memberTeacherMapper.countByExample(example);
+            totalMemberCount += count;
+            rc = count + "";
+        }
+
+        {
+            MemberStudentExample example = new MemberStudentExample();
+            example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+            long count = memberStudentMapper.countByExample(example);
+            totalMemberCount += count;
+            sc = count + "";
+        }
+
+        mc = totalMemberCount + "";
+
+        map.put("mc", mc);
+        map.put("tc", tc);
+        map.put("sc", sc);
+        map.put("rc", rc);
+
+        return map;
+    }
+
+    public void renderParty(XSSFSheet sheet,
+                            int startRow, int startColomn, PcsPrAllocate pcsPrAllocate,
+                            PcsPrAllocate realPcsPrAllocate) {
+
+        XSSFRow row = null;
+        XSSFCell cell = null;
+        int colomn = startColomn;
+        int expectTotal = 0;
+        if(pcsPrAllocate != null) {
+            row = sheet.getRow(startRow);
+            expectTotal = NumberUtils.trimToZero(pcsPrAllocate.getProCount())
+                    + NumberUtils.trimToZero(pcsPrAllocate.getStuCount())
+                    + NumberUtils.trimToZero(pcsPrAllocate.getRetireCount());
+            cell = row.getCell(colomn++);
+            if(expectTotal>0)
+                cell.setCellValue(expectTotal);
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getProCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getStuCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getRetireCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getFemaleCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getMinorityCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(pcsPrAllocate.getUnderFiftyCount()));
+        }
+        int actualTotal = 0;
+        if(realPcsPrAllocate != null) {
+            row = sheet.getRow(startRow+1);
+            actualTotal = NumberUtils.trimToZero(realPcsPrAllocate.getProCount())
+                    + NumberUtils.trimToZero(realPcsPrAllocate.getStuCount())
+                    + NumberUtils.trimToZero(realPcsPrAllocate.getRetireCount());
+            colomn = startColomn;
+            cell = row.getCell(colomn++);
+            if(actualTotal>0)
+                cell.setCellValue(actualTotal);
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getProCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getStuCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getRetireCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getFemaleCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getMinorityCount()));
+            cell = row.getCell(colomn++);
+            cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getUnderFiftyCount()));
+        }
+
+        if(pcsPrAllocate != null && realPcsPrAllocate != null) {
+
+            row = sheet.getRow(startRow + 2);
+            //差额
+            int balance = actualTotal - expectTotal;
+            cell = row.getCell(startColomn);
+            cell.setCellValue(balance);
+
+            row = sheet.getRow(startRow + 3);
+            // 差额比率
+            cell = row.getCell(startColomn);
+            cell.setCellValue(percent(balance, expectTotal));
+        }
+    }
+
+    /**
+     * 附件：各分党委酝酿代表候选人初步人选统计表（组织部汇总）
+     */
+    public XSSFWorkbook exportAllPartyAllocate(int configId, byte stage) throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-ow.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet copySheet = wb.getSheetAt(0);// 模板
+        XSSFSheet sheet = wb.getSheetAt(1);
+
+        String stageStr = "";
+        switch (stage) {
+            case SystemConstants.PCS_STAGE_FIRST:
+                stageStr = "一上";
+                break;
+            case SystemConstants.PCS_STAGE_SECOND:
+                stageStr = "二上";
+                break;
+            case SystemConstants.PCS_STAGE_THIRD:
+                stageStr = "三上";
+                break;
+        }
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+        cell.setCellValue(str);
+
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap();
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                .replace("mc", schoolMemberCountMap.get("mc"))
+                .replace("tc", schoolMemberCountMap.get("tc"))
+                .replace("sc", schoolMemberCountMap.get("sc"))
+                .replace("rc", schoolMemberCountMap.get("rc"));
+        cell.setCellValue(str);
+
+        PartyViewExample example = new PartyViewExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        example.setOrderByClause("sort_order desc");
+        List<PartyView> partyViews = partyViewMapper.selectByExample(example);
+
+        int startRow = 4;
+        for (int i = 0; i < partyViews.size(); i++) {
+
+            ExcelUtils.copyRows(5, 8, startRow, copySheet, sheet);
+
+            PartyView partyView = partyViews.get(i);
+            int partyId = partyView.getId();
+            String partyName = partyView.getName();
+
+            int colomn = 0;
+            row = sheet.getRow(startRow);
+            // 序号
+            cell = row.getCell(colomn++);
+            cell.setCellValue((i + 1));
+            // 分党委名称
+            cell = row.getCell(colomn++);
+            cell.setCellValue(partyName);
+
+            row = sheet.getRow(startRow + 1);
+            cell = row.getCell(2);
+            str = cell.getStringCellValue().replace("stage", stageStr);
+            cell.setCellValue(str);
+
+            PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+            renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
+
+            startRow += 4;
+        }
+
+        {
+            ExcelUtils.copyRows(9, 12, startRow, copySheet, sheet);
+            // 全校汇总
+            PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
+            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null);
+            renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
+
+            startRow += 4;
+        }
+
+        ExcelUtils.copyRows(13, 13, startRow, copySheet, sheet);
+        row = sheet.getRow(startRow);
+        try {
+            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, row.getLastCellNum() - 1));
+        } catch (Exception e) {
+        }
+        cell = row.getCell(0);
+        cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        // 删除模板
+        wb.removeSheetAt(0);
         return wb;
     }
 
@@ -465,12 +557,13 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(gender));
         }
 
-        row = sheet.getRow(startRow+1);
+        row = sheet.getRow(startRow + 1);
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         return wb;
     }
+
     // 二下二上，附表2. 党支部酝酿代表候选人提名汇总表（党支部汇总用表，报分党委）
     public XSSFWorkbook exportPartyCandidates2_stage2(int configId, int partyId) throws IOException {
 
@@ -511,12 +604,13 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(gender));
         }
 
-        row = sheet.getRow(startRow+8);
+        row = sheet.getRow(startRow + 8);
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         return wb;
     }
+
     /**
      * 附件3. 分党委酝酿代表候选人初步名单（分党委报送组织部）
      * 附件5. 各分党委酝酿代表候选人初步名单汇总表（组织部汇总）
@@ -584,34 +678,12 @@ public class PcsPrExportService extends BaseMapper {
             nextRow = 3;
             startRow = 5;
         } else {
-            int totalMemberCount = 0;
             // 全校
-            {
-                MemberTeacherExample example = new MemberTeacherExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireNotEqualTo(true);
-                long count = memberTeacherMapper.countByExample(example);
-                totalMemberCount += count;
-                tc = count + "";
-            }
-            {
-                MemberTeacherExample example = new MemberTeacherExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
-                        .andIsRetireEqualTo(true);
-                long count = memberTeacherMapper.countByExample(example);
-                totalMemberCount += count;
-                rc = count + "";
-            }
-
-            {
-                MemberStudentExample example = new MemberStudentExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
-                long count = memberStudentMapper.countByExample(example);
-                totalMemberCount += count;
-                sc = count + "";
-            }
-
-            mc = totalMemberCount + "";
+            Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap();
+            mc = schoolMemberCountMap.get("mc");
+            tc = schoolMemberCountMap.get("tc");
+            sc = schoolMemberCountMap.get("sc");
+            rc = schoolMemberCountMap.get("rc");
         }
 
         row = sheet.getRow(countRow);

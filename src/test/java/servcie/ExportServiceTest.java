@@ -56,6 +56,49 @@ public class ExportServiceTest {
     }
 
     @Test
+    public void t() throws IOException {
+        InputStream is = new FileInputStream("D:/tmp/pr-ow.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFSheet sheet2 = wb.getSheetAt(1);
+
+        XSSFRow row = sheet2.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("stage", "一下一上");
+        cell.setCellValue(str);
+
+        int startRow = 4;
+        ExcelUtils.copyRows(5, 8, startRow , sheet, sheet2);
+        row = sheet2.getRow(4);
+        cell = row.getCell(4);
+        cell.setCellValue("100");
+
+        startRow += 4;
+        ExcelUtils.copyRows(5, 8, startRow , sheet, sheet2);
+        startRow += 4;
+        ExcelUtils.copyRows(5, 8, startRow , sheet, sheet2);
+        startRow += 4;
+        ExcelUtils.copyRows(5, 8, startRow , sheet, sheet2);
+        startRow += 4;
+        ExcelUtils.copyRows(5, 8, startRow , sheet, sheet2);
+        startRow += 4;
+        ExcelUtils.copyRows(5, 8, startRow , sheet, sheet2);
+        startRow += 4;
+        ExcelUtils.copyRows(9, 12, startRow , sheet, sheet2);
+
+
+
+
+        wb.removeSheetAt(0);
+
+        FileOutputStream output = new FileOutputStream(new File("D:/tmp/test222.xlsx"));
+        wb.write(output);
+        output.close();
+    }
+
+    @Test
     public void ex() throws IOException {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/dw-2-1.xlsx"));

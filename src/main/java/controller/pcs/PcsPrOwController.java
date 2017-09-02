@@ -71,6 +71,10 @@ public class PcsPrOwController extends BaseController {
                 wb = pcsPrExportService.exportSchoolRecommend(configId, stage);
                 fileName = "附件7. 全校党员参与推荐代表候选人情况统计表（组织部汇总）";
                 break;
+            case "ow":
+                wb = pcsPrExportService.exportAllPartyAllocate(configId, stage);
+                fileName = "附件：各分党委酝酿代表候选人初步人选统计表（组织部汇总）";
+                break;
         }
 
         if (wb != null) {
