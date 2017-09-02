@@ -60,7 +60,7 @@
                                 <label>用户</label>
                                 <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL}"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
-                                    <option value="${sysUser.id}">${sysUser.username}-${sysUser.code}</option>
+                                    <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                 </select>
                             </div>
                             <div class="form-group">

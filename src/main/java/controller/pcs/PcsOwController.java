@@ -2,8 +2,10 @@ package controller.pcs;
 
 import controller.BaseController;
 import domain.party.Party;
+import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.IPcsCandidateView;
+import persistence.common.bean.PcsBranchBean;
 import persistence.common.bean.PcsPartyBean;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -28,6 +31,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +79,7 @@ public class PcsOwController extends BaseController {
                 break;
         }
 
-        if(wb!=null) {
+        if (wb != null) {
             ExportHelper.output(wb, fileName + ".xlsx", response);
         }
 
@@ -139,17 +143,10 @@ public class PcsOwController extends BaseController {
     // 单个分党委下的详情
     @RequiresPermissions("pcsOw:list")
     @RequestMapping("/pcsOw_party_detail_page")
-    public String pcsOw_party_detail_page() {
+    public String pcsOw_party_detail_page(int partyId, ModelMap modelMap) {
 
+        modelMap.put("party", partyService.findAll().get(partyId));
         return "pcs/pcsOw/pcsOw_party_detail_page";
-    }
-
-    // 单个分党委下的支部情况
-    @RequiresPermissions("pcsOw:list")
-    @RequestMapping("/pcsPrOw_party_branch_page")
-    public String pcsPrOw_party_branch_page() {
-
-        return "pcs/pcsOw/pcsPrOw_party_branch_page";
     }
 
     // 单个分党委下的汇总情况
@@ -326,7 +323,7 @@ public class PcsOwController extends BaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, partyId,hasReport,
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, partyId, hasReport,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -339,5 +336,108 @@ public class PcsOwController extends BaseController {
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    // 单个分党委下的支部推荐情况
+    @RequiresPermissions("pcsOw:list")
+    @RequestMapping("/pcsOw_party_branch_page")
+    public String pcsOw_party_branch_page(int partyId, Integer branchId, ModelMap modelMap) {
+
+        modelMap.put("partyId", partyId);
+        modelMap.put("isDirectBranch", partyService.isDirectBranch(partyId));
+
+        if (branchId != null) {
+            modelMap.put("branch", branchService.findAll().get(branchId));
+        }
+        return "pcs/pcsOw/pcsOw_party_branch_page";
+    }
+
+    @RequiresPermissions("pcsOw:list")
+    @RequestMapping("/pcsOw_party_branch_data")
+    public void pcsOw_party_branch_data(HttpServletResponse response,
+                                        int partyId,
+                                        byte stage,
+                                        Integer branchId,
+                                        @RequestParam(required = false, defaultValue = "0") int export,
+                                        @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                        Integer pageSize, Integer pageNo) throws IOException {
+
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<PcsBranchBean> records =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId,
+                        new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
+
+    @RequiresPermissions("pcsOw:edit")
+    @RequestMapping("/pcsOw_party_branch_detail")
+    public String pcsOw_party_branch_detail(byte stage, int partyId, Integer branchId, ModelMap modelMap) {
+
+        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = pcsConfig.getId();
+
+        modelMap.put("party", partyService.findAll().get(partyId));
+
+        PcsBranchBean record = new PcsBranchBean();
+        record.setPartyId(partyId);
+        record.setBranchId(branchId);
+
+        PcsBranchBean pcsBranchBean = pcsRecommendService.get(partyId, branchId, pcsConfig.getId(), stage);
+        if (pcsBranchBean != null) {
+            try {
+                PropertyUtils.copyProperties(record, pcsBranchBean);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+
+        record.setConfigId(configId);
+        modelMap.put("pcsRecommend", record);
+
+        // 读取党委委员、纪委委员
+        List<PcsCandidateView> dwCandidates =
+                pcsCandidateService.find(record.getPartyId(),
+                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_DW);
+        List<PcsCandidateView> jwCandidates =
+                pcsCandidateService.find(record.getPartyId(),
+                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_JW);
+        modelMap.put("dwCandidates", dwCandidates);
+        modelMap.put("jwCandidates", jwCandidates);
+
+
+        modelMap.put("allowModify", false);
+        /*
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId,
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));*/
+
+        return "pcs/pcsRecommend/pcsRecommend_au";
     }
 }

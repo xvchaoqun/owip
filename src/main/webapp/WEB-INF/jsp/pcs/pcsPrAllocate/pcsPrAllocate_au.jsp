@@ -21,7 +21,7 @@
                 <tr>
                     <th width="110">专业技术人员和干部代表</th>
                     <th width="70">学生代表</th>
-                    <th width="40">离退休代表</th>
+                    <th width="60">离退休代表</th>
                     <th width="70">妇女代表</th>
                     <th width="70">少数民族代表</th>
                     <th width="70">50岁以下代表</th>

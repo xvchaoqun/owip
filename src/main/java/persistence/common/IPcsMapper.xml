@@ -47,8 +47,8 @@
         <if test="hasReport">
             and ppr.has_report=1
         </if>
-        <if test="hasReport==null or !hasReport">
-            and ppr.id is null or ppr.has_report=0
+        <if test="hasReport!=null and !hasReport">
+            and (ppr.id is null or ppr.has_report=0)
         </if>
         <if test="recommendStatus!=null">
             and ppr.status=#{recommendStatus}

@@ -17,7 +17,7 @@
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
-                               data-url='${ctx}/pcsPrOw_party_branch_page?partyId=${param.partyId}&stage=${param.stage}'><i
+                               data-url='${ctx}/pcsOw_party_branch_page?partyId=${param.partyId}&stage=${param.stage}'><i
                                     class="fa fa-calendar-o"></i> 各支部推荐情况
                             </a>
                         </li>
@@ -33,7 +33,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4" id="step-item-content">
-                    <c:import url="${ctx}/pcsPrOw_party_branch_page?partyId=${param.partyId}stage=${param.stage}"/>
+                    <c:import url="${ctx}/pcsOw_party_branch_page"/>
                 </div>
             </div>
         </div>

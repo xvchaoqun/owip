@@ -4,20 +4,12 @@
 <div class="row">
     <div class="col-xs-12">
         <h4 class="widget-title lighter smaller"
-            style="position:absolute; top: -50px; left: 550px;">
-            <c:if test="${param.admin==1}">
-                <a href="javascript:" style="color: red;font-weight: bolder;line-height: 30px"
-                   data-load-el="#step-item-content"
-                   data-url="${ctx}/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"
-                   class="loadPage">
-                    <i class="ace-icon fa fa-reply"></i>
-                    返回支部列表</a>
-            </c:if>
-            <c:if test="${param.admin!=1}">
-            <a href="javascript:" class="hideView btn btn-xs btn-success">
+            style="position:absolute; top: -50px; left: 550px; ">
+
+            <a href="javascript:"
+               class="loadPage btn btn-xs btn-success">
                 <i class="ace-icon fa fa-reply"></i>
                 返回</a>
-            </c:if>
         </h4>
 
         <div class="widget-box transparent">
@@ -83,7 +75,7 @@
                                 </div>
                                 <div id="collapseOne" class="panel-collapse collapse in">
                                     <div class="panel-body">
-                                        <table id="jqGrid1" data-width-reduce="30"
+                                        <table id="jqGrid_detail1" data-width-reduce="30"
                                                class="jqGrid4 table-striped"></table>
                                     </div>
                                 </div>
@@ -123,14 +115,13 @@
                                 </div>
                                 <div id="collapseTwo" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        <table id="jqGrid2" data-width-reduce="30"
+                                        <table id="jqGrid_detail2" data-width-reduce="30"
                                                class="jqGrid4 table-striped"></table>
                                     </div>
                                 </div>
                             </div>
                             </div>
                         </form>
-<c:if test="${param.admin!=1}">
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="saveBtn" data-loading-text="保存中..." data-success-text="已保存成功"
                                     autocomplete="off" ${!allowModify?"disabled":""}
@@ -142,7 +133,6 @@
                                     class="btn btn-success btn-lg"><i class="fa fa-random"></i> 提交推荐票
                             </button>
                         </div>
-    </c:if>
                     </div>
                 </div>
             </div>
@@ -299,7 +289,7 @@
             }
         }, {hidden: true, key: true, name: 'userId'}
     ];
-    $("#jqGrid1").jqGrid({
+    $("#jqGrid_detail1").jqGrid({
         pager: null,
         responsive:false,
         rownumbers: true,
@@ -316,9 +306,9 @@
         }
     });
     <c:if test="${allowModify}">
-    $("#jqGrid1").jqGrid('sortableRows')
+    $("#jqGrid_detail1").jqGrid('sortableRows')
     </c:if>
-    $("#jqGrid2").jqGrid({
+    $("#jqGrid_detail2").jqGrid({
         pager: null,
         responsive:false,
         rownumbers: true,
@@ -335,7 +325,7 @@
         }
     });
     <c:if test="${allowModify}">
-    $("#jqGrid2").jqGrid('sortableRows')
+    $("#jqGrid_detail2").jqGrid('sortableRows')
     </c:if>
     $(window).triggerHandler('resize.jqGrid4');
 
@@ -369,8 +359,8 @@
 
     function _ajaxSubmit(form){
 
-        var dwUserIds = $("#jqGrid1").jqGrid("getDataIDs")
-        var jwUserIds = $("#jqGrid2").jqGrid("getDataIDs")
+        var dwUserIds = $("#jqGrid_detail1").jqGrid("getDataIDs")
+        var jwUserIds = $("#jqGrid_detail2").jqGrid("getDataIDs")
         $(form).ajaxSubmit({
             data:{dwCandidateIds:dwUserIds, jwCandidateIds: jwUserIds},
             success: function (ret) {
@@ -393,8 +383,8 @@
 
         var msg = _.template($("#confirmTpl").html())({expectMemberCount: $("#recommendForm input[name=expectMemberCount]").val(),
             actualMemberCount: $("#recommendForm input[name=actualMemberCount]").val(),
-            dwCount:$("#jqGrid1").jqGrid("getDataIDs").length,
-            jwCount:$("#jqGrid2").jqGrid("getDataIDs").length})
+            dwCount:$("#jqGrid_detail1").jqGrid("getDataIDs").length,
+            jwCount:$("#jqGrid_detail2").jqGrid("getDataIDs").length})
 
         bootbox.confirm({
             className: "confirm-modal",
