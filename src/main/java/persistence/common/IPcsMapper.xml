@@ -42,7 +42,7 @@
     <sql id="searchPcsPrPartyBeans">
         where op.is_deleted=0
         <if test="partyId!=null">
-            and op.party_id=#{partyId}
+            and op.id=#{partyId}
         </if>
         <if test="hasReport">
             and ppr.has_report=1
@@ -109,7 +109,7 @@
     <sql id="searchPcsPartyBeans">
         where op.is_deleted=0
         <if test="partyId!=null">
-            and op.party_id=#{partyId}
+            and op.id=#{partyId}
         </if>
         <if test="hasReport!=null">
             <if test="hasReport">

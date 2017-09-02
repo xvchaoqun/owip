@@ -10,13 +10,17 @@
             <c:set var="_query"
                    value="${not empty param.partyId|| not empty param.hasReport|| not empty param.sort}"/>
             <div class="tabbable">
+<shiro:lacksRole name="role_pcs_check">
                 <jsp:include page="menu.jsp"/>
+    </shiro:lacksRole>
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
+                        <shiro:lacksRole name="role_pcs_check">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="popupBtn btn btn-warning btn-sm"
                                data-url="${ctx}/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促</a>
                         </div>
+                        </shiro:lacksRole>
                         <div class="space-4"></div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
