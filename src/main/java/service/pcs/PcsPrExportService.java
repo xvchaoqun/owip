@@ -391,7 +391,7 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(NumberUtils.trimToEmpty(realPcsPrAllocate.getUnderFiftyCount()));
         }
 
-        if(pcsPrAllocate != null && realPcsPrAllocate != null) {
+        if(pcsPrAllocate != null && expectTotal>0 && realPcsPrAllocate != null) {
 
             row = sheet.getRow(startRow + 2);
             //差额
@@ -481,6 +481,12 @@ public class PcsPrExportService extends BaseMapper {
 
         {
             ExcelUtils.copyRows(9, 12, startRow, copySheet, sheet);
+
+            row = sheet.getRow(startRow + 1);
+            cell = row.getCell(2);
+            str = cell.getStringCellValue().replace("stage", stageStr);
+            cell.setCellValue(str);
+
             // 全校汇总
             PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
             PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null);
