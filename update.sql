@@ -1,5 +1,9 @@
 
 
+2017-9-1
+ALTER TABLE `pcs_admin`
+	DROP COLUMN `config_id`;
+
 
 
 2017-9-1

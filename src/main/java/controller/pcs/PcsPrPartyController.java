@@ -58,7 +58,7 @@ public class PcsPrPartyController extends BaseController {
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
         Party party = partyService.findAll().get(partyId);
 
@@ -125,7 +125,7 @@ public class PcsPrPartyController extends BaseController {
             throw new UnauthorizedException();
         }
         int partyId = pcsAdmin.getPartyId();
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
         modelMap.put("pcsPrAllocate", pcsPrAllocate);
@@ -145,7 +145,8 @@ public class PcsPrPartyController extends BaseController {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
 
-        modelMap.put("allowModify", pcsPrPartyService.allowModify(pcsAdmin.getPartyId(), pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(pcsAdmin.getPartyId(),
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
 
         return "pcs/pcsPrParty/pcsPrParty_report_page";
     }
@@ -184,7 +185,8 @@ public class PcsPrPartyController extends BaseController {
             throw new UnauthorizedException();
         }
 
-        modelMap.put("allowModify", pcsPrPartyService.allowModify(pcsAdmin.getPartyId(), pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(pcsAdmin.getPartyId(),
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
         return "pcs/pcsPrParty/pcsPrParty_candidate_page";
     }
 
@@ -246,9 +248,9 @@ public class PcsPrPartyController extends BaseController {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        if(!pcsPrPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage)){
+        if(!pcsPrPartyService.allowModify(partyId, configId, stage)){
             return failed("已报送数据或已下发名单，不可修改。");
         }
 
@@ -283,7 +285,8 @@ public class PcsPrPartyController extends BaseController {
         }
         modelMap.put("candidatesMap", candidatesMap);
 
-        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId,
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
 
         return "pcs/pcsPrParty/pcsPrParty_candidate_au";
     }
@@ -293,8 +296,8 @@ public class PcsPrPartyController extends BaseController {
     public String pcsPrParty_candidates(byte stage, byte type, ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        int configId = pcsAdmin.getConfigId();
         int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         List<PcsPrCandidateView> candidates = pcsPrCandidateService.find(configId, stage, type, partyId);
 
@@ -310,8 +313,8 @@ public class PcsPrPartyController extends BaseController {
                                          HttpServletResponse response) throws IOException {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        int configId = pcsAdmin.getConfigId();
         int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
         Map<Integer, PcsPrCandidateView> selectedMap = pcsPrCandidateService.findSelectedMap(configId, stage, partyId);
 
         List<PcsPrCandidateView> candidates = new ArrayList<>();

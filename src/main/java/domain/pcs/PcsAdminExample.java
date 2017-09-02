@@ -344,66 +344,6 @@ public class PcsAdminExample {
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdIsNull() {
-            addCriterion("config_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdIsNotNull() {
-            addCriterion("config_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdEqualTo(Integer value) {
-            addCriterion("config_id =", value, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdNotEqualTo(Integer value) {
-            addCriterion("config_id <>", value, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdGreaterThan(Integer value) {
-            addCriterion("config_id >", value, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("config_id >=", value, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdLessThan(Integer value) {
-            addCriterion("config_id <", value, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdLessThanOrEqualTo(Integer value) {
-            addCriterion("config_id <=", value, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdIn(List<Integer> values) {
-            addCriterion("config_id in", values, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdNotIn(List<Integer> values) {
-            addCriterion("config_id not in", values, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdBetween(Integer value1, Integer value2) {
-            addCriterion("config_id between", value1, value2, "configId");
-            return (Criteria) this;
-        }
-
-        public Criteria andConfigIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("config_id not between", value1, value2, "configId");
-            return (Criteria) this;
-        }
-
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

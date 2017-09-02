@@ -120,45 +120,35 @@ public class PcsAdminController extends BaseController {
     }
 
     @RequiresPermissions("pcsAdmin:edit")
-    @RequestMapping(value = "/pcsAdmin_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pcsAdmin_au(int id, String remark, String mobile, HttpServletRequest request) {
-
-
-        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
-            return failed("手机号码有误："+ mobile);
-        }
-
-        pcsAdminService.updateInfo(id, remark, mobile);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改党代会分党委管理员信息：%s", id));
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("pcsAdmin:edit")
     @RequestMapping("/pcsAdmin_au")
-    public String pcsAdmin_au(int id, ModelMap modelMap) {
+    public String pcsAdmin_au(Integer id, ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
-        modelMap.put("pcsAdmin", pcsAdmin);
-        SysUserView sysUser = sysUserService.findById(pcsAdmin.getUserId());
-        modelMap.put("sysUser", sysUser);
+        if(id!=null) {
+            PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
+            modelMap.put("pcsAdmin", pcsAdmin);
+            SysUserView sysUser = sysUserService.findById(pcsAdmin.getUserId());
+            modelMap.put("sysUser", sysUser);
+        }
 
         return "pcs/pcsAdmin/pcsAdmin_au";
     }
 
     @RequiresPermissions("pcsAdmin:edit")
-    @RequestMapping(value = "/pcsAdmin_add", method = RequestMethod.POST)
+    @RequestMapping(value = "/pcsAdmin_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsAdmin_add(PcsAdmin record, HttpServletRequest request) {
+    public Map do_pcsAdmin_add(PcsAdmin record,String mobile, HttpServletRequest request) {
 
+        if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
 
-        if (pcsAdminService.idDuplicate(null, record.getUserId())) {
+        if (pcsAdminService.idDuplicate(record.getId(), record.getUserId())) {
             return failed("该用户已经是党代会管理员");
         }
 
-        pcsAdminService.add(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加党代会分党委管理员：%s", record.getId()));
-
+        pcsAdminService.addOrUpdate(record, mobile);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/修改党代会分党委管理员：%s-%s",
+                JSONUtils.toString(record, false), mobile));
         return success(FormUtils.SUCCESS);
     }
 

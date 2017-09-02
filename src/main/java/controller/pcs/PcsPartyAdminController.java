@@ -3,8 +3,8 @@ package controller.pcs;
 import controller.BaseController;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
-import domain.pcs.PcsConfig;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -47,65 +49,54 @@ public class PcsPartyAdminController extends BaseController {
             modelMap.put("pcsAdmins", pcsAdmins);
         }
 
-        {
+      /*  {
             PcsAdminExample example = new PcsAdminExample();
             example.createCriteria().andPartyIdEqualTo(partyId)
                     .andTypeEqualTo(SystemConstants.PCS_ADMIN_TYPE_NORMAL);
             if (pcsAdminMapper.countByExample(example) > 0) {
                 modelMap.put("hasNormalAdmin", true);
             }
-        }
+        }*/
 
         return "pcs/pcsPartyAdmin/pcsPartyAdmin_page";
     }
 
-    // 分党委书记添加普通管理员
+    // 分党委书记添加/更新普通管理员
     @RequiresPermissions("pcsPartyAdmin:edit")
-    @RequestMapping(value = "/pcsPartyAdmin_add", method = RequestMethod.POST)
+    @RequestMapping(value = "/pcsPartyAdmin_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPartyAdmin_add(int userId, HttpServletRequest request) {
+    public Map do_pcsPartyAdmin_au(PcsAdmin record, String mobile, HttpServletRequest request) {
+
+        if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null || pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
             throw new UnauthorizedException();
         }
-        int partyId = pcsAdmin.getPartyId();
-
-        PcsAdminExample example = new PcsAdminExample();
-        example.createCriteria().andPartyIdEqualTo(partyId)
-                .andTypeEqualTo(SystemConstants.PCS_ADMIN_TYPE_NORMAL);
-        if (pcsAdminMapper.countByExample(example) > 0) {
-            return failed("已经存在党代会管理员，请不要重复添加");
-        }
-
-        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        if(pcsConfig==null){
-            return failed("目前没有召开党代会，不可以添加管理员");
-        }
-
-        PcsAdmin record = new PcsAdmin();
-        record.setConfigId(pcsConfig.getId());
-        record.setUserId(userId);
-        record.setType(SystemConstants.PCS_ADMIN_TYPE_NORMAL);
-        record.setPartyId(partyId);
-
-        if (pcsAdminService.idDuplicate(null, userId)) {
-            return failed("该用户已经是党代会管理员");
-        }
-
-        pcsAdminService.add(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委书记]添加党代会分党委管理员：%s", record.getId()));
+        // 添加本单位管理员
+        record.setPartyId( pcsAdmin.getPartyId());
+        pcsAdminService.addOrUpdate(record, mobile);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委书记]添加/修改党代会分党委管理员：%s-%s"
+                , JSONUtils.toString(record, false), mobile));
 
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("pcsPartyAdmin:edit")
-    @RequestMapping("/pcsPartyAdmin_add")
-    public String pcsPartyAdmin_add(ModelMap modelMap) {
+    @RequestMapping("/pcsPartyAdmin_au")
+    public String pcsPartyAdmin_au(Integer id, ModelMap modelMap) {
 
-        modelMap.put("pcsConfig", pcsConfigService.getCurrentPcsConfig());
+        if(id!=null){
+            PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
+            modelMap.put("pcsAdmin", pcsAdmin);
+            modelMap.put("sysUser", sysUserService.findById(pcsAdmin.getUserId()));
+        }
 
-        return "pcs/pcsPartyAdmin/pcsPartyAdmin_add";
+        //modelMap.put("pcsConfig", pcsConfigService.getCurrentPcsConfig());
+
+        return "pcs/pcsAdmin/pcsAdmin_au";
     }
 
     // 分党委书记删除普通管理员

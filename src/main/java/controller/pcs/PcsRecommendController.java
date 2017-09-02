@@ -67,7 +67,7 @@ public class PcsRecommendController extends BaseController {
                                   Integer pageSize, Integer pageNo) throws IOException {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
 
         if (null == pageSize) {
@@ -117,7 +117,8 @@ public class PcsRecommendController extends BaseController {
             return failed("参数有误。");
         }
 
-        if(!pcsPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage)){
+        if(!pcsPartyService.allowModify(partyId,
+                pcsConfigService.getCurrentPcsConfig().getId(), stage)){
             return failed("已报送数据或已下发名单，不可修改。");
         }
 
@@ -173,7 +174,8 @@ public class PcsRecommendController extends BaseController {
         modelMap.put("jwCandidates", jwCandidates);
 
 
-        modelMap.put("allowModify", pcsPartyService.allowModify(partyId, pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId,
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
 
         return "pcs/pcsRecommend/pcsRecommend_au";
     }
@@ -184,7 +186,7 @@ public class PcsRecommendController extends BaseController {
     public String pcsRecommend_candidates(byte stage, byte type, ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidateView> candidates =
                 iPcsMapper.selectPartyCandidates(null, true, configId, stage, type, new RowBounds());
 

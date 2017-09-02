@@ -364,7 +364,7 @@ var _modal_width;
 
             var _this = btn;
             var url = $(btn).data("url");
-            var msg = $(btn).data("msg");
+            var msg = "<div class='confirmMsg'>" +$(btn).data("msg") + "</div>";
             var loading = $(btn).data("loading");
             var callback = $.trim($(btn).data("callback"));
 

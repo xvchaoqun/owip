@@ -7,11 +7,9 @@ pageEncoding="UTF-8" %>
             <div class="widget-header">
                 <h4 class="smaller">
                     【${party.name}】-党代会管理员
-                    <c:if test="${!hasNormalAdmin}">
                     <div class="pull-right"  style="margin-right: 10px">
-                    <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPartyAdmin_add"><i class="fa fa-plus"></i> 添加管理员</a>
+                    <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPartyAdmin_au?partyId=${party.id}"><i class="fa fa-plus"></i> 添加管理员</a>
                     </div>
-                    </c:if>
                 </h4>
             </div>
             <div class="widget-body">
@@ -21,6 +19,7 @@ pageEncoding="UTF-8" %>
                         <tr>
                             <th width="100">姓名</th>
                             <th width="100">教工号</th>
+                            <th width="100">手机号码</th>
                             <th>所在单位</th>
                             <th width="100">类别</th>
                             <th width="100"></th>
@@ -31,10 +30,13 @@ pageEncoding="UTF-8" %>
                             <tr>
                                 <td>${admin.user.realname}</td>
                                 <td>${admin.user.code}</td>
-                                <td>${admin.unit}</td>
+                                <td>${admin.user.mobile}</td>
+                                <td title="${admin.unit}">${cm:substr(admin.unit, 0, 15, '...')}</td>
                                 <td>${PCS_ADMIN_TYPE_MAP.get(admin.type)}</td>
                                 <td>
                                     <c:if test="${admin.type==PCS_ADMIN_TYPE_NORMAL}">
+                                        <a class="popupBtn btn btn-primary btn-xs"
+                                           data-url="${ctx}/pcsPartyAdmin_au?id=${admin.id}&partyId=${party.id}"><i class="fa fa-edit"></i> 修改</a>
                                     <button class="confirm btn btn-danger btn-xs"
                                             data-url="${ctx}/pcsPartyAdmin_del?id=${admin.id}"
                                             data-title="删除管理员"
@@ -51,6 +53,11 @@ pageEncoding="UTF-8" %>
         </div>
     </div>
 </div>
+<style>
+    .table tr td{
+        white-space: nowrap;
+    }
+</style>
 <script>
 function _reload(){
     $.hashchange();

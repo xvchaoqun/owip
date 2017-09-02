@@ -48,7 +48,7 @@ public class PcsPartyController extends BaseController {
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
         Party party = partyService.findAll().get(partyId);
 
@@ -107,7 +107,7 @@ public class PcsPartyController extends BaseController {
             throw new UnauthorizedException();
         }
         int partyId = pcsAdmin.getPartyId();
-        int configId = pcsAdmin.getConfigId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
         modelMap.put("records", records);
@@ -121,7 +121,8 @@ public class PcsPartyController extends BaseController {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
 
-        modelMap.put("allowModify", pcsPartyService.allowModify(pcsAdmin.getPartyId(), pcsAdmin.getConfigId(), stage));
+        modelMap.put("allowModify", pcsPartyService.allowModify(pcsAdmin.getPartyId(),
+                pcsConfigService.getCurrentPcsConfig().getId(), stage));
         return "pcs/pcsParty/pcsParty_report_page";
     }
 

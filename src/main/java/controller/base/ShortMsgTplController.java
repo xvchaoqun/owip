@@ -67,13 +67,14 @@ public class ShortMsgTplController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         ShortMsgExample example = new ShortMsgExample();
-        ShortMsgExample.Criteria criteria = example.createCriteria();
+        ShortMsgExample.Criteria criteria = example.createCriteria()
+                .andRelateTypeEqualTo(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL);
+        criteria.andSenderIdEqualTo(ShiroHelper.getCurrentUserId());
         example.setOrderByClause("create_time desc");
 
         if (receiverId != null) {
             criteria.andReceiverIdEqualTo(receiverId);
         }
-        criteria.andSenderIdEqualTo(ShiroHelper.getCurrentUserId());
         if (StringUtils.isNotBlank(mobile)) {
             criteria.andMobileLike("%" + mobile + "%");
         }

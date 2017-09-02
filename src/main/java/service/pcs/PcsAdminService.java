@@ -51,18 +51,11 @@ public class PcsAdminService extends BaseMapper {
     @Autowired
     private PcsPartyService pcsPartyService;
 
-    // 后台同步当前党代会管理员角色：
-    // 1、删除所有非当前党代会的所有管理员
-    // 2、重置当前党代会的管理员（保留不重复的普通管理员）
+    // 后台同步党代会管理员角色：
+    // 1、删除所有党代会的所有书记、副书记管理员
+    // 2、同步最新的分党委书记、副书记管理员（保留不重复的普通管理员）
     @Transactional
     public void syncCurrentPcsAdmin() {
-
-        // 当前党代会ID
-        int configId = -1;
-        PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
-        if (pcsConfig != null) {
-            configId = pcsConfig.getId();
-        }
 
         // 去掉所有党代会的书记、副书记的管理员角色，并删除，保留当前党代会的普通管理员待下一步处理
         List<PcsAdmin> pcsAdmins = new ArrayList<>();
@@ -73,9 +66,8 @@ public class PcsAdminService extends BaseMapper {
             pcsAdmins = pcsAdminMapper.selectByExample(example);
             for (PcsAdmin pcsAdmin : pcsAdmins) {
                 Integer userId = pcsAdmin.getUserId();
-                if (pcsAdmin.getType() == SystemConstants.PCS_ADMIN_TYPE_NORMAL
-                        && pcsAdmin.getConfigId() == configId) {
-                    // 当前党代会的普通管理员暂不处理
+                if (pcsAdmin.getType() == SystemConstants.PCS_ADMIN_TYPE_NORMAL) {
+                    // 党代会的普通管理员暂不处理
                     pcsNormalAdminIds.add(userId);
                 } else {
                     SysUserView uv = sysUserService.findById(userId);
@@ -84,48 +76,47 @@ public class PcsAdminService extends BaseMapper {
                 }
             }
         }
-        if(configId!=-1) {
-            Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
-            MetaType partySecretaryType = codeKeyMap.get("mt_party_secretary");
-            MetaType partyViceSecretaryType = codeKeyMap.get("mt_party_vice_secretary");
 
-            // 所有的分党委书记、副书记
-            List<PartyMemberView> partyMemberViews = new ArrayList<>();
-            {
-                PartyMemberViewExample example = new PartyMemberViewExample();
-                example.createCriteria()
-                        .andPostIdIn(Arrays.asList(partySecretaryType.getId(),
-                                partyViceSecretaryType.getId()))
-                        .andIsAdminEqualTo(true);
+        Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
+        MetaType partySecretaryType = codeKeyMap.get("mt_party_secretary");
+        MetaType partyViceSecretaryType = codeKeyMap.get("mt_party_vice_secretary");
 
-                partyMemberViews = partyMemberViewMapper.selectByExample(example);
-            }
+        // 所有的分党委书记、副书记
+        List<PartyMemberView> partyMemberViews = new ArrayList<>();
+        {
+            PartyMemberViewExample example = new PartyMemberViewExample();
+            example.createCriteria()
+                    .andPostIdIn(Arrays.asList(partySecretaryType.getId(),
+                            partyViceSecretaryType.getId()))
+                    .andIsAdminEqualTo(true);
 
-            // 赋予所有的分党委书记、副书记党代会管理员角色，如果他之前已经是普通管理员，则先删除（这样做避免重复管理员的出现）
-            for (PartyMemberView partyMemberView : partyMemberViews) {
-
-                Integer userId = partyMemberView.getUserId();
-                if(pcsNormalAdminIds.contains(userId)){
-
-                    PcsAdminExample example = new PcsAdminExample();
-                    example.createCriteria().andUserIdEqualTo(userId);
-                    pcsAdminMapper.deleteByExample(example);
-                }
-
-                int partyId = partyMemberView.getGroupPartyId(); // 此处应该用分党委委员会所在的分党委ID，保证不为空
-
-                PcsAdmin record = new PcsAdmin();
-                record.setUserId(userId);
-                record.setConfigId(configId);
-                record.setPartyId(partyId);
-                record.setType((partyMemberView.getPostId().intValue()==partySecretaryType.getId())?
-                        SystemConstants.PCS_ADMIN_TYPE_SECRETARY:SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY);
-                pcsAdminMapper.insertSelective(record);
-
-                SysUserView uv = sysUserService.findById(userId);
-                sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
-            }
+            partyMemberViews = partyMemberViewMapper.selectByExample(example);
         }
+
+        // 赋予所有的分党委书记、副书记党代会管理员角色，如果他之前已经是普通管理员，则先删除（这样做避免重复管理员的出现）
+        for (PartyMemberView partyMemberView : partyMemberViews) {
+
+            Integer userId = partyMemberView.getUserId();
+            if (pcsNormalAdminIds.contains(userId)) {
+
+                PcsAdminExample example = new PcsAdminExample();
+                example.createCriteria().andUserIdEqualTo(userId);
+                pcsAdminMapper.deleteByExample(example);
+            }
+
+            int partyId = partyMemberView.getGroupPartyId(); // 此处应该用分党委委员会所在的分党委ID，保证不为空
+
+            PcsAdmin record = new PcsAdmin();
+            record.setUserId(userId);
+            record.setPartyId(partyId);
+            record.setType((partyMemberView.getPostId().intValue() == partySecretaryType.getId()) ?
+                    SystemConstants.PCS_ADMIN_TYPE_SECRETARY : SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY);
+            pcsAdminMapper.insertSelective(record);
+
+            SysUserView uv = sysUserService.findById(userId);
+            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+        }
+
     }
 
     // 获取用户管理的分党委（每个用户最多只管理一个分党委）
@@ -135,7 +126,7 @@ public class PcsAdminService extends BaseMapper {
         example.createCriteria().andUserIdEqualTo(userId);
         List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
 
-        return (pcsAdmins.size() > 0)? pcsAdmins.get(0):null;
+        return (pcsAdmins.size() > 0) ? pcsAdmins.get(0) : null;
     }
 
     // 获取普通的分党委管理员
@@ -158,38 +149,61 @@ public class PcsAdminService extends BaseMapper {
 
     // 添加分党委管理员
     @Transactional
-    public void add(PcsAdmin record) {
+    public void addOrUpdate(PcsAdmin record, String mobile) {
 
         int userId = record.getUserId();
         byte type = SystemConstants.PCS_ADMIN_TYPE_NORMAL;
 
+        if (idDuplicate(record.getId(), record.getUserId())) {
+            throw new OpException("该用户已经是党代会管理员");
+        }
+
         PartyMemberView pmv = partyMemberService.getPartyMemberView(userId);
-        if(pmv!=null){
+        if (pmv != null) {
 
             Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
             MetaType partySecretaryType = codeKeyMap.get("mt_party_secretary");
             MetaType partyViceSecretaryType = codeKeyMap.get("mt_party_vice_secretary");
 
-            if(pmv.getPostId().intValue()==partySecretaryType.getId()){
+            if (pmv.getPostId().intValue() == partySecretaryType.getId()) {
                 type = SystemConstants.PCS_ADMIN_TYPE_SECRETARY;
-            }else if(pmv.getPostId().intValue()==partyViceSecretaryType.getId()){
+            } else if (pmv.getPostId().intValue() == partyViceSecretaryType.getId()) {
                 type = SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY;
             }
 
-            if(type != SystemConstants.PCS_ADMIN_TYPE_NORMAL){
-                if(pmv.getPartyId().intValue()!=record.getPartyId()){
+            if (type != SystemConstants.PCS_ADMIN_TYPE_NORMAL) {
+                if (pmv.getPartyId().intValue() != record.getPartyId()) {
                     Party party = partyService.findAll().get(record.getPartyId());
-                    throw new OpException("{0}是{1}的{2}，不可以添加为别的分党委的管理员。",
+                    throw new OpException("{0}是{1}的{2}，无法添加。",
                             pmv.getRealname(), party.getName(), SystemConstants.PCS_ADMIN_TYPE_MAP.get(type));
                 }
             }
         }
-
+        // 更新为最新的管理员类型
         record.setType(type);
-        pcsAdminMapper.insertSelective(record);
+        if(record.getId()!=null){
+            PcsAdmin _pcsAdmin = pcsAdminMapper.selectByPrimaryKey(record.getId());
+            if(_pcsAdmin.getUserId().intValue() != record.getUserId()){
+                // 更换用户的情况，先删除原用户的管理员角色
+                SysUserView uv = sysUserService.findById(_pcsAdmin.getUserId());
+                sysUserService.delRole(uv.getUserId(), SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
 
+                pcsAdminMapper.updateByPrimaryKeySelective(record);
+            }
+        }else {
+            pcsAdminMapper.insertSelective(record);
+        }
+        // 添加管理员角色
         SysUserView uv = sysUserService.findById(userId);
         sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+
+        // 如果有手机号码，则更新系统的手机号码
+        if(StringUtils.isNotBlank(mobile)){
+            SysUserInfo _record = new SysUserInfo();
+            _record.setUserId(userId);
+            _record.setMobile(mobile);
+            sysUserService.insertOrUpdateUserInfoSelective(_record);
+        }
     }
 
     @Transactional
@@ -209,7 +223,7 @@ public class PcsAdminService extends BaseMapper {
         pcsAdminMapper.deleteByExample(example);
     }
 
-    // 更新管理员手机号码
+  /*  // 更新管理员手机号码
     @Transactional
     public void updateInfo(int id, String remark, String mobile) {
 
@@ -224,7 +238,7 @@ public class PcsAdminService extends BaseMapper {
         record.setMobile(mobile);
 
         sysUserService.insertOrUpdateUserInfoSelective(record);
-    }
+    }*/
 
     // type=1 两委委员 type=2 党代表
     public Map<String, Integer> sendMsg(byte type, byte stage, byte adminType, String mobile, String msg) {
@@ -234,8 +248,8 @@ public class PcsAdminService extends BaseMapper {
 
         String ip = ContextHelper.getRealIp();
         int sendUserId = ShiroHelper.getCurrentUserId();
-        String typeName = (type==1)?"党代会-两委委员":"党代会-党代表";
-        if(StringUtils.isNotBlank(mobile)){
+        String typeName = (type == 1) ? "党代会-两委委员" : "党代会-党代表";
+        if (StringUtils.isNotBlank(mobile)) {
 
             // 发送给指定手机号码
             ShortMsgBean bean = new ShortMsgBean();
@@ -245,21 +259,21 @@ public class PcsAdminService extends BaseMapper {
             bean.setMobile(mobile);
             bean.setContent(msg);
 
-            if(shortMsgService.send(bean, ip)) {
+            if (shortMsgService.send(bean, ip)) {
                 total++;
                 success++;
             }
-        }else{
+        } else {
 
             List<PcsAdmin> pcsAdmins = null;
             PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
             int configId = currentPcsConfig.getId();
-            if(type==1){
-                 pcsAdmins = iPcsMapper.hasNotReportPcsAdmins(configId, stage, adminType);
-            }else{
+            if (type == 1) {
+                pcsAdmins = iPcsMapper.hasNotReportPcsAdmins(configId, stage, adminType);
+            } else {
                 pcsAdmins = iPcsMapper.hasNotReportPcsPrAdmins(configId, stage, adminType);
             }
-            if(pcsAdmins!=null) {
+            if (pcsAdmins != null) {
                 total = pcsAdmins.size();
                 for (PcsAdmin pcsAdmin : pcsAdmins) {
                     int userId = pcsAdmin.getUserId();
@@ -276,7 +290,7 @@ public class PcsAdminService extends BaseMapper {
                         bean.setContent(msg);
 
                         try {
-                            if(shortMsgService.send(bean, ip)) success++;
+                            if (shortMsgService.send(bean, ip)) success++;
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }

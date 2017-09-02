@@ -12,12 +12,12 @@
                    value="${not empty param.partyId ||not empty param.userId || not empty param.type || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="pcsAdmin:edit">
-                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsAdmin_add"><i class="fa fa-plus"></i> 添加管理员</a>
-
+                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsAdmin_au"><i class="fa fa-plus"></i> 添加管理员</a>
                     <a class="confirm btn btn-success btn-sm"
                        data-url="${ctx}/pcsAdmin_sync"
                        data-title="同步党代会管理员"
-                       data-msg="确定同步每个分党委的书记、副书记为当前党代会的管理员？" data-callback="_reload"><i class="fa fa-random"></i>
+                       data-msg="确定同步每个分党委现任的书记、副书记为党代会的管理员？（将删除现有的书记和副书记管理员）"
+                       data-callback="_reload"><i class="fa fa-random"></i>
                         同步党代会管理员</a>
 
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -29,7 +29,7 @@
                 <shiro:hasPermission name="pcsAdmin:del">
                     <button data-url="${ctx}/pcsAdmin_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}位管理员？"
                             data-grid-id="#jqGrid"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除

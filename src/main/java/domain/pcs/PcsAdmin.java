@@ -22,8 +22,6 @@ public class PcsAdmin implements Serializable {
 
     private Byte type;
 
-    private Integer configId;
-
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -58,14 +56,6 @@ public class PcsAdmin implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
-    }
-
-    public Integer getConfigId() {
-        return configId;
-    }
-
-    public void setConfigId(Integer configId) {
-        this.configId = configId;
     }
 
     public String getRemark() {
