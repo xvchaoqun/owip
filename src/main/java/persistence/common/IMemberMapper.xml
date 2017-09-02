@@ -3,31 +3,6 @@
 <mapper namespace="persistence.common.IMemberMapper">
 
     <sql id="member_selects_permits">
-        <if test="isRetire!=null">
-            , sys_teacher_info ti
-        </if>
-        where m.user_id= u.id
-        <if test="partyId!=null">
-            and m.party_id =#{partyId}
-        </if>
-        <if test="type!=null">
-            and m.type =#{type}
-        </if>
-        <if test="politicalStatus!=null">
-            and m.political_status =#{politicalStatus}
-        </if>
-        <if test="status!=null">
-            and m.status =#{status}
-        </if>
-        <if test="isRetire!=null">
-           and ti.user_id=u.user_id
-            <if test="isRetire">
-                and ti.is_retire = 1
-            </if>
-            <if test="!isRetire">
-                and (ti.is_retire <![CDATA[<>]]> 1)
-            </if>
-        </if>
         <if test="addPermits">
             <if test="adminPartyIdList.size>0 and adminBranchIdList.size>0">
                 and (
@@ -52,7 +27,7 @@
                 </foreach>
             </if>
             <if test="adminPartyIdList.size==0 and adminBranchIdList.size>0">
-                and branch_id in
+                and  branch_id in
                 <foreach collection="adminBranchIdList" item="branchId"
                          index="index" open="(" close=")" separator=",">
                     #{branchId}
@@ -62,18 +37,47 @@
                 and m.user_id is null
             </if>
         </if>
+    </sql>
+
+    <sql id="selectMemberList_where">
+        <if test="isRetire!=null">
+            , sys_teacher_info ti
+        </if>
+        where m.user_id= u.id
+        <if test="partyId!=null">
+            and m.party_id =#{partyId}
+        </if>
+        <if test="type!=null">
+            and m.type =#{type}
+        </if>
+        <if test="politicalStatus!=null">
+            and m.political_status =#{politicalStatus}
+        </if>
+        <if test="status!=null">
+            and m.status =#{status}
+        </if>
+        <if test="isRetire!=null">
+            and ti.user_id=u.user_id
+            <if test="isRetire">
+                and ti.is_retire = 1
+            </if>
+            <if test="!isRetire">
+                and (ti.is_retire <![CDATA[<>]]> 1)
+            </if>
+        </if>
+        <include refid="member_selects_permits"/>
         <if test="search != null">
             and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
         </if>
     </sql>
     <select id="selectMemberList" resultMap="persistence.member.MemberMapper.BaseResultMap" parameterType="map">
         select m.* from ow_member m, sys_user_view u
-        <include refid="member_selects_permits"/>
+        <include refid="selectMemberList_where"/>
         order by m.grow_time desc
     </select>
     <select id="countMember" parameterType="map" resultType="java.lang.Integer">
         select count(m.user_id) from ow_member m, sys_user_view u
-        <include refid="member_selects_permits"/>
+        <include refid="selectMemberList_where"/>
     </select>
 
     <select id="selectMemberInflowList" resultMap="persistence.member.MemberInflowMapper.BaseResultMap"
