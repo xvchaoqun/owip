@@ -63,6 +63,16 @@
         border-color: #563d7c;
     }
 </style>
+<script type="text/template" id="successTpl">
+    <div style='padding: 50px;font-size: 22px;font-weight: bolder;'>
+        <div style="color: green; font-size: 38px;text-align: center;margin-bottom: 30px;margin-top: 20px;">
+            <i class='fa fa-check-circle fa-lx'></i> 报送成功
+        </div>
+        <div style="text-indent: 2em">
+            党代表选举“一下一上”阶段已完成报送，党委组织部审核通过后会短信提醒分党委管理员。“二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+        </div>
+    </div>
+</script>
 <script>
     $("#submitBtn").click(function () {
         bootbox.confirm({
@@ -77,13 +87,15 @@
                     className: 'btn-default btn-show'
                 }
             },
-            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'>报送之前务必下载汇总表。报送之后不可以修改，请认真核实后报送。<div>",
+            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送之前务必下载汇总表。报送之后不可以修改，请认真核实后报送。<div>",
             callback: function (result) {
                 if (result) {
                     $.post("${ctx}/pcsPrParty_report", {stage:${param.stage}}, function (ret) {
                         if (ret.success) {
 
-                            $.loadPage({url: "${ctx}/pcsPrParty?cls=3&stage=${param.stage}"});
+                            SysMsg.info(_.template($("#successTpl").html()), function () {
+                                $.loadPage({url: "${ctx}/pcsPrParty?cls=3&stage=${param.stage}"});
+                            })
                         }
                     });
                 }

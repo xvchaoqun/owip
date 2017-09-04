@@ -14,12 +14,12 @@
         <a href="${ctx}/pcsParty_export?file=2-1&stage=${param.stage}&type=${PCS_USER_TYPE_JW}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
-   <%-- <div class="bs-callout bs-callout-info">
-        <h4>附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）</h4>
-        <a href="${ctx}/pcsParty_export?file=3&stage=${param.stage}"
-           class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载</a>
-    </div>
---%>
+    <%-- <div class="bs-callout bs-callout-info">
+         <h4>附表3. 参加两委委员候选人推荐提名情况汇总表（院系级党组织用）</h4>
+         <a href="${ctx}/pcsParty_export?file=3&stage=${param.stage}"
+            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载</a>
+     </div>
+ --%>
 </div>
 
 <div class="modal-footer center" style="margin-top: 20px">
@@ -31,9 +31,11 @@
     .bs-callout-warning {
         border-left-color: #f0ad4e !important;
     }
+
     .bs-callout-info {
         border-left-color: #5bc0de !important;
     }
+
     .bs-callout {
         padding: 20px;
         margin: 20px 0;
@@ -75,20 +77,31 @@
         <ul style="padding: 10px 0 0 100px;">
             {{_.each(beans, function(b, idx){ }}
             <li>
-               {{=b.name}}
+                {{=b.name}}
             </li>
             {{})}}
         </ul>
     </div>
 </script>
+<script type="text/template" id="successTpl">
+    <div style='padding: 50px;font-size: 22px;font-weight: bolder;'>
+        <div style="color: green; font-size: 38px;text-align: center;margin-bottom: 30px;margin-top: 20px;">
+            <i class='fa fa-check-circle fa-lx'></i> 报送成功
+        </div>
+        <div style="text-indent: 2em">
+            两委委员候选人酝酿提名“一下一上”阶段已完成报送，学校党委研究确定“二下”名单之后会自动下发并短信提醒分党委管理员。
+            “二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+        </div>
+    </div>
+</script>
 <script>
     $("#submitBtn").click(function () {
-        $.post("${ctx}/pcsParty_report_check",{stage:${param.stage}},function(ret){
+        $.post("${ctx}/pcsParty_report_check", {stage:${param.stage}}, function (ret) {
 
-            if(ret.success){
+            if (ret.success) {
                 console.log(ret.beans)
-                if(ret.beans.length>0){
-                    var msg = _.template($("#alertTpl").html())({beans:ret.beans});
+                if (ret.beans.length > 0) {
+                    var msg = _.template($("#alertTpl").html())({beans: ret.beans});
                     bootbox.dialog({
                         title: '您还未完成填报',
                         message: msg,
@@ -96,7 +109,7 @@
                             ok: {
                                 label: '<i class="fa fa-reply"></i> 返回填报',
                                 className: 'btn-primary',
-                                callback: function(){
+                                callback: function () {
                                     location.hash = "#${ctx}/pcsRecommend?stage=${param.stage}";
                                 }
                             }
@@ -104,7 +117,7 @@
                         draggable: true
                     });
 
-                }else{
+                } else {
 
                     bootbox.confirm({
                         className: "confirm-modal",
@@ -124,7 +137,10 @@
                                 $.post("${ctx}/pcsParty_report", {stage:${param.stage}}, function (ret) {
                                     if (ret.success) {
 
-                                        $.loadPage({url: "${ctx}/pcsParty?cls=3&stage=${param.stage}"});
+                                        SysMsg.info(_.template($("#successTpl").html()), function () {
+                                            $.loadPage({url: "${ctx}/pcsParty?cls=3&stage=${param.stage}"});
+                                        })
+
                                     }
                                 });
                             }
