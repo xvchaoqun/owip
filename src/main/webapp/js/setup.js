@@ -111,7 +111,7 @@ $(window).on('resize.jqGrid2', function () {
     if ($("#menu-toggler").is(":hidden")) { // 手机屏幕
         gridWidth -= $(".nav-list").width()
     }
-    $(".jqGrid2").each(function(){
+    $(".jqGrid2").each(function () {
         var $jqgrid = $(this);
         var widthReduce = $jqgrid.data("width-reduce");
         if (widthReduce != undefined) {
@@ -165,7 +165,7 @@ $(window).on('resize.jqGrid4', function () {
             _gridWidth = _gridWidth - widthReduce;
         }
         $(this).jqGrid('setGridWidth', _gridWidth);
-       // console.log(" gridWidth=" + gridWidth)
+        // console.log(" gridWidth=" + gridWidth)
     });
 });
 //resize on sidebar collapse/expand
@@ -572,15 +572,23 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
     var step = $this.closest("td").find("input").val();
     var addNum = (parseInt(step) || 1) * direction;
     var $div = $this.closest(".myTableDiv");
+
+    var fn = $this.data("callback");
+    var url = $this.data("url") || $div.data("url-co");
     //console.log($div.data("url-co"))
-    $.post($div.data("url-co"), {id: id, addNum: addNum}, function (ret) {
+    $.post(url, {id: id, addNum: addNum}, function (ret) {
         if (ret.success) {
-            //SysMsg.success('操作成功。', '成功',function(){
-            if ($this.hasClass("pageReload")) {
-                page_reload();
-            } else
-                $("#jqGrid").trigger("reloadGrid");
-            //});
+
+            if (fn) {
+                window[fn]($this);
+            } else {
+                //SysMsg.success('操作成功。', '成功',function(){
+                if ($this.hasClass("pageReload")) {
+                    page_reload();
+                } else
+                    $("#jqGrid").trigger("reloadGrid");
+                //});
+            }
         }
     });
 });

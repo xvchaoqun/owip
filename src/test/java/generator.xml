@@ -426,8 +426,8 @@
       </table>-->
       <!-- <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
       </table>-->
-      <table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
-      </table>
+      <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
+      </table>-->
       <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">
       </table>-->
       <!--<table tableName="pcs_recommend" domainObjectName="pcs.PcsRecommend" mapperName="pcs.PcsRecommendMapper">
@@ -446,10 +446,14 @@
 
    <!--  <table tableName="pcs_pr_allocate" domainObjectName="pcs.PcsPrAllocate" mapperName="pcs.PcsPrAllocateMapper">
       </table>-->
-      <!-- <table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
-      </table>-->
-    <!--  <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
-      </table>--><!--
+       <table tableName="pcs_pr_file" domainObjectName="pcs.PcsPrFile" mapperName="pcs.PcsPrFileMapper">
+      </table>
+       <table tableName="pcs_pr_file_template" domainObjectName="pcs.PcsPrFileTemplate" mapperName="pcs.PcsPrFileTemplateMapper">
+      </table>
+       <!--<table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
+      </table>
+      <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
+      </table>
       <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView" mapperName="pcs.PcsPrCandidateViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
