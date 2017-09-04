@@ -26,6 +26,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -94,6 +95,7 @@ public class PcsPrOwController extends BaseController {
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrOw")
     public String pcsPrOw(@RequestParam(required = false, defaultValue = "1") byte cls,
+                          byte stage,
                           Integer partyId,
                           ModelMap modelMap) {
 
@@ -106,6 +108,15 @@ public class PcsPrOwController extends BaseController {
         if (partyId != null) {
             modelMap.put("party", partyService.findAll().get(partyId));
         }
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
+        int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
+                SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
+        modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
+        modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
+        modelMap.put("passCount", NumberUtils.trimToZero(passCount));
 
         return "pcs/pcsPrOw/pcsPrOw_party_page";
     }

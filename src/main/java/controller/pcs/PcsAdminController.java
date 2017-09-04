@@ -161,12 +161,16 @@ public class PcsAdminController extends BaseController {
         return "pcs/pcsAdmin/pcsAdmin_add";
     }
 
+    // 未报送短信
     @RequiresPermissions("pcsAdmin:edit")
     @RequestMapping(value = "/pcsAdmin_msg", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsAdmin_msg(byte type, // type=1 两委委员 type=2 党代表
                                byte stage,
-                               byte adminType, String mobile, String msg, HttpServletRequest request) {
+                               byte adminType,
+                               String mobile,
+                               String msg,
+                               HttpServletRequest request) {
 
         if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
             return failed("手机号码有误："+ mobile);
@@ -181,10 +185,67 @@ public class PcsAdminController extends BaseController {
     }
 
     @RequiresPermissions("pcsAdmin:edit")
-    @RequestMapping("/pcsAdmin_msg")
-    public String pcsAdmin_msg() {
+    @RequestMapping(value = "/pcsAdmin_msg2", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsAdmin_msg2(
+                               String mobile,
+                               String msg,
+                               HttpServletRequest request) {
 
-        return "pcs/pcsAdmin/pcsAdmin_msg";
+        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
+
+        Map<String, Integer> result = pcsAdminService.sendMsg2( mobile, msg);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "两委委员-下发名单短信通知，发送给全部的分党委管理员：%s-%s", msg, mobile));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("totalCount", result.get("total"));
+        resultMap.put("successCount", result.get("success"));
+        return resultMap;
+    }
+
+    @RequiresPermissions("pcsAdmin:edit")
+    @RequestMapping(value = "/pcsAdmin_msg3", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsAdmin_msg3(Integer partyId,
+                               String mobile,
+                               String msg,
+                               HttpServletRequest request) {
+
+        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
+        if(partyId==null&&StringUtils.isBlank(mobile)){
+            return failed("参数有误");
+        }
+
+        Map<String, Integer> result = pcsAdminService.sendMsg3(partyId, mobile, msg);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过：%s-%s", msg, mobile));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("totalCount", result.get("total"));
+        resultMap.put("successCount", result.get("success"));
+        return resultMap;
+    }
+
+    @RequiresPermissions("pcsAdmin:edit")
+    @RequestMapping("/pcsAdmin_msg")
+    public String pcsAdmin_msg(@RequestParam(required = false, defaultValue = "1") byte cls,
+                               Integer partyId, ModelMap modelMap) {
+
+        if(cls==1) {
+            // 发送给还未报送的两委或党代表的分党委管理员
+            return "pcs/pcsAdmin/pcsAdmin_msg";
+        }else if(cls==2){
+            // 两委委员-下发名单短信通知，发送给全部的分党委管理员
+            return "pcs/pcsAdmin/pcsAdmin_msg2";
+        }else if(cls==3){
+            // 党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过
+            if(partyId!=null){
+                modelMap.put("party", partyService.findAll().get(partyId));
+            }
+            return "pcs/pcsAdmin/pcsAdmin_msg3";
+        }
+        return null;
     }
 
     @RequiresPermissions("pcsAdmin:del")

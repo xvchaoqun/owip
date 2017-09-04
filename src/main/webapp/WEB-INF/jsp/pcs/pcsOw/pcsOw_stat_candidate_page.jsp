@@ -63,6 +63,8 @@
                                         ${hasIssue?"已下发名单":"下发名单"}
                                 </button>
                                 </c:if>
+                                <a class="popupBtn btn btn-warning btn-sm ${hasIssue?"":"disabled"}"
+                                   data-url="${ctx}/pcsAdmin_msg?cls=2"><i class="fa fa-send"></i> 短信提醒</a>
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
                                     <i class="fa fa-download"></i> 附表7-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（组织部用）</a>
                             </c:if>

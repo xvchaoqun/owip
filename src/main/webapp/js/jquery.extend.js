@@ -251,6 +251,9 @@ var _modal_width;
                     .format(party.isDeleted ? "delete" : "", _partyView, branch.isDeleted ? "delete" : "", " - " + _branchView);
             } else if (_partyView != null) {
                 return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
+            }else if (_branchView != null) { // 仅显示党支部
+                return '<span class="{0}">{1}</span>'
+                    .format( branch.isDeleted ? "delete" : "", _branchView);
             }
             return '';
         },

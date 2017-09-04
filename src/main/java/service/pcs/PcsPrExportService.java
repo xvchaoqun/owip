@@ -3,8 +3,8 @@ package service.pcs;
 import domain.cadre.CadreView;
 import domain.member.MemberStudentExample;
 import domain.member.MemberTeacherExample;
-import domain.party.PartyView;
-import domain.party.PartyViewExample;
+import domain.pcs.PcsPartyView;
+import domain.pcs.PcsPartyViewExample;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
@@ -25,7 +25,6 @@ import service.BaseMapper;
 import service.analysis.StatService;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
-import service.party.PartyService;
 import service.sys.StudentInfoService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
@@ -51,7 +50,7 @@ import java.util.Map;
 public class PcsPrExportService extends BaseMapper {
 
     @Autowired
-    private PartyService partyService;
+    private PcsPartyViewService pcsPartyViewService;
     @Autowired
     protected StatService statService;
     @Autowired
@@ -262,7 +261,7 @@ public class PcsPrExportService extends BaseMapper {
                 break;
         }
 
-        PartyView pv = partyService.getPartyView(partyId);
+        PcsPartyView pv = pcsPartyViewService.get(partyId);
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage))
@@ -453,19 +452,19 @@ public class PcsPrExportService extends BaseMapper {
                 .replace("rc", schoolMemberCountMap.get("rc"));
         cell.setCellValue(str);
 
-        PartyViewExample example = new PartyViewExample();
+        PcsPartyViewExample example = new PcsPartyViewExample();
         example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order desc");
-        List<PartyView> partyViews = partyViewMapper.selectByExample(example);
+        List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
 
         int startRow = 4;
-        for (int i = 0; i < partyViews.size(); i++) {
+        for (int i = 0; i < pcsPartyViews.size(); i++) {
 
             ExcelUtils.copyRows(5, 8, startRow, copySheet, sheet);
 
-            PartyView partyView = partyViews.get(i);
-            int partyId = partyView.getId();
-            String partyName = partyView.getName();
+            PcsPartyView pv = pcsPartyViews.get(i);
+            int partyId = pv.getId();
+            String partyName = pv.getName();
 
             int colomn = 0;
             row = sheet.getRow(startRow);
@@ -679,7 +678,7 @@ public class PcsPrExportService extends BaseMapper {
         int startRow = 4;
         if (partyId != null) {
 
-            PartyView pv = partyService.getPartyView(partyId);
+            PcsPartyView pv = pcsPartyViewService.get(partyId);
             mc = pv.getMemberCount() + "";
             tc = pv.getTeacherMemberCount() + "";
             sc = pv.getStudentMemberCount() + "";

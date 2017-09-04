@@ -188,7 +188,7 @@ public class DispatchController extends BaseController {
         return "dispatch/dispatch_au";
     }
 
-    private String uploadFile(MultipartFile _file) {
+    /*private String uploadFile(MultipartFile _file) {
 
         String originalFilename = _file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
@@ -218,15 +218,21 @@ public class DispatchController extends BaseController {
         }
 
         return savePath;
-    }
+    }*/
 
     @RequiresPermissions("dispatch:edit")
     @RequestMapping(value = "/dispatch_upload", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_dispatch_upload(MultipartFile file) throws InterruptedException {
+    public Map do_dispatch_upload(MultipartFile file) throws InterruptedException, IOException {
 
+        String originalFilename = file.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
+                && !ContentTypeUtils.isFormat(file, "pdf")) {
+            throw new OpException("任免文件格式错误，请上传pdf文件");
+        }
 
-        String savePath = uploadFile(file);
+        String savePath = uploadPdf(file, "dispatch");
 
         Map<String, Object> resultMap = success();
         resultMap.put("fileName", file.getOriginalFilename());

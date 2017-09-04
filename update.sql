@@ -1,6 +1,11 @@
 
 
 2017-9-4
+delete from pcs_exclude_branch;
+insert into pcs_exclude_branch(party_id, branch_id, create_time)
+select party_id, id as branch_id, now() as create_time from ow_branch where is_deleted=0 and name like '%留%';
+
+2017-9-4
 ALTER TABLE `pcs_pr_recommend`
 	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NOT NULL COMMENT '应参会党员数，三下三上不填' AFTER `party_id`,
 	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NOT NULL COMMENT '实参会党员数，三下三上不填' AFTER `expect_member_count`,

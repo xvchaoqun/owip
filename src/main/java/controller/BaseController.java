@@ -130,9 +130,11 @@ import service.pcs.PcsConfigService;
 import service.pcs.PcsExportService;
 import service.pcs.PcsOwService;
 import service.pcs.PcsPartyService;
+import service.pcs.PcsPartyViewService;
 import service.pcs.PcsPrAlocateService;
 import service.pcs.PcsPrCandidateService;
 import service.pcs.PcsPrExportService;
+import service.pcs.PcsPrFileTemplateService;
 import service.pcs.PcsPrOwService;
 import service.pcs.PcsPrPartyService;
 import service.pcs.PcsRecommendService;
@@ -358,6 +360,8 @@ public class BaseController extends BaseMapper {
     protected CrpRecordService crpRecordService;
 
     @Autowired
+    protected PcsPartyViewService pcsPartyViewService;
+    @Autowired
     protected PcsAdminService pcsAdminService;
     @Autowired
     protected PcsExportService pcsExportService;
@@ -382,6 +386,8 @@ public class BaseController extends BaseMapper {
     protected PcsPrExportService pcsPrExportService;
     @Autowired
     protected PcsPrOwService pcsPrOwService;
+    @Autowired
+    protected PcsPrFileTemplateService pcsPrFileTemplateService;
 
     @Autowired
     protected CpcAllocationService cpcAllocationService;

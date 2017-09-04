@@ -181,16 +181,16 @@ public class PcsAdminService extends BaseMapper {
         }
         // 更新为最新的管理员类型
         record.setType(type);
-        if(record.getId()!=null){
+        if (record.getId() != null) {
             PcsAdmin _pcsAdmin = pcsAdminMapper.selectByPrimaryKey(record.getId());
-            if(_pcsAdmin.getUserId().intValue() != record.getUserId()){
+            if (_pcsAdmin.getUserId().intValue() != record.getUserId()) {
                 // 更换用户的情况，先删除原用户的管理员角色
                 SysUserView uv = sysUserService.findById(_pcsAdmin.getUserId());
                 sysUserService.delRole(uv.getUserId(), SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
 
                 pcsAdminMapper.updateByPrimaryKeySelective(record);
             }
-        }else {
+        } else {
             pcsAdminMapper.insertSelective(record);
         }
         // 添加管理员角色
@@ -198,7 +198,7 @@ public class PcsAdminService extends BaseMapper {
         sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
 
         // 如果有手机号码，则更新系统的手机号码
-        if(StringUtils.isNotBlank(mobile)){
+        if (StringUtils.isNotBlank(mobile)) {
             SysUserInfo _record = new SysUserInfo();
             _record.setUserId(userId);
             _record.setMobile(mobile);
@@ -296,6 +296,119 @@ public class PcsAdminService extends BaseMapper {
                         }
 
                     }
+                }
+            }
+        }
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("success", success);
+
+        return resultMap;
+    }
+
+    public Map<String, Integer> sendMsg2(String mobile, String msg) {
+
+        String ip = ContextHelper.getRealIp();
+        int sendUserId = ShiroHelper.getCurrentUserId();
+        String typeName = "两委委员-下发名单短信通知";
+
+        int total = 0;
+        int success = 0;
+        if (StringUtils.isNotBlank(mobile)) {
+
+            // 发送给指定手机号码
+            ShortMsgBean bean = new ShortMsgBean();
+            bean.setSender(sendUserId);
+            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
+            bean.setType(typeName);
+            bean.setMobile(mobile);
+            bean.setContent(msg);
+
+            if (shortMsgService.send(bean, ip)) {
+                total++;
+                success++;
+            }
+        } else {
+            PcsAdminExample example = new PcsAdminExample();
+            List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
+            total = pcsAdmins.size();
+            for (PcsAdmin pcsAdmin : pcsAdmins) {
+                int userId = pcsAdmin.getUserId();
+                SysUserView uv = sysUserService.findById(userId);
+                mobile = uv.getMobile();
+                if (StringUtils.isNotBlank(mobile)) {
+
+                    ShortMsgBean bean = new ShortMsgBean();
+                    bean.setReceiver(userId);
+                    bean.setSender(sendUserId);
+                    bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
+                    bean.setType(typeName);
+                    bean.setMobile(mobile);
+                    bean.setContent(msg);
+
+                    try {
+                        if (shortMsgService.send(bean, ip)) success++;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+            }
+        }
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("success", success);
+
+        return resultMap;
+    }
+
+    public Map<String, Integer> sendMsg3(Integer partyId, String mobile, String msg) {
+
+        String ip = ContextHelper.getRealIp();
+        int sendUserId = ShiroHelper.getCurrentUserId();
+        String typeName = "党代表-审核通知";
+
+        int total = 0;
+        int success = 0;
+        if (StringUtils.isNotBlank(mobile)) {
+
+            // 发送给指定手机号码
+            ShortMsgBean bean = new ShortMsgBean();
+            bean.setSender(sendUserId);
+            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
+            bean.setType(typeName);
+            bean.setMobile(mobile);
+            bean.setContent(msg);
+
+            if (shortMsgService.send(bean, ip)) {
+                total++;
+                success++;
+            }
+        } else {
+            PcsAdminExample example = new PcsAdminExample();
+            example.createCriteria().andPartyIdEqualTo(partyId);
+            List<PcsAdmin> pcsAdmins = pcsAdminMapper.selectByExample(example);
+            total = pcsAdmins.size();
+            for (PcsAdmin pcsAdmin : pcsAdmins) {
+                int userId = pcsAdmin.getUserId();
+                SysUserView uv = sysUserService.findById(userId);
+                mobile = uv.getMobile();
+                if (StringUtils.isNotBlank(mobile)) {
+
+                    ShortMsgBean bean = new ShortMsgBean();
+                    bean.setReceiver(userId);
+                    bean.setSender(sendUserId);
+                    bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_PCS);
+                    bean.setType(typeName);
+                    bean.setMobile(mobile);
+                    bean.setContent(msg);
+
+                    try {
+                        if (shortMsgService.send(bean, ip)) success++;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
             }
         }

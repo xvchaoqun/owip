@@ -58,13 +58,13 @@
         select op.*, ${stage} as stage, ${configId} as config_id,
         ppr.expect_member_count,ppr.expect_positive_member_count,
         ppr.actual_member_count, ppr.actual_positive_member_count, ppr.has_report,
-        ppr.status as recommend_status, ppr.check_remark from ow_party_view op
+        ppr.status as recommend_status, ppr.check_remark from pcs_party_view op
         left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.id = ppr.party_id
         <include refid="searchPcsPrPartyBeans"/>
         order by op.sort_order desc
     </select>
     <select id="countPcsPrPartyBeans" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from ow_party_view op
+        select count(*) from pcs_party_view op
         left join (select * from pcs_pr_recommend where config_id=#{configId} and stage=#{stage}) ppr on op.id = ppr.party_id
         <include refid="searchPcsPrPartyBeans"/>
     </select>
@@ -87,13 +87,13 @@
         select ppa.id, op.id as party_id, op.name as party_name, op.member_count, op.positive_count,
         ${configId} as config_id, ppa.pro_count,
         ppa.stu_count, ppa.retire_count, ppa.female_count, ppa.minority_count, ppa.under_fifty_count
-        from ow_party_view op
+        from pcs_party_view op
         left join (select * from pcs_pr_allocate where config_id=#{configId}) ppa on op.id=ppa.party_id
         <include refid="searchPcsPrAllocateBeans"/>
         order by op.sort_order desc
     </select>
     <select id="countPcsPrAllocateBeans" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from ow_party_view op
+        select count(*) from pcs_party_view op
         <include refid="searchPcsPrAllocateBeans"/>
     </select>
 
@@ -122,7 +122,7 @@
     </sql>
     <select id="selectPcsPartyBeans" resultMap="PartyBaseResultMap" parameterType="map">
         select op.*, ${stage} as stage, ${configId} as config_id, pr.expect_member_count,
-        pr.actual_member_count, par.id as report_id from ow_party_view op
+        pr.actual_member_count, par.id as report_id from pcs_party_view op
         left join
         (select pr.party_id,
         sum(pr.expect_member_count) as expect_member_count,
@@ -137,7 +137,7 @@
         order by op.sort_order desc
     </select>
     <select id="countPcsPartyBeans" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from ow_party_view op
+        select count(*) from pcs_party_view op
         left join pcs_admin_report par on par.config_id=#{configId}
         and par.stage=#{stage} and par.party_id = op.id
         <include refid="searchPcsPartyBeans"/>
@@ -206,7 +206,7 @@
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         group by pcv.party_id, pcv.user_id, pcv.type
         ) a left join(
-        select opv.id,opv.member_count, pr.expect_member_count, pr.actual_member_count from ow_party_view opv
+        select opv.id,opv.member_count, pr.expect_member_count, pr.actual_member_count from pcs_party_view opv
         , (select tmp.party_id, sum(tmp.expect_member_count) as expect_member_count,
         sum(tmp.actual_member_count) as actual_member_count from pcs_recommend tmp
         where tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.party_id

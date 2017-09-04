@@ -18,7 +18,10 @@
                         <shiro:lacksRole name="role_pcs_check">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="popupBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促</a>
+                               data-url="${ctx}/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
+                            <span style="margin-left: 20px;">
+                            分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成报送共${hasReportCount}个，未报送${hasNotReportCount}个。
+                                </span>
                         </div>
                         </shiro:lacksRole>
                         <div class="space-4"></div>

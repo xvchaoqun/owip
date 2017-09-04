@@ -31,11 +31,15 @@ pageEncoding="UTF-8" %>
                                 <td>${record.name}</td>
                                 <td>${record.remark}</td>
                                 <td nowrap>
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaType.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="javascript:;" data-url="${ctx}/pcsPrFileTemplate_changeOrder"
+                                       <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
+                                       class="changeOrderBtn" data-id="${record.id}" data-direction="1" title="上升">
+                                        <i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
                                            class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${metaType.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
-
+                                    <a href="javascript:;"  data-url="${ctx}/pcsPrFileTemplate_changeOrder"
+                                       <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if>
+                                       class="changeOrderBtn" data-id="${record.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                                 <td>
                                     <c:if test="${admin.type==PCS_ADMIN_TYPE_NORMAL}">
@@ -43,8 +47,8 @@ pageEncoding="UTF-8" %>
                                            data-url="${ctx}/pcsPrFileTemplate_au?id=${record.id}"><i class="fa fa-edit"></i> 修改</a>
                                     <button class="confirm btn btn-danger btn-xs"
                                             data-url="${ctx}/pcsPrFileTemplate_del?id=${recprd.id}"
-                                            data-title="删除管理员"
-                                            data-msg="确定删除该管理员？" data-callback="_reload"
+                                            data-title="删除材料"
+                                            data-msg="确定删除该材料？" data-callback="_reload"
                                             ><i class="fa fa-times"></i> 删除</button>
                                     </c:if>
                                 </td>

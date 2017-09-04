@@ -27,6 +27,7 @@ import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -89,6 +90,7 @@ public class PcsOwController extends BaseController {
     @RequiresPermissions("pcsOw:list")
     @RequestMapping("/pcsOw")
     public String pcsOw(@RequestParam(required = false, defaultValue = "1") byte cls,
+                        byte stage,
                         Integer partyId,
                         ModelMap modelMap) {
 
@@ -102,6 +104,14 @@ public class PcsOwController extends BaseController {
         if (partyId != null) {
             modelMap.put("party", partyService.findAll().get(partyId));
         }
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        int hasReportCount = iPcsMapper.countPcsPartyBeans(configId, stage, null, true);
+        int hasNotReportCount = iPcsMapper.countPcsPartyBeans(configId, stage, null, false);
+        modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
+        modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
 
         return "pcs/pcsOw/pcsOw_party_page";
     }

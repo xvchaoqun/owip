@@ -164,10 +164,14 @@ import persistence.pcs.PcsCandidateChosenMapper;
 import persistence.pcs.PcsCandidateMapper;
 import persistence.pcs.PcsCandidateViewMapper;
 import persistence.pcs.PcsConfigMapper;
+import persistence.pcs.PcsExcludeBranchMapper;
 import persistence.pcs.PcsIssueMapper;
+import persistence.pcs.PcsPartyViewMapper;
 import persistence.pcs.PcsPrAllocateMapper;
 import persistence.pcs.PcsPrCandidateMapper;
 import persistence.pcs.PcsPrCandidateViewMapper;
+import persistence.pcs.PcsPrFileMapper;
+import persistence.pcs.PcsPrFileTemplateMapper;
 import persistence.pcs.PcsPrRecommendMapper;
 import persistence.pcs.PcsRecommendMapper;
 import persistence.sys.AttachFileMapper;
@@ -480,6 +484,10 @@ public class BaseMapper {
     @Autowired
     protected IPcsMapper iPcsMapper;
     @Autowired
+    protected PcsExcludeBranchMapper pcsExcludeBranchMapper;
+    @Autowired
+    protected PcsPartyViewMapper pcsPartyViewMapper;
+    @Autowired
     protected PcsIssueMapper pcsIssueMapper;
     @Autowired
     protected PcsAdminMapper pcsAdminMapper;
@@ -503,6 +511,10 @@ public class BaseMapper {
     protected PcsPrCandidateMapper pcsPrCandidateMapper;
     @Autowired
     protected PcsPrCandidateViewMapper pcsPrCandidateViewMapper;
+    @Autowired
+    protected PcsPrFileTemplateMapper pcsPrFileTemplateMapper;
+    @Autowired
+    protected PcsPrFileMapper pcsPrFileMapper;
 
     @Autowired
     protected CpcAllocationMapper cpcAllocationMapper;

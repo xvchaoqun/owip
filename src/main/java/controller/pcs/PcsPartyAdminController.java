@@ -1,4 +1,4 @@
-package controller.pcs.cm;
+package controller.pcs;
 
 import controller.BaseController;
 import domain.pcs.PcsAdmin;

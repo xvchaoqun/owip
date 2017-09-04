@@ -5,9 +5,9 @@ import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.party.Party;
-import domain.party.PartyView;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
+import domain.pcs.PcsPartyView;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
@@ -276,8 +276,8 @@ public class PcsPrPartyController extends BaseController {
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        PartyView partyView = partyService.getPartyView(partyId);
-        modelMap.put("partyView", partyView);
+        PcsPartyView pcsPartyView = pcsPartyViewService.get(partyId);
+        modelMap.put("pcsPartyView", pcsPartyView);
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
