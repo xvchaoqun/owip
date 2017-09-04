@@ -18,6 +18,10 @@ public class PcsPrCandidateView implements Serializable {
 
     private String nation;
 
+    private String mobile;
+
+    private String email;
+
     private Integer vote;
 
     private Boolean isFromStage;
@@ -53,6 +57,8 @@ public class PcsPrCandidateView implements Serializable {
     private Integer configId;
 
     private Byte stage;
+
+    private Integer partySortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -110,6 +116,22 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setNation(String nation) {
         this.nation = nation == null ? null : nation.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public Integer getVote() {
@@ -254,5 +276,13 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setStage(Byte stage) {
         this.stage = stage;
+    }
+
+    public Integer getPartySortOrder() {
+        return partySortOrder;
+    }
+
+    public void setPartySortOrder(Integer partySortOrder) {
+        this.partySortOrder = partySortOrder;
     }
 }

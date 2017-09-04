@@ -1,4 +1,4 @@
-package controller.pcs;
+package controller.pcs.pr;
 
 import controller.BaseController;
 import domain.party.Party;
@@ -52,20 +52,26 @@ public class PcsPrOwController extends BaseController {
             case "3":
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
-                fileName = String.format("附件3. 分党委酝酿代表候选人初步名单（分党委上报组织部）（%s）", party.getName());
+                fileName = String.format("附件3. 分党委酝酿代表候选人%s名单（分党委上报组织部）（%s）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        party.getName());
                 break;
             case "4":
                 party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                fileName = String.format("附件4. 分党委酝酿代表候选人初步人选统计表（分党委上报组织部）（%s）", party.getName());
+                fileName = String.format("附件4. 分党委酝酿代表候选人%s人选统计表（分党委上报组织部）（%s）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        party.getName());
                 break;
             case "5":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, null);
-                fileName = "附件5. 各分党委酝酿代表候选人初步名单汇总表（组织部汇总）";
+                fileName =String.format("附件5. 各分党委酝酿代表候选人%s名单汇总表（组织部汇总）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
                 break;
             case "6":
                 wb = pcsPrExportService.exportSchoolAllocate(configId, stage);
-                fileName = "附件6. 各分党委酝酿代表候选人初步人选统计表（组织部汇总）";
+                fileName =String.format("附件6. 各分党委酝酿代表候选人初步人选统计表（组织部汇总）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
                 break;
             case "7":
                 wb = pcsPrExportService.exportSchoolRecommend(configId, stage);
@@ -73,7 +79,8 @@ public class PcsPrOwController extends BaseController {
                 break;
             case "ow":
                 wb = pcsPrExportService.exportAllPartyAllocate(configId, stage);
-                fileName = "附件：各分党委酝酿代表候选人初步人选统计表（组织部汇总）";
+                fileName =String.format("附件：各分党委酝酿代表候选人初步人选统计表（组织部汇总）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
                 break;
         }
 

@@ -1,7 +1,7 @@
 package service.pcs;
 
 import controller.global.OpException;
-import controller.pcs.PcsPrCandidateFormBean;
+import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.member.Member;
 import domain.party.Party;
 import domain.pcs.PcsPrCandidate;

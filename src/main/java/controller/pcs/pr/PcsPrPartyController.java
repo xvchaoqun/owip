@@ -1,4 +1,4 @@
-package controller.pcs;
+package controller.pcs.pr;
 
 import controller.BaseController;
 import controller.global.OpException;
@@ -77,11 +77,15 @@ public class PcsPrPartyController extends BaseController {
                 break;
             case "3":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
-                fileName = String.format("分党委酝酿党员代表大会代表候选人初步人选名单（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
+                fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选名单（“%s”阶段）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "4":
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                fileName = String.format("分党委酝酿党员代表大会代表候选人初步人选统计表（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
+                fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
+                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
         }
 

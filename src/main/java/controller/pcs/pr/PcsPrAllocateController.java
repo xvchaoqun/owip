@@ -1,4 +1,4 @@
-package controller.pcs;
+package controller.pcs.pr;
 
 import controller.BaseController;
 import domain.pcs.PcsConfig;

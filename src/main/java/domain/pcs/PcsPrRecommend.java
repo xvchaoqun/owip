@@ -14,11 +14,19 @@ public class PcsPrRecommend implements Serializable {
 
     private Integer expectMemberCount;
 
-    private Integer expectPositiveMemberCount;
-
     private Integer actualMemberCount;
 
+    private Integer expectPositiveMemberCount;
+
     private Integer actualPositiveMemberCount;
+
+    private Integer voteMemberCount;
+
+    private Date meetingTime;
+
+    private String meetingAddress;
+
+    private String reportFilePath;
 
     private Boolean hasReport;
 
@@ -72,14 +80,6 @@ public class PcsPrRecommend implements Serializable {
         this.expectMemberCount = expectMemberCount;
     }
 
-    public Integer getExpectPositiveMemberCount() {
-        return expectPositiveMemberCount;
-    }
-
-    public void setExpectPositiveMemberCount(Integer expectPositiveMemberCount) {
-        this.expectPositiveMemberCount = expectPositiveMemberCount;
-    }
-
     public Integer getActualMemberCount() {
         return actualMemberCount;
     }
@@ -88,12 +88,52 @@ public class PcsPrRecommend implements Serializable {
         this.actualMemberCount = actualMemberCount;
     }
 
+    public Integer getExpectPositiveMemberCount() {
+        return expectPositiveMemberCount;
+    }
+
+    public void setExpectPositiveMemberCount(Integer expectPositiveMemberCount) {
+        this.expectPositiveMemberCount = expectPositiveMemberCount;
+    }
+
     public Integer getActualPositiveMemberCount() {
         return actualPositiveMemberCount;
     }
 
     public void setActualPositiveMemberCount(Integer actualPositiveMemberCount) {
         this.actualPositiveMemberCount = actualPositiveMemberCount;
+    }
+
+    public Integer getVoteMemberCount() {
+        return voteMemberCount;
+    }
+
+    public void setVoteMemberCount(Integer voteMemberCount) {
+        this.voteMemberCount = voteMemberCount;
+    }
+
+    public Date getMeetingTime() {
+        return meetingTime;
+    }
+
+    public void setMeetingTime(Date meetingTime) {
+        this.meetingTime = meetingTime;
+    }
+
+    public String getMeetingAddress() {
+        return meetingAddress;
+    }
+
+    public void setMeetingAddress(String meetingAddress) {
+        this.meetingAddress = meetingAddress == null ? null : meetingAddress.trim();
+    }
+
+    public String getReportFilePath() {
+        return reportFilePath;
+    }
+
+    public void setReportFilePath(String reportFilePath) {
+        this.reportFilePath = reportFilePath == null ? null : reportFilePath.trim();
     }
 
     public Boolean getHasReport() {

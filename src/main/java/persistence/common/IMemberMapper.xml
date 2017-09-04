@@ -53,8 +53,12 @@
         <if test="politicalStatus!=null">
             and m.political_status =#{politicalStatus}
         </if>
-        <if test="status!=null">
-            and m.status =#{status}
+        <if test="statusList!=null and statusList.size>0">
+            and m.status in
+            <foreach collection="statusList" item="st"
+                     index="index" open="(" close=")" separator=",">
+                #{st}
+            </foreach>
         </if>
         <if test="isRetire!=null">
             and ti.user_id=u.user_id

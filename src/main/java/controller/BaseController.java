@@ -135,7 +135,6 @@ import service.pcs.PcsPrCandidateService;
 import service.pcs.PcsPrExportService;
 import service.pcs.PcsPrOwService;
 import service.pcs.PcsPrPartyService;
-import service.pcs.PcsProposalService;
 import service.pcs.PcsRecommendService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
@@ -366,8 +365,6 @@ public class BaseController extends BaseMapper {
     protected PcsCandidateService pcsCandidateService;
     @Autowired
     protected PcsConfigService pcsConfigService;
-    @Autowired
-    protected PcsProposalService pcsProposalService;
     @Autowired
     protected PcsRecommendService pcsRecommendService;
     @Autowired

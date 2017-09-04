@@ -9,6 +9,8 @@
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recommend_id, user_id, type, gender, birth, nation, vote, is_from_stage, sort_order, 
-    add_time
+    id, recommend_id, user_id, type, gender, birth, nation, mobile, email, vote, is_from_stage, 
+    sort_order, add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateExample" resultMap="BaseResultMap">
     select
@@ -109,12 +111,14 @@
   <insert id="insert" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate (id, recommend_id, user_id, 
       type, gender, birth, nation, 
-      vote, is_from_stage, sort_order, 
-      add_time)
+      mobile, email, vote, 
+      is_from_stage, sort_order, add_time
+      )
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
-      #{vote,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP})
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, 
+      #{isFromStage,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate
@@ -139,6 +143,12 @@
       </if>
       <if test="nation != null">
         nation,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="vote != null">
         vote,
@@ -174,6 +184,12 @@
       </if>
       <if test="nation != null">
         #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="vote != null">
         #{vote,jdbcType=INTEGER},
@@ -219,6 +235,12 @@
       <if test="record.nation != null">
         nation = #{record.nation,jdbcType=VARCHAR},
       </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
       <if test="record.vote != null">
         vote = #{record.vote,jdbcType=INTEGER},
       </if>
@@ -245,6 +267,8 @@
       gender = #{record.gender,jdbcType=TINYINT},
       birth = #{record.birth,jdbcType=DATE},
       nation = #{record.nation,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       vote = #{record.vote,jdbcType=INTEGER},
       is_from_stage = #{record.isFromStage,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -274,6 +298,12 @@
       <if test="nation != null">
         nation = #{nation,jdbcType=VARCHAR},
       </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
       <if test="vote != null">
         vote = #{vote,jdbcType=INTEGER},
       </if>
@@ -297,6 +327,8 @@
       gender = #{gender,jdbcType=TINYINT},
       birth = #{birth,jdbcType=DATE},
       nation = #{nation,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       vote = #{vote,jdbcType=INTEGER},
       is_from_stage = #{isFromStage,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},

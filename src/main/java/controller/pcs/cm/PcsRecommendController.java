@@ -1,4 +1,4 @@
-package controller.pcs;
+package controller.pcs.cm;
 
 import controller.BaseController;
 import domain.cadre.CadreView;

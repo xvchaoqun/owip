@@ -428,7 +428,7 @@ public class CommonController extends BaseController {
                               Byte type, // 党员类别
                               Boolean isRetire,
                               Byte politicalStatus,
-                              Byte status, // 党员状态
+                              @RequestParam(required = false, value = "status") Byte[] status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
                               Integer pageNo,
                               String searchStr) throws IOException {
@@ -455,13 +455,17 @@ public class CommonController extends BaseController {
             adminBranchIdList = loginUserService.adminBranchIdList();
         }
 
-        int count = iMemberMapper.countMember(partyId, type, isRetire, politicalStatus, status,
+        List<Byte> statusList = null;
+        if(status!=null && status.length>0){
+            statusList = Arrays.asList(status);
+        }
+        int count = iMemberMapper.countMember(partyId, type, isRetire, politicalStatus, statusList,
                 searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Member> members = iMemberMapper.selectMemberList(partyId, type, isRetire, politicalStatus,status, searchStr,
+        List<Member> members = iMemberMapper.selectMemberList(partyId, type, isRetire, politicalStatus, statusList, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();

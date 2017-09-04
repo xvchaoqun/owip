@@ -7,9 +7,13 @@
     <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="expect_member_count" jdbcType="INTEGER" property="expectMemberCount" />
-    <result column="expect_positive_member_count" jdbcType="INTEGER" property="expectPositiveMemberCount" />
     <result column="actual_member_count" jdbcType="INTEGER" property="actualMemberCount" />
+    <result column="expect_positive_member_count" jdbcType="INTEGER" property="expectPositiveMemberCount" />
     <result column="actual_positive_member_count" jdbcType="INTEGER" property="actualPositiveMemberCount" />
+    <result column="vote_member_count" jdbcType="INTEGER" property="voteMemberCount" />
+    <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
+    <result column="meeting_address" jdbcType="VARCHAR" property="meetingAddress" />
+    <result column="report_file_path" jdbcType="VARCHAR" property="reportFilePath" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
     <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
     <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
@@ -75,9 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, config_id, stage, party_id, expect_member_count, expect_positive_member_count, 
-    actual_member_count, actual_positive_member_count, has_report, report_user_id, report_time, 
-    status, check_remark
+    id, config_id, stage, party_id, expect_member_count, actual_member_count, expect_positive_member_count, 
+    actual_positive_member_count, vote_member_count, meeting_time, meeting_address, report_file_path, 
+    has_report, report_user_id, report_time, status, check_remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrRecommendExample" resultMap="BaseResultMap">
     select
@@ -111,15 +115,19 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.pcs.PcsPrRecommend">
     insert into pcs_pr_recommend (id, config_id, stage, 
-      party_id, expect_member_count, expect_positive_member_count, 
-      actual_member_count, actual_positive_member_count, 
-      has_report, report_user_id, report_time, 
-      status, check_remark)
+      party_id, expect_member_count, actual_member_count, 
+      expect_positive_member_count, actual_positive_member_count, 
+      vote_member_count, meeting_time, meeting_address, 
+      report_file_path, has_report, report_user_id, 
+      report_time, status, check_remark
+      )
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
-      #{partyId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{expectPositiveMemberCount,jdbcType=INTEGER}, 
-      #{actualMemberCount,jdbcType=INTEGER}, #{actualPositiveMemberCount,jdbcType=INTEGER}, 
-      #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR})
+      #{partyId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, 
+      #{expectPositiveMemberCount,jdbcType=INTEGER}, #{actualPositiveMemberCount,jdbcType=INTEGER}, 
+      #{voteMemberCount,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, #{meetingAddress,jdbcType=VARCHAR}, 
+      #{reportFilePath,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.pcs.PcsPrRecommend">
     insert into pcs_pr_recommend
@@ -139,14 +147,26 @@
       <if test="expectMemberCount != null">
         expect_member_count,
       </if>
-      <if test="expectPositiveMemberCount != null">
-        expect_positive_member_count,
-      </if>
       <if test="actualMemberCount != null">
         actual_member_count,
       </if>
+      <if test="expectPositiveMemberCount != null">
+        expect_positive_member_count,
+      </if>
       <if test="actualPositiveMemberCount != null">
         actual_positive_member_count,
+      </if>
+      <if test="voteMemberCount != null">
+        vote_member_count,
+      </if>
+      <if test="meetingTime != null">
+        meeting_time,
+      </if>
+      <if test="meetingAddress != null">
+        meeting_address,
+      </if>
+      <if test="reportFilePath != null">
+        report_file_path,
       </if>
       <if test="hasReport != null">
         has_report,
@@ -180,14 +200,26 @@
       <if test="expectMemberCount != null">
         #{expectMemberCount,jdbcType=INTEGER},
       </if>
-      <if test="expectPositiveMemberCount != null">
-        #{expectPositiveMemberCount,jdbcType=INTEGER},
-      </if>
       <if test="actualMemberCount != null">
         #{actualMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="expectPositiveMemberCount != null">
+        #{expectPositiveMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="actualPositiveMemberCount != null">
         #{actualPositiveMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteMemberCount != null">
+        #{voteMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="meetingTime != null">
+        #{meetingTime,jdbcType=DATE},
+      </if>
+      <if test="meetingAddress != null">
+        #{meetingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reportFilePath != null">
+        #{reportFilePath,jdbcType=VARCHAR},
       </if>
       <if test="hasReport != null">
         #{hasReport,jdbcType=BIT},
@@ -230,14 +262,26 @@
       <if test="record.expectMemberCount != null">
         expect_member_count = #{record.expectMemberCount,jdbcType=INTEGER},
       </if>
-      <if test="record.expectPositiveMemberCount != null">
-        expect_positive_member_count = #{record.expectPositiveMemberCount,jdbcType=INTEGER},
-      </if>
       <if test="record.actualMemberCount != null">
         actual_member_count = #{record.actualMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="record.expectPositiveMemberCount != null">
+        expect_positive_member_count = #{record.expectPositiveMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="record.actualPositiveMemberCount != null">
         actual_positive_member_count = #{record.actualPositiveMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.voteMemberCount != null">
+        vote_member_count = #{record.voteMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.meetingTime != null">
+        meeting_time = #{record.meetingTime,jdbcType=DATE},
+      </if>
+      <if test="record.meetingAddress != null">
+        meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportFilePath != null">
+        report_file_path = #{record.reportFilePath,jdbcType=VARCHAR},
       </if>
       <if test="record.hasReport != null">
         has_report = #{record.hasReport,jdbcType=BIT},
@@ -266,9 +310,13 @@
       stage = #{record.stage,jdbcType=TINYINT},
       party_id = #{record.partyId,jdbcType=INTEGER},
       expect_member_count = #{record.expectMemberCount,jdbcType=INTEGER},
-      expect_positive_member_count = #{record.expectPositiveMemberCount,jdbcType=INTEGER},
       actual_member_count = #{record.actualMemberCount,jdbcType=INTEGER},
+      expect_positive_member_count = #{record.expectPositiveMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{record.actualPositiveMemberCount,jdbcType=INTEGER},
+      vote_member_count = #{record.voteMemberCount,jdbcType=INTEGER},
+      meeting_time = #{record.meetingTime,jdbcType=DATE},
+      meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
+      report_file_path = #{record.reportFilePath,jdbcType=VARCHAR},
       has_report = #{record.hasReport,jdbcType=BIT},
       report_user_id = #{record.reportUserId,jdbcType=INTEGER},
       report_time = #{record.reportTime,jdbcType=TIMESTAMP},
@@ -293,14 +341,26 @@
       <if test="expectMemberCount != null">
         expect_member_count = #{expectMemberCount,jdbcType=INTEGER},
       </if>
-      <if test="expectPositiveMemberCount != null">
-        expect_positive_member_count = #{expectPositiveMemberCount,jdbcType=INTEGER},
-      </if>
       <if test="actualMemberCount != null">
         actual_member_count = #{actualMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="expectPositiveMemberCount != null">
+        expect_positive_member_count = #{expectPositiveMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="actualPositiveMemberCount != null">
         actual_positive_member_count = #{actualPositiveMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="voteMemberCount != null">
+        vote_member_count = #{voteMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="meetingTime != null">
+        meeting_time = #{meetingTime,jdbcType=DATE},
+      </if>
+      <if test="meetingAddress != null">
+        meeting_address = #{meetingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="reportFilePath != null">
+        report_file_path = #{reportFilePath,jdbcType=VARCHAR},
       </if>
       <if test="hasReport != null">
         has_report = #{hasReport,jdbcType=BIT},
@@ -326,9 +386,13 @@
       stage = #{stage,jdbcType=TINYINT},
       party_id = #{partyId,jdbcType=INTEGER},
       expect_member_count = #{expectMemberCount,jdbcType=INTEGER},
-      expect_positive_member_count = #{expectPositiveMemberCount,jdbcType=INTEGER},
       actual_member_count = #{actualMemberCount,jdbcType=INTEGER},
+      expect_positive_member_count = #{expectPositiveMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{actualPositiveMemberCount,jdbcType=INTEGER},
+      vote_member_count = #{voteMemberCount,jdbcType=INTEGER},
+      meeting_time = #{meetingTime,jdbcType=DATE},
+      meeting_address = #{meetingAddress,jdbcType=VARCHAR},
+      report_file_path = #{reportFilePath,jdbcType=VARCHAR},
       has_report = #{hasReport,jdbcType=BIT},
       report_user_id = #{reportUserId,jdbcType=INTEGER},
       report_time = #{reportTime,jdbcType=TIMESTAMP},

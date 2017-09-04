@@ -186,12 +186,15 @@ public class PcsPrExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        String title = "";
         String stageStr = "";
         switch (stage) {
             case SystemConstants.PCS_STAGE_FIRST:
+                title = "初步";
                 stageStr = "一上";
                 break;
             case SystemConstants.PCS_STAGE_SECOND:
+                title = "预备";
                 stageStr = "二上";
                 break;
             case SystemConstants.PCS_STAGE_THIRD:
@@ -240,14 +243,17 @@ public class PcsPrExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
+        String title = "";
         String deadline = "";
         String stageStr = "";
         switch (stage) {
             case SystemConstants.PCS_STAGE_FIRST:
+                title = "初步";
                 deadline = "9月6号前";
                 stageStr = "一上";
                 break;
             case SystemConstants.PCS_STAGE_SECOND:
+                title = "预备";
                 deadline = "9月11日前";
                 stageStr = "二上";
                 break;
@@ -416,12 +422,15 @@ public class PcsPrExportService extends BaseMapper {
         XSSFSheet copySheet = wb.getSheetAt(0);// 模板
         XSSFSheet sheet = wb.getSheetAt(1);
 
+        String title = "";
         String stageStr = "";
         switch (stage) {
             case SystemConstants.PCS_STAGE_FIRST:
+                title = "初步";
                 stageStr = "一上";
                 break;
             case SystemConstants.PCS_STAGE_SECOND:
+                title = "预备";
                 stageStr = "二上";
                 break;
             case SystemConstants.PCS_STAGE_THIRD:

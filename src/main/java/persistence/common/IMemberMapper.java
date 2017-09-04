@@ -37,7 +37,7 @@ public interface IMemberMapper {
                                   @Param("type")Byte type,
                                   @Param("isRetire")Boolean isRetire,
                                   @Param("politicalStatus")Byte politicalStatus,
-                                  @Param("status")Byte status, @Param("search") String search,
+                                  @Param("statusList")List<Byte> statusList, @Param("search") String search,
                                   @Param("addPermits")Boolean addPermits,
                                   @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                                   @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
@@ -45,7 +45,7 @@ public interface IMemberMapper {
                     @Param("type")Byte type,
                     @Param("isRetire")Boolean isRetire,
                     @Param("politicalStatus")Byte politicalStatus,
-                    @Param("status")Byte status, @Param("search") String search,
+                    @Param("statusList")List<Byte> statusList, @Param("search") String search,
                     @Param("addPermits")Boolean addPermits,
                     @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                     @Param("adminBranchIdList")List<Integer> adminBranchIdList);

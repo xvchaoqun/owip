@@ -2,6 +2,7 @@ package domain.pcs;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class PcsPrRecommendExample {
@@ -103,6 +104,32 @@ public class PcsPrRecommendExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -405,66 +432,6 @@ public class PcsPrRecommendExample {
             return (Criteria) this;
         }
 
-        public Criteria andExpectPositiveMemberCountIsNull() {
-            addCriterion("expect_positive_member_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountIsNotNull() {
-            addCriterion("expect_positive_member_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountEqualTo(Integer value) {
-            addCriterion("expect_positive_member_count =", value, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountNotEqualTo(Integer value) {
-            addCriterion("expect_positive_member_count <>", value, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountGreaterThan(Integer value) {
-            addCriterion("expect_positive_member_count >", value, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("expect_positive_member_count >=", value, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountLessThan(Integer value) {
-            addCriterion("expect_positive_member_count <", value, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountLessThanOrEqualTo(Integer value) {
-            addCriterion("expect_positive_member_count <=", value, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountIn(List<Integer> values) {
-            addCriterion("expect_positive_member_count in", values, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountNotIn(List<Integer> values) {
-            addCriterion("expect_positive_member_count not in", values, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountBetween(Integer value1, Integer value2) {
-            addCriterion("expect_positive_member_count between", value1, value2, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andExpectPositiveMemberCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("expect_positive_member_count not between", value1, value2, "expectPositiveMemberCount");
-            return (Criteria) this;
-        }
-
         public Criteria andActualMemberCountIsNull() {
             addCriterion("actual_member_count is null");
             return (Criteria) this;
@@ -525,6 +492,66 @@ public class PcsPrRecommendExample {
             return (Criteria) this;
         }
 
+        public Criteria andExpectPositiveMemberCountIsNull() {
+            addCriterion("expect_positive_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountIsNotNull() {
+            addCriterion("expect_positive_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountEqualTo(Integer value) {
+            addCriterion("expect_positive_member_count =", value, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountNotEqualTo(Integer value) {
+            addCriterion("expect_positive_member_count <>", value, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountGreaterThan(Integer value) {
+            addCriterion("expect_positive_member_count >", value, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("expect_positive_member_count >=", value, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountLessThan(Integer value) {
+            addCriterion("expect_positive_member_count <", value, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("expect_positive_member_count <=", value, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountIn(List<Integer> values) {
+            addCriterion("expect_positive_member_count in", values, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountNotIn(List<Integer> values) {
+            addCriterion("expect_positive_member_count not in", values, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("expect_positive_member_count between", value1, value2, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpectPositiveMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("expect_positive_member_count not between", value1, value2, "expectPositiveMemberCount");
+            return (Criteria) this;
+        }
+
         public Criteria andActualPositiveMemberCountIsNull() {
             addCriterion("actual_positive_member_count is null");
             return (Criteria) this;
@@ -582,6 +609,266 @@ public class PcsPrRecommendExample {
 
         public Criteria andActualPositiveMemberCountNotBetween(Integer value1, Integer value2) {
             addCriterion("actual_positive_member_count not between", value1, value2, "actualPositiveMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountIsNull() {
+            addCriterion("vote_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountIsNotNull() {
+            addCriterion("vote_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountEqualTo(Integer value) {
+            addCriterion("vote_member_count =", value, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountNotEqualTo(Integer value) {
+            addCriterion("vote_member_count <>", value, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountGreaterThan(Integer value) {
+            addCriterion("vote_member_count >", value, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("vote_member_count >=", value, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountLessThan(Integer value) {
+            addCriterion("vote_member_count <", value, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("vote_member_count <=", value, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountIn(List<Integer> values) {
+            addCriterion("vote_member_count in", values, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountNotIn(List<Integer> values) {
+            addCriterion("vote_member_count not in", values, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("vote_member_count between", value1, value2, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("vote_member_count not between", value1, value2, "voteMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeIsNull() {
+            addCriterion("meeting_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeIsNotNull() {
+            addCriterion("meeting_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("meeting_time =", value, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("meeting_time <>", value, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("meeting_time >", value, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("meeting_time >=", value, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeLessThan(Date value) {
+            addCriterionForJDBCDate("meeting_time <", value, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("meeting_time <=", value, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("meeting_time in", values, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("meeting_time not in", values, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("meeting_time between", value1, value2, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("meeting_time not between", value1, value2, "meetingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressIsNull() {
+            addCriterion("meeting_address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressIsNotNull() {
+            addCriterion("meeting_address is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressEqualTo(String value) {
+            addCriterion("meeting_address =", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressNotEqualTo(String value) {
+            addCriterion("meeting_address <>", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressGreaterThan(String value) {
+            addCriterion("meeting_address >", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("meeting_address >=", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressLessThan(String value) {
+            addCriterion("meeting_address <", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressLessThanOrEqualTo(String value) {
+            addCriterion("meeting_address <=", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressLike(String value) {
+            addCriterion("meeting_address like", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressNotLike(String value) {
+            addCriterion("meeting_address not like", value, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressIn(List<String> values) {
+            addCriterion("meeting_address in", values, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressNotIn(List<String> values) {
+            addCriterion("meeting_address not in", values, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressBetween(String value1, String value2) {
+            addCriterion("meeting_address between", value1, value2, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingAddressNotBetween(String value1, String value2) {
+            addCriterion("meeting_address not between", value1, value2, "meetingAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathIsNull() {
+            addCriterion("report_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathIsNotNull() {
+            addCriterion("report_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathEqualTo(String value) {
+            addCriterion("report_file_path =", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathNotEqualTo(String value) {
+            addCriterion("report_file_path <>", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathGreaterThan(String value) {
+            addCriterion("report_file_path >", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("report_file_path >=", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathLessThan(String value) {
+            addCriterion("report_file_path <", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathLessThanOrEqualTo(String value) {
+            addCriterion("report_file_path <=", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathLike(String value) {
+            addCriterion("report_file_path like", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathNotLike(String value) {
+            addCriterion("report_file_path not like", value, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathIn(List<String> values) {
+            addCriterion("report_file_path in", values, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathNotIn(List<String> values) {
+            addCriterion("report_file_path not in", values, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathBetween(String value1, String value2) {
+            addCriterion("report_file_path between", value1, value2, "reportFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportFilePathNotBetween(String value1, String value2) {
+            addCriterion("report_file_path not between", value1, value2, "reportFilePath");
             return (Criteria) this;
         }
 
