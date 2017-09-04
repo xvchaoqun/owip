@@ -15,6 +15,10 @@
                     <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
                     ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
                     ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
+                <%--<a class="popupBtn btn btn-warning btn-sm"
+                   data-width="750"
+                   data-url="${ctx}/hf_content?code=hf_pcs_cm_guide">
+                    <i class="fa fa-question-circle"></i> 使用说明</a>--%>
             </div>
             <c:if test="${!isDirectBranch}">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

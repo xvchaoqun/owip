@@ -21,10 +21,14 @@
                                 ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
                             <button class="openView btn btn-warning btn-sm"
                                     data-url="${ctx}/pcsPrParty_candidate_au?stage=${param.stage}"
-                                    ><i class="fa fa-sign-in"></i> 上传党代表候选人初步人选名单</button>
+                                    ><i class="fa fa-sign-in"></i> 上传党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</button>
+                           <%-- <a class="popupBtn btn btn-warning btn-sm"
+                               data-width="750"
+                               data-url="${ctx}/hf_content?code=hf_pcs_pr_guide">
+                                <i class="fa fa-question-circle"></i> 使用说明</a>--%>
 
                             <a style="margin-left: 20px;" href="${ctx}/pcsPrParty_export?file=3&stage=${param.stage}">
-                                <i class="fa fa-download"></i> 分党委酝酿党员代表大会代表候选人初步人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                                <i class="fa fa-download"></i> 分党委酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

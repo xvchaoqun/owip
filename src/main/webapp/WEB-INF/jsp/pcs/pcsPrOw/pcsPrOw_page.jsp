@@ -16,14 +16,14 @@
                                 <a href="javascript:;" class="loadPage"
                                    data-load-el="#step-item-content" data-callback="_menuSelected"
                                    data-url='${ctx}/pcsPrOw_party_candidate_page?stage=${param.stage}'><i
-                                        class="fa fa-bullhorn"></i> 全校党代表候选人初步人选名单
+                                        class="fa fa-bullhorn"></i> 全校党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;" class="loadPage"
                                    data-load-el="#step-item-content" data-callback="_menuSelected"
                                    data-url='${ctx}/pcsPrOw_party_table_page?stage=${param.stage}'><i
-                                        class="fa fa-calendar-o"></i> 全校党代表候选人初步人选数据统计
+                                        class="fa fa-calendar-o"></i> 全校党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选数据统计
                                 </a>
                             </li>
                             <li>

@@ -3,7 +3,7 @@
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <li class="<c:if test="${cls==1}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/pcsPrParty?cls=1&stage=${param.stage}">
-      <i class="fa fa-envelope-open"></i> 党代表候选人初步人选名单</a>
+      <i class="fa fa-envelope-open"></i> 党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</a>
   </li>
   <li class="<c:if test="${cls==2}">active</c:if>">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/pcsPrParty?cls=2&stage=${param.stage}">

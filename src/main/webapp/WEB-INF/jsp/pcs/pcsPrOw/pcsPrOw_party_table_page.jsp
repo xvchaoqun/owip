@@ -3,11 +3,16 @@
 <div class="tabbable" style="margin: 10px 20px; width: 900px">
     <div class="space-4"></div>
     <a href="${ctx}/pcsPrOw_export?file=${empty param.partyId?6:4}&partyId=${param.partyId}&stage=${param.stage}">
-        <i class="fa fa-download"></i> ${empty param.partyId?"附件6. 各分党委酝酿代表候选人初步人选统计表（组织部汇总）"
-        :"附件4. 分党委酝酿代表候选人初步人选统计表（分党委上报组织部）"}</a>
+        <i class="fa fa-download"></i>
+        <c:if test="${empty param.partyId}">
+            附件6. 各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表（组织部汇总）
+        </c:if>
+        <c:if test="${not empty param.partyId}">
+            附件4. 分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表（分党委上报组织部）
+        </c:if></a>
     <c:if test="${empty param.partyId}">
         <a href="${ctx}/pcsPrOw_export?file=ow&stage=${param.stage}" style="margin-left: 20px">
-            <i class="fa fa-download"></i> 附件：各分党委酝酿代表候选人初步人选统计表（组织部汇总）</a>
+            <i class="fa fa-download"></i> 附件：各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表（组织部汇总）</a>
     </c:if>
     <div class="space-4"></div>
     <table class="table table-bordered table-striped" data-offset-top="101">

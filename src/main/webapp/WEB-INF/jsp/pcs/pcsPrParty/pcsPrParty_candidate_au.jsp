@@ -53,14 +53,17 @@
                                     <c:if test="${_type.key==PCS_PR_TYPE_PRO}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
                                         <c:set var="_isRetire" value="0"/>
+                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"/>
                                     </c:if>
                                     <c:if test="${_type.key==PCS_PR_TYPE_STU}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_STUDENT}"/>
                                         <c:set var="_isRetire" value=""/>
+                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL}"/>
                                     </c:if>
                                     <c:if test="${_type.key==PCS_PR_TYPE_RETIRE}">
                                         <c:set var="_memberType" value="${MEMBER_TYPE_TEACHER}"/>
                                         <c:set var="_isRetire" value="1"/>
+                                        <c:set var="_status" value="${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_TRANSFER}"/>
                                     </c:if>
                                     <div class="panel panel-default" id="panel${_type.key}">
                                         <div class="panel-heading">
@@ -68,7 +71,7 @@
                                                 <i class="fa fa-users"></i> ${_type.value}</span>
                                                 <span style="margin-left: 20px">
                                                 <select id="select${_type.key}" data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${partyView.id}&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL}"
+                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${partyView.id}&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${_status}"
                                                         data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>
