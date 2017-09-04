@@ -1,5 +1,27 @@
 
 
+2017-9-4
+ALTER TABLE `pcs_pr_recommend`
+	CHANGE COLUMN `expect_member_count` `expect_member_count` INT(10) UNSIGNED NOT NULL COMMENT '应参会党员数，三下三上不填' AFTER `party_id`,
+	CHANGE COLUMN `actual_member_count` `actual_member_count` INT(10) UNSIGNED NOT NULL COMMENT '实参会党员数，三下三上不填' AFTER `expect_member_count`,
+	CHANGE COLUMN `expect_positive_member_count` `expect_positive_member_count` INT(10) UNSIGNED NOT NULL COMMENT '应参会正式党员数' AFTER `actual_member_count`,
+	ADD COLUMN `meeting_time` DATE NULL COMMENT '党员大会选举时间，针对三下三上' AFTER `actual_positive_member_count`,
+	ADD COLUMN `meeting_address` VARCHAR(200) NULL COMMENT '党员大会选举地点，针对三下三上' AFTER `meeting_time`;
+
+ALTER TABLE `pcs_pr_recommend`
+	ADD COLUMN `vote_member_count` INT(10) UNSIGNED NULL COMMENT '具有选举权的正式党员数，针对三下三上' AFTER `actual_positive_member_count`;
+
+	ALTER TABLE `pcs_pr_candidate`
+	ADD COLUMN `mobile` VARCHAR(20) NULL COMMENT '手机号，针对三下三上' AFTER `nation`,
+	ADD COLUMN `email` VARCHAR(100) NULL COMMENT '邮箱，针对三下三上' AFTER `mobile`;
+
+ALTER TABLE `pcs_pr_recommend`
+	ADD COLUMN `report_file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '“选举结果报告单”扫描件，针对三下三上' AFTER `meeting_address`;
+
+更新 pcs_pr_candidate_view
+
+
+
 2017-9-1
 ALTER TABLE `pcs_admin`
 	DROP COLUMN `config_id`;
