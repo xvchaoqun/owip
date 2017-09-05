@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberExample;
@@ -46,19 +47,19 @@ public class MemberController extends BaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/member/search")
-    public String search(){
+    public String member_search(){
 
         return "member/member/member_search";
     }
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/member/search", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_search(int userId) {
+    public Map do_member_search(int userId) {
 
         String realname = "";
         String unit = "";
         String msg = "";
-        Byte memberType = SystemConstants.MEMBER_TYPE_STUDENT;
+        Byte userType = null;
         String code = "";
         String status = "";
         SysUserView sysUser = sysUserService.findById(userId);
@@ -66,6 +67,7 @@ public class MemberController extends BaseController {
             msg = "该用户不存在";
         }else {
             code = sysUser.getCode();
+            userType = sysUser.getType();
             realname = sysUser.getRealname();
             unit = sysUserService.getUnit(sysUser);
             Member member = memberService.get(userId);
@@ -95,7 +97,6 @@ public class MemberController extends BaseController {
                 }
 
                 if(member.getType()==SystemConstants.MEMBER_TYPE_TEACHER){
-                    memberType = SystemConstants.MEMBER_TYPE_TEACHER;
                     MemberTeacher memberTeacher = memberTeacherService.get(userId);
                     if(memberTeacher.getIsRetire())
                         status = "已退休";
@@ -114,7 +115,7 @@ public class MemberController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("msg", msg);
-        resultMap.put("memberType", memberType);
+        resultMap.put("userType", userType);
         resultMap.put("code", code);
         resultMap.put("realname", realname);
         resultMap.put("unit", unit);
@@ -146,7 +147,7 @@ public class MemberController extends BaseController {
         Integer branchId = record.getBranchId();
         if (partyId != null && branchId == null) {
             if (!partyService.isDirectBranch(partyId)) {
-                throw new RuntimeException("只有直属党支部或党支部可以添加党员");
+                return failed("只有直属党支部或党支部可以添加党员");
             }
         }
 
@@ -190,7 +191,7 @@ public class MemberController extends BaseController {
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(memberApply!=null && memberApply.getStage()>=SystemConstants.APPLY_STAGE_INIT){
-                throw new RuntimeException("该用户已经提交了入党申请[当前审批阶段："+SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
+                return failed("该用户已经提交了入党申请[当前审批阶段："+SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
             }
 
             record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常
@@ -257,7 +258,7 @@ public class MemberController extends BaseController {
 
         if (userId == null && partyId != null && branchId == null) { // 给直属党支部添加党员
             if (!partyService.isDirectBranch(partyId)) {
-                throw new RuntimeException("只有直属党支部或党支部可以添加党员");
+                throw new OpException("只有直属党支部或党支部可以添加党员");
             }
         }
 
@@ -329,10 +330,10 @@ public class MemberController extends BaseController {
             Member member = memberService.get(userId);
             if (_partyId == null) _partyId = member.getPartyId();
             if (_partyId != null && _partyId.intValue() != member.getPartyId()) {
-                throw new RuntimeException("只允许在同一个分党委内部进行批量转移。");
+                throw new OpException("只允许在同一个分党委内部进行批量转移。");
             }
             if (partyService.isDirectBranch(member.getPartyId())) {
-                throw new RuntimeException("直属党支部不能进行内部转移。");
+                throw new OpException("直属党支部不能进行内部转移。");
             }
         }
 

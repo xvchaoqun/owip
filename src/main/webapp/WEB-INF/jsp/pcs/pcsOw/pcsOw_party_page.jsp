@@ -97,10 +97,10 @@
             { label: '实参会党员数',name: 'actualMemberCount', width:120},
             { label: '推荐情况',name: 'reportId', formatter: function (cellvalue, options, rowObject) {
                 var hasReport = (cellvalue==undefined)?false:(cellvalue>0);
-                if(!hasReport) return "未上报"
-                return ('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa fa-hand-paper-o"></i> 已上报</button>')
-                        .format(rowObject.id);
+               // if(!hasReport) return "未上报"
+                return ('<button class="openView btn {2} btn-xs" ' +
+                'data-url="${ctx}/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa fa-hand-paper-o"></i> {1}</button>')
+                        .format(rowObject.id, hasReport?"已上报":"未上报", hasReport?"btn-success":"btn-default");
             }}
         ]
     }).jqGrid("setFrozenColumns");

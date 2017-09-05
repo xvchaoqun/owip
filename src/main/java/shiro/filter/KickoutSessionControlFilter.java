@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.sys.SysLoginLogService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.utils.HttpUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.util.Deque;
@@ -114,14 +116,21 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         if (session.getAttribute("kickout") != null) {
             //会话被踢出了
             try {
+                logger.info("用户{}-{}被踢出", shiroUser.getRealname(), username);
                 subject.logout();
             } catch (Exception e) { //ignore
             }
             saveRequest(request);
-            //WebUtils.issueRedirect(request, response, kickoutUrl);
 
-            Map<String, Object> resultMap = BaseController.failed("账号已在别处登录。");
-            JSONUtils.write((HttpServletResponse) response, resultMap);
+            if(HttpUtils.isAjaxRequest((HttpServletRequest) request)){
+                Map<String, Object> resultMap = BaseController.failed("login");
+                JSONUtils.write((HttpServletResponse) response, resultMap);
+            }/*else {
+                request.setAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, "kickout");
+                //request.setAttribute("error", "kickout");
+                WebUtils.issueRedirect(request, response, this.getLoginUrl());
+            }*/
+
             return false;
         }
 

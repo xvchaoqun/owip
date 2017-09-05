@@ -2,6 +2,7 @@ package controller.member;
 
 import bean.UserBean;
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberTransfer;
 import domain.member.MemberTransferExample;
@@ -245,7 +246,7 @@ public class MemberTransferController extends BaseController {
             currentMemberTransfer = memberTransferService.next(type, null);
         }
         if (currentMemberTransfer == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberTransfer", currentMemberTransfer);
 

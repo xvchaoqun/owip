@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.member.MemberInflowExample.Criteria;
@@ -230,7 +231,7 @@ public class MemberInflowOutController extends BaseController {
             currentMemberInflow = memberInflowOutService.next(null, type, cls);
         }
         if (currentMemberInflow == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberInflow", currentMemberInflow);
 

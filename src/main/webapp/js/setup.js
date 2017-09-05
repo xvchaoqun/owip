@@ -254,7 +254,7 @@ $.ajaxSetup({
 
         if (ret.msg == "login") {
             bootbox.dialog({
-                message: "登陆超时，请您重新登陆",
+                message: "登陆超时或账号已在别处登录，请您重新登陆",
                 closeButton: false,
                 buttons: {
                     login: {

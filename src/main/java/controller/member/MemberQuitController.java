@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
@@ -215,7 +216,7 @@ public class MemberQuitController extends BaseController {
             currentMemberQuit = memberQuitService.next(type, null);
         }
         if (currentMemberQuit == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberQuit", currentMemberQuit);
 
@@ -357,7 +358,7 @@ public class MemberQuitController extends BaseController {
         } else {
 
             if(memberQuit.getStatus()==SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY)
-                throw new RuntimeException("该用户已经出党，不可以再次修改。");
+                return failed("该用户已经出党，不可以再次修改。");
 
             if(resubmit!=null && resubmit==1 && memberQuit.getStatus()<SystemConstants.MEMBER_QUIT_STATUS_APPLY){ // 重新提交
                 record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_APPLY);

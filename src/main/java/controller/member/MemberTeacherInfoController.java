@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -41,7 +42,7 @@ public class MemberTeacherInfoController extends BaseController {
         Byte source = sysUser.getSource();
         if(source==SystemConstants.USER_SOURCE_BKS || source==SystemConstants.USER_SOURCE_YJS
                 || source==SystemConstants.USER_SOURCE_JZG){
-            throw new RuntimeException("只能修改非人事库的账号信息");
+            return failed("只能修改非人事库的账号信息");
         }
 
         if(StringUtils.isNotBlank(_birth)){
@@ -84,7 +85,7 @@ public class MemberTeacherInfoController extends BaseController {
         Byte source = sysUser.getSource();
         if(source==SystemConstants.USER_SOURCE_BKS || source==SystemConstants.USER_SOURCE_YJS
                 || source==SystemConstants.USER_SOURCE_JZG){
-            throw new RuntimeException("只能修改非人事库的账号信息");
+            throw new OpException("只能修改非人事库的账号信息");
         }
 
         TeacherInfo teacher = teacherInfoMapper.selectByPrimaryKey(userId);

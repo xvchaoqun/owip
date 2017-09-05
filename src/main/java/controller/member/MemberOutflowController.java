@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.Member;
 import domain.member.MemberOutflow;
@@ -271,7 +272,7 @@ public class MemberOutflowController extends BaseController {
             currentMemberOutflow = memberOutflowService.next(null, type, cls);
         }
         if(currentMemberOutflow==null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberOutflow", currentMemberOutflow);
 

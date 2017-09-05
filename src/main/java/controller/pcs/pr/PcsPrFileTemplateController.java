@@ -1,11 +1,9 @@
 package controller.pcs.pr;
 
 import controller.BaseController;
-import controller.global.OpException;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrFileTemplate;
 import domain.pcs.PcsPrFileTemplateExample;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
-import sys.utils.ContentTypeUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -52,12 +48,7 @@ public class PcsPrFileTemplateController extends BaseController {
                                        HttpServletRequest request) throws IOException, InterruptedException {
 
         String originalFilename = _file.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(_file, "pdf")) {
-            throw new OpException("任免文件格式错误，请上传pdf文件");
-        }
-        String savePath = uploadPdf(_file, "pcsPrFileTemplate");
+        String savePath = upload(_file, "pcsPrFileTemplate");
         record.setFilePath(savePath);
         record.setFileName(originalFilename);
         if(record.getId()==null) {

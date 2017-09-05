@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.MemberReturn;
 import domain.member.MemberReturnExample;
@@ -309,7 +310,7 @@ public class MemberReturnController extends BaseController {
             currentMemberReturn = memberReturnService.next(type, null);
         }
         if (currentMemberReturn == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberReturn", currentMemberReturn);
 

@@ -5,6 +5,7 @@ import domain.pcs.PcsCandidate;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsRecommend;
 import domain.pcs.PcsRecommendExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import service.BaseMapper;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -55,15 +57,18 @@ public class PcsRecommendService extends BaseMapper {
                        Integer branchId,
                        int expectMemberCount,
                        int actualMemberCount,
-                       boolean isFinish,
+                       Boolean isFinish,
                        String[] dwCandidateIds,
                        String[] jwCandidateIds) {
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
 
-        if(!pcsPartyService.allowModify(partyId, configId, stage)){
-            throw  new OpException("已报送数据或已下发名单，不可修改。");
+        // 只有干部管理员可以直接修改
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+            if (!pcsPartyService.allowModify(partyId, configId, stage)) {
+                throw new OpException("已报送数据或已下发名单，不可修改。");
+            }
         }
 
         PcsRecommend record = new PcsRecommend();
@@ -79,13 +84,15 @@ public class PcsRecommendService extends BaseMapper {
         if(pcsBranchBean.getId()==null){
             pcsRecommendMapper.insertSelective(record);
         }else{
+            if(BooleanUtils.isTrue(pcsBranchBean.getIsFinished()))
+                record.setIsFinished(null);
             record.setId(pcsBranchBean.getId());
             pcsRecommendMapper.updateByPrimaryKeySelective(record);
         }
 
         int recommendId = record.getId();
 
-        // 已下发名单
+        // 上一阶段已下发名单
         Set<Integer> dwIssueUserIdSet = new HashSet<>();
         Set<Integer> jwIssueUserIdSet = new HashSet<>();
         if(stage == SystemConstants.PCS_STAGE_SECOND || stage == SystemConstants.PCS_STAGE_THIRD){

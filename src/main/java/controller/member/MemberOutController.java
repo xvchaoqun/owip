@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberOut;
 import domain.member.MemberOutModify;
@@ -279,7 +280,7 @@ public class MemberOutController extends BaseController {
             currentMemberOut = memberOutService.next(null, type, cls);
         }
         if (currentMemberOut == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberOut", currentMemberOut);
 

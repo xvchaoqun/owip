@@ -3,12 +3,12 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="widget-box" style="width: 500px">
+        <div class="widget-box" style="width: 800px">
             <div class="widget-header">
                 <h4 class="smaller">
                     大会材料清单
                     <div class="pull-right"  style="margin-right: 10px">
-                    <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPrFileTemplate_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-success btn-xs" data-url="${ctx}/pcsPrFileTemplate_au"><i class="fa fa-upload"></i> 上传模板</a>
                     </div>
                 </h4>
             </div>
@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
                         <thead>
                         <tr>
                             <th width="100">序号</th>
-                            <th width="100">材料名称</th>
+                            <th width="200">材料名称</th>
                             <th width="100">备注</th>
                             <th width="100">排序</th>
                             <th width="100"></th>
@@ -62,8 +62,9 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <style>
-    .table tr td{
+    .table tr th,.table tr td{
         white-space: nowrap;
+        text-align: center;
     }
 </style>
 <script>

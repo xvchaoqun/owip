@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${pcsExcludeBranch!=null}">编辑</c:if><c:if test="${pcsExcludeBranch==null}">添加</c:if>党代会</h3>
+    <h3><c:if test="${pcsExcludeBranch!=null}">编辑</c:if><c:if test="${pcsExcludeBranch==null}">添加</c:if>不参与党代会的支部</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcsExcludeBranch_au" id="modalForm" method="post">

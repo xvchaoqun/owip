@@ -9,6 +9,7 @@ import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -99,27 +100,35 @@ public class PcsRecommendController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("pcsRecommend:edit")
+    //@RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsRecommend_au(byte stage, int partyId, Integer branchId,
-                                  int expectMemberCount, int actualMemberCount, boolean isFinish,
+                                  int expectMemberCount, int actualMemberCount, Boolean isFinish,
                                   @RequestParam(required = false, value = "dwCandidateIds[]") String[] dwCandidateIds,
                                   @RequestParam(required = false, value = "jwCandidateIds[]") String[] jwCandidateIds,
                                   HttpServletRequest request) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if(pcsAdmin.getPartyId() != partyId){
-            throw new UnauthorizedException();
+        if(ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN)){
+            // 管理员可以修改，但不改变状态
+            isFinish = null;
+
+        }else {
+            SecurityUtils.getSubject().checkPermission("pcsRecommend:edit");
+
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            if (pcsAdmin.getPartyId() != partyId) {
+                throw new UnauthorizedException();
+            }
+
+            if (!pcsPartyService.allowModify(partyId,
+                    pcsConfigService.getCurrentPcsConfig().getId(), stage)) {
+                return failed("已报送数据或已下发名单，不可修改。");
+            }
         }
 
-        if(partyService.isPartyContainBranch(partyId, branchId) == false){
+        if (partyService.isPartyContainBranch(partyId, branchId) == false) {
             return failed("参数有误。");
-        }
-
-        if(!pcsPartyService.allowModify(partyId,
-                pcsConfigService.getCurrentPcsConfig().getId(), stage)){
-            return failed("已报送数据或已下发名单，不可修改。");
         }
 
         pcsRecommendService.submit(stage, partyId, branchId,
@@ -181,9 +190,13 @@ public class PcsRecommendController extends BaseController {
     }
 
 
-    @RequiresPermissions("pcsRecommend:list")
+    //@RequiresPermissions("pcsRecommend:list")
     @RequestMapping("/pcsRecommend_candidates")
     public String pcsRecommend_candidates(byte stage, byte type, ModelMap modelMap) {
+
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+            SecurityUtils.getSubject().checkPermission("pcsRecommend:list");
+        }
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
@@ -194,10 +207,14 @@ public class PcsRecommendController extends BaseController {
         return "pcs/pcsRecommend/pcsRecommend_candidates";
     }
 
-    @RequiresPermissions("pcsRecommend:edit")
+    //@RequiresPermissions("pcsRecommend:edit")
     @RequestMapping(value = "/pcsRecommend_selectUser", method = RequestMethod.POST)
     public void do_pcsRecommend_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
                                            HttpServletResponse response) throws IOException {
+
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+            SecurityUtils.getSubject().checkPermission("pcsRecommend:edit");
+        }
 
         List<PcsCandidateView> candidates = new ArrayList<>();
         if(userIds!=null){

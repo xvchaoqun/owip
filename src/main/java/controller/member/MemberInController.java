@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.MemberIn;
 import domain.member.MemberInExample;
 import domain.member.MemberInExample.Criteria;
@@ -316,7 +317,7 @@ public class MemberInController extends BaseController {
             currentMemberIn = memberInService.next(type, null);
         }
         if (currentMemberIn == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberIn", currentMemberIn);
 

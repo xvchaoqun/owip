@@ -29,7 +29,7 @@ public class PcsPartyService extends BaseMapper {
     // 分党委是否可以修改当前阶段的数据
     public boolean allowModify(int partyId, int configId, byte stage){
 
-        // 分党委已经下发名单之后，则分党委不可修改数据
+        // 组织部已经下发该阶段名单之后，则分党委不可修改数据
         if(pcsOwService.hasIssue(configId, stage)) return false;
 
         // 分党委已经报送，不可以修改数据

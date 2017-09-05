@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import persistence.common.bean.PcsPartyBean;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
@@ -442,8 +443,8 @@ public class PcsOwController extends BaseController {
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 
-
-        modelMap.put("allowModify", false);
+        // 干部管理员才可以进行修改
+        modelMap.put("allowModify", ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN));
         /*
         modelMap.put("allowModify", pcsPartyService.allowModify(partyId,
                 pcsConfigService.getCurrentPcsConfig().getId(), stage));*/

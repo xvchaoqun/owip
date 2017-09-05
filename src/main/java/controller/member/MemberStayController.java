@@ -1,6 +1,7 @@
 package controller.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.MemberStay;
 import domain.member.MemberStayExample;
 import domain.member.MemberStayView;
@@ -341,7 +342,7 @@ public class MemberStayController extends BaseController {
             currentMemberStay = memberStayService.next(type, checkType, null, cls);
         }
         if (currentMemberStay == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("memberStay", currentMemberStay);
 
@@ -575,7 +576,7 @@ public class MemberStayController extends BaseController {
         Map<Integer, Branch> branchMap = branchService.findAll();
         Branch branch = branchMap.get(branchId);
         if (branch == null || branch.getPartyId().intValue() != memberStay.getPartyId()) {
-            throw new RuntimeException("转移支部不存在");
+            return failed("转移支部不存在");
         }
 
         MemberStay record = new MemberStay();
@@ -599,7 +600,7 @@ public class MemberStayController extends BaseController {
             modelMap.put("memberStay", memberStay);
 
             if (partyService.isDirectBranch(memberStay.getPartyId())) {
-                throw new RuntimeException("直属党支部不需要添加暂留党支部");
+                throw new OpException("直属党支部不需要添加暂留党支部");
             }
 
             Map<Integer, Party> partyMap = partyService.findAll();
