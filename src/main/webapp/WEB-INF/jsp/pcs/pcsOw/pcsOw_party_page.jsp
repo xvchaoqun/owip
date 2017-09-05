@@ -99,8 +99,9 @@
                 var hasReport = (cellvalue==undefined)?false:(cellvalue>0);
                // if(!hasReport) return "未上报"
                 return ('<button class="openView btn {2} btn-xs" ' +
-                'data-url="${ctx}/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa fa-hand-paper-o"></i> {1}</button>')
-                        .format(rowObject.id, hasReport?"已上报":"未上报", hasReport?"btn-success":"btn-default");
+                'data-url="${ctx}/pcsOw_party_detail_page?stage=${param.stage}&partyId={0}"><i class="fa {3}"></i> {1}</button>')
+                        .format(rowObject.id, hasReport?"已上报":"未上报",
+                        hasReport?"btn-success":"btn-default", hasReport?"fa-hand-paper-o":"fa-hand-rock-o");
             }}
         ]
     }).jqGrid("setFrozenColumns");

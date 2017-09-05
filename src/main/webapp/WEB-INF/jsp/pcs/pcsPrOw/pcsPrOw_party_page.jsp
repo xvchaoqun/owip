@@ -108,10 +108,11 @@
             { label: '实参会党员数',name: 'actualMemberCount', width:120},
             { label: '实参会正式党员数',name: 'actualPositiveMemberCount', width:135},
             { label: '推荐情况',name: 'hasReport', formatter: function (cellvalue, options, rowObject) {
-                if(!cellvalue) return "未上报"
-                return ('<button class="openView btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pcsPrOw_party_detail?stage=${param.stage}&partyId={0}"><i class="fa fa-hand-paper-o"></i> 已上报</button>')
-                        .format(rowObject.id);
+                //if(!cellvalue) return "未上报"
+                return ('<button class="openView btn {1} btn-xs" ' +
+                'data-url="${ctx}/pcsPrOw_party_detail?stage=${param.stage}&partyId={0}"><i class="fa {2}"></i> {3}</button>')
+                        .format(rowObject.id, cellvalue?"btn-success":"btn-default",
+                        cellvalue?"fa-hand-paper-o":"fa-hand-rock-o", cellvalue?"已上报":"未上报");
             }},
             { label: '审核情况',name: 'recommendStatus', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue == undefined) return "-"
