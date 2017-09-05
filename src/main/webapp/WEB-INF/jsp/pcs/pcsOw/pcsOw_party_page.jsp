@@ -13,7 +13,7 @@
 <shiro:lacksRole name="role_pcs_check">
                 <jsp:include page="menu.jsp"/>
     </shiro:lacksRole>
-                <div class="candidate-table tab-content">
+                <div class="tab-content">
                     <div class="tab-pane in active rownumbers">
                         <shiro:lacksRole name="role_pcs_check">
                         <div class="jqgrid-vertical-offset buttons">
