@@ -68,12 +68,12 @@ public class PcsPrPartyController extends BaseController {
             case "1":
                 // stage = 1
                 wb = pcsPrExportService.exportPartyCandidates1_stage2(configId, partyId);
-                fileName = String.format("附表1. 代表候选人推荐票（党员推荐用，报党支部）（%s）", party.getName());
+                fileName = "党员代表大会代表候选人推荐票（党员推荐使用，交由所在党支部汇总）";
                 break;
             case "2":
                 // stage = 1
                 wb = pcsPrExportService.exportPartyCandidates2_stage2(configId, partyId);
-                fileName = String.format("附表2. 党支部酝酿代表候选人提名汇总表（党支部汇总用表，报分党委）（%s）", party.getName());
+                fileName = "党支部酝酿代表候选人提名汇总表（党支部汇总用表，报分党委、党总支）";
                 break;
             case "3":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
@@ -148,9 +148,13 @@ public class PcsPrPartyController extends BaseController {
     public String pcsPrParty_report_page(byte stage, ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        int partyId = pcsAdmin.getPartyId();
 
-        modelMap.put("allowModify", pcsPrPartyService.allowModify(pcsAdmin.getPartyId(),
-                pcsConfigService.getCurrentPcsConfig().getId(), stage));
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
+        modelMap.put("pcsPrRecommend", pcsPrRecommend);
+
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId, stage));
 
         return "pcs/pcsPrParty/pcsPrParty_report_page";
     }
@@ -196,7 +200,7 @@ public class PcsPrPartyController extends BaseController {
 
     @RequiresPermissions("pcsPrParty:list")
     @RequestMapping("/pcsPrParty_candidate_data")
-    public void pcsPrParty_statCandidate_data(HttpServletResponse response,
+    public void pcsPrParty_candidate_data(HttpServletResponse response,
                                               byte stage,
                                               Integer userId,
                                               Integer pageSize, Integer pageNo) throws IOException {

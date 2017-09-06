@@ -1,5 +1,8 @@
 package domain.pcs;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +25,7 @@ public class PcsPrRecommend implements Serializable {
 
     private Integer voteMemberCount;
 
+    @DateTimeFormat(pattern = DateUtils.YY_MM_DD_HH_MM)
     private Date meetingTime;
 
     private String meetingAddress;

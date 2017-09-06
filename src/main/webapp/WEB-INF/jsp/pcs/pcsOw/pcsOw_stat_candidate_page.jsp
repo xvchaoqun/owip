@@ -41,7 +41,7 @@
                             </button>
 
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=4-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                    <i class="fa fa-download"></i> 附表4-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（组织部用）</a>
+                                    <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
 
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=5-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
                                     <i class="fa fa-download"></i> 附表5-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（报上级用）</a>
@@ -66,7 +66,7 @@
                                 <a class="popupBtn btn btn-warning btn-sm ${hasIssue?"":"disabled"}"
                                    data-url="${ctx}/pcsAdmin_msg?cls=2"><i class="fa fa-send"></i> 短信提醒</a>
                                 <a style="margin-left: 20px" href="${ctx}/pcsOw_export?file=7-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}" >
-                                    <i class="fa fa-download"></i> 附表7-${type}. ${PCS_USER_TYPE_MAP.get(type)}候选人推荐提名汇总表（组织部用）</a>
+                                    <i class="fa fa-download"></i> ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选名册（“${param.stage==PCS_STAGE_FIRST?"二下":"三下"}”名单）</a>
                             </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

@@ -533,7 +533,7 @@ public class PcsPrExportService extends BaseMapper {
     // 二下二上，附表1. 代表候选人推荐票（党员推荐用，报党支部）
     public XSSFWorkbook exportPartyCandidates1_stage2(int configId, int partyId) throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-2-1.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-2-1_2.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -571,7 +571,7 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(gender));
         }
 
-        row = sheet.getRow(startRow + 1);
+        row = sheet.getRow(startRow + 1 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
@@ -581,7 +581,7 @@ public class PcsPrExportService extends BaseMapper {
     // 二下二上，附表2. 党支部酝酿代表候选人提名汇总表（党支部汇总用表，报分党委）
     public XSSFWorkbook exportPartyCandidates2_stage2(int configId, int partyId) throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-2-2.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/pr-2-2_3.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -618,7 +618,7 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(gender));
         }
 
-        row = sheet.getRow(startRow + 8);
+        row = sheet.getRow(startRow + 1 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
@@ -633,7 +633,7 @@ public class PcsPrExportService extends BaseMapper {
 
         String filename = "pr-3_8.xlsx";
         if (partyId == null) {
-            filename = "pr-5.xlsx";
+            filename = "pr-5_1.xlsx";
         }
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);

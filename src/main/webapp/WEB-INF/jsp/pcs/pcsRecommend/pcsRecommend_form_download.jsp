@@ -14,11 +14,11 @@
       <i class="fa fa-file-excel-o fa-2x"></i> 纪委委员候选人初步人选推荐提名表（党支部用）.xlsx</a></div>
     </c:if>
   <c:if test="${param.stage==PCS_STAGE_SECOND}">
-    <div style="font-size: 16px;text-indent: 2em">分党委请下载以下表格（点击下面的链接下载），并打印发给支部。</div>
+    <div style="font-size: 16px;text-indent: 2em">分党委请下载以下两个学校党委确定的“二下”名单，打印后发给各党支部。各党支部全体党员充分酝酿两委委员候选人初步人选，达成统一意见后填写推荐提名表。</div>
     <div style="padding: 30px; text-align: center"><a href="${ctx}/pcsParty_export?file=1-1&stage=${PCS_STAGE_FIRST}&type=${PCS_USER_TYPE_DW}">
-      <i class="fa fa-file-excel-o fa-2x"></i> 附表1-1. 党委委员候选人推荐提名汇总表（党支部用）.xlsx</a></div>
+      <i class="fa fa-file-excel-o fa-2x"></i> 党委委员候选人初步人选推荐提名表（党支部用）.xlsx</a></div>
     <div style="padding: 0 30px 30px 30px; text-align: center"><a href="${ctx}/pcsParty_export?file=1-1&stage=${PCS_STAGE_FIRST}&type=${PCS_USER_TYPE_JW}">
-      <i class="fa fa-file-excel-o fa-2x"></i> 附表1-2. 纪委委员候选人推荐提名汇总表（党支部用）.xlsx</a></div>
+      <i class="fa fa-file-excel-o fa-2x"></i> 纪委委员候选人初步人选推荐提名表（党支部用）.xlsx</a></div>
   </c:if>
     <c:if test="${param.stage==PCS_STAGE_THIRD}">
       <div style="font-size: 16px;text-indent: 2em">分党委请下载以下表格（点击下面的链接下载），并打印发给支部。</div>

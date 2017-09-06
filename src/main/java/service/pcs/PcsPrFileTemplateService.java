@@ -7,12 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class PcsPrFileTemplateService extends BaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_file_template";
+
+    public void insertSelective(PcsPrFileTemplate record) {
+
+        record.setIsDeleted(false);
+        record.setCreateTime(new Date());
+        record.setSortOrder(getNextSortOrder(TABLE_NAME, "is_deleted=0"));
+        pcsPrFileTemplateMapper.insertSelective(record);
+    }
 
     public void del(int id){
 

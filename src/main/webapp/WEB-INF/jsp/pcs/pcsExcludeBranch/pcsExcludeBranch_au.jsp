@@ -30,7 +30,8 @@ pageEncoding="UTF-8"%>
         </div>
         <script>
             register_party_branch_select($("#modalForm"), "branchDiv",
-                    '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
+                    '${cm:getMetaTypeByCode("mt_direct_branch").id}',
+                    "${party.id}", "${party.classId}", "partyId", "branchId", true);
         </script>
         <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>

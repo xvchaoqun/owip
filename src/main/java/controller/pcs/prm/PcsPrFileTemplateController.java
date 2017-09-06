@@ -1,4 +1,4 @@
-package controller.pcs.pr;
+package controller.pcs.prm;
 
 import controller.BaseController;
 import domain.pcs.PcsConfig;
@@ -35,6 +35,7 @@ public class PcsPrFileTemplateController extends BaseController {
 
         PcsPrFileTemplateExample example = new PcsPrFileTemplateExample();
         example.createCriteria().andConfigIdEqualTo(configId);
+        example.setOrderByClause("sort_order asc");
         List<PcsPrFileTemplate> records = pcsPrFileTemplateMapper.selectByExample(example);
         modelMap.put("records", records);
                 
@@ -51,9 +52,11 @@ public class PcsPrFileTemplateController extends BaseController {
         String savePath = upload(_file, "pcsPrFileTemplate");
         record.setFilePath(savePath);
         record.setFileName(originalFilename);
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        record.setConfigId(configId);
+
         if(record.getId()==null) {
-            record.setIsDeleted(false);
-            pcsPrFileTemplateMapper.insertSelective(record);
+            pcsPrFileTemplateService.insertSelective(record);
         }else{
             pcsPrFileTemplateMapper.updateByPrimaryKeySelective(record);
         }

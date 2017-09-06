@@ -18,7 +18,7 @@
 
 <div class="modal-footer center" style="margin-top: 20px">
     <button id="submitBtn" ${!allowModify?"disabled":""}
-            class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${!allowModify?"已报送数据":"报&nbsp;&nbsp;送"}
+            class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${pcsPrRecommend.hasReport?"已报送数据":"报&nbsp;&nbsp;送"}
     </button>
 </div>
 <style>

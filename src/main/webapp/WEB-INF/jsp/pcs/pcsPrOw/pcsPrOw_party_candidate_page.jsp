@@ -11,12 +11,11 @@
         <div class="jqgrid-vertical-offset buttons">
 
             <a href="${ctx}/pcsPrOw_export?file=${empty param.partyId?5:3}&partyId=${param.partyId}&stage=${param.stage}">
-                <i class="fa fa-download"></i>
-                <c:if test="${empty param.partyId}">
-                    附件5. 各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单汇总表（组织部汇总）
+                <i class="fa fa-download"></i> 导出：<c:if test="${empty param.partyId}">
+                    各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单汇总表
                 </c:if>
                 <c:if test="${not empty param.partyId}">
-                    附件3. 分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单（分党委上报组织部）
+                    分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}名单
                 </c:if>
             </a>
         </div>

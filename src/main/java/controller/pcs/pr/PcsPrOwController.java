@@ -53,34 +53,34 @@ public class PcsPrOwController extends BaseController {
             case "3":
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
-                fileName = String.format("附件3. 分党委酝酿代表候选人%s名单（分党委上报组织部）（%s）",
+                fileName = String.format("分党委酝酿代表候选人%s名单（%s）",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
                         party.getName());
                 break;
             case "4":
                 party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                fileName = String.format("附件4. 分党委酝酿代表候选人%s人选统计表（分党委上报组织部）（%s）",
+                fileName = String.format("分党委酝酿代表候选人%s人选统计表（%s）",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
                         party.getName());
                 break;
             case "5":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, null);
-                fileName =String.format("附件5. 各分党委酝酿代表候选人%s名单汇总表（组织部汇总）",
+                fileName =String.format("各分党委酝酿代表候选人%s名单汇总表",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
                 break;
             case "6":
                 wb = pcsPrExportService.exportSchoolAllocate(configId, stage);
-                fileName =String.format("附件6. 各分党委酝酿代表候选人初步人选统计表（组织部汇总）",
+                fileName =String.format("各分党委酝酿代表候选人%s人选统计表",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
                 break;
             case "7":
                 wb = pcsPrExportService.exportSchoolRecommend(configId, stage);
-                fileName = "附件7. 全校党员参与推荐代表候选人情况统计表（组织部汇总）";
+                fileName = "全校党员参与推荐代表候选人情况统计表";
                 break;
             case "ow":
                 wb = pcsPrExportService.exportAllPartyAllocate(configId, stage);
-                fileName =String.format("附件：各分党委酝酿代表候选人初步人选统计表（组织部汇总）",
+                fileName =String.format("各分党委酝酿代表候选人%s人选统计表",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
                 break;
         }
@@ -239,7 +239,7 @@ public class PcsPrOwController extends BaseController {
 
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrOw_party_candidate_data")
-    public void pcsPrOw_candidate_data(HttpServletResponse response,
+    public void pcsPrOw_party_candidate_data(HttpServletResponse response,
                                        Integer partyId,
                                        byte stage,
                                        Integer userId,

@@ -2,6 +2,7 @@ package controller.pcs.cm;
 
 import controller.BaseController;
 import domain.party.Party;
+import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -62,8 +64,8 @@ public class PcsOwController extends BaseController {
                 break;
             case "4-1":
                 wb = pcsExportService.exportPartyCandidates(null, configId, stage, type);
-                fileName = String.format("附表4-%s. %s候选人推荐提名汇总表（组织部用）", type,
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                fileName = String.format("%s候选人初步人选推荐提名汇总表（“%s”阶段）",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type), SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "5-1":
                 wb = pcsExportService.exportPartyCandidates2(configId, stage, type);
@@ -72,12 +74,17 @@ public class PcsOwController extends BaseController {
                 break;
             case "6":
                 wb = pcsExportService.exportRecommends_6(configId, stage);
-                fileName = "附表6. 参加两委委员候选人推荐提名情况汇总表（组织部用）";
+                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "7-1":
                 wb = pcsExportService.exportPartyCandidates(true, configId, stage, type);
-                fileName = String.format("附表7-%s. %s候选人推荐提名汇总表（组织部用）", type,
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                String stageStr = "";
+                if(stage==SystemConstants.PCS_STAGE_FIRST)
+                    stageStr = "二下";
+                if(stage==SystemConstants.PCS_STAGE_SECOND)
+                    stageStr = "三下";
+                fileName = String.format("%s候选人初步人选名册（“%s”名单）",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
                 break;
         }
 
@@ -176,6 +183,23 @@ public class PcsOwController extends BaseController {
         modelMap.put("type", type);
 
         return "pcs/pcsOw/pcsOw_party_candidate_page";
+    }
+
+    // 组织部管理员退回报送
+    @RequiresPermissions("pcsOw:report")
+    @RequestMapping(value = "/pcsOw_party_report_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsOw_party_report_back(int reportId, byte stage) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        PcsAdminReport pcsAdminReport = pcsAdminReportMapper.selectByPrimaryKey(reportId);
+        Assert.isTrue(pcsAdminReport.getConfigId()==configId && pcsAdminReport.getStage() == stage);
+
+        pcsOwService.reportBack(reportId);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "[组织部管理员]退回报送-%s", JSONUtils.toString(pcsAdminReport, false)));
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("pcsOw:report")

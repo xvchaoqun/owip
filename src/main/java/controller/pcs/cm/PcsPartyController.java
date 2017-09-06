@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.pcs.PcsAdmin;
+import domain.pcs.PcsAdminReportExample;
 import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,15 +51,20 @@ public class PcsPartyController extends BaseController {
         }
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
-        Party party = partyService.findAll().get(partyId);
+        //Party party = partyService.findAll().get(partyId);
 
         XSSFWorkbook wb = null;
         String fileName = null;
         switch (file){
             case "1-1":
                 wb = pcsExportService.exportIssueCandidates(configId, stage, type);
-                fileName = String.format("附表1-%s. %s候选人推荐提名汇总表（党支部用）", type,
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                String stageStr = "";
+                if(stage==SystemConstants.PCS_STAGE_FIRST)
+                    stageStr = "二下";
+                if(stage==SystemConstants.PCS_STAGE_SECOND)
+                    stageStr = "三下";
+                fileName = String.format("%s候选人初步人选名册（“%s”名单，党支部用）",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
                 break;
             case "2-1":
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
@@ -120,9 +126,17 @@ public class PcsPartyController extends BaseController {
     public String pcsParty_report_page(byte stage, ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        int partyId = pcsAdmin.getPartyId();
 
-        modelMap.put("allowModify", pcsPartyService.allowModify(pcsAdmin.getPartyId(),
-                pcsConfigService.getCurrentPcsConfig().getId(), stage));
+        PcsAdminReportExample example = new PcsAdminReportExample();
+        example.createCriteria().andPartyIdEqualTo(partyId)
+                .andConfigIdEqualTo(configId)
+                .andStageEqualTo(stage);
+        modelMap.put("hasReport", pcsAdminReportMapper.countByExample(example)>0);
+
+        modelMap.put("allowModify", pcsPartyService.allowModify(partyId, configId, stage));
+
         return "pcs/pcsParty/pcsParty_report_page";
     }
 
@@ -174,7 +188,7 @@ public class PcsPartyController extends BaseController {
 
     @RequiresPermissions("pcsParty:list")
     @RequestMapping("/pcsParty_candidate_data")
-    public void pcsParty_statCandidate_data(HttpServletResponse response,
+    public void pcsParty_candidate_data(HttpServletResponse response,
                                             byte stage,
                                             Integer userId,
                                             @RequestParam(required = false,

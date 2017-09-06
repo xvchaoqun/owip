@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberTransfer;
 import domain.member.MemberTransferExample;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
 import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroUser;
@@ -56,7 +56,7 @@ public class MemberTransferService extends BaseMapper {
         } else if(type==2){ //转入分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
@@ -77,7 +77,7 @@ public class MemberTransferService extends BaseMapper {
         } else if(type==2){ //转入分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberTransfer!=null)
@@ -101,7 +101,7 @@ public class MemberTransferService extends BaseMapper {
         } else if(type==2){ //转入分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberTransfer!=null)
@@ -137,7 +137,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("审批已经开始，不可以撤回");
+            throw new OpException("审批已经开始，不可以撤回");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
@@ -178,7 +178,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常，该记录不是申请状态");
+            throw new OpException("转出分党委已经审核，请不要重复审核。");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
@@ -196,7 +196,7 @@ public class MemberTransferService extends BaseMapper {
         /*if(isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
             throw new DBErrorException("状态异常");*/
         if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
-            throw new DBErrorException("只有转出分党委审核通过的记录才可以进行转入分党委审核");
+            throw new OpException("转出分党委审核通过之后，才可以进行转入分党委审核。");
 
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
@@ -242,7 +242,7 @@ public class MemberTransferService extends BaseMapper {
 
         int opAuth = memberOpService.findOpAuth(record.getUserId());
         if(opAuth==1){
-            throw new RuntimeException("已经申请了组织关系转出");
+            throw new OpException("已经申请了组织关系转出");
         }
 
         if(record.getPartyId()!=null && record.getBranchId()==null){
@@ -313,10 +313,10 @@ public class MemberTransferService extends BaseMapper {
 
         byte _status = memberTransfer.getStatus();
         if(_status==SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if(status > _status || status<SystemConstants.MEMBER_TRANSFER_STATUS_BACK ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer id = memberTransfer.getId();

@@ -762,6 +762,66 @@ public class PcsPrCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andVote3IsNull() {
+            addCriterion("vote3 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3IsNotNull() {
+            addCriterion("vote3 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3EqualTo(Integer value) {
+            addCriterion("vote3 =", value, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3NotEqualTo(Integer value) {
+            addCriterion("vote3 <>", value, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3GreaterThan(Integer value) {
+            addCriterion("vote3 >", value, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3GreaterThanOrEqualTo(Integer value) {
+            addCriterion("vote3 >=", value, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3LessThan(Integer value) {
+            addCriterion("vote3 <", value, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3LessThanOrEqualTo(Integer value) {
+            addCriterion("vote3 <=", value, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3In(List<Integer> values) {
+            addCriterion("vote3 in", values, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3NotIn(List<Integer> values) {
+            addCriterion("vote3 not in", values, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3Between(Integer value1, Integer value2) {
+            addCriterion("vote3 between", value1, value2, "vote3");
+            return (Criteria) this;
+        }
+
+        public Criteria andVote3NotBetween(Integer value1, Integer value2) {
+            addCriterion("vote3 not between", value1, value2, "vote3");
+            return (Criteria) this;
+        }
+
         public Criteria andIsFromStageIsNull() {
             addCriterion("is_from_stage is null");
             return (Criteria) this;

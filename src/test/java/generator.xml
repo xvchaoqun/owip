@@ -421,10 +421,11 @@
       <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
       </table>-->
 
+
      <!-- <table tableName="pcs_exclude_branch" domainObjectName="pcs.PcsExcludeBranch" mapperName="pcs.PcsExcludeBranchMapper">
       </table>-->
-      <table tableName="pcs_party_view" domainObjectName="pcs.PcsPartyView" mapperName="pcs.PcsPartyViewMapper">
-      </table>
+      <!--<table tableName="pcs_party_view" domainObjectName="pcs.PcsPartyView" mapperName="pcs.PcsPartyViewMapper">
+      </table>-->
       <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
       </table>-->
       <!-- <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
@@ -454,7 +455,7 @@
        <table tableName="pcs_pr_file_template" domainObjectName="pcs.PcsPrFileTemplate" mapperName="pcs.PcsPrFileTemplateMapper">
       </table>-->
        <!--<table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
-      </table>
+      </table>-->
       <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
       </table>
       <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView" mapperName="pcs.PcsPrCandidateViewMapper"
@@ -462,7 +463,9 @@
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="user_type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-      </table>-->
+      </table>
+
+
 
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
       </table>-->

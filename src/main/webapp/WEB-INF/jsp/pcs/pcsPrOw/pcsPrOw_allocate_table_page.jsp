@@ -3,7 +3,7 @@
 <div class="tabbable" style="margin: 10px 20px; width: 1100px">
     <div class="space-4"></div>
     <a href="${ctx}/pcsPrOw_export?file=7&stage=${param.stage}">
-        <i class="fa fa-download"></i> 附件7. 全校党员参与推荐代表候选人情况统计表（组织部汇总）</a>
+        <i class="fa fa-download"></i> 导出：全校党员参与推荐代表候选人情况统计表</a>
     <div class="space-4"></div>
     <table class="table table-bordered table-striped" data-offset-top="101">
         <thead class="multi">

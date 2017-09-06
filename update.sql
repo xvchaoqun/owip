@@ -1,5 +1,10 @@
 
 
+ALTER TABLE `pcs_pr_candidate`
+	ADD COLUMN `vote3` INT(10) UNSIGNED NULL COMMENT '票数，针对三下三上' AFTER `vote`;
+
+更新pcs_pr_candidate_view
+
 2017-9-4
 delete from pcs_exclude_branch;
 insert into pcs_exclude_branch(party_id, branch_id, create_time)

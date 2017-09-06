@@ -193,8 +193,9 @@
         a.gender,a.nation,
         a.birth,a.grow_time, a.work_time, a.pro_post, a.type, group_concat(distinct a.party_id) as party_ids,
         group_concat(a.branch_ids) as branch_ids, sum(a.branch_count) as branch_count,
-        a.member_count, sum(b.expect_member_count) as expect_member_count,
-        sum(b.actual_member_count) as actual_member_count from
+        d.member_count, b.expect_member_count,
+        b.actual_member_count,
+        if(isnull(c.status), -1, c.status) as cadre_status from
         (
         select pcv.*, sum(pbv.member_count) member_count,
         group_concat(distinct pcv.party_id) as party_ids,
@@ -206,15 +207,17 @@
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         group by pcv.party_id, pcv.user_id, pcv.type
         ) a left join(
-        select opv.id,opv.member_count, pr.expect_member_count, pr.actual_member_count from pcs_party_view opv
-        , (select tmp.party_id, sum(tmp.expect_member_count) as expect_member_count,
-        sum(tmp.actual_member_count) as actual_member_count from pcs_recommend tmp
-        where tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.party_id
-        in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
-        group by party_id ) pr
-        where pr.party_id=opv.id and opv.is_deleted=0 ) b
-        on b.id=a.party_id
-
+        select pc.user_id, sum(expect_member_count) as expect_member_count, sum(actual_member_count) as actual_member_count from pcs_recommend pr
+        right join pcs_candidate pc on pr.id=pc.recommend_id and config_id=#{configId}
+        and stage=#{stage} and type=#{candidateType} group by pc.user_id) b
+        on b.user_id=a.user_id
+        left join (
+        select tmp.user_id,  sum(member_count) as member_count from pcs_branch_view pbv
+        right join(
+        select pc.*, pr.config_id, pr.stage, pr.party_id, pr.branch_id from pcs_candidate pc left join pcs_recommend pr on pc.recommend_id=pr.id
+        ) tmp on tmp.config_id=#{configId} and tmp.stage=#{stage} and tmp.type=#{candidateType} and tmp.party_id= pbv.party_id and ((pbv.branch_id is null and tmp.branch_id is null) or pbv.branch_id=tmp.branch_id) group by tmp.user_id
+        ) d on d.user_id =a.user_id
+        left join cadre c on c.user_id=a.user_id
         left join pcs_candidate_chosen pcc on a.config_id=pcc.config_id
         and a.stage=pcc.stage and a.type=pcc.type and a.user_id=pcc.user_id
 
@@ -231,7 +234,7 @@
             pcc.sort_order asc
         </if>
         <if test="isChosen==null or !isChosen">
-            branch_count desc
+            branch_count desc, FIND_IN_SET(cadre_status, '6,4,1,3,-1'), c.sort_order desc, actual_member_count desc
         </if>
     </select>
     <select id="countPartyCandidates" parameterType="map" resultType="java.lang.Integer">
@@ -268,16 +271,18 @@
         count(pcv.id) as branch_count,
         sum(ifnull(prv.member_count,0)) as member_count,
         sum(ifnull(prv.expect_member_count, 0)) as expect_member_count,
-        sum(ifnull(prv.actual_member_count, 0)) as actual_member_count
+        sum(ifnull(prv.actual_member_count, 0)) as actual_member_count,
+        if(isnull(c.status), -1, c.status) as cadre_status
         from pcs_candidate_view pcv
         left join (select pbv.*, pr.expect_member_count, pr.actual_member_count, pr.is_finished from pcs_branch_view pbv
         left join pcs_recommend pr on pr.config_id=#{configId} and pr.stage=#{stage} and pr.party_id=pbv.party_id and
         ((pbv.branch_id is null and pr.branch_id is null) or pbv.branch_id=pr.branch_id)) prv on
         prv.party_id=pcv.party_id and
         ((prv.branch_id is null and pcv.branch_id is null) or prv.branch_id=pcv.branch_id)
+        left join cadre c on c.user_id=pcv.user_id
         <include refid="searchBranchCandidates"/>
         group by pcv.user_id
-        order by branch_count desc
+        order by branch_count desc, FIND_IN_SET(cadre_status, '6,4,1,3,-1'), c.sort_order desc, actual_member_count desc
     </select>
     <select id="countBranchCandidates" parameterType="map" resultType="java.lang.Integer">
         select count(distinct pcv.user_id) from pcs_candidate_view pcv

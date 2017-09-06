@@ -123,9 +123,18 @@ public class PcsExportService extends BaseMapper {
         if (type == SystemConstants.PCS_USER_TYPE_JW) {
             title = "中国共产党北京师范大学第十三届纪律检查委员会委员";
         }
-        String filename = "wy-4-1.xlsx";
+
+        String stage_s = "";
+        switch (stage){
+            case SystemConstants.PCS_STAGE_FIRST:
+                stage_s = "二下"; break;
+            case SystemConstants.PCS_STAGE_SECOND:
+                stage_s = "三下"; break;
+        }
+
+        String filename = "wy-4-1_1.xlsx";
         if (BooleanUtils.isTrue(isChosen))
-            filename = "wy-7-1.xlsx";
+            filename = "wy-7-1_4.xlsx";
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -136,7 +145,8 @@ public class PcsExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage))
+                .replace("ss", stage_s);
         cell.setCellValue(str);
 
         // 全校分党委数：pc    全校党支部数：bc     全校党员总数（含预备党员）：mc      应参会党员总数：emc      实参会党员总数：amc
@@ -215,15 +225,19 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
+            // 年龄
+            cell = row.getCell(column++);
+            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+
             // 入党时间
             String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
-            // 参加工作时间
+            /*// 参加工作时间
             String workTime = DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM");
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(workTime));
+            cell.setCellValue(StringUtils.trimToEmpty(workTime));*/
 
             // 所在单位及职务
             cell = row.getCell(column++);
@@ -338,7 +352,7 @@ public class PcsExportService extends BaseMapper {
 
         List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, null, new RowBounds());
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-6.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-6_3.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -583,9 +597,9 @@ public class PcsExportService extends BaseMapper {
             title = "中国共产党北京师范大学第十三届纪律检查委员会委员";
         }
 
-        String filename = "wy-1-1.xlsx";
+        String filename = "wy-1-1_6.xlsx";
         if(stage == SystemConstants.PCS_STAGE_SECOND){
-            filename = "wy-3-1-1.xlsx";
+            filename = "wy-3-1-1.xlsx"; // 三下名单
         }
 
         String typeName = SystemConstants.PCS_USER_TYPE_MAP.get(type);
@@ -602,10 +616,14 @@ public class PcsExportService extends BaseMapper {
         cell.setCellValue(str);
 
         if(stage == SystemConstants.PCS_STAGE_FIRST) {
+            String count = "30";
+            if(type==SystemConstants.PCS_USER_TYPE_JW)
+                count = "16";
             row = sheet.getRow(2);
             cell = row.getCell(0);
             str = cell.getStringCellValue()
-                    .replaceAll("type", typeName);
+                    .replaceAll("type", typeName)
+                    .replace("count", count);
             cell.setCellValue(str);
         }
 
@@ -628,6 +646,10 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(i + 1);
 
+            // 工作证号
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getCode());
+
             // 姓名
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
@@ -643,12 +665,12 @@ public class PcsExportService extends BaseMapper {
             // 民族
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(bean.getNation()));
-            // 籍贯
+            /*// 籍贯
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(""));
             // 学历学位
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(""));
+            cell.setCellValue(StringUtils.trimToEmpty(""));*/
 
             // 职称
             cell = row.getCell(column++);
@@ -659,15 +681,19 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
+            // 年龄
+            cell = row.getCell(column++);
+            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+
             // 入党时间
             String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
-            // 参加工作时间
+           /* // 参加工作时间
             String workTime = DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM");
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(workTime));
+            cell.setCellValue(StringUtils.trimToEmpty(workTime));*/
 
             // 所在单位及职务
             cell = row.getCell(column++);

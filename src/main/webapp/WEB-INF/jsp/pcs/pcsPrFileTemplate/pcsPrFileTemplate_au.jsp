@@ -9,13 +9,13 @@
             <div class="modal-body">
             <form class="form-horizontal" action="${ctx}/pcsPrFileTemplate_au" id="modalForm" method="post"
                   enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="${record.id}">
+                    <input type="hidden" name="id" value="${pcsPrFileTemplate.id}">
                     <div class="form-group">
                         <label class="col-xs-3 control-label">材料名称</label>
 
                         <div class="col-xs-6">
                             <input required class="form-control" type="text" name="name"
-                                   value="${record.appointCount}">
+                                   value="${pcsPrFileTemplate.name}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label">备注</label>
                         <div class="col-xs-6">
-                            <textarea class="form-control limited" name="remark">${record.remark}</textarea>
+                            <textarea class="form-control limited" name="remark">${pcsPrFileTemplate.remark}</textarea>
                         </div>
                     </div>
             </form>

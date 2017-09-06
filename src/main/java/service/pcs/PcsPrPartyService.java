@@ -5,6 +5,7 @@ import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.member.Member;
 import domain.party.Party;
 import domain.pcs.PcsPrCandidate;
+import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrRecommend;
 import domain.pcs.PcsPrRecommendExample;
@@ -52,10 +53,10 @@ public class PcsPrPartyService extends BaseMapper {
         // 二下二上和三下三上，在组织部审批通过上一阶段前，不可填写
         if(stage==SystemConstants.PCS_STAGE_SECOND){
             PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_FIRST, partyId);
-            if(_check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+            if(_check == null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
         }else if(stage==SystemConstants.PCS_STAGE_THIRD){
             PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
-            if(_check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+            if(_check == null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
         }
 
         // 分党委已经报送之后，不可修改数据
@@ -197,7 +198,47 @@ public class PcsPrPartyService extends BaseMapper {
                 pcsPrCandidateService.insertSelective(_candidate);
             }
         }
-
     }
 
+    // 三下三上， 提交党员大会选举情况
+    @Transactional
+    public void submit3(int configId, int partyId, PcsPrRecommend record, List<PcsPrCandidateFormBean> beans) {
+
+        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        record.setConfigId(configId);
+        record.setStage(stage);
+        record.setPartyId(partyId);
+        record.setHasReport(false);
+        record.setExpectMemberCount(0);
+        record.setActualMemberCount(0);
+
+        PcsPrRecommend pcsPrRecommend = getPcsPrRecommend(configId, stage, partyId);
+        if(pcsPrRecommend==null || pcsPrRecommend.getId()==null){
+            pcsPrRecommendMapper.insertSelective(record);
+        }else{
+            record.setId(pcsPrRecommend.getId());
+            pcsPrRecommendMapper.updateByPrimaryKeySelective(record);
+        }
+
+        // 阶段三共用阶段二的候选人名单
+        PcsPrRecommend pcsPrRecommend2 = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        int recommendId = pcsPrRecommend2.getId();
+        for (PcsPrCandidateFormBean bean : beans) {
+
+            int userId = bean.getUserId();
+            int vote = bean.getVote();
+
+            PcsPrCandidate _candidate = new PcsPrCandidate();
+            _candidate.setVote3(vote);
+
+            PcsPrCandidateExample example = new PcsPrCandidateExample();
+            example.createCriteria().andRecommendIdEqualTo(recommendId).andUserIdEqualTo(userId);
+            int ret = pcsPrCandidateMapper.updateByExampleSelective(_candidate, example);
+
+            if(ret!=1){
+                throw new OpException("数据有误。");
+            }
+        }
+
+    }
 }

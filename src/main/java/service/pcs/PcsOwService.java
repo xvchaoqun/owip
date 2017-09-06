@@ -131,4 +131,10 @@ public class PcsOwService extends BaseMapper {
 
         return pcsIssueMapper.countByExample(example) > 0;
     }
+
+    // 退回报送
+    public void reportBack(int reportId) {
+
+        pcsAdminReportMapper.deleteByPrimaryKey(reportId);
+    }
 }

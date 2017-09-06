@@ -11,6 +11,8 @@ public class PcsPrCandidateFormBean {
     private Byte gender;
     private String birth;
     private String nation;
+    private String mobile; // 三下三上
+    private String email; // 三下三上
 
     public Byte getType() {
         return type;
@@ -58,5 +60,21 @@ public class PcsPrCandidateFormBean {
 
     public void setNation(String nation) {
         this.nation = nation;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

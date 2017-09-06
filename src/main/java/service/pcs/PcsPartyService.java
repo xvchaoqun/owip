@@ -54,7 +54,7 @@ public class PcsPartyService extends BaseMapper {
         return records;
     }
 
-    // 管理员报送，报送后数据不可修改
+    // 分党委管理员报送，报送后数据不可修改
     @Transactional
     public void report(int partyId, int configId, byte stage) {
 
