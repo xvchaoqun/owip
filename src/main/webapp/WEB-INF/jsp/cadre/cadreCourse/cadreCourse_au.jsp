@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
                 </script>
             </div>
         </div>
-        <c:if test="${empty cadreCourse}">
+        <c:if test="${empty cadreCourse && param.toApply!=1}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label" style="padding-top: 100px">课程名称（多门课程以#号分隔）</label>
 				<div class="col-xs-8">
@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
         </c:if>
-        <c:if test="${not empty cadreCourse}">
+        <c:if test="${not empty cadreCourse || param.toApply==1}">
             <div class="form-group">
                 <label class="col-xs-3 control-label" >课程名称</label>
                 <div class="col-xs-6">
