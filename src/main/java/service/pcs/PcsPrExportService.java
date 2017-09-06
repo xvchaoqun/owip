@@ -3,6 +3,8 @@ package service.pcs;
 import domain.cadre.CadreView;
 import domain.member.MemberStudentExample;
 import domain.member.MemberTeacherExample;
+import domain.pcs.PcsExcludeBranch;
+import domain.pcs.PcsExcludeBranchExample;
 import domain.pcs.PcsPartyView;
 import domain.pcs.PcsPartyViewExample;
 import domain.pcs.PcsPrAllocate;
@@ -38,6 +40,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -307,19 +310,31 @@ public class PcsPrExportService extends BaseMapper {
         String sc = "";
         String rc = "";
         int totalMemberCount = 0;
+
+        List<Integer> excludeBranchIds = new ArrayList<>();
+        List<PcsExcludeBranch> pcsExcludeBranches = pcsExcludeBranchMapper.selectByExample(new PcsExcludeBranchExample());
+        for (PcsExcludeBranch pcsExcludeBranch : pcsExcludeBranches) {
+            excludeBranchIds.add(pcsExcludeBranch.getBranchId());
+        }
         // 全校
         {
             MemberTeacherExample example = new MemberTeacherExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                     .andIsRetireNotEqualTo(true);
+            if(excludeBranchIds.size()>0){
+                criteria.andBranchIdNotIn(excludeBranchIds);
+            }
             long count = memberTeacherMapper.countByExample(example);
             totalMemberCount += count;
             tc = count + "";
         }
         {
             MemberTeacherExample example = new MemberTeacherExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                     .andIsRetireEqualTo(true);
+            if(excludeBranchIds.size()>0){
+                criteria.andBranchIdNotIn(excludeBranchIds);
+            }
             long count = memberTeacherMapper.countByExample(example);
             totalMemberCount += count;
             rc = count + "";
@@ -327,7 +342,10 @@ public class PcsPrExportService extends BaseMapper {
 
         {
             MemberStudentExample example = new MemberStudentExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+            MemberStudentExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+            if(excludeBranchIds.size()>0){
+                criteria.andBranchIdNotIn(excludeBranchIds);
+            }
             long count = memberStudentMapper.countByExample(example);
             totalMemberCount += count;
             sc = count + "";

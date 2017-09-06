@@ -210,6 +210,12 @@ public class MemberTransferService extends BaseMapper {
         member.setPartyId(memberTransfer.getToPartyId());
         member.setBranchId(memberTransfer.getToBranchId());
         memberMapper.updateByPrimaryKeySelective(member);
+
+        if(record.getToPartyId()!=null && record.getToBranchId()==null){
+            // 修改为直属党支部
+            Assert.isTrue(partyService.isDirectBranch(record.getToPartyId()), "not direct branch");
+            iMemberMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
+        }
     }
 
     @Transactional

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsPrPartyBean;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -165,51 +164,6 @@ public class PcsPrOwController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsPrOw:list")
-    @RequestMapping("/pcsPrOw_stat_candidate_data")
-    public void pcsPrOw_stat_candidate_data(HttpServletResponse response,
-                                            byte stage,
-                                            Integer userId,
-                                            @RequestParam(required = false, defaultValue = "1") byte cls,
-                                            @RequestParam(required = false,
-                                                    defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
-                                            Integer pageSize, Integer pageNo) throws IOException {
-
-        // cls=2时读取全部
-        Boolean isChosen = null;
-        if (cls == 4) isChosen = true;
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        int configId = currentPcsConfig.getId();
-
-        int count = iPcsMapper.countPartyCandidates(userId, isChosen, configId, stage, type);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-
-        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, isChosen, configId, stage, type,
-                new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        Map resultMap = new HashMap();
-        resultMap.put("rows", records);
-        resultMap.put("records", count);
-        resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
-
-        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        JSONUtils.jsonp(resultMap, baseMixins);
-        return;
-    }
 
     // 单个分党委下的推荐情况
     @RequiresPermissions("pcsPrOw:list")

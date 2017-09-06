@@ -197,12 +197,11 @@
         b.actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status from
         (
-        select pcv.*, sum(pbv.member_count) member_count,
+        select pcv.*,
         group_concat(distinct pcv.party_id) as party_ids,
         group_concat(pcv.branch_id) as branch_ids,
         count(pcv.id) as branch_count
         from pcs_candidate_view pcv
-        left join pcs_branch_view pbv on pcv.party_id= pbv.party_id and ((pbv.branch_id is null and pcv.branch_id is null) or pbv.branch_id=pcv.branch_id)
         where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.party_id
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
         group by pcv.party_id, pcv.user_id, pcv.type
