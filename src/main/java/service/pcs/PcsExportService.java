@@ -64,11 +64,13 @@ public class PcsExportService extends BaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         String stageStr = "";
-        switch (stage){
+        switch (stage) {
             case SystemConstants.PCS_STAGE_FIRST:
-                stageStr = "一上"; break;
+                stageStr = "一上";
+                break;
             case SystemConstants.PCS_STAGE_SECOND:
-                stageStr = "二上"; break;
+                stageStr = "二上";
+                break;
         }
 
         XSSFRow row = sheet.getRow(0);
@@ -125,11 +127,13 @@ public class PcsExportService extends BaseMapper {
         }
 
         String stage_s = "";
-        switch (stage){
+        switch (stage) {
             case SystemConstants.PCS_STAGE_FIRST:
-                stage_s = "二下"; break;
+                stage_s = "二下";
+                break;
             case SystemConstants.PCS_STAGE_SECOND:
-                stage_s = "三下"; break;
+                stage_s = "三下";
+                break;
         }
 
         String filename = "wy-4-1_1.xlsx";
@@ -154,33 +158,18 @@ public class PcsExportService extends BaseMapper {
         example.createCriteria().andIsDeletedEqualTo(false);
         List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
         int partyCount = pcsPartyViews.size();
-        {/*
-            PartyExample example = new PartyExample();
-            example.createCriteria().andIsDeletedEqualTo(false);
-            partyCount = partyMapper.countByExample(example);*/
-        }
         int branchCount = 0;
         int memberCount = 0;
-        {
-            for (PcsPartyView pcsPartyView : pcsPartyViews) {
-                if(pcsPartyView.getBranchCount()!=null) {
-                    branchCount += pcsPartyView.getBranchCount();
-                }else{
-                    branchCount += 1; // 直属支部
-                }
-                if(pcsPartyView.getMemberCount()!=null) {
-                    memberCount += pcsPartyView.getMemberCount();
-                }
+        for (PcsPartyView pcsPartyView : pcsPartyViews) {
+            if (pcsPartyView.getBranchCount() != null) {
+                branchCount += pcsPartyView.getBranchCount();
+            } else {
+                branchCount += 1; // 直属支部
             }
-           /* BranchExample example = new BranchExample();
-            example.createCriteria().andIsDeletedEqualTo(false);
-            branchCount = branchMapper.countByExample(example);*/
+            if (pcsPartyView.getMemberCount() != null) {
+                memberCount += pcsPartyView.getMemberCount();
+            }
         }
-
-        /*Map politicalStatusMap = statService.politicalStatusMap(null, null);
-        for (Byte status : SystemConstants.MEMBER_POLITICAL_STATUS_MAP.keySet()) {
-            memberCount += (Integer) politicalStatusMap.get(status);
-        }*/
 
         Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount();
         int expect = (schoolMemberCount == null || schoolMemberCount.get("expect") == null)
@@ -467,7 +456,6 @@ public class PcsExportService extends BaseMapper {
                 iPcsMapper.selectBranchCandidates(null, configId, stage, type, partyId, new RowBounds());
 
 
-
         String deadline = "";
         switch (stage) {
             case SystemConstants.PCS_STAGE_FIRST:
@@ -585,12 +573,12 @@ public class PcsExportService extends BaseMapper {
 
         try {
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow - 1, 0, startRow - 1, row.getLastCellNum() - 1));
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         try {
-            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, row.getLastCellNum()-1));
-        }catch (Exception e){
+            sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, row.getLastCellNum() - 1));
+        } catch (Exception e) {
 
         }
 
@@ -613,7 +601,7 @@ public class PcsExportService extends BaseMapper {
         }
 
         String filename = "wy-1-1_6.xlsx";
-        if(stage == SystemConstants.PCS_STAGE_SECOND){
+        if (stage == SystemConstants.PCS_STAGE_SECOND) {
             filename = "wy-3-1-1.xlsx"; // 三下名单
         }
 
@@ -630,9 +618,9 @@ public class PcsExportService extends BaseMapper {
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
-        if(stage == SystemConstants.PCS_STAGE_FIRST) {
+        if (stage == SystemConstants.PCS_STAGE_FIRST) {
             String count = "30";
-            if(type==SystemConstants.PCS_USER_TYPE_JW)
+            if (type == SystemConstants.PCS_USER_TYPE_JW)
                 count = "16";
             row = sheet.getRow(2);
             cell = row.getCell(0);

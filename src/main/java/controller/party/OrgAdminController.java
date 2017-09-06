@@ -181,27 +181,28 @@ public class OrgAdminController extends BaseController {
 
         if (id != null) {
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
-
-            Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
-                if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
-                    return failed("不能删除自己");
+            if(orgAdmin!=null) {
+                Subject subject = SecurityUtils.getSubject();
+                if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
+                        && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+                    if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
+                        return failed("不能删除自己");
+                    }
                 }
-            }
-            SysUserView uv = sysUserService.findById(orgAdmin.getUserId());
-            Party party = null;
-            if(orgAdmin.getPartyId()!=null) {
-                party = partyService.findAll().get(orgAdmin.getPartyId());
-            }
-            Branch branch = null;
-            if(orgAdmin.getBranchId()!=null) {
-                branch = branchService.findAll().get(orgAdmin.getBranchId());
-            }
+                SysUserView uv = sysUserService.findById(orgAdmin.getUserId());
+                Party party = null;
+                if (orgAdmin.getPartyId() != null) {
+                    party = partyService.findAll().get(orgAdmin.getPartyId());
+                }
+                Branch branch = null;
+                if (orgAdmin.getBranchId() != null) {
+                    branch = branchService.findAll().get(orgAdmin.getBranchId());
+                }
 
-            orgAdminService.del(id, orgAdmin.getUserId());
-            logger.info(addLog(SystemConstants.LOG_OW, "删除党组织管理员：%s, %s%s"
-                    , uv.getCode(), party==null?"":party.getName(), branch==null?"":branch.getName()));
+                orgAdminService.del(id, orgAdmin.getUserId());
+                logger.info(addLog(SystemConstants.LOG_OW, "删除党组织管理员：%s, %s%s"
+                        , uv.getCode(), party == null ? "" : party.getName(), branch == null ? "" : branch.getName()));
+            }
         }
         return success(FormUtils.SUCCESS);
     }

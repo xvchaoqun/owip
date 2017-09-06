@@ -311,6 +311,7 @@ public class PcsPrExportService extends BaseMapper {
         String rc = "";
         int totalMemberCount = 0;
 
+        // 去除排除支部的党员人数
         List<Integer> excludeBranchIds = new ArrayList<>();
         List<PcsExcludeBranch> pcsExcludeBranches = pcsExcludeBranchMapper.selectByExample(new PcsExcludeBranchExample());
         for (PcsExcludeBranch pcsExcludeBranch : pcsExcludeBranches) {

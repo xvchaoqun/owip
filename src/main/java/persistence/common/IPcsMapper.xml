@@ -191,8 +191,8 @@
     <select id="selectPartyCandidates" resultMap="CandidateBaseResultMap" parameterType="map">
         select a.user_id, a.is_from_stage, pcc.id as chosen_id, a.code, a.realname, a.title, a.ext_unit,
         a.gender,a.nation,
-        a.birth,a.grow_time, a.work_time, a.pro_post, a.type, group_concat(distinct a.party_id) as party_ids,
-        group_concat(a.branch_ids) as branch_ids, sum(a.branch_count) as branch_count,
+        a.birth,a.grow_time, a.work_time, a.pro_post, a.type, a.party_ids,
+        a.branch_ids, a.branch_count,
         d.member_count, b.expect_member_count,
         b.actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status from
@@ -202,9 +202,9 @@
         group_concat(pcv.branch_id) as branch_ids,
         count(pcv.id) as branch_count
         from pcs_candidate_view pcv
-        where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.party_id
+        where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType} and pcv.party_id
         in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
-        group by pcv.party_id, pcv.user_id, pcv.type
+        group by pcv.user_id
         ) a left join(
         select pc.user_id, sum(expect_member_count) as expect_member_count, sum(actual_member_count) as actual_member_count from pcs_recommend pr
         right join pcs_candidate pc on pr.id=pc.recommend_id and config_id=#{configId}
@@ -219,15 +219,14 @@
         left join cadre c on c.user_id=a.user_id
         left join pcs_candidate_chosen pcc on a.config_id=pcc.config_id
         and a.stage=pcc.stage and a.type=pcc.type and a.user_id=pcc.user_id
-
-        where a.type=#{candidateType}
+        <where>
         <if test="userId!=null">
             and a.user_id=#{userId}
         </if>
         <if test="isChosen">
             and pcc.id is not null
         </if>
-        group by a.user_id, a.type
+        </where>
         order by
         <if test="isChosen">
             pcc.sort_order asc
