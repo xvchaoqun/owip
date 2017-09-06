@@ -25,7 +25,7 @@ public interface IPcsMapper {
 
     // 还未报送党代表数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
-    @Select("select * from pcs_admin where config_id = #{configId} and type = #{adminType} and party_id not in(select party_id from " +
+    @Select("select * from pcs_admin where type = #{adminType} and party_id not in(select party_id from " +
             "pcs_pr_recommend where config_id  = #{configId} and stage = #{stage} and has_report=1)")
     public List<PcsAdmin> hasNotReportPcsPrAdmins(@Param("configId") int configId,
                                                   @Param("stage") byte stage,
@@ -79,7 +79,7 @@ public interface IPcsMapper {
 
     // 还未报送两委委员数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
-    @Select("select * from pcs_admin where config_id = #{configId} and type = #{adminType} and party_id not in(select party_id from " +
+    @Select("select * from pcs_admin where type = #{adminType} and party_id not in(select party_id from " +
             "pcs_admin_report where config_id  = #{configId} and stage = #{stage})")
     public List<PcsAdmin> hasNotReportPcsAdmins(@Param("configId") int configId,
                                                 @Param("stage") byte stage, @Param("adminType") byte adminType);
@@ -87,7 +87,7 @@ public interface IPcsMapper {
     // 全校 应参会党员总数/实参会党员总数
     @ResultType(java.util.HashMap.class)
     @Select("select sum(pr.expect_member_count) as expect, sum(pr.actual_member_count) as actual " +
-            "from pcs_recommend pr, pcs_admin_report par where pr.party_id = par.party_id")
+            "from pcs_recommend pr where pr.party_id in(select party_id from pcs_admin_report)")
     public Map<String, BigDecimal> schoolMemberCount();
 
     //  分党委推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据

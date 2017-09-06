@@ -1,8 +1,8 @@
 package service.pcs;
 
-import domain.party.BranchExample;
 import domain.party.Party;
-import domain.party.PartyExample;
+import domain.pcs.PcsPartyView;
+import domain.pcs.PcsPartyViewExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -150,23 +150,38 @@ public class PcsExportService extends BaseMapper {
         cell.setCellValue(str);
 
         // 全校分党委数：pc    全校党支部数：bc     全校党员总数（含预备党员）：mc      应参会党员总数：emc      实参会党员总数：amc
-        int partyCount = 0;
-        {
+        PcsPartyViewExample example = new PcsPartyViewExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
+        int partyCount = pcsPartyViews.size();
+        {/*
             PartyExample example = new PartyExample();
             example.createCriteria().andIsDeletedEqualTo(false);
-            partyCount = partyMapper.countByExample(example);
+            partyCount = partyMapper.countByExample(example);*/
         }
         int branchCount = 0;
-        {
-            BranchExample example = new BranchExample();
-            example.createCriteria().andIsDeletedEqualTo(false);
-            branchCount = branchMapper.countByExample(example);
-        }
         int memberCount = 0;
-        Map politicalStatusMap = statService.politicalStatusMap(null, null);
+        {
+            for (PcsPartyView pcsPartyView : pcsPartyViews) {
+                if(pcsPartyView.getBranchCount()!=null) {
+                    branchCount += pcsPartyView.getBranchCount();
+                }else{
+                    branchCount += 1; // 直属支部
+                }
+                if(pcsPartyView.getMemberCount()!=null) {
+                    memberCount += pcsPartyView.getMemberCount();
+                }
+            }
+           /* BranchExample example = new BranchExample();
+            example.createCriteria().andIsDeletedEqualTo(false);
+            branchCount = branchMapper.countByExample(example);*/
+        }
+
+        /*Map politicalStatusMap = statService.politicalStatusMap(null, null);
         for (Byte status : SystemConstants.MEMBER_POLITICAL_STATUS_MAP.keySet()) {
             memberCount += (Integer) politicalStatusMap.get(status);
-        }
+        }*/
+
         Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount();
         int expect = (schoolMemberCount == null || schoolMemberCount.get("expect") == null)
                 ? 0 : schoolMemberCount.get("expect").intValue();
