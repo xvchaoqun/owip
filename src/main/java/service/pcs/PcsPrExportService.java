@@ -754,13 +754,24 @@ public class PcsPrExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
 
-            // 工作证号
-            cell = row.getCell(column++);
-            cell.setCellValue(bean.getCode());
+            if (partyId != null) {
+                // 工作证号
+                cell = row.getCell(column++);
+                cell.setCellValue(bean.getCode());
+            }
 
             // 被推荐人姓名
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
+
+            if (partyId == null) {
+                int userId = bean.getUserId();
+                SysUserView uv = sysUserService.findById(userId);
+                String unit = sysUserService.getUnit(uv);
+                // 单位
+                cell = row.getCell(column++);
+                cell.setCellValue(StringUtils.trimToEmpty(unit));
+            }
 
             // 性别
             String gender = null;

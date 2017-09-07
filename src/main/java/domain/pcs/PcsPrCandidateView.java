@@ -26,6 +26,8 @@ public class PcsPrCandidateView implements Serializable {
 
     private Integer vote3;
 
+    private Boolean isChosen;
+
     private Boolean isFromStage;
 
     private Integer sortOrder;
@@ -150,6 +152,14 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setVote3(Integer vote3) {
         this.vote3 = vote3;
+    }
+
+    public Boolean getIsChosen() {
+        return isChosen;
+    }
+
+    public void setIsChosen(Boolean isChosen) {
+        this.isChosen = isChosen;
     }
 
     public Boolean getIsFromStage() {

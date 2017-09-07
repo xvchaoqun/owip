@@ -11,7 +11,6 @@
                         返回</a>
                     <span style="padding-left: 20px;">${party.name}</span>
                 </h4>
-<shiro:lacksRole name="role_pcs_check">
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -30,7 +29,6 @@
                         </li>
                     </ul>
                 </div>
-    </shiro:lacksRole>
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4" id="step-item-content">

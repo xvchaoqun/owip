@@ -1,4 +1,4 @@
-package controller.pcs.prm;
+package controller.pcs.prList;
 
 import controller.BaseController;
 import controller.global.OpException;
@@ -26,6 +26,7 @@ import sys.gson.GsonUtils;
 import sys.utils.ContentTypeUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -82,20 +83,21 @@ public class PcsPrVoteController extends BaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        String originalFilename = _file.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
-        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
-                && !ContentTypeUtils.isFormat(_file, "pdf")) {
-            throw new OpException("任免文件格式错误，请上传pdf文件");
+        if(_file!=null && !_file.isEmpty()) {
+            String originalFilename = _file.getOriginalFilename();
+            String ext = FileUtils.getExtention(originalFilename);
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
+                    && !ContentTypeUtils.isFormat(_file, "pdf")) {
+                throw new OpException("任免文件格式错误，请上传pdf文件");
+            }
+            String savePath = uploadPdf(_file, "pcsPrVote");
+            record.setReportFilePath(savePath);
         }
-
-        String savePath = uploadPdf(_file, "pcsPrVote");
-        record.setReportFilePath(savePath);
 
         List<PcsPrCandidateFormBean> beans = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrPartyService.submit3(configId, partyId, record, beans);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "上传党员大会选举情况：%s-%s", savePath, originalFilename));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "上传党员大会选举情况：%s", JSONUtils.toString(record, false)));
         return success(FormUtils.SUCCESS);
     }
 

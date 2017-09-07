@@ -822,6 +822,66 @@ public class PcsPrCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsChosenIsNull() {
+            addCriterion("is_chosen is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenIsNotNull() {
+            addCriterion("is_chosen is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenEqualTo(Boolean value) {
+            addCriterion("is_chosen =", value, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenNotEqualTo(Boolean value) {
+            addCriterion("is_chosen <>", value, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenGreaterThan(Boolean value) {
+            addCriterion("is_chosen >", value, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_chosen >=", value, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenLessThan(Boolean value) {
+            addCriterion("is_chosen <", value, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_chosen <=", value, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenIn(List<Boolean> values) {
+            addCriterion("is_chosen in", values, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenNotIn(List<Boolean> values) {
+            addCriterion("is_chosen not in", values, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_chosen between", value1, value2, "isChosen");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsChosenNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_chosen not between", value1, value2, "isChosen");
+            return (Criteria) this;
+        }
+
         public Criteria andIsFromStageIsNull() {
             addCriterion("is_from_stage is null");
             return (Criteria) this;

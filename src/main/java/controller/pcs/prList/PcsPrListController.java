@@ -1,0 +1,294 @@
+package controller.pcs.prList;
+
+import controller.BaseController;
+import controller.global.OpException;
+import controller.pcs.pr.PcsPrCandidateFormBean;
+import domain.cadre.CadreView;
+import domain.member.Member;
+import domain.party.Party;
+import domain.pcs.PcsAdmin;
+import domain.pcs.PcsConfig;
+import domain.pcs.PcsPrAllocate;
+import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsPrCandidateViewExample;
+import domain.pcs.PcsPrRecommend;
+import domain.sys.StudentInfo;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+import sys.gson.GsonUtils;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class PcsPrListController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList_export")
+    public String pcsPrList_export(String file, HttpServletResponse response) throws IOException {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        if (pcsAdmin == null) {
+            throw new UnauthorizedException();
+        }
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        int partyId = pcsAdmin.getPartyId();
+        Party party = partyService.findAll().get(partyId);
+
+        XSSFWorkbook wb = null;
+        String fileName = null;
+        switch (file){
+            case "1":
+                wb = pcsPrExportService.exportPartyCandidates1_stage2(configId, partyId);
+                fileName = "党代表名单";
+                break;
+            case "2":
+                wb = pcsPrExportService.exportPartyCandidates2_stage2(configId, partyId);
+                fileName = "党代表数据统计表";
+                break;
+        }
+
+        if(wb!=null)
+            ExportHelper.output(wb, fileName + ".xlsx", response);
+
+        return null;
+    }
+
+    @RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList")
+    public String pcsPrList(@RequestParam(required = false, defaultValue = "1") byte cls,
+                             Integer userId,
+                             ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if (cls == 2) {
+            return "forward:/pcsPrList_table_page";
+        } else if (cls == 3) {
+            return "forward:/pcsPrList_report_page";
+        }
+        if (userId != null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        if (pcsAdmin == null) {
+            throw new UnauthorizedException();
+        }
+        modelMap.put("partyId", pcsAdmin.getPartyId());
+
+        return "pcs/pcsPrList/pcsPrList_page";
+    }
+
+    @RequiresPermissions("pcsPrList:edit")
+    @RequestMapping(value = "/pcsPrList_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsPrList_au(String items,
+                                          HttpServletRequest request) throws UnsupportedEncodingException {
+
+        byte stage = SystemConstants.PCS_STAGE_THIRD;
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+
+        if(!pcsPrPartyService.allowModify(partyId, configId, stage)){
+            return failed("已报送数据，不可修改。");
+        }
+
+        List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
+        pcsPrListService.submit(configId, partyId, records);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList_table_page")
+    public String pcsPrList_table_page(byte stage, ModelMap modelMap) {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        if (pcsAdmin == null) {
+            throw new UnauthorizedException();
+        }
+        int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+
+        PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
+        modelMap.put("pcsPrAllocate", pcsPrAllocate);
+
+        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+        modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
+
+        return "pcs/pcsPrList/pcsPrList_table_page";
+    }
+
+    @RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList_report_page")
+    public String pcsPrList_report_page( ModelMap modelMap) {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        int partyId = pcsAdmin.getPartyId();
+
+        byte stage = SystemConstants.PCS_STAGE_THIRD;
+
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
+        modelMap.put("pcsPrRecommend", pcsPrRecommend);
+
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId, stage));
+
+        return "pcs/pcsPrList/pcsPrList_report_page";
+    }
+
+    @RequiresPermissions("pcsPrList:report")
+    @RequestMapping(value = "/pcsPrList_report", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsPrList_report() {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        if (pcsAdmin == null) {
+            throw new UnauthorizedException();
+        }
+
+        byte stage = SystemConstants.PCS_STAGE_THIRD;
+
+        int partyId = pcsAdmin.getPartyId();
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        if (!pcsPrPartyService.allowModify(partyId, configId, stage)) {
+            return failed("您所在分党委已经报送或组织部已下发名单。");
+        }
+
+        pcsPrPartyService.report(partyId, configId, stage);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+                SystemConstants.PCS_STAGE_MAP.get(stage)));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList_candidates")
+    public String pcsPrList_candidates(ModelMap modelMap) {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+
+        // 在第三阶段，共用第二阶段的候选人
+        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
+                SystemConstants.PCS_STAGE_SECOND, partyId, null);
+        example.setOrderByClause("vote3 desc, type asc, vote desc, sort_order asc");
+        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
+
+        modelMap.put("candidates", candidates);
+
+        return "pcs/pcsPrList/pcsPrList_candidates";
+    }
+
+    @RequiresPermissions("pcsPrList:edit")
+    @RequestMapping(value = "/pcsPrList_selectUser", method = RequestMethod.POST)
+    public void do_pcsPrList_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
+                                         HttpServletResponse response) throws IOException {
+
+        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+        int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        Map<Integer, PcsPrCandidateView> selectedMap = pcsPrCandidateService.findSelectedMap(configId,
+                SystemConstants.PCS_STAGE_SECOND, partyId);
+
+        List<PcsPrCandidateView> candidates = new ArrayList<>();
+        if (userIds != null) {
+            for (Integer userId : userIds) {
+
+                SysUserView uv = sysUserService.findById(userId);
+
+                PcsPrCandidateView candidate = new PcsPrCandidateView();
+                candidate.setUserId(uv.getUserId());
+                candidate.setCode(uv.getCode());
+                candidate.setRealname(uv.getRealname());
+
+                // 手机号 ， 新增
+                candidate.setMobile(uv.getMobile());
+                // 邮箱 ， 新增
+                candidate.setEmail(uv.getEmail());
+
+                PcsPrCandidateView _candidate = selectedMap.get(userId);
+                // 读取之前填写的性别、民族、出生年月
+                candidate.setGender(_candidate.getGender());
+                candidate.setNation(_candidate.getNation());
+                candidate.setBirth(_candidate.getBirth());
+
+                if(uv.getType()==SystemConstants.USER_TYPE_JZG){
+
+                    TeacherInfo teacherInfo = teacherService.get(userId);
+                    CadreView cv = cadreService.dbFindByUserId(userId);
+                    if(cv!=null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
+                        // 是干部
+                        candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_CADRE);
+                        candidate.setEduId(cv.getEduId());
+                        candidate.setWorkTime(cv.getWorkTime());
+                        candidate.setPost(cv.getPost());
+                    }else{
+                        // 是普通教师
+                        candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_TEACHER);
+                        candidate.setEducation(teacherInfo.getEducation());
+                        candidate.setWorkTime(teacherInfo.getWorkTime());
+                        candidate.setIsRetire(teacherInfo.getIsRetire());
+                        candidate.setProPost(teacherInfo.getProPost());
+                    }
+                }else{
+                    StudentInfo studentInfo = studentService.get(userId);
+                    // 学生
+                    candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_STU);
+                    candidate.setEduLevel(studentInfo.getEduLevel());
+                }
+
+                Member member = memberService.get(userId);
+                if(member==null || member.getPoliticalStatus()
+                        != SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
+                    throw new OpException(uv.getRealname() + "不是正式党员。");
+                }
+                candidate.setGrowTime(member.getGrowTime());
+
+                candidates.add(candidate);
+            }
+        }
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("candidates", candidates);
+        JSONUtils.write(response, resultMap);
+    }
+
+    @RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList_form_download")
+    public String pcsPrList_form_download(ModelMap modelMap) {
+
+        return "pcs/pcsPrList/pcsPrList_form_download";
+    }
+}

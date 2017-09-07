@@ -1,4 +1,4 @@
-package controller.pcs.prm;
+package controller.pcs.prList;
 
 import controller.BaseController;
 import controller.global.OpException;

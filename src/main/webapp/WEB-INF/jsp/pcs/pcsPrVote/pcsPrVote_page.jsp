@@ -29,12 +29,13 @@
                                                name="meetingAddress" style="width: 100%;"
                                                value="${pcsPrRecommend.meetingAddress}">
                                     </td>
-                                    <td colspan="2" width="50">选举结果报告单：
-                                            <a href="javascript:void(0)" class="popupBtn"
-                                               data-url="${ctx}/swf/preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览</a>
+                                    <td colspan="2" width="50">选举结果报告单<c:if test="${not empty pcsPrRecommend.reportFilePath}">
+                                        (<a href="javascript:void(0)" class="popupBtn"
+                                           data-url="${ctx}/swf/preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
+                                    </c:if>：
                                     </td>
                                     <td colspan="4">
-                                        <input required class="form-control" type="file" name="_file"/>
+                                        <input ${empty pcsPrRecommend.reportFilePath?"required":""} class="form-control" type="file" name="_file"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -78,6 +79,9 @@
                                     autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交党员大会选举情况
                             </button>
+                            <c:if test="${allowModify && not empty pcsPrRecommend}">
+                                您已提交成功，可以重新提交进行修改
+                            </c:if>
                         </div>
                     </div>
                 </div>
