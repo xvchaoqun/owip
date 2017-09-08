@@ -457,8 +457,7 @@ public class CmTag {
 
     public static String getUserUnit(Integer userId) {
 
-        SysUserView uv = sysUserService.findById(userId);
-        return sysUserService.getUnit(uv);
+        return sysUserService.getUnit(userId);
     }
 
     public static Unit getUnit(Integer unitId) {

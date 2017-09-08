@@ -69,7 +69,7 @@ public class MemberController extends BaseController {
             code = sysUser.getCode();
             userType = sysUser.getType();
             realname = sysUser.getRealname();
-            unit = sysUserService.getUnit(sysUser);
+            unit = sysUserService.getUnit(userId);
             Member member = memberService.get(userId);
             if(member==null){
                 msg = "该用户不是党员";

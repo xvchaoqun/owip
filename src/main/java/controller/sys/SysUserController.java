@@ -62,7 +62,7 @@ public class SysUserController extends BaseController {
         SysUserView sysUser = sysUserService.findById(userId);
         modelMap.put("sysUser", sysUser);
 
-        String unit = sysUserService.getUnit(sysUser);
+        String unit = sysUserService.getUnit(userId);
         modelMap.put("unit", unit); // 学校人事库或学生库中的单位名称
 
 

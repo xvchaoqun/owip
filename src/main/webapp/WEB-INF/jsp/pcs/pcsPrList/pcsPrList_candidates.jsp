@@ -29,6 +29,12 @@
         rowNum: candidates.length,
         data: candidates,
         colModel: [
+            {
+                label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return _cMap.PCS_PR_TYPE_MAP[cellvalue]
+            }
+            },
             {label: '工作证号', name: 'code', width: 120, frozen: true},
             {label: '被推荐人姓名', name: 'realname', width: 150, frozen: true},
             {
@@ -93,7 +99,7 @@
         if(userIds.length==0) return;
 
         var $jqGrid = $("#jqGrid");
-        $.post("${ctx}/pcsPrParty_selectUser", {userIds: userIds, stage:${param.stage}}, function (ret) {
+        $.post("${ctx}/pcsPrList_selectUser", {userIds: userIds}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');
                 $.each(ret.candidates, function(i, candidate){

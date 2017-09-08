@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrMeeting_party_page"
+             data-url-page="${ctx}/pcsPrListOw_party_page"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.partyId||not empty param.hasReport||not empty param.recommendStatus
@@ -17,7 +17,7 @@
                             <a class="popupBtn btn btn-warning btn-sm"
                                data-url="${ctx}/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
                         <span style="margin-left: 20px;">
-                            分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成报送共${hasReportCount}个（通过审核${passCount}个），未报送${hasNotReportCount}个。
+                            分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成上传共${hasReportCount}个（通过审核${passCount}个），未上传${hasNotReportCount}个。
                         </span>
                         </div>
                         <div class="space-4"></div>
@@ -95,13 +95,13 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/pcsPrOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcsPrListOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '分党委名称',name: 'name', align:'left', width:400, frozen:true},
-            { label: '是否上传选举结果',name: 'hasReport', width:80},
-            { label: '党员大会情况',name: '_hasReport', formatter: function (cellvalue, options, rowObject) {
+            { label: '是否上传选举结果',name: 'hasReport', width:150},
+            { label: '党员大会情况',name: '_hasReport', width:150, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/pcsPrMeeting_party_detail?partyId={0}"><i class="fa fa-search"></i> 详情</button>')
+                'data-url="${ctx}/pcsPrListOw_party_detail_page?partyId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }}
         ]

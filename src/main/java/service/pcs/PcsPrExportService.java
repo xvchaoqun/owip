@@ -10,6 +10,7 @@ import domain.pcs.PcsPartyViewExample;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
+import domain.pcs.PcsPrRecommend;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -70,6 +71,10 @@ public class PcsPrExportService extends BaseMapper {
     protected PcsPrAlocateService pcsPrAlocateService;
     @Autowired
     protected PcsPrCandidateService pcsPrCandidateService;
+    @Autowired
+    protected PcsPrPartyService pcsPrPartyService;
+    @Autowired
+    protected PcsPrListService pcsPrListService;
 
     /**
      * 附件7. 全校党员参与推荐代表候选人情况统计表（组织部汇总）
@@ -210,7 +215,7 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap();
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(null);
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
@@ -226,7 +231,7 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
 
         PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null);
+        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null, null);
         renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
 
         row = sheet.getRow(8);
@@ -261,6 +266,7 @@ public class PcsPrExportService extends BaseMapper {
                 break;
             case SystemConstants.PCS_STAGE_THIRD:
                 stageStr = "三上";
+                deadline = "9月18日前";
                 break;
         }
 
@@ -292,7 +298,12 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
 
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+        PcsPrAllocate realPcsPrAllocate = null;
+        if(stage == SystemConstants.PCS_STAGE_THIRD)
+            realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, SystemConstants.PCS_STAGE_SECOND, partyId, true);
+        else
+            realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
+
         renderParty(sheet, 5, 3, pcsPrAllocate, realPcsPrAllocate);
 
         row = sheet.getRow(9);
@@ -302,7 +313,45 @@ public class PcsPrExportService extends BaseMapper {
         return wb;
     }
 
-    public Map<String, String> getSchoolMemberCountMap() {
+    // 获取学历、工作时间、职别、职务
+    public Map<String, String> getUserInfoMap(int userId){
+        String edu = "-";
+        String workTime = "-";
+        String proPost = "-";
+        String post = "-";
+        SysUserView uv = sysUserService.findById(userId);
+        if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
+
+            TeacherInfo teacherInfo = teacherService.get(userId);
+            CadreView cv = cadreService.dbFindByUserId(userId);
+            if (cv != null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())) {
+                // 是干部
+                edu = metaTypeService.getName(cv.getEduId());
+                workTime = DateUtils.formatDate(cv.getWorkTime(), "yyyy.MM");
+                post = cv.getPost();
+                proPost = "干部";
+            } else {
+                // 是普通教师
+                edu = teacherInfo.getEducation();
+                workTime = DateUtils.formatDate(teacherInfo.getWorkTime(), "yyyy.MM");
+                proPost = teacherInfo.getProPost();
+            }
+        } else {
+            StudentInfo studentInfo = studentService.get(userId);
+            // 学生
+            proPost = studentInfo.getEduLevel();
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("edu", edu);
+        map.put("workTime", workTime);
+        map.put("proPost", proPost);
+        map.put("post", post);
+
+        return map;
+    }
+
+    public Map<String, String> getSchoolMemberCountMap(Byte politicalStatus) {
 
         Map<String, String> map = new HashMap<>();
         String mc = "";
@@ -322,6 +371,9 @@ public class PcsPrExportService extends BaseMapper {
             MemberTeacherExample example = new MemberTeacherExample();
             MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                     .andIsRetireNotEqualTo(true);
+            if(politicalStatus!=null){
+                criteria.andPoliticalStatusEqualTo(politicalStatus);
+            }
             if(excludeBranchIds.size()>0){
                 criteria.andBranchIdNotIn(excludeBranchIds);
             }
@@ -333,6 +385,9 @@ public class PcsPrExportService extends BaseMapper {
             MemberTeacherExample example = new MemberTeacherExample();
             MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
                     .andIsRetireEqualTo(true);
+            if(politicalStatus!=null){
+                criteria.andPoliticalStatusEqualTo(politicalStatus);
+            }
             if(excludeBranchIds.size()>0){
                 criteria.andBranchIdNotIn(excludeBranchIds);
             }
@@ -344,6 +399,9 @@ public class PcsPrExportService extends BaseMapper {
         {
             MemberStudentExample example = new MemberStudentExample();
             MemberStudentExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+            if(politicalStatus!=null){
+                criteria.andPoliticalStatusEqualTo(politicalStatus);
+            }
             if(excludeBranchIds.size()>0){
                 criteria.andBranchIdNotIn(excludeBranchIds);
             }
@@ -461,7 +519,7 @@ public class PcsPrExportService extends BaseMapper {
         String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap();
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(null);
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
@@ -500,7 +558,7 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(str);
 
             PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
-            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
             startRow += 4;
@@ -516,7 +574,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 全校汇总
             PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null);
+            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null, null);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
             startRow += 4;
@@ -544,7 +602,7 @@ public class PcsPrExportService extends BaseMapper {
 
     public static String percent(Integer count, Integer total) {
 
-        if (count == null || total == null || count <= 0 || total <= 0) return "";
+        if (count == null || total == null || count == 0 || total == 0) return "";
 
         return NumberUtils.formatDoubleFixed((count * 100.0) / total, 2) + "%";
     }
@@ -712,7 +770,7 @@ public class PcsPrExportService extends BaseMapper {
             startRow = 5;
         } else {
             // 全校
-            Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap();
+            Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(null);
             mc = schoolMemberCountMap.get("mc");
             tc = schoolMemberCountMap.get("tc");
             sc = schoolMemberCountMap.get("sc");
@@ -765,12 +823,9 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(bean.getRealname());
 
             if (partyId == null) {
-                int userId = bean.getUserId();
-                SysUserView uv = sysUserService.findById(userId);
-                String unit = sysUserService.getUnit(uv);
                 // 单位
                 cell = row.getCell(column++);
-                cell.setCellValue(StringUtils.trimToEmpty(unit));
+                cell.setCellValue(StringUtils.trimToEmpty(bean.getUnit()));
             }
 
             // 性别
@@ -794,37 +849,11 @@ public class PcsPrExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(bean.getNation()));
 
-            String edu = "-";
-            String workTime = "-";
-            String proPost = "-";
-            String post = "-";
-            int userId = bean.getUserId();
-            SysUserView uv = sysUserService.findById(userId);
-            if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-
-                TeacherInfo teacherInfo = teacherService.get(userId);
-                CadreView cv = cadreService.dbFindByUserId(userId);
-                if (cv != null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())) {
-                    // 是干部
-                    edu = metaTypeService.getName(cv.getEduId());
-                    workTime = DateUtils.formatDate(cv.getWorkTime(), "yyyy.MM");
-                    post = cv.getPost();
-                    proPost = "干部";
-                } else {
-                    // 是普通教师
-                    edu = teacherInfo.getEducation();
-                    workTime = DateUtils.formatDate(teacherInfo.getWorkTime(), "yyyy.MM");
-                    proPost = teacherInfo.getProPost();
-                }
-            } else {
-                StudentInfo studentInfo = studentService.get(userId);
-                // 学生
-                proPost = studentInfo.getEduLevel();
-            }
+            Map<String, String> userInfoMap = getUserInfoMap(bean.getUserId());
 
             // 学历
             cell = row.getCell(column++);
-            cell.setCellValue(edu);
+            cell.setCellValue(userInfoMap.get("edu"));
 /*
             // 参加工作时间
             cell = row.getCell(column++);
@@ -837,11 +866,11 @@ public class PcsPrExportService extends BaseMapper {
 
             // 职别
             cell = row.getCell(column++);
-            cell.setCellValue(proPost);
+            cell.setCellValue(userInfoMap.get("proPost"));
 
             // 职务
             cell = row.getCell(column++);
-            cell.setCellValue(post);
+            cell.setCellValue(userInfoMap.get("post"));
 
             // 票数
             cell = row.getCell(column++);
@@ -853,6 +882,364 @@ public class PcsPrExportService extends BaseMapper {
             cell = row.getCell(0);
             cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
         }
+
+        return wb;
+    }
+
+    /**
+     * 附表1. 党代表名单（分党委上报组织部）
+     */
+    public XSSFWorkbook exportPartyList(int configId, int partyId) throws IOException {
+
+        String filename = "prList-1.xlsx";
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFRow row = null;
+        XSSFCell cell = null;
+        String str = null;
+
+        String mt = "";
+        String mc = "";
+        String pc = "";
+        String ec = "";
+        String ac = "";
+
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_THIRD, partyId);
+        mt = DateUtils.formatDate(pcsPrRecommend.getMeetingTime(), DateUtils.YYYY_MM_DD_CHINA);
+        ec = pcsPrRecommend.getExpectPositiveMemberCount() + "";
+        ac = pcsPrRecommend.getActualPositiveMemberCount() + "";
+
+        PcsPartyView pv = pcsPartyViewService.get(partyId);
+        mc = pv.getMemberCount() + "";
+        pc = pv.getPositiveCount() + "";
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue().replace("party", pv.getName());
+        cell.setCellValue(str);
+
+
+        row = sheet.getRow(2);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                .replace("mt", mt)
+                .replace("mc", mc)
+                .replace("pc", pc)
+                .replace("ec", ec)
+                .replace("ac", ac);
+        cell.setCellValue(str);
+
+        int startRow = 4;
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId);
+        int rowCount = candidates.size();
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        for (int i = 0; i < rowCount; i++) {
+
+            PcsPrCandidateView bean = candidates.get(i);
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+
+            // 党代表类型
+            cell = row.getCell(column++);
+            cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+
+            // 工作证号
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getCode());
+
+            // 被推荐人姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getRealname());
+
+            // 性别
+            String gender = null;
+            cell = row.getCell(column++);
+            if (bean.getGender() != null) {
+                gender = SystemConstants.GENDER_MAP.get(bean.getGender());
+            }
+            cell.setCellValue(StringUtils.trimToEmpty(gender));
+
+            // 出生年月
+            String birth = DateUtils.formatDate(bean.getBirth(), "yyyy.MM");
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(birth));
+
+            // 年龄
+            cell = row.getCell(column++);
+            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+
+            // 民族
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getNation()));
+
+            Map<String, String> userInfoMap = getUserInfoMap(bean.getUserId());
+
+            // 学历
+            cell = row.getCell(column++);
+            cell.setCellValue(userInfoMap.get("edu"));
+/*
+            // 参加工作时间
+            cell = row.getCell(column++);
+            cell.setCellValue(workTime);*/
+
+            // 入党时间
+            String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(growTime));
+
+            // 职别
+            cell = row.getCell(column++);
+            cell.setCellValue(userInfoMap.get("proPost"));
+
+            // 职务
+            cell = row.getCell(column++);
+            cell.setCellValue(userInfoMap.get("post"));
+
+            // 票数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote()));
+            // 手机号
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getMobile()));
+            // 邮箱
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getEmail()));
+        }
+
+        row = sheet.getRow(startRow);
+        cell = row.getCell(0);
+        cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        return wb;
+    }
+    /**
+     * 附表3. 全校党代表汇总表（组织部汇总）
+     */
+    public XSSFWorkbook exportSchoolList(int configId) throws IOException {
+
+        String filename = "prList-3.xlsx";
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+
+        XSSFRow row = sheet.getRow(1);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("mc", schoolMemberCountMap.get("mc") + "")
+                .replace("tc", schoolMemberCountMap.get("tc") + "")
+                .replace("sc", schoolMemberCountMap.get("sc") + "")
+                .replace("rc", schoolMemberCountMap.get("rc") + "");
+        cell.setCellValue(str);
+
+        int startRow = 3;
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, null);
+        int rowCount = candidates.size();
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        for (int i = 0; i < rowCount; i++) {
+
+            PcsPrCandidateView bean = candidates.get(i);
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+
+            // 党代表类型
+            cell = row.getCell(column++);
+            cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+
+            /*// 工作证号
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getCode());*/
+
+            // 被推荐人姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getRealname());
+
+            // 单位
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getUnit()));
+
+            // 性别
+            String gender = null;
+            cell = row.getCell(column++);
+            if (bean.getGender() != null) {
+                gender = SystemConstants.GENDER_MAP.get(bean.getGender());
+            }
+            cell.setCellValue(StringUtils.trimToEmpty(gender));
+
+            // 出生年月
+            String birth = DateUtils.formatDate(bean.getBirth(), "yyyy.MM");
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(birth));
+
+            // 年龄
+            cell = row.getCell(column++);
+            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+
+            // 民族
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getNation()));
+
+
+            Map<String, String> userInfoMap = getUserInfoMap(bean.getUserId());
+            // 学历
+            cell = row.getCell(column++);
+            cell.setCellValue(userInfoMap.get("edu"));
+/*
+            // 参加工作时间
+            cell = row.getCell(column++);
+            cell.setCellValue(workTime);*/
+
+            // 入党时间
+            String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(growTime));
+
+            // 职别
+            cell = row.getCell(column++);
+            cell.setCellValue(userInfoMap.get("proPost"));
+
+            // 职务
+            cell = row.getCell(column++);
+            cell.setCellValue(userInfoMap.get("post"));
+
+            // 票数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote()));
+            // 手机号
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getMobile()));
+            // 邮箱
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getEmail()));
+        }
+
+        row = sheet.getRow(startRow);
+        cell = row.getCell(0);
+        cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        return wb;
+    }
+
+    // 党代表数据统计表
+    public XSSFWorkbook exportAllocate(int configId) throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/prList-4.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+
+        XSSFRow row = sheet.getRow(1);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("mc", schoolMemberCountMap.get("mc") + "")
+                .replace("tc", schoolMemberCountMap.get("tc") + "")
+                .replace("sc", schoolMemberCountMap.get("sc") + "")
+                .replace("rc", schoolMemberCountMap.get("rc") + "");
+        cell.setCellValue(str);
+
+
+        PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
+        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
+                SystemConstants.PCS_STAGE_SECOND, null, true);
+
+        renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
+
+        row = sheet.getRow(8);
+        cell = row.getCell(0);
+        cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        return wb;
+    }
+
+    public XSSFWorkbook exportPartyStat(int configId) throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/prList-5.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFRow row = null;
+        XSSFCell cell = null;
+
+        int positiveCount = 0;
+        int expectPositiveMemberCount = 0;
+        int actualPositiveMemberCount = 0;
+
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, SystemConstants.PCS_STAGE_THIRD,
+                null, null, null, new RowBounds());
+        int startRow = 2;
+        int rowCount = records.size();
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        for (int i = 0; i < rowCount; i++) {
+
+            PcsPrPartyBean bean = records.get(i);
+
+            positiveCount += NumberUtils.trimToZero(bean.getPositiveCount());
+            expectPositiveMemberCount += NumberUtils.trimToZero(bean.getExpectPositiveMemberCount());
+            actualPositiveMemberCount += NumberUtils.trimToZero(bean.getActualPositiveMemberCount());
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+
+            // 分党委名称
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getName());
+
+            // 正式党员数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getPositiveCount()));
+
+            // 应参会正式党员数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getExpectPositiveMemberCount()));
+
+            // 实参会正式党员数
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getActualPositiveMemberCount()));
+
+            // 参与比率
+            cell = row.getCell(column++);
+            cell.setCellValue(percent(bean.getActualPositiveMemberCount(), bean.getExpectPositiveMemberCount()));
+        }
+
+        // 合计
+        row = sheet.getRow(startRow++);
+        int column = 2;
+
+
+        // 正式党员数
+        cell = row.getCell(column++);
+        cell.setCellValue(positiveCount);
+
+        // 正式党员数
+        cell = row.getCell(column++);
+        cell.setCellValue(expectPositiveMemberCount);
+
+        // 正式党员数
+        cell = row.getCell(column++);
+        cell.setCellValue(actualPositiveMemberCount);
+
+        // 参与比率
+        cell = row.getCell(column++);
+        cell.setCellValue(percent(actualPositiveMemberCount, expectPositiveMemberCount));
+
+        row = sheet.getRow(startRow);
+        cell = row.getCell(0);
+        cell.setCellValue("日期：  " + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         return wb;
     }

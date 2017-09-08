@@ -1,9 +1,4 @@
-/*
-MySQL Backup
-Source Server Version: 5.7.10
-Source Database: db_owip
-Date: 2017/6/1 12:41:29
-*/
+
 -- (分党委、党总支)排除了pcs_exclude_branch里头的支部之后的分党委表
 DROP VIEW IF EXISTS `pcs_party_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_party_view` AS select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,
@@ -45,6 +40,10 @@ where ob.is_deleted=0 and peb.id is null
 union all
 select  op.id as party_id, null as branch_id, op.name, op.member_count from ow_party_view op, base_meta_type bmt
 where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' order by member_count desc;
+
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view2` AS
+select pbv.*, p.sort_order as party_sort_order, p.name as party_name
+from pcs_branch_view pbv left join ow_party p on pbv.party_id = p.id ;
 
 DROP VIEW IF EXISTS `pcs_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_candidate_view` AS

@@ -7,7 +7,7 @@
     <div class="tabbable" style="margin: 10px 20px; width: 900px">
       <div class="space-4"></div>
 
-      <a href="${ctx}/pcsPrList_export?file=4&stage=${param.stage}">
+      <a href="${ctx}/pcsPrParty_export?file=4&stage=${PCS_STAGE_THIRD}">
         <i class="fa fa-download"></i> 党代表数据统计表</a>
       <div class="space-4"></div>
       <table class="table table-bordered table-striped" data-offset-top="101">

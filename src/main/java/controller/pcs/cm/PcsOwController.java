@@ -3,8 +3,12 @@ package controller.pcs.cm;
 import controller.BaseController;
 import domain.party.Party;
 import domain.pcs.PcsAdminReport;
+import domain.pcs.PcsBranchView2;
+import domain.pcs.PcsBranchView2Example;
 import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsConfig;
+import domain.pcs.PcsPartyView;
+import domain.pcs.PcsPartyViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -36,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,9 +84,9 @@ public class PcsOwController extends BaseController {
             case "7-1":
                 wb = pcsExportService.exportPartyCandidates(true, configId, stage, type);
                 String stageStr = "";
-                if(stage==SystemConstants.PCS_STAGE_FIRST)
+                if (stage == SystemConstants.PCS_STAGE_FIRST)
                     stageStr = "二下";
-                if(stage==SystemConstants.PCS_STAGE_SECOND)
+                if (stage == SystemConstants.PCS_STAGE_SECOND)
                     stageStr = "三下";
                 fileName = String.format("%s候选人初步人选名册（“%s”名单）",
                         SystemConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
@@ -194,7 +199,7 @@ public class PcsOwController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
         PcsAdminReport pcsAdminReport = pcsAdminReportMapper.selectByPrimaryKey(reportId);
-        Assert.isTrue(pcsAdminReport.getConfigId()==configId && pcsAdminReport.getStage() == stage);
+        Assert.isTrue(pcsAdminReport.getConfigId() == configId && pcsAdminReport.getStage() == stage);
 
         pcsOwService.reportBack(reportId);
 
@@ -243,6 +248,73 @@ public class PcsOwController extends BaseController {
         logger.info(addLog(SystemConstants.LOG_ADMIN, "入选名单调序：%s, %s", id, addNum));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsOw:list")
+    @RequestMapping("/pcsOw_branchs")
+    public String pcsOw_branchs(byte stage,
+                                int userId,
+                                @RequestParam(required = false,
+                                        defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
+                                boolean recommend,
+                                ModelMap modelMap) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, null, configId, stage, type,
+                new RowBounds());
+
+        IPcsCandidateView candidate = records.get(0);
+        String partyIds = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
+        String branchIds = candidate.getBranchIds(); // 已选的支部
+
+        List<Integer> partyIdList = new ArrayList<>();
+        if (StringUtils.isNotBlank(partyIds)) {
+            for (String partyIdStr : partyIds.split(",")) {
+                partyIdList.add(Integer.parseInt(partyIdStr));
+            }
+        }
+        List<Integer> branchIdList = new ArrayList<>();
+        if (StringUtils.isNotBlank(branchIds)) {
+            for (String branchIdStr : branchIds.split(",")) {
+                branchIdList.add(Integer.parseInt(branchIdStr));
+            }
+        }
+
+        {
+            PcsPartyViewExample example = new PcsPartyViewExample();
+            PcsPartyViewExample.Criteria criteria = example.createCriteria();
+            if (recommend) {
+                if(partyIdList.size()>0)
+                    criteria.andIdIn(partyIdList);
+                else
+                    criteria.andIdIsNull(); // 全部不推荐
+            }else {
+                if(partyIdList.size()>0)
+                    criteria.andIdNotIn(partyIdList);
+            }
+            List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
+            modelMap.put("pcsPartyViews", pcsPartyViews);
+        }
+
+        {
+            PcsBranchView2Example example = new PcsBranchView2Example();
+            PcsBranchView2Example.Criteria criteria = example.createCriteria().andBranchIdIsNotNull();
+            if (recommend) {
+                if(branchIdList.size()>0)
+                    criteria.andBranchIdIn(partyIdList);
+                else
+                    criteria.andBranchIdEqualTo(-1); // 全部不推荐
+            }else {
+                if(branchIdList.size()>0)
+                    criteria.andBranchIdNotIn(partyIdList);
+            }
+            example.setOrderByClause("party_sort_order desc, branch_id asc");
+            List<PcsBranchView2> PcsBranchView2s = pcsBranchView2Mapper.selectByExample(example);
+            modelMap.put("pcsBranchViews", PcsBranchView2s);
+        }
+
+        return "/pcs/pcsOw/pcsOw_branchs";
     }
 
     @RequiresPermissions("pcsOw:list")

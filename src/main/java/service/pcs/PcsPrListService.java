@@ -4,6 +4,8 @@ import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsPrCandidateExample;
+import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsPrRecommend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,24 @@ import java.util.List;
 public class PcsPrListService extends BaseMapper {
     @Autowired
     private PcsPrPartyService pcsPrPartyService;
+
+    // 获取党代表名单
+    public List<PcsPrCandidateView> getList(int configId, Integer partyId){
+
+        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId)
+                .andIsChosenEqualTo(true);
+        if(partyId!=null){
+            criteria.andPartyIdEqualTo(partyId);
+            example.setOrderByClause("type asc, vote3 desc, sort_order asc");
+        }else{
+            criteria.andPartyIdEqualTo(partyId);
+            example.setOrderByClause("party_sort_order desc, type asc, vote3 desc, sort_order asc");
+        }
+
+        return pcsPrCandidateViewMapper.selectByExample(example);
+    }
+
 
     // 三下三上， 提交党代表名单
     @Transactional

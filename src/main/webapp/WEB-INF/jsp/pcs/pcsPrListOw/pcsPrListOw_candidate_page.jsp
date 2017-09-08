@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrParty"
+             data-url-page="${ctx}/pcsPrListOw"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
@@ -14,22 +14,8 @@
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
-                            <a class="popupBtn btn btn-success btn-sm"
-                               data-url="${ctx}/pcsPrParty_form_download?stage=${param.stage}">
-                                <i class="fa fa-download"></i> ${param.stage==PCS_STAGE_FIRST?"“一下”表格下载":""}
-                                ${param.stage==PCS_STAGE_SECOND?"“二下”名单下载":""}
-                                ${param.stage==PCS_STAGE_THIRD?"“三下”名单下载":""}</a>
-                            <button class="openView btn btn-warning btn-sm"
-                                    data-url="${ctx}/pcsPrParty_candidate_au?stage=${param.stage}"
-                                    ><i class="fa fa-sign-in"></i> 上传党代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单</button>
-                            <c:if test="${param.stage==PCS_STAGE_FIRST}">
-                                <a class="popupBtn btn btn-warning btn-sm"
-                                   data-width="750"
-                                   data-url="${ctx}/hf_content?code=hf_pcs_pr_guide">
-                                    <i class="fa fa-question-circle"></i> 使用说明</a>
-                            </c:if>
-                            <a style="margin-left: 20px;" href="${ctx}/pcsPrParty_export?file=3&stage=${param.stage}">
-                                <i class="fa fa-download"></i> 分党委酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选名单（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                            <a style="margin-left: 20px;" href="${ctx}/pcsPrListOw_export?file=3">
+                                <i class="fa fa-download"></i>  全校党代表汇总表</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -44,9 +30,7 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
-                                        <input type="hidden" name="type" value="${type}">
-                                        <input type="hidden" name="stage" value="${param.stage}">
-
+                                        <input type="hidden" name="cls" value="${param.cls}">
                                         <div class="form-group">
                                             <label>被推荐人</label>
                                             <select name="userId" data-rel="select2-ajax"
@@ -60,7 +44,7 @@
                                                 查找</a>
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                        data-querystr="cls=${param.cls}&stage=${param.stage}&type=${type}">
+                                                        data-querystr="cls=${param.cls}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -84,7 +68,7 @@
     $("#jqGrid").jqGrid({
         rownumbers: true,
         multiselect: false,
-        url: '${ctx}/pcsPrParty_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pcsPrListOw_candidate_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {

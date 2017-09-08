@@ -149,10 +149,10 @@
     }
 
     .modal .tip ul{
-        margin-left: 150px;
+        margin-left: 50px;
     }
     .modal .tip ul li{
-        font-size: 25px;
+        /*font-size: 13px;*/
         text-align: left;
     }
 </style>
@@ -217,6 +217,16 @@
             },
             </c:if>
             {label: '推荐提名<div>的党支部数</div>', name: 'branchCount'},
+            {label: '支部列表', name: '_branchCount', width: 120,formatter: function (cellvalue, options, rowObject) {
+
+               return  ('<a href="javascript:;" class="popupBtn" data-width="750" ' +
+                'data-url="${ctx}/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">已推荐</a>')
+                        .format(rowObject.userId, 1)
+
+                +  ('&nbsp;&nbsp;<a href="javascript:;" class="popupBtn" data-width="750" ' +
+                        'data-url="${ctx}/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">未推荐</a>')
+                                .format(rowObject.userId, 0);
+            }},
             {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
             {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
             {label: '推荐党支部实参会党员数<div style="font-size: 8px">（推荐提名的党员数）</div>', name: 'actualMemberCount', width: 180},

@@ -478,7 +478,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     var openBy = $(this).data("open-by");
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
-    console.log(gridId)
+    var idsName = $(this).data("ids-name") || 'ids';
     var ids = grid.getGridParam("selarrrow");
     if (ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
@@ -487,7 +487,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
 
     var url = $(this).data("url");
     var querystr = $(this).data("querystr");
-    url = url.split("?")[0] + "?ids[]=" + ids + ((querystr != undefined) ? (querystr) : "");
+    url = url.split("?")[0] + "?" + idsName + "=" + ids + ((querystr != undefined) ? (querystr) : "");
 
     if (openBy == 'page') {
         var $container = $("#body-content");

@@ -83,9 +83,17 @@ public class PcsPrPartyController extends BaseController {
                 break;
             case "4":
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
+                if(stage==SystemConstants.PCS_STAGE_THIRD)
+                    fileName = "党代表统计表";
+                else
+                    fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
                         SystemConstants.PCS_STAGE_MAP.get(stage));
+                break;
+
+            case "pl":
+                wb = pcsPrExportService.exportPartyList(configId, stage);
+                fileName = "党代表名单";
                 break;
         }
 
@@ -137,7 +145,7 @@ public class PcsPrPartyController extends BaseController {
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 
         return "pcs/pcsPrParty/pcsPrParty_candidate_table_page";

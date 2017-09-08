@@ -97,7 +97,13 @@ public class PcsPrListController extends BaseController {
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
-        modelMap.put("partyId", pcsAdmin.getPartyId());
+        int partyId = pcsAdmin.getPartyId();
+        int configId = pcsConfigService.getCurrentPcsConfig().getId();
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId);
+        modelMap.put("candidates", candidates);
+
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
+                SystemConstants.PCS_STAGE_THIRD));
 
         return "pcs/pcsPrList/pcsPrList_page";
     }
@@ -105,8 +111,7 @@ public class PcsPrListController extends BaseController {
     @RequiresPermissions("pcsPrList:edit")
     @RequestMapping(value = "/pcsPrList_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPrList_au(String items,
-                                          HttpServletRequest request) throws UnsupportedEncodingException {
+    public Map do_pcsPrList_au(String items, HttpServletRequest request) throws UnsupportedEncodingException {
 
         byte stage = SystemConstants.PCS_STAGE_THIRD;
 
@@ -128,7 +133,7 @@ public class PcsPrListController extends BaseController {
 
     @RequiresPermissions("pcsPrList:list")
     @RequestMapping("/pcsPrList_table_page")
-    public String pcsPrList_table_page(byte stage, ModelMap modelMap) {
+    public String pcsPrList_table_page(ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         if (pcsAdmin == null) {
@@ -140,7 +145,8 @@ public class PcsPrListController extends BaseController {
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
         modelMap.put("pcsPrAllocate", pcsPrAllocate);
 
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
+                SystemConstants.PCS_STAGE_SECOND, partyId, true);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 
         return "pcs/pcsPrList/pcsPrList_table_page";
@@ -240,6 +246,8 @@ public class PcsPrListController extends BaseController {
 
                 PcsPrCandidateView _candidate = selectedMap.get(userId);
                 // 读取之前填写的性别、民族、出生年月
+                candidate.setType(_candidate.getType());
+                candidate.setVote3(_candidate.getVote3());
                 candidate.setGender(_candidate.getGender());
                 candidate.setNation(_candidate.getNation());
                 candidate.setBirth(_candidate.getBirth());

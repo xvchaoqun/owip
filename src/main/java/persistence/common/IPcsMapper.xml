@@ -24,6 +24,9 @@
         <if test="partyId!=null">
             and party_id=#{partyId}
         </if>
+        <if test="isChosen!=null">
+            and is_chosen=#{isChosen}
+        </if>
     </select>
 
     <!--（党代表）分党委推荐汇总情况（统计已上报数据）-->

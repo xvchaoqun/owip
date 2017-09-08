@@ -125,7 +125,6 @@ public class PcsPrOwController extends BaseController {
     @RequestMapping("/pcsPrOw_allocate_table_page")
     public String pcsPrOw_allocate_page(
             byte stage,
-            Integer userId,
             ModelMap modelMap) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
@@ -140,27 +139,29 @@ public class PcsPrOwController extends BaseController {
 
     @RequiresPermissions("pcsPrOw:check")
     @RequestMapping("/pcsPrOw_check")
-    public String pcsPrOw_check(int partyId, ModelMap modelMap) {
+    public String pcsPrOw_check(@RequestParam(value = "partyIds[]") int[] partyIds,ModelMap modelMap) {
 
-        modelMap.put("party", partyService.findAll().get(partyId));
+        if(partyIds.length==1) {
+            modelMap.put("party", partyService.findAll().get(partyIds[0]));
+        }
 
         return "pcs/pcsPrOw/pcsPrOw_check";
     }
 
-    @RequiresPermissions("pcsPrOw:report")
+    @RequiresPermissions("pcsPrOw:check")
     @RequestMapping(value = "/pcsPrOw_check", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsPrOw_check(int partyId, byte stage, Boolean status, String remark) {
+    public Map do_pcsPrOw_check(@RequestParam(value = "partyIds[]") int[] partyIds, byte stage, Boolean status, String remark) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        pcsPrOwService.checkPartyRecommend(configId, stage, partyId,
+        pcsPrOwService.checkPartyRecommend(configId, stage, partyIds,
                 BooleanUtils.isTrue(status) ? SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS
                         : SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
-                configId, stage, partyId, status));
+                configId, stage, partyIds, status));
         return success(FormUtils.SUCCESS);
     }
 
@@ -251,7 +252,7 @@ public class PcsPrOwController extends BaseController {
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         }
 
-        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId);
+        PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 
         return "pcs/pcsPrOw/pcsPrOw_party_table_page";

@@ -64,10 +64,11 @@ public class SysUserService extends BaseMapper {
     protected PcsAdminService pcsAdminService;
 
     // 获取用户所在的学校人事库或学生库中的单位名称
-    public String getUnit(SysUserView sysUser) {
+    public String getUnit(int userId) {
 
-        String code = sysUser.getCode();
-        Byte type = sysUser.getType();
+        SysUserView uv = findById(userId);
+        String code = uv.getCode();
+        Byte type = uv.getType();
         String unit = null;
         if (type == SystemConstants.USER_TYPE_JZG) {
             ExtJzg extJzg = extJzgService.getByCode(code);

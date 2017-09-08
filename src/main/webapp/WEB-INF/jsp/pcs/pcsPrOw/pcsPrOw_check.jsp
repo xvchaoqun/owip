@@ -7,14 +7,26 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pcsPrOw_check" id="modalForm" method="post">
-        <input type="hidden" name="partyId" value="${party.id}">
+        <input type="hidden" name="partyIds[]" value="${param['partyIds[]']}">
         <input type="hidden" name="stage" value="${param.stage}">
+        <c:set var="num" value='${fn:length(fn:split(param["partyIds[]"],","))}'/>
+        <c:if test="${num==1}">
         <div class="form-group">
             <label class="col-xs-4 control-label">分党委名称</label>
             <div class="col-xs-6 label-text">
                 ${party.name}
             </div>
         </div>
+        </c:if>
+    <c:if test="${num>1}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">已选择分党委数量</label>
+            <div class="col-xs-6 label-text">
+                 ${num}个
+                     <span class="help-inline">（注：本操作只对已上报、未审核的分党委进行审核，否则忽略）</span>
+            </div>
+        </div>
+    </c:if>
         <div class="form-group">
             <label class="col-xs-4 control-label">是否审核通过</label>
             <div class="col-xs-6">

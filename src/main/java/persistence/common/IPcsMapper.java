@@ -53,7 +53,8 @@ public interface IPcsMapper {
     // 候选人初步人选数据统计
     public PcsPrAllocate statRealPcsPrAllocate(@Param("configId") int configId,
                                                @Param("stage") byte stage,
-                                               @Param("partyId") Integer partyId);
+                                               @Param("partyId") Integer partyId,
+                                               @Param("isChosen") Boolean isChosen);
 
     // 党代表分配方案，configId是非搜索字段，仅用于创建视图数据
     public List<PcsPrAllocateBean> selectPcsPrAllocateBeans(

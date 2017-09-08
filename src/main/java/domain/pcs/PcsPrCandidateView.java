@@ -1,9 +1,15 @@
 package domain.pcs;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class PcsPrCandidateView implements Serializable {
+
+    public String getUnit(){
+        return CmTag.getUserUnit(userId);
+    }
     private Integer id;
 
     private Integer recommendId;
