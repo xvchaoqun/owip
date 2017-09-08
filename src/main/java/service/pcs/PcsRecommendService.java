@@ -37,7 +37,7 @@ public class PcsRecommendService extends BaseMapper {
     public PcsBranchBean get(int partyId, Integer branchId, int configId, byte stage) {
 
         List<PcsBranchBean> pcsRecommends = iPcsMapper.selectPcsBranchBeans(configId, stage,
-                partyId, branchId, new RowBounds());
+                partyId, branchId, null, new RowBounds());
 
         return (pcsRecommends.size()>0)?pcsRecommends.get(0):null;
     }

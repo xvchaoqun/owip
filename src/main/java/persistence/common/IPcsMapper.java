@@ -110,12 +110,14 @@ public interface IPcsMapper {
     public List<PcsBranchBean> selectPcsBranchBeans(
             @Param("configId") int configId,
             @Param("stage") byte stage,
-            @Param("partyId") int partyId,
+            @Param("partyId") Integer partyId,
             @Param("branchId") Integer branchId,
+            @Param("isFinished") Boolean isFinished,
             RowBounds rowBounds);
 
-    public int countPcsBranchBeans(@Param("partyId") int partyId,
-                                   @Param("branchId") Integer branchId);
+    public int countPcsBranchBeans(@Param("partyId") Integer partyId,
+                                   @Param("branchId") Integer branchId,
+                                   @Param("isFinished") Boolean isFinished);
 
     // 分党委两委委员推荐提名情况
     public List<IPcsCandidateView> selectPartyCandidates(@Param("userId") Integer userId,

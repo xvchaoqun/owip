@@ -115,7 +115,7 @@ public class PcsPartyController extends BaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
+        List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
         modelMap.put("records", records);
 
         return "pcs/pcsParty/pcsParty_branch_table_page";

@@ -3,12 +3,8 @@ package controller.pcs.cm;
 import controller.BaseController;
 import domain.party.Party;
 import domain.pcs.PcsAdminReport;
-import domain.pcs.PcsBranchView2;
-import domain.pcs.PcsBranchView2Example;
 import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsConfig;
-import domain.pcs.PcsPartyView;
-import domain.pcs.PcsPartyViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -265,6 +261,12 @@ public class PcsOwController extends BaseController {
                 new RowBounds());
 
         IPcsCandidateView candidate = records.get(0);
+        modelMap.put("candidate", candidate);
+
+        // 完成推荐的支部（排除之后的新建支部， 不考虑直属支部）
+        List<PcsBranchBean> pcsBranchBeans =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+
         String partyIds = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
         String branchIds = candidate.getBranchIds(); // 已选的支部
 
@@ -281,7 +283,9 @@ public class PcsOwController extends BaseController {
             }
         }
 
-        {
+
+
+    /*    {
             PcsPartyViewExample example = new PcsPartyViewExample();
             PcsPartyViewExample.Criteria criteria = example.createCriteria();
             if (recommend) {
@@ -302,17 +306,17 @@ public class PcsOwController extends BaseController {
             PcsBranchView2Example.Criteria criteria = example.createCriteria().andBranchIdIsNotNull();
             if (recommend) {
                 if(branchIdList.size()>0)
-                    criteria.andBranchIdIn(partyIdList);
+                    criteria.andBranchIdIn(branchIdList);
                 else
                     criteria.andBranchIdEqualTo(-1); // 全部不推荐
             }else {
                 if(branchIdList.size()>0)
-                    criteria.andBranchIdNotIn(partyIdList);
+                    criteria.andBranchIdNotIn(branchIdList);
             }
             example.setOrderByClause("party_sort_order desc, branch_id asc");
             List<PcsBranchView2> PcsBranchView2s = pcsBranchView2Mapper.selectByExample(example);
             modelMap.put("pcsBranchViews", PcsBranchView2s);
-        }
+        }*/
 
         return "/pcs/pcsOw/pcsOw_branchs";
     }
@@ -479,13 +483,13 @@ public class PcsOwController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId);
+        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId,
+                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId, null,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

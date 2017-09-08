@@ -648,9 +648,9 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(gender));
         }
 
-        row = sheet.getRow(startRow + 1 + (rowCount == 0 ? 1 : 0));
+     /*   row = sheet.getRow(startRow + 1 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
-        cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+        cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));*/
 
         return wb;
     }
@@ -695,10 +695,10 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(gender));
         }
 
-        row = sheet.getRow(startRow + 1 + (rowCount == 0 ? 1 : 0));
+  /*      row = sheet.getRow(startRow + 1 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
         cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
-
+*/
         return wb;
     }
 

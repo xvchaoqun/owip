@@ -267,7 +267,7 @@ public class PcsExportService extends BaseMapper {
 
         Party party = partyService.findAll().get(partyId);
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
+                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-3_5.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -441,7 +441,7 @@ public class PcsExportService extends BaseMapper {
 
         Party party = partyService.findAll().get(partyId);
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
+                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
         int branchCount = pcsBranchBeans.size();
         int memberCount = 0;
         int expectMemberCount = 0;
@@ -615,7 +615,7 @@ public class PcsExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                .replace("stage", SystemConstants.PCS_STAGE_MAP.get((byte)(stage+1))); // 下一个阶段
         cell.setCellValue(str);
 
         if (stage == SystemConstants.PCS_STAGE_FIRST) {
@@ -704,9 +704,9 @@ public class PcsExportService extends BaseMapper {
                     StringUtils.trimToEmpty(bean.getExtUnit())));
         }
 
-        row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
+        /*row = sheet.getRow(startRow + 2 + (rowCount == 0 ? 1 : 0));
         cell = row.getCell(0);
-        cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+        cell.setCellValue(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));*/
 
         return wb;
     }

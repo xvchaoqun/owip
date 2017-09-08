@@ -42,8 +42,7 @@ select  op.id as party_id, null as branch_id, op.name, op.member_count from ow_p
 where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' order by member_count desc;
 
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view2` AS
-select pbv.*, p.sort_order as party_sort_order, p.name as party_name
-from pcs_branch_view pbv left join ow_party p on pbv.party_id = p.id ;
+select pbv.*, p.sort_order as party_sort_order, p.name as party_name from pcs_branch_view pbv left join ow_party p on pbv.party_id = p.id ;
 
 DROP VIEW IF EXISTS `pcs_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_candidate_view` AS

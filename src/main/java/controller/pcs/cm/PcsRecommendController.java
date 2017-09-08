@@ -79,13 +79,13 @@ public class PcsRecommendController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId);
+        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId,
+                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId, null,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

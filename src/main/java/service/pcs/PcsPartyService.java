@@ -45,7 +45,7 @@ public class PcsPartyService extends BaseMapper {
     public List<PcsBranchBean> notFinishedPcsBranchBeans(int partyId, int configId, byte stage){
         List<PcsBranchBean> records = new ArrayList<>();
         List<PcsBranchBean> pcsBranchBeans = iPcsMapper
-                .selectPcsBranchBeans(configId, stage, partyId, null, new RowBounds());
+                .selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             if(BooleanUtils.isNotTrue(pcsBranchBean.getIsFinished())) records.add(pcsBranchBean);

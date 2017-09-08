@@ -1,4 +1,6 @@
 
+
+2017-9-7
 ALTER TABLE `pcs_pr_candidate`
 	ADD COLUMN `is_chosen` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否选择，针对三下三上' AFTER `vote3`;
 
