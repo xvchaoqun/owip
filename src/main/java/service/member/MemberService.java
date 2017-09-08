@@ -190,7 +190,7 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
         } else if (_member == null) {
             Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");
-        } else throw new RuntimeException("数据异常，入党失败。" + uv.getCode() + "," + uv.getRealname());
+        } else throw new RuntimeException("数据异常，入党失败（已是党员或已转出）。" + uv.getCode() + "," + uv.getRealname());
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
         memberApplyService.addOrChangeToGrowApply(userId);
