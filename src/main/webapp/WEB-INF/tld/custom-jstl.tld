@@ -250,6 +250,11 @@
 		<function-signature>java.lang.Byte toByte(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>join</name>
+		<function-class>sys.utils.TagUtils</function-class>
+		<function-signature>java.lang.String join(java.lang.Iterable,java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>inverseMap</name>
 		<function-class>sys.utils.MapUtils</function-class>
 		<function-signature>java.util.Map inverse(java.util.Map)</function-signature>

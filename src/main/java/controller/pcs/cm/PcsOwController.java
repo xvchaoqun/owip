@@ -1,6 +1,8 @@
 package controller.pcs.cm;
 
 import controller.BaseController;
+import domain.party.Branch;
+import domain.party.BranchExample;
 import domain.party.Party;
 import domain.pcs.PcsAdminReport;
 import domain.pcs.PcsCandidateView;
@@ -248,13 +250,13 @@ public class PcsOwController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 推荐详情
     @RequiresPermissions("pcsOw:list")
-    @RequestMapping("/pcsOw_branchs")
-    public String pcsOw_branchs(byte stage,
+    @RequestMapping("/pcsOw_recommend_detail")
+    public String pcsOw_recommend_detail(byte stage,
                                 int userId,
                                 @RequestParam(required = false,
                                         defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
-                                boolean recommend,
                                 ModelMap modelMap) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
@@ -306,16 +308,20 @@ public class PcsOwController extends BaseController {
         for (Party party : partyService.findAll().values()) {
 
             Integer partyId = party.getId();
+            boolean directBranch = partyService.isDirectBranch(partyId);
             PcsOwBranchBean bean = new PcsOwBranchBean();
             bean.setPartyId(partyId);
             bean.setPartyName(party.getName());
             bean.setIsRecommend(selectedPartyIdSet.contains(partyId));
+            bean.setIsDirectBranch(directBranch);
+
             Set<Integer> branchIds = new HashSet<>();
             Set<Integer> notbranchIds = new HashSet<>();
-
-            if(partyService.isDirectBranch(partyId)){
+            if(!directBranch && bean.getIsRecommend()){
 
                 Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
+                bean.setTotalBranchIds(branchIdSet);
+
                 Set<Integer> result = new HashSet<Integer>();
                 // 交集 就是获得推荐的支部
                 result.clear();
@@ -339,40 +345,28 @@ public class PcsOwController extends BaseController {
 
         modelMap.put("beans", beans);
 
-    /*    {
-            PcsPartyViewExample example = new PcsPartyViewExample();
-            PcsPartyViewExample.Criteria criteria = example.createCriteria();
-            if (recommend) {
-                if(partyIdList.size()>0)
-                    criteria.andIdIn(partyIdList);
-                else
-                    criteria.andIdIsNull(); // 全部不推荐
-            }else {
-                if(partyIdList.size()>0)
-                    criteria.andIdNotIn(partyIdList);
+        return "/pcs/pcsOw/pcsOw_recommend_detail";
+    }
+
+    @RequiresPermissions("pcsOw:list")
+    @RequestMapping("/pcsOw_recommend_detail_branchs")
+    public String pcsOw_recommend_detail_branchs(int partyId, String branchIds, ModelMap modelMap) {
+
+        modelMap.put("party", partyService.findAll().get(partyId));
+
+        List<Integer> selectedBranchIdList = new ArrayList<>();
+        if (StringUtils.isNotBlank(branchIds)) {
+            for (String branchIdStr : branchIds.split(",")) {
+                selectedBranchIdList.add(Integer.parseInt(branchIdStr));
             }
-            List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
-            modelMap.put("pcsPartyViews", pcsPartyViews);
         }
 
-        {
-            PcsBranchView2Example example = new PcsBranchView2Example();
-            PcsBranchView2Example.Criteria criteria = example.createCriteria().andBranchIdIsNotNull();
-            if (recommend) {
-                if(branchIdList.size()>0)
-                    criteria.andBranchIdIn(branchIdList);
-                else
-                    criteria.andBranchIdEqualTo(-1); // 全部不推荐
-            }else {
-                if(branchIdList.size()>0)
-                    criteria.andBranchIdNotIn(branchIdList);
-            }
-            example.setOrderByClause("party_sort_order desc, branch_id asc");
-            List<PcsBranchView2> PcsBranchView2s = pcsBranchView2Mapper.selectByExample(example);
-            modelMap.put("pcsBranchViews", PcsBranchView2s);
-        }*/
+        BranchExample example = new BranchExample();
+        example.createCriteria().andIdIn(selectedBranchIdList);
+        List<Branch> branchs = branchMapper.selectByExample(example);
+        modelMap.put("branchs", branchs);
 
-        return "/pcs/pcsOw/pcsOw_branchs";
+        return "pcs/pcsOw/pcsOw_recommend_detail_branchs";
     }
 
     @RequiresPermissions("pcsOw:list")

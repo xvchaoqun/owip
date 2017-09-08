@@ -23,6 +23,14 @@
                                 </span>
                             </div>
                             <c:if test="${cls==2}">
+
+                                <button class="jqOpenViewBtn btn btn-success" data-url="${ctx}/pcsOw_recommend_detail"
+                                        data-open-by="page"
+                                        data-id-name="userId"
+                                        data-querystr="&type=${type}&stage=${param.stage}">
+                                    <i class="fa fa-info-circle"></i> 推荐详情
+                                </button>
+
                                 <c:set var="_stage" value="${param.stage==PCS_STAGE_FIRST?'二下':''}
                                 ${param.stage==PCS_STAGE_SECOND?'三下':''}"/>
                             <button data-url="${ctx}/pcsOw_choose"
@@ -217,7 +225,7 @@
             },
             </c:if>
             {label: '推荐提名<div>的党支部数</div>', name: 'branchCount'},
-            {label: '支部列表', name: '_branchCount', width: 120,formatter: function (cellvalue, options, rowObject) {
+  /*          {label: '支部列表', name: '_branchCount', width: 120,formatter: function (cellvalue, options, rowObject) {
 
                return  ('<a href="javascript:;" class="popupBtn" data-width="750" ' +
                 'data-url="${ctx}/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">已推荐</a>')
@@ -226,7 +234,7 @@
                 +  ('&nbsp;&nbsp;<a href="javascript:;" class="popupBtn" data-width="750" ' +
                         'data-url="${ctx}/pcsOw_branchs?userId={0}&type=${type}&stage=${param.stage}&recommend={1}">未推荐</a>')
                                 .format(rowObject.userId, 0);
-            }},
+            }},*/
             {label: '推荐党支部<div>所含党员数</div>', name: 'memberCount'},
             {label: '推荐党支部<div>应参会党员数</div>', name: 'expectMemberCount'},
             {label: '推荐党支部实参会党员数<div style="font-size: 8px">（推荐提名的党员数）</div>', name: 'actualMemberCount', width: 180},
