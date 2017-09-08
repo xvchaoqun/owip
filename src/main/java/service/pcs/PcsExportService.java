@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -365,6 +366,19 @@ public class PcsExportService extends BaseMapper {
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
+        Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
+        // 获得完成推荐的支部（排除之后的新建支部）
+        List<PcsBranchBean> pcsBranchBeans =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+        for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
+
+            Integer partyId = pcsBranchBean.getPartyId();
+            Integer memberCount = NumberUtils.trimToZero(partyMemberCountMap.get(partyId));
+            Integer _memberCount = NumberUtils.trimToZero(pcsBranchBean.getMemberCount());
+
+            partyMemberCountMap.put(partyId, memberCount + _memberCount);
+        }
+
         // 汇总
         int memberCount = 0;
         int expectMemberCount = 0;
@@ -390,7 +404,7 @@ public class PcsExportService extends BaseMapper {
 
             // 党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getMemberCount()));
+            cell.setCellValue(NumberUtils.trimToEmpty(partyMemberCountMap.get(bean.getId())));
 
             // 应参会党员数
             cell = row.getCell(column++);
@@ -404,7 +418,7 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(percent(bean.getActualMemberCount(), bean.getExpectMemberCount()));
 
-            memberCount += NumberUtils.trimToZero(bean.getMemberCount());
+            memberCount += NumberUtils.trimToZero(partyMemberCountMap.get(bean.getId()));
             expectMemberCount += NumberUtils.trimToZero(bean.getExpectMemberCount());
             actualMemberCount += NumberUtils.trimToZero(bean.getActualMemberCount());
         }
