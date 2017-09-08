@@ -649,9 +649,9 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(i + 1);
 
-            // 工作证号
+        /*    // 工作证号
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getCode());
+            cell.setCellValue(bean.getCode());*/
 
             // 姓名
             cell = row.getCell(column++);
@@ -679,14 +679,16 @@ public class PcsExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(bean.getProPost()));
 
+
+            /*
             // 出生年月
             String birth = DateUtils.formatDate(bean.getBirth(), "yyyy.MM");
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(birth));
+            cell.setCellValue(StringUtils.trimToEmpty(birth));*/
 
             // 年龄
             cell = row.getCell(column++);
-            cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
+            cell.setCellValue(bean.getBirth() != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
 
             // 入党时间
             String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");

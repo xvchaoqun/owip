@@ -263,48 +263,81 @@ public class PcsOwController extends BaseController {
                 new RowBounds());
 
         IPcsCandidateView candidate = records.get(0);
-        modelMap.put("candidate", candidate);
+        //modelMap.put("candidate", candidate);
 
         // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
-        Map<Integer, Set<Integer>> partyMap = new HashMap<>();
-        Set<Integer> directPartyIdSet = new HashSet<>();
+        Map<Integer, Set<Integer>> recommendPartyIdMap = new HashMap<>();
+        Set<Integer> recommendDirectPartyIdSet = new HashSet<>();
         for (PcsBranchBean b : pcsBranchBeans) {
 
             Integer partyId = b.getPartyId();
             Integer branchId = b.getBranchId();
 
             if(branchId!=null){ // 处理不是直属支部的分党委
-                Set<Integer> branchIdSet = partyMap.get(partyId);
+                Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
                 if(branchIdSet==null) branchIdSet = new HashSet<>();
                 branchIdSet.add(branchId);
 
-                partyMap.put(partyId, branchIdSet); // 分党委ID - 已推荐支部ID<SET>
+                recommendPartyIdMap.put(partyId, branchIdSet); // 分党委ID - 已推荐支部ID<SET>
             }else{
-                directPartyIdSet.add(partyId); // 直属党支部ID<SET>
+                recommendDirectPartyIdSet.add(partyId); // 直属党支部ID<SET>
+            }
+        }
+
+        String partyIdsStr = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
+        String branchIdsStr = candidate.getBranchIds(); // 已选的支部
+        Set<Integer> selectedPartyIdSet = new HashSet<>();
+        if (StringUtils.isNotBlank(partyIdsStr)) {
+            for (String partyIdStr : partyIdsStr.split(",")) {
+                selectedPartyIdSet.add(Integer.parseInt(partyIdStr));
+            }
+        }
+        Set<Integer> selectedBranchIdSet = new HashSet<>();
+        if (StringUtils.isNotBlank(branchIdsStr)) {
+            for (String branchIdStr : branchIdsStr.split(",")) {
+                selectedBranchIdSet.add(Integer.parseInt(branchIdStr));
             }
         }
 
 
+        List<PcsOwBranchBean> beans = new ArrayList<>();
+        for (Party party : partyService.findAll().values()) {
 
-        String partyIds = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
-        String branchIds = candidate.getBranchIds(); // 已选的支部
+            Integer partyId = party.getId();
+            PcsOwBranchBean bean = new PcsOwBranchBean();
+            bean.setPartyId(partyId);
+            bean.setPartyName(party.getName());
+            bean.setIsRecommend(selectedPartyIdSet.contains(partyId));
+            Set<Integer> branchIds = new HashSet<>();
+            Set<Integer> notbranchIds = new HashSet<>();
 
-        List<Integer> partyIdList = new ArrayList<>();
-        if (StringUtils.isNotBlank(partyIds)) {
-            for (String partyIdStr : partyIds.split(",")) {
-                partyIdList.add(Integer.parseInt(partyIdStr));
+            if(partyService.isDirectBranch(partyId)){
+
+                Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
+                Set<Integer> result = new HashSet<Integer>();
+                // 交集 就是获得推荐的支部
+                result.clear();
+                result.addAll(branchIdSet);
+                result.retainAll(selectedBranchIdSet);
+                branchIds.addAll(result);
+
+                // 差集 就是未获得推荐的支部
+                result.clear();
+                result.addAll(branchIdSet);
+                result.removeAll(selectedBranchIdSet);
+                notbranchIds.addAll(result);
+
+                bean.setBranchIds(branchIds);
+                bean.setNotbranchIds(notbranchIds);
             }
-        }
-        List<Integer> branchIdList = new ArrayList<>();
-        if (StringUtils.isNotBlank(branchIds)) {
-            for (String branchIdStr : branchIds.split(",")) {
-                branchIdList.add(Integer.parseInt(branchIdStr));
-            }
+
+            beans.add(bean);
+
         }
 
-
+        modelMap.put("beans", beans);
 
     /*    {
             PcsPartyViewExample example = new PcsPartyViewExample();

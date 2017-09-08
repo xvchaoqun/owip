@@ -1,6 +1,6 @@
 package controller.pcs.cm;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lm on 2017/9/8.
@@ -9,8 +9,17 @@ public class PcsOwBranchBean {
 
     public String partyName;
     public Integer partyId;
-    public List<Integer> branchIds;  // 推荐的支部
-    public List<Integer> notbranchIds; // 为推荐的支部
+    public Boolean isRecommend; // 分党委是否推荐，只要有一个支部推荐了，就算已推荐
+    public Set<Integer> branchIds;  // 推荐的支部
+    public Set<Integer> notbranchIds; // 为推荐的支部
+
+    public Boolean getIsRecommend() {
+        return isRecommend;
+    }
+
+    public void setIsRecommend(Boolean isRecommend) {
+        this.isRecommend = isRecommend;
+    }
 
     public String getPartyName() {
         return partyName;
@@ -28,19 +37,19 @@ public class PcsOwBranchBean {
         this.partyId = partyId;
     }
 
-    public List<Integer> getBranchIds() {
+    public Set<Integer> getBranchIds() {
         return branchIds;
     }
 
-    public void setBranchIds(List<Integer> branchIds) {
+    public void setBranchIds(Set<Integer> branchIds) {
         this.branchIds = branchIds;
     }
 
-    public List<Integer> getNotbranchIds() {
+    public Set<Integer> getNotbranchIds() {
         return notbranchIds;
     }
 
-    public void setNotbranchIds(List<Integer> notbranchIds) {
+    public void setNotbranchIds(Set<Integer> notbranchIds) {
         this.notbranchIds = notbranchIds;
     }
 }
