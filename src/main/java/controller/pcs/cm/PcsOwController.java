@@ -160,6 +160,20 @@ public class PcsOwController extends BaseController {
         List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, null, new RowBounds());
         modelMap.put("records", records);
 
+        Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
+        // 获得完成推荐的支部（排除之后的新建支部）
+        List<PcsBranchBean> pcsBranchBeans =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+        for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
+
+            Integer partyId = pcsBranchBean.getPartyId();
+            Integer memberCount = NumberUtils.trimToZero(partyMemberCountMap.get(partyId));
+            Integer _memberCount = NumberUtils.trimToZero(pcsBranchBean.getMemberCount());
+
+            partyMemberCountMap.put(partyId, memberCount + _memberCount);
+        }
+        modelMap.put("partyMemberCountMap", partyMemberCountMap);
+
         return "pcs/pcsOw/pcsOw_party_table_page";
     }
 
@@ -191,7 +205,7 @@ public class PcsOwController extends BaseController {
     }
 
     // 组织部管理员退回报送
-    @RequiresPermissions("pcsOw:report")
+    @RequiresPermissions("pcsOw:admin")
     @RequestMapping(value = "/pcsOw_party_report_back", method = RequestMethod.POST)
     @ResponseBody
     public Map pcsOw_party_report_back(int reportId, byte stage) {
@@ -207,7 +221,7 @@ public class PcsOwController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsOw:report")
+    @RequiresPermissions("pcsOw:admin")
     @RequestMapping(value = "/pcsOw_issue", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsOw_issue(byte stage) {
@@ -220,7 +234,7 @@ public class PcsOwController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsOw:report")
+    @RequiresPermissions("pcsOw:admin")
     @RequestMapping(value = "/pcsOw_choose", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsOw_choose(@RequestParam(value = "ids[]") Integer[] ids, // userIds
@@ -239,7 +253,7 @@ public class PcsOwController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsOw:pcsCandidateChosen:changeOrder")
+    @RequiresPermissions("pcsOw:admin")
     @RequestMapping(value = "/pcsCandidateChosen_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pcsCandidateChosen_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -305,6 +319,8 @@ public class PcsOwController extends BaseController {
         List<PcsOwBranchBean> beans = new ArrayList<>();
         for (Party party : partyService.findAll().values()) {
 
+            if(party.getIsDeleted()) continue;
+
             Integer partyId = party.getId();
             boolean directBranch = partyService.isDirectBranch(partyId);
             PcsOwBranchBean bean = new PcsOwBranchBean();
@@ -315,7 +331,7 @@ public class PcsOwController extends BaseController {
 
             Set<Integer> branchIds = new HashSet<>();
             Set<Integer> notbranchIds = new HashSet<>();
-            if(!directBranch && bean.getIsRecommend()){
+            if(!directBranch){
 
                 Set<Integer> branchIdSet = recommendPartyIdMap.get(partyId);
                 bean.setTotalBranchIds(branchIdSet);
@@ -550,7 +566,7 @@ public class PcsOwController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("pcsOw:edit")
+    @RequiresPermissions("pcsOw:list")
     @RequestMapping("/pcsOw_party_branch_detail")
     public String pcsOw_party_branch_detail(byte stage, int partyId, Integer branchId, ModelMap modelMap) {
 
@@ -590,7 +606,7 @@ public class PcsOwController extends BaseController {
         modelMap.put("jwCandidates", jwCandidates);
 
         // 干部管理员才可以进行修改
-        modelMap.put("allowModify", ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN));
+        modelMap.put("allowModify", ShiroHelper.isPermitted("pcsOw:admin"));
         /*
         modelMap.put("allowModify", pcsPartyService.allowModify(partyId,
                 pcsConfigService.getCurrentPcsConfig().getId(), stage));*/

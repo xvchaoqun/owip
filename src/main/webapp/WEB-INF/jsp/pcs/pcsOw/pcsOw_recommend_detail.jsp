@@ -10,21 +10,23 @@
           <a href="javascript:" class="hideView btn btn-xs btn-success">
             <i class="ace-icon fa fa-backward"></i>
             返回</a>
-          <span style="padding-left: 20px;">${user.realname}同志得票详情（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</span>
         </h4>
       </div>
 
-          <div style="margin: 10px 20px; width: 800px;">
+          <div style="margin: 10px 20px; width: 1200px;">
           <table id="detailTable" class="table table-bordered table-striped" data-offset-top="101">
-            <thead>
+            <thead class="multi">
             <tr>
-              <th width="50">序号</th>
+              <th colspan="7"><span style="padding-left: 20px;font-size: 18px;font-weight: bolder;"><span style="color:#033975;font-size: 25px;">${user.realname}</span> 同志得票详情（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</span></th>
+            </tr>
+            <tr>
+              <th width="80">序号</th>
               <th>院系级党委、党总支、直属党支部</th>
-              <th style="width:50px">是否推荐</th>
-              <th style="width:70px">支部数</th>
-              <th style="width:70px">推荐<br/>支部数</th>
-              <th style="width:70px">未推荐支部数</th>
-              <th style="width:70px">推荐比例</th>
+              <th style="width:180px">是否推荐</th>
+              <th style="width:180px">支部数</th>
+              <th style="width:180px">推荐支部数</th>
+              <th style="width:180px">未推荐支部数</th>
+              <th style="width:180px">推荐比例</th>
             </tr>
             </thead>
             <tbody>
@@ -42,7 +44,11 @@
               <tr data-party-id="${bean.partyId}">
                 <td>${vs.count}</td>
                 <td style="text-align: left;white-space: nowrap;">${bean.partyName}</td>
-                <td>${bean.isRecommend?"是":"否"}</td>
+                <td>
+                  <span class="label ${bean.isRecommend?"label-success":"label-danger"}">
+                ${bean.isRecommend?"是":"否"}
+                  </span>
+                </td>
                 <td>
 
                   <c:if test="${!bean.isDirectBranch && totalBranchCount>0}">
@@ -97,7 +103,7 @@
   </div>
 </div>
 <style>
-  .table thead tr th,
+  .table tr th,
   .table tbody tr td{
     text-align: center;
   }
@@ -111,13 +117,6 @@
       $.loadModal("${ctx}/pcsOw_recommend_detail_branchs?type="+type+"&partyId="+partyId+"&branchIds=" + branchIds);
 
   });
-  //stickheader($("#detailTable"));
-
- /* $(function(){
-    $("#detailTable").find('thead th').each(function (i) {
-      console.log($(this).width() + " "+$(this).text())
-
-    })
-  })
-*/
+  stickheader($("#detailTable"));
+  $(window).resize();
 </script>

@@ -17,11 +17,13 @@
                     <div class="tab-pane in active rownumbers">
                         <shiro:lacksRole name="role_pcs_check">
                         <div class="jqgrid-vertical-offset buttons">
+                            <shiro:hasPermission name="pcsOw:admin">
                             <a class="popupBtn btn btn-warning btn-sm"
                                data-url="${ctx}/pcsAdmin_msg?type=1&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
                             <span style="margin-left: 20px;">
                             分党委、党总支、直属党支部共${hasReportCount+hasNotReportCount}个，完成报送共${hasReportCount}个，未报送${hasNotReportCount}个。
                                 </span>
+                            </shiro:hasPermission>
                         </div>
                         </shiro:lacksRole>
                         <div class="space-4"></div>
@@ -103,6 +105,7 @@
                         .format(rowObject.id, hasReport?"已上报":"未上报",
                         hasReport?"btn-success":"btn-default", hasReport?"fa-hand-paper-o":"fa-hand-rock-o");
             }},
+            <shiro:hasPermission name="pcsOw:admin">
             { label: '退回',name: 'reportId', formatter: function (cellvalue, options, rowObject) {
 
                 var hasReport = (cellvalue==undefined)?false:(cellvalue>0);
@@ -111,6 +114,7 @@
                 'data-url="${ctx}/pcsOw_party_report_back?stage=${param.stage}&reportId={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.reportId, rowObject.name);
             }}
+            </shiro:hasPermission>
         ]
     }).jqGrid("setFrozenColumns");
     function _reload(){

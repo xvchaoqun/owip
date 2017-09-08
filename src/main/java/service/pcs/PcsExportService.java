@@ -1,8 +1,6 @@
 package service.pcs;
 
 import domain.party.Party;
-import domain.pcs.PcsPartyView;
-import domain.pcs.PcsPartyViewExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -30,8 +28,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by lm on 2017/8/27.
@@ -154,22 +154,21 @@ public class PcsExportService extends BaseMapper {
         cell.setCellValue(str);
 
         // 全校分党委数：pc    全校党支部数：bc     全校党员总数（含预备党员）：mc      应参会党员总数：emc      实参会党员总数：amc
-        PcsPartyViewExample example = new PcsPartyViewExample();
-        example.createCriteria().andIsDeletedEqualTo(false);
-        List<PcsPartyView> pcsPartyViews = pcsPartyViewMapper.selectByExample(example);
-        int partyCount = pcsPartyViews.size();
-        int branchCount = 0;
+
+        // 获得完成推荐的支部（排除之后的新建支部）
+        List<PcsBranchBean> pcsBranchBeans =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+
+        int branchCount = pcsBranchBeans.size();
         int memberCount = 0;
-        for (PcsPartyView pcsPartyView : pcsPartyViews) {
-            if (pcsPartyView.getBranchCount() != null) {
-                branchCount += pcsPartyView.getBranchCount();
-            } else {
-                branchCount += 1; // 直属支部
+        Set<Integer> partyIdSet = new HashSet<>();
+        for (PcsBranchBean bean : pcsBranchBeans) {
+            if (bean.getMemberCount() != null) {
+                memberCount += bean.getMemberCount();
             }
-            if (pcsPartyView.getMemberCount() != null) {
-                memberCount += pcsPartyView.getMemberCount();
-            }
+            partyIdSet.add(bean.getPartyId());
         }
+        int partyCount = partyIdSet.size();
 
         Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount();
         int expect = (schoolMemberCount == null || schoolMemberCount.get("expect") == null)

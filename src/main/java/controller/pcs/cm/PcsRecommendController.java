@@ -109,7 +109,7 @@ public class PcsRecommendController extends BaseController {
                                   @RequestParam(required = false, value = "jwCandidateIds[]") String[] jwCandidateIds,
                                   HttpServletRequest request) {
 
-        if(ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN)){
+        if(ShiroHelper.isPermitted("pcsOw:admin")){
             // 管理员可以修改，但不改变状态
             isFinish = null;
 
@@ -194,7 +194,7 @@ public class PcsRecommendController extends BaseController {
     @RequestMapping("/pcsRecommend_candidates")
     public String pcsRecommend_candidates(byte stage, byte type, ModelMap modelMap) {
 
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(!ShiroHelper.isPermitted("pcsOw:admin")){
             SecurityUtils.getSubject().checkPermission("pcsRecommend:list");
         }
 
@@ -212,7 +212,7 @@ public class PcsRecommendController extends BaseController {
     public void do_pcsRecommend_selectUser(@RequestParam(value = "userIds[]") Integer[] userIds,
                                            HttpServletResponse response) throws IOException {
 
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(!ShiroHelper.isPermitted("pcsOw:admin")){
             SecurityUtils.getSubject().checkPermission("pcsRecommend:edit");
         }
 
