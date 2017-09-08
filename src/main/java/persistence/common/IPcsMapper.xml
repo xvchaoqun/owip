@@ -170,7 +170,7 @@
             <if test="branchId!=null">
                 and pbv.branch_id=#{branchId}
             </if>
-            <if test="is_finished!=null">
+            <if test="isFinished!=null">
                 and pr.is_finished=#{isFinished}
             </if>
         </where>

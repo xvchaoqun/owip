@@ -38,8 +38,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class PcsOwController extends BaseController {
@@ -263,9 +265,28 @@ public class PcsOwController extends BaseController {
         IPcsCandidateView candidate = records.get(0);
         modelMap.put("candidate", candidate);
 
-        // 完成推荐的支部（排除之后的新建支部， 不考虑直属支部）
+        // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
                 iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+        Map<Integer, Set<Integer>> partyMap = new HashMap<>();
+        Set<Integer> directPartyIdSet = new HashSet<>();
+        for (PcsBranchBean b : pcsBranchBeans) {
+
+            Integer partyId = b.getPartyId();
+            Integer branchId = b.getBranchId();
+
+            if(branchId!=null){ // 处理不是直属支部的分党委
+                Set<Integer> branchIdSet = partyMap.get(partyId);
+                if(branchIdSet==null) branchIdSet = new HashSet<>();
+                branchIdSet.add(branchId);
+
+                partyMap.put(partyId, branchIdSet); // 分党委ID - 已推荐支部ID<SET>
+            }else{
+                directPartyIdSet.add(partyId); // 直属党支部ID<SET>
+            }
+        }
+
+
 
         String partyIds = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
         String branchIds = candidate.getBranchIds(); // 已选的支部
