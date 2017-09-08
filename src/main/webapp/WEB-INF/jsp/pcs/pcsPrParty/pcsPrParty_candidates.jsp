@@ -29,15 +29,15 @@
         rowNum: candidates.length,
         data: candidates,
         colModel: [
-            {label: '工作证号', name: 'code', width: 120, frozen: true},
+            /*{label: '工作证号', name: 'code', width: 120, frozen: true},*/
             {label: '被推荐人姓名', name: 'realname', width: 150, frozen: true},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },
-            {label: '出生年月', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            /*{label: '出生年月', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},*/
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'nation', width: 60},
-            {
+           /* {
                 label: '学历', name: '_learn', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.userType == '${PCS_PR_USER_TYPE_CADRE}') {
                     return $.jgrid.formatter.MetaType(rowObject.eduId);
@@ -46,7 +46,7 @@
                 }
                 return "-"
             }
-            },
+            },*/
             {
                 label: '参加工作时间',
                 name: 'workTime',
