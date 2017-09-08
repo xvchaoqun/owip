@@ -115,7 +115,10 @@ public interface IPcsMapper {
             @Param("isFinished") Boolean isFinished,
             RowBounds rowBounds);
 
-    public int countPcsBranchBeans(@Param("partyId") Integer partyId,
+    public int countPcsBranchBeans(
+                @Param("configId") int configId,
+                @Param("stage") byte stage,
+                @Param("partyId") Integer partyId,
                                    @Param("branchId") Integer branchId,
                                    @Param("isFinished") Boolean isFinished);
 

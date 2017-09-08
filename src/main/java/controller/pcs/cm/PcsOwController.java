@@ -504,7 +504,7 @@ public class PcsOwController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeans(partyId, branchId, null);
+        int count = iPcsMapper.countPcsBranchBeans(configId, stage, partyId, branchId, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
