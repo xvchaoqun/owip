@@ -289,7 +289,7 @@ public class PcsOwController extends BaseController {
         }
 
         String partyIdsStr = candidate.getPartyIds(); // 已选的分党委（包含直属党支部）
-        String branchIdsStr = candidate.getBranchIds(); // 已选的支部
+        //String branchIdsStr = candidate.getBranchIds(); // 已选的支部 group_concat有长度限制！！
         Set<Integer> selectedPartyIdSet = new HashSet<>();
         if (StringUtils.isNotBlank(partyIdsStr)) {
             for (String partyIdStr : partyIdsStr.split(",")) {
@@ -297,11 +297,9 @@ public class PcsOwController extends BaseController {
             }
         }
         Set<Integer> selectedBranchIdSet = new HashSet<>();
-        if (StringUtils.isNotBlank(branchIdsStr)) {
-            for (String branchIdStr : branchIdsStr.split(",")) {
-                selectedBranchIdSet.add(Integer.parseInt(branchIdStr));
-            }
-        }
+        List<Integer> _branchIds = iPcsMapper.selectCandidateBranchIds(userId, configId, stage, type);
+        if(_branchIds!=null && _branchIds.size()>0)
+            selectedBranchIdSet.addAll(_branchIds);
 
 
         List<PcsOwBranchBean> beans = new ArrayList<>();

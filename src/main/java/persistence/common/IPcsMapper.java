@@ -122,6 +122,11 @@ public interface IPcsMapper {
                                    @Param("branchId") Integer branchId,
                                    @Param("isFinished") Boolean isFinished);
 
+    // 获取被推荐人都有哪些支部推荐了（除直属党支部）
+    List<Integer> selectCandidateBranchIds(@Param("userId") int userId,
+                             @Param("configId") int configId,
+                             @Param("stage") byte stage,
+                             @Param("candidateType") int candidateType);
     // 分党委两委委员推荐提名情况
     public List<IPcsCandidateView> selectPartyCandidates(@Param("userId") Integer userId,
                                                          @Param("isChosen") Boolean isChosen,

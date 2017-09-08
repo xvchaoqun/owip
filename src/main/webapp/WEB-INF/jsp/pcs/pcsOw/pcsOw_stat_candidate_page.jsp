@@ -208,7 +208,7 @@
     })
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        multiboxonly: false,
+        //multiboxonly: false,
         url: '${ctx}/pcsOw_stat_candidate_data?callback=?&stage=${param.stage}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'code', width: 120, frozen:true,cellattr:function(rowId, val, rowObject, cm, rdata) {

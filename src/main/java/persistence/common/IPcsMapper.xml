@@ -202,19 +202,28 @@
         <result column="chosen_id" jdbcType="INTEGER" property="chosenId"/>
     </resultMap>
 
+    <!-- 获取被推荐人都有哪些支部推荐了（除直属党支部，只统计已上报的分党委） -->
+    <select id="selectCandidateBranchIds" resultType="int" parameterType="map">
+        select pcv.branch_id
+        from pcs_candidate_view pcv
+          where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType}
+            and branch_id is not null and user_id=#{userId}
+            and pcv.party_id
+        in (select party_id from pcs_admin_report where config_id=#{configId} and stage=#{stage})
+    </select>
+
     <!--分党委每个被推荐人的情况（只统计已上报）-->
     <select id="selectPartyCandidates" resultMap="CandidateBaseResultMap" parameterType="map">
         select a.user_id, a.is_from_stage, pcc.id as chosen_id, a.code, a.realname, a.title, a.ext_unit,
         a.gender,a.nation,
         a.birth,a.grow_time, a.work_time, a.pro_post, a.type, a.party_ids,
-        a.branch_ids, a.branch_count,
+        a.branch_count,
         d.member_count, b.expect_member_count,
         b.actual_member_count,
         if(isnull(c.status), -1, c.status) as cadre_status from
         (
         select pcv.*,
         group_concat(distinct pcv.party_id) as party_ids,
-        group_concat(pcv.branch_id) as branch_ids,
         count(pcv.id) as branch_count
         from pcs_candidate_view pcv
         where pcv.config_id=#{configId} and pcv.stage=#{stage} and pcv.type=#{candidateType} and pcv.party_id
