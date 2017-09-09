@@ -10,6 +10,7 @@ import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsPrRecommend;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -38,12 +39,16 @@ public class PcsPrVoteController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("pcsPrVote:list")
+    //@RequiresPermissions("pcsPrVote:list")
     @RequestMapping("/pcsPrVote")
-    public String pcsPrVote(ModelMap modelMap) {
+    public String pcsPrVote(Integer partyId, ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        int partyId = pcsAdmin.getPartyId();
+        if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
+
+            SecurityUtils.getSubject().checkPermission("pcsPrVote:list");
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            partyId = pcsAdmin.getPartyId();
+        }
 
         PcsConfig pcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = pcsConfig.getId();
@@ -63,7 +68,8 @@ public class PcsPrVoteController extends BaseController {
 
         modelMap.put("candidates", candidates);
 
-        modelMap.put("allowModify", true);
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
+                SystemConstants.PCS_STAGE_THIRD));
 
         return "pcs/pcsPrVote/pcsPrVote_page";
     }

@@ -4,7 +4,6 @@ import controller.BaseController;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.Member;
-import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPartyView;
@@ -60,7 +59,7 @@ public class PcsPrPartyController extends BaseController {
         }
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
-        Party party = partyService.findAll().get(partyId);
+        //Party party = partyService.findAll().get(partyId);
 
         XSSFWorkbook wb = null;
         String fileName = null;
@@ -92,7 +91,7 @@ public class PcsPrPartyController extends BaseController {
                 break;
 
             case "pl":
-                wb = pcsPrExportService.exportPartyList(configId, stage);
+                wb = pcsPrExportService.exportPartyList(configId, partyId);
                 fileName = "党代表名单";
                 break;
         }

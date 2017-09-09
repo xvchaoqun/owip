@@ -15,6 +15,17 @@ public class PcsPrFileTemplateService extends BaseMapper {
 
     public static final String TABLE_NAME = "pcs_pr_file_template";
 
+    // 所有模板列表
+    public List<PcsPrFileTemplate> findAll(int configId){
+
+        PcsPrFileTemplateExample example = new PcsPrFileTemplateExample();
+        example.createCriteria().andConfigIdEqualTo(configId);
+        example.setOrderByClause("sort_order asc");
+        List<PcsPrFileTemplate> templates = pcsPrFileTemplateMapper.selectByExample(example);
+
+        return templates;
+    }
+
     public void insertSelective(PcsPrFileTemplate record) {
 
         record.setIsDeleted(false);

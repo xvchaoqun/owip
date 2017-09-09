@@ -134,6 +134,7 @@ import service.pcs.PcsPartyViewService;
 import service.pcs.PcsPrAlocateService;
 import service.pcs.PcsPrCandidateService;
 import service.pcs.PcsPrExportService;
+import service.pcs.PcsPrFileService;
 import service.pcs.PcsPrFileTemplateService;
 import service.pcs.PcsPrListService;
 import service.pcs.PcsPrOwService;
@@ -389,6 +390,8 @@ public class BaseController extends BaseMapper {
     protected PcsPrOwService pcsPrOwService;
     @Autowired
     protected PcsPrFileTemplateService pcsPrFileTemplateService;
+    @Autowired
+    protected PcsPrFileService pcsPrFileService;
     @Autowired
     protected PcsPrListService pcsPrListService;
 

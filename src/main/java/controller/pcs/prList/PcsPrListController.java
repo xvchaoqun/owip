@@ -16,6 +16,7 @@ import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -80,7 +81,8 @@ public class PcsPrListController extends BaseController {
     @RequiresPermissions("pcsPrList:list")
     @RequestMapping("/pcsPrList")
     public String pcsPrList(@RequestParam(required = false, defaultValue = "1") byte cls,
-                             Integer userId,
+
+
                              ModelMap modelMap) {
 
         modelMap.put("cls", cls);
@@ -89,15 +91,25 @@ public class PcsPrListController extends BaseController {
         } else if (cls == 3) {
             return "forward:/pcsPrList_report_page";
         }
-        if (userId != null) {
-            modelMap.put("sysUser", sysUserService.findById(userId));
+
+        return "forward:/pcsPrList_page";
+    }
+
+    //@RequiresPermissions("pcsPrList:list")
+    @RequestMapping("/pcsPrList_page")
+    public String pcsPrList_page(Integer partyId, ModelMap modelMap) {
+
+        if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
+
+            SecurityUtils.getSubject().checkPermission("pcsPrList:list");
+
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            if (pcsAdmin == null) {
+                throw new UnauthorizedException();
+            }
+            partyId = pcsAdmin.getPartyId();
         }
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null) {
-            throw new UnauthorizedException();
-        }
-        int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId);
         modelMap.put("candidates", candidates);
@@ -131,15 +143,19 @@ public class PcsPrListController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("pcsPrList:list")
+    //@RequiresPermissions("pcsPrList:list")
     @RequestMapping("/pcsPrList_table_page")
-    public String pcsPrList_table_page(ModelMap modelMap) {
+    public String pcsPrList_table_page(Integer partyId, ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null) {
-            throw new UnauthorizedException();
+        if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
+
+            SecurityUtils.getSubject().checkPermission("pcsPrList:list");
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            if (pcsAdmin == null) {
+                throw new UnauthorizedException();
+            }
+            partyId = pcsAdmin.getPartyId();
         }
-        int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
@@ -188,6 +204,15 @@ public class PcsPrListController extends BaseController {
 
         if (!pcsPrPartyService.allowModify(partyId, configId, stage)) {
             return failed("您所在分党委已经报送或组织部已下发名单。");
+        }
+
+        // 检查大会材料是否上传完成
+        if(!pcsPrFileService.isUploadAll(configId, partyId)){
+            return failed("请上传全部的大会材料后上报。");
+        }
+
+        if(pcsPrListService.getList(configId, partyId).size()==0){
+            return failed("请填写党代表名单后上报。");
         }
 
         pcsPrPartyService.report(partyId, configId, stage);

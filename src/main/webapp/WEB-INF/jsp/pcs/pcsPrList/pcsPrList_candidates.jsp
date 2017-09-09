@@ -98,7 +98,7 @@
         var userIds = $("#jqGridPopup").getGridParam("selarrrow");
         if(userIds.length==0) return;
 
-        var $jqGrid = $("#jqGrid");
+        var $jqGrid = $("#jqGrid2");
         $.post("${ctx}/pcsPrList_selectUser", {userIds: userIds}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');

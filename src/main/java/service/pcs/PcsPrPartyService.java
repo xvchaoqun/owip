@@ -57,6 +57,8 @@ public class PcsPrPartyService extends BaseMapper {
         }else if(stage==SystemConstants.PCS_STAGE_THIRD){
             PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
             if(_check == null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+
+
         }
 
         // 分党委已经报送之后，不可修改数据

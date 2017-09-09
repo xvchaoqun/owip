@@ -87,7 +87,7 @@
                     className: 'btn-default btn-show'
                 }
             },
-            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 上报数据不可以修改，请认真核实后上报。<div>",
+            message: "<div style='padding: 50px;font-size: 22px;font-weight: bolder;color: red;'><i class='fa fa-info-circle'></i> 报送数据后不可以修改，请认真核实后报送。<div>",
             callback: function (result) {
                 if (result) {
                     $.post("${ctx}/pcsPrList_report", {stage:${PCS_STAGE_THIRD}}, function (ret) {

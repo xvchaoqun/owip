@@ -89,8 +89,17 @@
             <i class='fa fa-check-circle fa-lx'></i> 报送成功
         </div>
         <div style="text-indent: 2em">
-            两委委员候选人酝酿提名“一下一上”阶段已完成报送，学校党委研究确定“二下”名单之后会自动下发并短信提醒分党委管理员。
-            “二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+
+            <c:if test="${param.stage==PCS_STAGE_FIRST}">
+                两委委员候选人酝酿提名“一下一上”阶段已完成报送，学校党委研究确定“二下”名单之后会自动下发并短信提醒分党委管理员。
+                “二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+            </c:if>
+            <c:if test="${param.stage==PCS_STAGE_SECOND}">
+                两委委员候选人酝酿提名“二下二上”阶段已完成报送，学校党委研究确定“三下”名单之后会自动下发并短信提醒分党委管理员。
+            </c:if>
+            <c:if test="${param.stage==PCS_STAGE_THIRD}">
+                两委委员候选人酝酿提名“三下三上”阶段已完成报送。
+            </c:if>
         </div>
     </div>
 </script>

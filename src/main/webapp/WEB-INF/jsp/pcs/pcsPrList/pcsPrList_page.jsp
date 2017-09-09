@@ -3,7 +3,9 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <jsp:include page="menu.jsp"/>
+        <c:if test="${empty param.partyId}">
+            <jsp:include page="menu.jsp"/>
+        </c:if>
         <div class="widget-box transparent">
             <div class="widget-body">
                 <div class="widget-main no-padding">
@@ -14,6 +16,7 @@
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
                                             class="fa fa-users"></i>  党代表名单</span>
+<c:if test="${empty param.partyId}">
                                     <span style="margin-left: 20px">
                                                   <a href="javascript:;"
                                                      class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
@@ -23,22 +26,25 @@
                                                 </span>
                                         <span class="tip">已选<span
                                                 class="count">${fn:length(candidates)}</span>人</span>
+    </c:if>
                                     </h3>
                                 </div>
                                 <div class="collapse in">
                                     <div class="panel-body">
-                                        <table id="jqGrid" data-width-reduce="30"
+                                        <table id="jqGrid2" data-width-reduce="30"
                                                class="jqGrid4 table-striped"></table>
                                     </div>
                                 </div>
                             </div>
                         </form>
+<c:if test="${empty param.partyId}">
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-save"></i> 保&nbsp;&nbsp;存
                             </button>
                         </div>
+    </c:if>
                     </div>
                 </div>
             </div>
@@ -97,6 +103,7 @@
 <script>
     var candidates = ${cm:toJSONArray(candidates)};
     var colModel = [
+        <c:if test="${empty param.partyId}">
         {
             label: '移除', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
             //console.log(options)
@@ -104,6 +111,7 @@
                     .format(rowObject.userId, options.gid)
         }
         },
+            </c:if>
         {label: '工作证号', name: 'code', width: 120, frozen: true},
         {label: '姓名', name: 'realname', width: 110, frozen: true},
 
@@ -178,7 +186,7 @@
         }, {label: '票数', name: 'vote3', width: 80}, {hidden: true, key: true, name: 'userId'}
     ];
 
-    $("#jqGrid").jqGrid({
+    $("#jqGrid2").jqGrid({
         pager: null,
         responsive: false,
         rownumbers: true,
@@ -189,7 +197,7 @@
         data: candidates,
         colModel: colModel,
         gridComplete: function () {
-            <c:if test="${!allowModify}">
+            <c:if test="${!allowModify || not empty param.partyId}">
              $("#recommendForm input, .panel input").prop("disabled", true);
             </c:if>
         }
@@ -213,8 +221,8 @@
     $("#recommendForm").validate({
         submitHandler: function (form) {
             var items = [];
-            $.each($("#jqGrid").jqGrid("getDataIDs"), function (i, userId) {
-                var $row = $("[role='row'][id=" + userId + "]", "#jqGrid");
+            $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
+                var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
                 var item = {};
                 item.userId = userId;
                 item.mobile = $.trim($("input.mobile", $row).val());

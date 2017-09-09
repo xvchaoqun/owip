@@ -16,11 +16,9 @@ pageEncoding="UTF-8" %>
                         <tr>
                             <th width="30">序号</th>
                             <th>材料名称</th>
-                            <c:if test="${empty param.partyId}">
-                            <th width="100">模板</th>
+                            <th width="40">模板</th>
                             <th width="100">报党委组织部</th>
-                            </c:if>
-                            <th width="100">预览</th>
+                            <th width="60">预览</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -29,14 +27,12 @@ pageEncoding="UTF-8" %>
                             <tr>
                                 <td>${vs.count}</td>
                                 <td>${template.name}</td>
-                                <c:if test="${empty param.partyId}">
                                 <td><a href="${ctx}/attach/download?path=${cm:encodeURI(template.filePath)}
                                 &filename=${cm:encodeURI(template.fileName)}">下载</a></td>
                                 <td>
-                                        <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs ${allowModify?"":"disabled"}"
+                                        <a class="popupBtn btn ${not empty file?"btn-success":"btn-primary"} btn-xs"
                                            data-url="${ctx}/pcsPrFile_au?templateId=${template.id}&id=${file.id}"><i class="fa fa-upload"></i> ${not empty file?"重新上传":"上传材料"}</a>
                                 </td>
-                                </c:if>
                                 <td>
                                     <c:if test="${not empty file}">
                                         <a href="javascript:void(0)" class="popupBtn"

@@ -16,28 +16,28 @@
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
-                               data-url='${ctx}/pcsPrListOw_party_file_page?partyId=${param.partyId}'><i
+                               data-url='${ctx}/pcsPrFile?partyId=${param.partyId}'><i
                                     class="fa fa-calendar-o"></i> 材料准备情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
-                               data-url='${ctx}/pcsPrListOw_party_vote_page?partyId=${param.partyId}'><i
+                               data-url='${ctx}/pcsPrVote?partyId=${param.partyId}'><i
                                     class="fa fa-calendar-o"></i> 选举情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
-                               data-url='${ctx}/pcsPrListOw_candidate_page?partyId=${param.partyId}'><i
+                               data-url='${ctx}/pcsPrList_page?partyId=${param.partyId}'><i
                                     class="fa fa-calendar-o"></i> 党代表名单
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
-                               data-url='${ctx}/pcsPrListOw_party_table_page?partyId=${param.partyId}'><i
+                               data-url='${ctx}/pcsPrList_table_page?partyId=${param.partyId}'><i
                                     class="fa fa-calendar-o"></i> 党代表数据统计
                             </a>
                         </li>
@@ -46,7 +46,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4" id="step-item-content">
-                    <c:import url="${ctx}/pcsPrListOw_party_file_page"/>
+                    <c:import url="${ctx}/pcsPrFile"/>
                 </div>
             </div>
         </div>

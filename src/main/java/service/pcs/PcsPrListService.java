@@ -7,11 +7,14 @@ import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsPrRecommend;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
+import sys.utils.FormUtils;
+import sys.utils.PropertiesUtils;
 
 import java.util.List;
 
@@ -42,6 +45,10 @@ public class PcsPrListService extends BaseMapper {
     @Transactional
     public void submit(int configId, int partyId, List<PcsPrCandidateFormBean> beans) {
 
+        if(!pcsPrPartyService.allowModify(partyId, configId, SystemConstants.PCS_STAGE_THIRD)){
+            throw new OpException("数据已报送，不可修改。");
+        }
+
         // 阶段三共用阶段二的候选人名单
         PcsPrRecommend pcsPrRecommend2 = pcsPrPartyService.getPcsPrRecommend
                 (configId, SystemConstants.PCS_STAGE_SECOND, partyId);
@@ -61,7 +68,11 @@ public class PcsPrListService extends BaseMapper {
             int userId = bean.getUserId();
 
             PcsPrCandidate _candidate = new PcsPrCandidate();
-            _candidate.setMobile(bean.getMobile());
+            String mobile = bean.getMobile();
+            if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+                throw new OpException("手机号码有误：" + mobile);
+            }
+            _candidate.setMobile(mobile);
             _candidate.setEmail(bean.getEmail());
             _candidate.setIsChosen(true);
 

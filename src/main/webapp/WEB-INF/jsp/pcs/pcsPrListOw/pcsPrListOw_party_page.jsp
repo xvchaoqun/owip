@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/pcsPrListOw_party_page"
+             data-url-page="${ctx}/pcsPrListOw_party"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.partyId||not empty param.hasReport||not empty param.recommendStatus
@@ -34,7 +34,6 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
-                                        <input type="hidden" name="stage" value="${param.stage}">
                                         <div class="form-group">
                                             <label>分党委</label>
                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
@@ -54,25 +53,12 @@
                                                 $("#searchForm select[name=hasReport]").val("${param.hasReport}")
                                             </script>
                                         </div>
-                                        <div class="form-group">
-                                            <label>审核情况</label>
-                                            <select data-rel="select2"
-                                                    name="recommendStatus" data-placeholder="请选择">
-                                                <option></option>
-                                                <c:forEach items="${PCS_PR_RECOMMEND_STATUS_MAP}" var="_type">
-                                                <option value="${_type.key}">${_type.value}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <script>
-                                                $("#searchForm select[name=recommendStatus]").val("${param.recommendStatus}")
-                                            </script>
-                                        </div>
+
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
                                             <c:if test="${_query}">&nbsp;
-                                                <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                        data-querystr="cls=${param.cls}&stage=${param.stage}">
+                                                <button type="button" class="resetBtn btn btn-warning btn-sm">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -98,7 +84,9 @@
         url: '${ctx}/pcsPrListOw_party_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '分党委名称',name: 'name', align:'left', width:400, frozen:true},
-            { label: '是否上传选举结果',name: 'hasReport', width:150},
+            { label: '是否上传选举结果',name: 'hasReport', width:150, formatter: function (cellvalue, options, rowObject) {
+                return cellvalue?"已上报":"未上报"
+            }},
             { label: '党员大会情况',name: '_hasReport', width:150, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/pcsPrListOw_party_detail_page?partyId={0}"><i class="fa fa-search"></i> 详情</button>')

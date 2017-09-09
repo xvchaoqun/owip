@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:if test="${empty param.partyId}">
 <jsp:include page="menu.jsp"/>
-
+</c:if>
 <div class="row">
   <div class="col-xs-12">
     <div class="tabbable" style="margin: 10px 20px; width: 900px">

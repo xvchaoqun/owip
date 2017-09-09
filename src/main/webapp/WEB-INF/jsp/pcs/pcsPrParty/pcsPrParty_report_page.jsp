@@ -69,7 +69,13 @@
             <i class='fa fa-check-circle fa-lx'></i> 报送成功
         </div>
         <div style="text-indent: 2em">
-            党代表选举“一下一上”阶段已完成报送，党委组织部审核通过后会短信提醒分党委管理员。“二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+            <c:if test="${param.stage==PCS_STAGE_FIRST}">
+            党代表选举“一下一上”阶段已完成报送，党委组织部审核通过后会短信提醒分党委管理员。
+            “二下二上”阶段的时间是9月8日至11日，请务必按时完成。
+            </c:if>
+            <c:if test="${param.stage==PCS_STAGE_SECOND}">
+                党代表选举“二下二上”阶段已完成报送，党委组织部审核通过后会短信提醒分党委管理员。
+            </c:if>
         </div>
     </div>
 </script>

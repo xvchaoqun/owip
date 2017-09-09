@@ -5,10 +5,9 @@ import controller.global.OpException;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrFile;
-import domain.pcs.PcsPrFileExample;
 import domain.pcs.PcsPrFileTemplate;
-import domain.pcs.PcsPrFileTemplateExample;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -29,8 +28,6 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,38 +35,29 @@ public class PcsPrFileController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("pcsPrFile:list")
+    //@RequiresPermissions("pcsPrFile:list")
     @RequestMapping("/pcsPrFile")
-    public String pcsPrFile(ModelMap modelMap) {
+    public String pcsPrFile(Integer partyId, ModelMap modelMap) {
 
-        PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null) {
-            throw new UnauthorizedException();
+        if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
+
+            SecurityUtils.getSubject().checkPermission("pcsPrFile:list");
+
+            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
+            if (pcsAdmin == null) {
+                throw new UnauthorizedException();
+            }
+            partyId = pcsAdmin.getPartyId();
         }
-        int partyId = pcsAdmin.getPartyId();
+
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        {
-            PcsPrFileTemplateExample example = new PcsPrFileTemplateExample();
-            example.createCriteria().andConfigIdEqualTo(configId);
-            example.setOrderByClause("sort_order asc");
-            List<PcsPrFileTemplate> templates = pcsPrFileTemplateMapper.selectByExample(example);
-            modelMap.put("templates", templates);
-        }
+        modelMap.put("templates", pcsPrFileTemplateService.findAll(configId));
+        modelMap.put("fileMap", pcsPrFileService.fileMap(configId, partyId));
 
-        {
-            // <templateId, file>
-            Map<Integer, PcsPrFile> fileMap = new HashMap<>();
-            PcsPrFileExample example = new PcsPrFileExample();
-            example.createCriteria().andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId);
-            List<PcsPrFile> files = pcsPrFileMapper.selectByExample(example);
-            for (PcsPrFile file : files) {
-                fileMap.put(file.getTemplateId(), file);
-            }
-
-            modelMap.put("fileMap", fileMap);
-        }
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
+                SystemConstants.PCS_STAGE_THIRD));
 
         return "pcs/pcsPrFile/pcsPrFile_page";
     }
@@ -84,9 +72,15 @@ public class PcsPrFileController extends BaseController {
         if (pcsAdmin == null) {
             throw new UnauthorizedException();
         }
-
-        record.setPartyId(pcsAdmin.getPartyId());
+        int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
+
+        if(!pcsPrPartyService.allowModify(partyId, configId, SystemConstants.PCS_STAGE_THIRD)){
+            return failed("已报送数据，不可修改。");
+        }
+
+        record.setPartyId(partyId);
+
         record.setConfigId(configId);
 
         String originalFilename = _file.getOriginalFilename();

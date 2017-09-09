@@ -72,6 +72,13 @@ jQuery.validator.addMethod("isZipCode", function (value, element) {
     return this.optional(element) || (tel.test(value));
 }, "请正确填写您的邮政编码");
 
+// 手机号码验证
+jQuery.validator.addMethod("mobile", function(value, element) {
+    var length = value.length;
+    var mobile = /^1[3|4|5|7|8]\d{9}$/;
+    return this.optional(element) || (mobile.test(value));
+}, "请正确填写手机号码");
+
 /*========jquery.validate.extend=====end===*/
 
 _.templateSettings = {

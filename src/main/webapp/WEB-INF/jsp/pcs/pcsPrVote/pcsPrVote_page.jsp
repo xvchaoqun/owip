@@ -74,6 +74,7 @@
                                 </div>
                             </div>
                         </form>
+<c:if test="${empty param.partyId}">
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"  ${!allowModify?"disabled":""}
@@ -83,6 +84,7 @@
                                 您已提交成功，可以重新提交进行修改
                             </c:if>
                         </div>
+    </c:if>
                     </div>
                 </div>
             </div>
@@ -214,7 +216,7 @@
         data: candidates,
         colModel: colModel,
         gridComplete: function () {
-            <c:if test="${!allowModify}">
+            <c:if test="${!allowModify || not empty param.partyId}">
             $("#recommendForm input, .panel input").prop("disabled", true);
             </c:if>
         }
