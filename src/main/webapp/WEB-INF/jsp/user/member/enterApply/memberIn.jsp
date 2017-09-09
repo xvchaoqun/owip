@@ -108,13 +108,13 @@
         <div class="form-group">
           <label class="col-xs-5 control-label">转出单位联系电话</label>
           <div class="col-xs-6">
-            <input required class="form-control left-input" type="text" name="fromPhone" value="${memberIn.fromPhone}">
+            <input required class="form-control left-input" maxlength="20" type="text" name="fromPhone" value="${memberIn.fromPhone}">
           </div>
         </div>
         <div class="form-group">
           <label class="col-xs-5 control-label">转出单位传真</label>
           <div class="col-xs-6">
-            <input required class="form-control left-input" type="text" name="fromFax" value="${memberIn.fromFax}">
+            <input required class="form-control left-input" byteMaxLength="20" maxlength="20" type="text" name="fromFax" value="${memberIn.fromFax}">
           </div>
         </div>
       <div class="form-group">
