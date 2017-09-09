@@ -30,7 +30,7 @@
                         <c:forEach items="${records}" var="record" varStatus="vs">
                             <tr>
                                 <td>${vs.count}</td>
-                                <td>${record.name}</td>
+                                <td style="text-align: left">${record.name}</td>
                                 <td>
                                     <c:if test="${not empty record.filePath}">
                                     <a href="${ctx}/attach/download?path=${cm:encodeURI(record.filePath)}&filename=${cm:encodeURI(record.name)}.doc">下载</a>
