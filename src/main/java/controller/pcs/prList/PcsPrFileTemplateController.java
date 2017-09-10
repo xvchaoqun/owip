@@ -48,10 +48,17 @@ public class PcsPrFileTemplateController extends BaseController {
     public Map do_pcsPrFileTemplate_au(PcsPrFileTemplate record, MultipartFile _file,
                                        HttpServletRequest request) throws IOException, InterruptedException {
 
-        String originalFilename = _file.getOriginalFilename();
-        String savePath = upload(_file, "pcsPrFileTemplate");
-        record.setFilePath(savePath);
-        record.setFileName(originalFilename);
+        if(record.getId()==null && (_file==null || _file.isEmpty())){
+            return failed("请选择模板。");
+        }
+        if(_file!=null && !_file.isEmpty()) {
+
+            String originalFilename = _file.getOriginalFilename();
+            String savePath = upload(_file, "pcsPrFileTemplate");
+            record.setFilePath(savePath);
+            record.setFileName(originalFilename);
+        }
+
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         record.setConfigId(configId);
 
@@ -61,7 +68,7 @@ public class PcsPrFileTemplateController extends BaseController {
             pcsPrFileTemplateMapper.updateByPrimaryKeySelective(record);
         }
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/修改党员大会材料：%s-%s", savePath, originalFilename));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/修改党员大会材料：%s", JSONUtils.toString(record, false)));
         return success(FormUtils.SUCCESS);
     }
 

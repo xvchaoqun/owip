@@ -71,6 +71,16 @@ public class PcsPrListOwController extends BaseController {
     @RequestMapping("/pcsPrListOw_party")
     public String pcsPrListOw_party_page(ModelMap modelMap) {
 
+        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
+        int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
+                SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
+        modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
+        modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
+        modelMap.put("passCount", NumberUtils.trimToZero(passCount));
 
         return "pcs/pcsPrListOw/pcsPrListOw_party_page";
     }
@@ -134,17 +144,6 @@ public class PcsPrListOwController extends BaseController {
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
-        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
-        int configId = currentPcsConfig.getId();
-        int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
-        int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
-                SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
-        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
-        modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
-        modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
-        modelMap.put("passCount", NumberUtils.trimToZero(passCount));
 
         // 全校党代表名单
         return "pcs/pcsPrListOw/pcsPrListOw_candidate_page";

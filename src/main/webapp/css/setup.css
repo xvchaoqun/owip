@@ -310,7 +310,7 @@ body {
 }
 
 .ui-common-table .label {
-    display: inherit !important;
+    display: inline !important;
 }
 
 /*.table-bordered > thead > tr > th,

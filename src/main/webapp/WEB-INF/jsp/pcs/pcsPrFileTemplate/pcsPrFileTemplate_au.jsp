@@ -22,7 +22,8 @@
                         <label class="col-xs-3 control-label">上传材料</label>
 
                         <div class="col-xs-6">
-                            <input required class="form-control" type="file" name="_file"/>
+                            <input ${empty pcsPrFileTemplate.filePath?"required":""}
+                                    class="form-control" type="file" name="_file"/>
                         </div>
                     </div>
                     <div class="form-group">

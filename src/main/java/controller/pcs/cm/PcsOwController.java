@@ -317,15 +317,17 @@ public class PcsOwController extends BaseController {
 
 
         List<PcsOwBranchBean> beans = new ArrayList<>();
-        for (Party party : partyService.findAll().values()) {
 
-            if(party.getIsDeleted()) continue;
+        List<PcsPartyBean> pcsPartyBeans = iPcsMapper.selectPcsPartyBeans(configId, stage, null, true, new RowBounds());
+        for (PcsPartyBean pcsPartyBean : pcsPartyBeans) {
 
-            Integer partyId = party.getId();
+            //if(pcsPartyBean.getIsDeleted()) continue;
+
+            Integer partyId = pcsPartyBean.getId();
             boolean directBranch = partyService.isDirectBranch(partyId);
             PcsOwBranchBean bean = new PcsOwBranchBean();
             bean.setPartyId(partyId);
-            bean.setPartyName(party.getName());
+            bean.setPartyName(pcsPartyBean.getName());
             bean.setIsRecommend(selectedPartyIdSet.contains(partyId));
             bean.setIsDirectBranch(directBranch);
 
