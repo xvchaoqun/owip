@@ -165,7 +165,7 @@ public class CisInspectObjController extends BaseController {
         if (_logFile != null) {
             String ext = FileUtils.getExtention(_logFile.getOriginalFilename());
             if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
-                throw new RuntimeException("文件格式错误，请上传pdf文件");
+               return failed("文件格式错误，请上传pdf文件");
             }
 
             String fileName = UUID.randomUUID().toString();

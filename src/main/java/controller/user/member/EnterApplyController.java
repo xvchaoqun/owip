@@ -11,7 +11,6 @@ import domain.party.EnterApply;
 import domain.party.Party;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,12 +130,12 @@ public class EnterApplyController extends BaseController {
                 || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
             memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生
         }else{
-            throw new UnauthorizedException("没有权限");
+            return failed("没有权限。");
         }
 
         Date birth = loginUser.getBirth();
         if(birth!=null && DateUtils.intervalYearsUntilNow(birth)<18){
-            throw new RuntimeException("您未满18周岁，不能申请入党。");
+            return failed("您未满18周岁，不能申请入党。");
         }
 
         memberApply.setPartyId(partyId);
@@ -219,7 +218,7 @@ public class EnterApplyController extends BaseController {
         if(StringUtils.isNotBlank(_activeTime)){
             Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
             if(record.getApplyTime()!=null && activeTime.before(record.getApplyTime())){
-                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+                return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
             }
             record.setActiveTime(activeTime);
         }
@@ -227,7 +226,7 @@ public class EnterApplyController extends BaseController {
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             if(record.getActiveTime()!=null && candidateTime.before(record.getActiveTime())){
-                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+                return failed("确定为发展对象时间应该在确定为入党积极分子之后");
             }
             record.setCandidateTime(candidateTime);
         }
@@ -235,7 +234,7 @@ public class EnterApplyController extends BaseController {
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
             if(record.getCandidateTime()!=null && growTime.before(record.getCandidateTime())){
-                throw new RuntimeException("入党时间应该在确定为发展对象之后");
+               return failed("入党时间应该在确定为发展对象之后");
             }
             record.setGrowTime(growTime);
         }
@@ -243,7 +242,7 @@ public class EnterApplyController extends BaseController {
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
             if(record.getGrowTime()!=null && positiveTime.before(record.getGrowTime())){
-                throw new RuntimeException("转正时间应该在入党之后");
+                return failed("转正时间应该在入党之后");
             }
             record.setPositiveTime(positiveTime);
         }
@@ -340,7 +339,7 @@ public class EnterApplyController extends BaseController {
         if(StringUtils.isNotBlank(_activeTime)){
             Date activeTime = DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD);
             if(record.getApplyTime()!=null && activeTime.before(record.getApplyTime())){
-                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+                return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
             }
             record.setActiveTime(activeTime);
         }
@@ -348,7 +347,7 @@ public class EnterApplyController extends BaseController {
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             if(record.getActiveTime()!=null && candidateTime.before(record.getActiveTime())){
-                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+                return failed("确定为发展对象时间应该在确定为入党积极分子之后");
             }
             record.setCandidateTime(candidateTime);
         }
@@ -356,7 +355,7 @@ public class EnterApplyController extends BaseController {
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
             if(record.getCandidateTime()!=null && growTime.before(record.getCandidateTime())){
-                throw new RuntimeException("入党时间应该在确定为发展对象之后");
+                return failed("入党时间应该在确定为发展对象之后");
             }
             record.setGrowTime(growTime);
         }
@@ -364,7 +363,7 @@ public class EnterApplyController extends BaseController {
 
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
             if(record.getGrowTime()!=null && positiveTime.before(record.getGrowTime())){
-                throw new RuntimeException("转正时间应该在入党之后");
+                return failed("转正时间应该在入党之后");
             }
             record.setPositiveTime(positiveTime);
         }

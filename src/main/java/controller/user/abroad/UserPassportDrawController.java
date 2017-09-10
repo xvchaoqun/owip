@@ -380,10 +380,10 @@ public class UserPassportDrawController extends BaseController {
 
         if(type==null || (type != SystemConstants.PASSPORT_DRAW_TYPE_TW
                 && type != SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF)){
-            throw new RuntimeException("请选择申请类型");
+           return failed("请选择申请类型");
         }
         if(passportId==null || passportMapper.selectByPrimaryKey(passportId)==null){
-            throw new RuntimeException("请选择证件");
+           return failed("请选择证件");
         }
 
         CadreView cadre = cadreService.findAll().get(cadreId);
@@ -392,10 +392,10 @@ public class UserPassportDrawController extends BaseController {
 
             passportTw = passportService.findTwPassport(cadreId);
             if (passportTw == null) {
-                throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
+               return failed("您还未提交大陆居民往来台湾通行证");
             }
             if(passportId.intValue() != passportTw.getId()){
-                throw new RuntimeException("因公赴台，请选择“大陆居民往来台湾通行证”");
+               return failed("因公赴台，请选择“大陆居民往来台湾通行证”");
             }
             if (passportTw.getCadreId().intValue() != cadreId) throw new UnauthorizedException();
         }
@@ -426,7 +426,7 @@ public class UserPassportDrawController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
         if(record.getStartDate().after(record.getEndDate())){
-            throw new RuntimeException("出行时间不能晚于回国时间");
+           return failed("出行时间不能晚于回国时间");
         }
 
         record.setReason(reason);
@@ -516,7 +516,7 @@ public class UserPassportDrawController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
         if(record.getStartDate().after(record.getEndDate())){
-            throw new RuntimeException("开始日期不能晚于结束日期");
+           return failed("开始日期不能晚于结束日期");
         }
 
         record.setReason(reason);

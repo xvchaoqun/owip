@@ -67,7 +67,7 @@ public class CadreBaseInfoController extends BaseController {
         }
 
         if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
-            throw new RuntimeException("手机号码有误："+ mobile);
+            return failed("手机号码有误："+ mobile);
         }
 
         String avatar = avatarService.uploadAvatar(_avatar);

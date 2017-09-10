@@ -75,7 +75,7 @@ public class UserMemberOutflowController extends BaseController{
         MemberOutflow memberOutflow = memberOutflowService.get(loginUser.getId());
         if(memberOutflow!=null && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_BACK
                 && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK)
-            throw new RuntimeException("不允许修改");
+           return failed("不允许修改");
 
         record.setUserId(userId);
         record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);

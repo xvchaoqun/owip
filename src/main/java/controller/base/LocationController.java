@@ -48,7 +48,7 @@ public class LocationController extends BaseController {
         Integer id = record.getId();
 
         if(locationService.idDuplicate(id, record.getCode())){
-            throw new RuntimeException("编码重复");
+            return failed("编码重复");
         }
 
         if (id == null) {

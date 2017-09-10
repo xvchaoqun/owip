@@ -163,7 +163,7 @@ public class UserMemberStayController extends BaseController{
         if(record.getType() == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
             if (record.getStartTime() == null || record.getEndTime() == null
                     || record.getStartTime().after(record.getEndTime())) {
-                throw new RuntimeException("出国起止时间有误");
+               return failed("出国起止时间有误");
             }
             if(StringUtils.isNotBlank(record.getMobile1()) &&
                     !FormUtils.match(PropertiesUtils.getString("mobile.regex"), record.getMobile1())){
@@ -183,7 +183,7 @@ public class UserMemberStayController extends BaseController{
 
         if(record.getSaveStartTime()==null || record.getSaveEndTime()==null
                 || record.getSaveStartTime().after(record.getSaveEndTime())){
-            throw new RuntimeException("申请保留组织关系起止时间有误");
+           return failed("申请保留组织关系起止时间有误");
         }
 
         if (_letter != null && !_letter.isEmpty()) {
@@ -204,7 +204,7 @@ public class UserMemberStayController extends BaseController{
         // 不允许本人修改
         if(selfSubmit && memberStay!=null && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
                 && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_BACK)
-            throw new RuntimeException("不允许修改");
+           return failed("不允许修改");
 
         if(memberStay!=null){
             // 上一次提交了不同类型，则应清除

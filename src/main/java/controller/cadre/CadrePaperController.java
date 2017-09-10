@@ -124,7 +124,7 @@ public class CadrePaperController extends BaseController {
         if (_file != null) {
             String ext = FileUtils.getExtention(_file.getOriginalFilename());
             if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
-                throw new RuntimeException("[发表论文情况]文件格式错误，请上传pdf文档");
+               return failed("[发表论文情况]文件格式错误，请上传pdf文档");
             }
 
             String originalFilename = _file.getOriginalFilename();

@@ -88,7 +88,7 @@ public class UserMemberTransferController extends BaseController{
 
         if(memberTransfer!=null && memberTransfer.getStatus()!=SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
                 && memberTransfer.getStatus()!=SystemConstants.MEMBER_TRANSFER_STATUS_BACK)
-            throw new RuntimeException("不允许修改");
+           return failed("不允许修改");
 
         if(userBean.getPartyId().byteValue() == record.getToPartyId()){
             return failed("转入不能是当前所在分党委");

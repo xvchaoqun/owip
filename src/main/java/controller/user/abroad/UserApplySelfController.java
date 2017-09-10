@@ -260,7 +260,7 @@ public class UserApplySelfController extends BaseController {
             record.setEndDate(DateUtils.parseDate(_endDate, DateUtils.YYYY_MM_DD));
         }
         if(record.getStartDate().after(record.getEndDate())){
-            throw new RuntimeException("出发日期不能晚于回国日期");
+           return failed("出发日期不能晚于回国日期");
         }
 
         if(record.getId()==null) {
@@ -289,7 +289,7 @@ public class UserApplySelfController extends BaseController {
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(record.getId());
             if(applySelf.getCadreId().intValue() != cadreId.intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
-                throw new RuntimeException("不允许更新");
+               return failed("不允许更新");
             }
             record.setCadreId(null);
             record.setStatus(true);// 重新提交
@@ -333,7 +333,7 @@ public class UserApplySelfController extends BaseController {
         Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
         if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
-            throw new RuntimeException("不允许删除");
+           return failed("不允许删除");
         }
 
         applySelfFileMapper.deleteByPrimaryKey(id);

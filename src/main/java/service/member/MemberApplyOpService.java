@@ -692,7 +692,7 @@ public class MemberApplyOpService extends BaseController {
                 }
             }
             if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
-                throw new RuntimeException("打回状态有误，请联系系统管理员。");
+                throw new RuntimeException("打回状态有误。");
             }
 
             memberApplyService.memberApply_back(userId, stage);

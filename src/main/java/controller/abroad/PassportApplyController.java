@@ -70,7 +70,7 @@ public class PassportApplyController extends BaseController {
         record.setId(id);
         Date date = DateUtils.parseDate(_expectDate, DateUtils.YYYY_MM_DD_CHINA);
         /*if(date==null || date.before(new Date())){
-            throw new RuntimeException("证件应交回日期有误");
+           return failed("证件应交回日期有误");
         }*/
         record.setExpectDate(date);
 

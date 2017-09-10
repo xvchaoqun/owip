@@ -278,7 +278,7 @@ public class DispatchController extends BaseController {
             String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
             String ext = FileUtils.getExtention(_ppt.getOriginalFilename());
             if (!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx")) {
-                throw new RuntimeException("上会ppt文件格式错误，请上传ppt文件");
+               return failed("上会ppt文件格式错误，请上传ppt文件");
             }
 
             String originalFilename = _ppt.getOriginalFilename();
@@ -434,7 +434,7 @@ public class DispatchController extends BaseController {
             record.setHasChecked(true);
             dispatchService.updateByPrimaryKeySelective(record);
         } else {
-            throw new RuntimeException("还未全部录入，不能进行复核操作");
+           return failed("还未全部录入，不能进行复核操作");
         }
 
         return success(FormUtils.SUCCESS);

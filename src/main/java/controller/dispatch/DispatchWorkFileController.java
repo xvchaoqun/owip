@@ -191,7 +191,7 @@ public class DispatchWorkFileController extends BaseController {
         if (canUpload && _pdfFilePath != null) {
             String ext = FileUtils.getExtention(_pdfFilePath.getOriginalFilename());
             if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
-                throw new RuntimeException("文件格式错误，请上传pdf文件");
+               return failed("文件格式错误，请上传pdf文件");
             }
 
             String fileName = UUID.randomUUID().toString();
@@ -216,7 +216,7 @@ public class DispatchWorkFileController extends BaseController {
         if (canUpload && _wordFilePath != null) {
             String ext = FileUtils.getExtention(_wordFilePath.getOriginalFilename());
             if (!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")) {
-                throw new RuntimeException("文件格式错误，请上传word文件");
+               return failed("文件格式错误，请上传word文件");
             }
 
             String fileName = UUID.randomUUID().toString();

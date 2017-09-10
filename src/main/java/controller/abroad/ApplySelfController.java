@@ -99,7 +99,7 @@ public class ApplySelfController extends BaseController {
                 if (key != approvalTypeId) {
                     Integer preResult = approvalResultMap.get(key).getValue();
                     if (preResult == null || preResult == 0)
-                        throw new RuntimeException(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
+                        return failed(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
                 }
                 if (key == approvalTypeId) break;
             }
@@ -115,7 +115,7 @@ public class ApplySelfController extends BaseController {
                 if (preResult != null && preResult == -1) continue; // 跳过不需要审批的
 
                 if (preResult == null) // 前面存在 未审批
-                    throw new RuntimeException(entry.getValue().getName() + "未完成审批");
+                    return failed(entry.getValue().getName() + "未完成审批");
                 // }
             }
         }

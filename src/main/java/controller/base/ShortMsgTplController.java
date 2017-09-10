@@ -229,7 +229,7 @@ public class ShortMsgTplController extends BaseController {
     public Map do_shortMsgTpl_send(int tplId, Integer receiverId, String mobile, HttpServletRequest request) {
 
         if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
-            throw new RuntimeException("手机号码有误");
+            return failed("手机号码有误");
         }
 
         ShortMsgTpl shortMsgTpl = shortMsgTplMapper.selectByPrimaryKey(tplId);

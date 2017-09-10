@@ -66,7 +66,7 @@ public class UserMemberOutController extends BaseController{
         MemberOut memberOut = memberOutService.get(userId);
 
         if(memberOut!=null && memberOut.getStatus() > SystemConstants.MEMBER_OUT_STATUS_BACK)
-            throw new RuntimeException("不允许修改");
+           return failed("不允许修改");
 
         Member member = memberService.get(userId);
         record.setPartyId(member.getPartyId());

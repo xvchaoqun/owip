@@ -74,7 +74,7 @@ public class EnterApplyService extends BaseMapper{
 
         List<EnterApply> enterApplies = enterApplyMapper.selectByExample(example);
         if(enterApplies.size()>1)
-            throw new DBErrorException("重复申请，请联系系统管理员"); // 当前申请状态每个用户只允许一个，且是最新的一条
+            throw new DBErrorException("重复申请"); // 当前申请状态每个用户只允许一个，且是最新的一条
         if(enterApplies.size()==1) return enterApplies.get(0);
 
         return null;
@@ -271,7 +271,7 @@ public class EnterApplyService extends BaseMapper{
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply==null)
-            throw new DBErrorException("申请不存在，请联系系统管理员。");
+            throw new DBErrorException("申请不存在。");
 
         EnterApply enterApply = new EnterApply();
         enterApply.setId(_enterApply.getId());

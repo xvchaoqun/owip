@@ -283,7 +283,7 @@ $.ajaxSetup({
     }, error: function (jqXHR, textStatus, errorMsg) {
 
         if (jqXHR.status == 401) {
-            alert("您没有权限进行此项操作，请联系系统管理员。");
+            alert("您没有权限进行此项操作。");
         }
         //alert( '发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：' + errorMsg );
         //SysMsg.error('系统异常，请稍后再试。', '系统异常');

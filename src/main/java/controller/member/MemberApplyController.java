@@ -461,7 +461,7 @@ public class MemberApplyController extends BaseController {
             }
             /*if(record.getApplyTime()==null && _memberApply.getApplyTime()!=null
                     && record.getActiveTime().before(_memberApply.getApplyTime())){
-                throw new RuntimeException("确定为入党积极分子时间不能早于提交书面申请书时间");
+               return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
             }*/
 
             String candidateTime = DateUtils.formatDate(_memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD);
@@ -477,7 +477,7 @@ public class MemberApplyController extends BaseController {
 
                 /*if(record.getActiveTime()==null && _memberApply.getActiveTime()!=null
                         && record.getCandidateTime().before(_memberApply.getActiveTime())){
-                    throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子之后");
+                   return failed("确定为发展对象时间应该在确定为入党积极分子之后");
                 }*/
             }
 

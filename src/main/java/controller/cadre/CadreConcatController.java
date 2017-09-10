@@ -44,7 +44,7 @@ public class CadreConcatController extends BaseController {
 
         if(StringUtils.isNotBlank(mobile)) {
             if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
-                throw new RuntimeException("手机号码有误");
+               return failed("手机号码有误");
             }
         }
 

@@ -257,7 +257,7 @@ public class PassportDrawController extends BaseController {
         PassportDraw record = new PassportDraw();
 
        /* if (_drawRecord == null || _drawRecord.isEmpty()) {
-            throw new RuntimeException("请选择证件拍照");
+           return failed("请选择证件拍照");
         }*/
         record.setId(id);
         record.setReturnDate(DateUtils.parseDate(_returnDate, DateUtils.YYYY_MM_DD));
@@ -331,13 +331,13 @@ public class PassportDrawController extends BaseController {
         PassportDraw record = new PassportDraw();
 
         /*if (_useRecord == null || _useRecord.isEmpty()) {
-            throw new RuntimeException("请选择证件使用记录拍照");
+           return failed("请选择证件使用记录拍照");
         }*/
 
         if(_attachment!=null){
             String ext = FileUtils.getExtention(_attachment.getOriginalFilename());
             if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
-                throw new RuntimeException("附件格式错误，请上传pdf文件");
+                return failed("附件格式错误，请上传pdf文件");
             }
 
             String originalFilename = _attachment.getOriginalFilename();

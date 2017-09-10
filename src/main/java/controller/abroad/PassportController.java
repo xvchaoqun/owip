@@ -358,7 +358,7 @@ public class PassportController extends BaseController {
                                    MultipartFile _cancelPic, HttpServletRequest request) throws IOException {
 
         if ((_cancelPic == null || _cancelPic.isEmpty()) && StringUtils.isBlank(_base64))
-            throw new RuntimeException("请选择签字图片或进行拍照");
+            return failed("请选择签字图片或进行拍照");
 
         Passport record = new Passport();
         record.setId(id);
@@ -670,7 +670,7 @@ public class PassportController extends BaseController {
                         || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
                         && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
                     // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
-                    throw new RuntimeException("该证件不可以进行更新操作");
+                    return failed("该证件不可以进行更新操作");
                 }
                 record.setType(null);
                 passportService.updateByPrimaryKeySelective(record);
