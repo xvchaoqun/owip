@@ -53,12 +53,10 @@ public class PcsPrPartyService extends BaseMapper {
         // 二下二上和三下三上，在组织部审批通过上一阶段前，不可填写
         if(stage==SystemConstants.PCS_STAGE_SECOND){
             PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_FIRST, partyId);
-            if(_check == null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+            if(_check == null ||  _check.getStatus()==null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
         }else if(stage==SystemConstants.PCS_STAGE_THIRD){
             PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
-            if(_check == null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
-
-
+            if(_check == null || _check.getStatus()==null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
         }
 
         // 分党委已经报送之后，不可修改数据

@@ -134,7 +134,7 @@ pageEncoding="UTF-8"%>
         });
     });
     $("#agree_msg").click(function(){
-        $.$.loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyPass");
+        $.loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyPass");
     });
     $("#disagree").click(function(){
         var remark = $("textarea[name=remark]").val().trim();
@@ -153,7 +153,7 @@ pageEncoding="UTF-8"%>
     });
 
     $("#disagree_msg").click(function(){
-        $.$.loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyUnPass");
+        $.loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyUnPass");
     });
 
     register_date($('.date-picker'), {startDate:'${today}'});
