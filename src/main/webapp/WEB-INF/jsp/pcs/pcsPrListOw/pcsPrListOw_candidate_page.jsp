@@ -129,7 +129,14 @@
                 return "-"
             }
             },
-            {label: '票数', name: 'vote', width: 80}
+            {label: '票数', name: 'vote', width: 80},
+
+            {
+                label: '手机号', name: 'mobile', width:120
+            },
+            {
+                label: '邮箱', name: 'email', width:200, align:"left"
+            },
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

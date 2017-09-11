@@ -42,6 +42,9 @@ public class PcsPrFileController extends BaseController {
         if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
 
             SecurityUtils.getSubject().checkPermission("pcsPrFile:list");
+        }
+
+        if(partyId==null){ // 党代会管理员同时也可以是某个分党委管理员
 
             PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {

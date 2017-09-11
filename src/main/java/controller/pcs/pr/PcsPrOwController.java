@@ -53,25 +53,25 @@ public class PcsPrOwController extends BaseController {
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
                 fileName = String.format("分党委酝酿代表候选人%s名单（%s）",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备",
                         party.getName());
                 break;
             case "4":
                 party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
                 fileName = String.format("分党委酝酿代表候选人%s人选统计表（%s）",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备",
                         party.getName());
                 break;
             case "5":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, null);
-                fileName =String.format("各分党委酝酿代表候选人%s名单汇总表",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
+                fileName = String.format("各分党委酝酿代表候选人%s名单汇总表",
+                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 break;
             case "6":
                 wb = pcsPrExportService.exportSchoolAllocate(configId, stage);
-                fileName =String.format("各分党委酝酿代表候选人%s人选统计表",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
+                fileName = String.format("各分党委酝酿代表候选人%s人选统计表",
+                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 break;
             case "7":
                 wb = pcsPrExportService.exportSchoolRecommend(configId, stage);
@@ -79,8 +79,11 @@ public class PcsPrOwController extends BaseController {
                 break;
             case "ow":
                 wb = pcsPrExportService.exportAllPartyAllocate(configId, stage);
-                fileName =String.format("各分党委酝酿代表候选人%s人选统计表",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备");
+                if (stage != SystemConstants.PCS_STAGE_THIRD)
+                    fileName = String.format("各分党委酝酿代表候选人%s人选统计表",
+                            stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备");
+                else
+                    fileName = "全校党代表数据统计表";
                 break;
         }
 
@@ -139,9 +142,9 @@ public class PcsPrOwController extends BaseController {
 
     @RequiresPermissions("pcsPrOw:check")
     @RequestMapping("/pcsPrOw_check")
-    public String pcsPrOw_check(@RequestParam(value = "partyIds[]") int[] partyIds,ModelMap modelMap) {
+    public String pcsPrOw_check(@RequestParam(value = "partyIds[]") int[] partyIds, ModelMap modelMap) {
 
-        if(partyIds.length==1) {
+        if (partyIds.length == 1) {
             modelMap.put("party", partyService.findAll().get(partyIds[0]));
         }
 
@@ -195,10 +198,10 @@ public class PcsPrOwController extends BaseController {
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrOw_party_candidate_data")
     public void pcsPrOw_party_candidate_data(HttpServletResponse response,
-                                       Integer partyId,
-                                       byte stage,
-                                       Integer userId,
-                                       Integer pageSize, Integer pageNo) throws IOException {
+                                             Integer partyId,
+                                             byte stage,
+                                             Integer userId,
+                                             Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -242,11 +245,11 @@ public class PcsPrOwController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        if(partyId!=null) {
+        if (partyId != null) {
             // 单个分党委
             PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
-        }else{
+        } else {
             // 全校
             PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
