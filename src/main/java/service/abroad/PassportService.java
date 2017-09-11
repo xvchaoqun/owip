@@ -1,6 +1,7 @@
 package service.abroad;
 
 import bean.XlsPassport;
+import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportDraw;
@@ -55,9 +56,9 @@ public class PassportService extends BaseMapper {
 
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new RuntimeException("工作证号：" + userCode + "不存在");
+            if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
             CadreView cadre = cadreService.dbFindByUserId(uv.getId());
-            if (cadre == null) throw new RuntimeException("工作证号：" + userCode + " 姓名：" + uv.getRealname() + "不是干部");
+            if (cadre == null) throw new OpException("工作证号：" + userCode + " 姓名：" + uv.getRealname() + "不是干部");
             record.setCadreId(cadre.getId());
             record.setType(type);
 
@@ -75,7 +76,7 @@ public class PassportService extends BaseMapper {
             //
             SafeBox safeBox = safeBoxService.getByCode(uRow.getSafeCode());
             if (safeBox == null)
-                if (uv == null) throw new RuntimeException("保险柜：" + safeBox.getCode() + "不存在");
+                if (uv == null) throw new OpException("保险柜：" + safeBox.getCode() + "不存在");
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);
@@ -83,7 +84,7 @@ public class PassportService extends BaseMapper {
 
             if (idDuplicate(null, record.getType(), record.getCadreId(), record.getClassId(), record.getCode()) > 0) {
                 MetaType mcPassportType = CmTag.getMetaType(passportType);
-                throw new RuntimeException("导入失败，工作证号：" + uRow.getUserCode() + "[" + mcPassportType.getName() + "]重复");
+                throw new OpException("导入失败，工作证号：" + uRow.getUserCode() + "[" + mcPassportType.getName() + "]重复");
             }
 
             add(record, null, null);
@@ -186,7 +187,7 @@ public class PassportService extends BaseMapper {
             if(_taiwanRecord==null || _taiwanRecord.getIsDeleted()
                     || _taiwanRecord.getHandleDate() != null){
                 // 上交后不允许修改
-                throw new RuntimeException("因公赴台备案状态异常");
+                throw new OpException("因公赴台备案状态异常");
             }
 
             MetaType passportTwType = CmTag.getMetaTypeByCode("mt_passport_tw");
@@ -209,7 +210,7 @@ public class PassportService extends BaseMapper {
              */
             if (passportApplyService.checkApplyPassButNotHandle(cadreId, classId)) {
                 MetaType passportClass = CmTag.getMetaType(classId);
-                throw new RuntimeException("该干部已经申请办理了" + passportClass.getName() + "，当前申请已通过，请办理证件交回");
+                throw new OpException("该干部已经申请办理了" + passportClass.getName() + "，当前申请已通过，请办理证件交回");
             }
         }
 
@@ -261,7 +262,7 @@ public class PassportService extends BaseMapper {
             if (updateIdDuplicate(id, SystemConstants.PASSPORT_TYPE_KEEP,
                     passport.getCadreId(), passport.getClassId(), passport.getCode()) > 0) {
                 MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
-                throw new RuntimeException("返回集中管理失败，" + passport.getUser().getRealname()
+                throw new OpException("返回集中管理失败，" + passport.getUser().getRealname()
                         + "[" + mcPassportType.getName() + "]证件重复");
             }
 
@@ -309,7 +310,7 @@ public class PassportService extends BaseMapper {
                     || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
                     && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
                 // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
-                throw new RuntimeException("只有集中管理库或后台添加的丢失证件可以进行删除操作");
+                throw new OpException("只有集中管理库或后台添加的丢失证件可以进行删除操作");
             }
         }
 

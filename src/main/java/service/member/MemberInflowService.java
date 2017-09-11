@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.party.EnterApply;
@@ -58,7 +59,7 @@ public class MemberInflowService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -85,7 +86,7 @@ public class MemberInflowService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -114,7 +115,7 @@ public class MemberInflowService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -293,10 +294,10 @@ public class MemberInflowService extends BaseMapper {
 
         byte _status = memberInflow.getInflowStatus();
         if(_status==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if(status>_status || status<SystemConstants.MEMBER_INFLOW_STATUS_BACK ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
         Integer id = memberInflow.getId();
         Integer userId = memberInflow.getUserId();

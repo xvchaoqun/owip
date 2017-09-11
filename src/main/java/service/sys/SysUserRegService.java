@@ -1,5 +1,6 @@
 package service.sys;
 
+import controller.global.OpException;
 import domain.sys.SysUser;
 import domain.sys.SysUserExample;
 import domain.sys.SysUserInfo;
@@ -277,10 +278,10 @@ public class SysUserRegService extends BaseMapper {
     public SysUserView changepw(int id, String password){ // 返回值是为了清除缓存
 
         SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
-        if(sysUserReg==null || sysUserReg.getUserId()==null) throw new RuntimeException("参数错误");
+        if(sysUserReg==null || sysUserReg.getUserId()==null) throw new OpException("参数错误");
 
         SysUserView sysUser = sysUserService.findById(sysUserReg.getUserId());
-        if(sysUser==null) throw new RuntimeException("用户不存在");
+        if(sysUser==null) throw new OpException("用户不存在");
 
         SysUser record = new SysUser();
         record.setId(sysUser.getId());

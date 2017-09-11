@@ -1,6 +1,7 @@
 package service.sys;
 
 import bean.AvatarImportResult;
+import controller.global.OpException;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
@@ -81,7 +82,7 @@ public class AvatarService extends BaseMapper{
                 FileUtils.mkdirs(springProps.avatarFolder + backup);
                 Thumbnails.of(springProps.avatarFolder + avatar).scale(1f).toFile(springProps.avatarFolder + backup);
             }catch (Exception ex){
-                throw new RuntimeException("图片保存失败：" + ex.getMessage());
+                throw new OpException("图片保存失败：" + ex.getMessage());
             }
         }
 

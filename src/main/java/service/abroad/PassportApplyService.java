@@ -1,5 +1,6 @@
 package service.abroad;
 
+import controller.global.OpException;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.base.MetaType;
@@ -47,11 +48,11 @@ public class PassportApplyService extends BaseMapper {
         MetaType passportClass = CmTag.getMetaType(classId);
         // （2）	以下情况不能再次申请护照：未审批、审批通过但未办理完交回；
         if (checkNewApply(cadreId, classId)) {
-            throw new RuntimeException("您已经申请办理了" + passportClass.getName() + "，请不要重复申请");
+            throw new OpException("您已经申请办理了" + passportClass.getName() + "，请不要重复申请");
         }
 
         if (checkApplyPassButNotHandle(cadreId, classId)) {
-            throw new RuntimeException("您已经申请办理了" + passportClass.getName() + "，申请已通过，请办理证件交回");
+            throw new OpException("您已经申请办理了" + passportClass.getName() + "，申请已通过，请办理证件交回");
         }
     }
 

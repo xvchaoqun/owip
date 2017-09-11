@@ -1,6 +1,7 @@
 package service.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
 import org.apache.ibatis.session.RowBounds;
@@ -56,7 +57,7 @@ public class MemberQuitService extends BaseMapper {
         } else if(type==3){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
@@ -79,7 +80,7 @@ public class MemberQuitService extends BaseMapper {
         } else if(type==3){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberQuit!=null)
@@ -105,7 +106,7 @@ public class MemberQuitService extends BaseMapper {
         } else if(type==3){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberQuit!=null)
@@ -291,10 +292,10 @@ public class MemberQuitService extends BaseMapper {
 
         byte _status = memberQuit.getStatus();
         if(_status==SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY){
-            throw new RuntimeException("党员已经出党，不可以打回。");
+            throw new OpException("党员已经出党，不可以打回。");
         }
         if(status>_status || status<SystemConstants.MEMBER_QUIT_STATUS_BACK ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer userId = memberQuit.getUserId();

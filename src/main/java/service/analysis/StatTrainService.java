@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.train.TrainCourseService;
 import service.train.TrainEvaRankService;
+import sys.Utils;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 
@@ -332,7 +333,7 @@ public class StatTrainService extends BaseMapper {
         // 设置单元格字体样式
         XSSFFont font = wb.createFont();
         font.setFontName("宋体");
-        font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
         font.setFontHeight((short) (20 * 11));
         font.setColor(HSSFColor.BLUE.index);
         cellStyle.setFont(font);
@@ -348,20 +349,7 @@ public class StatTrainService extends BaseMapper {
 
     public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
         // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
-        // 设置字体加粗
-        //font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 220);
-        cellStyle.setFont(font);
+        XSSFCellStyle cellStyle = Utils.getBodyStyle(wb);
 
         // 设置单元格边框为细线条
         cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);

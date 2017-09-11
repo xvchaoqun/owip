@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.MemberOut;
 import domain.member.MemberOutExample;
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +60,7 @@ public class MemberOutService extends BaseMapper {
         } else if (type == 2) { //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else {
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if (cls != null) {
             if (cls == 1 || cls == 6) {// 分党委审核（新申请) / 组织部审核（新申请)
@@ -87,7 +88,7 @@ public class MemberOutService extends BaseMapper {
         } else if (type == 2) { //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else {
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if (cls == 1 || cls == 6) {// 分党委审核（新申请) / 组织部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -116,7 +117,7 @@ public class MemberOutService extends BaseMapper {
         } else if (type == 2) { //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY);
         } else {
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if (cls == 1 || cls == 6) {// 分党委审核（新申请) / 组织部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -287,7 +288,7 @@ public class MemberOutService extends BaseMapper {
 
         int opAuth = memberOpService.findOpAuth(record.getUserId());
         if (opAuth == 2) {
-            throw new RuntimeException("已经申请了校内组织关系转接");
+            throw new OpException("已经申请了校内组织关系转接");
         }
 
         if (record.getPartyId() != null && record.getBranchId() == null) {
@@ -352,10 +353,10 @@ public class MemberOutService extends BaseMapper {
 
         byte _status = memberOut.getStatus();
         if (_status == SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY) {
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if (status > _status || status < SystemConstants.MEMBER_OUT_STATUS_BACK) {
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer id = memberOut.getId();

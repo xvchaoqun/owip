@@ -1,5 +1,6 @@
 package service.party;
 
+import controller.global.OpException;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.BranchMemberGroup;
@@ -179,7 +180,7 @@ public class BranchService extends BaseMapper {
             if(!isDeleted){ // 恢复支部
                 Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                 if(party.getIsDeleted())
-                    throw new RuntimeException(String.format("恢复支部失败，支部所属的分党委【%s】已删除。", party.getName()));
+                    throw new OpException(String.format("恢复支部失败，支部所属的分党委【%s】已删除。", party.getName()));
             }
 
             if(isDeleted) {

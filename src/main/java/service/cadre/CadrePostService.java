@@ -1,5 +1,6 @@
 package service.cadre;
 
+import controller.global.OpException;
 import domain.cadre.CadrePost;
 import domain.cadre.CadrePostExample;
 import org.apache.commons.lang3.BooleanUtils;
@@ -30,7 +31,7 @@ public class CadrePostService extends BaseMapper {
             CadrePost cadreMainCadrePost = getCadreMainCadrePost(record.getCadreId());
             if (cadreMainCadrePost != null) {
                 if (record.getId() == null || cadreMainCadrePost.getId() != record.getId()) {
-                    throw new RuntimeException("主职重复");
+                    throw new OpException("主职重复");
                 }
             }
         }

@@ -11,12 +11,10 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -31,6 +29,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
+import sys.Utils;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
@@ -38,7 +37,6 @@ import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -229,7 +227,7 @@ public class SafeBoxService extends BaseMapper {
             Cell headerCell = header.createCell(0);
             headerCell.setCellValue(String.format("保险柜%s：证件总数%s本，其中集中管理%s本，取消集中管理（未确认）%s本。",
                     safeBox.getCode(), size, keepCount, size - keepCount));
-            headerCell.setCellStyle(getBgColorStyle(wb));
+            headerCell.setCellStyle(Utils.getBgColorStyle(wb));
 
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
@@ -241,7 +239,7 @@ public class SafeBoxService extends BaseMapper {
             for (int i = 0; i < columnCount; i++) {
                 XSSFCell cell = firstRow.createCell(i);
                 cell.setCellValue(titles[i]);
-                cell.setCellStyle(getHeadStyle(wb));
+                cell.setCellStyle(Utils.getHeadStyle(wb));
 
                 //sheet.setColumnWidth(i, (short) (35.7*100));
             }
@@ -280,7 +278,7 @@ public class SafeBoxService extends BaseMapper {
 
                     XSSFCell cell = (XSSFCell) row.createCell(j);
                     cell.setCellValue(values[j]);
-                    cell.setCellStyle(getBodyStyle(wb));
+                    cell.setCellStyle(Utils.getBodyStyle(wb));
                 }
             }
 
@@ -289,7 +287,7 @@ public class SafeBoxService extends BaseMapper {
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
 
-    public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
+    /*public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
         // 创建单元格样式
         XSSFCellStyle cellStyle = wb.createCellStyle();
         // 设置单元格居中对齐
@@ -320,45 +318,16 @@ public class SafeBoxService extends BaseMapper {
         // 设置单元格字体样式
         XSSFFont font = wb.createFont();
         // 设置字体加粗
-        font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
         font.setFontName("宋体");
         font.setFontHeight((short) 250);
         cellStyle.setFont(font);
         // 设置单元格边框为细线条
-       /* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+       *//* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
         cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*/
+        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*//*
         return cellStyle;
-    }
+    }*/
 
-    private static XSSFCellStyle getBgColorStyle(XSSFWorkbook wb) {
-
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_LEFT);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-
-        cellStyle.setFillForegroundColor(new XSSFColor(new Color(141, 180, 226)));
-        //cellStyle.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
-        //cellStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
-        cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
-        // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
-        // 设置字体加粗
-        font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 300);
-        cellStyle.setFont(font);
-
-
-        // 设置单元格边框为细线条
-       /* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*/
-        return cellStyle;
-    }
 }

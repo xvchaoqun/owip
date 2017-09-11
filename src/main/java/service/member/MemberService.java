@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberExample;
 import domain.member.MemberModify;
@@ -190,7 +191,7 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
         } else if (_member == null) {
             Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");
-        } else throw new RuntimeException("数据异常，入党失败（已是党员或已转出）。" + uv.getCode() + "," + uv.getRealname());
+        } else throw new OpException("数据异常，入党失败（已是党员或已转出）。" + uv.getCode() + "," + uv.getRealname());
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
         memberApplyService.addOrChangeToGrowApply(userId);
@@ -218,12 +219,12 @@ public class MemberService extends BaseMapper {
                 .andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
         int count = memberMapper.countByExample(example);
         if (count != userIds.length) {
-            throw new RuntimeException("数据异常，请重新选择");
+            throw new OpException("数据异常，请重新选择");
         }
         Map<Integer, Branch> branchMap = branchService.findAll();
         Branch branch = branchMap.get(branchId);
         if (branch.getPartyId().intValue() != partyId) {
-            throw new RuntimeException("数据异常，请重新选择");
+            throw new OpException("数据异常，请重新选择");
         }
 
         Member record = new Member();
@@ -246,18 +247,18 @@ public class MemberService extends BaseMapper {
                 .andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
         int count = memberMapper.countByExample(example);
         if (count != userIds.length) {
-            throw new RuntimeException("数据异常，请重新选择[0]");
+            throw new OpException("数据异常，请重新选择[0]");
         }
         if (branchId != null) {
             Map<Integer, Branch> branchMap = branchService.findAll();
             Branch branch = branchMap.get(branchId);
             if (branch.getPartyId().intValue() != partyId) {
-                throw new RuntimeException("数据异常，请重新选择[1]");
+                throw new OpException("数据异常，请重新选择[1]");
             }
         } else {
             // 直属党支部
             if (!partyService.isDirectBranch(partyId)) {
-                throw new RuntimeException("数据异常，请重新选择[2]");
+                throw new OpException("数据异常，请重新选择[2]");
             }
         }
 

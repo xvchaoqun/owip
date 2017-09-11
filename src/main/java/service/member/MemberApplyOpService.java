@@ -1,6 +1,7 @@
 package service.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
@@ -119,17 +120,17 @@ public class MemberApplyOpService extends BaseController {
             DateTime dt = new DateTime(memberApply.getActiveTime());
             DateTime afterActiveTimeOneYear = dt.plusYears(1);
             if (afterActiveTimeOneYear.isAfterNow()) {
-                throw new RuntimeException("确定为入党积极分子满一年之后才能被确定为发展对象。");
+                throw new OpException("确定为入党积极分子满一年之后才能被确定为发展对象。");
             }
 
             Date candidateTime = DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD);
             if(candidateTime.before(afterActiveTimeOneYear.toDate())){
-                throw new RuntimeException("确定为发展对象时间应该在确定为入党积极分子满一年之后");
+                throw new OpException("确定为发展对象时间应该在确定为入党积极分子满一年之后");
             }
 
             Date trainTime = DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD);
             if(trainTime.before(memberApply.getActiveTime())){
-                throw new RuntimeException("培训时间应该在确定为入党积极分子之后");
+                throw new OpException("培训时间应该在确定为入党积极分子之后");
             }
 
             MemberApply record = new MemberApply();
@@ -202,11 +203,11 @@ public class MemberApplyOpService extends BaseController {
             int partyId = memberApply.getPartyId();
 
             if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
-                throw new RuntimeException("不在开放时间范围");
+                throw new OpException("不在开放时间范围");
             }
             Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
             if(planTime.before(memberApply.getCandidateTime())){
-                throw new RuntimeException("列入发展计划时间应该在确定为发展对象之后");
+                throw new OpException("列入发展计划时间应该在确定为发展对象之后");
             }
 
             MemberApply record = new MemberApply();
@@ -246,7 +247,7 @@ public class MemberApplyOpService extends BaseController {
             Integer partyId = memberApply.getPartyId();
 
             if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
-                throw new RuntimeException("不在开放时间范围");
+                throw new OpException("不在开放时间范围");
             }
             MemberApply record = new MemberApply();
             record.setStage(SystemConstants.APPLY_STAGE_PLAN);
@@ -282,7 +283,7 @@ public class MemberApplyOpService extends BaseController {
 
             Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
             if(drawTime.before(memberApply.getPlanTime())){
-                throw new RuntimeException("领取志愿书时间应该在列入发展计划之后");
+                throw new OpException("领取志愿书时间应该在列入发展计划之后");
             }
 
             MemberApply record = new MemberApply();
@@ -354,7 +355,7 @@ public class MemberApplyOpService extends BaseController {
 
             Date drawTime = DateUtils.parseDate(_drawTime, DateUtils.YYYY_MM_DD);
             if(drawTime.before(memberApply.getPlanTime())){
-                throw new RuntimeException("领取志愿书时间应该在列入发展计划之后");
+                throw new OpException("领取志愿书时间应该在列入发展计划之后");
             }
 
             MemberApply record = new MemberApply();
@@ -395,7 +396,7 @@ public class MemberApplyOpService extends BaseController {
             if(memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
                     || memberApply.getGrowStatus()==null
                     || memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_UNCHECKED){
-                throw new RuntimeException("还没有提交发展时间。");
+                throw new OpException("还没有提交发展时间。");
             }
 
             //boolean isParty = verifyAuth.isParty;
@@ -440,7 +441,7 @@ public class MemberApplyOpService extends BaseController {
         for (int userId : userIds) {
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW){
-                throw new RuntimeException("状态异常，还没到领取志愿书阶段。");
+                throw new OpException("状态异常，还没到领取志愿书阶段。");
             }
 
             MemberApply record = new MemberApply();
@@ -476,16 +477,16 @@ public class MemberApplyOpService extends BaseController {
 
             if(_memberApply.getGrowStatus()==null ||
                     _memberApply.getGrowStatus()!=SystemConstants.APPLY_STATUS_OD_CHECKED){
-                throw new RuntimeException("待组织部审核之后，才能提交。");
+                throw new OpException("待组织部审核之后，才能提交。");
             }
 
             if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW){
-                throw new RuntimeException("状态异常，还没到领取志愿书阶段。");
+                throw new OpException("状态异常，还没到领取志愿书阶段。");
             }
 
             Date growTime = DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD);
             if(growTime.before(_memberApply.getDrawTime())){
-                throw new RuntimeException("发展时间应该在领取志愿书之后");
+                throw new OpException("发展时间应该在领取志愿书之后");
             }
 
             if(directParty && partyAdmin){
@@ -552,7 +553,7 @@ public class MemberApplyOpService extends BaseController {
             Member member = memberService.get(userId);
             if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = sysUserService.findById(userId);
-                throw new RuntimeException(uv.getRealname()+"组织关系已经转出");
+                throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
 
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
@@ -563,7 +564,7 @@ public class MemberApplyOpService extends BaseController {
             Date positiveTime = DateUtils.parseDate(_positiveTime, DateUtils.YYYY_MM_DD);
             if(memberApply.getGrowTime()!=null) { // 后台添加的党员，入党时间可能为空
                 if (positiveTime.before(memberApply.getGrowTime())) {
-                    throw new RuntimeException("转正时间应该在发展之后");
+                    throw new OpException("转正时间应该在发展之后");
                 }
             }
 
@@ -603,7 +604,7 @@ public class MemberApplyOpService extends BaseController {
             Member member = memberService.get(userId);
             if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = sysUserService.findById(userId);
-                throw new RuntimeException(uv.getRealname()+"组织关系已经转出");
+                throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
 
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
@@ -616,7 +617,7 @@ public class MemberApplyOpService extends BaseController {
 
             if(memberApply.getPositiveStatus()==null ||
                     memberApply.getPositiveStatus()!=SystemConstants.APPLY_STATUS_UNCHECKED){
-                throw new RuntimeException("党支部管理员还未提交转正时间");
+                throw new OpException("党支部管理员还未提交转正时间");
             }
 
             MemberApplyExample example = new MemberApplyExample();
@@ -657,7 +658,7 @@ public class MemberApplyOpService extends BaseController {
             Member member = memberService.get(userId);
             if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = sysUserService.findById(userId);
-                throw new RuntimeException(uv.getRealname()+"组织关系已经转出");
+                throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
 
             memberApplyService.memberPositive(userId);
@@ -688,11 +689,11 @@ public class MemberApplyOpService extends BaseController {
 
                 if(!(_stage==SystemConstants.APPLY_STAGE_POSITIVE
                         && stage==SystemConstants.APPLY_STAGE_GROW)) { // 正式党员可以打回至预备党员
-                    throw new RuntimeException("已是党员，不可以打回入党申请状态。");
+                    throw new OpException("已是党员，不可以打回入党申请状态。");
                 }
             }
             if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
-                throw new RuntimeException("打回状态有误。");
+                throw new OpException("打回状态有误。");
             }
 
             memberApplyService.memberApply_back(userId, stage);

@@ -100,7 +100,7 @@ public class ShortMsgService extends BaseMapper {
             seq = Integer.parseInt(cacheVal.split("_")[0]);
         }
         if(seq >= 5){
-            throw new RuntimeException("该账号修改密码发送短信今日已发送了5次，请明天再试。");
+            throw new OpException("该账号修改密码发送短信今日已发送了5次，请明天再试。");
         }
 
         seq = seq+1;
@@ -755,7 +755,7 @@ public class ShortMsgService extends BaseMapper {
         } catch (IOException e) {
 
             e.printStackTrace();
-            throw new RuntimeException("系统错误:"+ e.getMessage());
+            throw new OpException("系统错误:"+ e.getMessage());
         }
         return false;
     }

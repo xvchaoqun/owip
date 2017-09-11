@@ -1,6 +1,7 @@
 package service.sys;
 
 import bean.ApproverTypeBean;
+import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.ext.ExtBks;
@@ -380,7 +381,7 @@ public class SysUserService extends BaseMapper {
         Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
 
         SysRole sysRole = sysRoleService.getByRole(role);
-        if(sysRole==null) throw new RuntimeException("系统角色"+ role + "不存在");
+        if(sysRole==null) throw new OpException("系统角色"+ role + "不存在");
         Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
         roleIdSet.add(sysRole.getId());
 

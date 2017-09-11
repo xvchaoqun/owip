@@ -1,5 +1,6 @@
 package service.cadre;
 
+import controller.global.OpException;
 import domain.cadre.CadreFamliy;
 import domain.cadre.CadreFamliyAbroadExample;
 import domain.cadre.CadreFamliyExample;
@@ -27,14 +28,14 @@ public class CadreFamliyService extends BaseMapper {
             criteria.andCadreIdEqualTo(cadreId);
 
             if(cadreFamliyMapper.countByExample(example)>0){
-                throw new RuntimeException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+                throw new OpException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
             }
         }
 
         CadreFamliyExample example = new CadreFamliyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId);
         if(cadreFamliyMapper.countByExample(example)>=6){
-            throw new RuntimeException("最多只允许添加6个家庭成员");
+            throw new OpException("最多只允许添加6个家庭成员");
         }
     }
 
@@ -48,7 +49,7 @@ public class CadreFamliyService extends BaseMapper {
             criteria.andIdNotEqualTo(id);
 
             if(cadreFamliyMapper.countByExample(example)>0){
-                throw new RuntimeException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+                throw new OpException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
             }
         }
     }

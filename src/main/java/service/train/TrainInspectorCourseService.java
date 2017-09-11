@@ -4,6 +4,7 @@ import bean.TrainTempData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import controller.global.OpException;
 import domain.train.TrainCourse;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaResult;
@@ -50,7 +51,7 @@ public class TrainInspectorCourseService extends BaseMapper {
             TrainEvaNorm norm = normList.get(i);
             TrainEvaNorm topNorm = norm.getTopNorm();
             if(!trainEvaResultMap.containsKey(norm.getId())){
-                throw  new RuntimeException(String.format("未完成指标（第%s/%s步:%s)", (i+1), normSize+1,
+                throw  new OpException(String.format("未完成指标（第%s/%s步:%s)", (i+1), normSize+1,
                         (topNorm!=null?topNorm.getName()+"-":"") + norm.getName()));
             }
 

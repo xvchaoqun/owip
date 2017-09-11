@@ -1,5 +1,6 @@
 package service.pcs;
 
+import controller.global.OpException;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsConfigExample;
 import org.apache.commons.lang.StringUtils;
@@ -20,7 +21,7 @@ public class PcsConfigService extends BaseMapper {
         PcsConfigExample example = new PcsConfigExample();
         example.createCriteria().andIsDeletedEqualTo(false).andIsCurrentEqualTo(true);
         List<PcsConfig> pcsConfigs = pcsConfigMapper.selectByExample(example);
-        if (pcsConfigs.size() > 1) throw new RuntimeException("党代会状态异常：当前包含多个党代会");
+        if (pcsConfigs.size() > 1) throw new OpException("党代会状态异常：当前包含多个党代会");
 
         return (pcsConfigs.size() == 1) ? pcsConfigs.get(0) : null;
     }

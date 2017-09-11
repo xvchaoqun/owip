@@ -19,7 +19,7 @@ left join (select count(*) as num, party_id from ow_party_member_group where is_
 DROP VIEW IF EXISTS `pcs_pr_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_pr_candidate_view` AS
 SELECT pc.*,
-uv.code, uv.realname, if(isnull(c.id), if(isnull(omt.user_id), 3 , 2), 1) as user_type, c.edu_id as edu_id, c.post,
+uv.code, uv.realname, if(c.status=6, c.sort_order, -1)  as leader_sort_order, if(isnull(c.id), if(isnull(omt.user_id), 3 , 2), 1) as user_type, c.edu_id as edu_id, c.post,
   ifnull(omt.grow_time, oms.grow_time) as grow_time,  omt.work_time, omt.pro_post, omt.education, omt.is_retire, oms.edu_level,
 ppr.party_id, ppr.config_id, ppr.stage, op.sort_order as party_sort_order
 from pcs_pr_candidate pc

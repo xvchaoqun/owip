@@ -1,5 +1,6 @@
 package service.cadre;
 
+import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
@@ -156,7 +157,7 @@ public class CadreWorkService extends BaseMapper {
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
         if (mta.getUserId().intValue() != currentUserId ||
                 mta.getStatus() != SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
-            throw new RuntimeException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
+            throw new OpException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
         CadreView cadre = cadreService.dbFindByUserId(currentUserId);
@@ -208,7 +209,7 @@ public class CadreWorkService extends BaseMapper {
                     .andStatusEqualTo(SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
             if(applies.size()>0){
-                throw new RuntimeException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
+                throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
 

@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberReturn;
 import domain.member.MemberReturnExample;
@@ -59,7 +60,7 @@ public class MemberReturnService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
@@ -80,7 +81,7 @@ public class MemberReturnService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberReturn!=null)
@@ -104,7 +105,7 @@ public class MemberReturnService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberReturn!=null)
@@ -152,7 +153,7 @@ public class MemberReturnService extends BaseMapper {
 
         Member _member = memberService.get(userId);
         if(_member!=null){
-            throw new RuntimeException("已经是党员");
+            throw new OpException("已经是党员");
         }
 
         MemberReturn memberReturn = get(userId);
@@ -295,10 +296,10 @@ public class MemberReturnService extends BaseMapper {
 
         byte _status = memberReturn.getStatus();
         if(_status==SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if(status>_status || status<SystemConstants.MEMBER_RETURN_STATUS_DENY ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer id = memberReturn.getId();

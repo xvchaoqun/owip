@@ -1,5 +1,6 @@
 package service.sys;
 
+import controller.global.OpException;
 import domain.ext.ExtAbroadExample;
 import domain.ext.ExtBks;
 import domain.ext.ExtBksExample;
@@ -72,7 +73,7 @@ public class SysUserSyncService extends BaseMapper {
     public void syncAllAbroad(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)) {
-            throw new RuntimeException("上一次同步仍在进行中");
+            throw new OpException("上一次同步仍在进行中");
         }
 
         // 先从师大导入数据
@@ -80,7 +81,7 @@ public class SysUserSyncService extends BaseMapper {
             extAbroadImport.excute();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+            throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
         int count = extAbroadMapper.countByExample(new ExtAbroadExample());
@@ -153,7 +154,7 @@ public class SysUserSyncService extends BaseMapper {
     public void syncAllJZG(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)) {
-            throw new RuntimeException("上一次同步仍在进行中");
+            throw new OpException("上一次同步仍在进行中");
         }
 
         SysUserSync sysUserSync = new SysUserSync();
@@ -180,7 +181,7 @@ public class SysUserSyncService extends BaseMapper {
             extJzgImport.excute();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+            throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
         int insertCount = 0;
@@ -278,7 +279,7 @@ public class SysUserSyncService extends BaseMapper {
     public void syncAllYJS(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)) {
-            throw new RuntimeException("上一次同步仍在进行中");
+            throw new OpException("上一次同步仍在进行中");
         }
 
         SysUserSync sysUserSync = new SysUserSync();
@@ -304,7 +305,7 @@ public class SysUserSyncService extends BaseMapper {
             extYjsImport.excute();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+            throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
         int insertCount = 0;
@@ -406,7 +407,7 @@ public class SysUserSyncService extends BaseMapper {
     public void syncAllBks(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)) {
-            throw new RuntimeException("上一次同步仍在进行中");
+            throw new OpException("上一次同步仍在进行中");
         }
 
         SysUserSync sysUserSync = new SysUserSync();
@@ -432,7 +433,7 @@ public class SysUserSyncService extends BaseMapper {
             extBksImport.excute();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("学校信息同步出错：" + ex.getMessage());
+            throw new OpException("学校信息同步出错：" + ex.getMessage());
         }
 
         int insertCount = 0;

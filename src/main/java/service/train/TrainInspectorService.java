@@ -2,6 +2,7 @@ package service.train;
 
 import bean.XlsTrainInspector;
 import bean.XlsUpload;
+import controller.global.OpException;
 import domain.train.Train;
 import domain.train.TrainEvaResultExample;
 import domain.train.TrainInspector;
@@ -76,9 +77,9 @@ public class TrainInspectorService extends BaseMapper {
 
         int closed = trainService.evaIsClosed(trainId);
         if (closed == 1) {
-            throw new RuntimeException("评课已关闭。");
+            throw new OpException("评课已关闭。");
         } else if (closed == 3) {
-            throw new RuntimeException("评课已结束于" + DateUtils.formatDate(train.getCloseTime(), DateUtils.YYYY_MM_DD_HH_MM));
+            throw new OpException("评课已结束于" + DateUtils.formatDate(train.getCloseTime(), DateUtils.YYYY_MM_DD_HH_MM));
         }
 
         Date now = new Date();

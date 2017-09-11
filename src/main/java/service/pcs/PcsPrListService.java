@@ -31,11 +31,9 @@ public class PcsPrListService extends BaseMapper {
                 .andIsChosenEqualTo(true);
         if(partyId!=null){
             criteria.andPartyIdEqualTo(partyId);
-            example.setOrderByClause("type asc, vote3 desc, sort_order asc");
-        }else{
-            criteria.andPartyIdEqualTo(partyId);
-            example.setOrderByClause("party_sort_order desc, type asc, vote3 desc, sort_order asc");
         }
+
+        example.setOrderByClause("type asc, leader_sort_order desc, vote3 desc, sort_order asc");
 
         return pcsPrCandidateViewMapper.selectByExample(example);
     }

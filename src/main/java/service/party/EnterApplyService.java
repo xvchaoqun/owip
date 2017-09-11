@@ -1,5 +1,6 @@
 package service.party;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
@@ -95,13 +96,13 @@ public class EnterApplyService extends BaseMapper{
         Member member = memberService.get(userId);
         if(member!=null){
             if(member.getStatus()==SystemConstants.MEMBER_STATUS_QUIT){
-                throw new RuntimeException("已出党，不能进行转入操作。");
+                throw new OpException("已出党，不能进行转入操作。");
             }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
-                throw new RuntimeException("已经是党员，不需要进行转入操作。");
+                throw new OpException("已经是党员，不需要进行转入操作。");
             }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
-                throw new RuntimeException("已经转出党员，不能进行转入操作。");
+                throw new OpException("已经转出党员，不能进行转入操作。");
             }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER_TEMP){
-                //throw new RuntimeException("您已办理组织关系转出");
+                //throw new OpException("您已办理组织关系转出");
                 return;// 允许挂职干部转出后用原账号转入
             }
         }
@@ -207,12 +208,12 @@ public class EnterApplyService extends BaseMapper{
 
         // 当前只允许流入一次
         if (memberInflowService.idDuplicate(record.getId(), record.getUserId())) {
-            throw new RuntimeException("添加重复");
+            throw new OpException("添加重复");
         }
         MemberInflow memberInflow = memberInflowService.get(userId);
         if(memberInflow!=null && memberInflow.getInflowStatus()
                 ==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("已经是流入党员");
+            throw new OpException("已经是流入党员");
         }
 
         SysUserView sysUser = sysUserService.findById(userId);
@@ -222,7 +223,7 @@ public class EnterApplyService extends BaseMapper{
                 || sysUser.getType() == SystemConstants.USER_TYPE_YJS){
             record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
         }else{
-            throw new RuntimeException("您不是教工或学生");
+            throw new OpException("您不是教工或学生");
         }
         record.setCreateTime(new Date());
         record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
@@ -402,7 +403,7 @@ public class EnterApplyService extends BaseMapper{
             }
             break;
             default:
-                throw new RuntimeException("参数错误");
+                throw new OpException("参数错误");
         }
 
     }

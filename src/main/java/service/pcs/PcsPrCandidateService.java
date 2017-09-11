@@ -4,7 +4,6 @@ import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -33,6 +32,15 @@ public class PcsPrCandidateService extends BaseMapper {
         return resultMap;
     }
 
+    /**
+     *
+     * 先按“专业技术人员和干部”、“学生代表”、“离退休代表”；
+     其中“学生代表”和“离退休代表”只按票数排序；
+     其中“专业技术人员和干部”排序规则为：
+
+     校领导在最前，顺序与校领导干部库顺序一致；
+     其他所有的按票数来排。
+     */
     // 用于查询入选名单
     public PcsPrCandidateViewExample createExample(int configId, byte stage, Integer partyId, Integer userId){
 
@@ -42,7 +50,7 @@ public class PcsPrCandidateService extends BaseMapper {
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        example.setOrderByClause("party_sort_order desc, type asc, vote desc, sort_order asc");
+        example.setOrderByClause("type asc, leader_sort_order desc, vote desc, sort_order asc");
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
@@ -91,7 +99,7 @@ public class PcsPrCandidateService extends BaseMapper {
     }
 
     // 升序排列
-    @Transactional
+   /* @Transactional
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
@@ -129,5 +137,5 @@ public class PcsPrCandidateService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             pcsPrCandidateMapper.updateByPrimaryKeySelective(record);
         }
-    }
+    }*/
 }

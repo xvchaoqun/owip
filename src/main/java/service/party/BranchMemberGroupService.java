@@ -1,5 +1,6 @@
 package service.party;
 
+import controller.global.OpException;
 import domain.party.Branch;
 import domain.party.BranchMember;
 import domain.party.BranchMemberExample;
@@ -52,7 +53,7 @@ public class BranchMemberGroupService extends BaseMapper {
         List<BranchMemberGroup> branchMemberGroups = branchMemberGroupMapper.selectByExample(_example);
         int size = branchMemberGroups.size();
         if(size>1){
-            throw new RuntimeException("数据异常：现任班子不唯一。");
+            throw new OpException("数据异常：现任班子不唯一。");
         }
 
         if(size==1) return branchMemberGroups.get(0);
@@ -143,11 +144,11 @@ public class BranchMemberGroupService extends BaseMapper {
 
             if(!isDeleted){ // 恢复支部委员会
                 if(branch.getIsDeleted())
-                    throw new RuntimeException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除。", branch.getName()));
+                    throw new OpException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除。", branch.getName()));
                 else{
                     Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                     if(party.getIsDeleted())
-                        throw new RuntimeException(String.format("恢复支部委员会失败，支部委员会所属分党委【%s】已删除。", party.getName()));
+                        throw new OpException(String.format("恢复支部委员会失败，支部委员会所属分党委【%s】已删除。", party.getName()));
                 }
             }
 

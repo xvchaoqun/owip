@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberOutflow;
 import domain.member.MemberOutflowExample;
@@ -65,7 +66,7 @@ public class MemberOutflowService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -92,7 +93,7 @@ public class MemberOutflowService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andIsBackNotEqualTo(true);
@@ -121,7 +122,7 @@ public class MemberOutflowService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(cls==1){// 支部审核（新申请)
@@ -344,10 +345,10 @@ public class MemberOutflowService extends BaseMapper {
 
         byte _status = memberOutflow.getStatus();
         if(_status==SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if(status>_status || status<SystemConstants.MEMBER_OUTFLOW_STATUS_BACK ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer userId = memberOutflow.getUserId();

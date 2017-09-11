@@ -1,6 +1,7 @@
 package service.abroad;
 
 import bean.ShortMsgBean;
+import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.Passport;
 import domain.abroad.PassportDraw;
@@ -13,6 +14,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -39,7 +41,6 @@ import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.IpUtils;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -154,7 +155,7 @@ public class PassportDrawService extends BaseMapper {
 
                     passportDrawMapper.deleteByPrimaryKey(id);
                 } else {
-                    throw new RuntimeException("该记录已经审批，不可以删除");
+                    throw new OpException("该记录已经审批，不可以删除");
                 }
             }
         } else {
@@ -191,7 +192,7 @@ public class PassportDrawService extends BaseMapper {
         PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
         if (passport.getIsLent()) {
-            throw new RuntimeException("该证件已经借出");
+            throw new OpException("该证件已经借出");
         }
         Passport _record = new Passport();
         _record.setId(passport.getId());
@@ -210,7 +211,7 @@ public class PassportDrawService extends BaseMapper {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
             Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
             if (!passport.getIsLent()) {
-                throw new RuntimeException("该证件未借出");
+                throw new OpException("该证件未借出");
             }
             Passport _record = new Passport();
             _record.setId(passport.getId());
@@ -259,7 +260,7 @@ public class PassportDrawService extends BaseMapper {
             Cell headerCell = titleRow.createCell(0);
             XSSFCellStyle cellStyle = wb.createCellStyle();
             // 设置单元格居中对齐
-            cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);
             // 设置单元格垂直居中对齐
             cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
             XSSFFont font = wb.createFont();
@@ -353,7 +354,7 @@ public class PassportDrawService extends BaseMapper {
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
-            cell.setCellStyle(getHeadStyle(wb));
+            cell.setCellStyle(ExportHelper.getHeadStyle(wb));
         }
 
         MetaType normalPassport = CmTag.getMetaTypeByCode("mt_passport_normal");
@@ -467,54 +468,11 @@ public class PassportDrawService extends BaseMapper {
             for (int j = 0; j < titles.length; j++) {
                 XSSFCell cell = (XSSFCell) row.createCell(j);
                 cell.setCellValue(values[j]);
-                cell.setCellStyle(getBodyStyle(wb));
+                cell.setCellStyle(ExportHelper.getBodyStyle(wb));
             }
         }
 
         String fileName = type + "证件使用记录_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.output(wb, fileName + ".xlsx", response);
-    }
-
-    public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
-        // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
-        // 设置字体加粗
-        //font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 200);
-        cellStyle.setFont(font);
-        return cellStyle;
-    }
-
-    public static XSSFCellStyle getHeadStyle(XSSFWorkbook wb) {
-        // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
-        // 设置字体加粗
-        font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 250);
-        cellStyle.setFont(font);
-        // 设置单元格边框为细线条
-       /* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*/
-        return cellStyle;
     }
 }

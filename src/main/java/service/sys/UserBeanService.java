@@ -1,6 +1,7 @@
 package service.sys;
 
 import bean.UserBean;
+import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.Member;
 import domain.party.Branch;
@@ -42,7 +43,7 @@ public class UserBeanService extends BaseMapper {
         if(user!=null)
             return StringUtils.defaultString(StringUtils.trimToNull(user.getMsgTitle()), user.getRealname());
 
-        throw new RuntimeException("user is not existed. id="+userId);
+        throw new OpException("user is not existed. id="+userId);
     }
 
     // 获接收短信的手机号码。
@@ -51,7 +52,7 @@ public class UserBeanService extends BaseMapper {
         SysUserView user = sysUserService.findById(userId);
         if(user!=null) return user.getMobile();
 
-        throw new RuntimeException("user is not existed. id="+userId);
+        throw new OpException("user is not existed. id="+userId);
     }
 
     public UserBean get(int userId) {

@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.sys.SysUserView;
@@ -57,7 +58,7 @@ public class MemberInflowOutService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andOutIsBackNotEqualTo(true);
@@ -84,7 +85,7 @@ public class MemberInflowOutService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andOutIsBackNotEqualTo(true);
@@ -113,7 +114,7 @@ public class MemberInflowOutService extends BaseMapper {
         } else if(type==2){ //分党委审核
             criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(cls==1){// 支部审核（新申请)
             criteria.andOutIsBackNotEqualTo(true);
@@ -178,7 +179,7 @@ public class MemberInflowOutService extends BaseMapper {
         // 1 要求 党员已经流入
         MemberInflow memberInflow = memberInflowService.get(userId);
         if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("状态异常");
+            throw new OpException("状态异常");
         }
 
         //
@@ -193,7 +194,7 @@ public class MemberInflowOutService extends BaseMapper {
 
         // 2 要求 提出申请并未完成审批的记录
         if(memberInflow.getOutStatus()!=null&&memberInflow.getOutStatus()==SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("状态异常");
+            throw new OpException("状态异常");
         }
 
         if(reset) {
@@ -304,10 +305,10 @@ public class MemberInflowOutService extends BaseMapper {
 
         byte _status = memberInflow.getOutStatus();
         if(_status==SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if(status>_status || status<SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer id = memberInflow.getId();

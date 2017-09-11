@@ -1,6 +1,7 @@
 package service.train;
 
 import bean.XlsTrainCourse;
+import controller.global.OpException;
 import domain.train.Train;
 import domain.train.TrainCourse;
 import domain.train.TrainCourseExample;
@@ -136,7 +137,7 @@ public class TrainCourseService extends BaseMapper {
                     TrainEvaResultExample example = new TrainEvaResultExample();
                     example.createCriteria().andCourseIdEqualTo(id);
                     if (trainEvaResultMapper.countByExample(example) > 0) {
-                        throw new RuntimeException(String.format("课程[%s]已经产生了评估结果，不可以修改评估表", trainCourse.getName()));
+                        throw new OpException(String.format("课程[%s]已经产生了评估结果，不可以修改评估表", trainCourse.getName()));
                     }
                 }
 

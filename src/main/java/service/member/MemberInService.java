@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberIn;
 import domain.member.MemberInExample;
@@ -69,7 +70,7 @@ public class MemberInService extends BaseMapper {
         } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
@@ -90,7 +91,7 @@ public class MemberInService extends BaseMapper {
         } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberIn!=null)
@@ -114,7 +115,7 @@ public class MemberInService extends BaseMapper {
         } else if(type==2){ //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if(memberIn!=null)
@@ -175,7 +176,7 @@ public class MemberInService extends BaseMapper {
 
        /* Member _member = memberService.get(userId);
         if(_member!=null){
-            throw new RuntimeException("已经是党员");
+            throw new OpException("已经是党员");
         }*/
 
         MemberIn memberIn = get(userId);
@@ -316,7 +317,7 @@ public class MemberInService extends BaseMapper {
             Member member = memberService.get(userId);
             if(member!=null){
                 SysUserView uv = CmTag.getUserById(userId);
-                throw new RuntimeException(uv.getRealname() + "已经是党员，请打回该转入申请。");
+                throw new OpException(uv.getRealname() + "已经是党员，请打回该转入申请。");
             }
 
             if(type==1) {
@@ -371,10 +372,10 @@ public class MemberInService extends BaseMapper {
 
         byte _status = memberIn.getStatus();
         if(_status==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY){
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if(status>_status || status<SystemConstants.MEMBER_IN_STATUS_BACK ){
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
 
         Integer id = memberIn.getId();

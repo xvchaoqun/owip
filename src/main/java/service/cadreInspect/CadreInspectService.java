@@ -1,6 +1,7 @@
 package service.cadreInspect;
 
 import bean.XlsCadreInspect;
+import controller.global.OpException;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
@@ -53,7 +54,7 @@ public class CadreInspectService extends BaseMapper {
         /*if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW||
                 cadre.getStatus()==SystemConstants.CADRE_STATUS_LEAVE||
                 cadre.getStatus()==SystemConstants.CADRE_STATUS_LEADER_LEAVE){
-            throw new RuntimeException(realname + "已经在"
+            throw new OpException(realname + "已经在"
                     + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }*/
 
@@ -64,13 +65,13 @@ public class CadreInspectService extends BaseMapper {
         if (id != null) criteria.andIdNotEqualTo(id);
 
         if(cadreInspectMapper.countByExample(example) > 0){
-            throw new RuntimeException(realname + "已经是考察对象");
+            throw new OpException(realname + "已经是考察对象");
         }
 
         // 后备干部库检查
         if(cadreReserveService.getNormalRecord(cadreId)!=null
                 ||cadreReserveService.getFromTempRecord(cadreId)!=null){
-            throw new RuntimeException(realname + "已经是后备干部");
+            throw new OpException(realname + "已经是后备干部");
         }
     }
 
@@ -178,14 +179,14 @@ public class CadreInspectService extends BaseMapper {
             Cadre cadreRecord = new Cadre();
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new RuntimeException("工作证号：" + userCode + "不存在");
+            if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
             int userId = uv.getId();
             cadreRecord.setUserId(userId);
             cadreRecord.setTypeId(uRow.getAdminLevel());
             cadreRecord.setPostId(uRow.getPostId());
             Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
             if (unit == null) {
-                throw new RuntimeException("单位编号：" + uRow.getUnitCode() + "不存在");
+                throw new OpException("单位编号：" + uRow.getUnitCode() + "不存在");
             }
             cadreRecord.setUnitId(unit.getId());
             //cadreRecord.setPost(uRow.getPost());

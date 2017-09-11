@@ -1,6 +1,7 @@
 package service.cadre;
 
 import bean.XlsCadre;
+import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
 import domain.cadre.Cadre;
@@ -65,7 +66,7 @@ public class CadreService extends BaseMapper {
         long count = cadreMapper.countByExample(example);
         if (count > 0) {
             CadreView cadre = dbFindByUserId(userId);
-            throw new RuntimeException(cadre.getUser().getRealname()
+            throw new OpException(cadre.getUser().getRealname()
                     + "已经在" + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }
 
@@ -75,16 +76,16 @@ public class CadreService extends BaseMapper {
                 Integer cadreId = cadre.getId();
                 String realname = cadre.getUser().getRealname();
                 if (cadreInspectService.getNormalRecord(cadreId) != null) {
-                    throw new RuntimeException(realname + "已经是考察对象");
+                    throw new OpException(realname + "已经是考察对象");
                 }
 
                 if (cadreReserveService.getNormalRecord(cadreId) != null) {
-                    throw new RuntimeException(realname + "已经是后备干部");
+                    throw new OpException(realname + "已经是后备干部");
                 }
 
                 // 此种情况应该不可能发生，上面的考察对象已经检查过了
                 if (cadreReserveService.getFromTempRecord(cadreId) != null) {
-                    throw new RuntimeException(realname + "已经列为考察对象[后备干部]");
+                    throw new OpException(realname + "已经列为考察对象[后备干部]");
                 }
             }
         }
@@ -262,7 +263,7 @@ public class CadreService extends BaseMapper {
             Cadre record = new Cadre();
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new RuntimeException("工作证号：" + userCode + "不存在");
+            if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
             int userId = uv.getId();
             record.setUserId(userId);
             record.setStatus(status);
@@ -270,7 +271,7 @@ public class CadreService extends BaseMapper {
             record.setPostId(uRow.getPostId());
             Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
             if (unit == null) {
-                throw new RuntimeException("单位编号：" + uRow.getUnitCode() + "不存在");
+                throw new OpException("单位编号：" + uRow.getUnitCode() + "不存在");
             }
             record.setUnitId(unit.getId());
             record.setTitle(uRow.getTitle());

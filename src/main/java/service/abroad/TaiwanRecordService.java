@@ -1,5 +1,6 @@
 package service.abroad;
 
+import controller.global.OpException;
 import domain.abroad.TaiwanRecord;
 import domain.abroad.TaiwanRecordExample;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +49,7 @@ public class TaiwanRecordService extends BaseMapper {
         if(_taiwanRecord==null || _taiwanRecord.getIsDeleted()
                 || _taiwanRecord.getHandleDate() != null){
             // 上交后不允许修改
-            throw new RuntimeException("因公赴台备案状态异常");
+            throw new OpException("因公赴台备案状态异常");
         }
 
         taiwanRecordMapper.updateByPrimaryKeySelective(record);

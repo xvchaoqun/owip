@@ -1,6 +1,7 @@
 package service.cadreReserve;
 
 import bean.XlsCadreReserve;
+import controller.global.OpException;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
@@ -54,7 +55,7 @@ public class CadreReserveService extends BaseMapper {
         /*if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW||
                 cadre.getStatus()==SystemConstants.CADRE_STATUS_LEAVE||
                 cadre.getStatus()==SystemConstants.CADRE_STATUS_LEADER_LEAVE){
-            throw new RuntimeException(realname + "已经在"
+            throw new OpException(realname + "已经在"
                     + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }*/
 
@@ -69,17 +70,17 @@ public class CadreReserveService extends BaseMapper {
         if( cadreReserves.size() > 0){
             CadreReserve cadreReserve = cadreReserves.get(0);
             if(cadreReserve.getStatus()==SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
-                throw new RuntimeException(realname + "已经在"
+                throw new OpException(realname + "已经在"
                 +SystemConstants.CADRE_RESERVE_TYPE_MAP.get(cadreReserve.getType()) + "中");
             }else if(cadreReserve.getStatus()==SystemConstants.CADRE_RESERVE_STATUS_TO_INSPECT){
-                throw new RuntimeException(realname + "已经列入考察对象");
+                throw new OpException(realname + "已经列入考察对象");
             }
         }
 
         // 考察对象库检查
         CadreInspect normalRecord = cadreInspectService.getNormalRecord(cadreId);
         if(normalRecord!=null){
-            throw new RuntimeException(realname + "已经是考察对象");
+            throw new OpException(realname + "已经是考察对象");
         }
     }
 
@@ -207,14 +208,14 @@ public class CadreReserveService extends BaseMapper {
             Cadre cadreRecord = new Cadre();
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
-            if(uv== null) throw  new RuntimeException("工作证号："+userCode+"不存在");
+            if(uv== null) throw  new OpException("工作证号："+userCode+"不存在");
             int userId = uv.getId();
             cadreRecord.setUserId(userId);
             cadreRecord.setTypeId(uRow.getAdminLevel());
             cadreRecord.setPostId(uRow.getPostId());
             Unit unit = unitService.findUnitByCode(uRow.getUnitCode());
             if(unit==null){
-                throw  new RuntimeException("单位编号："+uRow.getUnitCode()+"不存在");
+                throw  new OpException("单位编号："+uRow.getUnitCode()+"不存在");
             }
             cadreRecord.setUnitId(unit.getId());
             cadreRecord.setPost(uRow.getPost());
@@ -275,7 +276,7 @@ public class CadreReserveService extends BaseMapper {
         // 检查
         //cadreInspectService.directAddCheck(null, userId);
         if(cadreInspectService.getNormalRecord(cadreId)!=null){
-            throw new RuntimeException(uv.getRealname() + "已经是考察对象");
+            throw new OpException(uv.getRealname() + "已经是考察对象");
         }
         // 添加到考察对象中
         CadreInspect _record = new CadreInspect();
@@ -339,7 +340,7 @@ public class CadreReserveService extends BaseMapper {
             SysUserView uv = sysUserService.findById(cadre.getUserId());
 
             if(cadreReserve.getStatus()!=SystemConstants.CADRE_RESERVE_STATUS_ABOLISH){
-                throw new RuntimeException(uv.getRealname() + "不在已撤销后备干部库中，不可以删除");
+                throw new OpException(uv.getRealname() + "不在已撤销后备干部库中，不可以删除");
             }
 
             cadreReserveMapper.deleteByPrimaryKey(id);

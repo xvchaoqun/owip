@@ -1,5 +1,6 @@
 package service.modify;
 
+import controller.global.OpException;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseApplyExample;
 import domain.modify.ModifyBaseItem;
@@ -73,7 +74,7 @@ public class ModifyBaseApplyService extends BaseMapper {
             example.createCriteria().andUserIdEqualTo(userId).
                     andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
             if (modifyBaseApplyMapper.countByExample(example) > 0) {
-                throw new RuntimeException("您已经提交了申请，请等待审核完成。");
+                throw new OpException("您已经提交了申请，请等待审核完成。");
             }
 
             mba.setApplyUserId(applyUserId);
@@ -138,7 +139,7 @@ public class ModifyBaseApplyService extends BaseMapper {
         }
 
         if(modifyCount==0){
-            throw new RuntimeException("您没有任何修改了的字段，不需要提交。");
+            throw new OpException("您没有任何修改了的字段，不需要提交。");
         }
     }
 
@@ -154,7 +155,7 @@ public class ModifyBaseApplyService extends BaseMapper {
             ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(id);
             if(mba.getUserId().intValue()!=currentUserId ||
                     mba.getStatus()!=SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY){
-                throw new RuntimeException(String.format("您没有权限撤销该记录[ID:%s]", id));
+                throw new OpException(String.format("您没有权限撤销该记录[ID:%s]", id));
             }
         }
 

@@ -1,5 +1,6 @@
 package service.modify;
 
+import controller.global.OpException;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class ModifyTableApplyService extends BaseMapper {
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(id);
         if (mta.getUserId().intValue() != currentUserId ||
                 mta.getStatus() != SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
-            throw new RuntimeException(String.format("您没有权限删除该记录[申请序号:%s]", id));
+            throw new OpException(String.format("您没有权限删除该记录[申请序号:%s]", id));
         }
 
         // 删除对应表中的数据

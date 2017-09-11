@@ -1,6 +1,7 @@
 package service.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberStay;
 import domain.member.MemberStayExample;
@@ -68,7 +69,7 @@ public class MemberStayService extends BaseMapper {
         } else if (checkType == 3) { //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else {
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if (cls != null) {
@@ -100,7 +101,7 @@ public class MemberStayService extends BaseMapper {
         } else if (checkType == 3) { //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else {
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if (cls == 1 || cls == 2 || cls == 3) {// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
@@ -137,7 +138,7 @@ public class MemberStayService extends BaseMapper {
         } else if (checkType == 3) { //组织部审核
             criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else {
-            throw new RuntimeException("审核类型错误");
+            throw new OpException("审核类型错误");
         }
 
         if (cls == 1 || cls == 2 || cls == 3) {// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
@@ -255,7 +256,7 @@ public class MemberStayService extends BaseMapper {
             Map<Integer, Branch> branchMap = branchService.findAll();
             Branch branch = branchMap.get(branchId);
             if (branch == null || branch.getPartyId().intValue() != memberStay.getPartyId()) {
-                throw new RuntimeException("转移支部不存在");
+                throw new OpException("转移支部不存在");
             }
             Member member = new Member();
             member.setUserId(memberStay.getUserId());
@@ -294,7 +295,7 @@ public class MemberStayService extends BaseMapper {
         String maxCode = StringUtils.trimToNull(iMemberMapper.getMemberStayMaxCode(year));
         int nextCode = (maxCode == null ? 0 : Integer.valueOf(maxCode.substring(4))) + 1;
         if (nextCode > 9999) {
-            throw new RuntimeException("系统错误code=9999，请联系管理员");
+            throw new OpException("系统错误code=9999，请联系管理员");
         }
         record.setCode(year + "" + String.format("%04d", nextCode));
 
@@ -416,10 +417,10 @@ public class MemberStayService extends BaseMapper {
 
         byte _status = memberStay.getStatus();
         if (_status == SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
-            throw new RuntimeException("审核流程已经完成，不可以打回。");
+            throw new OpException("审核流程已经完成，不可以打回。");
         }
         if (status > _status || status < SystemConstants.MEMBER_STAY_STATUS_BACK) {
-            throw new RuntimeException("参数有误。");
+            throw new OpException("参数有误。");
         }
         Integer id = memberStay.getId();
         Integer userId = memberStay.getUserId();
