@@ -18,9 +18,10 @@
                                 <input class="typeCheckbox" ${type==PCS_USER_TYPE_JW?"checked":""} type="checkbox"
                                        value="${PCS_USER_TYPE_JW}"> 纪委委员
                                 </span>
-
+                <shiro:hasPermission name="pcsOw:admin">
                 <a href="${ctx}/pcsOw_export?file=2-1&partyId=${param.partyId}&stage=${param.stage}&type=${type}">
-                    <i class="fa fa-download"></i> 党委委员候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                    <i class="fa fa-download"></i>  ${PCS_USER_TYPE_MAP.get(type)}候选人初步人选推荐提名汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
+                </shiro:hasPermission>
             </div>
         </div>
         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
