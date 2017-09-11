@@ -88,8 +88,10 @@ public interface IPcsMapper {
     // 全校 应参会党员总数/实参会党员总数
     @ResultType(java.util.HashMap.class)
     @Select("select sum(pr.expect_member_count) as expect, sum(pr.actual_member_count) as actual " +
-            "from pcs_recommend pr where pr.party_id in(select party_id from pcs_admin_report)")
-    public Map<String, BigDecimal> schoolMemberCount();
+            "from pcs_recommend pr where config_id  = #{configId} and stage = #{stage} " +
+            "and pr.party_id in(select party_id from pcs_admin_report where config_id  = #{configId} and stage = #{stage})")
+    public Map<String, BigDecimal> schoolMemberCount(@Param("configId") int configId,
+                                                     @Param("stage") byte stage);
 
     //  分党委推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
     public List<PcsPartyBean> selectPcsPartyBeans(

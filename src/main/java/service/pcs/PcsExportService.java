@@ -171,7 +171,7 @@ public class PcsExportService extends BaseMapper {
         }
         int partyCount = partyIdSet.size();
 
-        Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount();
+        Map<String, BigDecimal> schoolMemberCount = iPcsMapper.schoolMemberCount(configId, stage);
         int expect = (schoolMemberCount == null || schoolMemberCount.get("expect") == null)
                 ? 0 : schoolMemberCount.get("expect").intValue();
         int actual = (schoolMemberCount == null || schoolMemberCount.get("actual") == null)
