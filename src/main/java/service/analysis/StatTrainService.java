@@ -11,11 +11,15 @@ import domain.train.TrainInspectorCourse;
 import domain.train.TrainInspectorCourseExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -78,7 +82,7 @@ public class StatTrainService extends BaseMapper {
             createCell(wb, row, getThStyle(wb), column++, "平均得分");
             sheet.setColumnWidth(column, (short) (35.7 * 600));
             XSSFCellStyle thStyle = getThStyle(wb);
-            thStyle.setAlignment(CellStyle.ALIGN_LEFT);
+            thStyle.setAlignment(HorizontalAlignment.LEFT);
             createCell(wb, row, thStyle, column++, "意见建议和评价");
             rowNum++;
         }
@@ -113,7 +117,7 @@ public class StatTrainService extends BaseMapper {
             else
                 createCell(wb, row, getBodyStyle(wb), 1, "");
             XSSFCellStyle bodyStyle = getBodyStyle(wb);
-            bodyStyle.setAlignment(CellStyle.ALIGN_LEFT);
+            bodyStyle.setAlignment(HorizontalAlignment.LEFT);
             createCell(wb, row, bodyStyle, 2, feedbacks);
             rowNum++;
         }
@@ -162,7 +166,7 @@ public class StatTrainService extends BaseMapper {
             sheet.setColumnWidth(columnNum, (short) (35.7 * 120));
 
             thStyle = getThStyle(wb);
-            thStyle.getFont().setColor(HSSFColor.RED.index);
+            thStyle.getFont().setColor(IndexedColors.RED.index);
             createCell(wb, row, thStyle, columnNum, "各项最小值");
 
             rowNum++;
@@ -212,12 +216,12 @@ public class StatTrainService extends BaseMapper {
                         TrainEvaNorm subNorm = subNorms.get(i);
                         if (i == 0) {
                             bodyStyle = getThStyle(wb);
-                            bodyStyle.setAlignment(CellStyle.ALIGN_LEFT);
+                            bodyStyle.setAlignment(HorizontalAlignment.LEFT);
                             createCell(wb, row, bodyStyle, _columnNum, subNorm.getName());
                         } else {
                             row = sheet.createRow(rowNum);
                             bodyStyle = getThStyle(wb);
-                            bodyStyle.setAlignment(CellStyle.ALIGN_LEFT);
+                            bodyStyle.setAlignment(HorizontalAlignment.LEFT);
                             createCell(wb, row, bodyStyle, _columnNum, subNorm.getName());
                         }
 
@@ -249,7 +253,7 @@ public class StatTrainService extends BaseMapper {
 
                         Integer normMinScore = normMinScoreMap.get(subNormId);
                         bodyStyle = getThStyle(wb);
-                        bodyStyle.getFont().setColor(HSSFColor.RED.index);
+                        bodyStyle.getFont().setColor(IndexedColors.RED.index);
                         createNumCell(wb, row, bodyStyle, _columnNum++, normMinScore==null?null:Double.valueOf(normMinScore));
 
                         rowNum++;
@@ -300,7 +304,7 @@ public class StatTrainService extends BaseMapper {
             }
 
             XSSFCellStyle thStyle = getThStyle(wb);
-            thStyle.getFont().setColor(HSSFColor.RED.index);
+            thStyle.getFont().setColor(IndexedColors.RED.index);
             if(score!=null && inspectorCount>0)
                 createNumCell(wb, row, thStyle, columnNum, score / inspectorCount);
             else
@@ -317,17 +321,19 @@ public class StatTrainService extends BaseMapper {
 
     public static void setRegionBorder(Sheet sheet, CellRangeAddress cellRangeAddress, XSSFWorkbook wb) {
 
-        RegionUtil.setBorderBottom(CellStyle.BORDER_THIN, cellRangeAddress, sheet, wb);
-        RegionUtil.setBorderLeft(CellStyle.BORDER_THIN, cellRangeAddress, sheet, wb);
-        RegionUtil.setBorderRight(CellStyle.BORDER_THIN, cellRangeAddress, sheet, wb);
-        RegionUtil.setBorderTop(CellStyle.BORDER_THIN, cellRangeAddress, sheet, wb);
+        RegionUtil.setBorderBottom(BorderStyle.THIN, cellRangeAddress, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.THIN, cellRangeAddress, sheet);
+        RegionUtil.setBorderRight(BorderStyle.THIN, cellRangeAddress, sheet);
+        RegionUtil.setBorderTop(BorderStyle.THIN, cellRangeAddress, sheet);
     }
 
     private static XSSFCellStyle getThStyle(XSSFWorkbook wb) {
 
         XSSFCellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-        cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        // 设置单元格居中对齐
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        // 设置单元格垂直居中对齐
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setWrapText(true);
 
         // 设置单元格字体样式
@@ -335,14 +341,14 @@ public class StatTrainService extends BaseMapper {
         font.setFontName("宋体");
         font.setBold(true);
         font.setFontHeight((short) (20 * 11));
-        font.setColor(HSSFColor.BLUE.index);
+        font.setColor(IndexedColors.BLUE.index);
         cellStyle.setFont(font);
 
         // 设置单元格边框为细线条
-        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
 
         return cellStyle;
     }
@@ -352,10 +358,10 @@ public class StatTrainService extends BaseMapper {
         XSSFCellStyle cellStyle = Utils.getBodyStyle(wb);
 
         // 设置单元格边框为细线条
-        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
 
         return cellStyle;
     }
@@ -373,7 +379,7 @@ public class StatTrainService extends BaseMapper {
             return;
         }
         Cell cell = row.createCell(column);
-        cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+        cell.setCellType(CellType.NUMERIC);
         cell.setCellValue(((int)(num*10))*1.0/10); // 保留1位小数
         cell.setCellStyle(style);
     }

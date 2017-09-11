@@ -11,8 +11,10 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -194,9 +196,9 @@ public class SafeBoxService extends BaseMapper {
             Cell headerCell = titleRow.createCell(0);
             XSSFCellStyle cellStyle = wb.createCellStyle();
             // 设置单元格居中对齐
-            cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);
             // 设置单元格垂直居中对齐
-            cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
             XSSFFont font = wb.createFont();
             // 设置字体加粗
             font.setFontName("宋体");
@@ -286,48 +288,4 @@ public class SafeBoxService extends BaseMapper {
         String fileName = CmTag.getSysConfig().getSchoolName() + "干部因私出国（境）证件一览表(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
         ExportHelper.output(wb, fileName + ".xlsx", response);
     }
-
-    /*public static XSSFCellStyle getBodyStyle(XSSFWorkbook wb) {
-        // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
-        // 设置字体加粗
-        //font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 220);
-        cellStyle.setFont(font);
-        return cellStyle;
-    }
-
-    public static XSSFCellStyle getHeadStyle(XSSFWorkbook wb) {
-        // 创建单元格样式
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-        // 创建单元格内容显示不下时自动换行
-        cellStyle.setWrapText(true);
-        // 设置单元格字体样式
-        XSSFFont font = wb.createFont();
-        // 设置字体加粗
-        font.setBold(true);
-        font.setFontName("宋体");
-        font.setFontHeight((short) 250);
-        cellStyle.setFont(font);
-        // 设置单元格边框为细线条
-       *//* cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);*//*
-        return cellStyle;
-    }*/
-
 }

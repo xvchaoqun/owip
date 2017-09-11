@@ -2,7 +2,7 @@ package bean;
 
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -482,7 +482,7 @@ public class XlsUpload {
 
 	public static String getCell(XSSFCell cell) {
 
-		cell.setCellType(Cell.CELL_TYPE_STRING);
+		cell.setCellType(CellType.STRING);
 		return cell.getStringCellValue();
 
 		/*if (cell == null)

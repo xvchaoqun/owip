@@ -2,7 +2,7 @@ package service.party;
 
 import domain.party.PartyStaticView;
 import domain.party.PartyStaticViewExample;
-import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -188,8 +188,8 @@ public class PartyExportService extends BaseMapper {
 
             XSSFCellStyle style = wb.createCellStyle();
             style.cloneStyleFrom(cell.getCellStyle());
-            style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-            style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.index);
+            style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             cell.setCellStyle(style);
         }
     }

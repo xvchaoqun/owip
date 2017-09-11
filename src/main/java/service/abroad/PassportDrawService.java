@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -262,7 +263,7 @@ public class PassportDrawService extends BaseMapper {
             // 设置单元格居中对齐
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             // 设置单元格垂直居中对齐
-            cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
             XSSFFont font = wb.createFont();
             // 设置字体加粗
             font.setFontName("宋体");

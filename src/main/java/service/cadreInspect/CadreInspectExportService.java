@@ -16,12 +16,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
@@ -74,9 +74,9 @@ public class CadreInspectExportService extends BaseMapper {
             Cell headerCell = titleRow.createCell(0);
             CellStyle cellStyle = wb.createCellStyle();
             // 设置单元格居中对齐
-            cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);
             // 设置单元格垂直居中对齐
-            cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
             Font font = wb.createFont();
             // 设置字体加粗
             font.setFontName("宋体");
@@ -367,9 +367,9 @@ public class CadreInspectExportService extends BaseMapper {
         // 创建单元格样式
         CellStyle cellStyle = wb.createCellStyle();
         // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
         // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         // 创建单元格内容显示不下时自动换行
         cellStyle.setWrapText(true);
         // 设置单元格字体样式
@@ -385,16 +385,16 @@ public class CadreInspectExportService extends BaseMapper {
     public static CellStyle getHeadStyle(Workbook wb) {
         // 创建单元格样式
         CellStyle cellStyle = wb.createCellStyle();
-        // 设置单元格居中对齐
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        /// 设置单元格居中对齐
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
         // 设置单元格垂直居中对齐
-        cellStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         // 创建单元格内容显示不下时自动换行
         cellStyle.setWrapText(true);
         // 设置单元格字体样式
         Font font = wb.createFont();
         // 设置字体加粗
-        font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
         font.setFontName("宋体");
         font.setFontHeight((short) 250);
         cellStyle.setFont(font);
