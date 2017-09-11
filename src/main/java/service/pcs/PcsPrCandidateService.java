@@ -33,7 +33,8 @@ public class PcsPrCandidateService extends BaseMapper {
     }
 
     /**
-     *
+     *全校先按分党委排序
+     * 然后：
      * 先按“专业技术人员和干部”、“学生代表”、“离退休代表”；
      其中“学生代表”和“离退休代表”只按票数排序；
      其中“专业技术人员和干部”排序规则为：
@@ -50,7 +51,7 @@ public class PcsPrCandidateService extends BaseMapper {
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
-        example.setOrderByClause("type asc, leader_sort_order desc, vote desc, sort_order asc");
+        example.setOrderByClause("party_sort_order desc, type asc, leader_sort_order desc, vote desc, sort_order asc");
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }

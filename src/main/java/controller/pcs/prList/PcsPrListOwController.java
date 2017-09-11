@@ -222,7 +222,7 @@ public class PcsPrListOwController extends BaseController {
         if(userId!=null){
             criteria.andUserIdEqualTo(userId);
         }
-        example.setOrderByClause("type asc, leader_sort_order desc,  vote3 desc, sort_order asc");
+        example.setOrderByClause("party_sort_order desc, type asc, leader_sort_order desc,  vote3 desc, sort_order asc");
 
         long count = pcsPrCandidateViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
