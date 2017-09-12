@@ -10,7 +10,11 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
-
+                        <c:if test="${!hasSort}">
+                            <div class="alert alert-warning" style="font-weight: bolder;margin-bottom: 6px">
+                                请在“党员大会准备阶段”完成代表候选人姓氏笔画排序后，进行下面的操作。
+                            </div>
+                        </c:if>
                         <form class="form-inline" action="${ctx}/pcsPrList_au" id="recommendForm" method="post">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -44,9 +48,7 @@
                                     autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-save"></i> 保&nbsp;&nbsp;存
                             </button>
-                            <c:if test="${!hasSort}">
-                                请在“党员大会准备阶段”完成姓氏笔画排序后进行操作。
-                            </c:if>
+
                         </div>
     </c:if>
                     </div>

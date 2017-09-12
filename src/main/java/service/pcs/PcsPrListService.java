@@ -27,6 +27,8 @@ public class PcsPrListService extends BaseMapper {
     public boolean hasSort(int configId, int partyId) {
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        if(pcsPrRecommend==null) return false;
+
         PcsPrCandidateExample example = new PcsPrCandidateExample();
         example.createCriteria().andRecommendIdEqualTo(pcsPrRecommend.getId()).andRealnameSortOrderIsNull();
 

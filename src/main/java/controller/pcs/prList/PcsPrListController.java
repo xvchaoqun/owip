@@ -283,6 +283,7 @@ public class PcsPrListController extends BaseController {
 
                 PcsPrCandidateView _candidate = selectedMap.get(userId);
                 // 读取之前填写的性别、民族、出生年月
+                candidate.setPartyId(_candidate.getPartyId());
                 candidate.setType(_candidate.getType());
                 candidate.setVote3(_candidate.getVote3());
                 candidate.setGender(_candidate.getGender());
