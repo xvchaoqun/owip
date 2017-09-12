@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="widget-box myTableDiv" style="width: 800px">
+        <div class="widget-box myTableDiv" style="width: 1000px">
             <div class="widget-header">
                 <h4 class="smaller">
                     大会材料清单

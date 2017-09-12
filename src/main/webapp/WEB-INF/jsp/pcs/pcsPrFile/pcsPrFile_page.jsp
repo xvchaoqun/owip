@@ -43,7 +43,7 @@
                                     <c:set var="file" value="${fileMap.get(template.id)}"/>
                                     <tr>
                                         <td>${vs.count}</td>
-                                        <td>${template.name}</td>
+                                        <td  style="text-align: left">${template.name}</td>
                                         <c:if test="${empty param.partyId}">
                                             <td>
                                                 <a href="${ctx}/attach/download?path=${cm:encodeURI(template.filePath)}&filename=${cm:encodeURI(template.fileName)}">下载</a>
