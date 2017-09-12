@@ -13,7 +13,7 @@
                 </h4>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs">
-                        <li class="active">
+                        <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
                                data-url='${ctx}/pcsPrFile?partyId=${param.partyId}'><i
@@ -27,7 +27,7 @@
                                     class="fa fa-hand-paper-o"></i> 选举情况
                             </a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
                                data-url='${ctx}/pcsPrList_page?partyId=${param.partyId}'><i
@@ -46,7 +46,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-4" id="step-item-content">
-                    <c:import url="${ctx}/pcsPrFile"/>
+                    <c:import url="${ctx}/pcsPrList_page"/>
                 </div>
             </div>
         </div>

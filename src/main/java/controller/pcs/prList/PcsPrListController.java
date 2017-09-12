@@ -214,14 +214,14 @@ public class PcsPrListController extends BaseController {
         int configId = currentPcsConfig.getId();
 
         if (!pcsPrPartyService.allowModify(partyId, configId, stage)) {
-            return failed("您所在分党委已经报送或组织部已下发名单。");
+            return failed("您所在分党委已报送数据。");
         }
 
         // 检查大会材料是否上传完成
-        if(!pcsPrFileService.isUploadAll(configId, partyId)){
+        /*if(!pcsPrFileService.isUploadAll(configId, partyId)){
             return failed("请上传全部的大会材料后上报。");
         }
-
+*/
         // 检查是否保存姓名笔画顺序
         if(!pcsPrListService.hasSort(configId, partyId)){
             return failed("请按姓氏笔画排序后保存。");

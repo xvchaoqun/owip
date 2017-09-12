@@ -86,6 +86,11 @@ public class PcsPrOwController extends BaseController {
                 else
                     fileName = "全校党代表数据统计表";
                 break;
+            case "pl":
+                party = partyService.findAll().get(partyId);
+                wb = pcsPrExportService.exportPartyList(configId, partyId);
+                fileName = String.format("党代表名单（%s）",  party.getName());
+                break;
         }
 
         if (wb != null) {

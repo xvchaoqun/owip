@@ -10,7 +10,7 @@
             <div class="widget-body">
                 <div class="widget-main no-padding">
                     <div class="tab-content padding-4">
-                        <c:if test="${!hasSort}">
+                        <c:if test="${!hasSort && empty param.partyId}">
                             <div class="alert alert-warning" style="font-weight: bolder;margin-bottom: 6px">
                                 请在“党员大会准备阶段”完成代表候选人姓氏笔画排序后，进行下面的操作。
                             </div>
@@ -20,6 +20,10 @@
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
                                             class="fa fa-users"></i>  党代表名单</span>
+                                        <c:if test="${not empty param.partyId}">
+                                            <a style="padding-left: 20px;color: #23527c" href="${ctx}/pcsPrOw_export?file=pl&partyId=${param.partyId}&stage=${PCS_STAGE_THIRD}">
+                                                <i class="fa fa-download"></i> 下载：党代表名单</a>
+                                        </c:if>
 <c:if test="${empty param.partyId}">
                                     <span style="margin-left: 20px">
                                                   <a href="javascript:;"

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <c:if test="${!hasSort}">
+        <c:if test="${!hasSort && empty param.partyId}">
             <div class="alert alert-warning" style="font-weight: bolder;margin-bottom: 6px">
             请在“党员大会准备阶段”完成代表候选人姓氏笔画排序后，进行下面的操作。
             </div>
