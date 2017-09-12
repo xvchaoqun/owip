@@ -33,7 +33,7 @@
                                 <td style="text-align: left">${record.name}</td>
                                 <td>
                                     <c:if test="${not empty record.filePath}">
-                                    <a href="${ctx}/attach/download?path=${cm:encodeURI(record.filePath)}&filename=${cm:encodeURI(record.name)}">下载</a>
+                                    <a href="${ctx}/attach/download?path=${cm:encodeURI(record.filePath)}&filename=${record.name}">下载</a>
                                     </c:if>
                                 </td>
                                 <td>${record.remark}</td>
