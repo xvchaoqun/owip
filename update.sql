@@ -1,5 +1,5 @@
 
-
+2017-9-12
 ALTER TABLE `pcs_pr_candidate`
 	ADD COLUMN `realname_sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '按笔画排序， 在recommend_id下排序，针对三下三上' AFTER `sort_order`;
 
