@@ -11,7 +11,7 @@
     <result column="expect_positive_member_count" jdbcType="INTEGER" property="expectPositiveMemberCount" />
     <result column="actual_positive_member_count" jdbcType="INTEGER" property="actualPositiveMemberCount" />
     <result column="vote_member_count" jdbcType="INTEGER" property="voteMemberCount" />
-    <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
+    <result column="meeting_time" jdbcType="TIMESTAMP" property="meetingTime" />
     <result column="meeting_address" jdbcType="VARCHAR" property="meetingAddress" />
     <result column="report_file_path" jdbcType="VARCHAR" property="reportFilePath" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
@@ -124,7 +124,7 @@
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
       #{partyId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, 
       #{expectPositiveMemberCount,jdbcType=INTEGER}, #{actualPositiveMemberCount,jdbcType=INTEGER}, 
-      #{voteMemberCount,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, #{meetingAddress,jdbcType=VARCHAR}, 
+      #{voteMemberCount,jdbcType=INTEGER}, #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, 
       #{reportFilePath,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
       #{reportTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}
       )
@@ -213,7 +213,7 @@
         #{voteMemberCount,jdbcType=INTEGER},
       </if>
       <if test="meetingTime != null">
-        #{meetingTime,jdbcType=DATE},
+        #{meetingTime,jdbcType=TIMESTAMP},
       </if>
       <if test="meetingAddress != null">
         #{meetingAddress,jdbcType=VARCHAR},
@@ -275,7 +275,7 @@
         vote_member_count = #{record.voteMemberCount,jdbcType=INTEGER},
       </if>
       <if test="record.meetingTime != null">
-        meeting_time = #{record.meetingTime,jdbcType=DATE},
+        meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.meetingAddress != null">
         meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
@@ -314,7 +314,7 @@
       expect_positive_member_count = #{record.expectPositiveMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{record.actualPositiveMemberCount,jdbcType=INTEGER},
       vote_member_count = #{record.voteMemberCount,jdbcType=INTEGER},
-      meeting_time = #{record.meetingTime,jdbcType=DATE},
+      meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
       report_file_path = #{record.reportFilePath,jdbcType=VARCHAR},
       has_report = #{record.hasReport,jdbcType=BIT},
@@ -354,7 +354,7 @@
         vote_member_count = #{voteMemberCount,jdbcType=INTEGER},
       </if>
       <if test="meetingTime != null">
-        meeting_time = #{meetingTime,jdbcType=DATE},
+        meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       </if>
       <if test="meetingAddress != null">
         meeting_address = #{meetingAddress,jdbcType=VARCHAR},
@@ -390,7 +390,7 @@
       expect_positive_member_count = #{expectPositiveMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{actualPositiveMemberCount,jdbcType=INTEGER},
       vote_member_count = #{voteMemberCount,jdbcType=INTEGER},
-      meeting_time = #{meetingTime,jdbcType=DATE},
+      meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{meetingAddress,jdbcType=VARCHAR},
       report_file_path = #{reportFilePath,jdbcType=VARCHAR},
       has_report = #{hasReport,jdbcType=BIT},
