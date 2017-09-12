@@ -441,7 +441,7 @@ public class PcsExportService extends BaseMapper {
 
     public static String percent(Integer count, Integer total) {
 
-        if (count == null || total == null || count <= 0 || total <= 0) return "0.00%";
+        if (count == null || total == null /*|| count <= 0 || total <= 0*/|| total == 0) return "0.00%";
 
         return NumberUtils.formatDoubleFixed((count * 100.0) / total, 2) + "%";
     }

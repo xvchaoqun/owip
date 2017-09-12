@@ -83,7 +83,7 @@ public class PcsPrPartyController extends BaseController {
             case "4":
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
                 if(stage==SystemConstants.PCS_STAGE_THIRD)
-                    fileName = "党代表统计表";
+                    fileName = "党代表数据统计表";
                 else
                     fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
                         stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",

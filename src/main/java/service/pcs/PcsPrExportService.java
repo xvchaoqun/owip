@@ -698,7 +698,7 @@ public class PcsPrExportService extends BaseMapper {
 
     public static String percent(Integer count, Integer total) {
 
-        if (count == null || total == null || count == 0 || total == 0) return "";
+        if (count == null || total == null  || total == 0) return "";
 
         return NumberUtils.formatDoubleFixed((count * 100.0) / total, 2) + "%";
     }
@@ -1009,11 +1009,14 @@ public class PcsPrExportService extends BaseMapper {
             ma = StringUtils.trimToEmpty(pcsPrRecommend.getMeetingAddress());
             ec = pcsPrRecommend.getExpectPositiveMemberCount() + "";
             ac = pcsPrRecommend.getActualPositiveMemberCount() + "";
+
+            // 不自动统计，读取分党委填写的
+            pc = pcsPrRecommend.getVoteMemberCount() + "";
         }
 
         PcsPartyView pv = pcsPartyViewService.get(partyId);
         mc = pv.getMemberCount() + "";
-        pc = pv.getPositiveCount() + "";
+        //pc = pv.getPositiveCount() + "";
 
         row = sheet.getRow(1);
         cell = row.getCell(0);
@@ -1104,7 +1107,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 票数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote()));
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote3()));
             // 手机号
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(bean.getMobile()));
