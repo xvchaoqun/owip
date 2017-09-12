@@ -921,7 +921,7 @@ public class PcsPrExportService extends BaseMapper {
      */
     public XSSFWorkbook exportPartyList(int configId, int partyId) throws IOException {
 
-        String filename = "prList-1.xlsx";
+        String filename = "prList-1_1.xlsx";
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
@@ -931,6 +931,7 @@ public class PcsPrExportService extends BaseMapper {
         String str = null;
 
         String mt = "";
+        String ma = "";
         String mc = "";
         String pc = "";
         String ec = "";
@@ -938,6 +939,7 @@ public class PcsPrExportService extends BaseMapper {
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_THIRD, partyId);
         mt = DateUtils.formatDate(pcsPrRecommend.getMeetingTime(), DateUtils.YYYY_MM_DD_CHINA);
+        ma = StringUtils.trimToEmpty(pcsPrRecommend.getMeetingAddress());
         ec = pcsPrRecommend.getExpectPositiveMemberCount() + "";
         ac = pcsPrRecommend.getActualPositiveMemberCount() + "";
 
@@ -955,6 +957,7 @@ public class PcsPrExportService extends BaseMapper {
         cell = row.getCell(0);
         str = cell.getStringCellValue()
                 .replace("mt", mt)
+                .replace("ma", ma)
                 .replace("mc", mc)
                 .replace("pc", pc)
                 .replace("ec", ec)
@@ -962,7 +965,7 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
 
         int startRow = 4;
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId);
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, partyId, true);
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
@@ -1071,7 +1074,7 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
 
         int startRow = 3;
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, null);
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, null, true);
         int rowCount = candidates.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {

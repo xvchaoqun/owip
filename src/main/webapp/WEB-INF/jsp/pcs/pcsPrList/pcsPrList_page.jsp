@@ -25,7 +25,8 @@
                                                       <i class="fa fa-plus-circle"></i> 添加</a>
                                                 </span>
                                         <span class="tip">已选<span
-                                                class="count">${fn:length(candidates)}</span>人</span>
+                                                class="count">${fn:length(candidates)}</span>人，请认真核对代表的手机号和邮箱，确认无误后保存。</span>
+
     </c:if>
                                     </h3>
                                 </div>
@@ -112,6 +113,12 @@
         }
         },
             </c:if>
+        {
+            label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.PCS_PR_TYPE_MAP[cellvalue]
+        }
+        },
         {label: '工作证号', name: 'code', width: 120, frozen: true},
         {label: '姓名', name: 'realname', width: 110, frozen: true},
 
@@ -125,12 +132,6 @@
             label: '邮箱', name: 'email', width:300, formatter: function (cellvalue, options, rowObject) {
             return ('<input required type="text" name="email{0}" data-container="{1}" value="{2}" class="email" maxlength="50">')
                     .format(rowObject.userId, "#jqGrid", $.trim(cellvalue))
-        }
-        },
-        {
-            label: '党代表类型', name: 'type', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.PCS_PR_TYPE_MAP[cellvalue]
         }
         },
         {

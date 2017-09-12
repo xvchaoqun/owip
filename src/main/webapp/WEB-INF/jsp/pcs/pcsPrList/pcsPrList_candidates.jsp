@@ -36,7 +36,8 @@
             }
             },
             {label: '工作证号', name: 'code', width: 120, frozen: true},
-            {label: '被推荐人姓名', name: 'realname', width: 150, frozen: true},
+            {label: '被推荐人姓名', name: 'realname', width: 120, frozen: true},
+            {label: '票数', name: 'vote3', width: 80},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },
@@ -52,7 +53,7 @@
                 }
                 return "-"
             }
-            },
+            },/*
             {
                 label: '参加工作时间',
                 name: 'workTime',
@@ -60,7 +61,7 @@
                 sortable: true,
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
-            },
+            },*/
             {
                 label: '入党时间',
                 name: 'growTime',

@@ -1,5 +1,7 @@
 package domain.pcs;
 
+import domain.party.Party;
+import domain.unit.Unit;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,7 +10,12 @@ import java.util.Date;
 public class PcsPrCandidateView implements Serializable {
 
     public String getUnit(){
-        return CmTag.getUserUnit(userId);
+
+        //return CmTag.getUnit(userId);
+
+        Party party = CmTag.getParty(partyId);
+        Unit unit = CmTag.getUnit(party.getUnitId());
+        return unit.getName();
     }
     private Integer id;
 
@@ -38,11 +45,15 @@ public class PcsPrCandidateView implements Serializable {
 
     private Integer sortOrder;
 
+    private Integer realnameSortOrder;
+
     private Date addTime;
 
     private String code;
 
     private String realname;
+
+    private Long leaderSortOrder;
 
     private Byte userType;
 
@@ -184,6 +195,14 @@ public class PcsPrCandidateView implements Serializable {
         this.sortOrder = sortOrder;
     }
 
+    public Integer getRealnameSortOrder() {
+        return realnameSortOrder;
+    }
+
+    public void setRealnameSortOrder(Integer realnameSortOrder) {
+        this.realnameSortOrder = realnameSortOrder;
+    }
+
     public Date getAddTime() {
         return addTime;
     }
@@ -206,6 +225,14 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public Long getLeaderSortOrder() {
+        return leaderSortOrder;
+    }
+
+    public void setLeaderSortOrder(Long leaderSortOrder) {
+        this.leaderSortOrder = leaderSortOrder;
     }
 
     public Byte getUserType() {

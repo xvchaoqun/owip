@@ -1002,6 +1002,66 @@ public class PcsPrCandidateViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andRealnameSortOrderIsNull() {
+            addCriterion("realname_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderIsNotNull() {
+            addCriterion("realname_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderEqualTo(Integer value) {
+            addCriterion("realname_sort_order =", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderNotEqualTo(Integer value) {
+            addCriterion("realname_sort_order <>", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderGreaterThan(Integer value) {
+            addCriterion("realname_sort_order >", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("realname_sort_order >=", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderLessThan(Integer value) {
+            addCriterion("realname_sort_order <", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("realname_sort_order <=", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderIn(List<Integer> values) {
+            addCriterion("realname_sort_order in", values, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderNotIn(List<Integer> values) {
+            addCriterion("realname_sort_order not in", values, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("realname_sort_order between", value1, value2, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("realname_sort_order not between", value1, value2, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andAddTimeIsNull() {
             addCriterion("add_time is null");
             return (Criteria) this;
@@ -1199,6 +1259,66 @@ public class PcsPrCandidateViewExample {
 
         public Criteria andRealnameNotBetween(String value1, String value2) {
             addCriterion("realname not between", value1, value2, "realname");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderIsNull() {
+            addCriterion("leader_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderIsNotNull() {
+            addCriterion("leader_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderEqualTo(Long value) {
+            addCriterion("leader_sort_order =", value, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderNotEqualTo(Long value) {
+            addCriterion("leader_sort_order <>", value, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderGreaterThan(Long value) {
+            addCriterion("leader_sort_order >", value, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderGreaterThanOrEqualTo(Long value) {
+            addCriterion("leader_sort_order >=", value, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderLessThan(Long value) {
+            addCriterion("leader_sort_order <", value, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderLessThanOrEqualTo(Long value) {
+            addCriterion("leader_sort_order <=", value, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderIn(List<Long> values) {
+            addCriterion("leader_sort_order in", values, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderNotIn(List<Long> values) {
+            addCriterion("leader_sort_order not in", values, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderBetween(Long value1, Long value2) {
+            addCriterion("leader_sort_order between", value1, value2, "leaderSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeaderSortOrderNotBetween(Long value1, Long value2) {
+            addCriterion("leader_sort_order not between", value1, value2, "leaderSortOrder");
             return (Criteria) this;
         }
 

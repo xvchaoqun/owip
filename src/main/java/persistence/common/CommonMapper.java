@@ -10,9 +10,9 @@ import java.util.List;
  * Created by fafa on 2015/11/16.
  */
 public interface CommonMapper {
-
-    @Select("select max(sort_order) from ${table} where ${whereSql}")
-    Integer getMaxSortOrder(@Param("table") String table, @Param("whereSql") String whereSql);
+    
+    @Select("select max(${sortOrder}) from ${table} where ${whereSql}")
+    Integer getMaxSortOrder(@Param("table") String table, @Param("sortOrder") String sortOrder, @Param("whereSql") String whereSql);
 
     void downOrder(@Param("table") String table, @Param("whereSql") String whereSql,
                    @Param("baseSortOrder") int baseSortOrder,

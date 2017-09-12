@@ -64,8 +64,8 @@ public class PcsOwController extends BaseController {
             case "2-1":
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
-                fileName = SystemConstants.PCS_USER_TYPE_MAP.get(type)
-                        + String.format("附表2-%s. 党委委员候选人推荐提名汇总表（院系级党组织用）（%s）", type, party.getName());
+                fileName = String.format("附表2-%s. %s候选人推荐提名汇总表（院系级党组织用）（%s）",
+                        type, SystemConstants.PCS_USER_TYPE_MAP.get(type), party.getName());
                 break;
             case "4-1":
                 wb = pcsExportService.exportPartyCandidates(null, configId, stage, type);

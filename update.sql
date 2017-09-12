@@ -1,5 +1,10 @@
 
 
+ALTER TABLE `pcs_pr_candidate`
+	ADD COLUMN `realname_sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '按笔画排序， 在recommend_id下排序，针对三下三上' AFTER `sort_order`;
+
+	更新pcs_pr_candidate_view
+
 2017-9-7
 ALTER TABLE `pcs_pr_candidate`
 	ADD COLUMN `is_chosen` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否选择，针对三下三上' AFTER `vote3`;

@@ -16,9 +16,11 @@
     <result column="is_chosen" jdbcType="BIT" property="isChosen" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="realname_sort_order" jdbcType="INTEGER" property="realnameSortOrder" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="leader_sort_order" jdbcType="DECIMAL" property="leaderSortOrder" />
     <result column="user_type" jdbcType="TINYINT" property="userType" />
     <result column="edu_id" jdbcType="INTEGER" property="eduId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -64,9 +66,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, recommend_id, user_id, type, gender, birth, nation, mobile, email, vote, vote3, 
-    is_chosen, is_from_stage, sort_order, add_time, code, realname, user_type, edu_id, 
-    post, grow_time, work_time, pro_post, education, is_retire, edu_level, party_id, 
-    config_id, stage, party_sort_order
+    is_chosen, is_from_stage, sort_order, realname_sort_order, add_time, code, realname, 
+    leader_sort_order, user_type, edu_id, post, grow_time, work_time, pro_post, education, 
+    is_retire, edu_level, party_id, config_id, stage, party_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateViewExample" resultMap="BaseResultMap">
     select

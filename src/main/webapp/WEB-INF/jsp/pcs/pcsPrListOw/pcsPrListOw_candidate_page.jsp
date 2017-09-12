@@ -78,6 +78,7 @@
             },
             {label: '工作证号', name: 'code', width: 120, frozen: true},
             {label: '被推荐人姓名', name: 'realname', width: 150, frozen: true},
+            {label: '所在单位', name: 'unit', width: 300, align:'left', frozen: true},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

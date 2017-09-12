@@ -270,7 +270,12 @@ public class BaseMapper {
     // 获得表中最大的排序序号
     public int getNextSortOrder(String tableName, String whereSql) {
 
-        Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, whereSql);
+        return  getNextSortOrder(tableName, "sort_order", whereSql);
+    }
+
+    public int getNextSortOrder(String tableName, String sortOrder, String whereSql) {
+
+        Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
 

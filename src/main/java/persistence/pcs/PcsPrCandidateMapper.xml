@@ -16,6 +16,7 @@
     <result column="is_chosen" jdbcType="BIT" property="isChosen" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="realname_sort_order" jdbcType="INTEGER" property="realnameSortOrder" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, recommend_id, user_id, type, gender, birth, nation, mobile, email, vote, vote3, 
-    is_chosen, is_from_stage, sort_order, add_time
+    is_chosen, is_from_stage, sort_order, realname_sort_order, add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateExample" resultMap="BaseResultMap">
     select
@@ -115,12 +116,14 @@
       type, gender, birth, nation, 
       mobile, email, vote, 
       vote3, is_chosen, is_from_stage, 
-      sort_order, add_time)
+      sort_order, realname_sort_order, add_time
+      )
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, 
       #{vote3,jdbcType=INTEGER}, #{isChosen,jdbcType=BIT}, #{isFromStage,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP})
+      #{sortOrder,jdbcType=INTEGER}, #{realnameSortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate
@@ -166,6 +169,9 @@
       </if>
       <if test="sortOrder != null">
         sort_order,
+      </if>
+      <if test="realnameSortOrder != null">
+        realname_sort_order,
       </if>
       <if test="addTime != null">
         add_time,
@@ -213,6 +219,9 @@
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="realnameSortOrder != null">
+        #{realnameSortOrder,jdbcType=INTEGER},
       </if>
       <if test="addTime != null">
         #{addTime,jdbcType=TIMESTAMP},
@@ -270,6 +279,9 @@
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="record.realnameSortOrder != null">
+        realname_sort_order = #{record.realnameSortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.addTime != null">
         add_time = #{record.addTime,jdbcType=TIMESTAMP},
       </if>
@@ -294,6 +306,7 @@
       is_chosen = #{record.isChosen,jdbcType=BIT},
       is_from_stage = #{record.isFromStage,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      realname_sort_order = #{record.realnameSortOrder,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -341,6 +354,9 @@
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
+      <if test="realnameSortOrder != null">
+        realname_sort_order = #{realnameSortOrder,jdbcType=INTEGER},
+      </if>
       <if test="addTime != null">
         add_time = #{addTime,jdbcType=TIMESTAMP},
       </if>
@@ -362,6 +378,7 @@
       is_chosen = #{isChosen,jdbcType=BIT},
       is_from_stage = #{isFromStage,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
+      realname_sort_order = #{realnameSortOrder,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

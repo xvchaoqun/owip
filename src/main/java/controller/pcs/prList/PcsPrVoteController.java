@@ -7,7 +7,6 @@ import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPartyView;
 import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsPrRecommend;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -69,11 +68,7 @@ public class PcsPrVoteController extends BaseController {
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
         // 在第三阶段，共用第二阶段的候选人
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
-                SystemConstants.PCS_STAGE_SECOND, partyId, null);
-        example.setOrderByClause("vote3 desc, type asc, vote desc, sort_order asc");
-        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
-
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,

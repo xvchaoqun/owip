@@ -56,6 +56,7 @@
 
                                                name="actualPositiveMemberCount"
                                                value="${pcsPrRecommend.actualPositiveMemberCount}">
+                                        <a href="javascript:;" onclick="_tipPopup()" class="text-success">应到会人数如何计算？</a>
                                     </td>
 
                                 </tr>
@@ -63,7 +64,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
-                                            class="fa fa-users"></i>   党代表候选人</span>
+                                            class="fa fa-users"></i>   党员大会选举情况</span>
                                     </h3>
                                 </div>
                                 <div class="collapse in">
@@ -78,11 +79,11 @@
                         <div class="modal-footer center" style="margin-top: 20px">
                             <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
                                     autocomplete="off"  ${!allowModify?"disabled":""}
-                                    class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交党员大会选举情况
+                                    class="btn btn-success btn-lg"><i class="fa fa-save"></i> 保存党员大会选举情况
                             </button>
-                            <c:if test="${allowModify && not empty pcsPrRecommend}">
-                                您已提交成功，可以重新提交进行修改
-                            </c:if>
+                          <%--  <c:if test="${allowModify && not empty pcsPrRecommend}">
+                                已保存成功
+                            </c:if>--%>
                         </div>
     </c:if>
                     </div>
@@ -128,8 +129,54 @@
         font-size: 18px;
         color: red;
     }
+
+    .confirm-modal .modal-dialog {
+        width: 800px;
+    }
 </style>
+<script type="text/template" id="alertTpl">
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <a name="OLE_LINK4"></a><a name="OLE_LINK3"></a><b><span style="font-size:14.0pt;font-family:宋体;">党员大会进行选举时，有选举权的到会人数超过应到会人数的<span>4/5</span>，会议有效。为了保证选举工作能够顺利进行，党员因下列情况不能参加选举的，经报上级党组织同意，并经支部党员大会通过，可以不计算在应到会人数之内：</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>1</span>）患有精神病或因其他疾病导致不能表达本人意志的。</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>2</span>）出国半年以上的。</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>3</span>）虽未受到留党察看以上党纪处分，但正在服刑的。</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>4</span>）年老体弱卧床不起和长期生病、生活不能自理的。</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span
+                style="font-size:14.0pt;font-family:宋体;">（<span>5</span>）工作调动，下派锻炼，外出学习或工作半年以上等，按规定应转走正式组织关系而没有转走的。</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <p class="MsoListParagraph" align="left" style="margin-left:16.8pt;text-indent:28.1pt;">
+        <b><span style="font-size:14.0pt;font-family:宋体;">（<span>6</span>）已经回原籍长期居住的离退休人员中的党员，因特殊情况，没有从原单位转出党员组织关系、确实不能参加选举的。</span></b><span
+            style="font-size:14.0pt;font-family:宋体;"></span>
+    </p>
+    <b><span style="font-size:14.0pt;font-family:宋体;">凡上述情况之外的党员不能参加党员大会进行选举，仍应计算在应到会人数之列。</span></b><br/>
+</script>
 <script>
+
+    function _tipPopup() {
+
+        var msg = _.template($("#alertTpl").html());
+        bootbox.alert({
+            className: "confirm-modal",
+            message: msg,
+            title: '应到会人数如何计算？'
+        });
+    }
 
     register_datetime($('.datetime-picker'));
 
@@ -154,6 +201,9 @@
             return ('<input required type="text" name="vote{0}" data-container="{1}" value="{2}" class="vote num" maxlength="4">')
                     .format(rowObject.userId,"#jqGrid1", $.trim(cellvalue))
         }
+        },
+        {
+            label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
         },
         {label: '出生年月', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},

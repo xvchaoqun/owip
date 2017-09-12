@@ -9,8 +9,8 @@ import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
+import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrCandidateView;
-import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsPrRecommend;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserView;
@@ -114,7 +114,8 @@ public class PcsPrListController extends BaseController {
         }
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId);
+
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
@@ -153,12 +154,15 @@ public class PcsPrListController extends BaseController {
         if(!ShiroHelper.isPermitted("pcsPrListOw:admin")) {
 
             SecurityUtils.getSubject().checkPermission("pcsPrList:list");
+        }
+        if(partyId==null){
             PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
             if (pcsAdmin == null) {
                 throw new UnauthorizedException();
             }
             partyId = pcsAdmin.getPartyId();
         }
+
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
@@ -214,7 +218,17 @@ public class PcsPrListController extends BaseController {
             return failed("请上传全部的大会材料后上报。");
         }
 
-        if(pcsPrListService.getList(configId, partyId).size()==0){
+        // 检查是否保存姓名笔画顺序
+        {
+            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+            PcsPrCandidateExample example = new PcsPrCandidateExample();
+            example.createCriteria().andRecommendIdEqualTo(pcsPrRecommend.getId()).andRealnameSortOrderIsNull();
+            if(pcsPrCandidateMapper.countByExample(example)>0){
+                return failed("请按姓氏笔画排序后保存。");
+            }
+        }
+
+        if(pcsPrListService.getList(configId, partyId, true).size()==0){
             return failed("请填写党代表名单后上报。");
         }
 
@@ -235,11 +249,7 @@ public class PcsPrListController extends BaseController {
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
         // 在第三阶段，共用第二阶段的候选人
-        PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
-                SystemConstants.PCS_STAGE_SECOND, partyId, null);
-        example.setOrderByClause("vote3 desc, type asc, vote desc, sort_order asc");
-        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
-
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
         return "pcs/pcsPrList/pcsPrList_candidates";

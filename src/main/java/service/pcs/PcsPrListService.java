@@ -23,17 +23,37 @@ public class PcsPrListService extends BaseMapper {
     @Autowired
     private PcsPrPartyService pcsPrPartyService;
 
-    // 获取党代表名单
-    public List<PcsPrCandidateView> getList(int configId, Integer partyId){
+    // 先按代表类型，同一类型下，再按姓氏笔画。
+    public List<PcsPrCandidateView> getList2(int configId, Integer partyId, Boolean isChosen) {
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId)
-                .andIsChosenEqualTo(true);
-        if(partyId!=null){
+        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
+                .andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND);
+
+        if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
         }
+        if (isChosen != null) {
+            criteria.andIsChosenEqualTo(isChosen);
+        }
+        example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
 
-        example.setOrderByClause("party_sort_order desc,type asc, leader_sort_order desc, vote3 desc, sort_order asc");
+        return pcsPrCandidateViewMapper.selectByExample(example);
+    }
+
+    // 获取党代表名单 （预先按姓笔画排序）
+    public List<PcsPrCandidateView> getList(int configId, int partyId, Boolean isChosen) {
+
+        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
+                .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
+                .andStageEqualTo(SystemConstants.PCS_STAGE_SECOND);
+
+        if (isChosen != null) {
+            criteria.andIsChosenEqualTo(isChosen);
+        }
+
+        example.setOrderByClause("party_sort_order desc, realname_sort_order asc, type asc, leader_sort_order desc, sort_order asc");
 
         return pcsPrCandidateViewMapper.selectByExample(example);
     }
@@ -43,7 +63,7 @@ public class PcsPrListService extends BaseMapper {
     @Transactional
     public void submit(int configId, int partyId, List<PcsPrCandidateFormBean> beans) {
 
-        if(!pcsPrPartyService.allowModify(partyId, configId, SystemConstants.PCS_STAGE_THIRD)){
+        if (!pcsPrPartyService.allowModify(partyId, configId, SystemConstants.PCS_STAGE_THIRD)) {
             throw new OpException("数据已报送，不可修改。");
         }
 
@@ -67,7 +87,7 @@ public class PcsPrListService extends BaseMapper {
 
             PcsPrCandidate _candidate = new PcsPrCandidate();
             String mobile = bean.getMobile();
-            if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            if (StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
                 throw new OpException("手机号码有误：" + mobile);
             }
             _candidate.setMobile(mobile);
@@ -78,10 +98,31 @@ public class PcsPrListService extends BaseMapper {
             example.createCriteria().andRecommendIdEqualTo(recommendId).andUserIdEqualTo(userId);
             int ret = pcsPrCandidateMapper.updateByExampleSelective(_candidate, example);
 
-            if(ret!=1){
+            if (ret != 1) {
                 throw new OpException("数据有误。");
             }
         }
 
+    }
+
+    // 按姓氏笔画排序（三下三上排序）
+    @Transactional
+    public void sort(int configId, int partyId, Integer[] userIds) {
+
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        int recommendId = pcsPrRecommend.getId();
+
+        commonMapper.excuteSql("update pcs_pr_candidate set realname_sort_order = null where recommend_id=" + recommendId);
+
+        for (Integer userId : userIds) {
+
+            PcsPrCandidate record = new PcsPrCandidate();
+            record.setRealnameSortOrder(getNextSortOrder("pcs_pr_candidate",
+                    "realname_sort_order", "recommend_id=" + recommendId));
+
+            PcsPrCandidateExample example = new PcsPrCandidateExample();
+            example.createCriteria().andRecommendIdEqualTo(recommendId).andUserIdEqualTo(userId);
+            pcsPrCandidateMapper.updateByExampleSelective(record, example);
+        }
     }
 }

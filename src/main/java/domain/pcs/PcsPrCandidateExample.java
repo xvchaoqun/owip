@@ -1002,6 +1002,66 @@ public class PcsPrCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andRealnameSortOrderIsNull() {
+            addCriterion("realname_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderIsNotNull() {
+            addCriterion("realname_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderEqualTo(Integer value) {
+            addCriterion("realname_sort_order =", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderNotEqualTo(Integer value) {
+            addCriterion("realname_sort_order <>", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderGreaterThan(Integer value) {
+            addCriterion("realname_sort_order >", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("realname_sort_order >=", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderLessThan(Integer value) {
+            addCriterion("realname_sort_order <", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("realname_sort_order <=", value, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderIn(List<Integer> values) {
+            addCriterion("realname_sort_order in", values, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderNotIn(List<Integer> values) {
+            addCriterion("realname_sort_order not in", values, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("realname_sort_order between", value1, value2, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealnameSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("realname_sort_order not between", value1, value2, "realnameSortOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andAddTimeIsNull() {
             addCriterion("add_time is null");
             return (Criteria) this;

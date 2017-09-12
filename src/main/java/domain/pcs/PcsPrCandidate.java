@@ -32,6 +32,8 @@ public class PcsPrCandidate implements Serializable {
 
     private Integer sortOrder;
 
+    private Integer realnameSortOrder;
+
     private Date addTime;
 
     private static final long serialVersionUID = 1L;
@@ -146,6 +148,14 @@ public class PcsPrCandidate implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Integer getRealnameSortOrder() {
+        return realnameSortOrder;
+    }
+
+    public void setRealnameSortOrder(Integer realnameSortOrder) {
+        this.realnameSortOrder = realnameSortOrder;
     }
 
     public Date getAddTime() {
