@@ -7,9 +7,14 @@
   <div class="col-xs-12">
     <div class="tabbable" style="margin: 10px 20px; width: 900px">
       <div class="space-4"></div>
-
+      <c:if test="${not empty param.partyId}">
+        <a href="${ctx}/pcsPrOw_export?file=4&stage=${PCS_STAGE_THIRD}&partyId=${param.partyId}">
+          <i class="fa fa-download"></i> 党代表数据统计表</a>
+      </c:if>
+<c:if test="${empty param.partyId}">
       <a href="${ctx}/pcsPrParty_export?file=4&stage=${PCS_STAGE_THIRD}">
         <i class="fa fa-download"></i> 党代表数据统计表</a>
+  </c:if>
       <div class="space-4"></div>
       <table class="table table-bordered table-striped" data-offset-top="101">
         <thead>

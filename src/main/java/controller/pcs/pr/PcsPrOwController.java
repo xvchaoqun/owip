@@ -60,9 +60,12 @@ public class PcsPrOwController extends BaseController {
             case "4":
                 party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                fileName = String.format("分党委酝酿代表候选人%s人选统计表（%s）",
-                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备",
-                        party.getName());
+                if(stage==SystemConstants.PCS_STAGE_THIRD)
+                    fileName = String.format("党代表数据统计表（%s）",  party.getName());
+                else
+                    fileName = String.format("分党委酝酿代表候选人%s人选统计表（%s）",
+                            stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备",
+                            party.getName());
                 break;
             case "5":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, null);
