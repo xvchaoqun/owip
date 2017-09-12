@@ -73,14 +73,14 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
                             class="fa fa-users"></i>   党代表候选人名单</span>
-  <span style="margin-left: 20px">
-                    <a href="javascript:;"
-                       class="popupBtn btn btn-info btn-sm ${!allowModify?"disabled":""}"
-                       data-width="900"
-                       data-url="">
-                        <i class="fa fa-info-circle"></i> 姓氏笔画排序规则</a>
+        <span style="margin-left: 20px">
+
+        <a class="popupBtn btn btn-warning btn-sm"
+         data-width="750"
+         data-url="${ctx}/hf_content?code=hf_pcs_pr_realname">
+          <i class="fa fa-question-circle"></i> 姓氏笔画排序规则</a>
         </span>
-                        <span class="tip">请按姓氏笔画排序后保存，可拖拽行进行排序</span>
+                        <span class="tip text-danger">请按姓氏笔画排序后保存，可拖拽行进行排序</span>
 
                         <div class="panel-toolbar">
                             <a data-toggle="collapse"  href="#collapseTwo">
@@ -114,7 +114,9 @@
     }
 
     .panel .tip {
-        margin-left: 30px
+        margin-left: 30px;
+        font-size: 22px;
+        font-weight: bolder;
     }
 
 </style>

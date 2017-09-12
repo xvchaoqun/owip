@@ -57,7 +57,7 @@
                                        data-url="${ctx}/pcsPrFileTemplate_au?id=${record.id}"><i class="fa fa-edit"></i>
                                         修改</a>
                                     <button class="confirm btn btn-danger btn-xs"
-                                            data-url="${ctx}/pcsPrFileTemplate_del?id=${recprd.id}"
+                                            data-url="${ctx}/pcsPrFileTemplate_del?id=${record.id}"
                                             data-title="删除材料"
                                             data-msg="确定删除该材料？" data-callback="_reload"
                                             ><i class="fa fa-times"></i> 删除

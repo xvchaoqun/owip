@@ -3,7 +3,6 @@ package controller.pcs.prList;
 import controller.BaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrFileTemplate;
-import domain.pcs.PcsPrFileTemplateExample;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +32,7 @@ public class PcsPrFileTemplateController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        PcsPrFileTemplateExample example = new PcsPrFileTemplateExample();
-        example.createCriteria().andConfigIdEqualTo(configId);
-        example.setOrderByClause("sort_order asc");
-        List<PcsPrFileTemplate> records = pcsPrFileTemplateMapper.selectByExample(example);
+        List<PcsPrFileTemplate> records = pcsPrFileTemplateService.findAll(configId);
         modelMap.put("records", records);
                 
         return "pcs/pcsPrFileTemplate/pcsPrFileTemplate_page";

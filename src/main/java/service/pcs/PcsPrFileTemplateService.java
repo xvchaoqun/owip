@@ -19,7 +19,7 @@ public class PcsPrFileTemplateService extends BaseMapper {
     public List<PcsPrFileTemplate> findAll(int configId){
 
         PcsPrFileTemplateExample example = new PcsPrFileTemplateExample();
-        example.createCriteria().andConfigIdEqualTo(configId);
+        example.createCriteria().andConfigIdEqualTo(configId).andIsDeletedEqualTo(false);
         example.setOrderByClause("sort_order asc");
         List<PcsPrFileTemplate> templates = pcsPrFileTemplateMapper.selectByExample(example);
 
