@@ -9,7 +9,6 @@ import domain.party.Party;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
-import domain.pcs.PcsPrCandidateExample;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrRecommend;
 import domain.sys.StudentInfo;
@@ -115,11 +114,13 @@ public class PcsPrListController extends BaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, partyId, null);
+        List<PcsPrCandidateView> candidates = pcsPrListService.getList2(configId, partyId, true);
         modelMap.put("candidates", candidates);
 
+        boolean hasSort = pcsPrListService.hasSort(configId, partyId);
+        modelMap.put("hasSort", hasSort);
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
-                SystemConstants.PCS_STAGE_THIRD));
+                SystemConstants.PCS_STAGE_THIRD) && hasSort);
 
         return "pcs/pcsPrList/pcsPrList_page";
     }
@@ -188,7 +189,10 @@ public class PcsPrListController extends BaseController {
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
-        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId, stage));
+
+        boolean hasSort = pcsPrListService.hasSort(configId, partyId);
+        modelMap.put("hasSort", hasSort);
+        modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId, stage) && hasSort);
 
         return "pcs/pcsPrList/pcsPrList_report_page";
     }
@@ -219,13 +223,8 @@ public class PcsPrListController extends BaseController {
         }
 
         // 检查是否保存姓名笔画顺序
-        {
-            PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
-            PcsPrCandidateExample example = new PcsPrCandidateExample();
-            example.createCriteria().andRecommendIdEqualTo(pcsPrRecommend.getId()).andRealnameSortOrderIsNull();
-            if(pcsPrCandidateMapper.countByExample(example)>0){
-                return failed("请按姓氏笔画排序后保存。");
-            }
+        if(!pcsPrListService.hasSort(configId, partyId)){
+            return failed("请按姓氏笔画排序后保存。");
         }
 
         if(pcsPrListService.getList(configId, partyId, true).size()==0){

@@ -34,16 +34,12 @@ where pc.recommend_id=ppr.id;
 
 DROP VIEW IF EXISTS `pcs_branch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view` AS
-select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count, ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
+select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count, ob.positive_count,  ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
 left join pcs_exclude_branch peb on peb.party_id=ob.party_id and peb.branch_id=ob.id
 where ob.is_deleted=0 and peb.id is null
 union all
-select  op.id as party_id, null as branch_id, op.name, op.member_count, op.student_member_count, op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
+select  op.id as party_id, null as branch_id, op.name, op.member_count, op.positive_count, op.student_member_count, op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
 where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' order by member_count desc;
-
-
-CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view2` AS
-select pbv.*, p.sort_order as party_sort_order, p.name as party_name from pcs_branch_view pbv left join ow_party p on pbv.party_id = p.id ;
 
 DROP VIEW IF EXISTS `pcs_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_candidate_view` AS
@@ -347,14 +343,13 @@ SELECT bmg.`*`, b.party_id from ow_branch_member_group bmg, ow_branch b where bm
 -- ----------------------------
 DROP VIEW IF EXISTS `ow_branch_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_branch_view` AS
-select b.*,  mtmp.num as member_count,mtmp.s_num as student_member_count,
+select b.*,  mtmp.num as member_count, mtmp.positive_count, mtmp.s_num as student_member_count,
 mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.num as group_count, gtmp2.num as present_group_count from ow_branch b
-left join (select sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
+left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
 count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
 left join (select count(*) as num, branch_id from ow_branch_member_group group by branch_id) gtmp on gtmp.branch_id=b.id
 left join (select count(*) as num, branch_id from ow_branch_member_group where is_present=1 group by  branch_id) gtmp2 on gtmp2.branch_id=b.id;
-
 -- ----------------------------
 --  View definition for `ow_member_abroad_view`
 -- ----------------------------

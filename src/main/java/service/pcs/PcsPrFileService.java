@@ -43,7 +43,8 @@ public class PcsPrFileService extends BaseMapper {
                 return false;
         }
 
-        return templates.size() == fileMap.size();
+        // 有可能模板被管理员删除了，所以上传的数量比模板多
+        return templates.size() <= fileMap.size();
     }
 
 

@@ -22,6 +22,7 @@ public class PcsBranchBean implements Serializable {
     private String name;
 
     private Integer memberCount;
+    private Integer positiveCount;
 
     private Integer studentMemberCount;
     private Integer teacherMemberCount;
@@ -107,6 +108,14 @@ public class PcsBranchBean implements Serializable {
 
     public void setMemberCount(Integer memberCount) {
         this.memberCount = memberCount;
+    }
+
+    public Integer getPositiveCount() {
+        return positiveCount;
+    }
+
+    public void setPositiveCount(Integer positiveCount) {
+        this.positiveCount = positiveCount;
     }
 
     public Integer getStudentMemberCount() {

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
+            <div id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><span style="font-weight: bolder; color: #669fc7"><i
@@ -17,13 +17,13 @@
                         </span>
 
                         <div class="panel-toolbar">
-                            <a data-toggle="collapse"  href="#collapseOne">
+                            <a data-toggle="collapse"  data-parent="#accordion" href="#collapseOne">
                                 <i class="ace-icon fa fa-chevron-up"></i>
                             </a>
                         </div>
                     </h3>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
+                <div id="collapseOne" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div style="width: 800px">
                             <table class="table table-bordered table-striped">
@@ -83,7 +83,7 @@
                         <span class="tip text-danger">请按姓氏笔画排序后保存，可拖拽行进行排序</span>
 
                         <div class="panel-toolbar">
-                            <a data-toggle="collapse"  href="#collapseTwo">
+                            <a data-toggle="collapse"  data-parent="#accordion" href="#collapseTwo">
                                 <i class="ace-icon fa fa-chevron-up"></i>
                             </a>
                         </div>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-
+            </div>
 
     </div>
 </div>

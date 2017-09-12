@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.common.bean.PcsBranchBean;
+import persistence.common.bean.PcsPartyBean;
 import persistence.common.bean.PcsPrPartyBean;
 import service.BaseMapper;
 import service.analysis.StatService;
@@ -93,6 +94,8 @@ public class PcsPrExportService extends BaseMapper {
         int actualMemberCount = 0;
         int actualPositiveMemberCount = 0;
 
+        Map<Integer, PcsPartyBean> partyMemberCountMap = getPartyMemberCountMap(configId, stage);
+
         List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null, null, null, new RowBounds());
         int startRow = 3;
         int rowCount = records.size();
@@ -101,12 +104,24 @@ public class PcsPrExportService extends BaseMapper {
 
             PcsPrPartyBean bean = records.get(i);
 
-            memberCount += NumberUtils.trimToZero(bean.getMemberCount());
-            positiveCount += NumberUtils.trimToZero(bean.getPositiveCount());
+            PcsPartyBean pcsPartyBean = partyMemberCountMap.get(bean.getId());
+            if(pcsPartyBean!=null) {
+                memberCount += NumberUtils.trimToZero(pcsPartyBean.getMemberCount());
+                positiveCount += NumberUtils.trimToZero(pcsPartyBean.getPositiveCount());
+            }
+
+
             expectMemberCount += NumberUtils.trimToZero(bean.getExpectMemberCount());
             expectPositiveMemberCount += NumberUtils.trimToZero(bean.getExpectPositiveMemberCount());
             actualMemberCount += NumberUtils.trimToZero(bean.getActualMemberCount());
             actualPositiveMemberCount += NumberUtils.trimToZero(bean.getActualPositiveMemberCount());
+
+   /*         memberCount += NumberUtils.trimToZero(bean.getMemberCount());
+            positiveCount += NumberUtils.trimToZero(bean.getPositiveCount());
+            expectMemberCount += NumberUtils.trimToZero(bean.getExpectMemberCount());
+            expectPositiveMemberCount += NumberUtils.trimToZero(bean.getExpectPositiveMemberCount());
+            actualMemberCount += NumberUtils.trimToZero(bean.getActualMemberCount());
+            actualPositiveMemberCount += NumberUtils.trimToZero(bean.getActualPositiveMemberCount());*/
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -120,11 +135,13 @@ public class PcsPrExportService extends BaseMapper {
 
             // 党员总数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getMemberCount()));
+            if(pcsPartyBean!=null)
+                cell.setCellValue(NumberUtils.trimToEmpty(pcsPartyBean.getMemberCount()));
 
             // 正式党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getPositiveCount()));
+            if(pcsPartyBean!=null)
+                cell.setCellValue(NumberUtils.trimToEmpty(pcsPartyBean.getPositiveCount()));
 
             // 党员数
             cell = row.getCell(column++);
@@ -345,6 +362,41 @@ public class PcsPrExportService extends BaseMapper {
         map.put("post", post);
 
         return map;
+    }
+
+    // 获得完成推荐的支部（排除之后的新建支部）的分党委的党员数量统计（与两委统计数据保持一致）
+    public Map<Integer, PcsPartyBean> getPartyMemberCountMap(int configId, byte stage) {
+
+
+        // 分党委数量统计
+        Map<Integer, PcsPartyBean> partyBeanMap = new HashMap<>();
+
+        // 获得完成推荐的支部（排除之后的新建支部）（与两委统计数据保持一致）
+        List<PcsBranchBean> pcsBranchBeans =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+
+        for (PcsBranchBean bean : pcsBranchBeans) {
+
+            int _mc = NumberUtils.trimToZero(bean.getMemberCount());
+            int _pc = NumberUtils.trimToZero(bean.getPositiveCount());
+            int _sc = NumberUtils.trimToZero(bean.getStudentMemberCount());
+            int _tc = NumberUtils.trimToZero(bean.getTeacherMemberCount());
+            int _rc = NumberUtils.trimToZero(bean.getRetireMemberCount());
+
+            Integer partyId = bean.getPartyId();
+            PcsPartyBean pcsPartyBean = partyBeanMap.get(partyId);
+            if (pcsPartyBean == null) {
+                pcsPartyBean = new PcsPartyBean();
+                partyBeanMap.put(partyId, pcsPartyBean);
+            }
+            pcsPartyBean.setMemberCount(NumberUtils.trimToZero(pcsPartyBean.getMemberCount()) + _mc);
+            pcsPartyBean.setPositiveCount(NumberUtils.trimToZero(pcsPartyBean.getPositiveCount()) + _pc);
+            pcsPartyBean.setStudentMemberCount(NumberUtils.trimToZero(pcsPartyBean.getStudentMemberCount()) + _sc);
+            pcsPartyBean.setTeacherMemberCount(NumberUtils.trimToZero(pcsPartyBean.getTeacherMemberCount()) + _tc);
+            pcsPartyBean.setRetireMemberCount(NumberUtils.trimToZero(pcsPartyBean.getRetireMemberCount()) + _rc);
+        }
+
+       return partyBeanMap;
     }
 
     public Map<String, String> getSchoolMemberCountMap(int configId, byte stage) {

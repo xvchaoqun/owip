@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.common.bean.PcsPartyBean;
 import persistence.common.bean.PcsPrPartyBean;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -135,6 +136,20 @@ public class PcsPrOwController extends BaseController {
 
         List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null,
                 null, null, new RowBounds());
+
+        // 这里读取两委已报送的支部的所在分党委进行统计的党员数和正式党员数，用于和两委数据保持一致
+        Map<Integer, PcsPartyBean> partyMemberCountMap = pcsPrExportService.getPartyMemberCountMap(configId, stage);
+        for (PcsPrPartyBean record : records) {
+            PcsPartyBean pcsPartyBean = partyMemberCountMap.get(record.getId());
+            if(pcsPartyBean!=null){
+                record.setMemberCount(pcsPartyBean.getMemberCount());
+                record.setPositiveCount(pcsPartyBean.getPositiveCount());
+            }else{
+                record.setMemberCount(null);
+                record.setPositiveCount(null);
+            }
+        }
+
         modelMap.put("records", records);
 
         return "pcs/pcsPrOw/pcsPrOw_allocate_table_page";

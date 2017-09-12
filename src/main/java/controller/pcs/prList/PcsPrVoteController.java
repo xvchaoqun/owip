@@ -71,8 +71,10 @@ public class PcsPrVoteController extends BaseController {
         List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
 
+        boolean hasSort = pcsPrListService.hasSort(configId, partyId);
+        modelMap.put("hasSort", hasSort);
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
-                SystemConstants.PCS_STAGE_THIRD));
+                SystemConstants.PCS_STAGE_THIRD) && hasSort);
 
         return "pcs/pcsPrVote/pcsPrVote_page";
     }

@@ -23,6 +23,16 @@ public class PcsPrListService extends BaseMapper {
     @Autowired
     private PcsPrPartyService pcsPrPartyService;
 
+    // 检查是否保存过姓名笔画顺序
+    public boolean hasSort(int configId, int partyId) {
+
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        PcsPrCandidateExample example = new PcsPrCandidateExample();
+        example.createCriteria().andRecommendIdEqualTo(pcsPrRecommend.getId()).andRealnameSortOrderIsNull();
+
+        return pcsPrCandidateMapper.countByExample(example) == 0;
+    }
+
     // 先按代表类型，同一类型下，再按姓氏笔画。
     public List<PcsPrCandidateView> getList2(int configId, Integer partyId, Boolean isChosen) {
 

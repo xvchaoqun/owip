@@ -81,9 +81,9 @@
                                     autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-save"></i> 保存党员大会选举情况
                             </button>
-                          <%--  <c:if test="${allowModify && not empty pcsPrRecommend}">
-                                已保存成功
-                            </c:if>--%>
+                            <c:if test="${!hasSort}">
+                                请在“党员大会准备阶段”完成姓氏笔画排序后进行操作。
+                            </c:if>
                         </div>
     </c:if>
                     </div>

@@ -160,7 +160,6 @@ import persistence.party.PartyViewMapper;
 import persistence.party.RetireApplyMapper;
 import persistence.pcs.PcsAdminMapper;
 import persistence.pcs.PcsAdminReportMapper;
-import persistence.pcs.PcsBranchView2Mapper;
 import persistence.pcs.PcsCandidateChosenMapper;
 import persistence.pcs.PcsCandidateMapper;
 import persistence.pcs.PcsCandidateViewMapper;
@@ -493,8 +492,6 @@ public class BaseMapper {
     protected PcsExcludeBranchMapper pcsExcludeBranchMapper;
     @Autowired
     protected PcsPartyViewMapper pcsPartyViewMapper;
-    @Autowired
-    protected PcsBranchView2Mapper pcsBranchView2Mapper;
     @Autowired
     protected PcsIssueMapper pcsIssueMapper;
     @Autowired
