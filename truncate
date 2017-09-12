@@ -15,6 +15,12 @@ truncate pcs_recommend;
 SET FOREIGN_KEY_CHECKS=1;
 ====
 
+== 清空三下三上===
+delete from pcs_pr_file;
+update pcs_pr_candidate set mobile=null,email=null,vote3=null,is_chosen=null,realname_sort_order=null;
+delete from pcs_pr_recommend where stage=3;
+============
+
 SET FOREIGN_KEY_CHECKS=0;
 truncate base_cadre;
 
