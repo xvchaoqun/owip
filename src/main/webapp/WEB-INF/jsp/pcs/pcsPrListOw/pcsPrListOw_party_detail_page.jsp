@@ -17,28 +17,28 @@
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
                                data-url='${ctx}/pcsPrFile?partyId=${param.partyId}'><i
-                                    class="fa fa-calendar-o"></i> 材料准备情况
+                                    class="fa fa-th-list"></i> 材料准备情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
                                data-url='${ctx}/pcsPrVote?partyId=${param.partyId}'><i
-                                    class="fa fa-calendar-o"></i> 选举情况
+                                    class="fa fa-hand-paper-o"></i> 选举情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
                                data-url='${ctx}/pcsPrList_page?partyId=${param.partyId}'><i
-                                    class="fa fa-calendar-o"></i> 党代表名单
+                                    class="fa fa-envelope-open"></i> 党代表名单
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-item-content" data-callback="_menuSelected"
                                data-url='${ctx}/pcsPrList_table_page?partyId=${param.partyId}'><i
-                                    class="fa fa-calendar-o"></i> 党代表数据统计
+                                    class="fa fa-line-chart"></i> 党代表数据统计
                             </a>
                         </li>
                     </ul>
