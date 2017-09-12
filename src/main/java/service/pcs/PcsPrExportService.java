@@ -1005,7 +1005,7 @@ public class PcsPrExportService extends BaseMapper {
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_THIRD, partyId);
         if(pcsPrRecommend!=null) {
-            mt = DateUtils.formatDate(pcsPrRecommend.getMeetingTime(), DateUtils.YYYY_MM_DD_CHINA);
+            mt = DateUtils.formatDate(pcsPrRecommend.getMeetingTime(), "yyyy年MM月dd日HH:mm");
             ma = StringUtils.trimToEmpty(pcsPrRecommend.getMeetingAddress());
             ec = pcsPrRecommend.getExpectPositiveMemberCount() + "";
             ac = pcsPrRecommend.getActualPositiveMemberCount() + "";
