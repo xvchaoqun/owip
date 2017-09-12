@@ -126,7 +126,7 @@ public class PcsPrOwController extends BaseController {
     // 全校党员参与推荐情况
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrOw_allocate_table_page")
-    public String pcsPrOw_allocate_page(
+    public String pcsPrOw_allocate_table_page(
             byte stage,
             ModelMap modelMap) {
 
