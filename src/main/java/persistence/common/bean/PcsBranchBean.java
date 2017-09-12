@@ -23,6 +23,10 @@ public class PcsBranchBean implements Serializable {
 
     private Integer memberCount;
 
+    private Integer studentMemberCount;
+    private Integer teacherMemberCount;
+    private Integer retireMemberCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -103,5 +107,29 @@ public class PcsBranchBean implements Serializable {
 
     public void setMemberCount(Integer memberCount) {
         this.memberCount = memberCount;
+    }
+
+    public Integer getStudentMemberCount() {
+        return studentMemberCount;
+    }
+
+    public void setStudentMemberCount(Integer studentMemberCount) {
+        this.studentMemberCount = studentMemberCount;
+    }
+
+    public Integer getTeacherMemberCount() {
+        return teacherMemberCount;
+    }
+
+    public void setTeacherMemberCount(Integer teacherMemberCount) {
+        this.teacherMemberCount = teacherMemberCount;
+    }
+
+    public Integer getRetireMemberCount() {
+        return retireMemberCount;
+    }
+
+    public void setRetireMemberCount(Integer retireMemberCount) {
+        this.retireMemberCount = retireMemberCount;
     }
 }

@@ -1,10 +1,6 @@
 package service.pcs;
 
 import domain.cadre.CadreView;
-import domain.member.MemberStudentExample;
-import domain.member.MemberTeacherExample;
-import domain.pcs.PcsExcludeBranch;
-import domain.pcs.PcsExcludeBranchExample;
 import domain.pcs.PcsPartyView;
 import domain.pcs.PcsPartyViewExample;
 import domain.pcs.PcsPrAllocate;
@@ -23,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import persistence.common.bean.PcsBranchBean;
 import persistence.common.bean.PcsPrPartyBean;
 import service.BaseMapper;
 import service.analysis.StatService;
@@ -41,7 +38,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -215,7 +211,7 @@ public class PcsPrExportService extends BaseMapper {
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(null);
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, stage);
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
@@ -351,16 +347,34 @@ public class PcsPrExportService extends BaseMapper {
         return map;
     }
 
-    public Map<String, String> getSchoolMemberCountMap(Byte politicalStatus) {
+    public Map<String, String> getSchoolMemberCountMap(int configId, byte stage) {
+
+
+        //int totalMemberCount = 0;
+
+        // 获得完成推荐的支部（排除之后的新建支部）（与两委统计数据保持一致）
+        List<PcsBranchBean> pcsBranchBeans =
+                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+
+        int memberCount = 0;
+        int studentMemberCount = 0;
+        int teacherMemberCount = 0;
+        int retireMemberCount = 0;
+        for (PcsBranchBean bean : pcsBranchBeans) {
+
+            memberCount += NumberUtils.trimToZero(bean.getMemberCount());
+            studentMemberCount += NumberUtils.trimToZero(bean.getStudentMemberCount());
+            teacherMemberCount += NumberUtils.trimToZero(bean.getTeacherMemberCount());
+            retireMemberCount += NumberUtils.trimToZero(bean.getRetireMemberCount());
+        }
 
         Map<String, String> map = new HashMap<>();
-        String mc = "";
-        String tc = "";
-        String sc = "";
-        String rc = "";
-        int totalMemberCount = 0;
+        String mc = memberCount + "";
+        String tc = teacherMemberCount + "";
+        String sc = studentMemberCount+ "";
+        String rc = retireMemberCount + "";
 
-        // 去除排除支部的党员人数
+        /*// 去除排除支部的党员人数
         List<Integer> excludeBranchIds = new ArrayList<>();
         List<PcsExcludeBranch> pcsExcludeBranches = pcsExcludeBranchMapper.selectByExample(new PcsExcludeBranchExample());
         for (PcsExcludeBranch pcsExcludeBranch : pcsExcludeBranches) {
@@ -410,7 +424,7 @@ public class PcsPrExportService extends BaseMapper {
             sc = count + "";
         }
 
-        mc = totalMemberCount + "";
+        mc = totalMemberCount + "";*/
 
         map.put("mc", mc);
         map.put("tc", tc);
@@ -549,7 +563,7 @@ public class PcsPrExportService extends BaseMapper {
             stageStr = "三上";
         }
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(null);
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, stage);
         row = sheet.getRow(1);
         cell = row.getCell(0);
         str = cell.getStringCellValue()
@@ -800,7 +814,7 @@ public class PcsPrExportService extends BaseMapper {
             startRow = 5;
         } else {
             // 全校
-            Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(null);
+            Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, stage);
             mc = schoolMemberCountMap.get("mc");
             tc = schoolMemberCountMap.get("tc");
             sc = schoolMemberCountMap.get("sc");
@@ -1062,7 +1076,7 @@ public class PcsPrExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, SystemConstants.PCS_STAGE_THIRD);
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
@@ -1172,7 +1186,7 @@ public class PcsPrExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, SystemConstants.PCS_STAGE_THIRD);
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);

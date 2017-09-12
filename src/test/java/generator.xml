@@ -426,8 +426,7 @@
       </table>-->
       <!--<table tableName="pcs_party_view" domainObjectName="pcs.PcsPartyView" mapperName="pcs.PcsPartyViewMapper">
       </table>-->
-     <!-- <table tableName="pcs_branch_view2" domainObjectName="pcs.PcsBranchView2" mapperName="pcs.PcsBranchView2Mapper">
-      </table>-->
+
       <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
       </table>-->
       <!-- <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
@@ -458,14 +457,14 @@
       </table>-->
        <!--<table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
       </table>-->
-      <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
+    <!--  <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
       </table>
       <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView" mapperName="pcs.PcsPrCandidateViewMapper"
              enableInsert="false" enableUpdateByPrimaryKey="false"
              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
              enableDeleteByExample="false">
           <columnOverride column="user_type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-      </table>
+      </table>-->
 
 
       <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">

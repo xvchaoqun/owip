@@ -82,7 +82,7 @@
     }
 
     .panel input.mobile, .panel input.email {
-        width: 120px !important;
+        width: 140px !important;
         padding: 0px !important;
         text-align: center;
         font-weight: bolder;
@@ -123,7 +123,7 @@
         {label: '姓名', name: 'realname', width: 110, frozen: true},
 
         {
-            label: '手机号', name: 'mobile', width:150, formatter: function (cellvalue, options, rowObject) {
+            label: '手机号', name: 'mobile', width:160, formatter: function (cellvalue, options, rowObject) {
             return ('<input required type="text" name="mobile{0}" data-container="{1}" value="{2}" class="mobile" maxlength="11">')
                     .format(rowObject.userId, "#jqGrid", $.trim(cellvalue))
         }

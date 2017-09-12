@@ -161,6 +161,9 @@
         <result column="stage" jdbcType="TINYINT" property="stage"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
+        <result column="student_member_count" jdbcType="INTEGER" property="studentMemberCount"/>
+        <result column="teacher_member_count" jdbcType="INTEGER" property="teacherMemberCount"/>
+        <result column="retire_member_count" jdbcType="INTEGER" property="retireMemberCount"/>
     </resultMap>
     <sql id="searchPcsBranchBeans">
         <where>

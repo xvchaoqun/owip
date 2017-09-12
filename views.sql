@@ -34,12 +34,13 @@ where pc.recommend_id=ppr.id;
 
 DROP VIEW IF EXISTS `pcs_branch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view` AS
-select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count from ow_branch_view ob
+select  ob.party_id, ob.id as branch_id, ob.name, ob.member_count, ob.student_member_count, ob.teacher_member_count, ob.retire_member_count from ow_branch_view ob
 left join pcs_exclude_branch peb on peb.party_id=ob.party_id and peb.branch_id=ob.id
 where ob.is_deleted=0 and peb.id is null
 union all
-select  op.id as party_id, null as branch_id, op.name, op.member_count from ow_party_view op, base_meta_type bmt
+select  op.id as party_id, null as branch_id, op.name, op.member_count, op.student_member_count, op.teacher_member_count, op.retire_member_count from ow_party_view op, base_meta_type bmt
 where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' order by member_count desc;
+
 
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_branch_view2` AS
 select pbv.*, p.sort_order as party_sort_order, p.name as party_name from pcs_branch_view pbv left join ow_party p on pbv.party_id = p.id ;
