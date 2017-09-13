@@ -342,6 +342,7 @@ public class PcsPrPartyController extends BaseController {
                 candidate.setUserId(uv.getUserId());
                 candidate.setCode(uv.getCode());
                 candidate.setRealname(uv.getRealname());
+                candidate.setPartyId(partyId);
 
                 PcsPrCandidateView _candidate = selectedMap.get(userId);
                 if(_candidate!=null){
