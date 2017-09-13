@@ -575,9 +575,12 @@ public class PcsPrExportService extends BaseMapper {
      */
     public XSSFWorkbook exportAllPartyAllocate(int configId, byte stage) throws IOException {
 
+        Boolean isChosen = null;
         String filename = "pr-ow.xlsx";
         if(stage == SystemConstants.PCS_STAGE_THIRD){
             filename = "pr-ow3.xlsx";
+            stage = SystemConstants.PCS_STAGE_SECOND;
+            isChosen = true;
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
@@ -654,7 +657,7 @@ public class PcsPrExportService extends BaseMapper {
             cell.setCellValue(str);
 
             PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
-            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
+            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, isChosen);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
             startRow += 4;
@@ -670,7 +673,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 全校汇总
             PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
-            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null, null);
+            PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, null, isChosen);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
             startRow += 4;

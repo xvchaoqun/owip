@@ -54,8 +54,8 @@
     </div>
 </div>
 <style>
-    .table thead tr th,
-    .table tbody tr td{
+    .table th,
+    .table td{
         text-align: center;
     }
 </style>

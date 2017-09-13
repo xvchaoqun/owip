@@ -72,13 +72,12 @@
           <td>-</td>
         </tr>
         <tr>
-          <td class="ltitle">差额
-            比率
+          <td class="ltitle">差额比率
           </td>
           <td>
             <c:if test="${expectCount>0}">
               <fmt:formatNumber value="${(cm:toInt(actualCount) - expectCount)/expectCount}" type="percent"
-                                pattern="#0.0%"/>
+                                pattern="#0.00%"/>
             </c:if>
           </td>
           <td>-</td>
