@@ -478,7 +478,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     var openBy = $(this).data("open-by");
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
-    var idsName = $(this).data("ids-name") || 'ids';
+    var idsName = $(this).data("ids-name") || 'ids[]';
     var ids = grid.getGridParam("selarrrow");
     if (ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
