@@ -645,6 +645,66 @@ public class PcsPrRecommendExample {
             return (Criteria) this;
         }
 
+        public Criteria andMeetingTypeIsNull() {
+            addCriterion("meeting_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeIsNotNull() {
+            addCriterion("meeting_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeEqualTo(Byte value) {
+            addCriterion("meeting_type =", value, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeNotEqualTo(Byte value) {
+            addCriterion("meeting_type <>", value, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeGreaterThan(Byte value) {
+            addCriterion("meeting_type >", value, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("meeting_type >=", value, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeLessThan(Byte value) {
+            addCriterion("meeting_type <", value, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("meeting_type <=", value, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeIn(List<Byte> values) {
+            addCriterion("meeting_type in", values, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeNotIn(List<Byte> values) {
+            addCriterion("meeting_type not in", values, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeBetween(Byte value1, Byte value2) {
+            addCriterion("meeting_type between", value1, value2, "meetingType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("meeting_type not between", value1, value2, "meetingType");
+            return (Criteria) this;
+        }
+
         public Criteria andMeetingTimeIsNull() {
             addCriterion("meeting_time is null");
             return (Criteria) this;

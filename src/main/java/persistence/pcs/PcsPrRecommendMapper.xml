@@ -11,6 +11,7 @@
     <result column="expect_positive_member_count" jdbcType="INTEGER" property="expectPositiveMemberCount" />
     <result column="actual_positive_member_count" jdbcType="INTEGER" property="actualPositiveMemberCount" />
     <result column="vote_member_count" jdbcType="INTEGER" property="voteMemberCount" />
+    <result column="meeting_type" jdbcType="TINYINT" property="meetingType" />
     <result column="meeting_time" jdbcType="TIMESTAMP" property="meetingTime" />
     <result column="meeting_address" jdbcType="VARCHAR" property="meetingAddress" />
     <result column="report_file_path" jdbcType="VARCHAR" property="reportFilePath" />
@@ -80,8 +81,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, config_id, stage, party_id, expect_member_count, actual_member_count, expect_positive_member_count, 
-    actual_positive_member_count, vote_member_count, meeting_time, meeting_address, report_file_path, 
-    has_report, report_user_id, report_time, status, check_remark
+    actual_positive_member_count, vote_member_count, meeting_type, meeting_time, meeting_address, 
+    report_file_path, has_report, report_user_id, report_time, status, check_remark
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrRecommendExample" resultMap="BaseResultMap">
     select
@@ -117,17 +118,17 @@
     insert into pcs_pr_recommend (id, config_id, stage, 
       party_id, expect_member_count, actual_member_count, 
       expect_positive_member_count, actual_positive_member_count, 
-      vote_member_count, meeting_time, meeting_address, 
-      report_file_path, has_report, report_user_id, 
-      report_time, status, check_remark
-      )
+      vote_member_count, meeting_type, meeting_time, 
+      meeting_address, report_file_path, has_report, 
+      report_user_id, report_time, status, 
+      check_remark)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{stage,jdbcType=TINYINT}, 
       #{partyId,jdbcType=INTEGER}, #{expectMemberCount,jdbcType=INTEGER}, #{actualMemberCount,jdbcType=INTEGER}, 
       #{expectPositiveMemberCount,jdbcType=INTEGER}, #{actualPositiveMemberCount,jdbcType=INTEGER}, 
-      #{voteMemberCount,jdbcType=INTEGER}, #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, 
-      #{reportFilePath,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
-      #{reportTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{checkRemark,jdbcType=VARCHAR}
-      )
+      #{voteMemberCount,jdbcType=INTEGER}, #{meetingType,jdbcType=TINYINT}, #{meetingTime,jdbcType=TIMESTAMP}, 
+      #{meetingAddress,jdbcType=VARCHAR}, #{reportFilePath,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, 
+      #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+      #{checkRemark,jdbcType=VARCHAR})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.pcs.PcsPrRecommend">
     insert into pcs_pr_recommend
@@ -158,6 +159,9 @@
       </if>
       <if test="voteMemberCount != null">
         vote_member_count,
+      </if>
+      <if test="meetingType != null">
+        meeting_type,
       </if>
       <if test="meetingTime != null">
         meeting_time,
@@ -211,6 +215,9 @@
       </if>
       <if test="voteMemberCount != null">
         #{voteMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="meetingType != null">
+        #{meetingType,jdbcType=TINYINT},
       </if>
       <if test="meetingTime != null">
         #{meetingTime,jdbcType=TIMESTAMP},
@@ -274,6 +281,9 @@
       <if test="record.voteMemberCount != null">
         vote_member_count = #{record.voteMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="record.meetingType != null">
+        meeting_type = #{record.meetingType,jdbcType=TINYINT},
+      </if>
       <if test="record.meetingTime != null">
         meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       </if>
@@ -314,6 +324,7 @@
       expect_positive_member_count = #{record.expectPositiveMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{record.actualPositiveMemberCount,jdbcType=INTEGER},
       vote_member_count = #{record.voteMemberCount,jdbcType=INTEGER},
+      meeting_type = #{record.meetingType,jdbcType=TINYINT},
       meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
       report_file_path = #{record.reportFilePath,jdbcType=VARCHAR},
@@ -353,6 +364,9 @@
       <if test="voteMemberCount != null">
         vote_member_count = #{voteMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="meetingType != null">
+        meeting_type = #{meetingType,jdbcType=TINYINT},
+      </if>
       <if test="meetingTime != null">
         meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       </if>
@@ -390,6 +404,7 @@
       expect_positive_member_count = #{expectPositiveMemberCount,jdbcType=INTEGER},
       actual_positive_member_count = #{actualPositiveMemberCount,jdbcType=INTEGER},
       vote_member_count = #{voteMemberCount,jdbcType=INTEGER},
+      meeting_type = #{meetingType,jdbcType=TINYINT},
       meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{meetingAddress,jdbcType=VARCHAR},
       report_file_path = #{reportFilePath,jdbcType=VARCHAR},

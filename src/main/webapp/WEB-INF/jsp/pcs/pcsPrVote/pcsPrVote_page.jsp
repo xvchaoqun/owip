@@ -16,6 +16,25 @@
                         <form class="form-inline" action="${ctx}/pcsPrVote" id="recommendForm" method="post">
                             <table class="form-table">
                                 <tr>
+                                    <td class="">党员总数：</td>
+                                    <td width="60">${pcsPartyView.memberCount}</td>
+                                    <td width="50">大会类型：</td>
+                                    <td colspan="2" width="60">
+                                        <div class="radio">
+                                            <label>
+                                                <input required name="meetingType" type="radio" class="ace"
+                                                       value="1"
+                                                       <c:if test="${pcsPrRecommend.meetingType==1}">checked</c:if>/>
+                                                <span class="lbl"> 全体党员大会</span>
+                                            </label>
+                                            <label>
+                                                <input required name="meetingType" type="radio" class="ace"
+                                                       value="2"
+                                                       <c:if test="${pcsPrRecommend.meetingType==2}">checked</c:if>/>
+                                                <span class="lbl"> 党员代表大会</span>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td width="50">时间：</td>
                                     <td colspan="2" width="60">
                                         <div class="input-group" data-my="bottom center" data-at="top center" style="width: 250px">
@@ -34,36 +53,34 @@
                                                name="meetingAddress" style="width: 100%;"
                                                value="${pcsPrRecommend.meetingAddress}">
                                     </td>
-                                    <td colspan="2" width="50">选举结果报告单<c:if test="${not empty pcsPrRecommend.reportFilePath}">
-                                        (<a href="javascript:void(0)" class="popupBtn"
-                                           data-url="${ctx}/swf/preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
-                                    </c:if>：
-                                    </td>
-                                    <td colspan="4">
-                                        <input ${empty pcsPrRecommend.reportFilePath?"required":""} class="form-control" type="file" name="_file"/>
-                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="">党员总数：</td>
-                                    <td width="60">${pcsPartyView.memberCount}</td>
+
                                     <td colspan="2">有选举权的正式党员数：</td>
                                     <td style="width: 60px"><input required type="text" maxlength="3" class="num"
 
                                                name="voteMemberCount"
                                                value="${pcsPrRecommend.voteMemberCount}"></td>
-                                    <td colspan="2">应参会正式党员数：</td>
+                                    <td colspan="">应参会正式党员数：</td>
                                     <td width="50"><input required type="text" maxlength="3" class="num"
 
                                                name="expectPositiveMemberCount"
                                                value="${pcsPrRecommend.expectPositiveMemberCount}"></td>
                                     <td colspan="2">实参会正式党员数：</td>
-                                    <td width="50"><input required type="text" maxlength="3" class="num"
+                                    <td width="50" colspan=""><input required type="text" maxlength="3" class="num"
 
                                                name="actualPositiveMemberCount"
                                                value="${pcsPrRecommend.actualPositiveMemberCount}">
                                         <a href="javascript:;" onclick="_tipPopup()" class="text-success">应到会人数如何计算？</a>
                                     </td>
-
+                                    <td colspan="3" width="50">选举结果报告单<c:if test="${not empty pcsPrRecommend.reportFilePath}">
+                                        (<a href="javascript:void(0)" class="popupBtn"
+                                        data-url="${ctx}/swf/preview?path=${cm:encodeURI(pcsPrRecommend.reportFilePath)}&filename=${cm:encodeURI("选举结果报告单.pdf")}">预览已上传</a>)
+                                    </c:if>：
+                                    </td>
+                                    <td width="200">
+                                        <input ${empty pcsPrRecommend.reportFilePath?"required":""} class="form-control" type="file" name="_file"/>
+                                    </td>
                                 </tr>
                             </table>
                             <div class="panel panel-default">

@@ -990,11 +990,6 @@ public class PcsPrExportService extends BaseMapper {
      */
     public XSSFWorkbook exportPartyList(int configId, int partyId) throws IOException {
 
-        String filename = "prList-1_1.xlsx";
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
-        XSSFWorkbook wb = new XSSFWorkbook(is);
-        XSSFSheet sheet = wb.getSheetAt(0);
-
         XSSFRow row = null;
         XSSFCell cell = null;
         String str = null;
@@ -1006,6 +1001,8 @@ public class PcsPrExportService extends BaseMapper {
         String ec = "";
         String ac = "";
 
+        String filename = "prList-1_1.xlsx";
+
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_THIRD, partyId);
         if(pcsPrRecommend!=null) {
             mt = DateUtils.formatDate(pcsPrRecommend.getMeetingTime(), "yyyy年MM月dd日HH:mm");
@@ -1015,7 +1012,16 @@ public class PcsPrExportService extends BaseMapper {
 
             // 不自动统计，读取分党委填写的
             pc = pcsPrRecommend.getVoteMemberCount() + "";
+
+            if(pcsPrRecommend.getMeetingType()==2){
+                filename = "prList-1_2.xlsx";
+            }
         }
+
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
 
         PcsPartyView pv = pcsPartyViewService.get(partyId);
         mc = pv.getMemberCount() + "";

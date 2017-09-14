@@ -1,6 +1,11 @@
 
 
 
+2017-9-14
+ALTER TABLE `pcs_pr_recommend`
+	ADD COLUMN `meeting_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '大会类型，1 全体党员大会 2 党员代表大会' AFTER `vote_member_count`;
+
+update pcs_pr_recommend set meeting_type=1 where stage=3;
 
 2017-9-12
 删除 pcs_branch_view2

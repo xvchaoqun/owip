@@ -25,6 +25,8 @@ public class PcsPrRecommend implements Serializable {
 
     private Integer voteMemberCount;
 
+    private Byte meetingType;
+
     @DateTimeFormat(pattern = DateUtils.YY_MM_DD_HH_MM)
     private Date meetingTime;
 
@@ -114,6 +116,14 @@ public class PcsPrRecommend implements Serializable {
 
     public void setVoteMemberCount(Integer voteMemberCount) {
         this.voteMemberCount = voteMemberCount;
+    }
+
+    public Byte getMeetingType() {
+        return meetingType;
+    }
+
+    public void setMeetingType(Byte meetingType) {
+        this.meetingType = meetingType;
     }
 
     public Date getMeetingTime() {

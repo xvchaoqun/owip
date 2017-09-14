@@ -37,7 +37,7 @@ public class ProfileController extends BaseController {
     @RequiresPermissions("passportApply:*")
     @RequestMapping(value = "/profile_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_sign(@CurrentUser SysUserView loginUser, String mobile, String phone,
+    public Map do_profile_sign(@CurrentUser SysUserView loginUser, String mobile, String phone,
                                      MultipartFile sign) throws IOException {
 
         String savePath = null;
