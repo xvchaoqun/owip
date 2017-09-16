@@ -10,9 +10,9 @@ public class MemberApply implements Serializable {
     public SysUserView getUser(){
         return CmTag.getUserById(userId);
     }
-    /*public String getApplyStatus(){
+    public String getApplyStatus(){
         return CmTag.getApplyStatus(this);
-    }*/
+    }
     private Integer userId;
 
     private Integer partyId;

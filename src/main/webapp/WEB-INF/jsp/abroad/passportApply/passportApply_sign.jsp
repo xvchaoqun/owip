@@ -12,7 +12,7 @@
         <input required type="file" name="sign" />
 
     </div>
-    <span class="help-block" style="line-height: 200px">为了使显示效果最佳，推荐使用300*200大小的图片</span>
+    <span class="help-block" style="line-height: 200px">为了使显示效果最佳，推荐使用300*200大小的PNG图片</span>
   </div>
     <div class="form-group" style="padding-top: 20px">
         <label class="col-xs-3 control-label">办公电话</label>
@@ -23,7 +23,7 @@
   <div class="form-group" style="padding-top: 20px">
     <label class="col-xs-3 control-label">手机号码</label>
     <div class="col-xs-2">
-      <input required class="form-control" type="text" name="mobile" value="${_user.mobile}">
+      <input required class="form-control mobile" type="text" name="mobile" value="${_user.mobile}">
     </div>
   </div>
 </form>

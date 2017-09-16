@@ -24,6 +24,7 @@ import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.dispatch.DispatchType;
 import domain.dispatch.DispatchUnit;
+import domain.member.MemberApply;
 import domain.member.MemberApplyView;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
@@ -36,6 +37,7 @@ import domain.sys.SysUserView;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaRank;
 import domain.unit.Unit;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -86,6 +88,7 @@ import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -227,7 +230,22 @@ public class CmTag {
                 (branch != null && branch.getIsDeleted()) ? "delete" : "", branch != null ? (party != null ? " - " : "") + branch.getName() : "");
     }
 
-    public static String getApplyStatus(MemberApplyView memberApply) {
+    public static String getApplyStatus(MemberApplyView memberApplyView) {
+
+        MemberApply memberApply = new MemberApply();
+        try {
+            PropertyUtils.copyProperties(memberApply, memberApplyView);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        return getApplyStatus(memberApply);
+    }
+    public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
         switch (memberApply.getStage()) {
             case SystemConstants.APPLY_STAGE_INIT:
