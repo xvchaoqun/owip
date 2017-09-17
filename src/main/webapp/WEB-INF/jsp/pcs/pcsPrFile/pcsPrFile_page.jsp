@@ -201,6 +201,7 @@
     <c:if test="${allowModify  && empty param.partyId}">
     $("#jqGrid1").jqGrid('sortableRows')
     </c:if>
+    $(window).triggerHandler('resize.jqGrid4');
 
     $("#submitBtn").click(function () {
 
