@@ -87,9 +87,15 @@
     <context:component-scan base-package="service,sys.service"/>
     <!--<context:annotation-config />-->
 
-    <task:executor id="executor" pool-size="5"/>
+    <!-- quartz的定时任务的factorybean,配置其他config -->
+    <bean id="jobFactory" class="sys.quartz.JobFactory"></bean>
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  autowire="no">
+        <property name="jobFactory" ref="jobFactory"></property>
+    </bean>
+
+    <!--<task:executor id="executor" pool-size="5"/>
     <task:scheduler id="scheduler" pool-size="10"/>
-    <task:annotation-driven executor="executor" scheduler="scheduler"/>
+    <task:annotation-driven executor="executor" scheduler="scheduler"/>-->
 
     <bean id="loginService" class="${login.service}"></bean>
     <import resource="classpath:spring-shiro.xml"/>

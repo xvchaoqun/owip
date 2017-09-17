@@ -150,7 +150,7 @@ public class ApplySelfController extends BaseController {
 
         approvalLogService.doApproval(record);
 
-        if (springProps.applySelfSendApprovalMsg) {
+        //if (springProps.applySelfSendApprovalMsg) {
             // 如果在工作时间（8:00-20:30），那么就立即发送给下一个领导
             // 短信通知下一个审批人
             String nowTime = DateUtils.formatDate(new Date(), "HHmm");
@@ -159,7 +159,7 @@ public class ApplySelfController extends BaseController {
                 Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
                 logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
             }
-        }
+        //}
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
 

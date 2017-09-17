@@ -6,7 +6,6 @@ import domain.sys.SysResourceExample;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,8 +27,8 @@ import java.util.function.Consumer;
 /**
  * Created by fafa on 2016/1/18.
  */
-@Controller
-@RequestMapping("/test")
+//@Controller
+//@RequestMapping("/test")
 public class TestController extends BaseController {
 
     @Autowired

@@ -2,14 +2,13 @@ package service;
 
 import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import service.sys.SysUserService;
 import sys.utils.JSONUtils;
 
 /**
  * Created by fafa on 2016/1/18.
  */
-@Service
+//@Service
 public class TestServcie {
     @Autowired
     private SysUserService sysUserService;

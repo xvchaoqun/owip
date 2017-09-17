@@ -1,15 +1,20 @@
 package service;
 
 import controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import service.sys.SchedulerJobService;
 
 /**
  * Created by fafa on 2016/6/17.
  */
 @Component
 public class InitDataService extends BaseController implements ApplicationListener<ContextRefreshedEvent> {
+
+    @Autowired
+    protected SchedulerJobService schedulerJobService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -26,6 +31,9 @@ public class InitDataService extends BaseController implements ApplicationListen
 
             // 刷新菜单数量缓存
             cacheService.refreshCacheCounts();
+
+            // 启动所有已开启的任务
+            schedulerJobService.runAllJobs();
         }
     }
 }

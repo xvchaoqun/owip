@@ -91,6 +91,12 @@
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-quartz</artifactId>
       <version>${shiro.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.opensymphony.quartz</groupId>
+          <artifactId>quartz</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
@@ -524,6 +530,17 @@
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>1.10.2</version>
+    </dependency>
+    <!-- Quartz依赖 -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz-jobs</artifactId>
+      <version>2.2.1</version>
     </dependency>
   </dependencies>
 

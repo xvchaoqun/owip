@@ -34,6 +34,7 @@
     <logger name="org.mybatis" level="ERROR"/>
     <logger name="net.sf.ehcache" level="debug"/>
     <logger name="org.apache.ibatis" level="ERROR"/>
+    <logger name="org.quartz" level="INFO"/>
   <root level="debug">
   	  <appender-ref ref="debug" />
   	  <appender-ref ref="info" />

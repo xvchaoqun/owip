@@ -47,34 +47,4 @@ public class SpringProps {
 
 	@Value("${shortMsg.url}")
 	public String shortMsgUrl;
-
-	@Value("${switch.sycn.ABROAD}")
-	public Boolean sycnAbroad;
-
-	@Value("${switch.sycn.JZG}")
-	public Boolean sycnJZG;
-
-	@Value("${switch.sycn.BKS}")
-	public Boolean sycnBKS;
-
-	@Value("${switch.sycn.YJS}")
-	public Boolean sycnYJS;
-
-	@Value("${switch.online.static}")
-	public Boolean onlineStatic;
-
-	@Value("${switch.passport.draw.return}")
-	public Boolean passportDrawReturnMsg;
-
-	@Value("${switch.applyself.approval}")
-	public Boolean applySelfSendApprovalMsg;
-
-	@Value("${switch.abroad.approval}")
-	public Boolean sendAbroadApprovalMsgToAdmin;
-
-	@Value("${switch.applyself.approval.next}")
-	public Boolean applySelfSendNextApprovalMsg;
-
-	@Value("${switch.cadreStatHistory}")
-	public Boolean cadreStatHistory;
 }
