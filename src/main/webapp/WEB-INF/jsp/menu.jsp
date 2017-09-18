@@ -37,7 +37,7 @@
         <ul class="submenu">
     </c:if>
     <c:if test="${menu.type eq 'url'}">
-        <li class="<c:if test="${menu.url=='/' || menu.url==_path || parentIdSet.contains(menu.id)}">active</c:if>">
+        <li class="<c:if test="${parentIdSet.contains(menu.id)}">active</c:if>">
             <c:if test="${menu.url=='/'}">
                 <a href="#" data-url="#">
             </c:if>

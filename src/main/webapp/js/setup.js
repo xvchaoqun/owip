@@ -665,6 +665,7 @@ $(window).bind("hashchange", function () {
         $("#page-content").renderUrl({
             url: ctx + '/index', fn: function () {
                 _refreshMenu('#');
+                $("#breadcrumbs").hide();
             }
         });
         return;
