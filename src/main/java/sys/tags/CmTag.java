@@ -171,11 +171,6 @@ public class CmTag {
         return cacheService.getCacheCount(countCacheKeys);
     }
 
-    public static String getCssFolder(){
-
-        return ConfigUtil.defaultHomePath() + File.separator + "css";
-    }
-
     public static String getJsFolder(){
 
         return ConfigUtil.defaultHomePath() + File.separator + "js";
@@ -186,19 +181,15 @@ public class CmTag {
         return ConfigUtil.defaultHomePath() + File.separator + "img" + File.separator;
     }
 
-    public static String getJsFilePath(String jsFileName) {
+    public static String getAbsolutePath(String relativePath) {
 
-        return getJsFolder() + File.separator + jsFileName;
-    }
+        try {
+            return new File(ConfigUtil.defaultHomePath() + File.separator + relativePath).getCanonicalPath();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-    public static String getImgFilePath(String imgFileName) {
-
-        return getImgFolder() + File.separator + imgFileName;
-    }
-
-    public static String getCssFilePath(String cssFileName) {
-
-        return getCssFolder() + File.separator + cssFileName;
+        return null;
     }
 
     public static HtmlFragment getHtmlFragment(String code) {

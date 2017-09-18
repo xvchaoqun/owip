@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/orgAdmin_batchDel"
              data-url-co="${ctx}/orgAdmin_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                 <c:set var="_query" value="${ not empty param.code || not empty param.sort}"/>
                 <c:if test="${_query}">
@@ -32,7 +32,7 @@ pageEncoding="UTF-8" %>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover table-condensed">

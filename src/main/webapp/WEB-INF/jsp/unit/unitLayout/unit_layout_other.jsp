@@ -32,13 +32,13 @@
                          ： </c:if>
                     <c:forEach items="${pUnitAdminCadres}" var="pUnitAdminCadre">
                         <c:set var="cadre" value="${cadreMap.get(pUnitAdminCadre.cadreId)}"/>
-                        <mytag:cadre cadreId="${cadre.id}" realname="${cm:getUserById(cadre.userId).realname}"/>
+                        <t:cadre cadreId="${cadre.id}" realname="${cm:getUserById(cadre.userId).realname}"/>
                     </c:forEach>
                          <c:if test="${fn:length(pUnitAdminCadres)>0 && fn:length(npUnitAdminCadres)>0}">
                     | </c:if>
                     <c:forEach items="${npUnitAdminCadres}" var="npUnitAdminCadre">
                         <c:set var="cadre2" value="${cadreMap.get(npUnitAdminCadre.cadreId)}"/>
-                        <mytag:cadre cadreId="${cadre2.id}" realname="${cm:getUserById(cadre2.userId).realname}"/>
+                        <t:cadre cadreId="${cadre2.id}" realname="${cm:getUserById(cadre2.userId).realname}"/>
                     </c:forEach>
                     <c:if test="${vs.count%2==0}">
                         </td></tr>

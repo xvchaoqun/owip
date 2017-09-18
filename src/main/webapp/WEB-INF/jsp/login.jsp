@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta charset="utf-8"/>
 <title>${_plantform_name}</title>
-<link href="${ctx}/css/login.css?_=${cm:lastModified(cm:getCssFilePath("login.css"))}" rel="stylesheet" type="text/css" />
+<t:link href="/css/login.css"/>
 <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
     <script type="text/javascript">
@@ -22,14 +22,14 @@
 <body>
 <div class="top">
     <div class="w1000">
-        <div class="logo"><img src="${ctx}/img/logo.png?_=${cm:lastModified(cm:getImgFilePath("logo.png"))}" /></div>
+        <div class="logo"><t:img src="/img/logo.png"/></div>
         <div class="txt">${_plantform_name}</div>
     </div>
 </div>
 <div class="login_box ${sysConfig.displayLoginMsg?'':'no-msg'}">
 
     <div class="bg">
-        <img src="${ctx}/img/login_bg.jpg?_=${cm:lastModified(cm:getImgFilePath("login_bg.jpg"))}" />
+        <t:img src="/img/login_bg.jpg"/>
     </div>
     <div class="w1000 login_con">
         <div id="login" class="visible login-layout" >

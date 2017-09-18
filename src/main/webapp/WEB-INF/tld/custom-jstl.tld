@@ -26,20 +26,11 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Integer getMenuCacheCount(java.lang.String)</function-signature>
 	</function>
+
 	<function>
-		<name>getJsFilePath</name>
+		<name>getAbsolutePath</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.String getJsFilePath(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>getImgFilePath</name>
-		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.String getImgFilePath(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>getCssFilePath</name>
-		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.String getCssFilePath(java.lang.String)</function-signature>
+		<function-signature>java.lang.String getAbsolutePath(java.lang.String)</function-signature>
 	</function>
 
 	<function>

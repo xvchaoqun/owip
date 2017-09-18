@@ -17,12 +17,12 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/approverType_batchDel"
              data-url-co="${ctx}/approverType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="vspace-12"></div>
                 <div class="buttons">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover">

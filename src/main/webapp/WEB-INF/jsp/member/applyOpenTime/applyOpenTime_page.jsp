@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main padding-12 no-padding-left no-padding-right">
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
-                                    <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+                                    <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                                         <input type="hidden" name="cls" value="${param.cls}">
                                         <select name="type" data-rel="select2" data-placeholder="请选择阶段">
                                             <option></option>
@@ -51,7 +51,7 @@ pageEncoding="UTF-8" %>
                                             </shiro:hasPermission>
 
                                         </div>
-                                    </mytag:sort-form>
+                                    </t:sort-form>
                                     <div class="space-4"></div>
                                     <c:if test="${commonList.recNum>0}">
                                         <table class="table table-actived table-striped table-bordered table-hover">

@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/cadreTutor_batchDel"
              data-url-co="${ctx}/cadreTutor_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="cadreId" type="text" value="${param.cadreId}"
                        placeholder="请输入所属干部">
                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover">

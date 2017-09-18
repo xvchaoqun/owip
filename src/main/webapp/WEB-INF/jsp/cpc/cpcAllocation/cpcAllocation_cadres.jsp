@@ -5,7 +5,7 @@
   <h3>${unitType} - ${adminLevel.name} - ${isMainPost?"全职":"兼职"}</h3>
 </div>
 <div class="modal-body">
-<mytag:cpc_cadres cadrePosts="${cadrePosts}"/>
+<t:cpc_cadres cadrePosts="${cadrePosts}"/>
 </div>
 <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>

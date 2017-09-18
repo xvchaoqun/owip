@@ -40,7 +40,7 @@
 
                     <td>${sysUser.code}</td>
                     <td>
-                        <mytag:cadre cadreId="${passport.cadreId}" realname="${sysUser.realname}"/>
+                        <t:cadre cadreId="${passport.cadreId}" realname="${sysUser.realname}"/>
                     </td>
                     <td>${cadre.title}</td>
                     <td>${postMap.get(cadre.postId).name}</td>

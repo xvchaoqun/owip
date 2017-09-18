@@ -1137,12 +1137,14 @@ public class PcsPrExportService extends BaseMapper {
      */
     public XSSFWorkbook exportSchoolList(int configId) throws IOException {
 
-        String filename = "prList-3.xlsx";
+        String filename = "prList-3_1.xlsx";
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, SystemConstants.PCS_STAGE_THIRD);
+        // 使用阶段二的数据？
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId,
+                SystemConstants.PCS_STAGE_SECOND);
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
@@ -1171,9 +1173,9 @@ public class PcsPrExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
 
-            /*// 工作证号
+            // 工作证号
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getCode());*/
+            cell.setCellValue(bean.getCode());
 
             // 被推荐人姓名
             cell = row.getCell(column++);
@@ -1182,6 +1184,14 @@ public class PcsPrExportService extends BaseMapper {
             // 单位
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(bean.getUnit()));
+
+            // 岗位类别
+            cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getProPost()));
+
+            // 岗位子类别
+            /*cell = row.getCell(column++);
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getUnit()));*/
 
             // 性别
             String gender = null;

@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/branchMember_batchDel"
              data-url-co="${ctx}/branchMember_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input class="form-control search-query" name="groupId" type="text" value="${param.groupId}"
                        placeholder="请输入所属支部委员会">
                 <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-actived table-striped table-bordered table-hover">

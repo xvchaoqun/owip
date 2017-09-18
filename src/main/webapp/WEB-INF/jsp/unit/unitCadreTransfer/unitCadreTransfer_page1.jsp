@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/unitCadreTransfer_batchDel"
              data-url-co="${ctx}/unitCadreTransfer_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/unitCadreTransferGroup_selects"
                         name="groupId" data-placeholder="请选择所属分组">
                     <option value="${unitCadreTransferGroup.id}">${unitCadreTransferGroup.name}</option>
@@ -58,7 +58,7 @@ pageEncoding="UTF-8" %>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-actived table-striped table-bordered table-hover">

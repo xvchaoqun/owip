@@ -43,7 +43,7 @@
                         <tr>
                             <td nowrap>${sysUser.code}</td>
                             <td nowrap>
-                            <mytag:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
+                            <t:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>
                             </td>
                             <td nowrap>${cadre.title}</td>
                             <td nowrap>${adminLevelMap.get(cadre.typeId).name}</td>

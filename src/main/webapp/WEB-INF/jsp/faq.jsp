@@ -9,14 +9,13 @@
   <meta charset="utf-8"/>
   <title>${_plantform_name}</title>
   <link href="${ctx}/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
-<%--  <link rel="stylesheet" href="${ctx}/extend/css/bootstrap-theme-3.3.5.css" />--%>
-  <link href="${ctx}/extend/css/faq.css" rel="stylesheet" type="text/css" />
+  <t:link href="/extend/css/faq.css"/>
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
 </head>
 <body style="background-color: #f8f8f8">
 <div class="top">
   <div class="w1000">
-    <div class="logo"><img src="${ctx}/img/logo.png?_=${cm:lastModified(cm:getImgFilePath("logo.png"))}" /></div>
+    <div class="logo"><t:img src="/img/logo.png"/></div>
     <div class="txt">${_plantform_name}</div>
   </div>
 </div>

@@ -51,7 +51,7 @@
                             </div>
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
-                                    <mytag:sort-form css="form-horizontal " id="searchForm">
+                                    <t:sort-form css="form-horizontal " id="searchForm">
                                         <div class="row">
                                             <div class="col-xs-4">
                                                 <div class="form-group">
@@ -117,7 +117,7 @@
                                                 </button>
                                             </c:if>
                                         </div>
-                                    </mytag:sort-form>
+                                    </t:sort-form>
                                 </div>
                             </div>
                         </div>

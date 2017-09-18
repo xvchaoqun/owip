@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/metaType_batchDel"
              data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/metaClass_selects"
                         name="classId" data-placeholder="请输入分类名称">
                     <option value="${metaClass.id}">${metaClass.name}</option>
@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
                      </shiro:hasPermission>
                     </c:if>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <c:set var="_query2" value="${not empty param.classId && empty param.name && empty param.code && empty param.sort}"/>
             <c:if test="${commonList.recNum>0}">
@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
                             </label>
                         </th>
 							<th>所属分类</th>
-                            <mytag:sort-th field="name">名称</mytag:sort-th>
+                            <t:sort-th field="name">名称</t:sort-th>
 							<th>代码</th>
 							<th>布尔属性</th>
 							<th>附加属性</th>

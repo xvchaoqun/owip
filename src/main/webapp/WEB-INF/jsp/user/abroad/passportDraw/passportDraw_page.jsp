@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
-            <mytag:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
+            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="vspace-12"></div>
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/passportDraw_select"><i
@@ -14,7 +14,7 @@
                        data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_PASSPORT_DRAW_NOTE}">
                         <i class="fa fa-info-circle"></i> 申请说明</a>
                 </div>
-            </mytag:sort-form>
+            </t:sort-form>
             <div class="space-4"></div>
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">

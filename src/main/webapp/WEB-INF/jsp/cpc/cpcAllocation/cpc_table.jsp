@@ -92,7 +92,7 @@
         <td class=xl6424425 width=42>${bean.mainNum}</td>
         <td class=xl6424425 width=57>${bean.mainCount}</td>
         <td class=xl6924425 width=116>
-          <mytag:cpc_cadres cadrePosts="${bean.mains}"/>
+          <t:cpc_cadres cadrePosts="${bean.mains}"/>
         </td>
         <td class=xl6824425 width=57>
           <c:if test="${bean.mainLack==0}">0</c:if>
@@ -103,7 +103,7 @@
         <td class=xl6724425 width=42>${bean.viceNum}</td>
         <td class=xl6424425 width=57>${bean.viceCount}</td>
         <td class=xl6924425 width=242>
-          <mytag:cpc_cadres cadrePosts="${bean.vices}"/>
+          <t:cpc_cadres cadrePosts="${bean.vices}"/>
         </td>
         <td class=xl6824425 width=57>
           <c:if test="${bean.viceLack==0}">0</c:if>
@@ -114,7 +114,7 @@
         <td class=xl7524425 width=42>${bean.noneNum}</td>
         <td class=xl6424425 width=57>${bean.noneCount}</td>
         <td class=xl6924425 width=116>
-          <mytag:cpc_cadres cadrePosts="${bean.nones}"/>
+          <t:cpc_cadres cadrePosts="${bean.nones}"/>
         </td>
         <td class=xl6824425 width=57>
           <c:if test="${bean.noneLack==0}">0</c:if>
