@@ -1239,7 +1239,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 票数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote()));
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getVote3()));
             // 手机号
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(bean.getMobile()));
