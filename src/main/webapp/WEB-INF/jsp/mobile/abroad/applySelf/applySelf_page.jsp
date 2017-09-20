@@ -28,7 +28,7 @@
                                 <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
                                 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                                 <div class="openView message-item" data-openby="page"
-                                     data-url="${ctx}/m/applySelf_view?id=${applySelf.id}&status=${status}&type=admin">
+                                     data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}&type=admin">
                                     <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
                                     <span class="sender">${sysUser.realname}</span>
                                     <span class="time">${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</span>
@@ -55,7 +55,7 @@
                                 </span>
                                 </div>
                             <%--<div class="openView message-item" data-openby="page"
-                                 data-url="${ctx}/m/applySelf_view?id=${applySelf.id}&status=${status}&type=admin">
+                                 data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}&type=admin">
                                 <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
                                 <span class="sender">【S${applySelf.id}】${fn:replace(applySelf.reason, '+++', ',')}</span>
                                 <span class="time">${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</span>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class="message-footer clearfix">
-                        <wo:page commonList="${commonList}" uri="${ctx}/m/applySelf_page" target="#page-content" model="4"/>
+                        <wo:page commonList="${commonList}" uri="${ctx}/m/abroad/applySelf_page" target="#page-content" model="4"/>
                     </div>
                 </div>
             </div>

@@ -278,7 +278,7 @@
           <c:forEach items="${applySelfs}" var="applySelf">
             <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
             <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-            <div class="popView message-item"  data-url="${ctx}/m/applySelf_detail?id=${applySelf.id}">
+            <div class="popView message-item"  data-url="${ctx}/m/abroad/applySelf_detail?id=${applySelf.id}">
               <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
               <span class="sender">
                 ${cm:formatDate(applySelf.startDate,'MM.dd')}~${cm:formatDate(applySelf.endDate,'MM.dd')}，
@@ -300,15 +300,15 @@
 <script>
   <c:if test="${param.status==0}">
   $("#agree").click(function(){
-    $.loadModal("${ctx}/m/applySelf_approval?id=${applySelf.id}&status=1&type=${param.type}");
+    $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&status=1&type=${param.type}");
   });
   $("#disagree").click(function(){
-    $.loadModal("${ctx}/m/applySelf_approval?id=${applySelf.id}&status=0&type=${param.type}");
+    $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&status=0&type=${param.type}");
   });
 </c:if>
 <c:if test="${param.status==1}">
   $("#msgBtn").click(function(){
-    $.loadModal("${ctx}/m/shortMsg_view?id=${applySelf.id}&type=applySelf");
+    $.loadModal("${ctx}/m/abroad/shortMsg_view?id=${applySelf.id}&type=applySelf");
   });
 </c:if>
 </script>

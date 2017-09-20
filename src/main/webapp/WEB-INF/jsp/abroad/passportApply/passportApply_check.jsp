@@ -122,11 +122,11 @@ pageEncoding="UTF-8"%>
             SysMsg.info("请填写应交回日期");
             return false;
         }
-        $.post("${ctx}/passportApply_agree",{id:"${param.id}", _expectDate:_expectDate },function(ret){
+        $.post("${ctx}/abroad/passportApply_agree",{id:"${param.id}", _expectDate:_expectDate },function(ret){
             if(ret.success){
                 //SysMsg.success('审批成功', '提示', function(){
 
-                    $("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    $("#item-content").load("${ctx}/abroad/passportApply_check?id=${param.id}&_="+new Date().getTime());
                 //});
                 //$("#agree_msg").show().click();
 
@@ -142,11 +142,11 @@ pageEncoding="UTF-8"%>
             SysMsg.info("请填写原因");
             return false;
         }
-        $.post("${ctx}/passportApply_disagree",{id:"${param.id}", remark:remark },function(ret){
+        $.post("${ctx}/abroad/passportApply_disagree",{id:"${param.id}", remark:remark },function(ret){
             if(ret.success){
                 //SysMsg.success('提交成功', '提示', function(){
-                    //$("#item-content").load("${ctx}/passportApply_check?id=${param.id}&_="+new Date().getTime());
-                    $.hashchange("status=2", "#${ctx}/passportApply");
+                    //$("#item-content").load("${ctx}/abroad/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    $.hashchange("status=2", "#${ctx}/abroad/passportApply");
                 //});
             }
         });

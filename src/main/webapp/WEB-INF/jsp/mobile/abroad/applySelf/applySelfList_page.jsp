@@ -28,7 +28,7 @@
                                 <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
                                 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                             <div class="openView message-item" data-openby="page"
-                                 data-url="${ctx}/m/applySelf_view?id=${applySelf.id}&status=${status}">
+                                 data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}">
                                 <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
                                 <span class="sender">${sysUser.realname}-${cadre.title}</span>
                                 <span class="time">${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</span>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="message-footer clearfix">
-                        <wo:page commonList="${commonList}" uri="${ctx}/m/applySelfList_page" target="#page-content" model="4"/>
+                        <wo:page commonList="${commonList}" uri="${ctx}/m/abroad/applySelfList_page" target="#page-content" model="4"/>
                     </div>
                 </div>
             </div>

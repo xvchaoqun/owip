@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class AbroadAuthController extends BaseController {
+@RequestMapping("/abroad")
+public class AbroadAuthController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -22,11 +23,11 @@ public class AbroadAuthController extends BaseController {
 
         switch (cls){
             case 1:
-                return "forward:/applicatType";
+                return "forward:/abroad/applicatType";
             case 2:
-                return "forward:/approverType";
+                return "forward:/abroad/approverType";
             case 3:
-                return "forward:/approvalOrder";
+                return "forward:/abroad/approvalOrder";
         }
 
         return null;

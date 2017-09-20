@@ -1,6 +1,6 @@
-package controller.analysis;
+package controller.train;
 
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainCourse;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Controller
-public class StatTrainController extends BaseController {
+public class StatTrainController extends TrainBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -5,15 +5,15 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/taiwanRecord_page"
-                 data-url-export="${ctx}/taiwanRecord_data"
+                 data-url-page="${ctx}/abroad/taiwanRecord_page"
+                 data-url-export="${ctx}/abroad/taiwanRecord_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param.recordDate ||not empty param.startDate ||not empty param.endDate || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="taiwanRecord:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/taiwanRecord_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/abroad/taiwanRecord_au"><i class="fa fa-plus"></i> 添加</a>
                     <button id="editBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/taiwanRecord_au"
+                       data-url="${ctx}/abroad/taiwanRecord_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</button>
@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-hand-paper-o"></i> 催交证件
                 </button>
                 <shiro:hasPermission name="taiwanRecord:del">
-                    <button data-url="${ctx}/taiwanRecord_batchDel"
+                    <button data-url="${ctx}/abroad/taiwanRecord_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -90,7 +90,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/taiwanRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/abroad/taiwanRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '备案时间',name: 'recordDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
@@ -137,7 +137,7 @@ pageEncoding="UTF-8" %>
                 if($.trim(rowObject.expectDate)!='') return rowObject.expectDate.substr(0,10);
 
                 return ((rowObject.expectDate==undefined)?"":rowObject.expectDate.substr(0,10)) +
-                        '&nbsp;<button data-url="${ctx}/taiwanRecord_expectDate?id={0}" class="popupBtn btn btn-primary btn-xs">'
+                        '&nbsp;<button data-url="${ctx}/abroad/taiwanRecord_expectDate?id={0}" class="popupBtn btn btn-primary btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-edit"></i> {0}</button>'.format((rowObject.expectDate==undefined)?"确认日期":"修改")
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
@@ -158,7 +158,7 @@ pageEncoding="UTF-8" %>
                     || $.trim(rowObject.expectDate)=='') return '-'
 
                     if($.trim(rowObject.handleDate)!='') return '已交证件'
-                    return '<button data-url="${ctx}/passport_au?taiwanRecordId={0}" class="popupBtn btn btn-success btn-xs">'
+                    return '<button data-url="${ctx}/abroad/passport_au?taiwanRecordId={0}" class="popupBtn btn btn-success btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-hand-paper-o"></i> 上交证件</button>'
                 }

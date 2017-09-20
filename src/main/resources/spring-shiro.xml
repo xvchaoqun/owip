@@ -131,8 +131,8 @@
                 /mobile/js/** = anon
                 /mobile/css/** = anon
                 /m_train/** = anon
-                /m/login = anon
-                /m/logout = anon
+                /m/abroad/login = anon
+                /m/abroad/logout = anon
 
                 /public/** = anon
                 /api/** = anon

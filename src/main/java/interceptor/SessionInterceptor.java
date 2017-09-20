@@ -102,11 +102,11 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
             //if (HttpUtils.isMoblie(request)) {
             if (HttpRequestDeviceUtils.isMobileDevice(request)) {
                 if(servletPath.startsWith("/login")){
-                    WebUtils.issueRedirect(request, response, "/m/login");
+                    WebUtils.issueRedirect(request, response, "/m/abroad/login");
                     return false;
                 }
                 if (!servletPath.startsWith("/m/")) { // 移动端
-                    WebUtils.issueRedirect(request, response, "/m/index");
+                    WebUtils.issueRedirect(request, response, "/m/abroad/index");
                     return false;
                 }
             } else {

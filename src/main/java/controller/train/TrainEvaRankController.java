@@ -1,6 +1,6 @@
 package controller.train;
 
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.TrainEvaRank;
 import domain.train.TrainEvaRankExample;
 import domain.train.TrainEvaRankExample.Criteria;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class TrainEvaRankController extends BaseController {
+public class TrainEvaRankController extends TrainBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

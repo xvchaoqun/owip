@@ -1,22 +1,9 @@
 package domain.pcs;
 
-import domain.party.Party;
-import domain.unit.Unit;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class PcsPrCandidateView implements Serializable {
-
-    public String getUnit(){
-
-        //return CmTag.getUnit(userId);
-
-        Party party = CmTag.getParty(partyId);
-        Unit unit = CmTag.getUnit(party.getUnitId());
-        return unit.getName();
-    }
     private Integer id;
 
     private Integer recommendId;
@@ -40,6 +27,10 @@ public class PcsPrCandidateView implements Serializable {
     private Integer vote3;
 
     private Boolean isChosen;
+
+    private Boolean isProposal;
+
+    private Integer proposalSortOrder;
 
     private Boolean isFromStage;
 
@@ -80,6 +71,8 @@ public class PcsPrCandidateView implements Serializable {
     private Byte stage;
 
     private Integer partySortOrder;
+
+    private String unitName;
 
     private static final long serialVersionUID = 1L;
 
@@ -177,6 +170,22 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setIsChosen(Boolean isChosen) {
         this.isChosen = isChosen;
+    }
+
+    public Boolean getIsProposal() {
+        return isProposal;
+    }
+
+    public void setIsProposal(Boolean isProposal) {
+        this.isProposal = isProposal;
+    }
+
+    public Integer getProposalSortOrder() {
+        return proposalSortOrder;
+    }
+
+    public void setProposalSortOrder(Integer proposalSortOrder) {
+        this.proposalSortOrder = proposalSortOrder;
     }
 
     public Boolean getIsFromStage() {
@@ -337,5 +346,13 @@ public class PcsPrCandidateView implements Serializable {
 
     public void setPartySortOrder(Integer partySortOrder) {
         this.partySortOrder = partySortOrder;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName == null ? null : unitName.trim();
     }
 }

@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.TaiwanRecord;
 import domain.abroad.TaiwanRecordExample;
 import domain.abroad.TaiwanRecordExample.Criteria;
@@ -37,7 +37,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class TaiwanRecordController extends BaseController {
+@RequestMapping("/abroad")
+public class TaiwanRecordController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

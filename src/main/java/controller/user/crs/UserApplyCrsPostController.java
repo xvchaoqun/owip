@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserApplyCrsPostController extends BaseController {
+public class UserApplyCrsPostController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

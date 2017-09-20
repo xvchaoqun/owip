@@ -17,7 +17,7 @@
 </div>
 <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/passport_au" id="modalForm" method="post"
+    <form class="form-horizontal" action="${ctx}/abroad/passport_au" id="modalForm" method="post"
           enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
         <input type="hidden" name="applyId" value="${param.applyId}">
@@ -175,7 +175,7 @@
             $.tip({$form: $("#modalForm"), field: "classId", msg: "请选择证件", my: 'bottom center', at: 'top center'});
             return;
         }
-        $.post("${ctx}/passport_check", {cadreId: cadreId, classId: classId}, function (ret) {
+        $.post("${ctx}/abroad/passport_check", {cadreId: cadreId, classId: classId}, function (ret) {
 
             if (ret.success) {
 

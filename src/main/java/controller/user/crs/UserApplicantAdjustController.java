@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsApplicantAdjustView;
 import domain.crs.CrsApplicantAdjustViewExample;
 import domain.crs.CrsPost;
@@ -28,7 +28,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserApplicantAdjustController extends BaseController {
+public class UserApplicantAdjustController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

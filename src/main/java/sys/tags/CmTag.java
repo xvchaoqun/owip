@@ -36,6 +36,7 @@ import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaRank;
+import domain.train.TrainEvaTable;
 import domain.unit.Unit;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -79,6 +80,7 @@ import service.sys.SysUserService;
 import service.train.TrainCourseService;
 import service.train.TrainEvaNormService;
 import service.train.TrainEvaRankService;
+import service.train.TrainEvaTableService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
@@ -100,49 +102,50 @@ import java.util.Set;
 public class CmTag {
 
     static ApplicationContext context = ApplicationContextSupport.getContext();
-    static CacheService cacheService = (CacheService) context.getBean("cacheService");
-    static HtmlFragmentService htmlFragmentService = (HtmlFragmentService) context.getBean("htmlFragmentService");
-    static HtmlFragmentMapper htmlFragmentMapper = (HtmlFragmentMapper) context.getBean("htmlFragmentMapper");
-    static SysConfigService sysConfigService = (SysConfigService) context.getBean("sysConfigService");
+    static CacheService cacheService = context.getBean(CacheService.class);
+    static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
+    static HtmlFragmentMapper htmlFragmentMapper = context.getBean(HtmlFragmentMapper.class);
+    static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
 
-    static SysUserService sysUserService = (SysUserService) context.getBean("sysUserService");
-    static CadreService cadreService = (CadreService) context.getBean("cadreService");
-    static CadrePostService cadrePostService = (CadrePostService) context.getBean("cadrePostService");
-    static CadreAdminLevelService cadreAdminLevelService = (CadreAdminLevelService) context.getBean("cadreAdminLevelService");
-    static CadreFamliyService cadreFamliyService = (CadreFamliyService) context.getBean("cadreFamliyService");
-    static SysResourceService sysResourceService = (SysResourceService) context.getBean("sysResourceService");
-    static MetaTypeService metaTypeService = (MetaTypeService) context.getBean("metaTypeService");
-    static MetaClassService metaClassService = (MetaClassService) context.getBean("metaClassService");
-    static RetireApplyService retireApplyService = (RetireApplyService) context.getBean("retireApplyService");
-    static DispatchService dispatchService = (DispatchService) context.getBean("dispatchService");
-    static DispatchCadreService dispatchCadreService = (DispatchCadreService) context.getBean("dispatchCadreService");
-    static DispatchUnitService dispatchUnitService = (DispatchUnitService) context.getBean("dispatchUnitService");
-    static DispatchTypeService dispatchTypeService = (DispatchTypeService) context.getBean("dispatchTypeService");
-    static ApprovalLogService approvalLogService = (ApprovalLogService) context.getBean("approvalLogService");
-    static PassportMapper passportMapper = (PassportMapper) context.getBean("passportMapper");
-    static ApplySelfService applySelfService = (ApplySelfService) context.getBean("applySelfService");
-    static UnitService unitService = (UnitService) context.getBean("unitService");
-    static PartyService partyService = (PartyService) context.getBean("partyService");
-    static PartyMemberService partyMemberService = (PartyMemberService) context.getBean("partyMemberService");
-    static BranchService branchService = (BranchService) context.getBean("branchService");
-    static BranchMemberService branchMemberService = (BranchMemberService) context.getBean("branchMemberService");
-    static SafeBoxService safeBoxService = (SafeBoxService) context.getBean("safeBoxService");
-    static PassportDrawService passportDrawService = (PassportDrawService) context.getBean("passportDrawService");
-    // getBean("IAbroadMapper")， I要大写？
-    static IAbroadMapper iAbroadMapper = (IAbroadMapper) context.getBean("IAbroadMapper");
-    static CadreAdditionalPostService cadreAdditionalPostService = (CadreAdditionalPostService) context.getBean("cadreAdditionalPostService");
-    static CadreEduService cadreEduService = (CadreEduService) context.getBean("cadreEduService");
-    static DispatchCadreRelateService dispatchCadreRelateService = (DispatchCadreRelateService) context.getBean("dispatchCadreRelateService");
-    static ModifyCadreAuthService modifyCadreAuthService = (ModifyCadreAuthService) context.getBean("modifyCadreAuthService");
+    static SysUserService sysUserService = context.getBean(SysUserService.class);
+    static CadreService cadreService = context.getBean(CadreService.class);
+    static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
+    static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
+    static CadreFamliyService cadreFamliyService = context.getBean(CadreFamliyService.class);
+    static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
+    static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
+    static MetaClassService metaClassService = context.getBean(MetaClassService.class);
+    static RetireApplyService retireApplyService = context.getBean(RetireApplyService.class);
+    static DispatchService dispatchService = context.getBean(DispatchService.class);
+    static DispatchCadreService dispatchCadreService = context.getBean(DispatchCadreService.class);
+    static DispatchUnitService dispatchUnitService = context.getBean(DispatchUnitService.class);
+    static DispatchTypeService dispatchTypeService = context.getBean(DispatchTypeService.class);
 
-    static CisInspectorService cisInspectorService = (CisInspectorService) context.getBean("cisInspectorService");
-    static CisInspectObjService cisInspectObjService = (CisInspectObjService) context.getBean("cisInspectObjService");
-    static TrainEvaNormService trainEvaNormService = (TrainEvaNormService) context.getBean("trainEvaNormService");
-    static TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
-    static TrainCourseService trainCourseService = (TrainCourseService) context.getBean("trainCourseService");
+    static UnitService unitService = context.getBean(UnitService.class);
+    static PartyService partyService = context.getBean(PartyService.class);
+    static PartyMemberService partyMemberService = context.getBean(PartyMemberService.class);
+    static BranchService branchService = context.getBean(BranchService.class);
+    static BranchMemberService branchMemberService = context.getBean(BranchMemberService.class);
 
-    static CrsRequireRuleService crsRequireRuleService = (CrsRequireRuleService) context.getBean("crsRequireRuleService");
-    static CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
+    static CadreAdditionalPostService cadreAdditionalPostService = context.getBean(CadreAdditionalPostService.class);
+    static CadreEduService cadreEduService = context.getBean(CadreEduService.class);
+    static DispatchCadreRelateService dispatchCadreRelateService = context.getBean(DispatchCadreRelateService.class);
+    static ModifyCadreAuthService modifyCadreAuthService = context.getBean(ModifyCadreAuthService.class);
+
+    static CisInspectorService cisInspectorService = context.getBean(CisInspectorService.class);
+    static CisInspectObjService cisInspectObjService = context.getBean(CisInspectObjService.class);
+
+    public static <T> T getBean(Class<T> cls){
+
+        T bean = null;
+        try {
+            bean = context.getBean(cls);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return bean;
+    }
 
     public static SysConfig getSysConfig() {
 
@@ -451,6 +454,8 @@ public class CmTag {
 
     public static ApproverTypeBean getApproverTypeBean(Integer userId) {
 
+        ApplySelfService applySelfService = context.getBean(ApplySelfService.class);
+
         return applySelfService.getApproverTypeBean(userId);
     }
 
@@ -577,52 +582,67 @@ public class CmTag {
     }
 
     public static ApplySelf getApplySelf(Integer applyId) {
+
+        ApplySelfService applySelfService = context.getBean(ApplySelfService.class);
         return applySelfService.get(applyId);
     }
 
     public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
+
+        // getBean("IAbroadMapper")， I要大写？
+        IAbroadMapper iAbroadMapper = (IAbroadMapper) context.getBean("IAbroadMapper");
         return iAbroadMapper.getApplySelfModifyList(applyId);
     }
 
     // 获取因私出国申请记录 初审 结果
     public static Integer getAdminFirstTrialStatus(Integer applyId) {
+
+        ApprovalLogService approvalLogService = context.getBean(ApprovalLogService.class);
         return approvalLogService.getAdminFirstTrialStatus(applyId);
     }
 
     public static Map getApprovalTdBeanMap(Integer applySelfId) {
 
+        ApplySelfService applySelfService = context.getBean(ApplySelfService.class);
         return applySelfService.getApprovalTdBeanMap(applySelfId);
     }
 
     // 获取因私出国申请记录 的评审log
     public static List<ApprovalLog> findApprovalLogs(Integer applyId) {
+
+        ApprovalLogService approvalLogService = context.getBean(ApprovalLogService.class);
         return approvalLogService.findByApplyId(applyId);
     }
 
     public static Map<Integer, SafeBox> getSafeBoxMap() {
 
+        SafeBoxService safeBoxService = context.getBean(SafeBoxService.class);
         return safeBoxService.findAll();
     }
 
     // 证件
     public static Passport getPassport(Integer id) {
 
+        PassportMapper passportMapper = context.getBean(PassportMapper.class);
         return passportMapper.selectByPrimaryKey(id);
     }
 
     // 拒绝归还证件借出记录
     public static PassportDraw getRefuseReturnPassportDraw(Integer passportId) {
 
+        PassportDrawService passportDrawService = context.getBean(PassportDrawService.class);
         return passportDrawService.getRefuseReturnPassportDraw(passportId);
     }
 
     public static List<PassportDrawFile> getPassportDrawFiles(Integer id) {
 
+        PassportDrawService passportDrawService = context.getBean(PassportDrawService.class);
         return passportDrawService.getPassportDrawFiles(id);
     }
 
     public static ApprovalLog getApprovalLog(Integer applySelfId, Integer approverTypeId) {
 
+        ApprovalLogService approvalLogService = context.getBean(ApprovalLogService.class);
         return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
     }
 
@@ -670,17 +690,30 @@ public class CmTag {
         return cisInspectorService.getInspector(id);
     }
 
+    public static TrainEvaTable getTrainEvaTable(Integer evaTableId) {
+
+        TrainEvaTableService trainEvaTableService = context.getBean(TrainEvaTableService.class);
+
+        return trainEvaTableService.findAll().get(evaTableId);
+    }
+
     public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId) {
+
+        TrainEvaNormService trainEvaNormService = (TrainEvaNormService) context.getBean("trainEvaNormService");
 
         return trainEvaNormService.findAll(evaTableId);
     }
 
     public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId) {
 
+        TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
+
         return trainEvaRankService.findAll(evaTableId);
     }
 
     public static Integer evaIsClosed(Integer courseId) {
+
+        TrainCourseService trainCourseService = (TrainCourseService) context.getBean("trainCourseService");
 
         return trainCourseService.evaIsClosed(courseId);
     }
@@ -688,16 +721,21 @@ public class CmTag {
 
     public static Map<Integer, CrsRequireRule> getCrsRequireRules(Integer postRequireId) {
 
+        CrsRequireRuleService crsRequireRuleService = (CrsRequireRuleService) context.getBean("crsRequireRuleService");
+
         return crsRequireRuleService.findAll(postRequireId);
     }
 
     public static CrsPost getCrsPost(Integer id) {
+
+        CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
 
         return crsPostService.get(id);
     }
 
     public static List<CrsPost> getCrsPost(List<Integer> ids) {
 
+        CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
         return crsPostService.get(ids);
     }
 

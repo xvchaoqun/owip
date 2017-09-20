@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-sm-8 infobox-container">
                     <shiro:lacksRole name="${ROLE_CADREADMIN}">
-                    <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/applySelfList?status=0">
+                    <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/abroad/applySelfList?status=0">
                         <div class="infobox-icon">
                             <i class="ace-icon fa fa-history"></i>
                         </div>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <div class="ahref infobox infobox-green" data-url="${ctx}/m/applySelfList?status=1">
+                    <div class="ahref infobox infobox-green" data-url="${ctx}/m/abroad/applySelfList?status=1">
                         <div class="infobox-icon">
                             <i class="ace-icon fa fa-check-square-o"></i>
                         </div>
@@ -35,7 +35,7 @@
                     </div>
                     </shiro:lacksRole>
                     <shiro:hasRole name="${ROLE_CADREADMIN}">
-                        <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/applySelf?status=0">
+                        <div class="ahref infobox infobox-blue2" data-url="${ctx}/m/abroad/applySelf?status=0">
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-history"></i>
                             </div>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="ahref infobox infobox-green" data-url="${ctx}/m/applySelf?status=1">
+                        <div class="ahref infobox infobox-green" data-url="${ctx}/m/abroad/applySelf?status=1">
                             <div class="infobox-icon">
                                 <i class="ace-icon fa fa-check-square-o"></i>
                             </div>

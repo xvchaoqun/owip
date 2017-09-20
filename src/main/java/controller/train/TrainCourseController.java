@@ -2,7 +2,7 @@ package controller.train;
 
 import bean.XlsTrainCourse;
 import bean.XlsUpload;
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainCourse;
 import domain.train.TrainCourseExample;
@@ -46,10 +46,9 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class TrainCourseController extends BaseController {
+public class TrainCourseController extends TrainBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
 
     @RequiresPermissions("trainCourse:list")
     @RequestMapping("/trainCourse")
@@ -162,6 +161,7 @@ public class TrainCourseController extends BaseController {
     public String trainCourse_evaTable(int trainId, ModelMap modelMap) {
 
         modelMap.put("train", trainMapper.selectByPrimaryKey(trainId));
+        modelMap.put("trainEvaTableMap", trainEvaTableService.findAll());
 
         return "train/trainCourse/trainCourse_evaTable";
     }

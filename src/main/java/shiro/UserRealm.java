@@ -17,7 +17,6 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.LoginService;
 import service.SpringProps;
-import service.abroad.ApplySelfService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
@@ -30,8 +29,6 @@ public class UserRealm extends AuthorizingRealm {
     private SpringProps springProps;
     @Autowired
     private SysUserService userService;
-    @Autowired
-    private ApplySelfService applySelfService;
     @Autowired
     private LoginService loginService;
     @Autowired
@@ -95,14 +92,6 @@ public class UserRealm extends AuthorizingRealm {
             salt = uv.getSalt();
         }
         Integer userId = uv.getId();
-
-        /*ApproverTypeBean approverTypeBean = applySelfService.getApproverTypeBean(userId);
-        Set<String> roles = userService.findRoles(username);
-        Set<String> permissions = userService.findPermissions(username);
-        Set<String> _permissions = new HashSet<>(); /// 拷贝， 防止缓存被篡改
-        _permissions.addAll(permissions);
-        _permissions = filterMenus(approverTypeBean, roles, _permissions);*/
-
         ShiroUser shiroUser = new ShiroUser(userId, username, uv.getCode(), uv.getRealname(), uv.getType());
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现

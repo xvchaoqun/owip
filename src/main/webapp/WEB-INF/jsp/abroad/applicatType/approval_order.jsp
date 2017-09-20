@@ -14,7 +14,7 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <form class="form-horizontal no-footer" action="${ctx}/applicatType/approvalOrder" id="modalForm" method="post">
+                    <form class="form-horizontal no-footer" action="${ctx}/abroad/applicatType/approvalOrder" id="modalForm" method="post">
                         <input type="hidden" name="applicatTypeId" value="${applicatType.id}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">审批人身份</label>
@@ -48,9 +48,9 @@
         <div class="space-10"></div>
     注：因私出国境审批时，审批顺序由上至下
     <div class="popTableDiv"
-         data-url-page="${ctx}/applicatType/approvalOrder?id=${applicatType.id}"
-         data-url-del="${ctx}/applicatType/approvalOrder_del"
-         data-url-co="${ctx}/applicatType/approvalOrder_changeOrder?applicatTypeId=${applicatType.id}">
+         data-url-page="${ctx}/abroad/applicatType/approvalOrder?id=${applicatType.id}"
+         data-url-del="${ctx}/abroad/applicatType/approvalOrder_del"
+         data-url-co="${ctx}/abroad/applicatType/approvalOrder_changeOrder?applicatTypeId=${applicatType.id}">
         <c:if test="${commonList.recNum>0}">
             <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
@@ -93,7 +93,7 @@
                 </tbody>
             </table>
                     <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                        <wo:page commonList="${commonList}" uri="${ctx}/applicatType/approvalOrder" target="#modal .modal-content"
+                        <wo:page commonList="${commonList}" uri="${ctx}/abroad/applicatType/approvalOrder" target="#modal .modal-content"
                                  pageNum="5"
                                  model="3"/>
                     </c:if>

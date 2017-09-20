@@ -1,11 +1,14 @@
 package service.pcs;
 
 import domain.pcs.PcsPrRecommend;
+import domain.pcs.PcsPrRecommendExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
+
+import java.util.List;
 
 @Service
 public class PcsPrOwService extends BaseMapper {
@@ -44,13 +47,22 @@ public class PcsPrOwService extends BaseMapper {
         }
     }
 
-   /* // 判断是否下发
-    public boolean hasIssue(int configId, byte stage) {
+    // 组织部未审核或未审核通过的推荐列表 （用于三上所有的分党委提交推荐之后）
+    public List<PcsPrRecommend> notPassPCSPrRecommends(int configId, byte stage){
 
-        PcsIssueExample example = new PcsIssueExample();
+        PcsPrRecommendExample example = new PcsPrRecommendExample();
         example.createCriteria().andConfigIdEqualTo(configId)
-                .andStageEqualTo(stage);
+                .andStageEqualTo(stage).andStatusNotEqualTo(SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
 
-        return pcsIssueMapper.countByExample(example) > 0;
-    }*/
+        return pcsPrRecommendMapper.selectByExample(example);
+    }
+    // 组织部未审核或未审核通过的推荐列表 （用于三上所有的分党委提交推荐之后）
+    public long notPassPCSPrRecommendsCount(int configId, byte stage){
+
+        PcsPrRecommendExample example = new PcsPrRecommendExample();
+        example.createCriteria().andConfigIdEqualTo(configId)
+                .andStageEqualTo(stage).andStatusNotEqualTo(SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+
+        return pcsPrRecommendMapper.countByExample(example);
+    }
 }

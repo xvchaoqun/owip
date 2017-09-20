@@ -1,6 +1,6 @@
 package controller.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsPostRequire;
 import domain.crs.CrsPostRequireExample;
 import mixin.MixinUtils;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CrsPostRequireController extends BaseController {
+public class CrsPostRequireController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

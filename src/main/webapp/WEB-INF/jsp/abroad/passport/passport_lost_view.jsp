@@ -12,7 +12,7 @@
                     返回
                 </a>
                 <button id="print_proof" class="btn btn-info btn-sm" style="margin-left: 50px"><i class="fa fa-print"></i>  打印证明</button>
-                <a href="${ctx}/${param.type=='user'?'user/':''}passport_lostProof_download?id=${passport.id}" target="_blank"
+                <a href="${ctx}/${param.type=='user'?'user/':''}abroad/passport_lostProof_download?id=${passport.id}" target="_blank"
                    class="btn btn-primary btn-sm"><i class="fa fa-download"></i> 下载</a>
                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
                     <button id="updateProof" class="btn btn-warning btn-sm"><i class="fa fa-upload"></i>  重新上传</button>
@@ -35,6 +35,6 @@
         $.print('${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}');
     });
     $("#updateProof").click(function(){
-        $.loadModal("${ctx}/updateLostProof?id=${passport.id}")
+        $.loadModal("${ctx}/abroad/updateLostProof?id=${passport.id}")
     });
 </script>

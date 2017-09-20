@@ -28,6 +28,10 @@ public class PcsPrCandidate implements Serializable {
 
     private Boolean isChosen;
 
+    private Boolean isProposal;
+
+    private Integer proposalSortOrder;
+
     private Boolean isFromStage;
 
     private Integer sortOrder;
@@ -132,6 +136,22 @@ public class PcsPrCandidate implements Serializable {
 
     public void setIsChosen(Boolean isChosen) {
         this.isChosen = isChosen;
+    }
+
+    public Boolean getIsProposal() {
+        return isProposal;
+    }
+
+    public void setIsProposal(Boolean isProposal) {
+        this.isProposal = isProposal;
+    }
+
+    public Integer getProposalSortOrder() {
+        return proposalSortOrder;
+    }
+
+    public void setProposalSortOrder(Integer proposalSortOrder) {
+        this.proposalSortOrder = proposalSortOrder;
     }
 
     public Boolean getIsFromStage() {

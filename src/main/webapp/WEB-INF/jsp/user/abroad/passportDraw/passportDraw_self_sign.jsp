@@ -37,7 +37,7 @@
         </div>
             <c:if test="${param.auth!='admin'}">
         <div class="center" style="margin-top: 40px">
-            <button  data-url="${ctx}/user/passportDraw_self_select?applyId=${param.applyId}"
+            <button  data-url="${ctx}/user/abroad/passportDraw_self_select?applyId=${param.applyId}"
                     class="openView btn btn-default btn-block" style="font-size: 30px">返回选择证件</button>
         </div>
             </c:if>
@@ -65,7 +65,7 @@
             return false;
         }
 
-        $("#item-content").load("${ctx}/user/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=0");
+        $("#item-content").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=0");
     });
     $("#needSign").click(function(){
         if($("#agree").is(":checked") == false){
@@ -73,7 +73,7 @@
             return false;
         }
 
-        $("#item-content").load("${ctx}/user/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=1");
+        $("#item-content").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=1");
     });
 </c:if>
 <c:if test="${param.type=='view'}">

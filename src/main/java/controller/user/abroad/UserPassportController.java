@@ -1,6 +1,6 @@
 package controller.user.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawExample;
@@ -41,8 +41,8 @@ import java.util.Map;
  * Created by fafa on 2016/3/20.
  */
 @Controller
-@RequestMapping("/user")
-public class UserPassportController extends BaseController {
+@RequestMapping("/user/abroad")
+public class UserPassportController extends AbroadBaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport")
@@ -52,10 +52,10 @@ public class UserPassportController extends BaseController {
 
         modelMap.put("type", type);
         if (type == 1) {
-            return "forward:/user/passportList_page";
+            return "forward:/user/abroad/passportList_page";
         }
 
-        return "forward:/user/passportApply";
+        return "forward:/user/abroad/passportApply";
     }
 
     @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)

@@ -11,7 +11,7 @@
                     <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportDraw?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -20,7 +20,7 @@
                     <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_TW},${CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportDraw?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
@@ -29,14 +29,14 @@
                     <c:set var="countCacheKeys" value="${CACHEKEY_PASSPORT_DRAW_TYPE_OTHER}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportDraw?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务
                             <c:if test="${cacheCount>0}">
                                 <span class="badge badge-warning">${cacheCount}</span>
                             </c:if>
                         </a>
                     </li>
                     <li class="<c:if test="${type==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportDraw?type=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                 </ul>
 
@@ -44,12 +44,12 @@
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${type!=-1}">
-                            <button data-url="${ctx}/passportDraw_au?type=${type}"
+                            <button data-url="${ctx}/abroad/passportDraw_au?type=${type}"
                                     class="popupBtn btn btn-primary btn-sm">
                                 <i class="fa fa-plus"></i> 申请
                             </button>
                             </c:if>
-                            <button data-url="${ctx}/passportDraw_view" data-open-by="page"
+                            <button data-url="${ctx}/abroad/passportDraw_view" data-open-by="page"
                                     class="jqOpenViewBtn btn btn-success btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
@@ -59,11 +59,11 @@
                                 </button>
                             </c:if>
                             <c:if test="${type>=0}">
-                                <button id="resetReturnDateBtn" data-url="${ctx}/reset_passportDraw_returnDate"
+                                <button id="resetReturnDateBtn" data-url="${ctx}/abroad/reset_passportDraw_returnDate"
                                         class="jqOpenViewBtn btn btn-info btn-sm">
                                     <i class="fa fa-edit"></i> 修改归还日期
                                 </button>
-                                <button id="resetDrawStatusBtn" data-url="${ctx}/reset_passportDraw_return"
+                                <button id="resetDrawStatusBtn" data-url="${ctx}/abroad/reset_passportDraw_return"
                                         data-title="重置归还状态"
                                         data-msg="确认重置该证件为未归还状态？"
                                         class="jqItemBtn btn btn-info btn-sm">
@@ -73,36 +73,36 @@
                                 <shiro:hasPermission name="passportDraw:del">
                                     <button id="delBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="证件未领取才可以删除"
-                                       data-url="${ctx}/passportDraw_batchDel" data-title="删除申请使用证件申请"
+                                       data-url="${ctx}/abroad/passportDraw_batchDel" data-title="删除申请使用证件申请"
                                        data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${type==-1}">
                                 <shiro:hasPermission name="passportDraw:del">
                                     <a class="jqBatchBtn btn btn-success btn-sm"
-                                       data-url="${ctx}/passportDraw_batchUnDel" data-title="找回已删除申请使用证件申请"
+                                       data-url="${ctx}/abroad/passportDraw_batchUnDel" data-title="找回已删除申请使用证件申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
 
                                 <shiro:hasPermission name="passportDraw:del">
                                     <button id="realDelBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="未审批的记录可以删除"
-                                            data-url="${ctx}/passportDraw_batchDel?isReal=1" data-title="删除申请使用证件申请"
+                                            data-url="${ctx}/abroad/passportDraw_batchDel?isReal=1" data-title="删除申请使用证件申请"
                                             data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 完全删除</button>
                                 </shiro:hasPermission>
                             </c:if>
                         <c:if test="${type!=-1}">
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-url="${ctx}/passportDraw_data?export=1&exportType=${type}"
+                               data-url="${ctx}/abroad/passportDraw_data?export=1&exportType=${type}"
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                     class="fa fa-download"></i> 导出</a>
                         </c:if>
                         </div>
                         <div class="myTableDiv"
-                             data-url-page="${ctx}/passportDraw"
-                             data-url-del="${ctx}/passportDraw_del"
-                             data-url-bd="${ctx}/passportDraw_batchDel"
-                             data-url-co="${ctx}/passportDraw_changeOrder"
+                             data-url-page="${ctx}/abroad/passportDraw"
+                             data-url-del="${ctx}/abroad/passportDraw_del"
+                             data-url-bd="${ctx}/abroad/passportDraw_batchDel"
+                             data-url-co="${ctx}/abroad/passportDraw_changeOrder"
                              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                             <c:set var="_query"
                                    value="${not empty param.cadreId ||not empty param._applyDate || not empty param.code}"/>
@@ -186,7 +186,7 @@
     });
 
     $("#jqGrid").jqGrid({
-        url: '${ctx}/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/abroad/passportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '编号',
@@ -230,7 +230,7 @@
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
                     return '<a class="openView" href="javascript:;" ' +
-                            'data-url="${ctx}/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
+                            'data-url="${ctx}/abroad/applySelf_view?id={0}">S{1}</a>'.format(cellvalue, cellvalue);
                 }, title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
                 return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="出行时间：'
                         + rawObject.applySelf.startDate + '<br> 前往国家或地区：' + rawObject.applySelf.toCountry
@@ -270,7 +270,7 @@
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
                             //filesArray.push('<a class="various" href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
-                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+                            filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="{ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                         }
                     }*/
                     rowObject.files.forEach(function(file,i){
@@ -314,7 +314,7 @@
             {
                 label: '组织部审批', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${PASSPORT_DRAW_STATUS_INIT}')
-                    return '<button data-url="${ctx}/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
+                    return '<button data-url="${ctx}/abroad/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-check"></i> 组织部审批</button>';
                 else
@@ -340,7 +340,7 @@
                     return '-';
                 }
                 if (rowObject.drawStatus == '${PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
-                    return '<button data-url="${ctx}/passportDraw_draw?id={0}" class="openView btn btn-info btn-xs">'
+                    return '<button data-url="${ctx}/abroad/passportDraw_draw?id={0}" class="openView btn btn-info btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-hand-lizard-o"></i> 领取证件</button>'
                 }
@@ -405,7 +405,7 @@
                         return '拒不交回'
                     }
 
-                    return '<button data-url="${ctx}/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
+                    return '<button data-url="${ctx}/abroad/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-reply"></i> 归还证件</button>'
                 }, title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {

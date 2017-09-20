@@ -53,7 +53,7 @@
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
                                                 <td>${passport.isLent?"借出":"-"}</td>
                                                 <td><a class="openView btn btn-info btn-xs"
-                                                       data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
+                                                       data-url="${ctx}/user/abroad/passport_useLogs?type=user&id=${passport.id}">
                                                     <i class="fa fa-history"></i> 使用记录
                                                 </a></td>
                                             </tr>
@@ -116,12 +116,12 @@
                                                 <td>${cm:formatDate(passport.cancelTime,'yyyy-MM-dd')}</td>
                                                 <td>
                                                     <a class="openView btn btn-info btn-xs"
-                                                       data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
+                                                       data-url="${ctx}/user/abroad/passport_useLogs?type=user&id=${passport.id}">
                                                         <i class="fa fa-history"></i> 使用记录
                                                     </a>
                                                     <c:if  test="${passport.cancelConfirm && not empty passport.cancelPic}">
                                                         <a class="openView btn btn-success btn-xs"
-                                                           data-url="${ctx}/user/passport_cancel?id=${passport.id}">
+                                                           data-url="${ctx}/user/abroad/passport_cancel?id=${passport.id}">
                                                             <i class="fa fa-search"></i> 取消集中管理证明
                                                         </a>
                                                     </c:if>
@@ -177,11 +177,11 @@
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.lostTime,'yyyy-MM-dd')}</td>
                                                 <td><a class="openView btn btn-info btn-xs"
-                                                       data-url="${ctx}/user/passport_useLogs?type=user&id=${passport.id}">
+                                                       data-url="${ctx}/user/abroad/passport_useLogs?type=user&id=${passport.id}">
                                                     <i class="fa fa-history"></i> 使用记录
                                                 </a>
                                                     <a class="openView btn btn-success btn-xs"
-                                                       data-url="${ctx}/user/passport_lost_view?type=user&id=${passport.id}">
+                                                       data-url="${ctx}/user/abroad/passport_lost_view?type=user&id=${passport.id}">
                                                         <i class="fa fa-search"></i> 丢失证明</a>
                                                 </td>
                                             </tr>

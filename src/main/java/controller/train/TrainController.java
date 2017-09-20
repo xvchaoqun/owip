@@ -1,6 +1,6 @@
 package controller.train;
 
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainExample;
 import domain.train.TrainExample.Criteria;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class TrainController extends BaseController {
+public class TrainController extends TrainBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

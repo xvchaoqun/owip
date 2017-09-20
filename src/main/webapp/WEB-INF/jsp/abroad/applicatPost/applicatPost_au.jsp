@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${applicatPost!=null}">编辑</c:if><c:if test="${applicatPost==null}">添加</c:if>申请人职务属性分组</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/applicatPost_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/abroad/applicatPost_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${applicatPost.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">申请人身份</label>

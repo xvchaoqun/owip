@@ -25,7 +25,7 @@
       </div>
       <div class="buttons pull-right">
         <button class="openView btn btn-info btn-sm"
-                data-url="${ctx}/applySelf_yearLogs?id=${applySelf.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
+                data-url="${ctx}/abroad/applySelf_yearLogs?id=${applySelf.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
                 style="margin-left: 150px">
           <i class="fa fa-history"></i>  本年度因私出国境记录</button>
 
@@ -168,10 +168,10 @@
 <script>
 <c:if test="${param.type=='approval'}">
   $("#agree").click(function(){
-    $.loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=1");
+    $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=1");
   });
   $("#disagree").click(function(){
-    $.loadModal("${ctx}/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=0");
+    $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=0");
   });
 </c:if>
 </script>

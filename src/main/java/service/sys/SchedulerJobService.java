@@ -11,7 +11,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import persistence.SchedulerJobMapper;
+import persistence.sys.SchedulerJobMapper;
 import sys.quartz.QuartzManager;
 
 import java.util.Date;
@@ -97,7 +97,8 @@ public class SchedulerJobService {
         example.createCriteria().andIsStartedEqualTo(true);
         List<SchedulerJob> schedulerJobs = schedulerJobMapper.selectByExample(example);
 
-
+        int total = schedulerJobs.size();
+        int success = 0;
         logger.info("启动所有已开启的定时任务...");
         for (SchedulerJob schedulerJob : schedulerJobs) {
 
@@ -106,7 +107,7 @@ public class SchedulerJobService {
                 String jobName =  schedulerJob.getName();
                 QuartzManager.addJob(scheduler, jobName,
                         Class.forName(schedulerJob.getClazz()), schedulerJob.getCron());
-
+                success++;
                 logger.info("启动定时任务[{}]", jobName);
             } catch (ClassNotFoundException e) {
 
@@ -114,7 +115,7 @@ public class SchedulerJobService {
             }
         }
 
-        logger.info("启动所有已开启的定时任务...完成");
+        logger.info("启动所有已开启的定时任务(总共{}个，成功{}个)...完成", total, success);
     }
 
     @Transactional

@@ -13,7 +13,7 @@
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
     </div>
 <script>
-    $.getJSON("${ctx}/applicatType/selectCadresEscape_tree", {}, function (data) {
+    $.getJSON("${ctx}/abroad/applicatType/selectCadresEscape_tree", {}, function (data) {
         var treeData = data.tree.children;
         //console.log(treeData)
         if(treeData.length==0){

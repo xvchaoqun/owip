@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/applySelf_approval" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/abroad/applySelf_approval" id="modalForm" method="post">
         <input type="hidden" name="applySelfId" value="${param.applySelfId}">
         <input type="hidden" name="approvalTypeId" value="${param.approvalTypeId}">
         <input type="hidden" name="status" value="${param.status}">

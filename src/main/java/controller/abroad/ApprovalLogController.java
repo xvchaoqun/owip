@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("/abroad")
 public class ApprovalLogController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

@@ -1,4 +1,18 @@
 
+2017-9-20
+ALTER TABLE `pcs_config`
+	ADD COLUMN `proposal_submit_time` DATETIME NULL COMMENT '提交提案时间，精确到分钟' AFTER `remark`,
+	ADD COLUMN `proposal_support_time` DATETIME NULL COMMENT '征集附议人时间，精确到分钟' AFTER `proposal_submit_time`,
+	ADD COLUMN `proposal_support_count` INT(10) UNSIGNED NULL COMMENT '附议人数，立案标准（学校规定，附议人达到5个予以立案）' AFTER `proposal_support_time`;
+
+ALTER TABLE `pcs_pr_candidate`
+	ADD COLUMN `is_proposal` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否进入提案党代表名单，（从三上已选择的名单中选取）' AFTER `is_chosen`;
+
+ALTER TABLE `pcs_pr_candidate`
+	CHANGE COLUMN `is_proposal` `is_proposal` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否进入提案阶段，（从三上已选择的名单中选取）' AFTER `is_chosen`,
+	ADD COLUMN `proposal_sort_order` INT UNSIGNED NULL DEFAULT NULL COMMENT '进入提案阶段的党代表顺序，初始化为三上的顺序，升序排列' AFTER `is_proposal`;
+
+更新 pcs_pr_candidate_view
 
 
 2017-9-14

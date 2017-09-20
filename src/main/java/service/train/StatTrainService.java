@@ -1,4 +1,4 @@
-package service.analysis;
+package service.train;
 
 import bean.analysis.StatTrainBean;
 import domain.train.TrainCourse;
@@ -28,8 +28,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.train.TrainCourseService;
-import service.train.TrainEvaRankService;
 import sys.Utils;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
@@ -149,9 +147,11 @@ public class StatTrainService extends BaseMapper {
             int columnNum = 0;
             XSSFCellStyle thStyle = getThStyle(wb);
             createCell(wb, row, thStyle, columnNum, "序号");
+
             CellRangeAddress cellRangeAddress = ExcelTool.getCellRangeAddress(rowNum, columnNum, rowNum, columnNum + 1);
             sheet.addMergedRegion(cellRangeAddress);
             setRegionBorder(sheet, cellRangeAddress, wb);
+
             columnNum = columnNum + 2;
             for (int i = 0; i < inspectorCount; i++) {
                 createNumCell(wb, row, getThStyle(wb), columnNum++, Double.valueOf(i + 1));
@@ -186,7 +186,8 @@ public class StatTrainService extends BaseMapper {
                 createCell(wb, row, getThStyle(wb), columnNum, topNorm.getName());
                 CellRangeAddress cellRangeAddress = ExcelTool.getCellRangeAddress(rowNum, columnNum,
                         rowNum + subNormNum - 1, columnNum + (subNormNum == 0 ? 1 : 0));
-                sheet.addMergedRegion(cellRangeAddress);
+                if(subNormNum>1)
+                    sheet.addMergedRegion(cellRangeAddress);
                 setRegionBorder(sheet, cellRangeAddress, wb);
                 columnNum = columnNum + (subNormNum == 0 ? 1 : 0) + 1;
 
@@ -194,20 +195,20 @@ public class StatTrainService extends BaseMapper {
                 if (subNormNum == 0) {
                     List<Double> normScores = normScoresMap.get(topNormId);
                     for (int j = 0; j < inspectorCount; j++) {
-                        createNumCell(wb, row, getBodyStyle(wb), columnNum++, normScores.get(j));
+                        createNumCell(wb, row, bodyStyle, columnNum++, normScores.get(j));
                     }
                     Double topNormTotalScore = topNormTotalScoreMap.get(topNormId);
                     if(topNormTotalScore!=null && inspectorCount>0)
-                        createNumCell(wb, row, getBodyStyle(wb), columnNum, topNormTotalScore / inspectorCount);
+                        createNumCell(wb, row, bodyStyle, columnNum, topNormTotalScore / inspectorCount);
                     else
-                        createCell(wb, row, getBodyStyle(wb), columnNum, "");
+                        createCell(wb, row, bodyStyle, columnNum, "");
                     cellRangeAddress = ExcelTool.getCellRangeAddress(rowNum, columnNum, rowNum, columnNum + 1);
                     sheet.addMergedRegion(cellRangeAddress);
                     setRegionBorder(sheet, cellRangeAddress, wb);
                     columnNum = columnNum + 2;
 
                     Integer normMinScore = normMinScoreMap.get(topNormId);
-                    createNumCell(wb, row, getBodyStyle(wb), columnNum++, normMinScore==null?null:Double.valueOf(normMinScore));
+                    createNumCell(wb, row, bodyStyle, columnNum++, normMinScore==null?null:Double.valueOf(normMinScore));
                 } else {
 
                     for (int i = 0; i < subNormNum; i++) {
@@ -230,7 +231,7 @@ public class StatTrainService extends BaseMapper {
                         Integer subNormId = subNorm.getId();
                         List<Double> normScores = normScoresMap.get(subNormId);
                         for (int j = 0; j < inspectorCount; j++) {
-                            createNumCell(wb, row, getBodyStyle(wb), _columnNum++, normScores.get(j));
+                            createNumCell(wb, row, bodyStyle, _columnNum++, normScores.get(j));
                         }
                         Double normTotalScore = normTotalScoreMap.get(subNormId);
                         if(normTotalScore!=null && inspectorCount>0)
@@ -246,7 +247,8 @@ public class StatTrainService extends BaseMapper {
 
                             cellRangeAddress = ExcelTool.getCellRangeAddress(rowNum, _columnNum,
                                     rowNum + subNormNum - 1, _columnNum);
-                            sheet.addMergedRegion(cellRangeAddress);
+                            if(subNormNum>1)
+                                sheet.addMergedRegion(cellRangeAddress);
                             setRegionBorder(sheet, cellRangeAddress, wb);
                         }
                         _columnNum++;

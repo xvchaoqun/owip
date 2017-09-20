@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.ApplicatType;
 import domain.abroad.ApplicatTypeExample;
 import domain.abroad.ApplicatTypeExample.Criteria;
@@ -45,7 +45,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class ApplicatTypeController extends BaseController {
+@RequestMapping("/abroad")
+public class ApplicatTypeController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

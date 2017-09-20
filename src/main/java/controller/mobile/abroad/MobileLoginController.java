@@ -1,7 +1,7 @@
 package controller.mobile.abroad;
 
 import bean.ApproverTypeBean;
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/m")
-public class MobileLoginController extends BaseController {
+@RequestMapping("/m/abroad")
+public class MobileLoginController extends AbroadBaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -96,7 +96,7 @@ public class MobileLoginController extends BaseController {
 			return SystemConstants.loginFailedResultMap(message);
 		}
 
-		String successUrl=request.getContextPath() + "/m/index";
+		String successUrl=request.getContextPath() + "/m/abroad/index";
 		SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(request);
 		if(savedRequest != null && savedRequest.getMethod().equalsIgnoreCase("GET")) {
 			successUrl = savedRequest.getRequestUrl();

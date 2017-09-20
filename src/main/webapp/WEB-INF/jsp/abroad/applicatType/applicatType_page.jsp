@@ -12,11 +12,11 @@ pageEncoding="UTF-8" %>
                 <div id="home4" class="tab-pane in active">
 
         <div class="myTableDiv"
-             data-url-au="${ctx}/applicatType_au"
-             data-url-page="${ctx}/applicatType"
-             data-url-del="${ctx}/applicatType_del"
-             data-url-bd="${ctx}/applicatType_batchDel"
-             data-url-co="${ctx}/applicatType_changeOrder"
+             data-url-au="${ctx}/abroad/applicatType_au"
+             data-url-page="${ctx}/abroad/applicatType"
+             data-url-del="${ctx}/abroad/applicatType_del"
+             data-url-bd="${ctx}/abroad/applicatType_batchDel"
+             data-url-co="${ctx}/abroad/applicatType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <input type="hidden" name="cls" value="${cls}">
@@ -24,7 +24,7 @@ pageEncoding="UTF-8" %>
                 <div class="buttons">
                     <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
                     <a class="popupBtn btn btn-danger btn-sm"
-                       data-url="${ctx}/applicatType/selectCadresEscape"><i class="fa fa-search"></i> 未分配申请人身份的干部（${escapeCount}）</a>
+                       data-url="${ctx}/abroad/applicatType/selectCadresEscape"><i class="fa fa-search"></i> 未分配申请人身份的干部（${escapeCount}）</a>
                 </div>
             </t:sort-form>
             <div class="space-4"></div>
@@ -47,12 +47,12 @@ pageEncoding="UTF-8" %>
 
 								<td>${applicatType.name}</td>
                             <td>
-                                <button data-url="${ctx}/applicatType/selectCadres?id=${applicatType.id}" class="popupBtn btn btn-success btn-xs">
+                                <button data-url="${ctx}/abroad/applicatType/selectCadres?id=${applicatType.id}" class="popupBtn btn btn-success btn-xs">
                                     <i class="fa fa-th-list"></i>  包含干部
                                 </button>
                             </td>
                             <td>
-                                <button data-url="${ctx}/applicatType/approvalOrder?id=${applicatType.id}" class="popupBtn btn btn-warning btn-xs">
+                                <button data-url="${ctx}/abroad/applicatType/approvalOrder?id=${applicatType.id}" class="popupBtn btn btn-warning btn-xs">
                                     <i class="fa fa-th-list"></i>  审批人身份
                                 </button>
                             </td>
@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/applicatType" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/abroad/applicatType" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">

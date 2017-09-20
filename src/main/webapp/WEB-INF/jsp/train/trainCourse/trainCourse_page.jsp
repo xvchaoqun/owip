@@ -96,11 +96,10 @@
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/trainCourse_changeOrder"})
             }, frozen: true
             },
-            {label: '评估表', name: 'evaTableId', width: 200, formatter: function (cellvalue, options, rowObject) {
+            {label: '评估表', name: 'trainEvaTable', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
-
                 return '<a href="javascript:void(0)" class="popupBtn" data-width="700" data-url="${ctx}/trainEvaTable_preview?id={0}">{1}</a>'
-                        .format(cellvalue, _cMap.trainEvaTableMap[cellvalue].name);
+                        .format(cellvalue.id, cellvalue.name);
             }},
 
             {label: '测评情况（已测评/总数）', name: '_eva', width: 200, formatter: function (cellvalue, options, rowObject) {

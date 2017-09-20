@@ -237,7 +237,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
             String requestURI = request.getRequestURI();
             if (requestURI.startsWith("/m/")) { // 移动端
                 saveRequest(request);
-                WebUtils.issueRedirect(request, response, "/m/login");
+                WebUtils.issueRedirect(request, response, "/m/abroad/login");
             } else
                 saveRequestAndRedirectToLogin(request, response);
         } else {

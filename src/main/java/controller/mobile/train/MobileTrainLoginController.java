@@ -1,6 +1,6 @@
 package controller.mobile.train;
 
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainInspector;
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/m_train")
-public class MobileTrainLoginController extends BaseController {
+public class MobileTrainLoginController extends TrainBaseController {
 
 
     public Logger logger = LoggerFactory.getLogger(getClass());

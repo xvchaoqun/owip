@@ -78,7 +78,7 @@
       success:function(ret){
         if(ret.success){
           //SysMsg.success('提交成功。', '成功', function(){
-            $.hashchange("", "${ctx}/passportApply")
+            $.hashchange("", "${ctx}/abroad/passportApply")
           //});
         }
       }

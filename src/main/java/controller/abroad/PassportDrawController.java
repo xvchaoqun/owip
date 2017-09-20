@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.ApplySelf;
 import domain.abroad.Passport;
 import domain.abroad.PassportDraw;
@@ -54,7 +54,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class PassportDrawController extends BaseController {
+@RequestMapping("/abroad")
+public class PassportDrawController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

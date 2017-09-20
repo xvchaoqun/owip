@@ -1,6 +1,6 @@
 package controller.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import controller.global.OpException;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class CrsPostController extends BaseController {
+public class CrsPostController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

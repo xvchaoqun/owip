@@ -5,25 +5,25 @@
 	<rule>
 		<note>头像</note>
 		<condition type="method">GET</condition>
-		<from>^/m/avatar</from>
+		<from>^/m/abroad/avatar</from>
 		<to>/avatar</to>
 	</rule>
 	<rule>
 		<note>因私出访短信通知弹出框</note>
 		<condition type="method">GET</condition>
-		<from>^/m/shortMsg_view$</from>
+		<from>^/m/abroad/shortMsg_view$</from>
 		<to>/shortMsg_view</to>
 	</rule>
 	<rule>
 		<note>因私出访短信通知</note>
 		<condition type="method">POST</condition>
-		<from>^/m/shortMsg$</from>
+		<from>^/m/abroad/shortMsg$</from>
 		<to>/shortMsg</to>
 	</rule>
 	<rule>
 		<note>因私出访提交审批结果</note>
 		<condition type="method">POST</condition>
-		<from casesensitive="true">^/m/applySelf_approval$</from>
-		<to>/applySelf_approval</to>
+		<from casesensitive="true">^/m/abroad/applySelf_approval$</from>
+		<to>/abroad/applySelf_approval</to>
 	</rule>
 </urlrewrite>

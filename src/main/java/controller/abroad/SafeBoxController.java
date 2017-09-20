@@ -1,7 +1,7 @@
 package controller.abroad;
 
 import bean.SafeBoxBean;
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.Passport;
 import domain.abroad.SafeBox;
 import domain.abroad.SafeBoxExample;
@@ -33,7 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class SafeBoxController extends BaseController {
+@RequestMapping("/abroad")
+public class SafeBoxController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

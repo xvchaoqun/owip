@@ -1,6 +1,6 @@
 package controller.crs.crsPostDetail;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsPost;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Controller
-public class CrsPostDetailStep2Controller extends BaseController {
+public class CrsPostDetailStep2Controller extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

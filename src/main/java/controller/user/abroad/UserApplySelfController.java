@@ -1,7 +1,7 @@
 package controller.user.abroad;
 
 import bean.ApprovalResult;
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfExample.Criteria;
@@ -51,8 +51,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/user")
-public class UserApplySelfController extends BaseController {
+@RequestMapping("/user/abroad")
+public class UserApplySelfController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

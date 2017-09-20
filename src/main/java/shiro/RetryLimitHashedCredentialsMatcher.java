@@ -48,7 +48,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             byte logType = SystemConstants.LOGIN_TYPE_NET;
             HttpServletRequest request = ContextHelper.getRequest();
             String servletPath = request.getServletPath();
-            if(servletPath.startsWith("/m/login")){
+            if(servletPath.startsWith("/m/abroad/login")){
                 logType = SystemConstants.LOGIN_TYPE_MOBILE;
             }
             logger.info(sysLoginLogService.log(null, username,

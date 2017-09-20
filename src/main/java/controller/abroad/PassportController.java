@@ -5,7 +5,7 @@ import bean.PassportStatByLentBean;
 import bean.PassportStatByPostBean;
 import bean.XlsPassport;
 import bean.XlsUpload;
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.TaiwanRecord;
@@ -62,7 +62,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class PassportController extends BaseController {
+@RequestMapping("/abroad")
+public class PassportController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -75,11 +76,11 @@ public class PassportController extends BaseController {
 
         modelMap.put("status", status);
         if (status == 0) {
-            return "forward:/passport_stat";
+            return "forward:/abroad/passport_stat";
         } else if (status == 5) {
-            return "forward:/safeBox";
+            return "forward:/abroad/safeBox";
         } else {
-            return "forward:/passportList_page";
+            return "forward:/abroad/passportList_page";
         }
     }
 

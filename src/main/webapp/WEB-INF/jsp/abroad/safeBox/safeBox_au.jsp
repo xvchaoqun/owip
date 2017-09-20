@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${safeBox!=null}">编辑</c:if><c:if test="${safeBox==null}">添加</c:if>保险柜</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/safeBox_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/abroad/safeBox_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${safeBox.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">保险柜编号</label>

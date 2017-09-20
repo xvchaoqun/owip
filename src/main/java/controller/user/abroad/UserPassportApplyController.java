@@ -1,6 +1,6 @@
 package controller.user.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.cadre.CadreView;
@@ -35,8 +35,8 @@ import java.util.Map;
  * Created by fafa on 2016/2/25.
  */
 @Controller
-@RequestMapping("/user")
-public class UserPassportApplyController extends BaseController {
+@RequestMapping("/user/abroad")
+public class UserPassportApplyController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

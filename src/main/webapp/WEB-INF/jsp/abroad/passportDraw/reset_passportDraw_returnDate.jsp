@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 			$("#modal input[name=_returnDate]").focus();
 			return;
 		}
-		$.post("${ctx}/reset_passportDraw_returnDate",{id:'${passportDraw.id}', _returnDate:_returnDate},function(ret){
+		$.post("${ctx}/abroad/reset_passportDraw_returnDate",{id:'${passportDraw.id}', _returnDate:_returnDate},function(ret){
 			if(ret.success){
 				$("#modal").modal('hide');
 				$(window).resize();

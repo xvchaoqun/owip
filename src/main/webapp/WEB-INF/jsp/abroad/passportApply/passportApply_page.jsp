@@ -5,15 +5,15 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/passportApply"
-             data-url-co="${ctx}/passportApply_changeOrder"
+             data-url-page="${ctx}/abroad/passportApply"
+             data-url-co="${ctx}/abroad/passportApply_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.cadreId ||not empty param.classId
             ||not empty param.applyDate || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
                     </li>
                     <li class="dropdown <c:if test="${status==1||status==3||status==4}">active</c:if>" >
                         <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
@@ -22,21 +22,21 @@ pageEncoding="UTF-8" %>
                         </a>
                         <ul class="dropdown-menu dropdown-info" style="min-width: 230px">
                             <li>
-                                <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=1">未交证件</a>
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=1">未交证件</a>
                             </li>
                             <li>
-                                <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=3">已交证件</a>
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=3">已交证件</a>
                             </li>
                             <li>
-                                <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=4">作废</a>
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=4">作废</a>
                             </li>
                         </ul>
                     </li>
                     <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_NOT_PASS}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                 </ul>
 
@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">
-                            <button data-url="${ctx}/passportApply_au"
+                            <button data-url="${ctx}/abroad/passportApply_au"
                                     class="popupBtn btn btn-primary btn-sm">
                                 <i class="fa fa-plus"></i> 申请办理证件
                             </button>
@@ -55,11 +55,11 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-hand-paper-o"></i> 催交证件
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                        data-url="${ctx}/passport_au" data-id-name="applyId">
+                                        data-url="${ctx}/abroad/passport_au" data-id-name="applyId">
                                     <i class="fa fa-hand-paper-o"></i> 交证件
                                 </button>
                                 <a class="jqBatchBtn btn btn-warning btn-sm"
-                                   data-url="${ctx}/passportApply_abolish" data-title="申请作废"
+                                   data-url="${ctx}/abroad/passportApply_abolish" data-title="申请作废"
                                    data-msg="确定将这{0}个申请作废吗？">
                                     <i class="fa fa-recycle"></i> 作废
                                 </a>
@@ -67,26 +67,26 @@ pageEncoding="UTF-8" %>
                             <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT && status!=-1}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-open-by="page"
-                                    data-url="${ctx}/passportApply_check?id=${passportApply.id}">
+                                    data-url="${ctx}/abroad/passportApply_check?id=${passportApply.id}">
                                     <i class="fa fa-info-circle"></i> 申请表
                             </button>
                             </c:if>
                             <c:if test="${status>=0}">
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/passportApply_batchDel" data-title="删除办理证件申请"
+                                       data-url="${ctx}/abroad/passportApply_batchDel" data-title="删除办理证件申请"
                                        data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${status==-1}">
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-success btn-sm"
-                                       data-url="${ctx}/passportApply_batchUnDel" data-title="找回已删除办理证件申请"
+                                       data-url="${ctx}/abroad/passportApply_batchUnDel" data-title="找回已删除办理证件申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/passportApply_doBatchDel" data-title="删除办理证件申请"
+                                       data-url="${ctx}/abroad/passportApply_doBatchDel" data-title="删除办理证件申请"
                                        data-msg="确定删除这{0}条申请记录吗（<span class='text-danger'>删除后不可以恢复，且办理的证件将从证件库中删除</span>）？"><i class="fa fa-times"></i> 完全删除</a>
                                 </shiro:hasPermission>
                             </c:if>
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/abroad/passportApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '工作证号', name: 'applyUser.code',frozen:true},
@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
             <c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">
             { label: '审批', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
                 var html = '<button class="jqOpenViewBtn btn btn-success btn-xs" data-open-by="page"'
-                +'data-url="${ctx}/passportApply_check?id={0}"><i class="fa fa-check-square-o"></i> 审批</button>';
+                +'data-url="${ctx}/abroad/passportApply_check?id={0}"><i class="fa fa-check-square-o"></i> 审批</button>';
                 html.format(rowObject.id);
 
                 return html;

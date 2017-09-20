@@ -42,7 +42,7 @@
             return false;
         }
 
-        $.post("${ctx}/user/passportDraw_self_sign_add",{id:${param.id}},function(ret){
+        $.post("${ctx}/user/abroad/passportDraw_self_sign_add",{id:${param.id}},function(ret){
             if(ret.success){
                 SysMsg.success('申请成功。', '成功',function(){
                     page_reload();

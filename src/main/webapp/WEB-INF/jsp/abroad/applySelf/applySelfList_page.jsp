@@ -5,17 +5,17 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/applySelfList"
+             data-url-page="${ctx}/abroad/applySelfList"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate
             ||not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelfList?status=0"><i class="fa fa-circle-o"></i> 待审批</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelfList?status=0"><i class="fa fa-circle-o"></i> 待审批</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelfList?status=1"><i class="fa fa-check"></i> 已审批</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelfList?status=1"><i class="fa fa-check"></i> 已审批</a>
                     </li>
                 </ul>
 
@@ -23,7 +23,7 @@
                     <div id="home4" class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==1}">
-                                <button id="detailBtn" data-url="${ctx}/applySelf_view"
+                                <button id="detailBtn" data-url="${ctx}/abroad/applySelf_view"
                                         data-open-by="page"
                                         class="jqOpenViewBtn btn btn-warning btn-sm">
                                     <i class="fa fa-info-circle"></i> 详情
@@ -134,7 +134,7 @@
 </div>
 <script type="text/template" id="remark_tpl">
     <button class="popupBtn btn btn-xs btn-primary"
-            data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
+            data-url="${ctx}/abroad/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
     </button>
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
@@ -158,7 +158,7 @@
     });
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/applySelfList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/abroad/applySelfList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         ondblClickRow: function (rowid, iRow, iCol, e) {
             $("#detailBtn").click();
         },
@@ -242,7 +242,7 @@
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
 
         $(".approvalBtn").click(function () {
-            $.loadModal("${ctx}/applySelf_approval?applySelfId=" + $(this).data("id") + "&approvalTypeId=" + $(this).data("approvaltypeid"));
+            $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=" + $(this).data("id") + "&approvalTypeId=" + $(this).data("approvaltypeid"));
         });
     });
     $(window).triggerHandler('resize.jqGrid');
@@ -270,7 +270,7 @@
             case 4:
             {
                 html = "<button {0} class=\"openView btn {1}  btn-xs\"" +
-                "        data-url=\"${ctx}/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
+                "        data-url=\"${ctx}/abroad/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
                 "        <i class=\"fa fa-edit\"></i> 审批" +
                 "        </button>";
                 html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);

@@ -1,6 +1,6 @@
 package controller.train;
 
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaNormExample;
 import domain.train.TrainEvaNormExample.Criteria;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class TrainEvaNormController extends BaseController {
+public class TrainEvaNormController extends TrainBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     

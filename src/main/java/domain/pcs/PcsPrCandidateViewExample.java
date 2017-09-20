@@ -882,6 +882,126 @@ public class PcsPrCandidateViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsProposalIsNull() {
+            addCriterion("is_proposal is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalIsNotNull() {
+            addCriterion("is_proposal is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalEqualTo(Boolean value) {
+            addCriterion("is_proposal =", value, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalNotEqualTo(Boolean value) {
+            addCriterion("is_proposal <>", value, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalGreaterThan(Boolean value) {
+            addCriterion("is_proposal >", value, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_proposal >=", value, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalLessThan(Boolean value) {
+            addCriterion("is_proposal <", value, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_proposal <=", value, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalIn(List<Boolean> values) {
+            addCriterion("is_proposal in", values, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalNotIn(List<Boolean> values) {
+            addCriterion("is_proposal not in", values, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_proposal between", value1, value2, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsProposalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_proposal not between", value1, value2, "isProposal");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderIsNull() {
+            addCriterion("proposal_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderIsNotNull() {
+            addCriterion("proposal_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderEqualTo(Integer value) {
+            addCriterion("proposal_sort_order =", value, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderNotEqualTo(Integer value) {
+            addCriterion("proposal_sort_order <>", value, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderGreaterThan(Integer value) {
+            addCriterion("proposal_sort_order >", value, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("proposal_sort_order >=", value, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderLessThan(Integer value) {
+            addCriterion("proposal_sort_order <", value, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("proposal_sort_order <=", value, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderIn(List<Integer> values) {
+            addCriterion("proposal_sort_order in", values, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderNotIn(List<Integer> values) {
+            addCriterion("proposal_sort_order not in", values, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("proposal_sort_order between", value1, value2, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("proposal_sort_order not between", value1, value2, "proposalSortOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andIsFromStageIsNull() {
             addCriterion("is_from_stage is null");
             return (Criteria) this;
@@ -2139,6 +2259,76 @@ public class PcsPrCandidateViewExample {
 
         public Criteria andPartySortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("party_sort_order not between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameIsNull() {
+            addCriterion("unit_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameIsNotNull() {
+            addCriterion("unit_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameEqualTo(String value) {
+            addCriterion("unit_name =", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotEqualTo(String value) {
+            addCriterion("unit_name <>", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameGreaterThan(String value) {
+            addCriterion("unit_name >", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_name >=", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameLessThan(String value) {
+            addCriterion("unit_name <", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameLessThanOrEqualTo(String value) {
+            addCriterion("unit_name <=", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameLike(String value) {
+            addCriterion("unit_name like", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotLike(String value) {
+            addCriterion("unit_name not like", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameIn(List<String> values) {
+            addCriterion("unit_name in", values, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotIn(List<String> values) {
+            addCriterion("unit_name not in", values, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameBetween(String value1, String value2) {
+            addCriterion("unit_name between", value1, value2, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotBetween(String value1, String value2) {
+            addCriterion("unit_name not between", value1, value2, "unitName");
             return (Criteria) this;
         }
     }

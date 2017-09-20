@@ -13,7 +13,7 @@
       "showColumns": "name,is_current,create_time",
       "excludeEditColumns": "id,create_time",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pcs_admin",
@@ -22,7 +22,7 @@
       "showColumns": "config_id,party_id,user_id",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pcs_recommend",
@@ -31,7 +31,7 @@
       "showColumns": "party_id,branch_id,expect_member_count,actual_member_count,config_id,is_finished",
       "excludeEditColumns": "id,is_finished",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pcs_candidate",
@@ -40,14 +40,14 @@
       "showColumns": "recommend_id,user_id,type,add_time",
       "excludeEditColumns": "id,add_time",
       "logType":"SystemConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "pcs_proposal",
       "key": "id",
-      "searchColumns": "config_id",
-      "showColumns": "user_id,type,config_id,add_time",
-      "excludeEditColumns": "id,add_time",
+      "searchColumns": "code,user_id,name,keywords,type",
+      "showColumns": "code,user_id,name,keywords,type,create_time,status",
+      "excludeEditColumns": "id,create_time,status",
       "logType":"SystemConstants.LOG_ADMIN",
       "ignore": false
     }

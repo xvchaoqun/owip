@@ -14,6 +14,8 @@
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="vote3" jdbcType="INTEGER" property="vote3" />
     <result column="is_chosen" jdbcType="BIT" property="isChosen" />
+    <result column="is_proposal" jdbcType="BIT" property="isProposal" />
+    <result column="proposal_sort_order" jdbcType="INTEGER" property="proposalSortOrder" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="realname_sort_order" jdbcType="INTEGER" property="realnameSortOrder" />
@@ -34,6 +36,7 @@
     <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="stage" jdbcType="TINYINT" property="stage" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,9 +69,10 @@
   </sql>
   <sql id="Base_Column_List">
     id, recommend_id, user_id, type, gender, birth, nation, mobile, email, vote, vote3, 
-    is_chosen, is_from_stage, sort_order, realname_sort_order, add_time, code, realname, 
-    leader_sort_order, user_type, edu_id, post, grow_time, work_time, pro_post, education, 
-    is_retire, edu_level, party_id, config_id, stage, party_sort_order
+    is_chosen, is_proposal, proposal_sort_order, is_from_stage, sort_order, realname_sort_order, 
+    add_time, code, realname, leader_sort_order, user_type, edu_id, post, grow_time, 
+    work_time, pro_post, education, is_retire, edu_level, party_id, config_id, stage, 
+    party_sort_order, unit_name
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateViewExample" resultMap="BaseResultMap">
     select

@@ -1,9 +1,14 @@
 package domain.train;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class TrainCourse implements Serializable {
+    public TrainEvaTable getTrainEvaTable(){
+        return CmTag.getTrainEvaTable(evaTableId);
+    }
     private Integer id;
 
     private Integer trainId;

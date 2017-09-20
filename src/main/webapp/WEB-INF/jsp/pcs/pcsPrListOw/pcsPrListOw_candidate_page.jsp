@@ -16,6 +16,16 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <a style="margin-left: 20px;" href="${ctx}/pcsPrListOw_export?file=3">
                                 <i class="fa fa-download"></i>  全校党代表汇总表</a>
+
+                            <button data-url="${ctx}/pcsPrListOw_formalSelect"
+                                    data-title="同步名单"
+                                    data-msg="是否将名单将同步至“党代表提案管理”——“党代表名单”内？"
+                                    data-grid-id="#jqGrid" ${notPassPCSPrRecommendsCount>0?"disabled":""}
+                                    class="jqBatchBtn btn btn-warning">
+                                <i class="fa fa-level-down"></i>
+                                确定正式出席学校党代会代表
+                            </button>
+
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -77,8 +87,8 @@
             }
             },
             {label: '工作证号', name: 'code', width: 120, frozen: true},
-            {label: '被推荐人姓名', name: 'realname', width: 150, frozen: true},
-            {label: '所在单位', name: 'unit', width: 300, align:'left', frozen: true},
+            {label: '被推荐人姓名', name: 'realname', width: 130, frozen: true},
+            {label: '所在单位', name: 'unitName', width: 200, align:'left', frozen: true},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

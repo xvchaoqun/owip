@@ -120,7 +120,7 @@
     </div>
     <div class="well center" style="margin-top: 20px; font-size: 20px">
         <div class="row" style="padding-left: 100px">
-            <form class="form-horizontal" action="${ctx}/passportDraw_draw"
+            <form class="form-horizontal" action="${ctx}/abroad/passportDraw_draw"
                   id="modalForm" method="post" enctype="multipart/form-data">
                 <input type="hidden" value="${param.id}" name="id">
                 <div class="form-group">

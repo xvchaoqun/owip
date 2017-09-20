@@ -1,7 +1,7 @@
 package controller.mobile.train;
 
 import bean.TrainTempData;
-import controller.BaseController;
+import controller.TrainBaseController;
 import domain.train.TrainCourse;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaResult;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/m_train")
-public class MobileTrainEvaController extends BaseController {
+public class MobileTrainEvaController extends TrainBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 

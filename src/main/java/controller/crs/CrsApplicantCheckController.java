@@ -1,6 +1,6 @@
 package controller.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import controller.global.OpException;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantCheck;
@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class CrsApplicantCheckController extends BaseController {
+public class CrsApplicantCheckController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -85,7 +85,7 @@
 <div class="modal-footer center">
 <c:if test="${fn:length(passports)>0}">
   <input id="next" class="btn btn-success" value="下一步"/>
-  <input data-url="${ctx}/user/passportDraw_self" class="openView btn btn-info" value="返回选择行程"/>
+  <input data-url="${ctx}/user/abroad/passportDraw_self" class="openView btn btn-info" value="返回选择行程"/>
   </c:if>
   <input  class="hideView btn btn-default" value="取消申请"/>
 </div>
@@ -103,9 +103,9 @@
       return;
     }
     if($passportId.data("sign"))
-        $("#item-content").load("${ctx}/user/passportDraw_self_sign?auth=${param.auth}&cadreId=${param.cadreId}&type=new&applyId=${param.applyId}&passportId="+passportId);
+        $("#item-content").load("${ctx}/user/abroad/passportDraw_self_sign?auth=${param.auth}&cadreId=${param.cadreId}&type=new&applyId=${param.applyId}&passportId="+passportId);
     else
-      $("#item-content").load("${ctx}/user/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId="+passportId);
+      $("#item-content").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId="+passportId);
   });
   $('form [data-rel="select2"]').select2();
 </script>

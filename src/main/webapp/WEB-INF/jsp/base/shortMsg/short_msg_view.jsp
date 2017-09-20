@@ -35,7 +35,7 @@
 
 <script>
   $("#modal input[type=submit]").click(function(){
-    $.post("${ctx}/${_path.startsWith("/m/")?'m/':''}shortMsg", {type:'${param.type}',id: ${param.id}}, function(ret){
+    $.post("${ctx}/${_path.startsWith("/m/abroad/")?'m/abroad/':''}shortMsg", {type:'${param.type}',id: ${param.id}}, function(ret){
       if(ret.success) {
         $("#modal").modal('hide');
         SysMsg.success('通知成功', '提示', function () {

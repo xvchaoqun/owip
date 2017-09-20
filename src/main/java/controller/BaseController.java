@@ -8,22 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.SpringProps;
-import service.abroad.ApplicatTypeService;
-import service.abroad.ApplySelfService;
-import service.abroad.ApprovalLogService;
-import service.abroad.ApprovalOrderService;
-import service.abroad.ApproverBlackListService;
-import service.abroad.ApproverService;
-import service.abroad.ApproverTypeService;
-import service.abroad.PassportApplyService;
-import service.abroad.PassportDrawService;
-import service.abroad.PassportService;
-import service.abroad.SafeBoxService;
-import service.abroad.TaiwanRecordService;
 import service.analysis.StatCadreService;
 import service.analysis.StatPartyMemberService;
 import service.analysis.StatService;
-import service.analysis.StatTrainService;
 import service.base.ContentTplService;
 import service.base.CountryService;
 import service.base.LocationService;
@@ -71,17 +58,6 @@ import service.cis.CisObjInspectorService;
 import service.cis.CisObjUnitService;
 import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
-import service.crs.CrsApplicantCheckService;
-import service.crs.CrsApplicantService;
-import service.crs.CrsExpertService;
-import service.crs.CrsPostExpertService;
-import service.crs.CrsPostFileService;
-import service.crs.CrsPostRequireService;
-import service.crs.CrsPostService;
-import service.crs.CrsRequireRuleService;
-import service.crs.CrsRuleItemService;
-import service.crs.CrsShortMsgService;
-import service.crs.CrsTemplateService;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
@@ -139,6 +115,7 @@ import service.pcs.PcsPrFileTemplateService;
 import service.pcs.PcsPrListService;
 import service.pcs.PcsPrOwService;
 import service.pcs.PcsPrPartyService;
+import service.pcs.PcsProposalService;
 import service.pcs.PcsRecommendService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
@@ -156,13 +133,6 @@ import service.sys.SysUserService;
 import service.sys.SysUserSyncService;
 import service.sys.TeacherInfoService;
 import service.sys.UserBeanService;
-import service.train.TrainCourseService;
-import service.train.TrainEvaNormService;
-import service.train.TrainEvaRankService;
-import service.train.TrainEvaTableService;
-import service.train.TrainInspectorCourseService;
-import service.train.TrainInspectorService;
-import service.train.TrainService;
 import service.unit.HistoryUnitService;
 import service.unit.UnitAdminGroupService;
 import service.unit.UnitAdminService;
@@ -188,37 +158,9 @@ import java.util.UUID;
 public class BaseController extends BaseMapper {
 
     @Autowired
-    protected ApplicatTypeService applicatTypeService;
-    @Autowired
-    protected ApprovalOrderService approvalOrderService;
-    @Autowired
-    protected ApproverService approverService;
-    @Autowired
-    protected ApproverBlackListService approverBlackListService;
-    @Autowired
-    protected ApproverTypeService approverTypeService;
-
-    @Autowired
-    protected PassportDrawService passportDrawService;
-    @Autowired
-    protected ApprovalLogService approvalLogService;
-    @Autowired
-    protected ApplySelfService applySelfService;
-    @Autowired
-    protected PassportApplyService passportApplyService;
-    @Autowired
-    protected PassportService passportService;
-    @Autowired
-    protected SafeBoxService safeBoxService;
-    @Autowired
-    protected TaiwanRecordService taiwanRecordService;
-
-    @Autowired
     protected EnterApplyService enterApplyService;
-
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
-
     @Autowired
     protected MemberTransferService memberTransferService;
     @Autowired
@@ -377,6 +319,8 @@ public class BaseController extends BaseMapper {
     protected PcsOwService pcsOwService;
     @Autowired
     protected PcsPartyService pcsPartyService;
+    @Autowired
+    protected PcsProposalService pcsProposalService;
 
     @Autowired
     protected PcsPrAlocateService pcsPrAlocateService;
@@ -398,43 +342,6 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CpcAllocationService cpcAllocationService;
 
-    @Autowired
-    protected TrainService trainService;
-    @Autowired
-    protected TrainCourseService trainCourseService;
-    @Autowired
-    protected TrainEvaNormService trainEvaNormService;
-    @Autowired
-    protected TrainEvaRankService trainEvaRankService;
-    @Autowired
-    protected TrainEvaTableService trainEvaTableService;
-    @Autowired
-    protected TrainInspectorService trainInspectorService;
-    @Autowired
-    protected TrainInspectorCourseService trainInspectorCourseService;
-
-    @Autowired
-    protected CrsPostService crsPostService;
-    @Autowired
-    protected CrsShortMsgService crsShortMsgService;
-    @Autowired
-    protected CrsPostRequireService crsPostRequireService;
-    @Autowired
-    protected CrsRequireRuleService crsRequireRuleService;
-    @Autowired
-    protected CrsRuleItemService crsRuleItemService;
-    @Autowired
-    protected CrsPostExpertService crsPostExpertService;
-    @Autowired
-    protected CrsTemplateService crsTemplateService;
-    @Autowired
-    protected CrsExpertService crsExpertService;
-    @Autowired
-    protected CrsApplicantService crsApplicantService;
-    @Autowired
-    protected CrsApplicantCheckService crsApplicantCheckService;
-    @Autowired
-    protected CrsPostFileService crsPostFileService;
 
     @Autowired
     protected VerifyAgeService verifyAgeService;
@@ -540,8 +447,6 @@ public class BaseController extends BaseMapper {
     protected StatPartyMemberService statPartyMemberService;
     @Autowired
     protected StatService statService;
-    @Autowired
-    protected StatTrainService statTrainService;
 
     @Autowired
     protected CacheService cacheService;
@@ -735,12 +640,6 @@ public class BaseController extends BaseMapper {
         map.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
 
         map.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
-
-        map.put("safeBoxMap", safeBoxService.findAll());
-
-        map.put("approverTypeMap", approverTypeService.findAll());
-
-        map.put("trainEvaTableMap", trainEvaTableService.findAll());
 
         map.put("locationMap", locationService.codeMap());
         map.put("countryMap", countryService.findAll());

@@ -22,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.abroad.PassportService;
 import sys.constants.SystemConstants;
+import sys.service.ApplicationContextSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -193,6 +195,9 @@ public class CommonController extends BaseController {
                     }
                 }
                 if (abroad) {
+
+                    PassportService passportService = ApplicationContextSupport.getContext().getBean(PassportService.class);
+
                     Passport twPassport = passportService.findTwPassport(cadre.getId());
                     if (twPassport != null)
                         option.put("twPassportCode", twPassport.getCode());

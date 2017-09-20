@@ -5,10 +5,10 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/passport_au?type=1"
-             data-url-page="${ctx}/passport"
-             data-url-export="${ctx}/passport_data"
-             data-url-co="${ctx}/passport_changeOrder"
+             data-url-au="${ctx}/abroad/passport_au?type=1"
+             data-url-page="${ctx}/abroad/passport"
+             data-url-export="${ctx}/abroad/passport_data"
+             data-url-co="${ctx}/abroad/passport_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.unitId ||not empty param.cadreId ||not empty param.classId
                 ||not empty param.safeBoxId ||not empty param.type || not empty param.code|| not empty param.isLent }"/>
@@ -30,11 +30,11 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasPermission>
                                 <a class="jqOpenViewBtn btn btn-warning btn-sm"
-                                   data-width="500" data-url="${ctx}/passport_abolish">
+                                   data-width="500" data-url="${ctx}/abroad/passport_abolish">
                                     <i class="fa fa-recycle"></i> 取消集中管理
                                 </a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                                   data-url="${ctx}/passport_lost" >
+                                   data-url="${ctx}/abroad/passport_lost" >
                                     <i class="fa fa-times"></i> 丢失
                                 </a>
                                 <button class="jqOpenViewBtn btn btn-success btn-sm"
@@ -42,12 +42,12 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-info-circle"></i> 发送证件信息
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm" data-open-by="page"
-                                        data-url="${ctx}/passport_uploadPic">
+                                        data-url="${ctx}/abroad/passport_uploadPic">
                                     <i class="fa fa-upload"></i> 上传证件首页
                                 </button>
                                 <shiro:hasPermission name="passport:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/passport_batchDel" data-title="证件删除"
+                                       data-url="${ctx}/abroad/passport_batchDel" data-title="证件删除"
                                        data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                                 <a class="importBtn btn btn-success btn-sm tooltip-success"
@@ -55,7 +55,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
 
                             <c:if test="${status==PASSPORT_TYPE_CANCEL || status==4}">
-                                <button data-url="${ctx}/passport_unabolish"
+                                <button data-url="${ctx}/abroad/passport_unabolish"
                                         data-title="返回集中管理"
                                         data-msg="确定将该证件返回集中管理？"
                                         class="jqItemBtn btn btn-info btn-sm">
@@ -74,13 +74,13 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-info-circle"></i> 短信通知
                                 </button>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
-                                   data-open-by="page" data-url="${ctx}/passport_cancel">
+                                   data-open-by="page" data-url="${ctx}/abroad/passport_cancel">
                                     <i class="fa fa-check-circle-o"></i> 确认单
                                 </a>
                             </c:if>
                             <c:if test="${status==4}">
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
-                                   data-open-by="page" data-url="${ctx}/passport_cancel_view">
+                                   data-open-by="page" data-url="${ctx}/abroad/passport_cancel_view">
                                     <i class="fa fa-check-circle-o"></i> 取消集中管理证明
                                 </a>
                             </c:if>
@@ -90,7 +90,7 @@ pageEncoding="UTF-8" %>
                                     <a class="addLostBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
                                 </shiro:hasPermission>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
-                                   data-open-by="page" data-url="${ctx}/passport_lost_view">
+                                   data-open-by="page" data-url="${ctx}/abroad/passport_lost_view">
                                     <i class="fa fa-search"></i> 丢失证明
                                 </a>
                                 <shiro:hasPermission name="passport:edit">
@@ -100,7 +100,7 @@ pageEncoding="UTF-8" %>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="passport:del">
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/passport_batchDel" data-title="证件删除"
+                                       data-url="${ctx}/abroad/passport_batchDel" data-title="证件删除"
                                        data-msg="确定删除这{0}个证件吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </shiro:hasPermission>
                             </c:if>
@@ -108,19 +108,19 @@ pageEncoding="UTF-8" %>
                                data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                     class="fa fa-download"></i> 导出</a>
                             <a class="jqOpenViewBtn btn btn-info btn-sm"
-                               data-open-by="page" data-url="${ctx}/passport_useLogs">
+                               data-open-by="page" data-url="${ctx}/abroad/passport_useLogs">
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
                             <c:if test="${status==PASSPORT_TYPE_LOST}">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
-                               data-url="${ctx}/passport_au" data-querystr="&op=back">
+                               data-url="${ctx}/abroad/passport_au" data-querystr="&op=back">
                                 <i class="fa fa-search"></i> 证件找回
                             </a>
                             </c:if>
 
                             <c:if test="${status==PASSPORT_TYPE_KEEP}">
                                 <button disabled id="hasFindBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/passport_remark" data-open-by="page">
+                                        data-url="${ctx}/abroad/passport_remark" data-open-by="page">
                                     <i class="fa fa-search"></i> 丢失情况
                                 </button>
                             </c:if>
@@ -226,7 +226,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
-        url: '${ctx}/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/abroad/passport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '工作证号', name: 'user.code',frozen:true },
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
@@ -317,18 +317,18 @@ pageEncoding="UTF-8" %>
 
     function openView_safeBox(pageNo){
         pageNo = pageNo||1;
-        $.loadModal( "${ctx}/safeBox?pageNo="+pageNo, '400');
+        $.loadModal( "${ctx}/abroad/safeBox?pageNo="+pageNo, '400');
     }
 
     $(".importBtn").click(function(){
-        $.loadModal("${ctx}/passport_import");
+        $.loadModal("${ctx}/abroad/passport_import");
     });
 
     $(".addLostBtn").click(function(){
-        $.loadModal("${ctx}/passport_au?type=${PASSPORT_TYPE_LOST}");
+        $.loadModal("${ctx}/abroad/passport_au?type=${PASSPORT_TYPE_LOST}");
     });
     $(".cancelConfirmBtn").click(function(){
-        $.loadModal("${ctx}/passport_cancel_confirm?id="+$(this).data("id"));
+        $.loadModal("${ctx}/abroad/passport_cancel_confirm?id="+$(this).data("id"));
     });
 
     $('#searchForm [data-rel="select2"]').select2();

@@ -8,7 +8,7 @@
 
         <div class="buttons">
           <c:if test="${param.auth!='admin'}">
-          <a data-url="${ctx}/user/passportDraw" class="loadPage btn btn-sm btn-success">
+          <a data-url="${ctx}/user/abroad/passportDraw" class="loadPage btn btn-sm btn-success">
             <i class="ace-icon fa fa-backward"></i>
             返回
           </a>
@@ -25,7 +25,7 @@
 
     <div class="tab-content">
       <div id="home4" class="tab-pane in active">
-<form class="form-horizontal" action="${ctx}/user/passportDraw_tw_au" id="applyForm" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="${ctx}/user/abroad/passportDraw_tw_au" id="applyForm" method="post" enctype="multipart/form-data">
   <input type="hidden" name="cadreId" value="${param.cadreId}">
   <div class="form-group">
     <label class="col-xs-3 control-label">申请类型</label>
@@ -118,11 +118,11 @@
 </form>
 
 <div class="modal-footer center">
-  <input id="next" data-url="${ctx}/user/passportDraw_self_sign?type=tw&cadreId=${param.cadreId}&auth=${param.auth}"
+  <input id="next" data-url="${ctx}/user/abroad/passportDraw_self_sign?type=tw&cadreId=${param.cadreId}&auth=${param.auth}"
          class="btn btn-primary" value="下一步"/>
   <input id="submit" style="display: none" class="btn btn-success" value="提交申请"/>
   <c:if test="${param.auth!='admin'}">
-  <input class="loadPage btn btn-default" value="取消" data-url="${ctx}/user/passportDraw"/>
+  <input class="loadPage btn btn-default" value="取消" data-url="${ctx}/user/abroad/passportDraw"/>
   </c:if>
 </div>
         </div></div></div>
@@ -317,7 +317,7 @@
               $.hashchange("type=2", "${ctx}/passportDraw")
               </c:if>
               <c:if test="${param.auth!='admin'}">
-              $.hashchange("type=2", "${ctx}/user/passportDraw")
+              $.hashchange("type=2", "${ctx}/user/abroad/passportDraw")
               </c:if>
             });
           }

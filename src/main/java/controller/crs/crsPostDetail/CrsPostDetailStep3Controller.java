@@ -1,6 +1,6 @@
 package controller.crs.crsPostDetail;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.base.ContentTpl;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsPost;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class CrsPostDetailStep3Controller extends BaseController {
+public class CrsPostDetailStep3Controller extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

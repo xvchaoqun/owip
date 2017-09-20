@@ -1,6 +1,6 @@
 package controller.mobile.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/m")
-public class MobileIndexController extends BaseController {
+@RequestMapping("/m/abroad")
+public class MobileIndexController extends AbroadBaseController {
 
 	@RequestMapping("/index")
 	public String _index(ModelMap modelMap) {
@@ -27,7 +27,7 @@ public class MobileIndexController extends BaseController {
 	@RequestMapping("/")
 	public String index() {
 
-		return "redirect:/m/index";
+		return "redirect:/m/abroad/index";
 	}
 
 	@RequestMapping("/index_page")

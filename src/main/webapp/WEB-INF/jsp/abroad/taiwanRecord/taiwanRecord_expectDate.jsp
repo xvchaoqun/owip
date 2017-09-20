@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 			$("#modal input[name=expectDate]").focus();
 			return;
 		}
-		$.post("${ctx}/taiwanRecord_expectDate",{id:'${taiwanRecord.id}', expectDate:expectDate},function(ret){
+		$.post("${ctx}/abroad/taiwanRecord_expectDate",{id:'${taiwanRecord.id}', expectDate:expectDate},function(ret){
 			if(ret.success){
 				$("#modal").modal('hide');
 				$(window).resize();

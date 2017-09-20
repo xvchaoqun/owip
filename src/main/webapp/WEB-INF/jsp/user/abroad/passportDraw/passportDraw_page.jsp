@@ -8,7 +8,7 @@
             <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="vspace-12"></div>
                 <div class="jqgrid-vertical-offset buttons">
-                    <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/passportDraw_select"><i
+                    <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/abroad/passportDraw_select"><i
                             class="fa fa-plus"></i> 申请使用因私出国（境）证件</a>
                     <a class="popupBtn btn btn-info btn-sm"
                        data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_PASSPORT_DRAW_NOTE}">
@@ -32,7 +32,7 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="myTableDiv"
-                             data-url-page="${ctx}/user/passportDraw"
+                             data-url-page="${ctx}/user/abroad/passportDraw"
                              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
                             <div class="space-4"></div>
@@ -48,20 +48,20 @@
     </div>
 </div>
 <script type="text/template" id="needSign_tpl">
-    <button data-url="${ctx}/user/passportDraw_self_sign?type=view&id={{=id}}&passportId={{=passportId}}"
+    <button data-url="${ctx}/user/abroad/passportDraw_self_sign?type=view&id={{=id}}&passportId={{=passportId}}"
             class="openView btn btn-success btn-xs">
         <i class="fa fa-eye"></i> {{=printStr}}签注申请表
     </button>
 </script>
 <script type="text/template" id="notNeedSign_tpl">
-    <button data-url="${ctx}/user/passportDraw_self_sign?type=add&id={{=id}}&passportId={{=passportId}}"
+    <button data-url="${ctx}/user/abroad/passportDraw_self_sign?type=add&id={{=id}}&passportId={{=passportId}}"
             class="openView btn btn-default btn-xs">
         <i class="fa fa-plus"></i> 办理签注
     </button>
 </script>
 <script type="text/template" id="abolish_tpl">
     <button class="confirm btn btn-danger btn-xs"
-            data-url="${ctx}/user/passportDraw_del?id={{=id}}"
+            data-url="${ctx}/user/abroad/passportDraw_del?id={{=id}}"
             data-callback="_delCallback"
             data-msg="确定撤销该申请吗？">
         <i class="fa fa-trash"></i> 撤销申请
@@ -69,11 +69,11 @@
 </script>
 <script type="text/template" id="applyId_tpl">
     <a class="openView" href="javascript:"
-       data-url="${ctx}/user/applySelf_view?id={{=id}}"> S{{=id}}</a>
+       data-url="${ctx}/user/abroad/applySelf_view?id={{=id}}"> S{{=id}}</a>
 </script>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/user/userPassportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/user/abroad/userPassportDraw_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '编号', name: 'id', width: 75, formatter: function (cellvalue, options, rowObject) {

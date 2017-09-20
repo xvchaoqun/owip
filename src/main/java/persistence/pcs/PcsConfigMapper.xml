@@ -7,6 +7,9 @@
     <result column="is_current" jdbcType="BIT" property="isCurrent" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="proposal_submit_time" jdbcType="TIMESTAMP" property="proposalSubmitTime" />
+    <result column="proposal_support_time" jdbcType="TIMESTAMP" property="proposalSupportTime" />
+    <result column="proposal_support_count" jdbcType="INTEGER" property="proposalSupportCount" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, is_current, create_time, remark, is_deleted
+    id, name, is_current, create_time, remark, proposal_submit_time, proposal_support_time, 
+    proposal_support_count, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsConfigExample" resultMap="BaseResultMap">
     select
@@ -102,11 +106,13 @@
   </delete>
   <insert id="insert" parameterType="domain.pcs.PcsConfig">
     insert into pcs_config (id, name, is_current, 
-      create_time, remark, is_deleted
-      )
+      create_time, remark, proposal_submit_time, 
+      proposal_support_time, proposal_support_count, 
+      is_deleted)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{isCurrent,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{proposalSubmitTime,jdbcType=TIMESTAMP}, 
+      #{proposalSupportTime,jdbcType=TIMESTAMP}, #{proposalSupportCount,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsConfig">
     insert into pcs_config
@@ -125,6 +131,15 @@
       </if>
       <if test="remark != null">
         remark,
+      </if>
+      <if test="proposalSubmitTime != null">
+        proposal_submit_time,
+      </if>
+      <if test="proposalSupportTime != null">
+        proposal_support_time,
+      </if>
+      <if test="proposalSupportCount != null">
+        proposal_support_count,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -145,6 +160,15 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="proposalSubmitTime != null">
+        #{proposalSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposalSupportTime != null">
+        #{proposalSupportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposalSupportCount != null">
+        #{proposalSupportCount,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -175,6 +199,15 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.proposalSubmitTime != null">
+        proposal_submit_time = #{record.proposalSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.proposalSupportTime != null">
+        proposal_support_time = #{record.proposalSupportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.proposalSupportCount != null">
+        proposal_support_count = #{record.proposalSupportCount,jdbcType=INTEGER},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -190,6 +223,9 @@
       is_current = #{record.isCurrent,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
+      proposal_submit_time = #{record.proposalSubmitTime,jdbcType=TIMESTAMP},
+      proposal_support_time = #{record.proposalSupportTime,jdbcType=TIMESTAMP},
+      proposal_support_count = #{record.proposalSupportCount,jdbcType=INTEGER},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +246,15 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="proposalSubmitTime != null">
+        proposal_submit_time = #{proposalSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposalSupportTime != null">
+        proposal_support_time = #{proposalSupportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposalSupportCount != null">
+        proposal_support_count = #{proposalSupportCount,jdbcType=INTEGER},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -222,6 +267,9 @@
       is_current = #{isCurrent,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
+      proposal_submit_time = #{proposalSubmitTime,jdbcType=TIMESTAMP},
+      proposal_support_time = #{proposalSupportTime,jdbcType=TIMESTAMP},
+      proposal_support_count = #{proposalSupportCount,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

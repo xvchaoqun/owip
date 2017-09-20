@@ -6,7 +6,7 @@
     <h3>导入证件</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/passport_import" method="post">
+    <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/abroad/passport_import" method="post">
 		<div class="form-group">
 			<label class="col-xs-offset-1 col-xs-2 control-label">Excel文件</label>
 			<div class="col-xs-4">

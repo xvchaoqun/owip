@@ -1,6 +1,6 @@
 package controller.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsPostExpert;
 import domain.crs.CrsPostExpertExample;
 import mixin.MixinUtils;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CrsPostExpertController extends BaseController {
+public class CrsPostExpertController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

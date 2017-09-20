@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 </div>
 <script>
     $("#back").click(function(){
-        $("#apply-content").load("${ctx}/user/passportApply_select?cadreId=${param.cadreId}&auth=${param.auth}");
+        $("#apply-content").load("${ctx}/user/abroad/passportApply_select?cadreId=${param.cadreId}&auth=${param.auth}");
     });
 
     $("#submit").click(function(){
@@ -42,11 +42,11 @@ pageEncoding="UTF-8"%>
             return false;
         }
 
-        $.post("${ctx}/user/passportApply_au",{classId:"${param.classId}", cadreId:"${param.cadreId}"},function(ret){
+        $.post("${ctx}/user/abroad/passportApply_au",{classId:"${param.classId}", cadreId:"${param.cadreId}"},function(ret){
             if(ret.success){
                 <c:if test="${param.auth!='admin'}">
                 $.loadModal("${ctx}/shortMsg_view?id={0}&type=passportApplySubmit".format(ret.applyId));
-                $.loadPage({url:"${ctx}/user/passport?type=2"});
+                $.loadPage({url:"${ctx}/user/abroad/passport?type=2"});
                 </c:if>
                 <c:if test="${param.auth=='admin'}">
                 $.hideView();

@@ -130,7 +130,7 @@
             return false;
         }
 
-        $.post("${ctx}/user/passportDraw_self_au",
+        $.post("${ctx}/user/abroad/passportDraw_self_au",
                 {
                     cadreId:"${param.cadreId}",
                     applyId:"${applySelf.id}",
@@ -145,7 +145,7 @@
                     $.hashchange();
                     </c:if>
                     <c:if test="${param.auth!='admin'}">
-                    $.hashchange("type=1", "${ctx}/user/passportDraw")
+                    $.hashchange("type=1", "${ctx}/user/abroad/passportDraw")
                     </c:if>
                 });
             }

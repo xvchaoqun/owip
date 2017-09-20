@@ -11,7 +11,7 @@
     </h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/approverType/selectCadres" id="modalFrom" method="post">
+  <form class="form-horizontal"  action="${ctx}/abroad/approverType/selectCadres" id="modalFrom" method="post">
   <div id="tree3" style="min-height: 400px"></div>
   </form>
   </div>
@@ -36,7 +36,7 @@
 		  return false;
 	  });
 	$(function(){
-		$.getJSON("${ctx}/approverType/selectCadres_tree",{id:"${param.id}", type:"${param.type}"},function(data){
+		$.getJSON("${ctx}/abroad/approverType/selectCadres_tree",{id:"${param.id}", type:"${param.type}"},function(data){
 			var treeData = data.tree.children;
 			$("#tree3").dynatree({
 				checkbox: true,

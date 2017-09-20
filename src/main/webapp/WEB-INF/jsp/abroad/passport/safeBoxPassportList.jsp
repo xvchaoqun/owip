@@ -30,7 +30,7 @@
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager:"#jqGridPager2",
-        url: '${ctx}/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}&type=${param.type}&cancelConfirm=${param.cancelConfirm}',
+        url: '${ctx}/abroad/safeBoxPassportList_data?callback=?&safeBoxId=${param.safeBoxId}&type=${param.type}&cancelConfirm=${param.cancelConfirm}',
         colModel: [
             { label: '工作证号', name: 'user.code', width: 100,frozen:true },
             { label: '姓名',align:'center', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){

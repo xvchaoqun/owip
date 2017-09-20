@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;
 import domain.crs.CrsPost;
@@ -36,7 +36,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserCrsPostController extends BaseController {
+public class UserCrsPostController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

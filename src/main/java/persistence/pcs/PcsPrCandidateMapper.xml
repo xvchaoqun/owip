@@ -14,6 +14,8 @@
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="vote3" jdbcType="INTEGER" property="vote3" />
     <result column="is_chosen" jdbcType="BIT" property="isChosen" />
+    <result column="is_proposal" jdbcType="BIT" property="isProposal" />
+    <result column="proposal_sort_order" jdbcType="INTEGER" property="proposalSortOrder" />
     <result column="is_from_stage" jdbcType="BIT" property="isFromStage" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="realname_sort_order" jdbcType="INTEGER" property="realnameSortOrder" />
@@ -79,7 +81,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, recommend_id, user_id, type, gender, birth, nation, mobile, email, vote, vote3, 
-    is_chosen, is_from_stage, sort_order, realname_sort_order, add_time
+    is_chosen, is_proposal, proposal_sort_order, is_from_stage, sort_order, realname_sort_order, 
+    add_time
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsPrCandidateExample" resultMap="BaseResultMap">
     select
@@ -115,15 +118,15 @@
     insert into pcs_pr_candidate (id, recommend_id, user_id, 
       type, gender, birth, nation, 
       mobile, email, vote, 
-      vote3, is_chosen, is_from_stage, 
-      sort_order, realname_sort_order, add_time
-      )
+      vote3, is_chosen, is_proposal, 
+      proposal_sort_order, is_from_stage, sort_order, 
+      realname_sort_order, add_time)
     values (#{id,jdbcType=INTEGER}, #{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{gender,jdbcType=TINYINT}, #{birth,jdbcType=DATE}, #{nation,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, 
-      #{vote3,jdbcType=INTEGER}, #{isChosen,jdbcType=BIT}, #{isFromStage,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{realnameSortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}
-      )
+      #{vote3,jdbcType=INTEGER}, #{isChosen,jdbcType=BIT}, #{isProposal,jdbcType=BIT}, 
+      #{proposalSortOrder,jdbcType=INTEGER}, #{isFromStage,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{realnameSortOrder,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsPrCandidate">
     insert into pcs_pr_candidate
@@ -163,6 +166,12 @@
       </if>
       <if test="isChosen != null">
         is_chosen,
+      </if>
+      <if test="isProposal != null">
+        is_proposal,
+      </if>
+      <if test="proposalSortOrder != null">
+        proposal_sort_order,
       </if>
       <if test="isFromStage != null">
         is_from_stage,
@@ -213,6 +222,12 @@
       </if>
       <if test="isChosen != null">
         #{isChosen,jdbcType=BIT},
+      </if>
+      <if test="isProposal != null">
+        #{isProposal,jdbcType=BIT},
+      </if>
+      <if test="proposalSortOrder != null">
+        #{proposalSortOrder,jdbcType=INTEGER},
       </if>
       <if test="isFromStage != null">
         #{isFromStage,jdbcType=BIT},
@@ -273,6 +288,12 @@
       <if test="record.isChosen != null">
         is_chosen = #{record.isChosen,jdbcType=BIT},
       </if>
+      <if test="record.isProposal != null">
+        is_proposal = #{record.isProposal,jdbcType=BIT},
+      </if>
+      <if test="record.proposalSortOrder != null">
+        proposal_sort_order = #{record.proposalSortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.isFromStage != null">
         is_from_stage = #{record.isFromStage,jdbcType=BIT},
       </if>
@@ -304,6 +325,8 @@
       vote = #{record.vote,jdbcType=INTEGER},
       vote3 = #{record.vote3,jdbcType=INTEGER},
       is_chosen = #{record.isChosen,jdbcType=BIT},
+      is_proposal = #{record.isProposal,jdbcType=BIT},
+      proposal_sort_order = #{record.proposalSortOrder,jdbcType=INTEGER},
       is_from_stage = #{record.isFromStage,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       realname_sort_order = #{record.realnameSortOrder,jdbcType=INTEGER},
@@ -348,6 +371,12 @@
       <if test="isChosen != null">
         is_chosen = #{isChosen,jdbcType=BIT},
       </if>
+      <if test="isProposal != null">
+        is_proposal = #{isProposal,jdbcType=BIT},
+      </if>
+      <if test="proposalSortOrder != null">
+        proposal_sort_order = #{proposalSortOrder,jdbcType=INTEGER},
+      </if>
       <if test="isFromStage != null">
         is_from_stage = #{isFromStage,jdbcType=BIT},
       </if>
@@ -376,6 +405,8 @@
       vote = #{vote,jdbcType=INTEGER},
       vote3 = #{vote3,jdbcType=INTEGER},
       is_chosen = #{isChosen,jdbcType=BIT},
+      is_proposal = #{isProposal,jdbcType=BIT},
+      proposal_sort_order = #{proposalSortOrder,jdbcType=INTEGER},
       is_from_stage = #{isFromStage,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       realname_sort_order = #{realnameSortOrder,jdbcType=INTEGER},

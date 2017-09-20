@@ -1,7 +1,7 @@
 package controller.mobile.abroad;
 
 import bean.m.Breadcrumb;
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.Logical;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/m")
-public class MobileCadreController extends BaseController {
+@RequestMapping("/m/abroad")
+public class MobileCadreController extends AbroadBaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 

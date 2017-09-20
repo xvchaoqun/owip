@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringProps {
 
+	@Value("${devMode}")
+	public Boolean devMode;
+
 	@Value("${db.schema}")
 	public String schema;
 

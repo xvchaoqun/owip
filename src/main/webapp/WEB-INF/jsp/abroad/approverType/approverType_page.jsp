@@ -11,11 +11,11 @@ pageEncoding="UTF-8" %>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
         <div class="myTableDiv"
-             data-url-au="${ctx}/approverType_au"
-             data-url-page="${ctx}/approverType"
-             data-url-del="${ctx}/approverType_del"
-             data-url-bd="${ctx}/approverType_batchDel"
-             data-url-co="${ctx}/approverType_changeOrder"
+             data-url-au="${ctx}/abroad/approverType_au"
+             data-url-page="${ctx}/abroad/approverType"
+             data-url-del="${ctx}/abroad/approverType_del"
+             data-url-bd="${ctx}/abroad/approverType_batchDel"
+             data-url-co="${ctx}/abroad/approverType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
                 <div class="vspace-12"></div>
@@ -44,14 +44,14 @@ pageEncoding="UTF-8" %>
 								<td>${APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
                                     <c:if test="${approverType.type==APPROVER_TYPE_UNIT || approverType.type==APPROVER_TYPE_LEADER}">
-                                        <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}"
+                                        <button data-url="${ctx}/abroad/approverType/selectCadres?type=${approverType.type}"
                                                 class="popupBtn btn btn-primary btn-xs"
                                                 data-rel="tooltip" data-placement="top" title="点击进行二次编辑，在此最终确定参与审批的干部">
                                             <i class="fa fa-th-list"></i>  包含干部
                                         </button>
                                      </c:if>
                                     <c:if test="${approverType.type!=APPROVER_TYPE_UNIT && approverType.type!=APPROVER_TYPE_LEADER}">
-                                    <button data-url="${ctx}/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
+                                    <button data-url="${ctx}/abroad/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
                                             class="popupBtn btn btn-success btn-xs">
                                         <i class="fa fa-th-list"></i>  包含干部
                                     </button>
@@ -114,7 +114,7 @@ pageEncoding="UTF-8" %>
                     </c:forEach>
                     </tbody>
                 </table>
-                <wo:page commonList="${commonList}" uri="${ctx}/approverType" target="#page-content" pageNum="5"
+                <wo:page commonList="${commonList}" uri="${ctx}/abroad/approverType" target="#page-content" pageNum="5"
                          model="3"/>
             </c:if>
             <c:if test="${commonList.recNum==0}">

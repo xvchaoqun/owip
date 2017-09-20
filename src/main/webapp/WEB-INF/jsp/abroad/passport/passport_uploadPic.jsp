@@ -5,7 +5,7 @@
 </div>
 <div class="modal-body">
     <div class="well" style="margin-top: 20px;/* font-size: 20px*/">
-            <form class="form-horizontal" action="${ctx}/passport_uploadPic"
+            <form class="form-horizontal" action="${ctx}/abroad/passport_uploadPic"
                   id="modalForm" method="post" enctype="multipart/form-data">
                 <c:set var="passport" value="${cm:getPassport(param.id)}"/>
                 <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>

@@ -924,7 +924,7 @@ public class PcsPrExportService extends BaseMapper {
             if (partyId == null) {
                 // 单位
                 cell = row.getCell(column++);
-                cell.setCellValue(StringUtils.trimToEmpty(bean.getUnit()));
+                cell.setCellValue(StringUtils.trimToEmpty(bean.getUnitName()));
             }
 
             // 性别
@@ -1183,7 +1183,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 单位
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(bean.getUnit()));
+            cell.setCellValue(StringUtils.trimToEmpty(bean.getUnitName()));
 
             // 岗位类别
             cell = row.getCell(column++);

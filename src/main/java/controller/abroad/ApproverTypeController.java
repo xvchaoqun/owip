@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
@@ -33,7 +33,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class ApproverTypeController extends BaseController {
+@RequestMapping("/abroad")
+public class ApproverTypeController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

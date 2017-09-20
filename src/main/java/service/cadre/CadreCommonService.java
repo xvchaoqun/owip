@@ -14,6 +14,7 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.abroad.ApproverBlackListService;
@@ -24,6 +25,7 @@ import service.dispatch.DispatchService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.service.ApplicationContextSupport;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -52,10 +54,6 @@ public class CadreCommonService extends BaseMapper {
     private DispatchService dispatchService;
     @Autowired
     private CadreAdditionalPostService cadreAdditionalPostService;
-    @Autowired
-    private ApproverBlackListService approverBlackListService;
-    @Autowired
-    private ApproverTypeService approverTypeService;
     @Autowired
     private CadreService cadreService;
     @Autowired
@@ -322,6 +320,10 @@ public class CadreCommonService extends BaseMapper {
             if (unitIdCadresMap.containsKey(unit.getId()))
                 unitCadresMap.put(unit.getName(), unitIdCadresMap.get(unit.getId()));
         }
+
+        ApplicationContext context = ApplicationContextSupport.getContext();
+        ApproverBlackListService approverBlackListService = context.getBean(ApproverBlackListService.class);
+        ApproverTypeService approverTypeService = context.getBean(ApproverTypeService.class);
 
         // 本单位正职身份
         ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();

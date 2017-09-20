@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <shiro:user>
-	<c:redirect url="/m/index"/>
+	<c:redirect url="/m/abroad/index"/>
 </shiro:user>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +92,7 @@
 					$passwd.focus();
 					return;
 				}
-				$.post("${ctx}/m/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
+				$.post("${ctx}/m/abroad/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
 
 					if(data.success){
 						location.href = data.url;

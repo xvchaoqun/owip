@@ -29,6 +29,6 @@
         var cadreId = $("#modal select[name=cadreId]").val();
         if(cadreId=="") return;
         $("#modal").modal('hide');
-        $.loadView("${ctx}/user/passportApply_begin?auth=admin&cadreId=" + cadreId);
+        $.loadView("${ctx}/user/abroad//passportApply_begin?auth=admin&cadreId=" + cadreId);
     })
 </script>

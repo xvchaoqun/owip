@@ -57,17 +57,17 @@
             $("#useLogForm input[name=year]").focus();
             return;
         }
-        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}passport_useLogs?type=${param.type}"+
+        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
         "&id=${passport.id}&year="+year);
     });
     $("#useLogForm .resetBtn").click(function(){
-        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}passport_useLogs?type=${param.type}"+
+        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
         "&id=${passport.id}");
     });
     $("#useLogForm .exportBtn").click(function(){
 
         var year = $("#useLogForm input[name=year]").val();
-        location.href = "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?export=1&passportId=${passport.id}"+
+        location.href = "${ctx}/${param.type=='user'?'user/':''}abroad/passportDraw_data?export=1&passportId=${passport.id}"+
         "&year="+year;
     });
 
@@ -75,7 +75,7 @@
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager:"jqGridPager2",
-        url: "${ctx}/${param.type=='user'?'user/':''}passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
+        url: "${ctx}/${param.type=='user'?'user/':''}abroad/passportDraw_data?callback=?&passportId=${passport.id}&year=${param.year}",
         colModel: [
             { label: '申请日期', name: 'applyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '申请编码', name: 'id', width: 75, formatter:function(cellvalue, options, rowObject){

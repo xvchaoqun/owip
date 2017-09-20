@@ -1,6 +1,6 @@
 package controller.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsTemplate;
 import domain.crs.CrsTemplateExample;
 import domain.crs.CrsTemplateExample.Criteria;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CrsTemplateController extends BaseController {
+public class CrsTemplateController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

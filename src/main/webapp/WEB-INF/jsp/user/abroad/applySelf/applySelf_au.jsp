@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 
 	<div class="tab-content">
 		<div id="home4" class="tab-pane in active">
-			<form class="form-horizontal" action="${ctx}/user/applySelf_au" id="applyForm" method="post" enctype="multipart/form-data">
+			<form class="form-horizontal" action="${ctx}/user/abroad/applySelf_au" id="applyForm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="${applySelf.id}">
 				<input type="hidden" name="cadreId" value="${param.cadreId}">
 				<div class="form-group">
@@ -208,7 +208,7 @@ pageEncoding="UTF-8"%>
 	function _delFile(id, name){
 		bootbox.confirm("确定删除'"+name+"'吗？", function (result) {
 			if (result) {
-				$.post("${ctx}/user/applySelfFile_del",{id:id},function(ret){
+				$.post("${ctx}/user/abroad/applySelfFile_del",{id:id},function(ret){
 					if(ret.success){
 						SysMsg.success("删除成功",'',function(){
 							$("#file"+id).remove();
@@ -400,7 +400,7 @@ pageEncoding="UTF-8"%>
 		$("#sidebar a[href='/user/applySelf']").closest("li").removeClass("active");
 		$("#sidebar a[href='/user/passportDraw']").closest("li").addClass("active");
 		$("#body-content").hide();
-		$.get("${ctx}/user/passportDraw_self_select",{applyId:applyId},function(html){
+		$.get("${ctx}/user/abroad/passportDraw_self_select",{applyId:applyId},function(html){
 			$("#item-content").hide().html(html).fadeIn("slow");
 		})
 	}

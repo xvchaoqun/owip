@@ -7,9 +7,9 @@
 	<jsp:include page="/WEB-INF/jsp/mobile/head.jsp"></jsp:include>
 	<script>
 		function _logout(){
-			$.post(ctx+"/m/logout", {},function(data){
+			$.post(ctx+"/m/abroad/logout", {},function(data){
 				if(data.success){
-					location.href=ctx+'/m/index';
+					location.href=ctx+'/m/abroad/index';
 				}
 			})
 		}
@@ -46,13 +46,13 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
-								<img class="nav-user-photo" src="${ctx}/m/avatar/${_user.username}?m=1" width="90" alt="头像" />
+								<img class="nav-user-photo" src="${ctx}/m/abroad/avatar/${_user.username}?m=1" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="${ctx}/m/cadre_base">
+									<a href="${ctx}/m/abroad/cadre_base">
 										<i class="ace-icon fa fa-cog"></i>
 										个人资料
 									</a>
@@ -108,7 +108,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="${ctx}/m/index">首页</a>
+								<a href="${ctx}/m/abroad/index">首页</a>
 							</li>
 							<c:forEach var="breadcumb" items="${breadcumbs}" varStatus="vs">
 								<li class="${vs.last?'active':''}">

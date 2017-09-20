@@ -3,7 +3,7 @@ package controller.mobile.abroad;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import bean.m.Breadcrumb;
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfFile;
@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/m")
-public class MobileApplySelfController extends BaseController {
+@RequestMapping("/m/abroad")
+public class MobileApplySelfController extends AbroadBaseController {
 
 	@RequiresPermissions("applySelf:list")
 	@RequiresRoles(SystemConstants.ROLE_CADREADMIN)
@@ -44,8 +44,8 @@ public class MobileApplySelfController extends BaseController {
 	public String applySelf(ModelMap modelMap) {
 
 		List breadcumbs = new ArrayList();
-		/*breadcumbs.add(new Breadcrumb("/m/index", "首页"));*/
-		breadcumbs.add(new Breadcrumb("/m/applySelf", "因私出国境审批"));
+		/*breadcumbs.add(new Breadcrumb("/m/abroad/index", "首页"));*/
+		breadcumbs.add(new Breadcrumb("/m/abroad/applySelf", "因私出国境审批"));
 		breadcumbs.add(new Breadcrumb("审批管理"));
 		modelMap.put("breadcumbs", breadcumbs);
 
@@ -98,8 +98,8 @@ public class MobileApplySelfController extends BaseController {
 	public String applySelfList(ModelMap modelMap) {
 
 		List breadcumbs = new ArrayList();
-		/*breadcumbs.add(new Breadcrumb("/m/index", "首页"));*/
-		breadcumbs.add(new Breadcrumb("/m/applySelfList", "因私出国境审批"));
+		/*breadcumbs.add(new Breadcrumb("/m/abroad/index", "首页"));*/
+		breadcumbs.add(new Breadcrumb("/m/abroad/applySelfList", "因私出国境审批"));
 		breadcumbs.add(new Breadcrumb("审批管理"));
 		modelMap.put("breadcumbs", breadcumbs);
 

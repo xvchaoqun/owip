@@ -14,6 +14,12 @@ public class PcsConfig implements Serializable {
 
     private String remark;
 
+    private Date proposalSubmitTime;
+
+    private Date proposalSupportTime;
+
+    private Integer proposalSupportCount;
+
     private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +62,30 @@ public class PcsConfig implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Date getProposalSubmitTime() {
+        return proposalSubmitTime;
+    }
+
+    public void setProposalSubmitTime(Date proposalSubmitTime) {
+        this.proposalSubmitTime = proposalSubmitTime;
+    }
+
+    public Date getProposalSupportTime() {
+        return proposalSupportTime;
+    }
+
+    public void setProposalSupportTime(Date proposalSupportTime) {
+        this.proposalSupportTime = proposalSupportTime;
+    }
+
+    public Integer getProposalSupportCount() {
+        return proposalSupportCount;
+    }
+
+    public void setProposalSupportCount(Integer proposalSupportCount) {
+        this.proposalSupportCount = proposalSupportCount;
     }
 
     public Boolean getIsDeleted() {

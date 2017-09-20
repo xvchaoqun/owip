@@ -1,6 +1,6 @@
 package controller.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.cadre.CadreView;
 import domain.crs.CrsExpert;
 import domain.crs.CrsExpertExample;
@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class CrsExpertController extends BaseController {
+public class CrsExpertController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

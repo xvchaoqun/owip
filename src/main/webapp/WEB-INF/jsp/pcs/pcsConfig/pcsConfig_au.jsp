@@ -21,6 +21,36 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-4 control-label">提交提案时间</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <input class="form-control datetime-picker" type="text"  name="proposalSubmitTime"
+                           value="${cm:formatDate(pcsConfig.proposalSubmitTime, "yyyy-MM-dd HH:mm")}">
+							<span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">征集附议人时间</label>
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <input class="form-control datetime-picker" type="text"  name="proposalSupportTime"
+                           value="${cm:formatDate(pcsConfig.proposalSupportTime, "yyyy-MM-dd HH:mm")}">
+							<span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">立案附议人数</label>
+            <div class="col-xs-6">
+                <input class="form-control" type="text" name="proposalSupportCount" value="${pcsConfig.proposalSupportCount}">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-4 control-label">备注</label>
             <div class="col-xs-6">
                 <textarea class="form-control limited" type="text"

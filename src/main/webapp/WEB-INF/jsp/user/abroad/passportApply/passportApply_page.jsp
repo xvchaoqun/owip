@@ -10,12 +10,12 @@ pageEncoding="UTF-8" %>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="buttons">
-                            <button data-url="${ctx}/user/passportApply_begin"
+                            <button data-url="${ctx}/user/abroad/passportApply_begin"
                                     class="openView btn btn-success btn-sm"><i class="fa fa-plus"></i> 申请办理因私出国（境）证件
                             </button>
                         </div>
         <div class="myTableDiv"
-             data-url-page="${ctx}/user/passportApply"
+             data-url-page="${ctx}/user/abroad/passportApply"
                 data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
             <div class="space-4"></div>
@@ -41,7 +41,7 @@ pageEncoding="UTF-8" %>
 								<td>${passportTypeMap.get(passportApply.classId).name}</td>
 								<%--<td>
                                     <button class="openView btn btn-success btn-xs"
-                                            data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
+                                            data-url="${ctx}/user/abroad/passportApply_confirm?type=view&id=${passportApply.id}">
                                         <i class="fa fa-file-o"></i> 申请表
                                     </button>
                                 </td>--%>
@@ -69,11 +69,11 @@ pageEncoding="UTF-8" %>
                                     </c:if>
                                      <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
                                          <button class="openView btn btn-success btn-xs"
-                                                 data-url="${ctx}/user/passportApply_confirm?type=view&id=${passportApply.id}">
+                                                 data-url="${ctx}/user/abroad/passportApply_confirm?type=view&id=${passportApply.id}">
                                              <i class="fa fa-file-o"></i> 查看申请表
                                          </button>
                                          <button class="confirm btn btn-danger btn-xs"
-                                                 data-url="${ctx}/user/passportApply_del?id=${passportApply.id}"
+                                                 data-url="${ctx}/user/abroad/passportApply_del?id=${passportApply.id}"
                                                  data-callback="_delCallback"
                                                  data-msg="确定撤销该申请吗？">
                                              <i class="fa fa-trash"></i> 撤销申请
@@ -103,7 +103,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     if('${param._go}'=='apply'){
-        $.loadView("${ctx}/user/passportApply_begin");
+        $.loadView("${ctx}/user/abroad/passportApply_begin");
     }
     function _delCallback(target){
         SysMsg.success('撤销成功。', '成功',function(){

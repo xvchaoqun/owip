@@ -425,6 +425,186 @@ public class PcsConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andProposalSubmitTimeIsNull() {
+            addCriterion("proposal_submit_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeIsNotNull() {
+            addCriterion("proposal_submit_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeEqualTo(Date value) {
+            addCriterion("proposal_submit_time =", value, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeNotEqualTo(Date value) {
+            addCriterion("proposal_submit_time <>", value, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeGreaterThan(Date value) {
+            addCriterion("proposal_submit_time >", value, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("proposal_submit_time >=", value, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeLessThan(Date value) {
+            addCriterion("proposal_submit_time <", value, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeLessThanOrEqualTo(Date value) {
+            addCriterion("proposal_submit_time <=", value, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeIn(List<Date> values) {
+            addCriterion("proposal_submit_time in", values, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeNotIn(List<Date> values) {
+            addCriterion("proposal_submit_time not in", values, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeBetween(Date value1, Date value2) {
+            addCriterion("proposal_submit_time between", value1, value2, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSubmitTimeNotBetween(Date value1, Date value2) {
+            addCriterion("proposal_submit_time not between", value1, value2, "proposalSubmitTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeIsNull() {
+            addCriterion("proposal_support_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeIsNotNull() {
+            addCriterion("proposal_support_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeEqualTo(Date value) {
+            addCriterion("proposal_support_time =", value, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeNotEqualTo(Date value) {
+            addCriterion("proposal_support_time <>", value, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeGreaterThan(Date value) {
+            addCriterion("proposal_support_time >", value, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("proposal_support_time >=", value, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeLessThan(Date value) {
+            addCriterion("proposal_support_time <", value, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeLessThanOrEqualTo(Date value) {
+            addCriterion("proposal_support_time <=", value, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeIn(List<Date> values) {
+            addCriterion("proposal_support_time in", values, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeNotIn(List<Date> values) {
+            addCriterion("proposal_support_time not in", values, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeBetween(Date value1, Date value2) {
+            addCriterion("proposal_support_time between", value1, value2, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportTimeNotBetween(Date value1, Date value2) {
+            addCriterion("proposal_support_time not between", value1, value2, "proposalSupportTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountIsNull() {
+            addCriterion("proposal_support_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountIsNotNull() {
+            addCriterion("proposal_support_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountEqualTo(Integer value) {
+            addCriterion("proposal_support_count =", value, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountNotEqualTo(Integer value) {
+            addCriterion("proposal_support_count <>", value, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountGreaterThan(Integer value) {
+            addCriterion("proposal_support_count >", value, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("proposal_support_count >=", value, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountLessThan(Integer value) {
+            addCriterion("proposal_support_count <", value, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountLessThanOrEqualTo(Integer value) {
+            addCriterion("proposal_support_count <=", value, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountIn(List<Integer> values) {
+            addCriterion("proposal_support_count in", values, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountNotIn(List<Integer> values) {
+            addCriterion("proposal_support_count not in", values, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountBetween(Integer value1, Integer value2) {
+            addCriterion("proposal_support_count between", value1, value2, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andProposalSupportCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("proposal_support_count not between", value1, value2, "proposalSupportCount");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDeletedIsNull() {
             addCriterion("is_deleted is null");
             return (Criteria) this;

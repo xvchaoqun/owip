@@ -51,8 +51,6 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private EnterApplyService enterApplyService;
-    @Autowired
-    private ApplySelfService applySelfService;
 
     @Autowired
     protected ExtJzgService extJzgService;
@@ -173,16 +171,16 @@ public class SysUserService extends BaseMapper {
 
         SysUser sysUser = dbFindById(record.getUserId());
         SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
-        if ( sysUserInfo == null) {
+        if (sysUserInfo == null) {
 
-            if(StringUtils.isBlank(record.getNativePlace())){
+            if (StringUtils.isBlank(record.getNativePlace())) {
                 record.setNativePlace(getExtNativePlace(sysUser.getSource(), sysUser.getCode()));
             }
 
             sysUserInfoMapper.insertSelective(record);
-        }else {
+        } else {
 
-            if(StringUtils.isBlank(record.getNativePlace())){
+            if (StringUtils.isBlank(record.getNativePlace())) {
                 record.setNativePlace(getExtNativePlace(sysUser.getSource(), sysUser.getCode()));
             }
 
@@ -196,21 +194,21 @@ public class SysUserService extends BaseMapper {
     // 再同步这个信息了。 然后可以对这四个字段进行编辑。
 
     // 籍贯
-    private String getExtNativePlace(byte source, String code){
+    private String getExtNativePlace(byte source, String code) {
 
-        if(source==SystemConstants.USER_SOURCE_JZG) {
+        if (source == SystemConstants.USER_SOURCE_JZG) {
             ExtJzg extJzg = extJzgService.getByCode(code);
-            if(extJzg!=null){
+            if (extJzg != null) {
                 return extJzg.getJg();
             }
         }
-        if(source==SystemConstants.USER_SOURCE_BKS) {
+        if (source == SystemConstants.USER_SOURCE_BKS) {
             ExtBks extBks = extBksService.getByCode(code);
-            if(extBks!=null){
+            if (extBks != null) {
                 return extBks.getSf();
             }
         }
-        if(source==SystemConstants.USER_SOURCE_YJS) {
+        if (source == SystemConstants.USER_SOURCE_YJS) {
                     /*ExtYjs extYjs = extYjsService.getByCode(code);
                     if(extYjs!=null){
                         //record.setNativePlace(extYjs.get);
@@ -381,7 +379,7 @@ public class SysUserService extends BaseMapper {
         Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
 
         SysRole sysRole = sysRoleService.getByRole(role);
-        if(sysRole==null) throw new OpException("系统角色"+ role + "不存在");
+        if (sysRole == null) throw new OpException("系统角色" + role + "不存在");
         Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
         roleIdSet.add(sysRole.getId());
 
@@ -533,13 +531,16 @@ public class SysUserService extends BaseMapper {
      */
     public Set<String> filterMenus(int userId, Set<String> userRoles, Set<String> userPermissions) {
 
-        ApproverTypeBean approverTypeBean =  applySelfService.getApproverTypeBean(userId);
+        ApproverTypeBean approverTypeBean = null;
+        ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
+        if (applySelfService != null)
+            approverTypeBean = applySelfService.getApproverTypeBean(userId);
 
         // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
         if (userRoles.contains(SystemConstants.ROLE_PCS_ADMIN)) {
 
             PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
-            if(pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY){
+            if (pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
                 userPermissions.remove("pcsPartyAdmin:*");
             }
         }
@@ -549,16 +550,16 @@ public class SysUserService extends BaseMapper {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 
             //考察对象和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
-            if(cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
+            if (cadre == null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER
-                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE)){
+                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE)) {
                 userPermissions.remove("abroad:user"); // 因私出国境申请（干部目录）
                 userPermissions.remove("userApplySelf:*"); // 申请因私出国境（干部）
                 userPermissions.remove("userPassportDraw:*"); // 申请使用证件（干部）
                 userPermissions.remove("userPassportApply:*"); // 因私出国境证件（干部）
             }
 
-            if (approverTypeBean != null && cadre!= null) {
+            if (/*approverTypeBean != null && */cadre != null) {
                 MetaType leaderPostType = CmTag.getMetaTypeByCode("mt_leader");
                 if (cadre.getPostId() != null && cadre.getPostId().intValue() == leaderPostType.getId()) {
                     // 没有职务属性或干部的职务属性为校领导的，没有(userApplySelf:*， userPassportDraw:*)
@@ -568,9 +569,9 @@ public class SysUserService extends BaseMapper {
             }
 
             // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
-            if (cadre==null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
+            if (cadre == null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER) || approverTypeBean == null ||
-                    !(approverTypeBean.getMainPostUnitIds().size()>0
+                    !(approverTypeBean.getMainPostUnitIds().size() > 0
                             || approverTypeBean.isManagerLeader()
                             || approverTypeBean.isApprover())) {
 
@@ -583,7 +584,7 @@ public class SysUserService extends BaseMapper {
 
             // 非干部管理员账号如果有直接修改本人干部信息的权限，则不能看到“干部信息修改申请”菜单
             boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
-            if(!userRoles.contains(SystemConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth){
+            if (!userRoles.contains(SystemConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth) {
 
                 userPermissions.remove("modifyCadreInfo:menu");
             }

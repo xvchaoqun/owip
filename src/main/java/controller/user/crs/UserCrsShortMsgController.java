@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.crs.CrsShortMsg;
 import domain.crs.CrsShortMsgExample;
 import mixin.MixinUtils;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserCrsShortMsgController extends BaseController {
+public class UserCrsShortMsgController extends CrsBaseController {
 
     @RequiresPermissions("userCrsShortMsg:*")
     @RequestMapping("/crsShortMsg")

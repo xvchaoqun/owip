@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import controller.BaseController;
+import controller.AbroadBaseController;
 import domain.abroad.ApplySelfModify;
 import domain.abroad.ApplySelfModifyExample;
 import mixin.MixinUtils;
@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ApplySelfModifyController extends BaseController {
+@RequestMapping("/abroad")
+public class ApplySelfModifyController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

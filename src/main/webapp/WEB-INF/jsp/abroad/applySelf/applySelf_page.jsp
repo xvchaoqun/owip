@@ -5,24 +5,24 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/applySelf"
-             data-url-export="${ctx}/applySelf_data"
+             data-url-page="${ctx}/abroad/applySelf"
+             data-url-export="${ctx}/abroad/applySelf_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.cadreId ||not empty param._applyDate
             ||not empty param.type || not empty param.code || not empty param.isModify || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=1"><i class="fa fa-check"></i> 同意申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=1"><i class="fa fa-check"></i> 同意申请</a>
                     </li>
                     <li class="<c:if test="${status==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=2"><i class="fa fa-times"></i> 不同意申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=2"><i class="fa fa-times"></i> 不同意申请</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/applySelf?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=-1"><i class="fa fa-trash"></i> 已删除</a>
                     </li>
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="openView btn btn-success btn-sm"
@@ -38,7 +38,7 @@
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==0}">
-                                <button data-url="${ctx}/applySelf_au"
+                                <button data-url="${ctx}/abroad/applySelf_au"
                                         class="popupBtn btn btn-primary btn-sm">
                                     <i class="fa fa-plus"></i> 申请
                                 </button>
@@ -47,13 +47,13 @@
                             <c:if test="${status==0||status==1}">
                                 <shiro:hasPermission name="applySelf:edit">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                            data-url="${ctx}/applySelf_change" data-open-by="page">
+                                            data-url="${ctx}/abroad/applySelf_change" data-open-by="page">
                                         <i class="fa fa-edit"></i> 行程变更
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
                             <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                    data-url="${ctx}/applySelfModify"
+                                    data-url="${ctx}/abroad/applySelfModify"
                                     data-id-name="applyId"
                                     data-open-by="page">
                                 <i class="fa fa-search"></i> 变更记录
@@ -63,7 +63,7 @@
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
 
-                            <%--<button data-url="${ctx}/applySelf_view"
+                            <%--<button data-url="${ctx}/abroad/applySelf_view"
                                     data-open-by="page"
                                     class="jqOpenViewBtn btn btn-warning btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
@@ -88,19 +88,19 @@
                             <c:if test="${status>=0 && status!=1}">
                             <shiro:hasPermission name="applySelf:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
-                                   data-url="${ctx}/applySelf_batchDel" data-title="删除因私出国申请"
+                                   data-url="${ctx}/abroad/applySelf_batchDel" data-title="删除因私出国申请"
                                    data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>
                             </c:if>
                             <c:if test="${status==-1}">
                                 <shiro:hasPermission name="applySelf:del">
                                     <a class="jqBatchBtn btn btn-success btn-sm"
-                                       data-url="${ctx}/applySelf_batchUnDel" data-title="找回已删除因私出国申请"
+                                       data-url="${ctx}/abroad/applySelf_batchUnDel" data-title="找回已删除因私出国申请"
                                        data-msg="确定恢复这{0}条申请记录吗？"><i class="fa fa-reply"></i> 恢复申请</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
-                                       data-url="${ctx}/applySelf_doBatchDel" data-title="删除申请"
+                                       data-url="${ctx}/abroad/applySelf_doBatchDel" data-title="删除申请"
                                        data-msg="确定删除这{0}条申请记录吗（<span class='text-danger'>删除后不可以恢复，且相关数据都会删除</span>）？"><i class="fa fa-times"></i> 完全删除</a>
                                 </shiro:hasPermission>
                             </c:if>
@@ -205,7 +205,7 @@
 </style>
 <script type="text/template" id="remark_tpl">
     <button class="popupBtn btn btn-xs btn-primary"
-            data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
+            data-url="${ctx}/abroad/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
     </button>
 </script>
 
@@ -221,7 +221,7 @@
             return;
         }
 
-        var url = "${ctx}/applySelf_view?id=" + id;
+        var url = "${ctx}/abroad/applySelf_view?id=" + id;
 
         var $tr = $("[role='row'][id=" + id + "]", "#jqGrid");
         var flowNote = $tr.data("flow-node");
@@ -246,7 +246,7 @@
         ondblClickRow: function (rowid, iRow, iCol, e) {
             $("#detailBtn").click();
         },
-        url: '${ctx}/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/abroad/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -332,7 +332,7 @@
             var approvalTypeId = $(e.target).data("approval-type-id");
             var tdType = $(e.target).data("td-type");
             if (tdType != 1 && applySelfId > 0) {
-                $.getJSON("${ctx}/applySelf_approvers", {
+                $.getJSON("${ctx}/abroad/applySelf_approvers", {
                     applySelfId: applySelfId,
                     approvalTypeId: approvalTypeId
                 }, function (ret) {
@@ -425,7 +425,7 @@
             case 4:
             {
                 html = "<button {0} class=\"openView btn {1} btn-xs\"" +
-                "        data-url=\"${ctx}/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
+                "        data-url=\"${ctx}/abroad/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
                 "        <i class=\"fa fa-edit\"></i> 审批" +
                 "        </button>";
                 html = html.format(canApproval ? "" : "disabled",

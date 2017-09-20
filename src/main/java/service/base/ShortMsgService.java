@@ -47,6 +47,7 @@ import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.service.ApplicationContextSupport;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -75,8 +76,7 @@ public class ShortMsgService extends BaseMapper {
     private UserBeanService userBeanService;
     @Autowired
     private CadreService cadreService;
-    @Autowired
-    private ApplySelfService applySelfService;
+
     @Autowired
     private SpringProps springProps;
     @Autowired
@@ -255,6 +255,7 @@ public class ShortMsgService extends BaseMapper {
         }
         System.out.println("发送短信开始。。。");*/
 
+        ApplySelfService applySelfService = ApplicationContextSupport.getContext().getBean(ApplySelfService.class);
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
@@ -297,6 +298,7 @@ public class ShortMsgService extends BaseMapper {
     @Async
     public void sendApplySelfPassMsgToCadreAdmin(int applySelfId, String ip){
 
+        ApplySelfService applySelfService = ApplicationContextSupport.getContext().getBean(ApplySelfService.class);
         ApplySelf applySelf = applySelfService.get(applySelfId);
         SysUserView applyUser = applySelf.getUser();
 
@@ -478,6 +480,8 @@ public class ShortMsgService extends BaseMapper {
 
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
             String key = SystemConstants.CONTENT_TPL_APPLYSELF_PASS;
+
+            ApplySelfService applySelfService = ApplicationContextSupport.getContext().getBean(ApplySelfService.class);
             Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
             ApprovalResult lastVal = approvalResultMap.get(0);
 

@@ -5,19 +5,19 @@
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-au="${ctx}/user/applySelf_au"
-             data-url-page="${ctx}/user/applySelf"
+             data-url-au="${ctx}/user/abroad/applySelf_au"
+             data-url-page="${ctx}/user/abroad/applySelf"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param._applyDate
             ||not empty param.type }"/>
                 <div class="jqgrid-vertical-offset buttons">
-                    <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
+                    <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/abroad/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
                     <a class="popupBtn btn btn-info btn-sm"
                        data-width="650"
                        data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_APPLY_SELF_NOTE}">
                         <i class="fa fa-info-circle"></i> 申请说明</a>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                            data-url="${ctx}/user/applySelf_view"
+                            data-url="${ctx}/user/abroad/applySelf_view"
                             data-open-by="page">
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
@@ -28,7 +28,7 @@
                         <i class="fa fa-search"></i> 变更记录
                     </button>
                         <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm tooltip-info"
-                                data-url="${ctx}/user/applySelf_au"
+                                data-url="${ctx}/user/abroad/applySelf_au"
                                 data-open-by="page"
                                 data-querystr="&edit=1"
                                 data-rel="tooltip" data-placement="bottom"
@@ -36,7 +36,7 @@
                             <i class="fa fa-edit"></i> 重新申请
                         </button>
                             <button id="abolishBtn" class="jqItemBtn btn btn-danger btn-sm"
-                                    data-url="${ctx}/user/applySelf_del" data-title="撤销申请"
+                                    data-url="${ctx}/user/abroad/applySelf_del" data-title="撤销申请"
                                     data-msg="确定撤销该申请吗？">
                             <i class="fa fa-trash"></i> 撤销申请
                             </button>
@@ -118,7 +118,7 @@
         ondblClickRow : function(rowid,iRow,iCol,e){
             $(".jqOpenViewBtn").click();
         },
-        url: '${ctx}/user/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/user/abroad/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '编号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);

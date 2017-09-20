@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.BaseController;
+import controller.CrsBaseController;
 import domain.member.MemberTeacher;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import shiro.ShiroHelper;
  */
 @Controller
 @RequestMapping("/user")
-public class UserCrsInfoController extends BaseController {
+public class UserCrsInfoController extends CrsBaseController {
 
     @RequiresPermissions("userCrsInfo:*")
     @RequestMapping("/crsInfo")

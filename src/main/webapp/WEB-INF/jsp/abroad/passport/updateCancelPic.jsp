@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
     </h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/updateCancelPic" id="modalForm" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="${ctx}/abroad/updateCancelPic" id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
             <div class="form-group">
                 <label class="col-xs-4 control-label">取消集中保管确认时间</label>
@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
                         $("#modal").modal('hide');
                         //SysMsg.success('提交成功。', '成功',function(){
 
-                            $("#item-content").load("${ctx}/passport_cancel_view?id=${passport.id}")
+                            $("#item-content").load("${ctx}/abroad/passport_cancel_view?id=${passport.id}")
                         //});
                     }
                 }

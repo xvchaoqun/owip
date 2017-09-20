@@ -103,7 +103,7 @@
 
     $("#agree").click(function(){
         var remark = $("textarea[name=remark]").val().trim();
-        $.post("${ctx}/passportDraw_agree",{id:"${param.id}", remark:remark},function(ret){
+        $.post("${ctx}/abroad/passportDraw_agree",{id:"${param.id}", remark:remark},function(ret){
             if(ret.success){
                 //SysMsg.success('审批成功', '提示', function(){
                     //page_reload();
@@ -118,7 +118,7 @@
             SysMsg.info("请填写原因");
             return false;
         }
-        $.post("${ctx}/passportDraw_disagree",{id:"${param.id}", remark:reason},function(ret){
+        $.post("${ctx}/abroad/passportDraw_disagree",{id:"${param.id}", remark:reason},function(ret){
             if(ret.success){
                 //SysMsg.success('提交成功', '提示', function(){
                     //page_reload();
