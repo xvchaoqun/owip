@@ -6,7 +6,7 @@
       <div class="widget-box" style="width: 500px">
         <div class="widget-header">
           <h4 class="smaller">
-            时间设置
+            基本设置
           </h4>
         </div>
         <div class="widget-body">
