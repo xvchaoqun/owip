@@ -1,6 +1,6 @@
 package controller.pcs;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.pcs.PcsExcludeBranch;
 import domain.pcs.PcsExcludeBranchExample;
 import domain.pcs.PcsExcludeBranchExample.Criteria;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsExcludeBranchController extends BaseController {
+public class PcsExcludeBranchController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

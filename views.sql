@@ -1,4 +1,11 @@
 
+
+DROP VIEW IF EXISTS `pcs_proposal_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pcs_proposal_view` AS select pp.*, pps1.invite_user_ids, pps2.seconder_ids from pcs_proposal pp
+left join (select proposal_id, group_concat(user_id) as invite_user_ids from pcs_proposal_seconder where is_invited=1 group by proposal_id) pps1 on pps1.proposal_id = pp.id
+left join (select proposal_id, group_concat(user_id) as seconder_ids from pcs_proposal_seconder where is_finished=1 group by proposal_id) pps2 on pps2.proposal_id = pp.id;
+
+
 -- (分党委、党总支)排除了pcs_exclude_branch里头的支部之后的分党委表
 DROP VIEW IF EXISTS `pcs_party_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_party_view` AS select p.*, btmp.num as branch_count, mtmp.num as member_count,  mtmp.s_num as student_member_count, mtmp.positive_count,

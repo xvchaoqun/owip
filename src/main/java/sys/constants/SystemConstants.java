@@ -63,6 +63,7 @@ public class SystemConstants {
 
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
+    public static final String ROLE_PCS_PR = "role_pcs_pr"; // 党代表
 
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
@@ -1098,6 +1099,28 @@ public class SystemConstants {
         PCS_PR_RECOMMEND_STATUS_MAP.put(PCS_PR_RECOMMEND_STATUS_DENY, "审核不通过");
     }
 
+    // 党代表提案状态，暂存、未审核、审核未通过、征集附议人、立案处理、并案处理、不予立案、处理完成
+    public final static byte PCS_PROPOSAL_STATUS_SAVE = 0;
+    public final static byte PCS_PROPOSAL_STATUS_INIT = 1;
+    public final static byte PCS_PROPOSAL_STATUS_DENY = 2;
+    public final static byte PCS_PROPOSAL_STATUS_PASS = 3;
+    public final static byte PCS_PROPOSAL_STATUS_CASE = 4;
+    public final static byte PCS_PROPOSAL_STATUS_TOGETHER = 5;
+    public final static byte PCS_PROPOSAL_STATUS_NOT_CASE = 6;
+    public final static byte PCS_PROPOSAL_STATUS_FINISH = 7;
+    public final static Map<Byte, String> PCS_PROPOSAL_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_SAVE, "暂存");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_INIT, "未审核");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_DENY, "审核未通过");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_PASS, "征集附议人");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_CASE, "立案处理");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_TOGETHER, "并案处理");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_NOT_CASE, "不予立案");
+        PCS_PROPOSAL_STATUS_MAP.put(PCS_PROPOSAL_STATUS_FINISH, "处理完成");
+    }
+
     // 干部培训 评课账号的状态
     public final static byte TRAIN_INSPECTOR_STATUS_INIT = 0;
     public final static byte TRAIN_INSPECTOR_STATUS_ABOLISH = 1;
@@ -1661,6 +1684,9 @@ public class SystemConstants {
     public final static String CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN = "ct_passportDraw_pass_needsign";
     public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS = "ct_passportDraw_unpass";
     public final static String CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN = "ct_passportDraw_unpass_needsign";
+
+    // 党代表-邀请为提案附议人
+    public final static String CONTENT_TPL_PCS_INVITE_SECONDER = "ct_pcs_invite_seconder";
 
 
     // 本单位正职（一人）审批通知

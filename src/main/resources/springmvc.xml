@@ -13,7 +13,9 @@
             http://www.springframework.org/schema/mvc   
             http://www.springframework.org/schema/mvc/spring-mvc.xsd  
             http://www.springframework.org/schema/context   
-            http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util.xsd" default-lazy-init="true">
 
 	<context:property-placeholder location="classpath:spring.properties,classpath:spring-m.properties" ignore-unresolvable="true" order="-2"/>
 	<context:component-scan base-package="controller">
@@ -21,6 +23,7 @@
 			expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
+
 		<!--<context:exclude-filter type="regex" expression="controller.*\.crs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.train\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>-->

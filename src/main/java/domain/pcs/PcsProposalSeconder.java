@@ -10,9 +10,9 @@ public class PcsProposalSeconder implements Serializable {
 
     private Integer userId;
 
-    private Byte isInvited;
+    private Boolean isInvited;
 
-    private Byte isFinished;
+    private Boolean isFinished;
 
     private Date inviteTime;
 
@@ -46,19 +46,19 @@ public class PcsProposalSeconder implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getIsInvited() {
+    public Boolean getIsInvited() {
         return isInvited;
     }
 
-    public void setIsInvited(Byte isInvited) {
+    public void setIsInvited(Boolean isInvited) {
         this.isInvited = isInvited;
     }
 
-    public Byte getIsFinished() {
+    public Boolean getIsFinished() {
         return isFinished;
     }
 
-    public void setIsFinished(Byte isFinished) {
+    public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
     }
 

@@ -234,20 +234,6 @@ body {
     overflow-x: hidden;
 }
 
-/* view box table */
-.table.table-unhover tbody tr:hover td {
-    background-color: transparent;
-}
-
-.table.table-unhover > tbody > tr > td:nth-of-type(odd) {
-    background-color: #f9f9f9;
-    text-align: right;
-}
-
-.table.table-unhover2 tbody tr:hover td {
-    background-color: transparent;
-}
-
 /*jqgrid start*/
 .table > thead > tr > th:last-child {
     border-right-color: inherit !important; /*覆盖ace， jqgrid*/
@@ -323,6 +309,29 @@ body {
 }
 
 /*jqgrid ====end*/
+
+
+
+/* view box table */
+.table.table-unhover tbody tr:hover td,
+.table.table-unhover thead tr:hover th{
+    background-color: transparent;
+}
+
+.table.table-unhover > tbody > tr.active > td,
+.table.table-unhover tbody tr:hover td, .table.table-unhover tbody tr:hover th {
+    background-color: transparent;
+}
+
+
+.table.table-unhover > tbody > tr > td:nth-of-type(odd) {
+    background-color: #f9f9f9;
+    text-align: right;
+}
+
+.table.table-unhover2 tbody tr:hover td {
+    background-color: transparent;
+}
 
 .table {
     margin-bottom: 0px;

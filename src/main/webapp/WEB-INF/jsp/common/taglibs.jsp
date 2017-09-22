@@ -220,6 +220,12 @@
 <c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY%>" var="PCS_PR_RECOMMEND_STATUS_DENY"/>
 <c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_MAP%>" var="PCS_PR_RECOMMEND_STATUS_MAP"/>
 
+
+<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_SAVE%>" var="PCS_PROPOSAL_STATUS_SAVE"/>
+<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_INIT%>" var="PCS_PROPOSAL_STATUS_INIT"/>
+<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_PASS%>" var="PCS_PROPOSAL_STATUS_PASS"/>
+<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_MAP%>" var="PCS_PROPOSAL_STATUS_MAP"/>
+
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>

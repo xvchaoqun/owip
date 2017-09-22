@@ -158,6 +158,12 @@
 <script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
 <script src="${ctx}/extend/js/highcharts.js"></script>
 <script src="${ctx}/extend/js/exporting.js"></script>
+<script type="text/template" id="common_sort_tpl">
+    <a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+    <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
+           title="修改操作步长">
+    <a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
+</script>
 <script type="text/template" id="breadcrumbs_tpl">
     <ul class="breadcrumb">
         {{_.each(data.parents, function(p, idx){ }}

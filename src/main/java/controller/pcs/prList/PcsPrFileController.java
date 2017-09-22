@@ -1,6 +1,6 @@
 package controller.pcs.prList;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import controller.global.OpException;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPrFileController extends BaseController {
+public class PcsPrFileController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

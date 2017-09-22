@@ -1,6 +1,6 @@
 package controller.pcs.prList;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrFileTemplate;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPrFileTemplateController extends BaseController {
+public class PcsPrFileTemplateController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

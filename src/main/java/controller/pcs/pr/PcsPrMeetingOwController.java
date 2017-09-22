@@ -1,6 +1,6 @@
 package controller.pcs.pr;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Created by lm on 2017/9/4.
  */
-public class PcsPrMeetingOwController extends BaseController{
+public class PcsPrMeetingOwController extends PcsBaseController{
 
     @RequiresPermissions("pcsPrMeetingOw:list")
     @RequestMapping("/pcsPrMeetingOw")

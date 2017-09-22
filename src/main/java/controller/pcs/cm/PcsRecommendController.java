@@ -1,6 +1,6 @@
 package controller.pcs.cm;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.cadre.CadreView;
 import domain.member.MemberTeacher;
 import domain.pcs.PcsAdmin;
@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsRecommendController extends BaseController {
+public class PcsRecommendController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

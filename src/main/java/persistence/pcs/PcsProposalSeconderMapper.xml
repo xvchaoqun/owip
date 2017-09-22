@@ -5,8 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="proposal_id" jdbcType="INTEGER" property="proposalId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="is_invited" jdbcType="TINYINT" property="isInvited" />
-    <result column="is_finished" jdbcType="TINYINT" property="isFinished" />
+    <result column="is_invited" jdbcType="BIT" property="isInvited" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="invite_time" jdbcType="TIMESTAMP" property="inviteTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
@@ -107,7 +107,7 @@
       is_invited, is_finished, invite_time, 
       create_time, ip)
     values (#{id,jdbcType=INTEGER}, #{proposalId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{isInvited,jdbcType=TINYINT}, #{isFinished,jdbcType=TINYINT}, #{inviteTime,jdbcType=TIMESTAMP}, 
+      #{isInvited,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{inviteTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsProposalSeconder">
@@ -149,10 +149,10 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="isInvited != null">
-        #{isInvited,jdbcType=TINYINT},
+        #{isInvited,jdbcType=BIT},
       </if>
       <if test="isFinished != null">
-        #{isFinished,jdbcType=TINYINT},
+        #{isFinished,jdbcType=BIT},
       </if>
       <if test="inviteTime != null">
         #{inviteTime,jdbcType=TIMESTAMP},
@@ -184,10 +184,10 @@
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.isInvited != null">
-        is_invited = #{record.isInvited,jdbcType=TINYINT},
+        is_invited = #{record.isInvited,jdbcType=BIT},
       </if>
       <if test="record.isFinished != null">
-        is_finished = #{record.isFinished,jdbcType=TINYINT},
+        is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
       <if test="record.inviteTime != null">
         invite_time = #{record.inviteTime,jdbcType=TIMESTAMP},
@@ -208,8 +208,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       proposal_id = #{record.proposalId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      is_invited = #{record.isInvited,jdbcType=TINYINT},
-      is_finished = #{record.isFinished,jdbcType=TINYINT},
+      is_invited = #{record.isInvited,jdbcType=BIT},
+      is_finished = #{record.isFinished,jdbcType=BIT},
       invite_time = #{record.inviteTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
@@ -227,10 +227,10 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="isInvited != null">
-        is_invited = #{isInvited,jdbcType=TINYINT},
+        is_invited = #{isInvited,jdbcType=BIT},
       </if>
       <if test="isFinished != null">
-        is_finished = #{isFinished,jdbcType=TINYINT},
+        is_finished = #{isFinished,jdbcType=BIT},
       </if>
       <if test="inviteTime != null">
         invite_time = #{inviteTime,jdbcType=TIMESTAMP},
@@ -248,8 +248,8 @@
     update pcs_proposal_seconder
     set proposal_id = #{proposalId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      is_invited = #{isInvited,jdbcType=TINYINT},
-      is_finished = #{isFinished,jdbcType=TINYINT},
+      is_invited = #{isInvited,jdbcType=BIT},
+      is_finished = #{isFinished,jdbcType=BIT},
       invite_time = #{inviteTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}

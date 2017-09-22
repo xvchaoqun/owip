@@ -1,6 +1,6 @@
 package controller.pcs.prList;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import controller.global.OpException;
 import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.pcs.PcsAdmin;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPrVoteController extends BaseController {
+public class PcsPrVoteController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

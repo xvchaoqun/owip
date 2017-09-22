@@ -1,6 +1,6 @@
 package controller.pcs;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsConfigExample;
 import domain.pcs.PcsConfigExample.Criteria;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsConfigController extends BaseController {
+public class PcsConfigController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

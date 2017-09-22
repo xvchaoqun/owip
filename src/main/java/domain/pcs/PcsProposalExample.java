@@ -165,6 +165,66 @@ public class PcsProposalExample {
             return (Criteria) this;
         }
 
+        public Criteria andConfigIdIsNull() {
+            addCriterion("config_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdIsNotNull() {
+            addCriterion("config_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdEqualTo(Integer value) {
+            addCriterion("config_id =", value, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdNotEqualTo(Integer value) {
+            addCriterion("config_id <>", value, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdGreaterThan(Integer value) {
+            addCriterion("config_id >", value, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("config_id >=", value, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdLessThan(Integer value) {
+            addCriterion("config_id <", value, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdLessThanOrEqualTo(Integer value) {
+            addCriterion("config_id <=", value, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdIn(List<Integer> values) {
+            addCriterion("config_id in", values, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdNotIn(List<Integer> values) {
+            addCriterion("config_id not in", values, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdBetween(Integer value1, Integer value2) {
+            addCriterion("config_id between", value1, value2, "configId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("config_id not between", value1, value2, "configId");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;
@@ -495,63 +555,73 @@ public class PcsProposalExample {
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdIsNull() {
-            addCriterion("config_id is null");
+        public Criteria andContentIsNull() {
+            addCriterion("content is null");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdIsNotNull() {
-            addCriterion("config_id is not null");
+        public Criteria andContentIsNotNull() {
+            addCriterion("content is not null");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdEqualTo(Integer value) {
-            addCriterion("config_id =", value, "configId");
+        public Criteria andContentEqualTo(String value) {
+            addCriterion("content =", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdNotEqualTo(Integer value) {
-            addCriterion("config_id <>", value, "configId");
+        public Criteria andContentNotEqualTo(String value) {
+            addCriterion("content <>", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdGreaterThan(Integer value) {
-            addCriterion("config_id >", value, "configId");
+        public Criteria andContentGreaterThan(String value) {
+            addCriterion("content >", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("config_id >=", value, "configId");
+        public Criteria andContentGreaterThanOrEqualTo(String value) {
+            addCriterion("content >=", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdLessThan(Integer value) {
-            addCriterion("config_id <", value, "configId");
+        public Criteria andContentLessThan(String value) {
+            addCriterion("content <", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdLessThanOrEqualTo(Integer value) {
-            addCriterion("config_id <=", value, "configId");
+        public Criteria andContentLessThanOrEqualTo(String value) {
+            addCriterion("content <=", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdIn(List<Integer> values) {
-            addCriterion("config_id in", values, "configId");
+        public Criteria andContentLike(String value) {
+            addCriterion("content like", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdNotIn(List<Integer> values) {
-            addCriterion("config_id not in", values, "configId");
+        public Criteria andContentNotLike(String value) {
+            addCriterion("content not like", value, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdBetween(Integer value1, Integer value2) {
-            addCriterion("config_id between", value1, value2, "configId");
+        public Criteria andContentIn(List<String> values) {
+            addCriterion("content in", values, "content");
             return (Criteria) this;
         }
 
-        public Criteria andConfigIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("config_id not between", value1, value2, "configId");
+        public Criteria andContentNotIn(List<String> values) {
+            addCriterion("content not in", values, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentBetween(String value1, String value2) {
+            addCriterion("content between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentNotBetween(String value1, String value2) {
+            addCriterion("content not between", value1, value2, "content");
             return (Criteria) this;
         }
 
@@ -612,6 +682,66 @@ public class PcsProposalExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeIsNull() {
+            addCriterion("check_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeIsNotNull() {
+            addCriterion("check_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeEqualTo(Date value) {
+            addCriterion("check_time =", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeNotEqualTo(Date value) {
+            addCriterion("check_time <>", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeGreaterThan(Date value) {
+            addCriterion("check_time >", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("check_time >=", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeLessThan(Date value) {
+            addCriterion("check_time <", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeLessThanOrEqualTo(Date value) {
+            addCriterion("check_time <=", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeIn(List<Date> values) {
+            addCriterion("check_time in", values, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeNotIn(List<Date> values) {
+            addCriterion("check_time not in", values, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeBetween(Date value1, Date value2) {
+            addCriterion("check_time between", value1, value2, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeNotBetween(Date value1, Date value2) {
+            addCriterion("check_time not between", value1, value2, "checkTime");
             return (Criteria) this;
         }
 

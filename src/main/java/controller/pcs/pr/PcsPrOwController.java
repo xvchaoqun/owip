@@ -1,6 +1,6 @@
 package controller.pcs.pr;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.party.Party;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPrOwController extends BaseController {
+public class PcsPrOwController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

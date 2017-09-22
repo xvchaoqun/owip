@@ -1,13 +1,26 @@
 package controller.pcs.proposal;
 
-import controller.BaseController;
+import controller.PcsBaseController;
+import domain.base.MetaType;
+import domain.ext.ExtBks;
+import domain.ext.ExtJzg;
+import domain.ext.ExtYjs;
+import domain.pcs.PcsConfig;
+import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsProposal;
 import domain.pcs.PcsProposalExample;
 import domain.pcs.PcsProposalExample.Criteria;
+import domain.pcs.PcsProposalFile;
+import domain.pcs.PcsProposalView;
+import domain.pcs.PcsProposalViewExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,13 +29,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
+import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,28 +52,85 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsProposalController extends BaseController {
+public class PcsProposalController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("pcsProposal:list")
+    //@RequiresPermissions("pcsProposal:list")
     @RequestMapping("/pcsProposal")
-    public String pcsProposal() {
+    public String pcsProposal(
+                               Integer userId,
+                               @RequestParam(required = false, value = "types") Integer[] types,
+                              @RequestParam(required = false, defaultValue = "1") byte cls,
+                              @RequestParam(required = false, defaultValue = "1") byte module,
+                              ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        modelMap.put("module", module);
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        modelMap.put("pcsConfig", currentPcsConfig);
+        if(cls==1){
+            if(DateUtils.compareDate(new Date(), currentPcsConfig.getProposalSubmitTime())){
+
+                modelMap.put("proposalClosed", true);
+                return "pcs/pcsProposal/pcsProposal_page";
+            }
+        }else if(cls==2 || cls==3){
+            if(DateUtils.compareDate(new Date(), currentPcsConfig.getProposalSupportTime())){
+
+                modelMap.put("supportClosed", true);
+                return "pcs/pcsProposal/pcsProposal_page";
+            }
+        }
+
+
+        if (NumberUtils.contains(cls, (byte) 1, (byte) 2, (byte) 3)) {
+            SecurityUtils.getSubject().checkPermission("pcsProposalPr:*");
+        } else {
+            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+        }
+
+        if (cls == 8 && module != 1) {
+            return "pcs/pcsProposal/ow_page";
+        }
+
+        if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        if (types != null) {
+            modelMap.put("selectTypes", Arrays.asList(types));
+        }
+        Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
+        modelMap.put("prTypes", prTypes.values());
+
+        Integer proposalSupportCount = currentPcsConfig.getProposalSupportCount();
+        modelMap.put("proposalSupportCount", NumberUtils.trimToZero(proposalSupportCount));
 
         return "pcs/pcsProposal/pcsProposal_page";
     }
 
-    @RequiresPermissions("pcsProposal:list")
+    //@RequiresPermissions("pcsProposal:list")
     @RequestMapping("/pcsProposal_data")
     public void pcsProposal_data(HttpServletResponse response,
+                                 @RequestParam(required = false, defaultValue = "1") byte cls,
+                                 @RequestParam(required = false, defaultValue = "1") byte module,
                                  String code,
                                  Integer userId,
+                                 @RequestParam(required = false, value = "types") Integer[] types,
                                  String name,
                                  String keywords,
-                                 Integer type,
+                                 Boolean displayInvite,
+                                 Byte status,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
+
+        if (NumberUtils.contains(cls, (byte) 1, (byte) 2, (byte) 3)) {
+            SecurityUtils.getSubject().checkPermission("pcsProposalPr:*");
+        } else {
+            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -66,9 +140,32 @@ public class PcsProposalController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PcsProposalExample example = new PcsProposalExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("create_time desc");
+        PcsProposalViewExample example = new PcsProposalViewExample();
+        PcsProposalViewExample.Criteria criteria = example.createCriteria();
+        if(cls==2 || cls==3)
+            example.setOrderByClause("check_time desc, create_time desc");
+        else
+            example.setOrderByClause("create_time desc");
+
+        if (cls == 1) {
+            if(module==1) {
+                // 撰写提案
+                criteria.andUserIdEqualTo(ShiroHelper.getCurrentUserId());
+            }else {
+                // 自己是附议人的提案
+                criteria.andIsSeconder(ShiroHelper.getCurrentUserId());
+            }
+        } else if (cls == 2 || cls == 3) {  // 征集附议人 & 提案查询
+            criteria.andStatusEqualTo(SystemConstants.PCS_PROPOSAL_STATUS_PASS);
+
+            if(BooleanUtils.isTrue(displayInvite)){
+                criteria.andIsInvited(ShiroHelper.getCurrentUserId());
+            }
+
+        } else if (cls == 8) {  // 提案管理
+            if (module == 1)
+                criteria.andStatusNotEqualTo(SystemConstants.PCS_PROPOSAL_STATUS_SAVE);
+        }
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
@@ -82,8 +179,13 @@ public class PcsProposalController extends BaseController {
         if (StringUtils.isNotBlank(keywords)) {
             criteria.andKeywordsLike("%" + keywords + "%");
         }
-        if (type != null) {
-            criteria.andTypeEqualTo(type);
+
+        if (types != null) {
+            criteria.andTypeIn(Arrays.asList(types));
+        }
+
+        if (status != null) {
+            criteria.andStatusEqualTo(status);
         }
 
         if (export == 1) {
@@ -93,12 +195,12 @@ public class PcsProposalController extends BaseController {
             return;
         }
 
-        long count = pcsProposalMapper.countByExample(example);
+        long count = pcsProposalViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PcsProposal> records = pcsProposalMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PcsProposalView> records = pcsProposalViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -113,57 +215,149 @@ public class PcsProposalController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("pcsProposal:edit")
+    //@RequiresPermissions("pcsProposal:edit")
     @RequestMapping(value = "/pcsProposal_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pcsProposal_au(PcsProposal record, HttpServletRequest request) {
+    public Map do_pcsProposal_au(PcsProposal record,
+                                 @RequestParam(value = "_files[]", required = false) MultipartFile[] _files, // 附件
+                                 @RequestParam(value = "seconderIds[]", required = false) Integer[] seconderIds, // 邀请附议人
+                                 HttpServletRequest request) throws IOException, InterruptedException {
+
+        if (!ShiroHelper.isPermitted("pcsProposalPr:*")
+                && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
+            throw new UnauthenticatedException();
+        }
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        if(DateUtils.compareDate(new Date(), currentPcsConfig.getProposalSubmitTime())){
+
+           return failed("提交提案截止时间为"
+                   + DateUtils.formatDate(currentPcsConfig.getProposalSubmitTime(), DateUtils.YYYY_MM_DD_HH_MM));
+        }
 
         Integer id = record.getId();
 
-        if (pcsProposalService.idDuplicate(id, record.getCode())) {
+        if (StringUtils.isNotBlank(record.getCode()) &&
+                pcsProposalService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
         }
-        if (id == null) {
-            pcsProposalService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加提案：%s", record.getId()));
-        } else {
-
-            pcsProposalService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新提案：%s", record.getId()));
+        if (record.getStatus() == null
+                || !NumberUtils.contains(record.getStatus(),
+                SystemConstants.PCS_PROPOSAL_STATUS_SAVE,
+                SystemConstants.PCS_PROPOSAL_STATUS_INIT,
+                SystemConstants.PCS_PROPOSAL_STATUS_DENY)) {
+            return failed("状态异常");
         }
 
-        return success(FormUtils.SUCCESS);
+        if (_files == null) _files = new MultipartFile[]{};
+        if (seconderIds == null) seconderIds = new Integer[]{};
+
+        List<PcsProposalFile> pcsProposalFiles = new ArrayList<>();
+        for (MultipartFile _file : _files) {
+
+            String originalFilename = _file.getOriginalFilename();
+            String savePath = savePdfOrImage(_file, "pcsProposal");
+
+            PcsProposalFile file = new PcsProposalFile();
+            file.setUserId(ShiroHelper.getCurrentUserId());
+            file.setFileName(originalFilename);
+            file.setFilePath(savePath);
+            file.setCreateTime(new Date());
+            file.setIp(ContextHelper.getRealIp());
+            pcsProposalFiles.add(file);
+        }
+
+        //PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        record.setConfigId(configId);
+
+        pcsProposalService.saveOrUpdate(record, pcsProposalFiles, seconderIds);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新提案：%s", record.getId()));
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("id", record.getId());
+        return resultMap;
     }
 
-    @RequiresPermissions("pcsProposal:edit")
+    // 选择邀请附议人（全部党代表，不包含自己）
+    @RequestMapping("/pcsProposal_candidates")
+    public String pcsProposal_candidates(ModelMap modelMap) {
+
+        if (!ShiroHelper.isPermitted("pcsProposalPr:*")
+                && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
+            throw new UnauthenticatedException();
+        }
+        int userId = ShiroHelper.getCurrentUserId();
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND)
+                .andIsChosenEqualTo(true).andIsProposalEqualTo(true)
+                .andUserIdNotEqualTo(userId);
+        example.setOrderByClause("proposal_sort_order asc");
+        List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
+
+        modelMap.put("candidates", candidates);
+
+        return "pcs/pcsProposal/pcsProposal_candidates";
+    }
+
+    // 查看附议人
+    @RequestMapping("/pcsProposal_seconders")
+    public String pcsProposal_seconders(int id, ModelMap modelMap) {
+
+        if (!ShiroHelper.isPermitted("pcsProposalPr:*")
+                && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
+            throw new UnauthenticatedException();
+        }
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
+        modelMap.put("pcsProposal", pcsProposal);
+        List<PcsPrCandidateView> candidates = pcsProposalService.getSeconderCandidates(configId, pcsProposal);
+        modelMap.put("candidates", candidates);
+
+        return "pcs/pcsProposal/pcsProposal_seconders";
+    }
+
+    //@RequiresPermissions("pcsProposal:edit")
     @RequestMapping("/pcsProposal_au")
     public String pcsProposal_au(Integer id, ModelMap modelMap) {
 
-        if (id != null) {
-            PcsProposal pcsProposal = pcsProposalMapper.selectByPrimaryKey(id);
-            modelMap.put("pcsProposal", pcsProposal);
+        if (!ShiroHelper.isPermitted("pcsProposalPr:*")
+                && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
+            throw new UnauthenticatedException();
         }
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        PcsPrCandidateView pcsPrCandidateView =
+                pcsPrCandidateService.find(ShiroHelper.getCurrentUserId(), configId, SystemConstants.PCS_STAGE_SECOND);
+        modelMap.put("candidate", pcsPrCandidateView);
+
+        if (id != null) {
+            PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
+            modelMap.put("pcsProposal", pcsProposal);
+
+            // 读取已经邀请的附议人
+            modelMap.put("candidates", pcsProposalService.getInviteCandidates(configId, pcsProposal));
+        }
+
+        Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
+        modelMap.put("prTypes", prTypes.values());
+
         return "pcs/pcsProposal/pcsProposal_au";
     }
 
-    @RequiresPermissions("pcsProposal:del")
-    @RequestMapping(value = "/pcsProposal_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pcsProposal_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            pcsProposalService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除提案：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("pcsProposal:del")
+    //@RequiresPermissions("pcsProposal:del")
     @RequestMapping(value = "/pcsProposal_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map pcsProposal_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
+        if (!ShiroHelper.isPermitted("pcsProposalPr:*")
+                && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
+            throw new UnauthenticatedException();
+        }
 
         if (null != ids && ids.length > 0) {
             pcsProposalService.batchDel(ids);
@@ -173,15 +367,34 @@ public class PcsProposalController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //@RequiresPermissions("pcsProposal:del")
+    @RequestMapping(value = "/pcsProposal_batchDelFiles", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pcsProposal_batchDelFiles(HttpServletRequest request,
+                                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-    public void pcsProposal_export(PcsProposalExample example, HttpServletResponse response) {
+        if (!ShiroHelper.isPermitted("pcsProposalPr:*")
+                && !ShiroHelper.isPermitted("pcsProposalOw:*")) {
+            throw new UnauthenticatedException();
+        }
 
-        List<PcsProposal> records = pcsProposalMapper.selectByExample(example);
+        if (null != ids && ids.length > 0) {
+            pcsProposalService.batchDelFiles(ids);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除提案附件：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
+    public void pcsProposal_export(PcsProposalViewExample example, HttpServletResponse response) {
+
+        List<PcsProposalView> records = pcsProposalViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"提案编号|100", "用户|100", "标题|100", "关键字|100", "提案类型|100", "创建时间|100", "状态|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            PcsProposal record = records.get(i);
+            PcsProposalView record = records.get(i);
             String[] values = {
                     record.getCode(),
                     record.getUserId() + "",
@@ -233,6 +446,76 @@ public class PcsProposalController extends BaseController {
                 option.setText(pcsProposal.getName());
                 option.setId(pcsProposal.getId() + "");
 
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
+
+
+    // 根据账号或姓名或学工号 查询 党代表
+    @RequestMapping("/pcsProposal_pr_selects")
+    @ResponseBody
+    public Map pcsProposal_pr_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        searchStr = StringUtils.trimToNull(searchStr);
+        if (searchStr != null) searchStr = "%" + searchStr + "%";
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+        byte stage = SystemConstants.PCS_STAGE_SECOND;
+
+        int count = iPcsMapper.countPr(configId, stage, searchStr);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<PcsPrCandidateView> records =
+                iPcsMapper.selectPrList(configId, stage, searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+        if (null != records && records.size() > 0) {
+
+            for (PcsPrCandidateView candidate : records) {
+                Map<String, Object> option = new HashMap<>();
+                SysUserView uv = sysUserService.findById(candidate.getUserId());
+                option.put("id", candidate.getUserId() + "");
+                option.put("text", uv.getRealname());
+                option.put("user", userBeanService.get(candidate.getUserId()));
+
+                if (StringUtils.isNotBlank(uv.getCode())) {
+                    option.put("code", uv.getCode());
+                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
+                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+                        if (extJzg != null) {
+                            option.put("unit", extJzg.getDwmc());
+                        }
+                    }
+                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
+                        ExtBks extBks = extBksService.getByCode(uv.getCode());
+                        if (extBks != null) {
+                            option.put("unit", extBks.getYxmc());
+                        }
+                    }
+                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
+                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
+                        if (extYjs != null) {
+                            option.put("unit", extYjs.getYxsmc());
+                        }
+                    }
+                }
                 options.add(option);
             }
         }

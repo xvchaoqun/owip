@@ -6,6 +6,8 @@ import java.util.Date;
 public class PcsProposal implements Serializable {
     private Integer id;
 
+    private Integer configId;
+
     private String code;
 
     private Integer userId;
@@ -16,9 +18,11 @@ public class PcsProposal implements Serializable {
 
     private Integer type;
 
-    private Integer configId;
+    private String content;
 
     private Date createTime;
+
+    private Date checkTime;
 
     private Byte status;
 
@@ -30,6 +34,14 @@ public class PcsProposal implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(Integer configId) {
+        this.configId = configId;
     }
 
     public String getCode() {
@@ -72,12 +84,12 @@ public class PcsProposal implements Serializable {
         this.type = type;
     }
 
-    public Integer getConfigId() {
-        return configId;
+    public String getContent() {
+        return content;
     }
 
-    public void setConfigId(Integer configId) {
-        this.configId = configId;
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
     public Date getCreateTime() {
@@ -86,6 +98,14 @@ public class PcsProposal implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(Date checkTime) {
+        this.checkTime = checkTime;
     }
 
     public Byte getStatus() {

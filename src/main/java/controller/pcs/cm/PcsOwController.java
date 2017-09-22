@@ -1,6 +1,6 @@
 package controller.pcs.cm;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;
@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class PcsOwController extends BaseController {
+public class PcsOwController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

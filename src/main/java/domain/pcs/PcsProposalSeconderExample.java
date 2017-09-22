@@ -295,52 +295,52 @@ public class PcsProposalSeconderExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedEqualTo(Byte value) {
+        public Criteria andIsInvitedEqualTo(Boolean value) {
             addCriterion("is_invited =", value, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedNotEqualTo(Byte value) {
+        public Criteria andIsInvitedNotEqualTo(Boolean value) {
             addCriterion("is_invited <>", value, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedGreaterThan(Byte value) {
+        public Criteria andIsInvitedGreaterThan(Boolean value) {
             addCriterion("is_invited >", value, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsInvitedGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_invited >=", value, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedLessThan(Byte value) {
+        public Criteria andIsInvitedLessThan(Boolean value) {
             addCriterion("is_invited <", value, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedLessThanOrEqualTo(Byte value) {
+        public Criteria andIsInvitedLessThanOrEqualTo(Boolean value) {
             addCriterion("is_invited <=", value, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedIn(List<Byte> values) {
+        public Criteria andIsInvitedIn(List<Boolean> values) {
             addCriterion("is_invited in", values, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedNotIn(List<Byte> values) {
+        public Criteria andIsInvitedNotIn(List<Boolean> values) {
             addCriterion("is_invited not in", values, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedBetween(Byte value1, Byte value2) {
+        public Criteria andIsInvitedBetween(Boolean value1, Boolean value2) {
             addCriterion("is_invited between", value1, value2, "isInvited");
             return (Criteria) this;
         }
 
-        public Criteria andIsInvitedNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsInvitedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_invited not between", value1, value2, "isInvited");
             return (Criteria) this;
         }
@@ -355,52 +355,52 @@ public class PcsProposalSeconderExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedEqualTo(Byte value) {
+        public Criteria andIsFinishedEqualTo(Boolean value) {
             addCriterion("is_finished =", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedNotEqualTo(Byte value) {
+        public Criteria andIsFinishedNotEqualTo(Boolean value) {
             addCriterion("is_finished <>", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedGreaterThan(Byte value) {
+        public Criteria andIsFinishedGreaterThan(Boolean value) {
             addCriterion("is_finished >", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsFinishedGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_finished >=", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedLessThan(Byte value) {
+        public Criteria andIsFinishedLessThan(Boolean value) {
             addCriterion("is_finished <", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedLessThanOrEqualTo(Byte value) {
+        public Criteria andIsFinishedLessThanOrEqualTo(Boolean value) {
             addCriterion("is_finished <=", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedIn(List<Byte> values) {
+        public Criteria andIsFinishedIn(List<Boolean> values) {
             addCriterion("is_finished in", values, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedNotIn(List<Byte> values) {
+        public Criteria andIsFinishedNotIn(List<Boolean> values) {
             addCriterion("is_finished not in", values, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedBetween(Byte value1, Byte value2) {
+        public Criteria andIsFinishedBetween(Boolean value1, Boolean value2) {
             addCriterion("is_finished between", value1, value2, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsFinishedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_finished not between", value1, value2, "isFinished");
             return (Criteria) this;
         }

@@ -257,7 +257,9 @@ public class SysUserService extends BaseMapper {
     public List<SysUserView> findByRole(String role) {
 
         SysRole sysRole = sysRoleService.getByRole(role);
-
+        if(sysRole==null){
+            throw new OpException("角色{}不存在。", role);
+        }
         SysUserViewExample example = new SysUserViewExample();
         SysUserViewExample.Criteria criteria = example.createCriteria();
         criteria.andRoleIdsLike("%," + sysRole.getId() + ",%");

@@ -1,11 +1,16 @@
 package service.pcs;
 
+import domain.pcs.PcsPrCandidate;
+import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsPrCandidateViewExample;
 import domain.pcs.PcsPrRecommend;
 import domain.pcs.PcsPrRecommendExample;
+import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 
 import java.util.List;
@@ -15,6 +20,8 @@ public class PcsPrOwService extends BaseMapper {
 
     @Autowired
     private PcsPrPartyService pcsPrPartyService;
+    @Autowired
+    private SysUserService sysUserService;
 
     // 组织部管理员审核分党委推荐
     @Transactional
@@ -64,5 +71,44 @@ public class PcsPrOwService extends BaseMapper {
                 .andStageEqualTo(stage).andStatusNotEqualTo(SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
 
         return pcsPrRecommendMapper.countByExample(example);
+    }
+
+    //同步全校党代表名单至提案党代表名单
+    @Transactional
+    public void sync(int configId) {
+
+        // 清空之前的名单（如果存在)
+        commonMapper.excuteSql("update pcs_pr_candidate pc,pcs_pr_recommend pr set pc.is_proposal=null, " +
+                "pc.proposal_sort_order=null " + "where pc.recommend_id=pr.id and pr.config_id=" + configId + " and pr.stage="
+                + SystemConstants.PCS_STAGE_SECOND + " and pc.is_chosen = 1");
+
+        List<SysUserView> prUsers = sysUserService.findByRole(SystemConstants.ROLE_PCS_PR);
+        for (SysUserView prUser : prUsers) {
+            // 清除角色
+            sysUserService.delRole(prUser.getUserId(), SystemConstants.ROLE_PCS_PR, prUser.getUsername(), prUser.getCode());
+        }
+
+        PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
+        example.createCriteria().andConfigIdEqualTo(configId)
+                .andStageEqualTo(SystemConstants.PCS_STAGE_SECOND).andIsChosenEqualTo(true);
+        example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
+        List<PcsPrCandidateView> records = pcsPrCandidateViewMapper.selectByExample(example);
+
+        int size = records.size();
+        for (int i = 0; i < size; i++) {
+
+            PcsPrCandidateView candidate = records.get(i);
+
+            PcsPrCandidate record = new PcsPrCandidate();
+            record.setId(candidate.getId());
+            record.setIsProposal(true);
+            record.setProposalSortOrder(i+1); // 升序排列
+
+            pcsPrCandidateMapper.updateByPrimaryKeySelective(record);
+
+            Integer userId = candidate.getUserId();
+            SysUserView uv = sysUserService.findById(userId);
+            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_PR, uv.getUsername(), uv.getCode());
+        }
     }
 }

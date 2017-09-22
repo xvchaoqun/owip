@@ -2,6 +2,7 @@ package controller;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
@@ -100,23 +101,6 @@ import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.party.RetireApplyService;
-import service.pcs.PcsAdminService;
-import service.pcs.PcsCandidateService;
-import service.pcs.PcsConfigService;
-import service.pcs.PcsExportService;
-import service.pcs.PcsOwService;
-import service.pcs.PcsPartyService;
-import service.pcs.PcsPartyViewService;
-import service.pcs.PcsPrAlocateService;
-import service.pcs.PcsPrCandidateService;
-import service.pcs.PcsPrExportService;
-import service.pcs.PcsPrFileService;
-import service.pcs.PcsPrFileTemplateService;
-import service.pcs.PcsPrListService;
-import service.pcs.PcsPrOwService;
-import service.pcs.PcsPrPartyService;
-import service.pcs.PcsProposalService;
-import service.pcs.PcsRecommendService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
 import service.sys.FeedbackService;
@@ -304,42 +288,6 @@ public class BaseController extends BaseMapper {
     protected CrpRecordService crpRecordService;
 
     @Autowired
-    protected PcsPartyViewService pcsPartyViewService;
-    @Autowired
-    protected PcsAdminService pcsAdminService;
-    @Autowired
-    protected PcsExportService pcsExportService;
-    @Autowired
-    protected PcsCandidateService pcsCandidateService;
-    @Autowired
-    protected PcsConfigService pcsConfigService;
-    @Autowired
-    protected PcsRecommendService pcsRecommendService;
-    @Autowired
-    protected PcsOwService pcsOwService;
-    @Autowired
-    protected PcsPartyService pcsPartyService;
-    @Autowired
-    protected PcsProposalService pcsProposalService;
-
-    @Autowired
-    protected PcsPrAlocateService pcsPrAlocateService;
-    @Autowired
-    protected PcsPrPartyService pcsPrPartyService;
-    @Autowired
-    protected PcsPrCandidateService pcsPrCandidateService;
-    @Autowired
-    protected PcsPrExportService pcsPrExportService;
-    @Autowired
-    protected PcsPrOwService pcsPrOwService;
-    @Autowired
-    protected PcsPrFileTemplateService pcsPrFileTemplateService;
-    @Autowired
-    protected PcsPrFileService pcsPrFileService;
-    @Autowired
-    protected PcsPrListService pcsPrListService;
-
-    @Autowired
     protected CpcAllocationService cpcAllocationService;
 
 
@@ -496,7 +444,7 @@ public class BaseController extends BaseMapper {
             pdf2Swf(savePath, swfPath);
 
         } else if (StringUtils.equalsIgnoreCase(type, "pic")) {
-
+            // 需要缩略图的情况
             String shortImgPath = realPath + "_s.jpg";
             Thumbnails.of(file.getInputStream())
                     .size(sImgWidth, sImgHeight)
@@ -523,6 +471,20 @@ public class BaseController extends BaseMapper {
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
+    public String savePdfOrImage(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+
+        if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image")==-1) {
+            throw new FileFormatException("文件格式错误，请上传pdf或图片文件");
+        }
+
+        if (StringUtils.contains(file.getContentType(), "pdf")) {
+
+            return uploadPdf(file, saveFolder);
+        }else{
+
+            return uploadPic(file, saveFolder, 400, 300);
+        }
+    }
 
     // 未登录操作日志
     public String addLog(Integer userId, String username, String logType, String content, Object... params) {

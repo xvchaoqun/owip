@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.IPcsMapper">
 
+    <sql id="selectPrList_where">
+        where c.user_id= u.id and c.config_id = #{configId} and c.stage = #{stage}
+        and is_chosen =1 and is_proposal=1
+        <if test="search != null">
+            and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
+        </if>
+    </sql>
+    <select id="selectPrList" resultMap="persistence.pcs.PcsPrCandidateViewMapper.BaseResultMap" parameterType="map">
+        select c.* from pcs_pr_candidate_view c, sys_user_view u
+        <include refid="selectPrList_where"/>
+        order by c.proposal_sort_order asc
+    </select>
+    <select id="countPr" parameterType="map" resultType="java.lang.Integer">
+        select count(c.user_id) from pcs_pr_candidate_view c, sys_user_view u
+        <include refid="selectPrList_where"/>
+    </select>
+
     <!--全校 应选代表情况-->
     <select id="schoolPcsPrAllocate" parameterType="map" resultMap="persistence.pcs.PcsPrAllocateMapper.BaseResultMap">
         select sum(pro_count) as pro_count,

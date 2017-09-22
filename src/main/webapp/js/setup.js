@@ -518,6 +518,29 @@ $(document).on("click", ".linkBtn", function (e) {
     window.open(url, target || '_self', '');
 });
 
+$(document).on("click", ".jqLinkBtn", function (e) {
+
+    e.stopPropagation();
+
+    var openBy = $(this).data("open-by");
+    var gridId = $(this).data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var idsName = $(this).data("ids-name") || 'ids[]';
+    var ids = grid.getGridParam("selarrrow");
+    if (ids.length == 0) {
+        SysMsg.warning("请选择行", "提示");
+        return;
+    }
+
+    var url = $(this).data("url");
+    var queryString = $(this).data("querystr");
+    url = url.split("?")[0] + (queryString ? ("?" + queryString) : "");
+    url = url + (url.indexOf("?") > 0 ? "&" : "?") + idsName + "=" + ids;
+
+    var target = $(this).data("target");
+    window.open(url, target || '_self', '');
+});
+
 $(document).on("click", ".pirntBtn", function (e) {
 
     e.stopPropagation();
@@ -1292,9 +1315,23 @@ function register_party_select($select, width) {
  $(this).val('');
  }
  });*/
-$(document).on("blur keyup keydown paste change", "input.num", function () {
-    var str = $(this).val();
-    $(this).val(str.replace(/[^\d|\.]/g, ''))
+$(document).on("blur keyup keydown paste change", "input.num, input.float", function (event) {
+    //var str = $(this).val();
+    //$(this).val(str.replace(/[^\d|\.]/g, ''))
+
+    if(event.keyCode < 35 || event.keyCode > 40) { // 不是方向键
+
+        var val = $(this).val();
+        //console.log(val)
+        //console.log(event.keyCode + " " + val.indexOf("\."));
+        //if(val.indexOf("\.")>=0 && event.keyCode==110) return false;
+        if ($(this).hasClass("num"))
+            $(this).val(val.replace(/[^\d]/g, ''));
+        else {
+            val = val.replace(/[^\d.]/g, '');
+            $(this).val(val.replace(/\.\d{2,}$/g, val.substr(val.indexOf('.'), 3)));
+        }
+    }
 });
 
 // 日历

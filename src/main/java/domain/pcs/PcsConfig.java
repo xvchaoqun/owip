@@ -1,5 +1,7 @@
 package domain.pcs;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,8 +16,10 @@ public class PcsConfig implements Serializable {
 
     private String remark;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date proposalSubmitTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date proposalSupportTime;
 
     private Integer proposalSupportCount;

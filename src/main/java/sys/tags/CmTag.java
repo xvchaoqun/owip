@@ -101,7 +101,7 @@ import java.util.Set;
 
 public class CmTag {
 
-    static ApplicationContext context = ApplicationContextSupport.getContext();
+    public static ApplicationContext context = ApplicationContextSupport.getContext();
     static CacheService cacheService = context.getBean(CacheService.class);
     static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
     static HtmlFragmentMapper htmlFragmentMapper = context.getBean(HtmlFragmentMapper.class);

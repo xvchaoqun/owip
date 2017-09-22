@@ -1,6 +1,6 @@
 package controller.pcs.prList;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidateView;
@@ -8,17 +8,21 @@ import domain.pcs.PcsPrCandidateViewExample;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.PcsPrPartyBean;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
@@ -29,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPrListOwController extends BaseController {
+public class PcsPrListOwController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -37,7 +41,7 @@ public class PcsPrListOwController extends BaseController {
     @RequiresPermissions("pcsPrListOw:list")
     @RequestMapping("/pcsPrListOw_export")
     public String pcsPrListOw_export(String file,
-                                 HttpServletResponse response) throws IOException {
+                                     HttpServletResponse response) throws IOException {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
@@ -88,10 +92,10 @@ public class PcsPrListOwController extends BaseController {
     @RequiresPermissions("pcsPrOw:list")
     @RequestMapping("/pcsPrListOw_party_data")
     public void pcsPrListOw_party_data(HttpServletResponse response,
-                                   Integer partyId,
-                                   Boolean hasReport,
-                                   Byte recommendStatus,
-                                   Integer pageSize, Integer pageNo) throws IOException {
+                                       Integer partyId,
+                                       Boolean hasReport,
+                                       Byte recommendStatus,
+                                       Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -127,14 +131,22 @@ public class PcsPrListOwController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("pcsPrListOw:list")
+    //@RequiresPermissions("pcsPrListOw:list")
     @RequestMapping("/pcsPrListOw")
     public String pcsPrListOw(@RequestParam(required = false, defaultValue = "1") byte cls,
-                             Integer userId,
-                             ModelMap modelMap) {
+                              Integer userId,
+                              ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        if (cls == 2) {
+
+        if(cls==1){
+
+            PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+            int configId = currentPcsConfig.getId();
+            modelMap.put("notPassPCSPrRecommendsCount",
+                    pcsPrOwService.notPassPCSPrRecommendsCount(configId, SystemConstants.PCS_STAGE_THIRD));
+
+        }else if (cls == 2) {
             // 全校党代表数据统计
             return "forward:/pcsPrListOw_table_page";
         } else if (cls == 3) {
@@ -145,7 +157,13 @@ public class PcsPrListOwController extends BaseController {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
 
-        // 全校党代表名单
+        if(cls==4){
+            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+        }else{
+            SecurityUtils.getSubject().checkPermission("pcsPrListOw:list");
+        }
+
+        // cls=1 全校党代表名单  cls=4 提案党代表名单
         return "pcs/pcsPrListOw/pcsPrListOw_candidate_page";
     }
 
@@ -157,11 +175,11 @@ public class PcsPrListOwController extends BaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        if(partyId!=null) {
+        if (partyId != null) {
             // 单个分党委
             PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
-        }else{
+        } else {
             // 全校
             PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
@@ -177,7 +195,7 @@ public class PcsPrListOwController extends BaseController {
     // 全校党员参与情况
     @RequiresPermissions("pcsPrListOw:list")
     @RequestMapping("/pcsPrListOw_party_table_page")
-    public String pcsPrListOw_party_table_page( ModelMap modelMap) {
+    public String pcsPrListOw_party_table_page(ModelMap modelMap) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
@@ -190,20 +208,19 @@ public class PcsPrListOwController extends BaseController {
     }
 
     // 全校党代表名单
-    @RequiresPermissions("pcsPrListOw:list")
-    @RequestMapping("/pcsPrListOw_candidate_page")
-    public String pcsPrListOw_candidate_page(ModelMap modelMap) {
-
-
-        return "pcs/pcsPrListOw/pcsPrListOw_candidate_page";
-    }
-
-    @RequiresPermissions("pcsPrListOw:list")
+    //@RequiresPermissions("pcsPrListOw:list")
     @RequestMapping("/pcsPrListOw_candidate_data")
     public void pcsPrListOw_candidate_data(HttpServletResponse response,
-                                              Integer userId,
-                                              Integer pageSize, Integer pageNo) throws IOException {
+                                           @RequestParam(required = false, defaultValue = "1") byte cls,
+                                           Integer userId,
+                                           Integer pageSize, Integer pageNo) throws IOException {
 
+        if(cls==4){
+            // 提案党代表名单
+            SecurityUtils.getSubject().checkPermission("pcsProposalOw:*");
+        }else{
+            SecurityUtils.getSubject().checkPermission("pcsPrListOw:list");
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -219,11 +236,15 @@ public class PcsPrListOwController extends BaseController {
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
         PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true);
-        if(userId!=null){
+        if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }
-
-        example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
+        if(cls==4){
+            criteria.andIsProposalEqualTo(true);
+            example.setOrderByClause("proposal_sort_order asc");
+        }else {
+            example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
+        }
 
         long count = pcsPrCandidateViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
@@ -253,5 +274,20 @@ public class PcsPrListOwController extends BaseController {
 
         modelMap.put("party", partyService.findAll().get(partyId));
         return "pcs/pcsPrListOw/pcsPrListOw_party_detail_page";
+    }
+
+    // 同步全校党代表名单至提案党代表名单
+    @RequiresPermissions("pcsPrListOw:sync")
+    @RequestMapping(value = "/pcsPrListOw_sync", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsPrListOw_sync() {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        pcsPrOwService.sync(configId);
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "同步全校党代表名单至提案党代表名单"));
+        return success(FormUtils.SUCCESS);
     }
 }

@@ -10,4 +10,13 @@
     update ${table} set sort_order = sort_order + 1 where <if test="whereSql!=null"> ${whereSql} and </if>
     sort_order <![CDATA[<]]> #{baseSortOrder} and sort_order>=#{targetSortOrder}
   </update>
+
+  <update id="downOrder2" parameterType="map" >
+    update ${table} set ${sortOrder} = ${sortOrder} - 1 where <if test="whereSql!=null"> ${whereSql} and </if>
+    ${sortOrder} >#{baseSortOrder} and ${sortOrder}<![CDATA[<=]]> #{targetSortOrder}
+  </update>
+  <update id="upOrder2" parameterType="map" >
+    update ${table} set ${sortOrder} = ${sortOrder} + 1 where <if test="whereSql!=null"> ${whereSql} and </if>
+    ${sortOrder} <![CDATA[<]]> #{baseSortOrder} and ${sortOrder}>=#{targetSortOrder}
+  </update>
 </mapper>

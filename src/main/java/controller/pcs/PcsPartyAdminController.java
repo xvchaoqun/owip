@@ -1,6 +1,6 @@
 package controller.pcs;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
 import domain.sys.SysUserView;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPartyAdminController extends BaseController {
+public class PcsPartyAdminController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -2,6 +2,7 @@ package persistence.common;
 
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsPrAllocate;
+import domain.pcs.PcsPrCandidateView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -22,6 +23,12 @@ import java.util.Map;
  */
 public interface IPcsMapper {
 
+    // 根据账号、姓名、学工号查找党代表
+    List<PcsPrCandidateView> selectPrList( @Param("configId") int configId,
+                                           @Param("stage") byte stage,
+                                           @Param("search") String search, RowBounds rowBounds);
+    int countPr(@Param("configId") int configId,
+                @Param("stage") byte stage, @Param("search") String search);
 
     // 还未报送党代表数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")

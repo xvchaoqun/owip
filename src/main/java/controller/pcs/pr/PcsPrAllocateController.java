@@ -1,6 +1,6 @@
 package controller.pcs.pr;
 
-import controller.BaseController;
+import controller.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
 import org.apache.ibatis.session.RowBounds;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class PcsPrAllocateController extends BaseController {
+public class PcsPrAllocateController extends PcsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

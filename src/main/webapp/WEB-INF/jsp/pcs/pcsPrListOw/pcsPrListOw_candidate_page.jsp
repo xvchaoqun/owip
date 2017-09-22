@@ -10,22 +10,26 @@
             <c:set var="_query"
                    value="${not empty param.userId|| not empty param.sort}"/>
             <div class="tabbable">
-                <jsp:include page="menu.jsp"/>
+                <c:if test="${cls==1}">
+                    <jsp:include page="menu.jsp"/>
+                </c:if>
                 <div class="candidate-table tab-content">
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
-                            <a style="margin-left: 20px;" href="${ctx}/pcsPrListOw_export?file=3">
-                                <i class="fa fa-download"></i>  全校党代表汇总表</a>
+                            <c:if test="${cls==1}">
+                                <a style="margin-left: 20px;" href="${ctx}/pcsPrListOw_export?file=3">
+                                    <i class="fa fa-download"></i> 全校党代表汇总表</a>
 
-                            <button data-url="${ctx}/pcsPrListOw_formalSelect"
-                                    data-title="同步名单"
-                                    data-msg="是否将名单将同步至“党代表提案管理”——“党代表名单”内？"
-                                    data-grid-id="#jqGrid" ${notPassPCSPrRecommendsCount>0?"disabled":""}
-                                    class="jqBatchBtn btn btn-warning">
-                                <i class="fa fa-level-down"></i>
-                                确定正式出席学校党代会代表
-                            </button>
-
+                                <button style="margin-left: 20px;" data-url="${ctx}/pcsPrListOw_sync"
+                                        data-title="同步名单"
+                                        data-msg="是否将全校党代表名单将同步至“党代表提案管理”——“党代表名单”内？
+                                    （注：重复此操作将覆盖之前的数据）"
+                                        data-grid-id="#jqGrid" ${notPassPCSPrRecommendsCount>0?"disabled":""}
+                                        class="confirm btn btn-warning">
+                                    <i class="fa fa-level-down"></i>
+                                    确定正式出席学校党代会代表
+                                </button>
+                            </c:if>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -41,6 +45,7 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${param.cls}">
+
                                         <div class="form-group">
                                             <label>被推荐人</label>
                                             <select name="userId" data-rel="select2-ajax"
@@ -87,8 +92,17 @@
             }
             },
             {label: '工作证号', name: 'code', width: 120, frozen: true},
-            {label: '被推荐人姓名', name: 'realname', width: 130, frozen: true},
-            {label: '所在单位', name: 'unitName', width: 200, align:'left', frozen: true},
+            {label: '被推荐人姓名', name: 'realname', width: 120, frozen: true},
+            <c:if test="${cls==4}">
+            {
+                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
+                return _.template($("#common_sort_tpl").html().NoMultiSpace())
+                ({id: rowObject.id, url: "${ctx}/pcsProposal_candidateChangeOrder"});
+            }, frozen: true
+            },
+            </c:if>
+            {label: '所在单位', name: 'unitName', width: 160, align: 'left', frozen: true},
+
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },
@@ -104,7 +118,7 @@
                 }
                 return "-"
             }
-            },/*
+            }, /*
              {
              label: '参加工作时间',
              name: 'workTime',
@@ -140,13 +154,14 @@
                 return "-"
             }
             },
+            <c:if test="${cls==1}">
             {label: '票数', name: 'vote3', width: 80},
-
+            </c:if>
             {
-                label: '手机号', name: 'mobile', width:120
+                label: '手机号', name: 'mobile', width: 120
             },
             {
-                label: '邮箱', name: 'email', width:200, align:"left"
+                label: '邮箱', name: 'email', width: 200, align: "left"
             },
         ]
     }).jqGrid("setFrozenColumns");

@@ -3,13 +3,15 @@
 <mapper namespace="persistence.pcs.PcsProposalMapper">
   <resultMap id="BaseResultMap" type="domain.pcs.PcsProposal">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, user_id, name, keywords, type, config_id, create_time, status
+    id, config_id, code, user_id, name, keywords, type, content, create_time, check_time, 
+    status
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsProposalExample" resultMap="BaseResultMap">
     select
@@ -103,21 +106,24 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.pcs.PcsProposal">
-    insert into pcs_proposal (id, code, user_id, 
-      name, keywords, type, 
-      config_id, create_time, status
-      )
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{configId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}
-      )
+  <insert keyProperty="id" id="insert" parameterType="domain.pcs.PcsProposal">
+    insert into pcs_proposal (id, config_id, code, 
+      user_id, name, keywords, 
+      type, content, create_time, 
+      check_time, status)
+    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.pcs.PcsProposal">
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.pcs.PcsProposal">
     insert into pcs_proposal
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="configId != null">
+        config_id,
       </if>
       <if test="code != null">
         code,
@@ -134,11 +140,14 @@
       <if test="type != null">
         type,
       </if>
-      <if test="configId != null">
-        config_id,
+      <if test="content != null">
+        content,
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="checkTime != null">
+        check_time,
       </if>
       <if test="status != null">
         status,
@@ -147,6 +156,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
@@ -163,11 +175,14 @@
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="configId != null">
-        #{configId,jdbcType=INTEGER},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -186,6 +201,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
@@ -201,11 +219,14 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.configId != null">
-        config_id = #{record.configId,jdbcType=INTEGER},
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkTime != null">
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -218,13 +239,15 @@
   <update id="updateByExample" parameterType="map">
     update pcs_proposal
     set id = #{record.id,jdbcType=INTEGER},
+      config_id = #{record.configId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       keywords = #{record.keywords,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
-      config_id = #{record.configId,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -233,6 +256,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsProposal">
     update pcs_proposal
     <set>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
       </if>
@@ -248,11 +274,14 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="configId != null">
-        config_id = #{configId,jdbcType=INTEGER},
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -262,13 +291,15 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsProposal">
     update pcs_proposal
-    set code = #{code,jdbcType=VARCHAR},
+    set config_id = #{configId,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      config_id = #{configId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

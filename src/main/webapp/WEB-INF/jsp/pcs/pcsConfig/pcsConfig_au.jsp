@@ -47,7 +47,8 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-4 control-label">立案附议人数</label>
             <div class="col-xs-6">
-                <input class="form-control" type="text" name="proposalSupportCount" value="${pcsConfig.proposalSupportCount}">
+                <input class="form-control num" type="text" maxlength="4"
+                       name="proposalSupportCount" value="${pcsConfig.proposalSupportCount}">
             </div>
         </div>
         <div class="form-group">
@@ -65,6 +66,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    register_datetime($('.datetime-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
