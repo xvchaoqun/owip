@@ -26,14 +26,11 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class AttachFileController extends BaseController {
@@ -97,28 +94,25 @@ public class AttachFileController extends BaseController {
     @RequestMapping(value = "/attachFile_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_attachFile_au(AttachFile record,
-                                MultipartFile _file, HttpServletRequest request) {
+                                MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
 
-        if(_file!=null){
+        if (_file != null) {
+
+            String savePath = null;
+            if (record.getType() == SystemConstants.ATTACH_FILE_TYPE_PDF) {
+                savePath = uploadPdf(_file, "attach_file");
+            } else {
+                savePath = upload(_file, "attach_file");
+            }
+            record.setPath(savePath);
 
             String originalFilename = _file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-            String ymd = sdf.format(new Date());
-
             String ext = FileUtils.getExtention(originalFilename);
             record.setExt(ext);
 
-            String saveUrl = FILE_SEPARATOR
-                    + "attach_file" + FILE_SEPARATOR + ymd + FILE_SEPARATOR + fileName + ext;
-
-            FileUtils.copyFile(_file, new File(springProps.uploadPath + saveUrl));
-
-            if(StringUtils.isBlank(record.getFilename()))
+            if (StringUtils.isBlank(record.getFilename())) {
                 record.setFilename(FileUtils.getFileName(originalFilename));
-
-            record.setPath(saveUrl);
+            }
         }
 
         Integer id = record.getId();

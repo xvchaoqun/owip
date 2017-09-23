@@ -80,7 +80,9 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/attachFile_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
 
-            { label: '文件名',name: 'filename', width: 400, align:'left',frozen:true},
+            { label: '文件名',name: 'filename', width: 400, align:'left',frozen:true, formatter:function(cellvalue, options, rowObject){
+                return rowObject.type==${ATTACH_FILE_TYPE_PDF}?$.swfPreview(rowObject.path, cellvalue):cellvalue;
+            }},
             { label: '唯一标识',name: 'code',frozen:true, align:'left', width: 180},
             { label: '下载地址',name: 'id', width: 550, align:'left', formatter:function(cellvalue, options, rowObject){
                 return '<a href="{0}/attach?code={1}" target="_blank">{0}/attach?code={1}</a>'

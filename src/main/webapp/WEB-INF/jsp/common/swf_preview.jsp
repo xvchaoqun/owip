@@ -1,24 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="${_uploadPath}${param.path}" var="path"/>
-<c:if test="${empty param.path || !cm:exists(path)}">
+<c:set value="${_uploadPath}${path}" var="_path"/>
+<c:if test="${empty path || !cm:exists(_path)}">
     <div class="modal-header">
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
         <h3>提示</h3>
     </div>
     <div class="modal-body">
-        文件不存在：${param.path}
+        文件不存在：${path}
     </div>
     <div class="modal-footer">
         <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
     </div>
 </c:if>
-<c:if test="${not empty param.path && cm:exists(path)}">
+<c:if test="${not empty path && cm:exists(_path)}">
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
-        ${param.filename}
+        ${filename}
     </h3>
   </div>
   <div class="modal-body">
@@ -30,12 +30,14 @@
 	   </div>
   </div>
   <div class="modal-footer">
+      <c:if test="${!np}">
       <a href="javascript:;" data-dismiss="modal" class="pirntBtn btn btn-info"
-         data-url="${ctx}/pdf?path=${cm:encodeURI(param.path)}"><i class="fa fa-print"></i> 打印</a>
-
-      <a href="${ctx}/attach/download?path=${cm:encodeURI(param.path)}&filename=${param.filename}"
+         data-url="${ctx}/pdf?path=${cm:encodeURI(path)}"><i class="fa fa-print"></i> 打印</a>
+      </c:if>
+      <c:if test="${!nd}">
+      <a href="${ctx}/attach/download?path=${cm:encodeURI(path)}&filename=${filename}"
       class="btn btn-success" target="_blank"><i class="fa fa-download"></i> 下载</a>
-
+      </c:if>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
   </div>
   <style>
@@ -52,7 +54,7 @@
 
  	 var xiSwfUrlStr = "${expressInstallSwf}";
       var flashvars = { 
-            SwfFile : escape("${ctx}/swf?path=${cm:encodeURI(param.path)}"),
+            SwfFile : escape("${ctx}/swf?path=${cm:encodeURI(path)}"),
 	  Scale : 0.6, 
 	  ZoomTransition : "easeOut",
 	  ZoomTime : 0.5,

@@ -53,6 +53,7 @@
 <c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
 <c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_OTHER" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_OTHER%>"/>
 
+<c:set var="ATTACH_FILE_TYPE_PDF" value="<%=SystemConstants.ATTACH_FILE_TYPE_PDF%>"/>
 <c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
 
 <c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>

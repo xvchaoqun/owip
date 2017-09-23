@@ -124,9 +124,15 @@
                 <tr>
                     <td>附件</td>
                     <td colspan="3">
+                        <c:set var="np" value="false"/>
+                        <c:set var="nd" value="false"/>
+                        <shiro:lacksPermission name="pcsProposalOw:*">
+                            <c:set var="np" value="true"/>
+                            <c:set var="nd" value="true"/>
+                        </shiro:lacksPermission>
                         <c:forEach var="file" items="${pcsProposal.files}">
                             <div class="file">
-                                <t:preview filePath="${file.filePath}" fileName="${file.fileName}"
+                                <t:preview filePath="${file.filePath}" fileName="${file.fileName}" np="${np}" nd="${nd}"
                                            label="${cm:substr(file.fileName, 0, 15, '...')}"/>
                             </div>
                         </c:forEach>

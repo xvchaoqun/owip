@@ -6,12 +6,14 @@ import domain.abroad.PassportDrawFile;
 import domain.sys.AttachFile;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
@@ -87,7 +89,28 @@ public class FileController extends BaseController {
 
 
     @RequestMapping("/swf/preview")
-    public String swf_preview(String type) {
+    public String swf_preview(String type, String path, String filename,
+                              // pdf附件标识
+                              String code,
+                              Boolean nd, // 不需要下载按钮
+                              Boolean np,  // 不需要打印按钮
+                              ModelMap modelMap) {
+
+        modelMap.put("nd", BooleanUtils.isTrue(nd));
+        modelMap.put("np", BooleanUtils.isTrue(np));
+
+        if(StringUtils.isNotBlank(code)) {
+            AttachFile attachFile = attachFileService.get(code);
+            if (attachFile != null) {
+
+                if (attachFile.getType() != SystemConstants.ATTACH_FILE_TYPE_PDF)
+                    throw new OpException("文件不存在");
+                path = attachFile.getPath();
+                filename = attachFile.getFilename();
+            }
+        }
+        modelMap.put("path", path);
+        modelMap.put("filename", filename);
 
         if(StringUtils.equals(type, "url")) // 查看swf 页面打开
              return "common/swf_preview_url";

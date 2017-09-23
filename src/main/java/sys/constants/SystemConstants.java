@@ -124,18 +124,20 @@ public class SystemConstants {
         LOGIN_TYPE_MAP.put(LOGIN_TYPE_TRAIN_INSPECTOR, "评课账号登录");
     }
 
-    // 系统附件类别，1图片 2文档 3视频 4 其他
+    // 系统附件类别
     public static final byte ATTACH_FILE_TYPE_IMAGE = 1;
     public static final byte ATTACH_FILE_TYPE_DOC = 2;
-    public static final byte ATTACH_FILE_TYPE_VIDEO = 3;
-    public static final byte ATTACH_FILE_TYPE_OTHER = 4;
+    public static final byte ATTACH_FILE_TYPE_EXCEL = 3;
+    public static final byte ATTACH_FILE_TYPE_PDF = 4;
+    public static final byte ATTACH_FILE_TYPE_VIDEO = 5;
     public final static Map<Byte, String> ATTACH_FILE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_IMAGE, "图片");
-        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_DOC, "文档");
+        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_DOC, "WORD");
+        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_EXCEL, "EXCEL");
+        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_PDF, "PDF");
         ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_VIDEO, "视频");
-        ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_OTHER, "其他");
     }
 
 
