@@ -152,7 +152,7 @@ public class MetaTypeController extends BaseController {
         }
 
         if (id == null) {
-            record.setAvailable(true);
+
             metaTypeService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加元数据属性值：%s", id));
         } else {

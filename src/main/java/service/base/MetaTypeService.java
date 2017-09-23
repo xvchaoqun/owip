@@ -148,6 +148,7 @@ public class MetaTypeService extends BaseMapper {
     })
     public int insertSelective(MetaType record){
 
+        record.setAvailable(true);
         Assert.isTrue(codeAvailable(null, record.getCode()), "wrong code");
         record.setSortOrder(getNextSortOrder("base_meta_type", "class_id=" + record.getClassId()));
         return metaTypeMapper.insertSelective(record);
