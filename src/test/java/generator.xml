@@ -473,9 +473,9 @@
                mapperName="pcs.PcsProposalSeconderMapper">
         </table>-->
 
-        <table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
+       <!-- <table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
                mapperName="pcs.PcsProposalViewMapper"
@@ -490,6 +490,8 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="invite_user_ids" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="seconder_ids" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="invite_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="seconder_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>
 
         <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">

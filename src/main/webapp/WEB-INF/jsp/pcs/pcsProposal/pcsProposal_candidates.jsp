@@ -6,6 +6,12 @@
     <h3>邀请附议人</h3>
 </div>
 <div class="modal-body rownumbers">
+    <select data-rel="select2-ajax" data-ajax-url="${ctx}/pcsProposal_pr_selects"
+            name="userId" data-placeholder="请输入账号或姓名或工号">
+        <option></option>
+    </select>
+    <span class="pull-right" style="padding: 10px 20px">已选 <span id="selectCount" style="font-size: 16px;font-weight: bolder">0</span> 人</span>
+    <div class="space-4"></div>
     <table id="jqGridPopup" class="table-striped"></table>
 </div>
 <div class="modal-footer">
@@ -19,6 +25,24 @@
 </style>
 <script>
     var candidates = ${cm:toJSONArray(candidates)};
+
+    var $selectPr = register_user_select($("#modal select[name=userId]"))
+    $selectPr.on("change",function(e){
+
+        //console.log($(this).select2("data")[0])
+        var userId = $(this).select2("data")[0]['id']||'';
+        //console.log(userId)
+        $.each(candidates, function(i, c){
+            if($.trim(userId)!='' && c.userId != userId) {
+                $("#modal [role=row][id="+ c.userId + "]").hide();
+                //$("#jqGridPopup").setRowData(c.userId, null, {display: 'none'});
+            }else {
+                $("#modal [role=row][id="+ c.userId + "]").show();
+                //$("#jqGridPopup").setRowData(c.userId, null, {display: 'block'});
+            }
+        })
+    })
+
     $("#jqGridPopup").jqGrid({
         pager: null,
         rownumbers: true,
@@ -35,7 +59,12 @@
             {label: '手机号', name: 'mobile', width: 120},
             {label: '邮箱', name: 'email', width: 200, align: "left"},
             {hidden: true, key: true, name: 'userId'}
-        ]
+        ],
+        onSelectRow: function(id,status){
+
+            var userIds = $("#jqGridPopup").getGridParam("selarrrow");
+            $("#selectCount").html(userIds==undefined?0:userIds.length);
+        }
     });
 
     $("#modal #selectBtn").click(function(){

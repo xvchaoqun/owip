@@ -884,6 +884,66 @@ public class PcsProposalViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andInviteCountIsNull() {
+            addCriterion("invite_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountIsNotNull() {
+            addCriterion("invite_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountEqualTo(Integer value) {
+            addCriterion("invite_count =", value, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountNotEqualTo(Integer value) {
+            addCriterion("invite_count <>", value, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountGreaterThan(Integer value) {
+            addCriterion("invite_count >", value, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("invite_count >=", value, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountLessThan(Integer value) {
+            addCriterion("invite_count <", value, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountLessThanOrEqualTo(Integer value) {
+            addCriterion("invite_count <=", value, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountIn(List<Integer> values) {
+            addCriterion("invite_count in", values, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountNotIn(List<Integer> values) {
+            addCriterion("invite_count not in", values, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountBetween(Integer value1, Integer value2) {
+            addCriterion("invite_count between", value1, value2, "inviteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andInviteCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("invite_count not between", value1, value2, "inviteCount");
+            return (Criteria) this;
+        }
+
         public Criteria andSeconderIdsIsNull() {
             addCriterion("seconder_ids is null");
             return (Criteria) this;
@@ -951,6 +1011,66 @@ public class PcsProposalViewExample {
 
         public Criteria andSeconderIdsNotBetween(String value1, String value2) {
             addCriterion("seconder_ids not between", value1, value2, "seconderIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountIsNull() {
+            addCriterion("seconder_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountIsNotNull() {
+            addCriterion("seconder_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountEqualTo(Integer value) {
+            addCriterion("seconder_count =", value, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountNotEqualTo(Integer value) {
+            addCriterion("seconder_count <>", value, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountGreaterThan(Integer value) {
+            addCriterion("seconder_count >", value, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("seconder_count >=", value, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountLessThan(Integer value) {
+            addCriterion("seconder_count <", value, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountLessThanOrEqualTo(Integer value) {
+            addCriterion("seconder_count <=", value, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountIn(List<Integer> values) {
+            addCriterion("seconder_count in", values, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountNotIn(List<Integer> values) {
+            addCriterion("seconder_count not in", values, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountBetween(Integer value1, Integer value2) {
+            addCriterion("seconder_count between", value1, value2, "seconderCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeconderCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("seconder_count not between", value1, value2, "seconderCount");
             return (Criteria) this;
         }
     }

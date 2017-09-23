@@ -44,7 +44,11 @@ public class PcsProposalView implements Serializable {
 
     private String inviteUserIds;
 
+    private Integer inviteCount;
+
     private String seconderIds;
+
+    private Integer seconderCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -144,11 +148,27 @@ public class PcsProposalView implements Serializable {
         this.inviteUserIds = inviteUserIds == null ? null : inviteUserIds.trim();
     }
 
+    public Integer getInviteCount() {
+        return inviteCount;
+    }
+
+    public void setInviteCount(Integer inviteCount) {
+        this.inviteCount = inviteCount;
+    }
+
     public String getSeconderIds() {
         return seconderIds;
     }
 
     public void setSeconderIds(String seconderIds) {
         this.seconderIds = seconderIds == null ? null : seconderIds.trim();
+    }
+
+    public Integer getSeconderCount() {
+        return seconderCount;
+    }
+
+    public void setSeconderCount(Integer seconderCount) {
+        this.seconderCount = seconderCount;
     }
 }

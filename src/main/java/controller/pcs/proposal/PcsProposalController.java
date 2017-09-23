@@ -122,6 +122,7 @@ public class PcsProposalController extends PcsBaseController {
                                  String keywords,
                                  Boolean displayInvite,
                                  Byte status,
+                                 Byte orderType,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -142,10 +143,17 @@ public class PcsProposalController extends PcsBaseController {
 
         PcsProposalViewExample example = new PcsProposalViewExample();
         PcsProposalViewExample.Criteria criteria = example.createCriteria();
-        if(cls==2 || cls==3)
-            example.setOrderByClause("check_time desc, create_time desc");
-        else
-            example.setOrderByClause("create_time desc");
+
+        String orderStr = null;
+        if(orderType==null || orderType==0) {
+            if (cls == 2 || cls == 3)
+                orderStr = "check_time asc, create_time desc";
+            else
+                orderStr = "create_time desc";
+        }else if(orderType==1){ // 按附议人多少排序
+                orderStr = " seconder_count desc, " + orderStr;
+        }
+        example.setOrderByClause(orderStr);
 
         if (cls == 1) {
             if(module==1) {

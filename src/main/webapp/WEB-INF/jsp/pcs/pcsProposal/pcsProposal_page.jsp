@@ -82,6 +82,7 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="cls" value="${cls}"/>
                             <input type="hidden" name="displayInvite" value="${param.displayInvite}"/>
+                            <input type="hidden" name="orderType">
                         <div class="form-group">
                             <label>提案编号</label>
                             <input class="form-control search-query" name="code" type="text" value="${param.code}"
@@ -128,11 +129,18 @@ pageEncoding="UTF-8" %>
                 </div>
             </div>
             </c:if>
-<c:if test="${cls==2 || cls==3}">
-    <span class="label label-warning" style="height: 30px;font-size: 16px;font-weight: bolder">
-            <input style="padding-bottom: 5px;width: 15px;height: 15px" type="checkbox" id="displayInvite" ${param.displayInvite==1?'checked':''} value="1"> 仅显示被邀请附议
-    </span>
-    </c:if>
+
+            <c:if test="${cls!=1}">
+            <span class="label label-warning"
+                  style="height: 30px;font-size: 16px;font-weight: bolder;visibility: ${cls==2 || cls==3?'visible':'hidden'}">
+                    <input style="padding-bottom: 5px;width: 15px;height: 15px" type="checkbox" id="displayInvite" ${param.displayInvite==1?'checked':''} value="1"> 仅显示被邀请附议
+            </span>
+
+            <div class="pull-right" style="line-height: 40px;">
+                <input class="orderCheckbox" ${param.orderType!=1?"checked":""} type="checkbox" value="0"> 默认排序
+                <input class="orderCheckbox" ${param.orderType==1?"checked":""} type="checkbox" value="1"> 按附议人多少排序
+            </div>
+                </c:if>
             <div class="space-4"></div>
             <div class="${!(cls==1 && module==1)?'rownumbers':''}">
             <table id="jqGrid" class="jqGrid table-striped"></table>
@@ -147,6 +155,11 @@ pageEncoding="UTF-8" %>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
+
+    $(".orderCheckbox").click(function(){
+        $("#searchForm input[name=orderType]").val($(this).val());
+        $("#searchForm .jqSearchBtn").click();
+    })
 
     $("#displayInvite").click(function(){
 
@@ -175,7 +188,7 @@ pageEncoding="UTF-8" %>
             <c:if test="${!(cls==1 && module==1)}">
             { label: '提案人姓名',name: 'user.realname'},
                 </c:if>
-            { label: '标题',name: 'name', align:'left', width:250, formatter: function (cellvalue, options, rowObject) {
+            { label: '标题',name: 'name', align:'left', width:375, formatter: function (cellvalue, options, rowObject) {
                 return ('<a href="javascript:;" class="openView" data-url="${ctx}/pcsProposal_check?id={0}&type=0">{1}</a>')
                         .format(rowObject.id, cellvalue);
             }},
@@ -213,15 +226,17 @@ pageEncoding="UTF-8" %>
             <c:if test="${(cls==1 && module==1)}">
             { label: '创建时间',name: 'createTime', width:180},
                 </c:if>
-            <c:if test="${cls==2 || cls==3}">
+            <c:if test="${cls==2 || cls==3 || (cls==1 && module==2)}">
             { label: '备注',name: '_remark', width:180, formatter: function (cellvalue, options, rowObject) {
                 var inviteUserIds = $.trim(rowObject.inviteUserIds);
                 if(inviteUserIds.split(",").indexOf('${_user.id}')>-1) return '提案人邀请附议'
                 return '-'
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
+                <c:if test="${cls!=1}">
                 var inviteUserIds = $.trim(rowObject.inviteUserIds);
                 if(inviteUserIds.split(",").indexOf('${_user.id}')>-1)
                     return "class='danger'";
+                </c:if>
             }},
             </c:if>
             <c:if test="${cls==2}">

@@ -14,7 +14,9 @@
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="invite_user_ids" jdbcType="VARCHAR" property="inviteUserIds" />
+    <result column="invite_count" jdbcType="INTEGER" property="inviteCount" />
     <result column="seconder_ids" jdbcType="VARCHAR" property="seconderIds" />
+    <result column="seconder_count" jdbcType="INTEGER" property="seconderCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -47,7 +49,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, config_id, code, user_id, name, keywords, type, content, create_time, check_time, 
-    status, invite_user_ids, seconder_ids
+    status, invite_user_ids, invite_count, seconder_ids, seconder_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
