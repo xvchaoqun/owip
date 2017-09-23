@@ -60,7 +60,7 @@
     <bean id="sessionFactory" class="sys.shiro.OnlineSessionFactory"/>
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="sessionIdUrlRewritingEnabled" value="false" />
+        <property name="sessionIdUrlRewritingEnabled" value="false" /><!-- 去掉URL中的JSESSIONID -->
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
