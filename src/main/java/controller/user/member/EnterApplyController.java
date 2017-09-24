@@ -109,7 +109,7 @@ public class EnterApplyController extends BaseController {
         int userId = loginUser.getId();
         enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT);
 
-        logger.info(addLog(SystemConstants.LOG_USER, "取消入党申请"));
+        logger.info(addLog(SystemConstants.LOG_USER, "撤回申请"));
         return success(FormUtils.SUCCESS);
     }
 
