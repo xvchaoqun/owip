@@ -133,7 +133,7 @@
                         <c:forEach var="file" items="${pcsProposal.files}">
                             <div class="file">
                                 <t:preview filePath="${file.filePath}" fileName="${file.fileName}" np="${np}" nd="${nd}"
-                                           label="${cm:substr(file.fileName, 0, 15, '...')}"/>
+                                           label="${cm:substr(file.fileName, 0, 25, '...')}"/>
                             </div>
                         </c:forEach>
                     </td>

@@ -228,7 +228,7 @@ public class PcsProposalController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsProposal_au(PcsProposal record,
                                  @RequestParam(value = "_files[]", required = false) MultipartFile[] _files, // 附件
-                                 @RequestParam(value = "seconderIds[]", required = false) Integer[] seconderIds, // 邀请附议人
+                                 @RequestParam(value = "inviteIds[]", required = false) Integer[] inviteIds, // 邀请附议人
                                  HttpServletRequest request) throws IOException, InterruptedException {
 
         if (!ShiroHelper.isPermitted("pcsProposalPr:*")
@@ -258,7 +258,7 @@ public class PcsProposalController extends PcsBaseController {
         }
 
         if (_files == null) _files = new MultipartFile[]{};
-        if (seconderIds == null) seconderIds = new Integer[]{};
+        if (inviteIds == null) inviteIds = new Integer[]{};
 
         List<PcsProposalFile> pcsProposalFiles = new ArrayList<>();
         for (MultipartFile _file : _files) {
@@ -279,7 +279,7 @@ public class PcsProposalController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
         record.setConfigId(configId);
 
-        pcsProposalService.saveOrUpdate(record, pcsProposalFiles, seconderIds);
+        pcsProposalService.saveOrUpdate(record, pcsProposalFiles, inviteIds);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新提案：%s", record.getId()));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

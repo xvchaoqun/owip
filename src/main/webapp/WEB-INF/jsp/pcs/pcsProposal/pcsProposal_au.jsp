@@ -77,7 +77,7 @@
                                 <i class="fa fa-plus-circle"></i> 邀请附议人</a>
                         </td>
                         <td colspan="3">
-                            <table id="seconders"  class="table table-bordered table-condensed">
+                            <table id="inviteTable"  class="table table-bordered table-condensed">
                                 <thead>
                                 <tr>
                                     <th>工作证号</th>
@@ -119,7 +119,7 @@
                                 <a href="#" id="saveBtn" data-dismiss="modal" class="btn btn-primary btn-lg"><i
                                         class="fa fa-save"></i> 暂存</a>
                                 </c:if>
-                                <button type="button" id="submitBtn" class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交
+                                <button type="button" id="submitBtn" data-loading-text="提交中..." class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交
                                 </button>
                             </div>
                         </td>
@@ -204,7 +204,7 @@
                         .format($(this.element).data('path'));
     });
 
-    $("#seconders tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(candidates)}}));
+    $("#inviteTable tbody").append(_.template($("#seconder_tpl").html())({users: ${cm:toJSONArray(candidates)}}));
 
     $(document).on("click", ".delRowBtn", function () {
 
@@ -252,12 +252,12 @@
     $("#modalForm").validate({
 
         submitHandler: function (form) {
-            var seconderIds = [];
-            $("#seconders tbody tr").each(function(){
-                seconderIds.push($(this).data("user-id"));
+            var inviteIds = [];
+            $("#inviteTable tbody tr").each(function(){
+                inviteIds.push($(this).data("user-id"));
             });
-            //alert(seconderIds)
-            var data = {seconderIds:seconderIds};
+            //alert(inviteIds)
+            var data = {inviteIds:inviteIds};
             var status = $("#modalForm input[name=status]").val();
             if (status == "${PCS_PROPOSAL_STATUS_SAVE}") {
                 $("#saveBtn").button('loading');

@@ -166,7 +166,7 @@ public class PcsProposalService extends BaseMapper {
     }
 
     @Transactional
-    public void saveOrUpdate(PcsProposal record, List<PcsProposalFile> pcsProposalFiles, Integer[] seconderIds) {
+    public void saveOrUpdate(PcsProposal record, List<PcsProposalFile> pcsProposalFiles, Integer[] inviteIds) {
 
         int userId = ShiroHelper.getCurrentUserId();
         Assert.isTrue(StringUtils.isBlank(record.getCode())
@@ -212,13 +212,13 @@ public class PcsProposalService extends BaseMapper {
                     /*.andIsInvitedEqualTo(true).andIsFinishedEqualTo(false)*/;
             pcsProposalSeconderMapper.deleteByExample(example);
 
-            for (Integer seconderId : seconderIds) {
+            for (Integer inviteId : inviteIds) {
 
-                if (seconderId == userId) continue;
+                if (inviteId == userId) continue;
 
                 PcsProposalSeconder seconder = new PcsProposalSeconder();
                 seconder.setProposalId(proposalId);
-                seconder.setUserId(seconderId);
+                seconder.setUserId(inviteId);
                 seconder.setInviteTime(new Date());
                 seconder.setIsInvited(true);
                 seconder.setIsFinished(false);

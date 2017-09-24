@@ -67,6 +67,11 @@
         }
     });
 
+    // 已选的邀请人
+    $("#inviteTable tbody tr").each(function(){
+        $("#jqGridPopup").jqGrid('setSelection', $(this).data("user-id"), true);
+    });
+
     $("#modal #selectBtn").click(function(){
 
         var userIds = $("#jqGridPopup").getGridParam("selarrrow");
@@ -74,13 +79,13 @@
 
         var users = [];
         $.each(userIds, function(i, userId){
-            if($("#seconders tbody tr[data-user-id="+userId+"]").length>0) return true;
+            if($("#inviteTable tbody tr[data-user-id="+userId+"]").length>0) return true;
 
             var user = $("#jqGridPopup").getRowData(userId);
             users.push(user);
         })
 
-        $("#seconders tbody").append(_.template($("#seconder_tpl").html())({users: users}));
+        $("#inviteTable tbody").append(_.template($("#seconder_tpl").html())({users: users}));
 
         $("#modal").modal('hide');
     });
