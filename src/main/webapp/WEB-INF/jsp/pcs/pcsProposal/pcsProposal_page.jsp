@@ -30,9 +30,15 @@ pageEncoding="UTF-8" %>
             </c:if>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
+
                 <c:if test="${cls==1 && module==1}">
                     <a class="popupBtn btn btn-warning btn-sm"
                        data-url="${ctx}/swf/preview?code=af_pcs_proposal_info&np=1&nd=1"><i class="fa fa-info-circle"></i> 提案通知</a>
+
+                    <a class="popupBtn btn btn-info btn-sm"
+                       data-width="500"
+                       data-url="${ctx}/hf_content?code=hf_pcs_qr_code">
+                        <i class="fa fa-qrcode"></i> 党代表交流群</a>
 
                     <a class="openView btn btn-success btn-sm"
                        data-url="${ctx}/pcsProposal_au"><i class="fa fa-plus"></i> 新建</a>
