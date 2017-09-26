@@ -10,7 +10,8 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <!-- PAGE CONTENT BEGINS -->
         <div class="col-sm-12">
-            <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname ||not empty param.code ||not empty param.username
+            <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
+            ||not empty param.code ||not empty param.username ||not empty param.idcard
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasRole name="${ROLE_ADMIN}">
@@ -69,6 +70,11 @@
                                         <label>姓名</label>
                                             <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
                                                    placeholder="请输入姓名">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>身份证号码</label>
+                                            <input class="form-control search-query" name="idcard" type="text" value="${param.idcard}"
+                                                   placeholder="请输入身份证号码">
                                     </div>
                                     <div class="form-group">
                                         <label>类别</label>

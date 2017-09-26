@@ -104,7 +104,7 @@ public class DispatchWorkFileController extends BaseController {
         List<Integer> postIds = new ArrayList<>();
         if(!isAdmin){
             CadreView cadreView = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
-            postIds.add(cadreView.getPostId());
+            if(cadreView!=null) postIds.add(cadreView.getPostId());
         }
 
         long count = iDispatchMapper.countDispatchWorkFiles(isAdmin, postIds, type, status,

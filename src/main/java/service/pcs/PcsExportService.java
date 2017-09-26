@@ -104,7 +104,7 @@ public class PcsExportService extends BaseMapper {
 
             // 推荐党支部所含党员数
             cell = row.getCell(column++);
-            cell.setCellValue(NumberUtils.trimToEmpty(bean.getMemberCount()));
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getActualMemberCount()));
         }
 
         return wb;
