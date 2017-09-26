@@ -71,7 +71,8 @@ public interface IMemberMapper {
 
     @Update("update ow_member_apply set stage="+ SystemConstants.APPLY_STAGE_GROW
             +", positive_status=null, positive_time=null " +
-            "where user_id=#{userId} and stage="+ SystemConstants.APPLY_STAGE_POSITIVE)
+            "where user_id=#{userId} and stage in("+ SystemConstants.APPLY_STAGE_POSITIVE
+            +"," + SystemConstants.APPLY_STAGE_GROW + ")")
     int memberApplyBackToGrow(@Param("userId") int userId);
 
     @Update("update ow_member_apply set stage="+SystemConstants.APPLY_STAGE_PLAN

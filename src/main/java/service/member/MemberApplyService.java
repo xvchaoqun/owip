@@ -556,14 +556,14 @@ public class MemberApplyService extends BaseMapper {
     public void memberApply_back(int userId, byte stage){
 
         switch (stage){
-            case SystemConstants.APPLY_STAGE_GROW: // 正式党员打回至预备党员
+            case SystemConstants.APPLY_STAGE_GROW: // 党员(正式或预备)打回至预备党员初始状态
                 if(iMemberMapper.memberApplyBackToGrow(userId)==1) {
 
                     commonMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
                     Member record = new Member();
                     record.setUserId(userId);
                     record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW);
-                    memberService.updateByPrimaryKeySelective(record, "在入党申请中，由正式党员打回至预备党员");
+                    memberService.updateByPrimaryKeySelective(record, "在入党申请中，打回至预备党员初始状态");
                 }
                 break;
             case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= SystemConstants.APPLY_STAGE_DRAW)

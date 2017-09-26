@@ -687,9 +687,8 @@ public class MemberApplyOpService extends BaseController {
             byte _stage = memberApply.getStage();
             if(_stage>=SystemConstants.APPLY_STAGE_GROW ){
 
-                if(!(_stage==SystemConstants.APPLY_STAGE_POSITIVE
-                        && stage==SystemConstants.APPLY_STAGE_GROW)) { // 正式党员可以打回至预备党员
-                    throw new OpException("已是党员，不可以打回入党申请状态。");
+                if(stage<SystemConstants.APPLY_STAGE_GROW) {
+                    throw new OpException("已是党员，不可以打回非党员状态。");
                 }
             }
             if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
