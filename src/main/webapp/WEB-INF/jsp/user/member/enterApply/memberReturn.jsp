@@ -77,7 +77,7 @@
           <div class="form-group">
             <label class="col-xs-3 control-label">备注</label>
             <div class="col-xs-6" style="width: 300px">
-              <textarea class="form-control limited" name="remark" rows="5">${memberReturn.remark}</textarea>
+              <textarea class="form-control limited" name="remark" maxlength="100" rows="5">${memberReturn.remark}</textarea>
             </div>
           </div>
         </div>
@@ -179,6 +179,8 @@
   }
 </style>
       <script>
+        $('textarea.limited').inputlimiter();
+
         register_date($('.date-picker'), {endDate:'${today}'});
         $('#modalForm [data-rel="select2"]').select2();
         var jqValid = $("form").validate({
