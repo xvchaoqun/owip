@@ -12,6 +12,7 @@ import domain.pcs.PcsProposalFileExample;
 import domain.pcs.PcsProposalSeconder;
 import domain.pcs.PcsProposalSeconderExample;
 import domain.pcs.PcsProposalView;
+import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.base.ContentTplService;
 import service.base.ShortMsgService;
+import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -39,6 +42,49 @@ public class PcsProposalService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private ShortMsgService shortMsgService;
+    @Autowired
+    private ContentTplService contentTplService;
+    @Autowired
+    private UserBeanService userBeanService;
+
+    // 党代表提交提案通知管理员
+    @Async
+    public void sendPcsProposalSubmitMsgToAdmin(int proposalId, String ip){
+
+        PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(proposalId);
+        SysUserView applyUser = pcsProposal.getUser();
+
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO);
+        List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
+
+        for (SysUserView uv : receivers) {
+            try {
+                int userId = uv.getId();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
+
+                String msg = MessageFormat.format(tpl.getContent(), msgTitle,applyUser.getRealname(),
+                        DateUtils.formatDate(pcsProposal.getCreateTime(), DateUtils.YYYY_MM_DD_CHINA),
+                        pcsProposal.getName());
+
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(applyUser.getId());
+                bean.setReceiver(userId);
+                bean.setMobile(mobile);
+                bean.setContent(msg);
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
+                bean.setType(tpl.getName());
+
+                shortMsgService.send(bean, ip);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                logger.error("党代表提交提案通知管理员失败。申请人：{}， 审核人：{}, {},{}", new Object[]{
+                        applyUser.getRealname(), uv.getRealname(), uv.getMobile(), ex.getMessage()
+                });
+            }
+        }
+    }
 
     // 短信通知邀请附议人（审核通过时发送）
     @Async

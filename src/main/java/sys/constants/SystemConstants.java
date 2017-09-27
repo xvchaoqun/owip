@@ -1689,6 +1689,7 @@ public class SystemConstants {
 
     // 党代表-邀请为提案附议人
     public final static String CONTENT_TPL_PCS_INVITE_SECONDER = "ct_pcs_invite_seconder";
+    public final static String CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO = "ct_pcs_proposal_sumit_info";
 
 
     // 本单位正职（一人）审批通知

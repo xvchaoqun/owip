@@ -279,8 +279,23 @@ public class PcsProposalController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
         record.setConfigId(configId);
 
+        boolean sumitMsgToAdmin = false;
+        if(record.getId()==null){
+            // 首次提交
+            sumitMsgToAdmin = (record.getStatus()==SystemConstants.PCS_PROPOSAL_STATUS_INIT);
+        }else{
+            // 如果重复提交，不提示
+            PcsProposal pcsProposal = pcsProposalMapper.selectByPrimaryKey(record.getId());
+            sumitMsgToAdmin = (pcsProposal.getStatus()==SystemConstants.PCS_PROPOSAL_STATUS_SAVE
+                    && record.getStatus()==SystemConstants.PCS_PROPOSAL_STATUS_INIT); // 暂存后首次提交
+        }
+
         pcsProposalService.saveOrUpdate(record, pcsProposalFiles, inviteIds);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新提案：%s", record.getId()));
+
+        if(sumitMsgToAdmin){
+            pcsProposalService.sendPcsProposalSubmitMsgToAdmin(record.getId(), ContextHelper.getRealIp());
+        }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("id", record.getId());
