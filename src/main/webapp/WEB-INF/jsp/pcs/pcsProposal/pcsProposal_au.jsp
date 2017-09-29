@@ -153,7 +153,7 @@
         padding: 2px;
         margin: 2px;
         border: none;
-        background: #FFFFFF url(/img/dot_25.gif);
+        background: #FFFFFF url(/${ctx}img/dot_25.gif);
         resize: none;
     }
 

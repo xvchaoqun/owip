@@ -13,7 +13,7 @@
 						<div class="login-container">
 							<div class="center">
 								<div style="padding-top: 20px">
-									<img src="${ctx}/extend/img/logo_white.png">
+									<t:img src="/img/logo_white.png"/>
 								</div>
 								<h1 class="white">
 									${sysConfig.mobilePlantformName}
