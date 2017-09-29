@@ -221,7 +221,7 @@
                   <span class="editable" >
                     <c:if test="${fn:length(files)==0}">无</c:if>
                     <c:forEach items="${files}" var="file">
-                      <a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a>
+                      <a href="${ctx}/abroad/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a>
                     </c:forEach>
                   </span>
                 </div>

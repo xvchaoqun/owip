@@ -126,7 +126,7 @@ pageEncoding="UTF-8"%>
 							<c:forEach items="${files}" var="file">
 								<div id="file${file.id}" class="file row well well-sm col-xs-12">
 									<div class="col-xs-9 ">
-										<a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a></div>
+										<a href="${ctx}/abroad/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a></div>
 									<div class="col-xs-3"><a href="javascript:;" onclick="_delFile(${file.id}, '${file.fileName}')">删除</a></div>
 								</div>
 							</c:forEach>

@@ -63,7 +63,7 @@
               <div class="col-xs-6">
                 <div class="my_paginate">
                   <ul class="pagination">
-                    <wo:page commonList="${commonList}" uri="${ctx}/applySelf" target="#page-content" pageNum="5"
+                    <wo:page commonList="${commonList}" uri="${ctx}/user/abroad/passportDraw_self" target="#page-content" pageNum="5"
                              model="3"/>
                   </ul>
                 </div>

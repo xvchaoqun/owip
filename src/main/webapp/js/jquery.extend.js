@@ -202,11 +202,11 @@ var _modal_width;
                 } else if ($target.is('[data-rel="select2"]')
                     || $target.is('[data-rel="select2-ajax"]')
                     || $target.hasClass("select2-hidden-accessible")) {
-                    $target = $target.closest("div").find(".select2-container");
+                    $target = $target.closest("div,td").find(".select2-container");
                 } else if ($target.closest(".ace-file-input").length > 0) {
                     $target = $target.closest(".ace-file-input")
                 } else if ($target.is(":radio")) {
-                    $target = $target.closest("div")
+                    $target = $target.closest("div,td")
                 }
                 $container = $form;
                 if ($form.closest("#modal").length > 0) {
@@ -543,7 +543,7 @@ var _modal_width;
                     }
                     var ext = info.error_count['ext'];
                     var mime = info.error_count['mime'];
-                    console.log(info.error_count)
+                    //console.log(info.error_count)
                     if (ext > 0 || mime > 0) {
                         $.tip({
                             $target: $file.closest(".ace-file-input"), $container: $("#pageContent") || $("body"),

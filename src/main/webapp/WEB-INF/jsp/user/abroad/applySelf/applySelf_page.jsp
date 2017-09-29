@@ -22,7 +22,7 @@
                         <i class="fa fa-info-circle"></i> 详情
                     </button>
                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                            data-url="${ctx}/applySelfModify"
+                            data-url="${ctx}/abroad/applySelfModify"
                             data-id-name="applyId"
                             data-open-by="page">
                         <i class="fa fa-search"></i> 变更记录
@@ -109,7 +109,7 @@
 </div>
 <script type="text/template" id="remark_tpl">
 <button class="popupBtn btn btn-xs btn-primary"
-            data-url="${ctx}/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看</button>
+            data-url="${ctx}/abroad/applySelfModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看</button>
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>

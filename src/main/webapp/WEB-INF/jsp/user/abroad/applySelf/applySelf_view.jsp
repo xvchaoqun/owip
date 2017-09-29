@@ -106,7 +106,7 @@
           <td class="bg-right">其他说明材料</td>
           <td colspan="5" class="bg-left">
             <c:forEach items="${files}" var="file">
-              <a href="${ctx}/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a>
+              <a href="${ctx}/abroad/applySelf_download?id=${file.id}" target="_blank">${file.fileName}</a>
             </c:forEach>
           </td>
         </tr>
