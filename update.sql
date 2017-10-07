@@ -44,7 +44,7 @@ ALTER TABLE `cadre_paper`
 	ADD COLUMN `press` VARCHAR(100) NULL DEFAULT NULL COMMENT '期刊名称' AFTER `name`;
 
 
-2017-9-20
+2017-9-20( 北化工未更新)
 ALTER TABLE `pcs_config`
 	ADD COLUMN `proposal_submit_time` DATETIME NULL COMMENT '提交提案时间，精确到分钟' AFTER `remark`,
 	ADD COLUMN `proposal_support_time` DATETIME NULL COMMENT '征集附议人时间，精确到分钟' AFTER `proposal_submit_time`,
