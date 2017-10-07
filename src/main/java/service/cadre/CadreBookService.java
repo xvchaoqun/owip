@@ -24,6 +24,16 @@ import java.util.List;
 public class CadreBookService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
+
+    public List<CadreBook> list(int cadreId){
+
+        CadreBookExample example = new CadreBookExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("pub_time asc");
+        return cadreBookMapper.selectByExample(example);
+    }
+
     @Transactional
     public int insertSelective(CadreBook record) {
 

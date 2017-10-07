@@ -27,6 +27,15 @@ public class CadrePaperService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
+    public List<CadrePaper> list(int cadreId){
+
+        CadrePaperExample example = new CadrePaperExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("pub_time asc");
+        return cadrePaperMapper.selectByExample(example);
+    }
+
     @Transactional
     public int insertSelective(CadrePaper record) {
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
@@ -41,7 +50,7 @@ public class CadrePaperService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadrePaperExample example = new CadrePaperExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadrePaperMapper.countByExample(example);
+            long count = cadrePaperMapper.countByExample(example);
             if(count!=ids.length){
                 throw new IllegalArgumentException("数据异常");
             }

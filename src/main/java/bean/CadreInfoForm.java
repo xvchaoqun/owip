@@ -43,6 +43,8 @@ public class CadreInfoForm {
     private String specialty;
 
     // 全日制教育-最高学历
+    private String edu;
+    // 全日制教育-学位
     private String degree;
     // 全日制教育-毕业院校系及专业
     private String schoolDepMajor;
@@ -218,6 +220,14 @@ public class CadreInfoForm {
 
     public void setSpecialty(String specialty) {
         this.specialty = specialty;
+    }
+
+    public String getEdu() {
+        return edu;
+    }
+
+    public void setEdu(String edu) {
+        this.edu = edu;
     }
 
     public String getDegree() {

@@ -82,7 +82,7 @@ public class CadrePaperController extends BaseController {
             return;
         }
 
-        int count = cadrePaperMapper.countByExample(example);
+        long count = cadrePaperMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -220,7 +220,7 @@ public class CadrePaperController extends BaseController {
     public void cadrePaper_export(CadrePaperExample example, HttpServletResponse response) {
 
         List<CadrePaper> cadrePapers = cadrePaperMapper.selectByExample(example);
-        int rownum = cadrePaperMapper.countByExample(example);
+        long rownum = cadrePaperMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

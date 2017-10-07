@@ -56,14 +56,14 @@ public class CadreParttimeController extends BaseController {
         modelMap.put("type", type);
         if (type == 2) {
 
-            CadreParttimeExample example = new CadreParttimeExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            example.setOrderByClause("start_time asc");
-            List<CadreParttime> cadreParttimes = cadreParttimeMapper.selectByExample(example);
-            modelMap.put("cadreParttimes", cadreParttimes);
+            modelMap.put("cadreParttimes", cadreParttimeService.list(cadreId));
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_PARTTIME);
             modelMap.put("cadreInfo", cadreInfo);
+        }else{
+            String name = "parttime";
+            modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+            modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }
         return "cadre/cadreParttime/cadreParttime_page";
     }

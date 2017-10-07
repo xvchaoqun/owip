@@ -4,8 +4,6 @@ import controller.BaseController;
 import domain.cadre.CadreCourse;
 import domain.cadre.CadreCourseExample;
 import domain.cadre.CadreInfo;
-import domain.cadre.CadreReward;
-import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -53,19 +51,20 @@ public class CadreCourseController extends BaseController {
             Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("type", type);
-        if (type == 3) {
-            modelMap.put("bksCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_BKS));
-            modelMap.put("ssCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_SS));
-            modelMap.put("bsCadreCourses", cadreCourseService.find(cadreId, SystemConstants.CADRE_COURSE_TYPE_BS));
-            {
-                CadreRewardExample example = new CadreRewardExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_TEACH)
-                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-                example.setOrderByClause("reward_time asc");
-                List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
-                modelMap.put("cadreRewards", cadreRewards);
-            }
+        if(type==1){
+            String name = "course";
+            modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+            modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+        }else if(type==2){
+            String name = "course_reward";
+            modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+            modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+        }else if (type == 3) {
+            modelMap.put("bksCadreCourses", cadreCourseService.list(cadreId, SystemConstants.CADRE_COURSE_TYPE_BKS));
+            modelMap.put("ssCadreCourses", cadreCourseService.list(cadreId, SystemConstants.CADRE_COURSE_TYPE_SS));
+            modelMap.put("bsCadreCourses", cadreCourseService.list(cadreId, SystemConstants.CADRE_COURSE_TYPE_BS));
+
+            modelMap.put("cadreRewards", cadreRewardService.list(cadreId, SystemConstants.CADRE_REWARD_TYPE_TEACH));
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TEACH);
             modelMap.put("cadreInfo", cadreInfo);

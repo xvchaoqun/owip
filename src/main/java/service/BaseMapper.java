@@ -39,6 +39,7 @@ import persistence.cadre.CadreCourseMapper;
 import persistence.cadre.CadreEduMapper;
 import persistence.cadre.CadreFamliyAbroadMapper;
 import persistence.cadre.CadreFamliyMapper;
+import persistence.cadre.CadreInfoCheckMapper;
 import persistence.cadre.CadreInfoMapper;
 import persistence.cadre.CadreLeaderMapper;
 import persistence.cadre.CadreLeaderUnitMapper;
@@ -406,6 +407,8 @@ public class BaseMapper {
     protected UnitAdminMapper unitAdminMapper;
     @Autowired
     protected CadreInfoMapper cadreInfoMapper;
+    @Autowired
+    protected CadreInfoCheckMapper cadreInfoCheckMapper;
     @Autowired
     protected CadreFamliyAbroadMapper cadreFamliyAbroadMapper;
     @Autowired

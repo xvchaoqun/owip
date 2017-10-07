@@ -8,6 +8,7 @@ import controller.BaseController;
 import domain.abroad.ApproverType;
 import domain.base.Location;
 import domain.base.MetaType;
+import domain.cadre.CadreViewExample;
 import domain.dispatch.DispatchType;
 import domain.party.Branch;
 import domain.party.Party;
@@ -32,6 +33,7 @@ import sys.utils.FileUtils;
 import sys.utils.JSONUtils;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +88,16 @@ public class CacheService extends BaseController{
         countCache.put(SystemConstants.CACHEKEY_ABROAD_PASSPORT_APPLY, countMapper.abroadPassportApply());
         countCache.put(SystemConstants.CACHEKEY_ABROAD_APPLY_SELF, countMapper.abroadApplySelf());
         countCache.put(SystemConstants.CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE, countMapper.taiwanRecordHandleType());
+
+        {
+            // 特殊党员干部库-已存在于党员信息库（用于提醒管理员删除）
+            CadreViewExample example = new CadreViewExample();
+            CadreViewExample.Criteria criteria = example.createCriteria();
+            criteria.andOwIdIsNotNull().andMemberStatusIn(Arrays.asList(SystemConstants.MEMBER_STATUS_NORMAL,
+                    SystemConstants.MEMBER_STATUS_TRANSFER));
+
+            countCache.put(SystemConstants.CACHEKEY_CADRE_PARTY_TO_REMOVE, (int)cadreViewMapper.countByExample(example));
+        }
 
         List<Map> modifyTableApplyCounts = countMapper.modifyTableApply();
         for (Map entity : modifyTableApplyCounts) {

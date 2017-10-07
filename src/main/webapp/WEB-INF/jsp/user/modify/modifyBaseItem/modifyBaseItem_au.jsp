@@ -13,6 +13,16 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">${record.name}</label>
 				<div class="col-xs-6">
                     <c:choose>
+                        <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_INT && record.code=='health'}">
+                            <select required data-rel="select2" name="modifyValue"
+                                    data-placeholder="请选择" data-width="162">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_health"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("select[name=modifyValue]").val('${record.modifyValue}');
+                            </script>
+                        </c:when>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_STRING}">
                             <input required class="form-control" type="text" name="modifyValue" value="${record.modifyValue}">
                         </c:when>
@@ -72,6 +82,6 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-
+    $('[data-rel="select2"]').select2();
    // register_date($('.date-picker'));
 </script>

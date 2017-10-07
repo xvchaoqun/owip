@@ -25,6 +25,16 @@ import java.util.List;
 public class CadreRewardService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
+
+    public List<CadreReward> list(int cadreId, byte rewardType){
+
+        CadreRewardExample example = new CadreRewardExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(rewardType)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("reward_time asc");
+        return cadreRewardMapper.selectByExample(example);
+    }
+
     @Transactional
     public int insertSelective(CadreReward record){
 

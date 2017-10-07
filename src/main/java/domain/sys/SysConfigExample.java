@@ -434,6 +434,216 @@ public class SysConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andSchoolShortNameIsNull() {
+            addCriterion("school_short_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameIsNotNull() {
+            addCriterion("school_short_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameEqualTo(String value) {
+            addCriterion("school_short_name =", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameNotEqualTo(String value) {
+            addCriterion("school_short_name <>", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameGreaterThan(String value) {
+            addCriterion("school_short_name >", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameGreaterThanOrEqualTo(String value) {
+            addCriterion("school_short_name >=", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameLessThan(String value) {
+            addCriterion("school_short_name <", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameLessThanOrEqualTo(String value) {
+            addCriterion("school_short_name <=", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameLike(String value) {
+            addCriterion("school_short_name like", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameNotLike(String value) {
+            addCriterion("school_short_name not like", value, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameIn(List<String> values) {
+            addCriterion("school_short_name in", values, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameNotIn(List<String> values) {
+            addCriterion("school_short_name not in", values, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameBetween(String value1, String value2) {
+            addCriterion("school_short_name between", value1, value2, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolShortNameNotBetween(String value1, String value2) {
+            addCriterion("school_short_name not between", value1, value2, "schoolShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlIsNull() {
+            addCriterion("school_login_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlIsNotNull() {
+            addCriterion("school_login_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlEqualTo(String value) {
+            addCriterion("school_login_url =", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlNotEqualTo(String value) {
+            addCriterion("school_login_url <>", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlGreaterThan(String value) {
+            addCriterion("school_login_url >", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("school_login_url >=", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlLessThan(String value) {
+            addCriterion("school_login_url <", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlLessThanOrEqualTo(String value) {
+            addCriterion("school_login_url <=", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlLike(String value) {
+            addCriterion("school_login_url like", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlNotLike(String value) {
+            addCriterion("school_login_url not like", value, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlIn(List<String> values) {
+            addCriterion("school_login_url in", values, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlNotIn(List<String> values) {
+            addCriterion("school_login_url not in", values, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlBetween(String value1, String value2) {
+            addCriterion("school_login_url between", value1, value2, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolLoginUrlNotBetween(String value1, String value2) {
+            addCriterion("school_login_url not between", value1, value2, "schoolLoginUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailIsNull() {
+            addCriterion("school_email is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailIsNotNull() {
+            addCriterion("school_email is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailEqualTo(String value) {
+            addCriterion("school_email =", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailNotEqualTo(String value) {
+            addCriterion("school_email <>", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailGreaterThan(String value) {
+            addCriterion("school_email >", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailGreaterThanOrEqualTo(String value) {
+            addCriterion("school_email >=", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailLessThan(String value) {
+            addCriterion("school_email <", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailLessThanOrEqualTo(String value) {
+            addCriterion("school_email <=", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailLike(String value) {
+            addCriterion("school_email like", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailNotLike(String value) {
+            addCriterion("school_email not like", value, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailIn(List<String> values) {
+            addCriterion("school_email in", values, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailNotIn(List<String> values) {
+            addCriterion("school_email not in", values, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailBetween(String value1, String value2) {
+            addCriterion("school_email between", value1, value2, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andSchoolEmailNotBetween(String value1, String value2) {
+            addCriterion("school_email not between", value1, value2, "schoolEmail");
+            return (Criteria) this;
+        }
+
         public Criteria andSiteCopyrightIsNull() {
             addCriterion("site_copyright is null");
             return (Criteria) this;
@@ -1131,6 +1341,146 @@ public class SysConfigExample {
 
         public Criteria andLoginBgNotBetween(String value1, String value2) {
             addCriterion("login_bg not between", value1, value2, "loginBg");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopIsNull() {
+            addCriterion("login_top is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopIsNotNull() {
+            addCriterion("login_top is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopEqualTo(String value) {
+            addCriterion("login_top =", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopNotEqualTo(String value) {
+            addCriterion("login_top <>", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopGreaterThan(String value) {
+            addCriterion("login_top >", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopGreaterThanOrEqualTo(String value) {
+            addCriterion("login_top >=", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopLessThan(String value) {
+            addCriterion("login_top <", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopLessThanOrEqualTo(String value) {
+            addCriterion("login_top <=", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopLike(String value) {
+            addCriterion("login_top like", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopNotLike(String value) {
+            addCriterion("login_top not like", value, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopIn(List<String> values) {
+            addCriterion("login_top in", values, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopNotIn(List<String> values) {
+            addCriterion("login_top not in", values, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBetween(String value1, String value2) {
+            addCriterion("login_top between", value1, value2, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopNotBetween(String value1, String value2) {
+            addCriterion("login_top not between", value1, value2, "loginTop");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorIsNull() {
+            addCriterion("login_top_bg_color is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorIsNotNull() {
+            addCriterion("login_top_bg_color is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorEqualTo(String value) {
+            addCriterion("login_top_bg_color =", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorNotEqualTo(String value) {
+            addCriterion("login_top_bg_color <>", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorGreaterThan(String value) {
+            addCriterion("login_top_bg_color >", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorGreaterThanOrEqualTo(String value) {
+            addCriterion("login_top_bg_color >=", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorLessThan(String value) {
+            addCriterion("login_top_bg_color <", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorLessThanOrEqualTo(String value) {
+            addCriterion("login_top_bg_color <=", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorLike(String value) {
+            addCriterion("login_top_bg_color like", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorNotLike(String value) {
+            addCriterion("login_top_bg_color not like", value, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorIn(List<String> values) {
+            addCriterion("login_top_bg_color in", values, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorNotIn(List<String> values) {
+            addCriterion("login_top_bg_color not in", values, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorBetween(String value1, String value2) {
+            addCriterion("login_top_bg_color between", value1, value2, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTopBgColorNotBetween(String value1, String value2) {
+            addCriterion("login_top_bg_color not between", value1, value2, "loginTopBgColor");
             return (Criteria) this;
         }
 

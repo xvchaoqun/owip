@@ -2,13 +2,12 @@ package persistence.sys;
 
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserInfoExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface SysUserInfoMapper {
-    int countByExample(SysUserInfoExample example);
+    long countByExample(SysUserInfoExample example);
 
     int deleteByExample(SysUserInfoExample example);
 

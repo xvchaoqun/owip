@@ -25,13 +25,13 @@
                     <a href="javascript:" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
                 </li>
                 <shiro:hasPermission name="cadreEdu:*">
-                    <li>
+                    <li class="${to=='cadreEdu_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreEdu_page?cadreId=${param.cadreId}&_auth=${param._auth}">学习经历</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreWork:*">
-                    <li>
+                    <li class="${to=='cadreWork_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreWork_page?cadreId=${param.cadreId}&_auth=${param._auth}">工作经历</a>
                     </li>
@@ -43,49 +43,49 @@
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadrePostInfo:*">
-                    <li>
+                    <li class="${to=='cadrePostInfo_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadrePostInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">岗位过程信息</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreParttime:*">
-                    <li>
+                    <li class="${to=='cadreParttime_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreParttime_page?cadreId=${param.cadreId}&_auth=${param._auth}">社会或学术兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreTrain:*">
-                    <li>
+                    <li class="${to=='cadreTrain_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreTrain_page?cadreId=${param.cadreId}&_auth=${param._auth}">培训情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreCourse:*">
-                    <li>
+                    <li class="${to=='cadreCourse_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreCourse_page?cadreId=${param.cadreId}&_auth=${param._auth}">教学经历</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreResearch:*">
-                    <li>
+                    <li class="${to=='cadreResearch_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreResearch_page?cadreId=${param.cadreId}&_auth=${param._auth}">科研情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreReward:*">
-                    <li>
+                    <li class="${to=='cadreReward_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreReward_page?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}&_auth=${param._auth}">其他奖励情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreFamliy:*">
-                    <li>
+                    <li class="${to=='cadreFamliy_page'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreFamliy_page?cadreId=${param.cadreId}&_auth=${param._auth}">家庭成员信息</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreCompany:*">
-                    <li>
+                    <li class="${to=='cadreCompany'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
                     </li>
@@ -99,6 +99,12 @@
                 <shiro:hasPermission name="cadreInspectInfo:*">
                     <li>
                         <a href="javascript:" data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="cadreInfo:check">
+                    <li>
+                        <a href="javascript:"
+                           data-url="${ctx}/cadreInfoCheck_table?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息完整性校验表</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreAdform:*">
@@ -139,3 +145,21 @@
     <!-- /.widget-body -->
 </div>
 <!-- /.widget-box -->
+<script>
+    $(document).off("change", ".cadre-info-check").on("change", ".cadre-info-check", function(e){
+        var $this = $(this);
+        var name = $this.data("name");
+        var isChecked = $this.prop("checked");
+
+        $.post("${ctx}/cadreInfoCheck_update?cadreId=${param.cadreId}&toApply=1",{name:name, isChecked:isChecked},function(ret){
+            //console.log(name + ":" + isChecked)
+            if(ret.success) {
+                $this.tip({content: '操作成功'});
+                $("button.btn").prop("disabled", isChecked);
+            }else{
+                $this.prop("checked", !isChecked);
+            }
+        })
+    })
+
+</script>

@@ -67,9 +67,10 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
-                        <c:forEach items="${cadreEdus}" var="cadreEdu">
-                            <p>${cm:formatDate(cadreEdu.enrolTime, "yyyy.MM")}${(cadreEdu.finishTime!=null)?"-":"-至今"}${cm:formatDate(cadreEdu.finishTime, "yyyy.MM")}&nbsp;${cadreEdu.school}${cadreEdu.dep}${cadreEdu.major}专业&nbsp;${cadreEdu.degree}</p>
-                        </c:forEach>
+                        <jsp:useBean id='map' class='java.util.HashMap' scope='request'>
+                            <c:set target='${map}' property='cadreEdus' value='${cadreEdus}'/>
+                        </jsp:useBean>
+                        ${cm:freemarker(map, '/cadre/cadreEdu.ftl')}
                     </div>
                 </div>
             </div>
@@ -79,7 +80,8 @@
                 <div class="widget-header">
                     <h4 class="smaller">
                         最终数据（<span
-                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                            style="font-weight: bolder; color: red;"
+                            id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                     </h4>
                 </div>
                 <div class="widget-body">
@@ -91,7 +93,7 @@
                             <i class="ace-icon fa fa-copy"></i>
                             同步自动生成的数据
                         </a>
-                        <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+                        <input id="saveBtn" type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
                     </div>
                 </div>
@@ -121,8 +123,11 @@
                 type: "${CADRE_INFO_TYPE_EDU}"
             }, function (ret) {
                 if (ret.success) {
-                    SysMsg.info("保存成功", "", function () {
+                    /*SysMsg.info("保存成功", "", function () {
                         _innerPage(2)
+                    });*/
+                    _innerPage(2, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
                     });
                 }
             });
@@ -130,14 +135,16 @@
         function copyOrginal() {
             //console.log($("#orginal").html())
             ke.html($("#orginal").html());
-            SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
+            //SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
         }
     </script>
 </c:if>
 <c:if test="${type==1}">
     <script>
-        function _innerPage(type) {
-            $("#view-box .tab-content").loadPage("${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type)
+        function _innerPage(type, fn) {
+            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreEdu").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
@@ -148,9 +155,8 @@
             pager: "#jqGridPager_cadreEdu",
             url: '${ctx}/cadreEdu_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: colModels.cadreEdu
-        }).jqGrid("setFrozenColumns").on("initGrid", function () {
-            $(window).triggerHandler('resize.jqGrid2');
-        });
+        }).jqGrid("setFrozenColumns");
+        $(window).triggerHandler('resize.jqGrid2');
 
         register_fancybox(function () {
             //console.log(this)

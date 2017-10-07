@@ -27,19 +27,20 @@
 </ul>
 
 <c:if test="${type==1}">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+
         <shiro:hasPermission name="cadreCourse:edit">
-            <a class="popupBtn btn btn-success btn-sm"
+            <button class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreCourse_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                添加</a>
-            <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                添加</button>
+            <button class="jqOpenViewBtn btn btn-primary btn-sm"
                data-url="${ctx}/cadreCourse_au"
                data-grid-id="#jqGrid_cadreCourse"
                data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                修改</a>
+                修改</button>
         </shiro:hasPermission>
         <shiro:hasPermission name="cadreCourse:del">
             <button data-url="${ctx}/cadreCourse_batchDel"
@@ -51,22 +52,26 @@
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
-    </div>
         </shiro:lacksRole>
         </c:if>
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <input type="checkbox" data-name="course" name="check" class="cadre-info-check"> 无此类情况
+    </shiro:lacksRole>
+    </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadreCourse" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadreCourse"></div>
 </c:if>
 <c:if test="${type==2}">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-        <a class="popupBtn btn  btn-sm btn-info"
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+
+        <button class="popupBtn btn  btn-sm btn-info"
            data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_TEACH}&cadreId=${param.cadreId}"><i
                 class="fa fa-plus"></i>
-            添加</a>
+            添加</button>
         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
                 data-url="${ctx}/cadreReward_au"
                 data-grid-id="#jqGrid_cadreReward"
@@ -81,9 +86,12 @@
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-times"></i> 删除
         </button>
-    </div>
     </shiro:lacksRole>
         </c:if>
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <input type="checkbox" data-name="course_reward" name="check" class="cadre-info-check"> 无此类情况
+    </shiro:lacksRole>
+    </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadreReward" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadreReward"></div>
@@ -99,31 +107,13 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
-                        <c:if test="${fn:length(bksCadreCourses)>0}">
-                            <p>本科生课程：<c:forEach items="${bksCadreCourses}" varStatus="vs" var="course">${course.name}
-                                <c:if test="${!vs.last}">、</c:if>
-                            </c:forEach>
-                            </p>
-                        </c:if>
-                        <c:if test="${fn:length(ssCadreCourses)>0}">
-                            <p>硕士生课程：<c:forEach items="${ssCadreCourses}" varStatus="vs" var="course">${course.name}
-                                <c:if test="${!vs.last}">、</c:if>
-                            </c:forEach>
-                            </p>
-                        </c:if>
-                        <c:if test="${fn:length(bsCadreCourses)>0}">
-                            <p>博士生课程：<c:forEach items="${bsCadreCourses}" varStatus="vs" var="course">${course.name}
-                                <c:if test="${!vs.last}">、</c:if>
-                            </c:forEach>
-                            </p>
-                        </c:if>
-                        <c:if test="${fn:length(cadreRewards)>0}">
-                            <p>获奖情况：</p>
-                            <c:forEach items="${cadreRewards}" var="cadreReward">
-                                <p style="text-indent: 2em">${cm:formatDate(cadreReward.rewardTime, "yyyy")}年&nbsp;荣获${cadreReward.name}
-                                    <c:if test="${not empty cadreReward.rank}">(排名第${cadreReward.rank})</c:if>&nbsp;${cadreReward.unit}</p>
-                            </c:forEach>
-                        </c:if>
+                        <jsp:useBean id='map' class='java.util.HashMap' scope='request'>
+                            <c:set target='${map}' property='bksCadreCourses' value='${bksCadreCourses}'/>
+                            <c:set target='${map}' property='ssCadreCourses' value='${ssCadreCourses}'/>
+                            <c:set target='${map}' property='bsCadreCourses' value='${bsCadreCourses}'/>
+                            <c:set target='${map}' property='cadreRewards' value='${cadreRewards}'/>
+                        </jsp:useBean>
+                        ${cm:freemarker(map, '/cadre/cadreCourse.ftl')}
                     </div>
                 </div>
             </div>
@@ -133,7 +123,8 @@
                 <div class="widget-header">
                     <h4 class="smaller">
                         最终数据（<span
-                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                            style="font-weight: bolder; color: red;"
+                            id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                     </h4>
                 </div>
                 <div class="widget-body">
@@ -146,7 +137,7 @@
                             <i class="ace-icon fa fa-copy"></i>
                             同步自动生成的数据
                         </a>
-                        <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+                        <input id="saveBtn" type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
                     </div>
                 </div>
@@ -174,8 +165,8 @@
                 type: "${CADRE_INFO_TYPE_TEACH}"
             }, function (ret) {
                 if (ret.success) {
-                    SysMsg.info("保存成功", "", function () {
-                        _innerPage(2)
+                    _innerPage(3, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
                     });
                 }
             });
@@ -183,7 +174,8 @@
         function copyOrginal() {
             //console.log($("#orginal").html())
             ke.html($("#orginal").html());
-            SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
         }
     </script>
 </c:if>
@@ -199,8 +191,16 @@
        data-id="{{=id}}" data-direction="1" title="下降"><i class="fa fa-arrow-down"></i></a>
 </script>
 <script>
-    function _innerPage(type) {
-        $("#view-box .tab-content").loadPage("${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type)
+    <c:if test="${!canUpdate}">
+    $("button.btn").prop("disabled", true);
+    </c:if>
+    $(".cadre-info-check").prop("checked", ${!canUpdate});
+    <c:if test="${!canUpdateInfoCheck}">
+    $(".cadre-info-check").prop("disabled", true);
+    </c:if>
+
+    function _innerPage(type, fn) {
+        $("#view-box .tab-content").loadPage({url:"${ctx}/cadreCourse_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
     }
     <c:if test="${type==1}">
     $("#jqGrid_cadreCourse").jqGrid({

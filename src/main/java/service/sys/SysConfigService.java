@@ -21,6 +21,11 @@ public class SysConfigService extends BaseMapper {
     @Autowired
     private SpringProps springProps;
 
+    public String getSchoolName(){
+
+        return get().getSchoolName();
+    }
+
     @Cacheable(value = "SysConfig")
     public SysConfig get() {
 
@@ -54,6 +59,9 @@ public class SysConfigService extends BaseMapper {
         }
         if(StringUtils.isNotBlank(sysConfig.getLogoWhite())) {
             FileUtils.copyFile(springProps.uploadPath + sysConfig.getLogoWhite(), CmTag.getImgFolder() + "logo_white.png");
+        }
+        if(StringUtils.isNotBlank(sysConfig.getLoginTop())) {
+            FileUtils.copyFile(springProps.uploadPath + sysConfig.getLoginTop(), CmTag.getImgFolder() + "login_top.jpg");
         }
         if(StringUtils.isNotBlank(sysConfig.getLoginBg())) {
             FileUtils.copyFile(springProps.uploadPath + sysConfig.getLoginBg(), CmTag.getImgFolder() + "login_bg.jpg");

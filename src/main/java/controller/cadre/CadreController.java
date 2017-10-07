@@ -403,6 +403,10 @@ public class CadreController extends BaseController {
         //最高学位
         modelMap.put("highDegree", cadreEduService.getHighDegree(cadreId));
 
+
+        // 是否已认定了参加工作时间，没认定前可修改
+        modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
+
         return "cadre/cadre_base";
     }
 

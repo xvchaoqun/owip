@@ -338,6 +338,8 @@
                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                  enableDeleteByExample="false">
           </table>-->
+        <table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
+        </table>
 
         <!--
         <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
@@ -364,7 +366,8 @@
         </table>-->
         <!--<table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
         </table>
-        <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper">
+        --><!--
+        <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper" mapperName="cadre.CadrePaperMapper">
         </table>-->
         <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
         </table>-->
@@ -477,7 +480,7 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
-        <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
+   <!--     <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
                mapperName="pcs.PcsProposalViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -493,7 +496,7 @@
             <columnOverride column="invite_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="seconder_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>
-
+-->
         <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
         </table>-->
         <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
@@ -552,11 +555,10 @@
 
          -->
 
-        <!-- <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+         <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
              <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-         </table>
-       -->
+         </table>-->
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -569,9 +571,12 @@
         <!-- <table tableName="sys_user" domainObjectName="sys.SysUser">
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo">
+       <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
          </table>
-         <table tableName="sys_user_view" domainObjectName="sys.SysUserView">
+         <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+                enableInsert="false" enableUpdateByPrimaryKey="false"
+                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                enableDeleteByExample="false">
              <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">

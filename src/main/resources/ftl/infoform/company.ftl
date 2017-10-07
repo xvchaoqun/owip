@@ -27,7 +27,7 @@
             <w:pPr>
                 <w:spacing w:line="240" w:line-rule="exact"/>
                 <w:ind w:left-chars="10" w:left="24"/>
-                <w:jc w:val="center"/>
+                <w:jc w:val="left"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
                     <w:b-cs/>
@@ -73,7 +73,7 @@
         <w:p wsp:rsidR="000D6C29" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00D27E90">
             <w:pPr>
                 <w:ind w:left="-100"/>
-                <w:jc w:val="center"/>
+                <w:jc w:val="left"/>
                 <w:outlineLvl w:val="0"/>
                 <w:rPr>
                     <w:b-cs/>

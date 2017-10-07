@@ -67,7 +67,7 @@ public class CadreWorkController extends BaseController {
                                  Integer pageSize, Integer pageNo, ModelMap modelMap) {
         modelMap.put("type", type);
         if (type == 2) {
-            List<CadreWork> cadreWorks = cadreWorkService.findByCadre(cadreId);
+            List<CadreWork> cadreWorks = cadreWorkService.list(cadreId);
             modelMap.put("cadreWorks", cadreWorks);
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
             modelMap.put("cadreInfo", cadreInfo);

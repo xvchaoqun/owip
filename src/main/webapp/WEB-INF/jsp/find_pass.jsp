@@ -39,8 +39,8 @@
                 <ul class="list-unstyled spaced2">
                     <li class="text-warning bigger-110 orange">
                         <i class="ace-icon fa fa-exclamation-triangle"></i>
-                        如果您的账号是<b>师大门户账号</b>，请访问信息门户：
-                        <a href="http://one.bnu.edu.cn" target="_blank">http://one.bnu.edu.cn</a>，通过【忘记密码】功能修改密码；
+                        如果您的账号是<b>门户账号</b>，请访问信息门户：
+                        <a href="${sysConfig.schoolLoginUrl}" target="_blank">${sysConfig.schoolLoginUrl}</a>，通过【忘记密码】功能修改密码；
                     </li>
                     <li class="green">
                         <i class="ace-icon fa fa-circle green"></i>
@@ -139,7 +139,7 @@ $(function(){
                     _msg("该账号不存在，请重新输入。");
                     $this.prop("disabled", false);
                 }else if (ret.type==1){
-                    _msg('该账号是信息门户账号，请到<a href="http://one.bnu.edu.cn" target="_blank">http://one.bnu.edu.cn</a>修改密码。');
+                    _msg('该账号是信息门户账号，请到<a href="${sysConfig.schoolLoginUrl}" target="_blank">${sysConfig.schoolLoginUrl}</a>修改密码。');
                     $this.prop("disabled", false);
                 }else if (ret.type==2){
                     if(ret.send==0){

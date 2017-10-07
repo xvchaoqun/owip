@@ -74,12 +74,3 @@
     </#list>
 </w:p>
 </#list>
-<#--
-<w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00B62C14" wsp:rsidRDefault="00E759EF" wsp:rsidP="00B943F3">
-    <w:pPr>
-        <w:spacing w:line="400" w:line-rule="exact"/>
-        <w:rPr>
-            <w:sz w:val="24"/>
-        </w:rPr>
-    </w:pPr>
-</w:p>-->

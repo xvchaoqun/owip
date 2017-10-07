@@ -37,6 +37,16 @@ public class CadreEduService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
 
+    // 查找某个干部的学习经历
+    public List<CadreEdu> list(int cadreId){
+
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId);
+        example.setOrderByClause("enrol_time asc");
+
+        return cadreEduMapper.selectByExample(example);
+    }
+
     // 获取全日制教育、在职教育
     public CadreEdu[] getByLearnStyle(int cadreId){
 
@@ -64,11 +74,16 @@ public class CadreEduService extends BaseMapper {
 
     public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu){
 
+        return hasHighEdu(id, cadreId, isHighEdu, SystemConstants.RECORD_STATUS_FORMAL);
+    }
+
+    public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu, byte status){
+
         if(BooleanUtils.isFalse(isHighEdu)) return false;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andIsHighEduEqualTo(true).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+                .andIsHighEduEqualTo(true).andStatusEqualTo(status);
         if(id!=null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
     }
@@ -87,11 +102,16 @@ public class CadreEduService extends BaseMapper {
 
     public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree){
 
+        return hasHighDegree(id, cadreId, isHighDegree, SystemConstants.RECORD_STATUS_FORMAL);
+    }
+
+    public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree, byte status){
+
         if(BooleanUtils.isFalse(isHighDegree)) return false;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andIsHighDegreeEqualTo(true).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+                .andIsHighDegreeEqualTo(true).andStatusEqualTo(status);
         if(id!=null) criteria.andIdNotEqualTo(id);
         return cadreEduMapper.countByExample(example) > 0;
     }
@@ -109,6 +129,17 @@ public class CadreEduService extends BaseMapper {
 
         CadreEduExample example = new CadreEduExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andIsHighDegreeEqualTo(true)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(cadreEdus.size()>0) return  cadreEdus.get(0);
+        return null;
+    }
+
+    // 返回某个学历
+    public CadreEdu getCadreEdu(int cadreId, int eduId){
+
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andEduIdEqualTo(eduId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(cadreEdus.size()>0) return  cadreEdus.get(0);

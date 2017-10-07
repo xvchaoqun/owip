@@ -10,7 +10,8 @@
             </h1>
         </div>
         <div class="buttons">
-            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/clear" data-callback="_reload" data-msg="确定清空系统缓存？">清空缓存
+            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/clear" data-callback="_reload"
+                    data-msg="确定清空系统缓存？">清空缓存
             </button>
 
             <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_metadata_JSON"
@@ -55,6 +56,27 @@
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="schoolName" value="${sysConfig.schoolName}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">学校简称</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="schoolShortName" value="${sysConfig.schoolShortName}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">学校门户网址</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="schoolLoginUrl" value="${sysConfig.schoolLoginUrl}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">组织部邮箱</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="schoolEmail" value="${sysConfig.schoolEmail}">
                 </div>
             </div>
             <div class="form-group">
@@ -120,6 +142,21 @@
 
                 <div class="col-xs-6 logoWhite">
                     <input type="file" name="_logoWhite" id="_logoWhite"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">登录页顶部背景图片（分辨率1102*109，JPG格式）</label>
+
+                <div class="col-xs-6 loginTop">
+                    <input type="file" name="_loginTop" id="_loginTop"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">登录页顶部背景色</label>
+
+                <div class="col-xs-6">
+                    <input style="width: 100px;background-color: ${sysConfig.loginTopBgColor}" class="form-control" type="text" name="loginTopBgColor"
+                           value="${sysConfig.loginTopBgColor}">
                 </div>
             </div>
             <div class="form-group">
@@ -193,7 +230,9 @@
     .loginBg .ace-file-input {
         width: 405px;
     }
-
+    .loginTop .ace-file-input{
+        width: 500px;
+    }
 </style>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
@@ -246,6 +285,32 @@
     $("#_logoWhite").ace_file_input('show_file_list', [{
         type: 'image',
         name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
+    }]);
+    </c:if>
+
+    $.fileInput($("#_loginTop"), {
+        style: 'well',
+        btn_choose: '更换登录页顶部背景',
+        btn_change: null,
+        no_icon: 'ace-icon fa fa-picture-o',
+        thumbnail: 'large',
+        droppable: true,
+        previewWidth: 500,
+        previewHeight: 50,
+        allowExt: ['jpg'],
+        allowMime: ['image/jpg', 'image/jpeg']
+    });
+    <c:if test="${not empty sysConfig.loginTop}">
+    $("#_loginTop").find('button[type=reset]').on(ace.click_event, function () {
+        //$('#user-profile input[type=file]').ace_file_input('reset_input');
+        $("#_loginTop").ace_file_input('show_file_list', [{
+            type: 'image',
+            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
+        }]);
+    });
+    $("#_loginTop").ace_file_input('show_file_list', [{
+        type: 'image',
+        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
     }]);
     </c:if>
 
@@ -315,7 +380,7 @@
         }
     });
 
-    function _reload(){
+    function _reload() {
         $.hashchange();
     }
     function _reloadLoginMsg() {

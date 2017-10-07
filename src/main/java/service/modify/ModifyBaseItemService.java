@@ -66,7 +66,8 @@ public class ModifyBaseItemService extends BaseMapper {
     @Caching(evict = {
             @CacheEvict(value = "SysUserView", key = "#result.Username", condition="#result!=null"),
             @CacheEvict(value = "SysUserView:CODE_", key = "#result.code", condition="#result!=null"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#result.id", condition="#result!=null")
+            @CacheEvict(value = "SysUserView:ID_", key = "#result.id", condition="#result!=null"),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public SysUser approval(int id, Boolean status, String checkRemark, String checkReason) {
 

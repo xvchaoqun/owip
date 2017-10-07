@@ -24,6 +24,18 @@ import java.util.List;
 public class CadreTrainService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
+
+
+    public List<CadreTrain> list(int cadreId){
+
+        CadreTrainExample example = new CadreTrainExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("start_time asc");
+
+        return cadreTrainMapper.selectByExample(example);
+    }
+
     @Transactional
     public void insertSelective(CadreTrain record){
 

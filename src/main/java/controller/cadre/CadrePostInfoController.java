@@ -16,9 +16,25 @@ public class CadrePostInfoController extends BaseController {
 
     @RequiresPermissions("cadrePostInfo:list")
     @RequestMapping("/cadrePostInfo_page")
-    public String cadrePostInfo_page(@RequestParam(defaultValue = "1") Byte type, ModelMap modelMap) {
+    public String cadrePostInfo_page(int cadreId, @RequestParam(defaultValue = "1") Byte type, ModelMap modelMap) {
 
         modelMap.put("type", type);
+
+        String name = null;
+        switch (type){
+            case 1:
+                name = "post_pro";
+                break;
+            case 2:
+                name = "post_admin";
+                break;
+            case 3:
+                name = "post_work";
+                break;
+        }
+        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
         return "cadre/cadrePostInfo/cadrePostInfo_page";
     }
 }

@@ -12,6 +12,7 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -428,5 +429,16 @@ public class CadreService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             cadreMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    @Transactional
+    @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    public void updateWorkTime(int userId, Date _workTime) {
+
+        // 修改参加工作时间
+        TeacherInfo record = new TeacherInfo();
+        record.setUserId(userId);
+        record.setWorkTime(_workTime);
+        teacherInfoMapper.updateByPrimaryKeySelective(record);
     }
 }

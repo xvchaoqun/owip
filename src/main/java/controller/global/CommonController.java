@@ -80,7 +80,7 @@ public class CommonController extends BaseController {
             example.createCriteria().andTypeIn(Arrays.asList(type));
         }
 
-        int count = sysUserViewMapper.countByExample(example);
+        long count = sysUserViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

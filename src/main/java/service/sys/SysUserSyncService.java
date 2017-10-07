@@ -76,7 +76,7 @@ public class SysUserSyncService extends BaseMapper {
             throw new OpException("上一次同步仍在进行中");
         }
 
-        // 先从师大导入数据
+        // 先从学校导入数据
         try {
             extAbroadImport.excute();
         } catch (Exception ex) {
@@ -176,7 +176,7 @@ public class SysUserSyncService extends BaseMapper {
 
         insertSelective(sysUserSync);
 
-        // 先从师大导入数据
+        // 先从学校导入数据
         try {
             extJzgImport.excute();
         } catch (Exception ex) {
@@ -300,7 +300,7 @@ public class SysUserSyncService extends BaseMapper {
 
         insertSelective(sysUserSync);
 
-        // 先从师大导入数据
+        // 先从学校导入数据
         try {
             extYjsImport.excute();
         } catch (Exception ex) {
@@ -428,7 +428,7 @@ public class SysUserSyncService extends BaseMapper {
 
         insertSelective(sysUserSync);
 
-        // 先从师大导入数据
+        // 先从学校导入数据
         try {
             extBksImport.excute();
         } catch (Exception ex) {

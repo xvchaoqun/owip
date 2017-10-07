@@ -22,7 +22,8 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_startTime" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreResearch.startTime,'yyyy-MM-dd')}" />
+                           data-date-min-view-mode="1"
+                           data-date-format="yyyy.mm" value="${cm:formatDate(cadreResearch.startTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -32,7 +33,8 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_endTime" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreResearch.endTime,'yyyy-MM-dd')}" />
+                           data-date-min-view-mode="1"
+                           data-date-format="yyyy.mm" value="${cm:formatDate(cadreResearch.endTime,'yyyy.MM')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -44,10 +46,12 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">项目类型</label>
+            <label class="col-xs-3 control-label">项目类型
+                <a href="javascript:;" class="tip" style="margin-top: 5px;"><i class="fa fa-question-circle blue fa-lg"></i> </a></label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="type" value="${cadreResearch.type}">
             </div>
+
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">委托单位</label>
@@ -67,8 +71,15 @@ pageEncoding="UTF-8"%>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${cadreResearch!=null}">确定</c:if><c:if test="${cadreResearch==null}">添加</c:if>"/>
 </div>
-
 <script>
+    $(".tip").click(function(){
+
+        $(this).qtip({content: "<i class='fa fa-info-circle green'></i> 例如：国家自然科学基金项目、国家社会科学基金项目、教育部新世纪优秀人才支持计划项目、" +
+        "科技部973计划子课题、国家杰出青年科学基金项目等。", show: true, hide: 'unfocus'});
+        /*$.tip({$target:$(this), $form: $(this).closest("form"), inactive:10000,
+            msg: "例如：国家自然科学基金项目、国家社会科学基金项目、教育部新世纪优秀人才支持计划项目、" +
+            "科技部973计划子课题、国家杰出青年科学基金项目等。"})*/
+    })
     register_date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {

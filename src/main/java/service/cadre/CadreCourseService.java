@@ -27,12 +27,13 @@ public class CadreCourseService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
-    public List<CadreCourse> find(int cadreId, byte type){
+    public List<CadreCourse> list(int cadreId, byte type){
 
         CadreCourseExample example = new CadreCourseExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("sort_order asc");
+
         return cadreCourseMapper.selectByExample(example);
     }
 

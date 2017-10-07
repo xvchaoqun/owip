@@ -11,6 +11,27 @@
 
 	<!--System Tag -->
 	<function>
+		<name>canUpdate</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Boolean canUpdate(java.lang.Integer,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>cadreInfoCheck</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Byte cadreInfoCheck(java.lang.Integer,java.lang.String,java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>cadreResearchCheck</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Byte cadreResearchCheck(java.lang.Integer,java.lang.Byte)</function-signature>
+	</function>
+	<function>
+		<name>cadreRewardCheck</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Byte cadreRewardCheck(java.lang.Integer,java.lang.Byte)</function-signature>
+	</function>
+
+	<function>
 		<name>findPermissions</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.util.Set findPermissions(java.lang.String)</function-signature>
@@ -162,6 +183,11 @@
 		<function-signature>java.lang.Integer evaIsClosed(java.lang.Integer)</function-signature>
 	</function>
 
+	<function>
+		<name>freemarker</name>
+		<function-class>service.common.FreemarkerService</function-class>
+		<function-signature>java.lang.String freemarker(java.util.Map,java.lang.String)</function-signature>
+	</function>
 
 	<!-- common tag -->
 	<function>

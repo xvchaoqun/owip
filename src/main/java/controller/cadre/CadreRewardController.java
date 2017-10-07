@@ -59,15 +59,14 @@ public class CadreRewardController extends BaseController {
         modelMap.put("type", type);
         if (type == 2) {
 
-            CadreRewardExample example = new CadreRewardExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_OTHER)
-                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            example.setOrderByClause("reward_time asc");
-            List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
-            modelMap.put("cadreRewards", cadreRewards);
+            modelMap.put("cadreRewards", cadreRewardService.list(cadreId, SystemConstants.CADRE_REWARD_TYPE_OTHER));
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER);
             modelMap.put("cadreInfo", cadreInfo);
+        }else{
+            String name = "reward";
+            modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+            modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }
         return "cadre/cadreReward/cadreReward_page";
     }

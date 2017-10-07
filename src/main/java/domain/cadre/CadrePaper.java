@@ -10,6 +10,10 @@ public class CadrePaper implements Serializable {
 
     private Date pubTime;
 
+    private String name;
+
+    private String press;
+
     private String filePath;
 
     private String fileName;
@@ -42,6 +46,22 @@ public class CadrePaper implements Serializable {
 
     public void setPubTime(Date pubTime) {
         this.pubTime = pubTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getPress() {
+        return press;
+    }
+
+    public void setPress(String press) {
+        this.press = press == null ? null : press.trim();
     }
 
     public String getFilePath() {

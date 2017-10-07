@@ -24,14 +24,14 @@
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreFamliy:del">
-                    <button data-url="${ctx}/cadreFamliy_batchDel"
+                    <a data-url="${ctx}/cadreFamliy_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？<div class='bolder text-danger'>（与此关联的家庭成员移居国（境）外的情况也将删除）</div>"
                             data-grid-id="#jqGrid_cadreFamliy"
                             data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
-                    </button>
+                    </a>
                 </shiro:hasPermission>
             </div>
     </shiro:lacksRole>
@@ -53,21 +53,27 @@
 </div>
 
 <div class="space-4"></div>
-<div class="widget-box ${cadreFamliyAbroadCount==0?'collapsed':''}">
+<div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-battery-full"></i> 家庭成员移居国（境）外的情况
+
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+            <span style="color: #000;font-size: 14px; font-weight: normal">
+            <input type="checkbox" data-name="famliy_abroad" name="check" class="cadre-info-check"> 无此类情况
+                </span>
+        </shiro:lacksRole>
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamliy:edit">
-                    <a class="popupBtn btn btn-success btn-sm"
+                    <button class="popupBtn btn btn-success btn-sm"
                        data-url="${ctx}/cadreFamliyAbroad_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                        添加</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                        添加</button>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cadreFamliyAbroad_au"
                        data-grid-id="#jqGrid_cadreFamliyAbroad"
                        data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                        修改</a>
+                        修改</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreFamliy:del">
                     <button data-url="${ctx}/cadreFamliyAbroad_batchDel"
@@ -84,11 +90,6 @@
     </c:if>
         </h4>
 
-        <div class="widget-toolbar">
-            <a href="javascript:;" data-action="collapse">
-                <i class="ace-icon fa fa-chevron-up"></i>
-            </a>
-        </div>
     </div>
     <div class="widget-body">
         <div class="widget-main table-nonselect">
@@ -100,6 +101,14 @@
 
 
 <script>
+    <c:if test="${!canUpdate}">
+    $("button.btn").prop("disabled", true);
+    </c:if>
+    $(".cadre-info-check").prop("checked", ${!canUpdate});
+    <c:if test="${!canUpdateInfoCheck}">
+    $(".cadre-info-check").prop("disabled", true);
+    </c:if>
+
     $("#jqGrid_cadreFamliy").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
@@ -132,9 +141,7 @@
             },
             {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid4');
-    });
+    }).jqGrid("setFrozenColumns");
 
     $("#jqGrid_cadreFamliyAbroad").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
@@ -164,7 +171,6 @@
             {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             {label: '现居住城市', name: 'city', width: 150}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid4');
-    });
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid4');
 </script>

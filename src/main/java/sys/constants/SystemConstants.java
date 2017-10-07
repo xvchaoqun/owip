@@ -889,7 +889,7 @@ public class SystemConstants {
 
     static {
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_WORK, "工作经历");
-        CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PARTTIME, "兼职情况");
+        CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_PARTTIME, "社会或学术兼职");
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TRAIN, "培训情况");
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_TEACH, "教学经历");// 包含教学成果及获奖情况
 
@@ -1441,6 +1441,18 @@ public class SystemConstants {
         MODIFY_TABLE_APPLY_MODULE_MAP.put(MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN, "培训情况");
     }
 
+    // 干部信息检查结果
+    public final static byte CADRE_INFO_CHECK_RESULT_NOT_EXIST = 0;
+    public final static byte CADRE_INFO_CHECK_RESULT_EXIST = 1;
+    public final static byte CADRE_INFO_CHECK_RESULT_MODIFY = 2;  // 存在修改申请
+    public final static Map<Byte, String> CADRE_INFO_CHECK_RESULT_MAP = new LinkedHashMap<>();
+
+    static {
+        CADRE_INFO_CHECK_RESULT_MAP.put(CADRE_INFO_CHECK_RESULT_NOT_EXIST, "否");
+        CADRE_INFO_CHECK_RESULT_MAP.put(CADRE_INFO_CHECK_RESULT_EXIST, "是");
+        CADRE_INFO_CHECK_RESULT_MAP.put(CADRE_INFO_CHECK_RESULT_MODIFY, "已申请修改，待审核");
+    }
+
     //出行时间范围
     public final static byte APPLY_SELF_DATE_TYPE_HOLIDAY = 1;
     public final static byte APPLY_SELF_DATE_TYPE_SCHOOL = 2;
@@ -1771,6 +1783,8 @@ public class SystemConstants {
 
     public final static byte CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE = 21;
 
+    public final static byte CACHEKEY_CADRE_PARTY_TO_REMOVE = 22;
+
     public final static Map<Byte, String> CACHEKEY_MAP = new LinkedHashMap<>();
 
     static {
@@ -1798,6 +1812,8 @@ public class SystemConstants {
         CACHEKEY_MAP.put(CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF, "长期因公出国-领取证件");
 
         CACHEKEY_MAP.put(CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE, "因公赴台备案-提醒管理员选择办理新证件方式");
+
+        CACHEKEY_MAP.put(CACHEKEY_CADRE_PARTY_TO_REMOVE, "特殊党员干部库-已存在于党员信息库");
     }
 
     // 审批记录类型

@@ -19,7 +19,7 @@
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="cadreParty:edit">
                                     <a class="popupBtn btn btn-info btn-sm btn-success"
-                                       data-url="${ctx}/cadreParty_au?type=${param.type}"><i class="fa fa-plus"></i> 添加</a>
+                                       data-url="${ctx}/cadreParty_au?type=${type}"><i class="fa fa-plus"></i> 添加</a>
                                 </shiro:hasPermission>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/cadreParty_au">
@@ -100,7 +100,7 @@
 
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
                                                     <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                            data-querystr="status=${status}">
+                                                            data-querystr="type=${type}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>
@@ -135,12 +135,12 @@
                 return $.cadre(rowObject.id, cellvalue);
             }, frozen: true
             },
-            <c:if test="${param.type==1}">
+            <c:if test="${type==1}">
             {label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
             {label: '党派加入时间', name: 'dpGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
             {label: '担任党派职务', name: 'dpPost',align:'left',  width: 250},
             </c:if>
-            <c:if test="${param.type==2}">
+            <c:if test="${type==2}">
             {label: '党派加入时间', name: 'owGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {
@@ -177,10 +177,10 @@
                 return _cMap.CADRE_STATUS_MAP[cellvalue];
             }
             },
-            <c:if test="${param.type==1}">
+            <c:if test="${type==1}">
             {label: '备注', name: 'dpRemark', align:'left', width: 350}, {name: 'dpId', key:true, hidden:true}
             </c:if>
-            <c:if test="${param.type==2}">
+            <c:if test="${type==2}">
             {label: '备注', name: 'owRemark', align:'left', width: 350}, {name: 'owId', key:true, hidden:true}
             </c:if>
         ]

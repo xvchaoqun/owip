@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import sys.tags.CmTag;
 import sys.utils.HtmlEscapeUtils;
 
 import java.io.IOException;
@@ -43,6 +44,34 @@ public class FreemarkerService {
         Configuration cf = freeMarkerConfigurer.getConfiguration();
         Template tp= cf.getTemplate(path);
         tp.process(dataMap, out);
+    }
+
+    // 模板标签，（主要用于干部初始数据（学习经历、工作经历等），模板路径：ftl/cadre/*.ftl）
+    public static String freemarker(Map<String,Object> dataMap, String ftlPath){
+
+        try {
+
+            StringWriter writer = new StringWriter();
+            FreeMarkerConfigurer freeMarkerConfigurer = CmTag.getBean(FreeMarkerConfigurer.class);
+            Configuration cf = freeMarkerConfigurer.getConfiguration();
+            Template tp= cf.getTemplate(ftlPath);
+            tp.process(dataMap, writer);
+            return StringUtils.trimToNull(writer.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String freemarker(List records, String key, String ftlPath){
+
+        Map<String,Object> dataMap = new HashMap<>();
+        dataMap.put(key, records);
+
+        return freemarker(dataMap, ftlPath);
     }
 
     public String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
@@ -130,6 +159,74 @@ public class FreemarkerService {
         dataMap.put("dataList", rows);
 
         return process(ftlPath, dataMap);
+    }
+
+    public String genSegment3(String content, String ftlPath) throws IOException, TemplateException {
+
+        String result = "";
+
+        String title=null;
+        List rows = new ArrayList();
+
+        Document doc = Jsoup.parse(content);
+        Elements ps = doc.getElementsByTag("p");
+        int size = ps.size();
+
+        if(size==0){
+            List cols = new ArrayList();
+            cols.add(0);
+            cols.add(StringUtils.trimToEmpty(doc.text()));
+            rows.add(cols);
+
+            Map<String,Object> dataMap = new HashMap<>();
+            dataMap.put("dataList", rows);
+
+            result = process(ftlPath, dataMap);
+        }else{
+            for (int i = 0; i < size; i++) {
+
+                Element pElement = ps.get(i);
+                String pStr = StringUtils.trimToEmpty(pElement.text());
+                if (pStr.endsWith(":") || pStr.endsWith("：")) {
+                    if (rows.size() > 0) {
+                        Map<String, Object> dataMap = new HashMap<>();
+                        dataMap.put("title", title);
+                        dataMap.put("dataList", rows);
+
+                        result += process(ftlPath, dataMap);
+                    }
+                    title = pStr.substring(0, pStr.length() - 1);
+                    rows.clear();
+                } else {
+
+                    String style = pElement.attr("style");
+                    int type = 0;
+                    if (StringUtils.contains(style, "2em")
+                            ||StringUtils.contains(style, "text-indent"))
+                        type = 1;
+                    if (StringUtils.contains(style, "5em"))
+                        type = 2;
+                    String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
+                    List cols = new ArrayList();
+                    cols.add(type);
+
+                    for (String col : text.trim().split(" ")) {
+                        cols.add(col.trim());
+                    }
+                    rows.add(cols);
+                }
+            }
+
+            if (rows.size() > 0) {
+                Map<String, Object> dataMap = new HashMap<>();
+                dataMap.put("title", title);
+                dataMap.put("dataList", rows);
+
+                result += process(ftlPath, dataMap);
+            }
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {

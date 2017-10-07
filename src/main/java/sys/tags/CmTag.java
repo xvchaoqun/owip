@@ -55,6 +55,7 @@ import service.cadre.CadreAdditionalPostService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadreEduService;
 import service.cadre.CadreFamliyService;
+import service.cadre.CadreInfoCheckService;
 import service.cadre.CadrePostService;
 import service.cadre.CadreService;
 import service.cis.CisInspectObjService;
@@ -579,6 +580,42 @@ public class CmTag {
 
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         return dispatchTypeMap.get(dispatchTypeId);
+    }
+
+    public static Boolean canUpdate(Integer cadreId, String name) {
+
+        CadreInfoCheckService cadreInfoCheckService = getBean(CadreInfoCheckService.class);
+        return cadreInfoCheckService.canUpdate(cadreId, name);
+    }
+
+    public static Byte cadreInfoCheck(Integer cadreId, String name, Integer type){
+
+        CadreInfoCheckService cadreInfoCheckService = getBean(CadreInfoCheckService.class);
+        if(type==1)
+            return cadreInfoCheckService.baseCheck(cadreId, name);
+        else if(type==2)
+            return cadreInfoCheckService.staffCheck(cadreId, name);
+        else if(type==3)
+            return cadreInfoCheckService.cadreInfoModifyCheck(cadreId, name);
+        else if(type==4)
+            return cadreInfoCheckService.cadreInfoExistCheck(cadreId, name);
+        else if(type==5)
+            return cadreInfoCheckService.cadreHighEduCheck(cadreId);
+        else if(type==6)
+            return cadreInfoCheckService.cadreHighDegreeCheck(cadreId);
+
+        return null;
+    }
+    public static Byte cadreResearchCheck(Integer cadreId, Byte type){
+
+        CadreInfoCheckService cadreInfoCheckService = getBean(CadreInfoCheckService.class);
+        return cadreInfoCheckService.cadreResearchCheck(cadreId, type);
+    }
+
+    public static Byte cadreRewardCheck(Integer cadreId, Byte type){
+
+        CadreInfoCheckService cadreInfoCheckService = getBean(CadreInfoCheckService.class);
+        return cadreInfoCheckService.cadreRewardCheck(cadreId, type);
     }
 
     public static ApplySelf getApplySelf(Integer applyId) {

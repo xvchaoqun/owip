@@ -59,11 +59,7 @@ public class CadreEduController extends BaseController {
         modelMap.put("type", type);
         if (type == 2) {
 
-            CadreEduExample example = new CadreEduExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
-            example.setOrderByClause("enrol_time asc");
-            List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
-            modelMap.put("cadreEdus", cadreEdus);
+            modelMap.put("cadreEdus", cadreEduService.list(cadreId));
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
             modelMap.put("cadreInfo", cadreInfo);

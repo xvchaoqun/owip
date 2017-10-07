@@ -7,10 +7,22 @@ import java.util.Date;
 
 public class CadreFamliyAbroad implements Serializable {
 
+    private String famliyTitle;
+
+    public String getFamliyTitle() {
+        return famliyTitle;
+    }
+
+    public void setFamliyTitle(String famliyTitle) {
+        this.famliyTitle = famliyTitle;
+    }
+
     public CadreFamliy getCadreFamliy(){
 
         return (famliyId!=null)?CmTag.getCadreFamliy(famliyId):null;
     }
+
+
     private Integer id;
 
     private Integer cadreId;

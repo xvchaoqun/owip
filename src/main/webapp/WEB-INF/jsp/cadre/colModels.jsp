@@ -64,7 +64,7 @@
             }
         },
         {
-            label: '参加工作时间', name: 'workStartTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
+            label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
         },
         {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
@@ -430,7 +430,9 @@
 
     colModels.cadrePaper = [
         {label: '发表日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-        {label: '论文', name: 'fileName', width: 750},
+        {label: '论文题目', name: 'name', width: 350},
+        {label: '期刊名称', name: 'press', width: 250},
+        {label: '论文', name: 'fileName', width: 150},
         {
             label: '预览', formatter: function (cellvalue, options, rowObject) {
 
@@ -467,7 +469,7 @@
             width: 120,
             name: 'startTime',
             formatter: 'date',
-            formatoptions: {newformat: 'Y-m-d'},
+            formatoptions: {newformat: 'Y.m'},
             frozen: true
         },
         {
@@ -475,7 +477,7 @@
             width: 120,
             name: 'endTime',
             formatter: 'date',
-            formatoptions: {newformat: 'Y-m-d'},
+            formatoptions: {newformat: 'Y.m'},
             frozen: true
         },
         {label: '项目名称', name: 'name', width: 250},

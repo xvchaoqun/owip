@@ -14,10 +14,10 @@
     </shiro:lacksRole>
     </shiro:hasPermission>
 <c:if test="${type==1}">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
            data-url="${ctx}/hf_content?code=${HF_CADRE_REWARD}">
@@ -42,9 +42,12 @@
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
-    </div>
         </shiro:lacksRole>
         </c:if>
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <input type="checkbox" data-name="reward" name="check" class="cadre-info-check"> 无此类情况
+    </shiro:lacksRole>
+    </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadreReward" class="jqGrid2"></table>
     <div id="jqGridPager_cadreReward"></div>
@@ -60,10 +63,10 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
-                        <c:forEach items="${cadreRewards}" var="cadreReward">
-                            <p>${cm:formatDate(cadreReward.rewardTime, "yyyy")}年
-                                &nbsp;${cadreReward.name}&nbsp;${cadreReward.unit}</p>
-                        </c:forEach>
+                        <jsp:useBean id='map' class='java.util.HashMap' scope='request'>
+                            <c:set target='${map}' property='cadreRewards' value='${cadreRewards}'/>
+                        </jsp:useBean>
+                        ${cm:freemarker(map, '/cadre/cadreReward.ftl')}
                     </div>
                 </div>
             </div>
@@ -73,7 +76,8 @@
                 <div class="widget-header">
                     <h4 class="smaller">
                         最终数据（<span
-                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                            style="font-weight: bolder; color: red;"
+                            id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                     </h4>
                 </div>
                 <div class="widget-body">
@@ -86,7 +90,7 @@
                             <i class="ace-icon fa fa-copy"></i>
                             同步自动生成的数据
                         </a>
-                        <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+                        <input id="saveBtn" type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
                     </div>
                 </div>
@@ -114,8 +118,9 @@
                 type:"${CADRE_INFO_TYPE_REWARD_OTHER}"
             }, function (ret) {
                 if (ret.success) {
-                    SysMsg.info("保存成功", "", function () {
-                        _innerPage(2)
+
+                    _innerPage(2, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
                     });
                 }
             });
@@ -123,14 +128,22 @@
         function copyOrginal() {
             //console.log($("#orginal").html())
             ke.html($("#orginal").html());
-            SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
         }
     </script>
 </c:if>
 <c:if test="${type==1}">
     <script>
-        function _innerPage(type) {
-            $("#view-box .tab-content").loadPage("${ctx}/cadreReward_page?rewardType=${param.rewardType}&cadreId=${param.cadreId}&type=" + type)
+        <c:if test="${!canUpdate}">
+        $("button.btn").prop("disabled", true);
+        </c:if>
+        $(".cadre-info-check").prop("checked", ${!canUpdate});
+        <c:if test="${!canUpdateInfoCheck}">
+        $(".cadre-info-check").prop("disabled", true);
+        </c:if>
+        function _innerPage(type, fn) {
+            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreReward_page?rewardType=${param.rewardType}&cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreReward").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
@@ -141,9 +154,8 @@
             pager: "#jqGridPager_cadreReward",
             url: '${ctx}/cadreReward_data?${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: colModels.cadreReward
-        }).on("initGrid", function () {
-            $(window).triggerHandler('resize.jqGrid2');
         });
+        $(window).triggerHandler('resize.jqGrid2');
 
         function _delCallback(target) {
             $("#jqGrid_cadreReward").trigger("reloadGrid");

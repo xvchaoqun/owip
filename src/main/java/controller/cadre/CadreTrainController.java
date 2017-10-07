@@ -56,15 +56,14 @@ public class CadreTrainController extends BaseController {
         modelMap.put("type", type);
         if (type == 2) {
 
-            CadreTrainExample example = new CadreTrainExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId)
-                    .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            example.setOrderByClause("start_time asc");
-            List<CadreTrain> cadreTrains = cadreTrainMapper.selectByExample(example);
-            modelMap.put("cadreTrains", cadreTrains);
+            modelMap.put("cadreTrains", cadreTrainService.list(cadreId));
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TRAIN);
             modelMap.put("cadreInfo", cadreInfo);
+        }else{
+            String name = "train";
+            modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+            modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }
         return "cadre/cadreTrain/cadreTrain_page";
     }

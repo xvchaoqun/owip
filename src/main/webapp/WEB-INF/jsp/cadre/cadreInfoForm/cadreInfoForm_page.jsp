@@ -181,6 +181,8 @@ td.padding10{
                 <span>教   育</span>
                     </div>
         </td><td class="td9 padding10" colspan="5">
+            ${bean.edu}
+            <br/>
             ${bean.degree}
         </td><td class="td5 center bolder" colspan="2">
                 <span>毕业学校</span>
@@ -251,7 +253,7 @@ td.padding10{
             ${bean.household}
         </td>
         </tr>
-        <tr class="r1">
+       <%-- <tr class="r1">
             <td class="td1 center bolder">
                     <span>院  系</span>
                 <div>
@@ -260,11 +262,11 @@ td.padding10{
             </td><td class="td12" colspan="12">
             ${bean.depWork}
         </td>
-        </tr>
+        </tr>--%>
         <tr class="r2">
             <td class="td1 center bolder">
                     <span>主要社会或学术兼职</span>
-            </td><td class="td12" colspan="12">
+            </td><td class="td12 padding10" colspan="12">
             ${bean.parttime}
         </td>
         </tr>
@@ -274,7 +276,7 @@ td.padding10{
                 <div style="margin-top: 100px">
                     历
                 </div>
-            </td><td class="td12 padding10" colspan="12">
+            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
             <c:if test="${not empty bean.learnDesc}">
                 <p style="font-weight: bolder;">学习经历：</p>
                 <p>
@@ -303,7 +305,7 @@ td.padding10{
                 <p class="p3">
                     <span>况</span>
                 </p>
-            </td><td class="td12 padding10" colspan="12">
+            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
             ${bean.trainDesc}
         </td>
         </tr>
@@ -321,7 +323,7 @@ td.padding10{
                 <p class="p3">
                     <span>况</span>
                 </p>
-            </td><td class="td12 padding10" colspan="12">
+            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
             ${bean.teachDesc}
         </td>
         </tr>
@@ -339,7 +341,7 @@ td.padding10{
                 <p class="p3">
                     <span>况</span>
                 </p>
-            </td><td class="td12 padding10" colspan="12">
+            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
             ${bean.researchDesc}
         </td>
         </tr>
@@ -369,7 +371,7 @@ td.padding10{
                 <p class="p15">
                     <span>况</span>
                 </p>
-            </td><td class="td12 padding10" colspan="12">
+            </td><td class="td12 padding10" colspan="12" style="vertical-align: top">
             ${bean.otherRewardDesc}
         </td>
         </tr>
@@ -397,9 +399,9 @@ td.padding10{
         </tr>
         <tr class="r4">
             <td class="td1 center bolder" rowspan="5">
-                <span>企业兼职</span>
+                <span>企业、社团</span>
                 <div>
-                    <span>情况</span>
+                    <span>兼职情况</span>
                 </div>
 
             </td><td class="td13 center bolder" colspan="6">
@@ -412,11 +414,11 @@ td.padding10{
         </tr>
         <c:forEach items="${bean.cadreCompanies}" var="f">
             <tr class="r4">
-                <td class="td13 center" colspan="6">
+                <td class="td13 padding10" colspan="6">
                    ${f.unit}
                 </td><td class="td2 center" colspan="2">
                     ${cm:formatDate(f.startTime, "yyyy.MM")}
-            </td><td class="td14 center" colspan="4">
+            </td><td class="td14 padding10" colspan="4">
                     ${f.reportUnit}
             </td>
             </tr>
@@ -442,8 +444,8 @@ td.padding10{
         </tr>
         <tr class="r4">
             <td class="td1 center bolder" rowspan="7">
-                    <span>主要家庭成员</span>
-                <div><span>及社会关系</span></div>
+                    <span>家庭成员</span>
+                <div><span>信息</span></div>
             </td><td class="td15 center bolder">
                 <span>称  谓</span>
         </td><td class="td16 center bolder" colspan="2">
@@ -472,7 +474,7 @@ td.padding10{
                 ${cm:formatDate(f.birthday, "yyyy.MM")}
             </td><td class="td18 center">
                     ${politicalStatusMap.get(f.getPoliticalStatus()).name}
-            </td><td class="td19 center" colspan="6">
+            </td><td class="td19 padding10" colspan="6" >
                     ${f.unit}
             </td>
             </tr>
@@ -512,7 +514,7 @@ td.padding10{
         <c:forEach items="${bean.cadreFamliyAbroads}" var="f">
         <tr class="r2">
             <td class="td15 center">
-                    ${CADRE_FAMLIY_TITLE_MAP.get(f.cadreFamliy.title)}
+                ${f.famliyTitle}
             </td><td class="td16 center" colspan="2">
                 ${f.cadreFamliy.realname}
         </td><td class="td20 center" colspan="3">
@@ -561,7 +563,7 @@ td.padding10{
         </c:forEach>
         <tr>
             <td colspan="13" class="padding10">
-                <span>注：此表填好后，请发组织部干部信箱（zzbgb@bnu.edu.cn）。</span>
+                <span>注：此表填好后，请发组织部干部信箱（${sysConfig.schoolEmail}）。</span>
             </td>
         </tr>
         </tbody>

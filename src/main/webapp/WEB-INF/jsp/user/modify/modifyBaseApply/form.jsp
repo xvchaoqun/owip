@@ -148,7 +148,7 @@
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                    value="${original}">
             <div class="inline-block">
-              格式：“**省**市”或者“北京市***区”
+                格式：“河北保定”或“北京海淀”
             </div>
           </td>
           <td>
@@ -165,7 +165,7 @@
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
                    value="${original}">
             <div class="inline-block">
-              格式：“**省**市”或者“北京市***区”
+                格式：“河北保定”或“北京海淀”
             </div>
           </td>
         </tr>
@@ -173,14 +173,28 @@
           <td>健康状况</td>
           <td>
             <c:set var="original" value="${uv.health}"/>
-            <input type="text"
+            <%--<input type="text"
                    data-code="health"
                    data-table="sys_user_info"
                    data-table-id-name="user_id"
                    data-name="健康状况"
                    data-original="${original}"
                    data-type="${MODIFY_BASE_ITEM_TYPE_STRING}"
-                   value="${original}">
+                   value="${original}">--%>
+              <select required data-rel="select2" name="health"
+                      data-code="health"
+                      data-table="sys_user_info"
+                      data-table-id-name="user_id"
+                      data-name="健康状况"
+                      data-original="${original}"
+                      data-type="${MODIFY_BASE_ITEM_TYPE_INT}"
+                      data-placeholder="请选择" data-width="162">
+                  <option></option>
+                  <c:import url="/metaTypes?__code=mc_health"/>
+              </select>
+              <script type="text/javascript">
+                  $("select[name=health]").val(${original});
+              </script>
           </td>
           <td>
             熟悉专业有何专长
@@ -201,6 +215,47 @@
       </table>
     </div>
   </div>
+</div>
+<div class="widget-box transparent">
+    <div class="widget-header widget-header-flat">
+        <h4 class="widget-title lighter">
+            <i class="ace-icon fa fa-info-circle blue"></i>
+            人事信息
+        </h4>
+    </div>
+
+    <div class="widget-body">
+        <div class="widget-main no-padding">
+            <table class="table table-unhover table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <td style="width: 300px;">
+                        参加工作时间
+                    </td>
+                    <td title="${hasVerifyWorkTime?'已根据您的档案记载对参加工作时间进行了组织认定':''}">
+                        <c:set var="original" value="${cm:formatDate(cadre.workTime,'yyyy-MM-dd')}"/>
+                        <c:if test="${hasVerifyWorkTime}">${original}</c:if>
+                        <c:if test="${!hasVerifyWorkTime}">
+                        <div class="input-group" style="width: 150px">
+                            <input class="form-control date-picker" type="text"
+                                   data-date-format="yyyy-mm-dd"
+                                   data-code="work_time"
+                                   data-table="sys_teacher_info"
+                                   data-table-id-name="user_id"
+                                   data-name="参加工作时间"
+                                   data-original="${original}"
+                                   data-type="${MODIFY_BASE_ITEM_TYPE_DATE}"
+                                   value="${original}"/>
+                            <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                        </div>
+                        </c:if>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <div class="widget-box transparent">
   <div class="widget-header widget-header-flat">

@@ -916,6 +916,14 @@ input[type=checkbox].big {
     vertical-align: -3px;
 }
 
+.cadre-info-check{
+    width: 18px;
+    height: 18px;
+    _vertical-align: -5px;
+    vertical-align: -5px;
+    margin-left: 20px!important;
+}
+
 input[type=radio].big {
     width: 20px;
     height: 20px;

@@ -3837,79 +3837,6 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					<w:tr wsp:rsidR="004D72C6" wsp:rsidRPr="00D22114" wsp:rsidTr="00CD38F3">
-						<w:trPr>
-							<w:cantSplit/>
-							<w:trHeight w:val="624"/>
-							<w:jc w:val="center"/>
-						</w:trPr>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="004D72C6" wsp:rsidRPr="00D22114" wsp:rsidRDefault="004D72C6" wsp:rsidP="00CD38F3">
-								<w:pPr>
-									<w:ind w:left="-102"/>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-								</w:pPr>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>院  系</w:t>
-								</w:r>
-							</w:p>
-							<w:p wsp:rsidR="004D72C6" wsp:rsidRPr="00D22114" wsp:rsidRDefault="004D72C6" wsp:rsidP="00CD38F3">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-										<w:w w:val="90"/>
-									</w:rPr>
-								</w:pPr>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>工作经历</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="8950" w:type="dxa"/>
-								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="00BC382A" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00371507" wsp:rsidP="005507AF">
-								<w:pPr>
-									<w:ind w:left-chars="13" w:left="31"/>
-									<w:jc w:val="left"/>
-									<w:outlineLvl w:val="0"/>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-									</w:rPr>
-									<w:t>${depWork!}</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00B03368">
 						<w:trPr>
 							<w:cantSplit/>
@@ -3983,21 +3910,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
-							<w:p wsp:rsidR="006E78DF" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00BD199C" wsp:rsidP="006E001A">
-								<w:pPr>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:b-cs/>
-									</w:rPr>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>${parttime!}</w:t>
-								</w:r>
-							</w:p>
+							${parttime!}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00552BC3">
@@ -4103,7 +4016,7 @@
 							<w:tcPr>
 								<w:tcW w:w="8950" w:type="dxa"/>
 								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="center"/>
+								<w:vAlign w:val="top"/>
 							</w:tcPr>
 							${learnDesc!}
 							${workDesc!}
@@ -4199,7 +4112,7 @@
 							<w:tcPr>
 								<w:tcW w:w="8950" w:type="dxa"/>
 								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="center"/>
+								<w:vAlign w:val="top"/>
 							</w:tcPr>
 							${trainDesc!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
@@ -4290,7 +4203,7 @@
 							<w:tcPr>
 								<w:tcW w:w="8950" w:type="dxa"/>
 								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="center"/>
+								<w:vAlign w:val="top"/>
 							</w:tcPr>
 						${teachDesc!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
@@ -4387,7 +4300,7 @@
 							<w:tcPr>
 								<w:tcW w:w="8950" w:type="dxa"/>
 								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="center"/>
+								<w:vAlign w:val="top"/>
 							</w:tcPr>
 
 						${researchDesc!}
@@ -4539,7 +4452,7 @@
 							<w:tcPr>
 								<w:tcW w:w="8950" w:type="dxa"/>
 								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="center"/>
+								<w:vAlign w:val="top"/>
 							</w:tcPr>
 						${otherRewardDesc!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
@@ -4782,7 +4695,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:spacing w:val="40"/>
 									</w:rPr>
-									<w:t>情况</w:t>
+									<w:t>兼职情况</w:t>
 								</w:r>
 							</w:p>
 							<w:p wsp:rsidR="000D6C29" wsp:rsidRPr="00D22114" wsp:rsidRDefault="000D6C29" wsp:rsidP="00D27E90">
@@ -4798,7 +4711,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:spacing w:val="40"/>
 									</w:rPr>
-									<w:t>企业兼职</w:t>
+									<w:t>企业、社团</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4951,7 +4864,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:spacing w:val="40"/>
 									</w:rPr>
-									<w:t>及社会关系</w:t>
+									<w:t>信息</w:t>
 								</w:r>
 							</w:p>
 							<w:p wsp:rsidR="00092C82" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00092C82" wsp:rsidP="00005295">
@@ -4966,7 +4879,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:spacing w:val="40"/>
 									</w:rPr>
-									<w:t>主要家庭成员</w:t>
+									<w:t>家庭成员</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>

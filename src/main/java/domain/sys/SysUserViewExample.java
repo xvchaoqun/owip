@@ -1532,62 +1532,52 @@ public class SysUserViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andHealthEqualTo(String value) {
+        public Criteria andHealthEqualTo(Integer value) {
             addCriterion("health =", value, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthNotEqualTo(String value) {
+        public Criteria andHealthNotEqualTo(Integer value) {
             addCriterion("health <>", value, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthGreaterThan(String value) {
+        public Criteria andHealthGreaterThan(Integer value) {
             addCriterion("health >", value, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthGreaterThanOrEqualTo(String value) {
+        public Criteria andHealthGreaterThanOrEqualTo(Integer value) {
             addCriterion("health >=", value, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthLessThan(String value) {
+        public Criteria andHealthLessThan(Integer value) {
             addCriterion("health <", value, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthLessThanOrEqualTo(String value) {
+        public Criteria andHealthLessThanOrEqualTo(Integer value) {
             addCriterion("health <=", value, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthLike(String value) {
-            addCriterion("health like", value, "health");
-            return (Criteria) this;
-        }
-
-        public Criteria andHealthNotLike(String value) {
-            addCriterion("health not like", value, "health");
-            return (Criteria) this;
-        }
-
-        public Criteria andHealthIn(List<String> values) {
+        public Criteria andHealthIn(List<Integer> values) {
             addCriterion("health in", values, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthNotIn(List<String> values) {
+        public Criteria andHealthNotIn(List<Integer> values) {
             addCriterion("health not in", values, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthBetween(String value1, String value2) {
+        public Criteria andHealthBetween(Integer value1, Integer value2) {
             addCriterion("health between", value1, value2, "health");
             return (Criteria) this;
         }
 
-        public Criteria andHealthNotBetween(String value1, String value2) {
+        public Criteria andHealthNotBetween(Integer value1, Integer value2) {
             addCriterion("health not between", value1, value2, "health");
             return (Criteria) this;
         }

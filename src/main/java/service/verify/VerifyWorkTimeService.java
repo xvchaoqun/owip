@@ -12,9 +12,21 @@ import sys.utils.ContextHelper;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class VerifyWorkTimeService extends BaseMapper {
+
+    // 得到干部的已认定记录
+    public VerifyWorkTime get(int cadreId){
+
+        VerifyWorkTimeExample example = new VerifyWorkTimeExample();
+        VerifyWorkTimeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        criteria.andCadreIdEqualTo(cadreId);
+        List<VerifyWorkTime> verifyWorkTimes = verifyWorkTimeMapper.selectByExample(example);
+
+        return verifyWorkTimes.size()==1?verifyWorkTimes.get(0):null;
+    }
 
     public boolean idDuplicate(int cadreId) {
 

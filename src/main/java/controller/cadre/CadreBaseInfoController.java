@@ -42,10 +42,11 @@ public class CadreBaseInfoController extends BaseController {
                                   MultipartFile _avatar,
                                   Integer dpTypeId,
                                   @DateTimeFormat(pattern = "yyyy-MM-dd") Date _dpAddTime,
+                                  @DateTimeFormat(pattern = "yyyy-MM-dd") Date _workTime,
                                   String nativePlace,
                                   String homeplace,
                                   String household,
-                                  String health,
+                                  Integer health,
                                   String specialty,
                                   String mobile,
                                   String phone,
@@ -53,17 +54,23 @@ public class CadreBaseInfoController extends BaseController {
                                   HttpServletRequest request) throws IOException {
 
         CadreView cadre = cadreService.findAll().get(cadreId);
-        Member member = memberService.get(cadre.getUserId());
+        int userId = cadre.getUserId();
+        Member member = memberService.get(userId);
         if(cadre.getDpId()==null && member==null) {
             if(dpTypeId!=null && _dpAddTime!=null){
                 CadreParty record = new CadreParty();
-                record.setUserId(cadre.getUserId());
+                record.setUserId(userId);
                 record.setClassId(dpTypeId);
                 record.setGrowTime(_dpAddTime);
                 record.setRemark("干部本人添加");
 
                 cadreService.addOrUPdateCadreParty(record);
             }
+        }
+
+        {
+            if(_workTime!=null)
+                cadreService.updateWorkTime(userId, _workTime);
         }
 
         if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){

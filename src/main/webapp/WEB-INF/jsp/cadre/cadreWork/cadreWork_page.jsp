@@ -6,9 +6,9 @@
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
     </li>
-    <li class="${type==3?"active":""}">
+   <%-- <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 挂职锻炼经历</a>
-    </li>
+    </li>--%>
     <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <li class="${type==2?"active":""}">
@@ -31,11 +31,7 @@
                     <a class="popupBtn btn btn-success btn-sm"
                        data-url="${ctx}/cadreWork_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加工作经历</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cadreWork_au"
-                       data-grid-id="#jqGrid_cadreWork"
-                       data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                        修改工作经历</a>
+
                     <a class="jqOpenViewBtn btn btn-success btn-sm"
                        data-grid-id="#jqGrid_cadreWork"
                        data-url="${ctx}/cadreWork_au"
@@ -43,16 +39,7 @@
                        data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加期间工作</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreWork:del">
-                    <button data-url="${ctx}/cadreWork_batchDel"
-                            data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid_cadreWork"
-                            data-querystr="cadreId=${param.cadreId}"
-                            class="jqBatchBtn btn btn-danger btn-sm">
-                        <i class="fa fa-times"></i> 删除
-                    </button>
-                </shiro:hasPermission>
+
                     <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏期间工作经历 </span>--%>
             </div>
         </shiro:lacksRole>
@@ -77,18 +64,10 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="min-height: 647px" id="orginal">
-                        <c:forEach items="${cadreWorks}" var="cadreWork">
-                            <p>${cm:formatDate(cadreWork.startTime, "yyyy.MM")}${(cadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(cadreWork.endTime, "yyyy.MM")}
-                                &nbsp;${cadreWork.unit}${cadreWork.post}</p>
-                            <c:if test="${fn:length(cadreWork.subCadreWorks)>0}">
-                                <c:forEach items="${cadreWork.subCadreWorks}" var="subCadreWork" varStatus="vs">
-                                    <c:if test="${vs.first}"><p style="text-indent: 2em">期间：</c:if>
-                                    <c:if test="${!vs.first}"><p style="text-indent: 5em"></c:if>
-                                    ${cm:formatDate(subCadreWork.startTime, "yyyy.MM")}${(subCadreWork.endTime!=null)?"-":"-至今"}${cm:formatDate(subCadreWork.endTime, "yyyy.MM")}
-                                    &nbsp;${subCadreWork.unit}${subCadreWork.post}</p>
-                                </c:forEach>
-                            </c:if>
-                        </c:forEach>
+                        <jsp:useBean id='map' class='java.util.HashMap' scope='request'>
+                            <c:set target='${map}' property='cadreWorks' value='${cadreWorks}'/>
+                        </jsp:useBean>
+                        ${cm:freemarker(map, '/cadre/cadreWork.ftl')}
                     </div>
                 </div>
             </div>
@@ -98,7 +77,8 @@
                 <div class="widget-header">
                     <h4 class="smaller">
                         最终数据（<span
-                            style="font-weight: bolder; color: red;">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                            style="font-weight: bolder; color: red;"
+                            id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
                     </h4>
                 </div>
                 <div class="widget-body">
@@ -111,7 +91,7 @@
                             <i class="ace-icon fa fa-copy"></i>
                             同步自动生成的数据
                         </a>
-                        <input type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+                        <input id="saveBtn" type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
                     </div>
                 </div>
@@ -137,17 +117,21 @@
         <span>查看期间工作</span>({{=count}})
     </button>
 </script>
-<script type="text/template" id="subgrid_op_tpl">
+<script type="text/template" id="op_tpl">
+<shiro:hasPermission name="cadreWork:edit">
     <button class="popupBtn btn btn-xs btn-primary"
             data-url="${ctx}/cadreWork_au?id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
             class="fa fa-edit"></i> 编辑
     </button>
+    </shiro:hasPermission>
+<shiro:hasPermission name="cadreWork:del">
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
             data-url="${ctx}/cadreWork_batchDel?ids[]={{=id}}&cadreId=${param.cadreId}"
             data-msg="确定删除该记录？"
             data-callback="_delCallback"><i class="fa fa-times"></i> 删除
     </button>
+    </shiro:hasPermission>
 </script>
 <script type="text/template" id="dispatch_select_tpl">
     <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
@@ -177,8 +161,8 @@
                 type: "${CADRE_INFO_TYPE_WORK}"
             }, function (ret) {
                 if (ret.success) {
-                    SysMsg.info("保存成功", "", function () {
-                        _innerPage(2)
+                    _innerPage(2, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
                     });
                 }
             });
@@ -186,14 +170,15 @@
         function copyOrginal() {
             //console.log($("#orginal").html())
             ke.html($("#orginal").html());
-            SysMsg.info("复制成功，请务必点击\"保存\"按钮进行保存")
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
         }
     </script>
 </c:if>
 <c:if test="${type==1}">
     <script>
-        function _innerPage(type) {
-            $("#view-box .tab-content").loadPage("${ctx}/cadreWork_page?cadreId=${param.cadreId}&type=" + type)
+        function _innerPage(type, fn) {
+            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreWork_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreWork").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
@@ -240,8 +225,19 @@
                     return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 }, width: 120
-                }
+                },
 
+    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                {
+                    label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
+                    //alert(rowObject.id)
+                    return _.template($("#op_tpl").html().NoMultiSpace())
+                    ({id: rowObject.id, parentRowKey: null, cadreId: rowObject.cadreId})
+                }, width: 150
+                }
+        </shiro:lacksRole>
+        </c:if>
             ],
             rowattr: function (rowData, currentObj, rowId) {
                 //console.log(currentObj)
@@ -343,7 +339,7 @@
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                         //alert(rowObject.id)
-                        return _.template($("#subgrid_op_tpl").html().NoMultiSpace())
+                        return _.template($("#op_tpl").html().NoMultiSpace())
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
                     }, width: 150
                     }
@@ -382,8 +378,7 @@
             pager: "#jqGridPager_cadreCrpRecord",
             url: '${ctx}/cadreCrpRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: colModels.cadreCrpRecord
-        }).jqGrid("setFrozenColumns").on("initGrid", function () {
-            $(window).triggerHandler('resize.jqGrid2');
-        });
+        }).jqGrid("setFrozenColumns");
+        $(window).triggerHandler('resize.jqGrid2');
     </script>
 </c:if>

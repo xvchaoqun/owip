@@ -86,19 +86,19 @@
 					</div>
 					<div class="col-xs-5">
 						<div class="form-group">
-							<label class="col-xs-8 control-label">转出单位联系电话（北师大）</label>
+							<label class="col-xs-8 control-label">转出单位联系电话（${sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
 								<input required class="form-control" maxlength="20" type="text" name="fromPhone" value="${memberOut.fromPhone}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label">转出单位传真（北师大）</label>
+							<label class="col-xs-8 control-label">转出单位传真（${sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
 								<input required class="form-control" maxlength="20" type="text" name="fromFax" value="${memberOut.fromFax}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-8 control-label">转出单位邮编（北师大）</label>
+							<label class="col-xs-8 control-label">转出单位邮编（${sysConfig.schoolShortName}）</label>
 							<div class="col-xs-4">
 								<input required class="form-control" type="text" name="fromPostCode"
 									   value="${empty memberOut.fromPostCode?"100875":memberOut.fromPostCode}">

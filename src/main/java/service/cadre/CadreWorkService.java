@@ -31,7 +31,7 @@ public class CadreWorkService extends BaseMapper {
     private CadreService cadreService;
 
     // 获取树状列表
-    public List<CadreWork> findByCadre(int cadreId){
+    public List<CadreWork> list(int cadreId){
 
         List<CadreWork> cadreWorks = null;
         {

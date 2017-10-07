@@ -39,14 +39,17 @@ public class SysConfigController extends BaseController {
     public Map do_sysConfig_au(SysConfig record,
                                MultipartFile _logo,
                                MultipartFile _logoWhite,
+                               MultipartFile _loginTop,
                                MultipartFile _loginBg) throws IOException, InterruptedException {
 
         String folder = "sysConfig";
         String logo = uploadPic(_logo, folder, 100, 50);
         String logoWhite = uploadPic(_logoWhite, folder, 100, 50);
+        String loginTop = uploadPic(_loginTop, folder, 500, 50);
         String loginBg = uploadPic(_loginBg, folder, 400, 200);
         record.setLogo(logo);
         record.setLogoWhite(logoWhite);
+        record.setLoginTop(loginTop);
         record.setLoginBg(loginBg);
 
         record.setDisplayLoginMsg(BooleanUtils.isTrue(record.getDisplayLoginMsg()));

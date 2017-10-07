@@ -26,10 +26,22 @@ pageEncoding="UTF-8"%>
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">论文题目</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="name" value="${cadrePaper.name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">期刊名称</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="press" value="${cadrePaper.press}">
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">论文</label>
 				<div class="col-xs-6 uploader">
-                    <input ${cadrePaper==null?'required':''} class="form-control" type="file" name="_file" />
+                    <input class="form-control" type="file" name="_file" />
 				</div>
 			</div>
         <div class="form-group">

@@ -222,7 +222,7 @@ var _modal_width;
                 content: label + msg,
                 show: true, hide: {
                     event: 'unfocus',
-                    inactive: 1000
+                    inactive: params.inactive || 1000
                 }, position: {
                     container: $container,
                     my: my || $target.data("my") || 'left center',
@@ -569,10 +569,13 @@ var _modal_width;
         }
     });
     $.fn.loadPage = function (options) {
-        var _options = {};
+        var _options ;
         if (typeof options == "string") {
+            _options = {};
             _options.url = options;
             _options.$maskEl = $(this);
+        }else{
+            _options = options || {}
         }
 
         _options.$loadEl = $(this);

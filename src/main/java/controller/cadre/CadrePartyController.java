@@ -37,12 +37,14 @@ public class CadrePartyController extends BaseController {
 
     @RequiresPermissions("cadreParty:list")
     @RequestMapping("/cadreParty")
-    public String cadreParty(Integer userId,ModelMap modelMap) {
+    public String cadreParty(Integer userId, Byte type, ModelMap modelMap) {
 
         if (userId!=null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
+
+        modelMap.put("type", type);
 
         return "cadre/cadreParty/cadreParty_page";
     }

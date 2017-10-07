@@ -30,6 +30,7 @@ import service.cadre.CadreEduService;
 import service.cadre.CadreExportService;
 import service.cadre.CadreFamliyAbroadService;
 import service.cadre.CadreFamliyService;
+import service.cadre.CadreInfoCheckService;
 import service.cadre.CadreInfoService;
 import service.cadre.CadreLeaderService;
 import service.cadre.CadreLeaderUnitService;
@@ -214,6 +215,8 @@ public class BaseController extends BaseMapper {
     protected ExtBksService extBksService;
     @Autowired
     protected CadreInfoService cadreInfoService;
+    @Autowired
+    protected CadreInfoCheckService cadreInfoCheckService;
     @Autowired
     protected CadreFamliyAbroadService cadreFamliyAbroadService;
     @Autowired

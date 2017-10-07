@@ -312,6 +312,146 @@ public class CadrePaperExample {
             return (Criteria) this;
         }
 
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressIsNull() {
+            addCriterion("press is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressIsNotNull() {
+            addCriterion("press is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressEqualTo(String value) {
+            addCriterion("press =", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressNotEqualTo(String value) {
+            addCriterion("press <>", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressGreaterThan(String value) {
+            addCriterion("press >", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressGreaterThanOrEqualTo(String value) {
+            addCriterion("press >=", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressLessThan(String value) {
+            addCriterion("press <", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressLessThanOrEqualTo(String value) {
+            addCriterion("press <=", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressLike(String value) {
+            addCriterion("press like", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressNotLike(String value) {
+            addCriterion("press not like", value, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressIn(List<String> values) {
+            addCriterion("press in", values, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressNotIn(List<String> values) {
+            addCriterion("press not in", values, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressBetween(String value1, String value2) {
+            addCriterion("press between", value1, value2, "press");
+            return (Criteria) this;
+        }
+
+        public Criteria andPressNotBetween(String value1, String value2) {
+            addCriterion("press not between", value1, value2, "press");
+            return (Criteria) this;
+        }
+
         public Criteria andFilePathIsNull() {
             addCriterion("file_path is null");
             return (Criteria) this;

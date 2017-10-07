@@ -29,7 +29,7 @@ public class UserModifyBaseApplyController extends BaseController{
 
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping("/modifyBaseApply_au")
-    public String modifyBaseApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
+    public String modifyBaseApply_au(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         modelMap.put("uv", loginUser);
 
@@ -47,6 +47,11 @@ public class UserModifyBaseApplyController extends BaseController{
             modelMap.put("mbis", modifyBaseItemService.list(mba.getId()));
         }
 
+        if(cadre!=null) {
+            // 是否已认定了参加工作时间，没认定前可修改
+            modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
+        }
+
         return "user/modify/modifyBaseApply/modifyBaseApply_au";
     }
 
@@ -54,7 +59,7 @@ public class UserModifyBaseApplyController extends BaseController{
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyBaseApply_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_modifyBaseApply(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
+    public Map do_modifyBaseApply_au(@CurrentUser SysUserView loginUser, MultipartFile _avatar,
                       @RequestParam(required = false, value = "codes[]")String[] codes,  // 数据库字段代码
                       @RequestParam(required = false, value = "tables[]")String[] tables, // 数据库表名
                       @RequestParam(required = false, value = "tableIdNames[]")String[] tableIdNames, // 数据库表主键名

@@ -25,6 +25,16 @@ public class CadreResearchService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
+    public List<CadreResearch> list(int cadreId, byte researchType){
+
+        CadreResearchExample example = new CadreResearchExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andResearchTypeEqualTo(researchType)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("start_time asc");
+        return cadreResearchMapper.selectByExample(example);
+    }
+
     @Transactional
     public int insertSelective(CadreResearch record) {
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);

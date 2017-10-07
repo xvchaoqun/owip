@@ -13,6 +13,12 @@ public class SysConfig implements Serializable {
 
     private String schoolName;
 
+    private String schoolShortName;
+
+    private String schoolLoginUrl;
+
+    private String schoolEmail;
+
     private String siteCopyright;
 
     private String siteHome;
@@ -32,6 +38,10 @@ public class SysConfig implements Serializable {
     private String logoWhite;
 
     private String loginBg;
+
+    private String loginTop;
+
+    private String loginTopBgColor;
 
     private String loginMsg;
 
@@ -77,6 +87,30 @@ public class SysConfig implements Serializable {
 
     public void setSchoolName(String schoolName) {
         this.schoolName = schoolName == null ? null : schoolName.trim();
+    }
+
+    public String getSchoolShortName() {
+        return schoolShortName;
+    }
+
+    public void setSchoolShortName(String schoolShortName) {
+        this.schoolShortName = schoolShortName == null ? null : schoolShortName.trim();
+    }
+
+    public String getSchoolLoginUrl() {
+        return schoolLoginUrl;
+    }
+
+    public void setSchoolLoginUrl(String schoolLoginUrl) {
+        this.schoolLoginUrl = schoolLoginUrl == null ? null : schoolLoginUrl.trim();
+    }
+
+    public String getSchoolEmail() {
+        return schoolEmail;
+    }
+
+    public void setSchoolEmail(String schoolEmail) {
+        this.schoolEmail = schoolEmail == null ? null : schoolEmail.trim();
     }
 
     public String getSiteCopyright() {
@@ -157,6 +191,22 @@ public class SysConfig implements Serializable {
 
     public void setLoginBg(String loginBg) {
         this.loginBg = loginBg == null ? null : loginBg.trim();
+    }
+
+    public String getLoginTop() {
+        return loginTop;
+    }
+
+    public void setLoginTop(String loginTop) {
+        this.loginTop = loginTop == null ? null : loginTop.trim();
+    }
+
+    public String getLoginTopBgColor() {
+        return loginTopBgColor;
+    }
+
+    public void setLoginTopBgColor(String loginTopBgColor) {
+        this.loginTopBgColor = loginTopBgColor == null ? null : loginTopBgColor.trim();
     }
 
     public String getLoginMsg() {

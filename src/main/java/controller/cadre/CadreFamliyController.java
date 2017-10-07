@@ -2,7 +2,6 @@ package controller.cadre;
 
 import controller.BaseController;
 import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyAbroadExample;
 import domain.cadre.CadreFamliyExample;
 import domain.cadre.CadreFamliyExample.Criteria;
 import domain.cadre.CadreView;
@@ -58,9 +57,13 @@ public class CadreFamliyController extends BaseController {
         }
 
         {
-            CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            /*CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
             example.createCriteria().andCadreIdEqualTo(cadreId);
-            modelMap.put("cadreFamliyAbroadCount", cadreFamliyAbroadMapper.countByExample(example));
+            modelMap.put("cadreFamliyAbroadCount", cadreFamliyAbroadMapper.countByExample(example));*/
+
+            String name = "famliy_abroad";
+            modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+            modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }
 
         modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));

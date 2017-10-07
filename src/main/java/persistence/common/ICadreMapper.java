@@ -11,6 +11,7 @@ import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import persistence.common.bean.ICadreEdu;
 import persistence.common.bean.ICadreWork;
@@ -24,6 +25,19 @@ import java.util.Set;
  * Created by lm on 2017/6/13.
  */
 public interface ICadreMapper {
+
+    // 无此记录
+    @Select("select ${columnName} from cadre_info_check where cadre_id=#{cadreId}")
+    Boolean cadreInfoCheck(@Param("cadreId") int cadreId, @Param("columnName") String columnName );
+    @Update("update cadre_info_check set ${columnName}=#{isChecked} where cadre_id=#{cadreId}")
+    void cadreInfoCheckUpdate(@Param("cadreId") int cadreId,
+                              @Param("columnName") String columnName,
+                              @Param("isChecked") Boolean isChecked );
+    @Update("insert into cadre_info_check(cadre_id, ${columnName}) values(#{cadreId}, #{isChecked})")
+    void cadreInfoCheckInsert(@Param("cadreId") int cadreId,
+                              @Param("columnName") String columnName,
+                              @Param("isChecked") Boolean isChecked );
+
 
     List<ICadreEdu> findCadreEdus(@Param("schoolType") byte schoolType, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
     int countCadreEdus(@Param("schoolType") byte schoolType, @Param("searchBean")CadreCategorySearchBean searchBean);

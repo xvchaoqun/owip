@@ -26,7 +26,7 @@ public class SysUserInfo implements Serializable {
 
     private String specialty;
 
-    private String health;
+    private Integer health;
 
     private String sign;
 
@@ -130,12 +130,12 @@ public class SysUserInfo implements Serializable {
         this.specialty = specialty == null ? null : specialty.trim();
     }
 
-    public String getHealth() {
+    public Integer getHealth() {
         return health;
     }
 
-    public void setHealth(String health) {
-        this.health = health == null ? null : health.trim();
+    public void setHealth(Integer health) {
+        this.health = health;
     }
 
     public String getSign() {

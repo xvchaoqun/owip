@@ -142,6 +142,11 @@
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_EDU%>" var="CADRE_INFO_TYPE_EDU"/>
 <c:set value="<%=SystemConstants.CADRE_INFO_TYPE_MAP%>" var="CADRE_INFO_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST%>" var="CADRE_INFO_CHECK_RESULT_NOT_EXIST"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST%>" var="CADRE_INFO_CHECK_RESULT_EXIST"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY%>" var="CADRE_INFO_CHECK_RESULT_MODIFY"/>
+<c:set value="<%=SystemConstants.CADRE_INFO_CHECK_RESULT_MAP%>" var="CADRE_INFO_CHECK_RESULT_MAP"/>
+
 <c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=SystemConstants.CADRE_REWARD_TYPE_OTHER%>"/>
 <c:set var="CADRE_REWARD_TYPE_RESEARCH" value="<%=SystemConstants.CADRE_REWARD_TYPE_RESEARCH%>"/>
 <c:set var="CADRE_REWARD_TYPE_TEACH" value="<%=SystemConstants.CADRE_REWARD_TYPE_TEACH%>"/>

@@ -22,19 +22,19 @@
 </ul>
 
 <c:if test="${type==1}">
+    <div class="space-4"></div>
+    <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-        <div class="space-4"></div>
-        <div class="jqgrid-vertical-offset buttons">
             <shiro:hasPermission name="cadrePostInfo:edit">
-                <a class="popupBtn btn btn-success btn-sm"
+                <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostPro_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                    添加</a>
-                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                    添加</button>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
                    data-url="${ctx}/cadrePostPro_au"
                    data-grid-id="#jqGrid_cadrePostPro"
                    data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                    修改</a>
+                    修改</button>
             </shiro:hasPermission>
             <shiro:hasPermission name="cadrePostInfo:del">
                 <button data-url="${ctx}/cadrePostPro_batchDel"
@@ -46,27 +46,31 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </div>
         </shiro:lacksRole>
     </c:if>
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <input type="checkbox" data-name="post_pro" name="check" class="cadre-info-check"> 无此类情况
+        </shiro:lacksRole>
+    </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadrePostPro" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadrePostPro"></div>
 </c:if>
 <c:if test="${type==2}">
+    <div class="space-4"></div>
+    <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-        <div class="space-4"></div>
-        <div class="jqgrid-vertical-offset buttons">
+
             <shiro:hasPermission name="cadrePostInfo:edit">
-                <a class="popupBtn btn btn-success btn-sm"
+                <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostAdmin_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                    添加</a>
-                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                    添加</button>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
                    data-url="${ctx}/cadrePostAdmin_au"
                    data-grid-id="#jqGrid_cadrePostAdmin"
                    data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                    修改</a>
+                    修改</button>
             </shiro:hasPermission>
             <shiro:hasPermission name="cadrePostInfo:del">
                 <button data-url="${ctx}/cadrePostAdmin_batchDel"
@@ -78,27 +82,31 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </div>
         </shiro:lacksRole>
     </c:if>
+    <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+        <input type="checkbox" data-name="post_admin" name="check" class="cadre-info-check"> 无此类情况
+    </shiro:lacksRole>
+    </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadrePostAdmin" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadrePostAdmin"></div>
 </c:if>
 <c:if test="${type==3}">
+    <div class="space-4"></div>
+    <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-        <div class="space-4"></div>
-        <div class="jqgrid-vertical-offset buttons">
+
             <shiro:hasPermission name="cadrePostInfo:edit">
-                <a class="popupBtn btn btn-success btn-sm"
+                <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostWork_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                    添加</a>
-                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                    添加</button>
+                <button class="jqOpenViewBtn btn btn-primary btn-sm"
                    data-url="${ctx}/cadrePostWork_au"
                    data-grid-id="#jqGrid_cadrePostWork"
                    data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
-                    修改</a>
+                    修改</button>
             </shiro:hasPermission>
             <shiro:hasPermission name="cadrePostInfo:del">
                 <button data-url="${ctx}/cadrePostWork_batchDel"
@@ -110,9 +118,13 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </div>
+
         </shiro:lacksRole>
     </c:if>
+        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+            <input type="checkbox" data-name="post_work" name="check" class="cadre-info-check"> 无此类情况
+        </shiro:lacksRole>
+    </div>
     <div class="space-4"></div>
     <table id="jqGrid_cadrePostWork" data-width-reduce="60" class="jqGrid2"></table>
     <div id="jqGridPager_cadrePostWork"></div>
@@ -121,6 +133,14 @@
     function _innerPage2(type) {
         $("#view-box .tab-content").loadPage("${ctx}/cadrePostInfo_page?cadreId=${param.cadreId}&type=" + type)
     }
+
+    <c:if test="${!canUpdate}">
+    $("button.btn").prop("disabled", true);
+    </c:if>
+    $(".cadre-info-check").prop("checked", ${!canUpdate});
+    <c:if test="${!canUpdateInfoCheck}">
+    $(".cadre-info-check").prop("disabled", true);
+    </c:if>
 
     <c:if test="${type==1}">
     $("#jqGrid_cadrePostPro").jqGrid({

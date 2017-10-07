@@ -40,7 +40,7 @@ public class StatCadreController extends BaseController {
         if (export == 1) {
             XSSFWorkbook wb = statCadreService.toXlsx();
 
-            String fileName = "北京师范大学中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+            String fileName = sysConfigService.getSchoolName()+"中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;
         }

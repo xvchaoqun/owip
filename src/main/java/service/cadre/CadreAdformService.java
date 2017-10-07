@@ -17,6 +17,7 @@ import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.member.MemberService;
+import service.sys.SysConfigService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
@@ -50,6 +51,8 @@ public class CadreAdformService extends BaseMapper{
     protected CadreInfoService cadreInfoService;
     @Autowired
     protected CadrePostService cadrePostService;
+    @Autowired
+    protected SysConfigService sysConfigService;
 
     // 获取任免审批表属性值
     public CadreAdform getCadreAdform(int cadreId){
@@ -75,9 +78,9 @@ public class CadreAdformService extends BaseMapper{
         bean.setNativePlace(cadre.getNativePlace());
 
         bean.setHomeplace(uv.getHomeplace());
-        bean.setWorkTime(cadre.getWorkStartTime()); // 参加工作时间
-        //bean.setWorkTime(cadre.getWorkTime());
-        bean.setHealth(uv.getHealth());
+        bean.setWorkTime(cadre.getWorkTime()); // 参加工作时间
+
+        bean.setHealth(metaTypeService.getName(uv.getHealth()));
         bean.setProPost(cadre.getProPost());
         bean.setSpecialty(uv.getSpecialty());
 
@@ -91,6 +94,7 @@ public class CadreAdformService extends BaseMapper{
                         StringUtils.trimToEmpty(highEdu.getDep())
                         +StringUtils.trimToEmpty(highEdu.getMajor()));*/
         String _fulltimeEdu = "";
+        String _fulltimeDegreee = "";
         String _fulltimeMajor = "";
         String _onjobEdu = "";
         String _onjobMajor = "";
@@ -101,16 +105,21 @@ public class CadreAdformService extends BaseMapper{
             Integer eduId = fulltimeEdu.getEduId();
             //String degree = fulltimeEdu.getDegree();
             _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor();
+            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor()
+                    + (StringUtils.isNotBlank(fulltimeEdu.getMajor())?"专业":"");
+
+            _fulltimeDegreee = fulltimeEdu.getDegree(); // 学位
         }
         if(onjobEdu!=null){
             Integer eduId = onjobEdu.getEduId();
             //String degree = onjobEdu.getDegree();
             _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor();
+            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor()
+                    + (StringUtils.isNotBlank(onjobEdu.getMajor())?"专业":"");
         }
         // 全日制最高学历
-        bean.setDegree(_fulltimeEdu);
+        bean.setEdu(_fulltimeEdu);
+        bean.setDegree(_fulltimeDegreee);
         bean.setSchoolDepMajor(_fulltimeMajor);
         bean.setInDegree(_onjobEdu);
         bean.setInSchoolDepMajor(_onjobMajor);
@@ -119,7 +128,12 @@ public class CadreAdformService extends BaseMapper{
         /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
         bean.setPost(mainCadrePost==null?null:springProps.school + mainCadrePost.getPost());*/
         // 现任职务
-        bean.setPost(cadre.getTitle());
+        String schoolName = sysConfigService.getSchoolName();
+        if(!StringUtils.startsWith(cadre.getTitle(), schoolName)){
+            bean.setPost(schoolName + cadre.getTitle());
+        }else{
+            bean.setPost(cadre.getTitle());
+        }
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
@@ -170,6 +184,7 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("proPost", bean.getProPost());
         dataMap.put("specialty", bean.getSpecialty());
 
+        dataMap.put("edu", bean.getEdu());
         dataMap.put("degree", bean.getDegree());
         dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
         dataMap.put("inDegree", bean.getInDegree());

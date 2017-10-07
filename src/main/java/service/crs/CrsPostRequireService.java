@@ -76,8 +76,8 @@ public class CrsPostRequireService extends BaseMapper {
             }
         }
 
-        String workStartTime = record.getWorkStartTime()==null?null:DateUtils.yearOffNow_cn(record.getWorkStartTime());
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_GZ, workStartTime);
+        String workTime = record.getWorkTime()==null?null:DateUtils.yearOffNow_cn(record.getWorkTime());
+        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_GZ, workTime);
 
         String arriveTime = record.getArriveTime()==null?null:DateUtils.yearOffNow_cn(record.getArriveTime());
         resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_BXGZ, arriveTime);

@@ -1717,6 +1717,20 @@
 							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
+						<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${edu!}</w:t>
+							</w:r>
+						</w:p>
 						<w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
 								<w:rPr>
@@ -1725,6 +1739,7 @@
 							</w:pPr>
 							<w:r>
 								<w:rPr>
+									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 								<w:t>${degree!}</w:t>
@@ -2298,7 +2313,7 @@
 						<w:tcPr>
 							<w:tcW w:w="8971" w:type="dxa"/>
 							<w:gridSpan w:val="8"/>
-							<w:vAlign w:val="center"/>
+							<w:vAlign w:val="top"/>
 						</w:tcPr>
 						${learnDesc!}
 						${workDesc!}
@@ -3164,7 +3179,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${y1!}</w:t>
+								<w:t>${y1?c!}</w:t>
 							</w:r>
 							<w:r wsp:rsidR="00E759EF">
 								<w:rPr>

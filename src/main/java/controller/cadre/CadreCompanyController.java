@@ -50,7 +50,11 @@ public class CadreCompanyController extends BaseController {
 
     @RequiresPermissions("cadreCompany:list")
     @RequestMapping("/cadreCompany")
-    public String cadreCompany() {
+    public String cadreCompany(Integer cadreId, ModelMap modelMap) {
+
+        String name = "company";
+        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
         return "cadre/cadreCompany/cadreCompany_page";
     }
@@ -58,9 +62,9 @@ public class CadreCompanyController extends BaseController {
     @RequiresPermissions("cadreCompany:list")
     @RequestMapping("/cadreCompany_data")
     public void cadreCompany_data(HttpServletResponse response,
-                                 Integer cadreId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo) throws IOException {
+                                  Integer cadreId,
+                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -74,7 +78,7 @@ public class CadreCompanyController extends BaseController {
         CadreCompanyExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("start_time desc");
 
-        if (cadreId!=null) {
+        if (cadreId != null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
 
@@ -131,10 +135,10 @@ public class CadreCompanyController extends BaseController {
             record.setPaper(savePath);
         }*/
 
-        if(_paper!=null){
+        if (_paper != null) {
             String ext = FileUtils.getExtention(_paper.getOriginalFilename());
-            if(!StringUtils.equalsIgnoreCase(ext, ".pdf")){
-               return failed("文件格式错误，请上传pdf文档");
+            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+                return failed("文件格式错误，请上传pdf文档");
             }
 
             String originalFilename = _paper.getOriginalFilename();
@@ -143,7 +147,7 @@ public class CadreCompanyController extends BaseController {
                     + "cadre" + FILE_SEPARATOR
                     + "file" + FILE_SEPARATOR
                     + fileName;
-            String savePath =  realPath + FileUtils.getExtention(originalFilename);
+            String savePath = realPath + FileUtils.getExtention(originalFilename);
             //String pdfPath = realPath + ".pdf";
             FileUtils.copyFile(_paper, new File(springProps.uploadPath + savePath));
             //FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath +pdfPath);
@@ -164,10 +168,10 @@ public class CadreCompanyController extends BaseController {
 
         if (id == null) {
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreCompanyService.insertSelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
-            }else{
+            } else {
                 cadreCompanyService.modifyApply(record, null, false);
                 logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部企业兼职情况：%s", record.getId()));
             }
@@ -175,18 +179,18 @@ public class CadreCompanyController extends BaseController {
         } else {
             // 干部信息本人直接修改数据校验
             CadreCompany _record = cadreCompanyMapper.selectByPrimaryKey(id);
-            if(_record.getCadreId().intValue() != record.getCadreId()){
+            if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
 
-            if(!toApply) {
+            if (!toApply) {
                 cadreCompanyService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部企业兼职情况：%s", record.getId()));
-            }else{
-                if(_isUpdate==false) {
+            } else {
+                if (_isUpdate == false) {
                     cadreCompanyService.modifyApply(record, id, false);
                     logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部企业兼职情况：%s", record.getId()));
-                }else{
+                } else {
                     // 更新修改申请的内容
                     cadreCompanyService.updateModify(record, applyId);
                     logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部企业兼职情况：%s", record.getId()));
@@ -220,7 +224,7 @@ public class CadreCompanyController extends BaseController {
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cadreCompanyService.batchDel(ids, cadreId);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部企业兼职情况：%s", StringUtils.join(ids, ",")));
         }
@@ -238,7 +242,7 @@ public class CadreCompanyController extends BaseController {
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"兼职起始时间","兼职单位及职务"};
+        String[] titles = {"兼职起始时间", "兼职单位及职务"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -249,9 +253,9 @@ public class CadreCompanyController extends BaseController {
 
             CadreCompany cadreCompany = cadreCompanys.get(i);
             String[] values = {
-                        DateUtils.formatDate(cadreCompany.getStartTime(), DateUtils.YYYY_MM_DD),
-                                            cadreCompany.getUnit()
-                    };
+                    DateUtils.formatDate(cadreCompany.getStartTime(), DateUtils.YYYY_MM_DD),
+                    cadreCompany.getUnit()
+            };
 
             Row row = sheet.createRow(i + 1);
             for (int j = 0; j < titles.length; j++) {

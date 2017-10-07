@@ -27,6 +27,15 @@ public class CadreParttimeService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
+    public List<CadreParttime> list(int cadreId){
+
+        CadreParttimeExample example = new CadreParttimeExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("start_time asc");
+
+        return cadreParttimeMapper.selectByExample(example);
+    }
+
     @Transactional
     public int insertSelective(CadreParttime record){
 

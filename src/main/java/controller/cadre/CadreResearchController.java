@@ -1,15 +1,12 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.CadreBookExample;
 import domain.cadre.CadreInfo;
-import domain.cadre.CadrePaperExample;
 import domain.cadre.CadreResearch;
 import domain.cadre.CadreResearchExample;
 import domain.cadre.CadreReward;
 import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreView;
-import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -68,7 +65,7 @@ public class CadreResearchController extends BaseController {
         CadreInfo cadreInfo = cadreInfoService.get(cadreId, type);
         modelMap.put("cadreInfo", cadreInfo);
 
-        if (type == SystemConstants.CADRE_INFO_TYPE_RESEARCH) {
+        /*if (type == SystemConstants.CADRE_INFO_TYPE_RESEARCH) {
             Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
             modelMap.put("researchInInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
             modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
@@ -114,24 +111,49 @@ public class CadreResearchController extends BaseController {
                     modelMap.put("count", cadrePaperMapper.countByExample(example));
                 }
                 break;
-                /*case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD:
+                *//*case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD:
                     key = "hf_cadre_research_reward";
-                    break;*/
+                    break;*//*
             }
             if (key != null) {
 
                 Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
                 modelMap.put("htmlFragment", htmlFragmentMap.get(key));
             }
-        }
-
-       /* {
-            CadreRewardExample example = new CadreRewardExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH);
-            example.setOrderByClause("reward_time asc");
-            List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
-            modelMap.put("cadreRewards", cadreRewards);
         }*/
+
+        String name = null;
+        switch (type) {
+            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
+                name = "research_direct";
+            }
+            break;
+            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
+                name = "research_in";
+            }
+            break;
+            case SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY: {
+                name = "book";
+            }
+            break;
+            case SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY: {
+                name = "paper";
+            }
+            break;
+            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD: {
+                name = "research_reward";
+            }
+            break;
+        }
+        modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
+        modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
+
+        modelMap.put("cadreResearchDirects", cadreResearchService.list(cadreId, SystemConstants.CADRE_RESEARCH_TYPE_DIRECT));
+        modelMap.put("cadreResearchIns", cadreResearchService.list(cadreId, SystemConstants.CADRE_RESEARCH_TYPE_IN));
+        modelMap.put("cadreBooks", cadreBookService.list(cadreId));
+        modelMap.put("cadrePapers", cadrePaperService.list(cadreId));
+        modelMap.put("cadreRewards", cadreRewardService.list(cadreId, SystemConstants.CADRE_REWARD_TYPE_RESEARCH));
+
         return "cadre/cadreResearch/cadreResearch_page";
     }
 
@@ -216,10 +238,10 @@ public class CadreResearchController extends BaseController {
         Integer id = record.getId();
 
         if (StringUtils.isNotBlank(_startTime)) {
-            record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYY_MM_DD));
+            record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM"));
         }
         if (StringUtils.isNotBlank(_endTime)) {
-            record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
+            record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
         }
 
         if (id == null) {

@@ -168,13 +168,13 @@
 					<div class="form-group">
 						<label class="col-xs-6 control-label">导师姓名</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
+							<input required class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">导师所在单位及职务（职称）</label>
+						<label class="col-xs-6 control-label">导师现所在单位及职务（职称）</label>
 						<div class="col-xs-6">
-							<input class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
+							<input required class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
 						</div>
 					</div>
 					<div class="form-group">

@@ -7,6 +7,9 @@
     <result column="upload_max_size" jdbcType="INTEGER" property="uploadMaxSize" />
     <result column="short_msg_url" jdbcType="VARCHAR" property="shortMsgUrl" />
     <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    <result column="school_short_name" jdbcType="VARCHAR" property="schoolShortName" />
+    <result column="school_login_url" jdbcType="VARCHAR" property="schoolLoginUrl" />
+    <result column="school_email" jdbcType="VARCHAR" property="schoolEmail" />
     <result column="site_copyright" jdbcType="VARCHAR" property="siteCopyright" />
     <result column="site_home" jdbcType="VARCHAR" property="siteHome" />
     <result column="site_keywords" jdbcType="VARCHAR" property="siteKeywords" />
@@ -17,6 +20,8 @@
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="logo_white" jdbcType="VARCHAR" property="logoWhite" />
     <result column="login_bg" jdbcType="VARCHAR" property="loginBg" />
+    <result column="login_top" jdbcType="VARCHAR" property="loginTop" />
+    <result column="login_top_bg_color" jdbcType="VARCHAR" property="loginTopBgColor" />
     <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
     <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
   </resultMap>
@@ -79,9 +84,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, site_copyright, 
-    site_home, site_keywords, site_description, site_name, site_short_name, mobile_plantform_name, 
-    logo, logo_white, login_bg, login_msg, display_login_msg
+    id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, school_short_name, 
+    school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
+    site_name, site_short_name, mobile_plantform_name, logo, logo_white, login_bg, login_top, 
+    login_top_bg_color, login_msg, display_login_msg
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -115,17 +121,21 @@
   </delete>
   <insert id="insert" parameterType="domain.sys.SysConfig">
     insert into sys_config (id, xss_ignore_uri, upload_max_size, 
-      short_msg_url, school_name, site_copyright, 
+      short_msg_url, school_name, school_short_name, 
+      school_login_url, school_email, site_copyright, 
       site_home, site_keywords, site_description, 
       site_name, site_short_name, mobile_plantform_name, 
       logo, logo_white, login_bg, 
-      login_msg, display_login_msg)
+      login_top, login_top_bg_color, login_msg, 
+      display_login_msg)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
-      #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
+      #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
+      #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
       #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, 
       #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
       #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, 
-      #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT})
+      #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, 
+      #{displayLoginMsg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -144,6 +154,15 @@
       </if>
       <if test="schoolName != null">
         school_name,
+      </if>
+      <if test="schoolShortName != null">
+        school_short_name,
+      </if>
+      <if test="schoolLoginUrl != null">
+        school_login_url,
+      </if>
+      <if test="schoolEmail != null">
+        school_email,
       </if>
       <if test="siteCopyright != null">
         site_copyright,
@@ -175,6 +194,12 @@
       <if test="loginBg != null">
         login_bg,
       </if>
+      <if test="loginTop != null">
+        login_top,
+      </if>
+      <if test="loginTopBgColor != null">
+        login_top_bg_color,
+      </if>
       <if test="loginMsg != null">
         login_msg,
       </if>
@@ -197,6 +222,15 @@
       </if>
       <if test="schoolName != null">
         #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolShortName != null">
+        #{schoolShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolLoginUrl != null">
+        #{schoolLoginUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolEmail != null">
+        #{schoolEmail,jdbcType=VARCHAR},
       </if>
       <if test="siteCopyright != null">
         #{siteCopyright,jdbcType=VARCHAR},
@@ -227,6 +261,12 @@
       </if>
       <if test="loginBg != null">
         #{loginBg,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTop != null">
+        #{loginTop,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTopBgColor != null">
+        #{loginTopBgColor,jdbcType=VARCHAR},
       </if>
       <if test="loginMsg != null">
         #{loginMsg,jdbcType=VARCHAR},
@@ -260,6 +300,15 @@
       <if test="record.schoolName != null">
         school_name = #{record.schoolName,jdbcType=VARCHAR},
       </if>
+      <if test="record.schoolShortName != null">
+        school_short_name = #{record.schoolShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolLoginUrl != null">
+        school_login_url = #{record.schoolLoginUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolEmail != null">
+        school_email = #{record.schoolEmail,jdbcType=VARCHAR},
+      </if>
       <if test="record.siteCopyright != null">
         site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
       </if>
@@ -290,6 +339,12 @@
       <if test="record.loginBg != null">
         login_bg = #{record.loginBg,jdbcType=VARCHAR},
       </if>
+      <if test="record.loginTop != null">
+        login_top = #{record.loginTop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginTopBgColor != null">
+        login_top_bg_color = #{record.loginTopBgColor,jdbcType=VARCHAR},
+      </if>
       <if test="record.loginMsg != null">
         login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       </if>
@@ -308,6 +363,9 @@
       upload_max_size = #{record.uploadMaxSize,jdbcType=INTEGER},
       short_msg_url = #{record.shortMsgUrl,jdbcType=VARCHAR},
       school_name = #{record.schoolName,jdbcType=VARCHAR},
+      school_short_name = #{record.schoolShortName,jdbcType=VARCHAR},
+      school_login_url = #{record.schoolLoginUrl,jdbcType=VARCHAR},
+      school_email = #{record.schoolEmail,jdbcType=VARCHAR},
       site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
       site_home = #{record.siteHome,jdbcType=VARCHAR},
       site_keywords = #{record.siteKeywords,jdbcType=VARCHAR},
@@ -318,6 +376,8 @@
       logo = #{record.logo,jdbcType=VARCHAR},
       logo_white = #{record.logoWhite,jdbcType=VARCHAR},
       login_bg = #{record.loginBg,jdbcType=VARCHAR},
+      login_top = #{record.loginTop,jdbcType=VARCHAR},
+      login_top_bg_color = #{record.loginTopBgColor,jdbcType=VARCHAR},
       login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{record.displayLoginMsg,jdbcType=BIT}
     <if test="_parameter != null">
@@ -338,6 +398,15 @@
       </if>
       <if test="schoolName != null">
         school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolShortName != null">
+        school_short_name = #{schoolShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolLoginUrl != null">
+        school_login_url = #{schoolLoginUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolEmail != null">
+        school_email = #{schoolEmail,jdbcType=VARCHAR},
       </if>
       <if test="siteCopyright != null">
         site_copyright = #{siteCopyright,jdbcType=VARCHAR},
@@ -369,6 +438,12 @@
       <if test="loginBg != null">
         login_bg = #{loginBg,jdbcType=VARCHAR},
       </if>
+      <if test="loginTop != null">
+        login_top = #{loginTop,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTopBgColor != null">
+        login_top_bg_color = #{loginTopBgColor,jdbcType=VARCHAR},
+      </if>
       <if test="loginMsg != null">
         login_msg = #{loginMsg,jdbcType=VARCHAR},
       </if>
@@ -384,6 +459,9 @@
       upload_max_size = #{uploadMaxSize,jdbcType=INTEGER},
       short_msg_url = #{shortMsgUrl,jdbcType=VARCHAR},
       school_name = #{schoolName,jdbcType=VARCHAR},
+      school_short_name = #{schoolShortName,jdbcType=VARCHAR},
+      school_login_url = #{schoolLoginUrl,jdbcType=VARCHAR},
+      school_email = #{schoolEmail,jdbcType=VARCHAR},
       site_copyright = #{siteCopyright,jdbcType=VARCHAR},
       site_home = #{siteHome,jdbcType=VARCHAR},
       site_keywords = #{siteKeywords,jdbcType=VARCHAR},
@@ -394,6 +472,8 @@
       logo = #{logo,jdbcType=VARCHAR},
       logo_white = #{logoWhite,jdbcType=VARCHAR},
       login_bg = #{loginBg,jdbcType=VARCHAR},
+      login_top = #{loginTop,jdbcType=VARCHAR},
+      login_top_bg_color = #{loginTopBgColor,jdbcType=VARCHAR},
       login_msg = #{loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{displayLoginMsg,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

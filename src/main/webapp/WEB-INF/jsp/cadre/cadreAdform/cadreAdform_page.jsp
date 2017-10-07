@@ -155,7 +155,7 @@
                 <span>健康状况</span>
         </td>
         <td class="td3 center">
-            ${bean.health}
+                ${bean.health}
         </td>
     </tr>
     <tr>
@@ -192,6 +192,8 @@
             </div>
         </td>
         <td class="td6 padding10" colspan="2">
+            ${bean.edu}
+            <br/>
             ${bean.degree}
         </td>
         <td class="td8 center bolder">
@@ -256,7 +258,7 @@
                     历
                 </div>
         </td>
-        <td class="td12 padding10" colspan="8">
+        <td class="td12 padding10" colspan="8" style="vertical-align: top">
             <c:if test="${not empty bean.learnDesc}">
             <p style="font-weight: bolder;">学习经历：</p>
             <p>
@@ -341,7 +343,7 @@
                 <span>成&nbsp;&nbsp;系</span>
             </div>
             <div>
-                <span>员&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span>员&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </div>
         </td>
         <td class="td2 center bolder">
@@ -384,7 +386,7 @@
             <td class="td2 center" colspan="2">
                 ${politicalStatusMap.get(f.getPoliticalStatus()).name}
             </td>
-            <td class="td15" colspan="2">
+            <td class="td15 padding10" colspan="2">
                 ${f.unit}
             </td>
         </tr>

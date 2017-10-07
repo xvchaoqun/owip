@@ -41,7 +41,12 @@ pageEncoding="UTF-8"%>
                     </a>
                 </c:if>
                 <c:if test="${record.type!=MODIFY_BASE_ITEM_TYPE_IMAGE}">
-                ${record.orginalValue}
+                    <c:if test="${record.code=='health'}">
+                        ${cm:getMetaType(record.orginalValue).name}
+                    </c:if>
+                    <c:if test="${record.code!='health'}">
+                        ${record.orginalValue}
+                    </c:if>
                 </c:if>
                  &nbsp;<i class="fa fa-arrow-right"></i>
                 <c:if test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
@@ -50,7 +55,12 @@ pageEncoding="UTF-8"%>
                     </a>
                 </c:if>
                 <c:if test="${record.type!=MODIFY_BASE_ITEM_TYPE_IMAGE}">
-                    ${record.modifyValue}
+                    <c:if test="${record.code=='health'}">
+                        ${cm:getMetaType(record.modifyValue).name}
+                    </c:if>
+                    <c:if test="${record.code!='health'}">
+                        ${record.modifyValue}
+                    </c:if>
                 </c:if>
             </div>
         </div>

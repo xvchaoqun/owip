@@ -80,7 +80,7 @@
         submitHandler: function (form) {
 
             var codes=[], tables=[], tableIdNames=[], names=[], originals=[], modifys=[], types=[];
-            $("input[data-code]").each(function(){
+            $("*[data-code]").each(function(){
                 codes.push($(this).data("code"));
                 tables.push($(this).data("table"));
                 tableIdNames.push($(this).data("table-id-name"));
@@ -105,6 +105,6 @@
             });
         }
     });
-
+    $('[data-rel="select2"]').select2();
     register_date($('.date-picker'));
 </script>
