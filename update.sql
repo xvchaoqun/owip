@@ -1,5 +1,5 @@
 
-
+2017-10-07
 ALTER TABLE `sys_config`
 	ADD COLUMN `school_short_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '学校简称' AFTER `school_name`,
 	ADD COLUMN `school_login_url` VARCHAR(50) NULL DEFAULT NULL COMMENT '学校门户地址' AFTER `school_short_name`;
@@ -23,6 +23,15 @@ ALTER TABLE `sys_user_info`
 
 更新 sys_user_view
 
+增加 mc_health
+
+“健康状况”根据本人的具体情况选择“健康”、“良好”、“一般”、“较差”。
+
+
+ALTER TABLE `cadre_paper`
+	ADD COLUMN `name` VARCHAR(100) NULL DEFAULT NULL COMMENT '论文题目' AFTER `pub_time`,
+	ADD COLUMN `press` VARCHAR(100) NULL DEFAULT NULL COMMENT '期刊名称' AFTER `name`;
+
 
 2017-9-20
 ALTER TABLE `pcs_config`
@@ -38,17 +47,6 @@ ALTER TABLE `pcs_pr_candidate`
 	ADD COLUMN `proposal_sort_order` INT UNSIGNED NULL DEFAULT NULL COMMENT '进入提案阶段的党代表顺序，初始化为三上的顺序，升序排列' AFTER `is_proposal`;
 
 更新 pcs_pr_candidate_view
-
-增加 mc_health
-
-“健康状况”根据本人的具体情况选择“健康”、“良好”、“一般”、“较差”。
-
-
-ALTER TABLE `cadre_paper`
-	ADD COLUMN `name` VARCHAR(100) NULL DEFAULT NULL COMMENT '论文题目' AFTER `pub_time`,
-	ADD COLUMN `press` VARCHAR(100) NULL DEFAULT NULL COMMENT '期刊名称' AFTER `name`;
-
-
 
 2017-9-14
 ALTER TABLE `pcs_pr_recommend`
