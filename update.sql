@@ -10,13 +10,11 @@ ALTER TABLE `sys_config`
 ALTER TABLE `sys_config`
 	ADD COLUMN `school_email` VARCHAR(50) NULL DEFAULT NULL COMMENT '学校邮箱' AFTER `school_login_url`;
 
-
-
-update sys_user_info set health=382 where health like '%健康%' or health like '%优%'  or health like '%好%';
+/*update sys_user_info set health=382 where health like '%健康%' or health like '%优%'  or health like '%好%';
 update sys_user_info set health=383 where health like '%良%';
 update sys_user_info set health=384 where health like '%一般%';
 update sys_user_info set health=385 where health like '%较差%';
-update sys_user_info set health=null where health='';
+update sys_user_info set health=null where health='';*/
 
 ALTER TABLE `sys_user_info`
 	CHANGE COLUMN `health` `health` INT UNSIGNED NULL DEFAULT NULL COMMENT '健康状况' AFTER `specialty`;
@@ -24,9 +22,22 @@ ALTER TABLE `sys_user_info`
 更新 sys_user_view
 
 增加 mc_health
+（
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `sort_order`, `available`) VALUES (58, NULL, '健康状况', '干部', '基本信息', 'mc_health', '', '', 58, 1);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (58, '健康', 'mt_9nqaui', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (58, '良好', 'mt_3bqauv', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (58, '一般', 'mt_y5dqel', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (58, '较差', 'mt_dn2b9y', NULL, '', '', 1, 1);
+）
 
 “健康状况”根据本人的具体情况选择“健康”、“良好”、“一般”、“较差”。
 
+创建表 cadre_info_check
+增加权限 cadreInfo:check   开放给 干部、后备干部、考察对象、	干部工作管理员（目录1）、系统管理员
+（
+INSERT INTO `sys_resource` (`name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES ('无此类情况', '', 'function', '', '', 90, '0/1/88/90/', 1, 'cadreInfo:check', NULL, NULL, 1, 999901);
+）
 
 ALTER TABLE `cadre_paper`
 	ADD COLUMN `name` VARCHAR(100) NULL DEFAULT NULL COMMENT '论文题目' AFTER `pub_time`,

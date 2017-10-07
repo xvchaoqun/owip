@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cadre.CadreInfoCheckMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreInfoCheck">
+    <id column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="post_pro" jdbcType="BIT" property="postPro" />
+    <result column="post_admin" jdbcType="BIT" property="postAdmin" />
+    <result column="post_work" jdbcType="BIT" property="postWork" />
+    <result column="parttime" jdbcType="BIT" property="parttime" />
+    <result column="train" jdbcType="BIT" property="train" />
+    <result column="course" jdbcType="BIT" property="course" />
+    <result column="course_reward" jdbcType="BIT" property="courseReward" />
+    <result column="research_direct" jdbcType="BIT" property="researchDirect" />
+    <result column="research_in" jdbcType="BIT" property="researchIn" />
+    <result column="book" jdbcType="BIT" property="book" />
+    <result column="paper" jdbcType="BIT" property="paper" />
+    <result column="research_reward" jdbcType="BIT" property="researchReward" />
+    <result column="reward" jdbcType="BIT" property="reward" />
+    <result column="famliy_abroad" jdbcType="BIT" property="famliyAbroad" />
+    <result column="company" jdbcType="BIT" property="company" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cadre_id, post_pro, post_admin, post_work, parttime, train, course, course_reward, 
+    research_direct, research_in, book, paper, research_reward, reward, famliy_abroad, 
+    company
+  </sql>
+  <select id="selectByExample" parameterType="domain.cadre.CadreInfoCheckExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cadre_info_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cadre_info_check
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cadre_info_check
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreInfoCheckExample">
+    delete from cadre_info_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cadre.CadreInfoCheck">
+    insert into cadre_info_check (cadre_id, post_pro, post_admin, 
+      post_work, parttime, train, course, 
+      course_reward, research_direct, research_in, 
+      book, paper, research_reward, reward, 
+      famliy_abroad, company)
+    values (#{cadreId,jdbcType=INTEGER}, #{postPro,jdbcType=BIT}, #{postAdmin,jdbcType=BIT}, 
+      #{postWork,jdbcType=BIT}, #{parttime,jdbcType=BIT}, #{train,jdbcType=BIT}, #{course,jdbcType=BIT}, 
+      #{courseReward,jdbcType=BIT}, #{researchDirect,jdbcType=BIT}, #{researchIn,jdbcType=BIT}, 
+      #{book,jdbcType=BIT}, #{paper,jdbcType=BIT}, #{researchReward,jdbcType=BIT}, #{reward,jdbcType=BIT}, 
+      #{famliyAbroad,jdbcType=BIT}, #{company,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cadre.CadreInfoCheck">
+    insert into cadre_info_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="postPro != null">
+        post_pro,
+      </if>
+      <if test="postAdmin != null">
+        post_admin,
+      </if>
+      <if test="postWork != null">
+        post_work,
+      </if>
+      <if test="parttime != null">
+        parttime,
+      </if>
+      <if test="train != null">
+        train,
+      </if>
+      <if test="course != null">
+        course,
+      </if>
+      <if test="courseReward != null">
+        course_reward,
+      </if>
+      <if test="researchDirect != null">
+        research_direct,
+      </if>
+      <if test="researchIn != null">
+        research_in,
+      </if>
+      <if test="book != null">
+        book,
+      </if>
+      <if test="paper != null">
+        paper,
+      </if>
+      <if test="researchReward != null">
+        research_reward,
+      </if>
+      <if test="reward != null">
+        reward,
+      </if>
+      <if test="famliyAbroad != null">
+        famliy_abroad,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="postPro != null">
+        #{postPro,jdbcType=BIT},
+      </if>
+      <if test="postAdmin != null">
+        #{postAdmin,jdbcType=BIT},
+      </if>
+      <if test="postWork != null">
+        #{postWork,jdbcType=BIT},
+      </if>
+      <if test="parttime != null">
+        #{parttime,jdbcType=BIT},
+      </if>
+      <if test="train != null">
+        #{train,jdbcType=BIT},
+      </if>
+      <if test="course != null">
+        #{course,jdbcType=BIT},
+      </if>
+      <if test="courseReward != null">
+        #{courseReward,jdbcType=BIT},
+      </if>
+      <if test="researchDirect != null">
+        #{researchDirect,jdbcType=BIT},
+      </if>
+      <if test="researchIn != null">
+        #{researchIn,jdbcType=BIT},
+      </if>
+      <if test="book != null">
+        #{book,jdbcType=BIT},
+      </if>
+      <if test="paper != null">
+        #{paper,jdbcType=BIT},
+      </if>
+      <if test="researchReward != null">
+        #{researchReward,jdbcType=BIT},
+      </if>
+      <if test="reward != null">
+        #{reward,jdbcType=BIT},
+      </if>
+      <if test="famliyAbroad != null">
+        #{famliyAbroad,jdbcType=BIT},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cadre.CadreInfoCheckExample" resultType="java.lang.Long">
+    select count(*) from cadre_info_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cadre_info_check
+    <set>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postPro != null">
+        post_pro = #{record.postPro,jdbcType=BIT},
+      </if>
+      <if test="record.postAdmin != null">
+        post_admin = #{record.postAdmin,jdbcType=BIT},
+      </if>
+      <if test="record.postWork != null">
+        post_work = #{record.postWork,jdbcType=BIT},
+      </if>
+      <if test="record.parttime != null">
+        parttime = #{record.parttime,jdbcType=BIT},
+      </if>
+      <if test="record.train != null">
+        train = #{record.train,jdbcType=BIT},
+      </if>
+      <if test="record.course != null">
+        course = #{record.course,jdbcType=BIT},
+      </if>
+      <if test="record.courseReward != null">
+        course_reward = #{record.courseReward,jdbcType=BIT},
+      </if>
+      <if test="record.researchDirect != null">
+        research_direct = #{record.researchDirect,jdbcType=BIT},
+      </if>
+      <if test="record.researchIn != null">
+        research_in = #{record.researchIn,jdbcType=BIT},
+      </if>
+      <if test="record.book != null">
+        book = #{record.book,jdbcType=BIT},
+      </if>
+      <if test="record.paper != null">
+        paper = #{record.paper,jdbcType=BIT},
+      </if>
+      <if test="record.researchReward != null">
+        research_reward = #{record.researchReward,jdbcType=BIT},
+      </if>
+      <if test="record.reward != null">
+        reward = #{record.reward,jdbcType=BIT},
+      </if>
+      <if test="record.famliyAbroad != null">
+        famliy_abroad = #{record.famliyAbroad,jdbcType=BIT},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cadre_info_check
+    set cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      post_pro = #{record.postPro,jdbcType=BIT},
+      post_admin = #{record.postAdmin,jdbcType=BIT},
+      post_work = #{record.postWork,jdbcType=BIT},
+      parttime = #{record.parttime,jdbcType=BIT},
+      train = #{record.train,jdbcType=BIT},
+      course = #{record.course,jdbcType=BIT},
+      course_reward = #{record.courseReward,jdbcType=BIT},
+      research_direct = #{record.researchDirect,jdbcType=BIT},
+      research_in = #{record.researchIn,jdbcType=BIT},
+      book = #{record.book,jdbcType=BIT},
+      paper = #{record.paper,jdbcType=BIT},
+      research_reward = #{record.researchReward,jdbcType=BIT},
+      reward = #{record.reward,jdbcType=BIT},
+      famliy_abroad = #{record.famliyAbroad,jdbcType=BIT},
+      company = #{record.company,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreInfoCheck">
+    update cadre_info_check
+    <set>
+      <if test="postPro != null">
+        post_pro = #{postPro,jdbcType=BIT},
+      </if>
+      <if test="postAdmin != null">
+        post_admin = #{postAdmin,jdbcType=BIT},
+      </if>
+      <if test="postWork != null">
+        post_work = #{postWork,jdbcType=BIT},
+      </if>
+      <if test="parttime != null">
+        parttime = #{parttime,jdbcType=BIT},
+      </if>
+      <if test="train != null">
+        train = #{train,jdbcType=BIT},
+      </if>
+      <if test="course != null">
+        course = #{course,jdbcType=BIT},
+      </if>
+      <if test="courseReward != null">
+        course_reward = #{courseReward,jdbcType=BIT},
+      </if>
+      <if test="researchDirect != null">
+        research_direct = #{researchDirect,jdbcType=BIT},
+      </if>
+      <if test="researchIn != null">
+        research_in = #{researchIn,jdbcType=BIT},
+      </if>
+      <if test="book != null">
+        book = #{book,jdbcType=BIT},
+      </if>
+      <if test="paper != null">
+        paper = #{paper,jdbcType=BIT},
+      </if>
+      <if test="researchReward != null">
+        research_reward = #{researchReward,jdbcType=BIT},
+      </if>
+      <if test="reward != null">
+        reward = #{reward,jdbcType=BIT},
+      </if>
+      <if test="famliyAbroad != null">
+        famliy_abroad = #{famliyAbroad,jdbcType=BIT},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=BIT},
+      </if>
+    </set>
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreInfoCheck">
+    update cadre_info_check
+    set post_pro = #{postPro,jdbcType=BIT},
+      post_admin = #{postAdmin,jdbcType=BIT},
+      post_work = #{postWork,jdbcType=BIT},
+      parttime = #{parttime,jdbcType=BIT},
+      train = #{train,jdbcType=BIT},
+      course = #{course,jdbcType=BIT},
+      course_reward = #{courseReward,jdbcType=BIT},
+      research_direct = #{researchDirect,jdbcType=BIT},
+      research_in = #{researchIn,jdbcType=BIT},
+      book = #{book,jdbcType=BIT},
+      paper = #{paper,jdbcType=BIT},
+      research_reward = #{researchReward,jdbcType=BIT},
+      reward = #{reward,jdbcType=BIT},
+      famliy_abroad = #{famliyAbroad,jdbcType=BIT},
+      company = #{company,jdbcType=BIT}
+    where cadre_id = #{cadreId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadreInfoCheckExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cadre_info_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
