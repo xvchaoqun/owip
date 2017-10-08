@@ -111,8 +111,8 @@ public class TestController extends BaseController {
         map.put("partyName", "历史学院党总支");
         map.put("age", "25");
         map.put("nation", "汉");
-        map.put("from", "北师大历史学院党总支");
-        map.put("to", "北师大历史学院党总支");
+        map.put("from", "历史学院党总支");
+        map.put("to", "历史学院党总支");
         map.put("idcard", "360502198547544784");
         map.put("year", "2016");
         map.put("month", "5");
