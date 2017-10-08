@@ -106,7 +106,7 @@ public class TestController extends BaseController {
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", "123123");
+        map.put("code", "12312");
         map.put("name", "张三");
         map.put("partyName", "历史学院党总支");
         map.put("age", "25");
