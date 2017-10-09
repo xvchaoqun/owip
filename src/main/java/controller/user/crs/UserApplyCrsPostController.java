@@ -1,9 +1,11 @@
 package controller.user.crs;
 
 import controller.CrsBaseController;
+import domain.crs.CrsApplicant;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,23 +88,45 @@ public class UserApplyCrsPostController extends CrsBaseController {
         return;
     }
 
-    @RequiresPermissions("userApplyCrsPost:*")
+    // 管理员也拥有该权限
+    //@RequiresPermissions("userApplyCrsPost:*")
     @RequestMapping(value = "/crsPost_quit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_quit(int id, HttpServletRequest request) {
+    public Map do_crsPost_quit(int postId, Integer applicantId, HttpServletRequest request) {
 
-        crsApplicantService.quit(id, ShiroHelper.getCurrentUserId());
+        Integer userId = null;
+        if(applicantId == null){
+            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:*");
+            userId = ShiroHelper.getCurrentUserId();
+        }else{
+            SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
+            CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
+            userId = crsApplicant.getUserId();
+        }
+
+        crsApplicantService.quit(postId, userId);
 
         logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-退出竞聘"));
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("userApplyCrsPost:*")
+    // 管理员也拥有该权限
+    //@RequiresPermissions("userApplyCrsPost:*")
     @RequestMapping(value = "/crsPost_reApply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_reApply(int postId, HttpServletRequest request) {
+    public Map do_crsPost_reApply(int postId, Integer applicantId, HttpServletRequest request) {
 
-        crsApplicantService.reApply(postId, ShiroHelper.getCurrentUserId());
+        Integer userId = null;
+        if(applicantId == null){
+            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:*");
+            userId = ShiroHelper.getCurrentUserId();
+        }else{
+            SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
+            CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
+            userId = crsApplicant.getUserId();
+        }
+
+        crsApplicantService.reApply(postId, userId);
 
         logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-重新报名"));
         return success(FormUtils.SUCCESS);

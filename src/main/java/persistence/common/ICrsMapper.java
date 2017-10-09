@@ -33,9 +33,9 @@ public interface ICrsMapper {
 
     // 岗位报名分类统计
     @ResultType(java.util.HashMap.class)
-    @Select("select count(*) as num, info_check_status, require_check_status, is_require_check_pass " +
+    @Select("select count(*) as num, require_check_status, is_require_check_pass,is_quit " +
             "from crs_applicant_view where post_id=#{postId} and status = #{status} " +
-            "group by info_check_status, require_check_status, is_require_check_pass")
+            "group by require_check_status, is_require_check_pass, is_quit")
     public List<Map> applicantStatic(@Param("postId") Integer postId, @Param("status") Byte status );
 
     // 获取干部申请的岗位（crs_applicant.status=1）

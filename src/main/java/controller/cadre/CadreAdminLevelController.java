@@ -146,6 +146,7 @@ public class CadreAdminLevelController extends BaseController {
         return "cadre/cadreAdminLevel/cadreAdminLevel_addDispatchs";
     }
 
+    @RequiresPermissions("cadreAdminLevel:edit")
     @RequestMapping(value = "/cadreAdminLevel_addDispatch", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadreAdminLevel_addDispatch(HttpServletRequest request, String cls, int id, Integer dispatchCadreId, ModelMap modelMap) {

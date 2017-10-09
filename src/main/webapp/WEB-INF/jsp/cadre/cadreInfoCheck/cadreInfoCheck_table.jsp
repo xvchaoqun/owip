@@ -3,7 +3,7 @@
 <c:set var="toEdit" value="${hasDirectModifyCadreAuth || cm:isPermitted(PERMISSION_CADREADMIN)}"/>
 <div class="tabbable" style="margin: 0px 20px; width: 900px">
     <div class="space-4"></div>
-    <table class="table table-bordered table-striped table-unhover" data-offset-top="101">
+    <table class="checkTable table table-bordered table-unhover2" data-offset-top="101">
     <thead>
     <tr>
         <th width="150">类别</th>
@@ -17,7 +17,7 @@
         <td rowspan="10">
             基本信息
         </td>
-        <td class="result${result}">照片</td>
+        <td>照片</td>
         <td>
             <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'avatar', 1)}"/>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
@@ -127,7 +127,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreEdu_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreEdu_page"
                     applyUrl="${ctx}/modifyCadreEdu"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                                toEdit="${toEdit}"/>
@@ -141,7 +141,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreEdu_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreEdu_page"
                     applyUrl="${ctx}/modifyCadreEdu"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
@@ -159,7 +159,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreWork_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreWork_page"
                     applyUrl="${ctx}/modifyCadreWork"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
@@ -177,7 +177,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=1"
+                    editUrl="?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=1"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"
                     updateName="post_pro"/>
@@ -191,7 +191,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=2"
+                    editUrl="?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=2"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"
                     updateName="post_admin"/>
@@ -205,7 +205,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=3"
+                    editUrl="?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=3"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"
                     updateName="post_work"/>
@@ -224,7 +224,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreParttime_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreParttime_page"
                     applyUrl="${ctx}/modifyCadreParttime"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="parttime"/>
@@ -241,7 +241,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreTrain_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreTrain_page"
                     applyUrl="${ctx}/modifyCadreTrain"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="train"/>
@@ -260,7 +260,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreCourse_page&type=1"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreCourse_page&type=1"
                     applyUrl="${ctx}/modifyCadreCourse"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="course"/>
@@ -275,7 +275,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreCourse_page&type=2"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreCourse_page&type=2"
                     applyUrl="${ctx}/modifyCadreReward?rewardType=1"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="course_reward"/>
@@ -293,7 +293,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}"
                     applyUrl="${ctx}/modifyCadreResearch?researchType=1"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="research_direct"/>
@@ -308,7 +308,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}"
                     applyUrl="${ctx}/modifyCadreResearch?researchType=2"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="research_in"/>
@@ -323,7 +323,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_BOOK_SUMMARY}"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_BOOK_SUMMARY}"
                     applyUrl="${ctx}/modifyCadreBook"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="book"/>
@@ -338,7 +338,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_PAPER_SUMMARY}"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_PAPER_SUMMARY}"
                     applyUrl="${ctx}/modifyCadrePaper"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="paper"/>
@@ -353,7 +353,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_REWARD}"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_REWARD}"
                     applyUrl="${ctx}/modifyCadreReward?rewardType=2"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="research_reward"/>
@@ -371,7 +371,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreReward_page&rewardType=${CADRE_REWARD_TYPE_OTHER}"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreReward_page&rewardType=${CADRE_REWARD_TYPE_OTHER}"
                     applyUrl="${ctx}/modifyCadreReward?rewardType=3"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="reward"/>
@@ -390,7 +390,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreFamliy_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreFamliy_page"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
         </td>
@@ -403,7 +403,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreFamliy_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreFamliy_page"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="famliy_abroad"/>
         </td>
@@ -418,9 +418,9 @@
             <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'train', 3)}"/>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
-        <td>
+        <td class="bg-left">
             <t:cadre_info_edit
-                    editUrl="${ctx}/cadre_view?cadreId=${param.cadreId}&to=cadreCompany"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreCompany"
                     applyUrl="${ctx}/modifyCadreCompany"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="company"/>
@@ -431,16 +431,20 @@
 </table>
 </div>
 <style>
-    .table thead th {
+    .checkTable thead th {
         text-align: center!important;
         vertical-align: middle!important;
     }
-   .table tbody td {
-        background-color: #fff;
+   .checkTable tbody td {
+        background-color: #f9f9f9!important;
         text-align: center!important;
         vertical-align: middle!important;
     }
-    .notExist{
+   .checkTable tbody td:nth-last-child(1),.checkTable tbody td:nth-last-child(2) {
+        background-color: #fff!important;
+    }
+
+    .checkTable tbody td.notExist{
         background-color: #f2dede!important;
     }
 </style>

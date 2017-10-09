@@ -25,6 +25,7 @@
                                     data-title="退出"
                                     data-msg="确定退出竞聘？"
                                     data-grid-id="#jqGrid"
+                                    data-id-name="postId"
                                     class="jqItemBtn btn btn-danger btn-sm">
                                 <i class="fa fa-minus-circle"></i> 退出
                             </button>
@@ -68,6 +69,20 @@
             }, width: 150, frozen: true
             },
             {label: '招聘岗位', name: 'name', width: '300', frozen: true},
+            {label: '报名情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                if(!rowObject.applicantIsQuit) return "已报名";
+                return '已退出 <a href="javascript:void(0)" class="confirm" ' +
+                        'data-msg="确定重新报名？" data-callback="_reload" '+
+                        'data-url="${ctx}/user/crsPost_reApply?postId={0}">重新报名</a>'
+                                .format(rowObject.id)
+            }},
+            <c:if test="${cls==1}">
+            {label: '打印报名表', name: '_print',  formatter: function (cellvalue, options, rowObject) {
+
+                return '-'
+            }},
+            </c:if>
             {label: '分管工作', name: 'job', width: '300', formatter: $.jgrid.formatter.NoMultiSpace},
             {
                 label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
@@ -96,21 +111,7 @@
                 if($.trim(cellvalue) == '') return '待定'
 
                 return cellvalue;
-            }},
-            {label: '报名情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {
-
-                if(!rowObject.applicantIsQuit) return "已报名";
-                return '已退出 <a href="javascript:void(0)" class="confirm" ' +
-                                'data-msg="确定重新报名？" data-callback="_reload" '+
-                        'data-url="${ctx}/user/crsPost_reApply?postId={0}">重新报名</a>'
-                                .format(rowObject.id)
-            }},
-            <c:if test="${cls==1}">
-            {label: '打印报名表', name: '_print',  formatter: function (cellvalue, options, rowObject) {
-
-                return '-'
             }}
-            </c:if>
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');

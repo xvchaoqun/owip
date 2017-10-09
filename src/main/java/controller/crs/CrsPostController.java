@@ -161,15 +161,7 @@ public class CrsPostController extends CrsBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            if (record.getSeq() == null) {
-                record.setSeq(crsPostService.genSeq(record.getType(), record.getYear()));
-            }
 
-            record.setEnrollStatus(SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT);
-            record.setCommitteeStatus(false);
-            record.setCreateTime(new Date());
-            record.setIsPublish(false);
-            record.setStatus(SystemConstants.CRS_POST_STATUS_NORMAL);
             crsPostService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加岗位：%s", record.getId()));
         } else {
@@ -315,7 +307,8 @@ public class CrsPostController extends CrsBaseController {
             publish = BooleanUtils.isTrue(publish);
             CrsPost record = new CrsPost();
             record.setId(id);
-            record.setIsPublish(publish);
+            record.setPubStatus(publish?SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED
+            :SystemConstants.CRS_POST_PUB_STATUS_CANCEL);
             /*if (!publish) {
                 record.setStatus(SystemConstants.CRS_POST_STATUS_DELETE);
             }*/

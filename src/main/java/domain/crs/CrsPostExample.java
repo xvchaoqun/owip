@@ -1582,63 +1582,63 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishIsNull() {
-            addCriterion("is_publish is null");
+        public Criteria andPubStatusIsNull() {
+            addCriterion("pub_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishIsNotNull() {
-            addCriterion("is_publish is not null");
+        public Criteria andPubStatusIsNotNull() {
+            addCriterion("pub_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishEqualTo(Boolean value) {
-            addCriterion("is_publish =", value, "isPublish");
+        public Criteria andPubStatusEqualTo(Byte value) {
+            addCriterion("pub_status =", value, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishNotEqualTo(Boolean value) {
-            addCriterion("is_publish <>", value, "isPublish");
+        public Criteria andPubStatusNotEqualTo(Byte value) {
+            addCriterion("pub_status <>", value, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishGreaterThan(Boolean value) {
-            addCriterion("is_publish >", value, "isPublish");
+        public Criteria andPubStatusGreaterThan(Byte value) {
+            addCriterion("pub_status >", value, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_publish >=", value, "isPublish");
+        public Criteria andPubStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("pub_status >=", value, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishLessThan(Boolean value) {
-            addCriterion("is_publish <", value, "isPublish");
+        public Criteria andPubStatusLessThan(Byte value) {
+            addCriterion("pub_status <", value, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_publish <=", value, "isPublish");
+        public Criteria andPubStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("pub_status <=", value, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishIn(List<Boolean> values) {
-            addCriterion("is_publish in", values, "isPublish");
+        public Criteria andPubStatusIn(List<Byte> values) {
+            addCriterion("pub_status in", values, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishNotIn(List<Boolean> values) {
-            addCriterion("is_publish not in", values, "isPublish");
+        public Criteria andPubStatusNotIn(List<Byte> values) {
+            addCriterion("pub_status not in", values, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_publish between", value1, value2, "isPublish");
+        public Criteria andPubStatusBetween(Byte value1, Byte value2) {
+            addCriterion("pub_status between", value1, value2, "pubStatus");
             return (Criteria) this;
         }
 
-        public Criteria andIsPublishNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_publish not between", value1, value2, "isPublish");
+        public Criteria andPubStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("pub_status not between", value1, value2, "pubStatus");
             return (Criteria) this;
         }
 

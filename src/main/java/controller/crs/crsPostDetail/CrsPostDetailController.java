@@ -2,6 +2,7 @@ package controller.crs.crsPostDetail;
 
 import controller.CrsBaseController;
 import domain.crs.CrsPost;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,38 +30,31 @@ public class CrsPostDetailController extends CrsBaseController {
         }
 
         if(step==2){
-            int[] count = new int[]{-1, 0,0,0,0,0,0};
+            int[] count = new int[]{-1, 0,0,0,0};
             List<Map> sta = iCrsMapper.applicantStatic(id, SystemConstants.AVAILABLE);
             for (Map entity : sta) {
-                byte info_check_status = -1;
-                if(entity.get("info_check_status")!=null){
-                    info_check_status = ((Integer) entity.get("info_check_status")).byteValue();
-                }
+
                 byte require_check_status = -1;
                 if(entity.get("require_check_status")!=null){
                     require_check_status = ((Integer) entity.get("require_check_status")).byteValue();
                 }
-
                 boolean is_require_check_pass = ((Integer) entity.get("is_require_check_pass")==1);
+                boolean is_quit = BooleanUtils.isTrue((Boolean)entity.get("is_quit"));
+
                 int num = ((Long) entity.get("num")).intValue();
 
                 // cls==1
-                if(info_check_status == SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT){
-                    count[1] += num;
-                }
-                if(info_check_status == SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS){
-                    count[2] += num;
-                }
-                if(info_check_status == SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS){
-                    count[3] += num;
-                }
-                if(require_check_status == SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT){
+                if(is_quit==false) {
+                    if (require_check_status == SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT) {
+                        count[1] += num;
+                    }
+                    if (is_require_check_pass) {
+                        count[2] += num;
+                    } else if (require_check_status == SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS) {
+                        count[3] += num;
+                    }
+                }else{
                     count[4] += num;
-                }
-                if(is_require_check_pass){
-                    count[5] += num;
-                }else if(require_check_status == SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS){
-                    count[6] += num;
                 }
             }
             modelMap.put("count", count);

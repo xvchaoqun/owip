@@ -56,7 +56,7 @@ public class UserApplicantAdjustController extends CrsBaseController {
             // 全部岗位
             CrsPostExample example = new CrsPostExample();
             CrsPostExample.Criteria criteria = example.createCriteria()
-                    .andIsPublishEqualTo(true)
+                    .andPubStatusEqualTo(SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED)
                     .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
 
             example.setOrderByClause("create_time desc");

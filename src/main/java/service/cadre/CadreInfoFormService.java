@@ -102,7 +102,7 @@ public class CadreInfoFormService extends BaseMapper{
         bean.setAvatar(base64);
         bean.setNation(cadre.getNation());
         bean.setNativePlace(cadre.getNativePlace());
-        //bean.setHousehold();
+        bean.setHousehold(uv.getHousehold());
 
         bean.setHomeplace(uv.getHomeplace());
         bean.setWorkTime(cadre.getWorkTime()); // 参加工作时间
@@ -349,7 +349,7 @@ public class CadreInfoFormService extends BaseMapper{
         dataMap.put("adminLevel_3", metaTypeMap.get("mt_admin_level_none").getId());*/
 
         dataMap.put("idCard", bean.getIdCard());
-        dataMap.put("household", "");
+        dataMap.put("household", bean.getHousehold());
 
         //dataMap.put("depWork", "");
 

@@ -1,4 +1,18 @@
 
+
+新增角色 cadreRecruit 应聘干部（普通教师）
+
+2017-10-09
+ALTER TABLE `crs_post`
+	CHANGE COLUMN `is_publish` `pub_status` TINYINT(3) UNSIGNED NOT NULL COMMENT '发布状态，0 未发布 1 已发布  2 取消发布' AFTER `create_time`;
+
+update crs_applicant set require_check_status=0 where require_check_status is null;
+
+
+给干部、后备干部、考察对象添加权限 cadreAdminLevel:edit
+
+
+
 2017-10-07
 ALTER TABLE `sys_config`
 	ADD COLUMN `school_short_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '学校简称' AFTER `school_name`,

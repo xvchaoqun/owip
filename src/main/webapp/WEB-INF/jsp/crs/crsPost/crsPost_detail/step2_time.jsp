@@ -89,28 +89,28 @@
                 <div class="widget-main">
                     <button class="confirm btn btn-success btn-block"
                             ${!crsPost.autoSwitch && isOpen?'disabled':''}
-                            data-msg="确定强制开启报名？" data-callback="_stepContentReload"
+                            data-msg="确定强制开启报名？" data-callback="_stepReload"
                             data-url="${ctx}/crsPost_detail/step2_enrollStatus?id=${crsPost.id}
                             &enrollStatus=${CRS_POST_ENROLL_STATUS_OPEN}">
                         <i class="fa fa-check"></i> 开启报名</button>
                     <br/>
                     <button class="confirm btn btn-danger btn-block"
                     ${!crsPost.autoSwitch && isClosed?'disabled':''}
-                            data-msg="确定强制关闭报名？" data-callback="_stepContentReload"
+                            data-msg="确定强制关闭报名？" data-callback="_stepReload"
                             data-url="${ctx}/crsPost_detail/step2_enrollStatus?id=${crsPost.id}
                             &enrollStatus=${CRS_POST_ENROLL_STATUS_CLOSED}">
                         <i class="fa fa-times"></i> 关闭报名</button>
                     <br/>
                     <button class="confirm btn btn-warning btn-block"
                     ${!crsPost.autoSwitch && isPause?'disabled':''}
-                            data-msg="确定强制暂停报名？" data-callback="_stepContentReload"
+                            data-msg="确定强制暂停报名？" data-callback="_stepReload"
                             data-url="${ctx}/crsPost_detail/step2_enrollStatus?id=${crsPost.id}
                             &enrollStatus=${CRS_POST_ENROLL_STATUS_PAUSE}">
                         <i class="fa fa-exclamation-triangle"></i> 暂停报名</button>
                     <br/>
                     <button class="confirm btn btn-primary btn-block"
                     ${crsPost.autoSwitch?'disabled':''}
-                            data-msg="确定由系统自动判断报名开关？" data-callback="_stepContentReload"
+                            data-msg="确定由系统自动判断报名开关？" data-callback="_stepReload"
                             data-url="${ctx}/crsPost_detail/step2_enrollStatus?id=${crsPost.id}
                             &enrollStatus=${CRS_POST_ENROLL_STATUS_DEFAULT}">
                         <i class="fa fa-reply"></i> 恢复自动</button>
@@ -128,7 +128,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //$("#modal").modal('hide');
-                        _stepContentReload()
+                        _stepReload()
                     }
                 }
             });

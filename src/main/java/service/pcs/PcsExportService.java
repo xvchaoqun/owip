@@ -48,7 +48,10 @@ public class PcsExportService extends BaseMapper {
     @Autowired
     protected SysConfigService sysConfigService;
 
-    private String schoolName = sysConfigService.getSchoolName();
+    public String getSchoolName(){
+
+        return sysConfigService.getSchoolName();
+    }
     /**
      * 附表5-1. 党委委员候选人推荐提名汇总表（报上级用）
      * 附表5-2. 纪委委员候选人推荐提名汇总表（报上级用）
@@ -58,9 +61,9 @@ public class PcsExportService extends BaseMapper {
         List<IPcsCandidateView> candidates =
                 iPcsMapper.selectPartyCandidates(null, null, configId, stage, type, new RowBounds());
 
-        String title = "中国共产党"+schoolName+"第十三届委员会委员";
+        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == SystemConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+schoolName+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-5-1.xlsx"));
@@ -126,9 +129,9 @@ public class PcsExportService extends BaseMapper {
         List<IPcsCandidateView> candidates =
                 iPcsMapper.selectPartyCandidates(null, isChosen, configId, stage, type, new RowBounds());
 
-        String title = "中国共产党"+schoolName+"第十三届委员会委员";
+        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == SystemConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+schoolName+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         String stage_s = "";
@@ -483,9 +486,9 @@ public class PcsExportService extends BaseMapper {
                 break;
         }
 
-        String title = "中国共产党"+schoolName+"第十三届委员会委员";
+        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == SystemConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+schoolName+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-2-1_3.xlsx"));
@@ -612,9 +615,9 @@ public class PcsExportService extends BaseMapper {
         List<IPcsCandidateView> candidates =
                 iPcsMapper.selectPartyCandidates(null, true, configId, stage, type, new RowBounds());
 
-        String title = "中国共产党"+schoolName+"第十三届委员会委员";
+        String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == SystemConstants.PCS_USER_TYPE_JW) {
-            title = "中国共产党"+schoolName+"第十三届纪律检查委员会委员";
+            title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         String filename = "wy-1-1_6.xlsx";

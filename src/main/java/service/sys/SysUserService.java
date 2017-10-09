@@ -59,9 +59,6 @@ public class SysUserService extends BaseMapper {
     @Autowired
     protected ExtBksService extBksService;
 
-    @Autowired
-    protected PcsAdminService pcsAdminService;
-
     // 获取用户所在的学校人事库或学生库中的单位名称
     public String getUnit(int userId) {
 
@@ -90,6 +87,19 @@ public class SysUserService extends BaseMapper {
             }
         }
         return unit;
+    }
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#username"),
+            @CacheEvict(value = "Menus", key = "#username"),
+            @CacheEvict(value = "SysUserView", key = "#username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
+            @CacheEvict(value = "UserPermissions", key = "#username")
+    })
+    public void clearUserCache(int userId, String username, String code) {
+
     }
 
     @Transactional
@@ -541,9 +551,12 @@ public class SysUserService extends BaseMapper {
         // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
         if (userRoles.contains(SystemConstants.ROLE_PCS_ADMIN)) {
 
-            PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
-            if (pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
-                userPermissions.remove("pcsPartyAdmin:*");
+            PcsAdminService pcsAdminService = CmTag.getBean(PcsAdminService.class);
+            if(pcsAdminService!=null) {
+                PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
+                if (pcsAdmin==null || pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
+                    userPermissions.remove("pcsPartyAdmin:*");
+                }
             }
         }
 

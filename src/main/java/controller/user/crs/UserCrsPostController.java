@@ -101,7 +101,7 @@ public class UserCrsPostController extends CrsBaseController {
         {
             CrsPostExample example = new CrsPostExample();
             example.createCriteria()
-                    .andIsPublishEqualTo(true)
+                    .andPubStatusEqualTo(SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED)
                     .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
             postCount = crsPostMapper.countByExample(example);
             modelMap.put("postCount", postCount);
@@ -136,7 +136,7 @@ public class UserCrsPostController extends CrsBaseController {
 
         CrsPostExample example = new CrsPostExample();
         CrsPostExample.Criteria criteria = example.createCriteria()
-                .andIsPublishEqualTo(true)
+                .andPubStatusEqualTo(SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED)
                 .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
         example.setOrderByClause("create_time desc");
 

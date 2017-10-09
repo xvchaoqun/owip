@@ -114,6 +114,17 @@ public class CrsPostService extends BaseMapper {
     @Transactional
     public void insertSelective(CrsPost record) {
 
+        if (record.getSeq() == null) {
+            record.setSeq(genSeq(record.getType(), record.getYear()));
+        }
+
+        record.setEnrollStatus(SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT);
+        record.setCommitteeStatus(false);
+        record.setCreateTime(new Date());
+        record.setPubStatus(SystemConstants.CRS_POST_PUB_STATUS_UNPUBLISHED);
+        record.setMeetingStatus(false);
+        record.setStatus(SystemConstants.CRS_POST_STATUS_NORMAL);
+
         crsPostMapper.insertSelective(record);
     }
 

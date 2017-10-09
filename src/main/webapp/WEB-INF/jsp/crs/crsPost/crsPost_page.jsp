@@ -142,7 +142,7 @@
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script  type="text/template" id="publish_tpl">
     <button class="confirm btn btn-{{=isPublish?'danger':'success'}} btn-xs"
-            data-msg="{{=isPublish?'确定取消发布（此记录将移至已删除）？':'确定发布？'}}" data-callback="_reload"
+            data-msg="{{=isPublish?'确定取消发布？':'确定发布？'}}" data-callback="_reload"
     data-url="${ctx}/crsPost_publish?id={{=id}}&publish={{=isPublish?0:1}}">
         <i class="fa fa-{{=isPublish?'times':'check'}}"></i> {{=isPublish?'取消发布':'发布'}}</button>
 </script>
@@ -159,8 +159,8 @@
         rownumbers: true,
         url: '${ctx}/crsPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '详情', name: '_detail', width:'60', formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crsPost_detail?id={0}">详情</a>'
+            {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/crsPost_detail?id={0}"><i class="fa fa-search"></i> 详情</button>'
                         .format(rowObject.id);
             }, frozen: true},
             {label: '年度', name: 'year', width:'60', frozen: true},
@@ -171,7 +171,10 @@
 
             }, width: 180, frozen: true
             },
-            {label: '招聘岗位', name: 'name', width:'300'},
+            {label: '招聘岗位', name: 'name', width:'300', frozen: true, formatter: function (cellvalue, options, rowObject) {
+                return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'
+                        .format(rowObject.id, cellvalue);
+            }},
             {label: '分管工作', name: 'job', width:'300', formatter: $.jgrid.formatter.NoMultiSpace},
             {
                 label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
@@ -193,24 +196,40 @@
                         .format(rowObject.id, op);
             }},*/
 
-            {label: '报名状态', name: 'signStatus', formatter: function (cellvalue, options, rowObject) {
+            {label: '报名状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
+                if(rowObject.autoSwitch){
+                    var startTime = Date.parse(rowObject.startTime);
+                    var endTime = Date.parse(rowObject.endTime);
+                    var nowTime = new Date().getTime();
+                    //console.log(startTime + " " + endTime + " "  +new Date().getTime())
+                    if(startTime > nowTime){
+                        return '未开启报名';
+                    }else if(endTime >= nowTime){
+                        return '正在报名({0})'.format(rowObject.applicantCount)
+                    }else{
+                        return '报名结束'
+                    }
+                }
+                if(cellvalue==${CRS_POST_ENROLL_STATUS_OPEN}){
+                    return '正在报名({0})'.format(rowObject.applicantCount)
+                }
                 return _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue];
             }},
             {label: '招聘会情况', name: 'meetingStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return cellvalue ? "已完成" : "未完成";
+                return cellvalue ? "已召开" : "未召开";
             }},
-            {label: '常委会情况', name: 'committeeStatus', formatter: function (cellvalue, options, rowObject) {
+            /*{label: '常委会情况', name: 'committeeStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return cellvalue ? "已上会" : "未上会";
-            }},
-            {label: '发布状态', name: 'isPublish', formatter: function (cellvalue, options, rowObject) {
+            }},*/
+            {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return cellvalue ? "已发布" : "未发布";
+                return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
             }},
             {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:rowObject.isPublish})
+                return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:(rowObject.pubStatus==${CRS_POST_PUB_STATUS_PUBLISHED})})
             }},{label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];

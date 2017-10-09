@@ -9,6 +9,7 @@ import domain.cadreReserve.CadreReserve;
 import domain.cadreReserve.CadreReserveExample;
 import domain.modify.ModifyCadreAuth;
 import domain.modify.ModifyCadreAuthExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.cadre.CadreService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
@@ -37,7 +38,7 @@ import java.util.Set;
 public class ModifyCadreAuthService extends BaseMapper {
 
     @Autowired
-    private CadreService cadreService;
+    private SysUserService sysUserService;
     @Autowired
     private MetaTypeService metaTypeService;
 
@@ -219,12 +220,15 @@ public class ModifyCadreAuthService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="ModifyCadreAuths", key = "#record.cadreId")
-    public int insertSelective(ModifyCadreAuth record){
+    public void insertSelective(ModifyCadreAuth record){
         if(BooleanUtils.isTrue(record.getIsUnlimited())){
             record.setStartTime(null);
             record.setEndTime(null);
         }
-        return modifyCadreAuthMapper.insertSelective(record);
+        modifyCadreAuthMapper.insertSelective(record);
+
+        SysUserView uv = record.getCadre().getUser();
+        sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
     }
 
     @Transactional
@@ -244,6 +248,9 @@ public class ModifyCadreAuthService extends BaseMapper {
         for (Integer cadreId : cadreIds) {
             record.setCadreId(cadreId);
             modifyCadreAuthMapper.insertSelective(record);
+
+            SysUserView uv = record.getCadre().getUser();
+            sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
         }
     }
 
@@ -253,6 +260,9 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         ModifyCadreAuth result = modifyCadreAuthMapper.selectByPrimaryKey(id);
         modifyCadreAuthMapper.deleteByPrimaryKey(id);
+
+        SysUserView uv = result.getCadre().getUser();
+        sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
         return result;
     }
 
@@ -262,9 +272,9 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        ModifyCadreAuthExample example = new ModifyCadreAuthExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        modifyCadreAuthMapper.deleteByExample(example);
+        for (Integer id : ids) {
+            del(id);
+        }
     }
 
     @Transactional
@@ -276,6 +286,9 @@ public class ModifyCadreAuthService extends BaseMapper {
         if(BooleanUtils.isTrue(record.getIsUnlimited())){
             iModifyMapper.del_ModifyCadreAuth_time(record.getId());
         }
+
+        SysUserView uv = record.getCadre().getUser();
+        sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
     }
 
     // 读取干部的所有权限设置

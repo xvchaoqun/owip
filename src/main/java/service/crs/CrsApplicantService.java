@@ -30,11 +30,22 @@ public class CrsApplicantService extends BaseMapper {
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
+    // 获得报名人员
+    public List<CrsApplicantView> getCrsApplicants(int postId){
+
+        CrsApplicantViewExample example = new CrsApplicantViewExample();
+        example.createCriteria().andPostIdEqualTo(postId)
+                .andStatusEqualTo(SystemConstants.AVAILABLE);
+
+        return crsApplicantViewMapper.selectByExample(example);
+    }
+
     // 获取资格审核推荐通过人员列表
     public List<CrsApplicantView> getPassedCrsApplicants(int postId) {
 
         CrsApplicantViewExample example = new CrsApplicantViewExample();
         example.createCriteria().andPostIdEqualTo(postId)
+                .andStatusEqualTo(SystemConstants.AVAILABLE)
                 .andIsRequireCheckPassEqualTo(true);
 
         return crsApplicantViewMapper.selectByExample(example);
@@ -72,12 +83,14 @@ public class CrsApplicantService extends BaseMapper {
         record.setEnrollTime(new Date());
         record.setIsRecommend(false);
         record.setInfoCheckStatus(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
+        record.setRequireCheckStatus(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT); //
         record.setIsQuit(false);
         record.setStatus(SystemConstants.AVAILABLE);
         crsApplicantMapper.insertSelective(record);
 
         sysApprovalLogService.add(record.getId(), record.getUserId(),
-                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                (userId==ShiroHelper.getCurrentUserId())?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
+                        :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
                 "应聘报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 JSONUtils.toString(record, MixinUtils.baseMixins(), false));
@@ -120,6 +133,12 @@ public class CrsApplicantService extends BaseMapper {
         record.setIsQuit(true);
 
         crsApplicantMapper.updateByPrimaryKeySelective(record);
+
+        sysApprovalLogService.add(record.getId(), userId,
+                (userId.intValue()==ShiroHelper.getCurrentUserId())?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
+                        :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
+                "退出竞聘", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 重新报名
@@ -139,6 +158,12 @@ public class CrsApplicantService extends BaseMapper {
         record.setIsQuit(false);
 
         crsApplicantMapper.updateByPrimaryKeySelective(record);
+
+        sysApprovalLogService.add(record.getId(), userId,
+                (userId.intValue()==ShiroHelper.getCurrentUserId())?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
+                        :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
+                "重新报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 调整岗位
@@ -162,12 +187,24 @@ public class CrsApplicantService extends BaseMapper {
             record.setId(avaliable.getId());
             record.setStatus(SystemConstants.UNAVAILABLE);
             crsApplicantMapper.updateByPrimaryKeySelective(record);
+
+            sysApprovalLogService.add(applyPostId, confirmUserId,
+                    (confirmUserId.intValue()==ShiroHelper.getCurrentUserId())?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
+                            :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
+                    "调整岗位(调整前的岗位)", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
 
         // 添加岗位
         for (Integer selectablePostId : selectablePostIds) {
 
             apply(selectablePostId, confirmUserId);
+
+            sysApprovalLogService.add(selectablePostId, confirmUserId,
+                    (confirmUserId.intValue()==ShiroHelper.getCurrentUserId())?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
+                            :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
+                    "调整岗位(调整后的岗位)", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
 
         CrsApplicantAdjust adjust = new CrsApplicantAdjust();

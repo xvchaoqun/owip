@@ -15,17 +15,6 @@
              data-querystr="&postId=${param.postId}"><i class="fa fa-edit"></i>
               修改</a>--%>
     </shiro:hasPermission>
-
-        <a class="jqOpenViewBtn btn btn-warning btn-sm"
-           data-url="${ctx}/crsApplicant_infoCheck"
-           data-id-name="applicantId"
-           data-grid-id="#jqGrid2"><i class="fa fa-check-circle"></i> 信息审核</a>
-    </c:if>
-    <c:if test="${param.cls==4}">
-        <a class="jqOpenViewBtn btn btn-warning btn-sm"
-           data-url="${ctx}/crsApplicant_requireCheck"
-           data-id-name="applicantId" data-width="1000"
-           data-grid-id="#jqGrid2"><i class="fa fa-hourglass-1"></i> 资格审核</a>
     </c:if>
     <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-success btn-sm"
        data-open-by="page"
@@ -34,7 +23,7 @@
        data-querystr="&cls=${param.cls}"
        data-url="${ctx}/crsApplicant_recommend"><i class="fa fa-thumbs-o-up"></i> 推荐/自荐</a>
 
-    <c:if test="${param.cls==5}">
+    <c:if test="${param.cls==2}">
         <button id="unSpecialBtn" class="jqItemBtn btn btn-warning btn-sm"
                 data-title="取消破格"
                 data-msg="确定取消破格？"
@@ -44,7 +33,7 @@
                 data-url="${ctx}/crsApplicant_special"><i class="fa fa-star-o"></i> 取消破格
         </button>
     </c:if>
-    <c:if test="${param.cls==6}">
+    <c:if test="${param.cls==3}">
         <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-warning btn-sm"
            data-open-by="page"
            data-load-el="#step-item-content"
@@ -52,7 +41,7 @@
            data-querystr="&cls=${param.cls}"
            data-url="${ctx}/crsApplicant_special"><i class="fa fa-star"></i> 破格</a>
     </c:if>
-    <c:if test="${param.cls==5 || param.cls==6}">
+    <c:if test="${param.cls==2 || param.cls==3}">
         <button id="unSpecialBtn" class="jqItemBtn btn btn-primary btn-sm"
                 data-title="重新审核"
                 data-msg="确定重新审核？"
@@ -61,7 +50,30 @@
                 data-url="${ctx}/crsApplicant_requireCheck_back"><i class="fa fa-reply"></i> 重新审核
         </button>
     </c:if>
-
+    <c:if test="${param.cls!=4}">
+        <button data-url="${ctx}/user/crsPost_quit"
+                data-title="退出"
+                data-msg="确定退出竞聘？"
+                data-grid-id="#jqGrid2"
+                data-id-name="applicantId"
+                data-querystr="postId=${param.postId}"
+                data-callback="_stepReload"
+                class="jqItemBtn btn btn-danger btn-sm">
+            <i class="fa fa-minus-circle"></i> 退出
+        </button>
+    </c:if>
+    <c:if test="${param.cls==4}">
+        <button data-url="${ctx}/user/crsPost_reApply"
+                data-title="重新报名"
+                data-msg="确定重新报名？"
+                data-grid-id="#jqGrid2"
+                data-id-name="applicantId"
+                data-querystr="postId=${param.postId}"
+                data-callback="_stepReload"
+                class="jqItemBtn btn btn-warning btn-sm">
+            <i class="fa fa-reply"></i> 重新报名
+        </button>
+    </c:if>
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
@@ -147,17 +159,32 @@
         colModel: [
             {
                 label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}
+                formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}, frozen: true
             },
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
-            {label: '姓名', name: 'user.realname', width: 120},
-            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 350},
+            {label: '姓名', name: 'user.realname', width: 120, frozen: true},
+            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200, frozen: true},
+            <c:if test="${param.cls==1}">
+            {label: '信息审核', name: 'infoCheckStatus', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==${CRS_APPLICANT_INFO_CHECK_STATUS_INIT})
+                    return '<button class="popupBtn btn btn-warning btn-xs" data-url="${ctx}/crsApplicant_infoCheck?applicantId={0}"><i class="fa fa-check-circle"></i> 信息审核</button>'
+                            .format(rowObject.id);
+                else
+                return _cMap.CRS_APPLICANT_INFO_CHECK_STATUS_MAP[cellvalue];
+            }, frozen: true},
+            {label: '资格审核', name: '_requireCheck', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.infoCheckStatus!=${CRS_APPLICANT_INFO_CHECK_STATUS_PASS}) return '-';
+
+                return '<button class="popupBtn btn btn-success btn-xs" data-width="1000" data-url="${ctx}/crsApplicant_requireCheck?applicantId={0}"><i class="fa fa-hourglass-1"></i> 资格审核</button>'
+                        .format(rowObject.id);
+            }, frozen: true},
+            </c:if>
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'cadre.nation', width: 60},
             {
-                label: '党派', name: 'cadre.cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
+                label: '政治面貌', name: 'cadre.cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 if (cellvalue == 0) return "中共党员"
                 else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
@@ -174,7 +201,6 @@
                 }
             },
             {label: '最高学历', name: 'cadre.eduId', formatter: $.jgrid.formatter.MetaType},
-            {label: '最高学位', name: 'cadre.degree'},
             {label: '毕业学校', name: 'cadre.school', width: 150},
             {label: '所学专业', name: 'cadre.major', width: 180, align: 'left'},
             {
@@ -226,7 +252,7 @@
                         'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${param.cls}">推荐/自荐</a>'.format(rowObject.id);
             }
             }
-            <c:if test="${param.cls==5}">
+            <c:if test="${param.cls==2}">
             , {
                 label: '通过方式',
                 name: '_isRequireCheckPass',
@@ -243,7 +269,7 @@
                 }
             }
         ]
-        <c:if test="${param.cls==5}">
+        <c:if test="${param.cls==2}">
         ,
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id);

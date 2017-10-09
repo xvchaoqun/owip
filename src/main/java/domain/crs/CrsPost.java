@@ -1,13 +1,22 @@
 package domain.crs;
 
 import domain.unit.Unit;
+import service.crs.CrsApplicantService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class CrsPost implements Serializable {
+
+    public int getApplicantCount(){
+
+        CrsApplicantService crsApplicantService = CmTag.getBean(CrsApplicantService.class);
+        List<CrsApplicantView> crsApplicants = crsApplicantService.getCrsApplicants(id);
+        return crsApplicants.size();
+    }
 
     public Unit getUnit() {
         return CmTag.getUnit(unitId);
@@ -92,7 +101,7 @@ public class CrsPost implements Serializable {
 
     private Date createTime;
 
-    private Boolean isPublish;
+    private Byte pubStatus;
 
     private Byte status;
 
@@ -294,12 +303,12 @@ public class CrsPost implements Serializable {
         this.createTime = createTime;
     }
 
-    public Boolean getIsPublish() {
-        return isPublish;
+    public Byte getPubStatus() {
+        return pubStatus;
     }
 
-    public void setIsPublish(Boolean isPublish) {
-        this.isPublish = isPublish;
+    public void setPubStatus(Byte pubStatus) {
+        this.pubStatus = pubStatus;
     }
 
     public Byte getStatus() {

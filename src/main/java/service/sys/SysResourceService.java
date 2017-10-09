@@ -111,9 +111,26 @@ public class SysResourceService extends BaseMapper{
 					menus.add(res);
 				}else{
 					SysResource parent = sortedPermissions.get(res.getParentId());
+
 					// id=1是顶级节点，此值必须固定为1
-					if(parent.getId()==1 || ownPermissions.contains(parent.getPermission())) {
+					if(parent.getId()==1 ) {
 						menus.add(res);
+						continue;
+					}
+
+					// 必须拥有全部层级的父目录，才显示
+					List<String> parents = new ArrayList<>();
+					while (parent!=null && parent.getId()!=1){
+						parents.add(parent.getPermission());
+						if(parent.getParentId()!=null)
+							parent = sortedPermissions.get(parent.getParentId());
+						else
+							parent = null;
+					}
+
+					if(ownPermissions.containsAll(parents)) {
+						menus.add(res);
+						continue;
 					}
 				}
 			}

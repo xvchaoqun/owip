@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
     $("#modalForm select[name=type]").on("change",function(){
         var type = $(this).val();
         if(type>0) {
-            ke.html(templateMap[type].content);
+            ke.html(KindEditor.unescape(templateMap[type].content));
             ke.readonly();
         }else{
             ke.readonly(false);

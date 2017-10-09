@@ -147,6 +147,9 @@ public class SysUserSyncService extends BaseMapper {
             logger.error("同步出错", ex);
         }
 
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(record.getId());
+        sysUserService.addRole(_sysUser.getId(), SystemConstants.ROLE_TEACHER, _sysUser.getUsername(), _sysUser.getCode());
+
         return ret;
     }
 

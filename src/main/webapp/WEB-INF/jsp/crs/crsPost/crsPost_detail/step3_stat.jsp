@@ -53,20 +53,20 @@
     </tbody>
 </table>
 <style>
-    .table th, .center-text{
+    .step-content .table th, .step-content .center-text{
         text-align: center;
         vertical-align: middle!important;
     }
-    .num{
+    .step-content span.num{
         display:inline-block;width: 40px;border-bottom:1px solid #000; text-align: center
     }
-    .title{
+    .step-content .title{
         margin-top:30px;margin-bottom: 40px;
     }
-    .title .first{
+    .step-content .title .first{
         font-size: 18pt; font-weight: bolder; text-align: center
     }
-    .title .sencond{
+    .step-content .title .sencond{
         font-size: 16pt; font-weight: bolder; text-align: center
     }
 </style>

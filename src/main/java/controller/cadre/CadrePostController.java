@@ -216,6 +216,7 @@ public class CadrePostController extends BaseController {
         return "cadre/cadrePost/cadrePost_addDispatchs";
     }
 
+    @RequiresPermissions("cadrePost:edit")
     @RequestMapping(value = "/cadrePost_addDispatchs", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cadrePost_addDispatchs(HttpServletRequest request,

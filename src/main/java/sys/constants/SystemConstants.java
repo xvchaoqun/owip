@@ -54,6 +54,7 @@ public class SystemConstants {
     public static final String ROLE_CADRE = "cadre";
     public static final String ROLE_CADRERESERVE = "cadreReserve"; // 后备干部
     public static final String ROLE_CADREINSPECT = "cadreInspect"; // 考察对象
+    public static final String ROLE_CADRE_RECRUIT = "cadreRecruit"; // 应聘干部（普通教师）
     public static final String ROLE_MEMBER = "member";
     public static final String ROLE_INFLOWMEMBER = "inflowMember";
     public static final String ROLE_PARTYADMIN = "partyAdmin";
@@ -74,6 +75,7 @@ public class SystemConstants {
         ROLE_MAP.put(ROLE_CADRE, "干部");
         ROLE_MAP.put(ROLE_CADRERESERVE, "后备干部");
         ROLE_MAP.put(ROLE_CADREINSPECT, "考察对象");
+        ROLE_MAP.put(ROLE_CADRE_RECRUIT, "应聘干部");
         ROLE_MAP.put(ROLE_MEMBER, "党员");
         ROLE_MAP.put(ROLE_INFLOWMEMBER, "流入党员");
         ROLE_MAP.put(ROLE_PARTYADMIN, "分党委管理员");
@@ -700,6 +702,7 @@ public class SystemConstants {
     public final static byte CADRE_STATUS_MIDDLE = 1;
     public final static byte CADRE_STATUS_LEADER_LEAVE = 4;
     public final static byte CADRE_STATUS_LEADER = 6;
+    public final static byte CADRE_STATUS_RECRUIT = 7; // 应聘干部
 
     public final static Map<Byte, String> CADRE_STATUS_MAP = new LinkedHashMap<>();
     public final static Set<Byte> CADRE_STATUS_SET = new HashSet<>(); // 干部角色对应的所有状态
@@ -1233,6 +1236,19 @@ public class SystemConstants {
         CRS_POST_RULE_TYPE_MAP.put(CRS_POST_RULE_TYPE_BXGZ, "本校工作年限");
     }
 
+    // 干部招聘 岗位发布状态，0 未发布 1 已发布  2 取消发布
+    public final static byte CRS_POST_PUB_STATUS_UNPUBLISHED = 0;
+    public final static byte CRS_POST_PUB_STATUS_PUBLISHED = 1;
+    public final static byte CRS_POST_PUB_STATUS_CANCEL = 2;
+    public static Map<Byte, String> CRS_POST_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CRS_POST_PUB_STATUS_MAP.put(CRS_POST_PUB_STATUS_UNPUBLISHED, "未发布");
+        CRS_POST_PUB_STATUS_MAP.put(CRS_POST_PUB_STATUS_PUBLISHED, "已发布");
+        CRS_POST_PUB_STATUS_MAP.put(CRS_POST_PUB_STATUS_CANCEL, "取消发布");
+    }
+
     // 干部招聘 岗位报名状态，0 根据报名时间而定 1 强制开启、2 强制关闭、3 暂停报名
     public final static byte CRS_POST_ENROLL_STATUS_DEFAULT = 0;
     public final static byte CRS_POST_ENROLL_STATUS_OPEN = 1;
@@ -1243,9 +1259,9 @@ public class SystemConstants {
     static {
 
         CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_DEFAULT, "根据报名时间而定");
-        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_OPEN, "开启");
-        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_CLOSED, "关闭");
-        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_PAUSE, "暂停");
+        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_OPEN, "正在报名");
+        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_CLOSED, "报名结束");
+        CRS_POST_ENROLL_STATUS_MAP.put(CRS_POST_ENROLL_STATUS_PAUSE, "暂停报名");
     }
 
     // 干部招聘 岗位专家角色， 1 组长 2 校领导 3 成员
@@ -1280,8 +1296,8 @@ public class SystemConstants {
     static {
 
         CRS_APPLICANT_INFO_CHECK_STATUS_MAP.put(CRS_APPLICANT_INFO_CHECK_STATUS_INIT, "待审核");
-        CRS_APPLICANT_INFO_CHECK_STATUS_MAP.put(CRS_APPLICANT_INFO_CHECK_STATUS_PASS, "通过");
-        CRS_APPLICANT_INFO_CHECK_STATUS_MAP.put(CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS, "未通过");
+        CRS_APPLICANT_INFO_CHECK_STATUS_MAP.put(CRS_APPLICANT_INFO_CHECK_STATUS_PASS, "审核通过");
+        CRS_APPLICANT_INFO_CHECK_STATUS_MAP.put(CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS, "审核未通过");
     }
 
     // 招聘岗位 报名人员 资格审核状态，0 待审核 1 通过 2 未通过

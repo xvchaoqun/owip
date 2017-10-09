@@ -27,10 +27,10 @@
         <table tableName="verify_work_time" domainObjectName="verify.VerifyWorkTime">
         </table>-->
 
-        <!--<table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
+        <table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
             <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--  <table tableName="crs_short_msg" domainObjectName="crs.CrsShortMsg" mapperName="crs.CrsShortMsgMapper">
           </table>-->
         <!--<table tableName="crs_post_expert" domainObjectName="crs.CrsPostExpert"  mapperName="crs.CrsPostExpertMapper">
@@ -338,8 +338,8 @@
                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                  enableDeleteByExample="false">
           </table>-->
-        <table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
-        </table>
+        <!--<table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
+        </table>-->
 
         <!--
         <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">

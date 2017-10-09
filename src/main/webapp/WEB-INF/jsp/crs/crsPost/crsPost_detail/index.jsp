@@ -15,12 +15,18 @@
                     招聘岗位：${crsPost.name}
                 </span>
                 <div class="widget-toolbar no-border">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" id="detail-ul">
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-content" data-callback="_menuSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=1">
                                 <i class="green ace-icon fa fa-bullhorn bigger-120"></i> 公告和资格</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="loadPage"
+                               data-load-el="#step-content" data-callback="_menuSelected"
+                               data-url="${ctx}/crsPost_detail/step2_time?id=${param.id}">
+                                <i class="green ace-icon fa fa-calendar bigger-120"></i> 报名时间管理</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
@@ -48,6 +54,10 @@
     </div>
 </div>
 <script>
+
+    function _stepReload(){
+        $("#detail-ul li.active .loadPage").click()
+    }
 
     function _stepContentReload(){
         $("#step-content li.active .loadPage").click()

@@ -86,23 +86,18 @@ public class CrsApplicantController extends CrsBaseController {
 
         switch (cls) {
             case 1:
-                criteria.andInfoCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
+                criteria.andRequireCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT)
+                        .andIsQuitEqualTo(false).andIsRequireCheckPassEqualTo(false);
                 break;
-            case 2:
-                criteria.andInfoCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS);
+            case 2: // 资格审核通过 或 破格
+                criteria.andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false);
                 break;
             case 3:
-                criteria.andInfoCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS);
+                criteria.andIsRequireCheckPassEqualTo(false).andIsQuitEqualTo(false)
+                        .andRequireCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS);
                 break;
             case 4:
-                criteria.andRequireCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT);
-                break;
-            case 5: // 资格审核通过 或 破格
-                criteria.andIsRequireCheckPassEqualTo(true);
-                break;
-            case 6:
-                criteria.andIsRequireCheckPassEqualTo(false)
-                        .andRequireCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS);
+                criteria.andIsQuitEqualTo(true);
                 break;
         }
 
