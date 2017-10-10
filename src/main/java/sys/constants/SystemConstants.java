@@ -1330,6 +1330,7 @@ public class SystemConstants {
     public final static byte VERIFY_AGE_TYPE_ERROR = 1;
     public final static byte VERIFY_AGE_TYPE_LARGE = 2;
     public final static byte VERIFY_AGE_TYPE_SMALL = 3;
+    public final static byte VERIFY_AGE_TYPE_OTHER = 4;
     public static Map<Byte, String> VERIFY_AGE_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
@@ -1337,6 +1338,7 @@ public class SystemConstants {
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_ERROR, "阴阳历换算造成误差");
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_LARGE, "出生时间改大了，保持现状");
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_SMALL, "出生时间改小了，重新认定");
+        VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_OTHER, "其他");
     }
 
     // 干部档案审核 参加工作时间认定类别  1：阴阳历换算造成误差 2：参加工作时间改大了，保持现状 3：参加工作时间改小了，重新认定
