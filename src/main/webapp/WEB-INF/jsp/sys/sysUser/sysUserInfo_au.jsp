@@ -134,7 +134,7 @@
                 <label class="col-xs-3 control-label">健康状况</label>
 
                 <div class="col-xs-6">
-                    <select required data-rel="select2" name="health"
+                    <select data-rel="select2" name="health"
                             data-placeholder="请选择" data-width="162">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_health"/>

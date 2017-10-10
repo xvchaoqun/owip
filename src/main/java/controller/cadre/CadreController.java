@@ -353,6 +353,7 @@ public class CadreController extends BaseController {
 
         CadreView cadre = cadreService.findAll().get(cadreId);
         modelMap.put("cadre", cadre);
+        modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
 
         return "cadre/cadre_view";
     }
