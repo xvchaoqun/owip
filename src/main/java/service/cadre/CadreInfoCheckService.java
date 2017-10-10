@@ -92,7 +92,7 @@ public class CadreInfoCheckService extends BaseMapper {
         TeacherInfo ti = teacherInfoMapper.selectByPrimaryKey(userId);
         switch (name) {
             case "work_time":
-                exist = (ti.getWorkTime() != null);
+                exist = (ti!=null && ti.getWorkTime() != null);
                 break;
         }
 
