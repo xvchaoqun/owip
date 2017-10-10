@@ -32,6 +32,19 @@
         rownumbers: true,
         url: '${ctx}/user/crsPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '应聘报名', name: '_apply',  formatter: function (cellvalue, options, rowObject) {
+
+                var postIds = ${cm:toJSONArray(postIds)};
+                //console.log(postIds.indexOf(rowObject.id))
+                if(postIds.indexOf(rowObject.id)>=0) return "已报名";
+
+                if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}'){
+                    return '-'
+                }
+
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-dot-circle-o"></i> 应聘</button>'
+                        .format(rowObject.id)
+            }, frozen: true},
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
@@ -63,20 +76,7 @@
             }},
             {label: '招聘人数', name: 'num', width: 90},
             {label: '应聘截止时间', name: 'endTime', width: 150, formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}},
-            {label: '应聘报名', name: '_apply',  formatter: function (cellvalue, options, rowObject) {
-
-                var postIds = ${cm:toJSONArray(postIds)};
-                //console.log(postIds.indexOf(rowObject.id))
-                if(postIds.indexOf(rowObject.id)>=0) return "已报名";
-
-                if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}'){
-                    return '-'
-                }
-
-                return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/user/crsPost_apply?postId={0}">应聘报名</a>'
-                        .format(rowObject.id)
-            }},
+                formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');

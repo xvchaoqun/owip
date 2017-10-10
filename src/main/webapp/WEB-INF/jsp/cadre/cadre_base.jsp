@@ -885,6 +885,34 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</div>
+		<shiro:hasRole name="${ROLE_CADRE_RECRUIT}">
+		<div class="widget-box transparent">
+			<div class="widget-header widget-header-flat">
+				<h4 class="widget-title lighter">
+					<i class="ace-icon fa fa-info-circle blue"></i>
+					干部信息
+				</h4>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main no-padding">
+					<table class="table table-unhover table-bordered table-striped">
+						<tbody>
+						<tr>
+							<td style="width: 300px;">
+								所在单位及职务
+							</td>
+							<td>
+								<input required type="text" name="title" value="${cadre.title}" style="width: 500px">
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</shiro:hasRole>
 		<div class="widget-box transparent">
 			<div class="widget-header widget-header-flat">
 				<h4 class="widget-title lighter">

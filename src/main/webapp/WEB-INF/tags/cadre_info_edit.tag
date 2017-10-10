@@ -9,14 +9,13 @@
 <%@ attribute name="toEdit" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="updateName" type="java.lang.String" required="false"%>
 
-<c:set var="ROLE_ADMIN" value="<%=SystemConstants.ROLE_ADMIN%>"/>
-<c:set var="ROLE_CADREADMIN" value="<%=SystemConstants.ROLE_CADREADMIN%>"/>
+<c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
 <c:set var="_editUrl" value="${ctx}/user/cadre"/>
 <c:set var="_editType" value="loadPage"/>
-<shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_CADREADMIN}">
+<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
   <c:set var="_editUrl" value="${ctx}/cadre_view"/>
   <c:set var="_editType" value="openView"/>
-</shiro:hasAnyRoles>
+</shiro:hasPermission>
 
 <c:if test="${notExist}">
   <c:if test="${toEdit}">

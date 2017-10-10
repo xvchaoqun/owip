@@ -14,7 +14,11 @@
     </thead>
     <tbody>
     <tr>
-        <td rowspan="10">
+        <c:set var="baseRowspan" value="10"/>
+        <c:if test="${cm:hasRole(ROLE_CADRE_RECRUIT)}">
+        <c:set var="baseRowspan" value="11"/>
+        </c:if>
+        <td rowspan="${baseRowspan}">
             基本信息
         </td>
         <td>照片</td>
@@ -116,6 +120,18 @@
             <t:cadre_base_edit notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}" toEdit="${toEdit}"/>
         </td>
     </tr>
+<c:if test="${cm:hasRole(ROLE_CADRE_RECRUIT)}">
+    <tr>
+        <td>所在单位及职务</td>
+        <td>
+            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'title', 7)}"/>
+            ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
+        </td>
+        <td>
+            <t:cadre_base_edit notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}" toEdit="${toEdit}"/>
+        </td>
+    </tr>
+    </c:if>
     <tr>
         <td rowspan="2">
             学习经历
@@ -172,7 +188,11 @@
         </td>
         <td>专技岗位过程信息</td>
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'post_pro', 4)}"/>
+            <c:set var="updateName" value="post_pro"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -180,13 +200,17 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=1"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"
-                    updateName="post_pro"/>
+                    updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>管理岗位过程信息</td>
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'post_admin', 4)}"/>
+            <c:set var="updateName" value="post_admin"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -194,13 +218,17 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=2"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"
-                    updateName="post_admin"/>
+                    updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>工勤岗位过程信息</td>
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'post_work', 4)}"/>
+            <c:set var="updateName" value="post_work"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -208,7 +236,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadrePostInfo_page&type=3"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"
-                    updateName="post_work"/>
+                    updateName="${updateName}"/>
         </td>
     </tr>
 
@@ -219,7 +247,11 @@
         </td>
         <td>社会或学术兼职</td>
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'parttime', 3)}"/>
+            <c:set var="updateName" value="parttime"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -227,7 +259,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreParttime_page"
                     applyUrl="${ctx}/modifyCadreParttime"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="parttime"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
@@ -236,7 +268,11 @@
         </td>
         <td>培训情况</td>
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'train', 3)}"/>
+            <c:set var="updateName" value="train"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -244,7 +280,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreTrain_page"
                     applyUrl="${ctx}/modifyCadreTrain"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="train"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
 
@@ -255,7 +291,11 @@
         <td>承担本、硕、博课程情况</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'course', 3)}"/>
+            <c:set var="updateName" value="course"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -263,14 +303,18 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreCourse_page&type=1"
                     applyUrl="${ctx}/modifyCadreCourse"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="course"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>教学成果及获奖情况</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreRewardCheck(param.cadreId, CADRE_REWARD_TYPE_TEACH)}"/>
+            <c:set var="updateName" value="course_reward"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreRewardCheck(param.cadreId, CADRE_REWARD_TYPE_TEACH)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -278,7 +322,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreCourse_page&type=2"
                     applyUrl="${ctx}/modifyCadreReward?rewardType=1"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="course_reward"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
@@ -288,7 +332,11 @@
         <td>主持科研项目</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreResearchCheck(param.cadreId, CADRE_RESEARCH_TYPE_DIRECT)}"/>
+            <c:set var="updateName" value="research_direct"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreResearchCheck(param.cadreId, CADRE_RESEARCH_TYPE_DIRECT)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -296,14 +344,18 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}"
                     applyUrl="${ctx}/modifyCadreResearch?researchType=1"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="research_direct"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>参与科研项目</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreResearchCheck(param.cadreId, CADRE_RESEARCH_TYPE_IN)}"/>
+            <c:set var="updateName" value="research_in"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreResearchCheck(param.cadreId, CADRE_RESEARCH_TYPE_IN)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -311,14 +363,18 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}"
                     applyUrl="${ctx}/modifyCadreResearch?researchType=2"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="research_in"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>出版著作</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'book', 3)}"/>
+            <c:set var="updateName" value="book"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -326,14 +382,18 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_BOOK_SUMMARY}"
                     applyUrl="${ctx}/modifyCadreBook"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="book"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>发表论文</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'paper', 3)}"/>
+            <c:set var="updateName" value="paper"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -341,14 +401,18 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_PAPER_SUMMARY}"
                     applyUrl="${ctx}/modifyCadrePaper"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="paper"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
         <td>科研成果及获奖</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreRewardCheck(param.cadreId, CADRE_REWARD_TYPE_RESEARCH)}"/>
+            <c:set var="updateName" value="research_reward"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreRewardCheck(param.cadreId, CADRE_REWARD_TYPE_RESEARCH)}"/>
+           </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -356,7 +420,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_REWARD}"
                     applyUrl="${ctx}/modifyCadreReward?rewardType=2"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="research_reward"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
@@ -366,7 +430,11 @@
         <td>其他奖励情况</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreRewardCheck(param.cadreId, CADRE_REWARD_TYPE_OTHER)}"/>
+            <c:set var="updateName" value="reward"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreRewardCheck(param.cadreId, CADRE_REWARD_TYPE_OTHER)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
@@ -374,7 +442,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreReward_page&rewardType=${CADRE_REWARD_TYPE_OTHER}"
                     applyUrl="${ctx}/modifyCadreReward?rewardType=3"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="reward"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
 
@@ -398,14 +466,18 @@
     <tr>
         <td>家庭成员移居国（境）外的情况</td>
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'famliy_abroad', 4)}"/>
+            <c:set var="updateName" value="famliy_abroad"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreFamliy_page"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="famliy_abroad"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
     <tr>
@@ -415,7 +487,11 @@
         <td>企业、社团兼职</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'train', 3)}"/>
+            <c:set var="updateName" value="company"/>
+            <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
+            <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+            </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td class="bg-left">
@@ -423,7 +499,7 @@
                     editUrl="?cadreId=${param.cadreId}&to=cadreCompany"
                     applyUrl="${ctx}/modifyCadreCompany"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
-                    toEdit="${toEdit}" updateName="company"/>
+                    toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
     </tr>
 
@@ -431,7 +507,7 @@
 </table>
 </div>
 <style>
-    .checkTable thead th {
+    .table thead th {
         text-align: center!important;
         vertical-align: middle!important;
     }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.ICrsPost;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -86,6 +87,25 @@ public class UserApplyCrsPostController extends CrsBaseController {
         baseMixins.put(ICrsPost.class, UserCrsPostMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    @RequiresPermissions("userApplyCrsPost:*")
+    @RequestMapping(value = "/crsPost_start", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsPost_start(HttpServletRequest request) {
+
+        int cadreId = crsApplicantService.start();
+
+
+        logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-开始采集信息"));
+
+        boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadreId);
+
+        Map<String, Object> result = success(FormUtils.SUCCESS);
+        result.put("cadreId", cadreId);
+        result.put("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
+
+        return result;
     }
 
     // 管理员也拥有该权限

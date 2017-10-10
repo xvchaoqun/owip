@@ -74,7 +74,10 @@ public class ShiroUser implements Serializable {
     }
 
 
+    public void setRoles(Set<String> roles) {
 
+        this.roles = roles;
+    }
     public Set<String> getRoles() {
 
         if (roles == null) roles = CmTag.findRoles(username);

@@ -232,8 +232,10 @@ public class CadreService extends BaseMapper {
                 && record.getStatus() != SystemConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
         SysUserView uv = sysUserService.findById(userId);
-        // 添加干部身份
-        sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
+        if(SystemConstants.CADRE_STATUS_SET.contains(record.getStatus())){
+            // 添加干部身份
+            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
+        }
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
         CadreView cadre = dbFindByUserId(userId);
@@ -440,5 +442,16 @@ public class CadreService extends BaseMapper {
         record.setUserId(userId);
         record.setWorkTime(_workTime);
         teacherInfoMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    public void updateTitle(int cadreId, String title) {
+
+        // 修改所在单位及职务
+        Cadre record = new Cadre();
+        record.setId(cadreId);
+        record.setTitle(title);
+        cadreMapper.updateByPrimaryKeySelective(record);
     }
 }

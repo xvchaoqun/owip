@@ -1,12 +1,16 @@
 package service.crs;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantAdjust;
 import domain.crs.CrsApplicantExample;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
 import domain.crs.CrsPost;
+import domain.modify.ModifyCadreAuth;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.cadre.CadreService;
+import service.modify.ModifyCadreAuthService;
 import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -29,6 +36,12 @@ public class CrsApplicantService extends BaseMapper {
 
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private CadreService cadreService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private ModifyCadreAuthService modifyCadreAuthService;
 
     // 获得报名人员
     public List<CrsApplicantView> getCrsApplicants(int postId){
@@ -232,5 +245,55 @@ public class CrsApplicantService extends BaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
                 "更新报名人员", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 JSONUtils.toString(oldRecord, MixinUtils.baseMixins(), false));
+    }
+
+    // 开始采集信息
+    @Transactional
+    public int start() {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        SysUserView uv = sysUserService.findById(userId);
+        CadreView cv = cadreService.dbFindByUserId(userId);
+        if(ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE,
+                SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADRERESERVE)){
+            return cv.getId();
+        }
+
+        int cadreId;
+        if(cv!=null ){
+            cadreId = cv.getId();
+            Assert.isTrue(cv.getStatus()==SystemConstants.CADRE_STATUS_RECRUIT, "应聘干部状态异常");
+        }else{
+            Cadre record  = new Cadre();
+            record.setUserId(userId);
+            record.setStatus(SystemConstants.CADRE_STATUS_RECRUIT);
+            cadreService.insertSelective(record);
+
+            cadreId = record.getId();
+        }
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADRE_RECRUIT)) {
+
+            sysUserService.addRole(userId, SystemConstants.ROLE_CADRE_RECRUIT, uv.getUsername(), uv.getCode());
+            ShiroHelper.refreshRoles();
+        }
+
+        List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadreId);
+        if(modifyCadreAuths!=null && modifyCadreAuths.size()>0){
+
+            ModifyCadreAuth record = modifyCadreAuths.get(0);
+            record.setIsUnlimited(true);
+            modifyCadreAuthService.updateByPrimaryKeySelective(record);
+        }else{
+            ModifyCadreAuth record = new ModifyCadreAuth();
+            record.setCadreId(cadreId);
+            record.setIsUnlimited(true);
+            record.setAddTime(new Date());
+            record.setAddUserId(userId);
+            record.setAddIp(ContextHelper.getRealIp());
+
+            modifyCadreAuthService.insertSelective(record, uv);
+        }
+
+        return cadreId;
     }
 }

@@ -595,6 +595,8 @@ public class CmTag {
             return cadreInfoCheckService.baseCheck(cadreId, name);
         else if(type==2)
             return cadreInfoCheckService.staffCheck(cadreId, name);
+        else if(type==7)
+            return cadreInfoCheckService.cadreCheck(cadreId, name);
         else if(type==3)
             return cadreInfoCheckService.cadreInfoModifyCheck(cadreId, name);
         else if(type==4)

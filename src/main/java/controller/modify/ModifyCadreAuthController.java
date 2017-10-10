@@ -108,7 +108,7 @@ public class ModifyCadreAuthController extends BaseController {
         record.setAddIp(IpUtils.getRealIp(request));
 
         if (id == null) {
-            modifyCadreAuthService.insertSelective(record);
+            modifyCadreAuthService.insertSelective(record, record.getCadre().getUser());
             logger.info(addLog( SystemConstants.LOG_ADMIN, "添加干部信息修改权限设置：%s", record.getId()));
         } else {
             modifyCadreAuthService.updateByPrimaryKeySelective(record);

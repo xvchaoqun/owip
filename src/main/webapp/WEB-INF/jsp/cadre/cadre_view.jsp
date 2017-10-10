@@ -102,7 +102,7 @@
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInfo:check">
-                    <li>
+                    <li class="${to=='cadreInfoCheck_table'?'active':''}">
                         <a href="javascript:"
                            data-url="${ctx}/cadreInfoCheck_table?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息完整性校验表</a>
                     </li>

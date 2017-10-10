@@ -100,6 +100,23 @@ public class CadreInfoCheckService extends BaseMapper {
                 : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
+    // 干部信息
+    public byte cadreCheck(int cadreId, String name) {
+
+        CadreView cv = cadreViewMapper.selectByPrimaryKey(cadreId);
+        int userId = cv.getUserId();
+
+        boolean exist = false;
+        switch (name) {
+            case "title":
+                exist = StringUtils.isNotBlank(cv.getTitle());
+                break;
+        }
+
+        return exist ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+    }
+
     // 最高学历
     public Byte cadreHighEduCheck(int cadreId) {
 

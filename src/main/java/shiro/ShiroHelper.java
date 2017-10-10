@@ -70,7 +70,15 @@ public class ShiroHelper extends BaseShiroHelper{
 		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
 		return (shiroUser!=null)?shiroUser.getId():null;
 	}
-	
+
+	// 重新加载当前登陆用户权限
+	public static void refreshRoles() {
+
+		Subject subject = getSubject();
+		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
+		shiroUser.setRoles(null);
+	}
+
 	/**
 	 * @param username
 	 * @return

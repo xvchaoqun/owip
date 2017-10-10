@@ -220,14 +220,13 @@ public class ModifyCadreAuthService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="ModifyCadreAuths", key = "#record.cadreId")
-    public void insertSelective(ModifyCadreAuth record){
+    public void insertSelective(ModifyCadreAuth record, SysUserView uv){
         if(BooleanUtils.isTrue(record.getIsUnlimited())){
             record.setStartTime(null);
             record.setEndTime(null);
         }
         modifyCadreAuthMapper.insertSelective(record);
 
-        SysUserView uv = record.getCadre().getUser();
         sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
     }
 
