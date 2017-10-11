@@ -124,11 +124,11 @@ public class CadreResearchController extends BaseController {
 
         String name = null;
         switch (type) {
-            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
+            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
                 name = "research_direct";
             }
             break;
-            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
+            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
                 name = "research_in";
             }
             break;
