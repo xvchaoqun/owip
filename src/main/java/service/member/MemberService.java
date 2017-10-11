@@ -93,8 +93,7 @@ public class MemberService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         // 更新系统角色  党员->访客
-        SysUserView uv = sysUserService.findById(userId);
-        sysUserService.changeRoleMemberToGuest(userId, uv.getUsername(), uv.getCode());
+        sysUserService.changeRoleMemberToGuest(userId);
     }
 
     /**
@@ -112,8 +111,7 @@ public class MemberService extends BaseMapper {
         int ret = updateByPrimaryKeySelective(record);
         if (ret > 0) {
             // 更新系统角色  访客->党员
-            SysUserView uv = sysUserService.findById(userId);
-            sysUserService.changeRoleGuestToMember(userId, uv.getUsername(), uv.getCode());
+            sysUserService.changeRoleGuestToMember(userId);
         }
     }
 
@@ -148,8 +146,7 @@ public class MemberService extends BaseMapper {
         }
 
         // 更新系统角色  访客->党员
-        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, uv.getUsername(), uv.getCode());
+        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
     }
 
     @Transactional
@@ -197,8 +194,7 @@ public class MemberService extends BaseMapper {
         memberApplyService.addOrChangeToGrowApply(userId);
 
         // 更新系统角色  访客->党员
-        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, uv.getUsername(), uv.getCode());
+        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
     }
 
 
@@ -324,10 +320,8 @@ public class MemberService extends BaseMapper {
         }
 
         for (Integer userId : userIds) {
-            SysUserView uv = sysUserService.findById(userId);
             // 更新系统角色  党员->访客
-            sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER,
-                    SystemConstants.ROLE_GUEST, uv.getUsername(), uv.getCode());
+            sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_GUEST);
         }
     }
 

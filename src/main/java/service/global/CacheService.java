@@ -13,6 +13,9 @@ import domain.dispatch.DispatchType;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysRole;
+import domain.sys.SysUser;
+import domain.sys.SysUserReg;
+import domain.sys.SysUserView;
 import domain.train.TrainEvaTable;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
@@ -25,6 +28,8 @@ import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import sys.constants.SystemConstants;
@@ -222,7 +227,6 @@ public class CacheService extends BaseController{
 
         // 删除目前不需要的
         cMap.remove("dispatchMap");
-        cMap.remove("cadreMap");
         cMap.remove("countryMap");
         cMap.remove("dispatchCadreMap");
         cMap.remove("safeBoxMap");
@@ -234,4 +238,34 @@ public class CacheService extends BaseController{
             e.printStackTrace();
         }
     }
+
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "Menus", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username")
+    })
+    public void clearUserCache(SysUser u) {}
+
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "Menus", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username")
+    })
+    public void clearUserCache(SysUserView u) {}
+
+    @Caching(evict = {
+            @CacheEvict(value = "UserRoles", key = "#u.username"),
+            @CacheEvict(value = "Menus", key = "#u.username"),
+            @CacheEvict(value = "SysUserView", key = "#u.username"),
+            @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
+            @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username")
+    })
+    public void clearUserCache(SysUserReg u) {}
 }

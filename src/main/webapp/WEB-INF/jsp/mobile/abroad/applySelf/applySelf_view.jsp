@@ -276,7 +276,7 @@
             <div class="none">本年度无因私出国（境）记录</div>
           </c:if>
           <c:forEach items="${applySelfs}" var="applySelf">
-            <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
+            <c:set var="cadre" value="${cm:getCadreById(applySelf.cadreId)}"/>
             <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
             <div class="popView message-item"  data-url="${ctx}/m/abroad/applySelf_detail?id=${applySelf.id}">
               <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>

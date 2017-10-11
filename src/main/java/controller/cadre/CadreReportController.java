@@ -4,7 +4,6 @@ import controller.BaseController;
 import domain.cadre.CadreReport;
 import domain.cadre.CadreReportExample;
 import domain.cadre.CadreReportExample.Criteria;
-import domain.cadre.CadreView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -46,8 +46,7 @@ public class CadreReportController extends BaseController {
                                    ModelMap modelMap) {
 
         if(cadreId!=null) {
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            modelMap.put("cadre", cadreMap.get(cadreId));
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
         return "cadre/cadreReport/cadreReport_page";
     }
@@ -151,8 +150,8 @@ public class CadreReportController extends BaseController {
 
         if (id != null) {
             CadreReport cadreReport = cadreReportMapper.selectByPrimaryKey(id);
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            modelMap.put("cadre", cadreMap.get(cadreReport.getCadreId()));
+            int cadreId = cadreReport.getCadreId();
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
             modelMap.put("cadreReport", cadreReport);
         }
         return "cadre/cadreReport/cadreReport_au";

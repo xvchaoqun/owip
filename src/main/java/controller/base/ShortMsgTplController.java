@@ -226,10 +226,15 @@ public class ShortMsgTplController extends BaseController {
     @RequiresPermissions("shortMsgTpl:send")
     @RequestMapping(value = "/shortMsgTpl_send", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_shortMsgTpl_send(int tplId, Integer receiverId, String mobile, HttpServletRequest request) {
+    public Map do_shortMsgTpl_send(int tplId, Integer receiverId,
+                                   String mobile, String content, HttpServletRequest request) {
 
         if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
             return failed("手机号码有误");
+        }
+
+        if(StringUtils.isBlank(content)){
+            return failed("短信内容不能为空");
         }
 
         ShortMsgTpl shortMsgTpl = shortMsgTplMapper.selectByPrimaryKey(tplId);
@@ -243,7 +248,7 @@ public class ShortMsgTplController extends BaseController {
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL);
         bean.setReceiver(receiverId);
         bean.setSender(ShiroHelper.getCurrentUserId());
-        bean.setContent(shortMsgTpl.getContent());
+        bean.setContent(content);
         bean.setMobile(mobile);
         bean.setType((sysRole != null ? (sysRole.getDescription() + "-") : "") + shortMsgTpl.getName());
 

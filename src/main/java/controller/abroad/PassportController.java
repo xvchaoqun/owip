@@ -130,7 +130,7 @@ public class PassportController extends AbroadBaseController {
             modelMap.put("unit", unitService.findAll().get(unitId));
         }*/
         if (cadreId != null) {
-            CadreView cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -342,7 +342,7 @@ public class PassportController extends AbroadBaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
-        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -697,7 +697,7 @@ public class PassportController extends AbroadBaseController {
         String filePath = springProps.uploadPath + cancelPic;
 
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         String fileName = URLEncoder.encode(uv.getRealname() + "-" + passportType.getName()
@@ -716,7 +716,7 @@ public class PassportController extends AbroadBaseController {
         String filePath = springProps.uploadPath + lostProof;
 
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
         SysUserView uv = sysUserService.findById(cadre.getUserId());
 
         String fileName = URLEncoder.encode(uv.getRealname() + "-" + passportType.getName()
@@ -774,7 +774,7 @@ public class PassportController extends AbroadBaseController {
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
 
-        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -829,7 +829,7 @@ public class PassportController extends AbroadBaseController {
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
 
-        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

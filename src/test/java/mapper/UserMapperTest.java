@@ -54,7 +54,7 @@ public class UserMapperTest {
 		record.setId(user.getId());
 		record.setPasswd(encrypt);
 
-		userService.updateByPrimaryKeySelective(record, user.getUsername(), user.getCode());
+		userService.updateByPrimaryKeySelective(record);
 	}
 
 	@Test

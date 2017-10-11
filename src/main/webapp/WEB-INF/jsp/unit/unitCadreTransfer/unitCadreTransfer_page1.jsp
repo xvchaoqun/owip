@@ -93,7 +93,7 @@ pageEncoding="UTF-8" %>
                                 </label>
                             </td>
 								<td nowrap>${groupMap.get(unitCadreTransfer.groupId).name}</td>
-								<td nowrap>${cadreMap.get(unitCadreTransfer.cadreId).name}</td>
+								<td nowrap>${cm:getCadreById(unitCadreTransfer.cadreId).name}</td>
 								<td nowrap>${unitCadreTransfer.name}</td>
 								<td nowrap>${cm:formatDate(unitCadreTransfer.dismissTime,'yyyy-MM-dd')}</td>
 								<td>${unitCadreTransfer.remark}</td>

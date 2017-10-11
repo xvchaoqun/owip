@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.party.EnterApply;
-import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,7 +165,6 @@ public class MemberInflowService extends BaseMapper {
     @Transactional
     public void addInflowMember(int userId, boolean isDirect){
 
-        SysUserView sysUser = sysUserService.findById(userId);
         MemberInflow memberInflow = get(userId);
 
         if(isDirect && memberInflow.getInflowStatus()!= SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
@@ -189,8 +187,7 @@ public class MemberInflowService extends BaseMapper {
         }
 
         // 更新系统角色  访客->流入党员
-        sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_INFLOWMEMBER, sysUser.getUsername(), sysUser.getCode());
+        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_INFLOWMEMBER);
     }
 
     @Transactional

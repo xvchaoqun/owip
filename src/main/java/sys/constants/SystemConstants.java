@@ -54,7 +54,7 @@ public class SystemConstants {
     public static final String ROLE_CADRE = "cadre";
     public static final String ROLE_CADRERESERVE = "cadreReserve"; // 后备干部
     public static final String ROLE_CADREINSPECT = "cadreInspect"; // 考察对象
-    public static final String ROLE_CADRE_RECRUIT = "cadreRecruit"; // 应聘干部（普通教师）
+    public static final String ROLE_CADRERECRUIT = "cadreRecruit"; // 应聘干部（普通教师）
     public static final String ROLE_MEMBER = "member";
     public static final String ROLE_INFLOWMEMBER = "inflowMember";
     public static final String ROLE_PARTYADMIN = "partyAdmin";
@@ -75,7 +75,7 @@ public class SystemConstants {
         ROLE_MAP.put(ROLE_CADRE, "干部");
         ROLE_MAP.put(ROLE_CADRERESERVE, "后备干部");
         ROLE_MAP.put(ROLE_CADREINSPECT, "考察对象");
-        ROLE_MAP.put(ROLE_CADRE_RECRUIT, "应聘干部");
+        ROLE_MAP.put(ROLE_CADRERECRUIT, "应聘干部");
         ROLE_MAP.put(ROLE_MEMBER, "党员");
         ROLE_MAP.put(ROLE_INFLOWMEMBER, "流入党员");
         ROLE_MAP.put(ROLE_PARTYADMIN, "分党委管理员");

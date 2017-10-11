@@ -32,7 +32,7 @@ public class CadreAdditionalPostController extends BaseController {
     public String cadre_additional_post(Integer id,  Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (id!=null) {
-            CadreView cadre = cadreService.findAll().get(id);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(id);
             modelMap.put("cadre", cadre);
 
             if (null == pageSize) {

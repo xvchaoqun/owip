@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.global.CacheService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -37,6 +38,8 @@ import java.util.Set;
 @Service
 public class ModifyCadreAuthService extends BaseMapper {
 
+    @Autowired
+    private CacheService cacheService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -220,14 +223,14 @@ public class ModifyCadreAuthService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="ModifyCadreAuths", key = "#record.cadreId")
-    public void insertSelective(ModifyCadreAuth record, SysUserView uv){
+    public void insertSelective(ModifyCadreAuth record){
         if(BooleanUtils.isTrue(record.getIsUnlimited())){
             record.setStartTime(null);
             record.setEndTime(null);
         }
         modifyCadreAuthMapper.insertSelective(record);
 
-        sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
+        cacheService.clearUserCache(record.getCadre().getUser());
     }
 
     @Transactional
@@ -249,7 +252,7 @@ public class ModifyCadreAuthService extends BaseMapper {
             modifyCadreAuthMapper.insertSelective(record);
 
             SysUserView uv = record.getCadre().getUser();
-            sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
+            cacheService.clearUserCache(uv);
         }
     }
 
@@ -261,7 +264,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         modifyCadreAuthMapper.deleteByPrimaryKey(id);
 
         SysUserView uv = result.getCadre().getUser();
-        sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
+        cacheService.clearUserCache(uv);
         return result;
     }
 
@@ -287,7 +290,7 @@ public class ModifyCadreAuthService extends BaseMapper {
         }
 
         SysUserView uv = record.getCadre().getUser();
-        sysUserService.clearUserCache(uv.getUserId(), uv.getUsername(), uv.getCode());
+        cacheService.clearUserCache(uv);
     }
 
     // 读取干部的所有权限设置

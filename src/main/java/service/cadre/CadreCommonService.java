@@ -63,7 +63,6 @@ public class CadreCommonService extends BaseMapper {
     public List<CadreView> findAdditionalPost(int unitId) {
 
         List<CadreView> cadreList = new ArrayList<>();
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         CadreAdditionalPostExample example = new CadreAdditionalPostExample();
         example.createCriteria().andUnitIdEqualTo(unitId);
@@ -71,7 +70,7 @@ public class CadreCommonService extends BaseMapper {
         for (CadreAdditionalPost cPost : cPosts) {
             MetaType postType = metaTypeMap.get(cPost.getPostId());
             if (postType.getBoolAttr()) {
-                cadreList.add(cadreMap.get(cPost.getCadreId()));
+                cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
             }
         }
         return cadreList;

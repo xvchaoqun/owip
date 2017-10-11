@@ -31,7 +31,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">短信内容</label>
 				<div class="col-xs-8">
-                    <textarea class="form-control limited" type="text"
+                    <textarea required class="form-control limited" type="text"
                               name="content" rows="8" maxlength="500">${shortMsgTpl.content}</textarea>
 				</div>
 			</div>

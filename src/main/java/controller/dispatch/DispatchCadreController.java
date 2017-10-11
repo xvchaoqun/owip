@@ -104,7 +104,7 @@ public class DispatchCadreController extends BaseController {
         }
         if (cadreId!=null) {
 
-            CadreView cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             if(cadre!=null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
@@ -275,7 +275,7 @@ public class DispatchCadreController extends BaseController {
             modelMap.put("dispatchCadre", dispatchCadre);
             if(dispatchCadre!=null) {
                 modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId()));
-                CadreView cadre = cadreService.findAll().get(dispatchCadre.getCadreId());
+                CadreView cadre = cadreViewMapper.selectByPrimaryKey(dispatchCadre.getCadreId());
                 modelMap.put("cadre", cadre);
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
                 modelMap.put("sysUser", sysUser);

@@ -19,17 +19,15 @@ import domain.sys.SysUserViewExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.abroad.ApplySelfService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
+import service.global.CacheService;
 import service.party.EnterApplyService;
 import service.pcs.PcsAdminService;
 import shiro.ShiroHelper;
@@ -51,6 +49,8 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private EnterApplyService enterApplyService;
+    @Autowired
+    private CacheService cacheService;
 
     @Autowired
     protected ExtJzgService extJzgService;
@@ -90,48 +90,17 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void clearUserCache(int userId, String username, String code) {
-
-    }
-
-    @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void changeRoleGuestToMember(int userId, String username, String code) {
+    public void changeRoleGuestToMember(int userId) {
 
         // 更新系统角色  访客->党员
-        changeRole(userId, SystemConstants.ROLE_GUEST,
-                SystemConstants.ROLE_MEMBER, username, code);
+        changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void changeRoleMemberToGuest(int userId, String username, String code) {
+    public void changeRoleMemberToGuest(int userId) {
 
         // 更新系统角色  党员->访客
-        changeRole(userId, SystemConstants.ROLE_MEMBER,
-                SystemConstants.ROLE_GUEST, username, code);
+        changeRole(userId, SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_GUEST);
         // 撤回原申请
         EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
         if (_enterApply != null) {
@@ -157,47 +126,38 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    @Caching(evict = { // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
-            @CacheEvict(value = "UserRoles", key = "#record.username"),
-            @CacheEvict(value = "Menus", key = "#record.username"),
-            @CacheEvict(value = "SysUserView", key = "#record.username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#record.code"),
-            @CacheEvict(value = "UserPermissions", key = "#record.username")
-    })
     public void insertSelective(SysUser record) {
 
         if (StringUtils.isBlank(record.getRoleIds()))
             record.setRoleIds(buildRoleIds(SystemConstants.ROLE_GUEST));
         sysUserMapper.insertSelective(record);
+
+        // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
+        cacheService.clearUserCache(record);
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "SysUserView", key = "#result.Username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#result.code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#result.id")
-    })
-    public SysUser insertOrUpdateUserInfoSelective(SysUserInfo record) {
+    public void insertOrUpdateUserInfoSelective(SysUserInfo record) {
 
-        SysUser sysUser = dbFindById(record.getUserId());
+        SysUser _sysUser = dbFindById(record.getUserId());
         SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
         if (sysUserInfo == null) {
 
             if (StringUtils.isBlank(record.getNativePlace())) {
-                record.setNativePlace(getExtNativePlace(sysUser.getSource(), sysUser.getCode()));
+                record.setNativePlace(getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
             }
 
             sysUserInfoMapper.insertSelective(record);
         } else {
 
             if (StringUtils.isBlank(record.getNativePlace())) {
-                record.setNativePlace(getExtNativePlace(sysUser.getSource(), sysUser.getCode()));
+                record.setNativePlace(getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
             }
 
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 
-        return sysUser;
+        cacheService.clearUserCache(_sysUser);
     }
 
     // 照片、籍贯、 出生地、户籍地： 这四个字段只从人事库同步一次， 之后就不
@@ -279,58 +239,34 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "SysUserView", key = "#oldUsername"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#user.id")
-    })
-    public int updateByPrimaryKeySelective(SysUser user, String oldUsername, String code) {
+    public void updateByPrimaryKeySelective(SysUser user) {
 
-        return sysUserMapper.updateByPrimaryKeySelective(user);
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(user.getId());
+        sysUserMapper.updateByPrimaryKeySelective(user);
+
+        cacheService.clearUserCache(_sysUser);
     }
 
-    /*@Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "SysUserView", key = "#result.Username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#result.code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#result.id")
-    })
-    public SysUser updateUserInfoByPrimaryKeySelective(SysUserInfo record) {
-
-        SysUser sysUser = dbFindById(record.getUserId());
-        sysUserInfoMapper.updateByPrimaryKeySelective(record);
-
-        return sysUser;
-    }*/
-
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#id")
-    })
-    public int lockUser(int id, String username, String code, boolean locked) {
+    public void lockUser(int id, boolean locked) {
 
-        SysUserExample example = new SysUserExample();
-        example.createCriteria().andUsernameEqualTo(username);
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(id);
+
         SysUser record = new SysUser();
+        record.setId(id);
         record.setLocked(locked);
 
-        return sysUserMapper.updateByExampleSelective(record, example);
+        sysUserMapper.updateByPrimaryKeySelective(record);
+
+        cacheService.clearUserCache(_sysUser);
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#oldUsername"),
-            @CacheEvict(value = "Menus", key = "#oldUsername"),
-            @CacheEvict(value = "SysUserView", key = "#oldUsername"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#id"),
-            @CacheEvict(value = "UserPermissions", key = "#oldUsername")
-    })
-    public int deleteByPrimaryKey(Integer id, String oldUsername, String code) {
+    public void deleteByPrimaryKey(Integer id) {
 
-        return sysUserMapper.deleteByPrimaryKey(id);
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(id);
+        sysUserMapper.deleteByPrimaryKey(id);
+        cacheService.clearUserCache(_sysUser);
     }
 
     public Set<Integer> getUserRoleIdSet(String roleIdsStr) {
@@ -350,21 +286,12 @@ public class SysUserService extends BaseMapper {
 
     // 删除一个角色
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void delRole(int userId, String role, String username, String code) {
+    public void delRole(int userId, String role) {
 
-        SysUser sysUser = dbFindById(userId);
-        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
+        SysUser _sysUser = dbFindById(userId);
 
         SysRole sysRole = sysRoleService.getByRole(role);
-        Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
+        Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
         roleIdSet.remove(sysRole.getId());
 
         SysUser record = new SysUser();
@@ -372,27 +299,20 @@ public class SysUserService extends BaseMapper {
         record.setRoleIds(SystemConstants.USER_ROLEIDS_SEPARTOR +
                 StringUtils.join(roleIdSet, SystemConstants.USER_ROLEIDS_SEPARTOR)
                 + SystemConstants.USER_ROLEIDS_SEPARTOR);
-        updateByPrimaryKeySelective(record, sysUser.getUsername(), code);
+        updateByPrimaryKeySelective(record);
+
+        cacheService.clearUserCache(_sysUser);
     }
 
     // 添加一个角色（重复则替换）
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void addRole(int userId, String role, String username, String code) {
+    public void addRole(int userId, String role) {
 
-        SysUser sysUser = dbFindById(userId);
-        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
+        SysUser _sysUser = dbFindById(userId);
 
         SysRole sysRole = sysRoleService.getByRole(role);
         if (sysRole == null) throw new OpException("系统角色" + role + "不存在");
-        Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
+        Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
         roleIdSet.add(sysRole.getId());
 
         SysUser record = new SysUser();
@@ -400,29 +320,21 @@ public class SysUserService extends BaseMapper {
         record.setRoleIds(SystemConstants.USER_ROLEIDS_SEPARTOR +
                 StringUtils.join(roleIdSet, SystemConstants.USER_ROLEIDS_SEPARTOR)
                 + SystemConstants.USER_ROLEIDS_SEPARTOR);
-        updateByPrimaryKeySelective(record, sysUser.getUsername(), code);
+        updateByPrimaryKeySelective(record);
 
+        cacheService.clearUserCache(_sysUser);
     }
 
 
     // 改变角色
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void changeRole(int userId, String role, String toRole, String username, String code) {
+    public void changeRole(int userId, String role, String toRole) {
 
-        SysUser sysUser = dbFindById(userId);
-        Assert.isTrue(StringUtils.equalsIgnoreCase(sysUser.getUsername(), username), "wrong username");
+        SysUser _sysUser = dbFindById(userId);
 
         SysRole sysRole = sysRoleService.getByRole(role);
         SysRole toSysRole = sysRoleService.getByRole(toRole);
-        Set<Integer> roleIdSet = getUserRoleIdSet(sysUser.getRoleIds());
+        Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
         roleIdSet.remove(sysRole.getId());
         roleIdSet.add(toSysRole.getId());
 
@@ -431,10 +343,12 @@ public class SysUserService extends BaseMapper {
         record.setRoleIds(SystemConstants.USER_ROLEIDS_SEPARTOR +
                 StringUtils.join(roleIdSet, SystemConstants.USER_ROLEIDS_SEPARTOR)
                 + SystemConstants.USER_ROLEIDS_SEPARTOR);
-        updateByPrimaryKeySelective(record, sysUser.getUsername(), code);
+        updateByPrimaryKeySelective(record);
+
+        cacheService.clearUserCache(_sysUser);
 
         //踢下线（如果登入的话）
-        ShiroHelper.kickOutUser(username);
+        ShiroHelper.kickOutUser(_sysUser.getUsername());
     }
 
     // 根据账号查找所有的角色（对象）
@@ -521,21 +435,17 @@ public class SysUserService extends BaseMapper {
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "UserRoles", key = "#username"),
-            @CacheEvict(value = "Menus", key = "#username"),
-            @CacheEvict(value = "SysUserView", key = "#username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#code"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#userId"),
-            @CacheEvict(value = "UserPermissions", key = "#username")
-    })
-    public void updateUserRoles(int userId, String username, String code, String roleIds) {
+    public void updateUserRoles(int userId, String roleIds) {
+
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
 
         SysUser user = new SysUser();
         user.setId(userId);
         user.setRoleIds(roleIds);
 
         sysUserMapper.updateByPrimaryKeySelective(user);
+
+        cacheService.clearUserCache(_sysUser);
     }
 
     /**

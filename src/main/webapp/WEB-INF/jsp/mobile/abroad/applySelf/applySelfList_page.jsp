@@ -25,7 +25,7 @@
                                 <div class="none">目前没有${status==0?'待审批':'已审批'}记录</div>
                             </c:if>
                             <c:forEach items="${applySelfs}" var="applySelf">
-                                <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
+                                <c:set var="cadre" value="${cm:getCadreById(applySelf.cadreId)}"/>
                                 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                             <div class="openView message-item" data-openby="page"
                                  data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}">

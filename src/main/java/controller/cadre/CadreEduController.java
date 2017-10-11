@@ -67,7 +67,7 @@ public class CadreEduController extends BaseController {
 
         if (cadreId != null) {
 
-            CadreView cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -220,7 +220,7 @@ public class CadreEduController extends BaseController {
             modelMap.put("cadreEdu", cadreEdu);
         }
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

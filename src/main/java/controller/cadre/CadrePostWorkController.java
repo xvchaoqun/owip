@@ -118,7 +118,7 @@ public class CadrePostWorkController extends BaseController {
             modelMap.put("cadrePostWork", cadrePostWork);
         }
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

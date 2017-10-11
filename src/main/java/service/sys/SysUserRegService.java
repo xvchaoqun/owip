@@ -12,12 +12,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.LoginUserService;
+import service.global.CacheService;
 import shiro.PasswordHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
@@ -30,6 +30,8 @@ import java.util.List;
 @Service
 public class SysUserRegService extends BaseMapper {
 
+    @Autowired
+    private CacheService cacheService;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -109,22 +111,14 @@ public class SysUserRegService extends BaseMapper {
         // 删除账号
         int userId = sysUserReg.getUserId();
         sysUserInfoMapper.deleteByPrimaryKey(userId);
-        sysUserService.deleteByPrimaryKey(userId, sysUserReg.getUsername(), sysUserReg.getCode());
+        sysUserService.deleteByPrimaryKey(userId);
     }
 
     // 通过
     @Transactional
-    @Caching(evict={
-            @CacheEvict(value="SysUserView", key="#result.username"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#result.code"),
-            @CacheEvict(value="SysUserView:ID_", key="#result.userId"),
-            @CacheEvict(value="UserRoles", key="#result.username"),
-            @CacheEvict(value="UserPermissions", key="#result.username"),
-            @CacheEvict(value="Menus", key="#result.username")
-    })
-    public SysUserReg pass(int id){
+    public void pass(int id){
 
-        SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
+        SysUserReg _sysUser = sysUserRegMapper.selectByPrimaryKey(id);
         {
             SysUserReg record = new SysUserReg();
             record.setId(id);
@@ -133,25 +127,26 @@ public class SysUserRegService extends BaseMapper {
         }
         {
             SysUser record = new SysUser();
-            record.setId(sysUserReg.getUserId());
-            record.setUsername(sysUserReg.getUsername());
-            record.setCode(sysUserReg.getCode());
-            record.setType(sysUserReg.getType());
+            record.setId(_sysUser.getUserId());
+            record.setUsername(_sysUser.getUsername());
+            record.setCode(_sysUser.getCode());
+            record.setType(_sysUser.getType());
             record.setSource(SystemConstants.USER_SOURCE_REG);
             record.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));
 
-            sysUserService.updateByPrimaryKeySelective(record, sysUserReg.getUsername(), sysUserReg.getCode());
+            sysUserService.updateByPrimaryKeySelective(record);
         }
         {
             SysUserInfo record = new SysUserInfo();
-            record.setUserId(sysUserReg.getUserId());
-            record.setRealname(sysUserReg.getRealname());
-            record.setIdcard(sysUserReg.getIdcard());
-            record.setMobile(sysUserReg.getPhone());
+            record.setUserId(_sysUser.getUserId());
+            record.setRealname(_sysUser.getRealname());
+            record.setIdcard(_sysUser.getIdcard());
+            record.setMobile(_sysUser.getPhone());
 
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
-        return sysUserReg;
+
+        cacheService.clearUserCache(_sysUser);
     }
     
     // 自动生成学工号,ZG开头+6位数字
@@ -270,32 +265,29 @@ public class SysUserRegService extends BaseMapper {
     }
 
     @Transactional
-    @Caching(evict={
-            @CacheEvict(value="SysUserView", key="#result.username"),
-            @CacheEvict(value="SysUserView:CODE_", key="#result.code"),
-            @CacheEvict(value="SysUserView:ID_", key="#result.id")
-    })
     public SysUserView changepw(int id, String password){ // 返回值是为了清除缓存
 
         SysUserReg sysUserReg = sysUserRegMapper.selectByPrimaryKey(id);
         if(sysUserReg==null || sysUserReg.getUserId()==null) throw new OpException("参数错误");
 
-        SysUserView sysUser = sysUserService.findById(sysUserReg.getUserId());
-        if(sysUser==null) throw new OpException("用户不存在");
+        SysUserView _sysUser = sysUserService.findById(sysUserReg.getUserId());
+        if(_sysUser==null) throw new OpException("用户不存在");
 
         SysUser record = new SysUser();
-        record.setId(sysUser.getId());
+        record.setId(_sysUser.getId());
         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
         record.setSalt(encrypt.getSalt());
         record.setPasswd(encrypt.getPassword());
-        sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+        sysUserService.updateByPrimaryKeySelective(record);
 
         SysUserReg _record = new SysUserReg();
         _record.setId(id);
         _record.setPasswd(password);
         updateByPrimaryKeySelective(_record);
 
-        return sysUser;
+        cacheService.clearUserCache(_sysUser);
+
+        return _sysUser;
     }
 
    /* @Transactional

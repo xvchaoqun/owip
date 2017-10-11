@@ -33,7 +33,7 @@
             </thead>
             <tbody>
             <c:forEach items="${applySelfs}" var="applySelf" varStatus="st">
-              <c:set var="cadre" value="${cadreMap.get(applySelf.cadreId)}"/>
+              <c:set var="cadre" value="${cm:getCadreById(applySelf.cadreId)}"/>
               <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
               <tr>
                 <td class="center">

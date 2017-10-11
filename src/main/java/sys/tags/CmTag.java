@@ -43,6 +43,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
+import persistence.cadre.CadreViewMapper;
 import persistence.common.IAbroadMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
@@ -407,8 +408,8 @@ public class CmTag {
 
     public static CadreView getCadreById(Integer id) {
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
-        return cadreMap.get(id);
+        CadreViewMapper cadreViewMapper = getBean(CadreViewMapper.class);
+        return  cadreViewMapper.selectByPrimaryKey(id);
     }
 
     public static CadreView getCadreByUserId(Integer userId) {
@@ -463,6 +464,11 @@ public class CmTag {
     public static Set<String> findRoles(String username) {
 
         return sysUserService.findRoles(username);
+    }
+    public static Boolean hasRole(String username, String role) {
+
+        Set<String> roles = sysUserService.findRoles(username);
+        return (roles!=null && StringUtils.isNotBlank(role))?roles.contains(role):false;
     }
 
     public static Set<String> findPermissions(String username) {

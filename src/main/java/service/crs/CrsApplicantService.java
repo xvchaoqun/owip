@@ -271,9 +271,9 @@ public class CrsApplicantService extends BaseMapper {
 
             cadreId = record.getId();
         }
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADRE_RECRUIT)) {
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADRERECRUIT)) {
 
-            sysUserService.addRole(userId, SystemConstants.ROLE_CADRE_RECRUIT, uv.getUsername(), uv.getCode());
+            sysUserService.addRole(userId, SystemConstants.ROLE_CADRERECRUIT);
             ShiroHelper.refreshRoles();
         }
 
@@ -291,7 +291,7 @@ public class CrsApplicantService extends BaseMapper {
             record.setAddUserId(userId);
             record.setAddIp(ContextHelper.getRealIp());
 
-            modifyCadreAuthService.insertSelective(record, uv);
+            modifyCadreAuthService.insertSelective(record);
         }
 
         return cadreId;

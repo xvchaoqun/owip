@@ -171,7 +171,6 @@ public class SafeBoxService extends BaseMapper {
 
     public void safeBoxPassport_export(HttpServletResponse response, Integer[] ids) {
 
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> passportType = metaTypeService.metaTypes("mc_passport_type");
         //Map<Integer, SafeBox> safeBoxMap = findAll();
         List<SafeBox> safeBoxes = new ArrayList<>();
@@ -258,7 +257,7 @@ public class SafeBoxService extends BaseMapper {
 
             for (int i = 0; i < size; i++) {
                 Passport passport = passports.get(i);
-                CadreView cadre = cadreMap.get(passport.getCadreId());
+                CadreView cadre = CmTag.getCadreById(passport.getCadreId());
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
 
                 String[] values = {

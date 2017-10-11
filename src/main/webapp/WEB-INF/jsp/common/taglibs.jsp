@@ -36,7 +36,7 @@
 <c:set var="ROLE_BRANCHADMIN" value="<%=SystemConstants.ROLE_BRANCHADMIN%>"/>
 <c:set var="ROLE_CADREADMIN" value="<%=SystemConstants.ROLE_CADREADMIN%>"/>
 <c:set var="ROLE_CADRE" value="<%=SystemConstants.ROLE_CADRE%>"/>
-<c:set var="ROLE_CADRE_RECRUIT" value="<%=SystemConstants.ROLE_CADRE_RECRUIT%>"/>
+<c:set var="ROLE_CADRERECRUIT" value="<%=SystemConstants.ROLE_CADRERECRUIT%>"/>
 <c:set var="ROLE_CADREINSPECT" value="<%=SystemConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=SystemConstants.ROLE_CADRERESERVE%>"/>
 <c:set var="ROLE_ONLY_CADRE_VIEW" value="role_cadre_view"/>

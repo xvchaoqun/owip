@@ -885,7 +885,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</div>
-		<shiro:hasRole name="${ROLE_CADRE_RECRUIT}">
+		<shiro:hasRole name="${ROLE_CADRERECRUIT}">
 		<div class="widget-box transparent">
 			<div class="widget-header widget-header-flat">
 				<h4 class="widget-title lighter">

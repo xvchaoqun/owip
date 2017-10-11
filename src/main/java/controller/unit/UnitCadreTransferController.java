@@ -124,7 +124,7 @@ public class UnitCadreTransferController extends BaseController {
             criteria.andGroupIdEqualTo(groupId);
         }
         if (cadreId != null) {
-            modelMap.put("cadre", cadreService.findAll().get(cadreId));
+            modelMap.put("cadre", cadreViewMapper.selectByPrimaryKey(cadreId));
             criteria.andCadreIdEqualTo(cadreId);
         }
         if (_appointTime.getStart() != null) {
@@ -180,7 +180,6 @@ public class UnitCadreTransferController extends BaseController {
         modelMap.put("commonList", commonList);
 
         modelMap.put("groupMap", unitCadreTransferGroupService.findAll());
-        modelMap.put("cadreMap", cadreService.findAll());
 
         return "unit/unitCadreTransfer/unitCadreTransfer_page";
     }
@@ -220,7 +219,7 @@ public class UnitCadreTransferController extends BaseController {
             UnitCadreTransfer unitCadreTransfer = unitCadreTransferMapper.selectByPrimaryKey(id);
             modelMap.put("unitCadreTransfer", unitCadreTransfer);
             groupId = unitCadreTransfer.getGroupId();
-            modelMap.put("cadre", cadreService.findAll().get(unitCadreTransfer.getCadreId()));
+            modelMap.put("cadre", cadreViewMapper.selectByPrimaryKey(unitCadreTransfer.getCadreId()));
         }
         modelMap.put("unitCadreTransferGroup", unitCadreTransferGroupMapper.
                 selectByPrimaryKey(groupId));

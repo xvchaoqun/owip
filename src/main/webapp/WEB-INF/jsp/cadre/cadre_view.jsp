@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:if test="${param._auth!='self'}">
-    <div class="hidden-xs hidden-sm" title="${cadre.title}"  style="position:absolute; top: -45px; width: 450px;
+    <div class="hidden-xs hidden-sm" title="${cadre.title}" style="position:absolute; top: -45px; width: 450px;
     left:50%;margin-left:-225px; font-size: 16pt; font-weight: bolder;white-space:nowrap; overflow:hidden;text-overflow:ellipsis">
         【${sysUser.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
@@ -98,7 +98,8 @@
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInspectInfo:*">
                     <li>
-                        <a href="javascript:" data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
+                        <a href="javascript:"
+                           data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInfo:check">
@@ -119,16 +120,17 @@
                            data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
                     </li>
                 </shiro:hasPermission>
-<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-                <li>
+                <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                    <li>
 
-                    <a href="javascript:"
-                       data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}" style="padding-bottom: 5px;">
+                        <a href="javascript:"
+                           data-url="${ctx}/cadreModifyHelp?cadreId=${param.cadreId}&_auth=${param._auth}"
+                           style="padding-bottom: 5px;">
                         <span class="label label-info">
                             <i class="fa fa-info-circle"></i> 说 明</span></a>
 
-                </li>
-</shiro:lacksRole>
+                    </li>
+                </shiro:lacksRole>
             </ul>
 
         </div>
@@ -146,20 +148,35 @@
 </div>
 <!-- /.widget-box -->
 <script>
-    $(document).off("change", ".cadre-info-check").on("change", ".cadre-info-check", function(e){
+    $(document).off("change", ".cadre-info-check").on("change", ".cadre-info-check", function (e) {
         var $this = $(this);
         var name = $this.data("name");
         var isChecked = $this.prop("checked");
 
-        $.post("${ctx}/cadreInfoCheck_update?cadreId=${param.cadreId}&toApply=1",{name:name, isChecked:isChecked},function(ret){
+        $.post("${ctx}/cadreInfoCheck_update?cadreId=${param.cadreId}&toApply=1", {
+            name: name,
+            isChecked: isChecked
+        }, function (ret) {
             //console.log(name + ":" + isChecked)
-            if(ret.success) {
+            if (ret.success) {
                 $this.tip({content: '操作成功'});
                 $("button.btn").prop("disabled", isChecked);
-            }else{
+            } else {
                 $this.prop("checked", !isChecked);
             }
         })
+    })
+    $(document).off("click", ".cadre-info-check-edit").on("click", ".cadre-info-check-edit", function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var isAdmin = ${cm:isPermitted(PERMISSION_CADREADMIN)};
+        //console.log(location.hash)
+        if(location.hash.startWith("#/user/cadre")) isAdmin=false;
+        var url = "${ctx}{0}".format((isAdmin ? '/cadre_view' : '/user/cadre')) + $this.data("url");
+        if (isAdmin)
+            $.loadView(url);
+        else
+            $.loadPage({url: url});
     })
 
 </script>

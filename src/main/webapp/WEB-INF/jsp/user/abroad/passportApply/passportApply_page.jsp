@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                     </thead>
                     <tbody>
                     <c:forEach items="${passportApplys}" var="passportApply" varStatus="st">
-                        <c:set var="cadre" value="${cadreMap.get(passportApply.cadreId)}"/>
+                        <c:set var="cadre" value="${cm:getCadreById(passportApply.cadreId)}"/>
                         <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                         <tr>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>

@@ -18,7 +18,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +34,11 @@ import sys.utils.JSONUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class CadreService extends BaseMapper {
@@ -94,8 +95,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public byte leave(int id, String title, Integer dispatchCadreId) {
 
@@ -170,8 +170,7 @@ public class CadreService extends BaseMapper {
     // 重新任用， 离任->考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void re_assign(Integer[] ids) {
 
@@ -188,9 +187,8 @@ public class CadreService extends BaseMapper {
                 throw new IllegalArgumentException("干部[" + cadre.getUser().getRealname() + "]状态异常：" + cadre.getStatus());
             }
 
-            SysUserView uv = sysUserService.findById(userId);
             // 添加考察对象角色
-            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADREINSPECT, uv.getUsername(), uv.getCode());
+            sysUserService.addRole(userId, SystemConstants.ROLE_CADREINSPECT);
 
             // 检查
             cadreInspectService.directAddCheck(null, userId);
@@ -203,7 +201,6 @@ public class CadreService extends BaseMapper {
             record.setType(SystemConstants.CADRE_INSPECT_TYPE_DEFAULT);
             record.setRemark(SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "重新任用");
             cadreInspectMapper.insertSelective(record);
-
         }
     }
 
@@ -219,8 +216,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     synchronized public void insertSelective(Cadre record) {
 
@@ -231,10 +227,9 @@ public class CadreService extends BaseMapper {
         Assert.isTrue(record.getStatus() != null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
                 && record.getStatus() != SystemConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
-        SysUserView uv = sysUserService.findById(userId);
         if(SystemConstants.CADRE_STATUS_SET.contains(record.getStatus())){
             // 添加干部身份
-            sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
+            sysUserService.addRole(userId, SystemConstants.ROLE_CADRE);
         }
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
@@ -255,8 +250,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),// 因私出国部分，有校领导和本单位正职的权限控制。
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)// 因私出国部分，有校领导和本单位正职的权限控制。
     })
     public int importCadres(final List<XlsCadre> cadres, byte status) {
         //int duplicate = 0;
@@ -288,8 +282,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchDel(Integer[] ids) {
 
@@ -303,16 +296,14 @@ public class CadreService extends BaseMapper {
 
             cadreMapper.deleteByPrimaryKey(id);
 
-            SysUserView uv = sysUserService.findById(cadre.getUserId());
             // 删除干部身份
-            sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRE, uv.getUsername(), uv.getCode());
+            sysUserService.delRole(cadre.getUserId(), SystemConstants.ROLE_CADRE);
         }
     }
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void addOrUPdateCadreParty(CadreParty record) {
 
@@ -324,8 +315,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void cadreParty_batchDel(Integer[] ids) {
 
@@ -343,8 +333,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public int updateByPrimaryKeySelective(Cadre record) {
         return cadreMapper.updateByPrimaryKeySelective(record);
@@ -352,8 +341,7 @@ public class CadreService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public int updateByExampleSelective(Cadre record, CadreExample example) {
 
@@ -361,23 +349,15 @@ public class CadreService extends BaseMapper {
     }
 
     // 干部列表（包含后备干部、考察对象）
-    /*@Cacheable(value="Cadre:ALL")
-    public Map<Integer, Cadre> findAll() {
-
-        CadreExample example = new CadreExample();
-        example.setOrderByClause("sort_order desc");
-        List<Cadre> cadrees = cadreMapper.selectByExample(example);
-        Map<Integer, Cadre> map = new LinkedHashMap<>();
-        for (Cadre cadre : cadrees) {
-            map.put(cadre.getId(), cadre);
-        }
-
-        return map;
-    }*/
-    @Cacheable(value = "Cadre:ALL")
     public Map<Integer, CadreView> findAll() {
 
+        Set<Byte> cadreStatusSet = new HashSet<>();
+        cadreStatusSet.addAll(SystemConstants.CADRE_STATUS_SET);
+        cadreStatusSet.add(SystemConstants.CADRE_STATUS_RESERVE);
+        cadreStatusSet.add(SystemConstants.CADRE_STATUS_INSPECT);
+
         CadreViewExample example = new CadreViewExample();
+        example.createCriteria().andStatusIn(new ArrayList<>(cadreStatusSet));
         example.setOrderByClause("sort_order desc");
         List<CadreView> cadrees = cadreViewMapper.selectByExample(example);
         Map<Integer, CadreView> map = new LinkedHashMap<>();
@@ -396,7 +376,6 @@ public class CadreService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
@@ -434,7 +413,6 @@ public class CadreService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
     public void updateWorkTime(int userId, Date _workTime) {
 
         // 修改参加工作时间
@@ -445,7 +423,6 @@ public class CadreService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value = "Cadre:ALL", allEntries = true)
     public void updateTitle(int cadreId, String title) {
 
         // 修改所在单位及职务

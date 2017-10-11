@@ -55,7 +55,7 @@ pageEncoding="UTF-8" %>
                     <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
                     <td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
                     <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
-                    <td nowrap>${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId).realname}</td>
+                    <td nowrap>${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId).realname}</td>
                     <td nowrap>${dispatchCadre.post}</td>
                     <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>
                     <td nowrap>${adminLevelMap.get(dispatchCadre.adminLevelId).name}</td>

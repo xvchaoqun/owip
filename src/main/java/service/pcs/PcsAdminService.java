@@ -70,8 +70,8 @@ public class PcsAdminService extends BaseMapper {
                     // 党代会的普通管理员暂不处理
                     pcsNormalAdminIds.add(userId);
                 } else {
-                    SysUserView uv = sysUserService.findById(userId);
-                    sysUserService.delRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+
+                    sysUserService.delRole(userId, SystemConstants.ROLE_PCS_ADMIN);
                     pcsAdminMapper.deleteByPrimaryKey(pcsAdmin.getId());
                 }
             }
@@ -113,8 +113,7 @@ public class PcsAdminService extends BaseMapper {
                     SystemConstants.PCS_ADMIN_TYPE_SECRETARY : SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY);
             pcsAdminMapper.insertSelective(record);
 
-            SysUserView uv = sysUserService.findById(userId);
-            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN);
         }
 
     }
@@ -185,8 +184,7 @@ public class PcsAdminService extends BaseMapper {
             PcsAdmin _pcsAdmin = pcsAdminMapper.selectByPrimaryKey(record.getId());
             if (_pcsAdmin.getUserId().intValue() != record.getUserId()) {
                 // 更换用户的情况，先删除原用户的管理员角色
-                SysUserView uv = sysUserService.findById(_pcsAdmin.getUserId());
-                sysUserService.delRole(uv.getUserId(), SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+                sysUserService.delRole(_pcsAdmin.getUserId(), SystemConstants.ROLE_PCS_ADMIN);
 
                 pcsAdminMapper.updateByPrimaryKeySelective(record);
             }
@@ -194,8 +192,7 @@ public class PcsAdminService extends BaseMapper {
             pcsAdminMapper.insertSelective(record);
         }
         // 添加管理员角色
-        SysUserView uv = sysUserService.findById(userId);
-        sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+        sysUserService.addRole(userId, SystemConstants.ROLE_PCS_ADMIN);
 
         // 如果有手机号码，则更新系统的手机号码
         if (StringUtils.isNotBlank(mobile)) {
@@ -214,8 +211,7 @@ public class PcsAdminService extends BaseMapper {
             PcsAdmin pcsAdmin = pcsAdminMapper.selectByPrimaryKey(id);
 
             Integer userId = pcsAdmin.getUserId();
-            SysUserView uv = sysUserService.findById(userId);
-            sysUserService.delRole(userId, SystemConstants.ROLE_PCS_ADMIN, uv.getUsername(), uv.getCode());
+            sysUserService.delRole(userId, SystemConstants.ROLE_PCS_ADMIN);
         }
 
         PcsAdminExample example = new PcsAdminExample();

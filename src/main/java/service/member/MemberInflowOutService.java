@@ -3,7 +3,6 @@ package service.member;
 import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -226,7 +225,6 @@ public class MemberInflowOutService extends BaseMapper {
     @Transactional
     public void removeInflowMember(int userId, boolean isDirect){
 
-        SysUserView sysUser = sysUserService.findById(userId);
         MemberInflow memberInflow = get(userId);
 
         if(isDirect && memberInflow.getOutStatus()!= SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
@@ -241,8 +239,7 @@ public class MemberInflowOutService extends BaseMapper {
         memberInflowService.updateByPrimaryKeySelective(record);
 
         // 更新系统角色  流入党员->访客
-        sysUserService.changeRole(sysUser.getId(), SystemConstants.ROLE_INFLOWMEMBER,
-                SystemConstants.ROLE_GUEST, sysUser.getUsername(), sysUser.getCode());
+        sysUserService.changeRole(userId, SystemConstants.ROLE_INFLOWMEMBER, SystemConstants.ROLE_GUEST);
     }
 
 

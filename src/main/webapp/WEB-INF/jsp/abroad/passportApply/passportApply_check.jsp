@@ -101,7 +101,7 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
 </div>
-<c:set var="cadre" value="${cadreMap.get(passportApply.cadreId)}"/>
+<c:set var="cadre" value="${cm:getCadreById(passportApply.cadreId)}"/>
 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
 <c:set var="passportType" value="${cm:getMetaType(passportApply.classId)}"/>
 <script src="${ctx}/extend/js/jquery.jqprint-0.3.js"></script>

@@ -9,8 +9,8 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/shortMsgTpl_send" id="modalForm" method="post">
             <input type="hidden" name="tplId" value="${param.id}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">选择用户</label>
-				<div class="col-xs-6">
+				<label class="col-xs-2 control-label">选择用户</label>
+				<div class="col-xs-5">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                             name="receiverId" data-placeholder="请输入账号或姓名或学工号">
                         <option></option>
@@ -18,15 +18,16 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">手机号码</label>
-				<div class="col-xs-6">
+				<label class="col-xs-2 control-label">手机号码</label>
+				<div class="col-xs-5" style="width: 225px;">
                     <input required class="form-control" type="text" name="mobile">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">短信内容</label>
-				<div class="col-xs-6 label-text">
-                    ${shortMsgTpl.content}
+				<label class="col-xs-2 control-label">短信内容</label>
+				<div class="col-xs-9 label-text">
+                   <textarea required class="form-control limited" type="text"
+                             name="content" rows="10" maxlength="500">${shortMsgTpl.content}</textarea>
 				</div>
 			</div>
     </form>
@@ -43,6 +44,7 @@ pageEncoding="UTF-8"%>
         $('#modalForm input[name=mobile]').val(user.mobile);
     });
 
+    $('textarea.limited').inputlimiter();
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

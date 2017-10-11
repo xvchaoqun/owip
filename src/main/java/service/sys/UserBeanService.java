@@ -76,7 +76,7 @@ public class UserBeanService extends BaseMapper {
         userBean.setIdcard(sysUser.getIdcard());
         userBean.setRealname(sysUser.getRealname());
 
-        CadreView cadre = cadreService.findAll().get(userId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(userId);
         if(cadre!=null){
             userBean.setBirth(cadre.getBirth());
         }

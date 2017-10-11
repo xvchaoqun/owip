@@ -114,7 +114,7 @@ public class FindPassController extends BaseController {
             SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
             _sysUser.setSalt(encrypt.getSalt());
             _sysUser.setPasswd(encrypt.getPassword());
-            sysUserService.updateByPrimaryKeySelective(_sysUser, uv.getUsername(), uv.getCode());
+            sysUserService.updateByPrimaryKeySelective(_sysUser);
 
             // 覆盖原验证码，使其失效
             findPassCache.put(cacheKey, seq + "_" + RandomStringUtils.randomNumeric(4));

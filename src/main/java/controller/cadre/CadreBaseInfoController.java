@@ -56,7 +56,7 @@ public class CadreBaseInfoController extends BaseController {
                                     String title,
                                   HttpServletRequest request) throws IOException {
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         int userId = cadre.getUserId();
         Member member = memberService.get(userId);
         if(cadre.getDpId()==null && member==null) {
@@ -77,7 +77,7 @@ public class CadreBaseInfoController extends BaseController {
         }
 
         {
-            if(StringUtils.isNotBlank(title) && ShiroHelper.hasRole(SystemConstants.ROLE_CADRE_RECRUIT)){
+            if(StringUtils.isNotBlank(title) && ShiroHelper.hasRole(SystemConstants.ROLE_CADRERECRUIT)){
 
                 cadreService.updateTitle(cadreId, title);
             }

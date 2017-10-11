@@ -1,7 +1,6 @@
 package controller.cis;
 
 import controller.BaseController;
-import domain.cadre.CadreView;
 import domain.cis.CisEvaluate;
 import domain.cis.CisEvaluateExample;
 import domain.cis.CisEvaluateExample.Criteria;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -46,8 +46,7 @@ public class CisEvaluateController extends BaseController {
                                    ModelMap modelMap) {
 
         if(cadreId!=null) {
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            modelMap.put("cadre", cadreMap.get(cadreId));
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
         return "cis/cisEvaluate/cisEvaluate_page";
     }
@@ -155,8 +154,8 @@ public class CisEvaluateController extends BaseController {
 
         if (id != null) {
             CisEvaluate cisEvaluate = cisEvaluateMapper.selectByPrimaryKey(id);
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            modelMap.put("cadre", cadreMap.get(cisEvaluate.getCadreId()));
+            int cadreId = cisEvaluate.getCadreId();
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
             modelMap.put("cisEvaluate", cisEvaluate);
         }
         return "cis/cisEvaluate/cisEvaluate_au";

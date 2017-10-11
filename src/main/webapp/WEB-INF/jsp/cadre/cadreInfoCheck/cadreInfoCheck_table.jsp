@@ -15,7 +15,7 @@
     <tbody>
     <tr>
         <c:set var="baseRowspan" value="10"/>
-        <c:if test="${cm:hasRole(ROLE_CADRE_RECRUIT)}">
+        <c:if test="${cm:hasRole(ROLE_CADRERECRUIT)}">
         <c:set var="baseRowspan" value="11"/>
         </c:if>
         <td rowspan="${baseRowspan}">
@@ -120,7 +120,7 @@
             <t:cadre_base_edit notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}" toEdit="${toEdit}"/>
         </td>
     </tr>
-<c:if test="${cm:hasRole(ROLE_CADRE_RECRUIT)}">
+<c:if test="${cm:hasRole(ROLE_CADRERECRUIT)}">
     <tr>
         <td>所在单位及职务</td>
         <td>

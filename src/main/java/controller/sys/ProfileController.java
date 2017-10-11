@@ -163,7 +163,7 @@ public class ProfileController extends BaseController {
         SaltPassword encrypt = passwordHelper.encryptByRandomSalt(password);
         _sysUser.setSalt(encrypt.getSalt());
         _sysUser.setPasswd(encrypt.getPassword());
-        sysUserService.updateByPrimaryKeySelective(_sysUser, sysUser.getUsername(), sysUser.getCode());
+        sysUserService.updateByPrimaryKeySelective(_sysUser);
 
         return success(FormUtils.SUCCESS);
     }

@@ -31,13 +31,13 @@
                         </a><c:if test="${fn:length(pUnitAdminCadres)>0 || fn:length(npUnitAdminCadres)>0}">
                          ： </c:if>
                     <c:forEach items="${pUnitAdminCadres}" var="pUnitAdminCadre">
-                        <c:set var="cadre" value="${cadreMap.get(pUnitAdminCadre.cadreId)}"/>
+                        <c:set var="cadre" value="${cm:getCadreById(pUnitAdminCadre.cadreId)}"/>
                         <t:cadre cadreId="${cadre.id}" realname="${cm:getUserById(cadre.userId).realname}"/>
                     </c:forEach>
                          <c:if test="${fn:length(pUnitAdminCadres)>0 && fn:length(npUnitAdminCadres)>0}">
                     | </c:if>
                     <c:forEach items="${npUnitAdminCadres}" var="npUnitAdminCadre">
-                        <c:set var="cadre2" value="${cadreMap.get(npUnitAdminCadre.cadreId)}"/>
+                        <c:set var="cadre2" value="${cm:getCadreById(npUnitAdminCadre.cadreId)}"/>
                         <t:cadre cadreId="${cadre2.id}" realname="${cm:getUserById(cadre2.userId).realname}"/>
                     </c:forEach>
                     <c:if test="${vs.count%2==0}">

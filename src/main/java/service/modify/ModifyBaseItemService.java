@@ -7,12 +7,12 @@ import domain.sys.SysUser;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.global.CacheService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -24,6 +24,8 @@ import java.util.List;
 @Service
 public class ModifyBaseItemService extends BaseMapper {
 
+    @Autowired
+    private CacheService cacheService;
 
     // 查找当前申请的所有修改项
     public List<ModifyBaseItem> list(int applyId) {
@@ -63,22 +65,16 @@ public class ModifyBaseItemService extends BaseMapper {
 
     // 更新申请变更的值
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(value = "SysUserView", key = "#result.Username", condition="#result!=null"),
-            @CacheEvict(value = "SysUserView:CODE_", key = "#result.code", condition="#result!=null"),
-            @CacheEvict(value = "SysUserView:ID_", key = "#result.id", condition="#result!=null"),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
-    })
-    public SysUser approval(int id, Boolean status, String checkRemark, String checkReason) {
+    public void approval(int id, Boolean status, String checkRemark, String checkReason) {
 
         ModifyBaseItem mbi = modifyBaseItemMapper.selectByPrimaryKey(id);
-        if (mbi == null) return null;
+        if (mbi == null) return;
         int applyId = mbi.getApplyId();
         ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(applyId);
-        if (mba == null) return null;
+        if (mba == null) return;
 
         String tableName = mbi.getTableName();
-        SysUser sysUser = sysUserMapper.selectByPrimaryKey(mba.getUserId());
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(mba.getUserId());
 
         String ip = IpUtils.getRealIp(ContextHelper.getRequest());
         { // 先审核
@@ -102,7 +98,7 @@ public class ModifyBaseItemService extends BaseMapper {
                 boolean needSingleQuotes = (mbi.getType()!=SystemConstants.MODIFY_BASE_ITEM_TYPE_INT);
                 String sql = "update " + tableName + " set " + mbi.getCode() + " = " + (needSingleQuotes?"'":"") +
                         StringEscapeUtils.escapeSql(mbi.getModifyValue().replace("\\", "\\\\")) + (needSingleQuotes ? "'" : "")
-                        + " where "+ mbi.getTableIdName() + "=" + sysUser.getId();
+                        + " where "+ mbi.getTableIdName() + "=" + _sysUser.getId();
                 commonMapper.excuteSql(sql);
             }
         }
@@ -138,9 +134,8 @@ public class ModifyBaseItemService extends BaseMapper {
         }
 
         // 没审核通过或者不需要更新数据的，则不更新缓存
-        if(BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return null;
+        if(BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return;
 
-        // 返回更新缓存对象
-        return sysUser;
+        cacheService.clearUserCache(_sysUser);
     }
 }

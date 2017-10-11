@@ -186,7 +186,7 @@
     </thead>
     <tbody>
     <c:forEach items="${dispatchCadres}" var="dispatchCadre" varStatus="st">
-      <c:set value="${cm:getUserById(cadreMap.get(dispatchCadre.cadreId).userId)}" var="user"/>
+      <c:set value="${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId)}" var="user"/>
       <tr>
         <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
         <td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>

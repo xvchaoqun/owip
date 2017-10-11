@@ -19,10 +19,10 @@ import service.BaseMapper;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class BranchMemberGroupService extends BaseMapper {
@@ -82,12 +82,11 @@ public class BranchMemberGroupService extends BaseMapper {
 
         for (BranchMember branchMember : getGroupAdmins(groupId)) {
             int userId = branchMember.getUserId();
-            SysUserView sysUser = sysUserService.findById(userId);
             // 删除账号的"党支部管理员"角色
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
             List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
             if(branchIdList.size()==0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
+                sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN);
             }
         }
     }
@@ -99,9 +98,8 @@ public class BranchMemberGroupService extends BaseMapper {
             SysUserView sysUser = sysUserService.findById(userId);
             // 添加账号的"党支部管理员"角色
             // 如果账号是现任班子的管理员， 且没有"党支部管理员"角色，则添加
-            Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());
-            if (!roleStrSet.contains(SystemConstants.ROLE_BRANCHADMIN)) {
-                sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN, sysUser.getUsername(), sysUser.getCode());
+            if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_BRANCHADMIN)) {
+                sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN);
             }
         }
     }

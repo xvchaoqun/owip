@@ -386,7 +386,7 @@ public class UserPassportDrawController extends AbroadBaseController {
            return failed("请选择证件");
         }
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         Passport passportTw = null;
         if(type == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
 
@@ -485,7 +485,7 @@ public class UserPassportDrawController extends AbroadBaseController {
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
         if(passport.getCadreId() != cadreId.intValue()) throw new UnauthorizedException();

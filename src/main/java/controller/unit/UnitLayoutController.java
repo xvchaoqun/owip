@@ -113,7 +113,6 @@ public class UnitLayoutController extends BaseController {
         }
         modelMap.put("pUnitAdminCadreMap", pUnitAdminCadreMap);
         modelMap.put("npUnitAdminCadreMap", npUnitAdminCadreMap);
-        modelMap.put("cadreMap", cadreService.findAll());
 
         return "unit/unitLayout/unit_layout_other";
     }

@@ -30,6 +30,16 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Byte cadreRewardCheck(java.lang.Integer,java.lang.Byte)</function-signature>
 	</function>
+	<function>
+		<name>getCadreById</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.cadre.CadreView getCadreById(java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>getCadreByUserId</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.cadre.CadreView getCadreByUserId(java.lang.Integer)</function-signature>
+	</function>
 
 	<function>
 		<name>findPermissions</name>

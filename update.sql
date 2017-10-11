@@ -2,6 +2,16 @@
 
 新增角色 cadreRecruit 应聘干部（普通教师）
 
+
+#专技岗位等级
+delete from base_meta_type where class_id=41 and sort_order is not null;
+update  base_meta_type set sort_order=ABS(cast(id as signed)-294)  where class_id=41;
+
+#专业技术职务
+update  base_meta_type set sort_order=ABS(cast(id as signed)-281)  where class_id=40;
+
+
+
 2017-10-09
 ALTER TABLE `crs_post`
 	CHANGE COLUMN `is_publish` `pub_status` TINYINT(3) UNSIGNED NOT NULL COMMENT '发布状态，0 未发布 1 已发布  2 取消发布' AFTER `create_time`;
@@ -11,7 +21,9 @@ update crs_applicant set require_check_status=0 where require_check_status is nu
 
 给干部、后备干部、考察对象添加权限 cadreAdminLevel:edit
 
-
+ALTER TABLE `ow_member_in`
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(50) NOT NULL COMMENT '转出单位联系电话' AFTER `from_address`,
+	CHANGE COLUMN `from_fax` `from_fax` VARCHAR(50) NOT NULL COMMENT '转出单位传真' AFTER `from_phone`;
 
 2017-10-07
 ALTER TABLE `sys_config`

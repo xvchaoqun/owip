@@ -50,7 +50,7 @@ public class CadreFamliyController extends BaseController {
 
         if (cadreId!=null) {
 
-            CadreView cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
@@ -189,7 +189,7 @@ public class CadreFamliyController extends BaseController {
     @RequestMapping("/cadreFamliy_au")
     public String cadreFamliy_au(Integer id, int cadreId, ModelMap modelMap) {
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

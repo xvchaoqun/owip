@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by fafa on 2016/1/19.
@@ -47,20 +47,20 @@ public class PartyMemberAdminService extends BaseMapper {
         if(partyMemberGroup.getIsPresent()) { // 只有当前班子是现任班子才操作
 
             Integer userId = partyMember.getUserId();
-            SysUserView sysUser = sysUserService.findById(userId);
+
             if(partyMember.getIsAdmin()){
                 // 删除账号的"分党委管理员"角色
                 // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
                 List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
                 if(partyIdList.size()==0) {
-                    sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
+                    sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN);
                 }
             }else{
                 // 添加账号的"分党委管理员"角色
                 // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
-                Set<String> roleStrSet = sysUserService.findRoles(sysUser.getUsername());
-                if (!roleStrSet.contains(SystemConstants.ROLE_PARTYADMIN)) {
-                    sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN, sysUser.getUsername(), sysUser.getCode());
+                SysUserView sysUser = sysUserService.findById(userId);
+                if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_PARTYADMIN)) {
+                    sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN);
                 }
             }
         }

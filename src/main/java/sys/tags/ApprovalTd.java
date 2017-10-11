@@ -5,11 +5,8 @@ import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import persistence.abroad.ApplySelfMapper;
 import service.abroad.ApplySelfService;
-import service.cadre.CadreService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
@@ -29,8 +26,7 @@ public class ApprovalTd extends BodyTagSupport {
     @Override
     public int doStartTag() {
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-        WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext());
-        ApplySelfService applySelfService = (ApplySelfService) wac.getBean("applySelfService");
+        ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
@@ -123,11 +119,10 @@ public class ApprovalTd extends BodyTagSupport {
         }
 
         if(!view && ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN)) {
-            ApplySelfMapper applySelfMapper = (ApplySelfMapper) wac.getBean("applySelfMapper");
-            CadreService cadreService = (CadreService) wac.getBean("cadreService");
-            SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");
+            ApplySelfMapper applySelfMapper = CmTag.getBean(ApplySelfMapper.class);
+            SysUserService sysUserService = CmTag.getBean(SysUserService.class);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-            CadreView cadre = cadreService.findAll().get(applySelf.getCadreId());
+            CadreView cadre = CmTag.getCadreById(applySelf.getCadreId());
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
 
             if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒

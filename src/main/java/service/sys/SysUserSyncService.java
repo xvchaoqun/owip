@@ -137,7 +137,7 @@ public class SysUserSyncService extends BaseMapper {
                 ret = 1;
             } else {
                 record.setId(sysUser.getId());
-                sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+                sysUserService.updateByPrimaryKeySelective(record);
                 ret = 0;
             }
 
@@ -147,9 +147,7 @@ public class SysUserSyncService extends BaseMapper {
             logger.error("同步出错", ex);
         }
 
-        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(record.getId());
-        sysUserService.addRole(_sysUser.getId(), SystemConstants.ROLE_TEACHER, _sysUser.getUsername(), _sysUser.getCode());
-
+        sysUserService.addRole(record.getId(), SystemConstants.ROLE_TEACHER);
         return ret;
     }
 
@@ -264,7 +262,7 @@ public class SysUserSyncService extends BaseMapper {
                 ret = 1;
             } else {
                 record.setId(sysUser.getId());
-                sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+                sysUserService.updateByPrimaryKeySelective(record);
 
                 ret = 0;
             }
@@ -392,7 +390,7 @@ public class SysUserSyncService extends BaseMapper {
                 ret = 1;
             } else {
                 record.setId(sysUser.getId());
-                sysUserService.updateByPrimaryKeySelective(record, sysUser.getUsername(), sysUser.getCode());
+                sysUserService.updateByPrimaryKeySelective(record);
 
                 ret = 0;
             }

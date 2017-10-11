@@ -198,7 +198,7 @@ public class CadreRewardController extends BaseController {
             CadreReward cadreReward = cadreRewardMapper.selectByPrimaryKey(id);
             modelMap.put("cadreReward", cadreReward);
         }
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

@@ -85,7 +85,7 @@ public class PcsPrOwService extends BaseMapper {
         List<SysUserView> prUsers = sysUserService.findByRole(SystemConstants.ROLE_PCS_PR);
         for (SysUserView prUser : prUsers) {
             // 清除角色
-            sysUserService.delRole(prUser.getUserId(), SystemConstants.ROLE_PCS_PR, prUser.getUsername(), prUser.getCode());
+            sysUserService.delRole(prUser.getUserId(), SystemConstants.ROLE_PCS_PR);
         }
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
@@ -107,8 +107,7 @@ public class PcsPrOwService extends BaseMapper {
             pcsPrCandidateMapper.updateByPrimaryKeySelective(record);
 
             Integer userId = candidate.getUserId();
-            SysUserView uv = sysUserService.findById(userId);
-            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_PR, uv.getUsername(), uv.getCode());
+            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_PR);
         }
     }
 }

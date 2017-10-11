@@ -23,7 +23,7 @@ pageEncoding="UTF-8" %>
                     <tbody>
                     <c:forEach items="${unitCadreTransfers}" var="unitCadreTransfer" varStatus="st">
                         <tr>
-								<td nowrap>${cm:getUserById(cadreMap.get(unitCadreTransfer.cadreId).userId).realname}</td>
+								<td nowrap>${cm:getUserById(cm:getCadreById(unitCadreTransfer.cadreId).userId).realname}</td>
 								<td nowrap>${unitCadreTransfer.name}</td>
 								<td nowrap>${cm:formatDate(unitCadreTransfer.appointTime,'yyyy-MM-dd')}</td>
 								<td nowrap>${cm:formatDate(unitCadreTransfer.dismissTime,'yyyy-MM-dd')}</td>

@@ -163,7 +163,7 @@ public class CadreWorkController extends BaseController {
         CrpRecordExample.Criteria criteria = example.createCriteria();
 
         if (cadreId != null) {
-            CadreView cadreView = cadreService.findAll().get(cadreId);
+            CadreView cadreView = cadreViewMapper.selectByPrimaryKey(cadreId);
             criteria.andUserIdEqualTo(cadreView.getUserId());
         }
 
@@ -255,7 +255,7 @@ public class CadreWorkController extends BaseController {
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(fid);
             modelMap.put("topCadreWork", cadreWork);
         }
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
@@ -296,7 +296,7 @@ public class CadreWorkController extends BaseController {
                 modelMap.put("unit", unitService.findAll().get(cadreWork.getUnitId()));
             }
         }
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);

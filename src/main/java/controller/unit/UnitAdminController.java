@@ -80,7 +80,7 @@ public class UnitAdminController extends BaseController {
             UnitAdmin unitAdmin = unitAdminMapper.selectByPrimaryKey(id);
             modelMap.put("unitAdmin", unitAdmin);
             groupId = unitAdmin.getGroupId();
-            CadreView cadre = cadreService.findAll().get(unitAdmin.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(unitAdmin.getCadreId());
             modelMap.put("cadre", cadre);
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);

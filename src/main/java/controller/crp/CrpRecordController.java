@@ -150,7 +150,7 @@ public class CrpRecordController extends BaseController {
         record.setIsPresentCadre(BooleanUtils.isTrue(record.getIsPresentCadre()));
 
         if (cadreId != null) {
-            CadreView cv = cadreService.findAll().get(cadreId);
+            CadreView cv = cadreViewMapper.selectByPrimaryKey(cadreId);
             record.setUserId(cv.getUserId());
         }
 

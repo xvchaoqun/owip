@@ -123,8 +123,7 @@ public class ApplySelfService extends BaseMapper {
             Map<Integer, ApproverBlackList> mainPostBlackList = approverBlackListService.findAll(mainPostApproverType.getId());
             Map<Integer, ApproverBlackList> leaderBlackList = approverBlackListService.findAll(leaderApproverType.getId());
 
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            CadreView cadre = cadreMap.get(cadreId);
+            CadreView cadre = CmTag.getCadreById(cadreId);
             ApproverType approverType = approverTypeService.findAll().get(approvalTypeId);
             if (approverType.getType() == SystemConstants.APPROVER_TYPE_UNIT) { // 查找本单位正职
                 List<SysUserView> _users = new ArrayList<SysUserView>();
@@ -608,7 +607,7 @@ public class ApplySelfService extends BaseMapper {
             CadreService cadreService = (CadreService) wac.getBean("cadreService");
             SysUserService sysUserService = (SysUserService) wac.getBean("sysUserService");
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-            CadreView cadre = cadreService.findAll().get(applySelf.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(applySelf.getCadreId());
             SysUser sysUser = sysUserService.findById(cadre.getUserId());
 
             if((firstVal.getValue()!=null && firstVal.getValue()==0)||(lastVal.getValue()!=null)) { //初审未通过，或者终审完成，需要短信提醒
@@ -675,7 +674,7 @@ public class ApplySelfService extends BaseMapper {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         Integer cadreId = applySelf.getCadreId();
-        //CadreView cadre = cadreService.findAll().get(cadreId);
+        //CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         //Integer postId = cadre.getPostId();
 
         Integer applicatTypeId = null;
@@ -879,7 +878,7 @@ public class ApplySelfService extends BaseMapper {
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
         int targetCadreId = applySelf.getCadreId(); // 待审批的干部
-        CadreView targetCadre = cadreService.findAll().get(targetCadreId);
+        CadreView targetCadre = cadreViewMapper.selectByPrimaryKey(targetCadreId);
 
         ApproverType approverType = approverTypeMapper.selectByPrimaryKey(approvalTypeId);
         Byte type = approverType.getType();

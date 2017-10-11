@@ -45,7 +45,7 @@ public class ModifyCadreAuthController extends BaseController {
     public String modifyCadreAuth(Integer cadreId, ModelMap modelMap) {
 
         if(cadreId!=null) {
-            CadreView cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
         }
@@ -108,7 +108,7 @@ public class ModifyCadreAuthController extends BaseController {
         record.setAddIp(IpUtils.getRealIp(request));
 
         if (id == null) {
-            modifyCadreAuthService.insertSelective(record, record.getCadre().getUser());
+            modifyCadreAuthService.insertSelective(record);
             logger.info(addLog( SystemConstants.LOG_ADMIN, "添加干部信息修改权限设置：%s", record.getId()));
         } else {
             modifyCadreAuthService.updateByPrimaryKeySelective(record);
@@ -125,7 +125,7 @@ public class ModifyCadreAuthController extends BaseController {
         if (id != null) {
             ModifyCadreAuth modifyCadreAuth = modifyCadreAuthMapper.selectByPrimaryKey(id);
             modelMap.put("modifyCadreAuth", modifyCadreAuth);
-            CadreView cadre = cadreService.findAll().get(modifyCadreAuth.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(modifyCadreAuth.getCadreId());
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
         }

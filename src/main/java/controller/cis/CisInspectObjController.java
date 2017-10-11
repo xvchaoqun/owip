@@ -1,7 +1,6 @@
 package controller.cis;
 
 import controller.BaseController;
-import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
 import domain.cis.CisInspectObjView;
 import domain.cis.CisInspectObjViewExample;
@@ -26,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -57,8 +57,7 @@ public class CisInspectObjController extends BaseController {
                                      ModelMap modelMap) {
 
         if(cadreId!=null) {
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            modelMap.put("cadre", cadreMap.get(cadreId));
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
         List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
         modelMap.put("inspectors", nowInspectors);
@@ -216,8 +215,8 @@ public class CisInspectObjController extends BaseController {
         if (id != null) {
             CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(id);
             modelMap.put("cisInspectObj", cisInspectObj);
-            Map<Integer, CadreView> cadreMap = cadreService.findAll();
-            modelMap.put("cadre", cadreMap.get(cisInspectObj.getCadreId()));
+            int cadreId = cisInspectObj.getCadreId();
+            modelMap.put("cadre", CmTag.getCadreById(cadreId));
             modelMap.put("chiefInspector", cisInspectObj.getChiefInspector());
         }
 

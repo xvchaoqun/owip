@@ -117,7 +117,7 @@ public class UserPassportApplyController extends AbroadBaseController {
             // 确认干部只能提交自己的申请
             cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
         }else{
-            cadre = cadreService.findAll().get(cadreId);
+            cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         }
         modelMap.put("cadre", cadre);
 

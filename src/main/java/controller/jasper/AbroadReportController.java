@@ -53,7 +53,7 @@ public class AbroadReportController extends BaseController {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
-        CadreView cadre = cadreService.findAll().get(passport.getCadreId());
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(passport.getCadreId());
         SysUserView user = sysUserService.findById(cadre.getUserId());
         //String unit = unitService.findAll().get(cadre.getUnitId()).getName();
         String title = cadre.getTitle();
@@ -126,7 +126,7 @@ public class AbroadReportController extends BaseController {
             Integer passportId = passportDraw.getPassportId();
             Passport passport = passportMapper.selectByPrimaryKey(passportId);
             classId = passport.getClassId();
-            CadreView cadre = cadreService.findAll().get(passportDraw.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(passportDraw.getCadreId());
             userId = cadre.getUserId();
         }
 
@@ -194,7 +194,7 @@ public class AbroadReportController extends BaseController {
         if (id != null) { // 以id为准
             passportApply = passportApplyMapper.selectByPrimaryKey(id);
             classId = passportApply.getClassId();
-            CadreView cadre = cadreService.findAll().get(passportApply.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(passportApply.getCadreId());
             userId = cadre.getUserId();
         }
 

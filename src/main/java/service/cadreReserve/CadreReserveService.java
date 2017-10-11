@@ -93,7 +93,7 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            CadreView cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
             throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条记录");
         }
@@ -110,7 +110,7 @@ public class CadreReserveService extends BaseMapper {
         List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
         if(cadreReserves.size()>1){
             CadreReserve cadreReserve = cadreReserves.get(0);
-            CadreView cadre = cadreService.findAll().get(cadreReserve.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
             throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()
                     +"状态异常，存在多条后备干部[已列为考察对象]记录");
         }
@@ -121,17 +121,15 @@ public class CadreReserveService extends BaseMapper {
     // 直接添加后备干部
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void insertSelective(int userId, CadreReserve record, Cadre cadreRecord){
 
         // 检查
         directAddCheck(record.getId(), userId);
 
-        SysUserView uv = sysUserService.findById(userId);
         // 添加后备干部角色
-        sysUserService.addRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE, uv.getUsername(), uv.getCode());
+        sysUserService.addRole(userId, SystemConstants.ROLE_CADRERESERVE);
 
         Integer cadreId = null;
         {
@@ -176,8 +174,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void updateByPrimaryKeySelective(CadreReserve record, Cadre cadreRecord){
 
@@ -197,8 +194,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public int importCadreReserves(final List<XlsCadreReserve> beans, byte reserveType) {
 
@@ -237,8 +233,7 @@ public class CadreReserveService extends BaseMapper {
     // 列为考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public Cadre pass(CadreReserve record, Cadre cadreRecord) {
 
@@ -268,14 +263,14 @@ public class CadreReserveService extends BaseMapper {
         record.setStatus(SystemConstants.CADRE_RESERVE_STATUS_TO_INSPECT);
         cadreReserveMapper.updateByPrimaryKeySelective(record);
 
-        SysUserView uv = sysUserService.findById(userId);
         // 改变账号角色，后备干部->考核对象
-        sysUserService.changeRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE,
-                SystemConstants.ROLE_CADREINSPECT, uv.getUsername(), uv.getCode());
+        sysUserService.changeRole(userId, SystemConstants.ROLE_CADRERESERVE, SystemConstants.ROLE_CADREINSPECT);
 
         // 检查
         //cadreInspectService.directAddCheck(null, userId);
         if(cadreInspectService.getNormalRecord(cadreId)!=null){
+
+            SysUserView uv = sysUserService.findById(userId);
             throw new OpException(uv.getRealname() + "已经是考察对象");
         }
         // 添加到考察对象中
@@ -294,8 +289,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void abolish(Integer id) {
 
@@ -316,9 +310,8 @@ public class CadreReserveService extends BaseMapper {
             cadreMapper.deleteByPrimaryKey(cadre.getId());
         }*/
 
-        SysUserView uv = cadre.getUser();
         // 删除后备干部角色
-        sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADRERESERVE, uv.getUsername(), uv.getCode());
+        sysUserService.delRole(cadre.getUserId(), SystemConstants.ROLE_CADRERESERVE);
 
         CadreReserve record = new CadreReserve();
         record.setId(id);
@@ -328,8 +321,7 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true),
-            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true)
     })
     public void batchDel(Integer[] ids){
 

@@ -34,7 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:set var="cadre" value="${cadreMap.get(passportDraw.cadreId)}"/>
+                <c:set var="cadre" value="${cm:getCadreById(passportDraw.cadreId)}"/>
                 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                 <tr>
 

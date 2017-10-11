@@ -78,7 +78,7 @@ public class CadreController extends BaseController {
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         String msg = "";
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         SysUserView sysUser = cadre.getUser();
         if (sysUser == null) {
             msg = "该用户不存在";
@@ -117,7 +117,7 @@ public class CadreController extends BaseController {
         modelMap.put("status", status);
 
         if (cadreId != null) {
-            CadreView cadre = cadreService.findAll().get(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             if (cadre != null) {
                 SysUserView sysUser = sysUserService.findById(cadre.getUserId());
@@ -351,7 +351,7 @@ public class CadreController extends BaseController {
                              ModelMap modelMap) {
         modelMap.put("to", to);
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
         modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
 
@@ -363,7 +363,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_base")
     public String cadre_base(Integer cadreId, ModelMap modelMap) {
 
-        CadreView cadre = cadreService.findAll().get(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
 
         SysUserView uv = sysUserService.findById(cadre.getUserId());
@@ -415,7 +415,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_leave")
     public String cadre_leave(int id, ModelMap modelMap) {
 
-        CadreView cadre = cadreService.findAll().get(id);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(id);
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
@@ -462,9 +462,8 @@ public class CadreController extends BaseController {
 
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         for (CadreView cadre : cadreMap.values()) {
-            SysUserView sysUser = cadre.getUser();
             // 添加干部身份
-            sysUserService.addRole(sysUser.getId(), SystemConstants.ROLE_CADRE, sysUser.getUsername(), sysUser.getCode());
+            sysUserService.addRole(cadre.getUserId(), SystemConstants.ROLE_CADRE);
         }
 
         return success(FormUtils.SUCCESS);
