@@ -152,7 +152,7 @@
             ondblClickRow: function () {
             },
             pager: "#jqGridPager_cadreReward",
-            url: '${ctx}/cadreReward_data?${cm:encodeQueryString(pageContext.request.queryString)}',
+            url: '${ctx}/cadreReward_data?rewardType=${CADRE_REWARD_TYPE_OTHER}&${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: colModels.cadreReward
         });
         $(window).triggerHandler('resize.jqGrid2');
