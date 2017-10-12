@@ -650,11 +650,11 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(str);
         //}
 
-        /*row = sheet.getRow(3);
+        row = sheet.getRow(3);
         cell = row.getCell(1);
         str = cell.getStringCellValue()
                 .replace("type", typeName);
-        cell.setCellValue(str);*/
+        cell.setCellValue(str);
 
         int startRow = 5;
         int rowCount = candidates.size();

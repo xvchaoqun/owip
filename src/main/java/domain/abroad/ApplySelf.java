@@ -23,8 +23,6 @@ public class ApplySelf implements Serializable {
         if(sysUserView==null) {
             CadreView cadre = getCadre();
             sysUserView = CmTag.getUserById(cadre.getUserId());
-        }else{
-            System.out.println("---" + sysUserView);
         }
 
         return sysUserView;
@@ -33,8 +31,6 @@ public class ApplySelf implements Serializable {
 
         if(cadreView==null){
             cadreView = CmTag.getCadreById(cadreId);
-        }else{
-            System.out.println("---" + cadreView);
         }
 
         return cadreView;
