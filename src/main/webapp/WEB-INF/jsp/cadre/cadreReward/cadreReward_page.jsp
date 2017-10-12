@@ -24,12 +24,12 @@
             <i class="fa fa-info-circle"></i> 填写说明</a>
         <shiro:hasPermission name="cadreReward:edit">
             <a class="popupBtn btn btn-success btn-sm"
-               data-url="${ctx}/cadreReward_au?rewardType=${param.rewardType}&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+               data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                 添加</a>
             <a class="jqOpenViewBtn btn btn-primary btn-sm"
                data-url="${ctx}/cadreReward_au"
                data-grid-id="#jqGrid_cadreReward"
-               data-querystr="&rewardType=${param.rewardType}&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
+               data-querystr="&rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
                 修改</a>
         </shiro:hasPermission>
         <shiro:hasPermission name="cadreReward:del">
@@ -143,7 +143,7 @@
         $(".cadre-info-check").prop("disabled", true);
         </c:if>
         function _innerPage(type, fn) {
-            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreReward_page?rewardType=${param.rewardType}&cadreId=${param.cadreId}&type=" + type, callback:fn})
+            $("#view-box .tab-content").loadPage({url:"${ctx}/cadreReward_page?rewardType=${CADRE_REWARD_TYPE_OTHER}&cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreReward").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
