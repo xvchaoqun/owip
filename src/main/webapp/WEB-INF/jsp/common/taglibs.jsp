@@ -266,6 +266,10 @@
 <c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_AUDIO%>" var="CRS_POST_FILE_TYPE_AUDIO"/>
 <c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_MAP%>" var="CRS_POST_FILE_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.CRS_APPLICANT_STATUS_SAVE%>" var="CRS_APPLICANT_STATUS_SAVE"/>
+<c:set value="<%=SystemConstants.CRS_APPLICANT_STATUS_SUBMIT%>" var="CRS_APPLICANT_STATUS_SUBMIT"/>
+<c:set value="<%=SystemConstants.CRS_APPLICANT_STATUS_DELETE%>" var="CRS_APPLICANT_STATUS_DELETE"/>
+
 <c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS"/>
 <c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS"/>
 

@@ -1287,6 +1287,18 @@ public class SystemConstants {
         CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_POST, "任职资格");
     }
 
+    // 招聘岗位 报名状态，0 暂存 1 已提交 2 已删除
+    public final static byte CRS_APPLICANT_STATUS_SAVE = 0;
+    public final static byte CRS_APPLICANT_STATUS_SUBMIT = 1;
+    public final static byte CRS_APPLICANT_STATUS_DELETE = 2;
+    public static Map<Byte, String> CRS_APPLICANT_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CRS_APPLICANT_STATUS_MAP.put(CRS_APPLICANT_STATUS_SAVE, "暂存");
+        CRS_APPLICANT_STATUS_MAP.put(CRS_APPLICANT_STATUS_SUBMIT, "已提交");
+        CRS_APPLICANT_STATUS_MAP.put(CRS_APPLICANT_STATUS_DELETE, "已删除");
+    }
+
     // 招聘岗位 报名人员 信息审核状态，0 待审核 1 通过 2 未通过
     public final static byte CRS_APPLICANT_INFO_CHECK_STATUS_INIT = 0;
     public final static byte CRS_APPLICANT_INFO_CHECK_STATUS_PASS = 1;

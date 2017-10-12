@@ -622,7 +622,7 @@ public class PcsExportService extends BaseMapper {
 
         String filename = "wy-1-1_6.xlsx";
         if (stage == SystemConstants.PCS_STAGE_SECOND) {
-            filename = "wy-3-1-1.xlsx"; // 三下名单
+            filename = "wy-3-1_1.xlsx"; // 三下名单
         }
 
         String typeName = SystemConstants.PCS_USER_TYPE_MAP.get(type);
@@ -638,7 +638,7 @@ public class PcsExportService extends BaseMapper {
                 .replace("stage", SystemConstants.PCS_STAGE_MAP.get((byte)(stage+1))); // 下一个阶段
         cell.setCellValue(str);
 
-        if (stage == SystemConstants.PCS_STAGE_FIRST) {
+        //if (stage == SystemConstants.PCS_STAGE_FIRST) {
             String count = "30";
             if (type == SystemConstants.PCS_USER_TYPE_JW)
                 count = "16";
@@ -648,13 +648,13 @@ public class PcsExportService extends BaseMapper {
                     .replaceAll("type", typeName)
                     .replace("count", count);
             cell.setCellValue(str);
-        }
+        //}
 
-        row = sheet.getRow(3);
+        /*row = sheet.getRow(3);
         cell = row.getCell(1);
         str = cell.getStringCellValue()
                 .replace("type", typeName);
-        cell.setCellValue(str);
+        cell.setCellValue(str);*/
 
         int startRow = 5;
         int rowCount = candidates.size();

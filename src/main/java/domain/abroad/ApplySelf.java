@@ -15,12 +15,29 @@ public class ApplySelf implements Serializable {
         return SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(type);
     }
 
+    private CadreView cadreView;
+    private SysUserView sysUserView;
+
     public SysUserView getUser(){
-        CadreView cadre = getCadre();
-        return CmTag.getUserById(cadre.getUserId());
+
+        if(sysUserView==null) {
+            CadreView cadre = getCadre();
+            sysUserView = CmTag.getUserById(cadre.getUserId());
+        }else{
+            System.out.println("---" + sysUserView);
+        }
+
+        return sysUserView;
     }
     public CadreView getCadre(){
-        return CmTag.getCadreById(cadreId);
+
+        if(cadreView==null){
+            cadreView = CmTag.getCadreById(cadreId);
+        }else{
+            System.out.println("---" + cadreView);
+        }
+
+        return cadreView;
     }
 
     public Map getApprovalTdBeanMap(){

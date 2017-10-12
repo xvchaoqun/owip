@@ -27,6 +27,8 @@ public class CrsApplicantView implements Serializable {
 
     private Integer postId;
 
+    private String report;
+
     private Date enrollTime;
 
     private Boolean isQuit;
@@ -87,6 +89,14 @@ public class CrsApplicantView implements Serializable {
 
     public void setPostId(Integer postId) {
         this.postId = postId;
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report == null ? null : report.trim();
     }
 
     public Date getEnrollTime() {

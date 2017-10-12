@@ -2,6 +2,7 @@ package controller.global;
 
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
@@ -39,7 +40,7 @@ public class CasController {
         String username = CasUtils.getUsername(request);
         if (StringUtils.isNotBlank(username)) {
             SysUserView uv = sysUserService.findByUsername(username);
-            if (uv != null) {  // 系统中存在这个用户才处理
+            if (uv != null && BooleanUtils.isFalse(uv.getLocked())) {  // 系统中存在这个用户（且状态正常）才处理
 
                 ShiroUser shiroUser = new ShiroUser(uv.getId(), uv.getUsername(), uv.getCode(),
                         uv.getRealname(), uv.getType());

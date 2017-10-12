@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="report" jdbcType="VARCHAR" property="report" />
     <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
@@ -82,7 +83,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, post_id, enroll_time, is_quit, is_recommend, recommend_ow, recommend_cadre, 
+    id, user_id, post_id, report, enroll_time, is_quit, is_recommend, recommend_ow, recommend_cadre, 
     recommend_crowd, recommend_pdf, info_check_status, info_check_remark, require_check_status, 
     require_check_remark, special_status, special_pdf, special_remark, recommend_first_count, 
     recommend_second_count, status
@@ -119,18 +120,18 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.crs.CrsApplicant">
     insert into crs_applicant (id, user_id, post_id, 
-      enroll_time, is_quit, is_recommend, 
-      recommend_ow, recommend_cadre, recommend_crowd, 
-      recommend_pdf, info_check_status, info_check_remark, 
-      require_check_status, require_check_remark, 
+      report, enroll_time, is_quit, 
+      is_recommend, recommend_ow, recommend_cadre, 
+      recommend_crowd, recommend_pdf, info_check_status, 
+      info_check_remark, require_check_status, require_check_remark, 
       special_status, special_pdf, special_remark, 
       recommend_first_count, recommend_second_count, 
       status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
-      #{enrollTime,jdbcType=TIMESTAMP}, #{isQuit,jdbcType=BIT}, #{isRecommend,jdbcType=BIT}, 
-      #{recommendOw,jdbcType=VARCHAR}, #{recommendCadre,jdbcType=VARCHAR}, #{recommendCrowd,jdbcType=VARCHAR}, 
-      #{recommendPdf,jdbcType=VARCHAR}, #{infoCheckStatus,jdbcType=TINYINT}, #{infoCheckRemark,jdbcType=VARCHAR}, 
-      #{requireCheckStatus,jdbcType=TINYINT}, #{requireCheckRemark,jdbcType=VARCHAR}, 
+      #{report,jdbcType=VARCHAR}, #{enrollTime,jdbcType=TIMESTAMP}, #{isQuit,jdbcType=BIT}, 
+      #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, #{recommendCadre,jdbcType=VARCHAR}, 
+      #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, #{infoCheckStatus,jdbcType=TINYINT}, 
+      #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, #{requireCheckRemark,jdbcType=VARCHAR}, 
       #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, #{specialRemark,jdbcType=VARCHAR}, 
       #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT})
@@ -146,6 +147,9 @@
       </if>
       <if test="postId != null">
         post_id,
+      </if>
+      <if test="report != null">
+        report,
       </if>
       <if test="enrollTime != null">
         enroll_time,
@@ -208,6 +212,9 @@
       </if>
       <if test="postId != null">
         #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="report != null">
+        #{report,jdbcType=VARCHAR},
       </if>
       <if test="enrollTime != null">
         #{enrollTime,jdbcType=TIMESTAMP},
@@ -280,6 +287,9 @@
       <if test="record.postId != null">
         post_id = #{record.postId,jdbcType=INTEGER},
       </if>
+      <if test="record.report != null">
+        report = #{record.report,jdbcType=VARCHAR},
+      </if>
       <if test="record.enrollTime != null">
         enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
       </if>
@@ -341,6 +351,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       post_id = #{record.postId,jdbcType=INTEGER},
+      report = #{record.report,jdbcType=VARCHAR},
       enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
       is_quit = #{record.isQuit,jdbcType=BIT},
       is_recommend = #{record.isRecommend,jdbcType=BIT},
@@ -370,6 +381,9 @@
       </if>
       <if test="postId != null">
         post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="report != null">
+        report = #{report,jdbcType=VARCHAR},
       </if>
       <if test="enrollTime != null">
         enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
@@ -429,6 +443,7 @@
     update crs_applicant
     set user_id = #{userId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
+      report = #{report,jdbcType=VARCHAR},
       enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
       is_quit = #{isQuit,jdbcType=BIT},
       is_recommend = #{isRecommend,jdbcType=BIT},

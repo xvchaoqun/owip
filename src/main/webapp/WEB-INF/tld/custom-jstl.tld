@@ -16,6 +16,11 @@
 		<function-signature>java.lang.Boolean canUpdate(java.lang.Integer,java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>perfectCadreInfo</name>
+		<function-class>service.cadre.CadreInfoCheckService</function-class>
+		<function-signature>boolean perfectCadreInfo(int)</function-signature>
+	</function>
+	<function>
 		<name>cadreInfoCheck</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Byte cadreInfoCheck(java.lang.Integer,java.lang.String,java.lang.Integer)</function-signature>

@@ -81,7 +81,7 @@ public class CrsApplicantController extends CrsBaseController {
         CrsApplicantViewExample example = new CrsApplicantViewExample();
         CrsApplicantViewExample.Criteria criteria = example.createCriteria()
                 .andPostIdEqualTo(postId)
-                .andStatusEqualTo(SystemConstants.AVAILABLE);
+                .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
         example.setOrderByClause("enroll_time asc");
 
         switch (cls) {
@@ -144,10 +144,11 @@ public class CrsApplicantController extends CrsBaseController {
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsApplicant_au(int postId, int userId, HttpServletRequest request) {
+    public Map do_crsApplicant_au(Integer id, int postId, int userId, String report, HttpServletRequest request) {
 
-        CrsApplicant crsApplicant = crsApplicantService.apply(postId, userId);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加报名人员：%s", crsApplicant.getId()));
+        crsApplicantService.apply(id, postId,
+                SystemConstants.CRS_APPLICANT_STATUS_SUBMIT, report, userId);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加报名人员：%s, %s", postId, userId));
 
         return success(FormUtils.SUCCESS);
     }

@@ -27,24 +27,26 @@
         <table tableName="verify_work_time" domainObjectName="verify.VerifyWorkTime">
         </table>-->
 
-        <table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
+      <!--  <table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
             <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--  <table tableName="crs_short_msg" domainObjectName="crs.CrsShortMsg" mapperName="crs.CrsShortMsgMapper">
           </table>-->
         <!--<table tableName="crs_post_expert" domainObjectName="crs.CrsPostExpert"  mapperName="crs.CrsPostExpertMapper">
         </table>-->
         <!-- <table tableName="crs_post_file" domainObjectName="crs.CrsPostFile"  mapperName="crs.CrsPostFileMapper">
          </table>-->
-        <!--<table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
+        <table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
+            <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+            <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
+        </table>
         <!--<table tableName="crs_applicant_adjust" domainObjectName="crs.CrsApplicantAdjust"  mapperName="crs.CrsApplicantAdjustMapper">
         </table>-->
         <!--<table tableName="crs_applicant_adjust_view" domainObjectName="crs.CrsApplicantAdjustView"  mapperName="crs.CrsApplicantAdjustViewMapper"

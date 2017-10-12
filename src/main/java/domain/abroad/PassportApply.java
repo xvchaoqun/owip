@@ -12,13 +12,27 @@ import java.util.Map;
 
 public class PassportApply implements Serializable {
 
-    public CadreView getCadre(){
-        return CmTag.getCadreById(cadreId);
-    }
+    private CadreView cadreView;
+    private SysUserView sysUserView;
+
     public SysUserView getApplyUser(){
-        CadreView cadre = getCadre();
-        return CmTag.getUserById(cadre.getUserId());
+
+        if(sysUserView==null) {
+            CadreView cadre = getCadre();
+            sysUserView = CmTag.getUserById(cadre.getUserId());
+        }
+
+        return sysUserView;
     }
+    public CadreView getCadre(){
+
+        if(cadreView==null){
+            cadreView = CmTag.getCadreById(cadreId);
+        }
+
+        return cadreView;
+    }
+
     public SysUserView getApprovalUser(){
         if(userId!=null)
             return CmTag.getUserById(userId);

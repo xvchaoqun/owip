@@ -14,14 +14,27 @@ import java.util.Map;
 
 public class Passport implements Serializable {
 
+    private CadreView cadreView;
+    private SysUserView sysUserView;
+
     public SysUserView getUser(){
-        CadreView cadre = getCadre();
-        return CmTag.getUserById(cadre.getUserId());
+
+        if(sysUserView==null) {
+            CadreView cadre = getCadre();
+            sysUserView = CmTag.getUserById(cadre.getUserId());
+        }
+
+        return sysUserView;
     }
     public CadreView getCadre(){
 
-        return CmTag.getCadreById(cadreId);
+        if(cadreView==null){
+            cadreView = CmTag.getCadreById(cadreId);
+        }
+
+        return cadreView;
     }
+
     public String getPassportType(){
 
         return SystemConstants.PASSPORT_TYPE_MAP.get(type);

@@ -15,6 +15,7 @@ import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreTrainExample;
 import domain.cadre.CadreView;
 import domain.sys.SysUserInfo;
+import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,12 +26,119 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.common.bean.ICadreInfoCheck;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 @Service
 public class CadreInfoCheckService extends BaseMapper {
 
     @Autowired
     private CadreEduService cadreEduService;
+
+    // 完整性校验结果
+    public static boolean perfectCadreInfo(int userId){
+
+        SysUserView uv = CmTag.getUserById(userId);
+        CadreView cv = CmTag.getCadreByUserId(userId);
+        if(uv==null || cv==null) return false;
+
+        int cadreId = cv.getId();
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "avatar", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "native_place", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "homeplace", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "household", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "health", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "specialty", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "mobile", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "phone", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "email", 1))) return false;
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "work_time", 2))) return false;
+
+        //普通教师需要校验'所在单位及职务'
+        if(CmTag.hasRole(uv.getUsername(), SystemConstants.ROLE_CADRERECRUIT)
+                && notComplete(CmTag.cadreInfoCheck(cadreId, "title", 7))) return false;
+
+        // 最高学历
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 5))) return false;
+        // 最高学位
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 6))) return false;
+
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "work", 3))) return false;
+        if(notComplete(cadreId, "post_pro", 4)) return false;
+        if(notComplete(cadreId, "post_admin", 4)) return false;
+        if(notComplete(cadreId, "post_work", 4)) return false;
+
+        if(notComplete(cadreId, "parttime", 3)) return false;
+        if(notComplete(cadreId, "train", 3)) return false;
+        if(notComplete(cadreId, "course", 3)) return false;
+
+        if(notCompleteReward(cadreId, "course_reward")) return false;
+        if(notCompleteResearch(cadreId, "research_direct")) return false;
+        if(notCompleteResearch(cadreId, "research_in")) return false;
+        if(notComplete(cadreId, "book", 3)) return false;
+        if(notComplete(cadreId, "paper", 3)) return false;
+        if(notCompleteReward(cadreId, "research_reward")) return false;
+        if(notCompleteReward(cadreId, "reward")) return false;
+
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, "famliy", 4))) return false;
+        if(notComplete(cadreId, "famliy_abroad", 4)) return false;
+        if(notComplete(cadreId, "company", 4)) return false;
+
+        return true;
+    }
+
+    private static boolean notComplete(Byte result){
+        return(result==null || result == SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST);
+    }
+
+    private static boolean notComplete(int cadreId, String updateName, int type){
+
+        Byte result = SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        if(CmTag.canUpdate(cadreId, updateName)){
+            result = CmTag.cadreInfoCheck(cadreId, updateName, type);
+        }
+        return notComplete(result);
+    }
+
+    private static boolean notCompleteReward(int cadreId, String updateName){
+
+        Byte rewardType = null;
+        switch (updateName){
+            case "course_reward":
+                rewardType = SystemConstants.CADRE_REWARD_TYPE_TEACH;
+                break;
+            case "research_reward":
+                rewardType = SystemConstants.CADRE_REWARD_TYPE_RESEARCH;
+                break;
+            case "reward":
+                rewardType = SystemConstants.CADRE_REWARD_TYPE_OTHER;
+                break;
+        }
+        Byte result = SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        if(CmTag.canUpdate(cadreId, updateName)){
+            result = CmTag.cadreRewardCheck(cadreId, rewardType);
+        }
+
+        return notComplete(result);
+    }
+
+    private static boolean notCompleteResearch(int cadreId, String updateName){
+
+        Byte researchType = null;
+        switch (updateName){
+            case "research_direct":
+                researchType = SystemConstants.CADRE_RESEARCH_TYPE_DIRECT;
+                break;
+            case "research_in":
+                researchType = SystemConstants.CADRE_RESEARCH_TYPE_IN;
+                break;
+        }
+        Byte result = SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        if(CmTag.canUpdate(cadreId, updateName)){
+            result = CmTag.cadreResearchCheck(cadreId, researchType);
+        }
+
+        return notComplete(result);
+    }
 
     // 基本信息
     public byte baseCheck(int cadreId, String name) {

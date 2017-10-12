@@ -36,14 +36,15 @@
 
                 var postIds = ${cm:toJSONArray(postIds)};
                 //console.log(postIds.indexOf(rowObject.id))
-                if(postIds.indexOf(rowObject.id)>=0) return "已报名";
+                var hasApply = (postIds.indexOf(rowObject.id)>=0);
 
+                var disabled = false;
                 if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}'){
-                    return '-'
+                    disabled = true;
                 }
 
-                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-dot-circle-o"></i> 应聘</button>'
-                        .format(rowObject.id)
+                return '<button class="openView btn {2} btn-xs" {3} data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-hand-pointer-o"></i> {1}</button>'
+                        .format(rowObject.id, hasApply?"已报名":"应聘", hasApply?"btn-success":"btn-primary",  disabled?"disabled":"")
             }, frozen: true},
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {

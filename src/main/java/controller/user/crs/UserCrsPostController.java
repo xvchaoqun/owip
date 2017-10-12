@@ -80,22 +80,25 @@ public class UserCrsPostController extends CrsBaseController {
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crsPost", crsPost);
 
+        CrsApplicant crsApplicant = crsApplicantService.getAvaliable(postId, userId);
+        modelMap.put("crsApplicant", crsApplicant);
+
         return "user/crs/crsPost_apply";
     }
 
     @RequiresPermissions("userCrsPost:*")
     @RequestMapping(value = "/crsPost_apply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_apply(int postId, HttpServletRequest request) {
+    public Map do_crsPost_apply(Integer id, int postId, byte status, String report, HttpServletRequest request) {
 
-        crsApplicantService.apply(postId, ShiroHelper.getCurrentUserId());
+        crsApplicantService.apply(id, postId, status, report,  ShiroHelper.getCurrentUserId());
         logger.info(addLog(SystemConstants.LOG_USER, "干部应聘报名"));
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("userCrsPost:*")
     @RequestMapping("/crsPost")
-    public String crsPost(ModelMap modelMap) {
+    public String crsPost_page(ModelMap modelMap) {
 
         long postCount = 0; // 当前应聘岗位数量
         {
@@ -110,7 +113,7 @@ public class UserCrsPostController extends CrsBaseController {
         if (postCount > 0) {
             CrsApplicantExample example = new CrsApplicantExample();
             example.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId())
-                    .andStatusEqualTo(SystemConstants.AVAILABLE);
+                    .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
             List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
             List<Integer> postIds = new ArrayList<>();
             for (CrsApplicant crsApplicant : crsApplicants) {

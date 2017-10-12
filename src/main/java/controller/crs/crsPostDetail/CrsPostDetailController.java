@@ -31,7 +31,7 @@ public class CrsPostDetailController extends CrsBaseController {
 
         if(step==2){
             int[] count = new int[]{-1, 0,0,0,0};
-            List<Map> sta = iCrsMapper.applicantStatic(id, SystemConstants.AVAILABLE);
+            List<Map> sta = iCrsMapper.applicantStatic(id, SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
             for (Map entity : sta) {
 
                 byte require_check_status = -1;

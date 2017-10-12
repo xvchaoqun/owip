@@ -120,7 +120,7 @@
                            data-url="${ctx}/cadreInfoForm_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息采集表</a>
                     </li>
                 </shiro:hasPermission>
-                <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                <%--<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                     <li>
 
                         <a href="javascript:"
@@ -130,7 +130,7 @@
                             <i class="fa fa-info-circle"></i> 说 明</span></a>
 
                     </li>
-                </shiro:lacksRole>
+                </shiro:lacksRole>--%>
             </ul>
 
         </div>

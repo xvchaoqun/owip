@@ -18,6 +18,12 @@ pageEncoding="UTF-8"%>
                     </select>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">工作设想和预期目标</label>
+				<div class="col-xs-6">
+                    <textarea name="report" class="limited" rows="8" maxlength="1000">${crsApplicant.report}</textarea>
+				</div>
+			</div>
     </form>
 </div>
 <div class="modal-footer">
