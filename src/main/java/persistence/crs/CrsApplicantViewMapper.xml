@@ -6,6 +6,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="report" jdbcType="VARCHAR" property="report" />
+    <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
+    <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
@@ -55,10 +57,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, post_id, report, enroll_time, is_quit, is_recommend, recommend_ow, recommend_cadre, 
-    recommend_crowd, recommend_pdf, info_check_status, info_check_remark, require_check_status, 
-    require_check_remark, special_status, special_pdf, special_remark, recommend_first_count, 
-    recommend_second_count, status, is_require_check_pass
+    id, user_id, post_id, report, ppt_name, ppt, enroll_time, is_quit, is_recommend, 
+    recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
+    info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
+    special_remark, recommend_first_count, recommend_second_count, status, is_require_check_pass
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsApplicantViewExample" resultMap="BaseResultMap">
     select

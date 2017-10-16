@@ -20,6 +20,8 @@
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
     <result column="meeting_time" jdbcType="TIMESTAMP" property="meetingTime" />
     <result column="meeting_address" jdbcType="VARCHAR" property="meetingAddress" />
+    <result column="meeting_notice" jdbcType="VARCHAR" property="meetingNotice" />
+    <result column="report_deadline" jdbcType="TIMESTAMP" property="reportDeadline" />
     <result column="quit_deadline" jdbcType="TIMESTAMP" property="quitDeadline" />
     <result column="meeting_status" jdbcType="BIT" property="meetingStatus" />
     <result column="committee_status" jdbcType="BIT" property="committeeStatus" />
@@ -27,7 +29,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="stat_expert_count" jdbcType="INTEGER" property="statExpertCount" />
+    <result column="meeting_summary" jdbcType="VARCHAR" property="meetingSummary" />
     <result column="stat_give_count" jdbcType="INTEGER" property="statGiveCount" />
     <result column="stat_back_count" jdbcType="INTEGER" property="statBackCount" />
     <result column="stat_file" jdbcType="VARCHAR" property="statFile" />
@@ -95,9 +97,9 @@
   <sql id="Base_Column_List">
     id, year, type, seq, name, job, admin_level, unit_id, num, notice, requirement, qualification, 
     post_require_id, start_time, end_time, enroll_status, meeting_time, meeting_address, 
-    quit_deadline, meeting_status, committee_status, remark, create_time, pub_status, 
-    status, stat_expert_count, stat_give_count, stat_back_count, stat_file, stat_file_name, 
-    stat_date
+    meeting_notice, report_deadline, quit_deadline, meeting_status, committee_status, 
+    remark, create_time, pub_status, status, meeting_summary, stat_give_count, stat_back_count, 
+    stat_file, stat_file_name, stat_date
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsPostExample" resultMap="BaseResultMap">
     select
@@ -135,23 +137,23 @@
       unit_id, num, notice, 
       requirement, qualification, post_require_id, 
       start_time, end_time, enroll_status, 
-      meeting_time, meeting_address, quit_deadline, 
-      meeting_status, committee_status, remark, 
-      create_time, pub_status, status, 
-      stat_expert_count, stat_give_count, stat_back_count, 
-      stat_file, stat_file_name, stat_date
-      )
+      meeting_time, meeting_address, meeting_notice, 
+      report_deadline, quit_deadline, meeting_status, 
+      committee_status, remark, create_time, 
+      pub_status, status, meeting_summary, 
+      stat_give_count, stat_back_count, stat_file, 
+      stat_file_name, stat_date)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
       #{unitId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, 
       #{requirement,jdbcType=VARCHAR}, #{qualification,jdbcType=VARCHAR}, #{postRequireId,jdbcType=INTEGER}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, 
-      #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, #{quitDeadline,jdbcType=TIMESTAMP}, 
-      #{meetingStatus,jdbcType=BIT}, #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{statExpertCount,jdbcType=INTEGER}, #{statGiveCount,jdbcType=INTEGER}, #{statBackCount,jdbcType=INTEGER}, 
-      #{statFile,jdbcType=VARCHAR}, #{statFileName,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE}
-      )
+      #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, #{meetingNotice,jdbcType=VARCHAR}, 
+      #{reportDeadline,jdbcType=TIMESTAMP}, #{quitDeadline,jdbcType=TIMESTAMP}, #{meetingStatus,jdbcType=BIT}, 
+      #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{meetingSummary,jdbcType=VARCHAR}, 
+      #{statGiveCount,jdbcType=INTEGER}, #{statBackCount,jdbcType=INTEGER}, #{statFile,jdbcType=VARCHAR}, 
+      #{statFileName,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.crs.CrsPost">
     insert into crs_post
@@ -210,6 +212,12 @@
       <if test="meetingAddress != null">
         meeting_address,
       </if>
+      <if test="meetingNotice != null">
+        meeting_notice,
+      </if>
+      <if test="reportDeadline != null">
+        report_deadline,
+      </if>
       <if test="quitDeadline != null">
         quit_deadline,
       </if>
@@ -231,8 +239,8 @@
       <if test="status != null">
         status,
       </if>
-      <if test="statExpertCount != null">
-        stat_expert_count,
+      <if test="meetingSummary != null">
+        meeting_summary,
       </if>
       <if test="statGiveCount != null">
         stat_give_count,
@@ -305,6 +313,12 @@
       <if test="meetingAddress != null">
         #{meetingAddress,jdbcType=VARCHAR},
       </if>
+      <if test="meetingNotice != null">
+        #{meetingNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDeadline != null">
+        #{reportDeadline,jdbcType=TIMESTAMP},
+      </if>
       <if test="quitDeadline != null">
         #{quitDeadline,jdbcType=TIMESTAMP},
       </if>
@@ -326,8 +340,8 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="statExpertCount != null">
-        #{statExpertCount,jdbcType=INTEGER},
+      <if test="meetingSummary != null">
+        #{meetingSummary,jdbcType=VARCHAR},
       </if>
       <if test="statGiveCount != null">
         #{statGiveCount,jdbcType=INTEGER},
@@ -409,6 +423,12 @@
       <if test="record.meetingAddress != null">
         meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
       </if>
+      <if test="record.meetingNotice != null">
+        meeting_notice = #{record.meetingNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportDeadline != null">
+        report_deadline = #{record.reportDeadline,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.quitDeadline != null">
         quit_deadline = #{record.quitDeadline,jdbcType=TIMESTAMP},
       </if>
@@ -430,8 +450,8 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.statExpertCount != null">
-        stat_expert_count = #{record.statExpertCount,jdbcType=INTEGER},
+      <if test="record.meetingSummary != null">
+        meeting_summary = #{record.meetingSummary,jdbcType=VARCHAR},
       </if>
       <if test="record.statGiveCount != null">
         stat_give_count = #{record.statGiveCount,jdbcType=INTEGER},
@@ -473,6 +493,8 @@
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
       meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
+      meeting_notice = #{record.meetingNotice,jdbcType=VARCHAR},
+      report_deadline = #{record.reportDeadline,jdbcType=TIMESTAMP},
       quit_deadline = #{record.quitDeadline,jdbcType=TIMESTAMP},
       meeting_status = #{record.meetingStatus,jdbcType=BIT},
       committee_status = #{record.committeeStatus,jdbcType=BIT},
@@ -480,7 +502,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       pub_status = #{record.pubStatus,jdbcType=TINYINT},
       status = #{record.status,jdbcType=TINYINT},
-      stat_expert_count = #{record.statExpertCount,jdbcType=INTEGER},
+      meeting_summary = #{record.meetingSummary,jdbcType=VARCHAR},
       stat_give_count = #{record.statGiveCount,jdbcType=INTEGER},
       stat_back_count = #{record.statBackCount,jdbcType=INTEGER},
       stat_file = #{record.statFile,jdbcType=VARCHAR},
@@ -544,6 +566,12 @@
       <if test="meetingAddress != null">
         meeting_address = #{meetingAddress,jdbcType=VARCHAR},
       </if>
+      <if test="meetingNotice != null">
+        meeting_notice = #{meetingNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDeadline != null">
+        report_deadline = #{reportDeadline,jdbcType=TIMESTAMP},
+      </if>
       <if test="quitDeadline != null">
         quit_deadline = #{quitDeadline,jdbcType=TIMESTAMP},
       </if>
@@ -565,8 +593,8 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="statExpertCount != null">
-        stat_expert_count = #{statExpertCount,jdbcType=INTEGER},
+      <if test="meetingSummary != null">
+        meeting_summary = #{meetingSummary,jdbcType=VARCHAR},
       </if>
       <if test="statGiveCount != null">
         stat_give_count = #{statGiveCount,jdbcType=INTEGER},
@@ -605,6 +633,8 @@
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
       meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{meetingAddress,jdbcType=VARCHAR},
+      meeting_notice = #{meetingNotice,jdbcType=VARCHAR},
+      report_deadline = #{reportDeadline,jdbcType=TIMESTAMP},
       quit_deadline = #{quitDeadline,jdbcType=TIMESTAMP},
       meeting_status = #{meetingStatus,jdbcType=BIT},
       committee_status = #{committeeStatus,jdbcType=BIT},
@@ -612,7 +642,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       pub_status = #{pubStatus,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
-      stat_expert_count = #{statExpertCount,jdbcType=INTEGER},
+      meeting_summary = #{meetingSummary,jdbcType=VARCHAR},
       stat_give_count = #{statGiveCount,jdbcType=INTEGER},
       stat_back_count = #{statBackCount,jdbcType=INTEGER},
       stat_file = #{statFile,jdbcType=VARCHAR},

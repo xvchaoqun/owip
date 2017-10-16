@@ -2023,126 +2023,45 @@
 							<w:sz w:val="36"/>
 							<w:sz-cs w:val="30"/>
 						</w:rPr>
-						<w:t>干部信息采集表</w:t>
+						<w:t>干部应聘报名表</w:t>
 					</w:r>
 				</w:p>
 			</wx:sub-section>
 			<wx:sub-section>
-				<w:p wsp:rsidR="00196B91" wsp:rsidRPr="00196B91" wsp:rsidRDefault="00196B91" wsp:rsidP="00130422">
+				<#list applicants as bean >
+                    <#if bean_index gt 0>
+			<w:p wsp:rsidR="00C42F09" wsp:rsidRDefault="00C42F09">
+				<w:pPr>
+					<w:widowControl/>
+					<w:jc w:val="left"/>
+				</w:pPr>
+				<w:r>
+					<w:br w:type="page"/>
+				</w:r>
+			</w:p>
+					</#if>
+				<w:p wsp:rsidR="00AD2788" wsp:rsidRPr="006F28D7" wsp:rsidRDefault="00AD2788" wsp:rsidP="00AD2788">
 					<w:pPr>
-						<w:spacing w:after="40" w:line="460" w:line-rule="exact"/>
+						<w:spacing w:line="440" w:line-rule="exact"/>
 						<w:jc w:val="left"/>
 						<w:outlineLvl w:val="0"/>
 						<w:rPr>
-							<w:u w:val="single"/>
+							<w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+							<wx:font wx:val="黑体"/>
+							<w:b-cs/>
+							<w:sz w:val="28"/>
+							<w:sz-cs w:val="28"/>
 						</w:rPr>
 					</w:pPr>
-					<w:r wsp:rsidRPr="00196B91">
+					<w:r wsp:rsidRPr="006F28D7">
 						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
+							<w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+							<wx:font wx:val="黑体"/>
+							<w:b-cs/>
+							<w:sz w:val="28"/>
+							<w:sz-cs w:val="28"/>
 						</w:rPr>
-						<w:t>工作证号：</w:t>
-					</w:r>
-					<w:r wsp:rsidRPr="00196B91">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t>   </w:t>
-					</w:r>
-					<w:r wsp:rsidR="008324C3">
-						<w:rPr>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t>${code!}</w:t>
-					</w:r>
-					<w:r wsp:rsidR="006E001A">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
-					</w:r>
-					<w:r wsp:rsidRPr="00196B91">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
-					</w:r>
-					<w:r wsp:rsidR="00130422">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
-					</w:r>
-					<w:r wsp:rsidRPr="00196B91">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
-					</w:r>
-					<w:r wsp:rsidR="00130422">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-						</w:rPr>
-						<w:t>                    </w:t>
-					</w:r>
-					<w:r wsp:rsidR="0038183E">
-						<w:t>    </w:t>
-					</w:r>
-					<w:r wsp:rsidR="0038183E">
-						<w:tab/>
-					</w:r>
-					<w:r wsp:rsidR="0038183E">
-						<w:tab/>
-					</w:r>
-					<w:r wsp:rsidR="0038183E">
-						<w:tab/>
-					</w:r>
-					<w:r wsp:rsidR="00130422" wsp:rsidRPr="00130422">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
-						</w:rPr>
-						<w:t>填写日期：</w:t>
-					</w:r>
-					<w:r wsp:rsidR="00A63C5D">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t>  </w:t>
-					</w:r>
-					<w:r wsp:rsidR="00130422" wsp:rsidRPr="00196B91">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
-					</w:r>
-					<w:r wsp:rsidR="008324C3">
-						<w:rPr>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t>${fillDate!}</w:t>
-					</w:r>
-					<w:r wsp:rsidR="006E001A">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
-					</w:r>
-					<w:r wsp:rsidR="00130422" wsp:rsidRPr="00196B91">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<w:u w:val="single"/>
-						</w:rPr>
-						<w:t> </w:t>
+						<w:t>应聘岗位：${bean.postName!}</w:t>
 					</w:r>
 				</w:p>
 				<w:tbl>
@@ -2240,7 +2159,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${name!}</w:t>
+									<w:t>${bean.name!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2310,7 +2229,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${gender!}</w:t>
+									<w:t>${bean.gender!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2378,7 +2297,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${birth!}</w:t>
+									<w:t>${bean.birth!}</w:t>
 								</w:r>
 							</w:p>
 							<w:p wsp:rsidR="002F186F" wsp:rsidRPr="00D22114" wsp:rsidRDefault="002F186F" wsp:rsidP="006E001A">
@@ -2402,7 +2321,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${a!}</w:t>
+									<w:t>${bean.a!}</w:t>
 								</w:r>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
@@ -2458,7 +2377,7 @@
 											<v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
 											<o:lock v:ext="edit" aspectratio="t"/>
 										</v:shapetype>
-										<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar!}</w:binData>
+										<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${bean.avatar!}</w:binData>
 										<v:shape id="_x0000_i1051" type="#_x0000_t75" style="width:81pt;height:108pt">
 											<v:imagedata src="wordml://02000001.jpg" o:title="1"/>
 										</v:shape>
@@ -2532,7 +2451,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${nation!}</w:t>
+									<w:t>${bean.nation!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2584,7 +2503,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${np!}</w:t>
+									<w:t>${bean.np!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2636,7 +2555,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${hp!}</w:t>
+									<w:t>${bean.hp!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2745,7 +2664,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${growTime!}</w:t>
+									<w:t>${bean.growTime!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2821,7 +2740,7 @@
 										<w:sz w:val="21"/>
 										<w:sz-cs w:val="21"/>
 									</w:rPr>
-									<w:t>${workTime!}</w:t>
+									<w:t>${bean.workTime!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2873,7 +2792,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${health!}</w:t>
+									<w:t>${bean.health!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2968,7 +2887,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${proPost!}</w:t>
+									<w:t>${bean.proPost!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3034,7 +2953,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${specialty!}</w:t>
+									<w:t>${bean.specialty!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3202,7 +3121,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${degree!}</w:t>
+									<w:t>${bean.degree!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3269,7 +3188,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${schoolDepMajor!}</w:t>
+									<w:t>${bean.schoolDepMajor!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3360,7 +3279,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${inDegree!}</w:t>
+									<w:t>${bean.inDegree!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3427,7 +3346,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${inSchoolDepMajor!}</w:t>
+									<w:t>${bean.inSchoolDepMajor!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3517,7 +3436,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${masterTutor!}</w:t>
+									<w:t>${bean.masterTutor!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3600,7 +3519,7 @@
 									<w:rPr>
 										<w:rFonts w:hint="fareast"/>
 									</w:rPr>
-									<w:t>${doctorTutor!}</w:t>
+									<w:t>${bean.doctorTutor!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3678,7 +3597,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${post!}</w:t>
+									<w:t>${bean.post!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3735,104 +3654,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${adminLevel!}</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-					</w:tr>
-					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="001343BA">
-						<w:trPr>
-							<w:cantSplit/>
-							<w:trHeight w:val="624"/>
-							<w:jc w:val="center"/>
-						</w:trPr>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="002059A1" wsp:rsidRPr="00D22114" wsp:rsidRDefault="002059A1" wsp:rsidP="00401152">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-								</w:pPr>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>身份证号</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="4247" w:type="dxa"/>
-								<w:gridSpan w:val="7"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="002059A1" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00FA5248" wsp:rsidP="004762DA">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:b-cs/>
-									</w:rPr>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>${idCard!}</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="1417" w:type="dxa"/>
-								<w:gridSpan w:val="2"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="002059A1" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00B11141" wsp:rsidP="00196B91">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:b-cs/>
-									</w:rPr>
-								</w:pPr>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>户籍地</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="3286" w:type="dxa"/>
-								<w:gridSpan w:val="4"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="002059A1" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00E45A7F" wsp:rsidP="00644E8B">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:b-cs/>
-									</w:rPr>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<w:b-cs/>
-									</w:rPr>
-									<w:t>${household!}</w:t>
+									<w:t>${bean.adminLevel!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3910,12 +3732,12 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
-							${parttime!}
+							${bean.parttime!}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00552BC3">
 						<w:trPr>
-							<w:trHeight w:val="5949"/>
+							<w:trHeight w:val="7819"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
 						<w:tc>
@@ -4018,109 +3840,15 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-							${learnDesc!}
-							${workDesc!}
+							${bean.learnDesc!}
+							${bean.workDesc!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
 						</w:tc>
 					</w:tr>
+
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
 						<w:trPr>
-							<w:trHeight w:val="3070"/>
-							<w:jc w:val="center"/>
-						</w:trPr>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
-								<w:vAlign w:val="center"/>
-							</w:tcPr>
-							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00401152" wsp:rsidP="00FF2118">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-								</w:pPr>
-								<w:proofErr w:type="gramStart"/>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-									<w:t>培</w:t>
-								</w:r>
-								<w:proofErr w:type="gramEnd"/>
-							</w:p>
-							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00401152" wsp:rsidP="00FF2118">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-								</w:pPr>
-								<w:proofErr w:type="gramStart"/>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-									<w:t>训</w:t>
-								</w:r>
-								<w:proofErr w:type="gramEnd"/>
-							</w:p>
-							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00401152" wsp:rsidP="00FF2118">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-								</w:pPr>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-									<w:t>情</w:t>
-								</w:r>
-							</w:p>
-							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00401152" wsp:rsidP="00FF2118">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-								</w:pPr>
-								<w:proofErr w:type="gramStart"/>
-								<w:r wsp:rsidRPr="00D22114">
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-										<w:spacing w:val="40"/>
-									</w:rPr>
-									<w:t>况</w:t>
-								</w:r>
-								<w:proofErr w:type="gramEnd"/>
-							</w:p>
-						</w:tc>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="8950" w:type="dxa"/>
-								<w:gridSpan w:val="13"/>
-								<w:vAlign w:val="top"/>
-							</w:tcPr>
-							${trainDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
-						</w:tc>
-					</w:tr>
-					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
-						<w:trPr>
-							<w:trHeight w:val="4419"/>
+							<w:trHeight w:val="5235"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
 						<w:tc>
@@ -4205,13 +3933,13 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${teachDesc!}
+						${bean.teachDesc!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
 						<w:trPr>
-							<w:trHeight w:val="7799"/>
+							<w:trHeight w:val="10149"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
 						<w:tc>
@@ -4303,7 +4031,48 @@
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
 
-						${researchDesc!}
+						${bean.researchDesc!}
+                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						</w:tc>
+					</w:tr>
+					<w:tr wsp:rsidR="00542744" wsp:rsidRPr="00CE6129" wsp:rsidTr="006F28D7">
+						<w:trPr>
+							<w:cantSplit/>
+							<w:trHeight w:val="15307"/>
+							<w:jc w:val="center"/>
+						</w:trPr>
+						<w:tc>
+							<w:tcPr>
+								<w:tcW w:w="1361" w:type="dxa"/>
+								<w:textFlow w:val="tb-rl-v"/>
+								<w:vAlign w:val="center"/>
+							</w:tcPr>
+							<w:p wsp:rsidR="00542744" wsp:rsidRPr="006F28D7" wsp:rsidRDefault="006F28D7" wsp:rsidP="006F28D7">
+								<w:pPr>
+									<w:spacing w:line="320" w:line-rule="exact"/>
+									<w:ind w:left="113" w:right="113"/>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="120"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="006F28D7">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="120"/>
+									</w:rPr>
+									<w:t>工作设想和预期目标</w:t>
+								</w:r>
+							</w:p>
+						</w:tc>
+						<w:tc>
+							<w:tcPr>
+								<w:tcW w:w="8950" w:type="dxa"/>
+								<w:gridSpan w:val="13"/>
+							</w:tcPr>
+							${bean.applicantReport!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
 						</w:tc>
 					</w:tr>
@@ -4454,7 +4223,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${otherRewardDesc!}
+						${bean.otherRewardDesc!}
                             <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
 						</w:tc>
 					</w:tr>
@@ -4517,7 +4286,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${mobile!}</w:t>
+									<w:t>${bean.mobile!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4563,7 +4332,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${phone!}</w:t>
+									<w:t>${bean.phone!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4614,7 +4383,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${email!}</w:t>
+									<w:t>${bean.email!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4661,7 +4430,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${homePhone!}</w:t>
+									<w:t>${bean.homePhone!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4791,7 +4560,7 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					${companies!}
+					${bean.companies!}
 					<w:tr wsp:rsidR="000D6C29" wsp:rsidRPr="00D22114" wsp:rsidTr="00D27E90">
 						<w:trPr>
 							<w:cantSplit/>
@@ -5051,7 +4820,7 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					${famliys!}
+					${bean.famliys!}
 					<w:tr wsp:rsidR="002616D5" wsp:rsidRPr="00D22114" wsp:rsidTr="00B03368">
 						<w:trPr>
 							<w:cantSplit/>
@@ -5263,42 +5032,39 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					${famliyAbroads!}
+					${bean.famliyAbroads!}
 				</w:tbl>
-				<w:p wsp:rsidR="00005295" wsp:rsidRPr="00644E8B" wsp:rsidRDefault="00961179" wsp:rsidP="00E6709B">
+				</#list>
+				<w:p wsp:rsidR="00E125AC" wsp:rsidRPr="00E125AC" wsp:rsidRDefault="00E125AC" wsp:rsidP="00A3090C">
+					<w:pPr>
+						<w:jc w:val="right"/>
+					</w:pPr>
 					<w:r>
 						<w:rPr>
 							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
 						</w:rPr>
-						<w:t>注：此表填好后，</w:t>
-					</w:r>
-					<w:r wsp:rsidR="00005295">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
-						</w:rPr>
-						<w:t>请</w:t>
+						<w:t>                          </w:t>
 					</w:r>
 					<w:r>
 						<w:rPr>
 							<w:rFonts w:hint="fareast"/>
 							<wx:font wx:val="宋体"/>
 						</w:rPr>
-						<w:t>发组织部干部信箱（</w:t>
+						<w:t>${schoolName!}</w:t>
 					</w:r>
-					<w:r>
+					<w:r wsp:rsidR="00A3090C">
 						<w:rPr>
 							<w:rFonts w:hint="fareast"/>
+							<wx:font wx:val="宋体"/>
 						</w:rPr>
-						<w:t>${schoolEmail!}</w:t>
+						<w:t>党委</w:t>
 					</w:r>
 					<w:r>
 						<w:rPr>
 							<w:rFonts w:hint="fareast"/>
 							<wx:font wx:val="宋体"/>
 						</w:rPr>
-						<w:t>）。</w:t>
+						<w:t>组织部制表</w:t>
 					</w:r>
 				</w:p>
 			</wx:sub-section>

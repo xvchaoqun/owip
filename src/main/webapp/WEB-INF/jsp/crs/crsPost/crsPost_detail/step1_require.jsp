@@ -12,7 +12,7 @@
             <div class="pull-right" style="margin-right: 10px">
                 <button type="button"
                         data-load-el="#qualification-content"
-                        data-url="${ctx}/crsPost_qualification?id=${param.id}"
+                        data-url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_POST}"
                         class="loadPage btn btn-xs btn-success">
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
@@ -25,7 +25,7 @@
         <div class="widget-main" id="qualification-content" style="min-height: 570px">
             ${crsPost.qualification}
             <c:if test="${empty crsPost.qualification}">
-                <c:import url="${ctx}/crsPost_qualification?id=${param.id}"/>
+                <c:import url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_POST}"/>
             </c:if>
         </div>
     </div>

@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-2 control-label">内容</label>
-				<div class="col-xs-9">
+				<div class="col-xs-8">
 					<textarea required class="form-control" name="content" rows="8">${contentTpl.content}</textarea>
 				</div>
 			</div>

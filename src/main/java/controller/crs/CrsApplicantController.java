@@ -5,6 +5,7 @@ import controller.global.OpException;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -24,7 +25,6 @@ import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -116,7 +115,7 @@ public class CrsApplicantController extends CrsBaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            crsApplicant_export(example, response);
+            crsExportService.exportApplicants(postId, example, response);
             return;
         }
 
@@ -162,6 +161,22 @@ public class CrsApplicantController extends CrsBaseController {
             modelMap.put("crsApplicant", crsApplicant);
         }
         return "crs/crsApplicant/crsApplicant_au";
+    }
+
+    // 导出应聘人报名表
+    @RequiresPermissions("crsApplicant:edit")
+    @RequestMapping("/crsApplicant_export")
+    public void crsApplicant_export(@RequestParam(required = false, value = "ids[]") Integer[] ids,
+                                    HttpServletResponse response) throws IOException, TemplateException {
+
+        //输出文件
+        String filename = sysConfigService.getSchoolName() + "处级干部应聘人报名表";
+        response.reset();
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+        response.setContentType("application/msword;charset=UTF-8");
+
+        crsExportService.process(ids, response.getWriter());
     }
 
     @RequiresPermissions("crsApplicant:edit")
@@ -260,23 +275,4 @@ public class CrsApplicantController extends CrsBaseController {
 
         return success(FormUtils.SUCCESS);
     }*/
-
-    public void crsApplicant_export(CrsApplicantViewExample example, HttpServletResponse response) {
-
-        List<CrsApplicantView> records = crsApplicantViewMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"用户|100", "报名时间|100", "是否推荐|100"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            CrsApplicantView record = records.get(i);
-            String[] values = {
-                    record.getUserId() + "",
-                    DateUtils.formatDate(record.getEnrollTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
-                    record.getIsRecommend() + ""
-            };
-            valuesList.add(values);
-        }
-        String fileName = "报名人员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
-    }
 }

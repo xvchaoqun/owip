@@ -161,6 +161,23 @@ public class FreemarkerService {
         return process(ftlPath, dataMap);
     }
 
+    public String genTextareaSegment(String content) throws IOException, TemplateException {
+
+        if(StringUtils.isBlank(content)) return null;
+
+        List<String> rows = new ArrayList();
+
+        String[] strings = content.split("\n");
+        for (String str : strings) {
+            rows.add(HtmlEscapeUtils.getTextFromHTML(str));
+        }
+
+        Map<String,Object> dataMap = new HashMap<>();
+        dataMap.put("dataList", rows);
+
+        return process( "/common/textarea.ftl", dataMap);
+    }
+
     public String genSegment3(String content, String ftlPath) throws IOException, TemplateException {
 
         String result = "";

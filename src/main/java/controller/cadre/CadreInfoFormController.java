@@ -33,7 +33,7 @@ public class CadreInfoFormController extends BaseController {
     // 干部信息采集表下载
     @RequiresPermissions("cadreInfoForm:download")
     @RequestMapping("/cadreInfoForm_download")
-    public void adform(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
+    public void cadreInfoForm_download(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         //输出文件

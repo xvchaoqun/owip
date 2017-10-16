@@ -16,7 +16,7 @@
     pager:"jqGridPager_popup",
     url: "${ctx}/sysApprovalLog_data?callback=?&id=${param.id}&type=${type}",
     colModel: [
-      { label: '阶段',  name: 'stage', width: 150 },
+      { label: '操作内容',  name: 'stage', width: 200 },
       { label: '操作时间',  name: 'createTime', width: 150 },
       { label: '操作人', name: 'user.realname' },
       { label:'审核结果',  name: 'statusName', width: 80, formatter:function(cellvalue, options, rowObject){

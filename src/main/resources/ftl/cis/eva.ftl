@@ -1498,7 +1498,7 @@
 						<w:sz w:val="28"/>
 						<w:sz-cs w:val="28"/>
 					</w:rPr>
-					<w:t>北京师范大学党委组织部制</w:t>
+					<w:t>${schoolName!}党委组织部制</w:t>
 				</w:r>
 				<w:r wsp:rsidR="002D5CF5" wsp:rsidRPr="00254907">
 					<w:rPr>

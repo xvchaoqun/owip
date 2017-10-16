@@ -29,7 +29,7 @@
                                     class="jqItemBtn btn btn-danger btn-sm">
                                 <i class="fa fa-minus-circle"></i> 退出
                             </button>
-                            <a class="openView btn btn-success btn-sm"
+                            <%--<a class="openView btn btn-success btn-sm"
                                data-url="${ctx}/user/crsApplicantAdjust"
                                data-querystr="&"><i class="fa fa-random"></i>
                                 调整岗位</a>
@@ -37,7 +37,7 @@
                             <a class="openView btn btn-primary btn-sm"
                                data-url="${ctx}/user/crsApplicantAdjust_page"
                                data-querystr="&"><i class="fa fa-history"></i>
-                                调整记录</a>
+                                调整记录</a>--%>
                             </c:if>
                         </div>
                         <div class="space-4"></div>
@@ -61,6 +61,11 @@
         rownumbers: true,
         url: '${ctx}/user/apply_crsPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '应聘详情', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
+
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_detail?postId={0}"><i class="fa fa-search"></i> 应聘详情</button>'
+                        .format(rowObject.id)
+            }, frozen: true},
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];

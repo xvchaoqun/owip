@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.crs.CrsPostFile">
+  <insert keyProperty="id" id="insert" parameterType="domain.crs.CrsPostFile">
     insert into crs_post_file (id, post_id, file_name, 
       file, type, remark, 
       create_time)
@@ -109,7 +109,7 @@
       #{file,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="domain.crs.CrsPostFile">
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.crs.CrsPostFile">
     insert into crs_post_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

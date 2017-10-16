@@ -63,6 +63,7 @@ public class CadreBaseInfoController extends BaseController {
             if(dpTypeId!=null && _dpAddTime!=null){
                 CadreParty record = new CadreParty();
                 record.setUserId(userId);
+                record.setType(SystemConstants.CADRE_PARTY_TYPE_DP);
                 record.setClassId(dpTypeId);
                 record.setGrowTime(_dpAddTime);
                 record.setRemark("干部本人添加");

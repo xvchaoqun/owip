@@ -56,7 +56,7 @@ public class CrsPostController extends CrsBaseController {
                           Integer expertUserId,
                           ModelMap modelMap) {
 
-        if(expertUserId!=null){
+        if (expertUserId != null) {
             modelMap.put("sysUser", sysUserService.findById(expertUserId));
         }
         modelMap.put("status", status);
@@ -106,7 +106,7 @@ public class CrsPostController extends CrsBaseController {
         }
 
         // 查询专家参与的招聘
-        if(expertUserId!=null){
+        if (expertUserId != null) {
 
             List<Integer> crsPostIds = new ArrayList<>();
             CrsPostExpertExample example2 = new CrsPostExpertExample();
@@ -115,9 +115,9 @@ public class CrsPostController extends CrsBaseController {
             for (CrsPostExpert crsPostExpert : crsPostExperts) {
                 crsPostIds.add(crsPostExpert.getPostId());
             }
-            if(crsPostIds.size()>0){
+            if (crsPostIds.size() > 0) {
                 criteria.andIdIn(crsPostIds);
-            }else{
+            } else {
                 criteria.andIdIsNull();
             }
 
@@ -242,60 +242,68 @@ public class CrsPostController extends CrsBaseController {
     }
 
     @RequiresPermissions("crsPost:edit")
-    @RequestMapping(value = "/crsPost_requirement", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_crsPost_requirement(Integer id, String requirement, HttpServletRequest request) {
-
-        CrsPost record = new CrsPost();
-        record.setId(id);
-        record.setRequirement(requirement);
-        crsPostService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位基本条件：%s", id));
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("crsPost:edit")
-    @RequestMapping("/crsPost_requirement")
-    public String crsPost_requirement(Integer id, ModelMap modelMap) {
+    @RequestMapping("/crsPost_templateContent")
+    public String crsPost_templateContent(Integer id, byte type, ModelMap modelMap) {
 
         if (id != null) {
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
             modelMap.put("crsPost", crsPost);
             Map<Integer, CrsTemplate> templateMap
-                    = crsTemplateService.findAll(SystemConstants.CRS_TEMPLATE_TYPE_BASE);
+                    = crsTemplateService.findAll(type);
             modelMap.put("templateMap", templateMap);
         }
-        return "crs/crsPost/crsPost_requirement";
+        return "crs/crsPost/crsPost_templateContent";
     }
 
     @RequiresPermissions("crsPost:edit")
-    @RequestMapping(value = "/crsPost_qualification", method = RequestMethod.POST)
+    @RequestMapping(value = "/crsPost_templateContent", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_qualification(Integer id, String qualification, HttpServletRequest request) {
+    public Map do_crsPost_templateContent(Integer id, byte type, String content) {
 
         CrsPost record = new CrsPost();
         record.setId(id);
-        record.setQualification(qualification);
+        if (type == SystemConstants.CRS_TEMPLATE_TYPE_BASE) {
+            record.setRequirement(content);
+        } else if (type == SystemConstants.CRS_TEMPLATE_TYPE_POST) {
+            record.setQualification(content);
+        } else if (type == SystemConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE) {
+            record.setMeetingNotice(content);
+        }
+
         crsPostService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位任职资格：%s", id));
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位%s：%s",
+                SystemConstants.CRS_TEMPLATE_TYPE_MAP.get(type), id));
 
         return success(FormUtils.SUCCESS);
     }
 
+
     @RequiresPermissions("crsPost:edit")
-    @RequestMapping("/crsPost_qualification")
-    public String crsPost_qualification(Integer id, ModelMap modelMap) {
+    @RequestMapping("/crsPost_meetingSummary")
+    public String crsPost_meetingSummary(Integer id, ModelMap modelMap) {
 
         if (id != null) {
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
             modelMap.put("crsPost", crsPost);
-            Map<Integer, CrsTemplate> templateMap
-                    = crsTemplateService.findAll(SystemConstants.CRS_TEMPLATE_TYPE_POST);
-            modelMap.put("templateMap", templateMap);
         }
-        return "crs/crsPost/crsPost_qualification";
+        return "crs/crsPost/crsPost_meetingSummary";
     }
+
+    @RequiresPermissions("crsPost:edit")
+    @RequestMapping(value = "/crsPost_meetingSummary", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsPost_meetingSummary(Integer id, String meetingSummary) {
+
+        CrsPost record = new CrsPost();
+        record.setId(id);
+        record.setMeetingSummary(meetingSummary);
+
+        crsPostService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位会议备忘：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
 
     @RequiresPermissions("crsPost:edit")
     @RequestMapping(value = "/crsPost_publish", method = RequestMethod.POST)
@@ -307,8 +315,8 @@ public class CrsPostController extends CrsBaseController {
             publish = BooleanUtils.isTrue(publish);
             CrsPost record = new CrsPost();
             record.setId(id);
-            record.setPubStatus(publish?SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED
-            :SystemConstants.CRS_POST_PUB_STATUS_CANCEL);
+            record.setPubStatus(publish ? SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED
+                    : SystemConstants.CRS_POST_PUB_STATUS_CANCEL);
             /*if (!publish) {
                 record.setStatus(SystemConstants.CRS_POST_STATUS_DELETE);
             }*/

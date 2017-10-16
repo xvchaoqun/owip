@@ -81,6 +81,12 @@
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-ehcache</artifactId>
       <version>${shiro.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>net.sf.ehcache</groupId>
+          <artifactId>ehcache-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
@@ -195,11 +201,11 @@
       <artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
       <version>1.0.6</version>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache</artifactId>
       <version>2.8.3</version>
-    </dependency>-->
+    </dependency>
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
@@ -752,7 +758,8 @@
               <include>extend/js/lazyload.js</include>
               <include>extend/js/fancybox/source/jquery.fancybox.js</include>
               <include>extend/js/fancybox/source/helpers/jquery.fancybox-buttons.js</include>
-              <include>extend/js/jquery.mousewheel.pack.js</include >
+              <!--在FF下与sidebar scroll冲突-->
+             <!-- <include>extend/js/jquery.mousewheel.pack.js</include>-->
             </includes>
           </aggregation>
 

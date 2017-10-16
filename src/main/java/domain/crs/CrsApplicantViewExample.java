@@ -355,6 +355,146 @@ public class CrsApplicantViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPptNameIsNull() {
+            addCriterion("ppt_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameIsNotNull() {
+            addCriterion("ppt_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameEqualTo(String value) {
+            addCriterion("ppt_name =", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameNotEqualTo(String value) {
+            addCriterion("ppt_name <>", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameGreaterThan(String value) {
+            addCriterion("ppt_name >", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameGreaterThanOrEqualTo(String value) {
+            addCriterion("ppt_name >=", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameLessThan(String value) {
+            addCriterion("ppt_name <", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameLessThanOrEqualTo(String value) {
+            addCriterion("ppt_name <=", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameLike(String value) {
+            addCriterion("ppt_name like", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameNotLike(String value) {
+            addCriterion("ppt_name not like", value, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameIn(List<String> values) {
+            addCriterion("ppt_name in", values, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameNotIn(List<String> values) {
+            addCriterion("ppt_name not in", values, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameBetween(String value1, String value2) {
+            addCriterion("ppt_name between", value1, value2, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNameNotBetween(String value1, String value2) {
+            addCriterion("ppt_name not between", value1, value2, "pptName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptIsNull() {
+            addCriterion("ppt is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptIsNotNull() {
+            addCriterion("ppt is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptEqualTo(String value) {
+            addCriterion("ppt =", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNotEqualTo(String value) {
+            addCriterion("ppt <>", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptGreaterThan(String value) {
+            addCriterion("ppt >", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptGreaterThanOrEqualTo(String value) {
+            addCriterion("ppt >=", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptLessThan(String value) {
+            addCriterion("ppt <", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptLessThanOrEqualTo(String value) {
+            addCriterion("ppt <=", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptLike(String value) {
+            addCriterion("ppt like", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNotLike(String value) {
+            addCriterion("ppt not like", value, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptIn(List<String> values) {
+            addCriterion("ppt in", values, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNotIn(List<String> values) {
+            addCriterion("ppt not in", values, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptBetween(String value1, String value2) {
+            addCriterion("ppt between", value1, value2, "ppt");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptNotBetween(String value1, String value2) {
+            addCriterion("ppt not between", value1, value2, "ppt");
+            return (Criteria) this;
+        }
+
         public Criteria andEnrollTimeIsNull() {
             addCriterion("enroll_time is null");
             return (Criteria) this;

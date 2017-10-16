@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="space-4"></div>
 
-<div class="row" style="width: 1050px">
+<div class="row" style="width: 1580px">
 
     <div style="width: 500px;float: left;margin-right: 25px">
         <div class="widget-box">
@@ -40,7 +40,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">退出报名的最后期限</label>
+                            <label class="col-xs-4 control-label">报名材料修改截止时间</label>
+
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <input class="form-control datetime-picker" required type="text" name="reportDeadline"
+                                           value="${cm:formatDate(crsPost.reportDeadline, "yyyy-MM-dd HH:mm")}">
+							<span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">退出竞聘截止时间</label>
 
                             <div class="col-xs-6">
                                 <div class="input-group">
@@ -61,7 +74,7 @@
             </div>
         </div>
     </div>
-    <div style="width: 500px; float:left">
+    <div style="width: 500px; float:left;margin-right: 25px">
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="smaller">
@@ -71,12 +84,13 @@
             <div class="widget-body">
                 <div class="widget-main">
 
-                    <div <%--id="accordion"--%> class="accordion-style1 panel-group">
+                    <div id="accordion" class="accordion-style1 panel-group">
                         <c:forEach items="${tplList}" var="tpl" varStatus="vs">
 
                             <div class="panel panel-default">
                                 <div class="buttons">
                                     <button type="button"
+                                            data-width="650"
                                             data-url="${ctx}/crsPost_detail/step3_shortMsg?tplKey=${tpl.code}"
                                             class="popupBtn btn btn-xs btn-primary">
                                         <i class="ace-icon fa fa-edit"></i>
@@ -97,7 +111,7 @@
                                 </div>
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a class="accordion-toggle ${vs.first?'':'collapsed'}" data-toggle="collapse" <%--data-parent="#accordion"--%>
+                                        <a class="accordion-toggle ${vs.first?'':'collapsed'}" data-toggle="collapse" data-parent="#accordion"
                                            href="#collapse${tpl.id}">
                                             <i class="ace-icon fa fa-angle-${vs.first?'down':'right'} bigger-110"
                                                data-icon-hide="ace-icon fa fa-angle-down"
@@ -114,6 +128,34 @@
                             </div>
                         </c:forEach>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 500px;float: left;margin-right: 25px">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="smaller">
+                    招聘会公告
+                    <c:if test="${not empty crsPost.meetingNotice}">
+                        <div class="pull-right" style="margin-right: 10px">
+                            <button type="button"
+                                    data-load-el="#meetingNotice-content"
+                                    data-url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_MEETINGNOTICE}"
+                                    class="loadPage btn btn-xs btn-success">
+                                <i class="ace-icon fa fa-edit"></i>
+                                编辑
+                            </button>
+                        </div>
+                    </c:if>
+                </h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main" id="meetingNotice-content" style="min-height: 570px">
+                    ${crsPost.meetingNotice}
+                    <c:if test="${empty crsPost.meetingNotice}">
+                        <c:import url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_MEETINGNOTICE}"/>
+                    </c:if>
                 </div>
             </div>
         </div>

@@ -518,16 +518,42 @@ $(document).on("click", ".linkBtn", function (e) {
     window.open(url, target || '_self', '');
 });
 
+$(document).on("click", ".jqLinkItemBtn", function (e) {
+
+    //e.stopPropagation();
+
+    var needId = $(this).data("need-id");
+    if (needId == undefined) needId = true;
+    var idName = $(this).data("id-name") || 'id';
+    var gridId = $(this).data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var id = grid.getGridParam("selrow");
+    var ids = grid.getGridParam("selarrrow");
+    if (needId && (!id || ids.length > 1)) {
+        SysMsg.warning("请选择一行", "提示");
+        return;
+    }
+
+    var url = $(this).data("url");
+    var queryString = $(this).data("querystr");
+    url = url.split("?")[0] + (queryString ? ("?" + queryString) : "");
+    url = url + (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
+
+    var target = $(this).data("target");
+    window.open(url, target || '_self', '');
+});
+
 $(document).on("click", ".jqLinkBtn", function (e) {
 
-    e.stopPropagation();
+    //e.stopPropagation();
 
-    var openBy = $(this).data("open-by");
+    var needId = $(this).data("need-id");
+    if (needId == undefined) needId = true;
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var idsName = $(this).data("ids-name") || 'ids[]';
     var ids = grid.getGridParam("selarrrow");
-    if (ids.length == 0) {
+    if (needId && ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
         return;
     }

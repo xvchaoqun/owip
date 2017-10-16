@@ -6,7 +6,7 @@
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsPost_detail/step3_meeting?id=${param.id}'><i
-                class="fa fa-bullhorn"></i> 招聘会信息
+                class="fa fa-bullhorn"></i> 通知和公告
         </a>
     </li>
     <%--<li>
@@ -23,18 +23,18 @@
                 class="fa fa-calendar-o"></i> 专家组
         </a>
     </li>
-  <%--  <li>
+    <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsPost_detail/step3_material?id=${param.id}'><i
-                class="fa fa-calendar-o"></i> 招聘会材料
+                class="fa fa-files-o"></i> 会议材料
         </a>
-    </li>--%>
+    </li>
     <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-item-content" data-callback="_menuSelected"
            data-url='${ctx}/crsPostFile?postId=${param.id}'><i
-                class="fa fa-tasks"></i> 招聘会记录
+                class="fa fa-tasks"></i> 会议记录
         </a>
     </li>
 </ul>

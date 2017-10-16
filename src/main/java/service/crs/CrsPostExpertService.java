@@ -19,10 +19,11 @@ import java.util.List;
 @Service
 public class CrsPostExpertService extends BaseMapper {
 
-    public List<Integer> getExpertUserIds(int postId, byte role) {
+    public List<Integer> getExpertUserIds(int postId, Byte role) {
 
         CrsPostExpertExample example = new CrsPostExpertExample();
-        example.createCriteria().andPostIdEqualTo(postId).andRoleEqualTo(role);
+        CrsPostExpertExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId);
+        if(role!=null) criteria.andRoleEqualTo(role);
 
         List<CrsPostExpert> crsPostExperts = crsPostExpertMapper.selectByExample(example);
         List<Integer> expertIds = new ArrayList<>();

@@ -10,7 +10,7 @@
             <div class="pull-right" style="margin-right: 10px">
                 <button type="button"
                         data-load-el="#requirement-content"
-                        data-url="${ctx}/crsPost_requirement?id=${param.id}"
+                        data-url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_BASE}"
                         class="loadPage btn btn-xs btn-success">
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
@@ -23,7 +23,7 @@
         <div class="widget-main" id="requirement-content" style="min-height: 570px">
             ${crsPost.requirement}
             <c:if test="${fn:trim(crsPost.requirement)==''}">
-                <c:import url="${ctx}/crsPost_requirement?id=${param.id}"/>
+                <c:import url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_BASE}"/>
             </c:if>
         </div>
     </div>

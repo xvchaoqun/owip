@@ -90,6 +90,15 @@ public class CrsApplicantService extends BaseMapper {
             throw new OpException("岗位{0}应聘未开始。", crsPost==null?"":crsPost.getName());
         }
 
+        Date meetingTime = crsPost.getMeetingTime();
+        Date reportDeadline = crsPost.getReportDeadline();
+
+        if(reportDeadline!=null && DateUtils.compareDate(new Date(), reportDeadline)){
+            throw new OpException("招聘会于{0}召开，{1}之后不可修改应聘材料。",
+                    DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
+                    DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));
+        }
+
         if(idDuplicate(id, postId, userId)){
             throw new OpException("岗位{0}重复应聘。", crsPost==null?"":crsPost.getName());
         }
@@ -165,7 +174,7 @@ public class CrsApplicantService extends BaseMapper {
         Date quitDeadline = crsPost.getQuitDeadline();
 
         if(quitDeadline!=null && DateUtils.compareDate(new Date(), quitDeadline)){
-            throw new OpException("招聘会于{0}召开，{0}之后不可退出。",
+            throw new OpException("招聘会于{0}召开，{1}之后不可退出。",
                     DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
                     DateUtils.formatDate(quitDeadline, "yyyy年MM月dd日 HH点"));
         }

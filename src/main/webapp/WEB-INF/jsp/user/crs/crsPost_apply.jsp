@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row" style="width: 1050px">
 <div class="tabbable">
+    <c:if test="${param.type!='detail'}">
     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
         <div style="margin-bottom: 8px;text-align: center;font-size: 16px;font-weight: bolder">
             应聘岗位：${crsPost.name}
@@ -14,7 +15,7 @@
             </div>
         </div>
     </ul>
-
+    </c:if>
     <div class="tab-content">
         <div id="home4" class="tab-pane in active">
             <c:set var="isPerfect" value="${cm:perfectCadreInfo(_user.id)}"/>
@@ -37,16 +38,23 @@
                 <input type="hidden" name="postId" value="${crsPost.id}">
                 <input type="hidden" name="id" value="${crsApplicant.id}">
                 <input type="hidden" name="status"/>
+                <input type="hidden" name="btn_type"/>
                  <textarea data-my="center" data-at="center center" required placeholder="请在此输入您的工作设想和预期目标（报名截止前可修改）"
-                           name="report" class="limited" rows="18" maxlength="1000" style="width:1026px">${crsApplicant.report}</textarea>
+                           name="report" class="limited" rows="18" maxlength="1100" style="width:1026px">${crsApplicant.report}</textarea>
             </form>
             <div class="modal-footer center" >
+                <c:if test="${param.type!='detail'}">
                 <c:if test="${crsApplicant.status!=CRS_APPLICANT_STATUS_SUBMIT}">
                 <button type="button" id="saveBtn" data-loading-text="提交中..."  data-success-text="已保存成功" autocomplete="off"
                        class="btn btn-default btn-lg"><i class="fa fa-save"></i> 暂   存</button>
                 </c:if>
                 <button type="button" id="submitBtn" data-loading-text="提交中..."  data-success-text="已提交成功" autocomplete="off"
                        class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交报名信息</button>
+                    </c:if>
+                <c:if test="${param.type=='detail'}">
+                    <button type="button" id="editBtn" data-loading-text="提交中..."  data-success-text="已提交成功" autocomplete="off"
+                            class="btn btn-primary btn-lg"><i class="fa fa-edit"></i> 编辑</button>
+               </c:if>
             </div>
             </c:if>
         </div>
@@ -99,40 +107,54 @@
 
     $("#saveBtn").click(function(){
         $("#applyForm input[name=status]").val(${CRS_APPLICANT_STATUS_SAVE});
+        $("#applyForm input[name=btn_type]").val(0);
         $("#applyForm").submit();
         return false;
     });
     $("#submitBtn").click(function(){
         $("#applyForm input[name=status]").val(${CRS_APPLICANT_STATUS_SUBMIT});
+        $("#applyForm input[name=btn_type]").val(1);
+        $("#applyForm").submit();
+        return false;
+    });
+    $("#editBtn").click(function(){
+        $("#applyForm input[name=status]").val(${CRS_APPLICANT_STATUS_SUBMIT});
+        $("#applyForm input[name=btn_type]").val(2);
         $("#applyForm").submit();
         return false;
     });
     $("#applyForm").validate({
         submitHandler: function (form) {
 
-            var status = $("#applyForm input[name=status]").val();
-            var isSubmit = (status==${CRS_APPLICANT_STATUS_SUBMIT});
-            if(isSubmit) {
+            var btn_type = $("#applyForm input[name=btn_type]").val();
+            if(btn_type==1) {
                 var $btn = $("#submitBtn").button('loading');
             }
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
 
-                        if(!isSubmit) {
+                        if(btn_type==0) {
                             $.tip({
                                 $target: $("#saveBtn"),
                                 at: 'top center', my: 'bottom center', type: 'success',
                                 msg: "填写内容已暂存，请及时填写完整并提交。"
                             });
                         }
+                        if(btn_type==2) {
+                            $.tip({
+                                $target: $("#editBtn"),
+                                at: 'top center', my: 'bottom center', type: 'success',
+                                msg: "保存成功。"
+                            });
+                        }
 
-                        if(isSubmit) {
+                        if(btn_type==1) {
                             $btn.button("success").addClass("btn-success");
                             $.hashchange();
                         }
                     }else{
-                        if(isSubmit) {
+                        if(btn_type==1) {
                             $btn.button('reset');
                         }
                     }

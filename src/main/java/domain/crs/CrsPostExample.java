@@ -1272,6 +1272,136 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andMeetingNoticeIsNull() {
+            addCriterion("meeting_notice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeIsNotNull() {
+            addCriterion("meeting_notice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeEqualTo(String value) {
+            addCriterion("meeting_notice =", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeNotEqualTo(String value) {
+            addCriterion("meeting_notice <>", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeGreaterThan(String value) {
+            addCriterion("meeting_notice >", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeGreaterThanOrEqualTo(String value) {
+            addCriterion("meeting_notice >=", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeLessThan(String value) {
+            addCriterion("meeting_notice <", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeLessThanOrEqualTo(String value) {
+            addCriterion("meeting_notice <=", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeLike(String value) {
+            addCriterion("meeting_notice like", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeNotLike(String value) {
+            addCriterion("meeting_notice not like", value, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeIn(List<String> values) {
+            addCriterion("meeting_notice in", values, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeNotIn(List<String> values) {
+            addCriterion("meeting_notice not in", values, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeBetween(String value1, String value2) {
+            addCriterion("meeting_notice between", value1, value2, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingNoticeNotBetween(String value1, String value2) {
+            addCriterion("meeting_notice not between", value1, value2, "meetingNotice");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineIsNull() {
+            addCriterion("report_deadline is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineIsNotNull() {
+            addCriterion("report_deadline is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineEqualTo(Date value) {
+            addCriterion("report_deadline =", value, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineNotEqualTo(Date value) {
+            addCriterion("report_deadline <>", value, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineGreaterThan(Date value) {
+            addCriterion("report_deadline >", value, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineGreaterThanOrEqualTo(Date value) {
+            addCriterion("report_deadline >=", value, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineLessThan(Date value) {
+            addCriterion("report_deadline <", value, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineLessThanOrEqualTo(Date value) {
+            addCriterion("report_deadline <=", value, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineIn(List<Date> values) {
+            addCriterion("report_deadline in", values, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineNotIn(List<Date> values) {
+            addCriterion("report_deadline not in", values, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineBetween(Date value1, Date value2) {
+            addCriterion("report_deadline between", value1, value2, "reportDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportDeadlineNotBetween(Date value1, Date value2) {
+            addCriterion("report_deadline not between", value1, value2, "reportDeadline");
+            return (Criteria) this;
+        }
+
         public Criteria andQuitDeadlineIsNull() {
             addCriterion("quit_deadline is null");
             return (Criteria) this;
@@ -1702,63 +1832,73 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountIsNull() {
-            addCriterion("stat_expert_count is null");
+        public Criteria andMeetingSummaryIsNull() {
+            addCriterion("meeting_summary is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountIsNotNull() {
-            addCriterion("stat_expert_count is not null");
+        public Criteria andMeetingSummaryIsNotNull() {
+            addCriterion("meeting_summary is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountEqualTo(Integer value) {
-            addCriterion("stat_expert_count =", value, "statExpertCount");
+        public Criteria andMeetingSummaryEqualTo(String value) {
+            addCriterion("meeting_summary =", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountNotEqualTo(Integer value) {
-            addCriterion("stat_expert_count <>", value, "statExpertCount");
+        public Criteria andMeetingSummaryNotEqualTo(String value) {
+            addCriterion("meeting_summary <>", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountGreaterThan(Integer value) {
-            addCriterion("stat_expert_count >", value, "statExpertCount");
+        public Criteria andMeetingSummaryGreaterThan(String value) {
+            addCriterion("meeting_summary >", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("stat_expert_count >=", value, "statExpertCount");
+        public Criteria andMeetingSummaryGreaterThanOrEqualTo(String value) {
+            addCriterion("meeting_summary >=", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountLessThan(Integer value) {
-            addCriterion("stat_expert_count <", value, "statExpertCount");
+        public Criteria andMeetingSummaryLessThan(String value) {
+            addCriterion("meeting_summary <", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountLessThanOrEqualTo(Integer value) {
-            addCriterion("stat_expert_count <=", value, "statExpertCount");
+        public Criteria andMeetingSummaryLessThanOrEqualTo(String value) {
+            addCriterion("meeting_summary <=", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountIn(List<Integer> values) {
-            addCriterion("stat_expert_count in", values, "statExpertCount");
+        public Criteria andMeetingSummaryLike(String value) {
+            addCriterion("meeting_summary like", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountNotIn(List<Integer> values) {
-            addCriterion("stat_expert_count not in", values, "statExpertCount");
+        public Criteria andMeetingSummaryNotLike(String value) {
+            addCriterion("meeting_summary not like", value, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountBetween(Integer value1, Integer value2) {
-            addCriterion("stat_expert_count between", value1, value2, "statExpertCount");
+        public Criteria andMeetingSummaryIn(List<String> values) {
+            addCriterion("meeting_summary in", values, "meetingSummary");
             return (Criteria) this;
         }
 
-        public Criteria andStatExpertCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("stat_expert_count not between", value1, value2, "statExpertCount");
+        public Criteria andMeetingSummaryNotIn(List<String> values) {
+            addCriterion("meeting_summary not in", values, "meetingSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingSummaryBetween(String value1, String value2) {
+            addCriterion("meeting_summary between", value1, value2, "meetingSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingSummaryNotBetween(String value1, String value2) {
+            addCriterion("meeting_summary not between", value1, value2, "meetingSummary");
             return (Criteria) this;
         }
 

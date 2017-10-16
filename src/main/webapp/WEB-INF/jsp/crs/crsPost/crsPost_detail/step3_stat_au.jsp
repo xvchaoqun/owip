@@ -6,14 +6,13 @@
             <div class="first">${_school}${crsPost.name}人选</div>
             <div class="sencond">专家组推荐意见汇总表</div>
         </div>
-        <div style="margin-bottom: 10px">
-            招聘会专家组共<span class="num"><input type="text" name="statExpertCount" class="num" value="${crsPost.statExpertCount}"
-                                            maxlength="3"></span>人，
+        <div style="margin-bottom: 10px;text-indent: 2em">
+            招聘会专家组共<span class="num"><input type="text" disabled value="${expertCount}"></span>人，
             发出推荐票<span class="num"><input type="text" name="statGiveCount" class="num" value="${crsPost.statGiveCount}" maxlength="3"></span>张，
             收回<span class="num"><input type="text" name="statBackCount" class="num" value="${crsPost.statBackCount}" maxlength="3"></span>张，推荐结果如下：
         </div>
         <table class="table table-bordered table-unhover2 ">
-            <thead>
+            <thead class="multi">
             <tr>
                 <th rowspan="2">招聘岗位</th>
                 <th rowspan="2">应聘人员</th>
@@ -43,17 +42,22 @@
             </c:forEach>
             <tr>
                 <td class="center">
-                    专家组推荐意见汇总表扫描件
+                    专家组推荐意见汇总表
                 </td>
-                <td colspan="3">
+                <td colspan="3" ${param.isUpdate!=1?'align="center"':''}>
+                    <c:if test="${param.isUpdate!=1 && not empty crsPost.statFile}">
+                        <t:preview filePath="${crsPost.statFile}" fileName="${crsPost.statFileName}" label="预览"/>
+                    </c:if>
+                    <c:if test="${param.isUpdate==1}">
                     <input class="form-control" type="file" name="statFile" />
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <td colspan="4">
                     记录日期：
                 <span class="num date">
-                <input name="statDate" class="form-control datetime-picker" type="text" name="endTime"
+                <input name="statDate" class="datetime-picker" type="text" name="endTime"
                        data-date-format="yyyy-mm-dd"
                        value="${crsPost.statDate==null?today:cm:formatDate(crsPost.statDate, "yyyy-MM-dd")}">
                </span>
@@ -63,11 +67,16 @@
         </table>
     </form>
 </div>
+<c:if test="${param.isUpdate==1}">
 <div class="modal-footer center">
     <a href="javascript:;" onclick="_stepContentReload()" class="btn btn-default">取消</a>
     <input type="button" id="statFormSubmitBtn" class="btn btn-primary" value="确定"/>
 </div>
+</c:if>
 <script>
+    <c:if test="${param.isUpdate!=1}">
+    $("#statForm input").prop("disabled", true);
+    </c:if>
     register_date($('.datetime-picker'));
     $.fileInput($('#statForm input[type=file]'),{
         no_file:'请上传pdf文件',
@@ -113,16 +122,17 @@
     }
 
     span.num {
-        display: inline-block;
+        display: inline;
         width: 40px;
-        border-bottom: 1px solid #000;
         text-align: center
     }
 
     span.num input[type=text] {
         width: 35px;
         height: 20px;
-        border: none
+        border: none;
+        border-bottom: 1px solid #000;
+        text-align: center;
     }
 
     span.num.date {
@@ -148,5 +158,8 @@
         font-size: 16pt;
         font-weight: bolder;
         text-align: center
+    }
+    input[disabled]{
+        background-color: transparent!important;
     }
 </style>

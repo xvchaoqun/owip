@@ -29,6 +29,10 @@ public class CrsApplicant implements Serializable {
 
     private String report;
 
+    private String pptName;
+
+    private String ppt;
+
     private Date enrollTime;
 
     private Boolean isQuit;
@@ -95,6 +99,22 @@ public class CrsApplicant implements Serializable {
 
     public void setReport(String report) {
         this.report = report == null ? null : report.trim();
+    }
+
+    public String getPptName() {
+        return pptName;
+    }
+
+    public void setPptName(String pptName) {
+        this.pptName = pptName == null ? null : pptName.trim();
+    }
+
+    public String getPpt() {
+        return ppt;
+    }
+
+    public void setPpt(String ppt) {
+        this.ppt = ppt == null ? null : ppt.trim();
     }
 
     public Date getEnrollTime() {

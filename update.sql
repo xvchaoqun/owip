@@ -3,6 +3,39 @@
 新增角色 cadreRecruit 应聘干部（普通教师）
 
 
+ALTER TABLE `crs_applicant`
+	ADD COLUMN `ppt` VARCHAR(100) NULL COMMENT '应聘PPT' AFTER `report`;
+ALTER TABLE `crs_applicant`
+	ADD COLUMN `ppt_name` VARCHAR(100) NULL COMMENT 'PPT文件名' AFTER `report`;
+
+	更新 crs_applicant_view
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `report_deadline` DATETIME NULL DEFAULT NULL COMMENT '报名材料修改截止时间' AFTER `meeting_address`;
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `meeting_notice` TEXT NULL DEFAULT NULL COMMENT '招聘会公告' AFTER `meeting_address`;
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `meeting_summary` TEXT NULL COMMENT '会议备忘' AFTER `status`;
+
+ALTER TABLE `crs_post`
+	DROP COLUMN `stat_expert_count`;
+
+
+
+
+2017-10-12
+ALTER TABLE `crs_applicant`
+	ADD COLUMN `report` TEXT NULL COMMENT '工作设想和预期目标' AFTER `post_id`;
+
+更新 crs_applicant_view
+
+ALTER TABLE `crs_applicant`
+	COMMENT='报名人员，唯一 (user_id， post_id, status=0或1） ',
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '状态， 0 暂存 1 已提交 2 已删除' AFTER `recommend_second_count`;
+
+2017-10-11
 #专技岗位等级
 delete from base_meta_type where class_id=41 and sort_order is not null;
 update  base_meta_type set sort_order=ABS(cast(id as signed)-294)  where class_id=41;

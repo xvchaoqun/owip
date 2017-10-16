@@ -244,6 +244,12 @@ body {
     background-color: #eadda9;
 }
 
+@-moz-document url-prefix() {
+    .table > thead:first-child > tr:first-child > th:last-child {
+        border-right: 0;
+    }
+}
+
 .ui-pg-table tbody tr:hover td {
     background-color: inherit;
 }
@@ -358,6 +364,9 @@ body {
 
 .table thead.multi tr{
     background-image: none!important;
+}
+.table thead.multi tr th{
+    border-bottom: 0;
 }
 
 .date-range-picker {
@@ -704,6 +713,10 @@ br.xs-100 {
 }
 .width800 {
     width: 800px;
+}
+
+.width850 {
+    width: 850px;
 }
 
 .width900 {

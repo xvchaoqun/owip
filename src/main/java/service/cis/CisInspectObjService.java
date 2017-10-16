@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.common.FreemarkerService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
@@ -75,6 +76,7 @@ public class CisInspectObjService extends BaseMapper {
         dataMap.put("remark", cisInspectObj.getRemark());
         //dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
+        dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
         freemarkerService.process("/cis/eva.ftl", dataMap, out);
     }
 

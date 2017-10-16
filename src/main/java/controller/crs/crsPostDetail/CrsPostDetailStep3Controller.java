@@ -7,7 +7,6 @@ import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import domain.crs.CrsShortMsg;
 import domain.crs.CrsShortMsgExample;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -22,17 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.security.Base64Utils;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class CrsPostDetailStep3Controller extends CrsBaseController {
@@ -83,6 +78,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
     @ResponseBody
     public Map do_step3_meeting(int id,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date meetingTime,
+                                @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date reportDeadline,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date quitDeadline,
                                 String meetingAddress,
                                 HttpServletRequest request) {
@@ -91,6 +87,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         record.setId(id);
         record.setMeetingTime(meetingTime);
         record.setMeetingAddress(meetingAddress);
+        record.setReportDeadline(reportDeadline);
         record.setQuitDeadline(quitDeadline);
 
         crsPostService.updateByPrimaryKeySelective(record);
@@ -188,7 +185,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
     @RequiresPermissions("crsPost:edit")
     @RequestMapping("/crsPost_detail/step3_stat")
-    public String step3_stat(Integer postId, Boolean isUpdate, ModelMap modelMap) {
+    public String step3_stat(Integer postId, ModelMap modelMap) {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crsPost", crsPost);
@@ -196,10 +193,9 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         List<CrsApplicantView> crsApplicants = crsApplicantService.getPassedCrsApplicants(postId);
         modelMap.put("crsApplicants", crsApplicants);
 
-        if (BooleanUtils.isTrue(isUpdate)) {
-            return "crs/crsPost/crsPost_detail/step3_stat_au";
-        }
-        return "crs/crsPost/crsPost_detail/step3_stat";
+        modelMap.put("expertCount", crsPostExpertService.getExpertUserIds(postId, null).size());
+
+        return "crs/crsPost/crsPost_detail/step3_stat_au";
     }
 
     @RequiresPermissions("crsPost:edit")
@@ -213,14 +209,8 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         String originalFilename = null;
         if (statFile != null && !statFile.isEmpty()) {
 
-            String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
-            String realPath = FILE_SEPARATOR
-                    + "crs_post_stat" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
-                    + "file" + FILE_SEPARATOR
-                    + UUID.randomUUID().toString();
+            savePath = uploadPdf(statFile, "crs_post_stat");
             originalFilename = statFile.getOriginalFilename();
-            savePath = realPath + FileUtils.getExtention(originalFilename);
-            FileUtils.copyFile(statFile, new File(springProps.uploadPath + savePath));
         }
 
         crsPostService.stat(jsonResult, savePath, originalFilename);

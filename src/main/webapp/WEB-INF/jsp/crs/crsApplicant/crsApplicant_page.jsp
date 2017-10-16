@@ -46,7 +46,7 @@
                 data-title="重新审核"
                 data-msg="确定重新审核？"
                 data-grid-id="#jqGrid2"
-                data-callback="_reload"
+                data-callback="_stepReload"
                 data-url="${ctx}/crsApplicant_requireCheck_back"><i class="fa fa-reply"></i> 重新审核
         </button>
     </c:if>
@@ -77,10 +77,31 @@
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
-            data-width="800"
+            data-width="850"
             data-querystr="&popup=1&type=${SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT}">
         <i class="fa fa-history"></i> 操作记录
     </button>
+<c:if test="${param.cls==2 || param.cls==3}">
+    <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
+            <i class="fa fa-download"></i> 导出  <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-success" role="menu">
+            <li>
+                <a href="javascript:;" class="jqLinkBtn"
+                   data-need-id="false" data-grid-id="#jqGrid2"
+                   data-url="${ctx}/crsApplicant_data" data-querystr="cls=${param.cls}&postId=${param.postId}&export=1">
+                    <i class="fa fa-file-excel-o"></i> 报名汇总表</a>
+            </li>
+            <li>
+                <a href="javascript:;" class="jqLinkBtn"
+                   data-grid-id="#jqGrid2"
+                   data-url="${ctx}/crsApplicant_export" >
+                    <i class="fa fa-file-word-o"></i> 应聘人报名表</a>
+            </li>
+        </ul>
+    </div>
+    </c:if>
     <%-- <shiro:hasPermission name="crsApplicant:del">
          <button data-url="${ctx}/crsApplicant_batchDel"
                  data-title="删除"
@@ -90,9 +111,6 @@
              <i class="fa fa-trash"></i> 删除
          </button>
      </shiro:hasPermission>--%>
-    <%--<a class="jqExportBtn btn btn-primary btn-sm tooltip-info"
-       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-        <i class="fa fa-download"></i> 导出</a>--%>
 </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
@@ -162,7 +180,11 @@
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}, frozen: true
             },
             {label: '工作证号', name: 'user.code', width: 100, frozen: true},
-            {label: '姓名', name: 'user.realname', width: 120, frozen: true},
+            {label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+
+                return ('<a href="${ctx}/#${ctx}/cadre_view?cadreId={1}" target="_blank">{0}</a>').format(cellvalue, rowObject.cadre.id);
+
+            }, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200, frozen: true},
             <c:if test="${param.cls==1}">
             {label: '信息审核', name: 'infoCheckStatus', formatter: function (cellvalue, options, rowObject) {
@@ -187,7 +209,7 @@
                 label: '政治面貌', name: 'cadre.cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
+                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.cadre.dpTypeId].name
                 return "-";
             }
             },

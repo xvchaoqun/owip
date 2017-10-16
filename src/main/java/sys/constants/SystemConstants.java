@@ -1279,12 +1279,14 @@ public class SystemConstants {
     // 干部招聘 招聘条件通用模板 类别
     public final static byte CRS_TEMPLATE_TYPE_BASE = 1;
     public final static byte CRS_TEMPLATE_TYPE_POST = 2;
+    public final static byte CRS_TEMPLATE_TYPE_MEETINGNOTICE = 3;
     public static Map<Byte, String> CRS_TEMPLATE_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
 
         CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_BASE, "基本条件");
         CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_POST, "任职资格");
+        CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_MEETINGNOTICE, "招聘会公告");
     }
 
     // 招聘岗位 报名状态，0 暂存 1 已提交 2 已删除

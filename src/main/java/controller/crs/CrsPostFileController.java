@@ -21,6 +21,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -133,11 +134,12 @@ public class CrsPostFileController extends CrsBaseController {
     @RequiresPermissions("crsPostFile:edit")
     @RequestMapping(value = "/crsPostFile_batchUpload", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPostFile_batchUpload(byte type, int postId, MultipartFile[] _files, HttpServletRequest request) {
+    public Map do_crsPostFile_batchUpload(byte type, int postId, MultipartFile[] _files, HttpServletRequest request) throws IOException, InterruptedException {
 
         List<CrsPostFile> records = new ArrayList<>();
         if(_files!=null){
             for (MultipartFile _file : _files) {
+
 
                 if(_file==null || _file.isEmpty()) continue;
 
@@ -146,19 +148,25 @@ public class CrsPostFileController extends CrsBaseController {
                 record.setPostId(postId);
                 record.setCreateTime(new Date());
 
-                String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
+                /*String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
                 String realPath = FILE_SEPARATOR
                         + "crs_post_file" + FILE_SEPARATOR + uploadDate + FILE_SEPARATOR
                         + "file" + FILE_SEPARATOR
                         + UUID.randomUUID().toString();
                 String originalFilename = _file.getOriginalFilename();
                 String savePath = realPath + FileUtils.getExtention(originalFilename);
-                FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));
+                FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
 
+                String savePath = null;
+                if(type==SystemConstants.CRS_POST_FILE_TYPE_PIC) {
+                    savePath = uploadPic(_file, "crs_post_file", 300, 100);
+                }else if(type==SystemConstants.CRS_POST_FILE_TYPE_AUDIO) {
+                    savePath = upload(_file, "crs_post_file");
+                }
                 record.setFile(savePath);
 
                 if(StringUtils.isBlank(record.getFileName())){
-                    record.setFileName(originalFilename);
+                    record.setFileName(_file.getOriginalFilename());
                 }
 
                 records.add(record);
@@ -207,7 +215,7 @@ public class CrsPostFileController extends CrsBaseController {
     @RequiresPermissions("crsPostFile:del")
     @RequestMapping(value = "/crsPostFile_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]", required = false) Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length > 0) {

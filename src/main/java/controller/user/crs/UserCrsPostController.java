@@ -17,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -93,6 +94,55 @@ public class UserCrsPostController extends CrsBaseController {
 
         crsApplicantService.apply(id, postId, status, report,  ShiroHelper.getCurrentUserId());
         logger.info(addLog(SystemConstants.LOG_USER, "干部应聘报名"));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("userCrsPost:*")
+    @RequestMapping("/crsPost_apply_detail")
+    public String crsPost_apply_detail(int postId, ModelMap modelMap) {
+
+        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+        modelMap.put("crsPost", crsPost);
+
+        return "user/crs/crsPost_apply_detail";
+    }
+
+    @RequiresPermissions("userCrsPost:*")
+    @RequestMapping("/crsPost_apply_notice")
+    public String crsPost_apply_notice(int postId, ModelMap modelMap) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+
+        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+        modelMap.put("crsPost", crsPost);
+
+        CrsApplicant crsApplicant = crsApplicantService.getAvaliable(postId, userId);
+        modelMap.put("crsApplicant", crsApplicant);
+
+        return "user/crs/crsPost_apply_notice";
+    }
+
+    @RequiresPermissions("userCrsPost:*")
+    @RequestMapping(value = "/crsPost_apply_ppt", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsPost_apply_ppt(int postId, MultipartFile ppt, HttpServletRequest request) throws IOException, InterruptedException {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        CrsApplicant crsApplicant = crsApplicantService.getAvaliable(postId, userId);
+        if(crsApplicant==null || ppt==null || ppt.isEmpty()){
+            return failed("参数错误。");
+        }
+
+        String originalFilename = ppt.getOriginalFilename();
+        String savePath = upload(ppt, "crsApplicant_ppt");
+
+        CrsApplicant record = new CrsApplicant();
+        record.setId(crsApplicant.getId());
+        record.setPptName(originalFilename);
+        record.setPpt(savePath);
+        crsApplicantMapper.updateByPrimaryKeySelective(record);
+
+        logger.info(addLog(SystemConstants.LOG_USER, "上传应聘PPT"));
         return success(FormUtils.SUCCESS);
     }
 

@@ -91,6 +91,10 @@ public class CrsPost implements Serializable {
 
     private String meetingAddress;
 
+    private String meetingNotice;
+
+    private Date reportDeadline;
+
     private Date quitDeadline;
 
     private Boolean meetingStatus;
@@ -105,7 +109,7 @@ public class CrsPost implements Serializable {
 
     private Byte status;
 
-    private Integer statExpertCount;
+    private String meetingSummary;
 
     private Integer statGiveCount;
 
@@ -263,6 +267,22 @@ public class CrsPost implements Serializable {
         this.meetingAddress = meetingAddress == null ? null : meetingAddress.trim();
     }
 
+    public String getMeetingNotice() {
+        return meetingNotice;
+    }
+
+    public void setMeetingNotice(String meetingNotice) {
+        this.meetingNotice = meetingNotice == null ? null : meetingNotice.trim();
+    }
+
+    public Date getReportDeadline() {
+        return reportDeadline;
+    }
+
+    public void setReportDeadline(Date reportDeadline) {
+        this.reportDeadline = reportDeadline;
+    }
+
     public Date getQuitDeadline() {
         return quitDeadline;
     }
@@ -319,12 +339,12 @@ public class CrsPost implements Serializable {
         this.status = status;
     }
 
-    public Integer getStatExpertCount() {
-        return statExpertCount;
+    public String getMeetingSummary() {
+        return meetingSummary;
     }
 
-    public void setStatExpertCount(Integer statExpertCount) {
-        this.statExpertCount = statExpertCount;
+    public void setMeetingSummary(String meetingSummary) {
+        this.meetingSummary = meetingSummary == null ? null : meetingSummary.trim();
     }
 
     public Integer getStatGiveCount() {

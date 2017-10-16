@@ -238,6 +238,10 @@
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>
 
+<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_BASE%>" var="CRS_TEMPLATE_TYPE_BASE"/>
+<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_POST%>" var="CRS_TEMPLATE_TYPE_POST"/>
+<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE%>" var="CRS_TEMPLATE_TYPE_MEETINGNOTICE"/>
+
 <c:set value="<%=SystemConstants.CRS_POST_TYPE_MAP%>" var="CRS_POST_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.CRS_POST_RULE_TYPE_MAP%>" var="CRS_POST_RULE_TYPE_MAP"/>

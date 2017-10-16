@@ -185,16 +185,6 @@
             {label: '所属单位', name: 'unit.name', width: 200},
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
             {label: '招聘人数', name: 'num', width: 80},
-           /* {label: '基本条件', name: 'requirement', formatter: function (cellvalue, options, rowObject) {
-                var op=($.trim(cellvalue)=='') ?'编辑':'查看'
-                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/crsPost_requirement?id={0}">{1}</a>'
-                        .format(rowObject.id, op);
-            }},
-            {label: '任职资格', name: 'qualification', formatter: function (cellvalue, options, rowObject) {
-                var op=($.trim(cellvalue)=='') ?'编辑':'查看'
-                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/crsPost_qualification?id={0}">{1}</a>'
-                        .format(rowObject.id, op);
-            }},*/
 
             {label: '报名状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
