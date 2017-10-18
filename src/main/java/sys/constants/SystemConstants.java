@@ -720,6 +720,7 @@ public class SystemConstants {
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE, "现任中层干部");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER_LEAVE, "离任校领导");
         CADRE_STATUS_MAP.put(CADRE_STATUS_LEADER, "现任校领导");
+        CADRE_STATUS_MAP.put(CADRE_STATUS_RECRUIT, "应聘干部");
 
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE);
         CADRE_STATUS_SET.add(CADRE_STATUS_MIDDLE_LEAVE);
@@ -1287,6 +1288,18 @@ public class SystemConstants {
         CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_BASE, "基本条件");
         CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_POST, "任职资格");
         CRS_TEMPLATE_TYPE_MAP.put(CRS_TEMPLATE_TYPE_MEETINGNOTICE, "招聘会公告");
+    }
+
+    // 招聘岗位 报名状态，0 暂存 1 已提交 2 已删除
+    public final static byte CRS_APPLY_RULE_STATUS_UNPUBLISH = 0;
+    public final static byte CRS_APPLY_RULE_STATUS_PUBLISH = 1;
+    public final static byte CRS_APPLY_RULE_STATUS_DELETE = 2;
+    public static Map<Byte, String> CRS_APPLY_RULE_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CRS_APPLY_RULE_STATUS_MAP.put(CRS_APPLY_RULE_STATUS_UNPUBLISH, "未发布");
+        CRS_APPLY_RULE_STATUS_MAP.put(CRS_APPLY_RULE_STATUS_PUBLISH, "已发布");
+        CRS_APPLY_RULE_STATUS_MAP.put(CRS_APPLY_RULE_STATUS_DELETE, "已删除");
     }
 
     // 招聘岗位 报名状态，0 暂存 1 已提交 2 已删除

@@ -1345,8 +1345,8 @@ $(document).on("blur keyup keydown paste change", "input.num, input.float", func
     //var str = $(this).val();
     //$(this).val(str.replace(/[^\d|\.]/g, ''))
 
+    if(event.keyCode==8) return; // backspace
     if(event.keyCode < 35 || event.keyCode > 40) { // 不是方向键
-
         var val = $(this).val();
         //console.log(val)
         //console.log(event.keyCode + " " + val.indexOf("\."));

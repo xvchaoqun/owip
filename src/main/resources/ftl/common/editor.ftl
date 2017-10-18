@@ -11,16 +11,6 @@
             <w:sz-cs w:val="28"/>
         </w:rPr>
     </w:pPr>
-    <#--<w:r wsp:rsidRPr="00AA7960">
-        <w:rPr>
-            <w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
-            <wx:font wx:val="宋体"/>
-            <w:b/>
-            <w:sz w:val="28"/>
-            <w:sz-cs w:val="28"/>
-        </w:rPr>
-        <w:t>不足或希望：</w:t>
-    </w:r>-->
     <w:r wsp:rsidRPr="00AA7960">
         <w:rPr>
             <w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>

@@ -20,6 +20,7 @@ import service.BaseMapper;
 import service.common.FreemarkerService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class CisInspectObjService extends BaseMapper {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("realname", uv.getRealname());
         dataMap.put("code", uv.getCode());
-        dataMap.put("post", cisInspectObj.getPost());
+        dataMap.put("post", ContentUtils.xmlEscape(cisInspectObj.getPost()));
 
         // 主体
         Byte inspectorType = cisInspectObj.getInspectorType();
@@ -69,7 +70,7 @@ public class CisInspectObjService extends BaseMapper {
             dataMap.put("inspectors", StringUtils.join(names, "，"));
         }
 
-        dataMap.put("info", freemarkerService.genSegment2(cisInspectObj.getSummary(), "/common/seg.ftl"));
+        dataMap.put("info", freemarkerService.genEditorSegment(cisInspectObj.getSummary()));
 
         CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
         dataMap.put("chief", chiefInspector.getRealname());
@@ -77,52 +78,8 @@ public class CisInspectObjService extends BaseMapper {
         //dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
-        freemarkerService.process("/cis/eva.ftl", dataMap, out);
+        freemarkerService.process("/cis/evaReport.ftl", dataMap, out);
     }
-
-    /*private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
-
-        *//*String conent = "<p>\n" +
-                "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
-                "</p>\n" +
-                "<p>\n" +
-                "\t1994.09-1997.07&nbsp;北京师范大学资源与环境学院自然地理学&nbsp;管理学博士\n" +
-                "</p>";*//*
-        //System.out.println(getStringNoBlank(info));
-        List rows = new ArrayList();
-
-        Pattern p = Pattern.compile("<p(.*)>([^/]*)</p>");
-        Matcher matcher = p.matcher(content);
-        int matchCount = 0;
-        while (matcher.find()) {
-            matchCount++;
-            int type = 0;
-            if (StringUtils.contains(matcher.group(1), "2em"))
-                type = 1;
-            if (StringUtils.contains(matcher.group(1), "5em"))
-                type = 2;
-            String group = matcher.group(2);
-            List cols = new ArrayList();
-            cols.add(type);
-
-            for (String col : group.trim().split("&nbsp;")) {
-                cols.add(col.trim());
-            }
-            rows.add(cols);
-        }
-        if(matchCount==0){
-            List cols = new ArrayList();
-            cols.add(0);
-            cols.add(content);
-            rows.add(cols);
-        }
-
-        Map<String,Object> dataMap = new HashMap<>();
-        dataMap.put("title", title);
-        dataMap.put("dataList", rows);
-
-        return freemarkerService.process(ftlPath, dataMap);
-    }*/
 
     // 生成编号
     public int genSeq(int typeId, int year){
@@ -219,14 +176,14 @@ public class CisInspectObjService extends BaseMapper {
         example.createCriteria().andObjIdEqualTo(objId);
         cisObjUnitMapper.deleteByExample(example);
 
-        if(unitIds==null || unitIds.length==0) return;
+        if(unitIds!=null && unitIds.length>0) {
+            for (Integer unitId : unitIds) {
 
-        for (Integer unitId : unitIds) {
-
-            CisObjUnit _record = new CisObjUnit();
-            _record.setObjId(objId);
-            _record.setUnitId(unitId);
-            cisObjUnitMapper.insertSelective(_record);
+                CisObjUnit _record = new CisObjUnit();
+                _record.setObjId(objId);
+                _record.setUnitId(unitId);
+                cisObjUnitMapper.insertSelective(_record);
+            }
         }
 
         cisObjInspectorService.updateInspectIds(objId, inspectorIds);

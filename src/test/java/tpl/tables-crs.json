@@ -40,6 +40,15 @@
       "showColumns": "file,type,create_time",
       "excludeEditColumns": "create_time",
       "logType": "SystemConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "crs_apply_rule",
+      "key": "id",
+      "searchColumns": "post_id",
+      "showColumns": "post_ids,num,start_time,end_time",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

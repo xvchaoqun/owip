@@ -377,4 +377,47 @@ public class CrsPostController extends CrsBaseController {
         String fileName = "岗位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
+
+    @RequestMapping("/crsPost_selects")
+    @ResponseBody
+    public Map crsPost_selects(Byte status, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CrsPostExample example = new CrsPostExample();
+        if(StringUtils.isNotBlank(searchStr))
+            example.createCriteria().andNameLike("%" + searchStr + "%");
+        example.setOrderByClause("create_time desc");
+
+        long count = crsPostMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CrsPost> crsPosts = crsPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, String>> options = new ArrayList<Map<String, String>>();
+        if (null != crsPosts && crsPosts.size() > 0) {
+
+            for (CrsPost crsPost : crsPosts) {
+
+                Map<String, String> option = new HashMap<>();
+                option.put("id", crsPost.getId() + "");
+                option.put("text", crsPost.getName());
+
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
 }

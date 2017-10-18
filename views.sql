@@ -14,8 +14,14 @@ left join (select count(ob.id) as num, ob.party_id from ow_branch ob
 left join pcs_exclude_branch peb on peb.party_id=ob.party_id and peb.branch_id=ob.id
 where ob.is_deleted=0 and peb.id is null group by ob.party_id) btmp on btmp.party_id=p.id
 left join (select sum(if(om.type=2, 1, 0)) as s_num, sum(if(om.political_status=2, 1, 0)) as positive_count, count(om.user_id) as num,  om.party_id from ow_member om
+left join ow_branch ob on ob.id = om.branch_id
 left join pcs_exclude_branch peb on peb.party_id=om.party_id and peb.branch_id=om.branch_id
-where  om.status=1 and peb.id is null group by party_id) mtmp on mtmp.party_id=p.id
+where ob.is_deleted=0 and om.status=1 and peb.id is null group by party_id
+union all
+select sum(if(om.type=2, 1, 0)) as s_num, sum(if(om.political_status=2, 1, 0)) as positive_count, count(om.user_id) as num,  om.party_id from ow_member om
+left join (select op.* from ow_party op, base_meta_type bmt  where op.class_id=bmt.id and bmt.code='mt_direct_branch') as op on op.id = om.party_id
+where op.is_deleted=0 and om.status=1 group by party_id
+) mtmp on mtmp.party_id=p.id
 left join (select sum(if(omt.is_retire=0, 1, 0)) as t_num, sum(if(omt.is_retire=1, 1, 0)) as t2_num,
 count(omt.user_id) as num, omt.party_id from ow_member_teacher omt
 left join pcs_exclude_branch peb on peb.party_id=omt.party_id and peb.branch_id=omt.branch_id

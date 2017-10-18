@@ -508,7 +508,7 @@
             return _cMap.CADRE_COURSE_TYPE_MAP[cellvalue]
         }
         },
-        {label: '课程名称', name: 'name', width: 250},
+        {label: '课程名称', name: 'name', width: 550},
         <c:if test="${param._sort ne 'no' && (cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth)}">
         {
             label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {

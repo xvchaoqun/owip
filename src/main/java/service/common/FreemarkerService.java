@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import sys.tags.CmTag;
+import sys.utils.ContentUtils;
 import sys.utils.HtmlEscapeUtils;
 
 import java.io.IOException;
@@ -31,7 +32,16 @@ public class FreemarkerService {
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
 
-    public String process(String path, Map<String,Object> dataMap) throws IOException, TemplateException {
+    // 模板导出
+    public void process(String path, Map<String, Object> dataMap, Writer out) throws IOException, TemplateException {
+
+        Configuration cf = freeMarkerConfigurer.getConfiguration();
+        Template tp = cf.getTemplate(path);
+        tp.process(dataMap, out);
+    }
+
+    // 模板输出为字符串
+    public String process(String path, Map<String, Object> dataMap) throws IOException, TemplateException {
 
         StringWriter writer = new StringWriter();
         process(path, dataMap, writer);
@@ -39,22 +49,15 @@ public class FreemarkerService {
         return writer.toString();
     }
 
-    public void process(String path, Map<String,Object> dataMap, Writer out) throws IOException, TemplateException {
-
-        Configuration cf = freeMarkerConfigurer.getConfiguration();
-        Template tp= cf.getTemplate(path);
-        tp.process(dataMap, out);
-    }
-
-    // 模板标签，（主要用于干部初始数据（学习经历、工作经历等），模板路径：ftl/cadre/*.ftl）
-    public static String freemarker(Map<String,Object> dataMap, String ftlPath){
+    // 模板标签，（主要用于干部初始数据片段内容（学习经历、工作经历等），模板路径：ftl/cadre/*.ftl）
+    public static String freemarker(Map<String, Object> dataMap, String ftlPath) {
 
         try {
 
             StringWriter writer = new StringWriter();
             FreeMarkerConfigurer freeMarkerConfigurer = CmTag.getBean(FreeMarkerConfigurer.class);
             Configuration cf = freeMarkerConfigurer.getConfiguration();
-            Template tp= cf.getTemplate(ftlPath);
+            Template tp = cf.getTemplate(ftlPath);
             tp.process(dataMap, writer);
             return StringUtils.trimToNull(writer.toString());
         } catch (IOException e) {
@@ -66,15 +69,129 @@ public class FreemarkerService {
         return null;
     }
 
-    public static String freemarker(List records, String key, String ftlPath){
+    public static String freemarker(List records, String key, String ftlPath) {
 
-        Map<String,Object> dataMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put(key, records);
 
         return freemarker(dataMap, ftlPath);
     }
 
-    public String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
+    // 按段落读取kindEditor中的内容（段首缩进）
+    public String genEditorSegment(String content) throws IOException, TemplateException {
+
+        List<String> rows = new ArrayList();
+
+        Document doc = Jsoup.parse(content);
+        Elements ps = doc.getElementsByTag("p");
+        int size = ps.size();
+        for (int i = 0; i < size; i++) {
+            String plainText = StringUtils.trimToEmpty(ps.get(i).text());
+            rows.add(ContentUtils.xmlEscape(plainText));
+        }
+        if (size == 0) {
+            String plainText = StringUtils.trimToEmpty(doc.text());
+            rows.add(ContentUtils.xmlEscape(plainText));
+        }
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("dataList", rows);
+
+        return process("/common/editor.ftl", dataMap);
+    }
+
+    // 按段落读取textarea（段首缩进）
+    public String genTextareaSegment(String content) throws IOException, TemplateException {
+
+        if (StringUtils.isBlank(content)) return null;
+
+        List<String> rows = new ArrayList();
+
+        String[] strings = content.split("\n");
+        for (String str : strings) {
+            String plainText = HtmlEscapeUtils.getTextFromHTML(str);
+            rows.add(ContentUtils.xmlEscape(plainText));
+        }
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("dataList", rows);
+
+        return process("/common/textarea.ftl", dataMap);
+    }
+
+    // 一行末尾带冒号，则认为是标题行。
+    public String genTitleEditorSegment(String content) throws IOException, TemplateException {
+
+        String ftlPath = "/common/titleEditor.ftl";
+
+        String result = "";
+
+        String title = null;
+        List rows = new ArrayList();
+
+        Document doc = Jsoup.parse(content);
+        Elements ps = doc.getElementsByTag("p");
+        int size = ps.size();
+
+        if (size == 0) {
+            List cols = new ArrayList();
+            cols.add(0);
+            cols.add(ContentUtils.xmlEscape(StringUtils.trimToEmpty(doc.text())));
+            rows.add(cols);
+
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("dataList", rows);
+
+            result = process(ftlPath, dataMap);
+        } else {
+            for (int i = 0; i < size; i++) {
+
+                Element pElement = ps.get(i);
+                String pStr = ContentUtils.xmlEscape(StringUtils.trimToEmpty(pElement.text()));
+                if (pStr.endsWith(":") || pStr.endsWith("：")) {
+                    if (rows.size() > 0) {
+                        Map<String, Object> dataMap = new HashMap<>();
+                        dataMap.put("title", title);
+                        dataMap.put("dataList", rows);
+
+                        result += process(ftlPath, dataMap);
+                    }
+                    title = pStr.substring(0, pStr.length() - 1);
+                    rows.clear();
+                } else {
+
+                    String style = pElement.attr("style");
+                    int type = 0;
+                    if (StringUtils.contains(style, "2em")
+                            || StringUtils.contains(style, "text-indent"))
+                        type = 1;
+                    if (StringUtils.contains(style, "5em"))
+                        type = 2;
+                    //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
+                    List cols = new ArrayList();
+                    cols.add(type);
+
+                    for (String col : pStr.split(" ")) {
+                        cols.add(col.trim());
+                    }
+                    rows.add(cols);
+                }
+            }
+
+            if (rows.size() > 0) {
+                Map<String, Object> dataMap = new HashMap<>();
+                dataMap.put("title", title);
+                dataMap.put("dataList", rows);
+
+                result += process(ftlPath, dataMap);
+            }
+        }
+
+        return result;
+    }
+
+    // 指定段落标题
+    public String genTitleEditorSegment(String title, String content) throws IOException, TemplateException {
 
         /*String conent = "<p>\n" +
                 "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
@@ -92,11 +209,12 @@ public class FreemarkerService {
             String style = pElement.attr("style");
             int type = 0;
             if (StringUtils.contains(style, "2em")
-                    ||StringUtils.contains(style, "text-indent"))
+                    || StringUtils.contains(style, "text-indent"))
                 type = 1;
             if (StringUtils.contains(style, "5em"))
                 type = 2;
-            String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
+            //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
+            String text = ContentUtils.xmlEscape(StringUtils.trimToEmpty(pElement.text()));
             List cols = new ArrayList();
             cols.add(type);
 
@@ -106,144 +224,20 @@ public class FreemarkerService {
             rows.add(cols);
 
         }
-      /*  Pattern p = Pattern.compile("<p(.*)>(.*)</p>");
-        Matcher matcher = p.matcher(content);
-        int matchCount = 0;
-        while (matcher.find()) {
-            matchCount++;
-            int type = 0;
-            String props = matcher.group(1);
-            if (StringUtils.contains(props, "2em")
-                    ||StringUtils.contains(props, "text-indent"))
-                type = 1;
-            if (StringUtils.contains(props, "5em"))
-                type = 2;
-            String text = HtmlEscapeUtils.getTextFromHTML(matcher.group(2));
-            List cols = new ArrayList();
-            cols.add(type);
 
-            for (String col : text.trim().split(" ")) {
-                cols.add(col.trim());
-            }
-            rows.add(cols);
-        }*/
-        if(size == 0){
+        if (size == 0) {
             List cols = new ArrayList();
             cols.add(0);
-            cols.add(HtmlEscapeUtils.getTextFromHTML(content));
+            cols.add(ContentUtils.xmlEscape(StringUtils.trimToEmpty(doc.text())));
             rows.add(cols);
         }
 
-        Map<String,Object> dataMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("title", title);
         dataMap.put("dataList", rows);
 
+        String ftlPath = "/common/titleEditor.ftl";
         return process(ftlPath, dataMap);
-    }
-
-    public String genSegment2(String content, String ftlPath) throws IOException, TemplateException {
-
-        List<String> rows = new ArrayList();
-
-        Document doc = Jsoup.parse(content);
-        Elements ps = doc.getElementsByTag("p");
-        int size = ps.size();
-        for (int i = 0; i < size; i++) {
-            rows.add(StringUtils.trimToEmpty(ps.get(i).text()));
-        }
-        if(size==0){
-            rows.add(StringUtils.trimToEmpty(doc.text()));
-        }
-
-        Map<String,Object> dataMap = new HashMap<>();
-        dataMap.put("dataList", rows);
-
-        return process(ftlPath, dataMap);
-    }
-
-    public String genTextareaSegment(String content) throws IOException, TemplateException {
-
-        if(StringUtils.isBlank(content)) return null;
-
-        List<String> rows = new ArrayList();
-
-        String[] strings = content.split("\n");
-        for (String str : strings) {
-            rows.add(HtmlEscapeUtils.getTextFromHTML(str));
-        }
-
-        Map<String,Object> dataMap = new HashMap<>();
-        dataMap.put("dataList", rows);
-
-        return process( "/common/textarea.ftl", dataMap);
-    }
-
-    public String genSegment3(String content, String ftlPath) throws IOException, TemplateException {
-
-        String result = "";
-
-        String title=null;
-        List rows = new ArrayList();
-
-        Document doc = Jsoup.parse(content);
-        Elements ps = doc.getElementsByTag("p");
-        int size = ps.size();
-
-        if(size==0){
-            List cols = new ArrayList();
-            cols.add(0);
-            cols.add(StringUtils.trimToEmpty(doc.text()));
-            rows.add(cols);
-
-            Map<String,Object> dataMap = new HashMap<>();
-            dataMap.put("dataList", rows);
-
-            result = process(ftlPath, dataMap);
-        }else{
-            for (int i = 0; i < size; i++) {
-
-                Element pElement = ps.get(i);
-                String pStr = StringUtils.trimToEmpty(pElement.text());
-                if (pStr.endsWith(":") || pStr.endsWith("：")) {
-                    if (rows.size() > 0) {
-                        Map<String, Object> dataMap = new HashMap<>();
-                        dataMap.put("title", title);
-                        dataMap.put("dataList", rows);
-
-                        result += process(ftlPath, dataMap);
-                    }
-                    title = pStr.substring(0, pStr.length() - 1);
-                    rows.clear();
-                } else {
-
-                    String style = pElement.attr("style");
-                    int type = 0;
-                    if (StringUtils.contains(style, "2em")
-                            ||StringUtils.contains(style, "text-indent"))
-                        type = 1;
-                    if (StringUtils.contains(style, "5em"))
-                        type = 2;
-                    String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
-                    List cols = new ArrayList();
-                    cols.add(type);
-
-                    for (String col : text.trim().split(" ")) {
-                        cols.add(col.trim());
-                    }
-                    rows.add(cols);
-                }
-            }
-
-            if (rows.size() > 0) {
-                Map<String, Object> dataMap = new HashMap<>();
-                dataMap.put("title", title);
-                dataMap.put("dataList", rows);
-
-                result += process(ftlPath, dataMap);
-            }
-        }
-
-        return result;
     }
 
     public static void main(String[] args) {

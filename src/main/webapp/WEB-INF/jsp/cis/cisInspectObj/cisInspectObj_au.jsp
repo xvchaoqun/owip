@@ -46,7 +46,7 @@
             <label class="col-xs-3 control-label">考察日期</label>
             <div class="col-xs-6">
                 <div class="input-group">
-                    <input  class="form-control date-picker required" name="_inspectDate"
+                    <input  class="form-control date-picker required" name="inspectDate"
                             type="text" data-date-format="yyyy-mm-dd"
                             value="${cm:formatDate(cisInspectObj.inspectDate, "yyyy-MM-dd")}"/>
                         <span class="input-group-addon">

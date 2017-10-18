@@ -40,8 +40,8 @@ public interface ICrsMapper {
 
     // 获取干部申请的岗位（crs_applicant.status=1）
     public List<ICrsPost> findUserApplyCrsPosts(@Param("userId") Integer userId,
-                                                @Param("postStatus") Byte postStatus,
+                                                @Param("postStatusList")List<Byte> postStatusList,
                                                   RowBounds rowBounds);
     public int countUserApplyCrsPosts(@Param("userId") Integer userId,
-                                      @Param("postStatus") Byte postStatus);
+                                      @Param("postStatusList")List<Byte> postStatusList);
 }

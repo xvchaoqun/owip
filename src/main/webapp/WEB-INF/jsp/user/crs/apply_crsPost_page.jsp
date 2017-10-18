@@ -29,15 +29,14 @@
                                     class="jqItemBtn btn btn-danger btn-sm">
                                 <i class="fa fa-minus-circle"></i> 退出
                             </button>
-                            <%--<a class="openView btn btn-success btn-sm"
-                               data-url="${ctx}/user/crsApplicantAdjust"
-                               data-querystr="&"><i class="fa fa-random"></i>
-                                调整岗位</a>
-
-                            <a class="openView btn btn-primary btn-sm"
-                               data-url="${ctx}/user/crsApplicantAdjust_page"
-                               data-querystr="&"><i class="fa fa-history"></i>
-                                调整记录</a>--%>
+                            <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                    data-grid-id="#jqGrid"
+                                    data-url="${ctx}/user/applicant_log"
+                                    data-id-name="postId"
+                                    data-width="650"
+                                    data-querystr="&">
+                                <i class="fa fa-history"></i> 操作记录
+                            </button>
                             </c:if>
                         </div>
                         <div class="space-4"></div>
@@ -61,11 +60,13 @@
         rownumbers: true,
         url: '${ctx}/user/apply_crsPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${cls==1}">
             {label: '应聘详情', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_detail?postId={0}"><i class="fa fa-search"></i> 应聘详情</button>'
                         .format(rowObject.id)
             }, frozen: true},
+                </c:if>
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
                 var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
@@ -74,6 +75,7 @@
             }, width: 150, frozen: true
             },
             {label: '招聘岗位', name: 'name', width: '300', frozen: true},
+            <c:if test="${cls==1}">
             {label: '报名情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.applicantIsQuit) return "已报名";
@@ -82,10 +84,28 @@
                         'data-url="${ctx}/user/crsPost_reApply?postId={0}">重新报名</a>'
                                 .format(rowObject.id)
             }},
-            <c:if test="${cls==1}">
+
             {label: '打印报名表', name: '_print',  formatter: function (cellvalue, options, rowObject) {
 
                 return '-'
+            }},
+            </c:if>
+            <c:if test="${cls==2}">
+            {label: '应聘情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.applicantIsQuit) return "退出应聘";
+                if(rowObject.infoCheckStatus==${CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS}) return "信息审核未通过"
+                if(!rowObject.isRequireCheckPass
+                        && rowObject.requireCheckStatus
+                        ==${CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS}) return "资格审核未通过"
+                if(rowObject.isRequireCheckPass) return "参加招聘会"
+
+                return "已报名"
+            }},
+            {label: '应聘详情', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
+
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_detail?postId={0}"><i class="fa fa-search"></i> 应聘详情</button>'
+                        .format(rowObject.id)
             }},
             </c:if>
             {label: '分管工作', name: 'job', width: '300', formatter: $.jgrid.formatter.NoMultiSpace},

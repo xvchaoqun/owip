@@ -354,19 +354,19 @@ public class CadreInfoFormService extends BaseMapper {
         //dataMap.put("depWork", "");
 
         dataMap.put("learnDesc", bean.getLearnDesc() == null ? "" :
-                freemarkerService.genSegment("学习经历", bean.getLearnDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc()));
         dataMap.put("workDesc", bean.getWorkDesc() == null ? "" :
-                freemarkerService.genSegment("工作经历", bean.getWorkDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc()));
         dataMap.put("parttime",
-                freemarkerService.genSegment3(bean.getParttime(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment(bean.getParttime()));
         dataMap.put("trainDesc", bean.getTrainDesc() == null ? "" :
-                freemarkerService.genSegment3(bean.getTrainDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment(bean.getTrainDesc()));
         dataMap.put("teachDesc", bean.getTeachDesc() == null ? "" :
-                freemarkerService.genSegment3(bean.getTeachDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment(bean.getTeachDesc()));
         dataMap.put("researchDesc", bean.getResearchDesc() == null ? "" :
-                freemarkerService.genSegment3(bean.getResearchDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment(bean.getResearchDesc()));
         dataMap.put("otherRewardDesc", bean.getOtherRewardDesc() == null ? "" :
-                freemarkerService.genSegment3(bean.getOtherRewardDesc(), "/common/cadreInfo.ftl"));
+                freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc()));
 
         dataMap.put("mobile", bean.getMobile());
         dataMap.put("phone", bean.getPhone());
@@ -424,7 +424,7 @@ public class CadreInfoFormService extends BaseMapper {
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
         dataMap.put("schoolEmail", CmTag.getSysConfig().getSchoolEmail());
-        freemarkerService.process("/infoform/form.ftl", dataMap, out);
+        freemarkerService.process("/infoform/infoform.ftl", dataMap, out);
     }
 
     private String getCompanySeg(CadreCompany bean, String ftlPath) throws IOException, TemplateException {
@@ -480,47 +480,4 @@ public class CadreInfoFormService extends BaseMapper {
 
         return freemarkerService.process(ftlPath, dataMap);
     }
-    /*private String genSegment(String title, String content, String ftlPath) throws IOException, TemplateException {
-
-        *//*String conent = "<p>\n" +
-                "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
-                "</p>\n" +
-                "<p>\n" +
-                "\t1994.09-1997.07&nbsp;北京师范大学资源与环境学院自然地理学&nbsp;管理学博士\n" +
-                "</p>";*//*
-        //System.out.println(getStringNoBlank(info));
-        List rows = new ArrayList();
-
-        Pattern p = Pattern.compile("<p(.*)>([^/]*)</p>");
-        Matcher matcher = p.matcher(content);
-        int matchCount = 0;
-        while (matcher.find()) {
-            matchCount++;
-            int type = 0;
-            if (StringUtils.contains(matcher.group(1), "2em"))
-                type = 1;
-            if (StringUtils.contains(matcher.group(1), "5em"))
-                type = 2;
-            String group = matcher.group(2);
-            List cols = new ArrayList();
-            cols.add(type);
-
-            for (String col : group.trim().split("&nbsp;")) {
-                cols.add(col.trim());
-            }
-            rows.add(cols);
-        }
-        if(matchCount==0){
-            List cols = new ArrayList();
-            cols.add(0);
-            cols.add(content);
-            rows.add(cols);
-        }
-
-        Map<String,Object> dataMap = new HashMap<>();
-        dataMap.put("title", title);
-        dataMap.put("dataList", rows);
-
-        return freemarkerService.process(ftlPath, dataMap);
-    }*/
 }

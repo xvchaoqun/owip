@@ -394,6 +394,7 @@ body {
     background-color: #f9f9f9 !important;
     text-align: right !important;
     vertical-align: middle !important;
+    font-weight: bolder;
 }
 
 .bg-left {

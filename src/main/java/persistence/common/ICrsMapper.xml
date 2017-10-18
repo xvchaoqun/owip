@@ -11,6 +11,9 @@
                extends="persistence.crs.CrsPostMapper.BaseResultMap">
         <result column="applicant_id" jdbcType="INTEGER" property="applicantId"/>
         <result column="applicant_is_quit" jdbcType="BIT" property="applicantIsQuit"/>
+        <result column="info_check_status" jdbcType="TINYINT" property="infoCheckStatus"/>
+        <result column="require_check_status" jdbcType="TINYINT" property="requireCheckStatus"/>
+        <result column="is_require_check_pass" jdbcType="BIT" property="isRequireCheckPass"/>
     </resultMap>
 
     <update id="recommend" parameterType="map">
@@ -68,11 +71,18 @@
 
 
     <sql id="searchPosts">
-        from crs_post cp, crs_applicant ca
-        where ca.user_id=#{userId} and ca.status=1 and ca.post_id=cp.id and cp.status=#{postStatus}
+        from crs_post cp, crs_applicant_view ca
+        where ca.user_id=#{userId} and ca.status=1 and ca.post_id=cp.id
+        <if test="postStatusList!=null and postStatusList.size>0">
+            and cp.status in
+            <foreach collection="postStatusList" item="st"
+                     index="index" open="(" close=")" separator=",">
+                #{st}
+            </foreach>
+        </if>
     </sql>
     <select id="findUserApplyCrsPosts" resultMap="PostBaseResultMap" parameterType="map">
-        select cp.*, ca.id as applicant_id, ca.is_quit as applicant_is_quit
+        select cp.*, ca.id as applicant_id, ca.is_quit as applicant_is_quit, ca.is_require_check_pass
         <include refid="searchPosts"/>
         order by cp.create_time desc
     </select>

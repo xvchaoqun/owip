@@ -2,6 +2,9 @@ package controller.user.crs;
 
 import controller.CrsBaseController;
 import domain.crs.CrsApplicant;
+import domain.crs.CrsPost;
+import domain.sys.SysApprovalLog;
+import domain.sys.SysApprovalLogExample;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
@@ -26,6 +29,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +43,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("userApplyCrsPost:*")
+    @RequiresPermissions("userApplyCrsPost:list")
     @RequestMapping("/apply_crsPost")
     public String apply_crsPost(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
 
@@ -61,19 +65,21 @@ public class UserApplyCrsPostController extends CrsBaseController {
         pageNo = Math.max(1, pageNo);
 
         int userId = ShiroHelper.getCurrentUserId();
-
-        byte postStatus = SystemConstants.CRS_POST_STATUS_NORMAL;
-        if(cls != 1){
-            // 查看应聘历史记录，此时读取已完成招聘的岗位（排除正在招聘和已删除的岗位）
-            postStatus = SystemConstants.CRS_POST_STATUS_FINISH;
+        List<Byte> postStatusList = new ArrayList<>();
+        if(cls==1){
+            postStatusList.add(SystemConstants.CRS_POST_STATUS_NORMAL);
+        }else if(cls==2){
+            // 显示所有报名的记录，包括参加答辩的、退出的、资格审核不通过的（排除已删除的岗位）
+            postStatusList.add(SystemConstants.CRS_POST_STATUS_NORMAL);
+            postStatusList.add(SystemConstants.CRS_POST_STATUS_FINISH);
         }
 
-        long count = iCrsMapper.countUserApplyCrsPosts(userId, postStatus);
+        long count = iCrsMapper.countUserApplyCrsPosts(userId, postStatusList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ICrsPost> records = iCrsMapper.findUserApplyCrsPosts(userId, postStatus,
+        List<ICrsPost> records = iCrsMapper.findUserApplyCrsPosts(userId, postStatusList,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -89,7 +95,65 @@ public class UserApplyCrsPostController extends CrsBaseController {
         return;
     }
 
-    @RequiresPermissions("userApplyCrsPost:*")
+    @RequiresPermissions("userApplyCrsPost:list")
+    @RequestMapping("/applicant_log")
+    public String applicant_log_page(Integer postId, ModelMap modelMap) {
+
+        if (postId != null) {
+            CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+            modelMap.put("crsPost", crsPost);
+        }
+        return "user/crs/applicant_log_page";
+    }
+
+    @RequiresPermissions("userApplyCrsPost:list")
+    @RequestMapping("/applicant_log_data")
+    @ResponseBody
+    public void applicant_log_data(Integer postId, Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        SysApprovalLogExample example = new SysApprovalLogExample();
+        SysApprovalLogExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("create_time desc");
+
+        int userId = ShiroHelper.getCurrentUserId();
+        criteria.andTypeEqualTo(SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT);
+        if (postId != null) {
+
+            CrsApplicant crsApplicant = crsApplicantService.getAvaliable(postId, userId);
+            int applicantId = crsApplicant.getId();
+
+            criteria.andRecordIdEqualTo(applicantId);
+        }
+        criteria.andUserIdEqualTo(userId);
+
+        long count = sysApprovalLogMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<SysApprovalLog> records = sysApprovalLogMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
+
+    @RequiresPermissions("userApplyCrsPost:edit")
     @RequestMapping(value = "/crsPost_start", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPost_start(HttpServletRequest request) {
@@ -109,14 +173,14 @@ public class UserApplyCrsPostController extends CrsBaseController {
     }
 
     // 管理员也拥有该权限
-    //@RequiresPermissions("userApplyCrsPost:*")
+    //@RequiresPermissions("userApplyCrsPost:edit")
     @RequestMapping(value = "/crsPost_quit", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPost_quit(int postId, Integer applicantId, HttpServletRequest request) {
 
         Integer userId = null;
         if(applicantId == null){
-            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:*");
+            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:edit");
             userId = ShiroHelper.getCurrentUserId();
         }else{
             SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
@@ -131,14 +195,14 @@ public class UserApplyCrsPostController extends CrsBaseController {
     }
 
     // 管理员也拥有该权限
-    //@RequiresPermissions("userApplyCrsPost:*")
+    //@RequiresPermissions("userApplyCrsPost:edit")
     @RequestMapping(value = "/crsPost_reApply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_crsPost_reApply(int postId, Integer applicantId, HttpServletRequest request) {
 
         Integer userId = null;
         if(applicantId == null){
-            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:*");
+            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:edit");
             userId = ShiroHelper.getCurrentUserId();
         }else{
             SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限

@@ -194,7 +194,7 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
         if(bean.getReward()!=null)
-            dataMap.put("reward", freemarkerService.genSegment(null, bean.getReward(), "/common/cadreInfo.ftl"));
+            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward()));
         dataMap.put("ces", bean.getCes());
         dataMap.put("reason", bean.getReason());
 
@@ -202,11 +202,11 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("workDesc", "");
 
         if(bean.getLearnDesc()!=null)
-            dataMap.put("learnDesc", freemarkerService.genSegment("学习经历", bean.getLearnDesc(), "/common/cadreInfo.ftl"));
+            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc()));
         if(bean.getWorkDesc()!=null)
-            dataMap.put("workDesc", freemarkerService.genSegment("工作经历", bean.getWorkDesc(), "/common/cadreInfo.ftl"));
+            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc()));
         if(bean.getTrainDesc()!=null)
-            dataMap.put("trainDesc", freemarkerService.genSegment(null, bean.getTrainDesc(), "/common/cadreInfo.ftl"));
+            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc()));
 
         String famliy = "";
         List<CadreFamliy> cadreFamliys = bean.getCadreFamliys();
@@ -226,7 +226,7 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("m1", DateUtils.getMonth(new Date()));
         dataMap.put("d1", DateUtils.getDay(new Date()));
 
-        freemarkerService.process("/adform/cadre.ftl", dataMap, out);
+        freemarkerService.process("/adform/adform.ftl", dataMap, out);
     }
 
     private String getFamliySeg(CadreFamliy cf, String ftlPath) throws IOException, TemplateException {

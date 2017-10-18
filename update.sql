@@ -22,7 +22,13 @@ ALTER TABLE `crs_applicant`
 ALTER TABLE `crs_post`
 	DROP COLUMN `stat_expert_count`;
 
+专家组管理 -> 专家库管理
 
+(已处理)ALTER TABLE `cadre_paper`
+	CHANGE COLUMN `name` `name` VARCHAR(500) NULL DEFAULT NULL COMMENT '论文题目' AFTER `pub_time`,
+	CHANGE COLUMN `press` `press` VARCHAR(200) NULL DEFAULT NULL COMMENT '期刊名称' AFTER `name`;
+
+(已处理)更新 pcs_party_view
 
 
 2017-10-12
