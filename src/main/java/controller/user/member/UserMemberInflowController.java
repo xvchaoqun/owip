@@ -1,6 +1,7 @@
 package controller.user.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.party.Branch;
 import domain.party.Party;
@@ -46,7 +47,7 @@ public class UserMemberInflowController extends BaseController{
 
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
         if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
-            throw new RuntimeException("状态异常");
+            throw new OpException("状态异常");
         }
         modelMap.put("memberInflow", memberInflow);
         Map<Integer, Branch> branchMap = branchService.findAll();

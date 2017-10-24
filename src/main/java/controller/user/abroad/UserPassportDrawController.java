@@ -183,7 +183,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                     passportTw = passport;
                 }
             }
-            if(passportTw == null)throw new RuntimeException("您还未提交大陆居民往来台湾通行证");
+            if(passportTw == null)throw new OpException("您还未提交大陆居民往来台湾通行证");
             modelMap.put("passport", passportTw);*/
 
             return "user/abroad/passportDraw/passportDraw_self_sign_tw";

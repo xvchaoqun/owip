@@ -64,7 +64,7 @@ public class FileController extends BaseController {
     public void download(HttpServletRequest request, String path, String filename, HttpServletResponse response) throws IOException {
 
         if(!FileUtils.exists(springProps.uploadPath, path)){
-            throw new RuntimeException("文件不存在："+ path);
+            throw new OpException("文件不存在："+ path);
         }
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }

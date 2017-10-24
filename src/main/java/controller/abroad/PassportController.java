@@ -6,6 +6,7 @@ import bean.PassportStatByPostBean;
 import bean.XlsPassport;
 import bean.XlsUpload;
 import controller.AbroadBaseController;
+import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.TaiwanRecord;
@@ -630,7 +631,7 @@ public class PassportController extends AbroadBaseController {
 
         if (type != null && type == SystemConstants.PASSPORT_TYPE_LOST) {
 
-            //if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new RuntimeException("请选择丢失证明文件");
+            //if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new OpException("请选择丢失证明文件");
             if (_lostProof != null && !_lostProof.isEmpty()) {
                 String fileName = UUID.randomUUID().toString();
                 String realPath = FILE_SEPARATOR
@@ -743,7 +744,7 @@ public class PassportController extends AbroadBaseController {
                         || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
                         && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
                     // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
-                    throw new RuntimeException("该证件不可以进行更新操作");
+                    throw new OpException("该证件不可以进行更新操作");
                 }
             }
         } else if (applyId != null) {

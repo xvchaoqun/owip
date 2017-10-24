@@ -1,6 +1,7 @@
 package controller.user.member;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberIn;
@@ -58,7 +59,7 @@ public class EnterApplyController extends BaseController {
                 return "forward:/user/memberInflow_view";
         }
 
-        throw new RuntimeException("系统异常");
+        throw new OpException("系统异常");
     }
 
     @RequiresRoles(SystemConstants.ROLE_GUEST)

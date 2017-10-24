@@ -2,6 +2,7 @@ package controller.user.abroad;
 
 import bean.ApprovalResult;
 import controller.AbroadBaseController;
+import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfExample.Criteria;
@@ -360,7 +361,7 @@ public class UserApplySelfController extends AbroadBaseController {
             Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(id);
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
-                throw new RuntimeException("不允许更新");
+                throw new OpException("不允许更新");
             }
 
             List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());

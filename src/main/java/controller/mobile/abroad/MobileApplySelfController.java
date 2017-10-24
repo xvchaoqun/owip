@@ -4,6 +4,7 @@ import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import bean.m.Breadcrumb;
 import controller.AbroadBaseController;
+import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfFile;
@@ -144,7 +145,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 				ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
 				if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
-					throw new RuntimeException("您没有权限");
+					throw new OpException("您没有权限");
 			}
 		}
 

@@ -1,6 +1,7 @@
 package controller.base;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
 import domain.base.ContentTplExample.Criteria;
@@ -154,7 +155,7 @@ public class ContentTplController extends BaseController {
             return "base/contentTpl/contentTpl_string_au";
         if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML)
             return "base/contentTpl/contentTpl_html_au";
-        throw new RuntimeException("模板类型错误");
+        throw new OpException("模板类型错误");
     }
 
     @RequiresPermissions("contentTpl:del")

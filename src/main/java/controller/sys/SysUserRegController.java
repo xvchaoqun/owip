@@ -1,6 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
+import controller.global.OpException;
 import domain.party.Party;
 import domain.sys.SysUserReg;
 import domain.sys.SysUserRegExample;
@@ -154,7 +155,7 @@ public class SysUserRegController extends BaseController {
             currentSysUserReg = sysUserRegService.next(null);
         }
         if (currentSysUserReg == null)
-            throw new RuntimeException("当前没有需要审批的记录");
+            throw new OpException("当前没有需要审批的记录");
 
         modelMap.put("sysUserReg", currentSysUserReg);
 

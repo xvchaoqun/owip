@@ -1,5 +1,6 @@
 package bean;
 
+import controller.global.OpException;
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.CellType;
@@ -66,7 +67,7 @@ public class XlsUpload {
 				else if(StringUtils.equals(twPassportType.getName(), passportName))
 					passportRow.setPassportType(twPassportType.getId());
 				else
-					throw  new RuntimeException("证件类型："+passportName+"不存在");
+					throw  new OpException("证件类型："+passportName+"不存在");
 			}
 			
 			cell = row.getCell(2);
@@ -136,14 +137,14 @@ public class XlsUpload {
 			cell = row.getCell(1);
 			if (null != cell){ // 行政级别
 				MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", getCell(cell));
-				if(adminLevelType==null) throw new RuntimeException("行政级别：" + getCell(cell) + " 不存在");
+				if(adminLevelType==null) throw new OpException("行政级别：" + getCell(cell) + " 不存在");
 				cadreRow.setAdminLevel(adminLevelType.getId());
 			}
 
 			cell = row.getCell(2);
 			if (null != cell){ // 职务属性
 				MetaType postType = CmTag.getMetaTypeByName("mc_post", getCell(cell));
-				if(postType==null) throw new RuntimeException("职务属性：" + getCell(cell) + " 不存在");
+				if(postType==null) throw new OpException("职务属性：" + getCell(cell) + " 不存在");
 				cadreRow.setPostId(postType.getId());
 			}
 
@@ -199,14 +200,14 @@ public class XlsUpload {
 			cell = row.getCell(1);
 			if (null != cell){ // 行政级别
 				MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", getCell(cell));
-				if(adminLevelType==null) throw new RuntimeException("行政级别：" + getCell(cell) + " 不存在");
+				if(adminLevelType==null) throw new OpException("行政级别：" + getCell(cell) + " 不存在");
 				bean.setAdminLevel(adminLevelType.getId());
 			}
 
 			cell = row.getCell(2);
 			if (null != cell){ // 职务属性
 				MetaType postType = CmTag.getMetaTypeByName("mc_post", getCell(cell));
-				if(postType==null) throw new RuntimeException("职务属性：" + getCell(cell) + " 不存在");
+				if(postType==null) throw new OpException("职务属性：" + getCell(cell) + " 不存在");
 				bean.setPostId(postType.getId());
 			}
 
@@ -269,14 +270,14 @@ public class XlsUpload {
 			cell = row.getCell(1);
 			if (null != cell){ // 行政级别
 				MetaType adminLevelType = CmTag.getMetaTypeByName("mc_admin_level", getCell(cell));
-				if(adminLevelType==null) throw new RuntimeException("行政级别：" + getCell(cell) + " 不存在");
+				if(adminLevelType==null) throw new OpException("行政级别：" + getCell(cell) + " 不存在");
 				bean.setAdminLevel(adminLevelType.getId());
 			}
 
 			cell = row.getCell(2);
 			if (null != cell){ // 职务属性
 				MetaType postType = CmTag.getMetaTypeByName("mc_post", getCell(cell));
-				if(postType==null) throw new RuntimeException("职务属性：" + getCell(cell) + " 不存在");
+				if(postType==null) throw new OpException("职务属性：" + getCell(cell) + " 不存在");
 				bean.setPostId(postType.getId());
 			}
 

@@ -2,6 +2,7 @@ package controller.mobile.train;
 
 import bean.TrainTempData;
 import controller.TrainBaseController;
+import controller.global.OpException;
 import domain.train.TrainCourse;
 import domain.train.TrainEvaNorm;
 import domain.train.TrainEvaResult;
@@ -50,7 +51,7 @@ public class MobileTrainEvaController extends TrainBaseController {
         Map<Integer, TrainEvaTable> evaTableMap = trainEvaTableService.findAll();
         TrainEvaTable trainEvaTable = evaTableMap.get(trainCourse.getEvaTableId());
         if(trainEvaTable==null){
-            throw new RuntimeException("该课程当前没有分配课程评估表，不可以进行测评");
+            throw new OpException("该课程当前没有分配课程评估表，不可以进行测评");
         }
 
         return "mobile/train/eva_page";
@@ -74,7 +75,7 @@ public class MobileTrainEvaController extends TrainBaseController {
         Map<Integer, TrainEvaTable> evaTableMap = trainEvaTableService.findAll();
         TrainEvaTable trainEvaTable = evaTableMap.get(trainCourse.getEvaTableId());
         if(trainEvaTable==null){
-            throw new RuntimeException("该课程当前没有分配课程评估表，不可以进行测评");
+            throw new OpException("该课程当前没有分配课程评估表，不可以进行测评");
         }
         List<TrainEvaNorm> normList = trainEvaTable.getNormList();
         int stepNum = normList.size();

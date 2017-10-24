@@ -312,7 +312,7 @@ public class AbroadReportController extends BaseController {
         String reason = applySelf.getReason();
 
         /*if(passportDraw.getDrawTime()==null){
-            new RuntimeException("证件还未领取");
+            new OpException("证件还未领取");
         }*/
 
         String drawTime = DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD_CHINA);
