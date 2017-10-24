@@ -6,6 +6,7 @@ public class XlsCadre {
 	public int adminLevel;
 	public int postId;
 	public String unitCode;
+	public String post;
 	public String title;
 	public String remark;
 
@@ -39,6 +40,14 @@ public class XlsCadre {
 
 	public void setUnitCode(String unitCode) {
 		this.unitCode = unitCode;
+	}
+
+	public String getPost() {
+		return post;
+	}
+
+	public void setPost(String post) {
+		this.post = post;
 	}
 
 	public String getTitle() {

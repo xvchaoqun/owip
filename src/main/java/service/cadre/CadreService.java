@@ -276,6 +276,7 @@ public class CadreService extends BaseMapper {
                 throw new OpException("单位编号：" + uRow.getUnitCode() + "不存在");
             }
             record.setUnitId(unit.getId());
+            record.setPost(uRow.getPost());
             record.setTitle(uRow.getTitle());
             record.setRemark(uRow.getRemark());
 
