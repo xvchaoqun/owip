@@ -32,14 +32,20 @@
                             <shiro:hasPermission name="member:edit">
                             <a href="javascript:" class="jqEditBtn btn btn-primary btn-sm"
                                data-open-by="page" data-id-name="userId">
-                                <i class="fa fa-edit"></i> 修改信息</a>
+                                <i class="fa fa-edit"></i> 修改党籍信息</a>
+                                <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                        data-url="${ctx}/memberModify"
+                                        data-id-name="userId"
+                                        data-open-by="page">
+                                    <i class="fa fa-search"></i> 查看修改记录
+                                </button>
+                                <button id="baseEditBtn" class="jqOpenViewBtn btn btn-warning btn-sm tooltip-success"
+                                        data-url="${ctx}/member_studentInfo_au"
+                                        data-open-by="page" data-id-name="userId"
+                                        data-rel="tooltip" data-placement="top" title="只能修改系统注册账号的基本信息">
+                                    <i class="fa fa-edit"></i> 修改基础信息</button>
                             </shiro:hasPermission>
-                            <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                    data-url="${ctx}/memberModify"
-                                    data-id-name="userId"
-                                    data-open-by="page">
-                                <i class="fa fa-search"></i> 查看修改记录
-                            </button>
+
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
@@ -301,8 +307,23 @@
             { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
                 return _cMap.unitMap[cellvalue].name;
             }},
-            {hidden:true, key:true, name:'userId'}, {hidden: true, name: 'partyId'}
-        ]
+            {hidden:true, key:true, name:'userId'}, {hidden: true, name: 'partyId'},{hidden: true, name: 'source'}
+        ],onSelectRow: function (id, status) {
+            saveJqgridSelected("#"+this.id);
+            //console.log(id)
+            var ids = $(this).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#baseEditBtn").prop("disabled", true);
+            } else if (ids.length==1) {
+
+                var rowData = $(this).getRowData(ids[0]);
+                console.log(rowData.source)
+                $("#baseEditBtn").prop("disabled", rowData.source == "${USER_SOURCE_JZG}"
+                        ||rowData.source == "${USER_SOURCE_BKS}"||rowData.source == "${USER_SOURCE_YJS}");
+            }else{
+                $("#baseEditBtn").prop("disabled", false);
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 

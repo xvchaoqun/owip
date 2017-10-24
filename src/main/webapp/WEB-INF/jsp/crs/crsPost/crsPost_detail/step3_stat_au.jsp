@@ -8,8 +8,10 @@
         </div>
         <div style="margin-bottom: 10px;text-indent: 2em">
             招聘会专家组共<span class="num"><input type="text" disabled value="${expertCount}"></span>人，
-            发出推荐票<span class="num"><input type="text" name="statGiveCount" class="num" value="${crsPost.statGiveCount}" maxlength="3"></span>张，
-            收回<span class="num"><input type="text" name="statBackCount" class="num" value="${crsPost.statBackCount}" maxlength="3"></span>张，推荐结果如下：
+            发出推荐票<span class="num"><input type="text" name="statGiveCount" class="num" value="${crsPost.statGiveCount}"
+                                          maxlength="3"></span>张，
+            收回<span class="num"><input type="text" name="statBackCount" class="num" value="${crsPost.statBackCount}"
+                                       maxlength="3"></span>张，推荐结果如下：
         </div>
         <table class="table table-bordered table-unhover2 ">
             <thead class="multi">
@@ -35,11 +37,59 @@
                                                  maxlength="3"></span>
                     </td>
                     <td style="width: 40px">
-                        <span class="num"><input type="text" class="second num" value="${applicant.recommendSecondCount}"
+                        <span class="num"><input type="text" class="second num"
+                                                 value="${applicant.recommendSecondCount}"
                                                  maxlength="3"></span>
                     </td>
                 </tr>
             </c:forEach>
+            <tr>
+                <td class="center">
+                    排名第一应聘人
+                </td>
+                <td colspan="3">
+                    <c:if test="${param.isUpdate!=1}">
+                        <div style="width:50%;text-align: center" >
+                        ${cm:getUserById(crsPost.statFirstUserId).realname}
+                        </div>
+                    </c:if>
+                    <c:if test="${param.isUpdate==1}">
+                        <select required data-rel="select2" name="statFirstUserId" data-placeholder="请选择">
+                            <option></option>
+                            <c:forEach items="${crsApplicants}" var="applicant" varStatus="vs">
+                                <option value="${applicant.user.id}">${applicant.user.realname}</option>
+                            </c:forEach>
+                        </select>
+                        <script>
+                            $("#statForm select[name=statFirstUserId]").val('${crsPost.statFirstUserId}');
+                        </script>
+                    </c:if>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">
+                    排名第二应聘人
+                </td>
+                <td colspan="3">
+                    <c:if test="${param.isUpdate!=1}">
+                        <div style="width:50%;text-align: center" >
+                        ${cm:getUserById(crsPost.statSecondUserId).realname}
+                        </div>
+                    </c:if>
+                    <c:if test="${param.isUpdate==1}">
+                        <select required data-rel="select2" name="statSecondUserId" data-placeholder="请选择">
+                            <option></option>
+                            <c:forEach items="${crsApplicants}" var="applicant" varStatus="vs">
+                                <option value="${applicant.user.id}">${applicant.user.realname}</option>
+                            </c:forEach>
+                        </select>
+                        <script>
+                            $("#statForm select[name=statSecondUserId]").val('${crsPost.statSecondUserId}');
+                        </script>
+                    </c:if>
+                </td>
+            </tr>
+
             <tr>
                 <td class="center">
                     专家组推荐意见汇总表
@@ -49,7 +99,7 @@
                         <t:preview filePath="${crsPost.statFile}" fileName="${crsPost.statFileName}" label="预览"/>
                     </c:if>
                     <c:if test="${param.isUpdate==1}">
-                    <input class="form-control" type="file" name="statFile" />
+                        <input class="form-control" type="file" name="statFile"/>
                     </c:if>
                 </td>
             </tr>
@@ -68,32 +118,38 @@
     </form>
 </div>
 <c:if test="${param.isUpdate==1}">
-<div class="modal-footer center">
-    <a href="javascript:;" onclick="_stepContentReload()" class="btn btn-default">取消</a>
-    <input type="button" id="statFormSubmitBtn" class="btn btn-primary" value="确定"/>
-</div>
+    <div class="modal-footer center">
+        <a href="javascript:;" onclick="_stepContentReload()" class="btn btn-default">取消</a>
+        <input type="button" id="statFormSubmitBtn" class="btn btn-primary" value="确定"/>
+    </div>
 </c:if>
 <script>
     <c:if test="${param.isUpdate!=1}">
     $("#statForm input").prop("disabled", true);
     </c:if>
+    $('#statForm [data-rel="select2"]').select2();
     register_date($('.datetime-picker'));
-    $.fileInput($('#statForm input[type=file]'),{
-        no_file:'请上传pdf文件',
+    $.fileInput($('#statForm input[type=file]'), {
+        no_file: '请上传pdf文件',
         allowExt: ['pdf']
     })
-    $("#statFormSubmitBtn").click(function(){$("#statForm").submit(); return false;})
+    $("#statFormSubmitBtn").click(function () {
+        $("#statForm").submit();
+        return false;
+    })
     $("#statForm").validate({
         submitHandler: function (form) {
 
             var jsonResult = {};
-            jsonResult.postId=${param.postId};
+            jsonResult.postId =${param.postId};
             jsonResult.statExpertCount = $("input[name=statExpertCount]", form).val();
             jsonResult.statGiveCount = $("input[name=statGiveCount]", form).val();
             jsonResult.statBackCount = $("input[name=statBackCount]", form).val();
+            jsonResult.statFirstUserId = $("select[name=statFirstUserId]", form).val();
+            jsonResult.statSecondUserId = $("select[name=statSecondUserId]", form).val();
             jsonResult.statDate = $("input[name=statDate]", form).val();
             jsonResult.applicatStatBeans = [];
-            $("tr.applicant", form).each(function(){
+            $("tr.applicant", form).each(function () {
                 var applicant = {};
                 applicant.applicantId = $(this).data("applicant-id")
                 applicant.firstCount = $(".first", this).val();
@@ -101,12 +157,12 @@
                 jsonResult.applicatStatBeans.push(applicant);
             })
             //console.log(JSON.stringify(jsonResult))
-           // return;
+            // return;
             var base64 = new Base64()
             $(form).ajaxSubmit({
-                data:{jsonResult:base64.encode(JSON.stringify(jsonResult))},
-                success:function(ret){
-                    if(ret.success){
+                data: {jsonResult: base64.encode(JSON.stringify(jsonResult))},
+                success: function (ret) {
+                    if (ret.success) {
                         //$("#modal").modal('hide');
                         _stepContentReload()
                     }
@@ -159,7 +215,8 @@
         font-weight: bolder;
         text-align: center
     }
-    input[disabled]{
-        background-color: transparent!important;
+
+    input[disabled] {
+        background-color: transparent !important;
     }
 </style>

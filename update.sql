@@ -1,5 +1,11 @@
 
 
+2017-10-24
+ALTER TABLE `crs_post`
+	ADD COLUMN `stat_first_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '排名第一的应聘人' AFTER `stat_file_name`,
+	ADD COLUMN `stat_second_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '排名第二的应聘人' AFTER `stat_first_user_id`;
+
+
 2017-10-18
 新增角色 cadreRecruit 应聘干部（普通教师）
 

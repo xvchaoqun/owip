@@ -91,6 +91,6 @@ public class MemberTeacherInfoController extends BaseController {
         TeacherInfo teacher = teacherInfoMapper.selectByPrimaryKey(userId);
         modelMap.put("teacher", teacher);
 
-        return "sys/teacherInfo/member_teacherInfo_au";
+        return "sys/userInfo/member_teacherInfo_au";
     }
 }

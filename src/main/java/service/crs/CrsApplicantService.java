@@ -41,6 +41,8 @@ public class CrsApplicantService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private ModifyCadreAuthService modifyCadreAuthService;
+    @Autowired
+    private CrsApplyRuleService crsApplyRuleService;
 
     // 获得报名人员
     public List<CrsApplicantView> getCrsApplicants(int postId){
@@ -109,6 +111,11 @@ public class CrsApplicantService extends BaseMapper {
         }
 
         if(id==null) {
+
+            // 检查报名规则
+            if(!crsApplyRuleService.canApply(userId, postId)){
+                throw new OpException("操作失败：不符合报名规则。");
+            }
 
             CrsApplicant record = new CrsApplicant();
             record.setPostId(postId);

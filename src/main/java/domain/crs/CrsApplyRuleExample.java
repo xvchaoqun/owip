@@ -165,6 +165,11 @@ public class CrsApplyRuleExample {
             return (Criteria) this;
         }
 
+        public Criteria andContainPostId(Integer postId) {
+            addCriterion("FIND_IN_SET("+ postId+", post_ids)");
+            return (Criteria) this;
+        }
+
         public Criteria andPostIdsIsNull() {
             addCriterion("post_ids is null");
             return (Criteria) this;

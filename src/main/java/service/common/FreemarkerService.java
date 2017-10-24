@@ -11,8 +11,8 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.util.HtmlUtils;
 import sys.tags.CmTag;
-import sys.utils.ContentUtils;
 import sys.utils.HtmlEscapeUtils;
 
 import java.io.IOException;
@@ -82,16 +82,16 @@ public class FreemarkerService {
 
         List<String> rows = new ArrayList();
 
-        Document doc = Jsoup.parse(content);
+        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
         Elements ps = doc.getElementsByTag("p");
         int size = ps.size();
         for (int i = 0; i < size; i++) {
             String plainText = StringUtils.trimToEmpty(ps.get(i).text());
-            rows.add(ContentUtils.xmlEscape(plainText));
+            rows.add(HtmlUtils.htmlEscapeDecimal(plainText));
         }
         if (size == 0) {
             String plainText = StringUtils.trimToEmpty(doc.text());
-            rows.add(ContentUtils.xmlEscape(plainText));
+            rows.add(HtmlUtils.htmlEscapeDecimal(plainText));
         }
 
         Map<String, Object> dataMap = new HashMap<>();
@@ -110,7 +110,7 @@ public class FreemarkerService {
         String[] strings = content.split("\n");
         for (String str : strings) {
             String plainText = HtmlEscapeUtils.getTextFromHTML(str);
-            rows.add(ContentUtils.xmlEscape(plainText));
+            rows.add(HtmlUtils.htmlEscapeDecimal(plainText));
         }
 
         Map<String, Object> dataMap = new HashMap<>();
@@ -129,14 +129,14 @@ public class FreemarkerService {
         String title = null;
         List rows = new ArrayList();
 
-        Document doc = Jsoup.parse(content);
+        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
         Elements ps = doc.getElementsByTag("p");
         int size = ps.size();
 
         if (size == 0) {
             List cols = new ArrayList();
             cols.add(0);
-            cols.add(ContentUtils.xmlEscape(StringUtils.trimToEmpty(doc.text())));
+            cols.add(HtmlUtils.htmlEscapeDecimal(StringUtils.trimToEmpty(doc.text())));
             rows.add(cols);
 
             Map<String, Object> dataMap = new HashMap<>();
@@ -147,7 +147,7 @@ public class FreemarkerService {
             for (int i = 0; i < size; i++) {
 
                 Element pElement = ps.get(i);
-                String pStr = ContentUtils.xmlEscape(StringUtils.trimToEmpty(pElement.text()));
+                String pStr = HtmlUtils.htmlEscapeDecimal(StringUtils.trimToEmpty(pElement.text()));
                 if (pStr.endsWith(":") || pStr.endsWith("：")) {
                     if (rows.size() > 0) {
                         Map<String, Object> dataMap = new HashMap<>();
@@ -202,7 +202,7 @@ public class FreemarkerService {
         //System.out.println(getStringNoBlank(info));
         List rows = new ArrayList();
 
-        Document doc = Jsoup.parse(content);
+        Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
         Elements pElements = doc.getElementsByTag("p");
         int size = pElements.size();
         for (Element pElement : pElements) {
@@ -214,7 +214,7 @@ public class FreemarkerService {
             if (StringUtils.contains(style, "5em"))
                 type = 2;
             //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
-            String text = ContentUtils.xmlEscape(StringUtils.trimToEmpty(pElement.text()));
+            String text = HtmlUtils.htmlEscapeDecimal(StringUtils.trimToEmpty(pElement.text()));
             List cols = new ArrayList();
             cols.add(type);
 
@@ -228,7 +228,7 @@ public class FreemarkerService {
         if (size == 0) {
             List cols = new ArrayList();
             cols.add(0);
-            cols.add(ContentUtils.xmlEscape(StringUtils.trimToEmpty(doc.text())));
+            cols.add(HtmlUtils.htmlEscapeDecimal(StringUtils.trimToEmpty(doc.text())));
             rows.add(cols);
         }
 

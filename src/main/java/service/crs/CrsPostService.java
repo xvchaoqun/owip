@@ -65,6 +65,8 @@ public class CrsPostService extends BaseMapper {
         cp.setStatBackCount(statBean.getStatBackCount());
         //cp.setStatExpertCount(statBean.getStatExpertCount());
         cp.setStatDate(statBean.getStatDate());
+        cp.setStatFirstUserId(statBean.getStatFirstUserId());
+        cp.setStatSecondUserId(statBean.getStatSecondUserId());
         cp.setStatFile(statFile);
         cp.setStatFileName(statFileName);
         crsPostMapper.updateByPrimaryKeySelective(cp);

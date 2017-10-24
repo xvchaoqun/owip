@@ -2,9 +2,6 @@ package service.base;
 
 import bean.ApprovalResult;
 import bean.ShortMsgBean;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
@@ -23,13 +20,6 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.slf4j.Logger;
@@ -46,6 +36,8 @@ import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
+import sys.SendMsgResult;
+import sys.SendMsgUtils;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ContextHelper;
@@ -57,7 +49,6 @@ import sys.utils.PropertiesUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -712,6 +703,30 @@ public class ShortMsgService extends BaseMapper {
             throw new OpException("短信发送内容为空。");
         }
 
+        ShortMsg record = new ShortMsg();
+        record.setRelateId(shortMsgBean.getRelateId());
+        record.setRelateType(shortMsgBean.getRelateType());
+        record.setCreateTime(new Date());
+        record.setMobile(mobile);
+        record.setContent(content);
+        record.setReceiverId(receiver);
+        record.setSenderId(sender);
+        record.setType(type);
+        record.setIp(ip);
+
+        if(springProps.shortMsgSend) {
+            SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(mobile, content);
+            record.setStatus(sendMsgResult.isSuccess());
+            record.setRet(sendMsgResult.getMsg());
+            shortMsgMapper.insertSelective(record);
+        }else{
+            record.setRemark("test");
+            record.setStatus(false);
+            shortMsgMapper.insertSelective(record);
+
+            return true;
+        }
+/*
         String url= springProps.shortMsgUrl;
         String formStatusData="{\"mobile\":\""+ mobile +"\", \"content\":\""+ content +"\"}";
 
@@ -760,7 +775,7 @@ public class ShortMsgService extends BaseMapper {
 
             e.printStackTrace();
             throw new OpException("系统错误:"+ e.getMessage());
-        }
+        }*/
         return false;
     }
 

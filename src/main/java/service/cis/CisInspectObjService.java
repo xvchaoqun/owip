@@ -20,7 +20,6 @@ import service.BaseMapper;
 import service.common.FreemarkerService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContentUtils;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
@@ -51,7 +50,7 @@ public class CisInspectObjService extends BaseMapper {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("realname", uv.getRealname());
         dataMap.put("code", uv.getCode());
-        dataMap.put("post", ContentUtils.xmlEscape(cisInspectObj.getPost()));
+        dataMap.put("post", cisInspectObj.getPost());
 
         // 主体
         Byte inspectorType = cisInspectObj.getInspectorType();

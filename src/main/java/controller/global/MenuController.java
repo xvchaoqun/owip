@@ -41,10 +41,12 @@ public class MenuController extends BaseController {
 
         Set<String> permissions = new HashSet<String>();
         Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources();
-        for (Integer resId : resIds) {
-            SysResource sysResource = sysResources.get(resId);
-            if (sysResource != null && StringUtils.isNotBlank(sysResource.getPermission())) {
-                permissions.add(sysResource.getPermission().trim());
+        if(resIds!=null) {
+            for (Integer resId : resIds) {
+                SysResource sysResource = sysResources.get(resId);
+                if (sysResource != null && StringUtils.isNotBlank(sysResource.getPermission())) {
+                    permissions.add(sysResource.getPermission().trim());
+                }
             }
         }
         List<SysResource> userMenus = sysResourceService.makeMenus(permissions);
