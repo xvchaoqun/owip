@@ -88,7 +88,7 @@
                         .format(rowObject.id);
             }
             },
-            {label: '短信内容', name: 'content', width: 850},
+            {label: '短信内容', name: 'content', width: 850, formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '创建时间', name: 'createTime', width: 150},
             {label: '创建人', name: 'user.realname'},
             {label: '备注', name: 'remark', width: 250}
