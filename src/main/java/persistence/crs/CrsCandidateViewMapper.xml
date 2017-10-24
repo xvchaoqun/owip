@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.crs.CrsCandidateViewMapper">
+  <resultMap id="BaseResultMap" type="domain.crs.CrsCandidateView">
+    <result column="candidate_id" jdbcType="INTEGER" property="candidateId" />
+    <result column="is_first" jdbcType="BIT" property="isFirst" />
+    <result column="expertCount" jdbcType="BIGINT" property="expertcount" />
+    <result column="crs_post_id" jdbcType="INTEGER" property="crsPostId" />
+    <result column="crs_post_year" jdbcType="INTEGER" property="crsPostYear" />
+    <result column="crs_post_seq" jdbcType="INTEGER" property="crsPostSeq" />
+    <result column="crs_post_name" jdbcType="VARCHAR" property="crsPostName" />
+    <result column="crs_post_job" jdbcType="VARCHAR" property="crsPostJob" />
+    <result column="recommend_first_count" jdbcType="INTEGER" property="recommendFirstCount" />
+    <result column="recommend_second_count" jdbcType="INTEGER" property="recommendSecondCount" />
+    <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
+    <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
+    <result column="ppt" jdbcType="VARCHAR" property="ppt" />
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="home_phone" jdbcType="VARCHAR" property="homePhone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="member_status" jdbcType="TINYINT" property="memberStatus" />
+    <result column="dp_id" jdbcType="INTEGER" property="dpId" />
+    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
+    <result column="dp_post" jdbcType="VARCHAR" property="dpPost" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="dp_remark" jdbcType="VARCHAR" property="dpRemark" />
+    <result column="ow_id" jdbcType="INTEGER" property="owId" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="ow_remark" jdbcType="VARCHAR" property="owRemark" />
+    <result column="cadre_grow_time" jdbcType="DATE" property="cadreGrowTime" />
+    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="edu_id" jdbcType="INTEGER" property="eduId" />
+    <result column="finish_time" jdbcType="DATE" property="finishTime" />
+    <result column="learn_style" jdbcType="INTEGER" property="learnStyle" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="dep" jdbcType="VARCHAR" property="dep" />
+    <result column="school_type" jdbcType="TINYINT" property="schoolType" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="post_class" jdbcType="VARCHAR" property="postClass" />
+    <result column="sub_post_class" jdbcType="VARCHAR" property="subPostClass" />
+    <result column="main_post_level" jdbcType="VARCHAR" property="mainPostLevel" />
+    <result column="pro_post_time" jdbcType="DATE" property="proPostTime" />
+    <result column="pro_post_level" jdbcType="VARCHAR" property="proPostLevel" />
+    <result column="pro_post_level_time" jdbcType="DATE" property="proPostLevelTime" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
+    <result column="manage_level_time" jdbcType="DATE" property="manageLevelTime" />
+    <result column="arrive_time" jdbcType="DATE" property="arriveTime" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="work_start_time" jdbcType="DATE" property="workStartTime" />
+    <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
+    <result column="main_cadre_post_id" jdbcType="INTEGER" property="mainCadrePostId" />
+    <result column="is_double" jdbcType="BIT" property="isDouble" />
+    <result column="double_unit_id" jdbcType="INTEGER" property="doubleUnitId" />
+    <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="cadre_post_year" jdbcType="BIGINT" property="cadrePostYear" />
+    <result column="admin_level_year" jdbcType="BIGINT" property="adminLevelYear" />
+    <result column="np_relate_id" jdbcType="INTEGER" property="npRelateId" />
+    <result column="np_id" jdbcType="INTEGER" property="npId" />
+    <result column="np_file_name" jdbcType="VARCHAR" property="npFileName" />
+    <result column="np_file" jdbcType="VARCHAR" property="npFile" />
+    <result column="np_work_time" jdbcType="DATE" property="npWorkTime" />
+    <result column="lp_relate_id" jdbcType="INTEGER" property="lpRelateId" />
+    <result column="lp_id" jdbcType="INTEGER" property="lpId" />
+    <result column="lp_file_name" jdbcType="VARCHAR" property="lpFileName" />
+    <result column="lp_file" jdbcType="VARCHAR" property="lpFile" />
+    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="s_dispatch_id" jdbcType="INTEGER" property="sDispatchId" />
+    <result column="s_work_time" jdbcType="DATE" property="sWorkTime" />
+    <result column="e_dispatch_id" jdbcType="INTEGER" property="eDispatchId" />
+    <result column="e_work_time" jdbcType="TIMESTAMP" property="eWorkTime" />
+    <result column="admin_level_code" jdbcType="VARCHAR" property="adminLevelCode" />
+    <result column="admin_level_name" jdbcType="VARCHAR" property="adminLevelName" />
+    <result column="max_ce_edu_attr" jdbcType="VARCHAR" property="maxCeEduAttr" />
+    <result column="max_ce_edu_code" jdbcType="VARCHAR" property="maxCeEduCode" />
+    <result column="max_ce_edu_name" jdbcType="VARCHAR" property="maxCeEduName" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
+    <result column="unit_type_code" jdbcType="VARCHAR" property="unitTypeCode" />
+    <result column="unit_type_name" jdbcType="VARCHAR" property="unitTypeName" />
+    <result column="unit_type_attr" jdbcType="VARCHAR" property="unitTypeAttr" />
+    <result column="verify_birth" jdbcType="DATE" property="verifyBirth" />
+    <result column="verify_work_time" jdbcType="DATE" property="verifyWorkTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    candidate_id, is_first, expertCount, crs_post_id, crs_post_year, crs_post_seq, crs_post_name, 
+    crs_post_job, recommend_first_count, recommend_second_count, is_recommend, ppt_name, 
+    ppt, id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, 
+    sort_order, status, msg_title, mobile, phone, home_phone, email, realname, gender, 
+    nation, native_place, idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, 
+    dp_post, dp_grow_time, dp_remark, ow_id, ow_grow_time, ow_remark, cadre_grow_time, 
+    cadre_dp_type, edu_id, finish_time, learn_style, school, dep, school_type, major, 
+    degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
+    pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
+    work_start_time, talent_title, main_cadre_post_id, is_double, double_unit_id, is_principal_post, 
+    cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, 
+    lp_relate_id, lp_id, lp_file_name, lp_file, lp_work_time, cadre_id, admin_level_id, 
+    s_dispatch_id, s_work_time, e_dispatch_id, e_work_time, admin_level_code, admin_level_name, 
+    max_ce_edu_attr, max_ce_edu_code, max_ce_edu_name, unit_name, unit_type_id, unit_type_code, 
+    unit_type_name, unit_type_attr, verify_birth, verify_work_time
+  </sql>
+  <select id="selectByExample" parameterType="domain.crs.CrsCandidateViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from crs_candidate_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.crs.CrsCandidateViewExample" resultType="java.lang.Long">
+    select count(*) from crs_candidate_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.crs.CrsCandidateViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from crs_candidate_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

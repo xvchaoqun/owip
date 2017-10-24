@@ -16,7 +16,7 @@ import java.util.List;
 public class XlsUpload {
 
 	public final static int passportXLSColumnCount = 8;
-	public final static int cadreXLSColumnCount = 6;
+	public final static int cadreXLSColumnCount = 7;
 	public final static int cadreReserveXLSColumnCount = 7;
 	public final static int userXLSColumnCount = 4;
 	public final static int trainCourseXLSColumnCount = 4;
