@@ -121,7 +121,8 @@ public class CadreReserveService extends BaseMapper {
     // 直接添加后备干部
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void insertSelective(int userId, CadreReserve record, Cadre cadreRecord){
 
@@ -174,7 +175,8 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void updateByPrimaryKeySelective(CadreReserve record, Cadre cadreRecord){
 
@@ -194,7 +196,8 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public int importCadreReserves(final List<XlsCadreReserve> beans, byte reserveType) {
 
@@ -233,7 +236,8 @@ public class CadreReserveService extends BaseMapper {
     // 列为考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public Cadre pass(CadreReserve record, Cadre cadreRecord) {
 
@@ -289,7 +293,8 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void abolish(Integer id) {
 
@@ -321,7 +326,8 @@ public class CadreReserveService extends BaseMapper {
 
     @Transactional
     @Caching(evict= {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void batchDel(Integer[] ids){
 

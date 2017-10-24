@@ -12,8 +12,8 @@ public class CrsPostStatBean {
     private Integer statExpertCount;
     private Integer statGiveCount;
     private Integer statBackCount;
-    private Integer statFirstUserId;
-    private Integer statSecondUserId;
+    private Integer firstUserId;
+    private Integer secondUserId;
     private Date statDate;
     private List<CrsApplicatStatBean> applicatStatBeans;
 
@@ -49,20 +49,20 @@ public class CrsPostStatBean {
         this.statBackCount = statBackCount;
     }
 
-    public Integer getStatFirstUserId() {
-        return statFirstUserId;
+    public Integer getSecondUserId() {
+        return secondUserId;
     }
 
-    public void setStatFirstUserId(Integer statFirstUserId) {
-        this.statFirstUserId = statFirstUserId;
+    public void setSecondUserId(Integer secondUserId) {
+        this.secondUserId = secondUserId;
     }
 
-    public Integer getStatSecondUserId() {
-        return statSecondUserId;
+    public Integer getFirstUserId() {
+        return firstUserId;
     }
 
-    public void setStatSecondUserId(Integer statSecondUserId) {
-        this.statSecondUserId = statSecondUserId;
+    public void setFirstUserId(Integer firstUserId) {
+        this.firstUserId = firstUserId;
     }
 
     public Date getStatDate() {

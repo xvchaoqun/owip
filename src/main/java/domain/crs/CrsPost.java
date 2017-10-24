@@ -119,10 +119,6 @@ public class CrsPost implements Serializable {
 
     private String statFileName;
 
-    private Integer statFirstUserId;
-
-    private Integer statSecondUserId;
-
     private Date statDate;
 
     private static final long serialVersionUID = 1L;
@@ -381,22 +377,6 @@ public class CrsPost implements Serializable {
 
     public void setStatFileName(String statFileName) {
         this.statFileName = statFileName == null ? null : statFileName.trim();
-    }
-
-    public Integer getStatFirstUserId() {
-        return statFirstUserId;
-    }
-
-    public void setStatFirstUserId(Integer statFirstUserId) {
-        this.statFirstUserId = statFirstUserId;
-    }
-
-    public Integer getStatSecondUserId() {
-        return statSecondUserId;
-    }
-
-    public void setStatSecondUserId(Integer statSecondUserId) {
-        this.statSecondUserId = statSecondUserId;
     }
 
     public Date getStatDate() {

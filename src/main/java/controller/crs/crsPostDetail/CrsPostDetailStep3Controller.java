@@ -195,6 +195,9 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         modelMap.put("expertCount", crsPostExpertService.getExpertUserIds(postId, null).size());
 
+        modelMap.put("firstUserId", crsCandidateService.getUserId(postId, true));
+        modelMap.put("secondUserId", crsCandidateService.getUserId(postId, false));
+
         return "crs/crsPost/crsPost_detail/step3_stat_au";
     }
 

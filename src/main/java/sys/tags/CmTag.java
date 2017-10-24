@@ -43,7 +43,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
-import persistence.cadre.CadreViewMapper;
 import persistence.common.IAbroadMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
@@ -408,8 +407,11 @@ public class CmTag {
 
     public static CadreView getCadreById(Integer id) {
 
-        CadreViewMapper cadreViewMapper = getBean(CadreViewMapper.class);
-        return  cadreViewMapper.selectByPrimaryKey(id);
+        Map<Integer, CadreView> cadreMap = cadreService.findAll();
+        return cadreMap.get(id);
+        
+        /*CadreViewMapper cadreViewMapper = getBean(CadreViewMapper.class);
+        return  cadreViewMapper.selectByPrimaryKey(id);*/
     }
 
     public static CadreView getCadreByUserId(Integer userId) {

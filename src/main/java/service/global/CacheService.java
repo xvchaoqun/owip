@@ -159,8 +159,6 @@ public class CacheService extends BaseController{
         }
     }
 
-
-
     // 刷新地区js数据
     public void flushLocation(){
 
@@ -268,4 +266,9 @@ public class CacheService extends BaseController{
             @CacheEvict(value = "UserPermissions", key = "#u.username")
     })
     public void clearUserCache(SysUserReg u) {}
+
+    @Caching(evict = {
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void clearCadreCache() {}
 }

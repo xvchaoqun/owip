@@ -96,7 +96,8 @@ public class CadreInspectService extends BaseMapper {
     // 直接添加考察对象
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void insertSelective(int userId, CadreInspect record, Cadre cadreRecord) {
 
@@ -151,7 +152,8 @@ public class CadreInspectService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void updateByPrimaryKeySelective(CadreInspect record, Cadre cadreRecord) {
 
@@ -171,7 +173,8 @@ public class CadreInspectService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public int importCadreInspects(final List<XlsCadreInspect> beans) {
 
@@ -232,7 +235,8 @@ public class CadreInspectService extends BaseMapper {
     // 通过常委会任命
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public Cadre pass(CadreInspect record, Cadre _cadre) {
 
@@ -279,7 +283,8 @@ public class CadreInspectService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "UserPermissions", allEntries = true)
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
     public void abolish(Integer id) {
 

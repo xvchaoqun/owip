@@ -7,6 +7,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import domain.crs.CrsApplicant;
+import domain.crs.CrsCandidate;
+import domain.crs.CrsCandidateExample;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import org.apache.commons.lang3.StringUtils;
@@ -59,17 +61,37 @@ public class CrsPostService extends BaseMapper {
         }).create();
         CrsPostStatBean statBean = gson.fromJson(jsonResult, CrsPostStatBean.class);
 
+        int postId = statBean.getPostId();
         CrsPost cp = new CrsPost();
-        cp.setId(statBean.getPostId());
+        cp.setId(postId);
         cp.setStatGiveCount(statBean.getStatGiveCount());
         cp.setStatBackCount(statBean.getStatBackCount());
         //cp.setStatExpertCount(statBean.getStatExpertCount());
         cp.setStatDate(statBean.getStatDate());
-        cp.setStatFirstUserId(statBean.getStatFirstUserId());
-        cp.setStatSecondUserId(statBean.getStatSecondUserId());
         cp.setStatFile(statFile);
         cp.setStatFileName(statFileName);
         crsPostMapper.updateByPrimaryKeySelective(cp);
+
+        {
+            CrsCandidateExample example = new CrsCandidateExample();
+            example.createCriteria().andPostIdEqualTo(postId);
+            crsCandidateMapper.deleteByExample(example);
+            if (statBean.getFirstUserId() != null) {
+                CrsCandidate crsCandidate = new CrsCandidate();
+                crsCandidate.setPostId(postId);
+                crsCandidate.setUserId(statBean.getFirstUserId());
+                crsCandidate.setIsFirst(true);
+                crsCandidateMapper.insertSelective(crsCandidate);
+            }
+            if (statBean.getSecondUserId() != null) {
+                CrsCandidate crsCandidate = new CrsCandidate();
+                crsCandidate.setPostId(postId);
+                crsCandidate.setUserId(statBean.getSecondUserId());
+                crsCandidate.setIsFirst(false);
+                crsCandidateMapper.insertSelective(crsCandidate);
+            }
+        }
+
 
         List<CrsApplicatStatBean> applicatStatBeans = statBean.getApplicatStatBeans();
         if (applicatStatBeans != null) {

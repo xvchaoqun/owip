@@ -34,8 +34,6 @@
     <result column="stat_back_count" jdbcType="INTEGER" property="statBackCount" />
     <result column="stat_file" jdbcType="VARCHAR" property="statFile" />
     <result column="stat_file_name" jdbcType="VARCHAR" property="statFileName" />
-    <result column="stat_first_user_id" jdbcType="INTEGER" property="statFirstUserId" />
-    <result column="stat_second_user_id" jdbcType="INTEGER" property="statSecondUserId" />
     <result column="stat_date" jdbcType="DATE" property="statDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -101,7 +99,7 @@
     post_require_id, start_time, end_time, enroll_status, meeting_time, meeting_address, 
     meeting_notice, report_deadline, quit_deadline, meeting_status, committee_status, 
     remark, create_time, pub_status, status, meeting_summary, stat_give_count, stat_back_count, 
-    stat_file, stat_file_name, stat_first_user_id, stat_second_user_id, stat_date
+    stat_file, stat_file_name, stat_date
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsPostExample" resultMap="BaseResultMap">
     select
@@ -144,8 +142,7 @@
       committee_status, remark, create_time, 
       pub_status, status, meeting_summary, 
       stat_give_count, stat_back_count, stat_file, 
-      stat_file_name, stat_first_user_id, stat_second_user_id, 
-      stat_date)
+      stat_file_name, stat_date)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
       #{unitId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, 
@@ -156,8 +153,7 @@
       #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{meetingSummary,jdbcType=VARCHAR}, 
       #{statGiveCount,jdbcType=INTEGER}, #{statBackCount,jdbcType=INTEGER}, #{statFile,jdbcType=VARCHAR}, 
-      #{statFileName,jdbcType=VARCHAR}, #{statFirstUserId,jdbcType=INTEGER}, #{statSecondUserId,jdbcType=INTEGER}, 
-      #{statDate,jdbcType=DATE})
+      #{statFileName,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.crs.CrsPost">
     insert into crs_post
@@ -257,12 +253,6 @@
       </if>
       <if test="statFileName != null">
         stat_file_name,
-      </if>
-      <if test="statFirstUserId != null">
-        stat_first_user_id,
-      </if>
-      <if test="statSecondUserId != null">
-        stat_second_user_id,
       </if>
       <if test="statDate != null">
         stat_date,
@@ -364,12 +354,6 @@
       </if>
       <if test="statFileName != null">
         #{statFileName,jdbcType=VARCHAR},
-      </if>
-      <if test="statFirstUserId != null">
-        #{statFirstUserId,jdbcType=INTEGER},
-      </if>
-      <if test="statSecondUserId != null">
-        #{statSecondUserId,jdbcType=INTEGER},
       </if>
       <if test="statDate != null">
         #{statDate,jdbcType=DATE},
@@ -481,12 +465,6 @@
       <if test="record.statFileName != null">
         stat_file_name = #{record.statFileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.statFirstUserId != null">
-        stat_first_user_id = #{record.statFirstUserId,jdbcType=INTEGER},
-      </if>
-      <if test="record.statSecondUserId != null">
-        stat_second_user_id = #{record.statSecondUserId,jdbcType=INTEGER},
-      </if>
       <if test="record.statDate != null">
         stat_date = #{record.statDate,jdbcType=DATE},
       </if>
@@ -529,8 +507,6 @@
       stat_back_count = #{record.statBackCount,jdbcType=INTEGER},
       stat_file = #{record.statFile,jdbcType=VARCHAR},
       stat_file_name = #{record.statFileName,jdbcType=VARCHAR},
-      stat_first_user_id = #{record.statFirstUserId,jdbcType=INTEGER},
-      stat_second_user_id = #{record.statSecondUserId,jdbcType=INTEGER},
       stat_date = #{record.statDate,jdbcType=DATE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -632,12 +608,6 @@
       <if test="statFileName != null">
         stat_file_name = #{statFileName,jdbcType=VARCHAR},
       </if>
-      <if test="statFirstUserId != null">
-        stat_first_user_id = #{statFirstUserId,jdbcType=INTEGER},
-      </if>
-      <if test="statSecondUserId != null">
-        stat_second_user_id = #{statSecondUserId,jdbcType=INTEGER},
-      </if>
       <if test="statDate != null">
         stat_date = #{statDate,jdbcType=DATE},
       </if>
@@ -677,8 +647,6 @@
       stat_back_count = #{statBackCount,jdbcType=INTEGER},
       stat_file = #{statFile,jdbcType=VARCHAR},
       stat_file_name = #{statFileName,jdbcType=VARCHAR},
-      stat_first_user_id = #{statFirstUserId,jdbcType=INTEGER},
-      stat_second_user_id = #{statSecondUserId,jdbcType=INTEGER},
       stat_date = #{statDate,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}
   </update>

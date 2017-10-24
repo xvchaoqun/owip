@@ -137,5 +137,6 @@ public class ModifyBaseItemService extends BaseMapper {
         if(BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return;
 
         cacheService.clearUserCache(_sysUser);
+        cacheService.clearCadreCache();
     }
 }
