@@ -98,7 +98,7 @@
             {label: '学工号', name: 'user.code', width: 120, frozen: true},
             {label: '类别', name: 'type', width: 250, frozen: true},
             {label: '手机号码', name: 'mobile', width: 120, frozen: true},
-            {label: '短信内容', name: 'content', width: 350},
+            {label: '短信内容', name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '发送时间', name: 'createTime', width: 200},
             {label: 'IP', name: 'ip', width: 150},
             {
