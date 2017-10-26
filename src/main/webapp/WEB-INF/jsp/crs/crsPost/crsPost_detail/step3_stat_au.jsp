@@ -54,7 +54,7 @@
                         </div>
                     </c:if>
                     <c:if test="${param.isUpdate==1}">
-                        <select required data-rel="select2" name="firstUserId" data-placeholder="请选择">
+                        <select data-rel="select2" name="firstUserId" data-placeholder="请选择">
                             <option></option>
                             <c:forEach items="${crsApplicants}" var="applicant" varStatus="vs">
                                 <option value="${applicant.user.id}">${applicant.user.realname}</option>
@@ -77,7 +77,7 @@
                         </div>
                     </c:if>
                     <c:if test="${param.isUpdate==1}">
-                        <select required data-rel="select2" name="secondUserId" data-placeholder="请选择">
+                        <select data-rel="select2" name="secondUserId" data-placeholder="请选择">
                             <option></option>
                             <c:forEach items="${crsApplicants}" var="applicant" varStatus="vs">
                                 <option value="${applicant.user.id}">${applicant.user.realname}</option>
