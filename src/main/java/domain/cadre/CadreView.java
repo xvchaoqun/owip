@@ -85,6 +85,8 @@ public class CadreView implements Serializable {
 
     private String email;
 
+    private String code;
+
     private String realname;
 
     private Byte gender;
@@ -361,6 +363,14 @@ public class CadreView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getRealname() {

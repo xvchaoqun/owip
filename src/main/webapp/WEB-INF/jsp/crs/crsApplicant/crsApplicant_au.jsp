@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
             <input type="hidden" name="postId" value="${param.postId}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">用户</label>
-				<div class="col-xs-6">
+				<div class="col-xs-8">
                     <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
                             data-width="280"
                             name="userId" data-placeholder="请输入账号或姓名或教工号">
@@ -20,8 +20,8 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">工作设想和预期目标</label>
-				<div class="col-xs-6">
-                    <textarea name="report" class="limited" rows="8" maxlength="1000">${crsApplicant.report}</textarea>
+				<div class="col-xs-8">
+                    <textarea name="report" class="form-control limited" rows="12" maxlength="1000">${crsApplicant.report}</textarea>
 				</div>
 			</div>
     </form>

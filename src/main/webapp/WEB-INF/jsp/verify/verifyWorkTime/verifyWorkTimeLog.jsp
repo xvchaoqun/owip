@@ -47,10 +47,10 @@
                 if (cellvalue == undefined) return '-';
                 return _cMap.VERIFY_STATUS_MAP[cellvalue]
             }},
-            {label: '工作证号', name: 'cadre.user.code', frozen: true},
+            {label: '工作证号', name: 'cadre.code', frozen: true},
             {
                 label: '姓名',
-                name: 'cadre.user.realname',
+                name: 'cadre.realname',
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
                     return $.cadre(rowObject.cadre.id, cellvalue);

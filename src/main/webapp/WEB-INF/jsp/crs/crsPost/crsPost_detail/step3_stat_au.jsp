@@ -50,18 +50,18 @@
                 <td colspan="3">
                     <c:if test="${param.isUpdate!=1}">
                         <div style="width:50%;text-align: center" >
-                        ${cm:getUserById(crsPost.statFirstUserId).realname}
+                        ${cm:getUserById(firstUserId).realname}
                         </div>
                     </c:if>
                     <c:if test="${param.isUpdate==1}">
-                        <select required data-rel="select2" name="statFirstUserId" data-placeholder="请选择">
+                        <select required data-rel="select2" name="firstUserId" data-placeholder="请选择">
                             <option></option>
                             <c:forEach items="${crsApplicants}" var="applicant" varStatus="vs">
                                 <option value="${applicant.user.id}">${applicant.user.realname}</option>
                             </c:forEach>
                         </select>
                         <script>
-                            $("#statForm select[name=statFirstUserId]").val('${crsPost.statFirstUserId}');
+                            $("#statForm select[name=firstUserId]").val('${firstUserId}');
                         </script>
                     </c:if>
                 </td>
@@ -73,18 +73,18 @@
                 <td colspan="3">
                     <c:if test="${param.isUpdate!=1}">
                         <div style="width:50%;text-align: center" >
-                        ${cm:getUserById(crsPost.statSecondUserId).realname}
+                        ${cm:getUserById(secondUserId).realname}
                         </div>
                     </c:if>
                     <c:if test="${param.isUpdate==1}">
-                        <select required data-rel="select2" name="statSecondUserId" data-placeholder="请选择">
+                        <select required data-rel="select2" name="secondUserId" data-placeholder="请选择">
                             <option></option>
                             <c:forEach items="${crsApplicants}" var="applicant" varStatus="vs">
                                 <option value="${applicant.user.id}">${applicant.user.realname}</option>
                             </c:forEach>
                         </select>
                         <script>
-                            $("#statForm select[name=statSecondUserId]").val('${crsPost.statSecondUserId}');
+                            $("#statForm select[name=secondUserId]").val('${secondUserId}');
                         </script>
                     </c:if>
                 </td>
@@ -145,8 +145,8 @@
             jsonResult.statExpertCount = $("input[name=statExpertCount]", form).val();
             jsonResult.statGiveCount = $("input[name=statGiveCount]", form).val();
             jsonResult.statBackCount = $("input[name=statBackCount]", form).val();
-            jsonResult.statFirstUserId = $("select[name=statFirstUserId]", form).val();
-            jsonResult.statSecondUserId = $("select[name=statSecondUserId]", form).val();
+            jsonResult.firstUserId = $("select[name=firstUserId]", form).val();
+            jsonResult.secondUserId = $("select[name=secondUserId]", form).val();
             jsonResult.statDate = $("input[name=statDate]", form).val();
             jsonResult.applicatStatBeans = [];
             $("tr.applicant", form).each(function () {

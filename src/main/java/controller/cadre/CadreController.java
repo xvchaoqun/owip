@@ -328,7 +328,7 @@ public class CadreController extends BaseController {
             JSONUtils.jsonp(resultMap);
         } else {
             // 没有干部管理员的权限，只能看到部分字段
-            JSONUtils.jsonpAntPathFilters(resultMap, "id", "user", "user.code", "user.realname", "unit", "unit.unitType", "unit.unitType.name",
+            JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname", "unit", "unit.unitType", "unit.unitType.name",
                     "unit.name", "title", "typeId", "postId", "dpTypeId", "cadreDpType", "cadreGrowTime", "mobile", "email");
         }
     }
@@ -553,12 +553,7 @@ public class CadreController extends BaseController {
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
         for (int k = 0; k < workbook.getNumberOfSheets(); k++) {
             XSSFSheet sheet = workbook.getSheetAt(k);
-
-            String sheetName = sheet.getSheetName();
-            if (StringUtils.equals(sheetName, "干部")) {
-
-                cadres.addAll(XlsUpload.fetchCadres(sheet));
-            }
+            cadres.addAll(XlsUpload.fetchCadres(sheet));
         }
 
         int successCount = cadreService.importCadres(cadres, status);

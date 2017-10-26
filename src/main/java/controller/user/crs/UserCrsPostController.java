@@ -1,11 +1,11 @@
 package controller.user.crs;
 
 import controller.CrsBaseController;
+import controller.global.OpException;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
-import domain.member.MemberTeacher;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
@@ -21,13 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +76,8 @@ public class UserCrsPostController extends CrsBaseController {
     public String crsPost_apply(int postId, ModelMap modelMap) {
 
         int userId = ShiroHelper.getCurrentUserId();
-        MemberTeacher memberTeacher = memberTeacherService.get(userId);
-        modelMap.put("memberTeacher", memberTeacher);
+        /*MemberTeacher memberTeacher = memberTeacherService.get(userId);
+        modelMap.put("memberTeacher", memberTeacher);*/
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crsPost", crsPost);
@@ -133,6 +134,15 @@ public class UserCrsPostController extends CrsBaseController {
             return failed("参数错误。");
         }
 
+        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+        Date meetingTime = crsPost.getMeetingTime();
+        Date reportDeadline = crsPost.getReportDeadline();
+        if(reportDeadline!=null && DateUtils.compareDate(new Date(), reportDeadline)){
+            throw new OpException("招聘会于{0}召开，{1}之后不可上传应聘PPT。",
+                    DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
+                    DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));
+        }
+
         String originalFilename = ppt.getOriginalFilename();
         String savePath = upload(ppt, "crsApplicant_ppt");
 
@@ -144,6 +154,25 @@ public class UserCrsPostController extends CrsBaseController {
 
         logger.info(addLog(SystemConstants.LOG_USER, "上传应聘PPT"));
         return success(FormUtils.SUCCESS);
+    }
+
+    // 已报名岗位
+    @RequiresPermissions("userCrsPost:*")
+    @RequestMapping("/crsPost_hasApplys")
+    @ResponseBody
+    public void crsPost_hasApplys(HttpServletResponse response) throws IOException {
+
+        CrsApplicantExample example = new CrsApplicantExample();
+        example.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId())
+                .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
+        List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
+
+        JSONUtils.write(response, crsApplicants, "postId", "isQuit");
+        return;
+       /* Map<String, Object> resultMap = success();
+        resultMap.put("crsApplicants", crsApplicants);
+        JSONUtils.write(response, resultMap, "success", "crsApplicants", "crsApplicants.postId", "crsApplicants.isQuit");
+        return;*/
     }
 
     @RequiresPermissions("userCrsPost:*")
@@ -158,18 +187,6 @@ public class UserCrsPostController extends CrsBaseController {
                     .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
             postCount = crsPostMapper.countByExample(example);
             modelMap.put("postCount", postCount);
-        }
-
-        if (postCount > 0) {
-            CrsApplicantExample example = new CrsApplicantExample();
-            example.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId())
-                    .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
-            List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
-            List<Integer> postIds = new ArrayList<>();
-            for (CrsApplicant crsApplicant : crsApplicants) {
-                postIds.add(crsApplicant.getPostId());
-            }
-            modelMap.put("postIds", postIds); // 已报名岗位
         }
 
         return "user/crs/crsPost_page";

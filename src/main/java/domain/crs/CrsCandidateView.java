@@ -8,9 +8,11 @@ public class CrsCandidateView implements Serializable {
 
     private Boolean isFirst;
 
-    private Long expertcount;
+    private Long expertCount;
 
     private Integer crsPostId;
+
+    private Byte crsPostType;
 
     private Integer crsPostYear;
 
@@ -19,6 +21,18 @@ public class CrsCandidateView implements Serializable {
     private String crsPostName;
 
     private String crsPostJob;
+
+    private Byte crsPostStatus;
+
+    private Integer applicantId;
+
+    private String recommendOw;
+
+    private String recommendCadre;
+
+    private String recommendCrowd;
+
+    private String recommendPdf;
 
     private Integer recommendFirstCount;
 
@@ -61,6 +75,8 @@ public class CrsCandidateView implements Serializable {
     private String homePhone;
 
     private String email;
+
+    private String code;
 
     private String realname;
 
@@ -228,12 +244,12 @@ public class CrsCandidateView implements Serializable {
         this.isFirst = isFirst;
     }
 
-    public Long getExpertcount() {
-        return expertcount;
+    public Long getExpertCount() {
+        return expertCount;
     }
 
-    public void setExpertcount(Long expertcount) {
-        this.expertcount = expertcount;
+    public void setExpertCount(Long expertCount) {
+        this.expertCount = expertCount;
     }
 
     public Integer getCrsPostId() {
@@ -242,6 +258,14 @@ public class CrsCandidateView implements Serializable {
 
     public void setCrsPostId(Integer crsPostId) {
         this.crsPostId = crsPostId;
+    }
+
+    public Byte getCrsPostType() {
+        return crsPostType;
+    }
+
+    public void setCrsPostType(Byte crsPostType) {
+        this.crsPostType = crsPostType;
     }
 
     public Integer getCrsPostYear() {
@@ -274,6 +298,54 @@ public class CrsCandidateView implements Serializable {
 
     public void setCrsPostJob(String crsPostJob) {
         this.crsPostJob = crsPostJob == null ? null : crsPostJob.trim();
+    }
+
+    public Byte getCrsPostStatus() {
+        return crsPostStatus;
+    }
+
+    public void setCrsPostStatus(Byte crsPostStatus) {
+        this.crsPostStatus = crsPostStatus;
+    }
+
+    public Integer getApplicantId() {
+        return applicantId;
+    }
+
+    public void setApplicantId(Integer applicantId) {
+        this.applicantId = applicantId;
+    }
+
+    public String getRecommendOw() {
+        return recommendOw;
+    }
+
+    public void setRecommendOw(String recommendOw) {
+        this.recommendOw = recommendOw == null ? null : recommendOw.trim();
+    }
+
+    public String getRecommendCadre() {
+        return recommendCadre;
+    }
+
+    public void setRecommendCadre(String recommendCadre) {
+        this.recommendCadre = recommendCadre == null ? null : recommendCadre.trim();
+    }
+
+    public String getRecommendCrowd() {
+        return recommendCrowd;
+    }
+
+    public void setRecommendCrowd(String recommendCrowd) {
+        this.recommendCrowd = recommendCrowd == null ? null : recommendCrowd.trim();
+    }
+
+    public String getRecommendPdf() {
+        return recommendPdf;
+    }
+
+    public void setRecommendPdf(String recommendPdf) {
+        this.recommendPdf = recommendPdf == null ? null : recommendPdf.trim();
     }
 
     public Integer getRecommendFirstCount() {
@@ -442,6 +514,14 @@ public class CrsCandidateView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getRealname() {

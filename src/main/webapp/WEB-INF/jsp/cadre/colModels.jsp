@@ -5,9 +5,9 @@
     var colModels = function () {
     };
     colModels.cadre = [
-        {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+        {label: '工作证号', name: 'code', width: 100, frozen: true},
         {
-            label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+            label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.id, cellvalue);
         }, frozen: true
         },
@@ -195,7 +195,7 @@
                 return _cMap.unitMap[cellvalue].name
             }
         },
-        {label: '联系方式', name: 'mobile'},
+        {label: '联系方式', name: 'mobile', width: 120},
         /*{ label: '办公电话', name: 'phone' },
          { label: '家庭电话', name: 'homePhone' },*/
         {label: '电子邮箱', name: 'email', width: 150},
@@ -235,8 +235,8 @@
         {label: '备注', name: 'remark', width: 150}
     ];
     colModels.cadre2 = [
-        {label: '工作证号', name: 'user.code', width: 100, frozen: true},
-        {label: '姓名', name: 'user.realname', width: 120, frozen: true},
+        {label: '工作证号', name: 'code', width: 100, frozen: true},
+        {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unit.name', width: 200},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
@@ -266,14 +266,14 @@
             return cellvalue.substr(0, 10);
         }
         },
-        {label: '联系方式', name: 'mobile'},
+        {label: '联系方式', name: 'mobile', width: 120},
         {label: '电子邮箱', name: 'email', width: 150}
     ];
 
     colModels.cadreLeave = [
-        {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+        {label: '工作证号', name: 'code', width: 100, frozen: true},
         {
-            label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+            label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.id, cellvalue);
         }, frozen: true
         },
@@ -310,15 +310,15 @@
             return _cMap.postMap[cellvalue].name;
         }
         },
-        {label: '手机号', name: 'mobile'},
+        {label: '手机号', name: 'mobile', width: 120},
         {label: '办公电话', name: 'phone'},
         {label: '家庭电话', name: 'homePhone'},
         {label: '电子邮箱', name: 'email', width: 150},
         {label: '备注', name: 'remark', width: 150}
     ];
     colModels.cadreLeave2 = [
-        {label: '工作证号', name: 'user.code', width: 100, frozen: true},
-        {label: '姓名', name: 'user.realname', width: 120, frozen: true},
+        {label: '工作证号', name: 'code', width: 100, frozen: true},
+        {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '原所在单位', name: 'unit.name', width: 200},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
         {
@@ -335,7 +335,7 @@
             return _cMap.postMap[cellvalue].name;
         }
         },
-        {label: '手机号', name: 'mobile'},
+        {label: '手机号', name: 'mobile', width: 120},
         {label: '电子邮箱', name: 'email', width: 150}
     ];
 
@@ -568,8 +568,8 @@
         }, width: 180, frozen: true
         },
         {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-        {label: '工作证号', name: 'cadre.user.code', frozen: true},
-        {label: '考察对象', name: 'cadre.user.realname', frozen: true},
+        {label: '工作证号', name: 'cadre.code', frozen: true},
+        {label: '考察对象', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200},
         {
             label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
@@ -629,8 +629,8 @@
     ];
     colModels.cadreReport = [
         {label: '形成日期', name: 'createDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-        {label: '工作证号', name: 'cadre.user.code', frozen: true},
-        {label: '姓名', name: 'cadre.user.realname', frozen: true},
+        {label: '工作证号', name: 'cadre.code', frozen: true},
+        {label: '姓名', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
         {
             label: '材料内容', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
@@ -642,8 +642,8 @@
     ];
     colModels.cisEvaluate = [
         {label: '形成日期', name: 'createDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-        {label: '工作证号', name: 'cadre.user.code', frozen: true},
-        {label: '考察对象', name: 'cadre.user.realname', frozen: true},
+        {label: '工作证号', name: 'cadre.code', frozen: true},
+        {label: '考察对象', name: 'cadre.realname', frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 300},
         {
             label: '材料类型', name: 'type', formatter: function (cellvalue, options, rowObject) {

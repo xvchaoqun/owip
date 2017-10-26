@@ -250,7 +250,7 @@ $.ajaxSetup({
             return data;
         }
         //console.log(ret)
-        if (ret.success) return data;
+        if (ret.success==undefined || ret.success) return data;
 
         if (ret.msg == "login") {
             bootbox.dialog({

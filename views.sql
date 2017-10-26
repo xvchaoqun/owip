@@ -85,6 +85,33 @@ DROP VIEW IF EXISTS `crs_applicant_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_view` AS
  select *, if(special_status||require_check_status=1, 1, 0) as is_require_check_pass from crs_applicant ;
 
+DROP VIEW IF EXISTS `crs_candidate_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `crs_candidate_view` AS
+select cc.id as candidate_id, cc.is_first, cpec.expert_count,
+cc.post_id as crs_post_id, cp.type as crs_post_type,cp.year as crs_post_year,cp.seq as crs_post_seq,
+cp.name as crs_post_name,cp.job as crs_post_job,cp.status as crs_post_status,
+ca.id as applicant_id, ca.recommend_ow, ca.recommend_cadre, ca.recommend_crowd, ca.recommend_pdf,
+ca.recommend_first_count, ca.recommend_second_count,
+ca.is_recommend, ca.ppt_name, ca.ppt, cv.* from crs_candidate cc
+left join cadre_view cv on cv.user_id=cc.user_id
+left join crs_applicant ca on ca.user_id=cc.user_id and ca.post_id=cc.post_id
+left join crs_post cp on cp.id = cc.post_id
+left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=cc.post_id ;
+
+
+DROP VIEW IF EXISTS `crs_applicant_stat_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_stat_view` AS
+select ca.*, cv.realname, cpec.expert_count, cavc.applicant_count,
+cp.type as crs_post_type,cp.year as crs_post_year,cp.seq as crs_post_seq,
+cp.name as crs_post_name,cp.job as crs_post_job,cp.status as crs_post_status
+ from crs_applicant_view ca
+ left join cadre_view cv on cv.user_id=ca.user_id
+left join crs_post cp on cp.id = ca.post_id
+left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=ca.post_id
+left join (select post_id, count(*) as applicant_count from crs_applicant_view where status=1 and is_require_check_pass=1  group by post_id) as cavc on cavc.post_id=ca.post_id
+
+
+
 DROP VIEW IF EXISTS `ow_member_out_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ow_member_out_view` AS
 select mo.*, m.type as member_type, t.is_retire
@@ -163,17 +190,18 @@ from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys
 DROP VIEW IF EXISTS `cadre_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
 SELECT c.*
-	,`ui`.`msg_title` AS `msg_title`
-	,`ui`.`mobile` AS `mobile`
-	,`ui`.`phone` AS `phone`
-	,`ui`.`home_phone` AS `home_phone`
-	,`ui`.`email` AS `email`
-	,`ui`.`realname` AS `realname`
-	,`ui`.`gender` AS `gender`
-	,`ui`.`nation` AS `nation`
-	,`ui`.`native_place` AS `native_place`
-	,`ui`.`idcard` AS `idcard`
-	,if(isnull(_va.verify_birth),`ui`.`birth`,_va.verify_birth) AS `birth`
+	,`uv`.`msg_title` AS `msg_title`
+	,`uv`.`mobile` AS `mobile`
+	,`uv`.`phone` AS `phone`
+	,`uv`.`home_phone` AS `home_phone`
+	,`uv`.`email` AS `email`
+	,`uv`.`code` AS `code`
+	,`uv`.`realname` AS `realname`
+	,`uv`.`gender` AS `gender`
+	,`uv`.`nation` AS `nation`
+	,`uv`.`native_place` AS `native_place`
+	,`uv`.`idcard` AS `idcard`
+	,if(isnull(_va.verify_birth),`uv`.`birth`,_va.verify_birth) AS `birth`
 	,`om`.`party_id` AS `party_id`
 	,`om`.`branch_id` AS `branch_id`
 	,`om`.`status` AS `member_status`
@@ -230,7 +258,7 @@ SELECT c.*
 FROM  cadre c
 left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
 left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
-LEFT JOIN `sys_user_info` `ui` ON `ui`.`user_id` = `c`.`user_id`
+LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`
 LEFT JOIN `sys_teacher_info` `t` ON `t`.`user_id` = `c`.`user_id`
 LEFT JOIN `ow_member` `om` ON `om`.`user_id` = `c`.`user_id`
 LEFT JOIN `cadre_edu` `max_ce` ON  `max_ce`.`cadre_id` = `c`.`id` AND `max_ce`.`is_high_edu` = 1 and max_ce.status=0

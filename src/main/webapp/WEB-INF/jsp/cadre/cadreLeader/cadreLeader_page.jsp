@@ -99,8 +99,8 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/cadreLeader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '工作证号',  name: 'user.code', width: 100 ,frozen:true},
-            { label: '姓名', name: 'user.realname', width: 75, formatter:function(cellvalue, options, rowObject){
+            { label: '工作证号',  name: 'cadre.code', width: 100 ,frozen:true},
+            { label: '姓名', name: 'cadre.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },

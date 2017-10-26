@@ -52,8 +52,9 @@
                        class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交报名信息</button>
                     </c:if>
                 <c:if test="${param.type=='detail'}">
+
                     <button type="button" id="editBtn" data-loading-text="提交中..."  data-success-text="已提交成功" autocomplete="off"
-                            class="btn btn-primary btn-lg"><i class="fa fa-edit"></i> 编辑</button>
+                            class="btn ${cm:compareDate(crsPost.reportDeadline, now)?'btn-primary':'btn-default disabled'} btn-lg"><i class="fa fa-edit"></i> 编辑</button>
                </c:if>
             </div>
             </c:if>

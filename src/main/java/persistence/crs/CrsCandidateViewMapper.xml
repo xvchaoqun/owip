@@ -4,12 +4,19 @@
   <resultMap id="BaseResultMap" type="domain.crs.CrsCandidateView">
     <result column="candidate_id" jdbcType="INTEGER" property="candidateId" />
     <result column="is_first" jdbcType="BIT" property="isFirst" />
-    <result column="expertCount" jdbcType="BIGINT" property="expertcount" />
+    <result column="expert_count" jdbcType="BIGINT" property="expertCount" />
     <result column="crs_post_id" jdbcType="INTEGER" property="crsPostId" />
+    <result column="crs_post_type" jdbcType="TINYINT" property="crsPostType" />
     <result column="crs_post_year" jdbcType="INTEGER" property="crsPostYear" />
     <result column="crs_post_seq" jdbcType="INTEGER" property="crsPostSeq" />
     <result column="crs_post_name" jdbcType="VARCHAR" property="crsPostName" />
     <result column="crs_post_job" jdbcType="VARCHAR" property="crsPostJob" />
+    <result column="crs_post_status" jdbcType="TINYINT" property="crsPostStatus" />
+    <result column="applicant_id" jdbcType="INTEGER" property="applicantId" />
+    <result column="recommend_ow" jdbcType="VARCHAR" property="recommendOw" />
+    <result column="recommend_cadre" jdbcType="VARCHAR" property="recommendCadre" />
+    <result column="recommend_crowd" jdbcType="VARCHAR" property="recommendCrowd" />
+    <result column="recommend_pdf" jdbcType="VARCHAR" property="recommendPdf" />
     <result column="recommend_first_count" jdbcType="INTEGER" property="recommendFirstCount" />
     <result column="recommend_second_count" jdbcType="INTEGER" property="recommendSecondCount" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
@@ -31,6 +38,7 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="home_phone" jdbcType="VARCHAR" property="homePhone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
@@ -136,14 +144,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    candidate_id, is_first, expertCount, crs_post_id, crs_post_year, crs_post_seq, crs_post_name, 
-    crs_post_job, recommend_first_count, recommend_second_count, is_recommend, ppt_name, 
-    ppt, id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, 
-    sort_order, status, msg_title, mobile, phone, home_phone, email, realname, gender, 
-    nation, native_place, idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, 
-    dp_post, dp_grow_time, dp_remark, ow_id, ow_grow_time, ow_remark, cadre_grow_time, 
-    cadre_dp_type, edu_id, finish_time, learn_style, school, dep, school_type, major, 
-    degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
+    candidate_id, is_first, expert_count, crs_post_id, crs_post_type, crs_post_year, 
+    crs_post_seq, crs_post_name, crs_post_job, crs_post_status, applicant_id, recommend_ow, 
+    recommend_cadre, recommend_crowd, recommend_pdf, recommend_first_count, recommend_second_count, 
+    is_recommend, ppt_name, ppt, id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, 
+    post, remark, sort_order, status, msg_title, mobile, phone, home_phone, email, code, 
+    realname, gender, nation, native_place, idcard, birth, party_id, branch_id, member_status, 
+    dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, ow_grow_time, ow_remark, 
+    cadre_grow_time, cadre_dp_type, edu_id, finish_time, learn_style, school, dep, school_type, 
+    major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
     pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
     work_start_time, talent_title, main_cadre_post_id, is_double, double_unit_id, is_principal_post, 
     cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, 

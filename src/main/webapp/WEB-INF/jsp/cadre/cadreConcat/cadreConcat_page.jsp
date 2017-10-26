@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <div class="page-header">
         <h1>
             <i class="fa fa-user"></i>
-            ${cadre.user.realname} - 联系方式
+            ${cadre.realname} - 联系方式
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
             <shiro:hasPermission name="cadreConcat:edit">
                 <a class="btn btn-info btn-xs" onclick="_au()"><i class="fa fa-edit"></i>   编辑</a>
@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                     <div class="profile-info-name"> 手机号 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.user.mobile}</span>
+                        <span class="editable" >${cadre.mobile}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
@@ -27,28 +27,28 @@ pageEncoding="UTF-8" %>
 
                     <div class="profile-info-value">
                         <span class="editable" >
-                        ${empty cadre.user.msgTitle?cadre.user.realname:cadre.user.msgTitle}</span>
+                        ${empty cadre.msgTitle?cadre.realname:cadre.msgTitle}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">办公电话 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.user.phone}</span>
+                        <span class="editable" >${cadre.phone}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">家庭电话 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.user.homePhone}</span>
+                        <span class="editable" >${cadre.homePhone}</span>
                     </div>
                 </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name">电子邮箱 </div>
 
                     <div class="profile-info-value">
-                        <span class="editable" >${cadre.user.email}</span>
+                        <span class="editable" >${cadre.email}</span>
                     </div>
                 </div>
             </div>

@@ -56,7 +56,7 @@
                                             <select data-rel="select2-ajax"
                                                     data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_INSPECT},${CADRE_STATUS_MIDDLE},${CADRE_STATUS_MIDDLE_LEAVE},${CADRE_STATUS_LEADER},${CADRE_STATUS_LEADER_LEAVE}"
                                                     name="cadreId" data-placeholder="请输入账号或姓名或学工号"  data-width="270">
-                                                <option value="${cadre.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                                                <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                             </select>
                                             <label>认定类别</label>
                                             <select name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
@@ -98,9 +98,9 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/verifyAge_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'cadre.user.code', width: 100, frozen: true},
+            {label: '工作证号', name: 'cadre.code', width: 100, frozen: true},
             {
-                label: '姓名', name: 'cadre.user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '姓名', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },

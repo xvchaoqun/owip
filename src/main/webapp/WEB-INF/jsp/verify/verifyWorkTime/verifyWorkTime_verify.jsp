@@ -4,7 +4,7 @@
 <div class="row" style="width: 700px">
     <div class="widget-box">
         <div class="widget-header">
-            <h4 class="widget-title"><i class="fa fa-check blue"></i> 参加工作时间认定（${verifyWorkTime.cadre.user.realname} - ${verifyWorkTime.cadre.title}）</h4>
+            <h4 class="widget-title"><i class="fa fa-check blue"></i> 参加工作时间认定（${verifyWorkTime.cadre.realname} - ${verifyWorkTime.cadre.title}）</h4>
         </div>
         <div class="widget-body">
             <div class="widget-main">

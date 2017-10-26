@@ -27,24 +27,51 @@
 </div>
 <c:if test="${postCount>0}">
 <script>
+    function _reload() {
+        $("#modal").modal('hide');
+
+        $.getJSON("${ctx}/user/crsPost_hasApplys",function(ret){
+            hasApplys = ret
+            $("#jqGrid").trigger("reloadGrid");
+        })
+    }
+    var hasApplys = <c:import url="/user/crsPost_hasApplys"/>;
+
     $("#jqGrid").jqGrid({
         multiselect:false,
         rownumbers: true,
         url: '${ctx}/user/crsPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '应聘报名', name: '_apply',  formatter: function (cellvalue, options, rowObject) {
+            {label: '应聘报名', name: '_apply', width: 150,  formatter: function (cellvalue, options, rowObject) {
+                var hasApply = false;
+                var hasQuit = false;
+                $.each(hasApplys, function(i, applicant){
 
-                var postIds = ${cm:toJSONArray(postIds)};
-                //console.log(postIds.indexOf(rowObject.id))
-                var hasApply = (postIds.indexOf(rowObject.id)>=0);
+                    hasApply = (applicant.postId==rowObject.id);
+                    hasQuit = applicant.isQuit;
+                    //console.log(hasApply + " " + applicant.isQuit)
+                    if(hasApply) return false;
+                })
+
 
                 var disabled = false;
                 if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}'){
                     disabled = true;
                 }
+                if(disabled) return '未开启';
+                if(hasApply){
+                    if(hasQuit){
+                        return '已退出 <button class="confirm btn btn-success btn-xs" ' +
+                                'data-msg="确定重新报名？" data-callback="_reload" '+
+                                'data-url="${ctx}/user/crsPost_reApply?postId={0}"><i class="fa fa-hand-pointer-o"></i> 重新报名</button>'
+                                        .format(rowObject.id);
+                    }
+                    return '已报名'
+                }
 
-                return '<button class="openView btn {2} btn-xs" {3} data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-hand-pointer-o"></i> {1}</button>'
-                        .format(rowObject.id, hasApply?"已报名":"应聘", hasApply?"btn-success":"btn-primary",  disabled?"disabled":"")
+                return '<button class="openView btn btn-success btn-xs" ' +
+                        'data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-hand-pointer-o"></i> 应聘</button>'
+                        .format(rowObject.id)
             }, frozen: true},
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {

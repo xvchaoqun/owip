@@ -16,6 +16,27 @@
         <result column="is_require_check_pass" jdbcType="BIT" property="isRequireCheckPass"/>
     </resultMap>
 
+    <resultMap id="statApplicantResultMap" type="persistence.common.bean.CrsStatApplicantBean">
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="realname" jdbcType="VARCHAR" property="realname"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="total_count" jdbcType="TINYINT" property="totalCount"/>
+        <result column="pass_count" jdbcType="TINYINT" property="passCount"/>
+    </resultMap>
+
+    <select id="statApplicantList" resultMap="statApplicantResultMap" parameterType="map">
+        select ca.user_id, cv.realname, cv.code, cv.title, count(*) as total_count, sum(if(ca.is_require_check_pass, 1, 0)) as pass_count from crs_applicant_view ca
+            left join crs_post cp on cp.id = ca.post_id
+            left join cadre_view cv on cv.user_id=ca.user_id
+            where ca.status=#{applicantStatus} and cp.status=#{postStatus} group by ca.user_id order by ca.id asc
+    </select>
+    <select id="countStatApplicants" parameterType="map" resultType="java.lang.Integer">
+        select count(DISTINCT  ca.user_id) from crs_applicant_view ca
+            left join crs_post cp on cp.id = ca.post_id
+            where ca.status=#{applicantStatus} and cp.status=#{postStatus}
+    </select>
+
     <update id="recommend" parameterType="map">
         update crs_applicant
         <set>
@@ -73,6 +94,9 @@
     <sql id="searchPosts">
         from crs_post cp, crs_applicant_view ca
         where ca.user_id=#{userId} and ca.status=1 and ca.post_id=cp.id
+        <if test="isQuit!=null">
+            and ca.is_quit=#{isQuit}
+        </if>
         <if test="postStatusList!=null and postStatusList.size>0">
             and cp.status in
             <foreach collection="postStatusList" item="st"

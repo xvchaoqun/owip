@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
                     <select ${CADRE_STATUS_SET.get(cadre.status)!=null?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                         <c:if test="${CADRE_STATUS_SET.get(cadre.status)!=null}">
-                        <option value="${cadre.user.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                        <option value="${cadre.userId}">${cadre.realname}-${cadre.code}</option>
                         </c:if>
                     </select>
                 </div>
@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select ${CADRE_STATUS_SET.get(cadre.status)==null?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/notCadre_selects"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
-                        <option value="${cadre.user.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                        <option value="${cadre.userId}">${cadre.realname}-${cadre.code}</option>
                     </select>
 				</div>
 			</div>

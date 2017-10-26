@@ -76,18 +76,20 @@
             },
             {label: '招聘岗位', name: 'name', width: '300', frozen: true},
             <c:if test="${cls==1}">
-            {label: '报名情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {
+            /*{label: '报名情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.applicantIsQuit) return "已报名";
-                return '已退出 <a href="javascript:void(0)" class="confirm" ' +
+                return '已退出 <button class="confirm btn btn-success btn-xs" ' +
                         'data-msg="确定重新报名？" data-callback="_reload" '+
-                        'data-url="${ctx}/user/crsPost_reApply?postId={0}">重新报名</a>'
+                        'data-url="${ctx}/user/crsPost_reApply?postId={0}"><i class="fa fa-hand-pointer-o"></i> 重新报名</button>'
                                 .format(rowObject.id)
-            }},
+            }},*/
 
-            {label: '打印报名表', name: '_print',  formatter: function (cellvalue, options, rowObject) {
+            {label: '干部应聘报名表', name: '_export', width: 150,  formatter: function (cellvalue, options, rowObject) {
 
-                return '-'
+                return '<button class="linkBtn btn btn-success btn-xs" ' +
+                        'data-url="${ctx}/user/crsApplicant_export?applicantId={0}"><i class="fa fa-download"></i> 导出</button>'
+                        .format(rowObject.applicantId)
             }},
             </c:if>
             <c:if test="${cls==2}">
@@ -138,8 +140,7 @@
                 return cellvalue;
             }}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid", "jqGridPager");
+    $(window).triggerHandler('resize.jqGrid');
 </script>

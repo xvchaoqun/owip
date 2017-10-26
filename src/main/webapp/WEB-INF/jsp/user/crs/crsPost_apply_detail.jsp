@@ -4,7 +4,7 @@
 <div class="row" style="width: 1075px">
     <div class="col-xs-12">
 
-        <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+        <ul id="detail-ul" class="nav nav-tabs padding-12 tab-color-blue background-blue">
 
             <li class="active">
                 <a href="javascript:;" class="loadPage"

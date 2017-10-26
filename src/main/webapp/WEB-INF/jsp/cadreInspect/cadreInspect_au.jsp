@@ -15,12 +15,12 @@ pageEncoding="UTF-8"%>
                     <c:if test="${cadre==null}">
                         <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                                 name="userId" data-placeholder="请输入账号或姓名或学工号">
-                            <option value="${cadre.user.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                            <option value="${cadre.userId}">${cadre.realname}-${cadre.code}</option>
                         </select>
                     </c:if>
                     <c:if test="${cadre!=null}">
-                        <input type="hidden" name="userId" value="${cadre.user.id}">
-                        ${cadre.user.realname}-${cadre.user.code}
+                        <input type="hidden" name="userId" value="${cadre.userId}">
+                        ${cadre.realname}-${cadre.code}
                     </c:if>
                 </div>
 			</div>

@@ -185,7 +185,7 @@ public class ApplySelfService extends BaseMapper {
      * 仅用于定时任务，给需要审批的人员发短信
      *
      * 如果领导没有审批，那么从第二天开始，每天早上8点发送一次
-      */
+     */
     public void sendApprovalMsg(){
 
         logger.debug("====因私审批短信通知...start====");
@@ -756,6 +756,8 @@ public class ApplySelfService extends BaseMapper {
 
         List<Integer> unitIds = new ArrayList<>();
         ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
+        if(mainPostApproverType==null) return unitIds;
+
         Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         CadreView cadre = cadreService.dbFindByUserId(userId);
@@ -792,10 +794,12 @@ public class ApplySelfService extends BaseMapper {
     // 如果是分管校领导，返回分管单位ID列表
     public List<Integer> getLeaderMangerUnitIds(int userId) {
 
+        List<Integer> unitIds = new ArrayList<>();
         ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
+        if(leaderApproverType==null) return  unitIds;
+
         Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverType.getId());
 
-        List<Integer> unitIds = new ArrayList<>();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (cadre != null && (cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
                 || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)

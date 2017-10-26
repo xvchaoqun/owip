@@ -1,5 +1,21 @@
 
 
+2017-10-26
+ALTER TABLE `crs_post`
+	DROP COLUMN `stat_first_user_id`,
+	DROP COLUMN `stat_second_user_id`;
+
+	创建表 crs_candidate
+
+更新 cadre_view
+
+	创建 crs_candidate_view
+
+ALTER TABLE `crs_applicant`
+	CHANGE COLUMN `ppt_name` `ppt_name` VARCHAR(200) NULL DEFAULT NULL COMMENT 'PPT文件名' AFTER `report`;
+
+
+
 2017-10-24
 ALTER TABLE `crs_post`
 	ADD COLUMN `stat_first_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '排名第一的应聘人' AFTER `stat_file_name`,

@@ -87,9 +87,11 @@ public class CrsApplicantService extends BaseMapper {
         }
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        if(crsPost==null || crsPost.getStatus() !=SystemConstants.CRS_POST_STATUS_NORMAL
-                || crsPost.getSwitchStatus() != SystemConstants.CRS_POST_ENROLL_STATUS_OPEN){
-            throw new OpException("岗位{0}应聘未开始。", crsPost==null?"":crsPost.getName());
+        if(crsPost==null ||crsPost.getStatus() ==SystemConstants.CRS_POST_STATUS_FINISH){
+            throw new OpException("岗位{0}应聘已经结束。", crsPost==null?"":crsPost.getName());
+        }
+        if(crsPost.getSwitchStatus() != SystemConstants.CRS_POST_ENROLL_STATUS_OPEN){
+            throw new OpException("岗位{0}应聘还未开始。", crsPost==null?"":crsPost.getName());
         }
 
         Date meetingTime = crsPost.getMeetingTime();
@@ -304,6 +306,8 @@ public class CrsApplicantService extends BaseMapper {
 
         int userId = ShiroHelper.getCurrentUserId();
         CadreView cv = cadreService.dbFindByUserId(userId);
+
+        // 如果是 干部、考察对象或后备干部，则直接返回干部ID
         if(ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE,
                 SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADRERESERVE)){
             return cv.getId();
@@ -314,6 +318,7 @@ public class CrsApplicantService extends BaseMapper {
             cadreId = cv.getId();
             Assert.isTrue(cv.getStatus()==SystemConstants.CADRE_STATUS_RECRUIT, "应聘干部状态异常");
         }else{
+            // 普通教师 第一次访问的情况，需要先初始化 应聘干部
             Cadre record  = new Cadre();
             record.setUserId(userId);
             record.setStatus(SystemConstants.CADRE_STATUS_RECRUIT);
@@ -321,8 +326,10 @@ public class CrsApplicantService extends BaseMapper {
 
             cadreId = record.getId();
         }
+
         if(ShiroHelper.lackRole(SystemConstants.ROLE_CADRERECRUIT)) {
 
+            // 为普通教师添加应聘干部角色
             sysUserService.addRole(userId, SystemConstants.ROLE_CADRERECRUIT);
             ShiroHelper.refreshRoles();
         }
@@ -330,7 +337,10 @@ public class CrsApplicantService extends BaseMapper {
         List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadreId);
         if(modifyCadreAuths!=null && modifyCadreAuths.size()>0){
 
-            ModifyCadreAuth record = modifyCadreAuths.get(0);
+            ModifyCadreAuth modifyCadreAuth = modifyCadreAuths.get(0);
+            ModifyCadreAuth record = new ModifyCadreAuth();
+            record.setId(modifyCadreAuth.getId());
+            record.setCadreId(cadreId);
             record.setIsUnlimited(true);
             modifyCadreAuthService.updateByPrimaryKeySelective(record);
         }else{

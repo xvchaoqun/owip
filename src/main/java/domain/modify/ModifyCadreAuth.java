@@ -2,6 +2,7 @@ package domain.modify;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import persistence.cadre.CadreViewMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -9,7 +10,11 @@ import java.util.Date;
 
 public class ModifyCadreAuth implements Serializable {
     public CadreView getCadre(){
-        return CmTag.getCadreById(cadreId);
+
+        CadreViewMapper cadreMapper = CmTag.getBean(CadreViewMapper.class);
+        return cadreMapper.selectByPrimaryKey(cadreId);
+
+        //return CmTag.getCadreById(cadreId); 此处不能使用缓存里的干部，因为可能不在缓存中（普通教师）
     }
     public SysUserView getAddUser(){
 

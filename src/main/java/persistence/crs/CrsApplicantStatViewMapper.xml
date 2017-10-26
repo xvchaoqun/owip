@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.crs.CrsApplicantStatViewMapper">
+  <resultMap id="BaseResultMap" type="domain.crs.CrsApplicantStatView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="report" jdbcType="VARCHAR" property="report" />
+    <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
+    <result column="ppt" jdbcType="VARCHAR" property="ppt" />
+    <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
+    <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
+    <result column="recommend_ow" jdbcType="VARCHAR" property="recommendOw" />
+    <result column="recommend_cadre" jdbcType="VARCHAR" property="recommendCadre" />
+    <result column="recommend_crowd" jdbcType="VARCHAR" property="recommendCrowd" />
+    <result column="recommend_pdf" jdbcType="VARCHAR" property="recommendPdf" />
+    <result column="info_check_status" jdbcType="TINYINT" property="infoCheckStatus" />
+    <result column="info_check_remark" jdbcType="VARCHAR" property="infoCheckRemark" />
+    <result column="require_check_status" jdbcType="TINYINT" property="requireCheckStatus" />
+    <result column="require_check_remark" jdbcType="VARCHAR" property="requireCheckRemark" />
+    <result column="special_status" jdbcType="BIT" property="specialStatus" />
+    <result column="special_pdf" jdbcType="VARCHAR" property="specialPdf" />
+    <result column="special_remark" jdbcType="VARCHAR" property="specialRemark" />
+    <result column="recommend_first_count" jdbcType="INTEGER" property="recommendFirstCount" />
+    <result column="recommend_second_count" jdbcType="INTEGER" property="recommendSecondCount" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_require_check_pass" jdbcType="BOOLEAN" property="isRequireCheckPass" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="is_first" jdbcType="BIT" property="isFirst" />
+    <result column="expert_count" jdbcType="BIGINT" property="expertCount" />
+    <result column="applicant_count" jdbcType="BIGINT" property="applicantCount" />
+    <result column="crs_post_type" jdbcType="TINYINT" property="crsPostType" />
+    <result column="crs_post_year" jdbcType="INTEGER" property="crsPostYear" />
+    <result column="crs_post_seq" jdbcType="INTEGER" property="crsPostSeq" />
+    <result column="crs_post_name" jdbcType="VARCHAR" property="crsPostName" />
+    <result column="crs_post_job" jdbcType="VARCHAR" property="crsPostJob" />
+    <result column="crs_post_status" jdbcType="TINYINT" property="crsPostStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, post_id, report, ppt_name, ppt, enroll_time, is_quit, is_recommend, 
+    recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
+    info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
+    special_remark, recommend_first_count, recommend_second_count, status, is_require_check_pass, 
+    realname, is_first, expert_count, applicant_count, crs_post_type, crs_post_year, 
+    crs_post_seq, crs_post_name, crs_post_job, crs_post_status
+  </sql>
+  <select id="selectByExample" parameterType="domain.crs.CrsApplicantStatViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from crs_applicant_stat_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.crs.CrsApplicantStatViewExample" resultType="java.lang.Long">
+    select count(*) from crs_applicant_stat_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.crs.CrsApplicantStatViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from crs_applicant_stat_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -7,7 +7,7 @@
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${param.cls==1}">
     <shiro:hasPermission name="crsApplicant:edit">
-        <a class="popupBtn btn btn-primary btn-sm"
+        <a class="popupBtn btn btn-primary btn-sm" data-width="700"
            data-url="${ctx}/crsApplicant_au?postId=${param.postId}"><i class="fa fa-plus"></i> 添加</a>
         <%--  <a class="jqOpenViewBtn btn btn-primary btn-sm"
              data-url="${ctx}/crsApplicant_au"
@@ -78,7 +78,7 @@
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
             data-width="850"
-            data-querystr="&popup=1&type=${SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT}">
+            data-querystr="&displayType=1&type=${SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT}">
         <i class="fa fa-history"></i> 操作记录
     </button>
 <c:if test="${param.cls==2 || param.cls==3}">
@@ -179,7 +179,7 @@
                 label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}, frozen: true
             },
-            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            {label: '工作证号', name: 'user.code', width: 120, frozen: true},
             {label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                 return ('<a href="${ctx}/#${ctx}/cadre_view?cadreId={1}" target="_blank">{0}</a>').format(cellvalue, rowObject.cadre.id);

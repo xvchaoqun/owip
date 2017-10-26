@@ -92,6 +92,7 @@ import persistence.crs.CrsApplicantAdjustMapper;
 import persistence.crs.CrsApplicantAdjustViewMapper;
 import persistence.crs.CrsApplicantCheckMapper;
 import persistence.crs.CrsApplicantMapper;
+import persistence.crs.CrsApplicantStatViewMapper;
 import persistence.crs.CrsApplicantViewMapper;
 import persistence.crs.CrsApplyRuleMapper;
 import persistence.crs.CrsCandidateMapper;
@@ -569,6 +570,8 @@ public class BaseMapper {
     protected CrsApplicantMapper crsApplicantMapper;
     @Autowired
     protected CrsApplicantViewMapper crsApplicantViewMapper;
+    @Autowired
+    protected CrsApplicantStatViewMapper crsApplicantStatViewMapper;
     @Autowired
     protected CrsApplicantAdjustMapper crsApplicantAdjustMapper;
     @Autowired

@@ -5,10 +5,12 @@ import domain.crs.CrsApplicant;
 import domain.crs.CrsPost;
 import domain.sys.SysApprovalLog;
 import domain.sys.SysApprovalLogExample;
+import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,8 +67,10 @@ public class UserApplyCrsPostController extends CrsBaseController {
         pageNo = Math.max(1, pageNo);
 
         int userId = ShiroHelper.getCurrentUserId();
+        Boolean isQuit = null;
         List<Byte> postStatusList = new ArrayList<>();
         if(cls==1){
+            isQuit = false;
             postStatusList.add(SystemConstants.CRS_POST_STATUS_NORMAL);
         }else if(cls==2){
             // 显示所有报名的记录，包括参加答辩的、退出的、资格审核不通过的（排除已删除的岗位）
@@ -74,12 +78,12 @@ public class UserApplyCrsPostController extends CrsBaseController {
             postStatusList.add(SystemConstants.CRS_POST_STATUS_FINISH);
         }
 
-        long count = iCrsMapper.countUserApplyCrsPosts(userId, postStatusList);
+        long count = iCrsMapper.countUserApplyCrsPosts(userId, isQuit, postStatusList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ICrsPost> records = iCrsMapper.findUserApplyCrsPosts(userId, postStatusList,
+        List<ICrsPost> records = iCrsMapper.findUserApplyCrsPosts(userId, isQuit, postStatusList,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -170,6 +174,26 @@ public class UserApplyCrsPostController extends CrsBaseController {
         result.put("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
 
         return result;
+    }
+
+    // 导出应聘人报名表
+    @RequiresPermissions("userApplyCrsPost:export")
+    @RequestMapping("/crsApplicant_export")
+    public void crsApplicant_export(int applicantId, HttpServletResponse response) throws IOException, TemplateException {
+
+        //输出文件
+        String filename = sysConfigService.getSchoolName() + "处级干部应聘人报名表";
+        response.reset();
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
+        response.setContentType("application/msword;charset=UTF-8");
+
+        CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
+        if(crsApplicant==null || crsApplicant.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+            throw new UnauthorizedException();
+        }
+
+        crsExportService.process(new Integer[]{applicantId}, response.getWriter());
     }
 
     // 管理员也拥有该权限

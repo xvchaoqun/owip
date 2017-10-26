@@ -8,7 +8,6 @@ import domain.sys.SysApprovalLogExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,10 +30,9 @@ import java.util.Map;
 public class SysApprovalLogController extends BaseController {
 
     @RequestMapping("/sysApprovalLog")
-    public String sysApprovalLog(Integer id, Byte type, Boolean popup, ModelMap modelMap) {
+    public String sysApprovalLog(Integer id, Integer userId, Byte type, Byte displayType, ModelMap modelMap) {
 
         if (id != null) {
-            Integer userId = null;
             switch (type) {
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF: {
                     ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
@@ -48,15 +46,22 @@ public class SysApprovalLogController extends BaseController {
                 }
             }
 
-            if (userId != null) {
-                SysUserView sysUser = sysUserService.findById(userId);
-                modelMap.put("sysUser", sysUser);
-            }
         }
+
+        if (userId != null) {
+            SysUserView sysUser = sysUserService.findById(userId);
+            modelMap.put("sysUser", sysUser);
+        }
+
+        modelMap.put("displayType", displayType);
         modelMap.put("type", type);
 
-        if(BooleanUtils.isTrue(popup)){
-            return "sys/sysApprovalLog/sysApprovalLog_page_popup";
+        if(displayType!=null){
+            if(displayType==1){
+                return "sys/sysApprovalLog/sysApprovalLog_page_popup";
+            }else if(displayType==2){
+                return "sys/sysApprovalLog/sysApprovalLog_main_page";
+            }
         }
 
         return "sys/sysApprovalLog/sysApprovalLog_page";

@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label">姓名</label>
                         <div class="col-xs-6 label-text">
-                            ${cadre.user.realname}
+                            ${cadre.realname}
                         </div>
                     </div>
                     <div class="form-group">

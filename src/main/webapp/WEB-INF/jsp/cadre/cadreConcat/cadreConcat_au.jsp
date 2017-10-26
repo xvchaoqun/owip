@@ -11,37 +11,37 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
-                ${cadre.user.realname}
+                ${cadre.realname}
             </div>
         </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">手机号</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="mobile" value="${cadre.user.mobile}">
+                        <input class="form-control" type="text" name="mobile" value="${cadre.mobile}">
 				</div>
 			</div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">短信称谓</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="msgTitle" value="${empty cadre.user.msgTitle?cadre.user.realname:cadre.user.msgTitle}">
+                    <input required class="form-control" type="text" name="msgTitle" value="${empty cadre.msgTitle?cadre.realname:cadre.msgTitle}">
                 </div>
             </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">办公电话</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="phone" value="${cadre.user.phone}">
+                        <input class="form-control" type="text" name="phone" value="${cadre.phone}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">家庭电话</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="homePhone" value="${cadre.user.homePhone}">
+                        <input class="form-control" type="text" name="homePhone" value="${cadre.homePhone}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">电子邮箱</label>
 				<div class="col-xs-6">
-                        <input class="form-control email" type="text" name="email" value="${cadre.user.email}">
+                        <input class="form-control email" type="text" name="email" value="${cadre.email}">
 				</div>
 			</div>
     </form>

@@ -252,63 +252,63 @@ public class CrsCandidateViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountIsNull() {
-            addCriterion("expertCount is null");
+        public Criteria andExpertCountIsNull() {
+            addCriterion("expert_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountIsNotNull() {
-            addCriterion("expertCount is not null");
+        public Criteria andExpertCountIsNotNull() {
+            addCriterion("expert_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountEqualTo(Long value) {
-            addCriterion("expertCount =", value, "expertcount");
+        public Criteria andExpertCountEqualTo(Long value) {
+            addCriterion("expert_count =", value, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountNotEqualTo(Long value) {
-            addCriterion("expertCount <>", value, "expertcount");
+        public Criteria andExpertCountNotEqualTo(Long value) {
+            addCriterion("expert_count <>", value, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountGreaterThan(Long value) {
-            addCriterion("expertCount >", value, "expertcount");
+        public Criteria andExpertCountGreaterThan(Long value) {
+            addCriterion("expert_count >", value, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountGreaterThanOrEqualTo(Long value) {
-            addCriterion("expertCount >=", value, "expertcount");
+        public Criteria andExpertCountGreaterThanOrEqualTo(Long value) {
+            addCriterion("expert_count >=", value, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountLessThan(Long value) {
-            addCriterion("expertCount <", value, "expertcount");
+        public Criteria andExpertCountLessThan(Long value) {
+            addCriterion("expert_count <", value, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountLessThanOrEqualTo(Long value) {
-            addCriterion("expertCount <=", value, "expertcount");
+        public Criteria andExpertCountLessThanOrEqualTo(Long value) {
+            addCriterion("expert_count <=", value, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountIn(List<Long> values) {
-            addCriterion("expertCount in", values, "expertcount");
+        public Criteria andExpertCountIn(List<Long> values) {
+            addCriterion("expert_count in", values, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountNotIn(List<Long> values) {
-            addCriterion("expertCount not in", values, "expertcount");
+        public Criteria andExpertCountNotIn(List<Long> values) {
+            addCriterion("expert_count not in", values, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountBetween(Long value1, Long value2) {
-            addCriterion("expertCount between", value1, value2, "expertcount");
+        public Criteria andExpertCountBetween(Long value1, Long value2) {
+            addCriterion("expert_count between", value1, value2, "expertCount");
             return (Criteria) this;
         }
 
-        public Criteria andExpertcountNotBetween(Long value1, Long value2) {
-            addCriterion("expertCount not between", value1, value2, "expertcount");
+        public Criteria andExpertCountNotBetween(Long value1, Long value2) {
+            addCriterion("expert_count not between", value1, value2, "expertCount");
             return (Criteria) this;
         }
 
@@ -369,6 +369,66 @@ public class CrsCandidateViewExample {
 
         public Criteria andCrsPostIdNotBetween(Integer value1, Integer value2) {
             addCriterion("crs_post_id not between", value1, value2, "crsPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeIsNull() {
+            addCriterion("crs_post_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeIsNotNull() {
+            addCriterion("crs_post_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeEqualTo(Byte value) {
+            addCriterion("crs_post_type =", value, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeNotEqualTo(Byte value) {
+            addCriterion("crs_post_type <>", value, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeGreaterThan(Byte value) {
+            addCriterion("crs_post_type >", value, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("crs_post_type >=", value, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeLessThan(Byte value) {
+            addCriterion("crs_post_type <", value, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("crs_post_type <=", value, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeIn(List<Byte> values) {
+            addCriterion("crs_post_type in", values, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeNotIn(List<Byte> values) {
+            addCriterion("crs_post_type not in", values, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeBetween(Byte value1, Byte value2) {
+            addCriterion("crs_post_type between", value1, value2, "crsPostType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("crs_post_type not between", value1, value2, "crsPostType");
             return (Criteria) this;
         }
 
@@ -629,6 +689,406 @@ public class CrsCandidateViewExample {
 
         public Criteria andCrsPostJobNotBetween(String value1, String value2) {
             addCriterion("crs_post_job not between", value1, value2, "crsPostJob");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusIsNull() {
+            addCriterion("crs_post_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusIsNotNull() {
+            addCriterion("crs_post_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusEqualTo(Byte value) {
+            addCriterion("crs_post_status =", value, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusNotEqualTo(Byte value) {
+            addCriterion("crs_post_status <>", value, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusGreaterThan(Byte value) {
+            addCriterion("crs_post_status >", value, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("crs_post_status >=", value, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusLessThan(Byte value) {
+            addCriterion("crs_post_status <", value, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("crs_post_status <=", value, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusIn(List<Byte> values) {
+            addCriterion("crs_post_status in", values, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusNotIn(List<Byte> values) {
+            addCriterion("crs_post_status not in", values, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusBetween(Byte value1, Byte value2) {
+            addCriterion("crs_post_status between", value1, value2, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCrsPostStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("crs_post_status not between", value1, value2, "crsPostStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdIsNull() {
+            addCriterion("applicant_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdIsNotNull() {
+            addCriterion("applicant_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdEqualTo(Integer value) {
+            addCriterion("applicant_id =", value, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdNotEqualTo(Integer value) {
+            addCriterion("applicant_id <>", value, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdGreaterThan(Integer value) {
+            addCriterion("applicant_id >", value, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("applicant_id >=", value, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdLessThan(Integer value) {
+            addCriterion("applicant_id <", value, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdLessThanOrEqualTo(Integer value) {
+            addCriterion("applicant_id <=", value, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdIn(List<Integer> values) {
+            addCriterion("applicant_id in", values, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdNotIn(List<Integer> values) {
+            addCriterion("applicant_id not in", values, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdBetween(Integer value1, Integer value2) {
+            addCriterion("applicant_id between", value1, value2, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplicantIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("applicant_id not between", value1, value2, "applicantId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwIsNull() {
+            addCriterion("recommend_ow is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwIsNotNull() {
+            addCriterion("recommend_ow is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwEqualTo(String value) {
+            addCriterion("recommend_ow =", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwNotEqualTo(String value) {
+            addCriterion("recommend_ow <>", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwGreaterThan(String value) {
+            addCriterion("recommend_ow >", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwGreaterThanOrEqualTo(String value) {
+            addCriterion("recommend_ow >=", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwLessThan(String value) {
+            addCriterion("recommend_ow <", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwLessThanOrEqualTo(String value) {
+            addCriterion("recommend_ow <=", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwLike(String value) {
+            addCriterion("recommend_ow like", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwNotLike(String value) {
+            addCriterion("recommend_ow not like", value, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwIn(List<String> values) {
+            addCriterion("recommend_ow in", values, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwNotIn(List<String> values) {
+            addCriterion("recommend_ow not in", values, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwBetween(String value1, String value2) {
+            addCriterion("recommend_ow between", value1, value2, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendOwNotBetween(String value1, String value2) {
+            addCriterion("recommend_ow not between", value1, value2, "recommendOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreIsNull() {
+            addCriterion("recommend_cadre is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreIsNotNull() {
+            addCriterion("recommend_cadre is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreEqualTo(String value) {
+            addCriterion("recommend_cadre =", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreNotEqualTo(String value) {
+            addCriterion("recommend_cadre <>", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreGreaterThan(String value) {
+            addCriterion("recommend_cadre >", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreGreaterThanOrEqualTo(String value) {
+            addCriterion("recommend_cadre >=", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreLessThan(String value) {
+            addCriterion("recommend_cadre <", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreLessThanOrEqualTo(String value) {
+            addCriterion("recommend_cadre <=", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreLike(String value) {
+            addCriterion("recommend_cadre like", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreNotLike(String value) {
+            addCriterion("recommend_cadre not like", value, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreIn(List<String> values) {
+            addCriterion("recommend_cadre in", values, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreNotIn(List<String> values) {
+            addCriterion("recommend_cadre not in", values, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreBetween(String value1, String value2) {
+            addCriterion("recommend_cadre between", value1, value2, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCadreNotBetween(String value1, String value2) {
+            addCriterion("recommend_cadre not between", value1, value2, "recommendCadre");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdIsNull() {
+            addCriterion("recommend_crowd is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdIsNotNull() {
+            addCriterion("recommend_crowd is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdEqualTo(String value) {
+            addCriterion("recommend_crowd =", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdNotEqualTo(String value) {
+            addCriterion("recommend_crowd <>", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdGreaterThan(String value) {
+            addCriterion("recommend_crowd >", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdGreaterThanOrEqualTo(String value) {
+            addCriterion("recommend_crowd >=", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdLessThan(String value) {
+            addCriterion("recommend_crowd <", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdLessThanOrEqualTo(String value) {
+            addCriterion("recommend_crowd <=", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdLike(String value) {
+            addCriterion("recommend_crowd like", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdNotLike(String value) {
+            addCriterion("recommend_crowd not like", value, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdIn(List<String> values) {
+            addCriterion("recommend_crowd in", values, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdNotIn(List<String> values) {
+            addCriterion("recommend_crowd not in", values, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdBetween(String value1, String value2) {
+            addCriterion("recommend_crowd between", value1, value2, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendCrowdNotBetween(String value1, String value2) {
+            addCriterion("recommend_crowd not between", value1, value2, "recommendCrowd");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfIsNull() {
+            addCriterion("recommend_pdf is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfIsNotNull() {
+            addCriterion("recommend_pdf is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfEqualTo(String value) {
+            addCriterion("recommend_pdf =", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfNotEqualTo(String value) {
+            addCriterion("recommend_pdf <>", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfGreaterThan(String value) {
+            addCriterion("recommend_pdf >", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfGreaterThanOrEqualTo(String value) {
+            addCriterion("recommend_pdf >=", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfLessThan(String value) {
+            addCriterion("recommend_pdf <", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfLessThanOrEqualTo(String value) {
+            addCriterion("recommend_pdf <=", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfLike(String value) {
+            addCriterion("recommend_pdf like", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfNotLike(String value) {
+            addCriterion("recommend_pdf not like", value, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfIn(List<String> values) {
+            addCriterion("recommend_pdf in", values, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfNotIn(List<String> values) {
+            addCriterion("recommend_pdf not in", values, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfBetween(String value1, String value2) {
+            addCriterion("recommend_pdf between", value1, value2, "recommendPdf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecommendPdfNotBetween(String value1, String value2) {
+            addCriterion("recommend_pdf not between", value1, value2, "recommendPdf");
             return (Criteria) this;
         }
 
@@ -1989,6 +2449,76 @@ public class CrsCandidateViewExample {
 
         public Criteria andEmailNotBetween(String value1, String value2) {
             addCriterion("email not between", value1, value2, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIsNull() {
+            addCriterion("code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIsNotNull() {
+            addCriterion("code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeEqualTo(String value) {
+            addCriterion("code =", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotEqualTo(String value) {
+            addCriterion("code <>", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeGreaterThan(String value) {
+            addCriterion("code >", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("code >=", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLessThan(String value) {
+            addCriterion("code <", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLessThanOrEqualTo(String value) {
+            addCriterion("code <=", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLike(String value) {
+            addCriterion("code like", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotLike(String value) {
+            addCriterion("code not like", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIn(List<String> values) {
+            addCriterion("code in", values, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotIn(List<String> values) {
+            addCriterion("code not in", values, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeBetween(String value1, String value2) {
+            addCriterion("code between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotBetween(String value1, String value2) {
+            addCriterion("code not between", value1, value2, "code");
             return (Criteria) this;
         }
 

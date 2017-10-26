@@ -52,7 +52,7 @@
                                             <label>账号</label>
                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?type=0"
                                                     name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                <option value="${cadre.id}">${cadre.user.realname}-${cadre.user.code}</option>
+                                                <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                             </select>
                                         </div>
                                         <div class="clearfix form-actions center">

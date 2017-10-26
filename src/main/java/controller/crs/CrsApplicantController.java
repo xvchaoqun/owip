@@ -164,7 +164,7 @@ public class CrsApplicantController extends CrsBaseController {
     }
 
     // 导出应聘人报名表
-    @RequiresPermissions("crsApplicant:edit")
+    @RequiresPermissions("crsApplicant:export")
     @RequestMapping("/crsApplicant_export")
     public void crsApplicant_export(@RequestParam(required = false, value = "ids[]") Integer[] ids,
                                     HttpServletResponse response) throws IOException, TemplateException {
