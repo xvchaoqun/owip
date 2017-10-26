@@ -182,6 +182,7 @@
             {label: '工作证号', name: 'user.code', width: 120, frozen: true},
             {label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
+                if(rowObject.cadre==undefined) return cellvalue;
                 return ('<a href="${ctx}/#${ctx}/cadre_view?cadreId={1}" target="_blank">{0}</a>').format(cellvalue, rowObject.cadre.id);
 
             }, frozen: true},
