@@ -76,14 +76,14 @@ public class CrsPostService extends BaseMapper {
             CrsCandidateExample example = new CrsCandidateExample();
             example.createCriteria().andPostIdEqualTo(postId);
             crsCandidateMapper.deleteByExample(example);
-            if (statBean.getFirstUserId() != null) {
+            if (statBean.getFirstUserId() != null && statBean.getFirstUserId()>0) {
                 CrsCandidate crsCandidate = new CrsCandidate();
                 crsCandidate.setPostId(postId);
                 crsCandidate.setUserId(statBean.getFirstUserId());
                 crsCandidate.setIsFirst(true);
                 crsCandidateMapper.insertSelective(crsCandidate);
             }
-            if (statBean.getSecondUserId() != null) {
+            if (statBean.getSecondUserId() != null && statBean.getSecondUserId()>0) {
                 CrsCandidate crsCandidate = new CrsCandidate();
                 crsCandidate.setPostId(postId);
                 crsCandidate.setUserId(statBean.getSecondUserId());

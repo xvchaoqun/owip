@@ -156,7 +156,7 @@
                 applicant.secondCount = $(".second", this).val();
                 jsonResult.applicatStatBeans.push(applicant);
             })
-            //console.log(JSON.stringify(jsonResult))
+            console.log(JSON.stringify(jsonResult))
             // return;
             var base64 = new Base64()
             $(form).ajaxSubmit({

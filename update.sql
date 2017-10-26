@@ -14,6 +14,7 @@ ALTER TABLE `crs_post`
 ALTER TABLE `crs_applicant`
 	CHANGE COLUMN `ppt_name` `ppt_name` VARCHAR(200) NULL DEFAULT NULL COMMENT 'PPT文件名' AFTER `report`;
 
+创建crs_applicant_stat_view
 
 
 2017-10-24
