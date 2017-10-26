@@ -101,10 +101,11 @@ left join (select post_id, count(*) as expert_count from crs_post_expert cpe gro
 
 DROP VIEW IF EXISTS `crs_applicant_stat_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `crs_applicant_stat_view` AS
-select ca.*, cv.realname, cpec.expert_count, cavc.applicant_count,
+select ca.*, cv.realname, cc.is_first, cpec.expert_count, cavc.applicant_count,
 cp.type as crs_post_type,cp.year as crs_post_year,cp.seq as crs_post_seq,
 cp.name as crs_post_name,cp.job as crs_post_job,cp.status as crs_post_status
  from crs_applicant_view ca
+  left join crs_candidate cc on cc.user_id=ca.user_id and cc.post_id=ca.post_id
  left join cadre_view cv on cv.user_id=ca.user_id
 left join crs_post cp on cp.id = ca.post_id
 left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=ca.post_id
