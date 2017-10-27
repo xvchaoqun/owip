@@ -189,8 +189,8 @@
             { label:'所属单位', name: 'unit.name', width: 150 },
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label:'发文类型', name: 'dispatch.dispatchType.name'},
-            { label:'党委常委会日期', name: 'dispatch.meetingTime'},
-            { label:'发文日期', name: 'dispatch.pubTime'},
+            { label:'党委常委会日期', name: 'dispatch.meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label:'发文日期', name: 'dispatch.pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
 
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, '查看');
