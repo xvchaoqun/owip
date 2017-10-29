@@ -21,6 +21,7 @@ import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,7 @@ public class PcsReportController extends PcsBaseController {
         for (int id : ids) {
 
             PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
-            Map<String, Object> pcsProposalMap = getPcsProposalMap(pcsProposal);
+            Map<String, Object> pcsProposalMap = getPcsProposalMap(pcsProposal, type);
             pcsProposalData.add(pcsProposalMap);
         }
 
@@ -92,7 +93,7 @@ public class PcsReportController extends PcsBaseController {
         return "iReportView"; // 对应jasper-defs.xml中的bean id
     }
 
-    public Map<String, Object> getPcsProposalMap(PcsProposalView pcsProposal) throws UnsupportedEncodingException {
+    public Map<String, Object> getPcsProposalMap(PcsProposalView pcsProposal, int type) throws UnsupportedEncodingException {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
@@ -113,13 +114,16 @@ public class PcsReportController extends PcsBaseController {
         map.put("type", metaType==null?"":metaType.getName());
 
         String _content = pcsProposal.getContent();
-        /*String[] strs = _content.split("\n");
+        String[] strs = _content.split("\n");
         StringBuffer content = new StringBuffer();
-        for (String str : strs) {
-            content.append(StringUtils.trimToEmpty(str) + "\r\n");
+        for (int i=0; i<strs.length; i++) {
+            if(i>0 && type==2){
+                content.append("　　"); // 导出WORD时，需要多加两个全角空格
+            }
+            content.append(StringUtils.trimToEmpty(strs[i]) + "\n");
         }
-        map.put("content", HtmlUtils.htmlUnescape(content.toString()));*/
-        map.put("content", HtmlUtils.htmlUnescape(_content));
+        map.put("content", HtmlUtils.htmlUnescape(content.toString()));
+        //map.put("content", HtmlUtils.htmlUnescape(_content));
         String files = "";
         List<PcsProposalFile> _files = pcsProposal.getFiles();
         for (PcsProposalFile file : _files) {

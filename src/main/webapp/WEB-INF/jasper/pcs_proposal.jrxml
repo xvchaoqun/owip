@@ -329,7 +329,7 @@
 				</box>
 				<textElement verticalAlignment="Top">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-					<paragraph firstLineIndent="20" spacingBefore="10"/>
+					<paragraph firstLineIndent="20" leftIndent="8" rightIndent="8" spacingBefore="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{content}]]></textFieldExpression>
 			</textField>
