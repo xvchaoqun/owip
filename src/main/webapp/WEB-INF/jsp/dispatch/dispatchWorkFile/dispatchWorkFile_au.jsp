@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select data-rel="select2" name="workType" data-placeholder="请选择" data-width="270">
 						<option></option>
-						<c:import url="/metaTypes?__code=mc_dwf_work_type"/>
+						<c:import url="/metaTypes?__code=mc_dwf_work_type${type>10?'_ow':''}"/>
 					</select>
 					<script type="text/javascript">
 						$("#modal form select[name=workType]").val('${dispatchWorkFile.workType}');

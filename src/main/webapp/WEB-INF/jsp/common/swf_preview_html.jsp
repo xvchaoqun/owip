@@ -11,7 +11,7 @@
 <c:if test="${exists}">
     <div class="swf-file flash">
         <div id="flashContent">
-            您还没有安装flash播放器。
+            该功能需要安装flashplayer 10或更高版本，请 <a href="http://get.adobe.com/flashplayer">点击此处</a> 打开允许运行flash或免费下载安装flash
             <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
                     width="0" height="0"
                     codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0"></object>

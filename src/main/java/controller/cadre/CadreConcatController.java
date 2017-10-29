@@ -1,7 +1,7 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.sys.SysUserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -30,7 +30,7 @@ public class CadreConcatController extends BaseController {
     public String cadreConcat_page(int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export, ModelMap modelMap) {
 
-        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
 
         return "cadre/cadreConcat/cadreConcat_page";
@@ -67,7 +67,7 @@ public class CadreConcatController extends BaseController {
     public String cadreConcat_au(Integer cadreId, ModelMap modelMap) {
 
         if (cadreId != null) {
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
         }
         return "cadre/cadreConcat/cadreConcat_au";

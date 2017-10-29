@@ -862,6 +862,11 @@ public class SystemConstants {
     public static final byte DISPATCH_WORK_FILE_TYPE_DWJS = 4;
     public static final byte DISPATCH_WORK_FILE_TYPE_KHGZ = 5;
     public static final byte DISPATCH_WORK_FILE_TYPE_JYPX = 6;
+    // 党建工作文件 类别 11 专题教育活动 12 基层党组织建设 13 党员队伍建设 14 党内民主建设
+    public static final byte DISPATCH_WORK_FILE_TYPE_ZTJY = 11;
+    public static final byte DISPATCH_WORK_FILE_TYPE_JCDJ = 12;
+    public static final byte DISPATCH_WORK_FILE_TYPE_DYDW = 13;
+    public static final byte DISPATCH_WORK_FILE_TYPE_DNMZ = 14;
     public final static Map<Byte, String> DISPATCH_WORK_FILE_TYPE_MAP = new HashMap();
 
     static {
@@ -871,6 +876,11 @@ public class SystemConstants {
         DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_DWJS, "干部队伍建设");
         DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_KHGZ, "干部考核工作");
         DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_JYPX, "干部教育培训");
+
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_ZTJY, "专题教育活动");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_JCDJ, "基层党组织建设");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_DYDW, "党员队伍建设");
+        DISPATCH_WORK_FILE_TYPE_MAP.put(DISPATCH_WORK_FILE_TYPE_DNMZ, "党内民主建设");
     }
 
     // 干部干部信息采集表 类型，1 工作经历 2 兼职情况

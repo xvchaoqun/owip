@@ -54,7 +54,7 @@
         </div>
       </div>
 
-    <div class="widget-box myTableDiv"  style="width: 500px">
+    <div class="widget-box myTableDiv"  style="width:800px">
       <div class="widget-header">
         <h4 class="smaller">
           提案类型

@@ -1,4 +1,18 @@
 
+2017-10-29
+dispatchWorkFile:list > dispatchWorkFile:list1
+
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (550, '党建工作文件', '', 'menu', '', '', 61, '0/1/61/', 0, 'dispatchWorkFile:owList', NULL, NULL, 1, 200);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (552, '工作文件列表', '', 'function', '', '', 61, '0/1/61/', 1, 'dispatchWorkFile:list', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (553, '专题教育活动', '', 'url', '', '/dispatchWorkFile?type=11', 550, '0/1/61/550/', 1, 'dispatchWorkFile:list:11', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (554, '参数设置', '', 'menu', '', '', 61, '0/1/61/', 0, 'dispatchWorkFile:workType', NULL, NULL, 1, 100);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (555, '干部专项工作', '', 'url', '', '/dispatchWorkFile_workType?type=1', 554, '0/1/61/554/', 1, 'dispatchWorkFile:workType:cadre', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (556, '党建专项工作', '', 'url', '', '/dispatchWorkFile_workType?type=2', 554, '0/1/61/554/', 1, 'dispatchWorkFile:workType:ow', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (557, '基层党组织建设', '', 'url', '', '/dispatchWorkFile?type=12', 550, '0/1/61/550/', 1, 'dispatchWorkFile:list:12', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (558, '党员队伍建设', '', 'url', '', '/dispatchWorkFile?type=13', 550, '0/1/61/550/', 1, 'dispatchWorkFile:list:13', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (559, '党内民主建设', '', 'url', '', '/dispatchWorkFile?type=14', 550, '0/1/61/550/', 1, 'dispatchWorkFile:list:14', NULL, NULL, 1, NULL);
+
+dispatchWorkFile:list1 > dispatchWorkFile:list
 
 2017-10-26
 ALTER TABLE `crs_post`

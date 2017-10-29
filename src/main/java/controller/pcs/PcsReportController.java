@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.SystemConstants;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
@@ -106,15 +107,23 @@ public class PcsReportController extends PcsBaseController {
         map.put("unitName", candidate.getUnitName());
         map.put("email", candidate.getEmail());
         map.put("createDate",  DateUtils.formatDate(pcsProposal.getCreateTime(), "yyyy.MM.dd"));
-        map.put("name", pcsProposal.getName());
-        map.put("keywords", pcsProposal.getKeywords());
+        map.put("name", HtmlUtils.htmlUnescape(pcsProposal.getName()));
+        map.put("keywords", HtmlUtils.htmlUnescape(pcsProposal.getKeywords()));
         MetaType metaType = prTypes.get(pcsProposal.getType());
         map.put("type", metaType==null?"":metaType.getName());
-        map.put("content", pcsProposal.getContent());
+
+        String _content = pcsProposal.getContent();
+        /*String[] strs = _content.split("\n");
+        StringBuffer content = new StringBuffer();
+        for (String str : strs) {
+            content.append(StringUtils.trimToEmpty(str) + "\r\n");
+        }
+        map.put("content", HtmlUtils.htmlUnescape(content.toString()));*/
+        map.put("content", HtmlUtils.htmlUnescape(_content));
         String files = "";
         List<PcsProposalFile> _files = pcsProposal.getFiles();
         for (PcsProposalFile file : _files) {
-            files += file.getFileName() + "\r\n";
+            files += HtmlUtils.htmlUnescape(file.getFileName()) + "\r\n";
         }
         map.put("files", files);
 

@@ -201,7 +201,7 @@ pageEncoding="UTF-8" %>
                 return ('<a href="javascript:;" class="openView" data-url="${ctx}/pcsProposal_check?id={0}&type=0">{1}</a>')
                         .format(rowObject.id, cellvalue);
             }},
-            { label: '提案类型',name: 'type', formatter: $.jgrid.formatter.MetaType},
+            { label: '提案类型',name: 'type', width:250, formatter: $.jgrid.formatter.MetaType},
             { label: '关键字',name: 'keywords', align:'left', width:250},
                 <c:if test="${cls==8}">
             { label: '审核',name: '_check', formatter: function (cellvalue, options, rowObject) {
