@@ -150,6 +150,7 @@ public class SystemConstants {
     public static final String LOG_MEMBER = "mt_log_member";
     public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
     public static final String LOG_ABROAD = "mt_log_abroad";
+    public static final String LOG_PCS = "mt_log_pcs";
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";

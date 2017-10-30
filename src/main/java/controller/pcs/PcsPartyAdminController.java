@@ -78,7 +78,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         // 添加本单位管理员
         record.setPartyId( pcsAdmin.getPartyId());
         pcsAdminService.addOrUpdate(record, mobile);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委书记]添加/修改党代会分党委管理员：%s-%s"
+        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员：%s-%s"
                 , JSONUtils.toString(record, false), mobile));
 
         return success(FormUtils.SUCCESS);
@@ -117,7 +117,7 @@ public class PcsPartyAdminController extends PcsBaseController {
 
         pcsAdminService.batchDel(new Integer[]{id});
         SysUserView user = admin.getUser();
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委书记]删除党代会分党委管理员-%s(%s)", user.getRealname(), user.getCode()));
+        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委书记]删除党代会分党委管理员-%s(%s)", user.getRealname(), user.getCode()));
 
         return success(FormUtils.SUCCESS);
     }

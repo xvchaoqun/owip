@@ -96,7 +96,7 @@ public class PcsPrFileController extends PcsBaseController {
 
         pcsPrListService.sort(configId, partyId, userIds);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "按姓氏笔画排序"));
+        logger.info(addLog(SystemConstants.LOG_PCS, "按姓氏笔画排序"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -141,7 +141,7 @@ public class PcsPrFileController extends PcsBaseController {
             pcsPrFileMapper.updateByPrimaryKeySelective(record);
         }
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "上传党员大会材料：%s-%s", savePath, originalFilename));
+        logger.info(addLog(SystemConstants.LOG_PCS, "上传党员大会材料：%s-%s", savePath, originalFilename));
         return success(FormUtils.SUCCESS);
     }
 

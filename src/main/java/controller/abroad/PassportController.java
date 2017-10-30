@@ -754,6 +754,10 @@ public class PassportController extends AbroadBaseController {
             passport.setCadreId(passportApply.getCadreId());
             passport.setClassId(passportApply.getClassId());
 
+            // 已经存在该类证件
+            modelMap.put("isDuplicate", passportService.idDuplicate(id, SystemConstants.PASSPORT_TYPE_KEEP,
+                    passportApply.getCadreId(), passportApply.getClassId(), null)==2);
+
         }else if(taiwanRecordId!=null){
 
             TaiwanRecord taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(taiwanRecordId);

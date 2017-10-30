@@ -180,7 +180,7 @@ public class PcsPartyController extends PcsBaseController {
 
         pcsPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 SystemConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);

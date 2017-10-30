@@ -1,6 +1,8 @@
 
-
+2017-10-31
 更新 ow_party_static_view
+
+增加 mt_log_pcs
 
 2017-10-29
 dispatchWorkFile:list > dispatchWorkFile:cadreList

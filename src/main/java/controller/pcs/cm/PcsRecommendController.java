@@ -135,7 +135,7 @@ public class PcsRecommendController extends PcsBaseController {
                 expectMemberCount, actualMemberCount, isFinish,
                 dwCandidateIds, jwCandidateIds);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "党支部推荐情况-提交推荐票：%s-%s-%s", stage, partyId, branchId));
+        logger.info(addLog(SystemConstants.LOG_PCS, "党支部推荐情况-提交推荐票：%s-%s-%s", stage, partyId, branchId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -243,7 +243,7 @@ public class PcsRecommendController extends PcsBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("candidates", candidates);
         JSONUtils.write(response, resultMap);
-        //logger.info(addLog(SystemConstants.LOG_ADMIN, "党支部推荐情况-选择教职工委员：%s-%s", type, userId));
+        //logger.info(addLog(SystemConstants.LOG_PCS, "党支部推荐情况-选择教职工委员：%s-%s", type, userId));
     }
 
     @RequiresPermissions("pcsRecommend:list")

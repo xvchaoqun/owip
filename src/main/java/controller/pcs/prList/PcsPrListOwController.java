@@ -287,7 +287,7 @@ public class PcsPrListOwController extends PcsBaseController {
 
         pcsPrOwService.sync(configId);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "同步全校党代表名单至提案党代表名单"));
+        logger.info(addLog(SystemConstants.LOG_PCS, "同步全校党代表名单至提案党代表名单"));
         return success(FormUtils.SUCCESS);
     }
 }

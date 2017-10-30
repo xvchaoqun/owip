@@ -38,7 +38,7 @@ public class PcsProposalOwController extends PcsBaseController {
 
         // candidateId
         pcsProposalOwService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "党代表名单调序：%s, %s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_PCS, "党代表名单调序：%s, %s", id, addNum));
 
         return success(FormUtils.SUCCESS);
     }

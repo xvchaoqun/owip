@@ -17,6 +17,11 @@
 </div>
 <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
 <div class="modal-body">
+    <c:if test="${isDuplicate}">
+        <div class="alert alert-warning">
+            该干部的${passport.passportClass.name}已存在，请先处理。
+        </div>
+    </c:if>
     <form class="form-horizontal" action="${ctx}/abroad/passport_au" id="modalForm" method="post"
           enctype="multipart/form-data">
         <input type="hidden" name="id" value="${passport.id}">
@@ -75,7 +80,7 @@
 
             <div class="col-xs-6">
                 <input class="form-control" type="text" name="authority"
-                       value="${empty passport?"公安部出入境管理局":passport.authority}">
+                       value="${empty passport.id?"公安部出入境管理局":passport.authority}">
             </div>
         </div>
         <div class="form-group">
@@ -157,8 +162,10 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
+<c:if test="${!isDuplicate}">
     <input type="submit" class="btn btn-primary" value="${param.op=='back'?'找回':(passport!=null?'确定':'添加')}"/>
+    </c:if>
 </div>
 
 <script>

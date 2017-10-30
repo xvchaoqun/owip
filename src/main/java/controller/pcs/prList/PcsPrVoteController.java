@@ -108,7 +108,7 @@ public class PcsPrVoteController extends PcsBaseController {
         List<PcsPrCandidateFormBean> beans = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrPartyService.submit3(configId, partyId, record, beans);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "上传党员大会选举情况：%s", JSONUtils.toString(record, false)));
+        logger.info(addLog(SystemConstants.LOG_PCS, "上传党员大会选举情况：%s", JSONUtils.toString(record, false)));
         return success(FormUtils.SUCCESS);
     }
 

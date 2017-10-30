@@ -143,7 +143,7 @@ public class PcsPrListController extends PcsBaseController {
         List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrListService.submit(configId, partyId, records);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
+        logger.info(addLog(SystemConstants.LOG_PCS, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -233,7 +233,7 @@ public class PcsPrListController extends PcsBaseController {
 
         pcsPrPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 SystemConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);

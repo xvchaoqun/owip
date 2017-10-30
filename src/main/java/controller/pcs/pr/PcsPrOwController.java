@@ -186,7 +186,7 @@ public class PcsPrOwController extends PcsBaseController {
                 BooleanUtils.isTrue(status) ? SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS
                         : SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
+        logger.info(addLog(SystemConstants.LOG_PCS, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
                 configId, stage, partyIds, status));
         return success(FormUtils.SUCCESS);
     }

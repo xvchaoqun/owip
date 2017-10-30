@@ -291,7 +291,7 @@ public class PcsProposalController extends PcsBaseController {
         }
 
         pcsProposalService.saveOrUpdate(record, pcsProposalFiles, inviteIds);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新提案：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_PCS, "添加/更新提案：%s", record.getId()));
 
         if(sumitMsgToAdmin){
             pcsProposalService.sendPcsProposalSubmitMsgToAdmin(record.getId(), ContextHelper.getRealIp());
@@ -384,7 +384,7 @@ public class PcsProposalController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsProposalService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除提案：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除提案：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -403,7 +403,7 @@ public class PcsProposalController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsProposalService.batchDelFiles(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除提案附件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除提案附件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
