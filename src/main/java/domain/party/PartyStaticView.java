@@ -54,6 +54,10 @@ public class PartyStaticView implements Serializable {
 
     private BigDecimal teacherBranchTotal;
 
+    private BigDecimal teacherApplyCount;
+
+    private BigDecimal studentApplyCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -254,5 +258,21 @@ public class PartyStaticView implements Serializable {
 
     public void setTeacherBranchTotal(BigDecimal teacherBranchTotal) {
         this.teacherBranchTotal = teacherBranchTotal;
+    }
+
+    public BigDecimal getTeacherApplyCount() {
+        return teacherApplyCount;
+    }
+
+    public void setTeacherApplyCount(BigDecimal teacherApplyCount) {
+        this.teacherApplyCount = teacherApplyCount;
+    }
+
+    public BigDecimal getStudentApplyCount() {
+        return studentApplyCount;
+    }
+
+    public void setStudentApplyCount(BigDecimal studentApplyCount) {
+        this.studentApplyCount = studentApplyCount;
     }
 }

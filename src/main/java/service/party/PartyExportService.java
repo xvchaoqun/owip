@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.party.PartyStaticViewMapper;
 import service.BaseMapper;
+import sys.tags.CmTag;
 import sys.utils.ExcelUtils;
 
 import java.io.FileInputStream;
@@ -41,7 +42,11 @@ public class PartyExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        XSSFRow row;
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
 
         int cpRow = 3;
         int rowCount = records.size();
@@ -56,7 +61,7 @@ public class PartyExportService extends BaseMapper {
             int column = 0;
             row = sheet.getRow(startRow++);
 
-            XSSFCell cell = row.getCell(column++);
+            cell = row.getCell(column++);
             cell.setCellValue(p.getName());
             toggleCellBgColor(wb, cell, i);
             /**学生党员数**/
@@ -176,6 +181,16 @@ public class PartyExportService extends BaseMapper {
             //党员总数（正式党员）
             cell = row.getCell(column++);
             cell.setCellValue(getValue(p.getPositiveStudent()) + getValue(p.getPositiveTeacherTotal()));
+            toggleCellBgColor(wb, cell, i);
+
+            //教职工申请入党总数（统计 申请至领取志愿书 五个阶段）
+            cell = row.getCell(column++);
+            cell.setCellValue(getValue(p.getTeacherApplyCount()));
+            toggleCellBgColor(wb, cell, i);
+
+            //学生申请入党总数（统计 申请至领取志愿书 五个阶段）
+            cell = row.getCell(column++);
+            cell.setCellValue(getValue(p.getStudentApplyCount()));
             toggleCellBgColor(wb, cell, i);
         }
 

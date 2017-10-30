@@ -1614,6 +1614,126 @@ public class PartyStaticViewExample {
             addCriterion("teacher_branch_total not between", value1, value2, "teacherBranchTotal");
             return (Criteria) this;
         }
+
+        public Criteria andTeacherApplyCountIsNull() {
+            addCriterion("teacher_apply_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountIsNotNull() {
+            addCriterion("teacher_apply_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountEqualTo(BigDecimal value) {
+            addCriterion("teacher_apply_count =", value, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountNotEqualTo(BigDecimal value) {
+            addCriterion("teacher_apply_count <>", value, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountGreaterThan(BigDecimal value) {
+            addCriterion("teacher_apply_count >", value, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("teacher_apply_count >=", value, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountLessThan(BigDecimal value) {
+            addCriterion("teacher_apply_count <", value, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("teacher_apply_count <=", value, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountIn(List<BigDecimal> values) {
+            addCriterion("teacher_apply_count in", values, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountNotIn(List<BigDecimal> values) {
+            addCriterion("teacher_apply_count not in", values, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("teacher_apply_count between", value1, value2, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherApplyCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("teacher_apply_count not between", value1, value2, "teacherApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountIsNull() {
+            addCriterion("student_apply_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountIsNotNull() {
+            addCriterion("student_apply_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountEqualTo(BigDecimal value) {
+            addCriterion("student_apply_count =", value, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountNotEqualTo(BigDecimal value) {
+            addCriterion("student_apply_count <>", value, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountGreaterThan(BigDecimal value) {
+            addCriterion("student_apply_count >", value, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("student_apply_count >=", value, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountLessThan(BigDecimal value) {
+            addCriterion("student_apply_count <", value, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("student_apply_count <=", value, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountIn(List<BigDecimal> values) {
+            addCriterion("student_apply_count in", values, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountNotIn(List<BigDecimal> values) {
+            addCriterion("student_apply_count not in", values, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("student_apply_count between", value1, value2, "studentApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudentApplyCountNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("student_apply_count not between", value1, value2, "studentApplyCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -1,4 +1,7 @@
 
+
+更新 ow_party_static_view
+
 2017-10-29
 dispatchWorkFile:list > dispatchWorkFile:cadreList
 

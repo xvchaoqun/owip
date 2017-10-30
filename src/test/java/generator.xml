@@ -62,14 +62,14 @@
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
+       <!-- <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
                mapperName="crs.CrsApplicantStatViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="crs_applicant_adjust" domainObjectName="crs.CrsApplicantAdjust"  mapperName="crs.CrsApplicantAdjustMapper">
         </table>-->
@@ -272,11 +272,11 @@
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
          </table>-->
-        <!-- <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
+         <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
+         </table>
 
         <!--<table tableName="ow_branch" domainObjectName="party.Branch">
         <ignoreColumn column="update_time"/>
