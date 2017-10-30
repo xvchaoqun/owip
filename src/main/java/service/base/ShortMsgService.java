@@ -714,69 +714,21 @@ public class ShortMsgService extends BaseMapper {
         record.setType(type);
         record.setIp(ip);
 
+        boolean result = false;
         if(springProps.shortMsgSend) {
             SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(mobile, content);
-            record.setStatus(sendMsgResult.isSuccess());
+            result = sendMsgResult.isSuccess();
+            record.setStatus(result);
             record.setRet(sendMsgResult.getMsg());
             shortMsgMapper.insertSelective(record);
         }else{
             record.setRemark("test");
             record.setStatus(false);
             shortMsgMapper.insertSelective(record);
-
-            return true;
+            result = true;
         }
-/*
-        String url= springProps.shortMsgUrl;
-        String formStatusData="{\"mobile\":\""+ mobile +"\", \"content\":\""+ content +"\"}";
 
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(url);
-        httppost.setEntity(new StringEntity(formStatusData,"UTF-8"));
-        httppost.addHeader("content-type", "application/json");
-        CloseableHttpResponse res = null;
-        try {
-            ShortMsg record = new ShortMsg();
-            record.setRelateId(shortMsgBean.getRelateId());
-            record.setRelateType(shortMsgBean.getRelateType());
-            record.setCreateTime(new Date());
-            record.setMobile(mobile);
-            record.setContent(content);
-            record.setReceiverId(receiver);
-            record.setSenderId(sender);
-            record.setType(type);
-            record.setIp(ip);
-
-            if(springProps.shortMsgSend){
-                res = httpclient.execute(httppost);
-                if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-                    String ret = EntityUtils.toString(res.getEntity());
-                    Gson gson = new Gson();
-                    JsonObject jsonObject = gson.fromJson(ret, JsonObject.class);
-                    JsonElement errcode = jsonObject.get("errcode");
-                    boolean status = (errcode.getAsInt() == 0);
-
-                    record.setStatus(status);
-                    record.setRet(ret);
-                    shortMsgMapper.insertSelective(record);
-
-                    return status;
-                }
-            }else{
-
-                record.setRemark("test");
-                record.setStatus(false);
-                shortMsgMapper.insertSelective(record);
-
-                return true;
-            }
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            throw new OpException("系统错误:"+ e.getMessage());
-        }*/
-        return false;
+        return result;
     }
 
    /* @Transactional
