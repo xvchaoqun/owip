@@ -67,7 +67,8 @@ public class ApplicatTypeController extends AbroadBaseController {
             }
         }
 
-        TreeNode tree = cadreCommonService.getTree(cadreSet, null, disabledIdSet);
+        TreeNode tree = cadreCommonService.getTree(cadreSet,
+                SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, null, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
@@ -84,23 +85,6 @@ public class ApplicatTypeController extends AbroadBaseController {
 
     // 查看某类申请人身份下的干部
     @RequiresPermissions("approvalAuth:*")
-    @RequestMapping("/applicatType/selectCadres_tree")
-    @ResponseBody
-    public Map selectCadres_tree(int id) throws IOException {
-
-        Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
-        Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
-        disabledIdSet.removeAll(selectIdSet);
-        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
-                selectIdSet, disabledIdSet);
-
-        Map<String, Object> resultMap = success();
-        resultMap.put("tree", tree);
-        return resultMap;
-    }
-
-    // 查看某类申请人身份下的干部
-    @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectCadres")
     public String selectCadres(int id, ModelMap modelMap) throws IOException {
 
@@ -109,16 +93,32 @@ public class ApplicatTypeController extends AbroadBaseController {
         return "abroad/applicatType/selectCadres";
     }
 
+    // 查看某类申请人身份下的干部
+    @RequiresPermissions("approvalAuth:*")
+    @RequestMapping("/applicatType/selectCadres_tree")
+    @ResponseBody
+    public Map selectCadres_tree(int id) throws IOException {
+
+        Set<Integer> selectIdSet = applicatTypeService.getCadreIds(id);
+        Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
+        disabledIdSet.removeAll(selectIdSet);
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+                SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, disabledIdSet);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
     // 更新某类申请人身份下的干部
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/applicatType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_posts(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_selectCadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
         applicatTypeService.updateCadreIds(id, cadreIds);
         return success(FormUtils.SUCCESS);
     }
-
 
     /*@RequiresPermissions("approvalAuth:*")
     @RequestMapping("/applicatType/selectPosts_tree")

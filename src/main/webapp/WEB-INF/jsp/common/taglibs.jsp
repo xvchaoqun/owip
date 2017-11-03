@@ -171,6 +171,13 @@
 
 <c:set value="<%=SystemConstants.CADRE_TUTOR_TYPE_MAP%>" var="CADRE_TUTOR_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.OA_TASK_USER_STATUS_INIT%>" var="OA_TASK_USER_STATUS_INIT"/>
+<c:set value="<%=SystemConstants.OA_TASK_USER_STATUS_PASS%>" var="OA_TASK_USER_STATUS_PASS"/>
+<c:set value="<%=SystemConstants.OA_TASK_USER_STATUS_DENY%>" var="OA_TASK_USER_STATUS_DENY"/>
+
+
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_NOW%>" var="CIS_INSPECTOR_STATUS_NOW"/>
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_HISTORY%>" var="CIS_INSPECTOR_STATUS_HISTORY"/>
 <c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_DELETE%>" var="CIS_INSPECTOR_STATUS_DELETE"/>

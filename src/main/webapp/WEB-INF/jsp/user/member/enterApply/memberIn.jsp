@@ -133,6 +133,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input required class="form-control date-picker" name="_payTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm"
                    data-date-min-view-mode="1"
                    value="${cm:formatDate(memberIn.payTime,'yyyy-MM')}" />
@@ -146,6 +147,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input required class="form-control date-picker" name="_fromHandleTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.fromHandleTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -157,6 +159,7 @@
           <div class="input-group">
             <c:set var="handleTime" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}"/>
             <input required class="form-control date-picker" name="_handleTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${empty handleTime?today:handleTime}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -168,6 +171,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input class="form-control date-picker" name="_applyTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.applyTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -178,6 +182,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input class="form-control date-picker" name="_activeTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.activeTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -188,6 +193,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input class="form-control date-picker" name="_candidateTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.candidateTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -198,6 +204,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input class="form-control date-picker" name="_growTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.growTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>
@@ -208,6 +215,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <input class="form-control date-picker" name="_positiveTime" type="text"
+                   autocomplete="off" disableautocomplete
                    data-date-format="yyyy-mm-dd" value="${cm:formatDate(memberIn.positiveTime,'yyyy-MM-dd')}" />
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>

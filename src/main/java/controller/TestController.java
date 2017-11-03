@@ -3,26 +3,40 @@ package controller;
 import com.lowagie.text.DocumentException;
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
+import job.Test;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.TestServcie;
+import sys.quartz.QuartzManager;
 import sys.spring.Base64File;
 import sys.spring.RequestBase64;
 import sys.utils.ConfigUtil;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Created by fafa on 2016/1/18.
@@ -31,8 +45,62 @@ import java.util.function.Consumer;
 //@RequestMapping("/test")
 public class TestController extends BaseController {
 
+    //@Autowired
+    //TestServcie testServcie;
     @Autowired
-    TestServcie testServcie;
+    private SchedulerFactoryBean schedulerFactoryBean;
+
+    @RequestMapping(value = "/startjob")
+    @ResponseBody
+    public String startjob(int userId) throws SchedulerException {
+
+        String jobName = "job_"+userId;
+
+        JobDetail jobDetail = newJob(Test.class).withIdentity(jobName, "job_group_oa")
+                .usingJobData("userId", userId).build();
+
+        Scheduler sched = schedulerFactoryBean.getScheduler();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.SECOND, 10);
+
+        Trigger trigger = newTrigger().withIdentity(jobName, "trigger_group_oa")
+                .startAt(cal.getTime()).build();// 触发器时间设定
+
+        sched.scheduleJob(jobDetail, trigger);
+        if (!sched.isShutdown()) {
+            sched.start();// 启动
+        }
+
+        return "start job " + jobName + " at " + DateUtils.getCurrentDateTime(DateUtils.YYYY_MM_DD_HH_MM_SS);
+    }
+
+    @RequestMapping(value = "/stopjob")
+    @ResponseBody
+    public String stopjob(int userId) throws SchedulerException {
+
+        Scheduler sched = schedulerFactoryBean.getScheduler();
+
+        String jobName = "job_"+userId;
+        TriggerKey triggerKey = new TriggerKey(jobName, "trigger_group_oa");
+        sched.pauseTrigger(triggerKey);// 停止触发器
+        sched.unscheduleJob(triggerKey);// 移除触发器
+        JobKey jobKey = new JobKey(jobName, "job_group_oa");
+
+        sched.deleteJob(jobKey);// 删除任务
+
+        return "stop job " + jobName + " at " + DateUtils.getCurrentDateTime(DateUtils.YYYY_MM_DD_HH_MM);
+    }
+
+    @RequestMapping(value = "/jobs")
+    @ResponseBody
+    public Map jobs(){
+
+        Scheduler sched = schedulerFactoryBean.getScheduler();
+        Map<String, Map<String, Object>> stringMapMap = QuartzManager.queryAllJobs(sched);
+
+        return stringMapMap;
+    }
 
     @RequestMapping(value = "/updateSysResource")
     @ResponseBody
@@ -86,7 +154,7 @@ public class TestController extends BaseController {
     }
 
     //@RequestMapping("/toMember")
-    @ResponseBody
+   /* @ResponseBody
     public String toMember(int userId) {
 
         testServcie.toMember(userId);
@@ -100,7 +168,7 @@ public class TestController extends BaseController {
         testServcie.toGuest(userId);
         return FormUtils.SUCCESS;
     }
-
+*/
     //@RequestMapping(value = "/report2", method = RequestMethod.GET)
     public String report2(Integer type, Model model) throws IOException, DocumentException {
 

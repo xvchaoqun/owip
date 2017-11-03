@@ -192,15 +192,28 @@ pageEncoding="UTF-8" %>
         </c:if>
         url: '${ctx}/pcsProposal_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '提案编号',name: 'code'},
-            { label: '提交日期',name: 'createTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            <c:if test="${cls==2}">
+            { label: '附议',name: '_check', formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.userId=='${_user.id}') return '本人提案'
+                var seconderIds = $.trim(rowObject.seconderIds);
+                //console.log(seconderIds.split(","))
+                if(seconderIds.split(",").indexOf('${_user.id}')>-1) return "已附议";
+
+                return ('<button class="openView btn btn-primary btn-xs" ' +
+                'data-url="${ctx}/pcsProposal_check?id={0}&type=2"><i class="fa fa-handshake-o"></i> 附议</button>')
+                        .format(rowObject.id);
+            }, frozen:true},
+            </c:if>
+            { label: '提案编号',name: 'code', frozen:true},
+            { label: '提交日期',name: 'createTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
             <c:if test="${!(cls==1 && module==1)}">
-            { label: '提案人姓名',name: 'user.realname'},
+            { label: '提案人姓名',name: 'user.realname', frozen:true},
                 </c:if>
             { label: '标题',name: 'name', align:'left', width:375, formatter: function (cellvalue, options, rowObject) {
                 return ('<a href="javascript:;" class="openView" data-url="${ctx}/pcsProposal_check?id={0}&type=0">{1}</a>')
                         .format(rowObject.id, cellvalue);
-            }},
+            }, frozen:true},
             { label: '提案类型',name: 'type', width:250, formatter: $.jgrid.formatter.MetaType},
             { label: '关键字',name: 'keywords', align:'left', width:250},
                 <c:if test="${cls==8}">
@@ -246,19 +259,6 @@ pageEncoding="UTF-8" %>
                 if(inviteUserIds.split(",").indexOf('${_user.id}')>-1)
                     return "class='danger'";
                 </c:if>
-            }},
-            </c:if>
-            <c:if test="${cls==2}">
-            { label: '附议',name: '_check', formatter: function (cellvalue, options, rowObject) {
-
-                if(rowObject.userId=='${_user.id}') return '本人提案'
-                var seconderIds = $.trim(rowObject.seconderIds);
-                //console.log(seconderIds.split(","))
-                if(seconderIds.split(",").indexOf('${_user.id}')>-1) return "已附议";
-
-                return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/pcsProposal_check?id={0}&type=2"><i class="fa fa-handshake-o"></i> 附议</button>')
-                        .format(rowObject.id);
             }},
             </c:if>
             {hidden: true, name: 'status'}

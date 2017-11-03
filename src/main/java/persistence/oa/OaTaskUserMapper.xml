@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.oa.OaTaskUserMapper">
+  <resultMap id="BaseResultMap" type="domain.oa.OaTaskUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="assign_user_id" jdbcType="INTEGER" property="assignUserId" />
+    <result column="assign_user_mobile" jdbcType="VARCHAR" property="assignUserMobile" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="has_report" jdbcType="BIT" property="hasReport" />
+    <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="is_back" jdbcType="BIT" property="isBack" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="check_remark" jdbcType="VARCHAR" property="checkRemark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, task_id, user_id, assign_user_id, assign_user_mobile, content, remark, has_report, 
+    report_user_id, report_time, is_back, is_delete, check_remark, status
+  </sql>
+  <select id="selectByExample" parameterType="domain.oa.OaTaskUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from oa_task_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oa_task_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oa_task_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.oa.OaTaskUserExample">
+    delete from oa_task_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.oa.OaTaskUser">
+    insert into oa_task_user (id, task_id, user_id, 
+      assign_user_id, assign_user_mobile, content, 
+      remark, has_report, report_user_id, 
+      report_time, is_back, is_delete, 
+      check_remark, status)
+    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{assignUserId,jdbcType=INTEGER}, #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{isBack,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, 
+      #{checkRemark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.oa.OaTaskUser">
+    insert into oa_task_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="assignUserId != null">
+        assign_user_id,
+      </if>
+      <if test="assignUserMobile != null">
+        assign_user_mobile,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="hasReport != null">
+        has_report,
+      </if>
+      <if test="reportUserId != null">
+        report_user_id,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="isBack != null">
+        is_back,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="checkRemark != null">
+        check_remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="assignUserId != null">
+        #{assignUserId,jdbcType=INTEGER},
+      </if>
+      <if test="assignUserMobile != null">
+        #{assignUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="hasReport != null">
+        #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="reportUserId != null">
+        #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBack != null">
+        #{isBack,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="checkRemark != null">
+        #{checkRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.oa.OaTaskUserExample" resultType="java.lang.Long">
+    select count(*) from oa_task_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update oa_task_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.assignUserId != null">
+        assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.assignUserMobile != null">
+        assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hasReport != null">
+        has_report = #{record.hasReport,jdbcType=BIT},
+      </if>
+      <if test="record.reportUserId != null">
+        report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportTime != null">
+        report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isBack != null">
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.checkRemark != null">
+        check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update oa_task_user
+    set id = #{record.id,jdbcType=INTEGER},
+      task_id = #{record.taskId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
+      assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      has_report = #{record.hasReport,jdbcType=BIT},
+      report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      is_back = #{record.isBack,jdbcType=BIT},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      check_remark = #{record.checkRemark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.oa.OaTaskUser">
+    update oa_task_user
+    <set>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="assignUserId != null">
+        assign_user_id = #{assignUserId,jdbcType=INTEGER},
+      </if>
+      <if test="assignUserMobile != null">
+        assign_user_mobile = #{assignUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="hasReport != null">
+        has_report = #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="reportUserId != null">
+        report_user_id = #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBack != null">
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="checkRemark != null">
+        check_remark = #{checkRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.oa.OaTaskUser">
+    update oa_task_user
+    set task_id = #{taskId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      assign_user_id = #{assignUserId,jdbcType=INTEGER},
+      assign_user_mobile = #{assignUserMobile,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      has_report = #{hasReport,jdbcType=BIT},
+      report_user_id = #{reportUserId,jdbcType=INTEGER},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
+      is_back = #{isBack,jdbcType=BIT},
+      is_delete = #{isDelete,jdbcType=BIT},
+      check_remark = #{checkRemark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.oa.OaTaskUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from oa_task_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

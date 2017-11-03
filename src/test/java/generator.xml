@@ -22,11 +22,43 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <!--协同办公-->
+        <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>
+        <table tableName="oa_task_file" domainObjectName="oa.OaTaskFile" mapperName="oa.OaTaskFileMapper">
+        </table>
+        <table tableName="oa_task_msg" domainObjectName="oa.OaTaskMsg" mapperName="oa.OaTaskMsgMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+       <!-- <table tableName="oa_task_user" domainObjectName="oa.OaTaskUser" mapperName="oa.OaTaskUserMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="oa_task_user_file" domainObjectName="oa.OaTaskUserFile" mapperName="oa.OaTaskUserFileMapper">
+       </table>-->
+        <!--<table tableName="oa_task_remind" domainObjectName="oa.OaTaskRemind" mapperName="oa.OaTaskRemindMapper">
+        </table>-->
+        <!--<table tableName="oa_task_view" domainObjectName="oa.OaTaskView" mapperName="oa.OaTaskViewMapper">
+            <columnOverride column="user_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="is_publish" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_delete" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+        </table>-->
+        <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+        </table>
+        <!--档案认定-->
         <!--<table tableName="verify_age" domainObjectName="verify.VerifyAge">
         </table>
         <table tableName="verify_work_time" domainObjectName="verify.VerifyWorkTime">
         </table>-->
 
+        <!--干部招聘-->
         <!--<table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
             <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
@@ -41,11 +73,8 @@
                enableDeleteByExample="false">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-
-
-
-          <!--<table tableName="crs_apply_rule" domainObjectName="crs.CrsApplyRule" mapperName="crs.CrsApplyRuleMapper">
-          </table>-->
+        <!--<table tableName="crs_apply_rule" domainObjectName="crs.CrsApplyRule" mapperName="crs.CrsApplyRuleMapper">
+        </table>-->
         <!--  <table tableName="crs_short_msg" domainObjectName="crs.CrsShortMsg" mapperName="crs.CrsShortMsgMapper">
           </table>-->
         <!--<table tableName="crs_post_expert" domainObjectName="crs.CrsPostExpert"  mapperName="crs.CrsPostExpertMapper">
@@ -62,14 +91,14 @@
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-       <!-- <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
-               mapperName="crs.CrsApplicantStatViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-            <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-            <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        <!-- <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
+                mapperName="crs.CrsApplicantStatViewMapper"
+                enableInsert="false" enableUpdateByPrimaryKey="false"
+                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                enableDeleteByExample="false">
+             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
+         </table>-->
 
         <!--<table tableName="crs_applicant_adjust" domainObjectName="crs.CrsApplicantAdjust"  mapperName="crs.CrsApplicantAdjustMapper">
         </table>-->
@@ -101,6 +130,7 @@
                enableDeleteByExample="false">
         </table>-->
 
+        <!--培训-->
         <!--<table tableName="train" domainObjectName="train.Train">
             <columnOverride column="note" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -123,6 +153,8 @@
         </table>
         <table tableName="train_eva_table" domainObjectName="train.TrainEvaTable">
         </table>-->
+
+        <!--因私出国境-->
         <!-- <table tableName="abroad_applicat_type" domainObjectName="abroad.ApplicatType">
          </table>-->
         <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
@@ -162,6 +194,7 @@
         <!-- <table tableName="abroad_taiwan_record" domainObjectName="abroad.TaiwanRecord" mapperName="abroad.TaiwanRecordMapper">
          </table>-->
 
+        <!--党建工作-->
         <!--  <table tableName="ow_enter_apply" domainObjectName="member.EnterApply">
           </table>-->
         <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
@@ -242,8 +275,6 @@
         <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         </table>
         -->
-
-
         <!--<table tableName="ow_party" domainObjectName="party.Party">
             <ignoreColumn column="update_time"/>
          </table>
@@ -272,11 +303,11 @@
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
          </table>-->
-         <table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-         </table>
+        <!--<table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
 
         <!--<table tableName="ow_branch" domainObjectName="party.Branch">
         <ignoreColumn column="update_time"/>
@@ -324,6 +355,8 @@
         </table>-->
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
+
+        <!--干部库-->
         <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
         </table>-->
 
@@ -418,7 +451,10 @@
          </table>-->
         <!--<table tableName="cadre_report" domainObjectName="cadre.CadreReport">
         </table>
+        -->
 
+        <!--干部考察系统-->
+        <!--
         <table tableName="cis_type" domainObjectName="cis.CisType">
         </table>
         <table tableName="cis_evaluate" domainObjectName="cis.CisEvaluate">
@@ -444,19 +480,19 @@
         <table tableName="cis_obj_unit" domainObjectName="cis.CisObjUnit">
         </table>-->
 
+        <!--干部职数管理-->
         <!--<table tableName="cpc_allocation" domainObjectName="cpc.CpcAllocation" mapperName="cpc.CpcAllocationMapper">
         </table>-->
 
-
+        <!--干部挂职锻炼-->
         <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
         </table>-->
 
-
+        <!--党代会-->
         <!-- <table tableName="pcs_exclude_branch" domainObjectName="pcs.PcsExcludeBranch" mapperName="pcs.PcsExcludeBranchMapper">
          </table>-->
         <!--<table tableName="pcs_party_view" domainObjectName="pcs.PcsPartyView" mapperName="pcs.PcsPartyViewMapper">
         </table>-->
-
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
         <!-- <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
@@ -476,7 +512,6 @@
         </table>
         <table tableName="pcs_candidate_chosen" domainObjectName="pcs.PcsCandidateChosen" mapperName="pcs.PcsCandidateChosenMapper">
         </table>-->
-
         <!--  <table tableName="pcs_pr_allocate" domainObjectName="pcs.PcsPrAllocate" mapperName="pcs.PcsPrAllocateMapper">
            </table>-->
         <!--  <table tableName="pcs_pr_file" domainObjectName="pcs.PcsPrFile" mapperName="pcs.PcsPrFileMapper">
@@ -485,44 +520,45 @@
          </table>-->
         <!--<table tableName="pcs_pr_recommend" domainObjectName="pcs.PcsPrRecommend" mapperName="pcs.PcsPrRecommendMapper">
        </table>-->
-     <!--   <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
-        </table>
-        <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView"
-               mapperName="pcs.PcsPrCandidateViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-            <columnOverride column="user_type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>-->
+        <!--   <table tableName="pcs_pr_candidate" domainObjectName="pcs.PcsPrCandidate" mapperName="pcs.PcsPrCandidateMapper">
+           </table>
+           <table tableName="pcs_pr_candidate_view" domainObjectName="pcs.PcsPrCandidateView"
+                  mapperName="pcs.PcsPrCandidateViewMapper"
+                  enableInsert="false" enableUpdateByPrimaryKey="false"
+                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                  enableDeleteByExample="false">
+               <columnOverride column="user_type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+           </table>-->
         <!--
-
              <table tableName="pcs_proposal_file" domainObjectName="pcs.PcsProposalFile" mapperName="pcs.PcsProposalFileMapper">
              </table>-->
         <!--<table tableName="pcs_proposal_seconder" domainObjectName="pcs.PcsProposalSeconder"
                mapperName="pcs.PcsProposalSeconderMapper">
         </table>-->
 
-       <!-- <table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        <!-- <table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
+             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+         </table>-->
 
-   <!--     <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
-               mapperName="pcs.PcsProposalViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-            <columnOverride column="id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="config_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="user_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="type" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="invite_user_ids" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="seconder_ids" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="invite_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="seconder_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
--->
+        <!--     <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
+                    mapperName="pcs.PcsProposalViewMapper"
+                    enableInsert="false" enableUpdateByPrimaryKey="false"
+                    enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                    enableDeleteByExample="false">
+                 <columnOverride column="id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+                 <columnOverride column="config_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+                 <columnOverride column="user_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+                 <columnOverride column="type" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+                 <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
+                 <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+                 <columnOverride column="invite_user_ids" jdbcType="VARCHAR"></columnOverride>
+                 <columnOverride column="seconder_ids" jdbcType="VARCHAR"></columnOverride>
+                 <columnOverride column="invite_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+                 <columnOverride column="seconder_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+             </table>
+     -->
+
+        <!--干部修改申请-->
         <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
         </table>-->
         <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
@@ -533,6 +569,7 @@
             <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
+        <!--发文-->
         <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch">
          </table>-->
         <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
@@ -581,10 +618,10 @@
 
          -->
 
-         <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
-             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
-             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
+        <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+            <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -597,14 +634,14 @@
         <!-- <table tableName="sys_user" domainObjectName="sys.SysUser">
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-       <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
-         </table>
-         <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-             <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
+        <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+          </table>
+          <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+                 enableInsert="false" enableUpdateByPrimaryKey="false"
+                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                 enableDeleteByExample="false">
+              <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
+          </table>-->
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->

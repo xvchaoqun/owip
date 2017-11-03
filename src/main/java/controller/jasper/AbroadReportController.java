@@ -146,7 +146,8 @@ public class AbroadReportController extends BaseController {
         map.put("name", user.getRealname());
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
-        map.put("unit", CmTag.getSysConfig().getSchoolName() + unit);
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
 
@@ -214,7 +215,8 @@ public class AbroadReportController extends BaseController {
         map.put("name", user.getRealname());
         map.put("locate", "北京市");
         map.put("idcard", user.getIdcard());
-        map.put("unit", CmTag.getSysConfig().getSchoolName() + unit);
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
         map.put("title", post);  // 职务
         map.put("bg", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + to + ".jpg");
 

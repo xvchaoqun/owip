@@ -109,7 +109,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        pop_reload($(".popTableDiv"));
+                        pop_reload();
                         //SysMsg.success('操作成功。', '成功');
                     }
                 }

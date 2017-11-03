@@ -41,6 +41,8 @@ import domain.unit.Unit;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
 import persistence.common.IAbroadMapper;
@@ -102,6 +104,8 @@ import java.util.Set;
 
 public class CmTag {
 
+    private static Logger logger = LoggerFactory.getLogger(CmTag.class);
+
     public static ApplicationContext context = ApplicationContextSupport.getContext();
     static CacheService cacheService = context.getBean(CacheService.class);
     static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
@@ -140,9 +144,10 @@ public class CmTag {
 
         T bean = null;
         try {
+
             bean = context.getBean(cls);
         }catch (Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
 
         return bean;
@@ -637,7 +642,7 @@ public class CmTag {
     public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
 
         // getBean("IAbroadMapper")， I要大写？
-        IAbroadMapper iAbroadMapper = (IAbroadMapper) context.getBean("IAbroadMapper");
+        IAbroadMapper iAbroadMapper =  context.getBean(IAbroadMapper.class);
         return iAbroadMapper.getApplySelfModifyList(applyId);
     }
 
@@ -746,21 +751,21 @@ public class CmTag {
 
     public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId) {
 
-        TrainEvaNormService trainEvaNormService = (TrainEvaNormService) context.getBean("trainEvaNormService");
+        TrainEvaNormService trainEvaNormService = context.getBean(TrainEvaNormService.class);
 
         return trainEvaNormService.findAll(evaTableId);
     }
 
     public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId) {
 
-        TrainEvaRankService trainEvaRankService = (TrainEvaRankService) context.getBean("trainEvaRankService");
+        TrainEvaRankService trainEvaRankService = context.getBean(TrainEvaRankService.class);
 
         return trainEvaRankService.findAll(evaTableId);
     }
 
     public static Integer evaIsClosed(Integer courseId) {
 
-        TrainCourseService trainCourseService = (TrainCourseService) context.getBean("trainCourseService");
+        TrainCourseService trainCourseService = context.getBean(TrainCourseService.class);
 
         return trainCourseService.evaIsClosed(courseId);
     }
@@ -768,21 +773,21 @@ public class CmTag {
 
     public static Map<Integer, CrsRequireRule> getCrsRequireRules(Integer postRequireId) {
 
-        CrsRequireRuleService crsRequireRuleService = (CrsRequireRuleService) context.getBean("crsRequireRuleService");
+        CrsRequireRuleService crsRequireRuleService = context.getBean(CrsRequireRuleService.class);
 
         return crsRequireRuleService.findAll(postRequireId);
     }
 
     public static CrsPost getCrsPost(Integer id) {
 
-        CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
+        CrsPostService crsPostService = context.getBean(CrsPostService.class);
 
         return crsPostService.get(id);
     }
 
     public static List<CrsPost> getCrsPost(List<Integer> ids) {
 
-        CrsPostService crsPostService = (CrsPostService) context.getBean("crsPostService");
+        CrsPostService crsPostService = context.getBean(CrsPostService.class);
         return crsPostService.get(ids);
     }
 

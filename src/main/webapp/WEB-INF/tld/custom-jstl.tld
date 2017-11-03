@@ -297,6 +297,11 @@
 		<function-signature>java.lang.String  substr(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>cnsubstr</name>
+		<function-class>sys.utils.ContentUtils</function-class>
+		<function-signature>java.lang.String cnsubstr(java.lang.String,java.lang.Integer,java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>encodeURI</name>
 		<function-class>sys.utils.ContentUtils</function-class>
 		<function-signature>java.lang.String  encodeURI(java.lang.String)</function-signature>
@@ -310,5 +315,15 @@
 		<name>unescape</name>
 		<function-class>sys.utils.Escape</function-class>
 		<function-signature>java.lang.String  unescape(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>htmlUnescape</name>
+		<function-class>org.springframework.web.util.HtmlUtils</function-class>
+		<function-signature>java.lang.String htmlUnescape(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>stripTrailingZeros</name>
+		<function-class>sys.utils.NumberUtils</function-class>
+		<function-signature>java.lang.String stripTrailingZeros(java.math.BigDecimal)</function-signature>
 	</function>
 </taglib>

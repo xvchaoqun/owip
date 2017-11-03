@@ -1,4 +1,15 @@
 
+2017-11-04
+增加mt_log_oa
+
+增加角色 role_oa_user
+
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (560, '协同办公管理', '', 'menu', 'fa fa-life-bouy', '', 1, '0/1/', 0, 'oa:menu', NULL, NULL, 1, 3000);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (561, '任务列表', '', 'url', '', '/oaTask', 560, '0/1/560/', 0, 'oaTask:*', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (562, '我的任务列表', '', 'url', '', '/user/oa/oaTask', 560, '0/1/560/', 1, 'userOaTask:*', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (563, '任务对象管理', '', 'function', '', '', 561, '0/1/560/561/', 1, 'oaTaskUser:*', NULL, NULL, 1, NULL);
+
+
 2017-10-31
 更新 ow_party_static_view
 

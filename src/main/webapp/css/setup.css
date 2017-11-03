@@ -1132,3 +1132,20 @@ span.delete {
 .isCpc, .isCpc a {
     color: green;
 }
+
+.unpre pre{
+    display: inherit!important;
+    padding: inherit!important;
+    margin: inherit!important;
+    font-size: inherit!important;
+    line-height: inherit!important;
+    word-break: normal!important;
+    word-wrap: normal!important;
+    white-space: inherit!important;
+    overflow: inherit!important;
+    color: inherit!important;
+    background-color: inherit!important;
+    border: none!important;
+    border-radius: inherit!important;
+    font-family: inherit!important;
+}

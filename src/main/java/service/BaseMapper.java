@@ -148,6 +148,14 @@ import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
+import persistence.oa.OaTaskFileMapper;
+import persistence.oa.OaTaskMapper;
+import persistence.oa.OaTaskMsgMapper;
+import persistence.oa.OaTaskRemindMapper;
+import persistence.oa.OaTaskUserFileMapper;
+import persistence.oa.OaTaskUserMapper;
+import persistence.oa.OaTaskUserViewMapper;
+import persistence.oa.OaTaskViewMapper;
 import persistence.party.BranchMapper;
 import persistence.party.BranchMemberGroupMapper;
 import persistence.party.BranchMemberGroupViewMapper;
@@ -287,6 +295,29 @@ public class BaseMapper {
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
 
+    /**
+     * 协同办公
+     */
+    @Autowired
+    protected OaTaskMapper oaTaskMapper;
+    @Autowired
+    protected OaTaskViewMapper oaTaskViewMapper;
+    @Autowired
+    protected OaTaskFileMapper oaTaskFileMapper;
+    @Autowired
+    protected OaTaskMsgMapper oaTaskMsgMapper;
+    @Autowired
+    protected OaTaskRemindMapper oaTaskRemindMapper;
+    @Autowired
+    protected OaTaskUserMapper oaTaskUserMapper;
+    @Autowired
+    protected OaTaskUserViewMapper oaTaskUserViewMapper;
+    @Autowired
+    protected OaTaskUserFileMapper oaTaskUserFileMapper;
+
+    /**
+     * 因私出国境
+     */
     @Autowired
     protected ApplicatCadreMapper applicatCadreMapper;
     @Autowired
@@ -322,12 +353,13 @@ public class BaseMapper {
     @Autowired
     protected TaiwanRecordMapper taiwanRecordMapper;
 
+    /**
+     * 党建
+     */
     @Autowired
     protected EnterApplyMapper enterApplyMapper;
-
     @Autowired
     protected ApplyApprovalLogMapper applyApprovalLogMapper;
-
     @Autowired
     protected MemberTransferMapper memberTransferMapper;
     @Autowired
@@ -378,6 +410,10 @@ public class BaseMapper {
     protected MemberApplyMapper memberApplyMapper;
     @Autowired
     protected MemberApplyViewMapper memberApplyViewMapper;
+
+    /**
+     * 组织机构
+     */
     @Autowired
     protected BranchMemberGroupMapper branchMemberGroupMapper;
     @Autowired
@@ -409,6 +445,10 @@ public class BaseMapper {
     protected UnitAdminGroupMapper unitAdminGroupMapper;
     @Autowired
     protected UnitAdminMapper unitAdminMapper;
+
+    /**
+     * 干部库
+     */
     @Autowired
     protected CadreInfoMapper cadreInfoMapper;
     @Autowired
@@ -479,6 +519,9 @@ public class BaseMapper {
     @Autowired
     protected CadreStatHistoryMapper cadreStatHistoryMapper;
 
+    /**
+     * 干部考察系统
+     */
     @Autowired
     protected CisEvaluateMapper cisEvaluateMapper;
     @Autowired
@@ -497,6 +540,9 @@ public class BaseMapper {
     @Autowired
     protected CrpRecordMapper crpRecordMapper;
 
+    /**
+     * 党代会
+     */
     @Autowired
     protected IPcsMapper iPcsMapper;
     @Autowired
@@ -540,9 +586,15 @@ public class BaseMapper {
     @Autowired
     protected PcsProposalSeconderMapper pcsProposalSeconderMapper;
 
+    /**
+     * 干部职数
+     */
     @Autowired
     protected CpcAllocationMapper cpcAllocationMapper;
 
+    /**
+     * 培训
+     */
     @Autowired
     protected TrainMapper trainMapper;
     @Autowired
@@ -560,6 +612,9 @@ public class BaseMapper {
     @Autowired
     protected TrainInspectorCourseMapper trainInspectorCourseMapper;
 
+    /**
+     * 干部招聘
+     */
     @Autowired
     protected CrsTemplateMapper crsTemplateMapper;
     @Autowired
@@ -601,11 +656,17 @@ public class BaseMapper {
     @Autowired
     protected ICrsMapper iCrsMapper;
 
+    /**
+     * 档案认定
+     */
     @Autowired
     protected VerifyAgeMapper verifyAgeMapper;
     @Autowired
     protected VerifyWorkTimeMapper verifyWorkTimeMapper;
 
+    /**
+     * 发文
+     */
     @Autowired
     protected UnitTransferMapper unitTransferMapper;
     @Autowired
@@ -642,6 +703,9 @@ public class BaseMapper {
     @Autowired
     protected UnitMapper unitMapper;
 
+    /**
+     * 干部信息修改申请
+     */
     @Autowired
     protected ModifyCadreAuthMapper modifyCadreAuthMapper;
     @Autowired

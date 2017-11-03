@@ -1,4 +1,7 @@
 
+
+order by field(c.status, 2,5,3,1,4,6) desc
+
 <div class="footer-margin"/>
 
 register_class_party_branch_select($("#modalForm"), "party", "branch",
@@ -87,3 +90,6 @@ $.jgrid.formatter.MetaType
 字数限制
 <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
 $('textarea.limited').inputlimiter();
+
+
+autocomplete="off" disableautocomplete

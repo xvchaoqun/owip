@@ -59,12 +59,16 @@ public class SystemConstants {
     public static final String ROLE_INFLOWMEMBER = "inflowMember";
     public static final String ROLE_PARTYADMIN = "partyAdmin";
     public static final String ROLE_BRANCHADMIN = "branchAdmin";
+    // 三大管理员
     public static final String ROLE_ODADMIN = "odAdmin";
     public static final String ROLE_CADREADMIN = "cadreAdmin";
+    public static final String ROLE_TRAINADMIN = "trainAdmin";
 
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
     public static final String ROLE_PCS_PR = "role_pcs_pr"; // 党代表
+
+    public static final String ROLE_OA_USER = "role_oa_user"; // 协同办公负责人
 
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
@@ -151,6 +155,7 @@ public class SystemConstants {
     public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
     public static final String LOG_ABROAD = "mt_log_abroad";
     public static final String LOG_PCS = "mt_log_pcs";
+    public static final String LOG_OA = "mt_log_oa";
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";
@@ -1003,6 +1008,55 @@ public class SystemConstants {
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_DAUGHTER, "女儿");
     }
 
+
+    // 协同办公，工作类型
+    public final static byte OA_TASK_TYPE_CADRE = 1;
+    public final static byte OA_TASK_TYPE_OW = 2;
+    public final static byte OA_TASK_TYPE_TRAIN = 3;
+    public final static Map<Byte, String> OA_TASK_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        OA_TASK_TYPE_MAP.put(OA_TASK_TYPE_CADRE, "干部工作");
+        OA_TASK_TYPE_MAP.put(OA_TASK_TYPE_OW, "党建工作");
+        OA_TASK_TYPE_MAP.put(OA_TASK_TYPE_TRAIN, "培训工作");
+    }
+    // 协同办公，任务状态，1 新建 2 召回 3 已发布 4 作废 5 已完成
+    public final static byte OA_TASK_STATUS_INIT = 1;
+    public final static byte OA_TASK_STATUS_BACK = 2;
+    public final static byte OA_TASK_STATUS_PUBLISH = 3;
+    public final static byte OA_TASK_STATUS_ABOLISH = 4;
+    public final static byte OA_TASK_STATUS_FINISH = 5;
+    public final static Map<Byte, String> OA_TASK_STATUS_MAP = new LinkedHashMap<>();
+    static {
+        OA_TASK_STATUS_MAP.put(OA_TASK_STATUS_INIT, "新建");
+        OA_TASK_STATUS_MAP.put(OA_TASK_STATUS_BACK, "召回");
+        OA_TASK_STATUS_MAP.put(OA_TASK_STATUS_PUBLISH, "已发布");
+        OA_TASK_STATUS_MAP.put(OA_TASK_STATUS_ABOLISH, "作废");
+        OA_TASK_STATUS_MAP.put(OA_TASK_STATUS_FINISH, "已完成");
+    }
+    // 协同办公，任务对象状态， 0 未审核 1 审核通过 2 审核未通过
+    public final static byte OA_TASK_USER_STATUS_INIT = 0;
+    public final static byte OA_TASK_USER_STATUS_PASS = 1;
+    public final static byte OA_TASK_USER_STATUS_DENY = 2;
+    public final static Map<Byte, String> OA_TASK_USER_STATUS_MAP = new LinkedHashMap<>();
+    static {
+        OA_TASK_USER_STATUS_MAP.put(OA_TASK_USER_STATUS_INIT, "未审核");
+        OA_TASK_USER_STATUS_MAP.put(OA_TASK_USER_STATUS_PASS, "审核通过");
+        OA_TASK_USER_STATUS_MAP.put(OA_TASK_USER_STATUS_DENY, "审核未通过");
+    }
+
+    // 协同办公，短信发送类别，1 下发任务短信通知  2 短信催促未报送对象  3 审核未通过短信提醒 4 本人设置的短信提醒
+    public final static byte OA_TASK_MSG_TYPE_INFO = 1;
+    public final static byte OA_TASK_MSG_TYPE_UNREPORT = 2;
+    public final static byte OA_TASK_MSG_TYPE_DENY =3;
+    public final static byte OA_TASK_MSG_TYPE_SELF =3;
+    public final static Map<Byte, String> OA_TASK_MSG_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_INFO, "下发任务短信通知");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_UNREPORT, "短信催促未报送对象");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_DENY, "审核未通过短信提醒");
+        OA_TASK_MSG_TYPE_MAP.put(OA_TASK_MSG_TYPE_SELF, "本人设置的短信提醒");
+    }
+
     // 干部考察，考察组成员类别
     public final static byte CIS_INSPECTOR_STATUS_NOW = 1;
     public final static byte CIS_INSPECTOR_STATUS_HISTORY = 2;
@@ -1376,13 +1430,14 @@ public class SystemConstants {
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_ERROR, "阴阳历换算造成误差");
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_LARGE, "出生时间改大了，保持现状");
         VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_SMALL, "出生时间改小了，重新认定");
-        VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_OTHER, "其他");
+        VERIFY_AGE_TYPE_MAP.put(VERIFY_AGE_TYPE_OTHER, "其他情况");
     }
 
     // 干部档案审核 参加工作时间认定类别  1：阴阳历换算造成误差 2：参加工作时间改大了，保持现状 3：参加工作时间改小了，重新认定
     public final static byte VERIFY_WORK_TIME_TYPE_ERROR = 1;
     public final static byte VERIFY_WORK_TIME_TYPE_LARGE = 2;
     public final static byte VERIFY_WORK_TIME_TYPE_SMALL = 3;
+    public final static byte VERIFY_WORK_TIME_TYPE_OTHER = 4;
     public static Map<Byte, String> VERIFY_WORK_TIME_TYPE_MAP = new LinkedHashMap<Byte, String>();
 
     static {
@@ -1390,6 +1445,7 @@ public class SystemConstants {
         VERIFY_WORK_TIME_TYPE_MAP.put(VERIFY_WORK_TIME_TYPE_ERROR, "阴阳历换算造成误差");
         VERIFY_WORK_TIME_TYPE_MAP.put(VERIFY_WORK_TIME_TYPE_LARGE, "参加工作时间改大了，保持现状");
         VERIFY_WORK_TIME_TYPE_MAP.put(VERIFY_WORK_TIME_TYPE_SMALL, "参加工作时间改小了，重新认定");
+        VERIFY_WORK_TIME_TYPE_MAP.put(VERIFY_WORK_TIME_TYPE_OTHER, "其他情况");
     }
 
     // 基本信息修改请求 审核状态，0 待审核 1 部分审核 2 全部审核 3管理员删除（待审核时才可以删除）
@@ -1711,12 +1767,14 @@ public class SystemConstants {
     public final static byte SHORT_MSG_RELATE_TYPE_CONTENT_TPL = 1;
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL = 2;
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_PCS = 3; // 党代会
+    public final static byte SHORT_MSG_RELATE_TYPE_SHORT_OA = 4; // 协同办公
     public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_CONTENT_TPL, "短信模板");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL, "定向短信");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_PCS, "党代会");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_OA, "协同办公");
     }
 
     // 内容模板引擎  1 MessageFormat
@@ -1758,6 +1816,9 @@ public class SystemConstants {
     // 党代表-邀请为提案附议人
     public final static String CONTENT_TPL_PCS_INVITE_SECONDER = "ct_pcs_invite_seconder";
     public final static String CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO = "ct_pcs_proposal_sumit_info";
+
+    // 协同办公，通知指定负责人
+    public final static String CONTENT_TPL_OA_INFO_USER = "ct_oa_info_user";
 
 
     // 本单位正职（一人）审批通知

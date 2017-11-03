@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.cadre.CadreService;
 import service.member.MemberService;
 import service.party.BranchService;
 import service.party.PartyService;
@@ -33,8 +32,6 @@ public class UserBeanService extends BaseMapper {
 
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private CadreService cadreService;
 
     // 获取接收短信的称谓。如果没有设定短信称谓，则使用姓名
     public String getMsgTitle(int userId){

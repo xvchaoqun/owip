@@ -28,10 +28,11 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="&{${tableName}!=null}">确定</c:if><c:if test="&{${tableName}==null}">添加</c:if>"/>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="<c:if test="&{${tableName}!=null}">确定</c:if><c:if test="&{${tableName}==null}">添加</c:if>"/>
 </div>
 
 <script>
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

@@ -1,5 +1,29 @@
 
 
+DROP VIEW IF EXISTS `oa_task_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
+AS select ot.*, count(distinct otf.id) as file_count,
+count(distinct otu.id) as user_count,
+count(distinct otu2.id) as finish_count from oa_task ot
+left join oa_task_file otf on otf.task_id=ot.id
+left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0
+left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id
+
+DROP VIEW IF EXISTS `oa_task_user_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS
+select otu.*, ot.name as task_name, ot.content as task_content,
+ot.deadline as task_deadline, ot.contact as task_contact,
+ot.is_delete as task_is_delete, ot.is_publish as task_is_publish, ot.status as task_status,
+ot.pub_date as task_pub_date, ot.type as task_type,
+cv.code, cv.realname, cv.title, cv.mobile, cv.status as cadre_status, cv.sort_order as cadre_sort_order,
+uv.code as assign_code, uv.realname as assign_realname,
+ruv.code as report_code, ruv.realname as report_realname from oa_task_user otu
+left join oa_task ot on otu.task_id = ot.id
+left join cadre_view cv on otu.user_id = cv.user_id
+left join sys_user_view uv on otu.assign_user_id = uv.id
+left join sys_user_view ruv on otu.report_user_id = ruv.id
+
+
 DROP VIEW IF EXISTS `pcs_proposal_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_proposal_view` AS select pp.*, pps1.invite_user_ids, pps1.invite_count, pps2.seconder_ids, pps2.seconder_count from pcs_proposal pp
 left join (select proposal_id, group_concat(user_id) as invite_user_ids, count(*) as invite_count from pcs_proposal_seconder where is_invited=1 group by proposal_id) pps1 on pps1.proposal_id = pp.id
@@ -345,6 +369,54 @@ ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_vi
  where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary' and opm.post_id = bmt.id and opm.user_id=su.id
  )tmp on tmp.party_id=op.id, unit u, base_meta_type bmt
 where op.is_deleted=0 and op.unit_id=u.id and bmt.code='mt_direct_branch' and op.class_id = bmt.id;
+
+-- ----------------------------
+--  View definition for `ext_branch_view2`
+-- ----------------------------
+DROP VIEW IF EXISTS `ext_branch_view2`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_branch_view2`
+AS SELECT ob.code as zbdm, ob.name as zbmc,if(ob.is_staff, '教工党支部', '学生党支部') as zblb,
+zbsj.code as zbsjgh, zbsj.realname as zbsjxm,
+op.name as zzmc, zzlb.name as zzlb,
+sj.code as sjdm, sj.realname as sjmc,
+fsj.code as fsjdm, fsj.realname as fsjxm, op.sort_order from ow_branch ob
+left join (
+	select obm.user_id, obm.type_id, ob.id as branch_id, su.realname, su.code from
+	ow_branch_member obm, ow_branch_member_group obmg, ow_branch ob, base_meta_type bmt, sys_user_view su
+ 	where obmg.is_present=1 and obm.group_id=obmg.id and obmg.branch_id=ob.id
+ 	and bmt.code='mt_branch_secretary' and obm.type_id = bmt.id and obm.user_id=su.id group by ob.id) zbsj on zbsj.branch_id=ob.id
+left join(
+ 	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
+	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
+ 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary'
+	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)sj on sj.party_id=ob.party_id
+left join(
+ 	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
+	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
+ 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_vice_secretary'
+	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)fsj on fsj.party_id=ob.party_id
+left join ow_party op on ob.party_id=op.id and op.is_deleted=0
+left join base_meta_type zzlb on op.type_id=zzlb.id
+where ob.is_deleted=0
+union all
+SELECT op.code as zbdm,  op.name as zbmc, '直属党支部' as zblb,
+sj.code as zbsjdm, sj.realname as zbsjxm,
+op.name as zzmc, zzlb.name as zzlb,
+sj.code as sjdm, sj.realname as sjxm,
+fsj.code as fsjdm, fsj.realname as fsjxm, op.sort_order from ow_party op
+left join(
+ 	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
+	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
+ 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_secretary'
+	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)sj on sj.party_id=op.id
+left join(
+ 	select opm.user_id, opm.post_id, opmg.party_id, su.realname, su.code  from
+	ow_party_member opm, ow_party_member_group opmg, base_meta_type bmt, sys_user_view su
+ 	where opmg.is_present=1 and opm.group_id=opmg.id and bmt.code='mt_party_vice_secretary'
+	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)fsj on fsj.party_id=op.id
+left join base_meta_type bmt on op.class_id = bmt.id
+left join base_meta_type zzlb on op.type_id=zzlb.id
+where op.is_deleted=0 and bmt.code='mt_direct_branch' order by sort_order desc
 -- ----------------------------
 --  View definition for `ext_cadre_view`
 -- ----------------------------

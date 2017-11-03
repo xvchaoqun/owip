@@ -133,15 +133,19 @@ public class CadreCommonService extends BaseMapper {
         return root;
     }
 
-    public TreeNode getTree(Set<CadreView> cadreList, Set<Integer> selectIdSet, Set<Integer> disabledIdSet) {
+    // 默认使用cadreId作为key
+    public TreeNode getTree(Set<CadreView> cadreList, Set<Byte> cadreStatusList,
+                            Set<Integer> selectIdSet, Set<Integer> disabledIdSet) {
 
-        return getTree(cadreList, selectIdSet, disabledIdSet, true, false);
+        return getTree(cadreList, cadreStatusList, selectIdSet, disabledIdSet, true, true, false);
     }
 
     // 因私申请人中的干部选择，（职务属性-干部 Set<cadreId>） , 用于审批人身份时disabledIdSet=null
     public TreeNode getTree(Set<CadreView> cadreList, // 干部列表
+                            Set<Byte> cadreStatusList, // 干部库类别过滤
                             Set<Integer> selectIdSet, // 已选干部
                             Set<Integer> disabledIdSet,// 不可选干部
+                            boolean useCadreId, // key使用 干部ID or 用户ID
                             boolean enableSelect, // 是否有选择框
                             boolean defExpand // 一级属性（职务属性）默认是否展开
     ) {
@@ -166,7 +170,7 @@ public class CadreCommonService extends BaseMapper {
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
         for (CadreView cadre : cadreList) {
-            if (SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET.contains(cadre.getStatus())) {
+            if (cadreStatusList.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
                 MetaType postType = postMap.get(cadre.getPostId());
                 int postId = postType.getId();
@@ -204,17 +208,19 @@ public class CadreCommonService extends BaseMapper {
             for (CadreView cadre : entryValue) {
 
                 int cadreId = cadre.getId();
+                int userId = cadre.getUserId();
                 String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 node.title = uv.getRealname() + (title != null ? ("-" + title) : "");
-                node.key = cadreId + "";
+                int key = useCadreId?cadreId:userId;
+                node.key =  key + "";
 
-                if (enableSelect && selectIdSet.contains(cadreId)) {
+                if (enableSelect && selectIdSet.contains(key)) {
                     selectCount++;
                     node.select = true;
                 }
-                if (!enableSelect || disabledIdSet.contains(cadreId))
+                if (!enableSelect || disabledIdSet.contains(key))
                     node.hideCheckbox = true;
                 titleChildren.add(node);
             }
