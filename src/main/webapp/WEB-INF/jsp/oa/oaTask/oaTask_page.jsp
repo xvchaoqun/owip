@@ -54,7 +54,7 @@
                                     下发任务短信通知</a>
                             </shiro:hasPermission>
                             </c:if>
-                            <c:if test="${cls!=2}">
+                            <c:if test="${cls==3}">
                             <shiro:hasPermission name="oaTask:del">
                                 <button data-url="${ctx}/oaTask_batchDel"
                                         data-title="删除"
