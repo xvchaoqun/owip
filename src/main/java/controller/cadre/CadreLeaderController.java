@@ -278,9 +278,9 @@ public class CadreLeaderController extends BaseController {
 
             CadreLeaderUnitExample example = new CadreLeaderUnitExample();
             CadreLeaderUnitExample.Criteria criteria = example.createCriteria().andLeaderIdEqualTo(id);
-            example.setOrderByClause(String.format("%s %s", "id", "desc"));
+            example.setOrderByClause("sort_order asc");
 
-            int count = cadreLeaderUnitMapper.countByExample(example);
+            long count = cadreLeaderUnitMapper.countByExample(example);
             if ((pageNo - 1) * pageSize >= count) {
 
                 pageNo = Math.max(1, pageNo - 1);

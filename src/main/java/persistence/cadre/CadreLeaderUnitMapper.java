@@ -2,13 +2,12 @@ package persistence.cadre;
 
 import domain.cadre.CadreLeaderUnit;
 import domain.cadre.CadreLeaderUnitExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface CadreLeaderUnitMapper {
-    int countByExample(CadreLeaderUnitExample example);
+    long countByExample(CadreLeaderUnitExample example);
 
     int deleteByExample(CadreLeaderUnitExample example);
 

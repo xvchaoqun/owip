@@ -11,6 +11,8 @@ public class CadreLeaderUnit implements Serializable {
 
     private Integer typeId;
 
+    private Integer sortOrder;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -43,5 +45,13 @@ public class CadreLeaderUnit implements Serializable {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

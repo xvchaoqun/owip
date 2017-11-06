@@ -2,16 +2,14 @@ package service.cadre;
 
 import domain.cadre.CadreLeaderUnit;
 import domain.cadre.CadreLeaderUnitExample;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CadreLeaderUnitService extends BaseMapper {
@@ -28,6 +26,7 @@ public class CadreLeaderUnitService extends BaseMapper {
     @CacheEvict(value="LeaderUnit:ALL", allEntries = true)
     public int insertSelective(CadreLeaderUnit record){
 
+        record.setSortOrder(getNextSortOrder("cadre_leader_unit", "leader_id="+record.getLeaderId()));
         return cadreLeaderUnitMapper.insertSelective(record);
     }
     @Transactional
@@ -52,7 +51,7 @@ public class CadreLeaderUnitService extends BaseMapper {
     public int updateByPrimaryKeySelective(CadreLeaderUnit record){
         return cadreLeaderUnitMapper.updateByPrimaryKeySelective(record);
     }
-
+/*
     @Cacheable(value="LeaderUnit:ALL")
     public Map<Integer, CadreLeaderUnit> findAll() {
 
@@ -65,5 +64,52 @@ public class CadreLeaderUnitService extends BaseMapper {
         }
 
         return map;
+    }*/
+
+    /**
+     * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 升序排序
+     * 3.sort_order = LAST_INSERT_ID()+1,
+     *
+     * @param id
+     * @param addNum
+     */
+    @Transactional
+    @CacheEvict(value = "LeaderUnit:ALL", allEntries = true)
+    public void changeOrder(int id, int addNum) {
+
+        if (addNum == 0) return;
+
+        CadreLeaderUnit entity = cadreLeaderUnitMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+        Integer leaderId = entity.getLeaderId();
+
+        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
+        if (addNum < 0) {
+
+            example.createCriteria().andLeaderIdEqualTo(leaderId)
+                    .andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        } else {
+
+            example.createCriteria().andLeaderIdEqualTo(leaderId)
+                    .andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<CadreLeaderUnit> overEntities = cadreLeaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if (overEntities.size() > 0) {
+
+            CadreLeaderUnit targetEntity = overEntities.get(overEntities.size() - 1);
+
+            if (addNum < 0)
+                commonMapper.downOrder("cadre_leader_unit", "leader_id="+leaderId, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("cadre_leader_unit", "leader_id="+leaderId, baseSortOrder, targetEntity.getSortOrder());
+
+            CadreLeaderUnit record = new CadreLeaderUnit();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            cadreLeaderUnitMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

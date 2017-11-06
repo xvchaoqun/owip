@@ -46,12 +46,12 @@
             <columnOverride column="type" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-        <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
+       <!-- <table tableName="oa_task_user_view" domainObjectName="oa.OaTaskUserView" mapperName="oa.OaTaskUserViewMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="has_report" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_back" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
-        </table>
+        </table>-->
         <!--档案认定-->
         <!--<table tableName="verify_age" domainObjectName="verify.VerifyAge">
         </table>
@@ -376,9 +376,9 @@
         <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
           </table>-->
         <!-- <table tableName="cadre_leader" domainObjectName="cadre.CadreLeader">
-         </table>
-         <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit">
          </table>-->
+         <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit" mapperName="cadre.CadreLeaderUnitMapper">
+         </table>
         <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
          </table>-->
 

@@ -28,13 +28,17 @@ pageEncoding="UTF-8"%>
 </shiro:hasPermission>
     <div class="popTableDiv"
          data-url-page="${ctx}/cadreLeader_unit?id=${cadreLeader.id}"
-         data-url-del="${ctx}/cadreLeaderUnit_del">
+         data-url-del="${ctx}/cadreLeaderUnit_del"
+         data-url-co="${ctx}/cadreLeaderUnit_changeOrder">
         <c:if test="${commonList.recNum>0}">
             <table class="table table-actived table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="col-xs-5">联系单位</th>
                     <th class="col-xs-5">类别</th>
+                    <c:if test="${commonList.recNum>1}">
+                        <th style="width: 50px">排序</th>
+                    </c:if>
                     <th nowrap></th>
                 </tr>
                 </thead>
@@ -43,7 +47,21 @@ pageEncoding="UTF-8"%>
                     <tr>
                         <td nowrap>${unitMap.get(cadreLeaderUnit.unitId).name}</td>
                         <td nowrap>${leaderUnitTypeMap.get(cadreLeaderUnit.typeId).name}</td>
-                         
+                        <c:if test="${commonList.recNum>1}">
+                            <td nowrap>
+                                <a href="javascript:;"
+                                   <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
+                                   class="changeOrderBtn" data-id="${cadreLeaderUnit.id}" data-direction="1" title="上升"><i
+                                        class="fa fa-arrow-up"></i></a>
+                                <input type="text" value="1"
+                                       class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
+                                       title="修改操作步长">
+                                <a href="javascript:;"
+                                   <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if>
+                                   class="changeOrderBtn" data-id="${cadreLeaderUnit.id}" data-direction="-1"
+                                   title="下降"><i class="fa fa-arrow-down"></i></a></td>
+                            </td>
+                        </c:if>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="cadreLeaderUnit:del">

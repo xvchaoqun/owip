@@ -34,77 +34,6 @@ public class CadreLeaderUnitController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-   /*
-    @RequiresPermissions("cadreLeaderUnit:list")
-    @RequestMapping("/cadreLeaderUnit_page")
-    public String cadreLeaderUnit_page(HttpServletResponse response,
-                                 //@RequestParam(required = false, defaultValue = "sort_order") String sort,
-                                 //@RequestParam(required = false, defaultValue = "asc") String order,
-                                    Integer leaderId,
-                                    Integer unitId,
-                                    Integer typeId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 Integer pageSize, Integer pageNo, ModelMap modelMap) {
-
-        if (null == pageSize) {
-            pageSize = springProps.pageSize;
-        }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
-
-        CadreLeaderUnitExample example = new CadreLeaderUnitExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("typeId desc, sort_order asc");
-
-        if (leaderId!=null) {
-            criteria.andLeaderIdEqualTo(leaderId);
-        }
-        if (unitId!=null) {
-            criteria.andUnitIdEqualTo(unitId);
-        }
-        if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
-        }
-
-        if (export == 1) {
-            cadreLeaderUnit_export(example, response);
-            return null;
-        }
-
-        int count = cadreLeaderUnitMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
-        }
-        List<CadreLeaderUnit> LeaderUnits = cadreLeaderUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        modelMap.put("cadreLeaderUnits", LeaderUnits);
-
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
-
-        String searchStr = "&pageSize=" + pageSize;
-
-        if (leaderId!=null) {
-            searchStr += "&leaderId=" + leaderId;
-        }
-        if (unitId!=null) {
-            searchStr += "&unitId=" + unitId;
-        }
-        if (typeId!=null) {
-            searchStr += "&typeId=" + typeId;
-        }
-       *//* if (StringUtils.isNotBlank(sort)) {
-            searchStr += "&sort=" + sort;
-        }
-        if (StringUtils.isNotBlank(order)) {
-            searchStr += "&order=" + order;
-        }*//*
-        commonList.setSearchStr(searchStr);
-        modelMap.put("commonList", commonList);
-        return "cadre/cadreLeaderUnit/cadreLeaderUnit_page";
-    }*/
-
     @RequiresPermissions("cadreLeaderUnit:edit")
     @RequestMapping(value = "/cadreLeaderUnit_au", method = RequestMethod.POST)
     @ResponseBody
@@ -138,6 +67,16 @@ public class CadreLeaderUnitController extends BaseController {
         return "cadre/cadreLeaderUnit/cadreLeaderUnit_au";
     }
 
+    @RequiresPermissions("cadreLeaderUnit:edit")
+    @RequestMapping(value = "/cadreLeaderUnit_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreLeaderUnit_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        cadreLeaderUnitService.changeOrder(id, addNum);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "校领导分管工作调序：%s, %s", id, addNum));
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("cadreLeaderUnit:del")
     @RequestMapping(value = "/cadreLeaderUnit_del", method = RequestMethod.POST)
     @ResponseBody
@@ -168,7 +107,7 @@ public class CadreLeaderUnitController extends BaseController {
     public void cadreLeaderUnit_export(CadreLeaderUnitExample example, HttpServletResponse response) {
 
         List<CadreLeaderUnit> cadreLeaderUnits = cadreLeaderUnitMapper.selectByExample(example);
-        int rownum = cadreLeaderUnitMapper.countByExample(example);
+        long rownum = cadreLeaderUnitMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

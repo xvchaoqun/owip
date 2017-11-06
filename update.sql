@@ -1,4 +1,11 @@
 
+
+
+ALTER TABLE `cadre_leader_unit`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `type_id`;
+
+update  cadre_leader_unit set sort_order=id;
+
 2017-11-04
 增加mt_log_oa
 
