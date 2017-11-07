@@ -22,6 +22,12 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+
+        <!--协同办公-->
+        <table tableName="pmd_notify_log" domainObjectName="pmd.PmdNotifyLog" mapperName="pmd.PmdNotifyLogMapper">
+        </table>
+
+
         <!--协同办公-->
         <!--<table tableName="oa_task" domainObjectName="oa.OaTask" mapperName="oa.OaTaskMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -377,8 +383,8 @@
           </table>-->
         <!-- <table tableName="cadre_leader" domainObjectName="cadre.CadreLeader">
          </table>-->
-         <table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit" mapperName="cadre.CadreLeaderUnitMapper">
-         </table>
+         <!--<table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit" mapperName="cadre.CadreLeaderUnitMapper">
+         </table>-->
         <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
          </table>-->
 

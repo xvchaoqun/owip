@@ -6,7 +6,7 @@
     <h3>短信催促未报送对象</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/oaTaskUser_unreportMsg" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/oa/oaTaskUser_unreportMsg" id="modalForm" method="post">
         <input type="hidden" name="taskId" value="${oaTask.id}">
 
         <div class="form-group">

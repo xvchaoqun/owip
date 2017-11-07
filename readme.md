@@ -134,3 +134,4 @@ pcs：Party Congress System 党代会信息管理系统
 pr:Party representative 党代表
 cm:committee member 委员
 oa:Office Automation 办公自动化
+pmd:party membership dues 党费

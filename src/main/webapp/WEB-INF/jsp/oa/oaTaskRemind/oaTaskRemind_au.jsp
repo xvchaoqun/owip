@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${oaTaskRemind!=null}">编辑</c:if><c:if test="${oaTaskRemind==null}">添加</c:if>任务对象本人设置的短信提醒</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/oaTaskRemind_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/oa/oaTaskRemind_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${oaTaskRemind.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">任务</label>

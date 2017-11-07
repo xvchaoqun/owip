@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/oa")
 public class OaTaskMsgController extends OaBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

@@ -5,21 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/oaTaskMsg"
-                 data-url-export="${ctx}/oaTaskMsg_data"
+                 data-url-page="${ctx}/oa/oaTaskMsg"
+                 data-url-export="${ctx}/oa/oaTaskMsg_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.taskId ||not empty param.userId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="oaTaskMsg:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/oaTaskMsg_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/oa/oaTaskMsg_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/oaTaskMsg_au"
+                       data-url="${ctx}/oa/oaTaskMsg_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="oaTaskMsg:del">
-                    <button data-url="${ctx}/oaTaskMsg_batchDel"
+                    <button data-url="${ctx}/oa/oaTaskMsg_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -76,7 +76,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/oaTaskMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/oa/oaTaskMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '任务',name: 'taskId'},
             { label: '接收人',name: 'userId'},

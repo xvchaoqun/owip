@@ -84,8 +84,8 @@
         colModel: [
             { label: '模块', name: 'logType.name', width: 120,frozen:true},
             { label: '操作人',  name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.user.id, rowObject.user.realname);
+                if(rowObject.user==undefined) return '-'
+                return $.user(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
             { label: '操作人学工号',  name: 'user.code', width: 120,frozen:true },
             { label: '请求',  name: 'api', width: 250},

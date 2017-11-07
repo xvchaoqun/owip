@@ -5,23 +5,23 @@
     <div class="col-xs-12 rownumbers">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-             data-url-page="${ctx}/oaTask"
-             data-url-export="${ctx}/oaTask_data"
+             data-url-page="${ctx}/oa/oaTask"
+             data-url-export="${ctx}/oa/oaTask_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId ||not empty param.type ||not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oaTask?cls=1"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=1"><i
                                 class="fa fa-plus-square"></i> 新建任务</a>
                     </li>
                     <li class="<c:if test="${cls==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oaTask?cls=2"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=2"><i
                                 class="fa fa-check-square-o"></i> 已完成</a>
                     </li>
                     <li class="<c:if test="${cls==3}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oaTask?cls=3"><i
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/oa/oaTask?cls=3"><i
                                 class="fa fa-trash-o"></i> 作废</a>
                     </li>
                 </ul>
@@ -33,22 +33,22 @@
                             <shiro:hasPermission name="oaTask:edit">
                                 <a class="popupBtn btn btn-success btn-sm"
                                    data-width="750"
-                                   data-url="${ctx}/oaTask_au"><i class="fa fa-plus"></i> 新建</a>
+                                   data-url="${ctx}/oa/oaTask_au"><i class="fa fa-plus"></i> 新建</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-width="750"
-                                   data-url="${ctx}/oaTask_au"
+                                   data-url="${ctx}/oa/oaTask_au"
                                    data-grid-id="#jqGrid"
                                    data-querystr="&"><i class="fa fa-edit"></i>
                                     修改</a>
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-title="作废"
                                    data-msg="确定作废这{0}个任务？"
-                                   data-url="${ctx}/oaTask_abolish"
+                                   data-url="${ctx}/oa/oaTask_abolish"
                                    data-grid-id="#jqGrid"
                                    data-querystr="&"><i class="fa fa-times"></i>
                                     作废</a>
                                 <a class="jqOpenViewBtn btn btn-info btn-sm"
-                                   data-url="${ctx}/oaTaskUser_infoMsg"
+                                   data-url="${ctx}/oa/oaTaskUser_infoMsg"
                                    data-grid-id="#jqGrid"
                                    data-id-name="taskId"><i class="fa fa-send"></i>
                                     下发任务短信通知</a>
@@ -56,7 +56,7 @@
                             </c:if>
                             <c:if test="${cls==3}">
                             <shiro:hasPermission name="oaTask:del">
-                                <button data-url="${ctx}/oaTask_batchDel"
+                                <button data-url="${ctx}/oa/oaTask_batchDel"
                                         data-title="删除"
                                         data-msg="确定删除这{0}个任务？"
                                         data-grid-id="#jqGrid"
@@ -135,13 +135,13 @@
 
     $("#jqGrid").jqGrid({
         rownumbers: true,
-        url: '${ctx}/oaTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/oa/oaTask_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '发布日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
             {label: '标题', name: 'name', width:300, align:'left', frozen:true, formatter: function (cellvalue, options, rowObject) {
 
                 return '<a href="javascript:;" class="popupBtn" data-width="750"' +
-                        'data-url="${ctx}/oaTask_au?id={0}">{1}</a>'
+                        'data-url="${ctx}/oa/oaTask_au?id={0}">{1}</a>'
                                 .format(rowObject.id, rowObject.name);
             }},
             <c:if test="${cls==1}">
@@ -149,7 +149,7 @@
                 label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.isPublish) return '已发布';
                 return '<button class="confirm btn btn-success btn-xs" data-msg="确定发布？" data-callback="_reload"' +
-                        'data-url="${ctx}/oaTask_publish?id={0}&publish=1"><i class="fa fa-check"></i> 发布</button>'
+                        'data-url="${ctx}/oa/oaTask_publish?id={0}&publish=1"><i class="fa fa-check"></i> 发布</button>'
                                 .format(rowObject.id)
             }
             },
@@ -157,7 +157,7 @@
                 label: '召回', name: '_publish', formatter: function (cellvalue, options, rowObject) {
                 if (!rowObject.isPublish) return '-';
                 return '<button class="confirm btn btn-danger btn-xs" data-msg="确定召回？" data-callback="_reload"' +
-                        'data-url="${ctx}/oaTask_publish?id={0}&publish=0"><i class="fa fa-reply"></i> 召回</button>'
+                        'data-url="${ctx}/oa/oaTask_publish?id={0}&publish=0"><i class="fa fa-reply"></i> 召回</button>'
                                 .format(rowObject.id)
             }
             },
@@ -180,14 +180,14 @@
                 label: '附件', name: '_files', formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="popupBtn btn btn-warning btn-xs" data-width="500" data-callback="_reload"' +
-                        'data-url="${ctx}/oaTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
+                        'data-url="${ctx}/oa/oaTaskFiles?taskId={0}"><i class="fa fa-search"></i> 附件{1}</button>'
                                 .format(rowObject.id, rowObject.fileCount>0?"("+rowObject.fileCount+")":"")
             }},
             {
                 label: '任务对象', name: '_users', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="popupBtn btn btn-warning btn-xs" data-width="750" data-callback="_reload"' +
-                        'data-url="${ctx}/oaTask/selectUsers?id={0}"><i class="fa fa-search"></i> 任务对象{1}</button>'
+                        'data-url="${ctx}/oa/oaTask/selectUsers?id={0}"><i class="fa fa-search"></i> 任务对象{1}</button>'
                                 .format(rowObject.id, rowObject.userCount>0?"("+rowObject.userCount+")":"")
             }},
             {label: '已完成数', name: 'finishCount'},
@@ -199,7 +199,7 @@
                 label: '报送详情', name: '_detail', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.userCount==0) return '-'
                 return '<button class="openView btn btn-primary btn-xs"' +
-                        'data-url="${ctx}/oaTaskUser?taskId={0}"><i class="fa fa-search"></i> 查看</button>'
+                        'data-url="${ctx}/oa/oaTaskUser?taskId={0}"><i class="fa fa-search"></i> 查看</button>'
                                 .format(rowObject.id)
             }},
                 <c:if test="${cls==1}">
@@ -209,7 +209,7 @@
                 if(rowObject.userCount==0) return '-'
                 if(rowObject.finishCount<rowObject.userCount) return "否"
                 return '是   <button class="confirm btn btn-success btn-xs" data-msg="确定任务完结？"data-callback="_reload"' +
-                        'data-url="${ctx}/oaTask_finish?id={0}"><i class="fa fa-check-square-o"></i> 任务完结</button>'
+                        'data-url="${ctx}/oa/oaTask_finish?id={0}"><i class="fa fa-check-square-o"></i> 任务完结</button>'
                                 .format(rowObject.id)
             }},
             </c:if>

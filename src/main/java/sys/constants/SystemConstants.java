@@ -156,6 +156,7 @@ public class SystemConstants {
     public static final String LOG_ABROAD = "mt_log_abroad";
     public static final String LOG_PCS = "mt_log_pcs";
     public static final String LOG_OA = "mt_log_oa";
+    public static final String LOG_PMD = "mt_log_pmd";
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";

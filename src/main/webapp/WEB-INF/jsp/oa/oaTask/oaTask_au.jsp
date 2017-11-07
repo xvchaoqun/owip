@@ -6,7 +6,7 @@
     <h3><c:if test="${oaTask!=null}">编辑</c:if><c:if test="${oaTask==null}">添加</c:if>协同办公任务</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/oaTask_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/oa/oaTask_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${oaTask.id}">
 
         <div class="form-group">

@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
+@RequestMapping("/oa")
 public class OaTaskController extends OaBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

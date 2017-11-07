@@ -7,7 +7,7 @@
     </h4>
   </div>
   <div class="modal-body">
-  <form class="form-horizontal"  action="${ctx}/oaTask/selectUsers" id="modalFrom" method="post">
+  <form class="form-horizontal"  action="${ctx}/oa/oaTask/selectUsers" id="modalFrom" method="post">
   <div id="tree3" style="min-height: 400px"></div>
   </form>
   </div>
@@ -17,7 +17,7 @@
   <script>
 
 	$(function(){
-		$.getJSON("${ctx}/oaTask/selectUsers_tree",{id:"${param.id}"},function(data){
+		$.getJSON("${ctx}/oa/oaTask/selectUsers_tree",{id:"${param.id}"},function(data){
 			var treeData = data.tree.children;
 			$("#tree3").dynatree({
 				checkbox: true,

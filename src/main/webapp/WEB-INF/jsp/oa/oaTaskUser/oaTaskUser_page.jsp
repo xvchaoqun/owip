@@ -21,13 +21,13 @@
             <div class="tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="popupBtn btn btn-warning btn-sm"
-                       data-url="${ctx}/oaTaskUser_unreportMsg?taskId=${oaTask.id}"><i class="fa fa-send"></i>
+                       data-url="${ctx}/oa/oaTaskUser_unreportMsg?taskId=${oaTask.id}"><i class="fa fa-send"></i>
                         短信催促未报送对象</a>
                     <a class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                        data-querystr="&taskId=${oaTask.id}"
                        data-ids-name="taskUserIds[]"
                        data-grid-id="#jqGrid2"
-                       data-url="${ctx}/oaTaskUser_check"><i class="fa fa-check-square-o"></i> 批量审批</a>
+                       data-url="${ctx}/oa/oaTaskUser_check"><i class="fa fa-check-square-o"></i> 批量审批</a>
                      <span style="margin-left: 20px;">
                             任务对象共${totalCount}个， 完成报送共${hasReportCount}个（通过审核共${passCount}个） ， 未报送${totalCount-hasReportCount}个
                     </span>
@@ -48,7 +48,7 @@
         rownumbers:true,
         //forceFit:true,
         pager: "jqGridPager2",
-        url: '${ctx}/oaTaskUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/oa/oaTaskUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '工作证号', name: 'code', width:120},
             {label: '姓名', name: 'realname', width:120},
@@ -67,7 +67,7 @@
                 if(!cellvalue) return '未报送';
 
                 return '<button class="popupBtn btn btn-success btn-xs" data-width="800" ' +
-                        'data-url="${ctx}/oaTaskUser_report?id={0}"><i class="fa fa-search"></i> 已报送</button>'
+                        'data-url="${ctx}/oa/oaTaskUser_report?id={0}"><i class="fa fa-search"></i> 已报送</button>'
                                 .format(rowObject.id)
             }},
             {label: '报送人', name: 'reportRealname', width:120, formatter: function (cellvalue, options, rowObject) {
@@ -78,7 +78,7 @@
                 if(cellvalue==undefined) return '-'
                 if(cellvalue=='${OA_TASK_USER_STATUS_INIT}'){
                     return '<button class="popupBtn btn btn-primary btn-xs"' +
-                            'data-url="${ctx}/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
+                            'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
                                     .format(rowObject.taskId, rowObject.userId)
                 }
 
@@ -87,7 +87,7 @@
             { label: '短信提醒',name: '_sendMsg', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.status=='${OA_TASK_USER_STATUS_DENY}')
                     return ('<button class="popupBtn btn btn-warning btn-xs" ' +
-                    'data-url="${ctx}/oaTaskUser_denyMsg?id={0}"><i class="fa fa-send"></i> 短信提醒</button>')
+                    'data-url="${ctx}/oa/oaTaskUser_denyMsg?id={0}"><i class="fa fa-send"></i> 短信提醒</button>')
                             .format(rowObject.id);
                 return "-";
             }},
@@ -96,7 +96,7 @@
                 if(rowObject.isBack) return '已退回'
                 if(!rowObject.hasReport) return '-'
                 return ('<button class="confirm btn btn-danger btn-xs" data-callback="_oaTaskUser_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
-                'data-url="${ctx}/oaTaskUser_back?id={0}"><i class="fa fa-reply"></i> 退回</button>')
+                'data-url="${ctx}/oa/oaTaskUser_back?id={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.id, rowObject.realname);
             }},{hidden:true, name: 'userId', key:true}
         ]

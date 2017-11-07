@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <shiro:hasPermission name="oaTask:edit">
-        <form class="form-horizontal" action="${ctx}/oaTaskFile_au" id="modalForm" method="post">
+        <form class="form-horizontal" action="${ctx}/oa/oaTaskFile_au" id="modalForm" method="post">
             <input type="hidden" name="taskId" value="${oaTask.id}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">上传附件(批量)</label>
@@ -23,7 +23,7 @@
         <div class="space-10"></div>
     </shiro:hasPermission>
     <div class="popTableDiv"
-         data-url-page="${ctx}/oaTaskFiles?taskId=${oaTask.id}">
+         data-url-page="${ctx}/oa/oaTaskFiles?taskId=${oaTask.id}">
         <table class="table table-actived table-striped table-bordered table-hover">
             <thead>
             <tr>
@@ -48,7 +48,7 @@
                                         data-title="删除"
                                         data-msg="确定删除？"
                                         data-callback="_pop_reload"
-                                        data-url="${ctx}/oaTaskFile_del?id=${oaTaskFile.id}">
+                                        data-url="${ctx}/oa/oaTaskFile_del?id=${oaTaskFile.id}">
                                     <i class="fa fa-times"></i> 删除
                                 </button>
                             </shiro:hasPermission>

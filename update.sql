@@ -1,5 +1,16 @@
 
 
+
+
+update sys_resource set url='/oa/oaTask' where url='/oaTask';
+
+增加 mt_log_pmd
+
+
+
+
+
+
 2017-11-06
 ALTER TABLE `cadre_leader_unit`
 	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `type_id`;

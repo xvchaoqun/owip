@@ -191,6 +191,7 @@ import persistence.pcs.PcsProposalMapper;
 import persistence.pcs.PcsProposalSeconderMapper;
 import persistence.pcs.PcsProposalViewMapper;
 import persistence.pcs.PcsRecommendMapper;
+import persistence.pmd.PmdNotifyLogMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -294,6 +295,13 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 党费
+     */
+
+    @Autowired
+    protected PmdNotifyLogMapper pmdNotifyLogMapper;
 
     /**
      * 协同办公

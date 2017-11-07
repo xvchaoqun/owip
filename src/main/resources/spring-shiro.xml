@@ -136,6 +136,8 @@
                 /m/abroad/login = anon
                 /m/abroad/logout = anon
 
+                /pmd/pay/** = anon
+
                 /public/** = anon
                 /api/** = anon
                 /faq = anon
