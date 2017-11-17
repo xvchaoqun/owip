@@ -121,9 +121,6 @@ public class PmdPayTestController extends PmdBaseController {
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
 
         logger.info("pmd notifyPage request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));
-
-        /*boolean ret = pmdPayService.notifyPage(bean);
-
-        response.getWriter().write(ret ? "success" : "failed");*/
+        response.getWriter().write("success");
     }
 }

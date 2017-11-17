@@ -36,35 +36,6 @@ CREATE ALGORITHM = UNDEFINED VIEW `pmd_branch_view` AS
 select pb.*,pm.pay_month, pm.status as month_status from pmd_branch pb
 left join pmd_month pm on pb.month_id=pm.id;
 
-/*DROP VIEW IF EXISTS `pmd_month_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `pmd_month_view` AS
-select a.*,sum(mm.history_delay_member_count) as history_delay_member_count,
-sum(mm.history_delay_pay) as history_delay_pay,
-sum(mm.real_delay_pay) as real_delay_pay,
-sum(mm.online_real_delay_pay) as online_real_delay_pay
-from(select pm.*, count(pp.id) as party_count,
-sum(if(pp.has_report, 1, 0)) as has_report_party_count,
-tt.member_count, tt.due_pay, tt.finish_member_count, tt.real_pay, tt.online_real_pay, tt.delay_pay, tt.delay_member_count
-from pmd_month pm
-left join pmd_party pp on pp.month_id=pm.id
-left join(select
-month_id,
-count(id) as member_count, sum(due_pay) as due_pay,
-sum(if(is_delay=0 && has_pay, 1, 0)) as finish_member_count,
-sum(if(has_pay, real_pay, 0)) as real_pay,
-sum(if(has_pay && is_online_pay, real_pay, 0)) as online_real_pay,
-sum(if(is_delay=1, due_pay, 0)) as delay_pay,
-sum(if(is_delay=1, 1, 0)) as delay_member_count
-from  pmd_member group by  month_id) tt on tt.month_id=pm.id
-group by pm.id) as a
-left join (
-select  month_id,
-sum(if(is_delay=1, 1, 0)) as history_delay_member_count,
-sum(if(is_delay=1, due_pay, 0)) as history_delay_pay,
-sum(if(is_delay=1 && has_pay, real_pay, 0)) as real_delay_pay,
-sum(if(is_delay=1 && has_pay&& is_online_pay, real_pay, 0)) as online_real_delay_pay
-from pmd_member group by month_id) as mm on mm.month_id<a.id
-group by a.id;*/
 
 
 DROP VIEW IF EXISTS `oa_task_view`;

@@ -23,6 +23,8 @@ import domain.pmd.PmdPayPartyExample;
 import domain.pmd.PmdSpecialUser;
 import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,8 @@ import java.util.Set;
 
 @Service
 public class PmdMonthService extends BaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected MemberTeacherService memberTeacherService;
@@ -161,8 +165,14 @@ public class PmdMonthService extends BaseMapper {
         if (partyIdSet.size() == 0) {
             throw new OpException("请先设置缴费分党委。");
         }
+        String payMonth = DateUtils.formatDate(currentMonth.getPayMonth(), "yyyy年MM月");
+        logger.info("{}党员缴费-启动", payMonth);
 
+        long start = System.currentTimeMillis();
         for (Integer partyId : partyIdSet) {
+
+            Party party = partyService.findAll().get(partyId);
+            logger.info("{}党员缴费-同步数据-{}", payMonth, party.getName());
 
             PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
             if (pmdParty == null)
@@ -257,6 +267,9 @@ public class PmdMonthService extends BaseMapper {
 
         record.setStatus(SystemConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByPrimaryKeySelective(record);
+
+        long end = System.currentTimeMillis();
+        logger.info("{}党员缴费-启动成功，耗时{1}ms", payMonth, (end-start));
     }
 
     // 添加一个党员

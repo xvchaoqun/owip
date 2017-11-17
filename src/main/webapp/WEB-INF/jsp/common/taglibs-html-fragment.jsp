@@ -20,6 +20,10 @@
 <c:set var="HF_CADRE_WORK" value="hf_cadre_work"/>
 <c:set var="HF_CADRE_BASE_INFO" value="hf_cadre_base_info"/>
 
+<c:set var="HF_PMD_BRANCH" value="hf_pmd_branch"/>
+<c:set var="HF_PMD_PARTY" value="hf_pmd_party"/>
+<c:set var="HF_PMD_MEMBER" value="hf_pmd_member"/>
+
 
 
 

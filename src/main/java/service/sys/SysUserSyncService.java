@@ -95,7 +95,7 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_ABROAD);
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
         sysUserSync.setIsStop(false);
 
         sysUserSync.setCurrentCount(0);
