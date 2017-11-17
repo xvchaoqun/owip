@@ -107,13 +107,13 @@
                         </button>
                         <button id="selectPayNormBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectNorm"
-                                data-querystr="&type=${PMD_NORM_TYPE_PAY}"
+                                data-querystr0="&type=${PMD_NORM_TYPE_PAY}"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-check-square-o"></i> 选择缴纳标准
                         </button>
                         <button id="selectReduceNormBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectNorm"
-                                data-querystr="&type=${PMD_NORM_TYPE_REDUCE}"
+                                data-querystr0="&type=${PMD_NORM_TYPE_REDUCE}"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-minus-circle"></i> 党费减免
                         </button>
@@ -233,7 +233,7 @@
         })
 
         $("#selectPayNormBtn, #selectReduceNormBtn").each(function(){
-            var querystr = $(this).data("querystr") + "&student=" + (allIsStudent?1:0);
+            var querystr = $(this).data("querystr0") + "&student=" + (allIsStudent?1:0);
             $(this).data("querystr", querystr);
         });
 
