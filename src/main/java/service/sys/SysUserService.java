@@ -23,6 +23,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.LoginUserService;
 import service.abroad.ApplySelfService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
@@ -30,6 +31,7 @@ import service.ext.ExtYjsService;
 import service.global.CacheService;
 import service.party.EnterApplyService;
 import service.pcs.PcsAdminService;
+import service.pmd.PmdPartyAdminService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -457,6 +459,42 @@ public class SysUserService extends BaseMapper {
         ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
         if (applySelfService != null)
             approverTypeBean = applySelfService.getApproverTypeBean(userId);
+
+        // 直属党支部管理员不需要“组织机构管理”这个目录
+        if(userRoles.contains(SystemConstants.ROLE_PARTYADMIN)){
+
+            LoginUserService loginUserService = CmTag.getBean(LoginUserService.class);
+            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
+
+            boolean hasAdminParty = false;
+            for (Integer adminPartyId : adminPartyIdList) {
+                if(!CmTag.isDirectBranch(adminPartyId)){
+                    hasAdminParty=true;
+                    break;
+                }
+            }
+            if(!hasAdminParty){
+                userPermissions.remove("party:menu");
+            }
+        }
+
+        // 党费收缴，直属党支部不具有设置支部管理员的权限
+        if(userRoles.contains(SystemConstants.ROLE_PMD_PARTY)){
+            PmdPartyAdminService pmdPartyAdminService = CmTag.getBean(PmdPartyAdminService.class);
+            if(pmdPartyAdminService!=null){
+                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+                boolean hasAdminParty = false;
+                for (Integer adminPartyId : adminPartyIds) {
+                    if(!CmTag.isDirectBranch(adminPartyId)){
+                        hasAdminParty=true;
+                        break;
+                    }
+                }
+                if(!hasAdminParty){
+                    userPermissions.remove("pmdPayBranch:*");
+                }
+            }
+        }
 
         // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
         if (userRoles.contains(SystemConstants.ROLE_PCS_ADMIN)) {

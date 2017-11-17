@@ -94,14 +94,14 @@ public abstract class Source {
     }
 
     // 按条件从oracle导入数据到mysql
-    public void excute(String schema, String tableName, String searchStr) {
+    public int excute(String schema, String tableName, String searchStr) {
 
         initConn();
 
         Statement stat = null;
         ResultSet rs = null;
         Map<String, Object> map = new HashMap<>();
-
+        int i = 0;
         try {
             List<ColumnBean> columnBeans = getTableColumns(tableName);
             String tbl = String.format("%s.%s", schema, tableName);
@@ -117,6 +117,7 @@ public abstract class Source {
                 }
 
                 update(map, rs);
+                i++;
             }
         } catch (Exception ex) {
             logger.error("出错：{}", JSONUtils.toString(map), ex);
@@ -128,6 +129,8 @@ public abstract class Source {
                 logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
             }
         }
+
+        return i;
     }
 
     // 读取oracle表的字段信息

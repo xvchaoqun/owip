@@ -195,11 +195,9 @@ public class SysResourceController extends BaseController {
 			String text = "";
 			String parentIds = sysResource.getParentIds();
 
-			if(sysResource.getId()==1) continue;// 不包含顶级节点
-
 			for (String _parentId : parentIds.split("/")) {
 				Integer parentId = Integer.valueOf(_parentId);
-				if(parentId>1) { // 不包含顶级节点
+				if(parentId>0) {
 					SysResource _sysResource = resourceMap.get(parentId);
 					if(_sysResource!=null) text += _sysResource.getName() + "-";
 				}

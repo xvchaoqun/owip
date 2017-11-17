@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pmd.PmdBranchMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdBranch">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="month_id" jdbcType="INTEGER" property="monthId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="history_delay_member_count" jdbcType="INTEGER" property="historyDelayMemberCount" />
+    <result column="history_delay_pay" jdbcType="DECIMAL" property="historyDelayPay" />
+    <result column="has_report" jdbcType="BIT" property="hasReport" />
+    <result column="member_count" jdbcType="INTEGER" property="memberCount" />
+    <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
+    <result column="finish_member_count" jdbcType="INTEGER" property="finishMemberCount" />
+    <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
+    <result column="online_real_pay" jdbcType="DECIMAL" property="onlineRealPay" />
+    <result column="cash_real_pay" jdbcType="DECIMAL" property="cashRealPay" />
+    <result column="delay_pay" jdbcType="DECIMAL" property="delayPay" />
+    <result column="delay_member_count" jdbcType="INTEGER" property="delayMemberCount" />
+    <result column="real_delay_member_count" jdbcType="INTEGER" property="realDelayMemberCount" />
+    <result column="real_delay_pay" jdbcType="DECIMAL" property="realDelayPay" />
+    <result column="online_real_delay_pay" jdbcType="DECIMAL" property="onlineRealDelayPay" />
+    <result column="cash_real_delay_pay" jdbcType="DECIMAL" property="cashRealDelayPay" />
+    <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="report_ip" jdbcType="VARCHAR" property="reportIp" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, month_id, party_id, branch_id, party_name, branch_name, sort_order, history_delay_member_count, 
+    history_delay_pay, has_report, member_count, due_pay, finish_member_count, real_pay, 
+    online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
+    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, report_user_id, report_time, 
+    report_ip
+  </sql>
+  <select id="selectByExample" parameterType="domain.pmd.PmdBranchExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pmd_branch
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pmd_branch
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pmd.PmdBranchExample">
+    delete from pmd_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pmd.PmdBranch">
+    insert into pmd_branch (id, month_id, party_id, 
+      branch_id, party_name, branch_name, 
+      sort_order, history_delay_member_count, history_delay_pay, 
+      has_report, member_count, due_pay, 
+      finish_member_count, real_pay, online_real_pay, 
+      cash_real_pay, delay_pay, delay_member_count, 
+      real_delay_member_count, real_delay_pay, online_real_delay_pay, 
+      cash_real_delay_pay, report_user_id, report_time, 
+      report_ip)
+    values (#{id,jdbcType=INTEGER}, #{monthId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
+      #{branchId,jdbcType=INTEGER}, #{partyName,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, #{historyDelayPay,jdbcType=DECIMAL}, 
+      #{hasReport,jdbcType=BIT}, #{memberCount,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, 
+      #{finishMemberCount,jdbcType=INTEGER}, #{realPay,jdbcType=DECIMAL}, #{onlineRealPay,jdbcType=DECIMAL}, 
+      #{cashRealPay,jdbcType=DECIMAL}, #{delayPay,jdbcType=DECIMAL}, #{delayMemberCount,jdbcType=INTEGER}, 
+      #{realDelayMemberCount,jdbcType=INTEGER}, #{realDelayPay,jdbcType=DECIMAL}, #{onlineRealDelayPay,jdbcType=DECIMAL}, 
+      #{cashRealDelayPay,jdbcType=DECIMAL}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
+      #{reportIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pmd.PmdBranch">
+    insert into pmd_branch
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="monthId != null">
+        month_id,
+      </if>
+      <if test="partyId != null">
+        party_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="partyName != null">
+        party_name,
+      </if>
+      <if test="branchName != null">
+        branch_name,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="historyDelayMemberCount != null">
+        history_delay_member_count,
+      </if>
+      <if test="historyDelayPay != null">
+        history_delay_pay,
+      </if>
+      <if test="hasReport != null">
+        has_report,
+      </if>
+      <if test="memberCount != null">
+        member_count,
+      </if>
+      <if test="duePay != null">
+        due_pay,
+      </if>
+      <if test="finishMemberCount != null">
+        finish_member_count,
+      </if>
+      <if test="realPay != null">
+        real_pay,
+      </if>
+      <if test="onlineRealPay != null">
+        online_real_pay,
+      </if>
+      <if test="cashRealPay != null">
+        cash_real_pay,
+      </if>
+      <if test="delayPay != null">
+        delay_pay,
+      </if>
+      <if test="delayMemberCount != null">
+        delay_member_count,
+      </if>
+      <if test="realDelayMemberCount != null">
+        real_delay_member_count,
+      </if>
+      <if test="realDelayPay != null">
+        real_delay_pay,
+      </if>
+      <if test="onlineRealDelayPay != null">
+        online_real_delay_pay,
+      </if>
+      <if test="cashRealDelayPay != null">
+        cash_real_delay_pay,
+      </if>
+      <if test="reportUserId != null">
+        report_user_id,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="reportIp != null">
+        report_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="monthId != null">
+        #{monthId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="partyName != null">
+        #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="historyDelayMemberCount != null">
+        #{historyDelayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="historyDelayPay != null">
+        #{historyDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="hasReport != null">
+        #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="memberCount != null">
+        #{memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="duePay != null">
+        #{duePay,jdbcType=DECIMAL},
+      </if>
+      <if test="finishMemberCount != null">
+        #{finishMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="realPay != null">
+        #{realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineRealPay != null">
+        #{onlineRealPay,jdbcType=DECIMAL},
+      </if>
+      <if test="cashRealPay != null">
+        #{cashRealPay,jdbcType=DECIMAL},
+      </if>
+      <if test="delayPay != null">
+        #{delayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="delayMemberCount != null">
+        #{delayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="realDelayMemberCount != null">
+        #{realDelayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="realDelayPay != null">
+        #{realDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineRealDelayPay != null">
+        #{onlineRealDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="cashRealDelayPay != null">
+        #{cashRealDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="reportUserId != null">
+        #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportIp != null">
+        #{reportIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pmd.PmdBranchExample" resultType="java.lang.Long">
+    select count(*) from pmd_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pmd_branch
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.monthId != null">
+        month_id = #{record.monthId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyId != null">
+        party_id = #{record.partyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.partyName != null">
+        party_name = #{record.partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.branchName != null">
+        branch_name = #{record.branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.historyDelayMemberCount != null">
+        history_delay_member_count = #{record.historyDelayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.historyDelayPay != null">
+        history_delay_pay = #{record.historyDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasReport != null">
+        has_report = #{record.hasReport,jdbcType=BIT},
+      </if>
+      <if test="record.memberCount != null">
+        member_count = #{record.memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.duePay != null">
+        due_pay = #{record.duePay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.finishMemberCount != null">
+        finish_member_count = #{record.finishMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.realPay != null">
+        real_pay = #{record.realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onlineRealPay != null">
+        online_real_pay = #{record.onlineRealPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cashRealPay != null">
+        cash_real_pay = #{record.cashRealPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delayPay != null">
+        delay_pay = #{record.delayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delayMemberCount != null">
+        delay_member_count = #{record.delayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.realDelayMemberCount != null">
+        real_delay_member_count = #{record.realDelayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.realDelayPay != null">
+        real_delay_pay = #{record.realDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onlineRealDelayPay != null">
+        online_real_delay_pay = #{record.onlineRealDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cashRealDelayPay != null">
+        cash_real_delay_pay = #{record.cashRealDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reportUserId != null">
+        report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportTime != null">
+        report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reportIp != null">
+        report_ip = #{record.reportIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pmd_branch
+    set id = #{record.id,jdbcType=INTEGER},
+      month_id = #{record.monthId,jdbcType=INTEGER},
+      party_id = #{record.partyId,jdbcType=INTEGER},
+      branch_id = #{record.branchId,jdbcType=INTEGER},
+      party_name = #{record.partyName,jdbcType=VARCHAR},
+      branch_name = #{record.branchName,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      history_delay_member_count = #{record.historyDelayMemberCount,jdbcType=INTEGER},
+      history_delay_pay = #{record.historyDelayPay,jdbcType=DECIMAL},
+      has_report = #{record.hasReport,jdbcType=BIT},
+      member_count = #{record.memberCount,jdbcType=INTEGER},
+      due_pay = #{record.duePay,jdbcType=DECIMAL},
+      finish_member_count = #{record.finishMemberCount,jdbcType=INTEGER},
+      real_pay = #{record.realPay,jdbcType=DECIMAL},
+      online_real_pay = #{record.onlineRealPay,jdbcType=DECIMAL},
+      cash_real_pay = #{record.cashRealPay,jdbcType=DECIMAL},
+      delay_pay = #{record.delayPay,jdbcType=DECIMAL},
+      delay_member_count = #{record.delayMemberCount,jdbcType=INTEGER},
+      real_delay_member_count = #{record.realDelayMemberCount,jdbcType=INTEGER},
+      real_delay_pay = #{record.realDelayPay,jdbcType=DECIMAL},
+      online_real_delay_pay = #{record.onlineRealDelayPay,jdbcType=DECIMAL},
+      cash_real_delay_pay = #{record.cashRealDelayPay,jdbcType=DECIMAL},
+      report_user_id = #{record.reportUserId,jdbcType=INTEGER},
+      report_time = #{record.reportTime,jdbcType=TIMESTAMP},
+      report_ip = #{record.reportIp,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdBranch">
+    update pmd_branch
+    <set>
+      <if test="monthId != null">
+        month_id = #{monthId,jdbcType=INTEGER},
+      </if>
+      <if test="partyId != null">
+        party_id = #{partyId,jdbcType=INTEGER},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=INTEGER},
+      </if>
+      <if test="partyName != null">
+        party_name = #{partyName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="historyDelayMemberCount != null">
+        history_delay_member_count = #{historyDelayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="historyDelayPay != null">
+        history_delay_pay = #{historyDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="hasReport != null">
+        has_report = #{hasReport,jdbcType=BIT},
+      </if>
+      <if test="memberCount != null">
+        member_count = #{memberCount,jdbcType=INTEGER},
+      </if>
+      <if test="duePay != null">
+        due_pay = #{duePay,jdbcType=DECIMAL},
+      </if>
+      <if test="finishMemberCount != null">
+        finish_member_count = #{finishMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="realPay != null">
+        real_pay = #{realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineRealPay != null">
+        online_real_pay = #{onlineRealPay,jdbcType=DECIMAL},
+      </if>
+      <if test="cashRealPay != null">
+        cash_real_pay = #{cashRealPay,jdbcType=DECIMAL},
+      </if>
+      <if test="delayPay != null">
+        delay_pay = #{delayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="delayMemberCount != null">
+        delay_member_count = #{delayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="realDelayMemberCount != null">
+        real_delay_member_count = #{realDelayMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="realDelayPay != null">
+        real_delay_pay = #{realDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineRealDelayPay != null">
+        online_real_delay_pay = #{onlineRealDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="cashRealDelayPay != null">
+        cash_real_delay_pay = #{cashRealDelayPay,jdbcType=DECIMAL},
+      </if>
+      <if test="reportUserId != null">
+        report_user_id = #{reportUserId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportIp != null">
+        report_ip = #{reportIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdBranch">
+    update pmd_branch
+    set month_id = #{monthId,jdbcType=INTEGER},
+      party_id = #{partyId,jdbcType=INTEGER},
+      branch_id = #{branchId,jdbcType=INTEGER},
+      party_name = #{partyName,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      history_delay_member_count = #{historyDelayMemberCount,jdbcType=INTEGER},
+      history_delay_pay = #{historyDelayPay,jdbcType=DECIMAL},
+      has_report = #{hasReport,jdbcType=BIT},
+      member_count = #{memberCount,jdbcType=INTEGER},
+      due_pay = #{duePay,jdbcType=DECIMAL},
+      finish_member_count = #{finishMemberCount,jdbcType=INTEGER},
+      real_pay = #{realPay,jdbcType=DECIMAL},
+      online_real_pay = #{onlineRealPay,jdbcType=DECIMAL},
+      cash_real_pay = #{cashRealPay,jdbcType=DECIMAL},
+      delay_pay = #{delayPay,jdbcType=DECIMAL},
+      delay_member_count = #{delayMemberCount,jdbcType=INTEGER},
+      real_delay_member_count = #{realDelayMemberCount,jdbcType=INTEGER},
+      real_delay_pay = #{realDelayPay,jdbcType=DECIMAL},
+      online_real_delay_pay = #{onlineRealDelayPay,jdbcType=DECIMAL},
+      cash_real_delay_pay = #{cashRealDelayPay,jdbcType=DECIMAL},
+      report_user_id = #{reportUserId,jdbcType=INTEGER},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
+      report_ip = #{reportIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdBranchExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_branch
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -125,7 +125,7 @@
     </a>
 </div>
 <!-- /.main-container -->
-<div id="modal" class="modal fade">
+<div id="modal" class="modal fade" data-backdrop="static">
     <div class="modal-dialog" role="document" <%--style="min-width: 650px;"--%>>
         <div class="modal-content">
         </div>

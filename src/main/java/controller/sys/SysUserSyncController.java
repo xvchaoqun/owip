@@ -104,6 +104,9 @@ public class SysUserSyncController extends BaseController {
             case SystemConstants.SYNC_TYPE_ABROAD:
                 sysUserSyncService.syncAllAbroad(false);
                 break;
+            case SystemConstants.SYNC_TYPE_RETIRE_SALARY:
+                sysUserSyncService.syncRetireSalary(false);
+                break;
         }
 
         return success(FormUtils.SUCCESS);

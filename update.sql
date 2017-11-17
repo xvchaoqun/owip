@@ -6,8 +6,15 @@ update sys_resource set url='/oa/oaTask' where url='/oaTask';
 
 增加 mt_log_pmd
 
+ALTER TABLE `pcs_admin`
+	COMMENT='党代会分党委管理员，系统提供同步书记、副书记为管理员的功能';
+
+组织委员： mt_branch_commissary
+mt_party_member_type_zzwy
 
 
+ALTER TABLE `ext_jzg`
+	ADD COLUMN `gwlx` VARCHAR(100) NULL DEFAULT NULL COMMENT '岗位类型' AFTER `lxrq`;
 
 
 

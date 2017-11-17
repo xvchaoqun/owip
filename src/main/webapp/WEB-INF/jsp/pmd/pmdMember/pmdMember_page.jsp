@@ -1,0 +1,244 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<!-- PAGE CONTENT BEGINS -->
+<div class="widget-box transparent" id="useLogs">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:;" class="hideView btn btn-xs btn-success">
+                <i class="ace-icon fa fa-backward"></i>
+                返回</a>
+        </h4>
+
+        <div class="widget-toolbar no-border">
+            <jsp:include page="menu.jsp"/>
+        </div>
+    </div>
+    <form class="form-inline search-form" id="searchForm2" style="position: absolute;top:-6px;left:80px;">
+        <input type="hidden" name="partyId" value="${param.partyId}">
+        <input type="hidden" name="branchId" value="${param.branchId}">
+        <input type="hidden" name="monthId" value="${param.monthId}">
+
+        <div class="form-group">
+            <label>姓名</label>
+            <select data-rel="select2-ajax"
+                    data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${param.partyId}&branchId=${param.branchId}&status=${MEMBER_STATUS_NORMAL}"
+                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>缴费状态</label>
+            <select data-rel="select2" name="hasPay"
+                    data-width="100"
+                    data-placeholder="请选择">
+                <option></option>
+                <option value="0">未缴费</option>
+                <option value="1">已缴费</option>
+            </select>
+            <script>
+                $("#searchForm2 select[name=hasPay]").val("${param.hasPay}")
+            </script>
+        </div>
+        <div class="form-group">
+            <label>按时/延迟缴费</label>
+            <select data-rel="select2" name="isDelay"
+                    data-width="120"
+                    data-placeholder="请选择">
+                <option></option>
+                <option value="0">按时缴费</option>
+                <option value="1">延迟缴费</option>
+            </select>
+            <script>
+                $("#searchForm2 select[name=isDelay]").val("${param.isDelay}")
+            </script>
+        </div>
+        <div class="form-group">
+            <label>缴费方式</label>
+            <select data-rel="select2" name="isOnlinePay"
+                    data-width="120"
+                    data-placeholder="请选择">
+                <option></option>
+                <option value="0">现金缴费</option>
+                <option value="1">线上缴费</option>
+            </select>
+            <script>
+                $("#searchForm2 select[name=isOnlinePay]").val("${param.isOnlinePay}")
+            </script>
+        </div>
+        <c:set var="_query" value="${not empty param.userId ||not empty param.hasPay
+             || not empty param.isDelay || not empty param.isOnlinePay}"/>
+        <div class="form-group">
+            <button type="button" data-url="${ctx}/pmd/pmdMember"
+                    data-target="#item-content" data-form="#searchForm2"
+                    class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
+            </button>
+            <c:if test="${_query}">
+                <button type="button"
+                        data-url="${ctx}/pmd/pmdMember"
+                        data-querystr="partyId=${param.partyId}&branchId=${param.branchId}&monthId=${param.monthId}"
+                        data-target="#item-content"
+                        class="resetBtn btn btn-warning btn-sm">
+                    <i class="fa fa-reply"></i> 重置
+                </button>
+            </c:if>
+        </div>
+    </form>
+    <div class="widget-body">
+        <div class="widget-main padding-4">
+            <div class="tab-content padding-8">
+                <div class="jqgrid-vertical-offset buttons">
+                    <c:if test="${canAdmin && param.monthId==_pmdMonth.id}">
+                        <%--<button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                data-url="${ctx}/"
+                                data-id-name="userId">
+                            <i class="fa fa-send"></i> 短信通知
+                        </button>
+                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/"
+                                data-id-name="userId">
+                            <i class="fa fa-send"></i> 短信催交
+                        </button>--%>
+
+                        <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                data-url="${ctx}/pmd/pmdMember_setDuePay"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-edit"></i> 设定缴纳额度
+                        </button>
+                        <button id="selectPayNormBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                data-url="${ctx}/pmd/pmdMember_selectNorm"
+                                data-querystr="&type=${PMD_NORM_TYPE_PAY}"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-check-square-o"></i> 选择缴纳标准
+                        </button>
+                        <button id="selectReduceNormBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/pmd/pmdMember_selectNorm"
+                                data-querystr="&type=${PMD_NORM_TYPE_REDUCE}"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-minus-circle"></i> 党费减免
+                        </button>
+
+                        <shiro:hasPermission name="pmdMember:payCash">
+                            <button id="payCashBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/pmd/pmdMember_payCash" data-grid-id="#jqGrid2">
+                                <i class="fa fa-rmb"></i> 现金缴费
+                            </button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pmdMember:delay">
+                            <button id="delayBtn" class="jqOpenViewBtn btn btn-info btn-sm"
+                                    data-url="${ctx}/pmd/pmdMember_delay" data-grid-id="#jqGrid2">
+                                <i class="fa fa-hourglass-1"></i> 延迟缴费
+                            </button>
+                            <button id="unDelayBtn" class="jqItemBtn btn btn-warning btn-sm"
+                                    data-url="${ctx}/pmd/pmdMember_unDelay"
+                                    data-title="取消延迟缴费"
+                                    data-msg="确认取消延迟缴费？"
+                                    data-callback="_reload2"
+                                    data-grid-id="#jqGrid2">
+                                <i class="fa fa-hourglass-3"></i> 取消延迟缴费
+                            </button>
+                        </shiro:hasPermission>
+                    </c:if>
+                    <button class="jqOpenViewBtn btn btn-info btn-sm"
+                            data-grid-id="#jqGrid2"
+                            data-url="${ctx}/sysApprovalLog"
+                            data-width="850"
+                            data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_PMD_MEMBER}">
+                        <i class="fa fa-history"></i> 操作记录
+                    </button>
+                </div>
+                <div class="space-4"></div>
+                <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+                <div id="jqGridPager2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<jsp:include page="pmdMember_colModel.jsp?type=admin"/>
+<script>
+    register_user_select($('#searchForm2 select[name=userId]'));
+    $('#searchForm2 [data-rel="select2"]').select2();
+    function _reload2() {
+        $("#jqGrid2").trigger("reloadGrid");
+    }
+    $("#jqGrid2").jqGrid({
+        <c:if test="${!canAdmin || param.monthId!=_pmdMonth.id}">
+        multiselect: false,
+        </c:if>
+        pager: "jqGridPager2",
+        url: '${ctx}/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: colModel,
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid2');
+    $.initNavGrid("jqGrid2", "jqGridPager2");
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+
+        if (ids.length > 1) {
+            $("#payCashBtn,#delayBtn,#unDelayBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
+            var isDelay = (rowData.isDelay == "true");
+            var hasPay = (rowData.hasPay == "true");
+            var notSetDuePay = (rowData.duePay==undefined || rowData.duePay <= 0);
+            //console.log(isCurrentMonth)
+            $("#payCashBtn").prop("disabled", notSetDuePay || hasPay || (isCurrentMonth && isDelay));
+            $("#delayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || isDelay);
+            $("#unDelayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
+        }
+
+        var allIsStudent=true; // 选择的是否都是学生
+        var setDuePayBtnEnabled = true;
+        var selectPayNormBtn = true;
+        var selectReduceNormBtn = true;
+        $.each(ids, function(i, id){
+            var rowData = $(grid).getRowData(id);
+
+            var isDelay = (rowData.isDelay == "true");
+            var hasPay = (rowData.hasPay == "true");
+            var normType = rowData.normType;
+            //console.log(normType != '${PMD_MEMBER_NORM_TYPE_MODIFY}')
+            if (setDuePayBtnEnabled) {
+                if (hasPay || isDelay || normType != '${PMD_MEMBER_NORM_TYPE_MODIFY}') {
+                    setDuePayBtnEnabled = false;
+                }
+            }
+
+            if(selectPayNormBtn){
+                if (hasPay || isDelay || normType != '${PMD_MEMBER_NORM_TYPE_SELECT}') {
+                    selectPayNormBtn = false;
+                }
+            }
+
+            if(selectReduceNormBtn){
+                if (hasPay || isDelay) {
+                    selectReduceNormBtn = false;
+                }
+            }
+            if(allIsStudent){
+                if(rowData.type != '${PMD_MEMBER_TYPE_STUDENT}'){
+                    allIsStudent = false;
+                }
+            }
+        })
+        if(allIsStudent){
+            $("#selectPayNormBtn, #selectReduceNormBtn").each(function(){
+                var querystr = $(this).data("querystr") + "&student=1";
+                $(this).data("querystr", querystr);
+            });
+        }
+        $("#setDuePayBtn").prop("disabled", !setDuePayBtnEnabled);
+        $("#selectPayNormBtn").prop("disabled", !selectPayNormBtn);
+        $("#selectReduceNormBtn").prop("disabled", !selectReduceNormBtn);
+    }
+</script>

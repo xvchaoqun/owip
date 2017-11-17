@@ -122,14 +122,16 @@ $(window).on('resize.jqGrid2', function () {
         var height = 0;
         $("#item-content .jqgrid-vertical-offset").each(function () {
             height += $(this).height();
-            //alert(height)
+            //console.log("---"+$("#item-content").is(":visible"))
+            //console.log("---"+height)
         });
 
-        var navHeight = $(".nav.nav-tabs").height();
+        var navHeight = $(".nav.nav-tabs", "#item-content").height();
         navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
         if (navHeight == null) navHeight = 0;
+        //console.log("navHeight---"+navHeight)
 
-        var gridHeight = $(window).height() - 390 - height - navHeight;
+        var gridHeight = $(window).height() - 330 - height - navHeight;
 
         var heightReduce = $jqgrid.data("height-reduce");
         if (heightReduce != undefined) {
@@ -1021,13 +1023,19 @@ function pop_reload(fn) {
 // 删除
 $(document).on("click", ".popTableDiv .delBtn", function () {
 
-    var id = $(this).data("id");
-    var $div = $(this).closest(".popTableDiv");
+    var $this = $(this);
+    var id = $this.data("id");
+    var $div = $this.closest(".popTableDiv");
+    var fn = $this.data("callback");
     bootbox.confirm("确定删除该记录吗？", function (result) {
         if (result) {
             $.post($div.data("url-del"), {id: id}, function (ret) {
                 if (ret.success) {
-                    pop_reload();
+                    pop_reload(function(){
+                        if (fn) {
+                            window[fn]($this);
+                        }
+                    });
                     //SysMsg.success('操作成功。', '成功');
                 }
             });

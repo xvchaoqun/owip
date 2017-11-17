@@ -77,10 +77,13 @@ import persistence.common.ICadreMapper;
 import persistence.common.ICpcMapper;
 import persistence.common.ICrsMapper;
 import persistence.common.IDispatchMapper;
+import persistence.common.IExtMapper;
 import persistence.common.IMemberMapper;
 import persistence.common.IModifyMapper;
 import persistence.common.IPartyMapper;
 import persistence.common.IPcsMapper;
+import persistence.common.IPmdMapper;
+import persistence.common.IPropertyMapper;
 import persistence.common.ISysMapper;
 import persistence.common.ITrainMapper;
 import persistence.common.IUnitMapper;
@@ -120,6 +123,7 @@ import persistence.dispatch.DispatchWorkFileMapper;
 import persistence.ext.ExtAbroadMapper;
 import persistence.ext.ExtBksMapper;
 import persistence.ext.ExtJzgMapper;
+import persistence.ext.ExtRetireSalaryMapper;
 import persistence.ext.ExtYjsMapper;
 import persistence.member.ApplyApprovalLogMapper;
 import persistence.member.ApplyOpenTimeMapper;
@@ -191,7 +195,25 @@ import persistence.pcs.PcsProposalMapper;
 import persistence.pcs.PcsProposalSeconderMapper;
 import persistence.pcs.PcsProposalViewMapper;
 import persistence.pcs.PcsRecommendMapper;
+import persistence.pmd.PmdBranchAdminMapper;
+import persistence.pmd.PmdBranchMapper;
+import persistence.pmd.PmdBranchViewMapper;
+import persistence.pmd.PmdMemberMapper;
+import persistence.pmd.PmdMemberPayMapper;
+import persistence.pmd.PmdMemberPayViewMapper;
+import persistence.pmd.PmdMonthMapper;
+import persistence.pmd.PmdNormMapper;
+import persistence.pmd.PmdNormValueLogMapper;
+import persistence.pmd.PmdNormValueMapper;
 import persistence.pmd.PmdNotifyLogMapper;
+import persistence.pmd.PmdPartyAdminMapper;
+import persistence.pmd.PmdPartyMapper;
+import persistence.pmd.PmdPartyViewMapper;
+import persistence.pmd.PmdPayBranchMapper;
+import persistence.pmd.PmdPayBranchViewMapper;
+import persistence.pmd.PmdPayPartyMapper;
+import persistence.pmd.PmdPayPartyViewMapper;
+import persistence.pmd.PmdSpecialUserMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -299,9 +321,46 @@ public class BaseMapper {
     /**
      * 党费
      */
-
+    @Autowired
+    protected PmdPayPartyMapper pmdPayPartyMapper;
+    @Autowired
+    protected PmdPayBranchMapper pmdPayBranchMapper;
+    @Autowired
+    protected PmdPayPartyViewMapper pmdPayPartyViewMapper;
+    @Autowired
+    protected PmdPayBranchViewMapper pmdPayBranchViewMapper;
+    @Autowired
+    protected PmdMonthMapper pmdMonthMapper;
+    @Autowired
+    protected IPmdMapper iPmdMapper;
+    @Autowired
+    protected PmdMemberMapper pmdMemberMapper;
+    @Autowired
+    protected PmdMemberPayMapper pmdMemberPayMapper;
+    @Autowired
+    protected PmdMemberPayViewMapper pmdMemberPayViewMapper;
     @Autowired
     protected PmdNotifyLogMapper pmdNotifyLogMapper;
+    @Autowired
+    protected PmdPartyMapper pmdPartyMapper;
+    @Autowired
+    protected PmdPartyViewMapper pmdPartyViewMapper;
+    @Autowired
+    protected PmdBranchMapper pmdBranchMapper;
+    @Autowired
+    protected PmdBranchViewMapper pmdBranchViewMapper;
+    @Autowired
+    protected PmdPartyAdminMapper pmdPartyAdminMapper;
+    @Autowired
+    protected PmdBranchAdminMapper pmdBranchAdminMapper;
+    @Autowired
+    protected PmdNormMapper pmdNormMapper;
+    @Autowired
+    protected PmdNormValueMapper pmdNormValueMapper;
+    @Autowired
+    protected PmdNormValueLogMapper pmdNormValueLogMapper;
+    @Autowired
+    protected PmdSpecialUserMapper pmdSpecialUserMapper;
 
     /**
      * 协同办公
@@ -760,6 +819,8 @@ public class BaseMapper {
     @Autowired
     protected CommonMapper commonMapper;
     @Autowired
+    protected IPropertyMapper IPropertyMapper;
+    @Autowired
     protected IAbroadMapper iAbroadMapper;
     @Autowired
     protected ICadreMapper iCadreMapper;
@@ -783,6 +844,8 @@ public class BaseMapper {
     protected StatMemberMapper statMemberMapper;
 
     @Autowired
+    protected IExtMapper iExtMapper;
+    @Autowired
     protected ExtYjsMapper extYjsMapper;
     @Autowired
     protected ExtBksMapper extBksMapper;
@@ -790,6 +853,8 @@ public class BaseMapper {
     protected ExtJzgMapper extJzgMapper;
     @Autowired
     protected ExtAbroadMapper extAbroadMapper;
+    @Autowired
+    protected ExtRetireSalaryMapper extRetireSalaryMapper;
 
     @Autowired
     protected LocationMapper locationMapper;

@@ -32,7 +32,7 @@
                                 <div class="widget-body">
                                     <div class="widget-main" style="margin-bottom: 10px; height: 425px;">
                                         <form class="form-horizontal" action="${ctx}/cisInspectObj_summary"
-                                              id="modalFrom" method="post">
+                                              id="modalForm" method="post">
                                             <input type="hidden" name="id" value="${param.objId}">
                                             <c:if test="${cisInspectObj.inspectorType==CIS_INSPECTOR_TYPE_OW}">
                                             <div class="form-group">
@@ -133,9 +133,9 @@
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
-    register_multiselect($('#modalFrom select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,
+    register_multiselect($('#modalForm select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true});
-    register_multiselect($('#modalFrom select[name="inspectorIds[]"]'), ${selectInspectorIds},{enableClickableOptGroups: true,
+    register_multiselect($('#modalForm select[name="inspectorIds[]"]'), ${selectInspectorIds},{enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true});
 
     var ke = KindEditor.create('#content', {
@@ -162,10 +162,10 @@
         });*/
 
         $("#item-content button[type=submit]").click(function () {
-            $("#modalFrom").submit();
+            $("#modalForm").submit();
             return false;
         });
-        $("#modalFrom").validate({
+        $("#modalForm").validate({
             submitHandler: function (form) {
                 /*var unitIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
                     if (!node.data.isFolder && !node.data.hideCheckbox)

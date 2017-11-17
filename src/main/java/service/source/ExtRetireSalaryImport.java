@@ -1,0 +1,53 @@
+package service.source;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import domain.ext.ExtRetireSalary;
+import domain.ext.ExtRetireSalaryExample;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import persistence.ext.ExtRetireSalaryMapper;
+import sys.utils.DateUtils;
+import sys.utils.JSONUtils;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class ExtRetireSalaryImport extends Source {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    public ExtRetireSalaryMapper extRetireSalaryMapper;
+    public String schema = "licdc_zg";
+    public String tableName = "v_cjc_ltxf";
+
+    public int excute(){
+        logger.info("同步本月离退休信息");
+        long startTime=System.currentTimeMillis();
+        int ret = excute(schema, tableName, String.format("where rq='%s'", DateUtils.formatDate(new Date(), "yyyyMM")));
+        long endTime=System.currentTimeMillis();
+        logger.info("同步本月离退休信息运行时间： " + (endTime - startTime) + "ms");
+        return ret;
+    }
+
+    public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
+
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        ExtRetireSalary record = gson.fromJson(JSONUtils.toString(map), ExtRetireSalary.class);
+        ExtRetireSalaryExample example = new ExtRetireSalaryExample();
+        example.createCriteria().andZghEqualTo(rs.getString("zgh")).andRqEqualTo(rs.getString("rq"));
+        List<ExtRetireSalary> records = extRetireSalaryMapper.selectByExample(example);
+        if (records.size() > 0) {
+            record.setId(records.get(0).getId());
+            extRetireSalaryMapper.updateByExample(record, example);
+        } else {
+            extRetireSalaryMapper.insert(record);
+        }
+    }
+
+}

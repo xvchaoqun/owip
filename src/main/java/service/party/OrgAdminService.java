@@ -16,13 +16,25 @@ import sys.tags.CmTag;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class OrgAdminService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+
+    public OrgAdmin get(int userId, Integer partyId, Integer branchId){
+
+        Assert.isTrue(partyId!=null || branchId!=null, "null");
+
+        OrgAdminExample example = new OrgAdminExample();
+        OrgAdminExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
+
+        List<OrgAdmin> orgAdmins = orgAdminMapper.selectByExample(example);
+        return orgAdmins.size()==0?null:orgAdmins.get(0);
+    }
 
     public boolean idDuplicate(Integer id, int userId, Integer partyId, Integer branchId){
 

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pmd.PmdMemberPayMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdMemberPay">
+    <id column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
+    <result column="has_pay" jdbcType="BIT" property="hasPay" />
+    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
+    <result column="pay_month_id" jdbcType="INTEGER" property="payMonthId" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="charge_user_id" jdbcType="INTEGER" property="chargeUserId" />
+    <result column="charge_party_id" jdbcType="INTEGER" property="chargePartyId" />
+    <result column="charge_branch_id" jdbcType="INTEGER" property="chargeBranchId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    member_id, order_no, real_pay, has_pay, is_online_pay, pay_month_id, pay_time, charge_user_id, 
+    charge_party_id, charge_branch_id
+  </sql>
+  <select id="selectByExample" parameterType="domain.pmd.PmdMemberPayExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_member_pay
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pmd_member_pay
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pmd_member_pay
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pmd.PmdMemberPayExample">
+    delete from pmd_member_pay
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pmd.PmdMemberPay">
+    insert into pmd_member_pay (member_id, order_no, real_pay, 
+      has_pay, is_online_pay, pay_month_id, 
+      pay_time, charge_user_id, charge_party_id, 
+      charge_branch_id)
+    values (#{memberId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{realPay,jdbcType=DECIMAL}, 
+      #{hasPay,jdbcType=BIT}, #{isOnlinePay,jdbcType=BIT}, #{payMonthId,jdbcType=INTEGER}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER}, #{chargePartyId,jdbcType=INTEGER}, 
+      #{chargeBranchId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pmd.PmdMemberPay">
+    insert into pmd_member_pay
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="realPay != null">
+        real_pay,
+      </if>
+      <if test="hasPay != null">
+        has_pay,
+      </if>
+      <if test="isOnlinePay != null">
+        is_online_pay,
+      </if>
+      <if test="payMonthId != null">
+        pay_month_id,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="chargeUserId != null">
+        charge_user_id,
+      </if>
+      <if test="chargePartyId != null">
+        charge_party_id,
+      </if>
+      <if test="chargeBranchId != null">
+        charge_branch_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="realPay != null">
+        #{realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="hasPay != null">
+        #{hasPay,jdbcType=BIT},
+      </if>
+      <if test="isOnlinePay != null">
+        #{isOnlinePay,jdbcType=BIT},
+      </if>
+      <if test="payMonthId != null">
+        #{payMonthId,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chargeUserId != null">
+        #{chargeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="chargePartyId != null">
+        #{chargePartyId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeBranchId != null">
+        #{chargeBranchId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pmd.PmdMemberPayExample" resultType="java.lang.Long">
+    select count(*) from pmd_member_pay
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pmd_member_pay
+    <set>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realPay != null">
+        real_pay = #{record.realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasPay != null">
+        has_pay = #{record.hasPay,jdbcType=BIT},
+      </if>
+      <if test="record.isOnlinePay != null">
+        is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
+      </if>
+      <if test="record.payMonthId != null">
+        pay_month_id = #{record.payMonthId,jdbcType=INTEGER},
+      </if>
+      <if test="record.payTime != null">
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.chargeUserId != null">
+        charge_user_id = #{record.chargeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chargePartyId != null">
+        charge_party_id = #{record.chargePartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chargeBranchId != null">
+        charge_branch_id = #{record.chargeBranchId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pmd_member_pay
+    set member_id = #{record.memberId,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      real_pay = #{record.realPay,jdbcType=DECIMAL},
+      has_pay = #{record.hasPay,jdbcType=BIT},
+      is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
+      pay_month_id = #{record.payMonthId,jdbcType=INTEGER},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      charge_user_id = #{record.chargeUserId,jdbcType=INTEGER},
+      charge_party_id = #{record.chargePartyId,jdbcType=INTEGER},
+      charge_branch_id = #{record.chargeBranchId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdMemberPay">
+    update pmd_member_pay
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="realPay != null">
+        real_pay = #{realPay,jdbcType=DECIMAL},
+      </if>
+      <if test="hasPay != null">
+        has_pay = #{hasPay,jdbcType=BIT},
+      </if>
+      <if test="isOnlinePay != null">
+        is_online_pay = #{isOnlinePay,jdbcType=BIT},
+      </if>
+      <if test="payMonthId != null">
+        pay_month_id = #{payMonthId,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chargeUserId != null">
+        charge_user_id = #{chargeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="chargePartyId != null">
+        charge_party_id = #{chargePartyId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeBranchId != null">
+        charge_branch_id = #{chargeBranchId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdMemberPay">
+    update pmd_member_pay
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      real_pay = #{realPay,jdbcType=DECIMAL},
+      has_pay = #{hasPay,jdbcType=BIT},
+      is_online_pay = #{isOnlinePay,jdbcType=BIT},
+      pay_month_id = #{payMonthId,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      charge_user_id = #{chargeUserId,jdbcType=INTEGER},
+      charge_party_id = #{chargePartyId,jdbcType=INTEGER},
+      charge_branch_id = #{chargeBranchId,jdbcType=INTEGER}
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdMemberPayExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_member_pay
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

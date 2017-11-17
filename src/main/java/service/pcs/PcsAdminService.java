@@ -3,7 +3,6 @@ package service.pcs;
 import bean.ShortMsgBean;
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.party.Party;
 import domain.party.PartyMemberView;
 import domain.party.PartyMemberViewExample;
 import domain.pcs.PcsAdmin;
@@ -157,7 +156,7 @@ public class PcsAdminService extends BaseMapper {
             throw new OpException("该用户已经是党代会管理员");
         }
 
-        PartyMemberView pmv = partyMemberService.getPartyMemberView(userId);
+        PartyMemberView pmv = partyMemberService.getPartyMemberView(record.getPartyId(), userId);
         if (pmv != null) {
 
             Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
@@ -170,13 +169,13 @@ public class PcsAdminService extends BaseMapper {
                 type = SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY;
             }
 
-            if (type != SystemConstants.PCS_ADMIN_TYPE_NORMAL) {
+            /*if (type != SystemConstants.PCS_ADMIN_TYPE_NORMAL) {
                 if (pmv.getPartyId().intValue() != record.getPartyId()) {
                     Party party = partyService.findAll().get(record.getPartyId());
                     throw new OpException("{0}是{1}的{2}，无法添加。",
                             pmv.getRealname(), party.getName(), SystemConstants.PCS_ADMIN_TYPE_MAP.get(type));
                 }
-            }
+            }*/
         }
         // 更新为最新的管理员类型
         record.setType(type);

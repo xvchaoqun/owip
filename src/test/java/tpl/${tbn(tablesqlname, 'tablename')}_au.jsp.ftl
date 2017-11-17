@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input id="submitBtn" type="button" class="btn btn-primary" value="<c:if test="&{${tableName}!=null}">确定</c:if><c:if test="&{${tableName}==null}">添加</c:if>"/>
+    <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="&{${tableName}!=null}">确定</c:if><c:if test="&{${tableName}==null}">添加</c:if></button>
 </div>
 
 <script>

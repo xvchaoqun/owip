@@ -244,10 +244,33 @@ body {
     background-color: #eadda9;
 }
 
-@-moz-document url-prefix() {
+/*@-moz-document url-prefix() {
     .table > thead:first-child > tr:first-child > th:last-child {
         border-right: 0;
     }
+}*/
+.table > thead:first-child > tr:first-child > th:last-child {
+    border-right: 0;
+}
+
+/* 头部多行显示 */
+.multi-row-head-table th.ui-th-column div{
+    white-space:normal !important;
+    height:auto !important;
+    padding:0px;
+}
+.multi-row-head-table .ui-jqgrid-labels th{
+    padding: 0px!important;
+}
+.multi-row-head-table #jqGrid_cb{
+    padding: 10px!important;
+}
+.multi-row-head-table #jqGrid2_cb{
+    padding: 10px!important;
+}
+
+.multi-row-head-table .frozen-bdiv.ui-jqgrid-bdiv {
+    top: 48px !important;
 }
 
 .ui-pg-table tbody tr:hover td {

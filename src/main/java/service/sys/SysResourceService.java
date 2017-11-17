@@ -45,7 +45,7 @@ public class SysResourceService extends BaseMapper{
 			@CacheEvict(value="Menus", allEntries=true),
 			@CacheEvict(value="Permissions", allEntries=true)
 	})
-	public int updateByPrimaryKeySelective(SysResource record){
+	public void updateByPrimaryKeySelective(SysResource record){
 
 		if(StringUtils.isBlank(record.getCountCacheKeys())){
 			commonMapper.excuteSql("update sys_resource set count_cache_keys=null where id="+ record.getId());
@@ -64,7 +64,29 @@ public class SysResourceService extends BaseMapper{
 			commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + record.getParentId());
 		}
 
-		return  sysResourceMapper.updateByPrimaryKeySelective(record);
+		sysResourceMapper.updateByPrimaryKeySelective(record);
+
+		updateAllChildParentIds(record.getId());
+	}
+
+	// 递归更新所有子节点的所属父节点字符串
+	private void updateAllChildParentIds(int id){
+
+		SysResource parent = sysResourceMapper.selectByPrimaryKey(id);
+
+		SysResourceExample exmaple = new SysResourceExample();
+		exmaple.createCriteria().andParentIdEqualTo(id);
+		List<SysResource> childs = sysResourceMapper.selectByExample(exmaple);
+		if(childs==null || childs.size()==0) return;
+
+		for (SysResource child : childs) {
+			SysResource record = new SysResource();
+			record.setId(child.getId());
+			record.setParentIds(parent.getParentIds() + id + "/");
+			sysResourceMapper.updateByPrimaryKeySelective(record);
+
+			updateAllChildParentIds(child.getId());
+		}
 	}
 	
 	@Transactional

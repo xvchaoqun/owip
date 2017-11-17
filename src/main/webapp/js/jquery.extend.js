@@ -388,8 +388,8 @@ var _modal_width;
                                 // console.log(_this)
                                 window[callback](_this);
                             }
-                            $loading.unmask();
                         }
+                        $loading.unmask();
                     });
                 }
             });
@@ -470,7 +470,7 @@ var _modal_width;
             $.get(url, {}, function (html) {
                 $maskEl.unmask();
                 $("#body-content").hide();
-                $("#item-content").hide().html(html).fadeIn("slow");
+                $("#item-content").hide().fadeIn("slow").html(html);
                 if (typeof fn == 'function') fn();
                 NProgress.done();
             })

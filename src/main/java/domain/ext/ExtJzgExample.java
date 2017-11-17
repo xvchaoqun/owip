@@ -812,6 +812,76 @@ public class ExtJzgExample {
             return (Criteria) this;
         }
 
+        public Criteria andGwlxIsNull() {
+            addCriterion("gwlx is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxIsNotNull() {
+            addCriterion("gwlx is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxEqualTo(String value) {
+            addCriterion("gwlx =", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxNotEqualTo(String value) {
+            addCriterion("gwlx <>", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxGreaterThan(String value) {
+            addCriterion("gwlx >", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxGreaterThanOrEqualTo(String value) {
+            addCriterion("gwlx >=", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxLessThan(String value) {
+            addCriterion("gwlx <", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxLessThanOrEqualTo(String value) {
+            addCriterion("gwlx <=", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxLike(String value) {
+            addCriterion("gwlx like", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxNotLike(String value) {
+            addCriterion("gwlx not like", value, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxIn(List<String> values) {
+            addCriterion("gwlx in", values, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxNotIn(List<String> values) {
+            addCriterion("gwlx not in", values, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxBetween(String value1, String value2) {
+            addCriterion("gwlx between", value1, value2, "gwlx");
+            return (Criteria) this;
+        }
+
+        public Criteria andGwlxNotBetween(String value1, String value2) {
+            addCriterion("gwlx not between", value1, value2, "gwlx");
+            return (Criteria) this;
+        }
+
         public Criteria andGwlbmIsNull() {
             addCriterion("gwlbm is null");
             return (Criteria) this;

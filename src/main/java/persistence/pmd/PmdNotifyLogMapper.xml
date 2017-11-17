@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pmd.PmdNotifyLogMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdNotifyLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="jylsh" jdbcType="VARCHAR" property="jylsh" />
+    <result column="tran_stat" jdbcType="TINYINT" property="tranStat" />
+    <result column="return_type" jdbcType="TINYINT" property="returnType" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="verify_sign" jdbcType="BIT" property="verifySign" />
+    <result column="ret_time" jdbcType="TIMESTAMP" property="retTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_date, order_no, amount, jylsh, tran_stat, return_type, sign, verify_sign, 
+    ret_time, ip
+  </sql>
+  <select id="selectByExample" parameterType="domain.pmd.PmdNotifyLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_notify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pmd_notify_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pmd_notify_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pmd.PmdNotifyLogExample">
+    delete from pmd_notify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pmd.PmdNotifyLog">
+    insert into pmd_notify_log (id, order_date, order_no, 
+      amount, jylsh, tran_stat, 
+      return_type, sign, verify_sign, 
+      ret_time, ip)
+    values (#{id,jdbcType=INTEGER}, #{orderDate,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{jylsh,jdbcType=VARCHAR}, #{tranStat,jdbcType=TINYINT}, 
+      #{returnType,jdbcType=TINYINT}, #{sign,jdbcType=VARCHAR}, #{verifySign,jdbcType=BIT}, 
+      #{retTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pmd.PmdNotifyLog">
+    insert into pmd_notify_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="jylsh != null">
+        jylsh,
+      </if>
+      <if test="tranStat != null">
+        tran_stat,
+      </if>
+      <if test="returnType != null">
+        return_type,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="verifySign != null">
+        verify_sign,
+      </if>
+      <if test="retTime != null">
+        ret_time,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="jylsh != null">
+        #{jylsh,jdbcType=VARCHAR},
+      </if>
+      <if test="tranStat != null">
+        #{tranStat,jdbcType=TINYINT},
+      </if>
+      <if test="returnType != null">
+        #{returnType,jdbcType=TINYINT},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="verifySign != null">
+        #{verifySign,jdbcType=BIT},
+      </if>
+      <if test="retTime != null">
+        #{retTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pmd.PmdNotifyLogExample" resultType="java.lang.Long">
+    select count(*) from pmd_notify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pmd_notify_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderDate != null">
+        order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jylsh != null">
+        jylsh = #{record.jylsh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tranStat != null">
+        tran_stat = #{record.tranStat,jdbcType=TINYINT},
+      </if>
+      <if test="record.returnType != null">
+        return_type = #{record.returnType,jdbcType=TINYINT},
+      </if>
+      <if test="record.sign != null">
+        sign = #{record.sign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verifySign != null">
+        verify_sign = #{record.verifySign,jdbcType=BIT},
+      </if>
+      <if test="record.retTime != null">
+        ret_time = #{record.retTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pmd_notify_log
+    set id = #{record.id,jdbcType=INTEGER},
+      order_date = #{record.orderDate,jdbcType=TIMESTAMP},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      jylsh = #{record.jylsh,jdbcType=VARCHAR},
+      tran_stat = #{record.tranStat,jdbcType=TINYINT},
+      return_type = #{record.returnType,jdbcType=TINYINT},
+      sign = #{record.sign,jdbcType=VARCHAR},
+      verify_sign = #{record.verifySign,jdbcType=BIT},
+      ret_time = #{record.retTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdNotifyLog">
+    update pmd_notify_log
+    <set>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="jylsh != null">
+        jylsh = #{jylsh,jdbcType=VARCHAR},
+      </if>
+      <if test="tranStat != null">
+        tran_stat = #{tranStat,jdbcType=TINYINT},
+      </if>
+      <if test="returnType != null">
+        return_type = #{returnType,jdbcType=TINYINT},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="verifySign != null">
+        verify_sign = #{verifySign,jdbcType=BIT},
+      </if>
+      <if test="retTime != null">
+        ret_time = #{retTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdNotifyLog">
+    update pmd_notify_log
+    set order_date = #{orderDate,jdbcType=TIMESTAMP},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      jylsh = #{jylsh,jdbcType=VARCHAR},
+      tran_stat = #{tranStat,jdbcType=TINYINT},
+      return_type = #{returnType,jdbcType=TINYINT},
+      sign = #{sign,jdbcType=VARCHAR},
+      verify_sign = #{verifySign,jdbcType=BIT},
+      ret_time = #{retTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdNotifyLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_notify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

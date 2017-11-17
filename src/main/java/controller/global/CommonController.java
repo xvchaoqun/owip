@@ -430,6 +430,7 @@ public class CommonController extends BaseController {
     @ResponseBody
     public Map member_selects(Integer pageSize,
                               Integer partyId,
+                              Integer branchId,
                               Byte type, // 党员类别
                               Boolean isRetire,
                               Byte politicalStatus,
@@ -464,13 +465,13 @@ public class CommonController extends BaseController {
         if(status!=null && status.length>0){
             statusList = Arrays.asList(status);
         }
-        int count = iMemberMapper.countMember(partyId, type, isRetire, politicalStatus, statusList,
+        int count = iMemberMapper.countMember(partyId, branchId, type, isRetire, politicalStatus, statusList,
                 searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Member> members = iMemberMapper.selectMemberList(partyId, type, isRetire, politicalStatus, statusList, searchStr,
+        List<Member> members = iMemberMapper.selectMemberList(partyId, branchId, type, isRetire, politicalStatus, statusList, searchStr,
                 addPermits, adminPartyIdList, adminBranchIdList, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();

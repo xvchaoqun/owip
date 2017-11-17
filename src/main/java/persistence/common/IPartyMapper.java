@@ -70,11 +70,19 @@ public interface IPartyMapper {
             "where oa.branch_id=#{branchId} and oa.branch_id=b.id and b.is_deleted=0 and b.party_id=p.id and p.is_deleted=0")
     List<Integer> findBranchAdmin(@Param("branchId") int branchId);
 
-    // 查询现任支部委员会的所有书记
+    // 根据委员类别查询所有的现任支部委员会委员
     @ResultMap("persistence.party.BranchMemberMapper.BaseResultMap")
     @Select("select bm.* from ow_branch_member_group bmg, ow_branch_member bm " +
-            "where bmg.is_deleted=0 and bm.is_admin=1 and  bm.type_id=${metaTypeId} and bmg.is_present=1 and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
-    List<BranchMember> findBranchSecretary(@Param("metaTypeId") int metaTypeId, @Param("branchId") int branchId);
+            "where bmg.is_deleted=0 and bm.is_admin=1 and  bm.type_id=#{metaTypeId} and bmg.is_present=1 and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
+    List<BranchMember> findBranchMembers(@Param("metaTypeId") int metaTypeId, @Param("branchId") int branchId);
+
+    // 根据委员类别、用户ID查询现任支部委员会委员
+    @ResultMap("persistence.party.BranchMemberMapper.BaseResultMap")
+    @Select("select bm.* from ow_branch_member_group bmg, ow_branch_member bm " +
+            "where bmg.is_deleted=0 and bm.is_admin=1 and  bm.user_id=#{userId} and  bm.type_id=#{metaTypeId} and bmg.is_present=1 and bmg.branch_id = #{branchId} and bm.group_id=bmg.id")
+    BranchMember findBranchMember(@Param("metaTypeId") int metaTypeId,
+                                  @Param("branchId") int branchId,
+                                  @Param("userId") int userId);
 
 
     // 更新支部转移次数

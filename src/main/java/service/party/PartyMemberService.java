@@ -61,11 +61,43 @@ public class PartyMemberService extends BaseMapper {
     @Autowired
     protected SysConfigService sysConfigService;
 
-    // 获取现任分党委委员
-    public PartyMemberView getPartyMemberView(int userId){
+    // 获取现任分党委委员（拥有某种分工的）
+    public List<PartyMemberView> getPartyMemberViews(int partyId,  int typeId){
 
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andUserIdEqualTo(userId);
+        example.createCriteria().andPartyIdEqualTo(partyId)
+                .andTypeIdsIn(Arrays.asList(typeId));
+
+        return partyMemberViewMapper.selectByExample(example);
+    }
+
+    // 获取现任分党委委员（拥有某种分工的）
+    public PartyMemberView getPartyMemberView(int partyId, int userId, int typeId){
+
+        PartyMemberViewExample example = new PartyMemberViewExample();
+        example.createCriteria().andPartyIdEqualTo(partyId).andUserIdEqualTo(userId)
+                .andTypeIdsIn(Arrays.asList(typeId));
+        List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
+        return records.size()==0?null:records.get(0);
+    }
+
+    // 获取现任分党委委员
+    public PartyMemberView getPartyMemberView(int partyId, int userId){
+
+        PartyMemberViewExample example = new PartyMemberViewExample();
+        example.createCriteria().andPartyIdEqualTo(partyId).andUserIdEqualTo(userId);
+
+        List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
+        return records.size()==0?null:records.get(0);
+    }
+
+    // 获取现任分党委书记
+    public PartyMemberView getPartySecretary(int partyId){
+
+        MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
+
+        PartyMemberViewExample example = new PartyMemberViewExample();
+        example.createCriteria().andPartyIdEqualTo(partyId).andPostIdEqualTo(partySecretaryType.getId());
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size()==0?null:records.get(0);
@@ -343,6 +375,11 @@ public class PartyMemberService extends BaseMapper {
             record.setGroupId(old.getGroupId());
             partyMemberAdminService.toggleAdmin(record);
         }
+
+        if(record.getTypeIds()==null){
+            commonMapper.excuteSql("update ow_party_member set type_ids=null where id="+record.getId());
+        }
+
         return 1;
     }
 

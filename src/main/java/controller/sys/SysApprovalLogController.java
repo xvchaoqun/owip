@@ -3,6 +3,7 @@ package controller.sys;
 import controller.BaseController;
 import domain.abroad.ApplySelf;
 import domain.crs.CrsApplicant;
+import domain.pmd.PmdMember;
 import domain.sys.SysApprovalLog;
 import domain.sys.SysApprovalLogExample;
 import domain.sys.SysUserView;
@@ -42,6 +43,11 @@ public class SysApprovalLogController extends BaseController {
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT: {
                     CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
                     userId = crsApplicant.getUserId();
+                    break;
+                }
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER: {
+                    PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+                    userId = pmdMember.getUserId();
                     break;
                 }
             }

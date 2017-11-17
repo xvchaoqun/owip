@@ -82,6 +82,7 @@
 <c:set var="SYNC_TYPE_BKS" value="<%=SystemConstants.SYNC_TYPE_BKS%>"/>
 <c:set var="SYNC_TYPE_YJS" value="<%=SystemConstants.SYNC_TYPE_YJS%>"/>
 <c:set var="SYNC_TYPE_ABROAD" value="<%=SystemConstants.SYNC_TYPE_ABROAD%>"/>
+<c:set var="SYNC_TYPE_RETIRE_SALARY" value="<%=SystemConstants.SYNC_TYPE_RETIRE_SALARY%>"/>
 
 <c:set var="RESOURCE_TYPE_MENU" value="<%=SystemConstants.RESOURCE_TYPE_MENU%>"/>
 <c:set var="RESOURCE_TYPE_URL" value="<%=SystemConstants.RESOURCE_TYPE_URL%>"/>
@@ -170,6 +171,33 @@
 <c:set value="<%=SystemConstants.CADRE_COMPANY_TYPE_MAP%>" var="CADRE_COMPANY_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.CADRE_TUTOR_TYPE_MAP%>" var="CADRE_TUTOR_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
+<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>
+<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_END%>" var="PMD_MONTH_STATUS_END"/>
+<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_MAP%>" var="PMD_MONTH_STATUS_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_ADMIN_TYPE_MAP%>" var="PMD_ADMIN_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_NORM_TYPE_PAY%>" var="PMD_NORM_TYPE_PAY"/>
+<c:set value="<%=SystemConstants.PMD_NORM_TYPE_REDUCE%>" var="PMD_NORM_TYPE_REDUCE"/>
+<c:set value="<%=SystemConstants.PMD_NORM_TYPE_MAP%>" var="PMD_NORM_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FIXED%>" var="PMD_NORM_SET_TYPE_FIXED"/>
+<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_SET%>" var="PMD_NORM_SET_TYPE_SET"/>
+<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FREE%>" var="PMD_NORM_SET_TYPE_FREE"/>
+<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_MAP%>" var="PMD_NORM_SET_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_NORM_STATUS_INIT%>" var="PMD_NORM_STATUS_INIT"/>
+<c:set value="<%=SystemConstants.PMD_NORM_STATUS_USE%>" var="PMD_NORM_STATUS_USE"/>
+<c:set value="<%=SystemConstants.PMD_NORM_STATUS_ABOLISH%>" var="PMD_NORM_STATUS_ABOLISH"/>
+
+<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_STUDENT%>" var="PMD_MEMBER_TYPE_STUDENT"/>
+<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_MAP%>" var="PMD_MEMBER_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY%>" var="PMD_MEMBER_NORM_TYPE_MODIFY"/>
+<c:set value="<%=SystemConstants.PMD_MEMBER_NORM_TYPE_SELECT%>" var="PMD_MEMBER_NORM_TYPE_SELECT"/>
+
 
 <c:set value="<%=SystemConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
 
@@ -528,5 +556,6 @@
 <c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
 <c:set var="SYS_APPROVAL_LOG_TYPE_APPLYSELF" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF%>"/>
 <c:set var="SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT%>"/>
+<c:set var="SYS_APPROVAL_LOG_TYPE_PMD_MEMBER" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER%>"/>
 
 <c:set var="SYS_APPROVAL_LOG_STATUS_BACK" value="<%=SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK%>"/>

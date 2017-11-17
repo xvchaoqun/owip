@@ -70,6 +70,9 @@ public class SystemConstants {
 
     public static final String ROLE_OA_USER = "role_oa_user"; // 协同办公负责人
 
+    public static final String ROLE_PMD_PARTY = "role_pmd_party"; // 党费收缴-分党委管理员
+    public static final String ROLE_PMD_BRANCH = "role_pmd_branch"; // 党费收缴-支部管理员
+
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
     static {
@@ -89,6 +92,12 @@ public class SystemConstants {
 
         ROLE_MAP.put(ROLE_TEACHER, "教职工");
         ROLE_MAP.put(ROLE_PCS_ADMIN, "党代会管理员");
+        ROLE_MAP.put(ROLE_PCS_PR, "党代表");
+
+        ROLE_MAP.put(ROLE_OA_USER, "协同办公负责人");
+
+        ROLE_MAP.put(ROLE_PMD_PARTY, "党费收缴-分党委管理员");
+        ROLE_MAP.put(ROLE_PMD_BRANCH, "党费收缴-支部管理员");
     }
 
     // 系统特殊的权限（与数据库对应）
@@ -218,11 +227,12 @@ public class SystemConstants {
         USER_TYPE_MAP.put(USER_TYPE_YJS, "研究生");
     }
 
-    // 同步类型，1人事库 2研究库 3本科生库 4教职工党员出国信息库
+    // 同步类型，1人事库 2研究库 3本科生库 4教职工党员出国信息库 5 离退休费
     public final static byte SYNC_TYPE_JZG = 1;
     public final static byte SYNC_TYPE_BKS = 2;
     public final static byte SYNC_TYPE_YJS = 3;
     public final static byte SYNC_TYPE_ABROAD = 4;
+    public final static byte SYNC_TYPE_RETIRE_SALARY = 5;
     public final static Map<Byte, String> SYNC_TYPE_MAP = new LinkedHashMap();
 
     static {
@@ -230,6 +240,7 @@ public class SystemConstants {
         SYNC_TYPE_MAP.put(SYNC_TYPE_BKS, "本科生库");
         SYNC_TYPE_MAP.put(SYNC_TYPE_YJS, "研究生库");
         SYNC_TYPE_MAP.put(SYNC_TYPE_ABROAD, "教职工党员出国境信息库");
+        SYNC_TYPE_MAP.put(SYNC_TYPE_RETIRE_SALARY, "离退休费");
     }
 
     // 账号来源 0 后台创建 1人事库、2本科生库 3 研究生库
@@ -1009,6 +1020,87 @@ public class SystemConstants {
         CADRE_FAMLIY_TITLE_MAP.put(CADRE_FAMLIY_TITLE_DAUGHTER, "女儿");
     }
 
+    // 党费收缴，月份缴费状态，0 创建 1 启动缴费 2 已结算
+    public final static byte PMD_MONTH_STATUS_INIT = 0;
+    public final static byte PMD_MONTH_STATUS_START = 1;
+    public final static byte PMD_MONTH_STATUS_END = 2;
+    public final static Map<Byte, String> PMD_MONTH_STATUS_MAP = new LinkedHashMap<>();
+    static {
+        PMD_MONTH_STATUS_MAP.put(PMD_MONTH_STATUS_INIT, "创建");
+        PMD_MONTH_STATUS_MAP.put(PMD_MONTH_STATUS_START, "启动缴费");
+        PMD_MONTH_STATUS_MAP.put(PMD_MONTH_STATUS_END, "已结算");
+    }
+
+    // 党费收缴，党员类别，1 在职教职工党员 2 离退休教职工党员 3 学生党员
+    public final static byte PMD_MEMBER_TYPE_TEACHER = 1;
+    public final static byte PMD_MEMBER_TYPE_RETIRE = 2;
+    public final static byte PMD_MEMBER_TYPE_STUDENT = 3;
+    public final static Map<Byte, String> PMD_MEMBER_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_MEMBER_TYPE_MAP.put(PMD_MEMBER_TYPE_TEACHER, "在职教职工党员");
+        PMD_MEMBER_TYPE_MAP.put(PMD_MEMBER_TYPE_RETIRE, "离退休教职工党员");
+        PMD_MEMBER_TYPE_MAP.put(PMD_MEMBER_TYPE_STUDENT, "学生党员");
+    }
+
+
+    // 党费收缴，收费标准状态， 0 未启用  1 启用  2 作废 3 已删除 ， 状态只能按 0 - 1 - 2的顺序变更
+    public final static byte PMD_NORM_STATUS_INIT = 0;
+    public final static byte PMD_NORM_STATUS_USE = 1;
+    public final static byte PMD_NORM_STATUS_ABOLISH = 2;
+    public final static byte PMD_NORM_STATUS_DELETE = 3;
+    public final static Map<Byte, String> PMD_NORM_STATUS_MAP = new LinkedHashMap<>();
+    static {
+        PMD_NORM_STATUS_MAP.put(PMD_NORM_STATUS_INIT, "未启用");
+        PMD_NORM_STATUS_MAP.put(PMD_NORM_STATUS_USE, "已启用");
+        PMD_NORM_STATUS_MAP.put(PMD_NORM_STATUS_ABOLISH, "已作废");
+        PMD_NORM_STATUS_MAP.put(PMD_NORM_STATUS_DELETE, "已删除");
+    }
+
+
+    // 党费收缴，标准类型， 1 党费缴纳标准  2 党费减免标准
+    public final static byte PMD_NORM_TYPE_PAY = 1;
+    public final static byte PMD_NORM_TYPE_REDUCE = 2;
+    public final static Map<Byte, String> PMD_NORM_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_NORM_TYPE_MAP.put(PMD_NORM_TYPE_PAY, "党费缴纳标准");
+        PMD_NORM_TYPE_MAP.put(PMD_NORM_TYPE_REDUCE, "党费减免标准");
+    }
+
+    // 党费收缴，额度设定类型， 1 统一标准  2 基层党委设定 3 免交
+    public final static byte PMD_NORM_SET_TYPE_FIXED = 1;
+    public final static byte PMD_NORM_SET_TYPE_SET = 2;
+    public final static byte PMD_NORM_SET_TYPE_FREE = 3;
+    public final static Map<Byte, String> PMD_NORM_SET_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_NORM_SET_TYPE_MAP.put(PMD_NORM_SET_TYPE_FIXED, "统一标准");
+        PMD_NORM_SET_TYPE_MAP.put(PMD_NORM_SET_TYPE_SET, "基层党委设定");
+        PMD_NORM_SET_TYPE_MAP.put(PMD_NORM_SET_TYPE_FREE, "免交");
+    }
+
+    // 党费收缴，编辑额度类型，根据党员的属性系统进行自动计算，0 不允许修改额度  1 可直接编辑额度  2 通过选择标准设定额度
+    public final static byte PMD_MEMBER_NORM_TYPE_UNMODIFY = 0;
+    public final static byte PMD_MEMBER_NORM_TYPE_MODIFY = 1;
+    public final static byte PMD_MEMBER_NORM_TYPE_SELECT = 2;
+    public final static Map<Byte, String> PMD_MEMBER_NORM_TYPE_MAP = new LinkedHashMap<>();
+    static {
+        PMD_MEMBER_NORM_TYPE_MAP.put(PMD_MEMBER_NORM_TYPE_UNMODIFY, "不允许修改额度");
+        PMD_MEMBER_NORM_TYPE_MAP.put(PMD_MEMBER_NORM_TYPE_MODIFY, "可直接编辑额度");
+        PMD_MEMBER_NORM_TYPE_MAP.put(PMD_MEMBER_NORM_TYPE_SELECT, "通过选择标准设定额度");
+    }
+
+    // 党费收缴管理员类型， 1 书记 2副书记 3 组织委员 4 普通管理员
+    public final static byte PMD_ADMIN_TYPE_SECRETARY = 1;
+    public final static byte PMD_ADMIN_TYPE_VICE_SECRETARY = 2;
+    public final static byte PMD_ADMIN_TYPE_COMMISSARY = 3;
+    public final static byte PMD_ADMIN_TYPE_NORMAL = 4;
+    public final static Map<Byte, String> PMD_ADMIN_TYPE_MAP = new LinkedHashMap<>();
+
+    static {
+        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_SECRETARY, "书记");
+        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_VICE_SECRETARY, "副书记");
+        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_COMMISSARY, "组织委员");
+        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_NORMAL, "普通管理员");
+    }
 
     // 协同办公，工作类型
     public final static byte OA_TASK_TYPE_CADRE = 1;
@@ -1937,13 +2029,14 @@ public class SystemConstants {
     // 审批记录类型
     public final static byte SYS_APPROVAL_LOG_TYPE_APPLYSELF = 1; // 因私出国
     public final static byte SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT = 2; // 干部招聘-报名审核
+    public final static byte SYS_APPROVAL_LOG_TYPE_PMD_MEMBER = 3; // 党费收缴
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
     static {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘");
-
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员

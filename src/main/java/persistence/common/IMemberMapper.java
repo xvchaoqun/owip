@@ -34,6 +34,7 @@ public interface IMemberMapper {
 
     // 根据类别、状态、账号、姓名、学工号查找党员
     List<Member> selectMemberList(@Param("partyId")Integer partyId,
+                                  @Param("branchId")Integer branchId,
                                   @Param("type")Byte type,
                                   @Param("isRetire")Boolean isRetire,
                                   @Param("politicalStatus")Byte politicalStatus,
@@ -42,6 +43,7 @@ public interface IMemberMapper {
                                   @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                                   @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
     int countMember(@Param("partyId")Integer partyId,
+                    @Param("branchId")Integer branchId,
                     @Param("type")Byte type,
                     @Param("isRetire")Boolean isRetire,
                     @Param("politicalStatus")Byte politicalStatus,

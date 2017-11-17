@@ -1,4 +1,71 @@
 
+-- 党员每月实际缴费视图
+DROP VIEW IF EXISTS `pmd_member_pay_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_member_pay_view` AS
+select pm.id, pmp.*, pm.pay_month, pm.month_id, pm.is_delay,
+pm.delay_reason, pm.user_id, pm.party_id,
+pm.branch_id, pm.type, pm.due_pay from pmd_member_pay pmp
+left join pmd_member pm on pmp.member_id=pm.id ;
+
+DROP VIEW IF EXISTS `pmd_pay_party_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_party_view` AS
+select ppp.*, op.name, op.is_deleted,op.sort_order,
+count(ppa.user_id) as admin_count from pmd_pay_party ppp
+left join ow_party op on ppp.party_id=op.id
+left join pmd_party_admin ppa on ppa.party_id=ppp.party_id
+group by ppp.party_id ;
+
+DROP VIEW IF EXISTS `pmd_pay_branch_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_branch_view` AS
+select ppb.*, ob.name, ob.is_deleted,
+count(pba.user_id) as admin_count,
+op.name as party_name, op.is_deleted as party_is_delete, op.sort_order as party_sort_order
+from pmd_pay_branch ppb
+left join ow_branch ob on ppb.branch_id=ob.id
+left join ow_party op on ppb.party_id=op.id
+left join pmd_branch_admin pba on pba.branch_id=ppb.branch_id
+group by ppb.branch_id;
+
+DROP VIEW IF EXISTS `pmd_party_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_party_view` AS
+select pp.*,pm.pay_month, pm.status as month_status from pmd_party pp
+left join pmd_month pm on pp.month_id=pm.id ;
+
+DROP VIEW IF EXISTS `pmd_branch_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_branch_view` AS
+select pb.*,pm.pay_month, pm.status as month_status from pmd_branch pb
+left join pmd_month pm on pb.month_id=pm.id;
+
+/*DROP VIEW IF EXISTS `pmd_month_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_month_view` AS
+select a.*,sum(mm.history_delay_member_count) as history_delay_member_count,
+sum(mm.history_delay_pay) as history_delay_pay,
+sum(mm.real_delay_pay) as real_delay_pay,
+sum(mm.online_real_delay_pay) as online_real_delay_pay
+from(select pm.*, count(pp.id) as party_count,
+sum(if(pp.has_report, 1, 0)) as has_report_party_count,
+tt.member_count, tt.due_pay, tt.finish_member_count, tt.real_pay, tt.online_real_pay, tt.delay_pay, tt.delay_member_count
+from pmd_month pm
+left join pmd_party pp on pp.month_id=pm.id
+left join(select
+month_id,
+count(id) as member_count, sum(due_pay) as due_pay,
+sum(if(is_delay=0 && has_pay, 1, 0)) as finish_member_count,
+sum(if(has_pay, real_pay, 0)) as real_pay,
+sum(if(has_pay && is_online_pay, real_pay, 0)) as online_real_pay,
+sum(if(is_delay=1, due_pay, 0)) as delay_pay,
+sum(if(is_delay=1, 1, 0)) as delay_member_count
+from  pmd_member group by  month_id) tt on tt.month_id=pm.id
+group by pm.id) as a
+left join (
+select  month_id,
+sum(if(is_delay=1, 1, 0)) as history_delay_member_count,
+sum(if(is_delay=1, due_pay, 0)) as history_delay_pay,
+sum(if(is_delay=1 && has_pay, real_pay, 0)) as real_delay_pay,
+sum(if(is_delay=1 && has_pay&& is_online_pay, real_pay, 0)) as online_real_delay_pay
+from pmd_member group by month_id) as mm on mm.month_id<a.id
+group by a.id;*/
+
 
 DROP VIEW IF EXISTS `oa_task_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
@@ -7,7 +74,7 @@ count(distinct otu.id) as user_count,
 count(distinct otu2.id) as finish_count from oa_task ot
 left join oa_task_file otf on otf.task_id=ot.id
 left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0
-left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id
+left join oa_task_user otu2 on otu2.task_id = ot.id and otu2.is_delete=0 and otu2.status=1 group by ot.id;
 
 DROP VIEW IF EXISTS `oa_task_user_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_user_view` AS
@@ -21,7 +88,7 @@ ruv.code as report_code, ruv.realname as report_realname from oa_task_user otu
 left join oa_task ot on otu.task_id = ot.id
 left join cadre_view cv on otu.user_id = cv.user_id
 left join sys_user_view uv on otu.assign_user_id = uv.id
-left join sys_user_view ruv on otu.report_user_id = ruv.id
+left join sys_user_view ruv on otu.report_user_id = ruv.id;
 
 
 DROP VIEW IF EXISTS `pcs_proposal_view`;
@@ -133,7 +200,7 @@ cp.name as crs_post_name,cp.job as crs_post_job,cp.status as crs_post_status
  left join cadre_view cv on cv.user_id=ca.user_id
 left join crs_post cp on cp.id = ca.post_id
 left join (select post_id, count(*) as expert_count from crs_post_expert cpe group by post_id) as cpec on cpec.post_id=ca.post_id
-left join (select post_id, count(*) as applicant_count from crs_applicant_view where status=1 and is_require_check_pass=1  group by post_id) as cavc on cavc.post_id=ca.post_id
+left join (select post_id, count(*) as applicant_count from crs_applicant_view where status=1 and is_require_check_pass=1  group by post_id) as cavc on cavc.post_id=ca.post_id;
 
 
 
@@ -192,7 +259,7 @@ left join ow_party p on oma.party_id=p.id
 left join ow_branch b on oma.branch_id=b.id
 where p.is_deleted=0 and (b.is_deleted=0 or b.id is null) group by p.id
 )a on a.party_id = p.id
-where p.is_deleted=0 order by p.sort_order desc
+where p.is_deleted=0 order by p.sort_order desc;
 -- ----------------------------
 --  View definition for `abroad_passport_apply_view`
 -- ----------------------------
@@ -212,7 +279,7 @@ from cadre_inspect ci left join cadre_view cv on ci.cadre_id=cv.id;
 DROP VIEW IF EXISTS `cadre_reserve_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cadre_reserve_view` AS
 select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_status,
-cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, u.code,cv.*
+cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, cv.*
 from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys_user u on u.id=cv.user_id ;
 
 -- ----------------------------
@@ -416,7 +483,7 @@ left join(
 	and opm.post_id = bmt.id and opm.user_id=su.id group by opmg.party_id)fsj on fsj.party_id=op.id
 left join base_meta_type bmt on op.class_id = bmt.id
 left join base_meta_type zzlb on op.type_id=zzlb.id
-where op.is_deleted=0 and bmt.code='mt_direct_branch' order by sort_order desc
+where op.is_deleted=0 and bmt.code='mt_direct_branch' order by sort_order desc;
 -- ----------------------------
 --  View definition for `ext_cadre_view`
 -- ----------------------------

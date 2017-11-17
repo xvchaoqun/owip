@@ -24,6 +24,8 @@ public class ExtJzg implements Serializable {
 
     private Date lxrq;
 
+    private String gwlx;
+
     private String gwlbm;
 
     private String gwlb;
@@ -270,6 +272,14 @@ public class ExtJzg implements Serializable {
 
     public void setLxrq(Date lxrq) {
         this.lxrq = lxrq;
+    }
+
+    public String getGwlx() {
+        return gwlx;
+    }
+
+    public void setGwlx(String gwlx) {
+        this.gwlx = gwlx == null ? null : gwlx.trim();
     }
 
     public String getGwlbm() {

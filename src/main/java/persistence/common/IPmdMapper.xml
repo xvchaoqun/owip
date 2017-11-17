@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.IPmdMapper">
+
+    <!-- 往月延迟缴费党员数（已启动缴费，同步了党员信息之后汇总） -->
+    <select id="historyDelayMemberCount" parameterType="map" resultType="java.lang.Integer">
+        select count(distinct pmpv.user_id) from pmd_member_pay_view pmpv,
+        (select * from pmd_member where month_id=#{currentMonthId}
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id=#{branchId}
+        </if>) pm
+        where pmpv.user_id=pm.user_id and pmpv.is_delay=1 and pmpv.has_pay=0
+    </select>
+    <!-- 应补缴往月党费数（已启动缴费，同步了党员信息之后汇总） -->
+    <select id="historyDelayPay" parameterType="map" resultType="java.math.BigDecimal">
+        select sum(pmpv.due_pay) from pmd_member_pay_view pmpv,
+        (select * from pmd_member where month_id=#{currentMonthId}
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id=#{branchId}
+        </if>) pm
+        where pmpv.user_id=pm.user_id and pmpv.is_delay=1 and pmpv.has_pay=0
+    </select>
+
+    <!-- 补缴党员列表 -->
+    <sql id="historyDelayMemberList_where">
+        from pmd_member_pay_view pmpv,
+        (select * from pmd_member where month_id=#{currentMonthId}
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id=#{branchId}
+        </if>) pm
+        where pmpv.user_id=pm.user_id and pmpv.is_delay=1
+        and ((pmpv.has_pay=1 and pay_month_id=#{currentMonthId}) or pmpv.has_pay=0)
+        <if test="hasPay!=null">
+            and pmpv.has_pay=#{hasPay}
+        </if>
+        <if test="userId!=null">
+            and pmpv.user_id=#{userId}
+        </if>
+        <![CDATA[ and pmpv.month_id < #{currentMonthId} ]]>
+    </sql>
+    <select id="historyDelayMemberList" parameterType="map"
+            resultMap="persistence.pmd.PmdMemberPayViewMapper.BaseResultMap">
+        select pmpv.*
+        <include refid="historyDelayMemberList_where"/>
+        order by pmpv.member_id asc
+    </select>
+    <select id="historyDelayMemberListCount" parameterType="map" resultType="java.lang.Integer">
+        select count(*)
+        <include refid="historyDelayMemberList_where"/>
+    </select>
+
+    <!-- 已补缴党员列表 -->
+    <sql id="historyDelayMemberList2_where">
+        from pmd_member_pay_view pmpv,
+        (select * from pmd_member where month_id=#{monthId}
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id=#{branchId}
+        </if>) pm
+        where pmpv.user_id=pm.user_id and pmpv.is_delay=1 and pmpv.has_pay=1
+        <if test="userId!=null">
+            and pmpv.user_id=#{userId}
+        </if>
+        and pmpv.pay_month_id = #{monthId}
+    </sql>
+    <select id="historyDelayMemberList2" parameterType="map"
+            resultMap="persistence.pmd.PmdMemberPayViewMapper.BaseResultMap">
+        select pmpv.*
+        <include refid="historyDelayMemberList2_where"/>
+        order by pmpv.member_id asc
+    </select>
+    <select id="historyDelayMemberListCount2" parameterType="map" resultType="java.lang.Integer">
+        select count(*)
+        <include refid="historyDelayMemberList2_where"/>
+    </select>
+
+    <!-- 本月应交党费数 -->
+    <!--<select id="duePay" parameterType="map" resultType="java.math.BigDecimal">
+        select sum(due_pay) from pmd_member
+        where month_id=#{monthId}
+        <if test="partyId!=null">
+            and party_id=#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branch_id=#{branchId}
+        </if>
+    </select>-->
+
+    <!-- 实时数据汇总 -->
+    <resultMap id="pmdReportBeanMap" type="persistence.common.bean.PmdReportBean">
+        <result column="has_report_count" jdbcType="INTEGER" property="hasReportCount"/>
+        <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
+        <result column="due_pay" jdbcType="DECIMAL" property="duePay"/>
+        <result column="finish_member_count" jdbcType="INTEGER" property="finishMemberCount"/>
+        <result column="real_pay" jdbcType="DECIMAL" property="realPay"/>
+        <result column="cash_real_pay" jdbcType="DECIMAL" property="cashRealPay"/>
+        <result column="online_real_pay" jdbcType="DECIMAL" property="onlineRealPay"/>
+        <result column="delay_pay" jdbcType="DECIMAL" property="delayPay"/>
+        <result column="delay_member_count" jdbcType="INTEGER" property="delayMemberCount"/>
+        <result column="real_delay_member_count" jdbcType="INTEGER" property="realDelayMemberCount"/>
+        <result column="real_delay_pay" jdbcType="DECIMAL" property="realDelayPay"/>
+        <result column="online_real_delay_pay" jdbcType="DECIMAL" property="onlineRealDelayPay"/>
+        <result column="cash_real_delay_pay" jdbcType="DECIMAL" property="cashRealDelayPay"/>
+    </resultMap>
+    <!--组织部汇总-->
+    <select id="getOwPmdReportBean" resultMap="pmdReportBeanMap" parameterType="map">
+        <![CDATA[
+
+
+            select *, (real_pay-online_real_pay) as cash_real_pay
+            , (real_delay_pay-online_real_delay_pay) as cash_real_delay_pay from
+            (
+            select
+            -- 已报送分党委数
+            count(*) as has_report_count
+            from pmd_party where month_id=#{monthId} and has_report=1
+            )r,
+            (
+            select
+            -- 党员总数
+            count(pm.user_id) as member_count,
+            -- 本月应交党费数
+            sum(pm.due_pay) as due_pay,
+            -- 本月按时缴费党员数
+            sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
+            -- 本月实缴党费数
+            sum(pm.real_pay) as real_pay,
+            -- 本月线上缴费数
+            sum(if(pm.has_pay=1  && pm.is_delay=0 && pm.is_online_pay, pm.real_pay, 0)) as online_real_pay,
+            -- 本月延迟缴费数
+            sum(if(pm.has_pay=0  && pm.is_delay=1, pm.due_pay, 0)) as delay_pay,
+            -- 本月延迟缴费党员数
+            sum(if(pm.has_pay=0  && pm.is_delay=1, 1, 0)) as delay_member_count
+            from pmd_member pm
+            left join pmd_party pp on pp.month_id=#{monthId} and pm.party_id=pp.party_id
+            where pm.month_id=#{monthId} and pp.has_report=1
+            )a,
+            (
+            select
+            -- 补缴往月党费党员数
+            count(distinct pmpv.user_id) as real_delay_member_count,
+            -- 实补缴往月党费数
+            sum(pmpv.real_pay) as real_delay_pay,
+            -- 线上补缴往月党费数
+            sum(if(pmpv.is_online_pay=1, pmpv.real_pay, 0)) as online_real_delay_pay
+            from pmd_member_pay_view pmpv
+            left join pmd_party pp on pp.month_id=#{monthId} and pmpv.charge_party_id=pp.party_id
+            where pmpv.pay_month_id=#{monthId} and pmpv.month_id < #{monthId} and pp.has_report=1
+            )b
+
+
+        ]]>
+    </select>
+    <!--分党委汇总-->
+    <select id="getPartyPmdReportBean" resultMap="pmdReportBeanMap" parameterType="map">
+        <![CDATA[
+
+
+            select *, (real_pay-online_real_pay) as cash_real_pay
+            , (real_delay_pay-online_real_delay_pay) as cash_real_delay_pay from
+            (
+            select
+            -- 已报送党支部数
+            count(*) as has_report_count
+            from pmd_branch where month_id=#{monthId} and party_id=#{partyId} and has_report=1
+            )r,
+            (
+            select
+            -- 党员总数
+            count(pm.user_id) as member_count,
+            -- 本月应交党费数
+            sum(pm.due_pay) as due_pay,
+            -- 本月按时缴费党员数
+            sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
+            -- 本月实缴党费数
+            sum(pm.real_pay) as real_pay,
+            -- 本月线上缴费数
+            sum(if(pm.has_pay=1  && pm.is_delay=0 && pm.is_online_pay, pm.real_pay, 0)) as online_real_pay,
+            -- 本月延迟缴费数
+            sum(if(pm.has_pay=0  && pm.is_delay=1, pm.due_pay, 0)) as delay_pay,
+            -- 本月延迟缴费党员数
+            sum(if(pm.has_pay=0  && pm.is_delay=1, 1, 0)) as delay_member_count
+            from pmd_member pm
+            left join pmd_branch pb on pb.month_id=#{monthId} and pm.party_id=pb.party_id and pm.branch_id=pb.branch_id
+            where pm.month_id=#{monthId} and pm.party_id=#{partyId} and pb.has_report=1
+            )a,
+            (
+            select
+            -- 补缴往月党费党员数
+            count(distinct pmpv.user_id) as real_delay_member_count,
+            -- 实补缴往月党费数
+            sum(pmpv.real_pay) as real_delay_pay,
+            -- 线上补缴往月党费数
+            sum(if(pmpv.is_online_pay=1, pmpv.real_pay, 0)) as online_real_delay_pay
+            from pmd_member_pay_view pmpv
+            left join pmd_branch pb on pb.month_id=#{monthId}
+            and pmpv.charge_party_id=pb.party_id and pmpv.charge_branch_id=pb.branch_id
+            where pmpv.pay_month_id=#{monthId} and pmpv.charge_party_id=#{partyId}
+            and pmpv.month_id < #{monthId} and pb.has_report=1
+            )b
+
+
+        ]]>
+    </select>
+    <!--党支部汇总-->
+    <select id="getBranchPmdReportBean" resultMap="pmdReportBeanMap" parameterType="map">
+
+        select *, (real_pay-online_real_pay) as cash_real_pay
+        , (real_delay_pay-online_real_delay_pay) as cash_real_delay_pay from
+        (
+        select
+        -- 党员总数
+        count(pm.user_id) as member_count,
+        -- 本月应交党费数
+        sum(pm.due_pay) as due_pay,
+        <![CDATA[
+            -- 本月按时缴费党员数
+            sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
+            -- 本月实缴党费数
+            sum(pm.real_pay) as real_pay,
+            -- 本月线上缴费数
+            sum(if(pm.has_pay=1  && pm.is_delay=0 && pm.is_online_pay, pm.real_pay, 0)) as online_real_pay,
+            -- 本月延迟缴费数
+            sum(if(pm.has_pay=0  && pm.is_delay=1, pm.due_pay, 0)) as delay_pay,
+            -- 本月延迟缴费党员数
+            sum(if(pm.has_pay=0  && pm.is_delay=1, 1, 0)) as delay_member_count
+             ]]>
+        from pmd_member pm
+        where pm.month_id=#{monthId} and pm.party_id=#{partyId}
+        -- branchId=null时统计直属党支部
+        <if test="branchId!=null">
+            and pm.branch_id=#{branchId}
+        </if>
+        <if test="branchId==null">
+            and pm.branch_id is null
+        </if>
+        )a,
+        (
+        select
+        -- 补缴往月党费党员数
+        count(distinct pmpv.user_id) as real_delay_member_count,
+        -- 实补缴往月党费数
+        sum(pmpv.real_pay) as real_delay_pay,
+        -- 线上补缴往月党费数
+        sum(if(pmpv.is_online_pay=1, pmpv.real_pay, 0)) as online_real_delay_pay
+        from pmd_member_pay_view pmpv
+        where pmpv.pay_month_id=#{monthId} and pmpv.charge_party_id=#{partyId}
+        -- branchId=null时统计直属党支部
+        <if test="branchId!=null">
+            and pmpv.charge_branch_id=#{branchId}
+        </if>
+        <if test="branchId==null">
+            and pmpv.charge_branch_id is null
+        </if>
+        <![CDATA[
+             and pmpv.month_id < #{monthId}
+             ]]>
+        )b
+
+    </select>
+
+    <!--分党委报表-->
+    <select id="getPmdExcelReportBean" resultType="persistence.common.bean.PmdExcelReportBean" parameterType="map">
+        select count(*) as total,
+        <![CDATA[
+        sum(if(type=1 and authorized_type='事业编' and post_class='专业技术岗位', 1, 0)) as zj,
+        sum(if(type=1 and authorized_type='事业编' and post_class='管理岗位', 1, 0)) as gl,
+        sum(if(type=1 and authorized_type='事业编' and post_class='工勤技能岗位', 1, 0)) as gq,
+        sum(if(type=1 and authorized_type<>'事业编' and staff_type='校聘', 1, 0)) as xp,
+        sum(if(type=1 and authorized_type<>'事业编' and staff_type='学生助理', 1, 0)) as xszl,
+        ]]>
+        -- 离退教职工
+        sum(if(type=2, 1, 0)) as lt,
+        -- 不带薪就读学生党员
+        sum(if(type=3 and has_salary=0, 1, 0)) as bdx,
+        -- 带薪就读学生党员
+        sum(if(type=3 and has_salary=1, 1, 0)) as dx
+        from pmd_member where month_id=#{monthId} and party_id=#{partyId}
+        <if test="type==1">
+            -- 本月按时缴纳党费党员数
+            and is_delay=0 and has_pay=1
+        </if>
+        <if test="type==2">
+            -- 本月未缴纳党费党员数
+            and has_pay=0
+        </if>
+        <if test="type==3">
+            <![CDATA[
+            -- 补缴往月党费党员数
+            and user_id in(select distinct user_id from pmd_member_pay_view
+            where has_pay=1 and pay_month_id=#{monthId} and month_id<#{monthId} and charge_party_id=#{partyId});
+            ]]>
+        </if>
+
+    </select>
+</mapper>

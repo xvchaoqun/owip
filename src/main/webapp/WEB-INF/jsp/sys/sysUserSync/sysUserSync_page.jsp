@@ -14,6 +14,7 @@
                 <a  data-type="${SYNC_TYPE_BKS}" class="syncBtn btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
                 <a data-type="${SYNC_TYPE_YJS}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
                 <a data-type="${SYNC_TYPE_ABROAD}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 教职工党员出国境信息同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步教职工党员出国境信息</a>
+                <a data-type="${SYNC_TYPE_RETIRE_SALARY}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步本月离退休费同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本月离退休费</a>
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>

@@ -19,11 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class PartyService extends BaseMapper {
@@ -36,14 +39,45 @@ public class PartyService extends BaseMapper {
     @Autowired
     private OrgAdminService orgAdminService;
 
+    // 树形选择分党委（状态正常的）
+    public TreeNode getTree(Set<Integer> selectIdSet) {
 
-    public PartyView getPartyView(int partyId){
+        if (null == selectIdSet) selectIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "分党委列表";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        PartyExample example = new PartyExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        example.setOrderByClause(" sort_order desc");
+        List<Party> partyList = partyMapper.selectByExample(example);
+        for (Party party : partyList) {
+
+            TreeNode node = new TreeNode();
+            node.title = party.getName();
+            node.key = party.getId() + "";
+            if (selectIdSet.contains(party.getId().intValue())) {
+                node.select = true;
+            }
+
+            rootChildren.add(node);
+        }
+
+        return root;
+    }
+
+    public PartyView getPartyView(int partyId) {
 
         PartyViewExample example = new PartyViewExample();
         example.createCriteria().andIdEqualTo(partyId);
 
         List<PartyView> partyViews = partyViewMapper.selectByExample(example);
-        return partyViews.size()==0?null:partyViews.get(0);
+        return partyViews.size() == 0 ? null : partyViews.get(0);
     }
 
     // 判断partyId和branchId的有效性

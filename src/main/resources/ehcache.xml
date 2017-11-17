@@ -4,6 +4,14 @@
     <diskStore path="D:\ehcache\owip"/>
     <!-- service 缓存 -->
 
+    <cache name="PmdSpecialUser:ALL"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
     <cache name="CrsTemplates"
            eternal="false"
            maxElementsInMemory="2000"

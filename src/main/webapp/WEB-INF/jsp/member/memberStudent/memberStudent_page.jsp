@@ -317,7 +317,7 @@
             } else if (ids.length==1) {
 
                 var rowData = $(this).getRowData(ids[0]);
-                console.log(rowData.source)
+                //console.log(rowData.source)
                 $("#baseEditBtn").prop("disabled", rowData.source == "${USER_SOURCE_JZG}"
                         ||rowData.source == "${USER_SOURCE_BKS}"||rowData.source == "${USER_SOURCE_YJS}");
             }else{

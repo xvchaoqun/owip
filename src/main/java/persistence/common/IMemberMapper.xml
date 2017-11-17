@@ -47,6 +47,9 @@
         <if test="partyId!=null">
             and m.party_id =#{partyId}
         </if>
+        <if test="branchId!=null">
+            and m.branch_id =#{branchId}
+        </if>
         <if test="type!=null">
             and m.type =#{type}
         </if>

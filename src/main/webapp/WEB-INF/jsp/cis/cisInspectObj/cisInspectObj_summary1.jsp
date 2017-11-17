@@ -20,7 +20,7 @@
     <div class="widget-body">
         <div class="widget-main">
             <div class="tab-content">
-                <form action="${ctx}/cisInspectObj_summary" id="modalFrom" method="post">
+                <form action="${ctx}/cisInspectObj_summary" id="modalForm" method="post">
                     <div class="row dispatch_cadres" style="width: 1250px">
                         <div class="dispatch" style="width: 450px;">
                             <div class="widget-box" style="width: 400px;">
@@ -92,10 +92,10 @@
         });
 
         $("#item-content button[type=submit]").click(function () {
-            $("#modalFrom").submit();
+            $("#modalForm").submit();
             return false;
         });
-        $("#modalFrom").validate({
+        $("#modalForm").validate({
             submitHandler: function (form) {
                 var unitIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
                     if (!node.data.isFolder && !node.data.hideCheckbox)

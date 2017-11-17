@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pmd.PmdMemberPayViewMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdMemberPayView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
+    <result column="has_pay" jdbcType="BIT" property="hasPay" />
+    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
+    <result column="pay_month_id" jdbcType="INTEGER" property="payMonthId" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="charge_user_id" jdbcType="INTEGER" property="chargeUserId" />
+    <result column="charge_party_id" jdbcType="INTEGER" property="chargePartyId" />
+    <result column="charge_branch_id" jdbcType="INTEGER" property="chargeBranchId" />
+    <result column="pay_month" jdbcType="DATE" property="payMonth" />
+    <result column="month_id" jdbcType="INTEGER" property="monthId" />
+    <result column="is_delay" jdbcType="BIT" property="isDelay" />
+    <result column="delay_reason" jdbcType="VARCHAR" property="delayReason" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, member_id, order_no, real_pay, has_pay, is_online_pay, pay_month_id, pay_time, 
+    charge_user_id, charge_party_id, charge_branch_id, pay_month, month_id, is_delay, 
+    delay_reason, user_id, party_id, branch_id, type, due_pay
+  </sql>
+  <select id="selectByExample" parameterType="domain.pmd.PmdMemberPayViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_member_pay_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.pmd.PmdMemberPayViewExample" resultType="java.lang.Long">
+    select count(*) from pmd_member_pay_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdMemberPayViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_member_pay_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

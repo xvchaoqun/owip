@@ -6,7 +6,7 @@
   <h3>选择单位</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal"  id="modalFrom" method="post">
+  <form class="form-horizontal"  id="modalForm" method="post">
     <div id="unitsTree"></div>
 
   </form>

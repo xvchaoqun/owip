@@ -29,6 +29,7 @@ import service.ext.ExtService;
 import service.source.ExtAbroadImport;
 import service.source.ExtBksImport;
 import service.source.ExtJzgImport;
+import service.source.ExtRetireSalaryImport;
 import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
@@ -57,6 +58,8 @@ public class SysUserSyncService extends BaseMapper {
     private ExtYjsImport extYjsImport;
     @Autowired
     private ExtAbroadImport extAbroadImport;
+    @Autowired
+    private ExtRetireSalaryImport extRetireSalaryImport;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -67,6 +70,45 @@ public class SysUserSyncService extends BaseMapper {
                 .andTypeEqualTo(type).andIsStopEqualTo(false);
 
         return sysUserSyncMapper.countByExample(example) > 0;
+    }
+
+    // 同步离退休工资信息
+    public void syncRetireSalary(boolean autoStart) {
+
+        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
+            throw new OpException("上一次同步仍在进行中");
+        }
+
+        // 先从学校导入数据
+        int ret = 0;
+        try {
+            ret = extRetireSalaryImport.excute();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new OpException("学校信息同步出错：" + ex.getMessage());
+        }
+
+        SysUserSync sysUserSync = new SysUserSync();
+        if (!autoStart) {
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+        }
+        sysUserSync.setAutoStart(autoStart);
+        sysUserSync.setAutoStop(false);
+        sysUserSync.setStartTime(new Date());
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_ABROAD);
+        sysUserSync.setIsStop(false);
+
+        sysUserSync.setCurrentCount(0);
+        sysUserSync.setCurrentPage(0);
+        sysUserSync.setTotalCount(ret);
+        sysUserSync.setInsertCount(0);
+        sysUserSync.setUpdateCount(0);
+
+        sysUserSync.setEndTime(new Date());
+        sysUserSync.setAutoStop(true);
+        sysUserSync.setIsStop(true);
+
+        insertSelective(sysUserSync);
     }
 
     // 同步教职工党员出国境信息
@@ -188,7 +230,7 @@ public class SysUserSyncService extends BaseMapper {
         int insertCount = 0;
         int updateCount = 0;
 
-        int count = extJzgMapper.countByExample(new ExtJzgExample());
+        int count = (int)extJzgMapper.countByExample(new ExtJzgExample());
         int pageSize = 200;
         int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
@@ -543,8 +585,8 @@ public class SysUserSyncService extends BaseMapper {
                 teacher.setArriveTime(extJzg.getLxrq());
             teacher.setAuthorizedType(extJzg.getBzlx());
             teacher.setStaffType(extJzg.getRylx());
-            teacher.setStaffStatus(extJzg.getRyzt());
-            teacher.setPostClass(extJzg.getGwlb()); // 岗位类别
+            teacher.setStaffStatus(extJzg.getRyzt()); // 离退
+            teacher.setPostClass(extJzg.getGwlx()); // 岗位类型
             teacher.setSubPostClass(extJzg.getGwzlbmc()); // 岗位子类别
             teacher.setMainPostLevel(extJzg.getZgdjmmc()); // 主岗等级
             if(StringUtils.isNotBlank(extJzg.getGlqsrq())) // 工龄起算日期
@@ -575,9 +617,10 @@ public class SysUserSyncService extends BaseMapper {
             //teacher.setIsRetire(!StringUtils.equals(extJzg.getSfzg(), "在岗"));
 
             // 人员状态：在职、离退、离校、离世、NULL
-            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
+            /*teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退")
                     || StringUtils.equals(extJzg.getSfzg(), "离休") || StringUtils.equals(extJzg.getSfzg(), "内退")
-                    || StringUtils.equals(extJzg.getSfzg(), "退休"));
+                    || StringUtils.equals(extJzg.getSfzg(), "退休")); 2017-11-15 */
+            teacher.setIsRetire(StringUtils.equals(extJzg.getRyzt(), "离退"));
 
             //teacher.setRetireTime(); 退休时间
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));

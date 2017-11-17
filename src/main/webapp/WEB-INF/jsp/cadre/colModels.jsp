@@ -346,16 +346,16 @@
             return cellvalue ? "毕业" : "在读";
         }
         },
-        {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-        {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 80},
-        {label: '是否最高学历', width: 110, name: 'isHighEdu', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90},
+        {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90},
+        {label: '是否最高学历', width: 120, name: 'isHighEdu', formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '毕业/在读学校', name: 'school', width: 280},
         {label: '院系', name: 'dep', width: 380},
         {label: '所学专业', name: 'major', width: 380},
         {
             label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
             return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
-        }, width: 80
+        }, width: 90
         },
 
         //{label: '学制', name: 'schoolLen', width:50},
@@ -369,12 +369,12 @@
             label: '是否最高学位', name: 'isHighDegree', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.hasDegree) return "-";
             return cellvalue ? "是" : "否";
-        }, width: 110
+        }, width: 120
         },
         {
             label: '学位授予国家',
             name: 'degreeCountry',
-            width: 110,
+            width: 120,
             formatter: function (cellvalue, options, rowObject) {
                 return rowObject.hasDegree ? cellvalue : "-";
             }
@@ -384,7 +384,7 @@
             return rowObject.hasDegree ? cellvalue : "-";
         }
         },
-        {label: '学位授予日期', name: 'degreeTime', width: 110, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+        {label: '学位授予日期', name: 'degreeTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {
             label: '导师姓名', name: 'tutorName', formatter: function (cellvalue, options, rowObject) {
             if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {

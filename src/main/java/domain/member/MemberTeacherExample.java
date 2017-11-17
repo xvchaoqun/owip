@@ -2496,6 +2496,11 @@ public class MemberTeacherExample {
             addCriterion("talent_type not between", value1, value2, "talentType");
             return (Criteria) this;
         }
+        // 添加搜索人才称号
+        public Criteria andTalentTitleRegexp(String regex) {
+            addCriterion("talent_title REGEXP", regex, "talentTitle");
+            return (Criteria) this;
+        }
 
         public Criteria andTalentTitleIsNull() {
             addCriterion("talent_title is null");

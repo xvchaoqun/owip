@@ -410,7 +410,7 @@ public class BranchController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView record = records.get(i);
-            List<BranchMember> branchSecretary = commonMapper.findBranchSecretary(secretaryType.getId(), record.getId());
+            List<BranchMember> branchSecretary = commonMapper.findBranchMembers(secretaryType.getId(), record.getId());
 
             if (branchSecretary.size() > 0) {
                 Integer userId = branchSecretary.get(0).getUserId();
@@ -449,7 +449,7 @@ public class BranchController extends BaseController {
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             BranchView branch = records.get(i);
-            List<BranchMember> branchSecretary = iPartyMapper.findBranchSecretary(secretaryType.getId(), branch.getId());
+            List<BranchMember> branchSecretary = iPartyMapper.findBranchMembers(secretaryType.getId(), branch.getId());
 
             if (branchSecretary.size() > 0) {
                 Integer userId = branchSecretary.get(0).getUserId();

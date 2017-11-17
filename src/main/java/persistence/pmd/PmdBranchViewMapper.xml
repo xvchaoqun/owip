@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pmd.PmdBranchViewMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdBranchView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="month_id" jdbcType="INTEGER" property="monthId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="party_name" jdbcType="VARCHAR" property="partyName" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="history_delay_member_count" jdbcType="INTEGER" property="historyDelayMemberCount" />
+    <result column="history_delay_pay" jdbcType="DECIMAL" property="historyDelayPay" />
+    <result column="has_report" jdbcType="BIT" property="hasReport" />
+    <result column="member_count" jdbcType="INTEGER" property="memberCount" />
+    <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
+    <result column="finish_member_count" jdbcType="INTEGER" property="finishMemberCount" />
+    <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
+    <result column="online_real_pay" jdbcType="DECIMAL" property="onlineRealPay" />
+    <result column="cash_real_pay" jdbcType="DECIMAL" property="cashRealPay" />
+    <result column="delay_pay" jdbcType="DECIMAL" property="delayPay" />
+    <result column="delay_member_count" jdbcType="INTEGER" property="delayMemberCount" />
+    <result column="real_delay_member_count" jdbcType="INTEGER" property="realDelayMemberCount" />
+    <result column="real_delay_pay" jdbcType="DECIMAL" property="realDelayPay" />
+    <result column="online_real_delay_pay" jdbcType="DECIMAL" property="onlineRealDelayPay" />
+    <result column="cash_real_delay_pay" jdbcType="DECIMAL" property="cashRealDelayPay" />
+    <result column="report_user_id" jdbcType="INTEGER" property="reportUserId" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="report_ip" jdbcType="VARCHAR" property="reportIp" />
+    <result column="pay_month" jdbcType="DATE" property="payMonth" />
+    <result column="month_status" jdbcType="TINYINT" property="monthStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, month_id, party_id, branch_id, party_name, branch_name, sort_order, history_delay_member_count, 
+    history_delay_pay, has_report, member_count, due_pay, finish_member_count, real_pay, 
+    online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
+    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, report_user_id, report_time, 
+    report_ip, pay_month, month_status
+  </sql>
+  <select id="selectByExample" parameterType="domain.pmd.PmdBranchViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_branch_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.pmd.PmdBranchViewExample" resultType="java.lang.Long">
+    select count(*) from pmd_branch_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdBranchViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_branch_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
