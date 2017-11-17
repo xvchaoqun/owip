@@ -70,7 +70,7 @@ public class PmdTestService {
         commonMapper.excuteSql(setNorm);
 
         // 可直接编辑额度
-        String setDuePay = "update pmd_member pm set pm.due_pay= format(rand()*100,2 )" +
+        String setDuePay = "update pmd_member pm set pm.due_pay= format(rand()*10,2 )" +
                 "where pm.has_pay=0 and pm.is_delay=0 and pm.norm_type=1 and " +
                 "(pm.due_pay is null or pm.due_pay<=0.01) and pm.month_id=" + currentPmdMonth.getId();
 

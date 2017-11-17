@@ -269,7 +269,7 @@ public class PmdMonthService extends BaseMapper {
         pmdMonthMapper.updateByPrimaryKeySelective(record);
 
         long end = System.currentTimeMillis();
-        logger.info("{}党员缴费-启动成功，耗时{1}ms", payMonth, (end-start));
+        logger.info("{}党员缴费-启动成功，耗时{}ms", payMonth, (end-start));
     }
 
     // 添加一个党员

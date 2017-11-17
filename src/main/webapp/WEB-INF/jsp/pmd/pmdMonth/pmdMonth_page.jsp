@@ -30,18 +30,6 @@
                                         data-querystr="&"><i class="fa fa-edit"></i> 编辑缴费党委
                                 </button>
                             </shiro:hasPermission>
-                            <%--<shiro:hasPermission name="pmdMonth:del">
-                                <button data-url="${ctx}/pmd/pmdMonth_batchDel"
-                                        data-title="删除"
-                                        data-msg="确定删除这{0}条数据？"
-                                        data-grid-id="#jqGrid"
-                                        class="jqBatchBtn btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> 删除
-                                </button>
-                            </shiro:hasPermission>--%>
-                            <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                               data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出</a>--%>
                         </div>
                         <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -86,6 +74,7 @@
         <div id="item-content"></div>
     </div>
 </div>
+
 <script>
     function _createCallback(btn) {
         $(btn).prop("disabled", true);

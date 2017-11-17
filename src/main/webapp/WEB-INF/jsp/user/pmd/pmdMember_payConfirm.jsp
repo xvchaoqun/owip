@@ -38,7 +38,7 @@
             <td>${pmdMember.duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="http://test.221.238.143.40:10500/zhifu/payAccept.aspx" target="_blank" method="post">
+    <form id="payForm" action="http://221.238.143.40:10500/zhifu/payAccept.aspx" target="_blank" method="post">
         <input type="hidden" name="orderDate" value="${payFormBean.orderDate}"/>
         <input type="hidden" name="orderNo" value="${payFormBean.orderNo}"/>
         <input type="hidden" name="amount" value="${payFormBean.amount}"/>
