@@ -41,7 +41,9 @@ left join pmd_month pm on pb.month_id=pm.id;
 DROP VIEW IF EXISTS `oa_task_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
 AS select ot.*, count(distinct otf.id) as file_count,
+-- 任务对象数量
 count(distinct otu.id) as user_count,
+-- 已完成数
 count(distinct otu2.id) as finish_count from oa_task ot
 left join oa_task_file otf on otf.task_id=ot.id
 left join oa_task_user otu on otu.task_id = ot.id and otu.is_delete=0

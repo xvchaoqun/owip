@@ -36,9 +36,9 @@
         </table>
         <table tableName="pmd_norm_value_log" domainObjectName="pmd.PmdNormValueLog" mapperName="pmd.PmdNormValueLogMapper">
         </table>-->
-      <!--   <table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
+         <table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-       </table>-->
+       </table>
         <!--<table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
         </table>-->
        <!-- <table tableName="pmd_member_pay_view"
@@ -756,8 +756,8 @@
 
         <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
         </table>-->
-        <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
-        </table>
+       <!-- <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
+        </table>-->
         <!--<table tableName="ext_yjs" domainObjectName="ext.ExtYjs">
         </table>-->
         <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">

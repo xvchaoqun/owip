@@ -13,6 +13,9 @@
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
     <result column="post_class" jdbcType="VARCHAR" property="postClass" />
     <result column="main_post_level" jdbcType="VARCHAR" property="mainPostLevel" />
+    <result column="pro_post_level" jdbcType="VARCHAR" property="proPostLevel" />
+    <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
+    <result column="office_level" jdbcType="VARCHAR" property="officeLevel" />
     <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
     <result column="staff_type" jdbcType="VARCHAR" property="staffType" />
     <result column="salary" jdbcType="DECIMAL" property="salary" />
@@ -91,9 +94,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, month_id, user_id, pay_month, party_id, branch_id, type, has_salary, talent_title, 
-    post_class, main_post_level, authorized_type, staff_type, salary, norm_type, norm_name, 
-    norm_due_pay, norm_id, norm_value_id, norm_display_name, due_pay, real_pay, is_delay, 
-    delay_reason, has_pay, is_online_pay, pay_time, charge_user_id
+    post_class, main_post_level, pro_post_level, manage_level, office_level, authorized_type, 
+    staff_type, salary, norm_type, norm_name, norm_due_pay, norm_id, norm_value_id, norm_display_name, 
+    due_pay, real_pay, is_delay, delay_reason, has_pay, is_online_pay, pay_time, charge_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberExample" resultMap="BaseResultMap">
     select
@@ -125,11 +128,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.pmd.PmdMember">
+  <insert id="insert" parameterType="domain.pmd.PmdMember">
     insert into pmd_member (id, month_id, user_id, 
       pay_month, party_id, branch_id, 
       type, has_salary, talent_title, 
-      post_class, main_post_level, authorized_type, 
+      post_class, main_post_level, pro_post_level, 
+      manage_level, office_level, authorized_type, 
       staff_type, salary, norm_type, 
       norm_name, norm_due_pay, norm_id, 
       norm_value_id, norm_display_name, due_pay, 
@@ -139,7 +143,8 @@
     values (#{id,jdbcType=INTEGER}, #{monthId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{payMonth,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{hasSalary,jdbcType=BIT}, #{talentTitle,jdbcType=VARCHAR}, 
-      #{postClass,jdbcType=VARCHAR}, #{mainPostLevel,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, 
+      #{postClass,jdbcType=VARCHAR}, #{mainPostLevel,jdbcType=VARCHAR}, #{proPostLevel,jdbcType=VARCHAR}, 
+      #{manageLevel,jdbcType=VARCHAR}, #{officeLevel,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, 
       #{staffType,jdbcType=VARCHAR}, #{salary,jdbcType=DECIMAL}, #{normType,jdbcType=TINYINT}, 
       #{normName,jdbcType=VARCHAR}, #{normDuePay,jdbcType=DECIMAL}, #{normId,jdbcType=INTEGER}, 
       #{normValueId,jdbcType=INTEGER}, #{normDisplayName,jdbcType=VARCHAR}, #{duePay,jdbcType=DECIMAL}, 
@@ -182,6 +187,15 @@
       </if>
       <if test="mainPostLevel != null">
         main_post_level,
+      </if>
+      <if test="proPostLevel != null">
+        pro_post_level,
+      </if>
+      <if test="manageLevel != null">
+        manage_level,
+      </if>
+      <if test="officeLevel != null">
+        office_level,
       </if>
       <if test="authorizedType != null">
         authorized_type,
@@ -268,6 +282,15 @@
       </if>
       <if test="mainPostLevel != null">
         #{mainPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPostLevel != null">
+        #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevel != null">
+        #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLevel != null">
+        #{officeLevel,jdbcType=VARCHAR},
       </if>
       <if test="authorizedType != null">
         #{authorizedType,jdbcType=VARCHAR},
@@ -364,6 +387,15 @@
       <if test="record.mainPostLevel != null">
         main_post_level = #{record.mainPostLevel,jdbcType=VARCHAR},
       </if>
+      <if test="record.proPostLevel != null">
+        pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageLevel != null">
+        manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeLevel != null">
+        office_level = #{record.officeLevel,jdbcType=VARCHAR},
+      </if>
       <if test="record.authorizedType != null">
         authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
       </if>
@@ -433,6 +465,9 @@
       talent_title = #{record.talentTitle,jdbcType=VARCHAR},
       post_class = #{record.postClass,jdbcType=VARCHAR},
       main_post_level = #{record.mainPostLevel,jdbcType=VARCHAR},
+      pro_post_level = #{record.proPostLevel,jdbcType=VARCHAR},
+      manage_level = #{record.manageLevel,jdbcType=VARCHAR},
+      office_level = #{record.officeLevel,jdbcType=VARCHAR},
       authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
       staff_type = #{record.staffType,jdbcType=VARCHAR},
       salary = #{record.salary,jdbcType=DECIMAL},
@@ -486,6 +521,15 @@
       </if>
       <if test="mainPostLevel != null">
         main_post_level = #{mainPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="proPostLevel != null">
+        pro_post_level = #{proPostLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="manageLevel != null">
+        manage_level = #{manageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="officeLevel != null">
+        office_level = #{officeLevel,jdbcType=VARCHAR},
       </if>
       <if test="authorizedType != null">
         authorized_type = #{authorizedType,jdbcType=VARCHAR},
@@ -553,6 +597,9 @@
       talent_title = #{talentTitle,jdbcType=VARCHAR},
       post_class = #{postClass,jdbcType=VARCHAR},
       main_post_level = #{mainPostLevel,jdbcType=VARCHAR},
+      pro_post_level = #{proPostLevel,jdbcType=VARCHAR},
+      manage_level = #{manageLevel,jdbcType=VARCHAR},
+      office_level = #{officeLevel,jdbcType=VARCHAR},
       authorized_type = #{authorizedType,jdbcType=VARCHAR},
       staff_type = #{staffType,jdbcType=VARCHAR},
       salary = #{salary,jdbcType=DECIMAL},

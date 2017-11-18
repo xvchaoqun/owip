@@ -48,6 +48,12 @@ public class PmdMember implements Serializable {
 
     private String mainPostLevel;
 
+    private String proPostLevel;
+
+    private String manageLevel;
+
+    private String officeLevel;
+
     private String authorizedType;
 
     private String staffType;
@@ -170,6 +176,30 @@ public class PmdMember implements Serializable {
 
     public void setMainPostLevel(String mainPostLevel) {
         this.mainPostLevel = mainPostLevel == null ? null : mainPostLevel.trim();
+    }
+
+    public String getProPostLevel() {
+        return proPostLevel;
+    }
+
+    public void setProPostLevel(String proPostLevel) {
+        this.proPostLevel = proPostLevel == null ? null : proPostLevel.trim();
+    }
+
+    public String getManageLevel() {
+        return manageLevel;
+    }
+
+    public void setManageLevel(String manageLevel) {
+        this.manageLevel = manageLevel == null ? null : manageLevel.trim();
+    }
+
+    public String getOfficeLevel() {
+        return officeLevel;
+    }
+
+    public void setOfficeLevel(String officeLevel) {
+        this.officeLevel = officeLevel == null ? null : officeLevel.trim();
     }
 
     public String getAuthorizedType() {

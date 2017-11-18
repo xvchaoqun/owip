@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 人才称号收党费标准 -->
-<rcch-list>
-    <rcch name="中国科学院院士">751</rcch>
-    <rcch name="中国工程院院士">751</rcch>
-    <rcch name="资深教授">751</rcch>
-    <rcch name="“长江学者奖励计划”特聘教授">611</rcch>
-    <rcch name="“长江学者奖励计划”讲座教授">611</rcch>
-    <rcch name="国家杰出青年科学基金资助获得者">611</rcch>
-    <rcch name="千人计划青年项目入选者">398</rcch>
-    <rcch name="国家优秀青年科学基金资助获得者">398</rcch>
-    <rcch name="万人计划青年拔尖人才">398</rcch>
-    <rcch name="“长江学者奖励计划”青年学者">398</rcch>
-</rcch-list>
+<list>
+    <item name="中国科学院院士">751</item>
+    <item name="中国工程院院士">751</item>
+    <item name="资深教授">751</item>
+    <item name="“长江学者奖励计划”特聘教授">611</item>
+    <item name="“长江学者奖励计划”讲座教授">611</item>
+    <item name="国家杰出青年科学基金资助获得者">611</item>
+    <item name="千人计划青年项目入选者">398</item>
+    <item name="国家优秀青年科学基金资助获得者">398</item>
+    <item name="万人计划青年拔尖人才">398</item>
+    <item name="“长江学者奖励计划”青年学者">398</item>
+</list>

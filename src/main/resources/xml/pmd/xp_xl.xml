@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- （非事业编-校聘-最高学历）党费标准 -->
-<xl-list>
-    <xl name="博士">38</xl>
-    <xl name="博士毕业">38</xl>
-    <xl name="博士研究生">38</xl>
-    <xl name="博士结业">38</xl>
+<list>
+    <item name="博士">38</item>
+    <item name="博士毕业">38</item>
+    <item name="博士研究生">38</item>
+    <item name="博士结业">38</item>
 
-    <xl name="同等学历硕士">33</xl>
-    <xl name="硕士毕业">33</xl>
-    <xl name="工商管理硕士">33</xl>
-    <xl name="工程硕士">33</xl>
-    <xl name="相当硕士毕业">33</xl>
-    <xl name="研究生">33</xl>
-    <xl name="研究生班毕业">33</xl>
-    <xl name="硕士">33</xl>
-    <xl name="硕士研究生">33</xl>
-    <xl name="硕士结业">33</xl>
-    <xl name="硕士（在职）">33</xl>
+    <item name="同等学历硕士">33</item>
+    <item name="硕士毕业">33</item>
+    <item name="工商管理硕士">33</item>
+    <item name="工程硕士">33</item>
+    <item name="相当硕士毕业">33</item>
+    <item name="研究生">33</item>
+    <item name="研究生班毕业">33</item>
+    <item name="硕士">33</item>
+    <item name="硕士研究生">33</item>
+    <item name="硕士结业">33</item>
+    <item name="硕士（在职）">33</item>
 
-    <xl name="双学士">15</xl>
-    <xl name="专升本">15</xl>
-    <xl name="大学毕业">15</xl>
-    <xl name="非全日制本科">15</xl>
-    <xl name="大学本科">15</xl>
-    <xl name="本科">15</xl>
+    <item name="双学士">15</item>
+    <item name="专升本">15</item>
+    <item name="大学毕业">15</item>
+    <item name="非全日制本科">15</item>
+    <item name="大学本科">15</item>
+    <item name="本科">15</item>
 
-    <xl name="专科">13</xl>
-    <xl name="大专毕业">13</xl>
-    <xl name="大专">13</xl>
+    <item name="专科">13</item>
+    <item name="大专毕业">13</item>
+    <item name="大专">13</item>
 
-    <xl name="高中">12</xl>
-    <xl name="中专">12</xl>
-    <xl name="中专毕业">12</xl>
-    <xl name="相当中专">12</xl>
-</xl-list>
+    <item name="高中">12</item>
+    <item name="中专">12</item>
+    <item name="中专毕业">12</item>
+    <item name="相当中专">12</item>
+</list>

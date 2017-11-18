@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 工勤岗位等级收党费标准 -->
+<list>
+    <item name="技术工01级(高级技师)">45</item>
+    <item name="技术工02级(技师)">39</item>
+    <item name="技术工03级(高级工)">36</item>
+    <item name="技术工04级(中级工)">34</item>
+    <item name="技术工05级(初级工)">32</item>
+    <item name="技术普通工">31</item>
+</list>

@@ -38,14 +38,14 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>所在分党委</label>
                                 <select class="form-control" data-width="250"  data-rel="select2-ajax"
-                                        data-ajax-url="${ctx}/party_selects"
+                                        data-ajax-url="${ctx}/party_selects?del=0"
                                         name="partyId" data-placeholder="请选择分党委">
                                     <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                 </select>
                             </div>
                             <div class="form-group" style="${(empty branch)?'display: none':''}" id="branchDiv">
                                 <label>所在党支部</label>
-                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects"
+                                <select class="form-control"  data-rel="select2-ajax" data-ajax-url="${ctx}/branch_selects?del=0"
                                         name="branchId" data-placeholder="请选择党支部">
                                     <option value="${branch.id}" title="${branch.isDeleted}">${branch.name}</option>
                                 </select>

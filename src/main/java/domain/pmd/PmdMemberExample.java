@@ -823,6 +823,216 @@ public class PmdMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andProPostLevelIsNull() {
+            addCriterion("pro_post_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelIsNotNull() {
+            addCriterion("pro_post_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelEqualTo(String value) {
+            addCriterion("pro_post_level =", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelNotEqualTo(String value) {
+            addCriterion("pro_post_level <>", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelGreaterThan(String value) {
+            addCriterion("pro_post_level >", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("pro_post_level >=", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelLessThan(String value) {
+            addCriterion("pro_post_level <", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelLessThanOrEqualTo(String value) {
+            addCriterion("pro_post_level <=", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelLike(String value) {
+            addCriterion("pro_post_level like", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelNotLike(String value) {
+            addCriterion("pro_post_level not like", value, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelIn(List<String> values) {
+            addCriterion("pro_post_level in", values, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelNotIn(List<String> values) {
+            addCriterion("pro_post_level not in", values, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelBetween(String value1, String value2) {
+            addCriterion("pro_post_level between", value1, value2, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevelNotBetween(String value1, String value2) {
+            addCriterion("pro_post_level not between", value1, value2, "proPostLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelIsNull() {
+            addCriterion("manage_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelIsNotNull() {
+            addCriterion("manage_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelEqualTo(String value) {
+            addCriterion("manage_level =", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelNotEqualTo(String value) {
+            addCriterion("manage_level <>", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelGreaterThan(String value) {
+            addCriterion("manage_level >", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("manage_level >=", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelLessThan(String value) {
+            addCriterion("manage_level <", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelLessThanOrEqualTo(String value) {
+            addCriterion("manage_level <=", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelLike(String value) {
+            addCriterion("manage_level like", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelNotLike(String value) {
+            addCriterion("manage_level not like", value, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelIn(List<String> values) {
+            addCriterion("manage_level in", values, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelNotIn(List<String> values) {
+            addCriterion("manage_level not in", values, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelBetween(String value1, String value2) {
+            addCriterion("manage_level between", value1, value2, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andManageLevelNotBetween(String value1, String value2) {
+            addCriterion("manage_level not between", value1, value2, "manageLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelIsNull() {
+            addCriterion("office_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelIsNotNull() {
+            addCriterion("office_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelEqualTo(String value) {
+            addCriterion("office_level =", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelNotEqualTo(String value) {
+            addCriterion("office_level <>", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelGreaterThan(String value) {
+            addCriterion("office_level >", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("office_level >=", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelLessThan(String value) {
+            addCriterion("office_level <", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelLessThanOrEqualTo(String value) {
+            addCriterion("office_level <=", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelLike(String value) {
+            addCriterion("office_level like", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelNotLike(String value) {
+            addCriterion("office_level not like", value, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelIn(List<String> values) {
+            addCriterion("office_level in", values, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelNotIn(List<String> values) {
+            addCriterion("office_level not in", values, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelBetween(String value1, String value2) {
+            addCriterion("office_level between", value1, value2, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelNotBetween(String value1, String value2) {
+            addCriterion("office_level not between", value1, value2, "officeLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andAuthorizedTypeIsNull() {
             addCriterion("authorized_type is null");
             return (Criteria) this;

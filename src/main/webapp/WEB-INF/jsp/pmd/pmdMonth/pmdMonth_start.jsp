@@ -66,10 +66,11 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $btn.button("success").addClass("btn-success");
-                        $('#timer span').timer('pause');
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
                     }
+                    $('#timer span').timer('remove');
+                    $("#timer").hide();
                     $btn.button('reset');
                 }
             });

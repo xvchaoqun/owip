@@ -81,7 +81,7 @@ public class PmdMonthService extends BaseMapper {
     @Transactional
     public void end(int monthId) {
 
-        if(!canEnd(monthId)) {
+        if (!canEnd(monthId)) {
             throw new OpException("当前不允许结算。");
         }
 
@@ -109,20 +109,20 @@ public class PmdMonthService extends BaseMapper {
     }
 
     // 判断是否可以结算
-    public boolean canEnd(int monthId){
+    public boolean canEnd(int monthId) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        if(currentPmdMonth==null || currentPmdMonth.getId()!=monthId) return false;
+        if (currentPmdMonth == null || currentPmdMonth.getId() != monthId) return false;
 
         PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
-        if(pmdMonth==null) return false;
+        if (pmdMonth == null) return false;
 
         // 如果存在 未报送的分党委， 则不可报送
         PmdPartyExample example = new PmdPartyExample();
         example.createCriteria().andMonthIdEqualTo(monthId)
                 .andHasReportEqualTo(false);
 
-        return pmdPartyMapper.countByExample(example)==0;
+        return pmdPartyMapper.countByExample(example) == 0;
     }
 
     // 读取缴费月份记录
@@ -142,7 +142,7 @@ public class PmdMonthService extends BaseMapper {
         example.createCriteria().andStatusEqualTo(SystemConstants.PMD_MONTH_STATUS_START);
         List<PmdMonth> pmdMonths = pmdMonthMapper.selectByExample(example);
 
-        if(pmdMonths.size()>1) throw new OpException("缴费系统异常，请稍后再试。");
+        if (pmdMonths.size() > 1) throw new OpException("缴费系统异常，请稍后再试。");
 
         return pmdMonths.size() > 0 ? pmdMonths.get(0) : null;
     }
@@ -178,7 +178,7 @@ public class PmdMonthService extends BaseMapper {
             if (pmdParty == null)
                 throw new OpException("数据异常，党委不存在。[{0}-{1}]", monthId, partyId);
             // 直属党支部特殊处理
-            if (partyService.isDirectBranch(partyId)){
+            if (partyService.isDirectBranch(partyId)) {
                 // 同步党员（直属党支部）
                 MemberExample example = new MemberExample();
                 example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
@@ -199,7 +199,7 @@ public class PmdMonthService extends BaseMapper {
 
                 pmdPartyMapper.updateByPrimaryKeySelective(record);
 
-            }else {
+            } else {
 
                 List<Integer> branchIdList = iPmdMapper.branchIdList(monthId, partyId);
                 for (Integer branchId : branchIdList) {
@@ -231,7 +231,7 @@ public class PmdMonthService extends BaseMapper {
                         record.setHistoryDelayMemberCount(iPmdMapper.historyDelayMemberCount(monthId, partyId, branchId));
                         // 应补缴往月党费数
                         BigDecimal historyDelayPay = iPmdMapper.historyDelayPay(monthId, partyId, branchId);
-                        historyDelayPay = (historyDelayPay==null)?new BigDecimal(0):historyDelayPay;
+                        historyDelayPay = (historyDelayPay == null) ? new BigDecimal(0) : historyDelayPay;
                         record.setHistoryDelayPay(historyDelayPay);
 
                         pmdBranchMapper.updateByPrimaryKeySelective(record);
@@ -262,14 +262,14 @@ public class PmdMonthService extends BaseMapper {
         record.setHistoryDelayMemberCount(iPmdMapper.historyDelayMemberCount(monthId, null, null));
         // 应补缴往月党费数
         BigDecimal historyDelayPay = iPmdMapper.historyDelayPay(monthId, null, null);
-        historyDelayPay = (historyDelayPay==null)?new BigDecimal(0):historyDelayPay;
+        historyDelayPay = (historyDelayPay == null) ? new BigDecimal(0) : historyDelayPay;
         record.setHistoryDelayPay(historyDelayPay);
 
         record.setStatus(SystemConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByPrimaryKeySelective(record);
 
         long end = System.currentTimeMillis();
-        logger.info("{}党员缴费-启动成功，耗时{}ms", payMonth, (end-start));
+        logger.info("{}党员缴费-启动成功，耗时{}ms", payMonth, (end - start));
     }
 
     // 添加一个党员
@@ -305,80 +305,89 @@ public class PmdMonthService extends BaseMapper {
                 // 对于学生来说，需要支部选择缴费标准
                 normType = SystemConstants.PMD_MEMBER_NORM_TYPE_SELECT;
             } else {
+
                 MemberTeacher memberTeacher = memberTeacherService.get(userId);
                 record.setTalentTitle(memberTeacher.getTalentTitle());
                 record.setPostClass(memberTeacher.getPostClass());
                 record.setMainPostLevel(memberTeacher.getMainPostLevel());
+                record.setProPostLevel(memberTeacher.getProPostLevel());
+                record.setManageLevel(memberTeacher.getManageLevel());
+                record.setOfficeLevel(memberTeacher.getOfficeLevel());
                 record.setAuthorizedType(memberTeacher.getAuthorizedType());
                 record.setStaffType(memberTeacher.getStaffType());
 
-                if (memberTeacher.getIsRetire()) {
-                    type = SystemConstants.PMD_MEMBER_TYPE_RETIRE;
+                type = memberTeacher.getIsRetire()?SystemConstants.PMD_MEMBER_TYPE_RETIRE
+                        :SystemConstants.PMD_MEMBER_TYPE_TEACHER;
 
-                    BigDecimal ltxf = pmdExtService.getLtxf(memberTeacher.getCode());
-                    if(ltxf==null || ltxf.compareTo(BigDecimal.ZERO)<=0){
-                        normName = "离退休";
-                    }else if(ltxf.compareTo(BigDecimal.valueOf(5000))>0){
-                        normName = "离退休费>5000元";
-                        normDuePay = ltxf.multiply(BigDecimal.valueOf(0.01));
-                    }else{
-                        normName = "离退休费<=5000元";
-                        normDuePay = ltxf.multiply(BigDecimal.valueOf(0.005));
-                    }
-                } else {
-                    type = SystemConstants.PMD_MEMBER_TYPE_TEACHER;
-                    boolean syb = pmdExtService.isSYB(memberTeacher);
-                    if(syb){
-                        // 事业编
-                        int maxRCCHDuePay = pmdExtService.getMaxRCCHDuePay(memberTeacher);
-                        if(maxRCCHDuePay>0){
-                            normName = "高层次人才";
-                            normDuePay = new BigDecimal(maxRCCHDuePay);
-                        }else {
-                            int mainPostDuePay = pmdExtService.getMainPostDuePay(memberTeacher);
-                            if(mainPostDuePay>0){
-                                normName = memberTeacher.getMainPostLevel();
-                                normDuePay = new BigDecimal(mainPostDuePay);
-                            }else{
-                                normName = "“主岗等级”为空，支部设定党费应交额度";
-                            }
-                        }
-                    }else{
-                        // 非事业编
-                        if(pmdExtService.isXP(memberTeacher)){
-
-                            normName = "校聘职工";
-                            int xpDuePay = pmdExtService.getXPDuePay(memberTeacher);
-                            if(xpDuePay>0){
-                                normDuePay = new BigDecimal(xpDuePay);
-                            }
-                        }else if(pmdExtService.isXSZL(memberTeacher)){
-                            normName = "学生助理";
-                            int xszlDuePay = pmdExtService.getXSZLDuePay(memberTeacher);
-                            if(xszlDuePay>0){
-                                normDuePay = new BigDecimal(xszlDuePay);
-                            }
-                        }else{
-                            normName = "其他教职工";
-                        }
-                    }
-                }
-
-                if(normDuePay==null){
-                    // 对于教职工来说，没找对对应的缴费金额，则允许支部编辑额度
+                // 如果是特殊缴费人员，则规则为支部直接编辑额度
+                Map<String, PmdSpecialUser> pmdSpecialUserMap = pmdSpecialUserService.findAll();
+                PmdSpecialUser pmdSpecialUser = pmdSpecialUserMap.get(uv.getCode());
+                if (pmdSpecialUser != null) {
                     normType = SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
+                    normName = pmdSpecialUser.getType();
+                    normDuePay = null;
+                } else {
+
+                    if (type == SystemConstants.PMD_MEMBER_TYPE_RETIRE) {
+
+                        BigDecimal ltxf = pmdExtService.getLtxf(memberTeacher.getCode());
+                        if (ltxf == null || ltxf.compareTo(BigDecimal.ZERO) <= 0) {
+                            normName = "离退休";
+                        } else if (ltxf.compareTo(BigDecimal.valueOf(5000)) > 0) {
+                            normName = "离退休费>5000元";
+                            normDuePay = ltxf.multiply(BigDecimal.valueOf(0.01));
+                        } else {
+                            normName = "离退休费<=5000元";
+                            normDuePay = ltxf.multiply(BigDecimal.valueOf(0.005));
+                        }
+                    } else {
+
+                        int maxRCCHDuePay = pmdExtService.getMaxRCCHDuePay(memberTeacher);
+                        if (maxRCCHDuePay > 0) {
+                            normName = "高层次人才";
+                            normDuePay = BigDecimal.valueOf(maxRCCHDuePay);
+                        } else {
+                            boolean syb = pmdExtService.isSYB(memberTeacher);
+                            if (syb) {
+                                // 事业编
+                                PmdExtService.PostDuePayBean postDuePay = pmdExtService.getPostDuePay(memberTeacher);
+                                int duePay = postDuePay.getDuePay();
+                                if (duePay > 0) {
+                                    normName = postDuePay.getPost();
+                                    normDuePay = BigDecimal.valueOf(duePay);
+                                } else {
+                                    normName = "缺少岗位等级数据";
+                                }
+                            } else {
+                                // 非事业编
+                                if (pmdExtService.isXP(memberTeacher)) {
+
+                                    normName = "校聘职工";
+                                    int xpDuePay = pmdExtService.getXPDuePay(memberTeacher);
+                                    if (xpDuePay > 0) {
+                                        normDuePay = BigDecimal.valueOf(xpDuePay);
+                                    }
+                                } else if (pmdExtService.isXSZL(memberTeacher)) {
+                                    normName = "学生助理";
+                                    int xszlDuePay = pmdExtService.getXSZLDuePay(memberTeacher);
+                                    if (xszlDuePay > 0) {
+                                        normDuePay = BigDecimal.valueOf(xszlDuePay);
+                                    }
+                                } else {
+                                    normName = "其他教职工";
+                                }
+                            }
+                        }
+                    }
+
+                    if (normDuePay == null) {
+                        // 对于教职工来说，没找对对应的缴费金额，则允许支部编辑额度
+                        normType = SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
+                    }
                 }
             }
             record.setType(type);
 
-            // 如果是特殊缴费人员，则规则覆盖为支部直接编辑额度
-            Map<String, PmdSpecialUser> pmdSpecialUserMap = pmdSpecialUserService.findAll();
-            PmdSpecialUser pmdSpecialUser = pmdSpecialUserMap.get(uv.getCode());
-            if(pmdSpecialUser!=null){
-                normType = SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
-                normName = pmdSpecialUser.getType();
-                normDuePay = null;
-            }
 
             record.setNormType(normType);
             record.setNormName(normName);
@@ -419,9 +428,9 @@ public class PmdMonthService extends BaseMapper {
     public void updatePartyIds(int monthId, Integer[] partyIds) {
 
         PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
-        if(pmdMonth.getStatus()==SystemConstants.PMD_MONTH_STATUS_END){
+        if (pmdMonth.getStatus() == SystemConstants.PMD_MONTH_STATUS_END) {
             throw new OpException("已结算月份不允许编辑缴费分党委。");
-        }else if (pmdMonth.getStatus() == SystemConstants.PMD_MONTH_STATUS_START) {
+        } else if (pmdMonth.getStatus() == SystemConstants.PMD_MONTH_STATUS_START) {
             throw new OpException("已经启动缴费，不允许重新设置缴费分党委。");
         }
 
@@ -468,7 +477,7 @@ public class PmdMonthService extends BaseMapper {
             // 设置缴费分党委数量
             PmdMonth record = new PmdMonth();
             record.setId(monthId);
-            record.setPartyCount (selectedPartyIdSet.size());
+            record.setPartyCount(selectedPartyIdSet.size());
             pmdMonthMapper.updateByPrimaryKeySelective(record);
         }
 
@@ -503,7 +512,7 @@ public class PmdMonthService extends BaseMapper {
 
                     pmdBranchMapper.insertSelective(record);
 
-                    if(!allPayBranchIdSet.contains(branchId)){
+                    if (!allPayBranchIdSet.contains(branchId)) {
                         PmdPayBranch _record = new PmdPayBranch();
                         _record.setBranchId(branchId);
                         _record.setPartyId(partyId);
@@ -602,7 +611,7 @@ public class PmdMonthService extends BaseMapper {
             }
 
             PmdPayParty pmdPayParty = allPayPartyIdSet.get(partyId);
-            if(pmdPayParty!=null && pmdPayParty.getMonthId()!=monthId){
+            if (pmdPayParty != null && pmdPayParty.getMonthId() != monthId) {
                 node.selected = true;
                 node.unselectable = true;
                 node.unselectableStatus = true;

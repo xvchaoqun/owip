@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 管理岗位等级收党费标准 -->
+<list>
+    <item name="管理02级">241</item>
+    <item name="管理03级">205</item>
+    <item name="管理04级(实职)">138</item>
+    <item name="管理04级">133</item>
+    <item name="管理05级(实职)">116</item>
+    <item name="管理05级">110</item>
+    <item name="管理06级(实职)">97</item>
+    <item name="管理06级">93</item>
+    <item name="管理07级">80</item>
+    <item name="管理08级">47</item>
+    <item name="管理09级">42</item>
+    <item name="管理10级">38</item>
+    <item name="新工作01级(博士)">49</item>
+    <item name="新工作02级(硕士)">44</item>
+    <item name="新工作03级(双学位)">40</item>
+    <item name="新工作04级(本科)">39</item>
+    <item name="新工作05级(专科)">37</item>
+    <item name="新工作06级(其他)">36</item>
+    <item name="新工作07级">35</item>
+</list>

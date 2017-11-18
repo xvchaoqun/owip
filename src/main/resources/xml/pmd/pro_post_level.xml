@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 专业技术岗位等级收党费标准 -->
+<list>
+    <item name="专业技术01级(正高)">251</item>
+    <item name="专业技术02级(正高)">203</item>
+    <item name="专业技术03级(正高)">139</item>
+    <item name="专业技术04级(正高)">128</item>
+    <item name="专业技术05级(副高)">109</item>
+    <item name="专业技术06级(副高)">101</item>
+    <item name="专业技术07级(副高)">95</item>
+    <item name="专业技术08级(中级)">79</item>
+    <item name="专业技术09级(中级)">49</item>
+    <item name="专业技术10级(中级)">47</item>
+    <item name="专业技术11级(初级)">42</item>
+    <item name="专业技术12级(初级)">42</item>
+    <item name="专业技术13级(初级)">38</item>
+    <item name="新工作01级(博士)">49</item>
+    <item name="新工作02级(硕士)">44</item>
+    <item name="新工作03级(双学位)">40</item>
+    <item name="新工作04级(本科)">39</item>
+    <item name="新工作05级(专科)">37</item>
+    <item name="新工作06级(其他)">36</item>
+    <item name="新工作07级">35</item>
+</list>

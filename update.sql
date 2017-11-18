@@ -1,7 +1,13 @@
 
 
+ALTER TABLE `pmd_member`
+	ADD COLUMN `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专技岗位等级' AFTER `main_post_level`,
+	ADD COLUMN `manage_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '管理岗位等级' AFTER `pro_post_level`,
+	ADD COLUMN `office_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '工勤岗位等级' AFTER `manage_level`;
 
 
+
+2017-11-17
 update sys_resource set url='/oa/oaTask' where url='/oaTask';
 
 增加 mt_log_pmd

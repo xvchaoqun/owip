@@ -1,7 +1,6 @@
 package service.pmd;
 
 import domain.member.MemberTeacher;
-import domain.member.MemberTeacherExample;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Node;
@@ -11,17 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import persistence.member.MemberTeacherMapper;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by lm on 2017/11/15.
@@ -33,7 +28,9 @@ public class PmdExtService extends BaseMapper{
     private MemberTeacherMapper memberTeacherMapper;
 
     private static Map<String, Integer> rcchNormMap;
-    private static Map<String, Integer> mainPostNormMap;
+    private static Map<String, Integer> proPostLevelNormMap;
+    private static Map<String, Integer> managerLevelNormMap;
+    private static Map<String, Integer> officeLevelNormMap;
     private static Map<String, Integer> eduNormMap;
 
     // 高级人才收费标准
@@ -41,41 +38,35 @@ public class PmdExtService extends BaseMapper{
 
         if(rcchNormMap!=null) return rcchNormMap;
 
-        rcchNormMap = new LinkedHashMap<>();
-        try {
-            SAXReader reader = new SAXReader();
-            InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xml/pmd/rcch.xml"));
-            Document document = reader.read(is);
-            List<Node> nodeList = document.selectNodes("//rcch-list/rcch");
-            for (Node node : nodeList) {
-                rcchNormMap.put(node.valueOf("@name").trim(), Integer.valueOf(node.getText()));
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
+        rcchNormMap = getPayMap("classpath:xml/pmd/rcch.xml");
         return rcchNormMap;
     }
 
-    // 主岗等级收费标准
-    public Map<String, Integer> getMainPostNormMap(){
+    // 专技岗位等级收费标准
+    public Map<String, Integer> getProPostLevelNormMap(){
 
-        if(mainPostNormMap!=null) return mainPostNormMap;
+        if(proPostLevelNormMap!=null) return proPostLevelNormMap;
 
-        mainPostNormMap = new LinkedHashMap<>();
-        try {
-            SAXReader reader = new SAXReader();
-            InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xml/pmd/main_post.xml"));
-            Document document = reader.read(is);
-            List<Node> nodeList = document.selectNodes("//main-post-list/main-post");
-            for (Node node : nodeList) {
-                mainPostNormMap.put(node.valueOf("@name").trim(), Integer.valueOf(node.getText()));
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        proPostLevelNormMap = getPayMap("classpath:xml/pmd/pro_post_level.xml");
+        return proPostLevelNormMap;
+    }
 
-        return mainPostNormMap;
+    // 管理岗位等级收费标准
+    public Map<String, Integer> getManagerLevelNormMap(){
+
+        if(managerLevelNormMap!=null) return managerLevelNormMap;
+
+        managerLevelNormMap = getPayMap("classpath:xml/pmd/manage_level.xml");
+        return managerLevelNormMap;
+    }
+
+    // 工勤岗位等级收费标准
+    public Map<String, Integer> getOfficeLevelNormMap(){
+
+        if(officeLevelNormMap!=null) return officeLevelNormMap;
+
+        officeLevelNormMap = getPayMap("classpath:xml/pmd/office_level.xml");
+        return officeLevelNormMap;
     }
 
     // （非事业编-校聘-最高学历）党费标准
@@ -83,25 +74,31 @@ public class PmdExtService extends BaseMapper{
 
         if(eduNormMap!=null) return eduNormMap;
 
-        eduNormMap = new LinkedHashMap<>();
+        eduNormMap = getPayMap("classpath:xml/pmd/xp_xl.xml");
+        return eduNormMap;
+    }
+
+    private Map<String, Integer> getPayMap(String classpath){
+
+        Map<String, Integer> map = new LinkedHashMap<>();
         try {
             SAXReader reader = new SAXReader();
-            InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xml/pmd/xp_xl.xml"));
+            InputStream is = new FileInputStream(ResourceUtils.getFile(classpath));
             Document document = reader.read(is);
-            List<Node> nodeList = document.selectNodes("//xl-list/xl");
+            List<Node> nodeList = document.selectNodes("//list/item");
             for (Node node : nodeList) {
-                eduNormMap.put(node.valueOf("@name").trim(), Integer.valueOf(node.getText()));
+                map.put(node.valueOf("@name").trim(), Integer.valueOf(node.getText()));
             }
         }catch (Exception ex){
             ex.printStackTrace();
         }
 
-        return eduNormMap;
+        return map;
     }
 
     // 具有指定高级人才称号的党员
     // <userId, MemberTeacher>
-    public Map<Integer, MemberTeacher> getRCCH(){
+    /*public Map<Integer, MemberTeacher> getRCCH(){
 
         // 人才称号
         Set<String> rcchList = getRcchNormMap().keySet();
@@ -119,7 +116,7 @@ public class PmdExtService extends BaseMapper{
 
         return resultMap;
     }
-
+*/
     // 如果是在职事业编的高级人才，返回对应的最大缴纳金额，否则返回-1
     public int getMaxRCCHDuePay(MemberTeacher memberTeacher){
 
@@ -148,32 +145,78 @@ public class PmdExtService extends BaseMapper{
         return duePay;
     }
 
-    // 根据主岗等级得到缴纳金额，主岗等级不匹配否则返回-1
-    public int getMainPostDuePay(MemberTeacher memberTeacher){
+    class PostDuePayBean{
+
+        private int duePay;
+        private String post;
+
+        public PostDuePayBean(int duePay, String post) {
+            this.duePay = duePay;
+            this.post = post;
+        }
+
+        public String getPost() {
+            return post;
+        }
+
+        public void setPost(String post) {
+            this.post = post;
+        }
+
+        public int getDuePay() {
+            return duePay;
+        }
+
+        public void setDuePay(int duePay) {
+            this.duePay = duePay;
+        }
+    }
+
+    // 根据专技、管理、工勤3种等级得到最高的缴纳金额，都不匹配否则返回-1
+    public PostDuePayBean getPostDuePay(MemberTeacher memberTeacher){
 
         int duePay = -1;
+        String post = null;
 
         String staffStatus = StringUtils.trim(memberTeacher.getStaffStatus());
         String authorizedType = StringUtils.trim(memberTeacher.getAuthorizedType());
-        String mainPostLevel = StringUtils.trim(memberTeacher.getMainPostLevel());
 
         if(StringUtils.equals(staffStatus, "在职")
-                && StringUtils.equals(authorizedType, "事业编")
-                && StringUtils.isNotBlank(mainPostLevel)) {
+                && StringUtils.equals(authorizedType, "事业编")) {
 
-            Map<String, Integer> mainPostNormMap = getMainPostNormMap();
-            Integer _duePay = mainPostNormMap.get(mainPostLevel.trim());
-            if (_duePay != null && _duePay>0) {
-                duePay = _duePay;
+            String proPostLevel = StringUtils.trim(memberTeacher.getProPostLevel());
+            String manageLevel = StringUtils.trim(memberTeacher.getManageLevel());
+            String officeLevel = StringUtils.trim(memberTeacher.getOfficeLevel());
+
+            if(StringUtils.isNotBlank(proPostLevel)) {
+                Integer _duePay = getProPostLevelNormMap().get(proPostLevel);
+                if(_duePay!=null && _duePay > duePay){
+                    duePay = _duePay;
+                    post = proPostLevel;
+                }
+            }
+            if(StringUtils.isNotBlank(manageLevel)) {
+                Integer _duePay = getManagerLevelNormMap().get(manageLevel);
+                if(_duePay!=null && _duePay > duePay){
+                    duePay = _duePay;
+                    post = manageLevel;
+                }
+            }
+            if(StringUtils.isNotBlank(officeLevel)) {
+                Integer _duePay = getOfficeLevelNormMap().get(officeLevel);
+                if(_duePay!=null && _duePay > duePay){
+                    duePay = _duePay;
+                    post = officeLevel;
+                }
             }
         }
 
-        return duePay;
+        return new PostDuePayBean(duePay, post);
     }
 
     // 在职事业编党员
     // <userId, MemberTeacher>
-    public Map<Integer, MemberTeacher> getSYB(){
+   /* public Map<Integer, MemberTeacher> getSYB(){
 
         MemberTeacherExample example = new MemberTeacherExample();
         example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
@@ -186,7 +229,7 @@ public class PmdExtService extends BaseMapper{
         }
 
         return resultMap;
-    }
+    }*/
 
     public boolean isSYB(MemberTeacher memberTeacher){
 
@@ -199,7 +242,7 @@ public class PmdExtService extends BaseMapper{
 
     // 在职非事业编党员（校聘、学生助理）
     // <userId, MemberTeacher>
-    public Map<Integer, MemberTeacher> getFSYB(){
+    /*public Map<Integer, MemberTeacher> getFSYB(){
 
         MemberTeacherExample example = new MemberTeacherExample();
         example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
@@ -213,7 +256,7 @@ public class PmdExtService extends BaseMapper{
         }
 
         return resultMap;
-    }
+    }*/
 
     public boolean isXP(MemberTeacher memberTeacher){
 
