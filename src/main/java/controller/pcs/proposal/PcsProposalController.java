@@ -150,7 +150,8 @@ public class PcsProposalController extends PcsBaseController {
                 orderStr = "check_time asc, create_time desc";
             else
                 orderStr = "create_time desc";
-        }else if(orderType==1){ // 按附议人多少排序
+        }
+        if(orderType!=null && orderType==1){ // 按附议人多少排序
                 orderStr = " seconder_count desc, " + orderStr;
         }
         example.setOrderByClause(orderStr);

@@ -67,6 +67,8 @@ public class SystemConstants {
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
     public static final String ROLE_PCS_PR = "role_pcs_pr"; // 党代表
+    public static final String ROLE_PCS_VOTE_DW = "role_pcs_vote_dw"; // 党代会-两委选举-党委录入
+    public static final String ROLE_PCS_VOTE_JW = "role_pcs_vote_jw"; // 党代会-两委选举-纪委录入
 
     public static final String ROLE_OA_USER = "role_oa_user"; // 协同办公负责人
 

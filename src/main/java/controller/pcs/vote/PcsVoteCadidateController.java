@@ -1,0 +1,117 @@
+package controller.pcs.vote;
+
+import controller.PcsBaseController;
+import domain.pcs.PcsConfig;
+import domain.pcs.PcsVoteCandidate;
+import domain.pcs.PcsVoteGroup;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.SystemConstants;
+import sys.utils.ExportHelper;
+import sys.utils.FormUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class PcsVoteCadidateController extends PcsBaseController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @RequiresPermissions("pcsVoteStat:candidate")
+    @RequestMapping("/pcsVoteCandidate")
+    public String pcsVoteCandidate(byte type, ModelMap modelMap) {
+
+        modelMap.put("type", type);
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        modelMap.put("currentPcsConfig", currentPcsConfig);
+
+        PcsVoteGroup pcsVoteGroup = iPcsMapper.statPcsVoteGroup(type);
+        modelMap.put("pcsVoteGroup", pcsVoteGroup);
+
+        List<PcsVoteCandidate> pcsVoteCandidates = iPcsMapper.selectVoteCandidateStatList(type, null, null);
+        modelMap.put("candidates", pcsVoteCandidates);
+
+        return "pcs/pcsVoteCandidate/pcsVoteCandidate_page";
+    }
+
+    @RequiresPermissions("pcsVoteStat:candidate")
+    @RequestMapping(value = "/pcsVoteCandidate_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsVoteCandidate_au(PcsVoteCandidate record, HttpServletRequest request) {
+
+        Integer id = record.getId();
+        
+        if (id == null) {
+            pcsVoteCandidateService.insertSelective(record);
+            logger.info(addLog(SystemConstants.LOG_PCS, "添加候选人：%s", record.getId()));
+        } else {
+
+            pcsVoteCandidateService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(SystemConstants.LOG_PCS, "更新候选人：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pcsVoteStat:candidate")
+    @RequestMapping(value = "/pcsVoteCandidate_choose", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsVoteCandidate_choose(@RequestParam(value = "ids[]") Integer[] ids, // userIds
+                               byte type, Boolean isChosen) {
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        int configId = currentPcsConfig.getId();
+
+        isChosen = BooleanUtils.isTrue(isChosen);
+        pcsVoteCandidateService.choose(ids, isChosen, configId, type);
+        logger.info(addLog(SystemConstants.LOG_PCS,
+                "[组织部管理员]%s当选名单-%s", isChosen ? "选入" : "删除", StringUtils.join(ids, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
+    @RequiresPermissions("pcsVoteStat:candidate")
+    @RequestMapping("/pcsVoteCandidate_export")
+    public String pcsVoteCandidate_export(byte cls, byte type,
+                               HttpServletResponse response) throws IOException {
+
+        XSSFWorkbook wb = null;
+        String fileName = null;
+
+        switch (cls) {
+            case 1:
+                wb = pcsVoteExportService.vote(type);
+                fileName = String.format("计票汇总用：%s",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                break;
+            case 2:
+                wb = pcsVoteExportService.vote_zj(type);
+                fileName = String.format("报总监票人：%s选举结果报告单",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                break;
+        }
+
+        if (wb != null) {
+            ExportHelper.output(wb, fileName + ".xlsx", response);
+        }
+
+        return null;
+    }
+
+}

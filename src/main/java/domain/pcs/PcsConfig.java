@@ -24,6 +24,16 @@ public class PcsConfig implements Serializable {
 
     private Integer proposalSupportCount;
 
+    private Integer committeeJoinCount;
+
+    private Integer dwSendVote;
+
+    private Integer jwSendVote;
+
+    private Integer dwBackVote;
+
+    private Integer jwBackVote;
+
     private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
@@ -90,6 +100,46 @@ public class PcsConfig implements Serializable {
 
     public void setProposalSupportCount(Integer proposalSupportCount) {
         this.proposalSupportCount = proposalSupportCount;
+    }
+
+    public Integer getCommitteeJoinCount() {
+        return committeeJoinCount;
+    }
+
+    public void setCommitteeJoinCount(Integer committeeJoinCount) {
+        this.committeeJoinCount = committeeJoinCount;
+    }
+
+    public Integer getDwSendVote() {
+        return dwSendVote;
+    }
+
+    public void setDwSendVote(Integer dwSendVote) {
+        this.dwSendVote = dwSendVote;
+    }
+
+    public Integer getJwSendVote() {
+        return jwSendVote;
+    }
+
+    public void setJwSendVote(Integer jwSendVote) {
+        this.jwSendVote = jwSendVote;
+    }
+
+    public Integer getDwBackVote() {
+        return dwBackVote;
+    }
+
+    public void setDwBackVote(Integer dwBackVote) {
+        this.dwBackVote = dwBackVote;
+    }
+
+    public Integer getJwBackVote() {
+        return jwBackVote;
+    }
+
+    public void setJwBackVote(Integer jwBackVote) {
+        this.jwBackVote = jwBackVote;
     }
 
     public Boolean getIsDeleted() {

@@ -10,6 +10,11 @@
     <result column="proposal_submit_time" jdbcType="TIMESTAMP" property="proposalSubmitTime" />
     <result column="proposal_support_time" jdbcType="TIMESTAMP" property="proposalSupportTime" />
     <result column="proposal_support_count" jdbcType="INTEGER" property="proposalSupportCount" />
+    <result column="committee_join_count" jdbcType="INTEGER" property="committeeJoinCount" />
+    <result column="dw_send_vote" jdbcType="INTEGER" property="dwSendVote" />
+    <result column="jw_send_vote" jdbcType="INTEGER" property="jwSendVote" />
+    <result column="dw_back_vote" jdbcType="INTEGER" property="dwBackVote" />
+    <result column="jw_back_vote" jdbcType="INTEGER" property="jwBackVote" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,7 +77,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, is_current, create_time, remark, proposal_submit_time, proposal_support_time, 
-    proposal_support_count, is_deleted
+    proposal_support_count, committee_join_count, dw_send_vote, jw_send_vote, dw_back_vote, 
+    jw_back_vote, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsConfigExample" resultMap="BaseResultMap">
     select
@@ -108,11 +114,15 @@
     insert into pcs_config (id, name, is_current, 
       create_time, remark, proposal_submit_time, 
       proposal_support_time, proposal_support_count, 
-      is_deleted)
+      committee_join_count, dw_send_vote, jw_send_vote, 
+      dw_back_vote, jw_back_vote, is_deleted
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{isCurrent,jdbcType=BIT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{proposalSubmitTime,jdbcType=TIMESTAMP}, 
       #{proposalSupportTime,jdbcType=TIMESTAMP}, #{proposalSupportCount,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=BIT})
+      #{committeeJoinCount,jdbcType=INTEGER}, #{dwSendVote,jdbcType=INTEGER}, #{jwSendVote,jdbcType=INTEGER}, 
+      #{dwBackVote,jdbcType=INTEGER}, #{jwBackVote,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsConfig">
     insert into pcs_config
@@ -140,6 +150,21 @@
       </if>
       <if test="proposalSupportCount != null">
         proposal_support_count,
+      </if>
+      <if test="committeeJoinCount != null">
+        committee_join_count,
+      </if>
+      <if test="dwSendVote != null">
+        dw_send_vote,
+      </if>
+      <if test="jwSendVote != null">
+        jw_send_vote,
+      </if>
+      <if test="dwBackVote != null">
+        dw_back_vote,
+      </if>
+      <if test="jwBackVote != null">
+        jw_back_vote,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -169,6 +194,21 @@
       </if>
       <if test="proposalSupportCount != null">
         #{proposalSupportCount,jdbcType=INTEGER},
+      </if>
+      <if test="committeeJoinCount != null">
+        #{committeeJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="dwSendVote != null">
+        #{dwSendVote,jdbcType=INTEGER},
+      </if>
+      <if test="jwSendVote != null">
+        #{jwSendVote,jdbcType=INTEGER},
+      </if>
+      <if test="dwBackVote != null">
+        #{dwBackVote,jdbcType=INTEGER},
+      </if>
+      <if test="jwBackVote != null">
+        #{jwBackVote,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -208,6 +248,21 @@
       <if test="record.proposalSupportCount != null">
         proposal_support_count = #{record.proposalSupportCount,jdbcType=INTEGER},
       </if>
+      <if test="record.committeeJoinCount != null">
+        committee_join_count = #{record.committeeJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.dwSendVote != null">
+        dw_send_vote = #{record.dwSendVote,jdbcType=INTEGER},
+      </if>
+      <if test="record.jwSendVote != null">
+        jw_send_vote = #{record.jwSendVote,jdbcType=INTEGER},
+      </if>
+      <if test="record.dwBackVote != null">
+        dw_back_vote = #{record.dwBackVote,jdbcType=INTEGER},
+      </if>
+      <if test="record.jwBackVote != null">
+        jw_back_vote = #{record.jwBackVote,jdbcType=INTEGER},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -226,6 +281,11 @@
       proposal_submit_time = #{record.proposalSubmitTime,jdbcType=TIMESTAMP},
       proposal_support_time = #{record.proposalSupportTime,jdbcType=TIMESTAMP},
       proposal_support_count = #{record.proposalSupportCount,jdbcType=INTEGER},
+      committee_join_count = #{record.committeeJoinCount,jdbcType=INTEGER},
+      dw_send_vote = #{record.dwSendVote,jdbcType=INTEGER},
+      jw_send_vote = #{record.jwSendVote,jdbcType=INTEGER},
+      dw_back_vote = #{record.dwBackVote,jdbcType=INTEGER},
+      jw_back_vote = #{record.jwBackVote,jdbcType=INTEGER},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -255,6 +315,21 @@
       <if test="proposalSupportCount != null">
         proposal_support_count = #{proposalSupportCount,jdbcType=INTEGER},
       </if>
+      <if test="committeeJoinCount != null">
+        committee_join_count = #{committeeJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="dwSendVote != null">
+        dw_send_vote = #{dwSendVote,jdbcType=INTEGER},
+      </if>
+      <if test="jwSendVote != null">
+        jw_send_vote = #{jwSendVote,jdbcType=INTEGER},
+      </if>
+      <if test="dwBackVote != null">
+        dw_back_vote = #{dwBackVote,jdbcType=INTEGER},
+      </if>
+      <if test="jwBackVote != null">
+        jw_back_vote = #{jwBackVote,jdbcType=INTEGER},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -270,6 +345,11 @@
       proposal_submit_time = #{proposalSubmitTime,jdbcType=TIMESTAMP},
       proposal_support_time = #{proposalSupportTime,jdbcType=TIMESTAMP},
       proposal_support_count = #{proposalSupportCount,jdbcType=INTEGER},
+      committee_join_count = #{committeeJoinCount,jdbcType=INTEGER},
+      dw_send_vote = #{dwSendVote,jdbcType=INTEGER},
+      jw_send_vote = #{jwSendVote,jdbcType=INTEGER},
+      dw_back_vote = #{dwBackVote,jdbcType=INTEGER},
+      jw_back_vote = #{jwBackVote,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

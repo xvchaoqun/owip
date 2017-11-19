@@ -1,5 +1,14 @@
 
+2017-11-20
+ALTER TABLE `pcs_config`
+	ADD COLUMN `committee_join_count` INT(10) UNSIGNED NOT NULL COMMENT '两委选举实到会的代表人数' AFTER `proposal_support_count`,
+	ADD COLUMN `dw_send_vote` INT(10) UNSIGNED NOT NULL COMMENT '发出党委委员选票数，两委选举' AFTER `committee_join_count`,
+	ADD COLUMN `jw_send_vote` INT(10) UNSIGNED NOT NULL COMMENT '发出纪委委员选票数，两委选举' AFTER `dw_send_vote`,
+	ADD COLUMN `dw_back_vote` INT(10) UNSIGNED NOT NULL COMMENT '收回党委委员选票数，两委选举' AFTER `jw_send_vote`,
+	ADD COLUMN `jw_back_vote` INT(10) UNSIGNED NOT NULL COMMENT '收回党委委员选票数，两委选举' AFTER `dw_back_vote`;
 
+
+2017-11-18
 ALTER TABLE `pmd_member`
 	ADD COLUMN `pro_post_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '专技岗位等级' AFTER `main_post_level`,
 	ADD COLUMN `manage_level` VARCHAR(50) NULL DEFAULT NULL COMMENT '管理岗位等级' AFTER `pro_post_level`,

@@ -3,6 +3,8 @@ package persistence.common;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrCandidateView;
+import domain.pcs.PcsVoteCandidate;
+import domain.pcs.PcsVoteGroup;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -22,6 +24,16 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IPcsMapper {
+
+    // 两委选举 小组统计汇总
+    public List<PcsVoteCandidate> selectVoteCandidateStatList(@Param("type") byte type,
+                                                              @Param("userId") Integer userId,
+                                                              @Param("isFromStage") Boolean isFromStage);
+
+    @ResultMap("persistence.pcs.PcsVoteGroupMapper.BaseResultMap")
+    @Select("select sum(vote) as vote, sum(valid) as valid, sum(invalid) as invalid " +
+            "from pcs_vote_group where has_report=1 and type=#{type}")
+    public PcsVoteGroup statPcsVoteGroup(@Param("type") byte type);
 
     // 根据账号、姓名、学工号查找党代表
     List<PcsPrCandidateView> selectPrList( @Param("configId") int configId,

@@ -195,6 +195,9 @@ import persistence.pcs.PcsProposalMapper;
 import persistence.pcs.PcsProposalSeconderMapper;
 import persistence.pcs.PcsProposalViewMapper;
 import persistence.pcs.PcsRecommendMapper;
+import persistence.pcs.PcsVoteCandidateMapper;
+import persistence.pcs.PcsVoteGroupMapper;
+import persistence.pcs.PcsVoteMemberMapper;
 import persistence.pmd.PmdBranchAdminMapper;
 import persistence.pmd.PmdBranchMapper;
 import persistence.pmd.PmdBranchViewMapper;
@@ -652,6 +655,12 @@ public class BaseMapper {
     protected PcsProposalFileMapper pcsProposalFileMapper;
     @Autowired
     protected PcsProposalSeconderMapper pcsProposalSeconderMapper;
+    @Autowired
+    protected PcsVoteGroupMapper pcsVoteGroupMapper;
+    @Autowired
+    protected PcsVoteCandidateMapper pcsVoteCandidateMapper;
+    @Autowired
+    protected PcsVoteMemberMapper pcsVoteMemberMapper;
 
     /**
      * 干部职数

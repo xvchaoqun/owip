@@ -19,6 +19,10 @@ import service.pcs.PcsPrPartyService;
 import service.pcs.PcsProposalOwService;
 import service.pcs.PcsProposalService;
 import service.pcs.PcsRecommendService;
+import service.pcs.PcsVoteCandidateService;
+import service.pcs.PcsVoteExportService;
+import service.pcs.PcsVoteGroupService;
+import service.pcs.PcsVoteMemberService;
 
 public class PcsBaseController extends BaseController {
 
@@ -59,4 +63,13 @@ public class PcsBaseController extends BaseController {
     protected PcsPrListService pcsPrListService;
     @Autowired
     protected PcsProposalOwService pcsProposalOwService;
+
+    @Autowired
+    protected PcsVoteGroupService pcsVoteGroupService;
+    @Autowired
+    protected PcsVoteMemberService pcsVoteMemberService;
+    @Autowired
+    protected PcsVoteCandidateService pcsVoteCandidateService;
+    @Autowired
+    protected PcsVoteExportService pcsVoteExportService;
 }

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pcs.PcsVoteMemberMapper">
+  <resultMap id="BaseResultMap" type="domain.pcs.PcsVoteMember">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="agree" jdbcType="INTEGER" property="agree" />
+    <result column="degree" jdbcType="INTEGER" property="degree" />
+    <result column="abstain" jdbcType="INTEGER" property="abstain" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, config_id, type, user_id, realname, agree, degree, abstain, gender, nation, pro_post, 
+    birth, age, grow_time, title, sort_order
+  </sql>
+  <select id="selectByExample" parameterType="domain.pcs.PcsVoteMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_vote_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pcs_vote_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pcs_vote_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pcs.PcsVoteMemberExample">
+    delete from pcs_vote_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pcs.PcsVoteMember">
+    insert into pcs_vote_member (id, config_id, type, 
+      user_id, realname, agree, 
+      degree, abstain, gender, 
+      nation, pro_post, birth, 
+      age, grow_time, title, 
+      sort_order)
+    values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{agree,jdbcType=INTEGER}, 
+      #{degree,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, 
+      #{nation,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
+      #{age,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pcs.PcsVoteMember">
+    insert into pcs_vote_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="configId != null">
+        config_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="agree != null">
+        agree,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="abstain != null">
+        abstain,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="proPost != null">
+        pro_post,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="growTime != null">
+        grow_time,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="agree != null">
+        #{agree,jdbcType=INTEGER},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=INTEGER},
+      </if>
+      <if test="abstain != null">
+        #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null">
+        #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="growTime != null">
+        #{growTime,jdbcType=DATE},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pcs.PcsVoteMemberExample" resultType="java.lang.Long">
+    select count(*) from pcs_vote_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pcs_vote_member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.configId != null">
+        config_id = #{record.configId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agree != null">
+        agree = #{record.agree,jdbcType=INTEGER},
+      </if>
+      <if test="record.degree != null">
+        degree = #{record.degree,jdbcType=INTEGER},
+      </if>
+      <if test="record.abstain != null">
+        abstain = #{record.abstain,jdbcType=INTEGER},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.nation != null">
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proPost != null">
+        pro_post = #{record.proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=DATE},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.growTime != null">
+        grow_time = #{record.growTime,jdbcType=DATE},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pcs_vote_member
+    set id = #{record.id,jdbcType=INTEGER},
+      config_id = #{record.configId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      agree = #{record.agree,jdbcType=INTEGER},
+      degree = #{record.degree,jdbcType=INTEGER},
+      abstain = #{record.abstain,jdbcType=INTEGER},
+      gender = #{record.gender,jdbcType=TINYINT},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      pro_post = #{record.proPost,jdbcType=VARCHAR},
+      birth = #{record.birth,jdbcType=DATE},
+      age = #{record.age,jdbcType=INTEGER},
+      grow_time = #{record.growTime,jdbcType=DATE},
+      title = #{record.title,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pcs.PcsVoteMember">
+    update pcs_vote_member
+    <set>
+      <if test="configId != null">
+        config_id = #{configId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="agree != null">
+        agree = #{agree,jdbcType=INTEGER},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=INTEGER},
+      </if>
+      <if test="abstain != null">
+        abstain = #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="proPost != null">
+        pro_post = #{proPost,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="growTime != null">
+        grow_time = #{growTime,jdbcType=DATE},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pcs.PcsVoteMember">
+    update pcs_vote_member
+    set config_id = #{configId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      realname = #{realname,jdbcType=VARCHAR},
+      agree = #{agree,jdbcType=INTEGER},
+      degree = #{degree,jdbcType=INTEGER},
+      abstain = #{abstain,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=TINYINT},
+      nation = #{nation,jdbcType=VARCHAR},
+      pro_post = #{proPost,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=DATE},
+      age = #{age,jdbcType=INTEGER},
+      grow_time = #{growTime,jdbcType=DATE},
+      title = #{title,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsVoteMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_vote_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

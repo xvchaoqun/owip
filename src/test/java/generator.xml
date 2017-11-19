@@ -36,9 +36,9 @@
         </table>
         <table tableName="pmd_norm_value_log" domainObjectName="pmd.PmdNormValueLog" mapperName="pmd.PmdNormValueLogMapper">
         </table>-->
-         <table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
+        <!-- <table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-       </table>
+       </table>-->
         <!--<table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
         </table>-->
        <!-- <table tableName="pmd_member_pay_view"
@@ -573,7 +573,7 @@
         </table>-->
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
-        <!-- <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
+        <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
         </table>-->
         <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
         </table>-->
@@ -617,6 +617,21 @@
         <!-- <table tableName="pcs_proposal" domainObjectName="pcs.PcsProposal" mapperName="pcs.PcsProposalMapper">
              <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
          </table>-->
+
+      <!--<table tableName="pcs_vote_group" domainObjectName="pcs.PcsVoteGroup" mapperName="pcs.PcsVoteGroupMapper">
+        </table>-->
+    <!--    <table tableName="pcs_vote_candidate" domainObjectName="pcs.PcsVoteCandidate" mapperName="pcs.PcsVoteCandidateMapper">
+      </table>
+
+        <table tableName="pcs_vote_candidate_view" domainObjectName="pcs.PcsVoteCandidateView"
+               mapperName="pcs.PcsVoteCandidateViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+      </table>
+-->
+        <table tableName="pcs_vote_member" domainObjectName="pcs.PcsVoteMember" mapperName="pcs.PcsVoteMemberMapper">
+        </table>
 
         <!--     <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
                     mapperName="pcs.PcsProposalViewMapper"

@@ -605,6 +605,306 @@ public class PcsConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andCommitteeJoinCountIsNull() {
+            addCriterion("committee_join_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountIsNotNull() {
+            addCriterion("committee_join_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountEqualTo(Integer value) {
+            addCriterion("committee_join_count =", value, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountNotEqualTo(Integer value) {
+            addCriterion("committee_join_count <>", value, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountGreaterThan(Integer value) {
+            addCriterion("committee_join_count >", value, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("committee_join_count >=", value, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountLessThan(Integer value) {
+            addCriterion("committee_join_count <", value, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountLessThanOrEqualTo(Integer value) {
+            addCriterion("committee_join_count <=", value, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountIn(List<Integer> values) {
+            addCriterion("committee_join_count in", values, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountNotIn(List<Integer> values) {
+            addCriterion("committee_join_count not in", values, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountBetween(Integer value1, Integer value2) {
+            addCriterion("committee_join_count between", value1, value2, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeJoinCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("committee_join_count not between", value1, value2, "committeeJoinCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteIsNull() {
+            addCriterion("dw_send_vote is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteIsNotNull() {
+            addCriterion("dw_send_vote is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteEqualTo(Integer value) {
+            addCriterion("dw_send_vote =", value, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteNotEqualTo(Integer value) {
+            addCriterion("dw_send_vote <>", value, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteGreaterThan(Integer value) {
+            addCriterion("dw_send_vote >", value, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dw_send_vote >=", value, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteLessThan(Integer value) {
+            addCriterion("dw_send_vote <", value, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteLessThanOrEqualTo(Integer value) {
+            addCriterion("dw_send_vote <=", value, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteIn(List<Integer> values) {
+            addCriterion("dw_send_vote in", values, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteNotIn(List<Integer> values) {
+            addCriterion("dw_send_vote not in", values, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteBetween(Integer value1, Integer value2) {
+            addCriterion("dw_send_vote between", value1, value2, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwSendVoteNotBetween(Integer value1, Integer value2) {
+            addCriterion("dw_send_vote not between", value1, value2, "dwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteIsNull() {
+            addCriterion("jw_send_vote is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteIsNotNull() {
+            addCriterion("jw_send_vote is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteEqualTo(Integer value) {
+            addCriterion("jw_send_vote =", value, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteNotEqualTo(Integer value) {
+            addCriterion("jw_send_vote <>", value, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteGreaterThan(Integer value) {
+            addCriterion("jw_send_vote >", value, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("jw_send_vote >=", value, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteLessThan(Integer value) {
+            addCriterion("jw_send_vote <", value, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteLessThanOrEqualTo(Integer value) {
+            addCriterion("jw_send_vote <=", value, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteIn(List<Integer> values) {
+            addCriterion("jw_send_vote in", values, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteNotIn(List<Integer> values) {
+            addCriterion("jw_send_vote not in", values, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteBetween(Integer value1, Integer value2) {
+            addCriterion("jw_send_vote between", value1, value2, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwSendVoteNotBetween(Integer value1, Integer value2) {
+            addCriterion("jw_send_vote not between", value1, value2, "jwSendVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteIsNull() {
+            addCriterion("dw_back_vote is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteIsNotNull() {
+            addCriterion("dw_back_vote is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteEqualTo(Integer value) {
+            addCriterion("dw_back_vote =", value, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteNotEqualTo(Integer value) {
+            addCriterion("dw_back_vote <>", value, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteGreaterThan(Integer value) {
+            addCriterion("dw_back_vote >", value, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dw_back_vote >=", value, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteLessThan(Integer value) {
+            addCriterion("dw_back_vote <", value, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteLessThanOrEqualTo(Integer value) {
+            addCriterion("dw_back_vote <=", value, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteIn(List<Integer> values) {
+            addCriterion("dw_back_vote in", values, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteNotIn(List<Integer> values) {
+            addCriterion("dw_back_vote not in", values, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteBetween(Integer value1, Integer value2) {
+            addCriterion("dw_back_vote between", value1, value2, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andDwBackVoteNotBetween(Integer value1, Integer value2) {
+            addCriterion("dw_back_vote not between", value1, value2, "dwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteIsNull() {
+            addCriterion("jw_back_vote is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteIsNotNull() {
+            addCriterion("jw_back_vote is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteEqualTo(Integer value) {
+            addCriterion("jw_back_vote =", value, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteNotEqualTo(Integer value) {
+            addCriterion("jw_back_vote <>", value, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteGreaterThan(Integer value) {
+            addCriterion("jw_back_vote >", value, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteGreaterThanOrEqualTo(Integer value) {
+            addCriterion("jw_back_vote >=", value, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteLessThan(Integer value) {
+            addCriterion("jw_back_vote <", value, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteLessThanOrEqualTo(Integer value) {
+            addCriterion("jw_back_vote <=", value, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteIn(List<Integer> values) {
+            addCriterion("jw_back_vote in", values, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteNotIn(List<Integer> values) {
+            addCriterion("jw_back_vote not in", values, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteBetween(Integer value1, Integer value2) {
+            addCriterion("jw_back_vote between", value1, value2, "jwBackVote");
+            return (Criteria) this;
+        }
+
+        public Criteria andJwBackVoteNotBetween(Integer value1, Integer value2) {
+            addCriterion("jw_back_vote not between", value1, value2, "jwBackVote");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDeletedIsNull() {
             addCriterion("is_deleted is null");
             return (Criteria) this;
