@@ -10,6 +10,7 @@ public class PcsVoteCandidateFormBean {
     private Integer agree;
     private Integer degree;
     private Integer abstain;
+    private Integer invalid;
 
     public Integer getUserId() {
         return userId;
@@ -49,5 +50,13 @@ public class PcsVoteCandidateFormBean {
 
     public void setAbstain(Integer abstain) {
         this.abstain = abstain;
+    }
+
+    public Integer getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(Integer invalid) {
+        this.invalid = invalid;
     }
 }

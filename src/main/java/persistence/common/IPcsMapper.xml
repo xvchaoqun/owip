@@ -5,8 +5,8 @@
     <select id="selectVoteCandidateStatList"
             resultMap="persistence.pcs.PcsVoteCandidateMapper.BaseResultMap"
             parameterType="map">
-        select user_id, is_from_stage, realname, sum(agree) as agree, sum(degree) as degree,
-        sum(abstain) as abstain from pcs_vote_candidate c, pcs_vote_group g
+        select user_id, is_from_stage, realname, sum(c.agree) as agree, sum(c.degree) as degree,
+        sum(c.abstain) as abstain,sum(c.invalid) as invalid from pcs_vote_candidate c, pcs_vote_group g
          where g.id=c.group_id and g.has_report=1 and g.type=#{type}
         <if test="userId!=null">
             and c.user_id=#{userId}

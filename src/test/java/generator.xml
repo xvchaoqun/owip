@@ -630,9 +630,8 @@
                 enableDeleteByExample="false">
        </table>
  -->
-      <!--  <table tableName="pcs_vote_member" domainObjectName="pcs.PcsVoteMember" mapperName="pcs.PcsVoteMemberMapper">
+        <table tableName="pcs_vote_member" domainObjectName="pcs.PcsVoteMember" mapperName="pcs.PcsVoteMemberMapper">
         </table>
--->
         <!--     <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
                     mapperName="pcs.PcsProposalViewMapper"
                     enableInsert="false" enableUpdateByPrimaryKey="false"

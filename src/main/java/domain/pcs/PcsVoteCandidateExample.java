@@ -594,6 +594,66 @@ public class PcsVoteCandidateExample {
             return (Criteria) this;
         }
 
+        public Criteria andInvalidIsNull() {
+            addCriterion("invalid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidIsNotNull() {
+            addCriterion("invalid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidEqualTo(Integer value) {
+            addCriterion("invalid =", value, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidNotEqualTo(Integer value) {
+            addCriterion("invalid <>", value, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidGreaterThan(Integer value) {
+            addCriterion("invalid >", value, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("invalid >=", value, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidLessThan(Integer value) {
+            addCriterion("invalid <", value, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidLessThanOrEqualTo(Integer value) {
+            addCriterion("invalid <=", value, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidIn(List<Integer> values) {
+            addCriterion("invalid in", values, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidNotIn(List<Integer> values) {
+            addCriterion("invalid not in", values, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidBetween(Integer value1, Integer value2) {
+            addCriterion("invalid between", value1, value2, "invalid");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvalidNotBetween(Integer value1, Integer value2) {
+            addCriterion("invalid not between", value1, value2, "invalid");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

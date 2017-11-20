@@ -2,7 +2,7 @@ package domain.pcs;
 
 import java.io.Serializable;
 
-public class PcsVoteCandidate implements Serializable {
+public class  PcsVoteCandidate implements Serializable {
     private Integer id;
 
     private Integer groupId;
@@ -18,6 +18,8 @@ public class PcsVoteCandidate implements Serializable {
     private Integer degree;
 
     private Integer abstain;
+
+    private Integer invalid;
 
     private Integer sortOrder;
 
@@ -85,6 +87,14 @@ public class PcsVoteCandidate implements Serializable {
 
     public void setAbstain(Integer abstain) {
         this.abstain = abstain;
+    }
+
+    public Integer getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(Integer invalid) {
+        this.invalid = invalid;
     }
 
     public Integer getSortOrder() {

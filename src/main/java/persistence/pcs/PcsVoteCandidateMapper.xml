@@ -10,6 +10,7 @@
     <result column="agree" jdbcType="INTEGER" property="agree" />
     <result column="degree" jdbcType="INTEGER" property="degree" />
     <result column="abstain" jdbcType="INTEGER" property="abstain" />
+    <result column="invalid" jdbcType="INTEGER" property="invalid" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, group_id, user_id, is_from_stage, realname, agree, degree, abstain, sort_order
+    id, group_id, user_id, is_from_stage, realname, agree, degree, abstain, invalid, 
+    sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsVoteCandidateExample" resultMap="BaseResultMap">
     select
@@ -106,12 +108,12 @@
   <insert id="insert" parameterType="domain.pcs.PcsVoteCandidate">
     insert into pcs_vote_candidate (id, group_id, user_id, 
       is_from_stage, realname, agree, 
-      degree, abstain, sort_order
-      )
+      degree, abstain, invalid, 
+      sort_order)
     values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{isFromStage,jdbcType=BIT}, #{realname,jdbcType=VARCHAR}, #{agree,jdbcType=INTEGER}, 
-      #{degree,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{degree,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, #{invalid,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsVoteCandidate">
     insert into pcs_vote_candidate
@@ -139,6 +141,9 @@
       </if>
       <if test="abstain != null">
         abstain,
+      </if>
+      <if test="invalid != null">
+        invalid,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -168,6 +173,9 @@
       </if>
       <if test="abstain != null">
         #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="invalid != null">
+        #{invalid,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -207,6 +215,9 @@
       <if test="record.abstain != null">
         abstain = #{record.abstain,jdbcType=INTEGER},
       </if>
+      <if test="record.invalid != null">
+        invalid = #{record.invalid,jdbcType=INTEGER},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -225,6 +236,7 @@
       agree = #{record.agree,jdbcType=INTEGER},
       degree = #{record.degree,jdbcType=INTEGER},
       abstain = #{record.abstain,jdbcType=INTEGER},
+      invalid = #{record.invalid,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -254,6 +266,9 @@
       <if test="abstain != null">
         abstain = #{abstain,jdbcType=INTEGER},
       </if>
+      <if test="invalid != null">
+        invalid = #{invalid,jdbcType=INTEGER},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -269,6 +284,7 @@
       agree = #{agree,jdbcType=INTEGER},
       degree = #{degree,jdbcType=INTEGER},
       abstain = #{abstain,jdbcType=INTEGER},
+      invalid = #{invalid,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

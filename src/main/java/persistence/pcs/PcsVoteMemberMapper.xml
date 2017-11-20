@@ -10,6 +10,7 @@
     <result column="agree" jdbcType="INTEGER" property="agree" />
     <result column="degree" jdbcType="INTEGER" property="degree" />
     <result column="abstain" jdbcType="INTEGER" property="abstain" />
+    <result column="invalid" jdbcType="INTEGER" property="invalid" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
@@ -78,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, config_id, type, user_id, realname, agree, degree, abstain, gender, nation, pro_post, 
-    birth, age, grow_time, title, sort_order
+    id, config_id, type, user_id, realname, agree, degree, abstain, invalid, gender, 
+    nation, pro_post, birth, age, grow_time, title, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsVoteMemberExample" resultMap="BaseResultMap">
     select
@@ -114,15 +115,15 @@
   <insert id="insert" parameterType="domain.pcs.PcsVoteMember">
     insert into pcs_vote_member (id, config_id, type, 
       user_id, realname, agree, 
-      degree, abstain, gender, 
-      nation, pro_post, birth, 
-      age, grow_time, title, 
+      degree, abstain, invalid, 
+      gender, nation, pro_post, 
+      birth, age, grow_time, title, 
       sort_order)
     values (#{id,jdbcType=INTEGER}, #{configId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{agree,jdbcType=INTEGER}, 
-      #{degree,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, 
-      #{nation,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
-      #{age,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=INTEGER}, #{abstain,jdbcType=INTEGER}, #{invalid,jdbcType=INTEGER}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{proPost,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=DATE}, #{age,jdbcType=INTEGER}, #{growTime,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsVoteMember">
@@ -151,6 +152,9 @@
       </if>
       <if test="abstain != null">
         abstain,
+      </if>
+      <if test="invalid != null">
+        invalid,
       </if>
       <if test="gender != null">
         gender,
@@ -201,6 +205,9 @@
       </if>
       <if test="abstain != null">
         #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="invalid != null">
+        #{invalid,jdbcType=INTEGER},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -261,6 +268,9 @@
       <if test="record.abstain != null">
         abstain = #{record.abstain,jdbcType=INTEGER},
       </if>
+      <if test="record.invalid != null">
+        invalid = #{record.invalid,jdbcType=INTEGER},
+      </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
       </if>
@@ -300,6 +310,7 @@
       agree = #{record.agree,jdbcType=INTEGER},
       degree = #{record.degree,jdbcType=INTEGER},
       abstain = #{record.abstain,jdbcType=INTEGER},
+      invalid = #{record.invalid,jdbcType=INTEGER},
       gender = #{record.gender,jdbcType=TINYINT},
       nation = #{record.nation,jdbcType=VARCHAR},
       pro_post = #{record.proPost,jdbcType=VARCHAR},
@@ -335,6 +346,9 @@
       </if>
       <if test="abstain != null">
         abstain = #{abstain,jdbcType=INTEGER},
+      </if>
+      <if test="invalid != null">
+        invalid = #{invalid,jdbcType=INTEGER},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=TINYINT},
@@ -372,6 +386,7 @@
       agree = #{agree,jdbcType=INTEGER},
       degree = #{degree,jdbcType=INTEGER},
       abstain = #{abstain,jdbcType=INTEGER},
+      invalid = #{invalid,jdbcType=INTEGER},
       gender = #{gender,jdbcType=TINYINT},
       nation = #{nation,jdbcType=VARCHAR},
       pro_post = #{proPost,jdbcType=VARCHAR},

@@ -58,9 +58,15 @@
             {label: '小组负责人', name: 'leader', width: 120},
             {label: '小组成员', name: 'member', width: 120},
             {label: '计票录入人员', name: 'recordUser.realname', width: 120},
-            {label: '领回选票张数', name: 'vote', width:120},
-            {label: '有效票数', name: 'valid', width: 80},
-            {label: '无效票数', name: 'invalid', width: 80}
+            {label: '领回选票张数', name: 'vote', width:120, formatter: function (cellvalue, options, rowObject) {
+                return(rowObject.hasReport)? cellvalue: "-"
+            }},
+            {label: '有效票数', name: 'valid', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return(rowObject.hasReport)? cellvalue: "-"
+            }},
+            {label: '无效票数', name: 'invalid', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return(rowObject.hasReport)? cellvalue: "-"
+            }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

@@ -20,6 +20,8 @@ public class PcsVoteMember implements Serializable {
 
     private Integer abstain;
 
+    private Integer invalid;
+
     private Byte gender;
 
     private String nation;
@@ -100,6 +102,14 @@ public class PcsVoteMember implements Serializable {
 
     public void setAbstain(Integer abstain) {
         this.abstain = abstain;
+    }
+
+    public Integer getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(Integer invalid) {
+        this.invalid = invalid;
     }
 
     public Byte getGender() {

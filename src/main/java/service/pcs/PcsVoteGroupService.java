@@ -136,7 +136,8 @@ public class PcsVoteGroupService extends BaseMapper {
             if(isFromStage) {
                 int degree = record.getDegree();
                 int abstain = record.getAbstain();
-                int agree = valid -(degree + abstain);
+                int invalid = record.getInvalid();
+                int agree = valid -(degree + abstain + invalid);
                 if(agree<0){
                     throw new OpException("{0}票数有误。", bean.getRealname());
                 }
@@ -147,6 +148,7 @@ public class PcsVoteGroupService extends BaseMapper {
             }else{
                 record.setDegree(0);
                 record.setAbstain(0);
+                record.setInvalid(0);
             }
             record.setGroupId(groupId);
 

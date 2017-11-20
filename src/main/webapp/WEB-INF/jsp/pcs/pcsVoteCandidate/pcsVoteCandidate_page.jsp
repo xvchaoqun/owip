@@ -57,6 +57,9 @@
             {label: '弃权票数', name: 'abstain', formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? cellvalue : "-";
             }},
+            {label: '无效票数', name: 'invalid', formatter: function (cellvalue, options, rowObject) {
+                return rowObject.isFromStage ? cellvalue : "-";
+            }},
             {label: '备注', name: '_remark', formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? "预备人选" : "另选他人";
             }}, {hidden: true, key: true, name: 'userId'}

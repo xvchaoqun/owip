@@ -73,6 +73,7 @@ public class PcsVoteCandidateService extends BaseMapper {
                 record.setAgree(pcsVoteCandidate.getAgree());
                 record.setDegree(pcsVoteCandidate.getDegree());
                 record.setAbstain(pcsVoteCandidate.getAbstain());
+                record.setInvalid(pcsVoteCandidate.getInvalid());
 
                 PcsCandidateChosen pcsCandidateChosen = pcsOwService.getPcsCandidateChosen(userId,
                         configId, SystemConstants.PCS_STAGE_THIRD, type);

@@ -211,6 +211,13 @@
         }
         },
         {
+            label: '无效票数', name: 'invalid', formatter: function (cellvalue, options, rowObject) {
+            if (!rowObject.isFromStage) return '-'
+            return ('<input required type="text" name="invalid{0}" data-user-id="{0}" value="{1}" class="invalid num" maxlength="4">')
+                    .format(rowObject.userId, $.trim(cellvalue))
+        }
+        },
+        {
             label: '备注', name: '_remark', formatter: function (cellvalue, options, rowObject) {
 
             return rowObject.isFromStage ? "预备人选" : "另选他人";
@@ -237,7 +244,7 @@
     });
     $(window).triggerHandler('resize.jqGrid4');
 
-    $(document).on("change blur keyup", "input.degree, input.abstain", function(){
+    $(document).on("change blur keyup", "input.degree, input.abstain, input.invalid", function(){
 
         var valid = parseInt($("input[name=valid]", "#recommendForm").val());
 
@@ -245,16 +252,17 @@
         var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
         var degree = parseInt($.trim($("input.degree", $row).val()));
         var abstain = parseInt($.trim($("input.abstain", $row).val()));
+        var invalid = parseInt($.trim($("input.invalid", $row).val()));
 
         //console.log(valid + " " + degree + " " + abstain)
-        if(valid>0 && degree>=0 && abstain>=0){
-            $("span.agree", $row).html(valid-(degree + abstain));
+        if(valid>0 && degree>=0 && abstain>=0 && invalid>=0){
+            $("span.agree", $row).html(valid-(degree + abstain + invalid));
         }else{
             $("span.agree", $row).html("-");
         }
     });
 
-    $(document).on("keyup", "input[name=valid]", function(){
+    $(document).on("change blur keyup", "input[name=valid]", function(){
 
         var valid = parseInt($("input[name=valid]", "#recommendForm").val());
 
@@ -262,10 +270,11 @@
             var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
             var degree = parseInt($.trim($("input.degree", $row).val()));
             var abstain = parseInt($.trim($("input.abstain", $row).val()));
+            var invalid = parseInt($.trim($("input.invalid", $row).val()));
 
             //console.log(valid + " " + degree + " " + abstain)
-            if (valid > 0 && degree >= 0 && abstain >= 0) {
-                $("span.agree", $row).html(valid - (degree + abstain));
+            if (valid > 0 && degree >= 0 && abstain >= 0 && invalid >= 0) {
+                $("span.agree", $row).html(valid - (degree + abstain+invalid));
             } else {
                 $("span.agree", $row).html("-");
             }
@@ -298,6 +307,7 @@
                 item.agree = $.trim($("input.agree", $row).val());
                 item.degree = $.trim($("input.degree", $row).val());
                 item.abstain = $.trim($("input.abstain", $row).val());
+                item.invalid = $.trim($("input.invalid", $row).val());
                 items.push(item);
             });
 
