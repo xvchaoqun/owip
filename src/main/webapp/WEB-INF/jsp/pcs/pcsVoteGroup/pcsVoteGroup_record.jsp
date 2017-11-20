@@ -75,7 +75,7 @@
                                     <div id="collapse"
                                          class="panel-collapse collapse in">
                                         <div class="panel-body">
-                                            <table id="jqGrid2" data-width-reduce="30"
+                                            <table id="jqGrid_record" data-width-reduce="30"
                                                    class="jqGrid4 table-striped"></table>
                                         </div>
                                     </div>
@@ -226,7 +226,7 @@
     ];
 
     var candidates = ${cm:toJSONArray(pcsVoteCandidates)};
-    var jqGrid = $("#jqGrid2").jqGrid({
+    var jqGrid = $("#jqGrid_record").jqGrid({
         pager: null,
         responsive: false,
         rownumbers: true,
@@ -249,7 +249,7 @@
         var valid = parseInt($("input[name=valid]", "#recommendForm").val());
 
         var userId = $(this).data("user-id");
-        var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
+        var $row = $("[role='row'][id=" + userId + "]", "#jqGrid_record");
         var degree = parseInt($.trim($("input.degree", $row).val()));
         var abstain = parseInt($.trim($("input.abstain", $row).val()));
         var invalid = parseInt($.trim($("input.invalid", $row).val()));
@@ -266,8 +266,8 @@
 
         var valid = parseInt($("input[name=valid]", "#recommendForm").val());
 
-        $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
-            var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
+        $.each($("#jqGrid_record").jqGrid("getDataIDs"), function (i, userId) {
+            var $row = $("[role='row'][id=" + userId + "]", "#jqGrid_record");
             var degree = parseInt($.trim($("input.degree", $row).val()));
             var abstain = parseInt($.trim($("input.abstain", $row).val()));
             var invalid = parseInt($.trim($("input.invalid", $row).val()));
@@ -297,10 +297,10 @@
                 return;
             }
             var items = [];
-            $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
+            $.each($("#jqGrid_record").jqGrid("getDataIDs"), function (i, userId) {
 
-                var rowData = $("#jqGrid2").getRowData(userId);
-                var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
+                var rowData = $("#jqGrid_record").getRowData(userId);
+                var $row = $("[role='row'][id=" + userId + "]", "#jqGrid_record");
                 var item = {};
                 item.userId = userId;
                 item.realname = rowData.realname;
@@ -329,7 +329,7 @@
     function _addUser(selectId, jqGridId) {
 
         var $select = $("#userId");
-        var $jqGrid = $("#jqGrid2");
+        var $jqGrid = $("#jqGrid_record");
         var userId = $select.val();
         if (userId == '') {
             $.tip({
