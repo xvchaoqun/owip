@@ -19,6 +19,8 @@ public class PcsVoteCandidate implements Serializable {
 
     private Integer abstain;
 
+    private Integer sortOrder;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -83,5 +85,13 @@ public class PcsVoteCandidate implements Serializable {
 
     public void setAbstain(Integer abstain) {
         this.abstain = abstain;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

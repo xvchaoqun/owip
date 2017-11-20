@@ -17,6 +17,7 @@ import service.analysis.StatService;
 import service.party.PartyService;
 import service.sys.SysConfigService;
 import sys.constants.SystemConstants;
+import sys.utils.NumberUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -54,11 +55,13 @@ public class PcsVoteExportService extends BaseMapper {
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("jc", currentPcsConfig.getCommitteeJoinCount() + "")
-                .replace("sv", (isDw ? currentPcsConfig.getDwSendVote() : currentPcsConfig.getJwSendVote()) + "")
-                .replace("bv", (isDw ? currentPcsConfig.getDwBackVote() : currentPcsConfig.getJwBackVote()) + "")
-                .replace("vc", pcsVoteGroup.getValid() + "")
-                .replace("ic", pcsVoteGroup.getInvalid() + "");
+                .replace("jc", NumberUtils.trimToEmpty(currentPcsConfig.getCommitteeJoinCount()) + "")
+                .replace("sv", (isDw ? NumberUtils.trimToEmpty(currentPcsConfig.getDwSendVote()) :
+                        NumberUtils.trimToEmpty(currentPcsConfig.getJwSendVote()) + ""))
+                .replace("bv", (isDw ? NumberUtils.trimToEmpty(currentPcsConfig.getDwBackVote()) :
+                        NumberUtils.trimToEmpty(currentPcsConfig.getJwBackVote()) + ""))
+                .replace("vc", NumberUtils.trimToEmpty(pcsVoteGroup.getValid()) + "")
+                .replace("ic", NumberUtils.trimToEmpty(pcsVoteGroup.getInvalid()) + "");
         cell.setCellValue(str);
 
         List<PcsVoteCandidate> candidates = iPcsMapper.selectVoteCandidateStatList(type, null, true);
@@ -74,11 +77,11 @@ public class PcsVoteExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getAgree());
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getDegree());
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getDegree()));
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getAbstain());
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAbstain()));
         }
 
         List<PcsVoteCandidate> otherCandidates = iPcsMapper.selectVoteCandidateStatList(type, null, false);
@@ -95,7 +98,7 @@ public class PcsVoteExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getAgree());
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
         }
 
         return wb;
@@ -117,11 +120,13 @@ public class PcsVoteExportService extends BaseMapper {
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("jc", currentPcsConfig.getCommitteeJoinCount() + "")
-                .replace("sv", (isDw ? currentPcsConfig.getDwSendVote() : currentPcsConfig.getJwSendVote()) + "")
-                .replace("bv", (isDw ? currentPcsConfig.getDwBackVote() : currentPcsConfig.getJwBackVote()) + "")
-                .replace("vc", pcsVoteGroup.getValid() + "")
-                .replace("ic", pcsVoteGroup.getInvalid() + "");
+                .replace("jc", NumberUtils.trimToEmpty(currentPcsConfig.getCommitteeJoinCount()) + "")
+                .replace("sv", (isDw ? NumberUtils.trimToEmpty(currentPcsConfig.getDwSendVote())
+                        : NumberUtils.trimToEmpty(currentPcsConfig.getJwSendVote())) + "")
+                .replace("bv", (isDw ? NumberUtils.trimToEmpty(currentPcsConfig.getDwBackVote()) :
+                        NumberUtils.trimToEmpty(currentPcsConfig.getJwBackVote())) + "")
+                .replace("vc", NumberUtils.trimToEmpty(pcsVoteGroup.getValid()) + "")
+                .replace("ic", NumberUtils.trimToEmpty(pcsVoteGroup.getInvalid()) + "");
         cell.setCellValue(str);
 
         List<PcsVoteCandidate> candidates = iPcsMapper.selectVoteCandidateStatList(type, null, true);
@@ -139,11 +144,7 @@ public class PcsVoteExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getAgree());
-            cell = row.getCell(column++);
-            cell.setCellValue(bean.getDegree());
-            cell = row.getCell(column++);
-            cell.setCellValue(bean.getAbstain());
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
         }
 
         List<PcsVoteCandidate> otherCandidates = iPcsMapper.selectVoteCandidateStatList(type, null, false);
@@ -160,7 +161,7 @@ public class PcsVoteExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);
-            cell.setCellValue(bean.getAgree());
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
         }
 
         return wb;
@@ -178,7 +179,7 @@ public class PcsVoteExportService extends BaseMapper {
         {
             PcsVoteMemberExample example = new PcsVoteMemberExample();
             example.createCriteria().andTypeEqualTo(SystemConstants.PCS_USER_TYPE_DW);
-            example.setOrderByClause("sort_order desc");
+            example.setOrderByClause("sort_order asc");
             List<PcsVoteMember> pcsVoteMembers = pcsVoteMemberMapper.selectByExample(example);
             int rowCount = Math.min(pcsVoteMembers.size(), 25);
             int startRow = 3;

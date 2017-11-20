@@ -34,20 +34,29 @@
     </div>
 </div>
 <script>
+    function _reload(){
+        $("#jqGrid2").trigger("reloadGrid");
+    }
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
         url: '${ctx}/pcsVoteGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '录入计票数据', name: 'hasReport', width: 150, formatter: function (cellvalue, options, rowObject) {
+                label: '录入计票数据', name: 'hasReport', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return cellvalue?"已报送":"未报送";
-            }
-            },
+                return cellvalue?"<span class='text-success'>已报送</span>":"<span class='text-danger'>未报送</span>";
+            }},
+            { label: '退回',name: 'reportId', formatter: function (cellvalue, options, rowObject) {
+
+                if(!rowObject.hasReport) return "-"
+                return ('<button class="confirm btn btn-danger btn-xs" data-callback="_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
+                'data-url="${ctx}/pcsVoteGroup_back?groupId={0}"><i class="fa fa-reply"></i> 退回</button>')
+                        .format(rowObject.id, rowObject.recordUser.realname);
+            }},
             {label: '小组名称', name: 'name', width: 150},
             {label: '小组负责人', name: 'leader', width: 120},
-            {label: '小组成员', name: 'member', width: 200, align: 'left'},
+            {label: '小组成员', name: 'member', width: 120},
             {label: '计票录入人员', name: 'recordUser.realname', width: 120},
             {label: '领回选票张数', name: 'vote', width:120},
             {label: '有效票数', name: 'valid', width: 80},

@@ -248,4 +248,18 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    // 退回报送
+    @RequiresPermissions("pcsVoteGroup:back")
+    @RequestMapping(value = "/pcsVoteGroup_back", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsVoteGroup_back(int groupId,
+                                      HttpServletRequest request) throws UnsupportedEncodingException {
+
+        pcsVoteGroupService.back(groupId);
+
+        logger.info(addLog(SystemConstants.LOG_PCS, "党委委员计票录入退回报送：%s", groupId));
+
+        return success(FormUtils.SUCCESS);
+    }
 }

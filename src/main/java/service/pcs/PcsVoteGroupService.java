@@ -7,9 +7,11 @@ import domain.pcs.PcsVoteCandidateExample;
 import domain.pcs.PcsVoteGroup;
 import domain.pcs.PcsVoteGroupExample;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.common.bean.IPcsCandidateView;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -123,8 +125,12 @@ public class PcsVoteGroupService extends BaseMapper {
                 e.printStackTrace();
             }
 
-            boolean isFromStage = iPcsMapper.countPartyCandidates(record.getUserId(), true, configId,
-                    SystemConstants.PCS_STAGE_THIRD, _pcsVoteGroup.getType())>0;
+            int userId = record.getUserId();
+            byte type = _pcsVoteGroup.getType();
+
+            List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, true,
+                    configId, SystemConstants.PCS_STAGE_THIRD, type, new RowBounds(0,1));
+            boolean isFromStage = (records.size()>0);
             record.setIsFromStage(isFromStage);
             if(isFromStage) {
                 int degree = record.getDegree();
@@ -134,6 +140,10 @@ public class PcsVoteGroupService extends BaseMapper {
                     throw new OpException("{0}票数有误。", bean.getRealname());
                 }
                 record.setAgree(agree);
+
+                IPcsCandidateView candidate = records.get(0);
+                record.setSortOrder(candidate.getSortOrder());
+
             }else{
                 record.setDegree(0);
                 record.setAbstain(0);
@@ -156,5 +166,15 @@ public class PcsVoteGroupService extends BaseMapper {
         example.createCriteria().andIdEqualTo(groupId)
                 .andRecordUserIdEqualTo(ShiroHelper.getCurrentUserId());
         pcsVoteGroupMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    public void back(int groupId) {
+
+        PcsVoteGroup record = new PcsVoteGroup();
+        record.setId(groupId);
+        record.setHasReport(false);
+
+        pcsVoteGroupMapper.updateByPrimaryKeySelective(record);
     }
 }

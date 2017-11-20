@@ -84,7 +84,7 @@
                             </div>
                         </form>
                         <div class="modal-footer center" style="margin-top: 20px">
-                            <button id="submitBtn" data-loading-text="提交中..." data-success-text="已提交成功"
+                            <button id="submitBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 正在保存，请稍后..." data-success-text="保存成功"
                                     autocomplete="off"  ${!allowModify?"disabled":""}
                                     class="btn btn-success btn-lg"><i class="fa fa-random"></i> 保存名单
                             </button>
@@ -294,6 +294,7 @@
                 items.push(item);
             });
 
+            var $btn = $("#submitBtn").button('loading');
             //console.log(items)
             //return;
             $(form).ajaxSubmit({
@@ -302,6 +303,7 @@
                     if (ret.success) {
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }

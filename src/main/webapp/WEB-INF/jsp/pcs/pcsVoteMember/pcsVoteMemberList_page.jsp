@@ -83,7 +83,7 @@
                 formatter: 'date',
                 formatoptions: {newformat: 'Y-m-d'}
             },
-            {label: '所在单位及职务', name: 'vote', width: 350}, {hidden: true, key: true, name: 'userId'}
+            {label: '所在单位及职务', name: 'title', width: 350, align:'left'}, {hidden: true, key: true, name: 'userId'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

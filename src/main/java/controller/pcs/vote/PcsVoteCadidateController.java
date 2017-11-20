@@ -20,7 +20,6 @@ import sys.constants.SystemConstants;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -47,25 +46,6 @@ public class PcsVoteCadidateController extends PcsBaseController {
         modelMap.put("candidates", pcsVoteCandidates);
 
         return "pcs/pcsVoteCandidate/pcsVoteCandidate_page";
-    }
-
-    @RequiresPermissions("pcsVoteStat:candidate")
-    @RequestMapping(value = "/pcsVoteCandidate_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pcsVoteCandidate_au(PcsVoteCandidate record, HttpServletRequest request) {
-
-        Integer id = record.getId();
-        
-        if (id == null) {
-            pcsVoteCandidateService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "添加候选人：%s", record.getId()));
-        } else {
-
-            pcsVoteCandidateService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "更新候选人：%s", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("pcsVoteStat:candidate")

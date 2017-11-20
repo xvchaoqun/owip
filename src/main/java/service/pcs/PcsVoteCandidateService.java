@@ -23,11 +23,6 @@ public class PcsVoteCandidateService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
 
-    @Transactional
-    public void insertSelective(PcsVoteCandidate record) {
-
-        pcsVoteCandidateMapper.insertSelective(record);
-    }
 
     @Transactional
     public void batchDel(Integer[] ids) {
