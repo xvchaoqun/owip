@@ -25,6 +25,7 @@
                 data-msg="确定将这{0}位候选人列入当选${PCS_USER_TYPE_MAP.get(type)}名单吗？"
                 data-grid-id="#jqGrid2"
                 data-querystr="type=${type}&isChosen=1"
+                data-callback="_chooseCallback"
                 class="jqBatchBtn btn btn-success btn-sm">
             <i class="fa fa-check"></i> 当选${PCS_USER_TYPE_MAP.get(type)}
         </button>
@@ -36,6 +37,9 @@
     </div>
 </div>
 <script>
+    function _chooseCallback(){
+        $("#chooseAhref").click()
+    }
     var candidates = ${cm:toJSONArray(candidates)};
     $("#jqGrid2").jqGrid({
         pager: null,

@@ -2,16 +2,15 @@ package service.pcs;
 
 import controller.global.OpException;
 import controller.pcs.vote.PcsVoteCandidateFormBean;
+import domain.pcs.PcsCandidateChosen;
 import domain.pcs.PcsVoteCandidate;
 import domain.pcs.PcsVoteCandidateExample;
 import domain.pcs.PcsVoteGroup;
 import domain.pcs.PcsVoteGroupExample;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.common.bean.IPcsCandidateView;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -28,6 +27,8 @@ public class PcsVoteGroupService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     protected PcsConfigService pcsConfigService;
+    @Autowired
+    protected PcsOwService pcsOwService;
 
     public List<PcsVoteGroup> getAdminGroups(int recordUserId){
 
@@ -128,9 +129,9 @@ public class PcsVoteGroupService extends BaseMapper {
             int userId = record.getUserId();
             byte type = _pcsVoteGroup.getType();
 
-            List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, true,
-                    configId, SystemConstants.PCS_STAGE_THIRD, type, new RowBounds(0,1));
-            boolean isFromStage = (records.size()>0);
+            PcsCandidateChosen pcsCandidateChosen =
+                    pcsOwService.getPcsCandidateChosen(userId, configId, SystemConstants.PCS_STAGE_THIRD, type);
+            boolean isFromStage = (pcsCandidateChosen!=null);
             record.setIsFromStage(isFromStage);
             if(isFromStage) {
                 int degree = record.getDegree();
@@ -141,8 +142,7 @@ public class PcsVoteGroupService extends BaseMapper {
                 }
                 record.setAgree(agree);
 
-                IPcsCandidateView candidate = records.get(0);
-                record.setSortOrder(candidate.getSortOrder());
+                record.setSortOrder(pcsCandidateChosen.getSortOrder());
 
             }else{
                 record.setDegree(0);

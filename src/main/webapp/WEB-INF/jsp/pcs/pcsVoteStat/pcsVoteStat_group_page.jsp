@@ -27,7 +27,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:;" class="loadPage"
+                                <a id="chooseAhref" href="javascript:;" class="loadPage"
                                    data-load-el="#step-item-content" data-callback="_menuSelected"
                                    data-url='${ctx}/pcsVoteMember?type=${type}'><i
                                         class="fa fa-tasks"></i>  当选${PCS_USER_TYPE_MAP.get(type)}

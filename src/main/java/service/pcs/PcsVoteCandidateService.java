@@ -1,14 +1,14 @@
 package service.pcs;
 
+import domain.pcs.PcsCandidateChosen;
+import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsVoteCandidate;
 import domain.pcs.PcsVoteCandidateExample;
 import domain.pcs.PcsVoteMember;
 import domain.pcs.PcsVoteMemberExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.common.bean.IPcsCandidateView;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
@@ -22,7 +22,8 @@ public class PcsVoteCandidateService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-
+    @Autowired
+    protected PcsOwService pcsOwService;
 
     @Transactional
     public void batchDel(Integer[] ids) {
@@ -73,10 +74,15 @@ public class PcsVoteCandidateService extends BaseMapper {
                 record.setDegree(pcsVoteCandidate.getDegree());
                 record.setAbstain(pcsVoteCandidate.getAbstain());
 
-                List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, true,
-                        configId, SystemConstants.PCS_STAGE_THIRD, type, new RowBounds(0,1));
-                if(records.size()>0) {
-                    IPcsCandidateView candidate = records.get(0);
+                PcsCandidateChosen pcsCandidateChosen = pcsOwService.getPcsCandidateChosen(userId,
+                        configId, SystemConstants.PCS_STAGE_THIRD, type);
+                if(pcsCandidateChosen!=null) {
+
+                    record.setSortOrder(pcsCandidateChosen.getSortOrder());
+
+                    PcsCandidateView candidate = pcsOwService.getPcsCandidateView(userId,
+                            configId, SystemConstants.PCS_STAGE_THIRD, type);
+
                     record.setGender(candidate.getGender());
                     record.setNation(candidate.getNation());
                     record.setProPost(candidate.getProPost());
@@ -84,7 +90,6 @@ public class PcsVoteCandidateService extends BaseMapper {
                     record.setAge(DateUtils.yearOffNow(record.getBirth()));
                     record.setGrowTime(candidate.getGrowTime());
                     record.setTitle(candidate.getTitle());
-                    record.setSortOrder(candidate.getSortOrder());
                 }else{
                     // 另选他人按笔画排序时排在后面
                     record.setSortOrder(Integer.MAX_VALUE);

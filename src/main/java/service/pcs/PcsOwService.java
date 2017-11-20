@@ -3,6 +3,8 @@ package service.pcs;
 import controller.global.OpException;
 import domain.pcs.PcsCandidateChosen;
 import domain.pcs.PcsCandidateChosenExample;
+import domain.pcs.PcsCandidateView;
+import domain.pcs.PcsCandidateViewExample;
 import domain.pcs.PcsIssue;
 import domain.pcs.PcsIssueExample;
 import org.apache.ibatis.session.RowBounds;
@@ -18,6 +20,26 @@ import java.util.List;
 public class PcsOwService extends BaseMapper {
 
     public static final String TABLE_NAME = "pcs_candidate_chosen";
+
+
+    public PcsCandidateChosen getPcsCandidateChosen(int userId, int configId, byte stage, byte type){
+        PcsCandidateChosenExample example = new PcsCandidateChosenExample();
+        example.createCriteria().andConfigIdEqualTo(configId)
+                .andStageEqualTo(stage).andTypeEqualTo(type).andUserIdEqualTo(userId);
+
+        List<PcsCandidateChosen> pcsCandidateChosens = pcsCandidateChosenMapper.selectByExample(example);
+        return (pcsCandidateChosens.size()>0)?pcsCandidateChosens.get(0) : null;
+    }
+
+    public PcsCandidateView getPcsCandidateView(int userId, int configId, byte stage, byte type){
+
+        PcsCandidateViewExample example = new PcsCandidateViewExample();
+        example.createCriteria().andConfigIdEqualTo(configId)
+                .andStageEqualTo(stage).andTypeEqualTo(type).andUserIdEqualTo(userId);
+
+        List<PcsCandidateView> pcsCandidateViews = pcsCandidateViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        return (pcsCandidateViews.size()>0)?pcsCandidateViews.get(0) : null;
+    }
 
     // 入选名单
     @Transactional

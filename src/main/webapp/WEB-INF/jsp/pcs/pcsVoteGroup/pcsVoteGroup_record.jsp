@@ -237,7 +237,7 @@
     });
     $(window).triggerHandler('resize.jqGrid4');
 
-    $(document).on("keyup", "input.degree, input.abstain", function(){
+    $(document).on("change blur keyup", "input.degree, input.abstain", function(){
 
         var valid = parseInt($("input[name=valid]", "#recommendForm").val());
 
@@ -253,6 +253,7 @@
             $("span.agree", $row).html("-");
         }
     });
+
     $(document).on("keyup", "input[name=valid]", function(){
 
         var valid = parseInt($("input[name=valid]", "#recommendForm").val());
