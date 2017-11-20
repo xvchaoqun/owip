@@ -60,12 +60,19 @@ public class PcsVoteGroupService extends BaseMapper {
 
         Integer oldRecordUserId = pcsVoteGroup.getRecordUserId();
         Integer newRecordUserId = record.getRecordUserId();
+
+        // 先清空
+        if(newRecordUserId==null){
+            commonMapper.excuteSql("update pcs_vote_group set record_user_id=null where id="+ record.getId());
+        }
+
         if(oldRecordUserId != null && (newRecordUserId==null || oldRecordUserId != newRecordUserId)){
 
             if(getAdminGroups(oldRecordUserId).size()==0) {
                 sysUserService.delRole(oldRecordUserId, role);
             }
         }
+
         if(newRecordUserId!=null && (oldRecordUserId==null || oldRecordUserId!=newRecordUserId)){
             sysUserService.addRole(newRecordUserId, role);
         }

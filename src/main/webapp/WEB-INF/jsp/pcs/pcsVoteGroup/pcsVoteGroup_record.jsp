@@ -64,7 +64,7 @@
                                    data-width="900"
                                    data-url="${ctx}/pcsVoteGroup_candidates?type=${type}">
                                     <i class="fa fa-plus-circle"></i>
-                                    从预备人选中添加</a>
+                                    同步预备人选</a>
                                 </span>
                                                 <span class="tip">已选<span
                                                         class="count">${fn:length(pcsVoteCandidates)}</span>人</span>
@@ -167,6 +167,7 @@
     var colModel = [
         {
             label: '移除', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
+            if (rowObject.isFromStage) return '-'
             //console.log(options)
             return '<button ${!allowModify?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
                     .format(rowObject.userId, options.gid)
@@ -175,7 +176,16 @@
         {label: '候选人姓名', name: 'realname', width: 150, frozen: true},
         {
             label: '赞成票数', name: 'agree', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.isFromStage) return '-'
+            if (rowObject.isFromStage){
+               /* var valid = parseInt($("input[name=valid]", "#recommendForm").val());
+                var degree = rowObject.degree;
+                var abstain = rowObject.abstain;
+                var agree = "";
+                if(valid>0 && degree>=0 && abstain>=0){
+                    agree = valid -(degree + abstain);
+                }*/
+                return '<span class="agree">{0}</span>'.format(rowObject.agree)
+            }
             return ('<input required type="text" name="agree{0}" value="{1}" class="agree num" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
@@ -183,14 +193,14 @@
         {
             label: '不赞成票数', name: 'degree', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
-            return ('<input required type="text" name="degree{0}" value="{1}" class="degree num" maxlength="4">')
+            return ('<input required type="text" name="degree{0}" data-user-id="{0}" value="{1}" class="degree num" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
         {
             label: '弃权票数', name: 'abstain', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
-            return ('<input required type="text" name="abstain{0}" value="{1}" class="abstain num" maxlength="4">')
+            return ('<input required type="text" name="abstain{0}" data-user-id="{0}" value="{1}" class="abstain num" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
@@ -219,8 +229,41 @@
             </c:if>
         }
     });
-
     $(window).triggerHandler('resize.jqGrid4');
+
+    $(document).on("keyup", "input.degree, input.abstain", function(){
+
+        var valid = parseInt($("input[name=valid]", "#recommendForm").val());
+
+        var userId = $(this).data("user-id");
+        var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
+        var degree = parseInt($.trim($("input.degree", $row).val()));
+        var abstain = parseInt($.trim($("input.abstain", $row).val()));
+
+        //console.log(valid + " " + degree + " " + abstain)
+        if(valid>0 && degree>=0 && abstain>=0){
+            $("span.agree", $row).html(valid-(degree + abstain));
+        }else{
+            $("span.agree", $row).html("-");
+        }
+    });
+    $(document).on("keyup", "input[name=valid]", function(){
+
+        var valid = parseInt($("input[name=valid]", "#recommendForm").val());
+
+        $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
+            var $row = $("[role='row'][id=" + userId + "]", "#jqGrid2");
+            var degree = parseInt($.trim($("input.degree", $row).val()));
+            var abstain = parseInt($.trim($("input.abstain", $row).val()));
+
+            //console.log(valid + " " + degree + " " + abstain)
+            if (valid > 0 && degree >= 0 && abstain >= 0) {
+                $("span.agree", $row).html(valid - (degree + abstain));
+            } else {
+                $("span.agree", $row).html("-");
+            }
+        });
+    });
 
     $("#submitBtn").click(function () {
         $("#recommendForm").submit();

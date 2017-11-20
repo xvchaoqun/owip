@@ -35,7 +35,7 @@
 
             <div class="col-xs-6">
                 <c:set var="recordUser" value="${pcsVoteGroup.recordUser}"/>
-                <select required data-width="270" data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                <select data-width="270" data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
                         name="recordUserId" data-placeholder="请输入账号或姓名或学工号">
                     <option value="${recordUser.id}">${recordUser.realname}-${recordUser.code}</option>
                 </select>

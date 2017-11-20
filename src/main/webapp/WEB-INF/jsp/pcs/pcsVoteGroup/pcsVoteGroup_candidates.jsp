@@ -10,7 +10,7 @@
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="button" id="selectBtn" class="btn btn-primary" value="选择"/>
+    <input type="button" id="selectBtn" class="btn btn-primary" value="确定"/>
 </div>
 <style>
     .rownumbers #jqGridPopup_cb {
@@ -22,7 +22,7 @@
     $("#jqGridPopup").jqGrid({
         pager: null,
         rownumbers: true,
-        multiboxonly: false,
+        multiselect: false,
         height: 400,
         width:865,
         datatype: "local",
@@ -30,7 +30,7 @@
         data: candidates,
         colModel: [
            /* {label: '工作证号', name: 'code', width: 120, frozen:true},*/
-            {label: '姓名', name: 'realname', width: 150, frozen:true},
+            {label: '姓名', name: 'realname', frozen:true},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },
@@ -68,7 +68,8 @@
     $("#modal #selectBtn").click(function(){
 
         var $jqGridPopup = $("#jqGridPopup");
-        var userIds = $jqGridPopup.getGridParam("selarrrow");
+        //var userIds = $jqGridPopup.getGridParam("selarrrow");
+        var userIds = $jqGridPopup.getDataIDs();
         if(userIds.length==0) return;
 
         var $jqGrid = $("#jqGrid2");

@@ -76,4 +76,20 @@ public class PcsVoteStatController extends PcsBaseController {
         pcsConfigMapper.updateByPrimaryKeySelective(record);
         return success(FormUtils.SUCCESS);
     }
+
+    // 清空所有的两委选举数据
+    @RequiresPermissions("pcsVoteStat:clear")
+    @RequestMapping(value = "/pcsVoteStat_clear", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pcsVoteStat_clear(PcsConfig record) {
+
+        try {
+            pcsVoteService.clear();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return failed("操作失败：" + e.getMessage());
+        }
+        logger.info("清空两委选举数据");
+        return success(FormUtils.SUCCESS);
+    }
 }

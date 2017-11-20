@@ -23,6 +23,7 @@ import service.pcs.PcsVoteCandidateService;
 import service.pcs.PcsVoteExportService;
 import service.pcs.PcsVoteGroupService;
 import service.pcs.PcsVoteMemberService;
+import service.pcs.PcsVoteService;
 
 public class PcsBaseController extends BaseController {
 
@@ -72,4 +73,6 @@ public class PcsBaseController extends BaseController {
     protected PcsVoteCandidateService pcsVoteCandidateService;
     @Autowired
     protected PcsVoteExportService pcsVoteExportService;
+    @Autowired
+    protected PcsVoteService pcsVoteService;
 }

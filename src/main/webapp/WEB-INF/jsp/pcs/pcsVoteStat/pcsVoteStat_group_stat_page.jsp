@@ -10,7 +10,8 @@
             <div class="candidate-table rownumbers">
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
-                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pcsVoteGroup_au"><i class="fa fa-plus"></i>
+                    <a class="popupBtn btn btn-info btn-sm"
+                       data-url="${ctx}/pcsVoteGroup_au?type=${param.type}"><i class="fa fa-plus"></i>
                         添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/pcsVoteGroup_au"

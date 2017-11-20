@@ -5,6 +5,13 @@
   <div class="col-xs-12">
     <jsp:include page="menu.jsp"/>
     <div class="space-4"></div>
+    <button data-url="${ctx}/pcsVoteStat_clear"
+            data-title="清空数据"
+            data-msg="确定清空两委选举相关的所有数据？<div class='text-danger'>（不可恢复，请谨慎操作！）</div>"
+            data-callback="_reload"
+            class="confirm btn btn-danger btn-sm">
+      <i class="fa fa-trash"></i> 清空数据
+    </button>
     <div class="space-4"></div>
     <div class="widget-box" style="width: 500px">
       <div class="widget-header">
@@ -73,8 +80,12 @@
       </div>
     </div>
   </div>
+
 </div>
 <script>
+  function _reload(){
+    $.hashchange();
+  }
   $("#statForm").validate({
     submitHandler: function (form) {
       $(form).ajaxSubmit({
