@@ -152,6 +152,12 @@
         color: #669fc7
     }
 
+    .panel span.agree{
+        font-weight: bolder;
+        font-size: 18px;
+        color: red;
+    }
+
     .panel select[disabled] {
         color: #848484 !important;
         background-color: #eee !important;
@@ -184,7 +190,7 @@
                 if(valid>0 && degree>=0 && abstain>=0){
                     agree = valid -(degree + abstain);
                 }*/
-                return '<span class="agree">{0}</span>'.format(rowObject.agree)
+                return '<span class="agree">{0}</span>'.format(rowObject.agree==undefined?'-':rowObject.agree)
             }
             return ('<input required type="text" name="agree{0}" value="{1}" class="agree num" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
