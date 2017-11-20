@@ -46,9 +46,9 @@
                 label: '录入计票数据', name: 'hasReport', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
 
-                return ('<button class="openView btn btn-success btn-xs" ' +
+                return cellvalue?('<button class="openView btn btn-success btn-xs" ' +
                 'data-url="${ctx}/pcsVoteGroup_record?groupId={0}&type=${param.type}"><i class="fa fa-search"></i> 已报送</button>')
-                        .format(rowObject.id);
+                        .format(rowObject.id):"<span class='text-danger'>未报送</span>";
 
                 //return cellvalue?"<span class='text-success'>已报送</span>":"<span class='text-danger'>未报送</span>";
             }},
