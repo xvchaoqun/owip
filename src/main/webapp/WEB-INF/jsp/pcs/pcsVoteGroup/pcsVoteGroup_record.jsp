@@ -24,7 +24,7 @@
                                     <td>小组负责人：</td>
                                     <td width="60">${pcsVoteGroup.leader}</td>
                                     <td>小组成员：</td>
-                                    <td>${pcsVoteGroup.member}</td>
+                                    <td width="60">${pcsVoteGroup.member}</td>
                                     <td>领回选票张数：</td>
                                     <td><input required type="text" maxlength="3" class="num"
                                                data-my="bottom center" data-at="top center"
@@ -280,8 +280,14 @@
     $("#recommendForm").validate({
         submitHandler: function (form) {
 
+            var vote = parseInt($("input[name=vote]", "#recommendForm").val());
+            var valid = parseInt($("input[name=valid]", "#recommendForm").val());
+            var invalid = parseInt($("input[name=invalid]", "#recommendForm").val());
+            if(vote != (valid + invalid)){
+                $.tip({$target:$("input[name=vote]", "#recommendForm"), msg:'领回选票张数填写有误'})
+                return;
+            }
             var items = [];
-
             $.each($("#jqGrid2").jqGrid("getDataIDs"), function (i, userId) {
 
                 var rowData = $("#jqGrid2").getRowData(userId);
