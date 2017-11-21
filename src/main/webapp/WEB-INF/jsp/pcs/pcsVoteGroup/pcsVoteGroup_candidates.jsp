@@ -22,7 +22,7 @@
     $("#jqGridPopup").jqGrid({
         pager: null,
         rownumbers: true,
-        multiselect: false,
+        multiselect: ${committeeCanSelect},
         height: 400,
         width:865,
         datatype: "local",
@@ -68,11 +68,15 @@
     $("#modal #selectBtn").click(function(){
 
         var $jqGridPopup = $("#jqGridPopup");
-        //var userIds = $jqGridPopup.getGridParam("selarrrow");
+        <c:if test="${committeeCanSelect}">
+        var userIds = $jqGridPopup.getGridParam("selarrrow");
+        </c:if>
+        <c:if test="${!committeeCanSelect}">
         var userIds = $jqGridPopup.getDataIDs();
+        </c:if>
         if(userIds.length==0) return;
 
-        var $jqGrid = $("#jqGrid2");
+        var $jqGrid = $("#jqGrid_record");
         $.each(userIds, function(i, userId){
 
             var rowData =$jqGrid.getRowData(userId);

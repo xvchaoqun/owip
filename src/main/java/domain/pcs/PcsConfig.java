@@ -34,6 +34,8 @@ public class PcsConfig implements Serializable {
 
     private Integer jwBackVote;
 
+    private Boolean committeeCanSelect;
+
     private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
@@ -140,6 +142,14 @@ public class PcsConfig implements Serializable {
 
     public void setJwBackVote(Integer jwBackVote) {
         this.jwBackVote = jwBackVote;
+    }
+
+    public Boolean getCommitteeCanSelect() {
+        return committeeCanSelect;
+    }
+
+    public void setCommitteeCanSelect(Boolean committeeCanSelect) {
+        this.committeeCanSelect = committeeCanSelect;
     }
 
     public Boolean getIsDeleted() {

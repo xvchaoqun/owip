@@ -2,9 +2,11 @@ package service.pcs;
 
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsVoteCandidate;
+import domain.pcs.PcsVoteCandidateExample;
 import domain.pcs.PcsVoteGroup;
 import domain.pcs.PcsVoteMember;
 import domain.pcs.PcsVoteMemberExample;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -38,6 +40,95 @@ public class PcsVoteExportService extends BaseMapper {
     protected SysConfigService sysConfigService;
     @Autowired
     protected PcsConfigService pcsConfigService;
+
+    // 小组计票
+    public XSSFWorkbook vote_jp(PcsVoteGroup pcsVoteGroup) throws IOException {
+
+        //PcsVoteGroup pcsVoteGroup = pcsVoteGroupMapper.selectByPrimaryKey(groupId);
+        int groupId = pcsVoteGroup.getId();
+        byte type = pcsVoteGroup.getType();
+
+        boolean isDw = (type == SystemConstants.PCS_USER_TYPE_DW);
+        String filePath = isDw ? "classpath:xlsx/pcs/vote_dw_jp.xlsx"
+                : "classpath:xlsx/pcs/vote_jw_jp.xlsx";
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile(filePath));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("name", StringUtils.trimToEmpty(pcsVoteGroup.getName()));
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                .replace("vote", NumberUtils.trimToEmpty(pcsVoteGroup.getVote()))
+                .replace("yx", NumberUtils.trimToEmpty(pcsVoteGroup.getValid()))
+                .replace("wx", NumberUtils.trimToEmpty(pcsVoteGroup.getInvalid()));
+        cell.setCellValue(str);
+
+        row = sheet.getRow(isDw?45:26);
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                .replace("recorder", pcsVoteGroup.getRecordUser().getRealname());
+        cell.setCellValue(str);
+
+        List<PcsVoteCandidate> candidates;
+        {
+            PcsVoteCandidateExample example = new PcsVoteCandidateExample();
+            example.createCriteria().andGroupIdEqualTo(groupId).andIsFromStageEqualTo(true);
+            example.setOrderByClause("id asc");
+            candidates = pcsVoteCandidateMapper.selectByExample(example);
+        }
+        int rowCount = Math.min(candidates.size(), isDw ? 30 : 16);
+        int startRow = 3;
+        for (int i = 0; i < rowCount; i++) {
+
+            PcsVoteCandidate bean = candidates.get(i);
+
+            int column = 1;
+            row = sheet.getRow(startRow++);
+            // 姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getRealname());
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getDegree()));
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAbstain()));
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getInvalid()));
+        }
+
+        List<PcsVoteCandidate> otherCandidates;
+        {
+            PcsVoteCandidateExample example = new PcsVoteCandidateExample();
+            example.createCriteria().andGroupIdEqualTo(groupId).andIsFromStageEqualTo(false);
+            example.setOrderByClause("id asc");
+            otherCandidates = pcsVoteCandidateMapper.selectByExample(example);
+        }
+
+        rowCount = Math.min(otherCandidates.size(), isDw ? 10 : 5);
+        startRow = (isDw ? 35 : 21);
+        for (int i = 0; i < rowCount; i++) {
+
+            PcsVoteCandidate bean = otherCandidates.get(i);
+
+            int column = 1;
+            row = sheet.getRow(startRow++);
+            // 姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(bean.getRealname());
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
+        }
+
+        return wb;
+    }
 
     public XSSFWorkbook vote(byte type) throws IOException {
 
@@ -189,7 +280,20 @@ public class PcsVoteExportService extends BaseMapper {
                 PcsVoteMember bean = pcsVoteMembers.get(i);
                 row = sheet.getRow(startRow + (i / 5));
                 cell = row.getCell(i % 5);
-                cell.setCellValue(bean.getRealname());
+
+                String realname = bean.getRealname();
+                boolean isFemale = (bean.getGender()==SystemConstants.GENDER_FEMALE);
+                boolean isSsmz = (bean.getNation().indexOf("汉")==-1); // 是否少数民族
+
+                if(isFemale && isSsmz){
+                    realname += "\r\n（女，"+bean.getNation()+"）";
+                }else if(isFemale){
+                    realname += "\r\n（女）";
+                }else if(isSsmz){
+                    realname += "\r\n（"+bean.getNation()+"）";
+                }
+
+                cell.setCellValue(realname);
             }
         }
 
@@ -204,7 +308,20 @@ public class PcsVoteExportService extends BaseMapper {
                 PcsVoteMember bean = pcsVoteMembers.get(i);
                 row = sheet.getRow(startRow + (i / 5));
                 cell = row.getCell(i % 5);
-                cell.setCellValue(bean.getRealname());
+
+                String realname = bean.getRealname();
+                boolean isFemale = (bean.getGender()==SystemConstants.GENDER_FEMALE);
+                boolean isSsmz = (bean.getNation().indexOf("汉")==-1); // 是否少数民族
+
+                if(isFemale && isSsmz){
+                    realname += "\r\n（女，"+bean.getNation()+"）";
+                }else if(isFemale){
+                    realname += "\r\n（女）";
+                }else if(isSsmz){
+                    realname += "\r\n（"+bean.getNation()+"）";
+                }
+
+                cell.setCellValue(realname);
             }
         }
 

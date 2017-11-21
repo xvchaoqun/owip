@@ -43,7 +43,7 @@ public class PcsVoteService extends BaseMapper {
         int configId = currentPcsConfig.getId();
 
         commonMapper.excuteSql("update pcs_config set committee_join_count=null, dw_send_vote=null, jw_send_vote=null, " +
-                "dw_back_vote=null, jw_back_vote=null where id="+ configId);
+                "dw_back_vote=null, jw_back_vote=null, committee_can_select=null where id="+ configId);
 
         commonMapper.excuteSql("delete pvc.* from pcs_vote_candidate pvc, pcs_vote_group pvg " +
                 "where pvc.group_id=pvg.id and pvg.config_id=" + configId);

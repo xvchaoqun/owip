@@ -64,7 +64,7 @@
                                    data-width="900"
                                    data-url="${ctx}/pcsVoteGroup_candidates?type=${type}">
                                     <i class="fa fa-plus-circle"></i>
-                                    同步预备人选</a>
+                                    ${committeeCanSelect?'选择':'同步'}预备人选</a>
                                 </span>
                                                 <span class="tip">已选<span
                                                         class="count">${fn:length(pcsVoteCandidates)}</span>人</span>

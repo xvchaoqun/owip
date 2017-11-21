@@ -80,11 +80,10 @@
               </table>
             </div>
             <div class="clearfix form-actions center">
-              <%--<a href="javascript:window.opener=null;window.open('','_self');window.close();"
-                 class="btn btn-info" type="button" id="submitBtn">
+              <a href="javascript:;" id="btn_close" class="btn btn-info" type="button">
                 <i class="ace-icon fa fa-close bigger-110"></i>
                 关闭此页面
-              </a>--%>
+              </a>
               <a href="${ctx}/#/user/pmd/pmdMember" class="btn btn-success">
                 <i class="fa fa-reply"></i>
                 返回组工系统</a>
@@ -121,7 +120,9 @@
 </script>
 <![endif]-->
 <script>
-
+  $("#btn_close").click(function(){
+    window.open("about:blank","_self").close();
+  });
 </script>
 </body>
 </html>

@@ -52,7 +52,15 @@
 
                 //return cellvalue?"<span class='text-success'>已报送</span>":"<span class='text-danger'>未报送</span>";
             }},
-
+            {
+                label: '报告单', name: '_export', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.hasReport)
+                    return ('<button class="linkBtn btn btn-warning btn-xs" ' +
+                    'data-url="${ctx}/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
+                            .format(rowObject.id);
+                return '-'
+            }, frozen: true
+            },
             { label: '退回',name: 'reportId', formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.hasReport) return "-"

@@ -71,6 +71,12 @@
                 ${jwPcsVoteGroup.vote}
               </div>
             </div>
+            <div class="form-group">
+              <label class="col-xs-5 control-label">计票时是否可以选择预备人选</label>
+              <div class="col-xs-6 label-text">
+                <input type="checkbox" class="big" name="committeeCanSelect" ${pcsConfig.committeeCanSelect?"checked":""}/>
+              </div>
+            </div>
             <div class="modal-footer center">
               <%--<a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>--%>
               <input type="submit" class="btn btn-primary" value="更新"/>
@@ -86,6 +92,7 @@
   function _reload(){
     $.hashchange();
   }
+  $("#statForm :checkbox").bootstrapSwitch();
   $("#statForm").validate({
     submitHandler: function (form) {
       $(form).ajaxSubmit({

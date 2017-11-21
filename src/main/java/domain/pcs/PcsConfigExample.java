@@ -905,6 +905,66 @@ public class PcsConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andCommitteeCanSelectIsNull() {
+            addCriterion("committee_can_select is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectIsNotNull() {
+            addCriterion("committee_can_select is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectEqualTo(Boolean value) {
+            addCriterion("committee_can_select =", value, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectNotEqualTo(Boolean value) {
+            addCriterion("committee_can_select <>", value, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectGreaterThan(Boolean value) {
+            addCriterion("committee_can_select >", value, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("committee_can_select >=", value, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectLessThan(Boolean value) {
+            addCriterion("committee_can_select <", value, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectLessThanOrEqualTo(Boolean value) {
+            addCriterion("committee_can_select <=", value, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectIn(List<Boolean> values) {
+            addCriterion("committee_can_select in", values, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectNotIn(List<Boolean> values) {
+            addCriterion("committee_can_select not in", values, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectBetween(Boolean value1, Boolean value2) {
+            addCriterion("committee_can_select between", value1, value2, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeCanSelectNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("committee_can_select not between", value1, value2, "committeeCanSelect");
+            return (Criteria) this;
+        }
+
         public Criteria andIsDeletedIsNull() {
             addCriterion("is_deleted is null");
             return (Criteria) this;

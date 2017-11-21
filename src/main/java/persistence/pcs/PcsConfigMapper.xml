@@ -15,6 +15,7 @@
     <result column="jw_send_vote" jdbcType="INTEGER" property="jwSendVote" />
     <result column="dw_back_vote" jdbcType="INTEGER" property="dwBackVote" />
     <result column="jw_back_vote" jdbcType="INTEGER" property="jwBackVote" />
+    <result column="committee_can_select" jdbcType="BIT" property="committeeCanSelect" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,7 +79,7 @@
   <sql id="Base_Column_List">
     id, name, is_current, create_time, remark, proposal_submit_time, proposal_support_time, 
     proposal_support_count, committee_join_count, dw_send_vote, jw_send_vote, dw_back_vote, 
-    jw_back_vote, is_deleted
+    jw_back_vote, committee_can_select, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsConfigExample" resultMap="BaseResultMap">
     select
@@ -115,14 +116,14 @@
       create_time, remark, proposal_submit_time, 
       proposal_support_time, proposal_support_count, 
       committee_join_count, dw_send_vote, jw_send_vote, 
-      dw_back_vote, jw_back_vote, is_deleted
-      )
+      dw_back_vote, jw_back_vote, committee_can_select, 
+      is_deleted)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{isCurrent,jdbcType=BIT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{proposalSubmitTime,jdbcType=TIMESTAMP}, 
       #{proposalSupportTime,jdbcType=TIMESTAMP}, #{proposalSupportCount,jdbcType=INTEGER}, 
       #{committeeJoinCount,jdbcType=INTEGER}, #{dwSendVote,jdbcType=INTEGER}, #{jwSendVote,jdbcType=INTEGER}, 
-      #{dwBackVote,jdbcType=INTEGER}, #{jwBackVote,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}
-      )
+      #{dwBackVote,jdbcType=INTEGER}, #{jwBackVote,jdbcType=INTEGER}, #{committeeCanSelect,jdbcType=BIT}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsConfig">
     insert into pcs_config
@@ -165,6 +166,9 @@
       </if>
       <if test="jwBackVote != null">
         jw_back_vote,
+      </if>
+      <if test="committeeCanSelect != null">
+        committee_can_select,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -209,6 +213,9 @@
       </if>
       <if test="jwBackVote != null">
         #{jwBackVote,jdbcType=INTEGER},
+      </if>
+      <if test="committeeCanSelect != null">
+        #{committeeCanSelect,jdbcType=BIT},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -263,6 +270,9 @@
       <if test="record.jwBackVote != null">
         jw_back_vote = #{record.jwBackVote,jdbcType=INTEGER},
       </if>
+      <if test="record.committeeCanSelect != null">
+        committee_can_select = #{record.committeeCanSelect,jdbcType=BIT},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -286,6 +296,7 @@
       jw_send_vote = #{record.jwSendVote,jdbcType=INTEGER},
       dw_back_vote = #{record.dwBackVote,jdbcType=INTEGER},
       jw_back_vote = #{record.jwBackVote,jdbcType=INTEGER},
+      committee_can_select = #{record.committeeCanSelect,jdbcType=BIT},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -330,6 +341,9 @@
       <if test="jwBackVote != null">
         jw_back_vote = #{jwBackVote,jdbcType=INTEGER},
       </if>
+      <if test="committeeCanSelect != null">
+        committee_can_select = #{committeeCanSelect,jdbcType=BIT},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -350,6 +364,7 @@
       jw_send_vote = #{jwSendVote,jdbcType=INTEGER},
       dw_back_vote = #{dwBackVote,jdbcType=INTEGER},
       jw_back_vote = #{jwBackVote,jdbcType=INTEGER},
+      committee_can_select = #{committeeCanSelect,jdbcType=BIT},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>

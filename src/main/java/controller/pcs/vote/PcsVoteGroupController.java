@@ -9,6 +9,7 @@ import domain.pcs.PcsVoteGroup;
 import domain.pcs.PcsVoteGroupExample;
 import domain.pcs.PcsVoteGroupExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -170,6 +171,10 @@ public class PcsVoteGroupController extends PcsBaseController {
     public String pcsVoteGroup_record(int groupId, byte type, ModelMap modelMap) {
 
         modelMap.put("type", type);
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        modelMap.put("committeeCanSelect", BooleanUtils.isTrue(currentPcsConfig.getCommitteeCanSelect()));
+
         PcsVoteGroup pcsVoteGroup = pcsVoteGroupMapper.selectByPrimaryKey(groupId);
         modelMap.put("pcsVoteGroup", pcsVoteGroup);
 
@@ -221,6 +226,10 @@ public class PcsVoteGroupController extends PcsBaseController {
                 iPcsMapper.selectPartyCandidates(null, true, configId, SystemConstants.PCS_STAGE_THIRD, type, new RowBounds());
 
         modelMap.put("candidates", candidates);
+
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        modelMap.put("committeeCanSelect", BooleanUtils.isTrue(currentPcsConfig.getCommitteeCanSelect()));
+
         return "pcs/pcsVoteGroup/pcsVoteGroup_candidates";
     }
 

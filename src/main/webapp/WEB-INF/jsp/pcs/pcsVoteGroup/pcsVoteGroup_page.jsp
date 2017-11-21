@@ -60,13 +60,22 @@
         colModel: [
             <shiro:hasPermission name="pcsVoteGroup:record">
             {
-                label: '报送', name: '_report', formatter: function (cellvalue, options, rowObject) {
+                label: '报送', name: '_report', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
                 return ('<button class="confirm btn btn-success btn-xs" ' +
                 'data-title="报送" data-msg="报送后不可修改，是否报送？" ' +
                 'data-callback="_reload" ' +
                 'data-url="${ctx}/pcsVoteGroup_report?groupId={0}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
                         .format(rowObject.id, rowObject.vote > 0 ? '' : 'disabled');
+            }, frozen: true
+            },
+            {
+                label: '报告单', name: '_export', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.vote > 0)
+                return ('<button class="linkBtn btn btn-warning btn-xs" ' +
+                'data-url="${ctx}/pcsVoteCandidate_export?cls=0&groupId={0}"><i class="fa fa-download"></i> 导出</button>')
+                        .format(rowObject.id);
+                return '-'
             }, frozen: true
             },
             {

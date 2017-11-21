@@ -573,8 +573,8 @@
         </table>-->
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
-        <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
-        </table>-->
+        <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
+        </table>
         <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
         </table>-->
         <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">
@@ -620,8 +620,8 @@
 
       <!--<table tableName="pcs_vote_group" domainObjectName="pcs.PcsVoteGroup" mapperName="pcs.PcsVoteGroupMapper">
         </table>-->
-      <table tableName="pcs_vote_candidate" domainObjectName="pcs.PcsVoteCandidate" mapperName="pcs.PcsVoteCandidateMapper">
-      </table>
+     <!-- <table tableName="pcs_vote_candidate" domainObjectName="pcs.PcsVoteCandidate" mapperName="pcs.PcsVoteCandidateMapper">
+      </table>-->
 
         <!--   <table tableName="pcs_vote_candidate_view" domainObjectName="pcs.PcsVoteCandidateView"
                 mapperName="pcs.PcsVoteCandidateViewMapper"
@@ -630,8 +630,8 @@
                 enableDeleteByExample="false">
        </table>
  -->
-        <table tableName="pcs_vote_member" domainObjectName="pcs.PcsVoteMember" mapperName="pcs.PcsVoteMemberMapper">
-        </table>
+       <!-- <table tableName="pcs_vote_member" domainObjectName="pcs.PcsVoteMember" mapperName="pcs.PcsVoteMemberMapper">
+        </table>-->
         <!--     <table tableName="pcs_proposal_view" domainObjectName="pcs.PcsProposalView"
                     mapperName="pcs.PcsProposalViewMapper"
                     enableInsert="false" enableUpdateByPrimaryKey="false"

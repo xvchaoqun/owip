@@ -7,6 +7,8 @@ import domain.pcs.PcsVoteGroup;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -66,21 +69,34 @@ public class PcsVoteCadidateController extends PcsBaseController {
     }
 
 
-    @RequiresPermissions("pcsVoteStat:candidate")
+    //@RequiresPermissions("pcsVoteStat:candidate")
     @RequestMapping("/pcsVoteCandidate_export")
-    public String pcsVoteCandidate_export(byte cls, byte type,
+    public String pcsVoteCandidate_export(byte cls, Byte type, Integer groupId,
                                HttpServletResponse response) throws IOException {
 
         XSSFWorkbook wb = null;
         String fileName = null;
 
         switch (cls) {
+            case 0:
+                PcsVoteGroup pcsVoteGroup = pcsVoteGroupMapper.selectByPrimaryKey(groupId);
+                int recordUserId = pcsVoteGroup.getRecordUserId();
+                if(recordUserId!= ShiroHelper.getCurrentUserId() && !ShiroHelper.isPermitted("pcsVoteStat:candidate")){
+                    throw new UnauthorizedException();
+                }
+                type = pcsVoteGroup.getType();
+                wb = pcsVoteExportService.vote_jp(pcsVoteGroup);
+                fileName = String.format("各计票组计票汇总：%s",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                break;
             case 1:
+                SecurityUtils.getSubject().checkPermission("pcsVoteStat:candidate");
                 wb = pcsVoteExportService.vote(type);
                 fileName = String.format("计票汇总用：%s",
                         SystemConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case 2:
+                SecurityUtils.getSubject().checkPermission("pcsVoteStat:candidate");
                 wb = pcsVoteExportService.vote_zj(type);
                 fileName = String.format("报总监票人：%s选举结果报告单",
                         SystemConstants.PCS_USER_TYPE_MAP.get(type));

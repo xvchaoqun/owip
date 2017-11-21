@@ -1,4 +1,8 @@
 
+2017-11-21
+ALTER TABLE `pcs_config`
+	ADD COLUMN `committee_can_select` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '两委选举计票时，是否可以选择部分预备人选，否则同步全部预备人选' AFTER `jw_back_vote`;
+
 
 2017-11-20
 ALTER TABLE `pcs_config`
