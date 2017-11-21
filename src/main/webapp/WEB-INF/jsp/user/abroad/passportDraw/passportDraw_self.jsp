@@ -98,7 +98,7 @@
 $("#apply").click(function(){
     var $applyId = $("input[type=checkbox]:checked");
     var applyId = $applyId.val();
-    if(applyId==undefined || applyId==''){
+    if(applyId==undefined || applyId=='' || parseInt(applyId)==NaN){
       SysMsg.info("请选择一个行程");
       return;
     }
