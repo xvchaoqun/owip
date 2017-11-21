@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <div class="myTableDiv"
+        <div class="multi-row-head-table myTableDiv"
              data-url-page="${ctx}/pcsVoteMember_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="space-4"></div>
@@ -58,7 +58,7 @@
             {label: '赞成票数', name: 'agree', width: 80},
             {label: '不赞成票数', name: 'degree', width: 110},
             {label: '弃权票数', name: 'abstain', width: 80},
-            {label: '无效票数', name: 'invalid', width: 80},
+            {label: '无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

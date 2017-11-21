@@ -99,7 +99,14 @@ $(window).on('resize.jqGrid', function () {
     if ($(".jqGrid").getGridParam("pager") == false) {
         minusHeight -= 45;
     }
-    $(".jqGrid").setGridHeight($(window).height() - minusHeight - height - navHeight)
+
+    var gridHeight = $(window).height() - minusHeight - height - navHeight;
+    var heightReduce = $(".jqGrid").data("height-reduce");
+    if (heightReduce != undefined) {
+        gridHeight = gridHeight - parseInt(heightReduce);
+    }
+
+    $(".jqGrid").setGridHeight(gridHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 });

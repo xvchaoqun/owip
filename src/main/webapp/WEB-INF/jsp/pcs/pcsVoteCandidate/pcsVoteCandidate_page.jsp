@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="myTableDiv"
+<div class="multi-row-head-table myTableDiv"
      data-url-page="${ctx}/pcsVoteGroup_data"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
 
@@ -32,7 +32,7 @@
     </div>
     <div class="rownumbers">
         <div class="space-4"></div>
-        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="100"></table>
+        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="120"></table>
         <div id="jqGridPager2"></div>
     </div>
 </div>
@@ -57,7 +57,7 @@
             {label: '弃权票数', name: 'abstain', formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? cellvalue : "-";
             }},
-            {label: '无效票数', name: 'invalid', formatter: function (cellvalue, options, rowObject) {
+            {label: '无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? cellvalue : "-";
             }},
             {label: '备注', name: '_remark', formatter: function (cellvalue, options, rowObject) {

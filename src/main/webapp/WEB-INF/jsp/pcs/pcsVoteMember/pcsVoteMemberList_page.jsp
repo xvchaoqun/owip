@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" class="myTableDiv"
+        <div id="body-content" class="multi-row-head-table myTableDiv"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="tabbable">
                 <jsp:include page="../pcsVoteStat/menu.jsp"/>
@@ -23,7 +23,7 @@
 
                     <div class="tab-pane in active rownumbers">
                         <div class="space-4"></div>
-                        <table id="jqGrid" class="jqGrid table-striped"></table>
+                        <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="40"></table>
                         <div id="jqGridPager"></div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
             {label: '赞成票数', name: 'agree', width: 80},
             {label: '不赞成票数', name: 'degree', width: 110},
             {label: '弃权票数', name: 'abstain', width: 80},
-            {label: '无效票数', name: 'invalid', width: 80},
+            {label: '无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

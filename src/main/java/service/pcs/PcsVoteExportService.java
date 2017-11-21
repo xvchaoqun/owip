@@ -82,6 +82,8 @@ public class PcsVoteExportService extends BaseMapper {
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getDegree()));
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getAbstain()));
+            cell = row.getCell(column++);
+            cell.setCellValue(NumberUtils.trimToEmpty(bean.getInvalid()));
         }
 
         List<PcsVoteCandidate> otherCandidates = iPcsMapper.selectVoteCandidateStatList(type, null, false);
