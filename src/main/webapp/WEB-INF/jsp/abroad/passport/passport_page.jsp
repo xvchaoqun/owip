@@ -310,9 +310,9 @@ pageEncoding="UTF-8" %>
             $("#hasFindBtn").prop("disabled",rowData.hasFind==0);
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
         $('[data-tooltip="tooltip"]').tooltip({html:true});
     });
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
     function openView_safeBox(pageNo){

@@ -19,6 +19,7 @@ import service.analysis.StatService;
 import service.party.PartyService;
 import service.sys.SysConfigService;
 import sys.constants.SystemConstants;
+import sys.utils.ExcelUtils;
 import sys.utils.NumberUtils;
 
 import java.io.FileInputStream;
@@ -70,12 +71,6 @@ public class PcsVoteExportService extends BaseMapper {
                 .replace("wx", NumberUtils.trimToEmpty(pcsVoteGroup.getInvalid()));
         cell.setCellValue(str);
 
-        row = sheet.getRow(isDw?45:26);
-        cell = row.getCell(0);
-        str = cell.getStringCellValue()
-                .replace("recorder", pcsVoteGroup.getRecordUser().getRealname());
-        cell.setCellValue(str);
-
         List<PcsVoteCandidate> candidates;
         {
             PcsVoteCandidateExample example = new PcsVoteCandidateExample();
@@ -112,20 +107,34 @@ public class PcsVoteExportService extends BaseMapper {
             otherCandidates = pcsVoteCandidateMapper.selectByExample(example);
         }
 
-        rowCount = Math.min(otherCandidates.size(), isDw ? 10 : 5);
+        rowCount = otherCandidates.size();
         startRow = (isDw ? 35 : 21);
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
             PcsVoteCandidate bean = otherCandidates.get(i);
 
-            int column = 1;
+            int column = 0;
             row = sheet.getRow(startRow++);
-            // 姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(i+1);
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
+            cell = row.getCell(column++);
+            cell.setCellValue("—");
+            cell = row.getCell(column++);
+            cell.setCellValue("—");
+            cell = row.getCell(column++);
+            cell.setCellValue("—");
         }
+
+        row = sheet.getRow((isDw ? 35 : 21) + (rowCount==0?1:rowCount));
+        cell = row.getCell(0);
+        str = cell.getStringCellValue()
+                .replace("recorder", pcsVoteGroup.getRecordUser().getRealname());
+        cell.setCellValue(str);
 
         return wb;
     }
@@ -178,20 +187,32 @@ public class PcsVoteExportService extends BaseMapper {
         }
 
         List<PcsVoteCandidate> otherCandidates = iPcsMapper.selectVoteCandidateStatList(type, null, false);
-        rowCount = Math.min(otherCandidates.size(), isDw ? 20 : 12);
+        //rowCount = Math.min(otherCandidates.size(), isDw ? 20 : 12);
+        rowCount = otherCandidates.size();
         startRow = (isDw ? 35 : 21);
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
             PcsVoteCandidate bean = otherCandidates.get(i);
 
-            int column = (i < (isDw ? 10 : 6)) ? 1 : 3;
-            int rowNum = startRow + (i % (isDw ? 10 : 6));
-            row = sheet.getRow(rowNum);
-            // 姓名
+            //int column = (i < (isDw ? 10 : 6)) ? 1 : 3;
+            //int rowNum = startRow + (i % (isDw ? 10 : 6));
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+
+            cell = row.getCell(column++);
+            cell.setCellValue(i+1);
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
+            cell = row.getCell(column++);
+            cell.setCellValue("—");
+            cell = row.getCell(column++);
+            cell.setCellValue("—");
+            cell = row.getCell(column++);
+            cell.setCellValue("—");
         }
 
         return wb;
@@ -241,16 +262,20 @@ public class PcsVoteExportService extends BaseMapper {
         }
 
         List<PcsVoteCandidate> otherCandidates = iPcsMapper.selectVoteCandidateStatList(type, null, false);
-        rowCount = Math.min(otherCandidates.size(), 10);
+        rowCount = otherCandidates.size();
         startRow = (isDw ? 21 : 14);
+        // 双列显示，只有一半的行数
+        int realRowCount = (rowCount/2 + (rowCount%2>0?1:0));
+        ExcelUtils.insertRow(wb, sheet, startRow,  realRowCount - 1);
         for (int i = 0; i < rowCount; i++) {
 
             PcsVoteCandidate bean = otherCandidates.get(i);
 
-            int column = (i < 5) ? 1 : 4;
-            int rowNum = startRow + (i % 5);
+            int column = (i < realRowCount) ? 0 : 3;
+            int rowNum = startRow + (i % realRowCount);
             row = sheet.getRow(rowNum);
-            // 姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(i+1);
             cell = row.getCell(column++);
             cell.setCellValue(bean.getRealname());
             cell = row.getCell(column++);

@@ -99,32 +99,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>行政级别</label>
-                                                <select data-rel="select2" name="typeId" data-placeholder="请选择行政级别">
-                                                    <option></option>
-                                                    <jsp:include page="/metaTypes?__code=mc_admin_level"/>
-                                                </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=typeId]").val(${param.typeId});
-                                                </script>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>职务属性</label>
-                                                <select data-rel="select2" name="postId" data-placeholder="请选择职务属性">
-                                                    <option></option>
-                                                    <jsp:include page="/metaTypes?__code=mc_post"/>
-                                                </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=postId]").val(${param.postId});
-                                                </script>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>单位及职务</label>
-                                                <input class="form-control search-query" name="title" type="text"
-                                                       value="${param.title}"
-                                                       placeholder="请输入单位及职务">
-                                            </div>
                                             <div class="clearfix form-actions center">
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>

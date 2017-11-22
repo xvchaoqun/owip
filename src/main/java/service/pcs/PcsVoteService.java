@@ -1,20 +1,17 @@
 package service.pcs;
 
 import domain.pcs.PcsConfig;
-import domain.sys.SysUserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.MySqlUtils;
 import sys.utils.PropertiesUtils;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class PcsVoteService extends BaseMapper {
@@ -43,18 +40,18 @@ public class PcsVoteService extends BaseMapper {
         int configId = currentPcsConfig.getId();
 
         commonMapper.excuteSql("update pcs_config set committee_join_count=null, dw_send_vote=null, jw_send_vote=null, " +
-                "dw_back_vote=null, jw_back_vote=null, committee_can_select=null where id="+ configId);
+                "dw_back_vote=null, jw_back_vote=null, committee_can_select=0 where id="+ configId);
 
         commonMapper.excuteSql("delete pvc.* from pcs_vote_candidate pvc, pcs_vote_group pvg " +
                 "where pvc.group_id=pvg.id and pvg.config_id=" + configId);
 
-        commonMapper.excuteSql("delete from pcs_vote_group where config_id="+ configId);
+        commonMapper.excuteSql("update pcs_vote_group set has_report=0, vote=null,valid=null, invalid=null where config_id="+ configId);
 
         commonMapper.excuteSql("delete from pcs_vote_member where config_id="+ configId);
 
 
         // 删除录入人角色
-        String role = SystemConstants.ROLE_PCS_VOTE_DW;
+        /*String role = SystemConstants.ROLE_PCS_VOTE_DW;
         List<SysUserView> sysUserViews = sysUserService.findByRole(role);
         for (SysUserView sysUserView : sysUserViews) {
             sysUserService.delRole(sysUserView.getUserId(), role);
@@ -63,6 +60,6 @@ public class PcsVoteService extends BaseMapper {
         sysUserViews = sysUserService.findByRole(role);
         for (SysUserView sysUserView : sysUserViews) {
             sysUserService.delRole(sysUserView.getUserId(), role);
-        }
+        }*/
     }
 }

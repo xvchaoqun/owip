@@ -1375,6 +1375,29 @@ $(document).on("blur keyup keydown paste change", "input.num, input.float", func
     }
 });
 
+// 搜索框响应回车事件
+$(document).on("select2:close", '#searchForm [data-rel="select2"], #searchForm [data-rel="select2-ajax"]', function () {
+    $(':focus').blur();
+});
+$(document).on("keydown keyup","#searchForm input[type=text]", function(e){
+    //alert(0)
+    if(e.keyCode==13){
+        e.preventDefault();
+        $(':focus').blur();
+    }
+    e.stopPropagation();
+})
+$(document).on("keyup",function(e){
+    //alert(0)
+    if(e.keyCode==13){
+        e.preventDefault();
+       if($("#searchForm").is(":visible")){
+           $(".jqSearchBtn ", "#searchForm").click();
+       }
+    }
+    e.stopPropagation();
+})
+
 // 日历
 function register_date($date, params) {
     return $date.datepicker($.extend({

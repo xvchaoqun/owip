@@ -1,13 +1,13 @@
 package controller.pcs.vote;
 
 import controller.PcsBaseController;
-import domain.member.MemberTeacher;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsVoteCandidate;
 import domain.pcs.PcsVoteCandidateExample;
 import domain.pcs.PcsVoteGroup;
 import domain.pcs.PcsVoteGroupExample;
 import domain.pcs.PcsVoteGroupExample.Criteria;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -201,10 +201,10 @@ public class PcsVoteGroupController extends PcsBaseController {
 
             for (Integer userId : userIds) {
 
-                MemberTeacher memberTeacher = memberTeacherService.get(userId);
+                SysUserView uv = sysUserService.findById(userId);
                 PcsVoteCandidate candidate = new PcsVoteCandidate();
-                candidate.setUserId(memberTeacher.getUserId());
-                candidate.setRealname(memberTeacher.getRealname());
+                candidate.setUserId(uv.getUserId());
+                candidate.setRealname(uv.getRealname());
                 candidate.setIsFromStage(iPcsMapper.countPartyCandidates(userId, true, configId,
                         SystemConstants.PCS_STAGE_THIRD, type)>0);
 
