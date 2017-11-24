@@ -283,7 +283,7 @@ public class PcsVoteExportService extends BaseMapper {
             cell.setCellValue(NumberUtils.trimToEmpty(bean.getAgree()));
         }
 
-        startRow = startRow + ((rowCount - 1) % realRowCount) + 2;
+        startRow = startRow + realRowCount + 1;
         try {
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(startRow, 0, startRow, row.getLastCellNum() - 1));
         } catch (Exception e) {

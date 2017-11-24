@@ -13,7 +13,7 @@
         </if>
         <if test="isFromStage!=null">
             and c.is_from_stage=#{isFromStage}
-        </if> group by c.user_id  order  by  agree desc, c.sort_order asc
+        </if> group by c.user_id  order  by  agree desc, c.sort_order asc, c.user_id asc
     </select>
 
     <sql id="selectPrList_where">
