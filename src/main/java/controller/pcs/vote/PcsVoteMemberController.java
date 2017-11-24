@@ -114,7 +114,7 @@ public class PcsVoteMemberController extends PcsBaseController {
 
         XSSFWorkbook wb  = pcsVoteExportService.member();
         if (wb != null) {
-            ExportHelper.output(wb, "当选名单.xlsx", response);
+            ExportHelper.output(wb, "两委委员当选名单.xlsx", response);
         }
 
         return null;

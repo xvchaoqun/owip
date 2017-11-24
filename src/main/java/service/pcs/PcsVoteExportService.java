@@ -130,11 +130,11 @@ public class PcsVoteExportService extends BaseMapper {
             cell.setCellValue("—");
         }
 
-        row = sheet.getRow((isDw ? 35 : 21) + (rowCount==0?1:rowCount));
+        /*row = sheet.getRow((isDw ? 35 : 21) + (rowCount==0?1:rowCount));
         cell = row.getCell(0);
         str = cell.getStringCellValue()
                 .replace("recorder", pcsVoteGroup.getRecordUser().getRealname());
-        cell.setCellValue(str);
+        cell.setCellValue(str);*/
 
         return wb;
     }

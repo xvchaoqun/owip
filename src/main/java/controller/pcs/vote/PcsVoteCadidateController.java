@@ -86,8 +86,8 @@ public class PcsVoteCadidateController extends PcsBaseController {
                 }
                 type = pcsVoteGroup.getType();
                 wb = pcsVoteExportService.vote_jp(pcsVoteGroup);
-                fileName = String.format("各计票组计票汇总：%s",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                fileName = String.format("各计票组计票汇总：%s（%s）",
+                        SystemConstants.PCS_USER_TYPE_MAP.get(type), pcsVoteGroup.getName());
                 break;
             case 1:
                 SecurityUtils.getSubject().checkPermission("pcsVoteStat:candidate");
