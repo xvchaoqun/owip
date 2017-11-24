@@ -11,7 +11,7 @@
                 <div class="jqgrid-vertical-offset buttons" style="padding: 10px">
                     <a class="linkBtn btn btn-info btn-sm" style="float: left"
                        data-url="${ctx}/pcsVoteMember_export"><i class="fa fa-download"></i>
-                        当选名单</a>
+                        导出两委当选名单</a>
                     <div style="line-height: 30px; float: left;margin-left: 20px;">
                         <input class="typeCheckbox" ${param.type==PCS_USER_TYPE_DW?"checked":""} type="checkbox" value="${PCS_USER_TYPE_DW}"> 党委委员
                         <input class="typeCheckbox" ${param.type==PCS_USER_TYPE_JW?"checked":""} type="checkbox" value="${PCS_USER_TYPE_JW}"> 纪委委员
@@ -68,7 +68,7 @@
             {label: '赞成票数', name: 'agree', width: 80},
             {label: '不赞成票数', name: 'degree', width: 110},
             {label: '弃权票数', name: 'abstain', width: 80},
-            {label: '无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120},
+            {label: '部分无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120},
             {
                 label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER
             },

@@ -74,7 +74,7 @@
                                     </div>
                                     <div id="collapse"
                                          class="panel-collapse collapse in">
-                                        <div class="panel-body">
+                                        <div class="panel-body multi-row-head-table">
                                             <table id="jqGrid_record" data-width-reduce="30"
                                                    class="jqGrid4 table-striped"></table>
                                         </div>
@@ -181,22 +181,6 @@
         },
         {label: '候选人姓名', name: 'realname', width: 150, frozen: true},
         {
-            label: '赞成票数', name: 'agree', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.isFromStage){
-               /* var valid = parseInt($("input[name=valid]", "#recommendForm").val());
-                var degree = rowObject.degree;
-                var abstain = rowObject.abstain;
-                var agree = "";
-                if(valid>0 && degree>=0 && abstain>=0){
-                    agree = valid -(degree + abstain);
-                }*/
-                return '<span class="agree">{0}</span>'.format(rowObject.agree==undefined?'-':rowObject.agree)
-            }
-            return ('<input required type="text" name="agree{0}" value="{1}" class="agree num" maxlength="4">')
-                    .format(rowObject.userId, $.trim(cellvalue))
-        }
-        },
-        {
             label: '不赞成票数', name: 'degree', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
             return ('<input required type="text" name="degree{0}" data-user-id="{0}" value="{1}" class="degree num" maxlength="4">')
@@ -211,9 +195,25 @@
         }
         },
         {
-            label: '无效票数', name: 'invalid', formatter: function (cellvalue, options, rowObject) {
+            label: '部分无效票数<br/>(模糊无法辨认)', name: 'invalid', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
             return ('<input required type="text" name="invalid{0}" data-user-id="{0}" value="{1}" class="invalid num" maxlength="4">')
+                    .format(rowObject.userId, $.trim(cellvalue))
+        }
+        },
+        {
+            label: '赞成票数', name: 'agree', formatter: function (cellvalue, options, rowObject) {
+            if (rowObject.isFromStage){
+                /* var valid = parseInt($("input[name=valid]", "#recommendForm").val());
+                 var degree = rowObject.degree;
+                 var abstain = rowObject.abstain;
+                 var agree = "";
+                 if(valid>0 && degree>=0 && abstain>=0){
+                 agree = valid -(degree + abstain);
+                 }*/
+                return '<span class="agree">{0}</span>'.format(rowObject.agree==undefined?'-':rowObject.agree)
+            }
+            return ('<input required type="text" name="agree{0}" value="{1}" class="agree num" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },

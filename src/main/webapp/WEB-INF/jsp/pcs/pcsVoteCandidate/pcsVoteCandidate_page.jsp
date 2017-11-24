@@ -64,7 +64,7 @@
             {label: '弃权票数', name: 'abstain', formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? cellvalue : "-";
             }},
-            {label: '无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120, formatter: function (cellvalue, options, rowObject) {
+            {label: '部分无效票数<br/>(模糊无法辨认)', name: 'invalid', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? cellvalue : "-";
             }},
             {label: '备注', name: '_remark', formatter: function (cellvalue, options, rowObject) {
