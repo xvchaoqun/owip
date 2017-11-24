@@ -41,6 +41,7 @@
         $("#chooseAhref").click()
     }
     var candidates = ${cm:toJSONArray(candidates)};
+    var joinCount = ${currentPcsConfig.committeeJoinCount};
     $("#jqGrid2").jqGrid({
         pager: null,
         datatype: "local",
@@ -51,6 +52,12 @@
         colModel: [
             {label: '候选人姓名', name: 'realname', width: 120},
             {label: '赞成票数', name: 'agree'},
+            {label: '赞成票数比率', name: '_agree', formatter: function (cellvalue, options, rowObject) {
+                return  parseFloat(rowObject.agree*100/joinCount).toFixed(2) + "%"
+            },cellattr:function(rowId, val, rowObject, cm, rdata) {
+                if(rowObject.agree*2>joinCount)
+                    return "class='danger'";
+            }, width: 130},
             {label: '不赞成票数', name: 'degree', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.isFromStage ? cellvalue : "-";
             }},
