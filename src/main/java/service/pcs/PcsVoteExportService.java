@@ -325,7 +325,7 @@ public class PcsVoteExportService extends BaseMapper {
         {
             PcsVoteMemberExample example = new PcsVoteMemberExample();
             example.createCriteria().andTypeEqualTo(SystemConstants.PCS_USER_TYPE_JW);
-            example.setOrderByClause("sort_order desc");
+            example.setOrderByClause("sort_order asc");
             List<PcsVoteMember> pcsVoteMembers = pcsVoteMemberMapper.selectByExample(example);
             int rowCount = Math.min(pcsVoteMembers.size(), 13);
             int startRow = 12;
