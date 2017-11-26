@@ -173,7 +173,9 @@
     var colModel = [
         {
             label: '移除', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
+            <c:if test="${!committeeCanSelect}">
             if (rowObject.isFromStage) return '-'
+            </c:if>
             //console.log(options)
             return '<button ${!allowModify?"disabled":""} class="delRowBtn btn btn-danger btn-xs" data-id="{0}" data-gid="{1}"><i class="fa fa-minus-circle"></i> 移除</button>'
                     .format(rowObject.userId, options.gid)
