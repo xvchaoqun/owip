@@ -41,7 +41,7 @@
         $("#chooseAhref").click()
     }
     var candidates = ${cm:toJSONArray(candidates)};
-    var joinCount = ${currentPcsConfig.committeeJoinCount};
+    var joinCount = ${currentPcsConfig.committeeJoinCount==null?0:currentPcsConfig.committeeJoinCount};
     $("#jqGrid2").jqGrid({
         pager: null,
         datatype: "local",
