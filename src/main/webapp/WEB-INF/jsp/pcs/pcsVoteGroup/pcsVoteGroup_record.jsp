@@ -26,17 +26,17 @@
                                     <td>小组成员：</td>
                                     <td width="60">${pcsVoteGroup.member}</td>
                                     <td>领回选票张数：</td>
-                                    <td><input required type="text" maxlength="3" class="num"
+                                    <td><input required type="text" maxlength="3" class="digits"
                                                data-my="bottom center" data-at="top center"
                                                name="vote"
                                                value="${pcsVoteGroup.vote}"></td>
                                     <td>有效票数：</td>
-                                    <td><input required type="text" maxlength="3" class="num"
+                                    <td><input required type="text" maxlength="3" class="digits"
                                                data-my="bottom center" data-at="top center"
                                                name="valid"
                                                value="${pcsVoteGroup.valid}"></td>
                                     <td>无效票数：</td>
-                                    <td><input required type="text" maxlength="3" class="num"
+                                    <td><input required type="text" maxlength="3" class="digits"
                                                data-my="bottom center" data-at="top center"
                                                name="invalid"
                                                value="${pcsVoteGroup.invalid}">
@@ -138,7 +138,7 @@
         margin-bottom: 10px;
     }
 
-    .panel input.num {
+    .panel input.digits {
         width: 60px !important;
         padding: 0px !important;
         text-align: center;
@@ -183,21 +183,21 @@
         {
             label: '不赞成票数', name: 'degree', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
-            return ('<input required type="text" name="degree{0}" data-user-id="{0}" value="{1}" class="degree num" maxlength="4">')
+            return ('<input required type="text" name="degree{0}" data-user-id="{0}" value="{1}" class="degree digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
         {
             label: '弃权票数', name: 'abstain', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
-            return ('<input required type="text" name="abstain{0}" data-user-id="{0}" value="{1}" class="abstain num" maxlength="4">')
+            return ('<input required type="text" name="abstain{0}" data-user-id="{0}" value="{1}" class="abstain digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
         {
-            label: '部分无效票数<br/>(模糊无法辨认)', name: 'invalid', formatter: function (cellvalue, options, rowObject) {
+            label: '部分无效票数<br/>(模糊无法辨认)', width: 120, name: 'invalid', formatter: function (cellvalue, options, rowObject) {
             if (!rowObject.isFromStage) return '-'
-            return ('<input required type="text" name="invalid{0}" data-user-id="{0}" value="{1}" class="invalid num" maxlength="4">')
+            return ('<input required type="text" name="invalid{0}" data-user-id="{0}" value="{1}" class="invalid digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
@@ -213,7 +213,7 @@
                  }*/
                 return '<span class="agree">{0}</span>'.format(rowObject.agree==undefined?'-':rowObject.agree)
             }
-            return ('<input required type="text" name="agree{0}" value="{1}" class="agree num" maxlength="4">')
+            return ('<input required type="text" name="agree{0}" value="{1}" class="agree digits" maxlength="4">')
                     .format(rowObject.userId, $.trim(cellvalue))
         }
         },
