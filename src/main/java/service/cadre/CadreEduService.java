@@ -41,7 +41,8 @@ public class CadreEduService extends BaseMapper {
     public List<CadreEdu> list(int cadreId){
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);;
         example.setOrderByClause("enrol_time asc");
 
         return cadreEduMapper.selectByExample(example);
