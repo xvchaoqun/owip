@@ -123,6 +123,18 @@
   $("#btn_close").click(function(){
     window.open("about:blank","_self").close();
   });
+  /*
+  var  wClose = function(){
+    window.open('', '_self', '');
+    window.close();
+  }
+  if(window.navigator.userAgent.indexOf('Firefox') > 0){
+    wClose = function(){
+      netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserWrite');
+      window.close();
+    }
+  }*/
+
 </script>
 </body>
 </html>

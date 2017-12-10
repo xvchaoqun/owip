@@ -2,12 +2,12 @@
 === 清空党费收缴数据
 SET FOREIGN_KEY_CHECKS=0;
 truncate pmd_branch;
-truncate pmd_branch_admin;
+-- truncate pmd_branch_admin;
 truncate pmd_member;
 truncate pmd_member_pay;
 truncate pmd_month;
 truncate pmd_party;
-truncate pmd_party_admin;
+-- truncate pmd_party_admin;
 truncate pmd_pay_branch;
 truncate pmd_pay_party;
 SET FOREIGN_KEY_CHECKS=1;

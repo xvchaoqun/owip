@@ -9,7 +9,6 @@ import domain.pmd.PmdParty;
 import domain.pmd.PmdPartyExample;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import persistence.common.CommonMapper;
 import persistence.common.IPmdMapper;
 import persistence.pmd.PmdBranchMapper;
@@ -21,9 +20,9 @@ import sys.utils.DateUtils;
 import java.util.List;
 
 /**
- * Created by lm on 2018/2/16.
+ * Created by lm on 2017/11/16.
  */
-@Service
+//@Service
 public class PmdTestService {
 
     @Autowired
@@ -38,6 +37,8 @@ public class PmdTestService {
     PmdPartyMapper pmdPartyMapper;
     @Autowired
     PmdPayService pmdPayService;
+    @Autowired
+    PmdPayWszfService pmdPayWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

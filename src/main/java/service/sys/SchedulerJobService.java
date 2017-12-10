@@ -141,11 +141,12 @@ public class SchedulerJobService {
         int id = record.getId();
         Assert.isTrue(!idDuplicate(id, record.getName()), "定时任务名称重复");
 
+        SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
+
         stopJob(id);
 
         schedulerJobMapper.updateByPrimaryKeySelective(record);
 
-        SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
         if (schedulerJob.getIsStarted())
             startJob(id);
     }

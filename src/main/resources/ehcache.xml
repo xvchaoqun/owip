@@ -4,6 +4,39 @@
     <diskStore path="D:\ehcache\owip"/>
     <!-- service 缓存 -->
 
+    <cache name="PmdConfigMember"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="PmdConfigMemberType"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="PmdConfigMemberTypeList"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="PmdConfigMemberTypeMap:formula"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="PmdSpecialUser:ALL"
            eternal="false"
            maxElementsInMemory="2000"

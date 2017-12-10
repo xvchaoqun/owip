@@ -10,19 +10,21 @@ import domain.party.Party;
 import domain.party.PartyExample;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdBranchExample;
+import domain.pmd.PmdConfigMember;
+import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPay;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdMonthExample;
+import domain.pmd.PmdNorm;
 import domain.pmd.PmdParty;
 import domain.pmd.PmdPartyExample;
 import domain.pmd.PmdPayBranch;
 import domain.pmd.PmdPayBranchExample;
 import domain.pmd.PmdPayParty;
 import domain.pmd.PmdPayPartyExample;
-import domain.pmd.PmdSpecialUser;
-import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,6 @@ import persistence.common.bean.PmdReportBean;
 import service.BaseMapper;
 import service.member.MemberTeacherService;
 import service.party.PartyService;
-import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.fancytree.TreeNode;
@@ -72,9 +73,9 @@ public class PmdMonthService extends BaseMapper {
     @Autowired
     private PmdExtService pmdExtService;
     @Autowired
-    private PmdSpecialUserService pmdSpecialUserService;
+    private PmdConfigMemberService pmdConfigMemberService;
     @Autowired
-    private SysUserService sysUserService;
+    private PmdConfigMemberTypeService pmdConfigMemberTypeService;
 
 
     // 结算
@@ -273,7 +274,7 @@ public class PmdMonthService extends BaseMapper {
     }
 
     // 添加一个党员
-    @Transactional
+   /* @Transactional
     private void addMember(PmdMonth pmdMonth, Member member) {
 
         int monthId = pmdMonth.getId();
@@ -395,6 +396,170 @@ public class PmdMonthService extends BaseMapper {
 
             record.setNormDisplayName(normName);
             record.setDuePay(normDuePay);
+
+            //record.setRealPay(new BigDecimal(0));
+            record.setIsDelay(false);
+            record.setHasPay(false);
+
+            pmdMemberMapper.insertSelective(record);
+            memberId = record.getId();
+        }
+
+        {
+            // 同步至党员账本
+            PmdMemberPay record = new PmdMemberPay();
+            record.setMemberId(memberId);
+            record.setHasPay(false);
+
+            pmdMemberPayMapper.insertSelective(record);
+        }
+    }*/
+
+    @Transactional
+    private void addMember(PmdMonth pmdMonth, Member member) {
+
+        int monthId = pmdMonth.getId();
+        int userId = member.getUserId();
+        //SysUserView uv = sysUserService.findById(userId);
+
+        /**
+         * 读取党员缴费分类
+          */
+        // 党员分类
+        Byte configMemberType = null;
+        // 标准对应的额度，系统自动计算得到
+        BigDecimal duePay = null;
+        // 党员分类别
+        Integer configMemberTypeId = null;
+        // 离退休费
+        BigDecimal ltxf = null;
+
+        // 是否需要本人提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要（辅助字段）
+        Boolean needSetSalary = false;
+        // 党费缴纳标准（辅助字段）
+        String duePayReason = null;
+
+        PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+        if (pmdConfigMember != null && pmdConfigMember.getConfigMemberType() != null) {
+            configMemberType = pmdConfigMember.getConfigMemberType();
+            duePay = pmdConfigMember.getDuePay();
+            configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
+            ltxf = pmdConfigMember.getRetireSalary();
+            needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
+        } else {
+            if (member.getType() == SystemConstants.MEMBER_TYPE_STUDENT) {
+                configMemberType = SystemConstants.PMD_MEMBER_TYPE_STUDENT;
+            } else {
+                MemberTeacher memberTeacher = memberTeacherService.get(userId);
+                configMemberType = memberTeacher.getIsRetire() ? SystemConstants.PMD_MEMBER_TYPE_RETIRE
+                        : SystemConstants.PMD_MEMBER_TYPE_ONJOB;
+                // 附属学校
+                Set<String> partyCodeSet = new HashSet<>();
+                partyCodeSet.add("030300");
+                partyCodeSet.add("030500");
+                int partyId = member.getPartyId();
+                Party party = partyService.findAll().get(partyId);
+                String partyCode = party.getCode();
+                if (partyCodeSet.contains(partyCode)) {
+                    configMemberType = SystemConstants.PMD_MEMBER_TYPE_OTHER;
+                }
+
+                Map<Byte, PmdConfigMemberType> formulaMap = pmdConfigMemberTypeService.formulaMap();
+                if (configMemberType == SystemConstants.PMD_MEMBER_TYPE_RETIRE) {
+
+                    // 设定分类别：离退休
+                    PmdConfigMemberType pmdConfigMemberType = formulaMap.get(SystemConstants.PMD_FORMULA_TYPE_RETIRE);
+                    if (pmdConfigMemberType != null) {
+                        configMemberTypeId = pmdConfigMemberType.getId();
+                    }
+
+                    ltxf = pmdExtService.getLtxf(memberTeacher.getCode());
+                    duePay = pmdExtService.getDuePayFromLtxf(ltxf);
+                } else {
+                    boolean syb = pmdExtService.isSYB(memberTeacher);
+                    if (syb) {
+
+                        needSetSalary = true;
+
+                        // 设定分类别：在职在编教职工
+                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(SystemConstants.PMD_FORMULA_TYPE_ONJOB);
+                        if (pmdConfigMemberType != null) {
+                            configMemberTypeId = pmdConfigMemberType.getId();
+                        }
+
+                    } else if (pmdExtService.isXP(memberTeacher)) {
+
+                        needSetSalary = true;
+
+                        // 设定分类别：校聘教职工
+                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(SystemConstants.PMD_FORMULA_TYPE_EXTERNAL);
+                        if (pmdConfigMemberType != null) {
+                            configMemberTypeId = pmdConfigMemberType.getId();
+                        }
+                    }
+                }
+            }
+
+            PmdConfigMember record = new PmdConfigMember();
+            record.setUserId(userId);
+            record.setConfigMemberType(configMemberType);
+            record.setConfigMemberTypeId(configMemberTypeId);
+            record.setDuePay(duePay);
+            record.setRetireSalary(ltxf);
+            pmdConfigMemberService.insertSelective(record);
+        }
+
+        Integer memberId = null;
+        {
+            // 新建党员快照
+            PmdMember record = new PmdMember();
+            record.setMonthId(monthId);
+            record.setPayMonth(pmdMonth.getPayMonth());
+            record.setUserId(userId);
+            record.setPartyId(member.getPartyId());
+            record.setBranchId(member.getBranchId());
+
+            if(configMemberType != SystemConstants.PMD_MEMBER_TYPE_STUDENT){
+
+                MemberTeacher memberTeacher = memberTeacherService.get(userId);
+                record.setTalentTitle(memberTeacher.getTalentTitle());
+                record.setPostClass(memberTeacher.getPostClass());
+                record.setMainPostLevel(memberTeacher.getMainPostLevel());
+                record.setProPostLevel(memberTeacher.getProPostLevel());
+                record.setManageLevel(memberTeacher.getManageLevel());
+                record.setOfficeLevel(memberTeacher.getOfficeLevel());
+                record.setAuthorizedType(memberTeacher.getAuthorizedType());
+                record.setStaffType(memberTeacher.getStaffType());
+            }
+
+            record.setType(configMemberType);
+            if(configMemberTypeId!=null){
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+                if(pmdConfigMemberType!=null) {
+                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+
+                    record.setConfigMemberTypeId(configMemberTypeId);
+                    record.setConfigMemberTypeName(pmdConfigMemberType.getName());
+                    record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
+                    record.setConfigMemberTypeNormName(pmdNorm.getName());
+
+                    duePayReason = pmdConfigMemberType.getName();
+                    /*if(pmdNorm.getType() == SystemConstants.PMD_NORM_SET_TYPE_FORMULA){
+                        switch (pmdNorm.getFormulaType()){
+                            case SystemConstants.PMD_FORMULA_TYPE_ONJOB:
+                            case SystemConstants.PMD_FORMULA_TYPE_EXTERNAL:
+                                needSetSalary = true;
+                                break;
+                        }
+                    }*/
+                }
+            }
+            record.setConfigMemberDuePay(duePay);
+            record.setSalary(ltxf);
+            record.setDuePay(duePay);
+
+            record.setNeedSetSalary(needSetSalary);
+            record.setDuePayReason(duePayReason);
 
             //record.setRealPay(new BigDecimal(0));
             record.setIsDelay(false);

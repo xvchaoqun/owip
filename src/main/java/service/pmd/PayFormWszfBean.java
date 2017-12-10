@@ -1,9 +1,6 @@
 package service.pmd;
 
-/**
- * Created by lm on 2018/1/11.
- */
-public class PayFormBean {
+public class PayFormWszfBean {
 
     private String orderDate;
     private String orderNo;

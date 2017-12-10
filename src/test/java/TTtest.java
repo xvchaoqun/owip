@@ -1,5 +1,6 @@
 import org.junit.Test;
 import sys.constants.SystemConstants;
+import sys.ip.IPSeeker;
 import sys.utils.DateUtils;
 
 /**
@@ -17,5 +18,14 @@ public class TTtest {
 
 
         System.out.println(DateUtils.parseDate("2017-06", DateUtils.YYYY_MM_DD));
+    }
+
+    @Test
+    public void ip(){
+
+        IPSeeker instance = IPSeeker.getInstance();
+        String country = instance.getCountry("59.64.48.17");
+        String area = instance.getArea("59.64.48.17");
+        System.out.println(country + "|" + area);
     }
 }

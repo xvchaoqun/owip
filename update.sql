@@ -1,4 +1,70 @@
 
+
+2017-12-10
+ALTER TABLE `pmd_norm`
+	CHANGE COLUMN `set_type` `set_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '额度设定类型，（1-3属于减免标准 4-6属于缴纳标准） 1 统一标准  2 基层党委设定 3 免交  4 公式 5 固定额度 6 支部确定 ' AFTER `name`,
+	ADD COLUMN `formula_type` TINYINT(3) UNSIGNED NULL COMMENT '公式类别， 1 在职在编教职工 2 校聘教职工 3 离退休教职工' AFTER `set_type`;
+
+	ALTER TABLE `pmd_norm_value`
+	COMMENT='统一标准或固定额度';
+
+	ALTER TABLE `pmd_norm`
+	COMMENT='收费标准，包括党费计算方法和党费减免标准两大类',
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '类型， 1 党费计算方法 2 党费减免标准' AFTER `id`,
+	CHANGE COLUMN `set_type` `set_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '额度设定类型，（1-3属于减免标准 4-6属于党费计算方法） 1 统一标准  2 基层党委设定 3 免交  4 公式 5 固定额度 6 支部确定 ' AFTER `name`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `norm_id` `norm_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '标准ID， 通过选择标准设定额度时使用; 如果标准的类型是"支部确定"，则此时需要直接编辑额度' AFTER `salary`,
+	CHANGE COLUMN `norm_value_id` `norm_value_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '标准对应的固定额度ID，标准的类型为”统一标准或固定额度“时使用' AFTER `norm_id`,
+	DROP COLUMN `norm_type`,
+	DROP COLUMN `norm_name`,
+	DROP COLUMN `norm_due_pay`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '党员类别，1 在职教职工 2 离退休教职工 3 学生 4 附属学校' AFTER `branch_id`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `type` `type` TINYINT(3) UNSIGNED NOT NULL COMMENT '党员类别，1 在职教职工 2 离退休教职工 3 学生 4 附属学校， 系统自动设定' AFTER `branch_id`,
+	ADD COLUMN `config_member_type_id` INT UNSIGNED NULL COMMENT '党员分类别，系统自动设定或支部确定，在没有确定之前，不允许设定额度、减免及缴费操作' AFTER `type`,
+	ADD COLUMN `config_member_type_name` TINYINT(3) UNSIGNED NULL COMMENT '党员分类别名称' AFTER `config_member_type_id`,
+	ADD COLUMN `config_member_type_norm_id` INT UNSIGNED NULL COMMENT '党员分类别对应的党费计算方法' AFTER `config_member_type_name`,
+	ADD COLUMN `config_member_type_norm_name` INT UNSIGNED NULL COMMENT '党员分类别对应的党费计算方法名称' AFTER `config_member_type_norm_id`,
+	ADD COLUMN `config_member_due_pay` DECIMAL(10,2) UNSIGNED NULL COMMENT '缴费额度，同步表config_member的due_pay，只有缴费额度确定之后，才允许进行减免、缴费操作' AFTER `config_member_type_norm_name`,
+	ADD COLUMN `due_pay_type` TINYINT(3) UNSIGNED NOT NULL COMMENT '党费缴纳标准类别，1 公式  2 固定额度 3 支部确定，在确定党员分类别时进行判断' AFTER `config_member_due_pay`,
+	CHANGE COLUMN `norm_id` `norm_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '减免标准ID， 通过选择减免标准设定额度时使用' AFTER `salary`,
+	CHANGE COLUMN `norm_value_id` `norm_value_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '减免标准对应的固定额度ID，标准的类型为”统一标准“时使用' AFTER `norm_id`,
+	CHANGE COLUMN `norm_display_name` `due_pay_reason` VARCHAR(50) NULL DEFAULT NULL COMMENT '党费缴纳标准，来源：党员分类别或支部选择的减免标准的名称，展示给管理员' AFTER `norm_value_id`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `config_member_type_name` `config_member_type_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '党员分类别名称' AFTER `config_member_type_id`,
+	CHANGE COLUMN `config_member_type_norm_name` `config_member_type_norm_name` VARCHAR(50) NULL DEFAULT NULL COMMENT '党员分类别对应的党费计算方法名称' AFTER `config_member_type_norm_id`,
+	CHANGE COLUMN `due_pay_type` `due_pay_type` TINYINT(3) UNSIGNED NULL COMMENT '党费缴纳标准类别，1 公式  2 固定额度 3 支部确定，在确定党员分类别时进行判断' AFTER `config_member_due_pay`;
+
+ALTER TABLE `pmd_norm`
+	ADD UNIQUE INDEX `formula_type` (`formula_type`);
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `has_salary` `has_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否带薪就读，支部确定学生的分类别时赋值' AFTER `due_pay_type`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `due_pay_type` `due_pay_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '党费缴纳标准类别，1 公式  2 额度已存在 3 支部确定，在确定党员分类别时进行判断' AFTER `config_member_due_pay`;
+
+
+	ALTER TABLE `pmd_member`
+	ADD COLUMN `need_set_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否需要本人提交工资明细，如果本人已提交了明细，则不需要' AFTER `config_member_due_pay`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `need_set_salary` `need_set_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否需要本人提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要' AFTER `config_member_due_pay`,
+	DROP COLUMN `due_pay_type`;
+
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `config_member_due_pay` `config_member_due_pay` DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '已设置的缴费额度，同步表config_member的due_pay' AFTER `config_member_type_norm_name`;
+
+ALTER TABLE `pmd_notify_log`
+	COMMENT='校园统一支付平台支付通知';
+RENAME TABLE `pmd_notify_log` TO `pmd_notify_wszf_log`;
+
+
 2017-11-21
 ALTER TABLE `pcs_config`
 	ADD COLUMN `committee_can_select` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '两委选举计票时，是否可以选择部分预备人选，否则同步全部预备人选' AFTER `jw_back_vote`;

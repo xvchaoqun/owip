@@ -26,17 +26,24 @@
         <!--党费收缴系统-->
         <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
         </table>-->
-       <!-- <table tableName="pmd_notify_log" domainObjectName="pmd.PmdNotifyLog" mapperName="pmd.PmdNotifyLogMapper">
+        <!--<table tableName="pmd_notify_wszf_log" domainObjectName="pmd.PmdNotifyWszfLog" mapperName="pmd.PmdNotifyWszfLogMapper">
+        </table>-->
+        <!--<table tableName="pmd_notify_campuscard_log"
+               domainObjectName="pmd.PmdNotifyCampusCardLog" mapperName="pmd.PmdNotifyCampusCardLogMapper">
         </table>-->
         <!--<table tableName="pmd_month" domainObjectName="pmd.PmdMonth" mapperName="pmd.PmdMonthMapper">
         </table>-->
-     <!-- <table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
+        <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
+        </table>-->
+        <table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
+        </table>
+        <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">
         </table>-->
        <!-- <table tableName="pmd_norm_value" domainObjectName="pmd.PmdNormValue" mapperName="pmd.PmdNormValueMapper">
         </table>
         <table tableName="pmd_norm_value_log" domainObjectName="pmd.PmdNormValueLog" mapperName="pmd.PmdNormValueLogMapper">
         </table>-->
-        <!-- <table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
+         <!--<table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
        </table>-->
         <!--<table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
@@ -573,8 +580,8 @@
         </table>-->
         <!--<table tableName="pcs_issue" domainObjectName="pcs.PcsIssue" mapperName="pcs.PcsIssueMapper">
         </table>-->
-        <table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
-        </table>
+        <!--<table tableName="pcs_config" domainObjectName="pcs.PcsConfig" mapperName="pcs.PcsConfigMapper">
+        </table>-->
         <!--<table tableName="pcs_admin" domainObjectName="pcs.PcsAdmin" mapperName="pcs.PcsAdminMapper">
         </table>-->
         <!--<table tableName="pcs_admin_report" domainObjectName="pcs.PcsAdminReport" mapperName="pcs.PcsAdminReportMapper">

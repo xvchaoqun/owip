@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pmd.PmdConfigMemberMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdConfigMember">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="config_member_type" jdbcType="TINYINT" property="configMemberType" />
+    <result column="config_member_type_id" jdbcType="INTEGER" property="configMemberTypeId" />
+    <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
+    <result column="has_salary" jdbcType="BIT" property="hasSalary" />
+    <result column="retire_salary" jdbcType="DECIMAL" property="retireSalary" />
+    <result column="has_set_salary" jdbcType="BIT" property="hasSetSalary" />
+    <result column="gwgz" jdbcType="DECIMAL" property="gwgz" />
+    <result column="xjgz" jdbcType="DECIMAL" property="xjgz" />
+    <result column="gwjt" jdbcType="DECIMAL" property="gwjt" />
+    <result column="zwbt" jdbcType="DECIMAL" property="zwbt" />
+    <result column="zwbt1" jdbcType="DECIMAL" property="zwbt1" />
+    <result column="shbt" jdbcType="DECIMAL" property="shbt" />
+    <result column="sbf" jdbcType="DECIMAL" property="sbf" />
+    <result column="xlf" jdbcType="DECIMAL" property="xlf" />
+    <result column="gzcx" jdbcType="DECIMAL" property="gzcx" />
+    <result column="shiyebx" jdbcType="DECIMAL" property="shiyebx" />
+    <result column="yanglaobx" jdbcType="DECIMAL" property="yanglaobx" />
+    <result column="yiliaobx" jdbcType="DECIMAL" property="yiliaobx" />
+    <result column="gsbx" jdbcType="DECIMAL" property="gsbx" />
+    <result column="shengyubx" jdbcType="DECIMAL" property="shengyubx" />
+    <result column="qynj" jdbcType="DECIMAL" property="qynj" />
+    <result column="zynj" jdbcType="DECIMAL" property="zynj" />
+    <result column="gjj" jdbcType="DECIMAL" property="gjj" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_id, mobile, config_member_type, config_member_type_id, due_pay, has_salary, 
+    retire_salary, has_set_salary, gwgz, xjgz, gwjt, zwbt, zwbt1, shbt, sbf, xlf, gzcx, 
+    shiyebx, yanglaobx, yiliaobx, gsbx, shengyubx, qynj, zynj, gjj
+  </sql>
+  <select id="selectByExample" parameterType="domain.pmd.PmdConfigMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_config_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pmd_config_member
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pmd_config_member
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.pmd.PmdConfigMemberExample">
+    delete from pmd_config_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.pmd.PmdConfigMember">
+    insert into pmd_config_member (user_id, mobile, config_member_type, 
+      config_member_type_id, due_pay, has_salary, 
+      retire_salary, has_set_salary, gwgz, 
+      xjgz, gwjt, zwbt, zwbt1, 
+      shbt, sbf, xlf, gzcx, 
+      shiyebx, yanglaobx, yiliaobx, 
+      gsbx, shengyubx, qynj, 
+      zynj, gjj)
+    values (#{userId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{configMemberType,jdbcType=TINYINT}, 
+      #{configMemberTypeId,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, #{hasSalary,jdbcType=BIT}, 
+      #{retireSalary,jdbcType=DECIMAL}, #{hasSetSalary,jdbcType=BIT}, #{gwgz,jdbcType=DECIMAL}, 
+      #{xjgz,jdbcType=DECIMAL}, #{gwjt,jdbcType=DECIMAL}, #{zwbt,jdbcType=DECIMAL}, #{zwbt1,jdbcType=DECIMAL}, 
+      #{shbt,jdbcType=DECIMAL}, #{sbf,jdbcType=DECIMAL}, #{xlf,jdbcType=DECIMAL}, #{gzcx,jdbcType=DECIMAL}, 
+      #{shiyebx,jdbcType=DECIMAL}, #{yanglaobx,jdbcType=DECIMAL}, #{yiliaobx,jdbcType=DECIMAL}, 
+      #{gsbx,jdbcType=DECIMAL}, #{shengyubx,jdbcType=DECIMAL}, #{qynj,jdbcType=DECIMAL}, 
+      #{zynj,jdbcType=DECIMAL}, #{gjj,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.pmd.PmdConfigMember">
+    insert into pmd_config_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="configMemberType != null">
+        config_member_type,
+      </if>
+      <if test="configMemberTypeId != null">
+        config_member_type_id,
+      </if>
+      <if test="duePay != null">
+        due_pay,
+      </if>
+      <if test="hasSalary != null">
+        has_salary,
+      </if>
+      <if test="retireSalary != null">
+        retire_salary,
+      </if>
+      <if test="hasSetSalary != null">
+        has_set_salary,
+      </if>
+      <if test="gwgz != null">
+        gwgz,
+      </if>
+      <if test="xjgz != null">
+        xjgz,
+      </if>
+      <if test="gwjt != null">
+        gwjt,
+      </if>
+      <if test="zwbt != null">
+        zwbt,
+      </if>
+      <if test="zwbt1 != null">
+        zwbt1,
+      </if>
+      <if test="shbt != null">
+        shbt,
+      </if>
+      <if test="sbf != null">
+        sbf,
+      </if>
+      <if test="xlf != null">
+        xlf,
+      </if>
+      <if test="gzcx != null">
+        gzcx,
+      </if>
+      <if test="shiyebx != null">
+        shiyebx,
+      </if>
+      <if test="yanglaobx != null">
+        yanglaobx,
+      </if>
+      <if test="yiliaobx != null">
+        yiliaobx,
+      </if>
+      <if test="gsbx != null">
+        gsbx,
+      </if>
+      <if test="shengyubx != null">
+        shengyubx,
+      </if>
+      <if test="qynj != null">
+        qynj,
+      </if>
+      <if test="zynj != null">
+        zynj,
+      </if>
+      <if test="gjj != null">
+        gjj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="configMemberType != null">
+        #{configMemberType,jdbcType=TINYINT},
+      </if>
+      <if test="configMemberTypeId != null">
+        #{configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="duePay != null">
+        #{duePay,jdbcType=DECIMAL},
+      </if>
+      <if test="hasSalary != null">
+        #{hasSalary,jdbcType=BIT},
+      </if>
+      <if test="retireSalary != null">
+        #{retireSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="hasSetSalary != null">
+        #{hasSetSalary,jdbcType=BIT},
+      </if>
+      <if test="gwgz != null">
+        #{gwgz,jdbcType=DECIMAL},
+      </if>
+      <if test="xjgz != null">
+        #{xjgz,jdbcType=DECIMAL},
+      </if>
+      <if test="gwjt != null">
+        #{gwjt,jdbcType=DECIMAL},
+      </if>
+      <if test="zwbt != null">
+        #{zwbt,jdbcType=DECIMAL},
+      </if>
+      <if test="zwbt1 != null">
+        #{zwbt1,jdbcType=DECIMAL},
+      </if>
+      <if test="shbt != null">
+        #{shbt,jdbcType=DECIMAL},
+      </if>
+      <if test="sbf != null">
+        #{sbf,jdbcType=DECIMAL},
+      </if>
+      <if test="xlf != null">
+        #{xlf,jdbcType=DECIMAL},
+      </if>
+      <if test="gzcx != null">
+        #{gzcx,jdbcType=DECIMAL},
+      </if>
+      <if test="shiyebx != null">
+        #{shiyebx,jdbcType=DECIMAL},
+      </if>
+      <if test="yanglaobx != null">
+        #{yanglaobx,jdbcType=DECIMAL},
+      </if>
+      <if test="yiliaobx != null">
+        #{yiliaobx,jdbcType=DECIMAL},
+      </if>
+      <if test="gsbx != null">
+        #{gsbx,jdbcType=DECIMAL},
+      </if>
+      <if test="shengyubx != null">
+        #{shengyubx,jdbcType=DECIMAL},
+      </if>
+      <if test="qynj != null">
+        #{qynj,jdbcType=DECIMAL},
+      </if>
+      <if test="zynj != null">
+        #{zynj,jdbcType=DECIMAL},
+      </if>
+      <if test="gjj != null">
+        #{gjj,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.pmd.PmdConfigMemberExample" resultType="java.lang.Long">
+    select count(*) from pmd_config_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pmd_config_member
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.configMemberType != null">
+        config_member_type = #{record.configMemberType,jdbcType=TINYINT},
+      </if>
+      <if test="record.configMemberTypeId != null">
+        config_member_type_id = #{record.configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.duePay != null">
+        due_pay = #{record.duePay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasSalary != null">
+        has_salary = #{record.hasSalary,jdbcType=BIT},
+      </if>
+      <if test="record.retireSalary != null">
+        retire_salary = #{record.retireSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasSetSalary != null">
+        has_set_salary = #{record.hasSetSalary,jdbcType=BIT},
+      </if>
+      <if test="record.gwgz != null">
+        gwgz = #{record.gwgz,jdbcType=DECIMAL},
+      </if>
+      <if test="record.xjgz != null">
+        xjgz = #{record.xjgz,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gwjt != null">
+        gwjt = #{record.gwjt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zwbt != null">
+        zwbt = #{record.zwbt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zwbt1 != null">
+        zwbt1 = #{record.zwbt1,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shbt != null">
+        shbt = #{record.shbt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sbf != null">
+        sbf = #{record.sbf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.xlf != null">
+        xlf = #{record.xlf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gzcx != null">
+        gzcx = #{record.gzcx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shiyebx != null">
+        shiyebx = #{record.shiyebx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.yanglaobx != null">
+        yanglaobx = #{record.yanglaobx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.yiliaobx != null">
+        yiliaobx = #{record.yiliaobx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gsbx != null">
+        gsbx = #{record.gsbx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shengyubx != null">
+        shengyubx = #{record.shengyubx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qynj != null">
+        qynj = #{record.qynj,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zynj != null">
+        zynj = #{record.zynj,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gjj != null">
+        gjj = #{record.gjj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pmd_config_member
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      config_member_type = #{record.configMemberType,jdbcType=TINYINT},
+      config_member_type_id = #{record.configMemberTypeId,jdbcType=INTEGER},
+      due_pay = #{record.duePay,jdbcType=DECIMAL},
+      has_salary = #{record.hasSalary,jdbcType=BIT},
+      retire_salary = #{record.retireSalary,jdbcType=DECIMAL},
+      has_set_salary = #{record.hasSetSalary,jdbcType=BIT},
+      gwgz = #{record.gwgz,jdbcType=DECIMAL},
+      xjgz = #{record.xjgz,jdbcType=DECIMAL},
+      gwjt = #{record.gwjt,jdbcType=DECIMAL},
+      zwbt = #{record.zwbt,jdbcType=DECIMAL},
+      zwbt1 = #{record.zwbt1,jdbcType=DECIMAL},
+      shbt = #{record.shbt,jdbcType=DECIMAL},
+      sbf = #{record.sbf,jdbcType=DECIMAL},
+      xlf = #{record.xlf,jdbcType=DECIMAL},
+      gzcx = #{record.gzcx,jdbcType=DECIMAL},
+      shiyebx = #{record.shiyebx,jdbcType=DECIMAL},
+      yanglaobx = #{record.yanglaobx,jdbcType=DECIMAL},
+      yiliaobx = #{record.yiliaobx,jdbcType=DECIMAL},
+      gsbx = #{record.gsbx,jdbcType=DECIMAL},
+      shengyubx = #{record.shengyubx,jdbcType=DECIMAL},
+      qynj = #{record.qynj,jdbcType=DECIMAL},
+      zynj = #{record.zynj,jdbcType=DECIMAL},
+      gjj = #{record.gjj,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdConfigMember">
+    update pmd_config_member
+    <set>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="configMemberType != null">
+        config_member_type = #{configMemberType,jdbcType=TINYINT},
+      </if>
+      <if test="configMemberTypeId != null">
+        config_member_type_id = #{configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="duePay != null">
+        due_pay = #{duePay,jdbcType=DECIMAL},
+      </if>
+      <if test="hasSalary != null">
+        has_salary = #{hasSalary,jdbcType=BIT},
+      </if>
+      <if test="retireSalary != null">
+        retire_salary = #{retireSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="hasSetSalary != null">
+        has_set_salary = #{hasSetSalary,jdbcType=BIT},
+      </if>
+      <if test="gwgz != null">
+        gwgz = #{gwgz,jdbcType=DECIMAL},
+      </if>
+      <if test="xjgz != null">
+        xjgz = #{xjgz,jdbcType=DECIMAL},
+      </if>
+      <if test="gwjt != null">
+        gwjt = #{gwjt,jdbcType=DECIMAL},
+      </if>
+      <if test="zwbt != null">
+        zwbt = #{zwbt,jdbcType=DECIMAL},
+      </if>
+      <if test="zwbt1 != null">
+        zwbt1 = #{zwbt1,jdbcType=DECIMAL},
+      </if>
+      <if test="shbt != null">
+        shbt = #{shbt,jdbcType=DECIMAL},
+      </if>
+      <if test="sbf != null">
+        sbf = #{sbf,jdbcType=DECIMAL},
+      </if>
+      <if test="xlf != null">
+        xlf = #{xlf,jdbcType=DECIMAL},
+      </if>
+      <if test="gzcx != null">
+        gzcx = #{gzcx,jdbcType=DECIMAL},
+      </if>
+      <if test="shiyebx != null">
+        shiyebx = #{shiyebx,jdbcType=DECIMAL},
+      </if>
+      <if test="yanglaobx != null">
+        yanglaobx = #{yanglaobx,jdbcType=DECIMAL},
+      </if>
+      <if test="yiliaobx != null">
+        yiliaobx = #{yiliaobx,jdbcType=DECIMAL},
+      </if>
+      <if test="gsbx != null">
+        gsbx = #{gsbx,jdbcType=DECIMAL},
+      </if>
+      <if test="shengyubx != null">
+        shengyubx = #{shengyubx,jdbcType=DECIMAL},
+      </if>
+      <if test="qynj != null">
+        qynj = #{qynj,jdbcType=DECIMAL},
+      </if>
+      <if test="zynj != null">
+        zynj = #{zynj,jdbcType=DECIMAL},
+      </if>
+      <if test="gjj != null">
+        gjj = #{gjj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdConfigMember">
+    update pmd_config_member
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      config_member_type = #{configMemberType,jdbcType=TINYINT},
+      config_member_type_id = #{configMemberTypeId,jdbcType=INTEGER},
+      due_pay = #{duePay,jdbcType=DECIMAL},
+      has_salary = #{hasSalary,jdbcType=BIT},
+      retire_salary = #{retireSalary,jdbcType=DECIMAL},
+      has_set_salary = #{hasSetSalary,jdbcType=BIT},
+      gwgz = #{gwgz,jdbcType=DECIMAL},
+      xjgz = #{xjgz,jdbcType=DECIMAL},
+      gwjt = #{gwjt,jdbcType=DECIMAL},
+      zwbt = #{zwbt,jdbcType=DECIMAL},
+      zwbt1 = #{zwbt1,jdbcType=DECIMAL},
+      shbt = #{shbt,jdbcType=DECIMAL},
+      sbf = #{sbf,jdbcType=DECIMAL},
+      xlf = #{xlf,jdbcType=DECIMAL},
+      gzcx = #{gzcx,jdbcType=DECIMAL},
+      shiyebx = #{shiyebx,jdbcType=DECIMAL},
+      yanglaobx = #{yanglaobx,jdbcType=DECIMAL},
+      yiliaobx = #{yiliaobx,jdbcType=DECIMAL},
+      gsbx = #{gsbx,jdbcType=DECIMAL},
+      shengyubx = #{shengyubx,jdbcType=DECIMAL},
+      qynj = #{qynj,jdbcType=DECIMAL},
+      zynj = #{zynj,jdbcType=DECIMAL},
+      gjj = #{gjj,jdbcType=DECIMAL}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdConfigMemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pmd_config_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

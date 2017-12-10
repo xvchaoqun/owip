@@ -85,9 +85,13 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/pmd/pmdNorm_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '${PMD_NORM_TYPE_MAP.get(type)}',name: 'name', width:200},
+            { label: '${PMD_NORM_TYPE_MAP.get(type)}',name: 'name', align:'left', width:260},
             { label: '额度设定类型',name: 'setType', formatter:function(cellvalue, options, rowObject){
                 return _cMap.PMD_NORM_SET_TYPE_MAP[cellvalue];
+            }, width:120},
+            { label: '公式类型',name: 'formulaType', formatter:function(cellvalue, options, rowObject){
+                if(rowObject.setType!='${PMD_NORM_SET_TYPE_FORMULA}') return '-'
+                return _cMap.PMD_FORMULA_TYPE_MAP[cellvalue];
             }, width:200},
             <c:if test="${!_query}">
             { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){

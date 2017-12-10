@@ -1,6 +1,8 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.pmd.PmdConfigMember;
+import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMemberPay;
@@ -9,6 +11,8 @@ import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
 import domain.pmd.PmdNormValue;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +33,12 @@ public class PmdMemberService extends BaseMapper {
     private PmdPayService pmdPayService;
     @Autowired
     private PmdMonthService pmdMonthService;
+    @Autowired
+    private PmdConfigMemberService pmdConfigMemberService;
+    @Autowired
+    private PmdConfigMemberTypeService pmdConfigMemberTypeService;
+    @Autowired
+    private PmdExtService pmdExtService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
@@ -69,7 +79,7 @@ public class PmdMemberService extends BaseMapper {
         return pmdMemberMapper.updateByPrimaryKeySelective(record);
     }
 
-    // 设定缴纳额度
+   /* // 设定缴纳额度
     @Transactional
     public void setDuePay(int[] ids, BigDecimal amount, String remark) {
 
@@ -85,9 +95,9 @@ public class PmdMemberService extends BaseMapper {
                 throw new OpException("{0}不允许设定往月额度。", uv.getRealname());
             }
 
-            if(pmdMember.getNormType()!= SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY){
+            *//*if(pmdMember.getNormType()!= SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY){
                 throw new OpException("{0}不允许设定额度。", uv.getRealname());
-            }
+            }*//*
             if(pmdMember.getHasPay()){
                 throw new OpException("{0}已缴费。", uv.getRealname());
             }
@@ -106,18 +116,163 @@ public class PmdMemberService extends BaseMapper {
                     "设定缴纳额度：" + amount, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
         }
 
+    }*/
+
+    // 选择党员分类别
+    @Transactional
+    public void selectMemberType(int[] ids, Boolean hasSalary, byte configMemberType,
+                                 int configMemberTypeId, BigDecimal amount, String remark) {
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        int currentMonthId = currentPmdMonth.getId();
+
+        PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+        if(pmdConfigMemberType==null && pmdConfigMemberType.getType()!=configMemberType){
+            throw new OpException("参数有误。");
+        }
+
+        PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+        byte setType = pmdNorm.getSetType();
+        if(setType==SystemConstants.PMD_NORM_SET_TYPE_FIXED){
+            PmdNormValue pmdNormValue = pmdNorm.getPmdNormValue();
+            amount = pmdNormValue.getAmount();
+        }else if(setType == SystemConstants.PMD_NORM_SET_TYPE_SET){
+            if(amount==null || amount.compareTo(BigDecimal.ZERO)<=0){
+                throw new OpException("额度必须大于0");
+            }
+        }else {
+            // 公式
+            Assert.isTrue(setType == SystemConstants.PMD_NORM_SET_TYPE_FORMULA, "参数错误");
+            amount = null;
+        }
+
+        for (int id : ids) {
+
+            PmdMember pmdMember = pmdPayService.checkAdmin(id);
+            SysUserView uv = pmdMember.getUser();
+            int userId = uv.getUserId();
+
+            if(pmdMember.getType()==SystemConstants.PMD_MEMBER_TYPE_STUDENT
+                    && hasSalary ==null){
+                throw new OpException("{0}是否带薪就读？", uv.getRealname());
+            }
+
+            if(pmdMember.getMonthId()!=currentMonthId){
+                throw new OpException("{0}不允许对往月数据修改党员分类。", uv.getRealname());
+            }
+
+            if(pmdMember.getHasPay()){
+                throw new OpException("{0}已缴费。", uv.getRealname());
+            }
+            if(pmdMember.getIsDelay()){
+                throw new OpException("{0}已设置为延迟缴费。", uv.getRealname());
+            }
+
+            PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+
+            // 同步公式对应的党费
+            BigDecimal ltxf = null;
+            Boolean isSalary = false; // 是否由工资计算党费
+            Boolean isRetire = false; // 是否由离退休计算党费
+            Boolean needSetSalary = false;
+            if(setType==SystemConstants.PMD_NORM_SET_TYPE_FORMULA) {
+                if (pmdNorm.getFormulaType() == SystemConstants.PMD_FORMULA_TYPE_RETIRE) {
+                    isRetire = true;
+                    ltxf = pmdExtService.getLtxf(uv.getCode());
+                    amount = pmdExtService.getDuePayFromLtxf(ltxf);
+                } else if (pmdNorm.getFormulaType() == SystemConstants.PMD_FORMULA_TYPE_ONJOB ||
+                        pmdNorm.getFormulaType() == SystemConstants.PMD_FORMULA_TYPE_EXTERNAL) {
+
+                    isSalary = true;
+                    needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
+                    if (!needSetSalary) {
+                        // 已经提交了工资，则同步计算出来的党费
+                        //amount = pmdConfigMemberService.calDuePay(pmdConfigMember);
+                        amount = pmdConfigMember.getDuePay();
+                    }
+                }
+            }
+            if(!isRetire){
+                // 清空离退休费
+                commonMapper.excuteSql(String.format("update pmd_config_member " +
+                        "set retire_salary=null where user_id=%s", userId));
+            }
+            if(!isSalary){
+                // 其他类别：清空工资项
+                commonMapper.excuteSql(String.format("update pmd_config_member " +
+                                "set gwgz=null,xjgz=null,gwjt=null,zwbt=null," +
+                        "zwbt1=null,shbt=null,sbf=null,xlf=null, gzcx=null, " +
+                        "shiyebx=null,yanglaobx=null,yiliaobx=null,gsbx=null,shengyubx=null, " +
+                        "qynj=null,zynj=null,gjj=null where user_id=%s", userId));
+            }
+
+            {
+                // 除了组织部管理员，其他人员不允许修改党员一级类别
+                if(ShiroHelper.lackRole(SystemConstants.ROLE_ODADMIN)
+                        && configMemberType!=pmdConfigMember.getConfigMemberType()){
+                    throw new OpException("{0}不允许修改党员类别。", uv.getRealname());
+                }
+
+                PmdConfigMember record = new PmdConfigMember();
+                record.setUserId(userId);
+                record.setConfigMemberType(configMemberType);
+                record.setConfigMemberTypeId(configMemberTypeId);
+                record.setDuePay(amount);
+                record.setRetireSalary(ltxf);
+                record.setHasSalary(hasSalary);
+
+                pmdConfigMemberService.updateByPrimaryKeySelective(record);
+            }
+
+
+            PmdMember record = new PmdMember();
+            record.setConfigMemberTypeId(configMemberTypeId);
+            record.setConfigMemberTypeName(pmdConfigMemberType.getName());
+            record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
+            record.setConfigMemberTypeNormName(pmdConfigMemberType.getPmdNorm().getName());
+            record.setSalary(ltxf);
+            record.setDuePayReason(pmdConfigMemberType.getName());
+            record.setDuePay(amount);
+            record.setConfigMemberDuePay(amount);
+
+            // 只针对学生党员
+            record.setHasSalary(hasSalary);
+            record.setNeedSetSalary(needSetSalary);
+
+            PmdMemberExample example = new PmdMemberExample();
+            example.createCriteria().andIdEqualTo(id)
+                    .andHasPayEqualTo(false);
+            if(pmdMemberMapper.updateByExampleSelective(record, example)==0){
+                throw new OpException("{0}选择党员分类别操作失败", uv.getRealname());
+            }
+
+            if(amount==null){
+                // 离退休工资没读取到 或者 没有设定工资 的情况
+                commonMapper.excuteSql(String.format("update pmd_config_member " +
+                                "set due_pay=%s, retire_salary=%s  where user_id=%s",
+                        null, null, userId));
+
+                commonMapper.excuteSql(String.format("update pmd_member set due_pay=%s, config_member_due_pay=%s where id=%s",
+                        null, null, id));
+            }
+
+            sysApprovalLogService.add(id, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                    "选择党员分类别：" + pmdConfigMemberType.getName() ,
+                    SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
+        }
     }
 
-    // 选择缴纳/减免标准
+    // 选择减免标准
     @Transactional
-    public void selectNorm(int[] ids, Boolean hasSalary, int normId, BigDecimal amount, String remark) {
+    public void selectReduceNorm(int[] ids, int normId, BigDecimal amount, String remark) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         int currentMonthId = currentPmdMonth.getId();
 
         Integer normValueId = null;
         PmdNorm pmdNorm = pmdNormMapper.selectByPrimaryKey(normId);
-        if(pmdNorm==null){
+        if(pmdNorm==null && pmdNorm.getType()!=SystemConstants.PMD_NORM_TYPE_REDUCE){
             throw new OpException("参数有误。");
         }
         if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED){
@@ -139,11 +294,6 @@ public class PmdMemberService extends BaseMapper {
             PmdMember pmdMember = pmdPayService.checkAdmin(id);
             SysUserView uv = pmdMember.getUser();
 
-            if(pmdMember.getType()==SystemConstants.PMD_MEMBER_TYPE_STUDENT
-                    && hasSalary ==null){
-                throw new OpException("{0}是否带薪就读？", uv.getRealname());
-            }
-
             if(pmdMember.getMonthId()!=currentMonthId){
                 throw new OpException("{0}不允许对往月数据选择缴纳标准。", uv.getRealname());
             }
@@ -155,18 +305,16 @@ public class PmdMemberService extends BaseMapper {
                 throw new OpException("{0}已设置为延迟缴费。", uv.getRealname());
             }
 
-            if(pmdNorm.getType() == SystemConstants.PMD_NORM_TYPE_PAY
+            /*if(pmdNorm.getType() == SystemConstants.PMD_NORM_TYPE_PAY
                     && pmdMember.getNormType()!= SystemConstants.PMD_MEMBER_NORM_TYPE_SELECT){
                 throw new OpException("{0}不允许选择缴纳标准。", uv.getRealname());
-            }
+            }*/
 
             PmdMember record = new PmdMember();
             record.setNormId(normId);
-            record.setNormDisplayName(pmdNorm.getName());
+            record.setDuePayReason(pmdNorm.getName());
             record.setNormValueId(normValueId);
             record.setDuePay(amount);
-            // 只针对学生党员
-            record.setHasSalary(hasSalary);
 
             // 免交
             if(isFree){
@@ -201,7 +349,7 @@ public class PmdMemberService extends BaseMapper {
             example.createCriteria().andIdEqualTo(id)
                     .andHasPayEqualTo(false);
             if(pmdMemberMapper.updateByExampleSelective(record, example)==0){
-                throw new OpException("{0}选择缴纳标准失败", uv.getRealname());
+                throw new OpException("{0}选择减免标准操作失败", uv.getRealname());
             }
 
             sysApprovalLogService.add(id, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,

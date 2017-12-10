@@ -3,7 +3,7 @@ package service.pmd;
 /**
  * Created by lm on 2017/11/7.
  */
-public class PayNotifyBean {
+public class PayNotifyWszfBean {
 
     public String orderDate;
     public String orderNo;

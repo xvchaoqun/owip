@@ -355,6 +355,66 @@ public class PmdNormExample {
             return (Criteria) this;
         }
 
+        public Criteria andFormulaTypeIsNull() {
+            addCriterion("formula_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeIsNotNull() {
+            addCriterion("formula_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeEqualTo(Byte value) {
+            addCriterion("formula_type =", value, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeNotEqualTo(Byte value) {
+            addCriterion("formula_type <>", value, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeGreaterThan(Byte value) {
+            addCriterion("formula_type >", value, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("formula_type >=", value, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeLessThan(Byte value) {
+            addCriterion("formula_type <", value, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("formula_type <=", value, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeIn(List<Byte> values) {
+            addCriterion("formula_type in", values, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeNotIn(List<Byte> values) {
+            addCriterion("formula_type not in", values, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeBetween(Byte value1, Byte value2) {
+            addCriterion("formula_type between", value1, value2, "formulaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormulaTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("formula_type not between", value1, value2, "formulaType");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

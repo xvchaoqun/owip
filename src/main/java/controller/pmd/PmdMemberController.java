@@ -7,8 +7,6 @@ import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMemberExample.Criteria;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMonth;
-import domain.pmd.PmdNorm;
-import domain.pmd.PmdNormExample;
 import domain.pmd.PmdParty;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -329,6 +327,7 @@ public class PmdMemberController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 设定缴纳额度
     @RequiresPermissions("pmdMember:setDuePay")
     @RequestMapping("/pmdMember_setDuePay")
     public String pmdMember_setDuePay(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
@@ -340,7 +339,7 @@ public class PmdMemberController extends PmdBaseController {
         return "pmd/pmdMember/pmdMember_setDuePay";
     }
 
-    @RequiresPermissions("pmdMember:setDuePay")
+    /*@RequiresPermissions("pmdMember:setDuePay")
     @RequestMapping(value = "/pmdMember_setDuePay", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_setDuePay(@RequestParam(value = "ids[]") int[] ids,
@@ -356,97 +355,66 @@ public class PmdMemberController extends PmdBaseController {
                 StringUtils.join(ids, ","), amount));
         return success(FormUtils.SUCCESS);
     }
-
-    @RequiresPermissions("pmdMember:selectNorm")
-    @RequestMapping("/pmdMember_selectNorm")
-    public String pmdMember_selectPayNorm(@RequestParam(value = "ids[]") int[] ids, byte type, ModelMap modelMap) {
+*/
+    // 选择党员分类
+    @RequiresPermissions("pmdMember:selectMemberType")
+    @RequestMapping("/pmdMember_selectMemberType")
+    public String pmdMember_selectMemberType(@RequestParam(value = "ids[]") int[] ids,
+                                             byte configMemberType,
+                                             ModelMap modelMap) {
 
         if (ids.length == 1) {
             modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
         }
 
-        modelMap.put("type", type);
+        modelMap.put("configMemberType",  configMemberType);
+        modelMap.put("configMemberTypes",  pmdConfigMemberTypeService.list(configMemberType));
 
-        PmdNormExample example = new PmdNormExample();
-        example.createCriteria().andTypeEqualTo(type)
-                .andStatusEqualTo(SystemConstants.PMD_NORM_STATUS_USE);
-        example.setOrderByClause("sort_order asc");
-        List<PmdNorm> pmdNorms = pmdNormMapper.selectByExample(example);
-
-        modelMap.put("pmdNorms", pmdNorms);
-
-        return "pmd/pmdMember/pmdMember_selectNorm";
+        return "pmd/pmdMember/pmdMember_selectMemberType";
     }
 
-    @RequiresPermissions("pmdMember:selectNorm")
-    @RequestMapping(value = "/pmdMember_selectNorm", method = RequestMethod.POST)
+    @RequiresPermissions("pmdMember:selectMemberType")
+    @RequestMapping(value = "/pmdMember_selectMemberType", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_selectNorm(@RequestParam(value = "ids[]") int[] ids,
+    public Map do_pmdMember_selectMemberType(@RequestParam(value = "ids[]") int[] ids,
                                           Boolean hasSalary, // 学生党员必须设置
+                                          byte configMemberType,
+                                          int configMemberTypeId,
+                                          BigDecimal amount, String remark) {
+
+
+        pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
+
+        logger.info(addLog(SystemConstants.LOG_PCS, "[支部管理员]选择党员分类别-%s-%s-%s",
+                StringUtils.join(ids, ","), configMemberTypeId, amount));
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 设定减免标准
+    @RequiresPermissions("pmdMember:selectReduceNorm")
+    @RequestMapping("/pmdMember_selectReduceNorm")
+    public String pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+
+        if (ids.length == 1) {
+            modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
+        }
+
+        modelMap.put("pmdNorms",  pmdNormService.list(SystemConstants.PMD_NORM_TYPE_REDUCE, null));
+
+        return "pmd/pmdMember/pmdMember_selectReduceNorm";
+    }
+
+    @RequiresPermissions("pmdMember:selectReduceNorm")
+    @RequestMapping(value = "/pmdMember_selectReduceNorm", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") int[] ids,
                                           int normId, BigDecimal amount, String remark) {
 
 
-        pmdMemberService.selectNorm(ids, hasSalary, normId, amount, remark);
+        pmdMemberService.selectReduceNorm(ids, normId, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[支部管理员]选择缴纳/减免标准-%s-%s-%s",
+        logger.info(addLog(SystemConstants.LOG_PCS, "[支部管理员]选择减免标准-%s-%s-%s",
                 StringUtils.join(ids, ","), normId, amount));
         return success(FormUtils.SUCCESS);
     }
-
-   /* @RequiresPermissions("pmdMember:edit")
-    @RequestMapping(value = "/pmdMember_au", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pmdMember_au(PmdMember record, HttpServletRequest request) {
-
-        Integer id = record.getId();
-
-        if (id == null) {
-            pmdMemberService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "添加党费缴纳记录：%s", record.getId()));
-        } else {
-
-            pmdMemberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "更新党费缴纳记录：%s", record.getId()));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("pmdMember:edit")
-    @RequestMapping("/pmdMember_au")
-    public String pmdMember_au(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
-            modelMap.put("pmdMember", pmdMember);
-        }
-        return "pmd/pmdMember/pmdMember_au";
-    }
-
-    @RequiresPermissions("pmdMember:del")
-    @RequestMapping(value = "/pmdMember_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pmdMember_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            pmdMemberService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除党费缴纳记录：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("pmdMember:del")
-    @RequestMapping(value = "/pmdMember_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length > 0) {
-            pmdMemberService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除党费缴纳记录：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
 }

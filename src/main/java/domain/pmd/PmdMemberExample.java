@@ -553,6 +553,386 @@ public class PmdMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andConfigMemberTypeIdIsNull() {
+            addCriterion("config_member_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdIsNotNull() {
+            addCriterion("config_member_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdEqualTo(Integer value) {
+            addCriterion("config_member_type_id =", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdNotEqualTo(Integer value) {
+            addCriterion("config_member_type_id <>", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdGreaterThan(Integer value) {
+            addCriterion("config_member_type_id >", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("config_member_type_id >=", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdLessThan(Integer value) {
+            addCriterion("config_member_type_id <", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("config_member_type_id <=", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdIn(List<Integer> values) {
+            addCriterion("config_member_type_id in", values, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdNotIn(List<Integer> values) {
+            addCriterion("config_member_type_id not in", values, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("config_member_type_id between", value1, value2, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("config_member_type_id not between", value1, value2, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameIsNull() {
+            addCriterion("config_member_type_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameIsNotNull() {
+            addCriterion("config_member_type_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameEqualTo(String value) {
+            addCriterion("config_member_type_name =", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameNotEqualTo(String value) {
+            addCriterion("config_member_type_name <>", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameGreaterThan(String value) {
+            addCriterion("config_member_type_name >", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("config_member_type_name >=", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameLessThan(String value) {
+            addCriterion("config_member_type_name <", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameLessThanOrEqualTo(String value) {
+            addCriterion("config_member_type_name <=", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameLike(String value) {
+            addCriterion("config_member_type_name like", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameNotLike(String value) {
+            addCriterion("config_member_type_name not like", value, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameIn(List<String> values) {
+            addCriterion("config_member_type_name in", values, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameNotIn(List<String> values) {
+            addCriterion("config_member_type_name not in", values, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameBetween(String value1, String value2) {
+            addCriterion("config_member_type_name between", value1, value2, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNameNotBetween(String value1, String value2) {
+            addCriterion("config_member_type_name not between", value1, value2, "configMemberTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdIsNull() {
+            addCriterion("config_member_type_norm_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdIsNotNull() {
+            addCriterion("config_member_type_norm_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdEqualTo(Integer value) {
+            addCriterion("config_member_type_norm_id =", value, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdNotEqualTo(Integer value) {
+            addCriterion("config_member_type_norm_id <>", value, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdGreaterThan(Integer value) {
+            addCriterion("config_member_type_norm_id >", value, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("config_member_type_norm_id >=", value, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdLessThan(Integer value) {
+            addCriterion("config_member_type_norm_id <", value, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdLessThanOrEqualTo(Integer value) {
+            addCriterion("config_member_type_norm_id <=", value, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdIn(List<Integer> values) {
+            addCriterion("config_member_type_norm_id in", values, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdNotIn(List<Integer> values) {
+            addCriterion("config_member_type_norm_id not in", values, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdBetween(Integer value1, Integer value2) {
+            addCriterion("config_member_type_norm_id between", value1, value2, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("config_member_type_norm_id not between", value1, value2, "configMemberTypeNormId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameIsNull() {
+            addCriterion("config_member_type_norm_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameIsNotNull() {
+            addCriterion("config_member_type_norm_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameEqualTo(String value) {
+            addCriterion("config_member_type_norm_name =", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameNotEqualTo(String value) {
+            addCriterion("config_member_type_norm_name <>", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameGreaterThan(String value) {
+            addCriterion("config_member_type_norm_name >", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameGreaterThanOrEqualTo(String value) {
+            addCriterion("config_member_type_norm_name >=", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameLessThan(String value) {
+            addCriterion("config_member_type_norm_name <", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameLessThanOrEqualTo(String value) {
+            addCriterion("config_member_type_norm_name <=", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameLike(String value) {
+            addCriterion("config_member_type_norm_name like", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameNotLike(String value) {
+            addCriterion("config_member_type_norm_name not like", value, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameIn(List<String> values) {
+            addCriterion("config_member_type_norm_name in", values, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameNotIn(List<String> values) {
+            addCriterion("config_member_type_norm_name not in", values, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameBetween(String value1, String value2) {
+            addCriterion("config_member_type_norm_name between", value1, value2, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeNormNameNotBetween(String value1, String value2) {
+            addCriterion("config_member_type_norm_name not between", value1, value2, "configMemberTypeNormName");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayIsNull() {
+            addCriterion("config_member_due_pay is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayIsNotNull() {
+            addCriterion("config_member_due_pay is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayEqualTo(BigDecimal value) {
+            addCriterion("config_member_due_pay =", value, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayNotEqualTo(BigDecimal value) {
+            addCriterion("config_member_due_pay <>", value, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayGreaterThan(BigDecimal value) {
+            addCriterion("config_member_due_pay >", value, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("config_member_due_pay >=", value, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayLessThan(BigDecimal value) {
+            addCriterion("config_member_due_pay <", value, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("config_member_due_pay <=", value, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayIn(List<BigDecimal> values) {
+            addCriterion("config_member_due_pay in", values, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayNotIn(List<BigDecimal> values) {
+            addCriterion("config_member_due_pay not in", values, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("config_member_due_pay between", value1, value2, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberDuePayNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("config_member_due_pay not between", value1, value2, "configMemberDuePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryIsNull() {
+            addCriterion("need_set_salary is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryIsNotNull() {
+            addCriterion("need_set_salary is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryEqualTo(Boolean value) {
+            addCriterion("need_set_salary =", value, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryNotEqualTo(Boolean value) {
+            addCriterion("need_set_salary <>", value, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryGreaterThan(Boolean value) {
+            addCriterion("need_set_salary >", value, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("need_set_salary >=", value, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryLessThan(Boolean value) {
+            addCriterion("need_set_salary <", value, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryLessThanOrEqualTo(Boolean value) {
+            addCriterion("need_set_salary <=", value, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryIn(List<Boolean> values) {
+            addCriterion("need_set_salary in", values, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryNotIn(List<Boolean> values) {
+            addCriterion("need_set_salary not in", values, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_set_salary between", value1, value2, "needSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedSetSalaryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_set_salary not between", value1, value2, "needSetSalary");
+            return (Criteria) this;
+        }
+
         public Criteria andHasSalaryIsNull() {
             addCriterion("has_salary is null");
             return (Criteria) this;
@@ -1233,196 +1613,6 @@ public class PmdMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andNormTypeIsNull() {
-            addCriterion("norm_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeIsNotNull() {
-            addCriterion("norm_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeEqualTo(Byte value) {
-            addCriterion("norm_type =", value, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeNotEqualTo(Byte value) {
-            addCriterion("norm_type <>", value, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeGreaterThan(Byte value) {
-            addCriterion("norm_type >", value, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("norm_type >=", value, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeLessThan(Byte value) {
-            addCriterion("norm_type <", value, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("norm_type <=", value, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeIn(List<Byte> values) {
-            addCriterion("norm_type in", values, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeNotIn(List<Byte> values) {
-            addCriterion("norm_type not in", values, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeBetween(Byte value1, Byte value2) {
-            addCriterion("norm_type between", value1, value2, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("norm_type not between", value1, value2, "normType");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameIsNull() {
-            addCriterion("norm_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameIsNotNull() {
-            addCriterion("norm_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameEqualTo(String value) {
-            addCriterion("norm_name =", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameNotEqualTo(String value) {
-            addCriterion("norm_name <>", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameGreaterThan(String value) {
-            addCriterion("norm_name >", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameGreaterThanOrEqualTo(String value) {
-            addCriterion("norm_name >=", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameLessThan(String value) {
-            addCriterion("norm_name <", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameLessThanOrEqualTo(String value) {
-            addCriterion("norm_name <=", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameLike(String value) {
-            addCriterion("norm_name like", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameNotLike(String value) {
-            addCriterion("norm_name not like", value, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameIn(List<String> values) {
-            addCriterion("norm_name in", values, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameNotIn(List<String> values) {
-            addCriterion("norm_name not in", values, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameBetween(String value1, String value2) {
-            addCriterion("norm_name between", value1, value2, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormNameNotBetween(String value1, String value2) {
-            addCriterion("norm_name not between", value1, value2, "normName");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayIsNull() {
-            addCriterion("norm_due_pay is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayIsNotNull() {
-            addCriterion("norm_due_pay is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayEqualTo(BigDecimal value) {
-            addCriterion("norm_due_pay =", value, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayNotEqualTo(BigDecimal value) {
-            addCriterion("norm_due_pay <>", value, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayGreaterThan(BigDecimal value) {
-            addCriterion("norm_due_pay >", value, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("norm_due_pay >=", value, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayLessThan(BigDecimal value) {
-            addCriterion("norm_due_pay <", value, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("norm_due_pay <=", value, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayIn(List<BigDecimal> values) {
-            addCriterion("norm_due_pay in", values, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayNotIn(List<BigDecimal> values) {
-            addCriterion("norm_due_pay not in", values, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("norm_due_pay between", value1, value2, "normDuePay");
-            return (Criteria) this;
-        }
-
-        public Criteria andNormDuePayNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("norm_due_pay not between", value1, value2, "normDuePay");
-            return (Criteria) this;
-        }
-
         public Criteria andNormIdIsNull() {
             addCriterion("norm_id is null");
             return (Criteria) this;
@@ -1543,73 +1733,73 @@ public class PmdMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameIsNull() {
-            addCriterion("norm_display_name is null");
+        public Criteria andDuePayReasonIsNull() {
+            addCriterion("due_pay_reason is null");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameIsNotNull() {
-            addCriterion("norm_display_name is not null");
+        public Criteria andDuePayReasonIsNotNull() {
+            addCriterion("due_pay_reason is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameEqualTo(String value) {
-            addCriterion("norm_display_name =", value, "normDisplayName");
+        public Criteria andDuePayReasonEqualTo(String value) {
+            addCriterion("due_pay_reason =", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameNotEqualTo(String value) {
-            addCriterion("norm_display_name <>", value, "normDisplayName");
+        public Criteria andDuePayReasonNotEqualTo(String value) {
+            addCriterion("due_pay_reason <>", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameGreaterThan(String value) {
-            addCriterion("norm_display_name >", value, "normDisplayName");
+        public Criteria andDuePayReasonGreaterThan(String value) {
+            addCriterion("due_pay_reason >", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameGreaterThanOrEqualTo(String value) {
-            addCriterion("norm_display_name >=", value, "normDisplayName");
+        public Criteria andDuePayReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("due_pay_reason >=", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameLessThan(String value) {
-            addCriterion("norm_display_name <", value, "normDisplayName");
+        public Criteria andDuePayReasonLessThan(String value) {
+            addCriterion("due_pay_reason <", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameLessThanOrEqualTo(String value) {
-            addCriterion("norm_display_name <=", value, "normDisplayName");
+        public Criteria andDuePayReasonLessThanOrEqualTo(String value) {
+            addCriterion("due_pay_reason <=", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameLike(String value) {
-            addCriterion("norm_display_name like", value, "normDisplayName");
+        public Criteria andDuePayReasonLike(String value) {
+            addCriterion("due_pay_reason like", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameNotLike(String value) {
-            addCriterion("norm_display_name not like", value, "normDisplayName");
+        public Criteria andDuePayReasonNotLike(String value) {
+            addCriterion("due_pay_reason not like", value, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameIn(List<String> values) {
-            addCriterion("norm_display_name in", values, "normDisplayName");
+        public Criteria andDuePayReasonIn(List<String> values) {
+            addCriterion("due_pay_reason in", values, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameNotIn(List<String> values) {
-            addCriterion("norm_display_name not in", values, "normDisplayName");
+        public Criteria andDuePayReasonNotIn(List<String> values) {
+            addCriterion("due_pay_reason not in", values, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameBetween(String value1, String value2) {
-            addCriterion("norm_display_name between", value1, value2, "normDisplayName");
+        public Criteria andDuePayReasonBetween(String value1, String value2) {
+            addCriterion("due_pay_reason between", value1, value2, "duePayReason");
             return (Criteria) this;
         }
 
-        public Criteria andNormDisplayNameNotBetween(String value1, String value2) {
-            addCriterion("norm_display_name not between", value1, value2, "normDisplayName");
+        public Criteria andDuePayReasonNotBetween(String value1, String value2) {
+            addCriterion("due_pay_reason not between", value1, value2, "duePayReason");
             return (Criteria) this;
         }
 

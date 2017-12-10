@@ -38,13 +38,16 @@
             <td>${pmdMember.duePay}</td>
         </tr>
     </table>
-    <form id="payForm" action="http://221.238.143.40:10500/zhifu/payAccept.aspx" target="_blank" method="post">
-        <input type="hidden" name="orderDate" value="${payFormBean.orderDate}"/>
-        <input type="hidden" name="orderNo" value="${payFormBean.orderNo}"/>
-        <input type="hidden" name="amount" value="${payFormBean.amount}"/>
-        <input type="hidden" name="xmpch" value="${payFormBean.xmpch}"/>
-        <input type="hidden" name="return_url" value="${payFormBean.return_url}"/>
-        <input type="hidden" name="notify_url" value="${payFormBean.notify_url}"/>
+    <form id="payForm" action="${pay_url}" target="_blank" method="post">
+        <input type="hidden" name="paycode" value="${payFormBean.paycode}"/>
+        <input type="hidden" name="payer" value="${payFormBean.payer}"/>
+        <input type="hidden" name="payertype" value="${payFormBean.payertype}"/>
+        <input type="hidden" name="payername" value="${payFormBean.payername}"/>
+        <input type="hidden" name="sn" value="${payFormBean.sn}"/>
+        <input type="hidden" name="amt" value="${payFormBean.amt}"/>
+        <input type="hidden" name="macc" value="${payFormBean.macc}"/>
+        <input type="hidden" name="commnet" value="${payFormBean.commnet}"/>
+        <input type="hidden" name="sno_id_name" value="${payFormBean.sno_id_name}"/>
         <input type="hidden" name="sign" value="${payFormBean.sign}"/>
 
     </form>
@@ -54,7 +57,7 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 支付中，已跳转至支付页面"
             class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
     <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="支付完成？">
-    <a href="${ctx}/pmd/pay/returnPage?${ret}" target="_blank">test成功</a>
+    <a href="${ctx}/pmd/pay/callback/campuscard?${ret}" target="_blank">test成功</a>
 </div>
 
 <script>
@@ -62,7 +65,7 @@
         var $this = $(this);
         $.ajax({
             type : "post",
-            url : "${ctx}/user/pmd/pmdMember_payConfirm",
+            url : "${ctx}/user/pmd/payConfirm_campuscard",
             data:{monthId:'${pmdMember.monthId}'},
             async : false, // 同步方法
             dataType:"json",

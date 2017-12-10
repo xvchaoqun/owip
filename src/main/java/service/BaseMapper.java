@@ -201,6 +201,8 @@ import persistence.pcs.PcsVoteMemberMapper;
 import persistence.pmd.PmdBranchAdminMapper;
 import persistence.pmd.PmdBranchMapper;
 import persistence.pmd.PmdBranchViewMapper;
+import persistence.pmd.PmdConfigMemberMapper;
+import persistence.pmd.PmdConfigMemberTypeMapper;
 import persistence.pmd.PmdMemberMapper;
 import persistence.pmd.PmdMemberPayMapper;
 import persistence.pmd.PmdMemberPayViewMapper;
@@ -208,7 +210,8 @@ import persistence.pmd.PmdMonthMapper;
 import persistence.pmd.PmdNormMapper;
 import persistence.pmd.PmdNormValueLogMapper;
 import persistence.pmd.PmdNormValueMapper;
-import persistence.pmd.PmdNotifyLogMapper;
+import persistence.pmd.PmdNotifyCampusCardLogMapper;
+import persistence.pmd.PmdNotifyWszfLogMapper;
 import persistence.pmd.PmdPartyAdminMapper;
 import persistence.pmd.PmdPartyMapper;
 import persistence.pmd.PmdPartyViewMapper;
@@ -343,7 +346,9 @@ public class BaseMapper {
     @Autowired
     protected PmdMemberPayViewMapper pmdMemberPayViewMapper;
     @Autowired
-    protected PmdNotifyLogMapper pmdNotifyLogMapper;
+    protected PmdNotifyWszfLogMapper pmdNotifyWszfLogMapper;
+    @Autowired
+    protected PmdNotifyCampusCardLogMapper pmdNotifyCampusCardLogMapper;
     @Autowired
     protected PmdPartyMapper pmdPartyMapper;
     @Autowired
@@ -364,6 +369,10 @@ public class BaseMapper {
     protected PmdNormValueLogMapper pmdNormValueLogMapper;
     @Autowired
     protected PmdSpecialUserMapper pmdSpecialUserMapper;
+    @Autowired
+    protected PmdConfigMemberTypeMapper pmdConfigMemberTypeMapper;
+    @Autowired
+    protected PmdConfigMemberMapper pmdConfigMemberMapper;
 
     /**
      * 协同办公

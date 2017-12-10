@@ -6,6 +6,7 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="set_type" jdbcType="TINYINT" property="setType" />
+    <result column="formula_type" jdbcType="TINYINT" property="formulaType" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="start_user_id" jdbcType="INTEGER" property="startUserId" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, name, set_type, start_time, end_time, start_user_id, end_user_id, sort_order, 
-    status
+    id, type, name, set_type, formula_type, start_time, end_time, start_user_id, end_user_id, 
+    sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdNormExample" resultMap="BaseResultMap">
     select
@@ -107,13 +108,13 @@
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdNorm">
     insert into pmd_norm (id, type, name, 
-      set_type, start_time, end_time, 
-      start_user_id, end_user_id, sort_order, 
-      status)
+      set_type, formula_type, start_time, 
+      end_time, start_user_id, end_user_id, 
+      sort_order, status)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, 
-      #{setType,jdbcType=TINYINT}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{startUserId,jdbcType=INTEGER}, #{endUserId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{setType,jdbcType=TINYINT}, #{formulaType,jdbcType=TINYINT}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{startUserId,jdbcType=INTEGER}, #{endUserId,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdNorm">
     insert into pmd_norm
@@ -129,6 +130,9 @@
       </if>
       <if test="setType != null">
         set_type,
+      </if>
+      <if test="formulaType != null">
+        formula_type,
       </if>
       <if test="startTime != null">
         start_time,
@@ -161,6 +165,9 @@
       </if>
       <if test="setType != null">
         #{setType,jdbcType=TINYINT},
+      </if>
+      <if test="formulaType != null">
+        #{formulaType,jdbcType=TINYINT},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -203,6 +210,9 @@
       <if test="record.setType != null">
         set_type = #{record.setType,jdbcType=TINYINT},
       </if>
+      <if test="record.formulaType != null">
+        formula_type = #{record.formulaType,jdbcType=TINYINT},
+      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
@@ -232,6 +242,7 @@
       type = #{record.type,jdbcType=TINYINT},
       name = #{record.name,jdbcType=VARCHAR},
       set_type = #{record.setType,jdbcType=TINYINT},
+      formula_type = #{record.formulaType,jdbcType=TINYINT},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       start_user_id = #{record.startUserId,jdbcType=INTEGER},
@@ -253,6 +264,9 @@
       </if>
       <if test="setType != null">
         set_type = #{setType,jdbcType=TINYINT},
+      </if>
+      <if test="formulaType != null">
+        formula_type = #{formulaType,jdbcType=TINYINT},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -280,6 +294,7 @@
     set type = #{type,jdbcType=TINYINT},
       name = #{name,jdbcType=VARCHAR},
       set_type = #{setType,jdbcType=TINYINT},
+      formula_type = #{formulaType,jdbcType=TINYINT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       start_user_id = #{startUserId,jdbcType=INTEGER},

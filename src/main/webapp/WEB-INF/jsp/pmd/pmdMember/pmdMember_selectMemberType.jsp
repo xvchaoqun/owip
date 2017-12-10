@@ -3,11 +3,12 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>选择${PMD_NORM_TYPE_MAP.get(type)}</h3>
+    <h3>选择党员类别</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_selectNorm" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdMember_selectMemberType" id="modalForm" method="post">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
+        <input type="hidden" name="configMemberType" value="${param.configMemberType}">
         <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>
         <c:if test="${num==1}">
         <div class="form-group">
@@ -25,24 +26,28 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         </c:if>
-
         <div class="form-group">
-            <label class="col-xs-4 control-label">${PMD_NORM_TYPE_MAP.get(type)}</label>
+            <label class="col-xs-4 control-label">党员类别</label>
+            <div class="col-xs-6 label-text">
+                ${PMD_MEMBER_TYPE_MAP.get(configMemberType)}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">党员分类别</label>
             <div class="col-xs-6">
-                <select required data-rel="select2" name="normId"
+                <select required data-rel="select2" name="configMemberTypeId"
                         data-width="270"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:forEach items="${pmdNorms}" var="pmdNorm">
-                        <option value="${pmdNorm.id}"
-                                data-amount="${pmdNorm.pmdNormValue.amount}"
-                                data-set-type="${pmdNorm.setType}">${pmdNorm.name}</option>
+                    <c:forEach items="${configMemberTypes}" var="_type">
+                        <option value="${_type.id}"
+                                data-amount="${_type.pmdNorm.pmdNormValue.amount}"
+                                data-set-type="${_type.pmdNorm.setType}">${_type.name}</option>
                     </c:forEach>
                 </select>
-                <span id="freeNote" style="display:none;font-weight: bolder;" class="text-danger">免交操作不可逆，请仔细核实后再提交！</span>
             </div>
         </div>
-        <c:if test="${param.student==1}">
+        <c:if test="${param.configMemberType==PMD_MEMBER_TYPE_STUDENT}">
         <div class="form-group">
             <label class="col-xs-4 control-label">是否带薪就读</label>
             <div class="col-xs-6">
@@ -84,17 +89,12 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $("select[name=normId]", "#modalForm").change(function(){
+    $("select[name=configMemberTypeId]", "#modalForm").change(function(){
         var $selected = $(this).find(':selected');
         var setType = $selected.data("set-type");
         var amount = $selected.data("amount");
         //console.log(setType)
-        if(setType=="${PMD_NORM_SET_TYPE_FREE}"){
-            amount = 0;
-            $("#freeNote").show();
-        }else{
-            $("#freeNote").hide();
-        }
+
         if(setType=="${PMD_NORM_SET_TYPE_SET}"){
             $("input[name=amount]", "#modalForm").val('')
                     .prop("disabled", false)
@@ -104,7 +104,7 @@ pageEncoding="UTF-8"%>
                     .prop("disabled", true).removeAttr("required");
         }
     })
-    $("#modalForm select[name=normId]").val('${pmdMember.normId}').trigger("change");
+    $("#modalForm select[name=configMemberTypeId]").val('${pmdMember.configMemberTypeId}').trigger("change");
 
     $("#modalForm").validate({
         submitHandler: function (form) {

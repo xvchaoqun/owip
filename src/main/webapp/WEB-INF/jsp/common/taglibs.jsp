@@ -186,18 +186,19 @@
 <c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FIXED%>" var="PMD_NORM_SET_TYPE_FIXED"/>
 <c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_SET%>" var="PMD_NORM_SET_TYPE_SET"/>
 <c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FREE%>" var="PMD_NORM_SET_TYPE_FREE"/>
+<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FORMULA%>" var="PMD_NORM_SET_TYPE_FORMULA"/>
 <c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_MAP%>" var="PMD_NORM_SET_TYPE_MAP"/>
+
+<c:set value="<%=SystemConstants.PMD_FORMULA_TYPE_MAP%>" var="PMD_FORMULA_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.PMD_NORM_STATUS_INIT%>" var="PMD_NORM_STATUS_INIT"/>
 <c:set value="<%=SystemConstants.PMD_NORM_STATUS_USE%>" var="PMD_NORM_STATUS_USE"/>
 <c:set value="<%=SystemConstants.PMD_NORM_STATUS_ABOLISH%>" var="PMD_NORM_STATUS_ABOLISH"/>
 
+<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_ONJOB%>" var="PMD_MEMBER_TYPE_ONJOB"/>
+<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_RETIRE%>" var="PMD_MEMBER_TYPE_RETIRE"/>
 <c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_STUDENT%>" var="PMD_MEMBER_TYPE_STUDENT"/>
 <c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_MAP%>" var="PMD_MEMBER_TYPE_MAP"/>
-
-<c:set value="<%=SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY%>" var="PMD_MEMBER_NORM_TYPE_MODIFY"/>
-<c:set value="<%=SystemConstants.PMD_MEMBER_NORM_TYPE_SELECT%>" var="PMD_MEMBER_NORM_TYPE_SELECT"/>
-
 
 <c:set value="<%=SystemConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
 

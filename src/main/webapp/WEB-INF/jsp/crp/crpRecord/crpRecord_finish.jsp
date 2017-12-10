@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
 				<div class="col-xs-6 label-text">
-					${crpRecord.cadre.realname}
+					${crpRecord.user.realname}
 				</div>
 			</div>
 			<div class="form-group">

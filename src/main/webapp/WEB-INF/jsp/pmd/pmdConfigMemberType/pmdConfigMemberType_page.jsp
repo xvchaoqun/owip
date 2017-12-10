@@ -5,21 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/pmdNotifyLog"
-                 data-url-export="${ctx}/pmdNotifyLog_data"
+                 data-url-page="${ctx}/pmd/pmdConfigMemberType"
+                 data-url-export="${ctx}/pmd/pmdConfigMemberType_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.orderNo ||not empty param.orderDate ||not empty param.tranStat || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.type || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="pmdNotifyLog:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmdNotifyLog_au"><i class="fa fa-plus"></i> 添加</a>
+                <shiro:hasPermission name="pmdConfigMemberType:edit">
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmd/pmdConfigMemberType_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pmdNotifyLog_au"
+                       data-url="${ctx}/pmd/pmdConfigMemberType_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="pmdNotifyLog:del">
-                    <button data-url="${ctx}/pmdNotifyLog_batchDel"
+                <shiro:hasPermission name="pmdConfigMemberType:del">
+                    <button data-url="${ctx}/pmd/pmdConfigMemberType_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -45,19 +45,9 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>订单号</label>
-                            <input class="form-control search-query" name="orderNo" type="text" value="${param.orderNo}"
-                                   placeholder="请输入订单号">
-                        </div>
-                        <div class="form-group">
-                            <label>交易时间</label>
-                            <input class="form-control search-query" name="orderDate" type="text" value="${param.orderDate}"
-                                   placeholder="请输入交易时间">
-                        </div>
-                        <div class="form-group">
-                            <label>订单支付状态</label>
-                            <input class="form-control search-query" name="tranStat" type="text" value="${param.tranStat}"
-                                   placeholder="请输入订单支付状态">
+                            <label>类别</label>
+                            <input class="form-control search-query" name="type" type="text" value="${param.type}"
+                                   placeholder="请输入类别">
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -81,18 +71,17 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/pmdNotifyLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/pmd/pmdConfigMemberType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '交易时间',name: 'orderDate'},
-            { label: '订单号',name: 'orderNo'},
-            { label: '订单金额',name: 'amount'},
-            { label: '支付平台交易流水号',name: 'jylsh'},
-            { label: '订单支付状态',name: 'tranStat'},
-            { label: '通知类型',name: 'returnType'},
-            { label: '签名',name: 'sign'},
-            { label: '验签结果',name: 'verifySign'},
-            { label: '返回时间',name: 'retTime'},
-            { label: 'IP',name: 'ip'}
+            { label: '党员类别',name: 'type', formatter:function(cellvalue, options, rowObject){
+                return _cMap.PMD_MEMBER_TYPE_MAP[cellvalue];
+            }, width:120},
+            { label: '党员分类别',name: 'name', width:220},
+            { label: '党费计算方式',name: 'pmdNorm.name', width:260},
+            { label: '备注',name: 'remark', formatter:function(cellvalue, options, rowObject){
+                if(rowObject.isAuto) return "默认"
+                return $.trim(cellvalue);
+            }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

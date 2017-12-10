@@ -16,7 +16,7 @@
     pager:"jqGridPager_popup",
     url: "${ctx}/sysApprovalLog_data?callback=?&id=${param.id}&type=${type}",
     colModel: [
-      { label: '操作内容',  name: 'stage', width: 200 },
+      { label: '操作内容',  name: 'stage', width: ${param.hideStatus==1?280:200} },
       { label: '操作时间',  name: 'createTime', width: 150 },
       { label: '操作人', name: 'user.realname' },
       <c:if test="${empty param.hideStatus || param.hideStatus==0}">

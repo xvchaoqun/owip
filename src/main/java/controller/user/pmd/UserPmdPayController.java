@@ -10,12 +10,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.pmd.PayFormBean;
-import service.pmd.PayNotifyBean;
+import service.pmd.PayFormCampusCardBean;
+import service.pmd.PayFormWszfBean;
+import service.pmd.PayNotifyCampusCardBean;
+import service.pmd.PayNotifyWszfBean;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import java.util.Map;
 
@@ -25,27 +29,30 @@ public class UserPmdPayController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 校园统一支付平台
     @RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping("/pmdMember_payConfirm")
-    public String pmdMember_payConfirm(int monthId, ModelMap modelMap) {
+    @RequestMapping("/payConfirm_wszf")
+    public String payConfirm_wszf(int monthId, ModelMap modelMap) {
 
         int userId = ShiroHelper.getCurrentUserId();
 
         PmdMember pmdMember = pmdMemberService.get(monthId, userId);
         modelMap.put("pmdMember", pmdMember);
 
-        PayFormBean payFormBean = pmdPayService.createPayFormBean(pmdMember.getId());
+        PayFormWszfBean payFormBean = pmdPayWszfService.createPayFormBean(pmdMember.getId());
         modelMap.put("payFormBean", payFormBean);
 
+        modelMap.put("pay_url", PropertiesUtils.getString("pay.wszf.url"));
+
         // test
-        PayNotifyBean bean = new PayNotifyBean();
+        PayNotifyWszfBean bean = new PayNotifyWszfBean();
         bean.setOrderDate(payFormBean.getOrderDate());
         bean.setOrderNo(payFormBean.getOrderNo());
         bean.setAmount(payFormBean.getAmount());
         bean.setJylsh(String.valueOf(1303190000001L + pmdMember.getId()));
         bean.setTranStat("1");
         bean.setReturn_type("1");
-        String sign = pmdPayService.verifySign(bean);
+        String sign = pmdPayWszfService.verifySign(bean);
         String ret = "orderDate=" + bean.getOrderDate() +
                 "&orderNo=" + bean.getOrderNo() +
                 "&amount=" + bean.getAmount() +
@@ -56,15 +63,68 @@ public class UserPmdPayController extends PmdBaseController {
         modelMap.put("ret", ret);
         // test
 
-        return "user/pmd/pmdMember_payConfirm";
+        return "user/pmd/payConfirm_wszf";
+    }
+    @RequiresPermissions("userPmdMember:payConfirm")
+    @RequestMapping(value = "/payConfirm_wszf", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_payConfirm_wszf(int monthId) {
+
+        PayFormWszfBean payFormBean = pmdPayWszfService.payConfirm(monthId);
+        logger.info(addLog(SystemConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
+                JSONUtils.toString(payFormBean, false)));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 校园卡
+    @RequiresPermissions("userPmdMember:payConfirm")
+    @RequestMapping("/payConfirm_campuscard")
+    public String payConfirm_campuscard(int monthId, ModelMap modelMap) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+
+        PmdMember pmdMember = pmdMemberService.get(monthId, userId);
+        modelMap.put("pmdMember", pmdMember);
+
+        PayFormCampusCardBean payFormBean = pmdPayCampusCardService.createPayFormBean(pmdMember.getId());
+        modelMap.put("payFormBean", payFormBean);
+
+        modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
+
+        // test
+        PayNotifyCampusCardBean bean = new PayNotifyCampusCardBean();
+        bean.setPaycode(payFormBean.getPaycode());
+        bean.setPayitem("ZZBGZ001");
+        bean.setPayer(payFormBean.getPayer());
+        bean.setPayertype(payFormBean.getPayertype());
+        bean.setSn(payFormBean.getSn());
+        bean.setAmt(payFormBean.getAmt());
+        bean.setPaid("true");
+        bean.setPaidtime(DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
+
+        String sign = pmdPayCampusCardService.verifySign(bean);
+        String ret = "paycode=" + bean.getPaycode() +
+                "&payitem=" + bean.getPayitem() +
+                "&payer=" + bean.getPayer() +
+                "&payertype=" + bean.getPayertype() +
+                "&sn=" + bean.getSn() +
+                "&amt=" + bean.getAmt() +
+                "&paid=" + bean.getPaid() +
+                "&paidtime=" + bean.getPaidtime() +
+                "&sign=" + sign;
+        modelMap.put("ret", ret);
+        // test
+
+        return "user/pmd/payConfirm_campuscard";
     }
 
     @RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping(value = "/pmdMember_payConfirm", method = RequestMethod.POST)
+    @RequestMapping(value = "/payConfirm_campuscard", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_payConfirm(int monthId) {
+    public Map do_payConfirm_campuscard(int monthId) {
 
-        PayFormBean payFormBean = pmdPayService.payConfirm(monthId);
+        PayFormCampusCardBean payFormBean = pmdPayCampusCardService.payConfirm(monthId);
         logger.info(addLog(SystemConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(payFormBean, false)));
 

@@ -10,7 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.pmd.PayNotifyBean;
+import service.pmd.PayNotifyWszfBean;
 import service.pmd.PmdTestService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -104,7 +104,7 @@ public class PmdPayTestController extends PmdBaseController {
     }
 
     @RequestMapping("/test/returnPage")
-    public String returnPage(PayNotifyBean bean, HttpServletRequest request, ModelMap modelMap) {
+    public String returnPage(PayNotifyWszfBean bean, HttpServletRequest request, ModelMap modelMap) {
 
         String ret =  JSONUtils.toString(request.getParameterMap(), false);
         logger.info("pmd returnPage request.getParameterMap()=" +ret);
@@ -117,7 +117,7 @@ public class PmdPayTestController extends PmdBaseController {
     }
 
     @RequestMapping("/test/notifyPage")
-    public void notifyPage(PayNotifyBean bean, HttpServletRequest request,
+    public void notifyPage(PayNotifyWszfBean bean, HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
 
         logger.info("pmd notifyPage request.getParameterMap()=" + JSONUtils.toString(request.getParameterMap(), false));

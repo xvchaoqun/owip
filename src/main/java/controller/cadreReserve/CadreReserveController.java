@@ -262,7 +262,7 @@ public class CadreReserveController extends BaseController {
             CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
             reserveType = cadreReserve.getType();
             modelMap.put("cadreReserve", cadreReserve);
-            Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreReserve.getCadreId());
             modelMap.put("cadre", cadre);
         }
         modelMap.put("reserveType", reserveType);

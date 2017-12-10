@@ -330,4 +330,22 @@ public class PmdExtService extends BaseMapper{
 
         return iExtMapper.getLtxf(code);
     }
+
+    // 根据离退休费计算党费
+    public BigDecimal getDuePayFromLtxf(BigDecimal ltxf){
+
+        BigDecimal duePay = null;
+
+        if (ltxf == null || ltxf.compareTo(BigDecimal.ZERO) <= 0) {
+            // 没有读取到离退休工资的情况？
+        } else if (ltxf.compareTo(BigDecimal.valueOf(5000)) > 0) {
+
+            duePay = ltxf.multiply(BigDecimal.valueOf(0.01));
+        } else {
+
+            duePay = ltxf.multiply(BigDecimal.valueOf(0.005));
+        }
+
+        return duePay;
+    }
 }

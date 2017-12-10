@@ -93,27 +93,25 @@
                                 data-url="${ctx}/"
                                 data-id-name="userId">
                             <i class="fa fa-send"></i> 短信通知
-                        </button>
-                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                data-url="${ctx}/"
-                                data-id-name="userId">
-                            <i class="fa fa-send"></i> 短信催交
                         </button>--%>
+                        <button id="notifyBtn" class="jqOpenViewBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/pmd/pmdSendMsg_notify"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-send"></i> 短信催交
+                        </button>
 
-                        <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                       <%-- <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_setDuePay"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-edit"></i> 设定缴纳额度
-                        </button>
-                        <button id="selectPayNormBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
-                                data-url="${ctx}/pmd/pmdMember_selectNorm"
-                                data-querystr0="&type=${PMD_NORM_TYPE_PAY}"
+                        </button>--%>
+                        <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                                data-url="${ctx}/pmd/pmdMember_selectMemberType"
                                 data-grid-id="#jqGrid2">
-                            <i class="fa fa-check-square-o"></i> 选择缴纳标准
+                            <i class="fa fa-check-square-o"></i> 选择党员类别
                         </button>
                         <button id="selectReduceNormBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                                data-url="${ctx}/pmd/pmdMember_selectNorm"
-                                data-querystr0="&type=${PMD_NORM_TYPE_REDUCE}"
+                                data-url="${ctx}/pmd/pmdMember_selectReduceNorm"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-minus-circle"></i> 党费减免
                         </button>
@@ -184,22 +182,24 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#payCashBtn,#delayBtn,#unDelayBtn").prop("disabled", true);
+            $("#payCashBtn,#delayBtn,#unDelayBtn,#notifyBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
             var isDelay = (rowData.isDelay == "true");
             var hasPay = (rowData.hasPay == "true");
             var notSetDuePay = (rowData.duePay==undefined || rowData.duePay <= 0);
-            //console.log(isCurrentMonth)
+            //console.log(rowData.configMemberTypeId)
             $("#payCashBtn").prop("disabled", notSetDuePay || hasPay || (isCurrentMonth && isDelay));
             $("#delayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
+            $("#notifyBtn").prop("disabled", $.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
         }
 
-        var allIsStudent=true; // 选择的是否都是学生
-        var setDuePayBtnEnabled = true;
-        var selectPayNormBtn = true;
+        var configMemberType; // 选择的党员类别（设定党员分类别时的url参数，此时要求是同一类别）
+
+        var hasSetDuePay = true;
+        var selectMemberTypeBtn = true;
         var selectReduceNormBtn = true;
         $.each(ids, function(i, id){
             var rowData = $(grid).getRowData(id);
@@ -207,16 +207,16 @@
             var isDelay = (rowData.isDelay == "true");
             var hasPay = (rowData.hasPay == "true");
             var normType = rowData.normType;
-            //console.log(normType != '${PMD_MEMBER_NORM_TYPE_MODIFY}')
-            if (setDuePayBtnEnabled) {
-                if (hasPay || isDelay || normType != '${PMD_MEMBER_NORM_TYPE_MODIFY}') {
-                    setDuePayBtnEnabled = false;
+
+            if(hasSetDuePay){
+                if (rowData.duePay==undefined || rowData.duePay <= 0) {
+                    hasSetDuePay = false;
                 }
             }
 
-            if(selectPayNormBtn){
-                if (hasPay || isDelay || normType != '${PMD_MEMBER_NORM_TYPE_SELECT}') {
-                    selectPayNormBtn = false;
+            if(selectMemberTypeBtn){
+                if (hasPay || isDelay) {
+                    selectMemberTypeBtn = false;
                 }
             }
 
@@ -225,20 +225,22 @@
                     selectReduceNormBtn = false;
                 }
             }
-            if(allIsStudent){
-                if(rowData.type != '${PMD_MEMBER_TYPE_STUDENT}'){
-                    allIsStudent = false;
+
+            if(configMemberType != -1){
+                if(configMemberType!=undefined && rowData.type != configMemberType){
+                    configMemberType = -1; // 选择的党员不是同一类别
+                }else {
+                    configMemberType = rowData.type;
                 }
             }
         })
 
-        $("#selectPayNormBtn, #selectReduceNormBtn").each(function(){
-            var querystr = $(this).data("querystr0") + "&student=" + (allIsStudent?1:0);
+        $("#selectMemberTypeBtn").each(function(){
+            var querystr = "&configMemberType=" + configMemberType;
             $(this).data("querystr", querystr);
         });
 
-        $("#setDuePayBtn").prop("disabled", !setDuePayBtnEnabled);
-        $("#selectPayNormBtn").prop("disabled", !selectPayNormBtn);
-        $("#selectReduceNormBtn").prop("disabled", !selectReduceNormBtn);
+        $("#selectMemberTypeBtn").prop("disabled", !selectMemberTypeBtn || configMemberType==-1);
+        $("#selectReduceNormBtn").prop("disabled", !selectReduceNormBtn || !hasSetDuePay);
     }
 </script>

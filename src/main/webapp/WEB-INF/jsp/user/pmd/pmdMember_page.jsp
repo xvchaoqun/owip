@@ -10,11 +10,19 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.payMonth
             ||not empty param.hasPay ||not empty param.isDelay ||not empty param.isOnlinePay
              || not empty param.code || not empty param.sort}"/>
+
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
                    data-url="${ctx}/hf_content?code=${HF_PMD_MEMBER}">
                     <i class="fa fa-info-circle"></i> 操作说明</a>
+
+                <c:if test="${canSetSalary}">
+                <a class="popupBtn btn btn-success btn-sm"
+                   data-width="600"
+                   data-url="${ctx}/user/pmd/pmdMember_setSalary">
+                    <i class="fa fa-rmb"></i> 计算应缴党费额度</a>
+                </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

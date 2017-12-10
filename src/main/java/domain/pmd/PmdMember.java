@@ -40,6 +40,18 @@ public class PmdMember implements Serializable {
 
     private Byte type;
 
+    private Integer configMemberTypeId;
+
+    private String configMemberTypeName;
+
+    private Integer configMemberTypeNormId;
+
+    private String configMemberTypeNormName;
+
+    private BigDecimal configMemberDuePay;
+
+    private Boolean needSetSalary;
+
     private Boolean hasSalary;
 
     private String talentTitle;
@@ -60,17 +72,11 @@ public class PmdMember implements Serializable {
 
     private BigDecimal salary;
 
-    private Byte normType;
-
-    private String normName;
-
-    private BigDecimal normDuePay;
-
     private Integer normId;
 
     private Integer normValueId;
 
-    private String normDisplayName;
+    private String duePayReason;
 
     private BigDecimal duePay;
 
@@ -144,6 +150,54 @@ public class PmdMember implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Integer getConfigMemberTypeId() {
+        return configMemberTypeId;
+    }
+
+    public void setConfigMemberTypeId(Integer configMemberTypeId) {
+        this.configMemberTypeId = configMemberTypeId;
+    }
+
+    public String getConfigMemberTypeName() {
+        return configMemberTypeName;
+    }
+
+    public void setConfigMemberTypeName(String configMemberTypeName) {
+        this.configMemberTypeName = configMemberTypeName == null ? null : configMemberTypeName.trim();
+    }
+
+    public Integer getConfigMemberTypeNormId() {
+        return configMemberTypeNormId;
+    }
+
+    public void setConfigMemberTypeNormId(Integer configMemberTypeNormId) {
+        this.configMemberTypeNormId = configMemberTypeNormId;
+    }
+
+    public String getConfigMemberTypeNormName() {
+        return configMemberTypeNormName;
+    }
+
+    public void setConfigMemberTypeNormName(String configMemberTypeNormName) {
+        this.configMemberTypeNormName = configMemberTypeNormName == null ? null : configMemberTypeNormName.trim();
+    }
+
+    public BigDecimal getConfigMemberDuePay() {
+        return configMemberDuePay;
+    }
+
+    public void setConfigMemberDuePay(BigDecimal configMemberDuePay) {
+        this.configMemberDuePay = configMemberDuePay;
+    }
+
+    public Boolean getNeedSetSalary() {
+        return needSetSalary;
+    }
+
+    public void setNeedSetSalary(Boolean needSetSalary) {
+        this.needSetSalary = needSetSalary;
     }
 
     public Boolean getHasSalary() {
@@ -226,30 +280,6 @@ public class PmdMember implements Serializable {
         this.salary = salary;
     }
 
-    public Byte getNormType() {
-        return normType;
-    }
-
-    public void setNormType(Byte normType) {
-        this.normType = normType;
-    }
-
-    public String getNormName() {
-        return normName;
-    }
-
-    public void setNormName(String normName) {
-        this.normName = normName == null ? null : normName.trim();
-    }
-
-    public BigDecimal getNormDuePay() {
-        return normDuePay;
-    }
-
-    public void setNormDuePay(BigDecimal normDuePay) {
-        this.normDuePay = normDuePay;
-    }
-
     public Integer getNormId() {
         return normId;
     }
@@ -266,12 +296,12 @@ public class PmdMember implements Serializable {
         this.normValueId = normValueId;
     }
 
-    public String getNormDisplayName() {
-        return normDisplayName;
+    public String getDuePayReason() {
+        return duePayReason;
     }
 
-    public void setNormDisplayName(String normDisplayName) {
-        this.normDisplayName = normDisplayName == null ? null : normDisplayName.trim();
+    public void setDuePayReason(String duePayReason) {
+        this.duePayReason = duePayReason == null ? null : duePayReason.trim();
     }
 
     public BigDecimal getDuePay() {

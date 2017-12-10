@@ -19,6 +19,19 @@ public class PmdNormService extends BaseMapper {
 
     public static final String TABLE_NAME = "pmd_norm";
 
+    public List<PmdNorm> list(byte type, Byte setType){
+
+        PmdNormExample example = new PmdNormExample();
+        PmdNormExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type)
+                .andStatusEqualTo(SystemConstants.PMD_NORM_STATUS_USE);
+        if(setType!=null){
+            criteria.andSetTypeEqualTo(setType);
+        }
+        example.setOrderByClause("sort_order asc");
+
+        return pmdNormMapper.selectByExample(example);
+    }
+
     @Transactional
     public void insertSelective(PmdNorm record) {
 
@@ -40,8 +53,13 @@ public class PmdNormService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(PmdNorm record) {
-        return pmdNormMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(PmdNorm record) {
+
+        pmdNormMapper.updateByPrimaryKeySelective(record);
+
+        if(record.getSetType()!=null && record.getSetType() != SystemConstants.PMD_NORM_SET_TYPE_FORMULA){
+            commonMapper.excuteSql("update pmd_norm set formula_type = null where id=" + record.getId());
+        }
     }
 
     //启用收费标准

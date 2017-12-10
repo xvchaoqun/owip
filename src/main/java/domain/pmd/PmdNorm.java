@@ -22,6 +22,8 @@ public class PmdNorm implements Serializable {
 
     private Byte setType;
 
+    private Byte formulaType;
+
     private Date startTime;
 
     private Date endTime;
@@ -66,6 +68,14 @@ public class PmdNorm implements Serializable {
 
     public void setSetType(Byte setType) {
         this.setType = setType;
+    }
+
+    public Byte getFormulaType() {
+        return formulaType;
+    }
+
+    public void setFormulaType(Byte formulaType) {
+        this.formulaType = formulaType;
     }
 
     public Date getStartTime() {

@@ -9,6 +9,12 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="config_member_type_id" jdbcType="INTEGER" property="configMemberTypeId" />
+    <result column="config_member_type_name" jdbcType="VARCHAR" property="configMemberTypeName" />
+    <result column="config_member_type_norm_id" jdbcType="INTEGER" property="configMemberTypeNormId" />
+    <result column="config_member_type_norm_name" jdbcType="VARCHAR" property="configMemberTypeNormName" />
+    <result column="config_member_due_pay" jdbcType="DECIMAL" property="configMemberDuePay" />
+    <result column="need_set_salary" jdbcType="BIT" property="needSetSalary" />
     <result column="has_salary" jdbcType="BIT" property="hasSalary" />
     <result column="talent_title" jdbcType="VARCHAR" property="talentTitle" />
     <result column="post_class" jdbcType="VARCHAR" property="postClass" />
@@ -19,12 +25,9 @@
     <result column="authorized_type" jdbcType="VARCHAR" property="authorizedType" />
     <result column="staff_type" jdbcType="VARCHAR" property="staffType" />
     <result column="salary" jdbcType="DECIMAL" property="salary" />
-    <result column="norm_type" jdbcType="TINYINT" property="normType" />
-    <result column="norm_name" jdbcType="VARCHAR" property="normName" />
-    <result column="norm_due_pay" jdbcType="DECIMAL" property="normDuePay" />
     <result column="norm_id" jdbcType="INTEGER" property="normId" />
     <result column="norm_value_id" jdbcType="INTEGER" property="normValueId" />
-    <result column="norm_display_name" jdbcType="VARCHAR" property="normDisplayName" />
+    <result column="due_pay_reason" jdbcType="VARCHAR" property="duePayReason" />
     <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="is_delay" jdbcType="BIT" property="isDelay" />
@@ -93,10 +96,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, month_id, user_id, pay_month, party_id, branch_id, type, has_salary, talent_title, 
-    post_class, main_post_level, pro_post_level, manage_level, office_level, authorized_type, 
-    staff_type, salary, norm_type, norm_name, norm_due_pay, norm_id, norm_value_id, norm_display_name, 
-    due_pay, real_pay, is_delay, delay_reason, has_pay, is_online_pay, pay_time, charge_user_id
+    id, month_id, user_id, pay_month, party_id, branch_id, type, config_member_type_id, 
+    config_member_type_name, config_member_type_norm_id, config_member_type_norm_name, 
+    config_member_due_pay, need_set_salary, has_salary, talent_title, post_class, main_post_level, 
+    pro_post_level, manage_level, office_level, authorized_type, staff_type, salary, 
+    norm_id, norm_value_id, due_pay_reason, due_pay, real_pay, is_delay, delay_reason, 
+    has_pay, is_online_pay, pay_time, charge_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberExample" resultMap="BaseResultMap">
     select
@@ -131,26 +136,28 @@
   <insert id="insert" parameterType="domain.pmd.PmdMember">
     insert into pmd_member (id, month_id, user_id, 
       pay_month, party_id, branch_id, 
-      type, has_salary, talent_title, 
-      post_class, main_post_level, pro_post_level, 
-      manage_level, office_level, authorized_type, 
-      staff_type, salary, norm_type, 
-      norm_name, norm_due_pay, norm_id, 
-      norm_value_id, norm_display_name, due_pay, 
-      real_pay, is_delay, delay_reason, 
-      has_pay, is_online_pay, pay_time, 
-      charge_user_id)
+      type, config_member_type_id, config_member_type_name, 
+      config_member_type_norm_id, config_member_type_norm_name, 
+      config_member_due_pay, need_set_salary, has_salary, 
+      talent_title, post_class, main_post_level, 
+      pro_post_level, manage_level, office_level, 
+      authorized_type, staff_type, salary, 
+      norm_id, norm_value_id, due_pay_reason, 
+      due_pay, real_pay, is_delay, 
+      delay_reason, has_pay, is_online_pay, 
+      pay_time, charge_user_id)
     values (#{id,jdbcType=INTEGER}, #{monthId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{payMonth,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{hasSalary,jdbcType=BIT}, #{talentTitle,jdbcType=VARCHAR}, 
-      #{postClass,jdbcType=VARCHAR}, #{mainPostLevel,jdbcType=VARCHAR}, #{proPostLevel,jdbcType=VARCHAR}, 
-      #{manageLevel,jdbcType=VARCHAR}, #{officeLevel,jdbcType=VARCHAR}, #{authorizedType,jdbcType=VARCHAR}, 
-      #{staffType,jdbcType=VARCHAR}, #{salary,jdbcType=DECIMAL}, #{normType,jdbcType=TINYINT}, 
-      #{normName,jdbcType=VARCHAR}, #{normDuePay,jdbcType=DECIMAL}, #{normId,jdbcType=INTEGER}, 
-      #{normValueId,jdbcType=INTEGER}, #{normDisplayName,jdbcType=VARCHAR}, #{duePay,jdbcType=DECIMAL}, 
-      #{realPay,jdbcType=DECIMAL}, #{isDelay,jdbcType=BIT}, #{delayReason,jdbcType=VARCHAR}, 
-      #{hasPay,jdbcType=BIT}, #{isOnlinePay,jdbcType=BIT}, #{payTime,jdbcType=TIMESTAMP}, 
-      #{chargeUserId,jdbcType=INTEGER})
+      #{type,jdbcType=TINYINT}, #{configMemberTypeId,jdbcType=INTEGER}, #{configMemberTypeName,jdbcType=VARCHAR}, 
+      #{configMemberTypeNormId,jdbcType=INTEGER}, #{configMemberTypeNormName,jdbcType=VARCHAR}, 
+      #{configMemberDuePay,jdbcType=DECIMAL}, #{needSetSalary,jdbcType=BIT}, #{hasSalary,jdbcType=BIT}, 
+      #{talentTitle,jdbcType=VARCHAR}, #{postClass,jdbcType=VARCHAR}, #{mainPostLevel,jdbcType=VARCHAR}, 
+      #{proPostLevel,jdbcType=VARCHAR}, #{manageLevel,jdbcType=VARCHAR}, #{officeLevel,jdbcType=VARCHAR}, 
+      #{authorizedType,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, #{salary,jdbcType=DECIMAL}, 
+      #{normId,jdbcType=INTEGER}, #{normValueId,jdbcType=INTEGER}, #{duePayReason,jdbcType=VARCHAR}, 
+      #{duePay,jdbcType=DECIMAL}, #{realPay,jdbcType=DECIMAL}, #{isDelay,jdbcType=BIT}, 
+      #{delayReason,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{isOnlinePay,jdbcType=BIT}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.pmd.PmdMember">
     insert into pmd_member
@@ -175,6 +182,24 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="configMemberTypeId != null">
+        config_member_type_id,
+      </if>
+      <if test="configMemberTypeName != null">
+        config_member_type_name,
+      </if>
+      <if test="configMemberTypeNormId != null">
+        config_member_type_norm_id,
+      </if>
+      <if test="configMemberTypeNormName != null">
+        config_member_type_norm_name,
+      </if>
+      <if test="configMemberDuePay != null">
+        config_member_due_pay,
+      </if>
+      <if test="needSetSalary != null">
+        need_set_salary,
       </if>
       <if test="hasSalary != null">
         has_salary,
@@ -206,23 +231,14 @@
       <if test="salary != null">
         salary,
       </if>
-      <if test="normType != null">
-        norm_type,
-      </if>
-      <if test="normName != null">
-        norm_name,
-      </if>
-      <if test="normDuePay != null">
-        norm_due_pay,
-      </if>
       <if test="normId != null">
         norm_id,
       </if>
       <if test="normValueId != null">
         norm_value_id,
       </if>
-      <if test="normDisplayName != null">
-        norm_display_name,
+      <if test="duePayReason != null">
+        due_pay_reason,
       </if>
       <if test="duePay != null">
         due_pay,
@@ -271,6 +287,24 @@
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
+      <if test="configMemberTypeId != null">
+        #{configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="configMemberTypeName != null">
+        #{configMemberTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="configMemberTypeNormId != null">
+        #{configMemberTypeNormId,jdbcType=INTEGER},
+      </if>
+      <if test="configMemberTypeNormName != null">
+        #{configMemberTypeNormName,jdbcType=VARCHAR},
+      </if>
+      <if test="configMemberDuePay != null">
+        #{configMemberDuePay,jdbcType=DECIMAL},
+      </if>
+      <if test="needSetSalary != null">
+        #{needSetSalary,jdbcType=BIT},
+      </if>
       <if test="hasSalary != null">
         #{hasSalary,jdbcType=BIT},
       </if>
@@ -301,23 +335,14 @@
       <if test="salary != null">
         #{salary,jdbcType=DECIMAL},
       </if>
-      <if test="normType != null">
-        #{normType,jdbcType=TINYINT},
-      </if>
-      <if test="normName != null">
-        #{normName,jdbcType=VARCHAR},
-      </if>
-      <if test="normDuePay != null">
-        #{normDuePay,jdbcType=DECIMAL},
-      </if>
       <if test="normId != null">
         #{normId,jdbcType=INTEGER},
       </if>
       <if test="normValueId != null">
         #{normValueId,jdbcType=INTEGER},
       </if>
-      <if test="normDisplayName != null">
-        #{normDisplayName,jdbcType=VARCHAR},
+      <if test="duePayReason != null">
+        #{duePayReason,jdbcType=VARCHAR},
       </if>
       <if test="duePay != null">
         #{duePay,jdbcType=DECIMAL},
@@ -375,6 +400,24 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.configMemberTypeId != null">
+        config_member_type_id = #{record.configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.configMemberTypeName != null">
+        config_member_type_name = #{record.configMemberTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.configMemberTypeNormId != null">
+        config_member_type_norm_id = #{record.configMemberTypeNormId,jdbcType=INTEGER},
+      </if>
+      <if test="record.configMemberTypeNormName != null">
+        config_member_type_norm_name = #{record.configMemberTypeNormName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.configMemberDuePay != null">
+        config_member_due_pay = #{record.configMemberDuePay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.needSetSalary != null">
+        need_set_salary = #{record.needSetSalary,jdbcType=BIT},
+      </if>
       <if test="record.hasSalary != null">
         has_salary = #{record.hasSalary,jdbcType=BIT},
       </if>
@@ -405,23 +448,14 @@
       <if test="record.salary != null">
         salary = #{record.salary,jdbcType=DECIMAL},
       </if>
-      <if test="record.normType != null">
-        norm_type = #{record.normType,jdbcType=TINYINT},
-      </if>
-      <if test="record.normName != null">
-        norm_name = #{record.normName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.normDuePay != null">
-        norm_due_pay = #{record.normDuePay,jdbcType=DECIMAL},
-      </if>
       <if test="record.normId != null">
         norm_id = #{record.normId,jdbcType=INTEGER},
       </if>
       <if test="record.normValueId != null">
         norm_value_id = #{record.normValueId,jdbcType=INTEGER},
       </if>
-      <if test="record.normDisplayName != null">
-        norm_display_name = #{record.normDisplayName,jdbcType=VARCHAR},
+      <if test="record.duePayReason != null">
+        due_pay_reason = #{record.duePayReason,jdbcType=VARCHAR},
       </if>
       <if test="record.duePay != null">
         due_pay = #{record.duePay,jdbcType=DECIMAL},
@@ -461,6 +495,12 @@
       party_id = #{record.partyId,jdbcType=INTEGER},
       branch_id = #{record.branchId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
+      config_member_type_id = #{record.configMemberTypeId,jdbcType=INTEGER},
+      config_member_type_name = #{record.configMemberTypeName,jdbcType=VARCHAR},
+      config_member_type_norm_id = #{record.configMemberTypeNormId,jdbcType=INTEGER},
+      config_member_type_norm_name = #{record.configMemberTypeNormName,jdbcType=VARCHAR},
+      config_member_due_pay = #{record.configMemberDuePay,jdbcType=DECIMAL},
+      need_set_salary = #{record.needSetSalary,jdbcType=BIT},
       has_salary = #{record.hasSalary,jdbcType=BIT},
       talent_title = #{record.talentTitle,jdbcType=VARCHAR},
       post_class = #{record.postClass,jdbcType=VARCHAR},
@@ -471,12 +511,9 @@
       authorized_type = #{record.authorizedType,jdbcType=VARCHAR},
       staff_type = #{record.staffType,jdbcType=VARCHAR},
       salary = #{record.salary,jdbcType=DECIMAL},
-      norm_type = #{record.normType,jdbcType=TINYINT},
-      norm_name = #{record.normName,jdbcType=VARCHAR},
-      norm_due_pay = #{record.normDuePay,jdbcType=DECIMAL},
       norm_id = #{record.normId,jdbcType=INTEGER},
       norm_value_id = #{record.normValueId,jdbcType=INTEGER},
-      norm_display_name = #{record.normDisplayName,jdbcType=VARCHAR},
+      due_pay_reason = #{record.duePayReason,jdbcType=VARCHAR},
       due_pay = #{record.duePay,jdbcType=DECIMAL},
       real_pay = #{record.realPay,jdbcType=DECIMAL},
       is_delay = #{record.isDelay,jdbcType=BIT},
@@ -510,6 +547,24 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="configMemberTypeId != null">
+        config_member_type_id = #{configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="configMemberTypeName != null">
+        config_member_type_name = #{configMemberTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="configMemberTypeNormId != null">
+        config_member_type_norm_id = #{configMemberTypeNormId,jdbcType=INTEGER},
+      </if>
+      <if test="configMemberTypeNormName != null">
+        config_member_type_norm_name = #{configMemberTypeNormName,jdbcType=VARCHAR},
+      </if>
+      <if test="configMemberDuePay != null">
+        config_member_due_pay = #{configMemberDuePay,jdbcType=DECIMAL},
+      </if>
+      <if test="needSetSalary != null">
+        need_set_salary = #{needSetSalary,jdbcType=BIT},
+      </if>
       <if test="hasSalary != null">
         has_salary = #{hasSalary,jdbcType=BIT},
       </if>
@@ -540,23 +595,14 @@
       <if test="salary != null">
         salary = #{salary,jdbcType=DECIMAL},
       </if>
-      <if test="normType != null">
-        norm_type = #{normType,jdbcType=TINYINT},
-      </if>
-      <if test="normName != null">
-        norm_name = #{normName,jdbcType=VARCHAR},
-      </if>
-      <if test="normDuePay != null">
-        norm_due_pay = #{normDuePay,jdbcType=DECIMAL},
-      </if>
       <if test="normId != null">
         norm_id = #{normId,jdbcType=INTEGER},
       </if>
       <if test="normValueId != null">
         norm_value_id = #{normValueId,jdbcType=INTEGER},
       </if>
-      <if test="normDisplayName != null">
-        norm_display_name = #{normDisplayName,jdbcType=VARCHAR},
+      <if test="duePayReason != null">
+        due_pay_reason = #{duePayReason,jdbcType=VARCHAR},
       </if>
       <if test="duePay != null">
         due_pay = #{duePay,jdbcType=DECIMAL},
@@ -593,6 +639,12 @@
       party_id = #{partyId,jdbcType=INTEGER},
       branch_id = #{branchId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      config_member_type_id = #{configMemberTypeId,jdbcType=INTEGER},
+      config_member_type_name = #{configMemberTypeName,jdbcType=VARCHAR},
+      config_member_type_norm_id = #{configMemberTypeNormId,jdbcType=INTEGER},
+      config_member_type_norm_name = #{configMemberTypeNormName,jdbcType=VARCHAR},
+      config_member_due_pay = #{configMemberDuePay,jdbcType=DECIMAL},
+      need_set_salary = #{needSetSalary,jdbcType=BIT},
       has_salary = #{hasSalary,jdbcType=BIT},
       talent_title = #{talentTitle,jdbcType=VARCHAR},
       post_class = #{postClass,jdbcType=VARCHAR},
@@ -603,12 +655,9 @@
       authorized_type = #{authorizedType,jdbcType=VARCHAR},
       staff_type = #{staffType,jdbcType=VARCHAR},
       salary = #{salary,jdbcType=DECIMAL},
-      norm_type = #{normType,jdbcType=TINYINT},
-      norm_name = #{normName,jdbcType=VARCHAR},
-      norm_due_pay = #{normDuePay,jdbcType=DECIMAL},
       norm_id = #{normId,jdbcType=INTEGER},
       norm_value_id = #{normValueId,jdbcType=INTEGER},
-      norm_display_name = #{normDisplayName,jdbcType=VARCHAR},
+      due_pay_reason = #{duePayReason,jdbcType=VARCHAR},
       due_pay = #{duePay,jdbcType=DECIMAL},
       real_pay = #{realPay,jdbcType=DECIMAL},
       is_delay = #{isDelay,jdbcType=BIT},

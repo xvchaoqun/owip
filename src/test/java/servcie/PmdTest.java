@@ -8,7 +8,6 @@ import domain.pmd.PmdNorm;
 import domain.pmd.PmdParty;
 import domain.pmd.PmdPartyExample;
 import org.apache.commons.lang.math.RandomUtils;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.common.CommonMapper;
 import persistence.common.IPmdMapper;
-import persistence.common.bean.PmdExcelReportBean;
 import persistence.pmd.PmdBranchMapper;
 import persistence.pmd.PmdMemberMapper;
 import persistence.pmd.PmdNormMapper;
@@ -25,12 +23,9 @@ import service.pmd.PmdBranchService;
 import service.pmd.PmdMonthService;
 import service.pmd.PmdPartyService;
 import service.pmd.PmdPayService;
+import service.pmd.PmdPayWszfService;
 import sys.utils.DateUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -52,6 +47,8 @@ public class PmdTest {
     PmdPartyMapper pmdPartyMapper;
     @Autowired
     PmdPayService pmdPayService;
+    @Autowired
+    PmdPayWszfService pmdWszfService;
     @Autowired
     CommonMapper commonMapper;
     @Autowired

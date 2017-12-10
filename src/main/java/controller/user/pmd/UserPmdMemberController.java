@@ -1,6 +1,7 @@
 package controller.user.pmd;
 
 import controller.PmdBaseController;
+import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
 import mixin.MixinUtils;
@@ -11,14 +12,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +37,50 @@ public class UserPmdMemberController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("userPmdMember:setSalary")
+    @RequestMapping("/pmdMember_setSalary")
+    public String pmdMember_setSalary(ModelMap modelMap) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+        modelMap.put("pmdConfigMember", pmdConfigMember);
+
+        if(BooleanUtils.isTrue(pmdConfigMember.getHasSetSalary())) {
+            modelMap.put("duePay", pmdConfigMemberService.calDuePay(pmdConfigMember));
+        }
+
+        return "user/pmd/pmdMember_setSalary";
+    }
+
+    // 计算应缴党费额度
+    @RequiresPermissions("userPmdMember:calDuePay")
+    @RequestMapping(value = "/pmdMember_calDuePay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_calDuePay(PmdConfigMember record, HttpServletRequest request) {
+
+        BigDecimal duePay = pmdConfigMemberService.calDuePay(record);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("duePay", duePay);
+
+        return resultMap;
+    }
+
+    // 保存应缴党费额度
+    @RequiresPermissions("userPmdMember:setSalary")
+    @RequestMapping(value = "/pmdMember_setSalary", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_setSalary(PmdConfigMember record, HttpServletRequest request) {
+
+        pmdConfigMemberService.setSalary(record);
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("userPmdMember:list")
     @RequestMapping("/pmdMember")
-    public String pmdMember() {
+    public String pmdMember(ModelMap modelmap) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        modelmap.put("canSetSalary", pmdConfigMemberService.canSetSalary(userId));
 
         return "user/pmd/pmdMember_page";
     }
