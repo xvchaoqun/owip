@@ -3,6 +3,7 @@ package controller.abroad;
 import controller.AbroadBaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
+import domain.abroad.PassportApplyExample;
 import domain.abroad.PassportApplyView;
 import domain.abroad.PassportApplyViewExample;
 import domain.cadre.CadreView;
@@ -20,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -227,6 +229,37 @@ public class PassportApplyController extends AbroadBaseController {
             passportApplyService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 修改应交时间
+    @RequiresPermissions("passportApply:edit")
+    @RequestMapping("/passportApply_update_expectDate")
+    public String passportApply_update_expectDate(int id, ModelMap modelMap) {
+
+        modelMap.put("passportApply", passportApplyMapper.selectByPrimaryKey(id));
+
+        return "abroad/passportApply/passportApply_update_expectDate";
+    }
+
+    @RequiresPermissions("passportApply:edit")
+    @RequestMapping(value = "/passportApply_update_expectDate", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_passportApply_update_expectDate(int id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectDate) {
+
+
+        PassportApply record = new PassportApply();
+        record.setExpectDate(expectDate);
+
+        PassportApplyExample example = new PassportApplyExample();
+        example.createCriteria().andIdEqualTo(id)
+                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
+                .andHandleDateIsNull().andAbolishEqualTo(false).andIsDeletedEqualTo(false);
+
+        passportApplyMapper.updateByExampleSelective(record, example);
+
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "修改应交时间：%s, %s", id, expectDate));
 
         return success(FormUtils.SUCCESS);
     }

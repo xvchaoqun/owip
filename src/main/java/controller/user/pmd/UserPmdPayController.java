@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PayFormCampusCardBean;
 import service.pmd.PayFormWszfBean;
-import service.pmd.PayNotifyCampusCardBean;
-import service.pmd.PayNotifyWszfBean;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
@@ -45,7 +42,7 @@ public class UserPmdPayController extends PmdBaseController {
         modelMap.put("pay_url", PropertiesUtils.getString("pay.wszf.url"));
 
         // test
-        PayNotifyWszfBean bean = new PayNotifyWszfBean();
+        /*PayNotifyWszfBean bean = new PayNotifyWszfBean();
         bean.setOrderDate(payFormBean.getOrderDate());
         bean.setOrderNo(payFormBean.getOrderNo());
         bean.setAmount(payFormBean.getAmount());
@@ -60,7 +57,7 @@ public class UserPmdPayController extends PmdBaseController {
                 "&tranStat=" + bean.getTranStat() +
                 "&return_type=" + bean.getReturn_type() +
                 "&sign=" + sign;
-        modelMap.put("ret", ret);
+        modelMap.put("ret", ret);*/
         // test
 
         return "user/pmd/payConfirm_wszf";
@@ -93,7 +90,7 @@ public class UserPmdPayController extends PmdBaseController {
         modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
 
         // test
-        PayNotifyCampusCardBean bean = new PayNotifyCampusCardBean();
+        /*PayNotifyCampusCardBean bean = new PayNotifyCampusCardBean();
         bean.setPaycode(payFormBean.getPaycode());
         bean.setPayitem("ZZBGZ001");
         bean.setPayer(payFormBean.getPayer());
@@ -113,7 +110,7 @@ public class UserPmdPayController extends PmdBaseController {
                 "&paid=" + bean.getPaid() +
                 "&paidtime=" + bean.getPaidtime() +
                 "&sign=" + sign;
-        modelMap.put("ret", ret);
+        modelMap.put("ret", ret);*/
         // test
 
         return "user/pmd/payConfirm_campuscard";

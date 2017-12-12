@@ -54,7 +54,7 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 支付中，已跳转至支付页面"
             class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
     <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="支付完成？">
-    <a href="${ctx}/pmd/pay/returnPage?${ret}" target="_blank">test成功</a>
+    <%--<a href="${ctx}/pmd/pay/returnPage?${ret}" target="_blank">test成功</a>--%>
 </div>
 
 <script>

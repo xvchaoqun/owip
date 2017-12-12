@@ -63,6 +63,11 @@ pageEncoding="UTF-8" %>
                                    data-msg="确定将这{0}个申请作废吗？">
                                     <i class="fa fa-recycle"></i> 作废
                                 </a>
+                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                   data-url="${ctx}/abroad/passportApply_update_expectDate"
+                                   data-grid-id="#jqGrid"
+                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                    修改应交日期</a>
                             </c:if>
                             <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT && status!=-1}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
