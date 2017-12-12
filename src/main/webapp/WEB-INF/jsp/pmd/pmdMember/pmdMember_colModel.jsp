@@ -50,6 +50,12 @@
       if(!rowObject.hasPay) return ''
       return cellvalue?"线上缴费":"现金缴费";
     }},
+    <c:if test="${param.type=='admin'}">
+    { label: '缴费订单号',name: '_orderNo', width: 120, formatter: function (cellvalue, options, rowObject) {
+      if(!rowObject.hasPay) return ''
+      return cellvalue?rowObject.orderNo:"-";
+    }},
+    </c:if>
     { label: '缴费日期',name: 'payTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
     { label: '收款人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return ''
