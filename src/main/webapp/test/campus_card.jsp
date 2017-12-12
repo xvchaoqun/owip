@@ -31,7 +31,7 @@
             bean.setPayername(uv.getRealname());
             bean.setSn(DateUtils.getCurrentDateTime("yyyyMMddHHmmss") + "-test");
             bean.setAmt(amount);
-            bean.setMacc("测试001");
+            bean.setMacc("");
             bean.setCommnet("党费收缴测试");
             bean.setSno_id_name(uv.getCode());
             String md5Str = keys + paycode + bean.getSn() +
