@@ -109,8 +109,6 @@ public class PmdPayCampusCardService extends BaseMapper {
     // 无论如何，都要保存服务器支付通知
     public void savePayNotifyBean(PayNotifyCampusCardBean bean) {
 
-        boolean verifySign = StringUtils.equalsIgnoreCase(bean.getSign(), verifySign(bean));
-
         PmdNotifyCampusCardLog record = new PmdNotifyCampusCardLog();
         try {
             record.setPaycode(bean.getPaycode());
@@ -122,7 +120,7 @@ public class PmdPayCampusCardService extends BaseMapper {
             record.setPaid(bean.getPaid());
             record.setPaidtime(bean.getPaidtime());
             record.setSign(StringUtils.trim(bean.getSign()));
-            record.setVerifySign(verifySign);
+            record.setVerifySign(verifySign(bean));
             record.setRetTime(new Date());
             record.setIp(ContextHelper.getRealIp());
         } catch (Exception ex) {
@@ -136,19 +134,31 @@ public class PmdPayCampusCardService extends BaseMapper {
     @Transactional
     public boolean notify(PayNotifyCampusCardBean bean) {
 
-        logger.info("bean.toString()=" + bean.toString());
         processPayCallbackBean(bean);
         return true;
     }
 
-    // （服务器通知）签名校验
-    public static String verifySign(PayNotifyCampusCardBean bean) {
+    public static String signMd5Str(PayNotifyCampusCardBean bean){
 
         String md5Str = keys + bean.getPaycode() + bean.getSn() +
                 bean.getAmt() + bean.getPayer() +
                 bean.getPaid() + bean.getPaidtime() + StringUtils.reverse(keys);
 
-        return MD5Util.md5Hex(md5Str, "utf-8");
+        return md5Str;
+    }
+
+    // （服务器通知）签名校验
+    public boolean verifySign(PayNotifyCampusCardBean bean) {
+
+        String md5Str = signMd5Str(bean);
+        String verifySign = MD5Util.md5Hex(md5Str, "utf-8");
+
+        boolean ret = StringUtils.equalsIgnoreCase(bean.getSign(), verifySign);
+        if(!ret){
+            logger.warn("签名校验失败，{}, md5Str={}, verifySign={}", bean.toString(), md5Str, verifySign);
+        }
+
+        return ret;
     }
 
     // 处理服务器支付结果通知
@@ -157,9 +167,8 @@ public class PmdPayCampusCardService extends BaseMapper {
 
         try {
 
-            boolean verifySign = StringUtils.equals(bean.getSign(), verifySign(bean));
             // 签名校验成功 且 确认交易成功
-            if (verifySign && StringUtils.equals(bean.getPaid(), "true")) {
+            if (verifySign(bean) && StringUtils.equals(bean.getPaid(), "true")) {
 
                 String orderNo = bean.getSn();
                 // 党员账单

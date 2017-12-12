@@ -103,7 +103,7 @@ public class UserPmdPayController extends PmdBaseController {
         bean.setPaid("true");
         bean.setPaidtime(DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
 
-        String sign = pmdPayCampusCardService.verifySign(bean);
+        String sign = pmdPayCampusCardService.signMd5Str(bean);
         String ret = "paycode=" + bean.getPaycode() +
                 "&payitem=" + bean.getPayitem() +
                 "&payer=" + bean.getPayer() +

@@ -58,7 +58,7 @@ select *  from cadre where status=1 and sort_order=410;
 自动生成代码步骤
 1、生成Mybatis文件，修改sort_order
 2、运行TplParser.execute
-3、修改Controller和Service错误，添加encache缓存
+3、修改Controller和Service错误，添加ehcache缓存
 4、修改页面
 
 服务器

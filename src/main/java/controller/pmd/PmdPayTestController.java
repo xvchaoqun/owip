@@ -29,7 +29,7 @@ import java.util.Map;
  * Created by lm on 2017/11/7.
  */
 @Controller
-@RequestMapping("/pmd/pay")
+//@RequestMapping("/pmd/pay")
 public class PmdPayTestController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -37,7 +37,7 @@ public class PmdPayTestController extends PmdBaseController {
     @Autowired
     private PmdTestService pmdTestService;
 
-    @RequestMapping("/step")
+    //@RequestMapping("/step")
     @ResponseBody
     public Map test(int step){
 
