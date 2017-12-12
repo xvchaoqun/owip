@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>申请办理证件</h3>
+    <h3>修改应交日期</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/abroad/passportApply_update_expectDate" id="modalForm" method="post">
