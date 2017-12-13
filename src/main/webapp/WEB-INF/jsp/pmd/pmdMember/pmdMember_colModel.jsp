@@ -47,12 +47,12 @@
     { label: '应交金额',name: 'duePay'},
     { label: '实交金额',name: 'realPay'},
     { label: '缴费方式',name: 'isOnlinePay', formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay) return ''
+      if(!rowObject.hasPay) return '-'
       return cellvalue?"线上缴费":"现金缴费";
     }},
     <c:if test="${param.type=='admin'}">
-    { label: '缴费订单号',name: '_orderNo', width: 120, formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay) return ''
+    { label: '缴费订单号',name: '_orderNo', width: 150, formatter: function (cellvalue, options, rowObject) {
+      if(!rowObject.hasPay || !rowObject.isOnlinePay) return '-'
       return $.trim(rowObject.orderNo);
     }},
     </c:if>
