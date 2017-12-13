@@ -2,8 +2,10 @@ package controller.user.pmd;
 
 import controller.PmdBaseController;
 import domain.pmd.PmdConfigMember;
+import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
+import domain.pmd.PmdNorm;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -44,6 +46,11 @@ public class UserPmdMemberController extends PmdBaseController {
         int userId = ShiroHelper.getCurrentUserId();
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
         modelMap.put("pmdConfigMember", pmdConfigMember);
+
+        PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(pmdConfigMember.getConfigMemberTypeId());
+        PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+
+        modelMap.put("pmdNorm", pmdNorm);
 
         if(BooleanUtils.isTrue(pmdConfigMember.getHasSetSalary())) {
             modelMap.put("duePay", pmdConfigMemberService.calDuePay(pmdConfigMember));

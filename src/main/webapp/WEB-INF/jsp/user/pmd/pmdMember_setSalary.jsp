@@ -12,106 +12,110 @@
             <tr>
                 <td>岗位工资</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="gwgz" value="${cm:stripTrailingZeros(pmdConfigMember.gwgz)}">
                 </td>
                 <td>薪级工资</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="xjgz" value="${cm:stripTrailingZeros(pmdConfigMember.xjgz)}">
                 </td>
             </tr>
             <tr>
                 <td>岗位津贴</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="gwjt" value="${cm:stripTrailingZeros(pmdConfigMember.gwjt)}">
                 </td>
                 <td>职务补贴</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="zwbt" value="${cm:stripTrailingZeros(pmdConfigMember.zwbt)}">
                 </td>
             </tr>
             <tr>
                 <td>职务补贴1</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="zwbt1" value="${cm:stripTrailingZeros(pmdConfigMember.zwbt1)}">
                 </td>
                 <td>生活补贴</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="shbt" value="${cm:stripTrailingZeros(pmdConfigMember.shbt)}">
                 </td>
             </tr>
             <tr>
                 <td>书报费</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="sbf" value="${cm:stripTrailingZeros(pmdConfigMember.sbf)}">
                 </td>
                 <td>洗理费</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="xlf" value="${cm:stripTrailingZeros(pmdConfigMember.xlf)}">
                 </td>
             </tr>
             <tr>
                 <td>工资冲销</td>
                 <td colspan="3">
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="gzcx" value="${cm:stripTrailingZeros(pmdConfigMember.gzcx)}">
                 </td>
             </tr>
             <tr>
                 <td>扣个人失业保险</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="shiyebx" value="${cm:stripTrailingZeros(pmdConfigMember.shiyebx)}">
                 </td>
                 <td>扣个人养老保险</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="yanglaobx" value="${cm:stripTrailingZeros(pmdConfigMember.yanglaobx)}">
                 </td>
             </tr>
+            <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_EXTERNAL}">
             <tr>
                 <td>扣医疗保险</td>
                 <td>
-                    <input class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="yiliaobx" value="${cm:stripTrailingZeros(pmdConfigMember.yiliaobx)}">
                 </td>
                 <td>扣工伤保险</td>
                 <td>
-                    <input class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="gsbx" value="${cm:stripTrailingZeros(pmdConfigMember.gsbx)}">
                 </td>
             </tr>
+
             <tr>
                 <td>扣生育保险</td>
                 <td>
-                    <input class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="shengyubx" value="${cm:stripTrailingZeros(pmdConfigMember.shengyubx)}">
                 </td>
                 <td>扣企业年金</td>
                 <td>
-                    <input class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="qynj" value="${cm:stripTrailingZeros(pmdConfigMember.qynj)}">
                 </td>
             </tr>
+            </c:if>
             <tr>
                 <td>扣个人职业年金</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="zynj" value="${cm:stripTrailingZeros(pmdConfigMember.zynj)}">
                 </td>
                 <td>扣住房公积金</td>
                 <td>
-                    <input required class="number" data-rule-min="0.01" maxlength="10"
+                    <input required class="number" maxlength="10"
                            type="text" name="gjj" value="${cm:stripTrailingZeros(pmdConfigMember.gjj)}">
                 </td>
             </tr>
+
             <tr class="due-pay">
                 <td>应缴纳党费额度</td>
                 <td colspan="2" style="text-align: center">

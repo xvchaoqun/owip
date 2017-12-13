@@ -10,6 +10,7 @@ truncate pmd_party;
 -- truncate pmd_party_admin;
 truncate pmd_pay_branch;
 truncate pmd_pay_party;
+truncate pmd_config_member;
 SET FOREIGN_KEY_CHECKS=1;
 ===
 
