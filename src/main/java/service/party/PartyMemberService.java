@@ -7,6 +7,7 @@ import domain.party.OrgAdmin;
 import domain.party.Party;
 import domain.party.PartyMember;
 import domain.party.PartyMemberExample;
+import domain.party.PartyMemberGroup;
 import domain.party.PartyMemberView;
 import domain.party.PartyMemberViewExample;
 import domain.sys.SysUserView;
@@ -59,13 +60,18 @@ public class PartyMemberService extends BaseMapper {
     @Autowired
     protected MemberService memberService;
     @Autowired
+    protected PartyMemberGroupService partyMemberGroupService;
+    @Autowired
     protected SysConfigService sysConfigService;
 
     // 获取现任分党委委员（拥有某种分工的）
     public List<PartyMemberView> getPartyMemberViews(int partyId,  int typeId){
 
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
+        if(presentGroup==null) return new ArrayList<>();
+
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andPartyIdEqualTo(partyId)
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId())
                 .andTypeIdsIn(Arrays.asList(typeId));
 
         return partyMemberViewMapper.selectByExample(example);
@@ -74,8 +80,11 @@ public class PartyMemberService extends BaseMapper {
     // 获取现任分党委委员（拥有某种分工的）
     public PartyMemberView getPartyMemberView(int partyId, int userId, int typeId){
 
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
+        if(presentGroup==null) return null;
+
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andPartyIdEqualTo(partyId).andUserIdEqualTo(userId)
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andUserIdEqualTo(userId)
                 .andTypeIdsIn(Arrays.asList(typeId));
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size()==0?null:records.get(0);
@@ -84,8 +93,11 @@ public class PartyMemberService extends BaseMapper {
     // 获取现任分党委委员
     public PartyMemberView getPartyMemberView(int partyId, int userId){
 
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
+        if(presentGroup==null) return null;
+
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andPartyIdEqualTo(partyId).andUserIdEqualTo(userId);
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andUserIdEqualTo(userId);
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size()==0?null:records.get(0);
@@ -94,10 +106,13 @@ public class PartyMemberService extends BaseMapper {
     // 获取现任分党委书记
     public PartyMemberView getPartySecretary(int partyId){
 
+        PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(partyId);
+        if(presentGroup==null) return null;
+
         MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
 
         PartyMemberViewExample example = new PartyMemberViewExample();
-        example.createCriteria().andPartyIdEqualTo(partyId).andPostIdEqualTo(partySecretaryType.getId());
+        example.createCriteria().andGroupIdEqualTo(presentGroup.getId()).andPostIdEqualTo(partySecretaryType.getId());
 
         List<PartyMemberView> records = partyMemberViewMapper.selectByExample(example);
         return records.size()==0?null:records.get(0);
