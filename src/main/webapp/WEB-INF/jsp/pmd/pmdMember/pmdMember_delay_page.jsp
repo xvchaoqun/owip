@@ -67,8 +67,10 @@
                 <div class="jqgrid-vertical-offset buttons">
                 <c:if test="${canAdmin && param.monthId==_pmdMonth.id}">
                     <button id="delayCashBtn" class="jqOpenViewBtn btn btn-success btn-sm"
-                            data-url="${ctx}/pmd/pmdMember_payCash" data-grid-id="#jqGrid2">
-                        <i class="fa fa-rmb"></i> 现金补缴
+                            data-url="${ctx}/user/pmd/payConfirm_campuscard"
+                            data-querystr="&isSelfPay=0"
+                            data-grid-id="#jqGrid2">
+                        <i class="fa fa-rmb"></i> 代缴党费
                     </button>
                 </c:if>
                 </div>
