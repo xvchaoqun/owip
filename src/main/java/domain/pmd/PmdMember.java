@@ -1,6 +1,7 @@
 package domain.pmd;
 
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import service.pmd.PmdMemberPayService;
 import sys.tags.CmTag;
 
@@ -24,6 +25,18 @@ public class PmdMember implements Serializable {
 
         PmdMemberPayService pmdMemberPayService = CmTag.getBean(PmdMemberPayService.class);
         return pmdMemberPayService.getPayStatus(id);
+    }
+
+    public String getOrderNo(){
+
+        if(BooleanUtils.isTrue(hasPay) && BooleanUtils.isTrue(isOnlinePay)){
+            PmdMemberPayService pmdMemberPayService = CmTag.getBean(PmdMemberPayService.class);
+            PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(id);
+            if(pmdMemberPayView!=null)
+                return pmdMemberPayView.getOrderNo();
+        }
+
+        return null;
     }
 
     private Integer id;
