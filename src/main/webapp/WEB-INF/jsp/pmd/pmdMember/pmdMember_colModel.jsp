@@ -53,7 +53,7 @@
     <c:if test="${param.type=='admin'}">
     { label: '缴费订单号',name: '_orderNo', width: 120, formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return ''
-      return cellvalue?rowObject.orderNo:"-";
+      return $.trim(rowObject.orderNo);
     }},
     </c:if>
     { label: '缴费日期',name: 'payTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
