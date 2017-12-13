@@ -200,6 +200,7 @@
 <c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_STUDENT%>" var="PMD_MEMBER_TYPE_STUDENT"/>
 <c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_MAP%>" var="PMD_MEMBER_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.PMD_FORMULA_TYPE_ONJOB%>" var="PMD_FORMULA_TYPE_ONJOB"/>
 <c:set value="<%=SystemConstants.PMD_FORMULA_TYPE_EXTERNAL%>" var="PMD_FORMULA_TYPE_EXTERNAL"/>
 
 <c:set value="<%=SystemConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>

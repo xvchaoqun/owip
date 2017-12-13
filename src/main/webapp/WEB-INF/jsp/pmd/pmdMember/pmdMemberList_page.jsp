@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
                  data-url-export="${ctx}/pmd/pmdMember_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.hasPay
-             || not empty param.isDelay || not empty param.isOnlinePay|| not empty param.partyId}"/>
+             || not empty param.isDelay || not empty param.isSelfPay|| not empty param.partyId}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -90,15 +90,15 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>缴费方式</label>
-                                <select data-rel="select2" name="isOnlinePay"
+                                <select data-rel="select2" name="isSelfPay"
                                         data-width="120"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <option value="0">现金缴费</option>
+                                    <option value="0">代缴党费</option>
                                     <option value="1">线上缴费</option>
                                 </select>
                                 <script>
-                                    $("#searchForm select[name=isOnlinePay]").val("${param.isOnlinePay}")
+                                    $("#searchForm select[name=isSelfPay]").val("${param.isSelfPay}")
                                 </script>
                             </div>
                             <div class="clearfix form-actions center">

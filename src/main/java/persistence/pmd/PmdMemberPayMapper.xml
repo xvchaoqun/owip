@@ -6,7 +6,7 @@
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="has_pay" jdbcType="BIT" property="hasPay" />
-    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
+    <result column="is_self_pay" jdbcType="BIT" property="isSelfPay" />
     <result column="pay_month_id" jdbcType="INTEGER" property="payMonthId" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
     <result column="charge_user_id" jdbcType="INTEGER" property="chargeUserId" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    member_id, order_no, real_pay, has_pay, is_online_pay, pay_month_id, pay_time, charge_user_id, 
+    member_id, order_no, real_pay, has_pay, is_self_pay, pay_month_id, pay_time, charge_user_id, 
     charge_party_id, charge_branch_id
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberPayExample" resultMap="BaseResultMap">
@@ -107,11 +107,11 @@
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdMemberPay">
     insert into pmd_member_pay (member_id, order_no, real_pay, 
-      has_pay, is_online_pay, pay_month_id, 
+      has_pay, is_self_pay, pay_month_id, 
       pay_time, charge_user_id, charge_party_id, 
       charge_branch_id)
     values (#{memberId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{realPay,jdbcType=DECIMAL}, 
-      #{hasPay,jdbcType=BIT}, #{isOnlinePay,jdbcType=BIT}, #{payMonthId,jdbcType=INTEGER}, 
+      #{hasPay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, #{payMonthId,jdbcType=INTEGER}, 
       #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER}, #{chargePartyId,jdbcType=INTEGER}, 
       #{chargeBranchId,jdbcType=INTEGER})
   </insert>
@@ -130,8 +130,8 @@
       <if test="hasPay != null">
         has_pay,
       </if>
-      <if test="isOnlinePay != null">
-        is_online_pay,
+      <if test="isSelfPay != null">
+        is_self_pay,
       </if>
       <if test="payMonthId != null">
         pay_month_id,
@@ -162,8 +162,8 @@
       <if test="hasPay != null">
         #{hasPay,jdbcType=BIT},
       </if>
-      <if test="isOnlinePay != null">
-        #{isOnlinePay,jdbcType=BIT},
+      <if test="isSelfPay != null">
+        #{isSelfPay,jdbcType=BIT},
       </if>
       <if test="payMonthId != null">
         #{payMonthId,jdbcType=INTEGER},
@@ -203,8 +203,8 @@
       <if test="record.hasPay != null">
         has_pay = #{record.hasPay,jdbcType=BIT},
       </if>
-      <if test="record.isOnlinePay != null">
-        is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
+      <if test="record.isSelfPay != null">
+        is_self_pay = #{record.isSelfPay,jdbcType=BIT},
       </if>
       <if test="record.payMonthId != null">
         pay_month_id = #{record.payMonthId,jdbcType=INTEGER},
@@ -232,7 +232,7 @@
       order_no = #{record.orderNo,jdbcType=VARCHAR},
       real_pay = #{record.realPay,jdbcType=DECIMAL},
       has_pay = #{record.hasPay,jdbcType=BIT},
-      is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
+      is_self_pay = #{record.isSelfPay,jdbcType=BIT},
       pay_month_id = #{record.payMonthId,jdbcType=INTEGER},
       pay_time = #{record.payTime,jdbcType=TIMESTAMP},
       charge_user_id = #{record.chargeUserId,jdbcType=INTEGER},
@@ -254,8 +254,8 @@
       <if test="hasPay != null">
         has_pay = #{hasPay,jdbcType=BIT},
       </if>
-      <if test="isOnlinePay != null">
-        is_online_pay = #{isOnlinePay,jdbcType=BIT},
+      <if test="isSelfPay != null">
+        is_self_pay = #{isSelfPay,jdbcType=BIT},
       </if>
       <if test="payMonthId != null">
         pay_month_id = #{payMonthId,jdbcType=INTEGER},
@@ -280,7 +280,7 @@
     set order_no = #{orderNo,jdbcType=VARCHAR},
       real_pay = #{realPay,jdbcType=DECIMAL},
       has_pay = #{hasPay,jdbcType=BIT},
-      is_online_pay = #{isOnlinePay,jdbcType=BIT},
+      is_self_pay = #{isSelfPay,jdbcType=BIT},
       pay_month_id = #{payMonthId,jdbcType=INTEGER},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       charge_user_id = #{chargeUserId,jdbcType=INTEGER},

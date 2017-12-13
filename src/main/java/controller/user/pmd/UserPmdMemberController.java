@@ -98,7 +98,7 @@ public class UserPmdMemberController extends PmdBaseController {
                                @DateTimeFormat(pattern = "yyyy-MM") Date payMonth,
                                Boolean hasPay,
                                Boolean isDelay,
-                               Boolean isOnlinePay,
+                               Boolean isSelfPay,
                             Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -128,8 +128,8 @@ public class UserPmdMemberController extends PmdBaseController {
             }
             criteria.andIsDelayEqualTo(isDelay);
         }
-        if (isOnlinePay != null) {
-            criteria.andIsOnlinePayEqualTo(isOnlinePay);
+        if (isSelfPay != null) {
+            criteria.andIsSelfPayEqualTo(isSelfPay);
         }
 
         long count = pmdMemberPayViewMapper.countByExample(example);

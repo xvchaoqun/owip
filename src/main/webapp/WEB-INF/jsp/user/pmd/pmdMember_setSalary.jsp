@@ -9,6 +9,7 @@
     <form class="form-horizontal" id="modalForm" method="post">
         <input name="isPreview" type="hidden" value="1">
         <table class="table table-bordered table-unhover">
+            <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_ONJOB}">
             <tr>
                 <td>岗位工资</td>
                 <td>
@@ -62,6 +63,7 @@
                 <td colspan="3">
                     <input required class="number" maxlength="10"
                            type="text" name="gzcx" value="${cm:stripTrailingZeros(pmdConfigMember.gzcx)}">
+                    <span style="font-size: 8px;">工资明细中工资冲销的负号“-”不要录入。</span>
                 </td>
             </tr>
             <tr>
@@ -76,33 +78,6 @@
                            type="text" name="yanglaobx" value="${cm:stripTrailingZeros(pmdConfigMember.yanglaobx)}">
                 </td>
             </tr>
-            <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_EXTERNAL}">
-            <tr>
-                <td>扣医疗保险</td>
-                <td>
-                    <input required class="number" maxlength="10"
-                           type="text" name="yiliaobx" value="${cm:stripTrailingZeros(pmdConfigMember.yiliaobx)}">
-                </td>
-                <td>扣工伤保险</td>
-                <td>
-                    <input required class="number" maxlength="10"
-                           type="text" name="gsbx" value="${cm:stripTrailingZeros(pmdConfigMember.gsbx)}">
-                </td>
-            </tr>
-
-            <tr>
-                <td>扣生育保险</td>
-                <td>
-                    <input required class="number" maxlength="10"
-                           type="text" name="shengyubx" value="${cm:stripTrailingZeros(pmdConfigMember.shengyubx)}">
-                </td>
-                <td>扣企业年金</td>
-                <td>
-                    <input required class="number" maxlength="10"
-                           type="text" name="qynj" value="${cm:stripTrailingZeros(pmdConfigMember.qynj)}">
-                </td>
-            </tr>
-            </c:if>
             <tr>
                 <td>扣个人职业年金</td>
                 <td>
@@ -115,7 +90,45 @@
                            type="text" name="gjj" value="${cm:stripTrailingZeros(pmdConfigMember.gjj)}">
                 </td>
             </tr>
-
+            </c:if>
+            <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_EXTERNAL}">
+            <tr>
+                <td>校聘工资</td>
+                <td>
+                    <input required class="number" maxlength="10"
+                           type="text" name="gwgz" value="${cm:stripTrailingZeros(pmdConfigMember.gwgz)}">
+                </td>
+                <td>岗位津贴</td>
+                <td>
+                    <input required class="number" maxlength="10"
+                           type="text" name="gwjt" value="${cm:stripTrailingZeros(pmdConfigMember.gwjt)}">
+                </td>
+            </tr>
+            <tr>
+                <td>扣个人失业保险</td>
+                <td>
+                    <input required class="number" maxlength="10"
+                           type="text" name="shiyebx" value="${cm:stripTrailingZeros(pmdConfigMember.shiyebx)}">
+                </td>
+                <td>扣个人养老保险</td>
+                <td>
+                    <input required class="number" maxlength="10"
+                           type="text" name="yanglaobx" value="${cm:stripTrailingZeros(pmdConfigMember.yanglaobx)}">
+                </td>
+            </tr>
+            <tr>
+                <td>扣个人医疗保险</td>
+                <td>
+                    <input required class="number" maxlength="10"
+                           type="text" name="yiliaobx" value="${cm:stripTrailingZeros(pmdConfigMember.yiliaobx)}">
+                </td>
+                <td>扣住房公积金</td>
+                <td>
+                    <input required class="number" maxlength="10"
+                           type="text" name="gjj" value="${cm:stripTrailingZeros(pmdConfigMember.gjj)}">
+                </td>
+            </tr>
+            </c:if>
             <tr class="due-pay">
                 <td>应缴纳党费额度</td>
                 <td colspan="2" style="text-align: center">

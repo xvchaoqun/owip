@@ -1,4 +1,14 @@
 
+2017-12-14
+ALTER TABLE `pmd_member`
+	CHANGE COLUMN `is_online_pay` `is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '缴费方式， 1 线上缴费、0 代缴党费' AFTER `has_pay`,
+	CHANGE COLUMN `charge_user_id` `charge_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '收款人，代缴党费时的操作人' AFTER `pay_time`;
+
+ALTER TABLE `pmd_member_pay`
+	CHANGE COLUMN `is_online_pay` `is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '缴费方式， 1 线上缴费、0 代缴党费' AFTER `has_pay`,
+	CHANGE COLUMN `charge_user_id` `charge_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '收款人，代缴党费时的操作人' AFTER `pay_time`;
+
+	更新 pmd_member_pay_view
 
 2017-12-10
 ALTER TABLE `pmd_norm`

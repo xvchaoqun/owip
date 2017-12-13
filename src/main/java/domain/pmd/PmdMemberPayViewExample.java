@@ -443,63 +443,63 @@ public class PmdMemberPayViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayIsNull() {
-            addCriterion("is_online_pay is null");
+        public Criteria andIsSelfPayIsNull() {
+            addCriterion("is_self_pay is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayIsNotNull() {
-            addCriterion("is_online_pay is not null");
+        public Criteria andIsSelfPayIsNotNull() {
+            addCriterion("is_self_pay is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayEqualTo(Boolean value) {
-            addCriterion("is_online_pay =", value, "isOnlinePay");
+        public Criteria andIsSelfPayEqualTo(Boolean value) {
+            addCriterion("is_self_pay =", value, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayNotEqualTo(Boolean value) {
-            addCriterion("is_online_pay <>", value, "isOnlinePay");
+        public Criteria andIsSelfPayNotEqualTo(Boolean value) {
+            addCriterion("is_self_pay <>", value, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayGreaterThan(Boolean value) {
-            addCriterion("is_online_pay >", value, "isOnlinePay");
+        public Criteria andIsSelfPayGreaterThan(Boolean value) {
+            addCriterion("is_self_pay >", value, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_online_pay >=", value, "isOnlinePay");
+        public Criteria andIsSelfPayGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_self_pay >=", value, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayLessThan(Boolean value) {
-            addCriterion("is_online_pay <", value, "isOnlinePay");
+        public Criteria andIsSelfPayLessThan(Boolean value) {
+            addCriterion("is_self_pay <", value, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_online_pay <=", value, "isOnlinePay");
+        public Criteria andIsSelfPayLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_self_pay <=", value, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayIn(List<Boolean> values) {
-            addCriterion("is_online_pay in", values, "isOnlinePay");
+        public Criteria andIsSelfPayIn(List<Boolean> values) {
+            addCriterion("is_self_pay in", values, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayNotIn(List<Boolean> values) {
-            addCriterion("is_online_pay not in", values, "isOnlinePay");
+        public Criteria andIsSelfPayNotIn(List<Boolean> values) {
+            addCriterion("is_self_pay not in", values, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_online_pay between", value1, value2, "isOnlinePay");
+        public Criteria andIsSelfPayBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_self_pay between", value1, value2, "isSelfPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsOnlinePayNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_online_pay not between", value1, value2, "isOnlinePay");
+        public Criteria andIsSelfPayNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_self_pay not between", value1, value2, "isSelfPay");
             return (Criteria) this;
         }
 

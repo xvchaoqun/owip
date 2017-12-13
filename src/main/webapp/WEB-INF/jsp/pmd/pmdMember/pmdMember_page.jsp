@@ -55,19 +55,19 @@
         </div>
         <div class="form-group">
             <label>缴费方式</label>
-            <select data-rel="select2" name="isOnlinePay"
+            <select data-rel="select2" name="isSelfPay"
                     data-width="120"
                     data-placeholder="请选择">
                 <option></option>
-                <option value="0">现金缴费</option>
+                <option value="0">代缴党费</option>
                 <option value="1">线上缴费</option>
             </select>
             <script>
-                $("#searchForm2 select[name=isOnlinePay]").val("${param.isOnlinePay}")
+                $("#searchForm2 select[name=isSelfPay]").val("${param.isSelfPay}")
             </script>
         </div>
         <c:set var="_query" value="${not empty param.userId ||not empty param.hasPay
-             || not empty param.isDelay || not empty param.isOnlinePay}"/>
+             || not empty param.isDelay || not empty param.isSelfPay}"/>
         <div class="form-group">
             <button type="button" data-url="${ctx}/pmd/pmdMember"
                     data-target="#item-content" data-form="#searchForm2"
@@ -117,9 +117,11 @@
                         </button>
 
                         <shiro:hasPermission name="pmdMember:payCash">
-                            <button id="payCashBtn" class="jqOpenViewBtn btn btn-success btn-sm"
-                                    data-url="${ctx}/pmd/pmdMember_payCash" data-grid-id="#jqGrid2">
-                                <i class="fa fa-rmb"></i> 现金缴费
+                            <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/user/pmd/payConfirm_campuscard"
+                                    data-querystr="&isSelfPay=0"
+                                    data-grid-id="#jqGrid2">
+                                <i class="fa fa-rmb"></i> 代缴党费
                             </button>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pmdMember:delay">
@@ -182,7 +184,7 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#payCashBtn,#delayBtn,#unDelayBtn,#notifyBtn").prop("disabled", true);
+            $("#helpPayBtn,#delayBtn,#unDelayBtn,#notifyBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
@@ -190,7 +192,7 @@
             var hasPay = (rowData.hasPay == "true");
             var notSetDuePay = (rowData.duePay==undefined || rowData.duePay <= 0);
             //console.log(rowData.configMemberTypeId)
-            $("#payCashBtn").prop("disabled", notSetDuePay || hasPay || (isCurrentMonth && isDelay));
+            $("#helpPayBtn").prop("disabled", notSetDuePay || hasPay || (isCurrentMonth && isDelay));
             $("#delayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
             $("#notifyBtn").prop("disabled", $.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);

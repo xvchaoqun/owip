@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>缴费信息确认</h3>
+    <h3>${param.isSelfPay==0?'代缴信息确认':'缴费信息确认'}</h3>
 </div>
 <div class="modal-body">
     <table class="table table-bordered table-unhover">
@@ -53,10 +53,11 @@
     </form>
 </div>
 <div class="modal-footer">
+    <div id="submitTip" style="text-indent: 2em;text-align: left;display: none">支付完成前，请不要关闭此支付验证窗口。支付完成后，请点击“查看支付结果”更新支付状态。</div>
     <button id="submitBtn" type="button"
-            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 支付中，已跳转至支付页面"
+            data-loading-text="支付中，已跳转至支付页面"
             class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
-    <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="支付完成？">
+    <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="查看支付结果">
     <%--<a href="${ctx}/pmd/pay/callback/campuscard?${ret}" target="_blank">test成功</a>--%>
 </div>
 
@@ -66,13 +67,13 @@
         $.ajax({
             type : "post",
             url : "${ctx}/user/pmd/payConfirm_campuscard",
-            data:{monthId:'${pmdMember.monthId}'},
+            data:{id:'${pmdMember.id}', isSelfPay:"${param.isSelfPay}"},
             async : false, // 同步方法
             dataType:"json",
             success : function(data){
                 if(data.success){
                     $this.button('loading').prop("disabled", true);
-                    $("#finishBtn").show();
+                    $("#submitTip,#finishBtn").show();
                     $("#payForm").submit();
                 }
             }
@@ -81,6 +82,7 @@
     $("#finishBtn").click(function () {
 
         $("#modal").modal('hide');
-        $("#jqGrid").trigger("reloadGrid");
+
+        $("#${param.isSelfPay==0?'jqGrid2':'jqGrid'}").trigger("reloadGrid");
     });
 </script>

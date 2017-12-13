@@ -321,7 +321,7 @@ public class PmdMemberService extends BaseMapper {
                 record.setDuePay(BigDecimal.ZERO);
                 record.setRealPay(BigDecimal.ZERO);
                 record.setHasPay(true);
-                record.setIsOnlinePay(false);
+                record.setIsSelfPay(false);
                 record.setPayTime(new Date());
                 record.setChargeUserId(currentUserId);
 
@@ -330,7 +330,7 @@ public class PmdMemberService extends BaseMapper {
                 _record.setMemberId(id);
                 _record.setHasPay(true);
                 _record.setRealPay(BigDecimal.ZERO);
-                _record.setIsOnlinePay(false);
+                _record.setIsSelfPay(false);
                 _record.setPayMonthId(currentMonthId);
                 _record.setChargePartyId(pmdMember.getPartyId());
                 _record.setChargeBranchId(pmdMember.getBranchId());

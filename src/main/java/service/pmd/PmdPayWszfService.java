@@ -207,7 +207,7 @@ public class PmdPayWszfService extends BaseMapper {
                                 record.setId(memberId);
                                 record.setHasPay(true);
                                 record.setRealPay(new BigDecimal(bean.getAmount()));
-                                record.setIsOnlinePay(true);
+                                record.setIsSelfPay(true);
                                 record.setPayTime(new Date());
 
                                 PmdMemberExample example = new PmdMemberExample();
@@ -221,7 +221,7 @@ public class PmdPayWszfService extends BaseMapper {
                             record.setMemberId(memberId);
                             record.setHasPay(true);
                             record.setRealPay(new BigDecimal(bean.getAmount()));
-                            record.setIsOnlinePay(true);
+                            record.setIsSelfPay(true);
                             record.setPayMonthId(payMonthId);
                             // 把党员生成订单时所在党委、支部，设置为缴费的单位
                             int userId = pmdMemberPayView.getUserId();

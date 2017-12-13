@@ -7,7 +7,7 @@
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="has_pay" jdbcType="BIT" property="hasPay" />
-    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
+    <result column="is_self_pay" jdbcType="BIT" property="isSelfPay" />
     <result column="pay_month_id" jdbcType="INTEGER" property="payMonthId" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
     <result column="charge_user_id" jdbcType="INTEGER" property="chargeUserId" />
@@ -53,7 +53,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, order_no, real_pay, has_pay, is_online_pay, pay_month_id, pay_time, 
+    id, member_id, order_no, real_pay, has_pay, is_self_pay, pay_month_id, pay_time, 
     charge_user_id, charge_party_id, charge_branch_id, pay_month, month_id, is_delay, 
     delay_reason, user_id, party_id, branch_id, type, due_pay
   </sql>

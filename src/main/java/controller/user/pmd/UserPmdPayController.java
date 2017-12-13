@@ -2,6 +2,8 @@ package controller.user.pmd;
 
 import controller.PmdBaseController;
 import domain.pmd.PmdMember;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PayFormCampusCardBean;
 import service.pmd.PayFormWszfBean;
@@ -18,7 +21,10 @@ import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user/pmd")
@@ -74,17 +80,56 @@ public class UserPmdPayController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 校园卡
-    @RequiresPermissions("userPmdMember:payConfirm")
-    @RequestMapping("/payConfirm_campuscard")
-    public String payConfirm_campuscard(int monthId, ModelMap modelMap) {
+    private PmdMember checkPayAuth(int pmdMemberId, boolean isSelfPay){
+
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
 
         int userId = ShiroHelper.getCurrentUserId();
+        if(isSelfPay){ // 本人线上缴费
 
-        PmdMember pmdMember = pmdMemberService.get(monthId, userId);
+            SecurityUtils.getSubject().checkPermission("userPmdMember:payConfirm");
+
+            if(pmdMember.getUserId()!=userId){
+                throw new UnauthorizedException();
+            }
+        }else{
+            // 代缴（只允许支部管理员或直属支部管理员进行代缴）
+            Integer partyId = pmdMember.getPartyId();
+            Integer branchId = pmdMember.getBranchId();
+
+            if(partyService.isDirectBranch(partyId)){
+
+                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+                Set<Integer> adminPartyIdSet = new HashSet<>();
+                adminPartyIdSet.addAll(adminPartyIds);
+
+                if(!adminPartyIdSet.contains(partyId)){
+                    throw new UnauthorizedException();
+                }
+            }else{
+                List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+                Set<Integer> adminBranchIdSet = new HashSet<>();
+                adminBranchIdSet.addAll(adminBranchIds);
+                if (!adminBranchIdSet.contains(branchId)){
+                    throw new UnauthorizedException();
+                }
+            }
+        }
+
+        return pmdMember;
+    }
+
+    // 校园卡
+    //@RequiresPermissions("userPmdMember:payConfirm")
+    @RequestMapping("/payConfirm_campuscard")
+    public String payConfirm_campuscard(int id,
+                                        @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay,
+                                        ModelMap modelMap) {
+
+        PmdMember pmdMember = checkPayAuth(id, isSelfPay);
         modelMap.put("pmdMember", pmdMember);
 
-        PayFormCampusCardBean payFormBean = pmdPayCampusCardService.createPayFormBean(pmdMember.getId());
+        PayFormCampusCardBean payFormBean = pmdPayCampusCardService.createPayFormBean(id, isSelfPay);
         modelMap.put("payFormBean", payFormBean);
 
         modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
@@ -100,7 +145,7 @@ public class UserPmdPayController extends PmdBaseController {
         bean.setPaid("true");
         bean.setPaidtime(DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
 
-        String sign = pmdPayCampusCardService.signMd5Str(bean);
+        String sign =  MD5Util.md5Hex(pmdPayCampusCardService.signMd5Str(bean), "utf-8");
         String ret = "paycode=" + bean.getPaycode() +
                 "&payitem=" + bean.getPayitem() +
                 "&payer=" + bean.getPayer() +
@@ -116,12 +161,15 @@ public class UserPmdPayController extends PmdBaseController {
         return "user/pmd/payConfirm_campuscard";
     }
 
-    @RequiresPermissions("userPmdMember:payConfirm")
+    //@RequiresPermissions("userPmdMember:payConfirm")
     @RequestMapping(value = "/payConfirm_campuscard", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_payConfirm_campuscard(int monthId) {
+    public Map do_payConfirm_campuscard(int id,
+                                        @RequestParam(required = false, defaultValue = "1")Boolean isSelfPay) {
 
-        PayFormCampusCardBean payFormBean = pmdPayCampusCardService.payConfirm(monthId);
+        checkPayAuth(id, isSelfPay);
+
+        PayFormCampusCardBean payFormBean = pmdPayCampusCardService.payConfirm(id, isSelfPay);
         logger.info(addLog(SystemConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(payFormBean, false)));
 

@@ -96,7 +96,7 @@ public class PmdPayService extends BaseMapper {
             record.setId(memberId);
             record.setHasPay(true);
             record.setRealPay(realPay);
-            record.setIsOnlinePay(false);
+            record.setIsSelfPay(false);
             record.setPayTime(new Date());
             record.setChargeUserId(ShiroHelper.getCurrentUserId());
 
@@ -112,7 +112,7 @@ public class PmdPayService extends BaseMapper {
         record.setMemberId(memberId);
         record.setHasPay(true);
         record.setRealPay(realPay);
-        record.setIsOnlinePay(false);
+        record.setIsSelfPay(false);
         record.setPayMonthId(currentMonthId);
 
         // 当前所在的单位快照

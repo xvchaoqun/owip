@@ -47,19 +47,19 @@
     </div>
     <div class="form-group">
       <label>缴费方式</label>
-      <select data-rel="select2" name="isOnlinePay"
+      <select data-rel="select2" name="isSelfPay"
               data-width="120"
               data-placeholder="请选择">
         <option></option>
-        <option value="0">现金缴费</option>
+        <option value="0">代缴党费</option>
         <option value="1">线上缴费</option>
       </select>
       <script>
-        $("#searchForm_popup select[name=isOnlinePay]").val("${param.isOnlinePay}")
+        $("#searchForm_popup select[name=isSelfPay]").val("${param.isSelfPay}")
       </script>
     </div>
     <c:set var="_query" value="${not empty param.userId ||not empty param.hasPay
-             || not empty param.isDelay || not empty param.isOnlinePay}"/>
+             || not empty param.isDelay || not empty param.isSelfPay}"/>
     <div  class="form-group">
       <button type="button" data-url="${ctx}/pmd/pmdMember"
               data-target="#modal .modal-content" data-form="#searchForm_popup"

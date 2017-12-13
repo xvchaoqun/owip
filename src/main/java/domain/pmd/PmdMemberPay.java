@@ -13,7 +13,7 @@ public class PmdMemberPay implements Serializable {
 
     private Boolean hasPay;
 
-    private Boolean isOnlinePay;
+    private Boolean isSelfPay;
 
     private Integer payMonthId;
 
@@ -59,12 +59,12 @@ public class PmdMemberPay implements Serializable {
         this.hasPay = hasPay;
     }
 
-    public Boolean getIsOnlinePay() {
-        return isOnlinePay;
+    public Boolean getIsSelfPay() {
+        return isSelfPay;
     }
 
-    public void setIsOnlinePay(Boolean isOnlinePay) {
-        this.isOnlinePay = isOnlinePay;
+    public void setIsSelfPay(Boolean isSelfPay) {
+        this.isSelfPay = isSelfPay;
     }
 
     public Integer getPayMonthId() {

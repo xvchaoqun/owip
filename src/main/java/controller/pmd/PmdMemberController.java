@@ -108,7 +108,7 @@ public class PmdMemberController extends PmdBaseController {
                                Byte type,
                                Boolean hasPay,
                                Boolean isDelay,
-                               Boolean isOnlinePay,
+                               Boolean isSelfPay,
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -183,8 +183,8 @@ public class PmdMemberController extends PmdBaseController {
             }
             criteria.andIsDelayEqualTo(isDelay);
         }
-        if (isOnlinePay != null) {
-            criteria.andIsOnlinePayEqualTo(isOnlinePay);
+        if (isSelfPay != null) {
+            criteria.andIsSelfPayEqualTo(isSelfPay);
         }
 
         long count = pmdMemberMapper.countByExample(example);
@@ -276,7 +276,7 @@ public class PmdMemberController extends PmdBaseController {
     }
 
     // 现金支付
-    @RequiresPermissions("pmdMember:payCash")
+   /* @RequiresPermissions("pmdMember:payCash")
     @RequestMapping(value = "/pmdMember_payCash", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_payCash(int id, HttpServletRequest request) {
@@ -292,7 +292,7 @@ public class PmdMemberController extends PmdBaseController {
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
         modelMap.put("pmdMember", pmdMember);
         return "pmd/pmdMember/pmdMember_payCash";
-    }
+    }*/
 
     // 延迟缴费
     @RequiresPermissions("pmdMember:delay")

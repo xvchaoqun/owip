@@ -8,8 +8,8 @@
       // 能缴费的情况：已开启缴费 且 党支部未报送  且 还未缴费  且 当月的没有设置为延迟缴费
       if(rowObject.payStatus==0) return '-';
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
-              'data-url="${ctx}/user/pmd/payConfirm_campuscard?monthId={0}"><i class="fa fa-rmb"></i> {1}</button>')
-              .format(rowObject.monthId, rowObject.payStatus==1?'缴费':'补缴');
+              'data-url="${ctx}/user/pmd/payConfirm_campuscard?id={0}"><i class="fa fa-rmb"></i> {1}</button>')
+              .format(rowObject.id, rowObject.payStatus==1?'缴费':'补缴');
     }, frozen: true},
     </c:if>
     { label: '缴费状态',name: '_hasPay', formatter: function (cellvalue, options, rowObject) {
@@ -21,13 +21,10 @@
       if(rowObject.isDelay) return '延迟缴费'
       return (rowObject.hasPay)?"按时缴费":"-";
     }, frozen: true},
-    { label: '工作证号',name: 'user.code', width: 120, frozen: true},
-    { label: '姓名',name: 'user.realname', frozen: true, /*cellattr: function (rowId, val, rowObject, cm, rdata) {
-      if(rowObject.configMemberTypeId==undefined)
-      return "class='danger'";
-    },*/ formatter:function(cellvalue, options, rowObject){
+    { label: '工作证号',name: 'user.code', width: 120/*, formatter:function(cellvalue, options, rowObject){
       return (rowObject.configMemberTypeId==undefined)?'<span class="text-danger">'+cellvalue+'</span>':cellvalue;
-    }},
+    }*/,frozen: true},
+    { label: '姓名',name: 'user.realname', frozen: true},
     <c:if test="${cls!=3}">
     { label: '所在党委',name: 'partyId', width: 350, align:'left', formatter:function(cellvalue, options, rowObject){
       return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
@@ -42,24 +39,27 @@
       return _cMap.PMD_MEMBER_TYPE_MAP[rowObject.type];
     }},
     <c:if test="${param.type=='admin'}">
-    { label: '党费计算标准',name: 'duePayReason', width: 150},
+    { label: '党费计算标准',name: 'duePayReason', width: 150, cellattr: function (rowId, val, rowObject, cm, rdata) {
+      if(rowObject.configMemberTypeId==undefined)
+        return "class='danger'";
+    }},
     </c:if>
     { label: '应交金额',name: 'duePay'},
     { label: '实交金额',name: 'realPay'},
-    { label: '缴费方式',name: 'isOnlinePay', formatter: function (cellvalue, options, rowObject) {
+    { label: '缴费方式',name: 'isSelfPay', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return '-'
-      return cellvalue?"线上缴费":"现金缴费";
+      return cellvalue?"线上缴费":"代缴党费";
     }},
     <c:if test="${param.type=='admin'}">
-    { label: '缴费订单号',name: '_orderNo', width: 150, formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay || !rowObject.isOnlinePay) return '-'
+    { label: '缴费订单号',name: '_orderNo', width: 160, formatter: function (cellvalue, options, rowObject) {
+      if(!rowObject.hasPay) return '-'
       return $.trim(rowObject.orderNo);
     }},
     </c:if>
     { label: '缴费日期',name: 'payTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
     { label: '收款人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return ''
-      if(rowObject.isOnlinePay) return '-'
+      if(rowObject.isSelfPay) return '-'
       return $.trim(cellvalue);
     }},
     { label: '备注',name: 'delayReason', width: 400, formatter: function (cellvalue, options, rowObject) {
