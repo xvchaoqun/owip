@@ -44,10 +44,10 @@ public class PmdMemberController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("pmdMember:list")
+    //@RequiresPermissions("pmdMember:list")
     @RequestMapping("/pmdMember")
     public String pmdMember(
-            // 1 支部访问 2 直属支部访问 3 党委访问  4 支部或直属支部 访问补缴列表 5 全校缴费列表
+            // 1 支部访问 2 直属支部访问 3 党委访问  4 支部或直属支部 访问补缴列表 5 全校缴费列表 6 党费代缴列表
             @RequestParam(required = false, defaultValue = "1") Byte cls,
             Integer userId,
             Integer partyId,
@@ -57,7 +57,9 @@ public class PmdMemberController extends PmdBaseController {
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
         }
-
+        if(cls!=6){
+            SecurityUtils.getSubject().checkPermission("pmdMember:list");
+        }
         if (cls == 5) {
             SecurityUtils.getSubject().checkPermission("pmdMember:allList");
             if (partyId != null)
@@ -65,12 +67,14 @@ public class PmdMemberController extends PmdBaseController {
             if (branchId != null)
                 modelMap.put("branch", branchService.findAll().get(branchId));
             return "pmd/pmdMember/pmdMemberList_page";
-        }
-
-        if (cls == 3) {
+        }else if (cls == 3) {
             // 分党委管理员（不包含直属党支部）访问，弹出框
             modelMap.put("branch", branchService.findAll().get(branchId));
             return "pmd/pmdMember/pmdMember_party_page";
+        }else if(cls==6){
+            // 党费代缴列表
+            SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
+            return "pmd/pmdMember/pmdMemberHelpPayList_page";
         }
 
         // 判断当前管理员是否允许操作
@@ -97,7 +101,7 @@ public class PmdMemberController extends PmdBaseController {
         return "pmd/pmdMember/pmdMember_page";
     }
 
-    @RequiresPermissions("pmdMember:list")
+    //@RequiresPermissions("pmdMember:list")
     @RequestMapping("/pmdMember_data")
     public void pmdMember_data(HttpServletResponse response,
                                @RequestParam(required = false, defaultValue = "1") Byte cls,
@@ -110,6 +114,10 @@ public class PmdMemberController extends PmdBaseController {
                                Boolean isDelay,
                                Boolean isSelfPay,
                                Integer pageSize, Integer pageNo) throws IOException {
+
+        if(cls!=6){
+            SecurityUtils.getSubject().checkPermission("pmdMember:list");
+        }
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -154,6 +162,10 @@ public class PmdMemberController extends PmdBaseController {
             }
         } else if(cls==5){
             SecurityUtils.getSubject().checkPermission("pmdMember:allList");
+        }else if(cls==6){
+            // 党费代缴列表
+            SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
+            criteria.andChargeUserIdEqualTo(ShiroHelper.getCurrentUserId());
         }else {
             criteria.andIdIsNull();
         }

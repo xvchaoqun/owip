@@ -2,7 +2,9 @@ package controller.user.pmd;
 
 import controller.PmdBaseController;
 import controller.global.OpException;
+import domain.member.Member;
 import domain.pmd.PmdMember;
+import domain.pmd.PmdMonth;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -81,9 +83,13 @@ public class UserPmdPayController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 缴费原则：本人或代缴（支部成员或支部管理员）
+    // （应该判断当月缴费所在的支部，因为用户可能延迟缴费之后进行了组织关系转接）
     private PmdMember checkPayAuth(int pmdMemberId, boolean isSelfPay){
 
-        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+        PmdMember _pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), _pmdMember.getUserId());
 
         int userId = ShiroHelper.getCurrentUserId();
         if(isSelfPay){ // 本人线上缴费
@@ -95,27 +101,37 @@ public class UserPmdPayController extends PmdBaseController {
             }
         }else{
             if(userId==pmdMember.getUserId()){
-                throw new OpException("参数有误");
+                throw new OpException("不允许给本人代缴");
             }
             // 代缴（只允许支部管理员或直属支部管理员进行代缴）
             Integer partyId = pmdMember.getPartyId();
             Integer branchId = pmdMember.getBranchId();
 
+            Member member = memberService.get(userId);
+
             if(partyService.isDirectBranch(partyId)){
 
-                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-                Set<Integer> adminPartyIdSet = new HashSet<>();
-                adminPartyIdSet.addAll(adminPartyIds);
+                if(member==null || member.getPartyId().intValue()!=partyId) {
 
-                if(!adminPartyIdSet.contains(partyId)){
-                    throw new UnauthorizedException();
+                    List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+                    Set<Integer> adminPartyIdSet = new HashSet<>();
+                    adminPartyIdSet.addAll(adminPartyIds);
+
+                    if (!adminPartyIdSet.contains(partyId)) {
+                        throw new UnauthorizedException();
+                    }
                 }
             }else{
-                List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
-                Set<Integer> adminBranchIdSet = new HashSet<>();
-                adminBranchIdSet.addAll(adminBranchIds);
-                if (!adminBranchIdSet.contains(branchId)){
-                    throw new UnauthorizedException();
+
+                if(member==null || member.getPartyId().intValue()!=partyId
+                        || member.getBranchId().intValue()!=branchId) {
+
+                    List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+                    Set<Integer> adminBranchIdSet = new HashSet<>();
+                    adminBranchIdSet.addAll(adminBranchIds);
+                    if (!adminBranchIdSet.contains(branchId)) {
+                        throw new UnauthorizedException();
+                    }
                 }
             }
         }

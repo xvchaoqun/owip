@@ -12,10 +12,10 @@ pageEncoding="UTF-8" %>
              || not empty param.code || not empty param.sort}"/>
 
             <div class="jqgrid-vertical-offset buttons">
-               <%-- <a class="popupBtn btn btn-warning btn-sm"
+                <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
                    data-url="${ctx}/hf_content?code=${HF_PMD_MEMBER}">
-                    <i class="fa fa-info-circle"></i> 操作说明</a>--%>
+                    <i class="fa fa-info-circle"></i> 使用说明</a>
 
                 <c:if test="${canSetSalary}">
                 <a class="popupBtn btn btn-success btn-sm"

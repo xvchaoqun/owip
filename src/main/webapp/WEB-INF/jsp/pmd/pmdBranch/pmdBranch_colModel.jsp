@@ -43,12 +43,12 @@
     { label: '本月实缴纳<br/>党费数',name: 'realPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realPay;
     }},
-    { label: '本月线上<br/>缴纳党费数',name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
+   /* { label: '本月线上<br/>缴纳党费数',name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealPay;
     }},
     { label: '本月现金<br/>缴纳党费数',name: 'cashRealPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealPay;
-    }},
+    }},*/
     { label: '本月未缴纳<br/>党费数',name: 'delayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.delayPay;
     }},
@@ -62,12 +62,12 @@
     }},
     { label: '实补缴<br/>往月党费数',name: 'realDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realDelayPay;
-    }},
+    }}/*,
     { label: '线上补缴<br/>往月党费数',name: 'onlineRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealDelayPay;
     }},
     { label: '现金补缴<br/>往月党费数',name: 'cashRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealDelayPay;
-    }}
+    }}*/
   ]
 </script>

@@ -93,7 +93,9 @@
     $("#finishBtn").click(function () {
 
         $("#modal").modal('hide');
-
+        <c:if test="${param.isMemberHelpPay==1}">
+        $.hideView();
+        </c:if>
         $("#${param.isSelfPay==0?'jqGrid2':'jqGrid'}").trigger("reloadGrid");
     });
 </script>

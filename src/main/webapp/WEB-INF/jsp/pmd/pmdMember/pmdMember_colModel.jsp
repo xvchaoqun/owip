@@ -57,7 +57,7 @@
     }},
     </c:if>
     { label: '缴费日期',name: 'payTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-    { label: '收款人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
+    { label: '代缴人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return ''
       if(rowObject.isSelfPay) return '-'
       return $.trim(cellvalue);
