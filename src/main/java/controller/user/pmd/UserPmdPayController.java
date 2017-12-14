@@ -1,6 +1,7 @@
 package controller.user.pmd;
 
 import controller.PmdBaseController;
+import controller.global.OpException;
 import domain.pmd.PmdMember;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -93,6 +94,9 @@ public class UserPmdPayController extends PmdBaseController {
                 throw new UnauthorizedException();
             }
         }else{
+            if(userId==pmdMember.getUserId()){
+                throw new OpException("参数有误");
+            }
             // 代缴（只允许支部管理员或直属支部管理员进行代缴）
             Integer partyId = pmdMember.getPartyId();
             Integer branchId = pmdMember.getBranchId();

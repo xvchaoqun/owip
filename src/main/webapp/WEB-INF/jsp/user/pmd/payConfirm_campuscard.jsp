@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <button id="closeBtn" type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>${param.isSelfPay==0?'代缴信息确认':'缴费信息确认'}</h3>
 </div>
 <div class="modal-body">
@@ -53,14 +53,24 @@
     </form>
 </div>
 <div class="modal-footer">
-    <div id="submitTip" style="text-indent: 2em;text-align: left;display: none">支付完成前，请不要关闭此支付验证窗口。支付完成后，请点击“查看支付结果”更新支付状态。</div>
+    <div id="submitTip">支付完成前，请不要关闭此支付验证窗口。支付完成后，请点击“查看支付结果”更新支付状态。</div>
     <button id="submitBtn" type="button"
             data-loading-text="支付中，已跳转至支付页面"
             class="btn btn-primary"><i class="fa fa-mail-forward"></i> 去支付</button>
     <input id="finishBtn" style="display: none" type="button" class="btn btn-success" value="查看支付结果">
     <%--<a href="${ctx}/pmd/pay/callback/campuscard?${ret}" target="_blank">test成功</a>--%>
 </div>
-
+<style>
+    #submitTip{
+        text-indent: 2em;
+        text-align: left;
+        display: none;
+        font-size: 18px;
+        font-weight: bolder;
+        margin-bottom: 5px;
+        color: darkred;
+    }
+</style>
 <script>
     $("#submitBtn").click(function () {
         var $this = $(this);
@@ -74,6 +84,7 @@
                 if(data.success){
                     $this.button('loading').prop("disabled", true);
                     $("#submitTip,#finishBtn").show();
+                    $("#closeBtn").hide();
                     $("#payForm").submit();
                 }
             }
