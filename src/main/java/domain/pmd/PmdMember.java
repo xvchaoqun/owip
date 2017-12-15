@@ -1,7 +1,7 @@
 package domain.pmd;
 
 import domain.sys.SysUserView;
-import org.apache.commons.lang3.BooleanUtils;
+import persistence.pmd.PmdConfigMemberMapper;
 import service.pmd.PmdMemberPayService;
 import sys.tags.CmTag;
 
@@ -27,16 +27,16 @@ public class PmdMember implements Serializable {
         return pmdMemberPayService.getPayStatus(id);
     }
 
-    public String getOrderNo(){
+    public PmdMemberPayView getPmdMemberPayView(){
 
-        if(BooleanUtils.isTrue(hasPay)){
-            PmdMemberPayService pmdMemberPayService = CmTag.getBean(PmdMemberPayService.class);
-            PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(id);
-            if(pmdMemberPayView!=null)
-                return pmdMemberPayView.getOrderNo();
-        }
+        PmdMemberPayService pmdMemberPayService = CmTag.getBean(PmdMemberPayService.class);
+        return pmdMemberPayService.get(id);
+    }
 
-        return null;
+    public PmdConfigMember getPmdConfigMember(){
+
+        PmdConfigMemberMapper pmdConfigMemberMapper = CmTag.getBean(PmdConfigMemberMapper.class);
+        return pmdConfigMemberMapper.selectByPrimaryKey(userId);
     }
 
     private Integer id;

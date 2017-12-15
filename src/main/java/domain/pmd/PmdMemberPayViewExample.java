@@ -323,6 +323,66 @@ public class PmdMemberPayViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andOrderUserIdIsNull() {
+            addCriterion("order_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdIsNotNull() {
+            addCriterion("order_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdEqualTo(Integer value) {
+            addCriterion("order_user_id =", value, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdNotEqualTo(Integer value) {
+            addCriterion("order_user_id <>", value, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdGreaterThan(Integer value) {
+            addCriterion("order_user_id >", value, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("order_user_id >=", value, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdLessThan(Integer value) {
+            addCriterion("order_user_id <", value, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("order_user_id <=", value, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdIn(List<Integer> values) {
+            addCriterion("order_user_id in", values, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdNotIn(List<Integer> values) {
+            addCriterion("order_user_id not in", values, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("order_user_id between", value1, value2, "orderUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("order_user_id not between", value1, value2, "orderUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andRealPayIsNull() {
             addCriterion("real_pay is null");
             return (Criteria) this;

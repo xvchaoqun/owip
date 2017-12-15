@@ -116,6 +116,14 @@
                             <i class="fa fa-minus-circle"></i> 党费减免
                         </button>
 
+                        <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                           data-width="600"
+                           data-url="${ctx}/user/pmd/pmdMember_setSalary"
+                           data-grid-id="#jqGrid2"
+                           data-querystr="&isSelf=0"
+                           data-id-name="pmdMemberId">
+                            <i class="fa fa-rmb"></i> 代计算党费应交额</button>
+
                         <shiro:hasPermission name="pmdMember:payCash">
                             <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                                     data-url="${ctx}/user/pmd/payConfirm_campuscard"
@@ -184,7 +192,7 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#helpPayBtn,#delayBtn,#unDelayBtn,#notifyBtn").prop("disabled", true);
+            $("#helpPayBtn,#delayBtn,#unDelayBtn,#notifyBtn,#helpSetSalaryBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
@@ -196,6 +204,11 @@
             $("#delayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
             $("#notifyBtn").prop("disabled", $.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
+            //console.log(rowData.isSelfSetSalary)
+            //console.log("formulaType="+rowData.formulaType)
+            $("#helpSetSalaryBtn").prop("disabled",
+                    (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}&&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}) ||
+                    rowData.isSelfSetSalary=="1" || hasPay || !isCurrentMonth || isDelay);
         }
 
         var configMemberType; // 选择的党员类别（设定党员分类别时的url参数，此时要求是同一类别）

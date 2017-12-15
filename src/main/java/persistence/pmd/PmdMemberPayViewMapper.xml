@@ -5,6 +5,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="member_id" jdbcType="INTEGER" property="memberId" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="order_user_id" jdbcType="INTEGER" property="orderUserId" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="has_pay" jdbcType="BIT" property="hasPay" />
     <result column="is_self_pay" jdbcType="BIT" property="isSelfPay" />
@@ -53,9 +54,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, order_no, real_pay, has_pay, is_self_pay, pay_month_id, pay_time, 
-    charge_user_id, charge_party_id, charge_branch_id, pay_month, month_id, is_delay, 
-    delay_reason, user_id, party_id, branch_id, type, due_pay
+    id, member_id, order_no, order_user_id, real_pay, has_pay, is_self_pay, pay_month_id, 
+    pay_time, charge_user_id, charge_party_id, charge_branch_id, pay_month, month_id, 
+    is_delay, delay_reason, user_id, party_id, branch_id, type, due_pay
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberPayViewExample" resultMap="BaseResultMap">
     select

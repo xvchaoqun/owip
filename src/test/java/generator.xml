@@ -43,9 +43,9 @@
         </table>
         <table tableName="pmd_norm_value_log" domainObjectName="pmd.PmdNormValueLog" mapperName="pmd.PmdNormValueLogMapper">
         </table>-->
-         <table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
+         <!--<table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-       </table>
+       </table>-->
         <table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
         </table>
         <table tableName="pmd_member_pay_view"

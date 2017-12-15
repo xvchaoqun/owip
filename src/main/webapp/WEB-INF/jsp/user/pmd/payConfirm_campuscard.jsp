@@ -53,6 +53,7 @@
     </form>
 </div>
 <div class="modal-footer">
+    <div id="tip">提示：由于校园卡支付平台出于安全性考虑，只要点了“去支付”按钮，必须支付完成，不可再换人代缴操作，请谨慎操作。</div>
     <div id="submitTip">支付完成前，请不要关闭此支付验证窗口。支付完成后，请点击“查看支付结果”更新支付状态。</div>
     <button id="submitBtn" type="button"
             data-loading-text="支付中，已跳转至支付页面"
@@ -61,14 +62,16 @@
     <%--<a href="${ctx}/pmd/pay/callback/campuscard?${ret}" target="_blank">test成功</a>--%>
 </div>
 <style>
-    #submitTip{
+    #submitTip, #tip{
         text-indent: 2em;
         text-align: left;
-        display: none;
         font-size: 18px;
         font-weight: bolder;
         margin-bottom: 5px;
         color: darkred;
+    }
+    #submitTip{
+        display: none;
     }
 </style>
 <script>

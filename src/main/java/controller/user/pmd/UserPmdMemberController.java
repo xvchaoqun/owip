@@ -3,12 +3,16 @@ package controller.user.pmd;
 import controller.PmdBaseController;
 import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdConfigMemberType;
+import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
+import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.tool.paging.CommonList;
@@ -30,8 +35,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user/pmd")
@@ -39,11 +46,56 @@ public class UserPmdMemberController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("userPmdMember:setSalary")
-    @RequestMapping("/pmdMember_setSalary")
-    public String pmdMember_setSalary(ModelMap modelMap) {
+    private Integer checkPayAuth(Integer pmdMemberId, boolean isSelfPay){
 
-        int userId = ShiroHelper.getCurrentUserId();
+        if(isSelfPay){
+            SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
+            return ShiroHelper.getCurrentUserId();
+        }else{
+            // 支部管理员可代替设置工资，规则：如果本人设置或修改过了，则支部管理员不允许设置或修改
+            SecurityUtils.getSubject().checkPermission("userPmdMember:helpSetSalary");
+
+            PmdMember _pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+            PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), _pmdMember.getUserId());
+
+            // （只允许支部管理员或直属支部管理员进行代缴）
+            Integer partyId = pmdMember.getPartyId();
+            Integer branchId = pmdMember.getBranchId();
+
+            int userId = ShiroHelper.getCurrentUserId();
+            if(partyService.isDirectBranch(partyId)){
+
+                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+                Set<Integer> adminPartyIdSet = new HashSet<>();
+                adminPartyIdSet.addAll(adminPartyIds);
+
+                if (!adminPartyIdSet.contains(partyId)) {
+                    throw new UnauthorizedException();
+                }
+            }else{
+                List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+                Set<Integer> adminBranchIdSet = new HashSet<>();
+                adminBranchIdSet.addAll(adminBranchIds);
+                if (!adminBranchIdSet.contains(branchId)) {
+                    throw new UnauthorizedException();
+                }
+            }
+
+            return pmdMember.getUserId();
+        }
+    }
+
+    // 支部管理员代替设置工资时，需要传入pmdMemberId和isSelf=0
+    //@RequiresPermissions("userPmdMember:setSalary")
+    @RequestMapping("/pmdMember_setSalary")
+    public String pmdMember_setSalary(Integer pmdMemberId,
+                                      @RequestParam(required = false, defaultValue = "1")Boolean isSelf,
+                                      ModelMap modelMap) {
+
+
+        int userId = checkPayAuth(pmdMemberId, isSelf);
+
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
         modelMap.put("pmdConfigMember", pmdConfigMember);
 
@@ -60,7 +112,7 @@ public class UserPmdMemberController extends PmdBaseController {
     }
 
     // 计算应缴党费额度
-    @RequiresPermissions("userPmdMember:calDuePay")
+    //@RequiresPermissions("userPmdMember:calDuePay")
     @RequestMapping(value = "/pmdMember_calDuePay", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_calDuePay(PmdConfigMember record, HttpServletRequest request) {
@@ -73,12 +125,16 @@ public class UserPmdMemberController extends PmdBaseController {
     }
 
     // 保存应缴党费额度
-    @RequiresPermissions("userPmdMember:setSalary")
+    //@RequiresPermissions("userPmdMember:setSalary")
     @RequestMapping(value = "/pmdMember_setSalary", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMember_setSalary(PmdConfigMember record, HttpServletRequest request) {
+    public Map do_pmdMember_setSalary(Integer pmdMemberId, PmdConfigMember record,
+                                      @RequestParam(required = false, defaultValue = "1")Boolean isSelf,
+                                      HttpServletRequest request) {
 
-        pmdConfigMemberService.setSalary(record);
+        int userId = checkPayAuth(pmdMemberId, isSelf);
+        record.setUserId(userId);
+        pmdConfigMemberService.setSalary(record, isSelf);
         return success(FormUtils.SUCCESS);
     }
 

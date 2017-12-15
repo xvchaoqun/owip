@@ -6,6 +6,7 @@ import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.sys.LogService;
 import service.sys.SysApprovalLogService;
-import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 
 @Service
 public class PmdConfigMemberService extends BaseMapper {
@@ -33,6 +35,8 @@ public class PmdConfigMemberService extends BaseMapper {
     private PmdConfigMemberTypeService pmdConfigMemberTypeService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private LogService logService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -83,15 +87,19 @@ public class PmdConfigMemberService extends BaseMapper {
     // 计算应缴党费额度
     @Transactional
     @CacheEvict(value = "PmdConfigMember", key = "#record.userId")
-    public void setSalary(PmdConfigMember record) {
+    public void setSalary(PmdConfigMember record, boolean isSelf) {
 
-        int userId = ShiroHelper.getCurrentUserId();
+        int userId = record.getUserId();
         if(!canSetSalary(userId)){
             throw new OpException("不允许设置工资");
         }
 
         PmdConfigMember pmdConfigMember = getPmdConfigMember(userId);
+        if(BooleanUtils.isTrue(pmdConfigMember.getIsSelfSetSalary()) && !isSelf){
+            throw new OpException("本人已经设置过了，不允许重复设置。");
+        }
 
+        record.setIsSelfSetSalary(isSelf);
         record.setUserId(userId);
         record.setConfigMemberType(null);
         record.setConfigMemberTypeId(null);
@@ -123,9 +131,9 @@ public class PmdConfigMemberService extends BaseMapper {
             }
         }
 
-        logger.info("修改应缴党费额度,修改前：{}，修改后：{}",
+        logger.info(logService.log(SystemConstants.LOG_PMD, MessageFormat.format("修改应缴党费额度,修改前：{0}，修改后：{1}",
                 JSONUtils.toString(pmdConfigMember, false),
-                JSONUtils.toString(getPmdConfigMember(userId), false));
+                JSONUtils.toString(getPmdConfigMember(userId), false))));
     }
 
     // 根据工资计算党费

@@ -15,6 +15,11 @@ public class PmdMemberPayView implements Serializable {
         return CmTag.getUserById(userId);
     }
 
+    public SysUserView getOrderUser() {
+
+        return CmTag.getUserById(orderUserId);
+    }
+
     public SysUserView getChargeUser() {
 
         return CmTag.getUserById(chargeUserId);
@@ -31,6 +36,8 @@ public class PmdMemberPayView implements Serializable {
     private Integer memberId;
 
     private String orderNo;
+
+    private Integer orderUserId;
 
     private BigDecimal realPay;
 
@@ -90,6 +97,14 @@ public class PmdMemberPayView implements Serializable {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    public Integer getOrderUserId() {
+        return orderUserId;
+    }
+
+    public void setOrderUserId(Integer orderUserId) {
+        this.orderUserId = orderUserId;
     }
 
     public BigDecimal getRealPay() {

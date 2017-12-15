@@ -300,19 +300,34 @@ public class PmdPayCampusCardService extends BaseMapper {
     @Transactional
     public PayFormCampusCardBean payConfirm(int pmdMemberId, boolean isSelfPay) {
 
-        int userId = ShiroHelper.getCurrentUserId();
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
             throw new OpException("操作失败，请稍后再试。");
         }
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
-
         PayFormCampusCardBean payFormBean = createPayFormBean(pmdMember.getId(), isSelfPay);
 
+        int userId = ShiroHelper.getCurrentUserId();
+
+        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
+        Integer orderUserId = pmdMemberPay.getOrderUserId();
+        if(orderUserId!=null && orderUserId!=userId){
+            SysUserView uv = sysUserService.findById(orderUserId);
+            throw new OpException("缴费订单号({0})已由{1}（工号：{2}）生成，请联系他/她进行支付。",
+                    pmdMemberPay.getOrderNo(), uv.getRealname(), uv.getCode());
+        }
+
+        SysUserView uv = sysUserService.findById(userId);
+        if(uv.getSource()==SystemConstants.USER_SOURCE_ADMIN
+                || uv.getSource() == SystemConstants.USER_SOURCE_REG){
+            throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
+        }
+
         PmdMemberPay record = new PmdMemberPay();
-        record.setMemberId(pmdMember.getId());
+        record.setMemberId(pmdMemberId);
         record.setOrderNo(payFormBean.getSn());
+        record.setOrderUserId(userId);
 
         if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
 

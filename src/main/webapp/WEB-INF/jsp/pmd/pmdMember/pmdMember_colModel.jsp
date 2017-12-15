@@ -52,8 +52,13 @@
     }},
     <c:if test="${param.type=='admin'}">
     { label: '缴费订单号',name: '_orderNo', width: 160, formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay) return '-'
-      return $.trim(rowObject.orderNo);
+      if(rowObject.pmdMemberPayView==undefined) return '-'
+      return $.trim(rowObject.pmdMemberPayView.orderNo);
+    }},
+    { label: '订单号生成人',name: '_orderUser', width: 120, formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.pmdMemberPayView==undefined ||
+              rowObject.pmdMemberPayView.orderUser==undefined) return '-';
+      return rowObject.pmdMemberPayView.orderUser.realname;
     }},
     </c:if>
     { label: '缴费日期',name: 'payTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -67,6 +72,17 @@
       return "延迟缴费：" + $.trim(cellvalue);
     }},{hidden: true, name: 'normType'}, {hidden: true, name: 'hasPay'},
     {hidden: true, name: 'isDelay'}, {hidden: true, name: 'monthId'},
-    {hidden: true, name: 'type'}, {hidden: true, name: 'configMemberTypeId'}
+    {hidden: true, name: 'type'}, {hidden: true, name: 'configMemberTypeId'},
+    {hidden: true, name: 'isSelfSetSalary', formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.isSelfSetSalary==undefined) return "0";
+      return rowObject.pmdConfigMember.isSelfSetSalary?"1":"0";
+    }},
+    {hidden: true, name: 'formulaType', formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.pmdConfigMember==undefined
+              ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
+              ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return -1;
+
+      return rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.formulaType;
+    }}
   ]
 </script>

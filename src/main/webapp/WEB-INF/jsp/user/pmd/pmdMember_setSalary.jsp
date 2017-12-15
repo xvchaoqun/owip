@@ -8,6 +8,8 @@
 <div class="modal-body">
     <form class="form-horizontal" id="modalForm" method="post">
         <input name="isPreview" type="hidden" value="1">
+        <input name="pmdMemberId" type="hidden" value="${param.pmdMemberId}">
+        <input name="isSelf" type="hidden" value="${param.isSelf}">
         <table class="table table-bordered table-unhover">
             <c:if test="${pmdNorm.formulaType==PMD_FORMULA_TYPE_ONJOB}">
             <tr>

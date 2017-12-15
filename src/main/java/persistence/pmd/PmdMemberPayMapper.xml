@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.pmd.PmdMemberPay">
     <id column="member_id" jdbcType="INTEGER" property="memberId" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="order_user_id" jdbcType="INTEGER" property="orderUserId" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="has_pay" jdbcType="BIT" property="hasPay" />
     <result column="is_self_pay" jdbcType="BIT" property="isSelfPay" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    member_id, order_no, real_pay, has_pay, is_self_pay, pay_month_id, pay_time, charge_user_id, 
-    charge_party_id, charge_branch_id
+    member_id, order_no, order_user_id, real_pay, has_pay, is_self_pay, pay_month_id, 
+    pay_time, charge_user_id, charge_party_id, charge_branch_id
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberPayExample" resultMap="BaseResultMap">
     select
@@ -106,14 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdMemberPay">
-    insert into pmd_member_pay (member_id, order_no, real_pay, 
-      has_pay, is_self_pay, pay_month_id, 
-      pay_time, charge_user_id, charge_party_id, 
-      charge_branch_id)
-    values (#{memberId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{realPay,jdbcType=DECIMAL}, 
-      #{hasPay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, #{payMonthId,jdbcType=INTEGER}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER}, #{chargePartyId,jdbcType=INTEGER}, 
-      #{chargeBranchId,jdbcType=INTEGER})
+    insert into pmd_member_pay (member_id, order_no, order_user_id, 
+      real_pay, has_pay, is_self_pay, 
+      pay_month_id, pay_time, charge_user_id, 
+      charge_party_id, charge_branch_id)
+    values (#{memberId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{orderUserId,jdbcType=INTEGER}, 
+      #{realPay,jdbcType=DECIMAL}, #{hasPay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, 
+      #{payMonthId,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER}, 
+      #{chargePartyId,jdbcType=INTEGER}, #{chargeBranchId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdMemberPay">
     insert into pmd_member_pay
@@ -123,6 +124,9 @@
       </if>
       <if test="orderNo != null">
         order_no,
+      </if>
+      <if test="orderUserId != null">
+        order_user_id,
       </if>
       <if test="realPay != null">
         real_pay,
@@ -155,6 +159,9 @@
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUserId != null">
+        #{orderUserId,jdbcType=INTEGER},
       </if>
       <if test="realPay != null">
         #{realPay,jdbcType=DECIMAL},
@@ -197,6 +204,9 @@
       <if test="record.orderNo != null">
         order_no = #{record.orderNo,jdbcType=VARCHAR},
       </if>
+      <if test="record.orderUserId != null">
+        order_user_id = #{record.orderUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.realPay != null">
         real_pay = #{record.realPay,jdbcType=DECIMAL},
       </if>
@@ -230,6 +240,7 @@
     update pmd_member_pay
     set member_id = #{record.memberId,jdbcType=INTEGER},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
+      order_user_id = #{record.orderUserId,jdbcType=INTEGER},
       real_pay = #{record.realPay,jdbcType=DECIMAL},
       has_pay = #{record.hasPay,jdbcType=BIT},
       is_self_pay = #{record.isSelfPay,jdbcType=BIT},
@@ -247,6 +258,9 @@
     <set>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUserId != null">
+        order_user_id = #{orderUserId,jdbcType=INTEGER},
       </if>
       <if test="realPay != null">
         real_pay = #{realPay,jdbcType=DECIMAL},
@@ -278,6 +292,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdMemberPay">
     update pmd_member_pay
     set order_no = #{orderNo,jdbcType=VARCHAR},
+      order_user_id = #{orderUserId,jdbcType=INTEGER},
       real_pay = #{realPay,jdbcType=DECIMAL},
       has_pay = #{hasPay,jdbcType=BIT},
       is_self_pay = #{isSelfPay,jdbcType=BIT},

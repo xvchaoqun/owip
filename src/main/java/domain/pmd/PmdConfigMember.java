@@ -36,6 +36,8 @@ public class PmdConfigMember implements Serializable {
 
     private Boolean hasSetSalary;
 
+    private Boolean isSelfSetSalary;
+
     private BigDecimal gwgz;
 
     private BigDecimal xjgz;
@@ -134,6 +136,14 @@ public class PmdConfigMember implements Serializable {
 
     public void setHasSetSalary(Boolean hasSetSalary) {
         this.hasSetSalary = hasSetSalary;
+    }
+
+    public Boolean getIsSelfSetSalary() {
+        return isSelfSetSalary;
+    }
+
+    public void setIsSelfSetSalary(Boolean isSelfSetSalary) {
+        this.isSelfSetSalary = isSelfSetSalary;
     }
 
     public BigDecimal getGwgz() {

@@ -10,6 +10,7 @@
     <result column="has_salary" jdbcType="BIT" property="hasSalary" />
     <result column="retire_salary" jdbcType="DECIMAL" property="retireSalary" />
     <result column="has_set_salary" jdbcType="BIT" property="hasSetSalary" />
+    <result column="is_self_set_salary" jdbcType="BIT" property="isSelfSetSalary" />
     <result column="gwgz" jdbcType="DECIMAL" property="gwgz" />
     <result column="xjgz" jdbcType="DECIMAL" property="xjgz" />
     <result column="gwjt" jdbcType="DECIMAL" property="gwjt" />
@@ -88,8 +89,9 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, mobile, config_member_type, config_member_type_id, due_pay, has_salary, 
-    retire_salary, has_set_salary, gwgz, xjgz, gwjt, zwbt, zwbt1, shbt, sbf, xlf, gzcx, 
-    shiyebx, yanglaobx, yiliaobx, gsbx, shengyubx, qynj, zynj, gjj
+    retire_salary, has_set_salary, is_self_set_salary, gwgz, xjgz, gwjt, zwbt, zwbt1, 
+    shbt, sbf, xlf, gzcx, shiyebx, yanglaobx, yiliaobx, gsbx, shengyubx, qynj, zynj, 
+    gjj
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdConfigMemberExample" resultMap="BaseResultMap">
     select
@@ -124,20 +126,20 @@
   <insert id="insert" parameterType="domain.pmd.PmdConfigMember">
     insert into pmd_config_member (user_id, mobile, config_member_type, 
       config_member_type_id, due_pay, has_salary, 
-      retire_salary, has_set_salary, gwgz, 
-      xjgz, gwjt, zwbt, zwbt1, 
-      shbt, sbf, xlf, gzcx, 
-      shiyebx, yanglaobx, yiliaobx, 
-      gsbx, shengyubx, qynj, 
-      zynj, gjj)
+      retire_salary, has_set_salary, is_self_set_salary, 
+      gwgz, xjgz, gwjt, zwbt, 
+      zwbt1, shbt, sbf, xlf, 
+      gzcx, shiyebx, yanglaobx, 
+      yiliaobx, gsbx, shengyubx, 
+      qynj, zynj, gjj)
     values (#{userId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{configMemberType,jdbcType=TINYINT}, 
       #{configMemberTypeId,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, #{hasSalary,jdbcType=BIT}, 
-      #{retireSalary,jdbcType=DECIMAL}, #{hasSetSalary,jdbcType=BIT}, #{gwgz,jdbcType=DECIMAL}, 
-      #{xjgz,jdbcType=DECIMAL}, #{gwjt,jdbcType=DECIMAL}, #{zwbt,jdbcType=DECIMAL}, #{zwbt1,jdbcType=DECIMAL}, 
-      #{shbt,jdbcType=DECIMAL}, #{sbf,jdbcType=DECIMAL}, #{xlf,jdbcType=DECIMAL}, #{gzcx,jdbcType=DECIMAL}, 
-      #{shiyebx,jdbcType=DECIMAL}, #{yanglaobx,jdbcType=DECIMAL}, #{yiliaobx,jdbcType=DECIMAL}, 
-      #{gsbx,jdbcType=DECIMAL}, #{shengyubx,jdbcType=DECIMAL}, #{qynj,jdbcType=DECIMAL}, 
-      #{zynj,jdbcType=DECIMAL}, #{gjj,jdbcType=DECIMAL})
+      #{retireSalary,jdbcType=DECIMAL}, #{hasSetSalary,jdbcType=BIT}, #{isSelfSetSalary,jdbcType=BIT}, 
+      #{gwgz,jdbcType=DECIMAL}, #{xjgz,jdbcType=DECIMAL}, #{gwjt,jdbcType=DECIMAL}, #{zwbt,jdbcType=DECIMAL}, 
+      #{zwbt1,jdbcType=DECIMAL}, #{shbt,jdbcType=DECIMAL}, #{sbf,jdbcType=DECIMAL}, #{xlf,jdbcType=DECIMAL}, 
+      #{gzcx,jdbcType=DECIMAL}, #{shiyebx,jdbcType=DECIMAL}, #{yanglaobx,jdbcType=DECIMAL}, 
+      #{yiliaobx,jdbcType=DECIMAL}, #{gsbx,jdbcType=DECIMAL}, #{shengyubx,jdbcType=DECIMAL}, 
+      #{qynj,jdbcType=DECIMAL}, #{zynj,jdbcType=DECIMAL}, #{gjj,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdConfigMember">
     insert into pmd_config_member
@@ -165,6 +167,9 @@
       </if>
       <if test="hasSetSalary != null">
         has_set_salary,
+      </if>
+      <if test="isSelfSetSalary != null">
+        is_self_set_salary,
       </if>
       <if test="gwgz != null">
         gwgz,
@@ -242,6 +247,9 @@
       </if>
       <if test="hasSetSalary != null">
         #{hasSetSalary,jdbcType=BIT},
+      </if>
+      <if test="isSelfSetSalary != null">
+        #{isSelfSetSalary,jdbcType=BIT},
       </if>
       <if test="gwgz != null">
         #{gwgz,jdbcType=DECIMAL},
@@ -329,6 +337,9 @@
       <if test="record.hasSetSalary != null">
         has_set_salary = #{record.hasSetSalary,jdbcType=BIT},
       </if>
+      <if test="record.isSelfSetSalary != null">
+        is_self_set_salary = #{record.isSelfSetSalary,jdbcType=BIT},
+      </if>
       <if test="record.gwgz != null">
         gwgz = #{record.gwgz,jdbcType=DECIMAL},
       </if>
@@ -395,6 +406,7 @@
       has_salary = #{record.hasSalary,jdbcType=BIT},
       retire_salary = #{record.retireSalary,jdbcType=DECIMAL},
       has_set_salary = #{record.hasSetSalary,jdbcType=BIT},
+      is_self_set_salary = #{record.isSelfSetSalary,jdbcType=BIT},
       gwgz = #{record.gwgz,jdbcType=DECIMAL},
       xjgz = #{record.xjgz,jdbcType=DECIMAL},
       gwjt = #{record.gwjt,jdbcType=DECIMAL},
@@ -439,6 +451,9 @@
       </if>
       <if test="hasSetSalary != null">
         has_set_salary = #{hasSetSalary,jdbcType=BIT},
+      </if>
+      <if test="isSelfSetSalary != null">
+        is_self_set_salary = #{isSelfSetSalary,jdbcType=BIT},
       </if>
       <if test="gwgz != null">
         gwgz = #{gwgz,jdbcType=DECIMAL},
@@ -503,6 +518,7 @@
       has_salary = #{hasSalary,jdbcType=BIT},
       retire_salary = #{retireSalary,jdbcType=DECIMAL},
       has_set_salary = #{hasSetSalary,jdbcType=BIT},
+      is_self_set_salary = #{isSelfSetSalary,jdbcType=BIT},
       gwgz = #{gwgz,jdbcType=DECIMAL},
       xjgz = #{xjgz,jdbcType=DECIMAL},
       gwjt = #{gwjt,jdbcType=DECIMAL},

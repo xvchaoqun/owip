@@ -9,6 +9,8 @@ public class PmdMemberPay implements Serializable {
 
     private String orderNo;
 
+    private Integer orderUserId;
+
     private BigDecimal realPay;
 
     private Boolean hasPay;
@@ -41,6 +43,14 @@ public class PmdMemberPay implements Serializable {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    public Integer getOrderUserId() {
+        return orderUserId;
+    }
+
+    public void setOrderUserId(Integer orderUserId) {
+        this.orderUserId = orderUserId;
     }
 
     public BigDecimal getRealPay() {

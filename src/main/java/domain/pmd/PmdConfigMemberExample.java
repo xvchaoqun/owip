@@ -595,6 +595,66 @@ public class PmdConfigMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsSelfSetSalaryIsNull() {
+            addCriterion("is_self_set_salary is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryIsNotNull() {
+            addCriterion("is_self_set_salary is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryEqualTo(Boolean value) {
+            addCriterion("is_self_set_salary =", value, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryNotEqualTo(Boolean value) {
+            addCriterion("is_self_set_salary <>", value, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryGreaterThan(Boolean value) {
+            addCriterion("is_self_set_salary >", value, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_self_set_salary >=", value, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryLessThan(Boolean value) {
+            addCriterion("is_self_set_salary <", value, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_self_set_salary <=", value, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryIn(List<Boolean> values) {
+            addCriterion("is_self_set_salary in", values, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryNotIn(List<Boolean> values) {
+            addCriterion("is_self_set_salary not in", values, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_self_set_salary between", value1, value2, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSelfSetSalaryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_self_set_salary not between", value1, value2, "isSelfSetSalary");
+            return (Criteria) this;
+        }
+
         public Criteria andGwgzIsNull() {
             addCriterion("gwgz is null");
             return (Criteria) this;

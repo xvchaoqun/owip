@@ -1,4 +1,19 @@
 
+
+ALTER TABLE `pmd_config_member`
+	ADD COLUMN `is_self_set_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否本人设置或修改过工资，支部管理员可代替设置工资，规则：如果本人设置或修改过了，则支部管理员不允许设置或修改' AFTER `has_set_salary`;
+
+ALTER TABLE `pmd_member_pay`
+	ADD COLUMN `order_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '生成订单号时的账号，校园卡要求不允许更换人支付' AFTER `order_no`;
+
+	更新 pmd_member_pay_view
+
+update pmd_config_member set is_self_set_salary=has_set_salary;
+
+update pmd_member_pay pmp, pmd_member pm set pmp.order_user_id=pm.user_id where pmp.has_pay=1 and pmp.member_id=pm.id;
+
+update pmd_member_pay set order_user_id = charge_user_id where charge_user_id is not null;
+
 2017-12-14
 ALTER TABLE `pmd_member`
 	CHANGE COLUMN `is_online_pay` `is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '缴费方式， 1 线上缴费、0 代缴党费' AFTER `has_pay`,
