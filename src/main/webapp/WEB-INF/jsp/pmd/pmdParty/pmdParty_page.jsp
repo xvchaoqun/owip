@@ -11,10 +11,10 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.payMonth ||not empty param.hasReport
              || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <a class="popupBtn btn btn-warning btn-sm"
+               <%-- <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
                    data-url="${ctx}/hf_content?code=${HF_PMD_PARTY}">
-                    <i class="fa fa-info-circle"></i> 操作说明</a>
+                    <i class="fa fa-info-circle"></i> 操作说明</a>--%>
                 <%--<shiro:hasPermission name="pmdParty:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmdParty_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
