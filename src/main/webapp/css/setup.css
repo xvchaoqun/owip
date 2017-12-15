@@ -1147,7 +1147,12 @@ span.delete {
     min-width: 90px;
 }
 
-
+.model-alert-tip{
+    padding: 30px 10px;
+    font-size: 20px;
+    color: darkred;
+    font-weight: bolder;
+}
 .notCpc, .notCpc a {
     color: red;
 }

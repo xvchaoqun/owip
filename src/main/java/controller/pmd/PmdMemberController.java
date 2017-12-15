@@ -287,6 +287,21 @@ public class PmdMemberController extends PmdBaseController {
         return;
     }
 
+    // 删除未缴费记录
+    @RequiresPermissions("pmdMember:del")
+    @RequestMapping(value = "/pmdMember_del", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_del(int id, HttpServletRequest request) {
+
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+
+        pmdMemberService.del(id);
+        logger.info(addLog(SystemConstants.LOG_PMD, "删除未缴费记录：%s", JSONUtils.toString(pmdMember, false)));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+
     // 现金支付
    /* @RequiresPermissions("pmdMember:payCash")
     @RequestMapping(value = "/pmdMember_payCash", method = RequestMethod.POST)
@@ -363,7 +378,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.setDuePay(ids, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[支部管理员]设定缴纳额度-%s-%s",
+        logger.info(addLog(SystemConstants.LOG_PMD, "[支部管理员]设定缴纳额度-%s-%s",
                 StringUtils.join(ids, ","), amount));
         return success(FormUtils.SUCCESS);
     }
@@ -397,7 +412,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[支部管理员]选择党员分类别-%s-%s-%s",
+        logger.info(addLog(SystemConstants.LOG_PMD, "[支部管理员]选择党员分类别-%s-%s-%s",
                 StringUtils.join(ids, ","), configMemberTypeId, amount));
         return success(FormUtils.SUCCESS);
     }
@@ -425,7 +440,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.selectReduceNorm(ids, normId, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[支部管理员]选择减免标准-%s-%s-%s",
+        logger.info(addLog(SystemConstants.LOG_PMD, "[支部管理员]选择减免标准-%s-%s-%s",
                 StringUtils.join(ids, ","), normId, amount));
         return success(FormUtils.SUCCESS);
     }

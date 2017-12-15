@@ -57,10 +57,17 @@ public class PmdMemberService extends BaseMapper {
         pmdMemberMapper.insertSelective(record);
     }
 
+    // 删除未缴费记录
     @Transactional
     public void del(Integer id) {
 
-        pmdMemberMapper.deleteByPrimaryKey(id);
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+        if(!pmdMember.getHasPay()) {
+
+            pmdMemberMapper.deleteByPrimaryKey(id);
+            pmdMemberPayMapper.deleteByPrimaryKey(id);
+        }
+
     }
 
     @Transactional

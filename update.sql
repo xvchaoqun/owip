@@ -1,5 +1,5 @@
 
-
+2017-12-15
 ALTER TABLE `pmd_config_member`
 	ADD COLUMN `is_self_set_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否本人设置或修改过工资，支部管理员可代替设置工资，规则：如果本人设置或修改过了，则支部管理员不允许设置或修改' AFTER `has_set_salary`;
 
@@ -13,6 +13,9 @@ update pmd_config_member set is_self_set_salary=has_set_salary;
 update pmd_member_pay pmp, pmd_member pm set pmp.order_user_id=pm.user_id where pmp.has_pay=1 and pmp.member_id=pm.id;
 
 update pmd_member_pay set order_user_id = charge_user_id where charge_user_id is not null;
+
+ALTER TABLE `pmd_party`
+	CHANGE COLUMN `branch_count` `branch_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '党支部数，党委报送后计算' AFTER `has_report`;
 
 2017-12-14
 ALTER TABLE `pmd_member`

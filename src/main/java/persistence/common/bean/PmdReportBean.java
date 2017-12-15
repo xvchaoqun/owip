@@ -7,6 +7,8 @@ import java.math.BigDecimal;
  */
 public class PmdReportBean {
 
+    private Integer branchCount;
+
     private Integer hasReportCount; // 已报送党支部数 或 已报送分党委数
 
     private Integer memberCount;
@@ -32,6 +34,14 @@ public class PmdReportBean {
     private BigDecimal onlineRealDelayPay;
 
     private BigDecimal cashRealDelayPay;
+
+    public Integer getBranchCount() {
+        return branchCount;
+    }
+
+    public void setBranchCount(Integer branchCount) {
+        this.branchCount = branchCount;
+    }
 
     public Integer getHasReportCount() {
         return hasReportCount == null ? 0 : hasReportCount;

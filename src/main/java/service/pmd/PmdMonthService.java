@@ -194,7 +194,7 @@ public class PmdMonthService extends BaseMapper {
                 PmdParty record = new PmdParty();
                 record.setId(pmdParty.getId());
                 // 党员总数
-                record.setMemberCount(memberCount);
+                //record.setMemberCount(memberCount);
                 // 本月应交党费数
                 //record.setDuePay(iPmdMapper.duePay(monthId, partyId, null));
 
@@ -224,7 +224,7 @@ public class PmdMonthService extends BaseMapper {
                         PmdBranch record = new PmdBranch();
                         record.setId(pmdBranch.getId());
                         // 党员总数
-                        record.setMemberCount(members.size());
+                        //record.setMemberCount(members.size());
                         // 本月应交党费数
                         //record.setDuePay(iPmdMapper.duePay(monthId, partyId, branchId));
 
@@ -698,7 +698,7 @@ public class PmdMonthService extends BaseMapper {
                 record.setSortOrder(party.getSortOrder());
                 record.setHasReport(false);
                 // 党支部数
-                record.setBranchCount(branchList == null ? 0 : branchList.size());
+                //record.setBranchCount(branchList == null ? 0 : branchList.size());
 
                 // 直属党支部特殊处理
                 if (partyService.isDirectBranch(partyId)) {

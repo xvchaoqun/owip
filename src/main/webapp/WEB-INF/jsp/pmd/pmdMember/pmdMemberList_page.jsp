@@ -16,10 +16,18 @@ pageEncoding="UTF-8" %>
                     <i class="fa fa-download"></i> 导出</a>--%>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/sysApprovalLog"
-                            data-width="800"
+                            data-width="850"
                             data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_PMD_MEMBER}">
                         <i class="fa fa-history"></i> 操作记录
                     </button>
+                    <shiro:hasPermission name="pmdMember:del">
+                        <button id="delBtn" data-url="${ctx}/pmd/pmdMember_del"
+                                data-title="删除"
+                                data-msg="<div class='model-alert-tip'>确定删除这条缴费记录？（删除后不可恢复，请谨慎操作）</div>"
+                                class="jqItemBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 删除
+                        </button>
+                    </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -129,9 +137,29 @@ pageEncoding="UTF-8" %>
     $('#searchForm [data-rel="select2"]').select2();
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel:colModel
+        colModel:colModel,
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="tooltip"]').tooltip();
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+
+        if (ids.length > 1) {
+            $("#delBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var hasPay = (rowData.hasPay == "true");
+            $("#delBtn").prop("disabled", hasPay);
+        }
+    }
 </script>

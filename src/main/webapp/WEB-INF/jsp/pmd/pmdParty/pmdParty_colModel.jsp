@@ -36,14 +36,17 @@
     }, frozen: true},
     </c:if>
     { label: '党委名称',name: 'partyName', width:400, align:'left'},
-    { label: '党支部数',name: 'branchCount'},
+    { label: '党支部数',name: 'branchCount', formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.isDirectBranch) return '1'
+      return (rowObject.hasReport)?cellvalue:rowObject.r.branchCount;
+    }},
     { label: '已报送<br/>党支部数',name: 'hasReportCount', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.isDirectBranch) return '-'
       return (rowObject.hasReport)?cellvalue:rowObject.r.hasReportCount;
     }},
     { label: '未报送<br/>党支部数',name: '_notReportCount', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.isDirectBranch) return '-'
-      return rowObject.branchCount - ((rowObject.hasReport)?rowObject.hasReportCount:rowObject.r.hasReportCount);
+      return ((rowObject.hasReport)?rowObject.branchCount:rowObject.r.branchCount) - ((rowObject.hasReport)?rowObject.hasReportCount:rowObject.r.hasReportCount);
     }},
     { label: '党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.isDirectBranch) return cellvalue

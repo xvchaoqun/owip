@@ -99,6 +99,7 @@
 
     <!-- 实时数据汇总 -->
     <resultMap id="pmdReportBeanMap" type="persistence.common.bean.PmdReportBean">
+        <result column="branch_count" jdbcType="INTEGER" property="branchCount"/>
         <result column="has_report_count" jdbcType="INTEGER" property="hasReportCount"/>
         <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
         <result column="due_pay" jdbcType="DECIMAL" property="duePay"/>
@@ -171,9 +172,11 @@
             , (real_delay_pay-online_real_delay_pay) as cash_real_delay_pay from
             (
             select
+            -- 支部总数
+            count(*) as branch_count,
             -- 已报送党支部数
-            count(*) as has_report_count
-            from pmd_branch where month_id=#{monthId} and party_id=#{partyId} and has_report=1
+            sum(if(has_report=1,1,0)) as has_report_count
+            from pmd_branch where month_id=#{monthId} and party_id=#{partyId}
             )r,
             (
             select
