@@ -231,12 +231,12 @@
                 }
             }
         })
-        if(allIsStudent){
-            $("#selectPayNormBtn, #selectReduceNormBtn").each(function(){
-                var querystr = $(this).data("querystr") + "&student=1";
-                $(this).data("querystr", querystr);
-            });
-        }
+
+        $("#selectPayNormBtn, #selectReduceNormBtn").each(function(){
+            var querystr = $(this).data("querystr") + "&student=" + (allIsStudent?1:0);
+            $(this).data("querystr", querystr);
+        });
+
         $("#setDuePayBtn").prop("disabled", !setDuePayBtnEnabled);
         $("#selectPayNormBtn").prop("disabled", !selectPayNormBtn);
         $("#selectReduceNormBtn").prop("disabled", !selectReduceNormBtn);
