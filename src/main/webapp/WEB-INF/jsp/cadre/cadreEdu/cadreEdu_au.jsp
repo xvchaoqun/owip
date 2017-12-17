@@ -235,7 +235,7 @@
 			$("input[name=isHighDegree]").bootstrapSwitch('state', false).bootstrapSwitch('disabled', true);
 			$("input[name=degreeCountry]").val('').prop("disabled", true).removeAttr("required");
 			$("input[name=degreeUnit]").val('').prop("disabled", true).removeAttr("required");
-			$("input[name=_degreeTime]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=degreeTime]").val('').prop("disabled", true).removeAttr("required");
 		}
 	}
 	$('input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {

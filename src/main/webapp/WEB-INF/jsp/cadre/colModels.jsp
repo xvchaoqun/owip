@@ -360,6 +360,7 @@
 
         //{label: '学制', name: 'schoolLen', width:50},
         {label: '学习方式', name: 'learnStyle', formatter: $.jgrid.formatter.MetaType},
+        {label: '是否获得学位', name: 'hasDegree', formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '学位', name: 'degree', formatter: function (cellvalue, options, rowObject) {
             return rowObject.hasDegree ? cellvalue : "-";

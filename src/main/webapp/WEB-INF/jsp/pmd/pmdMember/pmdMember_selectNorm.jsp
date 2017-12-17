@@ -104,6 +104,7 @@ pageEncoding="UTF-8"%>
                     .prop("disabled", true).removeAttr("required");
         }
     })
+    $("#modalForm select[name=normId]").val('${pmdMember.normId}').trigger("change");
 
     $("#modalForm").validate({
         submitHandler: function (form) {

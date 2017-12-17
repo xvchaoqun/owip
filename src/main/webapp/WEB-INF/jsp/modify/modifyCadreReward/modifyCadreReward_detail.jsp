@@ -40,8 +40,8 @@
         <div class="widget-main">
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
-                    <td data-code="rewardTime">日期</td>
-                    <td class="bg-left">${cm:formatDate(modify.rewardTime,'yyyy.MM')}</td>
+                    <td data-code="rewardTime">获奖年份</td>
+                    <td class="bg-left">${cm:formatDate(modify.rewardTime,'yyyy')}</td>
                     <td data-code="name">获得奖项</td>
                     <td class="bg-left">${modify.name}</td>
                     <td data-code="unit">颁奖单位</td>

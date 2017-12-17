@@ -44,8 +44,11 @@
                     <td class="bg-left" width="200">${cm:formatDate(modify.pubTime,'yyyy-MM-dd')}</td>
                     <td data-code="fileName" width="100">论文</td>
                     <td class="bg-left" width="300">
-                        <a href="javascript:void(0)" class="popupBtn"
-                           data-url="${ctx}/swf/preview?path=${cm:encodeURI(modify.filePath)}&filename=${cm:encodeURI(modify.fileName)}">${modify.fileName}</a>
+                        ${modify.name}
+                        <c:if test="${not empty modify.filePath}">
+                        （<a href="javascript:void(0)" class="popupBtn"
+                           data-url="${ctx}/swf/preview?path=${cm:encodeURI(modify.filePath)}&filename=${cm:encodeURI(modify.fileName)}">${modify.fileName}</a>）
+                        </c:if>
                     </td>
                     <td data-code="remark" width="100">备注</td>
                     <td class="bg-left">${modify.remark}</td>

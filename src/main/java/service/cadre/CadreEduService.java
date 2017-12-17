@@ -79,7 +79,8 @@ public class CadreEduService extends BaseMapper {
 
     public boolean hasHighEdu(Integer id, int cadreId, Boolean isHighEdu, byte status){
 
-        if(BooleanUtils.isFalse(isHighEdu)) return false;
+        // isHighEdu=null return false
+        if(BooleanUtils.isNotTrue(isHighEdu)) return false;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -107,7 +108,7 @@ public class CadreEduService extends BaseMapper {
 
     public boolean hasHighDegree(Integer id, int cadreId, Boolean isHighDegree, byte status){
 
-        if(BooleanUtils.isFalse(isHighDegree)) return false;
+        if(BooleanUtils.isNotTrue(isHighDegree)) return false;
 
         CadreEduExample example = new CadreEduExample();
         CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -290,6 +291,13 @@ public class CadreEduService extends BaseMapper {
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
         record.setStatus(SystemConstants.RECORD_STATUS_MODIFY);
+        if (!record.getHasDegree()) { // 没有获得学位，清除学位名称等字段
+            record.setDegree(null);
+            record.setIsHighDegree(null);
+            record.setDegreeCountry(null);
+            record.setDegreeUnit(null);
+            record.setDegreeTime(null);
+        }
         cadreEduMapper.insertSelective(record);
 
 
