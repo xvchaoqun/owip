@@ -163,18 +163,18 @@
             $("#detailBtn").click();
         },
         colModel: [
+            <c:if test="${status==0}">
+            {
+                label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
+            }, frozen: true},
+            </c:if>
             {
                 label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
             {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            <c:if test="${status==0}">
-            {
-                label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
-            }},
-            </c:if>
             {label: '工作证号', align: 'center', name: 'user.code', width: 100, frozen: true},
             {label: '姓名', align: 'center', name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250},

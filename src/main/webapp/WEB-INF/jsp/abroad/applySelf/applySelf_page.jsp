@@ -253,19 +253,20 @@
         },
         url: '${ctx}/abroad/applySelf_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${status==0}">
+            {
+                label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
+            }, frozen: true
+            },
+            </c:if>
             {
                 label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
             {label: '申请日期', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            <c:if test="${status==0}">
-            {
-                label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
-            }
-            },
-            </c:if>
+
             {label: '工作证号', name: 'user.code', frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
