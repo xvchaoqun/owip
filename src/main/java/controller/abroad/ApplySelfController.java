@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -153,14 +154,19 @@ public class ApplySelfController extends AbroadBaseController {
         approvalLogService.doApproval(record);
 
         //if (springProps.applySelfSendApprovalMsg) {
-            // 如果在工作时间（8:00-20:30），那么就立即发送给下一个领导
-            // 短信通知下一个审批人
-            String nowTime = DateUtils.formatDate(new Date(), "HHmm");
-            if (nowTime.compareTo("0800") >= 0 && nowTime.compareTo("2030") <= 0) {
+        // 如果在工作日周一至周五，8:30-17:30，那么就立即发送给下一个领导
+        // 短信通知下一个审批人
+        Date now = new Date();
+        String nowTime = DateUtils.formatDate(now, "HHmm");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        if ((dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)
+                && (nowTime.compareTo("0830") >= 0 && nowTime.compareTo("1730") <= 0)) {
 
-                Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
-                logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
-            }
+            Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
+            logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
+        }
         //}
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
@@ -223,6 +229,22 @@ public class ApplySelfController extends AbroadBaseController {
 
         Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
         modelMap.put("approvalResultMap", approvalResultMap);
+
+        // 有书记、校长审批时，需要导出
+        boolean needExport = false;
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        for (Integer key : approvalResultMap.keySet()) {
+            ApprovalResult approvalResult = approvalResultMap.get(key);
+            if (key > 0 && (approvalResult.getValue() == null || approvalResult.getValue() != -1)) {
+                ApproverType approverType = approverTypeMap.get(key);
+                if (approverType.getType() == SystemConstants.APPROVER_TYPE_SECRETARY) {
+                    needExport = true;
+                } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_MASTER) {
+                    needExport = true;
+                }
+            }
+        }
+        modelMap.put("needExport", needExport);
 
         return "user/abroad/applySelf/applySelf_view";
     }

@@ -46,14 +46,14 @@
          <!--<table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
        </table>-->
-        <table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
+        <!--<table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
         </table>
         <table tableName="pmd_member_pay_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="pmd.PmdMemberPayView" mapperName="pmd.PmdMemberPayViewMapper">
-        </table>
+        </table>-->
        <!-- <table tableName="pmd_party" domainObjectName="pmd.PmdParty" mapperName="pmd.PmdPartyMapper">
         </table>
         <table tableName="pmd_party_view"

@@ -17,7 +17,9 @@ String.prototype.startWith=function(s){
         return false;
     return true;
 }
-
+String.prototype.replaceAll = function(s1,s2){
+    return this.replace(new RegExp(s1,"gm"),s2);
+}
 String.prototype.format = function()
 {
     var args = arguments;

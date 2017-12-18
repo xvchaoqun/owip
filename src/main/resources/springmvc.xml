@@ -26,22 +26,22 @@
 
 		<context:exclude-filter type="regex" expression="controller.*\.crs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.train\..*"/>
-		<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>
+		<!--<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>-->
 		<context:exclude-filter type="regex" expression="controller.*\.pcs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.oa\..*"/>
-		<!--<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/>-->
+		<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/>
 	</context:component-scan>
 
 	<mvc:interceptors>
 		<bean class="interceptor.SessionInterceptor" />
-		<!--<mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/**/abroad/**"/>
 			<bean class="interceptor.AbroadSessionInterceptor"/>
-		</mvc:interceptor>-->
-		<mvc:interceptor>
+		</mvc:interceptor>
+		<!--<mvc:interceptor>
 			<mvc:mapping path="/**/pmd/**"/>
 			<bean class="interceptor.PmdSessionInterceptor"/>
-		</mvc:interceptor>
+		</mvc:interceptor>-->
 	</mvc:interceptors>
 
 	<!-- 激活@Controller模式-->

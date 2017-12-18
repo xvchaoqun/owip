@@ -1,6 +1,7 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import service.abroad.AbroadExportService;
 import service.abroad.ApplicatTypeService;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
@@ -44,4 +45,6 @@ public class AbroadBaseController extends BaseController {
     protected SafeBoxService safeBoxService;
     @Autowired
     protected TaiwanRecordService taiwanRecordService;
+    @Autowired
+    protected AbroadExportService abroadExportService;
 }

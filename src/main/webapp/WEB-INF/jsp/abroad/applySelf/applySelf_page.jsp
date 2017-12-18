@@ -13,16 +13,20 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=0"><i class="fa fa-circle-o"></i> 因私出国境申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=0"><i
+                                class="fa fa-circle-o"></i> 因私出国境申请</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=1"><i class="fa fa-check"></i> 同意申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=1"><i
+                                class="fa fa-check"></i> 同意申请</a>
                     </li>
                     <li class="<c:if test="${status==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=2"><i class="fa fa-times"></i> 不同意申请</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=2"><i
+                                class="fa fa-times"></i> 不同意申请</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=-1"><i class="fa fa-trash"></i> 已删除</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelf?status=-1"><i
+                                class="fa fa-trash"></i> 已删除</a>
                     </li>
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="openView btn btn-success btn-sm"
@@ -86,11 +90,11 @@
                                 </button>
                             </c:if>
                             <c:if test="${status>=0 && status!=1}">
-                            <shiro:hasPermission name="applySelf:del">
-                                <a class="jqBatchBtn btn btn-danger btn-sm"
-                                   data-url="${ctx}/abroad/applySelf_batchDel" data-title="删除因私出国申请"
-                                   data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasPermission>
+                                <shiro:hasPermission name="applySelf:del">
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/abroad/applySelf_batchDel" data-title="删除因私出国申请"
+                                       data-msg="确定删除这{0}条申请记录吗？"><i class="fa fa-trash"></i> 删除</a>
+                                </shiro:hasPermission>
                             </c:if>
                             <c:if test="${status==-1}">
                                 <shiro:hasPermission name="applySelf:del">
@@ -101,7 +105,8 @@
                                 <shiro:hasPermission name="passportApply:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/abroad/applySelf_doBatchDel" data-title="删除申请"
-                                       data-msg="确定删除这{0}条申请记录吗（<span class='text-danger'>删除后不可以恢复，且相关数据都会删除</span>）？"><i class="fa fa-times"></i> 完全删除</a>
+                                       data-msg="确定删除这{0}条申请记录吗（<span class='text-danger'>删除后不可以恢复，且相关数据都会删除</span>）？"><i
+                                            class="fa fa-times"></i> 完全删除</a>
                                 </shiro:hasPermission>
                             </c:if>
                         </div>
@@ -253,16 +258,23 @@
                 return "S{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            {label: '申请日期', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            <c:if test="${status==0}">
+            {
+                label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
+            }
+            },
+            </c:if>
+            {label: '工作证号', name: 'user.code', frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 75, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
             {label: '所在单位及职务', name: 'cadre.title', width: 250, frozen: true},
-            {label: '出行时间', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '回国时间', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '出行时间', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '回国时间', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '出行天数', name: '_day', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.dayDiff(rowObject.startDate, rowObject.endDate);
@@ -275,12 +287,12 @@
             }
             },
             {
-                label: '组织部初审', name: 'expiryDate', width: 100, cellattr: function (rowId, val, rowObject, cm, rdata) {
+                label: '组织部初审', name: 'expiryDate', cellattr: function (rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return approverTdAttrs(tdBean);
             }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[-1];
-                return processTdBean(tdBean, rowObject.isDeleted)
+                return processTdBean(tdBean)
             }
             },
             <c:forEach items="${approverTypeMap}" var="type">
@@ -291,21 +303,21 @@
                     return approverTdAttrs(tdBean);
                 }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap['${type.key}'];
-                return processTdBean(tdBean, rowObject.isDeleted)
+                return processTdBean(tdBean)
             }
             },
             </c:forEach>
             {
-                label: '组织部终审', name: 'expiryDate', width: 100, cellattr: function (rowId, val, rowObject, cm, rdata) {
+                label: '组织部终审', name: 'expiryDate', cellattr: function (rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return approverTdAttrs(tdBean);
             }, formatter: function (cellvalue, options, rowObject) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
-                return processTdBean(tdBean, rowObject.isDeleted)
+                return processTdBean(tdBean)
             }
             },
             {
-                label: '变更记录', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '变更记录', name: 'isModify', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''
@@ -317,7 +329,7 @@
             if (currentObj.flowNode == -1 || currentObj.flowNode == 0) {
                 var tdBean = currentObj.approvalTdBeanMap[currentObj.flowNode];
                 isFinish = currentObj.isFinish;
-                approvalTypeId = tdBean!=undefined?tdBean.approvalTypeId:null;
+                approvalTypeId = tdBean != undefined ? tdBean.approvalTypeId : null;
             }
 
             return {
@@ -341,7 +353,7 @@
                             return item.realname;
                         });
                         var text = realnames.join("，");
-                        if(ret.uv){
+                        if (ret.uv) {
                             text += "<br/><span class='text-danger'>审批人：" + ret.uv.realname + "</span>";
                         }
                         $(e.target).qtip({
@@ -371,7 +383,7 @@
 
     function approverTdAttrs(tdBean) {
 
-        if(tdBean==undefined) return '';
+        if (tdBean == undefined) return '';
 
         var attrs = "data-td-type={0} data-apply-self-id={1} data-approval-type-id={2} ".format(tdBean.tdType, tdBean.applySelfId, tdBean.approvalTypeId);
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
@@ -402,14 +414,10 @@
      }
      return html;
      }*/
-    function processTdBean(tdBean, isDeleted) {
+    function processTdBean(tdBean) {
 
-        if(tdBean==undefined) return '';
-        //console.log(isDeleted)
-        var applySelfId = tdBean.applySelfId;
-        var approvalTypeId = tdBean.approvalTypeId;
+        if (tdBean == undefined) return '';
         var type = tdBean.tdType;
-        var canApproval = tdBean.canApproval && !isDeleted;
         var html = "";
         switch (type) {
             case 1:
@@ -423,15 +431,7 @@
                 html = "未审批";
                 break;
             case 4:
-            {
-                html = "<button {0} class=\"openView btn {1} btn-xs\"" +
-                "        data-url=\"${ctx}/abroad/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
-                "        <i class=\"fa fa-edit\"></i> 审批" +
-                "        </button>";
-                html = html.format(canApproval ? "" : "disabled",
-                        canApproval ? "btn-success" : "btn-default",
-                        applySelfId, approvalTypeId);
-            }
+                html = '<span class="text-danger">待审批</span>';
                 break;
             case 5:
                 html = "未通过";
@@ -439,6 +439,36 @@
             case 6:
                 html = "通过";
                 break;
+        }
+
+        return html;
+    }
+
+    function _approval(approvalTdBeanMap, isDeleted) {
+
+        var html = "-";
+        for (i in approvalTdBeanMap) {
+
+            var tdBean = approvalTdBeanMap[i];
+            //console.log(tdBean)
+            var applySelfId = tdBean.applySelfId;
+            var approvalTypeId = tdBean.approvalTypeId;
+            var type = tdBean.tdType;
+            var canApproval = tdBean.canApproval && !isDeleted;
+            switch (type) {
+                case 4:
+                {
+                    html = "<button {0} class=\"openView btn {1} btn-xs\"" +
+                            "        data-url=\"${ctx}/abroad/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
+                            "        <i class=\"fa fa-edit\"></i> 审批" +
+                            "        </button>";
+                    //console.log(html)
+                    html = html.format(canApproval ? "" : "disabled",
+                            canApproval ? "btn-success" : "btn-default",
+                            applySelfId, approvalTypeId);
+                    return html;
+                } break;
+            }
         }
 
         return html;

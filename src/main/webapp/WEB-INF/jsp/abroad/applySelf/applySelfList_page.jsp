@@ -169,6 +169,12 @@
             }, frozen: true
             },
             {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            <c:if test="${status==0}">
+            {
+                label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
+            }},
+            </c:if>
             {label: '工作证号', align: 'center', name: 'user.code', width: 100, frozen: true},
             {label: '姓名', align: 'center', name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250},
@@ -177,9 +183,11 @@
             {
                 label: '出行天数',
                 align: 'center',
-                name: 'code',
+                name: '_day',
                 width: 80,
                 formatter: function (cellvalue, options, rowObject) {
+                    //console.log(rowObject.startDate)
+                    //console.log(rowObject.endDate)
                     return $.dayDiff(rowObject.startDate, rowObject.endDate);
                 }
             },
@@ -268,13 +276,7 @@
                 html = "未审批";
                 break;
             case 4:
-            {
-                html = "<button {0} class=\"openView btn {1}  btn-xs\"" +
-                "        data-url=\"${ctx}/abroad/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
-                "        <i class=\"fa fa-edit\"></i> 审批" +
-                "        </button>";
-                html = html.format(canApproval ? "" : "disabled", canApproval ? "btn-success" : "btn-default", applySelfId, approvalTypeId);
-            }
+                html = '<span class="text-danger">待审批</span>';
                 break;
             case 5:
                 html = "未通过";
@@ -282,6 +284,36 @@
             case 6:
                 html = "通过";
                 break;
+        }
+
+        return html;
+    }
+
+    function _approval(approvalTdBeanMap, isDeleted) {
+
+        var html = "-";
+        for (i in approvalTdBeanMap) {
+
+            var tdBean = approvalTdBeanMap[i];
+            //console.log(tdBean)
+            var applySelfId = tdBean.applySelfId;
+            var approvalTypeId = tdBean.approvalTypeId;
+            var type = tdBean.tdType;
+            var canApproval = tdBean.canApproval && !isDeleted;
+            switch (type) {
+                case 4:
+                {
+                    html = "<button {0} class=\"openView btn {1} btn-xs\"" +
+                            "        data-url=\"${ctx}/abroad/applySelf_view?type=approval&id={2}&approvalTypeId={3}\">" +
+                            "        <i class=\"fa fa-edit\"></i> 审批" +
+                            "        </button>";
+                    //console.log(html)
+                    html = html.format(canApproval ? "" : "disabled",
+                            canApproval ? "btn-success" : "btn-default",
+                            applySelfId, approvalTypeId);
+                   return html;
+                } break;
+            }
         }
 
         return html;
