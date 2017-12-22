@@ -71,14 +71,19 @@ public class PmdConfigMemberService extends BaseMapper {
     public boolean canSetSalary(int userId){
 
         PmdConfigMember pmdConfigMember = getPmdConfigMember(userId);
-        Integer configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
-        if(configMemberTypeId!=null){
+        if(pmdConfigMember!=null) {
+            Integer configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
+            if (configMemberTypeId != null) {
 
-            PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
-            PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+                if(pmdConfigMemberType!=null) {
 
-            return (pmdNorm.getSetType()== SystemConstants.PMD_NORM_SET_TYPE_FORMULA
-                    && pmdNorm.getFormulaType() != SystemConstants.PMD_FORMULA_TYPE_RETIRE);
+                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+
+                    return (pmdNorm!=null && pmdNorm.getSetType() == SystemConstants.PMD_NORM_SET_TYPE_FORMULA
+                            && pmdNorm.getFormulaType() != SystemConstants.PMD_FORMULA_TYPE_RETIRE);
+                }
+            }
         }
 
         return false;

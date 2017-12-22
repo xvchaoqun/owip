@@ -188,7 +188,7 @@ public class PmdMonthService extends BaseMapper {
                 for (Member member : members) {
                     addMember(currentMonth, member);
                 }
-                Integer memberCount = members.size();
+                //Integer memberCount = members.size();
 
                 // 更新当月直属党支部信息
                 PmdParty record = new PmdParty();
@@ -205,38 +205,7 @@ public class PmdMonthService extends BaseMapper {
                 List<Integer> branchIdList = iPmdMapper.branchIdList(monthId, partyId);
                 for (Integer branchId : branchIdList) {
 
-                    // 同步党员
-                    MemberExample example = new MemberExample();
-                    example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
-                            .andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
-                    List<Member> members = memberMapper.selectByExample(example);
-                    for (Member member : members) {
-                        addMember(currentMonth, member);
-                    }
-
-                    {
-                        // 更新当月党支部信息（党员总数、本月应交党费数）
-                        PmdBranch pmdBranch = pmdBranchService.get(monthId, partyId, branchId);
-                        if (pmdBranch == null)
-                            throw new OpException("数据异常，党支部不存在。[{0}-{1}-{2}]",
-                                    monthId, partyId, branchId);
-
-                        PmdBranch record = new PmdBranch();
-                        record.setId(pmdBranch.getId());
-                        // 党员总数
-                        //record.setMemberCount(members.size());
-                        // 本月应交党费数
-                        //record.setDuePay(iPmdMapper.duePay(monthId, partyId, branchId));
-
-                        // 往月延迟缴费党员数
-                        record.setHistoryDelayMemberCount(iPmdMapper.historyDelayMemberCount(monthId, partyId, branchId));
-                        // 应补缴往月党费数
-                        BigDecimal historyDelayPay = iPmdMapper.historyDelayPay(monthId, partyId, branchId);
-                        historyDelayPay = (historyDelayPay == null) ? new BigDecimal(0) : historyDelayPay;
-                        record.setHistoryDelayPay(historyDelayPay);
-
-                        pmdBranchMapper.updateByPrimaryKeySelective(record);
-                    }
+                   addBranch(partyId, branchId, currentMonth);
                 }
             }
 
@@ -271,6 +240,46 @@ public class PmdMonthService extends BaseMapper {
 
         long end = System.currentTimeMillis();
         logger.info("{}党员缴费-启动成功，耗时{}ms", payMonth, (end - start));
+    }
+
+    // 添加一个支部（非直属）
+    @Transactional
+    public void addBranch(int partyId, int branchId, PmdMonth currentMonth){
+
+        int monthId = currentMonth.getId();
+
+        // 同步党员
+        MemberExample example = new MemberExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                .andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
+        List<Member> members = memberMapper.selectByExample(example);
+        for (Member member : members) {
+            addMember(currentMonth, member);
+        }
+
+        {
+            // 更新当月党支部信息（党员总数、本月应交党费数）
+            PmdBranch pmdBranch = pmdBranchService.get(monthId, partyId, branchId);
+            if (pmdBranch == null)
+                throw new OpException("数据异常，党支部不存在。[{0}-{1}-{2}]",
+                        monthId, partyId, branchId);
+
+            PmdBranch record = new PmdBranch();
+            record.setId(pmdBranch.getId());
+            // 党员总数
+            //record.setMemberCount(members.size());
+            // 本月应交党费数
+            //record.setDuePay(iPmdMapper.duePay(monthId, partyId, branchId));
+
+            // 往月延迟缴费党员数
+            record.setHistoryDelayMemberCount(iPmdMapper.historyDelayMemberCount(monthId, partyId, branchId));
+            // 应补缴往月党费数
+            BigDecimal historyDelayPay = iPmdMapper.historyDelayPay(monthId, partyId, branchId);
+            historyDelayPay = (historyDelayPay == null) ? new BigDecimal(0) : historyDelayPay;
+            record.setHistoryDelayPay(historyDelayPay);
+
+            pmdBranchMapper.updateByPrimaryKeySelective(record);
+        }
     }
 
     // 添加一个党员
@@ -415,6 +424,7 @@ public class PmdMonthService extends BaseMapper {
         }
     }*/
 
+    // 添加一个党员
     @Transactional
     private void addMember(PmdMonth pmdMonth, Member member) {
 

@@ -1,6 +1,12 @@
 package controller.pmd;
 
 import controller.PmdBaseController;
+import domain.party.Branch;
+import domain.party.BranchExample;
+import domain.party.Party;
+import domain.pmd.PmdBranch;
+import domain.pmd.PmdMonth;
+import domain.pmd.PmdPayBranch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PayNotifyWszfBean;
-import service.pmd.PmdTestService;
+import service.pmd.PmdPayBranchService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
@@ -23,22 +28,75 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lm on 2017/11/7.
  */
 @Controller
-//@RequestMapping("/pmd/pay")
+@RequestMapping("/pmd/pay")
 public class PmdPayTestController extends PmdBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
-    private PmdTestService pmdTestService;
+    private PmdPayBranchService pmdPayBranchService;
+    //@Autowired
+    //private PmdTestService pmdTestService;
+
+    /**
+     *
+     delete from pmd_member_pay where member_id in(select id from pmd_member where branch_id  not in(1152,1157,1164,1168) and has_pay=0);
+
+     delete from pmd_member where branch_id  not in(1152,1157,1164,1168) and has_pay=0;
+
+     delete from pmd_branch where branch_id  not in(1152,1157,1164,1168);
+     */
+    @RequestMapping("/ab")
+    public void ab( HttpServletResponse response) throws IOException {
+
+        PmdMonth currentMonth = pmdMonthService.getMonth(new Date());
+
+        // 机关-人事处党支部
+        String brachCode = "063333455";
+        BranchExample example = new BranchExample();
+        example.createCriteria().andCodeEqualTo(brachCode).andIsDeletedEqualTo(false);
+        List<Branch> branchList = branchMapper.selectByExample(example);
+        Branch branch = branchList.get(0);
+
+        int monthId = currentMonth.getId();
+        Party party = partyService.findAll().get(branch.getPartyId());
+        int partyId = party.getId();
+        int branchId = branch.getId();
+        String partyName = party.getName();
+
+        Set<Integer> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(null).keySet();
+        PmdBranch record = new PmdBranch();
+        record.setMonthId(monthId);
+        record.setPartyId(partyId);
+        record.setBranchId(branchId);
+        record.setPartyName(partyName);
+        record.setBranchName(branch.getName());
+        record.setSortOrder(party.getSortOrder());
+        record.setHasReport(false);
+
+        pmdBranchMapper.insertSelective(record);
+
+        if (!allPayBranchIdSet.contains(branchId)) {
+            PmdPayBranch _record = new PmdPayBranch();
+            _record.setBranchId(branchId);
+            _record.setPartyId(partyId);
+            _record.setMonthId(monthId);
+            pmdPayBranchMapper.insertSelective(_record);
+        }
+
+
+        pmdMonthService.addBranch(branch.getPartyId(), branch.getId(), currentMonth);
+        response.getWriter().write("success");
+    }
 
     //@RequestMapping("/step")
-    @ResponseBody
+   /* @ResponseBody
     public Map test(int step){
 
         switch (step){
@@ -57,9 +115,9 @@ public class PmdPayTestController extends PmdBaseController {
         }
 
         return success("操作成功");
-    }
+    }*/
 
-    @RequestMapping("/test")
+    //@RequestMapping("/test")
     public String test(@RequestParam(required = false, defaultValue = "0.01") String amount,
                        @RequestParam(required = false, defaultValue = "0") int type,
                             HttpServletRequest request, ModelMap modelMap) {
@@ -103,7 +161,7 @@ public class PmdPayTestController extends PmdBaseController {
         return "pmd/pay/test";
     }
 
-    @RequestMapping("/test/returnPage")
+   // @RequestMapping("/test/returnPage")
     public String returnPage(PayNotifyWszfBean bean, HttpServletRequest request, ModelMap modelMap) {
 
         String ret =  JSONUtils.toString(request.getParameterMap(), false);
@@ -116,7 +174,7 @@ public class PmdPayTestController extends PmdBaseController {
         return "pmd/pay/return_test_page";
     }
 
-    @RequestMapping("/test/notifyPage")
+    //@RequestMapping("/test/notifyPage")
     public void notifyPage(PayNotifyWszfBean bean, HttpServletRequest request,
                            HttpServletResponse response, ModelMap modelMap) throws IOException {
 
