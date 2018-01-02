@@ -1,3 +1,7 @@
+
+
+select * from licdc_zg.v_zzry_gz_dydf t;--党员工资详情
+
 ############
 ## 视图权限
 drop user data@219.224.19.33;

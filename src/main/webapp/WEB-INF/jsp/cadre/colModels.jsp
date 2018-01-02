@@ -237,6 +237,17 @@
     colModels.cadre2 = [
         {label: '工作证号', name: 'code', width: 100, frozen: true},
         {label: '姓名', name: 'realname', width: 120, frozen: true},
+        {label: '身份证号', name: 'idcard', width: 170},
+        {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
+        {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
+        {label: '专业技术职务', name: 'proPost', width: 120},
+        {
+            label: '任现职时间',
+            name: 'lpWorkTime',
+            formatter: 'date',
+            formatoptions: {newformat: 'Y-m-d'}
+        },
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unit.name', width: 200},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},

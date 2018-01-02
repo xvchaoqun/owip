@@ -95,7 +95,8 @@ public class CadreExportService extends BaseMapper {
         }
 
         int count = records.size();
-        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|100", "部门属性|150", "所在单位|300", "现任职务|160",
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{
+                "工作证号|100", "姓名|100", "部门属性|150", "所在单位|300", "现任职务|160",
                 "所在单位及职务|300", "行政级别|100", "职务属性|100", "是否正职|120", "性别|50",
                 "民族|100", "籍贯|100", "出生地|100", "身份证号|150", "出生时间|100",
                 "年龄|50", "党派|150", "党派加入时间|120", "参加工作时间|120", "到校时间|100",
@@ -108,12 +109,12 @@ public class CadreExportService extends BaseMapper {
                 "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
                 "备注|500"}));
 
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 4, 6, 7, 8, 14,15,16, 17, 18,20,34, 41,51, 54};
         if(exportType==1) {
             //新增一个角色，限制查看中层干部库权限，
-            // 字段为：工作证号，姓名，部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
+            // 字段为：工作证号，姓名，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
             List<String> _titles = new ArrayList<>();
-            int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
-            for (int exportCloumn : exportCloumns) {
+            for (int exportCloumn : exportCloumns_1) {
                 _titles.add(titles.get(exportCloumn - 1));
             }
             titles.clear();
@@ -347,8 +348,8 @@ public class CadreExportService extends BaseMapper {
                 //新增一个角色，限制查看中层干部库权限，
                 // 字段为：工作证号，姓名，部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
                 List<String> _values = new ArrayList<>();
-                int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
-                for (int exportCloumn : exportCloumns) {
+                //int[] exportCloumns = new int[]{1, 2, 3, 4, 6, 7, 8, 17, 18, 51, 54};
+                for (int exportCloumn : exportCloumns_1) {
                     _values.add(values.get(exportCloumn - 1));
                 }
                 values.clear();

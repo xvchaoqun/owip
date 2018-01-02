@@ -13,6 +13,10 @@ select * from licdc_zg.V_YJS_YJSXJJBXX t;--研究生学籍基本信息
 select * from licdc_zg.v_bks_xjjbsjxx t;--本科生学籍基本信息
 select * from licdc_zg.v_jzg_rs_jzg_jbxx t;--教职工基本信息
 
+
+select * from licdc_zg.v_zzry_gz_dydf t;--党员工资详情
+
+
 -- Create table
 create table LICDC_JZG.RS_JZG_JBXX
 (
