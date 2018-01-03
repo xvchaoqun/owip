@@ -258,6 +258,10 @@ public class CadreWorkService extends BaseMapper {
 
             CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
             modify.setId(originalId);
+
+            CadreWork original = cadreWorkMapper.selectByPrimaryKey(originalId);
+            modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加期间工作经历
+
             modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
             cadreWorkMapper.updateByPrimaryKey(modify); // 覆盖原纪录
