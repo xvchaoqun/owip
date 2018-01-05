@@ -29,6 +29,7 @@ import service.ext.ExtService;
 import service.source.ExtAbroadImport;
 import service.source.ExtBksImport;
 import service.source.ExtJzgImport;
+import service.source.ExtJzgSalaryImport;
 import service.source.ExtRetireSalaryImport;
 import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
@@ -60,6 +61,8 @@ public class SysUserSyncService extends BaseMapper {
     private ExtAbroadImport extAbroadImport;
     @Autowired
     private ExtRetireSalaryImport extRetireSalaryImport;
+    @Autowired
+    private ExtJzgSalaryImport extJzgSalaryImport;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -70,6 +73,45 @@ public class SysUserSyncService extends BaseMapper {
                 .andTypeEqualTo(type).andIsStopEqualTo(false);
 
         return sysUserSyncMapper.countByExample(example) > 0;
+    }
+
+    // 同步在职工资信息
+    public void syncJzgSalary(boolean autoStart) {
+
+        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
+            throw new OpException("上一次同步仍在进行中");
+        }
+
+        // 先从学校导入数据
+        int ret = 0;
+        try {
+            ret = extJzgSalaryImport.excute();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new OpException("教职工工资信息同步出错：" + ex.getMessage());
+        }
+
+        SysUserSync sysUserSync = new SysUserSync();
+        if (!autoStart) {
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+        }
+        sysUserSync.setAutoStart(autoStart);
+        sysUserSync.setAutoStop(false);
+        sysUserSync.setStartTime(new Date());
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
+        sysUserSync.setIsStop(false);
+
+        sysUserSync.setCurrentCount(0);
+        sysUserSync.setCurrentPage(0);
+        sysUserSync.setTotalCount(ret);
+        sysUserSync.setInsertCount(0);
+        sysUserSync.setUpdateCount(0);
+
+        sysUserSync.setEndTime(new Date());
+        sysUserSync.setAutoStop(true);
+        sysUserSync.setIsStop(true);
+
+        insertSelective(sysUserSync);
     }
 
     // 同步离退休工资信息
@@ -85,7 +127,7 @@ public class SysUserSyncService extends BaseMapper {
             ret = extRetireSalaryImport.excute();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new OpException("学校信息同步出错：" + ex.getMessage());
+            throw new OpException("离退休工资信息同步出错：" + ex.getMessage());
         }
 
         SysUserSync sysUserSync = new SysUserSync();

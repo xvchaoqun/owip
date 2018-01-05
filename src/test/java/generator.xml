@@ -785,6 +785,8 @@
         </table>-->
         <!--<table tableName="ext_retire_salary" domainObjectName="ext.ExtRetireSalary"  mapperName="ext.ExtRetireSalaryMapper">
         </table>-->
+        <table tableName="ext_jzg_salary" domainObjectName="ext.ExtJzgSalary"  mapperName="ext.ExtJzgSalaryMapper">
+        </table>
 
 
     </context>

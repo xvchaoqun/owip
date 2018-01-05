@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import domain.party.EnterApply;
+import domain.party.EnterApplyExample;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,10 @@ import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.PartyService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -206,9 +207,40 @@ public class MemberInflowService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        MemberInflowExample example = new MemberInflowExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        memberInflowMapper.deleteByExample(example);
+        for (Integer id : ids) {
+
+            MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
+            if(memberInflow!=null
+                    && memberInflow.getInflowStatus()==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY) {
+
+                {
+                    MemberInflow record = new MemberInflow();
+                    record.setId(id);
+                    record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
+                    memberInflowMapper.updateByPrimaryKeySelective(record);
+                }
+                Integer userId = memberInflow.getUserId();
+                {
+                    EnterApplyExample example = new EnterApplyExample();
+                    example.createCriteria()
+                            .andTypeEqualTo(SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW)
+                            .andUserIdEqualTo(userId)
+                            .andStatusEqualTo(SystemConstants.ENTER_APPLY_STATUS_PASS);
+                    EnterApply record = new EnterApply();
+                    record.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                    enterApplyMapper.updateByExampleSelective(record, example);
+                }
+
+                sysUserService.changeRole(userId, SystemConstants.ROLE_INFLOWMEMBER, SystemConstants.ROLE_GUEST);
+
+                applyApprovalLogService.add(id,
+                        memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
+                        ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                        SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(memberInflow.getInflowStatus()),
+                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, "删除流入党员");
+            }
+        }
     }
 
     @Transactional

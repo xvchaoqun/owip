@@ -226,6 +226,9 @@ public class CadreWorkController extends BaseController {
 
             if(!toApply) {
                 cadreWorkService.updateByPrimaryKeySelective(record);
+                if(record.getEndTime()==null){
+                    commonMapper.excuteSql("update cadre_work set end_time=null where id="+id);
+                }
                 logger.info(addLog(SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {

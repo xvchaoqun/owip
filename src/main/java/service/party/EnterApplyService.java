@@ -211,8 +211,10 @@ public class EnterApplyService extends BaseMapper{
             throw new OpException("添加重复");
         }
         MemberInflow memberInflow = memberInflowService.get(userId);
-        if(memberInflow!=null && memberInflow.getInflowStatus()
-                ==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+        if(memberInflow!=null
+                && memberInflow.getInflowStatus() ==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY
+                && (memberInflow.getOutStatus()==null ||
+                memberInflow.getOutStatus()!=SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY)){
             throw new OpException("已经是流入党员");
         }
 

@@ -314,7 +314,7 @@
           if(ret.success){
             SysMsg.success('操作成功。', '成功', function(){
               <c:if test="${param.auth=='admin'}">
-              $.hashchange("type=2", "${ctx}/passportDraw")
+              $.hashchange("type=2", "${ctx}/abroad/passportDraw")
               </c:if>
               <c:if test="${param.auth!='admin'}">
               $.hashchange("type=2", "${ctx}/user/abroad/passportDraw")

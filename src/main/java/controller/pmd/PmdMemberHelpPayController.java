@@ -1,6 +1,7 @@
 package controller.pmd;
 
 import controller.PmdBaseController;
+import controller.global.OpException;
 import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
@@ -36,7 +37,13 @@ public class PmdMemberHelpPayController extends PmdBaseController {
     public String pmdMemberHelpPay_records(int userId, ModelMap modelMap) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null){
+            throw new OpException("未到缴费时间");
+        }
         PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), userId);
+        if(pmdMember==null){
+            throw new OpException("未到缴费时间");
+        }
         modelMap.put("pmdMember", pmdMember);
 
         Member member = memberService.get(ShiroHelper.getCurrentUserId());

@@ -407,8 +407,9 @@ public class MemberInflowController extends BaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "删除流入党员：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
+    // 删除审核通过的流入党员（至不通过状态）
     @RequiresPermissions("memberInflow:del")
     @RequestMapping(value = "/memberInflow_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -421,7 +422,7 @@ public class MemberInflowController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     public void memberInflow_export(MemberInflowExample example, HttpServletResponse response) {
 
