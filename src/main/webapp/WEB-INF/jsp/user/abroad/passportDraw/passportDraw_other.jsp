@@ -133,8 +133,9 @@
           if(ret.success){
             SysMsg.success('操作成功。', '成功', function(){
               <c:if test="${param.auth=='admin'}">
-              $("#modal").modal('hide');
-              $.hashchange();
+              //$("#modal").modal('hide');
+              //$.hashchange();
+              $.hashchange("type=3", "${ctx}/abroad/passportDraw")
               </c:if>
               <c:if test="${param.auth!='admin'}">
               $.hashchange("type=3", "${ctx}/user/abroad/passportDraw")
