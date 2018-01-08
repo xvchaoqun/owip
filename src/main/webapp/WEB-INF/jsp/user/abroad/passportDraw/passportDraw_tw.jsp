@@ -121,7 +121,7 @@
 <div class="modal-footer center">
   <input id="next" data-url="${ctx}/user/abroad/passportDraw_self_sign?type=tw&cadreId=${param.cadreId}&auth=${param.auth}"
          class="btn btn-primary" value="下一步"/>
-  <input id="submit" style="display: none" class="btn btn-success" value="提交申请"/>
+  <input id="submit" type="button" style="display: none" class="btn btn-success" value="提交申请"/>
   <c:if test="${param.auth!='admin'}">
   <input class="loadPage btn btn-default" value="取消" data-url="${ctx}/user/abroad/passportDraw"/>
   </c:if>
