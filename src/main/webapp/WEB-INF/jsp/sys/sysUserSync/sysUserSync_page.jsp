@@ -53,6 +53,7 @@
                     <li>
                         <a data-type="${SYNC_TYPE_RETIRE_SALARY}"
                            class="syncBtn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月离退休费同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步本月离退休费</a>
                     </li>
                     <li>
                         <a data-type="${SYNC_TYPE_JZG_SALARY}"
