@@ -15,6 +15,6 @@ public class BnuRetireSalaryImportTest {
     @Test
     public void excute() throws Exception {
 
-        extRetireSalaryImport.excute();
+        extRetireSalaryImport.excute(null);
     }
 }

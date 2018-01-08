@@ -23,16 +23,16 @@ public class ExtJzgImport extends Source {
     public String schema = "ICDC_VIEW";
     public String tableName = "V_JZG_RS_JZG_JBXX_NEW";
 
-    public void excute(String code) {
+    public void byCode(String code) {
 
         logger.info("更新教职工账号库基本信息:" + code);
         excute(schema, tableName, String.format("where zgh='%s'", code));
     }
 
-    public void excute(){
+    public void excute(Integer syncId){
         logger.info("更新教职工账号库基本信息");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName);
+        excute(schema, tableName, syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新教职工账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
     }

@@ -14,7 +14,7 @@ public class BnuJzgImportTest {
     public ExtJzgImport extJzgImport;
     @Test
     public void excute(){
-        extJzgImport.excute();
+        extJzgImport.excute(null);
     }
 
 }

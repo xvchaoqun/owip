@@ -24,10 +24,10 @@ public class ExtAbroadImport extends Source {
     public String schema = "licdc_zg";
     public String tableName = "v_rs_jzg_cgjxx";
 
-    public void excute(){
+    public void excute(Integer syncId){
         logger.info("更新教职工党员出国信息库");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName);
+        excute(schema, tableName, syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新教职工党员出国信息库程序运行时间： " + (endTime - startTime) + "ms");
     }

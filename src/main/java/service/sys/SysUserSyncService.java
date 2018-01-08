@@ -78,7 +78,7 @@ public class SysUserSyncService extends BaseMapper {
     // 同步在职工资信息
     public synchronized void syncJzgSalary(boolean autoStart) {
 
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
+        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG_SALARY)) {
             throw new OpException("上一次同步仍在进行中");
         }
 
@@ -89,7 +89,7 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setAutoStart(autoStart);
         sysUserSync.setAutoStop(false);
         sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_JZG_SALARY);
         sysUserSync.setIsStop(false);
 
         sysUserSync.setCurrentCount(0);
@@ -98,24 +98,27 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
-        sysUserSync.setEndTime(new Date());
-        sysUserSync.setAutoStop(true);
-        sysUserSync.setIsStop(true);
-
         insertSelective(sysUserSync);
+
+        int syncId = sysUserSync.getId();
 
         // 先从学校导入数据
         int ret = 0;
         try {
-            ret = extJzgSalaryImport.excute();
+            ret = extJzgSalaryImport.excute(syncId);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new OpException("教职工工资信息同步出错：" + ex.getMessage());
         }
 
         SysUserSync record = new SysUserSync();
-        record.setId(sysUserSync.getId());
+        record.setId(syncId);
         record.setTotalCount(ret);
+
+        sysUserSync.setEndTime(new Date());
+        sysUserSync.setAutoStop(true);
+        sysUserSync.setIsStop(true);
+
         updateByPrimaryKeySelective(record);
     }
 
@@ -140,24 +143,25 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
-        sysUserSync.setEndTime(new Date());
-        sysUserSync.setAutoStop(true);
-        sysUserSync.setIsStop(true);
-
         insertSelective(sysUserSync);
 
+        int syncId = sysUserSync.getId();
         // 先从学校导入数据
         int ret = 0;
         try {
-            ret = extRetireSalaryImport.excute();
+            ret = extRetireSalaryImport.excute(syncId);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new OpException("离退休工资信息同步出错：" + ex.getMessage());
         }
 
         SysUserSync record = new SysUserSync();
-        record.setId(sysUserSync.getId());
+        record.setId(syncId);
         record.setTotalCount(ret);
+        sysUserSync.setEndTime(new Date());
+        sysUserSync.setAutoStop(true);
+        sysUserSync.setIsStop(true);
+
         updateByPrimaryKeySelective(record);
     }
 
@@ -167,18 +171,6 @@ public class SysUserSyncService extends BaseMapper {
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)) {
             throw new OpException("上一次同步仍在进行中");
         }
-
-        // 先从学校导入数据
-        try {
-            extAbroadImport.excute();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new OpException("学校信息同步出错：" + ex.getMessage());
-        }
-
-        int count = extAbroadMapper.countByExample(new ExtAbroadExample());
-        int pageSize = 200;
-        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
         SysUserSync sysUserSync = new SysUserSync();
         if (!autoStart) {
@@ -192,16 +184,40 @@ public class SysUserSyncService extends BaseMapper {
 
         sysUserSync.setCurrentCount(0);
         sysUserSync.setCurrentPage(0);
-        sysUserSync.setTotalCount(count);
-        sysUserSync.setTotalPage(pageNo);
+
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
-        sysUserSync.setEndTime(new Date());
-        sysUserSync.setAutoStop(true);
-        sysUserSync.setIsStop(true);
-
         insertSelective(sysUserSync);
+
+        int syncId = sysUserSync.getId();
+
+        // 先从学校导入数据
+        try {
+            extAbroadImport.excute(syncId);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new OpException("学校信息同步出错：" + ex.getMessage());
+        }
+
+        int count = extAbroadMapper.countByExample(new ExtAbroadExample());
+        int pageSize = 200;
+        int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
+
+        SysUserSync record = new SysUserSync();
+        record.setId(syncId);
+
+        sysUserSync.setTotalCount(count);
+        sysUserSync.setTotalPage(pageNo);
+
+        record.setEndTime(new Date());
+        record.setAutoStop(true);
+        record.setIsStop(true);
+        try {
+            updateByPrimaryKeySelective(record);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Transactional
@@ -269,9 +285,11 @@ public class SysUserSyncService extends BaseMapper {
 
         insertSelective(sysUserSync);
 
+        int syncId = sysUserSync.getId();
+
         // 先从学校导入数据
         try {
-            extJzgImport.excute();
+            extJzgImport.excute(syncId);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new OpException("学校信息同步出错：" + ex.getMessage());
@@ -300,7 +318,7 @@ public class SysUserSyncService extends BaseMapper {
             }
 
             SysUserSync record = new SysUserSync();
-            record.setId(sysUserSync.getId());
+            record.setId(syncId);
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
             record.setTotalCount(count);
@@ -393,9 +411,11 @@ public class SysUserSyncService extends BaseMapper {
 
         insertSelective(sysUserSync);
 
+        int syncId = sysUserSync.getId();
+
         // 先从学校导入数据
         try {
-            extYjsImport.excute();
+            extYjsImport.excute(syncId);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new OpException("学校信息同步出错：" + ex.getMessage());
@@ -426,7 +446,7 @@ public class SysUserSyncService extends BaseMapper {
             }
 
             SysUserSync record = new SysUserSync();
-            record.setId(sysUserSync.getId());
+            record.setId(syncId);
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
             record.setTotalCount(count);
@@ -521,9 +541,11 @@ public class SysUserSyncService extends BaseMapper {
 
         insertSelective(sysUserSync);
 
+        int syncId = sysUserSync.getId();
+
         // 先从学校导入数据
         try {
-            extBksImport.excute();
+            extBksImport.excute(syncId);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new OpException("学校信息同步出错：" + ex.getMessage());
@@ -553,7 +575,7 @@ public class SysUserSyncService extends BaseMapper {
             }
 
             SysUserSync record = new SysUserSync();
-            record.setId(sysUserSync.getId());
+            record.setId(syncId);
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
             record.setTotalCount(count);

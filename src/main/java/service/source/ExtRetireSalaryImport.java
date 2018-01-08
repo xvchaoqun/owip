@@ -26,12 +26,13 @@ public class ExtRetireSalaryImport extends Source {
     public String schema = "licdc_zg";
     public String tableName = "v_cjc_ltxf";
 
-    public int excute(){
-        logger.info("同步本月离退休信息");
+    public int excute(Integer syncId){
+        String rq = DateUtils.formatDate(new Date(), "yyyyMM");
+        logger.info("同步{}月离退休信息", rq);
         long startTime=System.currentTimeMillis();
-        int ret = excute(schema, tableName, String.format("where rq<='%s'", DateUtils.formatDate(new Date(), "yyyyMM")));
+        int ret = excute(schema, tableName, String.format("where rq='%s'", rq), syncId);
         long endTime=System.currentTimeMillis();
-        logger.info("同步本月离退休信息运行时间： " + (endTime - startTime) + "ms");
+        logger.info("同步{}月离退休信息运行时间： " + (endTime - startTime) + "ms", rq);
         return ret;
     }
 

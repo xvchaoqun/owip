@@ -14,7 +14,7 @@
           </a>
           </c:if>
         <c:if test="${param.auth=='admin'}">
-          <a data-url="${ctx}/passportDraw?type=2" class="loadPage btn btn-sm btn-success">
+          <a data-url="${ctx}/abroad/passportDraw?type=2" class="loadPage btn btn-sm btn-success">
             <i class="ace-icon fa fa-backward"></i>
             返回
           </a>
@@ -25,7 +25,8 @@
 
     <div class="tab-content">
       <div id="home4" class="tab-pane in active">
-<form class="form-horizontal" action="${ctx}/user/abroad/passportDraw_tw_au" id="applyForm" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="${ctx}/user/abroad/passportDraw_tw_au"
+      id="applyForm" method="post" enctype="multipart/form-data">
   <input type="hidden" name="cadreId" value="${param.cadreId}">
   <div class="form-group">
     <label class="col-xs-3 control-label">申请类型</label>

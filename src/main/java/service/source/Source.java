@@ -1,11 +1,14 @@
 package service.source;
 
 import bean.ColumnBean;
+import domain.sys.SysUserSync;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import persistence.sys.SysUserSyncMapper;
 import sys.utils.JSONUtils;
 
 import javax.sql.DataSource;
@@ -23,6 +26,8 @@ public abstract class Source {
     //public DruidDataSource bnuDS;
     private Logger logger = LoggerFactory.getLogger(getClass());
     protected static Connection conn;
+    @Autowired
+    public SysUserSyncMapper sysUserSyncMapper;
 
     public Connection initConn() {
 
@@ -43,7 +48,7 @@ public abstract class Source {
     public abstract void update(Map<String, Object> map, ResultSet rs) throws SQLException;
 
     // 从oracle导入数据到mysql
-    public void excute(String schema, String tableName) {
+    public void excute(String schema, String tableName, Integer syncId) {
 
         initConn();
 
@@ -79,6 +84,13 @@ public abstract class Source {
                     }
 
                     update(map, rs);
+                }
+
+                if(syncId!=null) {
+                    SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(syncId);
+                    if (_sync.getIsStop()) {
+                        break; // 强制结束
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -131,6 +143,68 @@ public abstract class Source {
         }
 
         return i;
+    }
+
+    // 按条件从oracle导入数据到mysql（分页）
+    public int excute(String schema, String tableName, String searchStr, Integer syncId) {
+
+        initConn();
+
+        Statement stat = null;
+        ResultSet rs = null;
+        Map<String, Object> map = new HashMap<>();
+        int ret = 0;
+        try {
+            List<ColumnBean> columnBeans = getTableColumns(tableName);
+            String tbl = String.format("%s.%s", schema, tableName);
+            searchStr = (StringUtils.isNotBlank(searchStr)?" " + searchStr:"");
+            int count = 0;
+            String countSql = "select count(*) from " + tbl + searchStr;
+            stat = conn.createStatement();
+            rs = stat.executeQuery(countSql);
+            while (rs != null && rs.next()) {
+                count = rs.getInt(1);
+            }
+            int pageSize = 1000;
+            int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
+            logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
+            for (int i = 0; i <= pageNo; i++) {
+                logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
+                String sql = getLimitString("select * from " + tbl + searchStr, (i - 1) * pageSize, pageSize);
+
+                rs = stat.executeQuery(sql);
+                while (rs != null && rs.next()) {
+
+                    map = new HashMap<>();
+                    for (ColumnBean columnBean : columnBeans) {
+                        String name = columnBean.getName();
+                        map.put(name, rs.getString(name));
+                    }
+
+                    update(map, rs);
+                    ret++;
+                }
+
+                if(syncId!=null) {
+                    SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(syncId);
+                    if (_sync.getIsStop()) {
+                        break; // 强制结束
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+            logger.error("出错：{}", JSONUtils.toString(map), ex);
+        } finally {
+            try {
+                rs.close();
+                stat.close();
+            } catch (Exception ex) {
+                logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
+            }
+        }
+
+        return ret;
     }
 
     // 读取oracle表的字段信息

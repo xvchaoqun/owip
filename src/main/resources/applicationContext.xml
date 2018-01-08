@@ -88,7 +88,7 @@
     <context:component-scan base-package="service,sys.service">
         <context:exclude-filter type="regex" expression="service.crs.*"/>
         <context:exclude-filter type="regex" expression="service.train.*"/>
-        <context:exclude-filter type="regex" expression="service.abroad.*"/>
+        <!--<context:exclude-filter type="regex" expression="service.abroad.*"/>-->
         <context:exclude-filter type="regex" expression="service.pcs.*"/>
         <context:exclude-filter type="regex" expression="service.oa.*"/>
         <!--<context:exclude-filter type="regex" expression="service.pmd.*"/>-->

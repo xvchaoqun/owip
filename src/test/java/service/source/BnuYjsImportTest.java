@@ -15,6 +15,6 @@ public class BnuYjsImportTest  {
     @Test
     public void excute() throws Exception {
 
-        extYjsImport.excute();
+        extYjsImport.excute(null);
     }
 }

@@ -61,7 +61,7 @@ public class SysUserSyncController extends BaseController {
         SysUserView sysUser = sysUserService.findById(userId);
         String code = sysUser.getCode();
         if (sysUser.getType() == SystemConstants.USER_TYPE_JZG) {
-            extJzgImport.excute(code);
+            extJzgImport.byCode(code);
 
             ExtJzgExample example = new ExtJzgExample();
             example.createCriteria().andZghEqualTo(code);
@@ -69,7 +69,7 @@ public class SysUserSyncController extends BaseController {
             if(extJzges.size()==1) sysUserSyncService.syncExtJzg(extJzges.get(0));
         }else {
             if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
-                extYjsImport.excute(code);
+                extYjsImport.byCode(code);
 
                 ExtYjsExample example = new ExtYjsExample();
                 example.createCriteria().andXhEqualTo(code);
@@ -77,7 +77,7 @@ public class SysUserSyncController extends BaseController {
                 if(extYjses.size()==1) sysUserSyncService.sysExtYjs(extYjses.get(0));
             }else {
 
-                extBksImport.excute(code);
+                extBksImport.byCode(code);
                 ExtBksExample example = new ExtBksExample();
                 example.createCriteria().andXhEqualTo(code);
                 List<ExtBks> extBkses = extBksMapper.selectByExample(example);

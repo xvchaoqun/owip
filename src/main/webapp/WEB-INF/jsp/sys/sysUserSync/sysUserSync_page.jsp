@@ -114,6 +114,7 @@
                     if(ret.success){
                         SysMsg.success('同步成功。', '成功');
                         //clearTimeout(t);
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                     $btn.button('reset');
                 });

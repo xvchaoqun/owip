@@ -23,17 +23,17 @@ public class ExtYjsImport extends Source {
     public String schema = "licdc_zg";
     public String tableName = "v_yjs_yjsxjjbxx";
 
-    public void excute(String code) {
+    public void byCode(String code) {
 
         logger.info("更新研究生账号基本信息:" + code);
         excute(schema, tableName, String.format("where xh='%s'", code));
     }
 
-    public void excute() {
+    public void excute(Integer syncId) {
 
         logger.info("更新研究生账号库基本信息");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName);
+        excute(schema, tableName, syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新研究生账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
     }

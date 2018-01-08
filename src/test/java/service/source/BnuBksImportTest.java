@@ -13,6 +13,6 @@ public class BnuBksImportTest{
     public ExtBksImport extBksImport;
     @Test
     public void excute() throws Exception {
-        extBksImport.excute();
+        extBksImport.excute(null);
     }
 }

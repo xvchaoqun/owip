@@ -26,12 +26,12 @@ public class ExtJzgSalaryImport extends Source {
     public String schema = "licdc_zg";
     public String tableName = "v_zzry_gz_dydf";
 
-    public int excute(){
+    public int excute(Integer syncId){
 
         String rq = DateUtils.formatDate(new Date(), "yyyyMM");
         logger.info("同步({})在职工资信息", rq);
         long startTime=System.currentTimeMillis();
-        int ret = excute(schema, tableName, String.format("where rq<='%s'", rq));
+        int ret = excute(schema, tableName, String.format("where rq='%s'", rq), syncId);
         long endTime=System.currentTimeMillis();
         logger.info("同步({})在职工资信息运行时间： " + (endTime - startTime) + "ms", rq);
         return ret;
