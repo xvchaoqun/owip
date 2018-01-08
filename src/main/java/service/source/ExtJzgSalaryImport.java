@@ -37,6 +37,16 @@ public class ExtJzgSalaryImport extends Source {
         return ret;
     }
 
+    public int excute(String rq){
+
+        logger.info("同步({})在职工资信息", rq);
+        long startTime=System.currentTimeMillis();
+        int ret = excute(schema, tableName, String.format("where rq='%s'", rq));
+        long endTime=System.currentTimeMillis();
+        logger.info("同步({})在职工资信息运行时间： " + (endTime - startTime) + "ms", rq);
+        return ret;
+    }
+
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();

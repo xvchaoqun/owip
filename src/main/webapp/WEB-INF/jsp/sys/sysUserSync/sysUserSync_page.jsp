@@ -9,12 +9,57 @@
              data-url-export="${ctx}/sysLog_data"
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <div class="jqgrid-vertical-offset buttons">
+            <%--<div class="jqgrid-vertical-offset buttons">
                 <a data-type="${SYNC_TYPE_JZG}" class="syncBtn btn btn-info btn-sm btn-purple" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
                 <a  data-type="${SYNC_TYPE_BKS}" class="syncBtn btn btn-info btn-sm btn-grey" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
                 <a data-type="${SYNC_TYPE_YJS}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
                 <a data-type="${SYNC_TYPE_ABROAD}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 教职工党员出国境信息同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步教职工党员出国境信息</a>
-                <a data-type="${SYNC_TYPE_RETIRE_SALARY}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 同步本月离退休费同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本月离退休费</a>
+                <a data-type="${SYNC_TYPE_RETIRE_SALARY}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月离退休费同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本月离退休费</a>
+                <a data-type="${SYNC_TYPE_JZG_SALARY}" class="syncBtn btn btn-info btn-sm btn-pink" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月教职工工资同步中..." autocomplete="off"><i class="fa fa-refresh"></i> 同步本月教职工工资</a>
+            </div>--%>
+            <div class="jqgrid-vertical-offset btn-group">
+                <button class="btn btn-warning"><i class="fa fa-refresh"></i>  数据同步</button>
+
+                <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" aria-expanded="false">
+                    <span class="ace-icon fa fa-caret-down icon-only smaller-90"></span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-warning">
+                    <li>
+                        <a data-type="${SYNC_TYPE_JZG}" class="syncBtn"
+                           data-loading-text="<i class='fa fa-refresh fa-spin'></i> 人事库同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步人事库</a>
+                    </li>
+
+                    <li>
+                        <a data-type="${SYNC_TYPE_BKS}" class="syncBtn"
+                           data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本科生库同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步本科生库</a>
+                    </li>
+
+                    <li>
+                        <a data-type="${SYNC_TYPE_YJS}" class="syncBtn"
+                           data-loading-text="<i class='fa fa-refresh fa-spin'></i> 研究生库同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步研究生库</a>
+                    </li>
+
+                    <li class="divider"></li>
+                    <li>
+                        <a data-type="${SYNC_TYPE_ABROAD}" class="syncBtn"
+                           data-loading-text="<i class='fa fa-refresh fa-spin'></i> 教职工党员出国境信息同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步教职工党员出国境信息</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a data-type="${SYNC_TYPE_RETIRE_SALARY}"
+                           class="syncBtn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月离退休费同步中..."
+                    </li>
+                    <li>
+                        <a data-type="${SYNC_TYPE_JZG_SALARY}"
+                           class="syncBtn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> 本月教职工工资同步中..."
+                           autocomplete="off"><i class="fa fa-refresh"></i> 同步本月教职工工资</a>
+                    </li>
+                </ul>
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
@@ -61,15 +106,15 @@
     }
     $(".syncBtn").click(function(){
         var $this = $(this);
-        bootbox.confirm("确定同步（将耗费很长时间）？", function (result) {
+        bootbox.confirm("确定"+ $.trim($this.text())+"（将耗费很长时间）？", function (result) {
             if (result) {
                 var $btn = $this.button('loading')
                 $.post("${ctx}/sync_user_batch",{type:$this.data("type")},function(ret){
                     if(ret.success){
-                        $btn.button('reset');
                         SysMsg.success('同步成功。', '成功');
                         //clearTimeout(t);
                     }
+                    $btn.button('reset');
                 });
                 setTimeout(function(){
                     $("#jqGrid").trigger("reloadGrid");

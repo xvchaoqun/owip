@@ -32,11 +32,11 @@ public class PmdConfigMember implements Serializable {
 
     private Boolean hasSalary;
 
-    private BigDecimal retireSalary;
+    private Boolean hasReset;
 
     private Boolean hasSetSalary;
 
-    private Boolean isSelfSetSalary;
+    private BigDecimal retireSalary;
 
     private BigDecimal gwgz;
 
@@ -122,12 +122,12 @@ public class PmdConfigMember implements Serializable {
         this.hasSalary = hasSalary;
     }
 
-    public BigDecimal getRetireSalary() {
-        return retireSalary;
+    public Boolean getHasReset() {
+        return hasReset;
     }
 
-    public void setRetireSalary(BigDecimal retireSalary) {
-        this.retireSalary = retireSalary;
+    public void setHasReset(Boolean hasReset) {
+        this.hasReset = hasReset;
     }
 
     public Boolean getHasSetSalary() {
@@ -138,12 +138,12 @@ public class PmdConfigMember implements Serializable {
         this.hasSetSalary = hasSetSalary;
     }
 
-    public Boolean getIsSelfSetSalary() {
-        return isSelfSetSalary;
+    public BigDecimal getRetireSalary() {
+        return retireSalary;
     }
 
-    public void setIsSelfSetSalary(Boolean isSelfSetSalary) {
-        this.isSelfSetSalary = isSelfSetSalary;
+    public void setRetireSalary(BigDecimal retireSalary) {
+        this.retireSalary = retireSalary;
     }
 
     public BigDecimal getGwgz() {

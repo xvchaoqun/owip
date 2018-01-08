@@ -29,7 +29,7 @@ public class ExtRetireSalaryImport extends Source {
     public int excute(){
         logger.info("同步本月离退休信息");
         long startTime=System.currentTimeMillis();
-        int ret = excute(schema, tableName, String.format("where rq='%s'", DateUtils.formatDate(new Date(), "yyyyMM")));
+        int ret = excute(schema, tableName, String.format("where rq<='%s'", DateUtils.formatDate(new Date(), "yyyyMM")));
         long endTime=System.currentTimeMillis();
         logger.info("同步本月离退休信息运行时间： " + (endTime - startTime) + "ms");
         return ret;

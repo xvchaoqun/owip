@@ -49,8 +49,9 @@ public class UserPmdMemberController extends PmdBaseController {
     private Integer checkPayAuth(Integer pmdMemberId, boolean isSelfPay){
 
         if(isSelfPay){
-            SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
-            return ShiroHelper.getCurrentUserId();
+            throw new UnauthorizedException();
+            //SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
+            //return ShiroHelper.getCurrentUserId();
         }else{
             // 支部管理员可代替设置工资，规则：如果本人设置或修改过了，则支部管理员不允许设置或修改
             SecurityUtils.getSubject().checkPermission("userPmdMember:helpSetSalary");
@@ -105,7 +106,7 @@ public class UserPmdMemberController extends PmdBaseController {
         modelMap.put("pmdNorm", pmdNorm);
 
         if(BooleanUtils.isTrue(pmdConfigMember.getHasSetSalary())) {
-            modelMap.put("duePay", pmdConfigMemberService.calDuePay(pmdConfigMember));
+            modelMap.put("duePay", pmdExtService.calDuePay(pmdConfigMember));
         }
 
         return "user/pmd/pmdMember_setSalary";
@@ -117,7 +118,7 @@ public class UserPmdMemberController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdMember_calDuePay(PmdConfigMember record, HttpServletRequest request) {
 
-        BigDecimal duePay = pmdConfigMemberService.calDuePay(record);
+        BigDecimal duePay = pmdExtService.calDuePay(record);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("duePay", duePay);
 

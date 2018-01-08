@@ -11,7 +11,7 @@
             <c:set var="_query" value="${not empty param.userId ||not empty param.configMemberType
             ||not empty param.configMemberTypeId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="pmdConfigMember:edit">
+                <%--<shiro:hasPermission name="pmdConfigMember:edit">
                     <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pmd/pmdConfigMember_au"><i
                             class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -19,8 +19,8 @@
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="pmdConfigMember:del">
+                </shiro:hasPermission>--%>
+               <%-- <shiro:hasPermission name="pmdConfigMember:del">
                     <button data-url="${ctx}/pmd/pmdConfigMember_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
@@ -28,10 +28,13 @@
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
-                </shiro:hasPermission>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                </shiro:hasPermission>--%>
+                <a class="popupBtn btn btn-success btn-sm" data-url="${ctx}/pmd/pmdConfigReset"><i
+                        class="fa fa-gear"></i> 党费重新计算</a>
+
+               <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>
+                    <i class="fa fa-download"></i> 导出</a>--%>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">

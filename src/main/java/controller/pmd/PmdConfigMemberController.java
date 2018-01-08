@@ -133,7 +133,7 @@ public class PmdConfigMemberController extends PmdBaseController {
         return "pmd/pmdConfigMember/pmdConfigMember_au";
     }
 
-    @RequiresPermissions("pmdConfigMember:del")
+    /*@RequiresPermissions("pmdConfigMember:del")
     @RequestMapping(value = "/pmdConfigMember_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdConfigMember_del(HttpServletRequest request, Integer userId) {
@@ -144,12 +144,12 @@ public class PmdConfigMemberController extends PmdBaseController {
             logger.info(addLog(SystemConstants.LOG_PMD, "删除党员缴费分类：%s", userId));
         }
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("pmdConfigMember:del")
     @RequestMapping(value = "/pmdConfigMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] userIds, ModelMap modelMap) {
+    public Map pmdConfigMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] userIds, ModelMap modelMap) {
 
         if (null != userIds && userIds.length > 0) {
 

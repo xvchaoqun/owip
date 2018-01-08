@@ -7,26 +7,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import service.sys.SysOnlineStaticService;
+import service.global.CacheService;
 
-/**
- * Created by lm on 2017/9/17.
- */
 @Component
-public class OnlineStatic implements Job {
+public class FlushCountCache implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SysOnlineStaticService sysOnlineStaticService;
+    private CacheService cacheService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         try {
-
-            logger.debug("在线用户数量统计...");
-            sysOnlineStaticService.stat();
+            // 刷新菜单数量统计
+            logger.debug("刷新缓存数量...");
+            cacheService.refreshCacheCounts();
 
         }catch (Exception ex){
             ex.printStackTrace();

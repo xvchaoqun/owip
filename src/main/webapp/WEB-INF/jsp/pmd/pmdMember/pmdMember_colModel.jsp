@@ -43,8 +43,30 @@
       if(rowObject.configMemberTypeId==undefined)
         return "class='danger'";
     }},
+    { label: '应交金额',name: 'duePay', formatter: function (cellvalue, options, rowObject) {
+        if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "-";
+        return rowObject.pmdConfigMember.hasReset?rowObject.duePay:rowObject.configMemberDuePay;
+    }},
+    { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
+
+        if(rowObject.pmdConfigMember==undefined
+                ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
+                ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return "-";
+
+        if(rowObject.pmdConfigMember.hasReset) return '-'
+
+        if(rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET}){
+            return ('<button class="popupBtn btn btn-success btn-xs" ' +
+            'data-url="${ctx}/pmd/pmdMember_selectMemberType?ids[]={0}&configMemberType={1}&confirm=1"><i class="fa fa-rmb"></i> 确认额度</button>')
+                    .format(rowObject.id, rowObject.type)
+        }
+
+        return '-'
+    }},
     </c:if>
+    <c:if test="${param.type!='admin'}">
     { label: '应交金额',name: 'duePay'},
+    </c:if>
     { label: '实交金额',name: 'realPay'},
     { label: '缴费方式',name: 'isSelfPay', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return '-'
@@ -83,6 +105,17 @@
               ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return -1;
 
       return rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.formulaType;
-    }}
+    }}/*,
+    {hidden: true, name: 'hasReset', formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "0";
+      return rowObject.pmdConfigMember.hasReset?"1":"0";
+    }},
+    {hidden: true, name: 'setType', formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.pmdConfigMember==undefined
+              ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
+              ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return -1;
+
+      return rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.setType;
+    }}*/
   ]
 </script>

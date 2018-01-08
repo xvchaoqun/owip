@@ -475,63 +475,63 @@ public class PmdConfigMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryIsNull() {
-            addCriterion("retire_salary is null");
+        public Criteria andHasResetIsNull() {
+            addCriterion("has_reset is null");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryIsNotNull() {
-            addCriterion("retire_salary is not null");
+        public Criteria andHasResetIsNotNull() {
+            addCriterion("has_reset is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryEqualTo(BigDecimal value) {
-            addCriterion("retire_salary =", value, "retireSalary");
+        public Criteria andHasResetEqualTo(Boolean value) {
+            addCriterion("has_reset =", value, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryNotEqualTo(BigDecimal value) {
-            addCriterion("retire_salary <>", value, "retireSalary");
+        public Criteria andHasResetNotEqualTo(Boolean value) {
+            addCriterion("has_reset <>", value, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryGreaterThan(BigDecimal value) {
-            addCriterion("retire_salary >", value, "retireSalary");
+        public Criteria andHasResetGreaterThan(Boolean value) {
+            addCriterion("has_reset >", value, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("retire_salary >=", value, "retireSalary");
+        public Criteria andHasResetGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_reset >=", value, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryLessThan(BigDecimal value) {
-            addCriterion("retire_salary <", value, "retireSalary");
+        public Criteria andHasResetLessThan(Boolean value) {
+            addCriterion("has_reset <", value, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("retire_salary <=", value, "retireSalary");
+        public Criteria andHasResetLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_reset <=", value, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryIn(List<BigDecimal> values) {
-            addCriterion("retire_salary in", values, "retireSalary");
+        public Criteria andHasResetIn(List<Boolean> values) {
+            addCriterion("has_reset in", values, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryNotIn(List<BigDecimal> values) {
-            addCriterion("retire_salary not in", values, "retireSalary");
+        public Criteria andHasResetNotIn(List<Boolean> values) {
+            addCriterion("has_reset not in", values, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("retire_salary between", value1, value2, "retireSalary");
+        public Criteria andHasResetBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_reset between", value1, value2, "hasReset");
             return (Criteria) this;
         }
 
-        public Criteria andRetireSalaryNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("retire_salary not between", value1, value2, "retireSalary");
+        public Criteria andHasResetNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_reset not between", value1, value2, "hasReset");
             return (Criteria) this;
         }
 
@@ -595,63 +595,63 @@ public class PmdConfigMemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryIsNull() {
-            addCriterion("is_self_set_salary is null");
+        public Criteria andRetireSalaryIsNull() {
+            addCriterion("retire_salary is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryIsNotNull() {
-            addCriterion("is_self_set_salary is not null");
+        public Criteria andRetireSalaryIsNotNull() {
+            addCriterion("retire_salary is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryEqualTo(Boolean value) {
-            addCriterion("is_self_set_salary =", value, "isSelfSetSalary");
+        public Criteria andRetireSalaryEqualTo(BigDecimal value) {
+            addCriterion("retire_salary =", value, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryNotEqualTo(Boolean value) {
-            addCriterion("is_self_set_salary <>", value, "isSelfSetSalary");
+        public Criteria andRetireSalaryNotEqualTo(BigDecimal value) {
+            addCriterion("retire_salary <>", value, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryGreaterThan(Boolean value) {
-            addCriterion("is_self_set_salary >", value, "isSelfSetSalary");
+        public Criteria andRetireSalaryGreaterThan(BigDecimal value) {
+            addCriterion("retire_salary >", value, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_self_set_salary >=", value, "isSelfSetSalary");
+        public Criteria andRetireSalaryGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("retire_salary >=", value, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryLessThan(Boolean value) {
-            addCriterion("is_self_set_salary <", value, "isSelfSetSalary");
+        public Criteria andRetireSalaryLessThan(BigDecimal value) {
+            addCriterion("retire_salary <", value, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_self_set_salary <=", value, "isSelfSetSalary");
+        public Criteria andRetireSalaryLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("retire_salary <=", value, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryIn(List<Boolean> values) {
-            addCriterion("is_self_set_salary in", values, "isSelfSetSalary");
+        public Criteria andRetireSalaryIn(List<BigDecimal> values) {
+            addCriterion("retire_salary in", values, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryNotIn(List<Boolean> values) {
-            addCriterion("is_self_set_salary not in", values, "isSelfSetSalary");
+        public Criteria andRetireSalaryNotIn(List<BigDecimal> values) {
+            addCriterion("retire_salary not in", values, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_self_set_salary between", value1, value2, "isSelfSetSalary");
+        public Criteria andRetireSalaryBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("retire_salary between", value1, value2, "retireSalary");
             return (Criteria) this;
         }
 
-        public Criteria andIsSelfSetSalaryNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_self_set_salary not between", value1, value2, "isSelfSetSalary");
+        public Criteria andRetireSalaryNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("retire_salary not between", value1, value2, "retireSalary");
             return (Criteria) this;
         }
 

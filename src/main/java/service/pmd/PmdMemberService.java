@@ -227,6 +227,7 @@ public class PmdMemberService extends BaseMapper {
                 record.setDuePay(amount);
                 record.setRetireSalary(ltxf);
                 record.setHasSalary(hasSalary);
+                record.setHasReset(true);
 
                 pmdConfigMemberService.updateByPrimaryKeySelective(record);
             }

@@ -2,6 +2,8 @@ package controller.pmd;
 
 import controller.PmdBaseController;
 import domain.pmd.PmdBranch;
+import domain.pmd.PmdConfigMember;
+import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMemberExample.Criteria;
@@ -391,7 +393,14 @@ public class PmdMemberController extends PmdBaseController {
                                              ModelMap modelMap) {
 
         if (ids.length == 1) {
-            modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
+            PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
+            modelMap.put("pmdMember", pmdMember);
+            Integer configMemberTypeId = pmdMember.getConfigMemberTypeId();
+            PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+            modelMap.put("pmdConfigMemberType", pmdConfigMemberType);
+
+            PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(pmdMember.getUserId());
+            modelMap.put("pmdConfigMember", pmdConfigMember);
         }
 
         modelMap.put("configMemberType",  configMemberType);

@@ -1,4 +1,19 @@
 
+
+
+2018-1-8
+ALTER TABLE `pmd_config_member`
+	CHANGE COLUMN `has_set_salary` `has_reset` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否进行了党费重新计算，只针对支部确定的情况，组织部管理员进行党费重新计算时重置为0' AFTER `has_salary`,
+	DROP COLUMN `is_self_set_salary`;
+
+ALTER TABLE `pmd_config_member`
+	CHANGE COLUMN `gwgz` `gwgz` DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '岗位工资，（校聘工资）' AFTER `retire_salary`;
+
+ALTER TABLE `pmd_config_member`
+	ADD COLUMN `has_set_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否提交了工资明细，（针对在职、校聘教职工)' AFTER `has_reset`;
+
+
+
 2017-12-15
 ALTER TABLE `pmd_config_member`
 	ADD COLUMN `is_self_set_salary` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否本人设置或修改过工资，支部管理员可代替设置工资，规则：如果本人设置或修改过了，则支部管理员不允许设置或修改' AFTER `has_set_salary`;

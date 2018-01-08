@@ -444,7 +444,7 @@ public class PmdMonthService extends BaseMapper {
         // 离退休费
         BigDecimal ltxf = null;
 
-        // 是否需要本人提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要（辅助字段）
+        // 是否需要提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要（辅助字段）
         Boolean needSetSalary = false;
         // 党费缴纳标准（辅助字段）
         String duePayReason = null;

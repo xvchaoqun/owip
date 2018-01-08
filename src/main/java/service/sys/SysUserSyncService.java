@@ -76,11 +76,33 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     // 同步在职工资信息
-    public void syncJzgSalary(boolean autoStart) {
+    public synchronized void syncJzgSalary(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
             throw new OpException("上一次同步仍在进行中");
         }
+
+        SysUserSync sysUserSync = new SysUserSync();
+        if (!autoStart) {
+            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+        }
+        sysUserSync.setAutoStart(autoStart);
+        sysUserSync.setAutoStop(false);
+        sysUserSync.setStartTime(new Date());
+        sysUserSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
+        sysUserSync.setIsStop(false);
+
+        sysUserSync.setCurrentCount(0);
+        sysUserSync.setCurrentPage(0);
+
+        sysUserSync.setInsertCount(0);
+        sysUserSync.setUpdateCount(0);
+
+        sysUserSync.setEndTime(new Date());
+        sysUserSync.setAutoStop(true);
+        sysUserSync.setIsStop(true);
+
+        insertSelective(sysUserSync);
 
         // 先从学校导入数据
         int ret = 0;
@@ -91,6 +113,18 @@ public class SysUserSyncService extends BaseMapper {
             throw new OpException("教职工工资信息同步出错：" + ex.getMessage());
         }
 
+        SysUserSync record = new SysUserSync();
+        record.setId(sysUserSync.getId());
+        record.setTotalCount(ret);
+        updateByPrimaryKeySelective(record);
+    }
+
+    // 同步离退休工资信息
+    public synchronized void syncRetireSalary(boolean autoStart) {
+
+        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
+            throw new OpException("上一次同步仍在进行中");
+        }
         SysUserSync sysUserSync = new SysUserSync();
         if (!autoStart) {
             sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
@@ -103,7 +137,6 @@ public class SysUserSyncService extends BaseMapper {
 
         sysUserSync.setCurrentCount(0);
         sysUserSync.setCurrentPage(0);
-        sysUserSync.setTotalCount(ret);
         sysUserSync.setInsertCount(0);
         sysUserSync.setUpdateCount(0);
 
@@ -112,14 +145,6 @@ public class SysUserSyncService extends BaseMapper {
         sysUserSync.setIsStop(true);
 
         insertSelective(sysUserSync);
-    }
-
-    // 同步离退休工资信息
-    public void syncRetireSalary(boolean autoStart) {
-
-        if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
-            throw new OpException("上一次同步仍在进行中");
-        }
 
         // 先从学校导入数据
         int ret = 0;
@@ -130,31 +155,14 @@ public class SysUserSyncService extends BaseMapper {
             throw new OpException("离退休工资信息同步出错：" + ex.getMessage());
         }
 
-        SysUserSync sysUserSync = new SysUserSync();
-        if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
-        }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
-        sysUserSync.setIsStop(false);
-
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
-        sysUserSync.setTotalCount(ret);
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
-
-        sysUserSync.setEndTime(new Date());
-        sysUserSync.setAutoStop(true);
-        sysUserSync.setIsStop(true);
-
-        insertSelective(sysUserSync);
+        SysUserSync record = new SysUserSync();
+        record.setId(sysUserSync.getId());
+        record.setTotalCount(ret);
+        updateByPrimaryKeySelective(record);
     }
 
     // 同步教职工党员出国境信息
-    public void syncAllAbroad(boolean autoStart) {
+    public synchronized void syncAllAbroad(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD)) {
             throw new OpException("上一次同步仍在进行中");
@@ -197,7 +205,7 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     @Transactional
-    public int syncExtJzg(ExtJzg extJzg) {
+    public  int syncExtJzg(ExtJzg extJzg) {
 
         String code = StringUtils.trim(extJzg.getZgh());
         SysUser record = new SysUser();
@@ -236,7 +244,7 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     // 同步教职工人事库
-    public void syncAllJZG(boolean autoStart) {
+    public synchronized void syncAllJZG(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG)) {
             throw new OpException("上一次同步仍在进行中");
@@ -361,7 +369,7 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     // 同步研究生库
-    public void syncAllYJS(boolean autoStart) {
+    public synchronized void syncAllYJS(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS)) {
             throw new OpException("上一次同步仍在进行中");
@@ -489,7 +497,7 @@ public class SysUserSyncService extends BaseMapper {
     }
 
     // 同步本科生库
-    public void syncAllBks(boolean autoStart) {
+    public synchronized void syncAllBks(boolean autoStart) {
 
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS)) {
             throw new OpException("上一次同步仍在进行中");

@@ -35,8 +35,10 @@
         </table>-->
         <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
         </table>-->
-        <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
+        <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
         </table>-->
+        <table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
+        </table>
         <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">
         </table>-->
        <!-- <table tableName="pmd_norm_value" domainObjectName="pmd.PmdNormValue" mapperName="pmd.PmdNormValueMapper">
@@ -785,8 +787,8 @@
         </table>-->
         <!--<table tableName="ext_retire_salary" domainObjectName="ext.ExtRetireSalary"  mapperName="ext.ExtRetireSalaryMapper">
         </table>-->
-        <table tableName="ext_jzg_salary" domainObjectName="ext.ExtJzgSalary"  mapperName="ext.ExtJzgSalaryMapper">
-        </table>
+        <!--<table tableName="ext_jzg_salary" domainObjectName="ext.ExtJzgSalary"  mapperName="ext.ExtJzgSalaryMapper">
+        </table>-->
 
 
     </context>

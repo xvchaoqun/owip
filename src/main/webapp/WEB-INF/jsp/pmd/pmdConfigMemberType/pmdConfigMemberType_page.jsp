@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" class="myTableDiv"
+        <div id="body-content" class="myTableDiv rownumbers"
                  data-url-page="${ctx}/pmd/pmdConfigMemberType"
                  data-url-export="${ctx}/pmd/pmdConfigMemberType_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -71,6 +71,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
+        rownumbers:true,
         url: '${ctx}/pmd/pmdConfigMemberType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '党员类别',name: 'type', formatter:function(cellvalue, options, rowObject){

@@ -5,6 +5,8 @@ import service.pmd.PmdBranchAdminService;
 import service.pmd.PmdBranchService;
 import service.pmd.PmdConfigMemberService;
 import service.pmd.PmdConfigMemberTypeService;
+import service.pmd.PmdConfigResetService;
+import service.pmd.PmdExtService;
 import service.pmd.PmdMemberPayService;
 import service.pmd.PmdMemberService;
 import service.pmd.PmdMonthService;
@@ -53,6 +55,10 @@ public class PmdBaseController extends BaseController {
     protected PmdConfigMemberTypeService pmdConfigMemberTypeService;
     @Autowired
     protected PmdConfigMemberService pmdConfigMemberService;
+    @Autowired
+    protected PmdConfigResetService pmdConfigResetService;
+    @Autowired
+    protected PmdExtService pmdExtService;
     @Autowired
     protected PmdSendMsgService pmdSendMsgService;
 }

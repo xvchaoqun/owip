@@ -83,6 +83,7 @@
 <c:set var="SYNC_TYPE_YJS" value="<%=SystemConstants.SYNC_TYPE_YJS%>"/>
 <c:set var="SYNC_TYPE_ABROAD" value="<%=SystemConstants.SYNC_TYPE_ABROAD%>"/>
 <c:set var="SYNC_TYPE_RETIRE_SALARY" value="<%=SystemConstants.SYNC_TYPE_RETIRE_SALARY%>"/>
+<c:set var="SYNC_TYPE_JZG_SALARY" value="<%=SystemConstants.SYNC_TYPE_JZG_SALARY%>"/>
 
 <c:set var="RESOURCE_TYPE_MENU" value="<%=SystemConstants.RESOURCE_TYPE_MENU%>"/>
 <c:set var="RESOURCE_TYPE_URL" value="<%=SystemConstants.RESOURCE_TYPE_URL%>"/>

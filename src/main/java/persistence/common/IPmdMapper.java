@@ -1,7 +1,10 @@
 package persistence.common;
 
+import domain.ext.ExtJzgSalary;
+import domain.ext.ExtRetireSalary;
 import domain.pmd.PmdMemberPayView;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 import persistence.common.bean.PmdExcelReportBean;
@@ -14,6 +17,21 @@ import java.util.List;
  * Created by lm on 2017/6/13.
  */
 public interface IPmdMapper {
+
+    @Select("select distinct rq from ext_jzg_salary where rq in(select distinct rq from ext_retire_salary) order by rq desc")
+    public List<String> extSalaryMonthList();
+
+    // 读取当前缴费党员库中的教职工工资
+    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @Select("select ejs.* from pmd_config_member pcm, ext_jzg_salary ejs, sys_user u " +
+            "where pcm.user_id= u.id and ejs.zgh=u.code and ejs.rq=#{rq};")
+    public List<ExtJzgSalary> extJzgSalaryList(@Param("rq") String salaryMonth);
+
+    // 读取当前缴费党员库中的离退休工资
+    @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
+    @Select("select ers.* from pmd_config_member pcm, ext_retire_salary ers, sys_user u " +
+            "where pcm.user_id= u.id and ers.zgh=u.code and ers.rq=#{rq};")
+    public List<ExtRetireSalary> extRetireSalaryList(@Param("rq") String salaryMonth);
 
     // 往月延迟缴费党员数（已启动缴费，同步了党员信息之后汇总）
     public int historyDelayMemberCount(@Param("currentMonthId") int currentMonthId,

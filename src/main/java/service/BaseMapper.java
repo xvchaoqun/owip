@@ -123,6 +123,7 @@ import persistence.dispatch.DispatchWorkFileMapper;
 import persistence.ext.ExtAbroadMapper;
 import persistence.ext.ExtBksMapper;
 import persistence.ext.ExtJzgMapper;
+import persistence.ext.ExtJzgSalaryMapper;
 import persistence.ext.ExtRetireSalaryMapper;
 import persistence.ext.ExtYjsMapper;
 import persistence.member.ApplyApprovalLogMapper;
@@ -203,6 +204,7 @@ import persistence.pmd.PmdBranchMapper;
 import persistence.pmd.PmdBranchViewMapper;
 import persistence.pmd.PmdConfigMemberMapper;
 import persistence.pmd.PmdConfigMemberTypeMapper;
+import persistence.pmd.PmdConfigResetMapper;
 import persistence.pmd.PmdMemberMapper;
 import persistence.pmd.PmdMemberPayMapper;
 import persistence.pmd.PmdMemberPayViewMapper;
@@ -373,6 +375,8 @@ public class BaseMapper {
     protected PmdConfigMemberTypeMapper pmdConfigMemberTypeMapper;
     @Autowired
     protected PmdConfigMemberMapper pmdConfigMemberMapper;
+    @Autowired
+    protected PmdConfigResetMapper pmdConfigResetMapper;
 
     /**
      * 协同办公
@@ -873,6 +877,8 @@ public class BaseMapper {
     protected ExtAbroadMapper extAbroadMapper;
     @Autowired
     protected ExtRetireSalaryMapper extRetireSalaryMapper;
+    @Autowired
+    protected ExtJzgSalaryMapper extJzgSalaryMapper;
 
     @Autowired
     protected LocationMapper locationMapper;

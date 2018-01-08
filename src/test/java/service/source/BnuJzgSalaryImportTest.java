@@ -1,9 +1,14 @@
 package service.source;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import sys.utils.DateUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -11,10 +16,10 @@ public class BnuJzgSalaryImportTest {
 
     @Autowired
     public ExtJzgSalaryImport extJzgSalaryImport;
-    /*@Test
+    @Test
     public void excute1() throws Exception {
 
-        extJzgSalaryImport.excute("201711");
+        extJzgSalaryImport.excute("201712");
     }
     @Test
     public void excute() throws Exception {
@@ -28,5 +33,5 @@ public class BnuJzgSalaryImportTest {
             extJzgSalaryImport.excute(date);
             cal.add(Calendar.MONTH, 1);
         }
-    }*/
+    }
 }

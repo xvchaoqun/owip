@@ -20,8 +20,8 @@ pageEncoding="UTF-8" %>
                 <c:if test="${canSetSalary}">
                 <a class="popupBtn btn btn-success btn-sm"
                    data-width="600"
-                   data-url="${ctx}/user/pmd/pmdMember_setSalary">
-                    <i class="fa fa-rmb"></i> 计算应缴党费额度</a>
+                   data-url="${ctx}/user/pmd/pmdMember_setSalary?view=1">
+                    <i class="fa fa-rmb"></i> 查看应缴党费额度</a>
                 </c:if>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
