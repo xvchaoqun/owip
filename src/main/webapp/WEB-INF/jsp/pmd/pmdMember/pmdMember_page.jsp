@@ -97,7 +97,7 @@
                         <button id="notifyBtn" class="jqOpenViewBtn btn btn-danger btn-sm"
                                 data-url="${ctx}/pmd/pmdSendMsg_notify"
                                 data-grid-id="#jqGrid2">
-                            <i class="fa fa-send"></i> 短信催交
+                            <i class="fa fa-send"></i> 短信提醒
                         </button>
 
                        <%-- <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
