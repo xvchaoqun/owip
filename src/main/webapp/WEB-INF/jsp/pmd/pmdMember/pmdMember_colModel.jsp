@@ -45,7 +45,7 @@
     }},
     { label: '应交金额',name: 'duePay', formatter: function (cellvalue, options, rowObject) {
         if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "-";
-        return rowObject.pmdConfigMember.hasReset?rowObject.duePay:rowObject.configMemberDuePay;
+        return $.trim(rowObject.pmdConfigMember.hasReset?rowObject.duePay:rowObject.configMemberDuePay);
     }},
     { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
 

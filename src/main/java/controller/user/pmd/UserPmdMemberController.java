@@ -94,8 +94,13 @@ public class UserPmdMemberController extends PmdBaseController {
                                       @RequestParam(required = false, defaultValue = "1")Boolean isSelf,
                                       ModelMap modelMap) {
 
-
-        int userId = checkPayAuth(pmdMemberId, isSelf);
+        int userId;
+        if(isSelf) {
+            SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
+            userId = ShiroHelper.getCurrentUserId();
+        }else {
+            userId = checkPayAuth(pmdMemberId, isSelf);
+        }
 
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
         modelMap.put("pmdConfigMember", pmdConfigMember);

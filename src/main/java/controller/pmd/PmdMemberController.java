@@ -396,9 +396,10 @@ public class PmdMemberController extends PmdBaseController {
             PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
             modelMap.put("pmdMember", pmdMember);
             Integer configMemberTypeId = pmdMember.getConfigMemberTypeId();
-            PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
-            modelMap.put("pmdConfigMemberType", pmdConfigMemberType);
-
+            if(configMemberTypeId!=null) {
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+                modelMap.put("pmdConfigMemberType", pmdConfigMemberType);
+            }
             PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(pmdMember.getUserId());
             modelMap.put("pmdConfigMember", pmdConfigMember);
         }
