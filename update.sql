@@ -1,5 +1,14 @@
 
 
+2018-1-10
+ALTER TABLE `ext_jzg_salary`
+	CHANGE COLUMN `rq` `rq` VARCHAR(20) NULL DEFAULT NULL COMMENT '日期， 格式yyyyMM' AFTER `zgh`,
+	ADD UNIQUE INDEX `zgh_rq` (`zgh`, `rq`);
+
+ALTER TABLE `ext_retire_salary`
+	CHANGE COLUMN `rq` `rq` VARCHAR(10) NULL DEFAULT NULL COMMENT '日期， 格式yyyyMM' AFTER `zgh`,
+	ADD UNIQUE INDEX `zgh_rq` (`zgh`, `rq`);
+
 
 2018-1-8
 ALTER TABLE `pmd_config_member`

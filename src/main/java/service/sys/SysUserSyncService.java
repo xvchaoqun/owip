@@ -115,9 +115,9 @@ public class SysUserSyncService extends BaseMapper {
         record.setId(syncId);
         record.setTotalCount(ret);
 
-        sysUserSync.setEndTime(new Date());
-        sysUserSync.setAutoStop(true);
-        sysUserSync.setIsStop(true);
+        record.setEndTime(new Date());
+        record.setAutoStop(true);
+        record.setIsStop(true);
 
         updateByPrimaryKeySelective(record);
     }
@@ -158,9 +158,9 @@ public class SysUserSyncService extends BaseMapper {
         SysUserSync record = new SysUserSync();
         record.setId(syncId);
         record.setTotalCount(ret);
-        sysUserSync.setEndTime(new Date());
-        sysUserSync.setAutoStop(true);
-        sysUserSync.setIsStop(true);
+        record.setEndTime(new Date());
+        record.setAutoStop(true);
+        record.setIsStop(true);
 
         updateByPrimaryKeySelective(record);
     }
@@ -207,8 +207,8 @@ public class SysUserSyncService extends BaseMapper {
         SysUserSync record = new SysUserSync();
         record.setId(syncId);
 
-        sysUserSync.setTotalCount(count);
-        sysUserSync.setTotalPage(pageNo);
+        record.setTotalCount(count);
+        record.setTotalPage(pageNo);
 
         record.setEndTime(new Date());
         record.setAutoStop(true);

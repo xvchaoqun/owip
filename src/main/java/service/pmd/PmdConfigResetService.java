@@ -79,10 +79,18 @@ public class PmdConfigResetService extends BaseMapper {
                 if(pmdConfigMemberType!=null){
                     PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
                     Byte formulaType = pmdNorm.getFormulaType();
-                    if(formulaType!=null
-                            && formulaType!= SystemConstants.PMD_FORMULA_TYPE_ONJOB
-                            && formulaType!= SystemConstants.PMD_FORMULA_TYPE_EXTERNAL){
+                    // 额度类型为公式，且是在职和校聘的，才允许计算工资，否则跳出工资计算
+                    if(false == (formulaType!=null
+                            && (formulaType== SystemConstants.PMD_FORMULA_TYPE_ONJOB
+                            || formulaType== SystemConstants.PMD_FORMULA_TYPE_EXTERNAL))){
 
+                        if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
+                            // 如果是固定额度的，则更新为已设置额度
+                            PmdConfigMember _pmdConfigMember = new PmdConfigMember();
+                            _pmdConfigMember.setUserId(userId);
+                            _pmdConfigMember.setHasReset(true);
+                            pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
+                        }
                         continue;
                     }
                 }
@@ -142,9 +150,18 @@ public class PmdConfigResetService extends BaseMapper {
                     if(pmdConfigMemberType!=null){
                         PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
                         Byte formulaType = pmdNorm.getFormulaType();
-                        if(formulaType!=null
-                                && formulaType!= SystemConstants.PMD_FORMULA_TYPE_RETIRE){
 
+                        // 额度类型为公式，且是离退的，才允许计算工资，否则跳出工资计算
+                        if(false == (formulaType!=null
+                                && formulaType== SystemConstants.PMD_FORMULA_TYPE_RETIRE)){
+
+                            if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
+                                // 如果是固定额度的，则更新为已设置额度
+                                PmdConfigMember _pmdConfigMember = new PmdConfigMember();
+                                _pmdConfigMember.setUserId(userId);
+                                _pmdConfigMember.setHasReset(true);
+                                pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
+                            }
                             continue;
                         }
                     }

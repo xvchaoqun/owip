@@ -49,6 +49,7 @@
     }},
     { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
 
+        if(rowObject.hasPay) return '-'
         if(rowObject.pmdConfigMember==undefined
                 ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
                 ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return "-";
