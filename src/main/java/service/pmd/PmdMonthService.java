@@ -426,7 +426,7 @@ public class PmdMonthService extends BaseMapper {
 
     // 添加一个党员
     @Transactional
-    private void addMember(PmdMonth pmdMonth, Member member) {
+    public void addMember(PmdMonth pmdMonth, Member member) {
 
         int monthId = pmdMonth.getId();
         int userId = member.getUserId();

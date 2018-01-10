@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
@@ -41,6 +42,8 @@ public class PmdMemberService extends BaseMapper {
     private PmdExtService pmdExtService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private SysUserService sysUserService;
 
     public PmdMember get(int monthId, int userId){
 
@@ -366,5 +369,25 @@ public class PmdMemberService extends BaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
         }
 
+    }
+
+    // 清除订单号生成人
+    @Transactional
+    public void clearOrderUser(int pmdMemberId) {
+
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+        if(pmdMember.getHasPay()){
+            throw new OpException("该订单已缴费成功，无法清除订单号生成人。");
+        }
+
+        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
+        Integer orderUserId = pmdMemberPay.getOrderUserId();
+        SysUserView uv = sysUserService.findById(orderUserId);
+        commonMapper.excuteSql("update pmd_member_pay set order_user_id=null where member_id="+ pmdMemberId);
+
+        sysApprovalLogService.add(pmdMemberId, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                String.format("清除订单号生成人：%s(%s)", uv.getRealname(), uv.getCode()),
+                SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 }

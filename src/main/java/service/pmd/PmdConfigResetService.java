@@ -71,6 +71,24 @@ public class PmdConfigResetService extends BaseMapper {
             String zgh = ejs.getZgh();
             SysUserView uv = sysUserService.findByCode(zgh);
             int userId = uv.getUserId();
+
+            // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非在职、校聘，比如学生助理）
+            PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+            if(pmdConfigMember!=null){
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
+                if(pmdConfigMemberType!=null){
+                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+                    Byte formulaType = pmdNorm.getFormulaType();
+                    if(formulaType!=null
+                            && formulaType!= SystemConstants.PMD_FORMULA_TYPE_ONJOB
+                            && formulaType!= SystemConstants.PMD_FORMULA_TYPE_EXTERNAL){
+
+                        continue;
+                    }
+                }
+            }
+
+
             PmdConfigMember _pmdConfigMember = new PmdConfigMember();
             _pmdConfigMember.setUserId(userId);
 
@@ -116,6 +134,22 @@ public class PmdConfigResetService extends BaseMapper {
                 String zgh = ers.getZgh();
                 SysUserView uv = sysUserService.findByCode(zgh);
                 int userId = uv.getUserId();
+
+                // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非离退休，比如学生助理）
+                PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+                if(pmdConfigMember!=null){
+                    PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
+                    if(pmdConfigMemberType!=null){
+                        PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+                        Byte formulaType = pmdNorm.getFormulaType();
+                        if(formulaType!=null
+                                && formulaType!= SystemConstants.PMD_FORMULA_TYPE_RETIRE){
+
+                            continue;
+                        }
+                    }
+                }
+
                 PmdConfigMember _pmdConfigMember = new PmdConfigMember();
                 _pmdConfigMember.setUserId(userId);
                 _pmdConfigMember.setRetireSalary(ltxf);

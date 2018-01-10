@@ -1,6 +1,7 @@
 package controller.pmd;
 
 import controller.PmdBaseController;
+import domain.member.Member;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdConfigMemberType;
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -297,10 +299,54 @@ public class PmdMemberController extends PmdBaseController {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
+        //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)){
+            if(!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
+                    pmdMember.getPartyId(), pmdMember.getBranchId())){
+                throw new UnauthorizedException();
+            }
+        }
+
         pmdMemberService.del(id);
         logger.info(addLog(SystemConstants.LOG_PMD, "删除未缴费记录：%s", JSONUtils.toString(pmdMember, false)));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 添加党员
+    @RequiresPermissions("pmdMember:add")
+    @RequestMapping(value = "/pmdMember_add", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_add(int userId, HttpServletRequest request) {
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        int monthId = currentPmdMonth.getId();
+        PmdMember pmdMember = pmdMemberService.get(monthId, userId);
+        if(pmdMember!=null){
+            return failed(pmdMember.getUser().getRealname() + "已经在缴费列表中，请勿重复添加。");
+        }
+        Member member = memberService.get(userId);
+
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)) {
+            if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
+                    member.getPartyId(), member.getBranchId())) {
+                throw new UnauthorizedException();
+            }
+        }
+
+        pmdMonthService.addMember(currentPmdMonth, member);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdMember:add")
+    @RequestMapping("/pmdMember_add")
+    public String pmdMember_add(ModelMap modelMap) {
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        modelMap.put("pmdMonth", currentPmdMonth);
+
+        return "pmd/pmdMember/pmdMember_add";
     }
 
 
@@ -322,6 +368,26 @@ public class PmdMemberController extends PmdBaseController {
         modelMap.put("pmdMember", pmdMember);
         return "pmd/pmdMember/pmdMember_payCash";
     }*/
+
+    // 清除订单号生成人
+    @RequiresPermissions("pmdMember:add")
+    @RequestMapping(value = "/pmdMember_clearOrderUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_clearOrderUser(int id, HttpServletRequest request) {
+
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+
+        if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)) {
+            if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
+                    pmdMember.getPartyId(), pmdMember.getBranchId())) {
+                throw new UnauthorizedException();
+            }
+        }
+
+        pmdMemberService.clearOrderUser(id);
+
+        return success(FormUtils.SUCCESS);
+    }
 
     // 延迟缴费
     @RequiresPermissions("pmdMember:delay")

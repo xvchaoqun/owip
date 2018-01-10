@@ -20,6 +20,12 @@ pageEncoding="UTF-8" %>
                             data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_PMD_MEMBER}">
                         <i class="fa fa-history"></i> 操作记录
                     </button>
+                    <shiro:hasPermission name="pmdMember:add">
+                        <button data-url="${ctx}/pmd/pmdMember_add"
+                                class="popupBtn btn btn-success btn-sm">
+                            <i class="fa fa-plus"></i> 添加
+                        </button>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="pmdMember:del">
                         <button id="delBtn" data-url="${ctx}/pmd/pmdMember_del"
                                 data-title="删除"

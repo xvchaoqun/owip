@@ -21,7 +21,7 @@
     <div class="widget-main padding-4">
       <div class="tab-content padding-8">
         代缴账号：
-        <select id="payUserId"  class="form-control" data-rel="select2-ajax"
+        <select id="payUserId"  class="form-control" data-rel="select2-ajax" data-width="350"
                 data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${member.partyId}&branchId=${member.branchId}&status=${MEMBER_STATUS_NORMAL}"
                 data-placeholder="请输入账号或姓名或学工号">
           <option></option>

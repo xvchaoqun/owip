@@ -72,6 +72,7 @@ public class SystemConstants {
 
     public static final String ROLE_OA_USER = "role_oa_user"; // 协同办公负责人
 
+    public static final String ROLE_PMD_OW = "role_pmd_ow"; // 党费收缴-组织部管理员
     public static final String ROLE_PMD_PARTY = "role_pmd_party"; // 党费收缴-分党委管理员
     public static final String ROLE_PMD_BRANCH = "role_pmd_branch"; // 党费收缴-支部管理员
 

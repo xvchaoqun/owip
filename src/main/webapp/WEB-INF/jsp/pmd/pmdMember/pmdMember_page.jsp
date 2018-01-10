@@ -146,6 +146,22 @@
                                 <i class="fa fa-hourglass-3"></i> 取消延迟缴费
                             </button>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="pmdMember:add">
+                            <button data-url="${ctx}/pmd/pmdMember_add?partyId=${param.partyId}&branchId=${param.branchId}"
+                                    class="popupBtn btn btn-success btn-sm">
+                                <i class="fa fa-plus"></i> 添加
+                            </button>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="pmdMember:del">
+                            <button id="delBtn" data-url="${ctx}/pmd/pmdMember_del"
+                                    data-title="删除"
+                                    data-msg="<div class='model-alert-tip'>确定删除这条未缴费记录？（删除后不可恢复，请谨慎操作）</div>"
+                                    data-grid-id="#jqGrid2"
+                                    data-callback="_reload2"
+                                    class="jqItemBtn btn btn-danger btn-sm">
+                                <i class="fa fa-remove"></i> 删除
+                            </button>
+                        </shiro:hasPermission>
                     </c:if>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-grid-id="#jqGrid2"
@@ -192,7 +208,7 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#helpPayBtn,#delayBtn,#unDelayBtn,#notifyBtn,#helpSetSalaryBtn").prop("disabled", true);
+            $("#helpPayBtn,#delayBtn,#unDelayBtn,#notifyBtn,#helpSetSalaryBtn,#delBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
@@ -201,6 +217,7 @@
             var notSetDuePay = (rowData.duePay==undefined || rowData.duePay <= 0);
             //console.log(rowData.configMemberTypeId)
             $("#helpPayBtn").prop("disabled", notSetDuePay || hasPay || (isCurrentMonth && isDelay));
+            $("#delBtn").prop("disabled", hasPay || (isCurrentMonth && isDelay));
             $("#delayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
             $("#notifyBtn").prop("disabled", $.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);

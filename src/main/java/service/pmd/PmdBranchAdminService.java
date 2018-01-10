@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.party.PartyService;
 import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class PmdBranchAdminService extends BaseMapper {
@@ -25,6 +28,43 @@ public class PmdBranchAdminService extends BaseMapper {
     private PmdPayBranchService pmdPayBranchService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private PartyService partyService;
+    @Autowired
+    private PmdPartyAdminService pmdPartyAdminService;
+    @Autowired
+    private PmdBranchAdminService pmdBranchAdminService;
+
+    /**
+     * 判断是否是支部管理员
+     *
+     * @param userId
+     * @param partyId
+     * @param branchId
+     * @return
+     */
+    public boolean isBranchAdmin(int userId, Integer partyId, Integer branchId){
+
+        if(partyService.isDirectBranch(partyId)){
+
+            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+            Set<Integer> adminPartyIdSet = new HashSet<>();
+            adminPartyIdSet.addAll(adminPartyIds);
+
+            if (adminPartyIdSet.contains(partyId)) {
+                return true;
+            }
+        }else{
+            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+            Set<Integer> adminBranchIdSet = new HashSet<>();
+            adminBranchIdSet.addAll(adminBranchIds);
+            if (adminBranchIdSet.contains(branchId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public boolean idDuplicate(Integer id, int branchId, int userId) {
 

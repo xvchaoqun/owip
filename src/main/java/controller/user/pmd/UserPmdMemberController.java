@@ -35,10 +35,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/user/pmd")
@@ -65,22 +63,8 @@ public class UserPmdMemberController extends PmdBaseController {
             Integer branchId = pmdMember.getBranchId();
 
             int userId = ShiroHelper.getCurrentUserId();
-            if(partyService.isDirectBranch(partyId)){
-
-                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-                Set<Integer> adminPartyIdSet = new HashSet<>();
-                adminPartyIdSet.addAll(adminPartyIds);
-
-                if (!adminPartyIdSet.contains(partyId)) {
-                    throw new UnauthorizedException();
-                }
-            }else{
-                List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
-                Set<Integer> adminBranchIdSet = new HashSet<>();
-                adminBranchIdSet.addAll(adminBranchIds);
-                if (!adminBranchIdSet.contains(branchId)) {
-                    throw new UnauthorizedException();
-                }
+            if(!pmdBranchAdminService.isBranchAdmin(userId, partyId, branchId)){
+                throw new UnauthorizedException();
             }
 
             return pmdMember.getUserId();
