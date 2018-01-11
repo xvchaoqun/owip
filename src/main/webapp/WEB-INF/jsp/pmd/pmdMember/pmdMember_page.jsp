@@ -221,7 +221,7 @@
             $("#delBtn").prop("disabled", hasPay || (isCurrentMonth && isDelay));
             $("#delayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
-            $("#notifyBtn").prop("disabled", $.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
+            $("#notifyBtn").prop("disabled", needConfirmDuePay||$.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
             //console.log(rowData.isSelfSetSalary)
             //console.log("formulaType="+rowData.formulaType)
             $("#helpSetSalaryBtn").prop("disabled",
