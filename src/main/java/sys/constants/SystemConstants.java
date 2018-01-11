@@ -2068,6 +2068,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_SELF = 0; // 本人
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_CADRE = 1; // 干部管理员
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_APPLYSELF = 2; // 因私审批人员
+    public final static byte SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF = 5;// 他人操作
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_ADMIN = 10;// 后台操作
     public final static Map<Byte, String> SYS_APPROVAL_LOG_USER_TYPE_MAP = new LinkedHashMap<>();
 
@@ -2076,6 +2077,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_CADRE, "干部管理员");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_APPLYSELF, "因私审批人员");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_ADMIN, "后台操作");
+        SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF, "他人操作");
     }
 
     // 党员各类申请的审批结果

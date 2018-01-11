@@ -374,7 +374,7 @@ public class PmdMemberController extends PmdBaseController {
     }*/
 
     // 清除订单号生成人
-    @RequiresPermissions("pmdMember:add")
+   /* @RequiresPermissions("pmdMember:add")
     @RequestMapping(value = "/pmdMember_clearOrderUser", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_clearOrderUser(int id, HttpServletRequest request) {
@@ -391,7 +391,7 @@ public class PmdMemberController extends PmdBaseController {
         pmdMemberService.clearOrderUser(id);
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     // 延迟缴费
     @RequiresPermissions("pmdMember:delay")

@@ -310,19 +310,22 @@ public class PmdPayCampusCardService extends BaseMapper {
 
         int userId = ShiroHelper.getCurrentUserId();
 
-        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
-        Integer orderUserId = pmdMemberPay.getOrderUserId();
-        if(orderUserId!=null && orderUserId!=userId){
-            SysUserView uv = sysUserService.findById(orderUserId);
-            throw new OpException("缴费订单号({0})已由{1}（工号：{2}）生成，请联系他/她进行支付。",
-                    pmdMemberPay.getOrderNo(), uv.getRealname(), uv.getCode());
-        }
-
         SysUserView uv = sysUserService.findById(userId);
         if(uv.getSource()==SystemConstants.USER_SOURCE_ADMIN
                 || uv.getSource() == SystemConstants.USER_SOURCE_REG){
             throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
         }
+
+        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
+        Integer orderUserId = pmdMemberPay.getOrderUserId();
+        /*if(orderUserId!=null && orderUserId!=userId){
+
+            // 跟上次点击人不同，自动清除一下
+            pmdMemberService.clearOrderUser(pmdMemberId);
+            SysUserView uv = sysUserService.findById(orderUserId);
+            throw new OpException("缴费订单号({0})已由{1}（工号：{2}）生成，请联系他/她进行支付。",
+                    pmdMemberPay.getOrderNo(), uv.getRealname(), uv.getCode());
+        }*/
 
         PmdMemberPay record = new PmdMemberPay();
         record.setMemberId(pmdMemberId);
@@ -333,6 +336,15 @@ public class PmdPayCampusCardService extends BaseMapper {
 
             logger.error("确认缴费时，对应的党员账单不存在...%s, %s", pmdMemberId, userId);
             throw new OpException("缴费异常，请稍后再试。");
+        }
+
+        if(orderUserId==null || orderUserId!=userId){
+
+            // 第一次点击去支付，或跟上次点击人不相同，则记录下来
+            sysApprovalLogService.add(pmdMember.getId(), userId,
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                    "点击“去支付”按钮", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
 
         return payFormBean;

@@ -80,6 +80,11 @@
 </div>
 <jsp:include page="pmdMember_colModel.jsp?type=admin"/>
 <script>
+
+    function _reload2(){
+      $("#jqGrid_popup").trigger("reloadGrid");
+    }
+
   register_user_select($('#searchForm_popup select[name=userId]'));
   $('#searchForm_popup [data-rel="select2"]').select2();
   $("#jqGrid_popup").jqGrid({

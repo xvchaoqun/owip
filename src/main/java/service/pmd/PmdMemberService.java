@@ -372,7 +372,7 @@ public class PmdMemberService extends BaseMapper {
     }
 
     // 清除订单号生成人
-    @Transactional
+    /*@Transactional
     public void clearOrderUser(int pmdMemberId) {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
@@ -389,5 +389,5 @@ public class PmdMemberService extends BaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                 String.format("清除订单号生成人：%s(%s)", uv.getRealname(), uv.getCode()),
                 SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
-    }
+    }*/
 }

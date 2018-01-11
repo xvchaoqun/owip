@@ -78,19 +78,19 @@
       if(rowObject.pmdMemberPayView==undefined) return '-'
       return $.trim(rowObject.pmdMemberPayView.orderNo);
     }},
-    { label: '订单号生成人',name: '_orderUser', width: 120, formatter: function (cellvalue, options, rowObject) {
+    { label: '订单待支付人',name: '_orderUser', width: 120, formatter: function (cellvalue, options, rowObject) {
       if(rowObject.pmdMemberPayView==undefined ||
               rowObject.pmdMemberPayView.orderUser==undefined) return '-';
       var str = rowObject.pmdMemberPayView.orderUser.realname;
 
-      if(!rowObject.hasPay){
+      /*if(!rowObject.hasPay){
         str += ('&nbsp;<button class="confirm btn btn-danger btn-xs" ' +
                 'data-url="${ctx}/pmd/pmdMember_clearOrderUser?id={1}" ' +
                 'data-callback="_reload2"'+
                 'data-title="清除订单号生成人" ' +
                 'data-msg="确认清除该订单号生成人{0}？<div style=\'color: red\'>（注：订单号生成人清除之后，如果需要更换账号进行缴费，请务必找校园卡支付系统负责人进行订单删除操作，否则无法缴费成功。）</div>"><i class="fa fa-eraser"></i> 清除</button>')
                 .format(str, rowObject.id)
-      }
+      }*/
 
       return str;
     }},
