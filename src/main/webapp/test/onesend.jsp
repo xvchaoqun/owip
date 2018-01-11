@@ -1,28 +1,24 @@
-<%@ page import="sys.tags.CmTag" %>
-<%@ page import="service.base.OneSendService" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="domain.base.OneSend" %>
-<%@ page import="sys.utils.JSONUtils" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: lm
-  Date: 2018/1/11
-  Time: 11:02
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="service.base.OneSendService" %>
+<%@ page import="sys.tags.CmTag" %>
+<%@ page import="sys.utils.JSONUtils" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <html>
 <head>
+    <meta charset="utf-8"/>
     <title></title>
 </head>
 <body>
 <%
+
   OneSendService oneSendService = CmTag.getBean(OneSendService.class);
   String user = request.getParameter("user");
   String content = request.getParameter("content");
+
   String ret = null;
   if(StringUtils.isNotBlank(user) && StringUtils.isNotBlank(content)) {
     List<String> userList = new ArrayList<>();
