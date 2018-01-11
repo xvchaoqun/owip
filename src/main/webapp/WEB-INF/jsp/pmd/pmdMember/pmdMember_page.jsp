@@ -215,11 +215,12 @@
             var isDelay = (rowData.isDelay == "true");
             var hasPay = (rowData.hasPay == "true");
             var notSetDuePay = (rowData.duePay==undefined || rowData.duePay <= 0);
+            var needConfirmDuePay = (rowData.needConfirmDuePay == "true");
             //console.log(rowData.configMemberTypeId)
-            $("#helpPayBtn").prop("disabled", notSetDuePay || hasPay || (isCurrentMonth && isDelay));
+            $("#helpPayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || (isCurrentMonth && isDelay));
             $("#delBtn").prop("disabled", hasPay || (isCurrentMonth && isDelay));
-            $("#delayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || isDelay);
-            $("#unDelayBtn").prop("disabled", notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
+            $("#delayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || isDelay);
+            $("#unDelayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
             $("#notifyBtn").prop("disabled", $.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
             //console.log(rowData.isSelfSetSalary)
             //console.log("formulaType="+rowData.formulaType)
@@ -273,6 +274,6 @@
         });
 
         $("#selectMemberTypeBtn").prop("disabled", !selectMemberTypeBtn || configMemberType==-1);
-        $("#selectReduceNormBtn").prop("disabled", !selectReduceNormBtn || !hasSetDuePay);
+        $("#selectReduceNormBtn").prop("disabled", needConfirmDuePay|| !selectReduceNormBtn || !hasSetDuePay);
     }
 </script>

@@ -117,7 +117,18 @@
               ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return -1;
 
       return rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.formulaType;
-    }}/*,
+    }},
+      {hidden: true, name: 'needConfirmDuePay', formatter: function (cellvalue, options, rowObject) {
+
+          if(rowObject.hasPay) return false
+          if(rowObject.pmdConfigMember==undefined
+                  ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
+                  ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return false;
+
+          if(rowObject.pmdConfigMember.hasReset) return false
+
+          return (rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET});
+      }}/*,
     {hidden: true, name: 'hasReset', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "0";
       return rowObject.pmdConfigMember.hasReset?"1":"0";
