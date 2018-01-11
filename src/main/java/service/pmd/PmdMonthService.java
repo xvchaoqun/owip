@@ -1,6 +1,8 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.ext.ExtJzgSalary;
+import domain.ext.ExtRetireSalary;
 import domain.member.Member;
 import domain.member.MemberExample;
 import domain.member.MemberTeacher;
@@ -23,18 +25,23 @@ import domain.pmd.PmdPayBranch;
 import domain.pmd.PmdPayBranchExample;
 import domain.pmd.PmdPayParty;
 import domain.pmd.PmdPayPartyExample;
+import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.common.bean.PmdReportBean;
 import service.BaseMapper;
+import service.member.MemberService;
 import service.member.MemberTeacherService;
 import service.party.PartyService;
+import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tool.fancytree.TreeNode;
@@ -76,6 +83,14 @@ public class PmdMonthService extends BaseMapper {
     private PmdConfigMemberService pmdConfigMemberService;
     @Autowired
     private PmdConfigMemberTypeService pmdConfigMemberTypeService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private PmdConfigResetService pmdConfigResetService;
+    @Autowired
+    private SysApprovalLogService sysApprovalLogService;
 
 
     // 结算
@@ -426,7 +441,7 @@ public class PmdMonthService extends BaseMapper {
 
     // 添加一个党员
     @Transactional
-    public void addMember(PmdMonth pmdMonth, Member member) {
+    private PmdMember addMember(PmdMonth pmdMonth, Member member) {
 
         int monthId = pmdMonth.getId();
         int userId = member.getUserId();
@@ -449,7 +464,7 @@ public class PmdMonthService extends BaseMapper {
         // 党费缴纳标准（辅助字段）
         String duePayReason = null;
 
-        PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+        PmdConfigMember pmdConfigMember = pmdConfigMemberMapper.selectByPrimaryKey(userId);
         if (pmdConfigMember != null && pmdConfigMember.getConfigMemberType() != null) {
             configMemberType = pmdConfigMember.getConfigMemberType();
             duePay = pmdConfigMember.getDuePay();
@@ -520,38 +535,38 @@ public class PmdMonthService extends BaseMapper {
         }
 
         Integer memberId = null;
+        // 新建党员快照
+        PmdMember _pmdMember = new PmdMember();
         {
-            // 新建党员快照
-            PmdMember record = new PmdMember();
-            record.setMonthId(monthId);
-            record.setPayMonth(pmdMonth.getPayMonth());
-            record.setUserId(userId);
-            record.setPartyId(member.getPartyId());
-            record.setBranchId(member.getBranchId());
+            _pmdMember.setMonthId(monthId);
+            _pmdMember.setPayMonth(pmdMonth.getPayMonth());
+            _pmdMember.setUserId(userId);
+            _pmdMember.setPartyId(member.getPartyId());
+            _pmdMember.setBranchId(member.getBranchId());
 
             if(configMemberType != SystemConstants.PMD_MEMBER_TYPE_STUDENT){
 
                 MemberTeacher memberTeacher = memberTeacherService.get(userId);
-                record.setTalentTitle(memberTeacher.getTalentTitle());
-                record.setPostClass(memberTeacher.getPostClass());
-                record.setMainPostLevel(memberTeacher.getMainPostLevel());
-                record.setProPostLevel(memberTeacher.getProPostLevel());
-                record.setManageLevel(memberTeacher.getManageLevel());
-                record.setOfficeLevel(memberTeacher.getOfficeLevel());
-                record.setAuthorizedType(memberTeacher.getAuthorizedType());
-                record.setStaffType(memberTeacher.getStaffType());
+                _pmdMember.setTalentTitle(memberTeacher.getTalentTitle());
+                _pmdMember.setPostClass(memberTeacher.getPostClass());
+                _pmdMember.setMainPostLevel(memberTeacher.getMainPostLevel());
+                _pmdMember.setProPostLevel(memberTeacher.getProPostLevel());
+                _pmdMember.setManageLevel(memberTeacher.getManageLevel());
+                _pmdMember.setOfficeLevel(memberTeacher.getOfficeLevel());
+                _pmdMember.setAuthorizedType(memberTeacher.getAuthorizedType());
+                _pmdMember.setStaffType(memberTeacher.getStaffType());
             }
 
-            record.setType(configMemberType);
+            _pmdMember.setType(configMemberType);
             if(configMemberTypeId!=null){
                 PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
                 if(pmdConfigMemberType!=null) {
                     PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
 
-                    record.setConfigMemberTypeId(configMemberTypeId);
-                    record.setConfigMemberTypeName(pmdConfigMemberType.getName());
-                    record.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
-                    record.setConfigMemberTypeNormName(pmdNorm.getName());
+                    _pmdMember.setConfigMemberTypeId(configMemberTypeId);
+                    _pmdMember.setConfigMemberTypeName(pmdConfigMemberType.getName());
+                    _pmdMember.setConfigMemberTypeNormId(pmdConfigMemberType.getNormId());
+                    _pmdMember.setConfigMemberTypeNormName(pmdNorm.getName());
 
                     duePayReason = pmdConfigMemberType.getName();
                     /*if(pmdNorm.getType() == SystemConstants.PMD_NORM_SET_TYPE_FORMULA){
@@ -564,19 +579,19 @@ public class PmdMonthService extends BaseMapper {
                     }*/
                 }
             }
-            record.setConfigMemberDuePay(duePay);
-            record.setSalary(ltxf);
-            record.setDuePay(duePay);
+            _pmdMember.setConfigMemberDuePay(duePay);
+            _pmdMember.setSalary(ltxf);
+            _pmdMember.setDuePay(duePay);
 
-            record.setNeedSetSalary(needSetSalary);
-            record.setDuePayReason(duePayReason);
+            _pmdMember.setNeedSetSalary(needSetSalary);
+            _pmdMember.setDuePayReason(duePayReason);
 
             //record.setRealPay(new BigDecimal(0));
-            record.setIsDelay(false);
-            record.setHasPay(false);
+            _pmdMember.setIsDelay(false);
+            _pmdMember.setHasPay(false);
 
-            pmdMemberMapper.insertSelective(record);
-            memberId = record.getId();
+            pmdMemberMapper.insertSelective(_pmdMember);
+            memberId = _pmdMember.getId();
         }
 
         {
@@ -587,6 +602,39 @@ public class PmdMonthService extends BaseMapper {
 
             pmdMemberPayMapper.insertSelective(record);
         }
+        
+        return _pmdMember;
+    }
+
+    // 添加一条党员缴费记录
+    @Transactional
+    @CacheEvict(value = "PmdConfigMember", key = "#userId")
+    public void addPmdMember(int userId){
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        Member member = memberService.get(userId);
+        if(currentPmdMonth==null || member==null){
+
+            logger.info("添加缴费记录失败，未到缴费月份或不是党员：" + userId);
+            return;
+        }
+
+        PmdMember pmdMember = addMember(currentPmdMonth, member);
+
+        String salaryMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");
+        SysUserView uv = sysUserService.findById(userId);
+
+        ExtJzgSalary ejs = iPmdMapper.getExtJzgSalary(salaryMonth, uv.getCode());
+        // 更新在职教职工工资
+        pmdConfigResetService.updateDuePayByJzgSalary(ejs);
+
+        ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(salaryMonth, uv.getCode());
+        // 更新离退休费
+        pmdConfigResetService.updateDuePayByRetireSalary(ers);
+
+        sysApprovalLogService.add(pmdMember.getId(), userId, SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                "添加缴费记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 得到某月的分党委ID列表

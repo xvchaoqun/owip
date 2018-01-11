@@ -8,16 +8,16 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notify" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
-        <div class="form-group">
+        <%--<div class="form-group">
             <label class="col-xs-3 control-label">手机号码</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="mobile" value="${shortMsgBean.mobile}">
             </div>
-        </div>
+        </div>--%>
         <div class="form-group">
             <label class="col-xs-3 control-label">短信内容</label>
             <div class="col-xs-8 label-text">
-                ${shortMsgBean.content}
+                ${msg}
             </div>
         </div>
 

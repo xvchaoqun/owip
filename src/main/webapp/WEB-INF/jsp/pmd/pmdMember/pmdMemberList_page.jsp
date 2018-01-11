@@ -21,7 +21,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-history"></i> 操作记录
                     </button>
                     <shiro:hasPermission name="pmdMember:add">
-                        <button data-url="${ctx}/pmd/pmdMember_add"
+                        <button data-url="${ctx}/pmd/pmdMember_add?type=ow"
                                 class="popupBtn btn btn-success btn-sm">
                             <i class="fa fa-plus"></i> 添加
                         </button>
@@ -34,6 +34,14 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </shiro:hasPermission>
+
+                    <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                            data-width="600"
+                            data-url="${ctx}/user/pmd/pmdMember_setSalary"
+                            data-grid-id="#jqGrid"
+                            data-querystr="&isSelf=0"
+                            data-id-name="pmdMemberId">
+                        <i class="fa fa-rmb"></i> 修改党费应交额</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -161,11 +169,17 @@ pageEncoding="UTF-8" %>
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#delBtn").prop("disabled", true);
+            $("#delBtn,#helpSetSalaryBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var hasPay = (rowData.hasPay == "true");
+            var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
+            var isDelay = (rowData.isDelay == "true");
+
             $("#delBtn").prop("disabled", hasPay);
+            $("#helpSetSalaryBtn").prop("disabled",
+                    (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}&&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}) ||
+                    rowData.isSelfSetSalary=="1" || hasPay || !isCurrentMonth || isDelay);
         }
     }
 </script>

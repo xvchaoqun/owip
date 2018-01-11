@@ -122,7 +122,7 @@
                            data-grid-id="#jqGrid2"
                            data-querystr="&isSelf=0"
                            data-id-name="pmdMemberId">
-                            <i class="fa fa-rmb"></i> 计算党费应交额</button>
+                            <i class="fa fa-rmb"></i> 修改党费应交额</button>
 
                         <shiro:hasPermission name="pmdMember:payCash">
                             <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"

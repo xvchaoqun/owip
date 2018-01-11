@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${param.view==1?'查看':'计算'}应缴党费额度</h3>
+    <h3>${param.view==1?'查看':'修改'}党费应交额</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" id="modalForm" method="post">

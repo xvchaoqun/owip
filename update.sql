@@ -1,4 +1,7 @@
 
+2018-1-11
+修改 ct_pmd_notify -> ct_pmd_notify_member
+
 
 2018-1-10
 ALTER TABLE `ext_jzg_salary`

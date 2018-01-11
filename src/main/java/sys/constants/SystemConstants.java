@@ -1931,8 +1931,12 @@ public class SystemConstants {
     // 协同办公，通知指定负责人
     public final static String CONTENT_TPL_OA_INFO_USER = "ct_oa_info_user";
 
-    // 党费收缴，短信催交
-    public final static String CONTENT_TPL_PMD_NOTIFY = "ct_pmd_notify";
+    // 党费收缴，短信通知分党委
+    public final static String CONTENT_TPL_PMD_NOTIFY_PARTY = "ct_pmd_notify_party";
+    // 党费收缴，短信通知支部
+    public final static String CONTENT_TPL_PMD_NOTIFY_BRANCH = "ct_pmd_notify_branch";
+    // 党费收缴，短信通知个人
+    public final static String CONTENT_TPL_PMD_NOTIFY_MEMBER = "ct_pmd_notify_member";
 
 
     // 本单位正职（一人）审批通知

@@ -54,6 +54,129 @@ public class PmdConfigResetService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 党费重新计算-更新党费计算工资（在职教职工）
+    @Transactional
+    public void updateDuePayByJzgSalary(ExtJzgSalary ejs){
+
+        if(ejs==null) return;
+
+        String zgh = ejs.getZgh();
+        SysUserView uv = sysUserService.findByCode(zgh);
+        int userId = uv.getUserId();
+
+        // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非在职、校聘，比如学生助理）
+        PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+        if(pmdConfigMember!=null){
+            PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
+            if(pmdConfigMemberType!=null){
+                PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+                Byte formulaType = pmdNorm.getFormulaType();
+                // 额度类型为公式，且是在职和校聘的，才允许计算工资，否则跳出工资计算
+                if(false == (formulaType!=null
+                        && (formulaType== SystemConstants.PMD_FORMULA_TYPE_ONJOB
+                        || formulaType== SystemConstants.PMD_FORMULA_TYPE_EXTERNAL))){
+
+                    if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
+                        // 如果是固定额度的，则更新为已设置额度
+                        PmdConfigMember _pmdConfigMember = new PmdConfigMember();
+                        _pmdConfigMember.setUserId(userId);
+                        _pmdConfigMember.setHasReset(true);
+                        pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
+                    }
+
+                    return ;
+                }
+            }
+        }
+
+
+        PmdConfigMember _pmdConfigMember = new PmdConfigMember();
+        _pmdConfigMember.setUserId(userId);
+
+        BigDecimal gwgz = ejs.getGwgz();
+        BigDecimal xpgz = ejs.getXpgz();
+        if (gwgz == null || (xpgz != null && gwgz.compareTo(xpgz) < 0))
+            gwgz = xpgz;
+        _pmdConfigMember.setGwgz(gwgz);
+
+        _pmdConfigMember.setXjgz(ejs.getXjgz());
+        _pmdConfigMember.setGwjt(ejs.getGwjt());
+        _pmdConfigMember.setZwbt(ejs.getZwbt());
+        _pmdConfigMember.setZwbt1(ejs.getZwbt1());
+        _pmdConfigMember.setShbt(ejs.getShbt());
+        _pmdConfigMember.setSbf(ejs.getSbf());
+        _pmdConfigMember.setXlf(ejs.getXlf());
+
+        BigDecimal gzcx = ejs.getGzcx();
+        if (gzcx != null) {
+            gzcx = gzcx.multiply(BigDecimal.valueOf(-1));
+        }
+        _pmdConfigMember.setGzcx(gzcx);
+
+        _pmdConfigMember.setShiyebx(ejs.getSygr());
+        _pmdConfigMember.setYanglaobx(ejs.getYanglaogr());
+        _pmdConfigMember.setYiliaobx(ejs.getYiliaogr());
+        _pmdConfigMember.setZynj(ejs.getNjgr());
+        _pmdConfigMember.setGjj(ejs.getZfgjj());
+        BigDecimal duePay = pmdExtService.calDuePay(_pmdConfigMember);
+        _pmdConfigMember.setDuePay(duePay);
+        _pmdConfigMember.setHasReset(true);
+
+        pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
+
+        pmdConfigMemberService.updatePmdMemberDuePay(userId, duePay, "党费重新计算-更新党费计算工资");
+    }
+
+    // 党费重新计算-更新党费计算工资（离退休）
+    @Transactional
+    public void updateDuePayByRetireSalary(ExtRetireSalary ers){
+
+        if(ers==null) return;
+
+        BigDecimal ltxf = ers.getLtxf();
+        if (ltxf != null && ltxf.compareTo(BigDecimal.valueOf(0)) > 0) {
+            String zgh = ers.getZgh();
+            SysUserView uv = sysUserService.findByCode(zgh);
+            int userId = uv.getUserId();
+
+            // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非离退休，比如学生助理）
+            PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
+            if(pmdConfigMember!=null){
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
+                if(pmdConfigMemberType!=null){
+                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+                    Byte formulaType = pmdNorm.getFormulaType();
+
+                    // 额度类型为公式，且是离退的，才允许计算工资，否则跳出工资计算
+                    if(false == (formulaType!=null
+                            && formulaType== SystemConstants.PMD_FORMULA_TYPE_RETIRE)){
+
+                        if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
+                            // 如果是固定额度的，则更新为已设置额度
+                            PmdConfigMember _pmdConfigMember = new PmdConfigMember();
+                            _pmdConfigMember.setUserId(userId);
+                            _pmdConfigMember.setHasReset(true);
+                            pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
+                        }
+                        return;
+                    }
+                }
+            }
+
+            PmdConfigMember _pmdConfigMember = new PmdConfigMember();
+            _pmdConfigMember.setUserId(userId);
+            _pmdConfigMember.setRetireSalary(ltxf);
+            BigDecimal duePay = pmdExtService.getDuePayFromLtxf(ltxf);
+            _pmdConfigMember.setDuePay(duePay);
+            _pmdConfigMember.setHasReset(true);
+
+            pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
+
+            pmdConfigMemberService.updatePmdMemberDuePay(userId, duePay, "党费重新计算-更新党费计算工资");
+
+        }
+    }
+
     @Transactional
     @CacheEvict(value = "PmdConfigMember", allEntries = true)
     public void reset(String salaryMonth) {
@@ -68,117 +191,13 @@ public class PmdConfigResetService extends BaseMapper {
         List<ExtJzgSalary> extJzgSalaries = iPmdMapper.extJzgSalaryList(salaryMonth);
         for (ExtJzgSalary ejs : extJzgSalaries) {
 
-            String zgh = ejs.getZgh();
-            SysUserView uv = sysUserService.findByCode(zgh);
-            int userId = uv.getUserId();
-
-            // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非在职、校聘，比如学生助理）
-            PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
-            if(pmdConfigMember!=null){
-                PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
-                if(pmdConfigMemberType!=null){
-                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
-                    Byte formulaType = pmdNorm.getFormulaType();
-                    // 额度类型为公式，且是在职和校聘的，才允许计算工资，否则跳出工资计算
-                    if(false == (formulaType!=null
-                            && (formulaType== SystemConstants.PMD_FORMULA_TYPE_ONJOB
-                            || formulaType== SystemConstants.PMD_FORMULA_TYPE_EXTERNAL))){
-
-                        if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
-                            // 如果是固定额度的，则更新为已设置额度
-                            PmdConfigMember _pmdConfigMember = new PmdConfigMember();
-                            _pmdConfigMember.setUserId(userId);
-                            _pmdConfigMember.setHasReset(true);
-                            pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
-                        }
-                        continue;
-                    }
-                }
-            }
-
-
-            PmdConfigMember _pmdConfigMember = new PmdConfigMember();
-            _pmdConfigMember.setUserId(userId);
-
-            BigDecimal gwgz = ejs.getGwgz();
-            BigDecimal xpgz = ejs.getXpgz();
-            if (gwgz == null || (xpgz != null && gwgz.compareTo(xpgz) < 0))
-                gwgz = xpgz;
-            _pmdConfigMember.setGwgz(gwgz);
-
-            _pmdConfigMember.setXjgz(ejs.getXjgz());
-            _pmdConfigMember.setGwjt(ejs.getGwjt());
-            _pmdConfigMember.setZwbt(ejs.getZwbt());
-            _pmdConfigMember.setZwbt1(ejs.getZwbt1());
-            _pmdConfigMember.setShbt(ejs.getShbt());
-            _pmdConfigMember.setSbf(ejs.getSbf());
-            _pmdConfigMember.setXlf(ejs.getXlf());
-
-            BigDecimal gzcx = ejs.getGzcx();
-            if (gzcx != null) {
-                gzcx = gzcx.multiply(BigDecimal.valueOf(-1));
-            }
-            _pmdConfigMember.setGzcx(gzcx);
-
-            _pmdConfigMember.setShiyebx(ejs.getSygr());
-            _pmdConfigMember.setYanglaobx(ejs.getYanglaogr());
-            _pmdConfigMember.setYiliaobx(ejs.getYiliaogr());
-            _pmdConfigMember.setZynj(ejs.getNjgr());
-            _pmdConfigMember.setGjj(ejs.getZfgjj());
-            BigDecimal duePay = pmdExtService.calDuePay(_pmdConfigMember);
-            _pmdConfigMember.setDuePay(duePay);
-            _pmdConfigMember.setHasReset(true);
-
-            pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
-
-            pmdConfigMemberService.updatePmdMemberDuePay(userId, duePay, "党费重新计算-更新党费计算工资");
+            updateDuePayByJzgSalary(ejs);
         }
         // 同步离退休工资到党员缴费分类列表中 （离退休教职工）
         List<ExtRetireSalary> extRetireSalaries = iPmdMapper.extRetireSalaryList(salaryMonth);
         for (ExtRetireSalary ers : extRetireSalaries) {
 
-            BigDecimal ltxf = ers.getLtxf();
-            if (ltxf != null && ltxf.compareTo(BigDecimal.valueOf(0)) > 0) {
-                String zgh = ers.getZgh();
-                SysUserView uv = sysUserService.findByCode(zgh);
-                int userId = uv.getUserId();
-
-                // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非离退休，比如学生助理）
-                PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
-                if(pmdConfigMember!=null){
-                    PmdConfigMemberType pmdConfigMemberType = pmdConfigMember.getPmdConfigMemberType();
-                    if(pmdConfigMemberType!=null){
-                        PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
-                        Byte formulaType = pmdNorm.getFormulaType();
-
-                        // 额度类型为公式，且是离退的，才允许计算工资，否则跳出工资计算
-                        if(false == (formulaType!=null
-                                && formulaType== SystemConstants.PMD_FORMULA_TYPE_RETIRE)){
-
-                            if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
-                                // 如果是固定额度的，则更新为已设置额度
-                                PmdConfigMember _pmdConfigMember = new PmdConfigMember();
-                                _pmdConfigMember.setUserId(userId);
-                                _pmdConfigMember.setHasReset(true);
-                                pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
-                            }
-                            continue;
-                        }
-                    }
-                }
-
-                PmdConfigMember _pmdConfigMember = new PmdConfigMember();
-                _pmdConfigMember.setUserId(userId);
-                _pmdConfigMember.setRetireSalary(ltxf);
-                BigDecimal duePay = pmdExtService.getDuePayFromLtxf(ltxf);
-                _pmdConfigMember.setDuePay(duePay);
-                _pmdConfigMember.setHasReset(true);
-
-                pmdConfigMemberMapper.updateByPrimaryKeySelective(_pmdConfigMember);
-
-                pmdConfigMemberService.updatePmdMemberDuePay(userId, duePay, "党费重新计算-更新党费计算工资");
-
-            }
+            updateDuePayByRetireSalary(ers);
         }
 
         {

@@ -313,13 +313,17 @@ public class PmdMemberController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 添加党员
+    // 添加党员缴费记录
     @RequiresPermissions("pmdMember:add")
     @RequestMapping(value = "/pmdMember_add", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_add(int userId, HttpServletRequest request) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null){
+            return failed("未开启缴费");
+        }
+
         int monthId = currentPmdMonth.getId();
         PmdMember pmdMember = pmdMemberService.get(monthId, userId);
         if(pmdMember!=null){
@@ -334,7 +338,7 @@ public class PmdMemberController extends PmdBaseController {
             }
         }
 
-        pmdMonthService.addMember(currentPmdMonth, member);
+        pmdMonthService.addPmdMember(userId);
 
         return success(FormUtils.SUCCESS);
     }

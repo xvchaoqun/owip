@@ -45,7 +45,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+                        $("#${param.type=='ow'?'jqGrid':'jqGrid2'}").trigger("reloadGrid");
                     }
                 }
             });

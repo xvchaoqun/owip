@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -51,20 +52,22 @@ public class UserPmdMemberController extends PmdBaseController {
             //SecurityUtils.getSubject().checkPermission("userPmdMember:setSalary");
             //return ShiroHelper.getCurrentUserId();
         }else{
-            // 支部管理员可代替设置工资，规则：如果本人设置或修改过了，则支部管理员不允许设置或修改
+            // 组织部管理员或支部管理员可代替设置工资
             SecurityUtils.getSubject().checkPermission("userPmdMember:helpSetSalary");
 
             PmdMember _pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
             PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), _pmdMember.getUserId());
 
-            // （只允许支部管理员或直属支部管理员进行代缴）
-            Integer partyId = pmdMember.getPartyId();
-            Integer branchId = pmdMember.getBranchId();
+            if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)) {
+                // （只允许支部管理员或直属支部管理员进行代缴）
+                Integer partyId = pmdMember.getPartyId();
+                Integer branchId = pmdMember.getBranchId();
 
-            int userId = ShiroHelper.getCurrentUserId();
-            if(!pmdBranchAdminService.isBranchAdmin(userId, partyId, branchId)){
-                throw new UnauthorizedException();
+                int userId = ShiroHelper.getCurrentUserId();
+                if (!pmdBranchAdminService.isBranchAdmin(userId, partyId, branchId)) {
+                    throw new UnauthorizedException();
+                }
             }
 
             return pmdMember.getUserId();

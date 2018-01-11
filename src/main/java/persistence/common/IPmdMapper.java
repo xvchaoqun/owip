@@ -27,11 +27,19 @@ public interface IPmdMapper {
             "where pcm.user_id= u.id and ejs.zgh=u.code and ejs.rq=#{rq};")
     public List<ExtJzgSalary> extJzgSalaryList(@Param("rq") String salaryMonth);
 
+    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @Select("select * from ext_jzg_salary where zgh=#{zgh} and rq=#{rq}")
+    public ExtJzgSalary getExtJzgSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
+
     // 读取当前缴费党员库中的离退休工资
     @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
     @Select("select ers.* from pmd_config_member pcm, ext_retire_salary ers, sys_user u " +
             "where pcm.user_id= u.id and ers.zgh=u.code and ers.rq=#{rq};")
     public List<ExtRetireSalary> extRetireSalaryList(@Param("rq") String salaryMonth);
+
+    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @Select("select * from ext_retire_salary where zgh=#{zgh} and rq=#{rq}")
+    public ExtRetireSalary getExtRetireSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
 
     // 往月延迟缴费党员数（已启动缴费，同步了党员信息之后汇总）
     public int historyDelayMemberCount(@Param("currentMonthId") int currentMonthId,
