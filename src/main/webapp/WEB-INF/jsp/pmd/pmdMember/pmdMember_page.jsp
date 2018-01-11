@@ -97,7 +97,11 @@
                         <button id="notifyBtn" class="jqOpenViewBtn btn btn-danger btn-sm"
                                 data-url="${ctx}/pmd/pmdSendMsg_notify"
                                 data-grid-id="#jqGrid2">
-                            <i class="fa fa-send"></i> 短信提醒
+                            <i class="fa fa-send"></i> 短信通知
+                        </button>
+                        <button class="popupBtn btn btn-warning btn-sm"
+                                data-url="${ctx}/pmd/pmdSendMsg_notifyAllMembers?partyId=${param.partyId}&branchId=${param.branchId}"
+                                ><i class="fa fa-send"></i> 通知未缴费党员
                         </button>
 
                        <%-- <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"

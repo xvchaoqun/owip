@@ -162,7 +162,7 @@ public class ExceptionHandlerController {
 
             //ex.printStackTrace();
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", "系统异常[NULL]，请稍后重试");
+            mv.addObject("exception", "系统异常["+ ex.getMessage() +"]，请稍后重试");
             mv.setViewName("500");
             return mv;
         }

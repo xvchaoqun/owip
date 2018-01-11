@@ -16,7 +16,7 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="pmdMonth:edit">
                                 <button class="confirm btn btn-success btn-sm"
-                                    ${(not empty _pmdMonth||not empty currentMonth)?'disabled':''}
+                                    ${(not empty _pmdMonth||not empty realThisMonth)?'disabled':''}
                                         data-title="新建"
                                         data-msg="确定新建缴费月份？"
                                         data-callback="_createCallback"
@@ -28,6 +28,12 @@
                                         data-id-name="monthId"
                                         data-grid-id="#jqGrid"
                                         data-querystr="&"><i class="fa fa-edit"></i> 编辑缴费党委
+                                </button>
+
+                                <button class="popupBtn btn btn-warning btn-sm"
+                                    ${(empty _pmdMonth)?'disabled':''}
+                                        data-url="${ctx}/pmd/pmdSendMsg_notifyAllPartyAdmins"
+                                        ><i class="fa fa-send"></i> 通知党委管理员
                                 </button>
                             </shiro:hasPermission>
                         </div>

@@ -3,17 +3,17 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>短信通知</h3>
+    <h3>短信通知所有支部管理员</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notify" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${param.id}">
-        <%--<div class="form-group">
-            <label class="col-xs-3 control-label">手机号码</label>
-            <div class="col-xs-6">
-                <input required class="form-control" type="text" name="mobile" value="${shortMsgBean.mobile}">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyAllBranchAdmins" id="modalForm" method="post">
+        <input type="hidden" name="partyId" value="${param.partyId}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">所属分党委：</label>
+            <div class="col-xs-8 label-text">
+                ${party.name}
             </div>
-        </div>--%>
+        </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">短信内容：</label>
             <div class="col-xs-8 label-text">

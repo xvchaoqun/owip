@@ -41,8 +41,8 @@ public class PmdMonthController extends PmdBaseController {
     @RequestMapping("/pmdMonth")
     public String pmdMonth(ModelMap modelMap) {
 
-        PmdMonth currentMonth = pmdMonthService.getMonth(new Date());
-        modelMap.put("currentMonth", currentMonth);
+        PmdMonth realThisMonth = pmdMonthService.getMonth(new Date());
+        modelMap.put("realThisMonth", realThisMonth);
         return "pmd/pmdMonth/pmdMonth_page";
     }
 

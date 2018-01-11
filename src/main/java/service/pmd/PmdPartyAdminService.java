@@ -16,8 +16,10 @@ import sys.tags.CmTag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class PmdPartyAdminService extends BaseMapper {
@@ -37,6 +39,22 @@ public class PmdPartyAdminService extends BaseMapper {
         if (id != null) criteria.andIdNotEqualTo(id);
 
         return pmdPartyAdminMapper.countByExample(example) > 0;
+    }
+
+    /**
+     * 判断是否是分党委管理员
+     *
+     * @param userId
+     * @param partyId
+     * @return
+     */
+    public boolean isPartyAdmin(int userId, Integer partyId) {
+
+        List<Integer> adminPartyIds = getAdminPartyIds(userId);
+        Set<Integer> adminPartyIdSet = new HashSet<>();
+        adminPartyIdSet.addAll(adminPartyIds);
+
+        return adminPartyIdSet.contains(partyId);
     }
 
     // 得到一个分党委的所有管理员
@@ -82,7 +100,7 @@ public class PmdPartyAdminService extends BaseMapper {
             {
                 // 书记
                 PartyMemberView secretary = partyMemberService.getPartySecretary(partyId);
-                if(secretary!=null) {
+                if (secretary != null) {
                     PmdPartyAdmin record = new PmdPartyAdmin();
                     record.setPartyId(partyId);
                     record.setUserId(secretary.getUserId());
@@ -123,7 +141,7 @@ public class PmdPartyAdminService extends BaseMapper {
         PartyMemberView pmv = partyMemberService.getPartyMemberView(partyId, userId);
         if (pmv != null && pmv.getPostId() == partySecretaryType.getId()) {
             type = SystemConstants.PMD_ADMIN_TYPE_SECRETARY;
-        }else {
+        } else {
             // 组织委员
             MetaType zzwyType = CmTag.getMetaTypeByCode("mt_party_member_type_zzwy");
             PartyMemberView pmv2 = partyMemberService.getPartyMemberView(partyId, userId, zzwyType.getId());

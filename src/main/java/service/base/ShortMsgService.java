@@ -384,7 +384,7 @@ public class ShortMsgService extends BaseMapper {
 
         ContentTpl contentTpl = contentTplService.codeKeyMap().get(key);
         if(contentTpl == null || StringUtils.isBlank(contentTpl.getContent()))
-            throw new NullPointerException(String.format("读取模板（CODE：%s）异常", key));
+            throw new OpException(String.format("读取模板（CODE：%s）异常", key));
 
         return contentTpl;
     }

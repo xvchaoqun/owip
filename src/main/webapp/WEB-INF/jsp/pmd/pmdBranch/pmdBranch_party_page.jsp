@@ -21,6 +21,13 @@
         <div class="widget-main padding-4">
             <div class="multi-row-head-table tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
+                    <c:if test="${param.monthId==_pmdMonth.id}">
+                    <button class="popupBtn btn btn-warning btn-sm"
+                            ${(empty _pmdMonth)?'disabled':''}
+                            data-url="${ctx}/pmd/pmdSendMsg_notifyAllBranchAdmins?partyId=${param.partyId}"
+                            ><i class="fa fa-send"></i> 通知支部管理员
+                    </button>
+                    </c:if>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>

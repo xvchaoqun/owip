@@ -139,6 +139,8 @@ public class PmdSendMsgService extends BaseMapper {
             branchs = branchMapper.selectByExample(example);
         }
 
+        Party party = partyService.findAll().get(partyId);
+
         for (Branch branch : branchs) {
 
             int branchId = branch.getId();
@@ -165,7 +167,7 @@ public class PmdSendMsgService extends BaseMapper {
             String msg = MessageFormat.format(tpl.getContent(),
                     branch.getName(),
                     DateUtils.formatDate(payMonth, "yyyy年MM月"),
-                    branch.getName());
+                    party.getName());
 
             oneSendService.sendMsg(userList, realnameList, msg);
         }
