@@ -1,4 +1,15 @@
 
+
+2018-1-13
+RENAME TABLE `pmd_notify_campuscard_log` TO `pmd_notify_campuscard`;
+RENAME TABLE `pmd_notify_wszf_log` TO `pmd_notify_wszf`;
+
+ALTER TABLE `pmd_member_pay`
+	CHANGE COLUMN `order_no` `order_no` VARCHAR(20) NULL DEFAULT NULL COMMENT '缴费订单号' AFTER `member_id`,
+	CHANGE COLUMN `order_user_id` `order_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '生成订单号时的账号' AFTER `order_no`;
+
+
+
 2018-1-11
 修改 ct_pmd_notify -> ct_pmd_notify_member
 

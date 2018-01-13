@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PmdNotifyWszfLogExample {
+public class PmdNotifyWszfExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public PmdNotifyWszfLogExample() {
+    public PmdNotifyWszfExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

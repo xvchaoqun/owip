@@ -116,7 +116,7 @@ public class PmdTest {
 
         // 线上缴费
         String onlineSql = "update pmd_member pm, pmd_member_pay pmp set " +
-                "pmp.order_no=concat('" + orderNoPrefix + "', pm.id+" + pmdPayService.orderNoOffset + "), " +
+                //"pmp.order_no=concat('" + orderNoPrefix + "', pm.id+" + pmdPayService.orderNoOffset + "), " +
                 "pm.has_pay=1 , pm.real_pay=pm.due_pay, pm.is_online_pay=1, " +
                 "pmp.has_pay=1 , pmp.real_pay=pm.due_pay, pmp.is_online_pay=1, " +
                 "pmp.charge_party_id=pm.party_id , pmp.charge_branch_id=pm.branch_id, " +

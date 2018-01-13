@@ -7,9 +7,13 @@ import domain.pmd.PmdMemberPay;
 import domain.pmd.PmdMemberPayExample;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMonth;
-import domain.pmd.PmdNotifyCampusCardLog;
+import domain.pmd.PmdNotifyCampuscard;
+import domain.pmd.PmdOrderCampuscard;
+import domain.pmd.PmdOrderCampuscardExample;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +56,39 @@ public class PmdPayCampusCardService extends BaseMapper {
     public final static String paycode = PropertiesUtils.getString("pay.campuscard.paycode");
     public final static String keys = PropertiesUtils.getString("pay.campuscard.keys");
 
+    // 订单号起始值
+    private final static int orderNoOffset = 10240000;
+
+    // 新建订单号，缴费时的月份(yyyyMM) + 是否补缴(0,1) + (党员快照ID + 订单号起始值)
+    private String createOrderNo(int pmdMemberId, PmdMonth currentPmdMonth,
+                                 boolean isDelay, byte payWay) {
+
+        int _orderNo = pmdMemberId + orderNoOffset;
+        if (_orderNo > 99999999) {
+            throw new OpException("缴费失败，原因：订单号错误。");
+        }
+
+        // 根据订单生成次数，给订单号末尾加上后缀
+        String suffix = "";
+        {
+            PmdOrderCampuscardExample exmaple = new PmdOrderCampuscardExample();
+            exmaple.createCriteria().andMemberIdEqualTo(pmdMemberId);
+            long count = pmdOrderCampuscardMapper.countByExample(exmaple);
+            if (count > 0) {
+                // 系统只能处理99及以下的订单生成次数
+                Assert.isTrue(count < 100, "超过最大允许创建订单次数");
+                suffix = String.format("%02d", count);
+            }
+        }
+
+        return DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM")
+                + (isDelay ? "1" : "0")
+                + payWay
+                + _orderNo + suffix;
+    }
+
     // 构建支付表单参数
-    public PayFormCampusCardBean createPayFormBean(int pmdMemberId, boolean isSelfPay) {
+    private PmdOrderCampuscard confirmOrder(int pmdMemberId, boolean isSelfPay) {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null || pmdMember.getHasPay()) {
@@ -63,72 +98,124 @@ public class PmdPayCampusCardService extends BaseMapper {
         // 缴费月份校验，要求当前缴费月份是开启状态
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
-            throw new OpException("缴费失败，原因：未到缴费时间。");
+            throw new OpException("未到缴费时间。");
         }
 
         boolean isCurrentMonth = (pmdMember.getMonthId().intValue() == currentPmdMonth.getId());
         if (isCurrentMonth && pmdMember.getIsDelay()) {
             // 当月已经设定为延迟缴费，不允许在线缴费
-            throw new OpException("缴费失败，原因：已经设定为延迟缴费。");
+            throw new OpException("已经设定为延迟缴费，当前不允许缴费。");
         }
         if (!isCurrentMonth && !pmdMember.getIsDelay()) {
 
-            throw new OpException("补缴失败，原因：状态异常。");
+            throw new OpException("缴费状态异常，请联系管理员。");
         }
 
         // 重复确认一下当前是否允许缴费
         if (pmdMember.getPayStatus() == 0) {
-            throw new OpException("缴费失败，原因：当前不允许缴费。");
+            throw new OpException("缴费失败，当前不允许缴费。");
+        }
+        // 重复验证是否有成功的缴费记录
+        {
+            PmdOrderCampuscardExample exmaple = new PmdOrderCampuscardExample();
+            exmaple.createCriteria().andMemberIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
+            if (pmdOrderCampuscardMapper.countByExample(exmaple) > 0) {
+                throw new OpException("重复缴费，请联系管理员处理。");
+            }
         }
 
         String payer = null;
         String payername = null;
-        String sno_id_name = null;
-        if(isSelfPay){
+        String snoIdName = null;
+        if (isSelfPay) {
             // 本人缴费
             SysUserView uv = pmdMember.getUser();
             payer = uv.getCode();
             payername = uv.getRealname();
-            sno_id_name = uv.getCode();
-        }else{
+            snoIdName = uv.getCode();
+        } else {
             // 代缴
             SysUserView uv = ShiroHelper.getCurrentUser();
             payer = uv.getCode();
             payername = uv.getRealname();
-            sno_id_name = uv.getCode();
+            snoIdName = uv.getCode();
         }
 
-        // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
-        String orderNo = pmdPayService.createOrderNo(pmdMemberId, currentPmdMonth,
-                pmdMember.getIsDelay(), SystemConstants.PMD_PAY_WAY_CAMPUSCARD);
-        String amount = pmdMember.getDuePay().toString();
-
-        PayFormCampusCardBean bean = new PayFormCampusCardBean();
-        bean.setPaycode(paycode);
-        bean.setPayer(payer);
+        PmdOrderCampuscard newOrder = new PmdOrderCampuscard();
+        newOrder.setPaycode(paycode);
+        newOrder.setPayer(payer);
         // 缴费人账号类型，1：学工号，2：服务平台账号，3：校园卡号，4：身份证号
-        bean.setPayertype("1");
-        bean.setPayername(payername);
-        bean.setSn(orderNo);
-        bean.setAmt(amount);
-        bean.setMacc("");
-        bean.setCommnet("");
-        bean.setSno_id_name(sno_id_name);
+        newOrder.setPayertype("1");
+        newOrder.setPayername(payername);
+        newOrder.setAmt(pmdMember.getDuePay().toString());
+        newOrder.setMacc("");
+        newOrder.setCommnet("");
+        newOrder.setSnoIdName(snoIdName);
 
-        String md5Str = keys + paycode + bean.getSn() +
-                bean.getAmt() + bean.getPayer() +
-                bean.getPayername() + StringUtils.reverse(keys);
-        // 全大写
-        String sign = MD5Util.md5Hex(md5Str, "utf-8").toUpperCase();
-        bean.setSign(sign);
+        boolean orderIsNotExist = false;
+        // 如果订单已存在（最近一次的）且与本次支付信息不相同，则生成新的订单
+        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
+        String oldOrderNo = pmdMemberPay.getOrderNo();
+        PmdOrderCampuscard oldOrder = null;
+        if (StringUtils.isNotBlank(oldOrderNo)) {
+            oldOrder = pmdOrderCampuscardMapper.selectByPrimaryKey(oldOrderNo);
+        }
+        if (oldOrder!=null) {
+            if (!StringUtils.equals(newOrder.getPaycode(), oldOrder.getPaycode())
+                    || !StringUtils.equals(newOrder.getPayer(), oldOrder.getPayer())
+                    || !StringUtils.equals(newOrder.getPayertype(), oldOrder.getPayertype())
+                    || !StringUtils.equals(newOrder.getPayername(), oldOrder.getPayername())
+                    || !StringUtils.equals(newOrder.getAmt(), oldOrder.getAmt())
+                    || !StringUtils.equals(newOrder.getMacc(), oldOrder.getMacc())
+                    || !StringUtils.equals(newOrder.getCommnet(), oldOrder.getCommnet())
+                    || !StringUtils.equals(newOrder.getSnoIdName(), oldOrder.getSnoIdName())) {
 
-        return bean;
+                logger.info("订单信息变更，生成新订单号");
+                orderIsNotExist = true;
+            }
+        } else {
+            logger.info("订单信息不存在，生成订单号");
+            orderIsNotExist = true;
+        }
+
+        if (orderIsNotExist) {
+            // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
+            String orderNo = createOrderNo(pmdMemberId, currentPmdMonth,
+                    pmdMember.getIsDelay(), SystemConstants.PMD_PAY_WAY_CAMPUSCARD);
+            newOrder.setSn(orderNo);
+            String md5Str = keys + paycode + newOrder.getSn() +
+                    newOrder.getAmt() + newOrder.getPayer() +
+                    newOrder.getPayername() + StringUtils.reverse(keys);
+            // 全大写
+            String sign = MD5Util.md5Hex(md5Str, "utf-8").toUpperCase();
+            newOrder.setSign(sign);
+
+            int userId = ShiroHelper.getCurrentUserId();
+
+            newOrder.setMemberId(pmdMemberId);
+            newOrder.setUserId(userId);
+            newOrder.setIsSuccess(false);
+            newOrder.setCreateTime(new Date());
+            newOrder.setIp(ContextHelper.getRealIp());
+
+            pmdOrderCampuscardMapper.insertSelective(newOrder);
+
+            sysApprovalLogService.add(pmdMemberId, userId,
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                    "支付已确认，即将跳转支付页面", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    "订单号：" + orderNo);
+
+            return newOrder;
+        }
+
+        return pmdOrderCampuscardMapper.selectByPrimaryKey(oldOrderNo);
     }
 
     // 无论如何，都要保存服务器支付通知
     public void savePayNotifyBean(PayNotifyCampusCardBean bean) {
 
-        PmdNotifyCampusCardLog record = new PmdNotifyCampusCardLog();
+        PmdNotifyCampuscard record = new PmdNotifyCampuscard();
         try {
             record.setPaycode(bean.getPaycode());
             record.setPayitem(bean.getPayitem());
@@ -146,7 +233,7 @@ public class PmdPayCampusCardService extends BaseMapper {
             logger.error("支付通知异常", ex);
         }
 
-        pmdNotifyCampusCardLogMapper.insertSelective(record);
+        pmdNotifyCampuscardMapper.insertSelective(record);
     }
 
     // 处理服务器后台结果通知
@@ -157,7 +244,7 @@ public class PmdPayCampusCardService extends BaseMapper {
         return true;
     }
 
-    public static String signMd5Str(PayNotifyCampusCardBean bean){
+    public static String signMd5Str(PayNotifyCampusCardBean bean) {
 
         String md5Str = keys + bean.getPaycode() + bean.getSn() +
                 bean.getAmt() + bean.getPayer() +
@@ -173,7 +260,7 @@ public class PmdPayCampusCardService extends BaseMapper {
         String verifySign = MD5Util.md5Hex(md5Str, "utf-8");
 
         boolean ret = StringUtils.equalsIgnoreCase(bean.getSign(), verifySign);
-        if(!ret){
+        if (!ret) {
             logger.warn("签名校验失败，{}, md5Str={}, verifySign={}", bean.toString(), md5Str, verifySign);
         }
 
@@ -185,60 +272,80 @@ public class PmdPayCampusCardService extends BaseMapper {
     public void processPayCallbackBean(PayNotifyCampusCardBean bean) {
 
         try {
-
             // 签名校验成功 且 确认交易成功
             if (verifySign(bean) && StringUtils.equals(bean.getPaid(), "true")) {
 
                 String orderNo = bean.getSn();
-                // 党员账单
-                PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(orderNo);
-                int payStatus;
-                if (pmdMemberPayView == null) {
-                    logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：" + orderNo);
-                } else if (pmdMemberPayView.getHasPay()) {
-                    logger.warn("[党费收缴]处理支付通知重复，订单号：" + orderNo);
-                } else if ((payStatus = pmdMemberPayView.getPayStatus()) == 0) {
-                    logger.warn("[党费收缴]处理支付通知异常，当前不允许缴费，订单号：" + orderNo);
+                PmdOrderCampuscard pmdOrder = pmdOrderCampuscardMapper.selectByPrimaryKey(orderNo);
+                if (pmdOrder == null) {
+                    logger.error("[党费收缴]处理支付通知失败，订单号不存在，订单号：{}", orderNo);
+                } else if (pmdOrder.getIsSuccess()) {
+                    logger.warn("[党费收缴]处理支付通知重复，订单号：{}", orderNo);
                 } else {
 
-                    Integer payMonthId = null;
-                    // 根据订单号的前6位，找到订单生成时的缴费月份（防止延时反馈跨月的情况出现）
-                    PmdMonth payMonth = pmdMonthService.getMonth(DateUtils.parseDate(orderNo.substring(0, 6), "yyyyMM"));
+                    {
+                        // 更新订单状态为成功支付
+                        PmdOrderCampuscard record = new PmdOrderCampuscard();
+                        record.setSn(orderNo);
+                        record.setIsSuccess(true);
+                        pmdOrderCampuscardMapper.updateByPrimaryKeySelective(record);
+                    }
+
+                    int memberId = pmdOrder.getMemberId();
+                    // 更新党员账单
+                    PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(memberId);
+                    if (pmdMemberPayView == null) {
+
+                        logger.error("[党费收缴]处理支付通知失败，缴费记录不存在，订单号：{}", orderNo);
+                        return;
+                    }
+
+                    Boolean hasPay = pmdMemberPayView.getHasPay();
+                    int payStatus = pmdMemberPayView.getPayStatus();
+
+                    if (BooleanUtils.isTrue(hasPay)) {
+
+                        // 如果重复通知，则不再更新相关缴费记录。（此时可能原因：重复缴费）
+                        logger.warn("[党费收缴]处理支付通知重复，订单号：{}, 原订单号：{}",
+                                orderNo, pmdMemberPayView.getOrderNo());
+                        return;
+                    }
+
                     boolean isSelfPay = true;
                     Integer chargeUserId = null; // 代缴人
-                   // 读取实际缴费人
+                    // 读取实际缴费人
                     String code = StringUtils.trimToNull(bean.getPayer());
-                    if(code!=null) {
+                    if (code != null) {
                         SysUserView uv = sysUserService.findByCode(code);
-                        if(uv!=null && uv.getUserId().intValue()!=pmdMemberPayView.getUserId()){
+                        if (uv != null && uv.getUserId().intValue() != pmdMemberPayView.getUserId()) {
                             chargeUserId = uv.getUserId();
                             isSelfPay = false;
-                            if(chargeUserId==null){
-                                logger.warn("[党费收缴]处理支付通知异常，代缴人读取失败，订单号：" + orderNo);
+                            if (chargeUserId == null) {
+                                logger.warn("[党费收缴]处理支付通知异常，代缴人读取失败，订单号：{}", orderNo);
                             }
                         }
                     }
 
+                    // 根据订单号的前6位，找到订单生成时的缴费月份（防止延时反馈跨月的情况出现）
+                    PmdMonth payMonth = pmdMonthService.getMonth(DateUtils.parseDate(orderNo.substring(0, 6), "yyyyMM"));
                     if (payMonth == null) {
-                        logger.error("[党费收缴]处理支付结果异常，缴费月份不存在，订单号：" + orderNo);
+                        logger.error("[党费收缴]处理支付结果异常，缴费月份不存在，订单号：{}", orderNo);
                     } else {
 
+                        int payMonthId = payMonth.getId();
                         // 用户缴费了，但是支付成功的通知在支部管理员设为延迟缴费之后
-                        if (pmdMemberPayView.getMonthId().intValue() == payMonth.getId()
+                        if (pmdMemberPayView.getMonthId().intValue() == payMonthId
                                 && pmdMemberPayView.getIsDelay()) {
-                            logger.error("[党费收缴]已经设定为延迟缴费，但是当月收到了缴费成功的通知，订单号：" + orderNo);
+                            logger.error("[党费收缴]已经设定为延迟缴费，但是当月收到了缴费成功的通知，订单号：{}", orderNo);
                         }
 
-                        // 生成订单时所在月份
-                        payMonthId = payMonth.getId();
                         // 此笔账单是否补缴
                         boolean isDelay = StringUtils.equals(orderNo.substring(6, 7), "1");
                         if (isDelay && payStatus != 2) {
-                            logger.error("[党费收缴]处理支付结果异常，缴费类型有误，订单号：" + orderNo);
+                            logger.error("[党费收缴]处理支付结果异常，补缴状态异常，订单号：{}", orderNo);
                         } else {
-                            int memberId = pmdMemberPayView.getMemberId();
-                            if (!isDelay) {
 
+                            if (!isDelay) {
                                 // 缴费时，需更新快照
                                 PmdMember record = new PmdMember();
                                 record.setId(memberId);
@@ -251,7 +358,7 @@ public class PmdPayCampusCardService extends BaseMapper {
                                 PmdMemberExample example = new PmdMemberExample();
                                 example.createCriteria().andIdEqualTo(memberId)
                                         .andHasPayEqualTo(false);
-                                if(pmdMemberMapper.updateByExampleSelective(record, example)==0){
+                                if (pmdMemberMapper.updateByExampleSelective(record, example) == 0) {
                                     throw new OpException("更新快照失败");
                                 }
                             }
@@ -274,7 +381,7 @@ public class PmdPayCampusCardService extends BaseMapper {
                             PmdMemberPayExample example = new PmdMemberPayExample();
                             example.createCriteria().andMemberIdEqualTo(memberId)
                                     .andHasPayEqualTo(false);
-                            if(pmdMemberPayMapper.updateByExampleSelective(record, example)==0){
+                            if (pmdMemberPayMapper.updateByExampleSelective(record, example) == 0) {
                                 throw new OpException("更新账单失败");
                             }
 
@@ -298,38 +405,31 @@ public class PmdPayCampusCardService extends BaseMapper {
 
     // 跳转页面前的支付确认，生成支付订单号
     @Transactional
-    public PayFormCampusCardBean payConfirm(int pmdMemberId, boolean isSelfPay) {
+    public PmdOrderCampuscard payConfirm(int pmdMemberId, boolean isSelfPay) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) {
-            throw new OpException("操作失败，请稍后再试。");
+            throw new OpException("未到缴费时间。");
         }
 
-        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
-        PayFormCampusCardBean payFormBean = createPayFormBean(pmdMember.getId(), isSelfPay);
-
         int userId = ShiroHelper.getCurrentUserId();
-
         SysUserView uv = sysUserService.findById(userId);
-        if(uv.getSource()==SystemConstants.USER_SOURCE_ADMIN
-                || uv.getSource() == SystemConstants.USER_SOURCE_REG){
+        if (uv.getSource() == SystemConstants.USER_SOURCE_ADMIN
+                || uv.getSource() == SystemConstants.USER_SOURCE_REG) {
             throw new OpException("您的账号是系统注册账号，不能使用校园卡支付。");
         }
 
-        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
-        Integer orderUserId = pmdMemberPay.getOrderUserId();
-        /*if(orderUserId!=null && orderUserId!=userId){
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+        if (pmdMember == null) {
+            throw new OpException("缴费记录不存在。");
+        }
 
-            // 跟上次点击人不同，自动清除一下
-            pmdMemberService.clearOrderUser(pmdMemberId);
-            SysUserView uv = sysUserService.findById(orderUserId);
-            throw new OpException("缴费订单号({0})已由{1}（工号：{2}）生成，请联系他/她进行支付。",
-                    pmdMemberPay.getOrderNo(), uv.getRealname(), uv.getCode());
-        }*/
+        // 确认订单信息
+        PmdOrderCampuscard pmdOrder = confirmOrder(pmdMemberId, isSelfPay);
 
         PmdMemberPay record = new PmdMemberPay();
         record.setMemberId(pmdMemberId);
-        record.setOrderNo(payFormBean.getSn());
+        record.setOrderNo(pmdOrder.getSn());
         record.setOrderUserId(userId);
 
         if (pmdMemberPayMapper.updateByPrimaryKeySelective(record) == 0) {
@@ -338,15 +438,6 @@ public class PmdPayCampusCardService extends BaseMapper {
             throw new OpException("缴费异常，请稍后再试。");
         }
 
-        if(orderUserId==null || orderUserId!=userId){
-
-            // 第一次点击去支付，或跟上次点击人不相同，则记录下来
-            sysApprovalLogService.add(pmdMember.getId(), userId,
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                    "点击“去支付”按钮", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
-        }
-
-        return payFormBean;
+        return pmdOrder;
     }
 }

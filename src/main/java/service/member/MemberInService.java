@@ -269,7 +269,7 @@ public class MemberInService extends BaseMapper {
             // 修改为直属党支部
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             iMemberMapper.updateToDirectBranch("ow_member_in", "id", record.getId(), record.getPartyId());
-            iMemberMapper.updateToDirectBranch("ow_member", "user_id", record.getId(), record.getPartyId());
+            iMemberMapper.updateToDirectBranch("ow_member", "user_id", record.getUserId(), record.getPartyId());
         }
 
         record.setIsModify(true);

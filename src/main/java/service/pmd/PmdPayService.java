@@ -19,7 +19,6 @@ import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
-import sys.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -52,23 +51,6 @@ public class PmdPayService extends BaseMapper {
 
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    // 订单号起始值
-    public final static int orderNoOffset = 10240000;
-    // 新建订单号，缴费时的月份(yyyyMM) + 是否补缴(0,1) + (党员快照ID + 订单号起始值)
-    public String createOrderNo(int pmdMemberId, PmdMonth currentPmdMonth,
-                                boolean isDelay, byte payWay) {
-
-        int _orderNo = pmdMemberId + orderNoOffset;
-        if (_orderNo > 99999999) {
-            throw new OpException("缴费失败，原因：订单号错误。");
-        }
-
-        return DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM")
-                + (isDelay ? "1" : "0")
-                + payWay
-                + _orderNo;
-    }
 
     // 现金支付
     @Transactional

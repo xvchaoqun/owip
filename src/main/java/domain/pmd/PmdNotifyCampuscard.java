@@ -3,7 +3,7 @@ package domain.pmd;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PmdNotifyCampusCardLog implements Serializable {
+public class PmdNotifyCampuscard implements Serializable {
     private Integer id;
 
     private String paycode;

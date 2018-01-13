@@ -7,7 +7,7 @@ import domain.pmd.PmdMemberPay;
 import domain.pmd.PmdMemberPayExample;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMonth;
-import domain.pmd.PmdNotifyWszfLog;
+import domain.pmd.PmdNotifyWszf;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +49,24 @@ public class PmdPayWszfService extends BaseMapper {
     public final static String xmpch = PropertiesUtils.getString("pay.wszf.id");
     public final static String key = PropertiesUtils.getString("pay.wszf.key");
 
+    // 订单号起始值
+    private final static int orderNoOffset = 10240000;
+
+    // 新建订单号，缴费时的月份(yyyyMM) + 是否补缴(0,1) + (党员快照ID + 订单号起始值)
+    private String createOrderNo(int pmdMemberId, PmdMonth currentPmdMonth,
+                                boolean isDelay, byte payWay) {
+
+        int _orderNo = pmdMemberId + orderNoOffset;
+        if (_orderNo > 99999999) {
+            throw new OpException("缴费失败，原因：订单号错误。");
+        }
+
+        return DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM")
+                + (isDelay ? "1" : "0")
+                + payWay
+                + _orderNo;
+    }
+
     // 构建支付表单参数
     public PayFormWszfBean createPayFormBean(int pmdMemberId) {
 
@@ -79,7 +97,7 @@ public class PmdPayWszfService extends BaseMapper {
         }
 
         // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
-        String orderNo = pmdPayService.createOrderNo(pmdMemberId, currentPmdMonth,
+        String orderNo = createOrderNo(pmdMemberId, currentPmdMonth,
                 pmdMember.getIsDelay(), SystemConstants.PMD_PAY_WAY_WSZF);
         String orderDate = DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         String amount = pmdMember.getDuePay().toString();
@@ -108,7 +126,7 @@ public class PmdPayWszfService extends BaseMapper {
 
         boolean verifySign = StringUtils.equals(bean.getSign(), verifySign(bean));
 
-        PmdNotifyWszfLog record = new PmdNotifyWszfLog();
+        PmdNotifyWszf record = new PmdNotifyWszf();
         try {
             record.setOrderDate(DateUtils.parseDate(StringUtils.trim(bean.getOrderDate()), "yyyyMMddHHmmss"));
             record.setOrderNo(StringUtils.trim(bean.getOrderNo()));
@@ -124,7 +142,7 @@ public class PmdPayWszfService extends BaseMapper {
             logger.error("支付通知异常", ex);
         }
 
-        pmdNotifyWszfLogMapper.insertSelective(record);
+        pmdNotifyWszfMapper.insertSelective(record);
     }
 
     // 处理返回结果

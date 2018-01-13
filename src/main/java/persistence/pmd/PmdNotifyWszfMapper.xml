@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.pmd.PmdNotifyWszfLogMapper">
-  <resultMap id="BaseResultMap" type="domain.pmd.PmdNotifyWszfLog">
+<mapper namespace="persistence.pmd.PmdNotifyWszfMapper">
+  <resultMap id="BaseResultMap" type="domain.pmd.PmdNotifyWszf">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
@@ -76,13 +76,13 @@
     id, order_date, order_no, amount, jylsh, tran_stat, return_type, sign, verify_sign, 
     ret_time, ip
   </sql>
-  <select id="selectByExample" parameterType="domain.pmd.PmdNotifyWszfLogExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.pmd.PmdNotifyWszfExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from pmd_notify_wszf_log
+    from pmd_notify_wszf
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,21 +93,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from pmd_notify_wszf_log
+    from pmd_notify_wszf
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from pmd_notify_wszf_log
+    delete from pmd_notify_wszf
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.pmd.PmdNotifyWszfLogExample">
-    delete from pmd_notify_wszf_log
+  <delete id="deleteByExample" parameterType="domain.pmd.PmdNotifyWszfExample">
+    delete from pmd_notify_wszf
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.pmd.PmdNotifyWszfLog">
-    insert into pmd_notify_wszf_log (id, order_date, order_no, 
+  <insert id="insert" parameterType="domain.pmd.PmdNotifyWszf">
+    insert into pmd_notify_wszf (id, order_date, order_no, 
       amount, jylsh, tran_stat, 
       return_type, sign, verify_sign, 
       ret_time, ip)
@@ -116,8 +116,8 @@
       #{returnType,jdbcType=TINYINT}, #{sign,jdbcType=VARCHAR}, #{verifySign,jdbcType=BIT}, 
       #{retTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.pmd.PmdNotifyWszfLog">
-    insert into pmd_notify_wszf_log
+  <insert id="insertSelective" parameterType="domain.pmd.PmdNotifyWszf">
+    insert into pmd_notify_wszf
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -189,14 +189,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.pmd.PmdNotifyWszfLogExample" resultType="java.lang.Long">
-    select count(*) from pmd_notify_wszf_log
+  <select id="countByExample" parameterType="domain.pmd.PmdNotifyWszfExample" resultType="java.lang.Long">
+    select count(*) from pmd_notify_wszf
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update pmd_notify_wszf_log
+    update pmd_notify_wszf
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -237,7 +237,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update pmd_notify_wszf_log
+    update pmd_notify_wszf
     set id = #{record.id,jdbcType=INTEGER},
       order_date = #{record.orderDate,jdbcType=TIMESTAMP},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
@@ -253,8 +253,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdNotifyWszfLog">
-    update pmd_notify_wszf_log
+  <update id="updateByPrimaryKeySelective" parameterType="domain.pmd.PmdNotifyWszf">
+    update pmd_notify_wszf
     <set>
       <if test="orderDate != null">
         order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -289,8 +289,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdNotifyWszfLog">
-    update pmd_notify_wszf_log
+  <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdNotifyWszf">
+    update pmd_notify_wszf
     set order_date = #{orderDate,jdbcType=TIMESTAMP},
       order_no = #{orderNo,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=DECIMAL},
@@ -303,13 +303,13 @@
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdNotifyWszfLogExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pmd.PmdNotifyWszfExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from pmd_notify_wszf_log
+    from pmd_notify_wszf
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

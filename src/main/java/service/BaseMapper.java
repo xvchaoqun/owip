@@ -212,8 +212,9 @@ import persistence.pmd.PmdMonthMapper;
 import persistence.pmd.PmdNormMapper;
 import persistence.pmd.PmdNormValueLogMapper;
 import persistence.pmd.PmdNormValueMapper;
-import persistence.pmd.PmdNotifyCampusCardLogMapper;
-import persistence.pmd.PmdNotifyWszfLogMapper;
+import persistence.pmd.PmdNotifyCampuscardMapper;
+import persistence.pmd.PmdNotifyWszfMapper;
+import persistence.pmd.PmdOrderCampuscardMapper;
 import persistence.pmd.PmdPartyAdminMapper;
 import persistence.pmd.PmdPartyMapper;
 import persistence.pmd.PmdPartyViewMapper;
@@ -348,9 +349,11 @@ public class BaseMapper {
     @Autowired
     protected PmdMemberPayViewMapper pmdMemberPayViewMapper;
     @Autowired
-    protected PmdNotifyWszfLogMapper pmdNotifyWszfLogMapper;
+    protected PmdOrderCampuscardMapper pmdOrderCampuscardMapper;
     @Autowired
-    protected PmdNotifyCampusCardLogMapper pmdNotifyCampusCardLogMapper;
+    protected PmdNotifyWszfMapper pmdNotifyWszfMapper;
+    @Autowired
+    protected PmdNotifyCampuscardMapper pmdNotifyCampuscardMapper;
     @Autowired
     protected PmdPartyMapper pmdPartyMapper;
     @Autowired

@@ -26,10 +26,13 @@
         <!--党费收缴系统-->
         <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
         </table>-->
-        <!--<table tableName="pmd_notify_wszf_log" domainObjectName="pmd.PmdNotifyWszfLog" mapperName="pmd.PmdNotifyWszfLogMapper">
-        </table>-->
-        <!--<table tableName="pmd_notify_campuscard_log"
-               domainObjectName="pmd.PmdNotifyCampusCardLog" mapperName="pmd.PmdNotifyCampusCardLogMapper">
+        <table tableName="pmd_order_campuscard"
+               domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
+        </table>
+        <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
+        </table>
+        <table tableName="pmd_notify_campuscard"
+               domainObjectName="pmd.PmdNotifyCampuscard" mapperName="pmd.PmdNotifyCampuscardMapper">
         </table>-->
         <!--<table tableName="pmd_month" domainObjectName="pmd.PmdMonth" mapperName="pmd.PmdMonthMapper">
         </table>-->
@@ -37,8 +40,8 @@
         </table>-->
         <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
         </table>-->
-        <table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
-        </table>
+        <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
+        </table>-->
         <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">
         </table>-->
        <!-- <table tableName="pmd_norm_value" domainObjectName="pmd.PmdNormValue" mapperName="pmd.PmdNormValueMapper">
