@@ -78,7 +78,7 @@
       if(rowObject.pmdMemberPayView==undefined) return '-'
       return $.trim(rowObject.pmdMemberPayView.orderNo);
     }},
-    { label: '订单待支付人',name: '_orderUser', width: 120, formatter: function (cellvalue, options, rowObject) {
+    { label: '订单生成人',name: '_orderUser', width: 120, formatter: function (cellvalue, options, rowObject) {
       if(rowObject.pmdMemberPayView==undefined ||
               rowObject.pmdMemberPayView.orderUser==undefined) return '-';
       var str = rowObject.pmdMemberPayView.orderUser.realname;
