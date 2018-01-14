@@ -13,8 +13,8 @@
         </div>
     </div>
     <div class="modal-footer center">
-        <input type="button" onclick="_start()" class="btn btn-success btn-lg" value="开始信息采集" style="margin-right: 25px;"/>
-        <input type="button" onclick="_start('cadreInfoCheck_table')" class="btn btn-primary btn-lg" value="信息完整性校验"/>
+        <input type="button" onclick="_start(1)" class="btn btn-success btn-lg" value="开始信息采集" style="margin-right: 25px;"/>
+        <input type="button" onclick="_start(2)" class="btn btn-primary btn-lg" value="信息完整性校验"/>
     </div>
 
 </div>
@@ -24,13 +24,17 @@
         $.post("${cx}/user/crsPost_start", function (ret) {
             if (ret.success) {
                 var hash;
-                if (ret.hasDirectModifyCadreAuth)
-                    hash = "#/user/cadre?cadreId={0}&to={1}&type=1".format(ret.cadreId, $.trim(to));
-                else {
-                    hash = "#/cadre_view?cadreId={0}&to={1}".format(ret.cadreId, $.trim(to));
-                    <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADREINSPECT},${ROLE_CADRERESERVE}">
-                    hash = "#/modifyBaseApply";
-                    </shiro:hasAnyRoles>
+                if(to==2){
+                    hash = "#/user/cadre?cadreId={0}&to=cadreInfoCheck_table&type=1".format(ret.cadreId);
+                }else{
+                    if (ret.hasDirectModifyCadreAuth)
+                        hash = "#/user/cadre?cadreId={0}&type=1".format(ret.cadreId);
+                    else {
+                        hash = "#/cadre_view?cadreId={0}&to={1}".format(ret.cadreId, $.trim(to));
+                        <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADREINSPECT},${ROLE_CADRERESERVE}">
+                        hash = "#/modifyBaseApply";
+                        </shiro:hasAnyRoles>
+                    }
                 }
 
                 $("#sidebar").load("/menu?_=" + new Date().getTime(),function(){

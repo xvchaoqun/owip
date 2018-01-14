@@ -15,6 +15,9 @@
             返回</a>
     </h4>
 </c:if>
+<c:if test="${param._auth=='self'}">
+    <div id="item-content">
+</c:if>
 <!-- PAGE CONTENT BEGINS -->
 <div class="widget-box transparent" id="view-box">
     <div class="widget-header" style="border-bottom:none">
@@ -146,6 +149,9 @@
     </div>
     <!-- /.widget-body -->
 </div>
+<c:if test="${param._auth=='self'}">
+</div>
+</c:if>
 <!-- /.widget-box -->
 <script>
     $(document).off("change", ".cadre-info-check").on("change", ".cadre-info-check", function (e) {
