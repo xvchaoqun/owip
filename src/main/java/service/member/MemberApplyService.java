@@ -143,7 +143,7 @@ public class MemberApplyService extends BaseMapper {
         if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
         if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
-        return memberApplyViewMapper.countByExample(example);
+        return (int)memberApplyViewMapper.countByExample(example);
     }
 
     // 上一个 （查找比当前记录的“创建时间”  小  的记录中的  最大  的“创建时间”的记录）
@@ -438,7 +438,8 @@ public class MemberApplyService extends BaseMapper {
     public void memberPositive(int userId){
 
         MemberApply memberApply = get(userId);
-        if(memberApply==null) throw new DBErrorException("系统错误");
+        if(memberApply==null || memberApply.getIsRemove())
+            throw new DBErrorException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
@@ -451,7 +452,7 @@ public class MemberApplyService extends BaseMapper {
 
         // 1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
-            throw new DBErrorException("系统错误");
+            throw new DBErrorException("状态异常，请稍后再试");
 
         //Member member = memberMapper.selectByPrimaryKey(userId);
         Member _record = new Member();
@@ -461,7 +462,7 @@ public class MemberApplyService extends BaseMapper {
         //_record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
         if(memberService.updateByPrimaryKeySelective(_record) == 0)
-            throw new DBErrorException("系统错误");
+            throw new DBErrorException("状态异常，请稍后再试");
     }
 
     // 成为预备党员 (组织部审核之后，直属党支部提交发展时间)
@@ -470,7 +471,8 @@ public class MemberApplyService extends BaseMapper {
 
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
-        if(sysUser==null || memberApply==null) throw new DBErrorException("系统错误");
+        if(sysUser==null || memberApply==null || memberApply.getIsRemove())
+            throw new DBErrorException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_GROW);
@@ -514,7 +516,8 @@ public class MemberApplyService extends BaseMapper {
 
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
-        if(sysUser==null || memberApply==null) throw new DBErrorException("系统错误");
+        if(sysUser==null || memberApply==null || memberApply.getIsRemove())
+            throw new DBErrorException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_GROW);

@@ -1,5 +1,11 @@
 
 
+2018-1-15
+ALTER TABLE `ow_member_apply`
+	ADD COLUMN `is_remove` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否移除，（针对未发展的申请，可以移除）' AFTER `positive_status`;
+
+	更新 ow_member_apply_view
+
 2018-1-13
 RENAME TABLE `pmd_notify_campuscard_log` TO `pmd_notify_campuscard`;
 RENAME TABLE `pmd_notify_wszf_log` TO `pmd_notify_wszf`;

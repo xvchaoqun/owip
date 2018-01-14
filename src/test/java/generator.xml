@@ -26,9 +26,9 @@
         <!--党费收缴系统-->
         <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
         </table>-->
-        <table tableName="pmd_order_campuscard"
+        <!--<table tableName="pmd_order_campuscard"
                domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
-        </table>
+        </table>-->
         <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
         </table>
         <table tableName="pmd_notify_campuscard"
@@ -353,15 +353,19 @@
         </table>-->
         <!--<table tableName="ow_apply_open_time" domainObjectName="member.ApplyOpenTime">
         </table>-->
-        <!-- <table tableName="ow_member_apply" domainObjectName="member.MemberApply">
+         <table tableName="ow_member_apply" domainObjectName="member.MemberApply"
+                mapperName="member.MemberApplyMapper">
              <ignoreColumn column="update_time"/>
-         </table>-->
-        <!--<table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
+             <columnOverride column="remark" jdbcType="VARCHAR"/>
+         </table>
+        <table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
+               mapperName="member.MemberApplyViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
            <ignoreColumn column="update_time"/>
-       </table>-->
+            <columnOverride column="remark" jdbcType="VARCHAR"/>
+       </table>
         <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         </table>
         -->

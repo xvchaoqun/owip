@@ -497,6 +497,76 @@ public class MemberApplyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
         public Criteria andStageIsNull() {
             addCriterion("stage is null");
             return (Criteria) this;
@@ -1404,6 +1474,66 @@ public class MemberApplyViewExample {
 
         public Criteria andPositiveStatusNotBetween(Byte value1, Byte value2) {
             addCriterion("positive_status not between", value1, value2, "positiveStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveIsNull() {
+            addCriterion("is_remove is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveIsNotNull() {
+            addCriterion("is_remove is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveEqualTo(Boolean value) {
+            addCriterion("is_remove =", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveNotEqualTo(Boolean value) {
+            addCriterion("is_remove <>", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveGreaterThan(Boolean value) {
+            addCriterion("is_remove >", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_remove >=", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveLessThan(Boolean value) {
+            addCriterion("is_remove <", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_remove <=", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveIn(List<Boolean> values) {
+            addCriterion("is_remove in", values, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveNotIn(List<Boolean> values) {
+            addCriterion("is_remove not in", values, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_remove between", value1, value2, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_remove not between", value1, value2, "isRemove");
             return (Criteria) this;
         }
 

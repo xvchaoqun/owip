@@ -705,4 +705,33 @@ public class MemberApplyOpService extends BaseController {
         }
 
     }
+
+    //移除记录（只允许移除未发展的）
+    @Transactional
+    public void memberApply_remove(Integer[] userIds, boolean isRemove, String reason) {
+
+        int loginUserId = ShiroHelper.getCurrentUserId();
+        for (int userId : userIds) {
+            MemberApply memberApply = memberApplyService.get(userId);
+            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+                throw new UnauthorizedException();
+            }
+            byte stage = memberApply.getStage();
+            if(stage>=SystemConstants.APPLY_STAGE_GROW ){
+                throw new OpException("已是党员，不可移除。");
+            }
+
+            MemberApply record = new MemberApply();
+            record.setUserId(userId);
+            record.setIsRemove(isRemove);
+            memberApplyMapper.updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, isRemove?"移除":"撤销移除",
+                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, reason);
+        }
+    }
 }

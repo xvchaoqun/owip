@@ -12,6 +12,7 @@ import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -283,6 +284,13 @@ public class MemberApplyController extends BaseController {
             } else {
                 criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
             }
+
+            // 已移除的记录
+            if(stage == -3){
+                criteria.andIsRemoveEqualTo(true);
+            }else{
+                criteria.andIsRemoveEqualTo(false);
+            }
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
@@ -299,7 +307,7 @@ public class MemberApplyController extends BaseController {
             return;
         }
 
-        int count = memberApplyViewMapper.countByExample(example);
+        long count = memberApplyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -792,6 +800,30 @@ public class MemberApplyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //移除记录（只允许移除未发展的）
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN,
+            SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:remove")
+    @RequestMapping("/memberApply_remove")
+    public String memberApply_remove() {
+
+        return "member/memberApply/memberApply_remove";
+    }
+
+    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN,
+            SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresPermissions("memberApply:remove")
+    @RequestMapping(value = "/memberApply_remove", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_memberApply_remove(@RequestParam(value = "ids[]") Integer[] ids,
+                                     Boolean isRemove,
+                                     String reason, HttpServletRequest request) {
+
+        memberApplyOpService.memberApply_remove(ids, BooleanUtils.isTrue(isRemove), reason);
+        return success();
+    }
+
+
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyLog")
@@ -820,7 +852,7 @@ public class MemberApplyController extends BaseController {
     public void memberApply_export(MemberApplyViewExample example, HttpServletResponse response) {
 
         List<MemberApplyView> memberApplys = memberApplyViewMapper.selectByExample(example);
-        int rownum = memberApplyViewMapper.countByExample(example);
+        long rownum = memberApplyViewMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

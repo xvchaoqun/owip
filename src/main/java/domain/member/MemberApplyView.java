@@ -25,6 +25,8 @@ public class MemberApplyView implements Serializable {
 
     private Date fillTime;
 
+    private String remark;
+
     private Byte stage;
 
     private String reason;
@@ -55,13 +57,13 @@ public class MemberApplyView implements Serializable {
 
     private Byte positiveStatus;
 
+    private Boolean isRemove;
+
     private Date createTime;
 
     private Byte status;
 
     private Integer memberStatus;
-
-    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -111,6 +113,14 @@ public class MemberApplyView implements Serializable {
 
     public void setFillTime(Date fillTime) {
         this.fillTime = fillTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Byte getStage() {
@@ -233,6 +243,14 @@ public class MemberApplyView implements Serializable {
         this.positiveStatus = positiveStatus;
     }
 
+    public Boolean getIsRemove() {
+        return isRemove;
+    }
+
+    public void setIsRemove(Boolean isRemove) {
+        this.isRemove = isRemove;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -255,13 +273,5 @@ public class MemberApplyView implements Serializable {
 
     public void setMemberStatus(Integer memberStatus) {
         this.memberStatus = memberStatus;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
     }
 }

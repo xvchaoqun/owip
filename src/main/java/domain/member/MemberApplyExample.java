@@ -1477,6 +1477,66 @@ public class MemberApplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsRemoveIsNull() {
+            addCriterion("is_remove is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveIsNotNull() {
+            addCriterion("is_remove is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveEqualTo(Boolean value) {
+            addCriterion("is_remove =", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveNotEqualTo(Boolean value) {
+            addCriterion("is_remove <>", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveGreaterThan(Boolean value) {
+            addCriterion("is_remove >", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_remove >=", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveLessThan(Boolean value) {
+            addCriterion("is_remove <", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_remove <=", value, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveIn(List<Boolean> values) {
+            addCriterion("is_remove in", values, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveNotIn(List<Boolean> values) {
+            addCriterion("is_remove not in", values, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_remove between", value1, value2, "isRemove");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRemoveNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_remove not between", value1, value2, "isRemove");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

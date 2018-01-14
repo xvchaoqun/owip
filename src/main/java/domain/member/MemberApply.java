@@ -57,6 +57,8 @@ public class MemberApply implements Serializable {
 
     private Byte positiveStatus;
 
+    private Boolean isRemove;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -235,6 +237,14 @@ public class MemberApply implements Serializable {
 
     public void setPositiveStatus(Byte positiveStatus) {
         this.positiveStatus = positiveStatus;
+    }
+
+    public Boolean getIsRemove() {
+        return isRemove;
+    }
+
+    public void setIsRemove(Boolean isRemove) {
+        this.isRemove = isRemove;
     }
 
     public Date getCreateTime() {

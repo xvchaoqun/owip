@@ -1,54 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.member.MemberApplyViewMapper" >
-  <resultMap id="BaseResultMap" type="domain.member.MemberApplyView" >
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="party_id" property="partyId" jdbcType="INTEGER" />
-    <result column="branch_id" property="branchId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="apply_time" property="applyTime" jdbcType="DATE" />
-    <result column="fill_time" property="fillTime" jdbcType="TIMESTAMP" />
-    <result column="stage" property="stage" jdbcType="TINYINT" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
-    <result column="pass_time" property="passTime" jdbcType="DATE" />
-    <result column="active_time" property="activeTime" jdbcType="DATE" />
-    <result column="candidate_time" property="candidateTime" jdbcType="DATE" />
-    <result column="train_time" property="trainTime" jdbcType="DATE" />
-    <result column="candidate_status" property="candidateStatus" jdbcType="TINYINT" />
-    <result column="plan_time" property="planTime" jdbcType="DATE" />
-    <result column="plan_status" property="planStatus" jdbcType="TINYINT" />
-    <result column="draw_time" property="drawTime" jdbcType="DATE" />
-    <result column="draw_status" property="drawStatus" jdbcType="TINYINT" />
-    <result column="grow_time" property="growTime" jdbcType="DATE" />
-    <result column="grow_status" property="growStatus" jdbcType="TINYINT" />
-    <result column="positive_time" property="positiveTime" jdbcType="DATE" />
-    <result column="positive_status" property="positiveStatus" jdbcType="TINYINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="_status" property="status" jdbcType="TINYINT" />
-    <result column="member_status" property="memberStatus" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.member.MemberApplyViewMapper">
+  <resultMap id="BaseResultMap" type="domain.member.MemberApplyView">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="party_id" jdbcType="INTEGER" property="partyId" />
+    <result column="branch_id" jdbcType="INTEGER" property="branchId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="apply_time" jdbcType="DATE" property="applyTime" />
+    <result column="fill_time" jdbcType="TIMESTAMP" property="fillTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="stage" jdbcType="TINYINT" property="stage" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="pass_time" jdbcType="DATE" property="passTime" />
+    <result column="active_time" jdbcType="DATE" property="activeTime" />
+    <result column="candidate_time" jdbcType="DATE" property="candidateTime" />
+    <result column="train_time" jdbcType="DATE" property="trainTime" />
+    <result column="candidate_status" jdbcType="TINYINT" property="candidateStatus" />
+    <result column="plan_time" jdbcType="DATE" property="planTime" />
+    <result column="plan_status" jdbcType="TINYINT" property="planStatus" />
+    <result column="draw_time" jdbcType="DATE" property="drawTime" />
+    <result column="draw_status" jdbcType="TINYINT" property="drawStatus" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="grow_status" jdbcType="TINYINT" property="growStatus" />
+    <result column="positive_time" jdbcType="DATE" property="positiveTime" />
+    <result column="positive_status" jdbcType="TINYINT" property="positiveStatus" />
+    <result column="is_remove" jdbcType="BIT" property="isRemove" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="_status" jdbcType="TINYINT" property="status" />
+    <result column="member_status" jdbcType="INTEGER" property="memberStatus" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="domain.member.MemberApplyView" extends="BaseResultMap" >
-    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -59,78 +58,43 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    user_id, party_id, branch_id, type, apply_time, fill_time, stage, reason, pass_time, 
-    active_time, candidate_time, train_time, candidate_status, plan_time, plan_status, 
-    draw_time, draw_status, grow_time, grow_status, positive_time, positive_status, create_time, 
-    _status, member_status
+  <sql id="Base_Column_List">
+    user_id, party_id, branch_id, type, apply_time, fill_time, remark, stage, reason, 
+    pass_time, active_time, candidate_time, train_time, candidate_status, plan_time, 
+    plan_status, draw_time, draw_status, grow_time, grow_status, positive_time, positive_status, 
+    is_remove, create_time, _status, member_status
   </sql>
-  <sql id="Blob_Column_List" >
-    remark
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="domain.member.MemberApplyViewExample" >
+  <select id="selectByExample" parameterType="domain.member.MemberApplyViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from ow_member_apply_view
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.member.MemberApplyViewExample" >
-    select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_member_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.member.MemberApplyViewExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.member.MemberApplyViewExample" resultType="java.lang.Long">
     select count(*) from ow_member_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select resultMap="ResultMapWithBLOBs" parameterType="domain.member.MemberApplyViewExample" id="selectByExampleWithBLOBsWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.member.MemberApplyViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from ow_member_apply_view
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select resultMap="BaseResultMap" parameterType="domain.member.MemberApplyViewExample" id="selectByExampleWithRowbounds" >
-    select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from ow_member_apply_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

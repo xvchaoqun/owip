@@ -36,9 +36,14 @@
                                     %>
                                     <c:set value="<%=colors%>" var="colors"/>
                                     <ul class="nav nav-tabs" id="myTab3">
+                                        <li class="<c:if test="${stage==-3}">active</c:if>">
+                                            <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=-3'>
+                                                <span class="badge badge-yellow">-</span> 已移除的申请
+                                            </a>
+                                        </li>
                                         <li class="<c:if test="${stage==APPLY_STAGE_OUT}">active</c:if>">
                                             <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${type}&stage=${APPLY_STAGE_OUT}'>
-                                                <span class="badge">*</span> 已转出的申请
+                                                <span class="badge badge-light">*</span> 已转出的申请
                                             </a>
                                         </li>
                                         <c:forEach items="#{APPLY_STAGE_MAP}" var="applyStage">
@@ -119,7 +124,7 @@
                                                 <div class="tab-content no-padding-bottom" >
                                                     <div id="home4" class="tab-pane in active">
                                                         <div class="jqgrid-vertical-offset buttons">
-                                                            <c:if test="${stage!=APPLY_STAGE_OUT}">
+                                                            <c:if test="${stage>APPLY_STAGE_OUT }">
                                                             <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"
                                                                     data-id-name="userId"
                                                                     data-querystr="&stage=${param.stage}">
@@ -327,6 +332,20 @@
                                                                         <i class="fa fa-reply-all"></i> 打回至预备党员初始状态（批量）
                                                                     </button>
                                                                 </c:if>
+                                                                <c:if test="${stage>=APPLY_STAGE_INIT && stage<APPLY_STAGE_GROW}">
+                                                                    <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_remove"
+                                                                            data-querystr="&isRemove=1">
+                                                                        <i class="fa fa-minus"></i> 移除（批量）
+                                                                    </button>
+                                                                </c:if>
+                                                                <c:if test="${stage==-3}">
+                                                                    <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                                                                            data-url="${ctx}/memberApply_remove"
+                                                                            data-querystr="&isRemove=0">
+                                                                        <i class="fa fa-reply"></i> 撤销移除（批量）
+                                                                    </button>
+                                                                </c:if>
                                                             </shiro:hasAnyRoles>
                                                         </div>
                                                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -449,35 +468,43 @@
         colModel: [
             {label: '${type==APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
             {label: '姓名', name: 'user.realname', width: 100, frozen:true},
+            <c:if test="${stage==-3}">
+            {
+                label: '所在阶段', name: '_stage', formatter:function(cellvalue, options, rowObject){
+                    return _cMap.APPLY_STAGE_MAP[rowObject.stage];
+                }, frozen:true
+            },
+            </c:if>
             {
                 label: '所属组织机构', name: 'party', align:'left',  width: 550, formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId, rowObject.branchId);
             }
             },
+
             <c:if test="${stage<APPLY_STAGE_INIT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_INIT || stage==APPLY_STAGE_OUT}">
+            <c:if test="${stage==APPLY_STAGE_INIT || stage<=APPLY_STAGE_OUT}">
             {label: '提交书面申请书时间', name: 'applyTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_ACTIVE || stage==APPLY_STAGE_OUT}">
+            <c:if test="${stage==APPLY_STAGE_ACTIVE || stage<=APPLY_STAGE_OUT}">
             {label: '确定为入党积极分子时间', name: 'activeTime', width: 200,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_CANDIDATE || stage==APPLY_STAGE_OUT}">
+            <c:if test="${stage==APPLY_STAGE_CANDIDATE || stage<=APPLY_STAGE_OUT}">
             {label: '确定为发展对象时间', name: 'candidateTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_PLAN || stage==APPLY_STAGE_OUT}">
+            <c:if test="${stage==APPLY_STAGE_PLAN || stage<=APPLY_STAGE_OUT}">
             {label: '列入发展计划时间', name: 'planTime', width: 180,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_DRAW || stage==APPLY_STAGE_OUT}">
+            <c:if test="${stage==APPLY_STAGE_DRAW || stage<=APPLY_STAGE_OUT}">
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发展时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE || stage==APPLY_STAGE_OUT}">
+            <c:if test="${stage==APPLY_STAGE_GROW||stage==APPLY_STAGE_POSITIVE || stage<=APPLY_STAGE_OUT}">
             {label: '入党时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '转正时间', name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>

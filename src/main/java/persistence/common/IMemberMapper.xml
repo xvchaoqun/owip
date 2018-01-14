@@ -133,7 +133,7 @@
     </select>
 
     <select id="selectMemberApplyCount" parameterType="map" resultType="bean.MemberApplyCount">
-        select type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0
+        select type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0 and m.is_remove=0
         <include refid="member_selects_permits"/>
         group by type, stage
     </select>
