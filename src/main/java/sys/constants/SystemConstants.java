@@ -1935,8 +1935,10 @@ public class SystemConstants {
     public final static String CONTENT_TPL_PMD_NOTIFY_PARTY = "ct_pmd_notify_party";
     // 党费收缴，短信通知支部
     public final static String CONTENT_TPL_PMD_NOTIFY_BRANCH = "ct_pmd_notify_branch";
-    // 党费收缴，短信通知个人
-    public final static String CONTENT_TPL_PMD_NOTIFY_MEMBER = "ct_pmd_notify_member";
+    // 党费收缴，短信通知全部支部党员
+    public final static String CONTENT_TPL_PMD_NOTIFY_MEMBERS = "ct_pmd_notify_members";
+    // 党费收缴，短信催促支部党员
+    public final static String CONTENT_TPL_PMD_URGE_MEMBERS = "ct_pmd_urge_members";
 
 
     // 本单位正职（一人）审批通知

@@ -27,6 +27,7 @@ import sys.utils.DateUtils;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class PmdSendMsgService extends BaseMapper {
      * <p>
      * 组织部管理员启动当月党费收缴之后，给需要交党费的分党委书记和管理员发短信。
      */
-    public void notifyAllPartyAdmins() {
+    public void notifyPartyAdmins() {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) return;
@@ -125,7 +126,7 @@ public class PmdSendMsgService extends BaseMapper {
      * <p>
      * 分党委管理员登录系统，给所有的支部书记和支部管理员发短信。
      */
-    public void notifyAllBranchAdmins(int partyId) {
+    public void notifyBranchAdmins(int partyId) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) return;
@@ -174,13 +175,13 @@ public class PmdSendMsgService extends BaseMapper {
     }
 
     /**
-     * 通知所有支部党员
+     * 通知支部党员
      * <p>
      * 1、支部管理员登录系统，给本支部所有的未缴费党员发短信。
      * 2、支部管理员可以设置提醒时间，到了时间后，系统自动给未按时缴费的党员发短信提醒。
      * 提醒时间：设置一个时间点，然后设置提醒间隔（比如每1天或每2天一次）。
      */
-    public void notifyAllMembers(int partyId, Integer branchId) {
+    public void urgeMembers(Integer[] ids, int partyId, Integer branchId) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) return;
@@ -195,6 +196,9 @@ public class PmdSendMsgService extends BaseMapper {
                         .andIsDelayEqualTo(false);
         if(branchId!=null){
             criteria.andBranchIdEqualTo(branchId);
+        }
+        if(ids!=null && ids.length>0){
+            criteria.andIdIn(Arrays.asList(ids));
         }
 
         Party party = partyService.findAll().get(partyId);
@@ -217,7 +221,7 @@ public class PmdSendMsgService extends BaseMapper {
             realnameList.add(uv.getRealname());
         }
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_MEMBER);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_URGE_MEMBERS);
         String msg = MessageFormat.format(tpl.getContent(),
                 DateUtils.formatDate(payMonth, "yyyy年MM月"),
                 branchName);
@@ -225,33 +229,41 @@ public class PmdSendMsgService extends BaseMapper {
         oneSendService.sendMsg(userList, realnameList, msg);
     }
 
-    // 通知未缴费的个人
-    public void notifyMember(int pmdMemberId) {
+    // 本月党费收缴已经启动，短信通知本支部党员缴纳党费
+    public void notifyMembers(int partyId, Integer branchId) {
 
-        String msg = notifyMemberMsg(pmdMemberId);
+        String msg = notifyMembersMsg(partyId, branchId);
 
         List<String> userList = new ArrayList<>();
         List<String> realnameList = new ArrayList<>();
 
-        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
-        SysUserView uv = sysUserService.findById(pmdMember.getUserId());
-        userList.add(uv.getCode());
-        realnameList.add(uv.getRealname());
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if (currentPmdMonth == null) return;
+        Integer monthId = currentPmdMonth.getId();
+
+        PmdMemberExample example = new PmdMemberExample();
+        PmdMemberExample.Criteria criteria =
+                example.createCriteria().andMonthIdEqualTo(monthId)
+                        .andPartyIdEqualTo(partyId);
+        if(branchId!=null){
+            criteria.andBranchIdEqualTo(branchId);
+        }
+
+        List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
+        for (PmdMember pmdMember : pmdMembers) {
+            SysUserView uv = sysUserService.findById(pmdMember.getUserId());
+            userList.add(uv.getCode());
+            realnameList.add(uv.getRealname());
+        }
 
         oneSendService.sendMsg(userList, realnameList, msg);
     }
 
-    public String notifyMemberMsg(int pmdMemberId) {
+    public String notifyMembersMsg(int partyId, Integer branchId) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) return null;
         Date payMonth = currentPmdMonth.getPayMonth();
-
-        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
-        if(pmdMember==null || pmdMember.getHasPay() || pmdMember.getIsDelay()) return null;
-
-        int partyId = pmdMember.getPartyId();
-        Integer branchId = pmdMember.getBranchId();
 
         Party party = partyService.findAll().get(partyId);
         String branchName = party.getName();
@@ -260,9 +272,10 @@ public class PmdSendMsgService extends BaseMapper {
             branchName = branch.getName();
         }
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_MEMBER);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_MEMBERS);
 
         return  MessageFormat.format(tpl.getContent(),
+                branchName,
                 DateUtils.formatDate(payMonth, "yyyy年MM月"),
                 branchName);
     }

@@ -30,6 +30,8 @@ public class PmdOrderCampuscard implements Serializable {
 
     private Boolean isSuccess;
 
+    private Boolean isClosed;
+
     private Date createTime;
 
     private String ip;
@@ -138,6 +140,14 @@ public class PmdOrderCampuscard implements Serializable {
 
     public void setIsSuccess(Boolean isSuccess) {
         this.isSuccess = isSuccess;
+    }
+
+    public Boolean getIsClosed() {
+        return isClosed;
+    }
+
+    public void setIsClosed(Boolean isClosed) {
+        this.isClosed = isClosed;
     }
 
     public Date getCreateTime() {

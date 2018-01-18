@@ -94,16 +94,18 @@
                                 data-id-name="userId">
                             <i class="fa fa-send"></i> 短信通知
                         </button>--%>
-                        <button id="notifyBtn" class="jqOpenViewBtn btn btn-danger btn-sm tooltip-error"
+                        <button class="popupBtn btn btn-danger btn-sm tooltip-error"
                                 data-rel="tooltip" data-placement="top" title="本月党费收缴已经启动，短信通知本支部党员缴纳党费。"
-                                data-url="${ctx}/pmd/pmdSendMsg_notify"
+                                data-url="${ctx}/pmd/pmdSendMsg_notifyMembers?partyId=${param.partyId}&branchId=${param.branchId}"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-send"></i> 短信通知
                         </button>
-                        <button class="popupBtn btn btn-warning btn-sm tooltip-warning"
+                        <button class="jqOpenViewBatchBtn btn btn-warning btn-sm tooltip-warning"
                                 data-rel="tooltip" data-placement="top" title="提醒未缴纳党费的党员尽快缴纳党费。"
-                                data-url="${ctx}/pmd/pmdSendMsg_notifyAllMembers?partyId=${param.partyId}&branchId=${param.branchId}"
-                                ><i class="fa fa-send"></i> 短信提醒
+                                data-url="${ctx}/pmd/pmdSendMsg_urgeMembers"
+                                data-grid-id="#jqGrid2"
+                                data-querystr="&partyId=${param.partyId}&branchId=${param.branchId}"
+                                data-need-id="false"><i class="fa fa-send"></i> 短信提醒
                         </button>
 
                        <%-- <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
@@ -217,7 +219,7 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#helpPayBtn,#delayBtn,#unDelayBtn,#notifyBtn,#helpSetSalaryBtn,#delBtn").prop("disabled", true);
+            $("#helpPayBtn,#delayBtn,#unDelayBtn,#helpSetSalaryBtn,#delBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
@@ -230,7 +232,7 @@
             $("#delBtn").prop("disabled", hasPay || (isCurrentMonth && isDelay));
             $("#delayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || isDelay);
             $("#unDelayBtn").prop("disabled", needConfirmDuePay||notSetDuePay || hasPay || !isCurrentMonth || !isDelay);
-            $("#notifyBtn").prop("disabled", needConfirmDuePay||$.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
+            //$("#notifyBtn").prop("disabled", needConfirmDuePay||$.trim(rowData.configMemberTypeId)=='' || hasPay || !isCurrentMonth || isDelay);
             //console.log(rowData.isSelfSetSalary)
             //console.log("formulaType="+rowData.formulaType)
             $("#helpSetSalaryBtn").prop("disabled",

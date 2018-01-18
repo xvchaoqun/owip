@@ -210,7 +210,7 @@
                 $("#lockBtn, #unlockBtn").prop("disabled", true);
             } else if (status) {
                 var rowData = $(this).getRowData(id);
-                console.log((status && rowData.locked) + " " + (status && !rowData.locked));
+                //console.log((status && rowData.locked) + " " + (status && !rowData.locked));
                 $("#lockBtn").prop("disabled", rowData.locked==1);
                 $("#unlockBtn").prop("disabled", rowData.locked==0)
             } else {

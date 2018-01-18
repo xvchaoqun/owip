@@ -6,7 +6,7 @@
     <h3>短信通知</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notify" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyMembers" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <%--<div class="form-group">
             <label class="col-xs-3 control-label">手机号码</label>

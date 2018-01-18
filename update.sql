@@ -1,5 +1,10 @@
 
 
+2018-1-18
+ALTER TABLE `pmd_order_campuscard`
+	ADD COLUMN `is_closed` TINYINT(1) UNSIGNED NOT NULL COMMENT '是否关闭了订单' AFTER `is_success`;
+
+
 2018-1-15
 ALTER TABLE `ow_member_apply`
 	ADD COLUMN `is_remove` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否移除，（针对未发展的申请，可以移除）' AFTER `positive_status`;

@@ -23,7 +23,7 @@
         </javaClientGenerator>
 
         <!--干部选拔-个人有关事项-->
-        <table tableName="sc_matter" domainObjectName="sc.ScMatter" mapperName="sc.ScMatterMapper">
+        <!--<table tableName="sc_matter" domainObjectName="sc.ScMatter" mapperName="sc.ScMatterMapper">
         </table>
         <table tableName="sc_matter_item" domainObjectName="sc.ScMatterItem" mapperName="sc.ScMatterItemMapper">
         </table>
@@ -36,7 +36,7 @@
         <table tableName="sc_matter_check_item" domainObjectName="sc.ScMatterCheckItem" mapperName="sc.ScMatterCheckItemMapper">
         </table>
         <table tableName="sc_matter_transfer" domainObjectName="sc.ScMatterTransfer" mapperName="sc.ScMatterTransferMapper">
-        </table>
+        </table>-->
 
 
 
@@ -44,9 +44,9 @@
         <!--党费收缴系统-->
         <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
         </table>-->
-        <!--<table tableName="pmd_order_campuscard"
+        <table tableName="pmd_order_campuscard"
                domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
-        </table>-->
+        </table>
         <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
         </table>
         <table tableName="pmd_notify_campuscard"

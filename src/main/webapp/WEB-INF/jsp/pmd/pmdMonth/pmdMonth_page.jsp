@@ -32,7 +32,7 @@
 
                                 <button class="popupBtn btn btn-warning btn-sm"
                                     ${(empty _pmdMonth)?'disabled':''}
-                                        data-url="${ctx}/pmd/pmdSendMsg_notifyAllPartyAdmins"
+                                        data-url="${ctx}/pmd/pmdSendMsg_notifyPartyAdmins"
                                         ><i class="fa fa-send"></i> 通知党委管理员
                                 </button>
                             </shiro:hasPermission>

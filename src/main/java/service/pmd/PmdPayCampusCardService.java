@@ -1,5 +1,8 @@
 package service.pmd;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import controller.global.OpException;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
@@ -11,8 +14,17 @@ import domain.pmd.PmdNotifyCampuscard;
 import domain.pmd.PmdOrderCampuscard;
 import domain.pmd.PmdOrderCampuscardExample;
 import domain.sys.SysUserView;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.shiro.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +43,11 @@ import sys.utils.MD5Util;
 import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PmdPayCampusCardService extends BaseMapper {
@@ -55,9 +70,12 @@ public class PmdPayCampusCardService extends BaseMapper {
 
     public final static String paycode = PropertiesUtils.getString("pay.campuscard.paycode");
     public final static String keys = PropertiesUtils.getString("pay.campuscard.keys");
-    /*public final static String closeTradeUrl = PropertiesUtils.getString("pay.campuscard.closeTrade.url");
+
+    public final static String queryUrl = PropertiesUtils.getString("pay.campuscard.query.url");
+
+    public final static String closeTradeUrl = PropertiesUtils.getString("pay.campuscard.closeTrade.url");
     public final static String closeTradeAppid = PropertiesUtils.getString("pay.campuscard.closeTrade.appid");
-    public final static String closeTradeSalt = PropertiesUtils.getString("pay.campuscard.closeTrade.salt");*/
+    public final static String closeTradeSalt = PropertiesUtils.getString("pay.campuscard.closeTrade.salt");
 
     // 订单号起始值
     private final static int orderNoOffset = 10240000;
@@ -91,7 +109,7 @@ public class PmdPayCampusCardService extends BaseMapper {
     }
 
     // 构建支付表单参数
-    private PmdOrderCampuscard confirmOrder(int pmdMemberId, boolean isSelfPay) {
+    private PmdOrderCampuscard confirmOrder(String oldOrderNo, int pmdMemberId, boolean isSelfPay) {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
         if (pmdMember == null || pmdMember.getHasPay()) {
@@ -120,9 +138,9 @@ public class PmdPayCampusCardService extends BaseMapper {
         }
         // 重复验证是否有成功的缴费记录
         {
-            PmdOrderCampuscardExample exmaple = new PmdOrderCampuscardExample();
-            exmaple.createCriteria().andMemberIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
-            if (pmdOrderCampuscardMapper.countByExample(exmaple) > 0) {
+            PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
+            example.createCriteria().andMemberIdEqualTo(pmdMemberId).andIsSuccessEqualTo(true);
+            if (pmdOrderCampuscardMapper.countByExample(example) > 0) {
                 throw new OpException("重复缴费，请联系管理员处理。");
             }
         }
@@ -157,8 +175,8 @@ public class PmdPayCampusCardService extends BaseMapper {
 
         boolean orderIsNotExist = false;
         // 如果订单已存在（最近一次的）且与本次支付信息不相同，则生成新的订单
-        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
-        String oldOrderNo = pmdMemberPay.getOrderNo();
+        //PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
+        //String oldOrderNo = pmdMemberPay.getOrderNo();
         PmdOrderCampuscard oldOrder = null;
         if (StringUtils.isNotBlank(oldOrderNo)) {
             oldOrder = pmdOrderCampuscardMapper.selectByPrimaryKey(oldOrderNo);
@@ -198,6 +216,7 @@ public class PmdPayCampusCardService extends BaseMapper {
             newOrder.setMemberId(pmdMemberId);
             newOrder.setUserId(userId);
             newOrder.setIsSuccess(false);
+            newOrder.setIsClosed(false);
             newOrder.setCreateTime(new Date());
             newOrder.setIp(ContextHelper.getRealIp());
 
@@ -427,8 +446,11 @@ public class PmdPayCampusCardService extends BaseMapper {
             throw new OpException("缴费记录不存在。");
         }
 
+        PmdMemberPay pmdMemberPay = pmdMemberPayMapper.selectByPrimaryKey(pmdMemberId);
+        String oldOrderNo = pmdMemberPay.getOrderNo();
+
         // 确认订单信息
-        PmdOrderCampuscard pmdOrder = confirmOrder(pmdMemberId, isSelfPay);
+        PmdOrderCampuscard pmdOrder = confirmOrder(oldOrderNo, pmdMemberId, isSelfPay);
 
         PmdMemberPay record = new PmdMemberPay();
         record.setMemberId(pmdMemberId);
@@ -441,6 +463,58 @@ public class PmdPayCampusCardService extends BaseMapper {
             throw new OpException("缴费异常，请稍后再试。");
         }
 
+        // 如果新生成的订单号和原订单号不一致，则关闭原订单号
+        if(StringUtils.isNotBlank(oldOrderNo) && StringUtils.equals(oldOrderNo, pmdOrder.getSn())){
+            try {
+                closeTrade(oldOrderNo);
+            }catch (Exception ex){
+                logger.error("关闭订单"+oldOrderNo+"异常", ex);
+            }
+        }
+
         return pmdOrder;
+    }
+
+    private void closeTrade(String sn) throws IOException {
+
+        String _signStr = String.format("appId=%s&orderNo=%s&salt=%s",
+                closeTradeAppid, sn, closeTradeSalt);
+        String sign = MD5Util.md5Hex(_signStr, "utf-8");
+
+        List<BasicNameValuePair> urlParameters = new ArrayList<>();
+        urlParameters.add(new BasicNameValuePair("appId", closeTradeAppid));
+        urlParameters.add(new BasicNameValuePair("orderNo", sn));
+        urlParameters.add(new BasicNameValuePair("sign", sign));
+        HttpEntity postParams = new UrlEncodedFormEntity(urlParameters);
+
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(closeTradeUrl);
+        httppost.setEntity(postParams);
+        CloseableHttpResponse res = httpclient.execute(httppost);
+
+        if(res.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
+
+            String ret = EntityUtils.toString(res.getEntity());
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(ret, JsonObject.class);
+            JsonElement desc = jsonObject.get("desc");
+            if(desc!=null &&
+                    (StringUtils.equals(desc.getAsString(), "成功")
+                            || StringUtils.contains(desc.getAsString(), "交易已关闭"))){
+
+                PmdOrderCampuscard record = new PmdOrderCampuscard();
+                record.setSn(sn);
+                record.setIsClosed(true);
+                pmdOrderCampuscardMapper.updateByPrimaryKeySelective(record);
+
+                logger.warn("关闭订单{}成功", sn);
+            }else{
+                logger.warn("关闭订单{}失败", sn);
+            }
+        }
+        // {"code":"3001","desc":"该交易已关闭，请勿重复关闭"}
+        // {"code":"3001","desc":"该订单不存在"}
+        // {"code":"0000","desc":"成功"}
+        // {"code":"0000","desc":"该交易已成功，请确认"}
     }
 }

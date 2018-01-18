@@ -241,7 +241,13 @@ public class CadreExportService extends BaseMapper {
                 //Unit unit = unitMap.get(cadrePost.getUnitId());
                 //MetaType metaType = metaTypeMap.get(cadrePost.getPostId());
                 //subPost = unit.getName() + ((metaType==null)?"":metaType.getName());
-                subPost = cadrePost.getPost();
+                if(cadrePost.getUnitId()!=null) {
+                    Unit unit = unitMap.get(cadrePost.getUnitId());
+                    if(unit!=null){
+                        subPost += StringUtils.trimToEmpty(unit.getName());
+                    }
+                }
+                subPost += cadrePost.getPost();
 
                 DispatchCadreRelateBean dispatchCadreRelateBean = cadrePost.getDispatchCadreRelateBean();
                 if(dispatchCadreRelateBean!=null){
@@ -293,7 +299,7 @@ public class CadreExportService extends BaseMapper {
                     record.getIdcard(),
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
 
-                    record.getBirth()==null?"":DateUtils.calAge(record.getBirth()),
+                    record.getBirth()==null?"":DateUtils.yearOffNow(record.getBirth())+"",
                     partyName,
                     partyAddTime,
                     DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYY_MM_DD), //参加工作时间

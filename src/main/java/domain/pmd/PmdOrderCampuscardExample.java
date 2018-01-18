@@ -985,6 +985,66 @@ public class PmdOrderCampuscardExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsClosedIsNull() {
+            addCriterion("is_closed is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedIsNotNull() {
+            addCriterion("is_closed is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedEqualTo(Boolean value) {
+            addCriterion("is_closed =", value, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedNotEqualTo(Boolean value) {
+            addCriterion("is_closed <>", value, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedGreaterThan(Boolean value) {
+            addCriterion("is_closed >", value, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_closed >=", value, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedLessThan(Boolean value) {
+            addCriterion("is_closed <", value, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_closed <=", value, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedIn(List<Boolean> values) {
+            addCriterion("is_closed in", values, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedNotIn(List<Boolean> values) {
+            addCriterion("is_closed not in", values, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_closed between", value1, value2, "isClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsClosedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_closed not between", value1, value2, "isClosed");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

@@ -24,7 +24,7 @@
                     <c:if test="${param.monthId==_pmdMonth.id}">
                     <button class="popupBtn btn btn-warning btn-sm"
                             ${(empty _pmdMonth)?'disabled':''}
-                            data-url="${ctx}/pmd/pmdSendMsg_notifyAllBranchAdmins?partyId=${param.partyId}"
+                            data-url="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins?partyId=${param.partyId}"
                             ><i class="fa fa-send"></i> 通知支部管理员
                     </button>
                     </c:if>

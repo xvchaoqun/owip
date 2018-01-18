@@ -15,6 +15,7 @@
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="is_success" jdbcType="BIT" property="isSuccess" />
+    <result column="is_closed" jdbcType="BIT" property="isClosed" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
   </resultMap>
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     sn, member_id, paycode, payer, payertype, payername, amt, macc, commnet, sno_id_name, 
-    sign, user_id, is_success, create_time, ip
+    sign, user_id, is_success, is_closed, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdOrderCampuscardExample" resultMap="BaseResultMap">
     select
@@ -115,14 +116,14 @@
       payer, payertype, payername, 
       amt, macc, commnet, 
       sno_id_name, sign, user_id, 
-      is_success, create_time, ip
-      )
+      is_success, is_closed, create_time, 
+      ip)
     values (#{sn,jdbcType=VARCHAR}, #{memberId,jdbcType=INTEGER}, #{paycode,jdbcType=VARCHAR}, 
       #{payer,jdbcType=VARCHAR}, #{payertype,jdbcType=VARCHAR}, #{payername,jdbcType=VARCHAR}, 
       #{amt,jdbcType=VARCHAR}, #{macc,jdbcType=VARCHAR}, #{commnet,jdbcType=VARCHAR}, 
       #{snoIdName,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{isSuccess,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
-      )
+      #{isSuccess,jdbcType=BIT}, #{isClosed,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdOrderCampuscard">
     insert into pmd_order_campuscard
@@ -165,6 +166,9 @@
       </if>
       <if test="isSuccess != null">
         is_success,
+      </if>
+      <if test="isClosed != null">
+        is_closed,
       </if>
       <if test="createTime != null">
         create_time,
@@ -212,6 +216,9 @@
       </if>
       <if test="isSuccess != null">
         #{isSuccess,jdbcType=BIT},
+      </if>
+      <if test="isClosed != null">
+        #{isClosed,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -269,6 +276,9 @@
       <if test="record.isSuccess != null">
         is_success = #{record.isSuccess,jdbcType=BIT},
       </if>
+      <if test="record.isClosed != null">
+        is_closed = #{record.isClosed,jdbcType=BIT},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -295,6 +305,7 @@
       sign = #{record.sign,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
       is_success = #{record.isSuccess,jdbcType=BIT},
+      is_closed = #{record.isClosed,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -340,6 +351,9 @@
       <if test="isSuccess != null">
         is_success = #{isSuccess,jdbcType=BIT},
       </if>
+      <if test="isClosed != null">
+        is_closed = #{isClosed,jdbcType=BIT},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -363,6 +377,7 @@
       sign = #{sign,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       is_success = #{isSuccess,jdbcType=BIT},
+      is_closed = #{isClosed,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
