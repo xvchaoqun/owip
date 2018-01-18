@@ -168,13 +168,13 @@
 					<div class="form-group">
 						<label class="col-xs-6 control-label">导师姓名</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
+							<input class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-6 control-label">导师现所在单位及职务（职称）</label>
 						<div class="col-xs-6">
-							<input required class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
+							<input class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -223,11 +223,11 @@
 
 			var finishTime = $("input[name=_finishTime]").val();
 			//alert(finishTime)
-			if($.trim($("input[name=_degreeTime]").val())==''){
+			if($.trim($("input[name=degreeTime]").val())==''){
 				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
-				$("input[name=_degreeTime]").val(degreeTime);
+				$("input[name=degreeTime]").val(degreeTime);
 			}
-			$("input[name=_degreeTime]").prop("disabled", false).attr("required", "required");
+			$("input[name=degreeTime]").prop("disabled", false).attr("required", "required");
 
 			$("input[name=school]").trigger("keyup");
 		}else{
@@ -313,7 +313,7 @@
 	$("input[name=_finishTime]").on('changeDate ',function(ev){
 
 		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
-			var $_degreeTime = $("input[name=_degreeTime]");
+			var $_degreeTime = $("input[name=degreeTime]");
 			if ($_degreeTime.val() == '') {
 				//$_degreeTime.val(ev.date.format("yyyy.MM"));
 				$_degreeTime.datepicker('update', ev.date.format("yyyy.MM"));
