@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.ScMatterMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.ScMatter">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="draw_time" jdbcType="TIMESTAMP" property="drawTime" />
+    <result column="hand_time" jdbcType="TIMESTAMP" property="handTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, year, type, draw_time, hand_time, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.ScMatterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_matter
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_matter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.ScMatterExample">
+    delete from sc_matter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.ScMatter">
+    insert into sc_matter (id, year, type, draw_time, 
+      hand_time, remark)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{drawTime,jdbcType=TIMESTAMP}, 
+      #{handTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.ScMatter">
+    insert into sc_matter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="drawTime != null">
+        draw_time,
+      </if>
+      <if test="handTime != null">
+        hand_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="drawTime != null">
+        #{drawTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handTime != null">
+        #{handTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.ScMatterExample" resultType="java.lang.Long">
+    select count(*) from sc_matter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_matter
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=BIT},
+      </if>
+      <if test="record.drawTime != null">
+        draw_time = #{record.drawTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.handTime != null">
+        hand_time = #{record.handTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_matter
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=BIT},
+      draw_time = #{record.drawTime,jdbcType=TIMESTAMP},
+      hand_time = #{record.handTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.ScMatter">
+    update sc_matter
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="drawTime != null">
+        draw_time = #{drawTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handTime != null">
+        hand_time = #{handTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.ScMatter">
+    update sc_matter
+    set year = #{year,jdbcType=INTEGER},
+      type = #{type,jdbcType=BIT},
+      draw_time = #{drawTime,jdbcType=TIMESTAMP},
+      hand_time = #{handTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.ScMatterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

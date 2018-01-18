@@ -126,7 +126,7 @@
 
         });
         /////////////////////////////////////
-        $(document).one('ajaxloadstart.page', function (e) {
+        $(document).one('ajaxStart.page', function (e) {
             $tooltip.remove();
         });
     })

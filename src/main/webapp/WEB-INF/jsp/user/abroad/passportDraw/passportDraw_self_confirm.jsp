@@ -99,7 +99,7 @@
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label"></label>
-            <div class="col-xs-3" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif;padding: 20px; ">
+            <div class="col-xs-6" style="font:bold 30px Verdana, Arial, Helvetica, sans-serif;padding: 20px; ">
                 <input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
             </div>
         </div>

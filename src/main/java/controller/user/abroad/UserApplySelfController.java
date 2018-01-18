@@ -9,6 +9,7 @@ import domain.abroad.ApplySelfExample.Criteria;
 import domain.abroad.ApplySelfFile;
 import domain.abroad.ApplySelfFileExample;
 import domain.abroad.ApprovalLogExample;
+import domain.abroad.Passport;
 import domain.abroad.PassportDrawExample;
 import domain.base.Country;
 import domain.cadre.CadreView;
@@ -367,6 +368,9 @@ public class UserApplySelfController extends AbroadBaseController {
             List<ApplySelfFile> files = applySelfService.getFiles(applySelf.getId());
             modelMap.put("files", files);
         }
+
+        Map<Integer, Passport> passportMap = passportService.findByCadreId(cadreId);
+        modelMap.put("passportMap", passportMap);
 
         List<String> countryList = new ArrayList<>();
         Map<Integer, Country> countryMap = countryService.findAll();

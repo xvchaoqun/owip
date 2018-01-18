@@ -94,14 +94,16 @@
                                 data-id-name="userId">
                             <i class="fa fa-send"></i> 短信通知
                         </button>--%>
-                        <button id="notifyBtn" class="jqOpenViewBtn btn btn-danger btn-sm"
+                        <button id="notifyBtn" class="jqOpenViewBtn btn btn-danger btn-sm tooltip-error"
+                                data-rel="tooltip" data-placement="top" title="本月党费收缴已经启动，短信通知本支部党员缴纳党费。"
                                 data-url="${ctx}/pmd/pmdSendMsg_notify"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-send"></i> 短信通知
                         </button>
-                        <button class="popupBtn btn btn-warning btn-sm"
+                        <button class="popupBtn btn btn-warning btn-sm tooltip-warning"
+                                data-rel="tooltip" data-placement="top" title="提醒未缴纳党费的党员尽快缴纳党费。"
                                 data-url="${ctx}/pmd/pmdSendMsg_notifyAllMembers?partyId=${param.partyId}&branchId=${param.branchId}"
-                                ><i class="fa fa-send"></i> 通知未缴费党员
+                                ><i class="fa fa-send"></i> 短信提醒
                         </button>
 
                        <%-- <button id="setDuePayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
@@ -184,6 +186,9 @@
 </div>
 <jsp:include page="pmdMember_colModel.jsp?type=admin"/>
 <script>
+
+    $('[data-rel="tooltip"]').tooltip();
+
     register_user_select($('#searchForm2 select[name=userId]'));
     $('#searchForm2 [data-rel="select2"]').select2();
     function _reload2() {

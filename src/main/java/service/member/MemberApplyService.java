@@ -81,6 +81,7 @@ public class MemberApplyService extends BaseMapper {
                 record.setRemark("预备党员信息添加后同步");
                 record.setFillTime(now);
                 record.setCreateTime(now);
+                record.setIsRemove(false);
                 memberApplyMapper.insertSelective(record);
             }else{
 

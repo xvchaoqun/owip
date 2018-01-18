@@ -99,7 +99,13 @@ pageEncoding="UTF-8"%>
 					<label class="col-xs-3 control-label">所需证件</label>
 					<div class="col-xs-9 choice">
 						<c:forEach items="${passportTypeMap}" var="type">
-							<input name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}&nbsp;
+							<c:set var="hasPassport" value="${passportMap.get(type.key)!=null}"/>
+							<div>
+							<input ${!hasPassport?'disabled':''} name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}
+							<c:if test="${!hasPassport}">
+							(<span class="bolder text-danger">您没有有效的${type.value.name}</span>)
+							</c:if>
+							</div>
 						</c:forEach>
 						<input name="needPassports" type="hidden">
 					</div>
@@ -138,7 +144,14 @@ pageEncoding="UTF-8"%>
 				<input id="agree" type="checkbox" class="chkBox" style="width: 30px; height: 30px; margin: 0;"/> 信息已确认无误
 			</div>--%>
 			<div class="modal-footer center">
-				<input id="submitBtn" data-loading-text="提交中..."  data-success-text="您的申请已提交成功" autocomplete="off" class="btn btn-primary btn-lg" value="${param.edit==1?"修改提交":"提交申请"}"/>
+				<input id="submitBtn"
+					   ${fn:length(passportMap)==0?'disabled':''}
+					   data-loading-text="提交中..."
+					   data-success-text="您的申请已提交成功"
+					   autocomplete="off" class="btn btn-primary btn-lg" value="${param.edit==1?"修改提交":"提交申请"}"/>
+				<c:if test="${fn:length(passportMap)==0}">
+					(<span class="bolder text-danger bigger">您没有有效的因私出国（境）证件</span>)
+				</c:if>
 			</div>
 		</div>
 	</div>

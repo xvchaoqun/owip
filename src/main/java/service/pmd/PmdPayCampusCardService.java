@@ -55,6 +55,9 @@ public class PmdPayCampusCardService extends BaseMapper {
 
     public final static String paycode = PropertiesUtils.getString("pay.campuscard.paycode");
     public final static String keys = PropertiesUtils.getString("pay.campuscard.keys");
+    /*public final static String closeTradeUrl = PropertiesUtils.getString("pay.campuscard.closeTrade.url");
+    public final static String closeTradeAppid = PropertiesUtils.getString("pay.campuscard.closeTrade.appid");
+    public final static String closeTradeSalt = PropertiesUtils.getString("pay.campuscard.closeTrade.salt");*/
 
     // 订单号起始值
     private final static int orderNoOffset = 10240000;

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.ScMatterCheckMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.ScMatterCheck">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="check_date" jdbcType="DATE" property="checkDate" />
+    <result column="check_file" jdbcType="VARCHAR" property="checkFile" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="is_random" jdbcType="BIT" property="isRandom" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, check_date, check_file, num, is_random, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.ScMatterCheckExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_matter_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_matter_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.ScMatterCheckExample">
+    delete from sc_matter_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.ScMatterCheck">
+    insert into sc_matter_check (id, check_date, check_file, 
+      num, is_random, remark)
+    values (#{id,jdbcType=INTEGER}, #{checkDate,jdbcType=DATE}, #{checkFile,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{isRandom,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.ScMatterCheck">
+    insert into sc_matter_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="checkDate != null">
+        check_date,
+      </if>
+      <if test="checkFile != null">
+        check_file,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="isRandom != null">
+        is_random,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="checkDate != null">
+        #{checkDate,jdbcType=DATE},
+      </if>
+      <if test="checkFile != null">
+        #{checkFile,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="isRandom != null">
+        #{isRandom,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.ScMatterCheckExample" resultType="java.lang.Long">
+    select count(*) from sc_matter_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_matter_check
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkDate != null">
+        check_date = #{record.checkDate,jdbcType=DATE},
+      </if>
+      <if test="record.checkFile != null">
+        check_file = #{record.checkFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.isRandom != null">
+        is_random = #{record.isRandom,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_matter_check
+    set id = #{record.id,jdbcType=INTEGER},
+      check_date = #{record.checkDate,jdbcType=DATE},
+      check_file = #{record.checkFile,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      is_random = #{record.isRandom,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.ScMatterCheck">
+    update sc_matter_check
+    <set>
+      <if test="checkDate != null">
+        check_date = #{checkDate,jdbcType=DATE},
+      </if>
+      <if test="checkFile != null">
+        check_file = #{checkFile,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="isRandom != null">
+        is_random = #{isRandom,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.ScMatterCheck">
+    update sc_matter_check
+    set check_date = #{checkDate,jdbcType=DATE},
+      check_file = #{checkFile,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      is_random = #{isRandom,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.ScMatterCheckExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_check
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

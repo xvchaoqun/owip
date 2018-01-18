@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.ScMatterAccessItemMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.ScMatterAccessItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="access_id" jdbcType="INTEGER" property="accessId" />
+    <result column="matter_item_id" jdbcType="INTEGER" property="matterItemId" />
+    <result column="real_hand_time" jdbcType="DATE" property="realHandTime" />
+    <result column="fill_time" jdbcType="DATE" property="fillTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, access_id, matter_item_id, real_hand_time, fill_time
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.ScMatterAccessItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_access_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_matter_access_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_matter_access_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.ScMatterAccessItemExample">
+    delete from sc_matter_access_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.ScMatterAccessItem">
+    insert into sc_matter_access_item (id, access_id, matter_item_id, 
+      real_hand_time, fill_time)
+    values (#{id,jdbcType=INTEGER}, #{accessId,jdbcType=INTEGER}, #{matterItemId,jdbcType=INTEGER}, 
+      #{realHandTime,jdbcType=DATE}, #{fillTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.ScMatterAccessItem">
+    insert into sc_matter_access_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="accessId != null">
+        access_id,
+      </if>
+      <if test="matterItemId != null">
+        matter_item_id,
+      </if>
+      <if test="realHandTime != null">
+        real_hand_time,
+      </if>
+      <if test="fillTime != null">
+        fill_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessId != null">
+        #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="matterItemId != null">
+        #{matterItemId,jdbcType=INTEGER},
+      </if>
+      <if test="realHandTime != null">
+        #{realHandTime,jdbcType=DATE},
+      </if>
+      <if test="fillTime != null">
+        #{fillTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.ScMatterAccessItemExample" resultType="java.lang.Long">
+    select count(*) from sc_matter_access_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_matter_access_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.accessId != null">
+        access_id = #{record.accessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.matterItemId != null">
+        matter_item_id = #{record.matterItemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.realHandTime != null">
+        real_hand_time = #{record.realHandTime,jdbcType=DATE},
+      </if>
+      <if test="record.fillTime != null">
+        fill_time = #{record.fillTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_matter_access_item
+    set id = #{record.id,jdbcType=INTEGER},
+      access_id = #{record.accessId,jdbcType=INTEGER},
+      matter_item_id = #{record.matterItemId,jdbcType=INTEGER},
+      real_hand_time = #{record.realHandTime,jdbcType=DATE},
+      fill_time = #{record.fillTime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.ScMatterAccessItem">
+    update sc_matter_access_item
+    <set>
+      <if test="accessId != null">
+        access_id = #{accessId,jdbcType=INTEGER},
+      </if>
+      <if test="matterItemId != null">
+        matter_item_id = #{matterItemId,jdbcType=INTEGER},
+      </if>
+      <if test="realHandTime != null">
+        real_hand_time = #{realHandTime,jdbcType=DATE},
+      </if>
+      <if test="fillTime != null">
+        fill_time = #{fillTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.ScMatterAccessItem">
+    update sc_matter_access_item
+    set access_id = #{accessId,jdbcType=INTEGER},
+      matter_item_id = #{matterItemId,jdbcType=INTEGER},
+      real_hand_time = #{realHandTime,jdbcType=DATE},
+      fill_time = #{fillTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.ScMatterAccessItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_access_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
