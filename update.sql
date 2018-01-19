@@ -1,4 +1,8 @@
 
+2018-1-19
+ALTER TABLE `ow_member_out`
+	DROP INDEX `user_id`;
+
 
 2018-1-18
 ALTER TABLE `pmd_order_campuscard`

@@ -192,6 +192,7 @@ public class PmdSendMsgService extends BaseMapper {
         PmdMemberExample.Criteria criteria =
                 example.createCriteria().andMonthIdEqualTo(monthId)
                         .andPartyIdEqualTo(partyId)
+                        .andConfigMemberTypeIdIsNotNull()
                         .andHasPayEqualTo(false)
                         .andIsDelayEqualTo(false);
         if(branchId!=null){

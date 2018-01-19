@@ -135,7 +135,7 @@ public class MemberInService extends BaseMapper {
         return memberInMapper.countByExample(example) > 0;
     }
 
-    // 获取最新没有完成审批的记录，为了可以再次转入( 允许挂职干部转出后用原账号转入 )
+    // 获取最新没有完成审批的记录，为了可以再次转入( 允许转出后用原账号转入 )
     public MemberIn get(int userId) {
 
         MemberInExample example = new MemberInExample();
@@ -315,7 +315,7 @@ public class MemberInService extends BaseMapper {
 
             // 检查是否已经后台添加成了党员，如果是，则提示打回申请
             Member member = memberService.get(userId);
-            if(member!=null){
+            if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = CmTag.getUserById(userId);
                 throw new OpException(uv.getRealname() + "已经是党员，请打回该转入申请。");
             }

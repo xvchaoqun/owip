@@ -63,7 +63,7 @@ public class MemberOutController extends BaseController {
 
         modelMap.put("userBean", userBeanService.get(userId));
 
-        MemberOut memberOut = memberOutService.get(userId);
+        MemberOut memberOut = memberOutService.getLatest(userId);
         modelMap.put("memberOut", memberOut);
 
         return "member/memberOut/memberOut_view";
@@ -407,7 +407,7 @@ public class MemberOutController extends BaseController {
         if (id == null) {
             record.setApplyTime(new Date());
             record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
-            memberOutService.insertSelective(record);
+            memberOutService.insertOrUpdateSelective(record);
 
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),

@@ -32,11 +32,13 @@
         <table tableName="sc_matter_access_item" domainObjectName="sc.ScMatterAccessItem" mapperName="sc.ScMatterAccessItemMapper">
         </table>
         <table tableName="sc_matter_check" domainObjectName="sc.ScMatterCheck" mapperName="sc.ScMatterCheckMapper">
-        </table>
+        </table>-->
         <table tableName="sc_matter_check_item" domainObjectName="sc.ScMatterCheckItem" mapperName="sc.ScMatterCheckItemMapper">
         </table>
-        <table tableName="sc_matter_transfer" domainObjectName="sc.ScMatterTransfer" mapperName="sc.ScMatterTransferMapper">
+        <!--<table tableName="sc_matter_transfer" domainObjectName="sc.ScMatterTransfer" mapperName="sc.ScMatterTransferMapper">
         </table>-->
+        <table tableName="sc_matter_transfer_item" domainObjectName="sc.ScMatterTransferItem" mapperName="sc.ScMatterTransferItemMapper">
+        </table>
 
 
 
@@ -44,9 +46,9 @@
         <!--党费收缴系统-->
         <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
         </table>-->
-        <table tableName="pmd_order_campuscard"
+       <!-- <table tableName="pmd_order_campuscard"
                domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
-        </table>
+        </table>-->
         <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
         </table>
         <table tableName="pmd_notify_campuscard"

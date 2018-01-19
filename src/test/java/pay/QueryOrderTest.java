@@ -34,11 +34,11 @@ public class QueryOrderTest {
         // ?paycode=&sn=&payertype=&payer=&sign=
         // md5(paycode+payertype+payer+sn)
         // return: {ret=true/false,msg=’错误信息’ Data={Paycode=,sn=,payertype=,payer=,paid=,paidtime=, amt= }}
-        //String sn = "2018010210240864";
+        String sn = "2018010210240864";
         //String sn = "2018010210240575";
         //String sn = "2018010210240870";
 
-        String sn = "2018010210240579"; // 关闭已支付的订单号
+        //String sn = "2018010210240579"; // 关闭已支付的订单号
 
         String _signStr = String.format("appId=%s&orderNo=%s&salt=%s",
                 closeTradeAppid, sn, closeTradeSalt);

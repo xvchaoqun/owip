@@ -191,8 +191,8 @@ public class MemberStayExportService extends BaseMapper {
             String transferTime = "";
             String transferUnit = "";
             if (u.getMemberStatus() != null && u.getMemberStatus() == SystemConstants.MEMBER_STATUS_TRANSFER) {
-                MemberOut memberOut = memberOutService.get(userId);
-                if (memberOut != null){
+                MemberOut memberOut = memberOutService.getLatest(userId);
+                if (memberOut != null && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
                     transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
                     transferUnit = memberOut.getToUnit();
                 }

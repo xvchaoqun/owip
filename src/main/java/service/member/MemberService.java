@@ -183,8 +183,8 @@ public class MemberService extends BaseMapper {
         }
 
         Member _member = get(userId);
-        if (_member != null && _member.getStatus() == SystemConstants.MEMBER_STATUS_TRANSFER) {
-            // 允许挂职干部转出后用原账号转入
+        if (_member != null ) {
+            // 允许转出后用原账号转入
             Assert.isTrue(memberMapper.updateByPrimaryKeySelective(record) == 1, "db update failed");
         } else if (_member == null) {
             Assert.isTrue(memberMapper.insertSelective(record) == 1, "db insert failed");

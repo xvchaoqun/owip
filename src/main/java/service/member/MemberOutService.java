@@ -142,21 +142,34 @@ public class MemberOutService extends BaseMapper {
         return memberOutMapper.countByExample(example) > 0;
     }
 
-    public MemberOut get(int userId) {
+    // 上一次转出记录（已完成或者还在申请过程中）
+    public MemberOut getLatest(int userId) {
 
         MemberOutExample example = new MemberOutExample();
-        MemberOutExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("apply_time desc");
         List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
         if (memberOuts.size() > 0) return memberOuts.get(0);
 
         return null;
     }
 
+    // 已转出记录（历史记录）
+    public List<MemberOut> memberOutList(int userId) {
+
+        MemberOutExample example = new MemberOutExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andStatusEqualTo(SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+        example.setOrderByClause("apply_time desc");
+
+        return memberOutMapper.selectByExample(example);
+    }
+
     // 本人撤回
     @Transactional
     public void back(int userId) {
 
-        MemberOut memberOut = get(userId);
+        MemberOut memberOut = getLatest(userId);
         if (memberOut.getStatus() != SystemConstants.MEMBER_OUT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
@@ -181,7 +194,7 @@ public class MemberOutService extends BaseMapper {
     @Transactional
     public void deny(int userId, String reason) {
 
-        MemberOut memberOut = get(userId);
+        MemberOut memberOut = getLatest(userId);
         if (memberOut.getStatus() != SystemConstants.MEMBER_OUT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
@@ -255,14 +268,16 @@ public class MemberOutService extends BaseMapper {
 
 
     @Transactional
-    public int insertSelective(MemberOut record) {
+    public void insertOrUpdateSelective(MemberOut record) {
 
         record.setIsBack(false);
         record.setIsModify(false);
         record.setPrintCount(0);
         memberOpService.checkOpAuth(record.getUserId());
-
-        return memberOutMapper.insertSelective(record);
+        if (record.getId() == null)
+            memberOutMapper.insertSelective(record);
+        else
+            memberOutMapper.updateByPrimaryKeySelective(record);
     }
 
     @Transactional

@@ -27,8 +27,10 @@ public class MemberOpService extends BaseMapper{
      */
     public int findOpAuth(int userId){
 
-        MemberOut memberOut = memberOutService.get(userId);
-        if(memberOut!=null && memberOut.getStatus()>=SystemConstants.MEMBER_OUT_STATUS_APPLY){
+        MemberOut memberOut = memberOutService.getLatest(userId);
+        if(memberOut!=null
+                && memberOut.getStatus()>=SystemConstants.MEMBER_OUT_STATUS_APPLY
+                && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
             return 1; // 已经申请了组织关系转出
         }
         MemberTransfer memberTransfer = memberTransferService.get(userId);

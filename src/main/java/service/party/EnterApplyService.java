@@ -99,12 +99,12 @@ public class EnterApplyService extends BaseMapper{
                 throw new OpException("已出党，不能进行转入操作。");
             }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
                 throw new OpException("已经是党员，不需要进行转入操作。");
-            }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+            }/*else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
                 throw new OpException("已经转出党员，不能进行转入操作。");
             }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER_TEMP){
                 //throw new OpException("您已办理组织关系转出");
                 return;// 允许挂职干部转出后用原账号转入
-            }
+            }*/
         }
     }
 

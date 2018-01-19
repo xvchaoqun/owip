@@ -497,24 +497,28 @@ public class PmdPayCampusCardService extends BaseMapper {
             String ret = EntityUtils.toString(res.getEntity());
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(ret, JsonObject.class);
-            JsonElement desc = jsonObject.get("desc");
-            if(desc!=null &&
-                    (StringUtils.equals(desc.getAsString(), "成功")
-                            || StringUtils.contains(desc.getAsString(), "交易已关闭"))){
+            JsonElement code = jsonObject.get("code");
+            if(code!=null &&
+                    (StringUtils.equals(code.getAsString(), "0000")
+                            || StringUtils.contains(code.getAsString(), "2005"))){
 
                 PmdOrderCampuscard record = new PmdOrderCampuscard();
                 record.setSn(sn);
                 record.setIsClosed(true);
                 pmdOrderCampuscardMapper.updateByPrimaryKeySelective(record);
 
-                logger.warn("关闭订单{}成功", sn);
+                logger.info("关闭订单{}成功，接口响应内容：{}", sn, ret);
             }else{
-                logger.warn("关闭订单{}失败", sn);
+                logger.warn("关闭订单{}失败，接口响应内容：{}", sn, ret);
             }
         }
-        // {"code":"3001","desc":"该交易已关闭，请勿重复关闭"}
-        // {"code":"3001","desc":"该订单不存在"}
-        // {"code":"0000","desc":"成功"}
-        // {"code":"0000","desc":"该交易已成功，请确认"}
+        /*
+            0000：更新成功
+            2004：订单不存在
+            2002：该交易已成功，请确认
+            2005：该交易已关闭，请确认
+            3001：该交易正在处理中，请等待...（只针对于一卡通支付的情况）
+            9995：数据库异常，更新失败
+        */
     }
 }

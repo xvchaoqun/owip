@@ -1,5 +1,6 @@
 package controller.user.member;
 
+import bean.UserBean;
 import controller.BaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
@@ -37,9 +38,15 @@ public class UserMemberOutController extends BaseController{
 
         int userId= loginUser.getId();
 
-       modelMap.put("userBean", userBeanService.get(userId));
+        UserBean userBean = userBeanService.get(userId);
+        modelMap.put("userBean", userBean);
+        MemberOut memberOut = memberOutService.getLatest(userId);
+        if(userBean.getMemberStatus()==SystemConstants.MEMBER_STATUS_NORMAL
+                && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+            // 如果已是党员，可以进行转出操作
+            memberOut = null;
+        }
 
-        MemberOut memberOut = memberOutService.get(userId);
         modelMap.put("memberOut", memberOut);
 
         if(memberOut==null || memberOut.getStatus() <= SystemConstants.MEMBER_OUT_STATUS_BACK)
@@ -63,12 +70,17 @@ public class UserMemberOutController extends BaseController{
             record.setHandleTime(DateUtils.parseDate(_handleTime, DateUtils.YYYY_MM_DD));
         }
 
-        MemberOut memberOut = memberOutService.get(userId);
+        Member member = memberService.get(userId);
+        MemberOut memberOut = null;
+        if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+            // 如果已是党员，可以进行转出操作
+            memberOut = memberOutService.getLatest(userId);
+        }
 
         if(memberOut!=null && memberOut.getStatus() > SystemConstants.MEMBER_OUT_STATUS_BACK)
            return failed("不允许修改");
 
-        Member member = memberService.get(userId);
+
         record.setPartyId(member.getPartyId());
         record.setBranchId(member.getBranchId());
 
@@ -77,7 +89,7 @@ public class UserMemberOutController extends BaseController{
         record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
         record.setIsBack(false);
         if (memberOut == null) {
-            memberOutService.insertSelective(record);
+            memberOutService.insertOrUpdateSelective(record);
             logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));
 
             memberOut = record;

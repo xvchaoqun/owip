@@ -421,7 +421,7 @@ public class SystemConstants {
     //public final static byte MEMBER_STATUS_RETIRE= 2; // 已退休
     public final static byte MEMBER_STATUS_QUIT = 3; // 已出党
     public final static byte MEMBER_STATUS_TRANSFER = 4; // 已转出
-    public final static byte MEMBER_STATUS_TRANSFER_TEMP = 5; // 外出挂职、休学等
+    //public final static byte MEMBER_STATUS_TRANSFER_TEMP = 5; // 外出挂职、休学等
     public final static Map<Byte, String> MEMBER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -429,7 +429,7 @@ public class SystemConstants {
         //MEMBER_STATUS_MAP.put(MEMBER_STATUS_RETIRE, "已退休");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已出党");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER, "已转出");
-        MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
+        //MEMBER_STATUS_MAP.put(MEMBER_STATUS_TRANSFER_TEMP, "外出挂职、休学等");
     }
 
     // 党员来源

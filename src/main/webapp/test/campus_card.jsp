@@ -1,4 +1,4 @@
-<%@ page import="service.pmd.PayFormCampusCardBean" %>
+<%@ page import="domain.pmd.PmdOrderCampuscard" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="sys.utils.MD5Util" %>
 <%@ page import="sys.utils.PropertiesUtils" %>
@@ -23,7 +23,7 @@
             String paycode = PropertiesUtils.getString("pay.campuscard.paycode");
             String keys = PropertiesUtils.getString("pay.campuscard.keys");
 
-            PayFormCampusCardBean bean = new PayFormCampusCardBean();
+            PmdOrderCampuscard bean = new PmdOrderCampuscard();
             bean.setPaycode(paycode);
             bean.setPayer(uv.getCode());
             // 缴费人账号类型，1：学工号，2：服务平台账号，3：校园卡号，4：身份证号
@@ -33,7 +33,7 @@
             bean.setAmt(amount);
             bean.setMacc("");
             bean.setCommnet("党费收缴测试");
-            bean.setSno_id_name(uv.getCode());
+            bean.setSnoIdName(uv.getCode());
             String md5Str = keys + paycode + bean.getSn() +
                     bean.getAmt() + bean.getPayer() +
                     bean.getPayername() + StringUtils.reverse(keys);

@@ -238,8 +238,9 @@ public class MemberStayReportController extends BaseController {
 
         String transferTime = "";
         if (u.getMemberStatus() != null && u.getMemberStatus() == SystemConstants.MEMBER_STATUS_TRANSFER) {
-            MemberOut memberOut = memberOutService.get(userId);
-            if (memberOut != null) transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
+            MemberOut memberOut = memberOutService.getLatest(userId);
+            if (memberOut != null && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY)
+                transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
         }
         map.put("transferTime", transferTime);
 
