@@ -2,10 +2,9 @@ package persistence.sc;
 
 import domain.sc.ScMatterAccessItem;
 import domain.sc.ScMatterAccessItemExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ScMatterAccessItemMapper {
     long countByExample(ScMatterAccessItemExample example);

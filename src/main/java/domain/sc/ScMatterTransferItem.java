@@ -2,10 +2,10 @@ package domain.sc;
 
 import java.io.Serializable;
 
-public class ScMatterAccessItem implements Serializable {
+public class ScMatterTransferItem implements Serializable {
     private Integer id;
 
-    private Integer accessId;
+    private Integer transferId;
 
     private Integer matterItemId;
 
@@ -19,12 +19,12 @@ public class ScMatterAccessItem implements Serializable {
         this.id = id;
     }
 
-    public Integer getAccessId() {
-        return accessId;
+    public Integer getTransferId() {
+        return transferId;
     }
 
-    public void setAccessId(Integer accessId) {
-        this.accessId = accessId;
+    public void setTransferId(Integer transferId) {
+        this.transferId = transferId;
     }
 
     public Integer getMatterItemId() {

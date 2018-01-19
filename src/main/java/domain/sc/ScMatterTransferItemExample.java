@@ -3,14 +3,14 @@ package domain.sc;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScMatterAccessItemExample {
+public class ScMatterTransferItemExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ScMatterAccessItemExample() {
+    public ScMatterTransferItemExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -164,63 +164,63 @@ public class ScMatterAccessItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdIsNull() {
-            addCriterion("access_id is null");
+        public Criteria andTransferIdIsNull() {
+            addCriterion("transfer_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdIsNotNull() {
-            addCriterion("access_id is not null");
+        public Criteria andTransferIdIsNotNull() {
+            addCriterion("transfer_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdEqualTo(Integer value) {
-            addCriterion("access_id =", value, "accessId");
+        public Criteria andTransferIdEqualTo(Integer value) {
+            addCriterion("transfer_id =", value, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdNotEqualTo(Integer value) {
-            addCriterion("access_id <>", value, "accessId");
+        public Criteria andTransferIdNotEqualTo(Integer value) {
+            addCriterion("transfer_id <>", value, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdGreaterThan(Integer value) {
-            addCriterion("access_id >", value, "accessId");
+        public Criteria andTransferIdGreaterThan(Integer value) {
+            addCriterion("transfer_id >", value, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("access_id >=", value, "accessId");
+        public Criteria andTransferIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("transfer_id >=", value, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdLessThan(Integer value) {
-            addCriterion("access_id <", value, "accessId");
+        public Criteria andTransferIdLessThan(Integer value) {
+            addCriterion("transfer_id <", value, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdLessThanOrEqualTo(Integer value) {
-            addCriterion("access_id <=", value, "accessId");
+        public Criteria andTransferIdLessThanOrEqualTo(Integer value) {
+            addCriterion("transfer_id <=", value, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdIn(List<Integer> values) {
-            addCriterion("access_id in", values, "accessId");
+        public Criteria andTransferIdIn(List<Integer> values) {
+            addCriterion("transfer_id in", values, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdNotIn(List<Integer> values) {
-            addCriterion("access_id not in", values, "accessId");
+        public Criteria andTransferIdNotIn(List<Integer> values) {
+            addCriterion("transfer_id not in", values, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdBetween(Integer value1, Integer value2) {
-            addCriterion("access_id between", value1, value2, "accessId");
+        public Criteria andTransferIdBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_id between", value1, value2, "transferId");
             return (Criteria) this;
         }
 
-        public Criteria andAccessIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("access_id not between", value1, value2, "accessId");
+        public Criteria andTransferIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("transfer_id not between", value1, value2, "transferId");
             return (Criteria) this;
         }
 

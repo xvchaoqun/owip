@@ -14,7 +14,7 @@ public class ScMatterCheckItem implements Serializable {
 
     private String resultType;
 
-    private String file;
+    private String selfFile;
 
     private Byte confirmType;
 
@@ -29,6 +29,8 @@ public class ScMatterCheckItem implements Serializable {
     private Date owHandleDate;
 
     private String owHandleFile;
+
+    private Date owAffectDate;
 
     private String remark;
 
@@ -74,12 +76,12 @@ public class ScMatterCheckItem implements Serializable {
         this.resultType = resultType == null ? null : resultType.trim();
     }
 
-    public String getFile() {
-        return file;
+    public String getSelfFile() {
+        return selfFile;
     }
 
-    public void setFile(String file) {
-        this.file = file == null ? null : file.trim();
+    public void setSelfFile(String selfFile) {
+        this.selfFile = selfFile == null ? null : selfFile.trim();
     }
 
     public Byte getConfirmType() {
@@ -136,6 +138,14 @@ public class ScMatterCheckItem implements Serializable {
 
     public void setOwHandleFile(String owHandleFile) {
         this.owHandleFile = owHandleFile == null ? null : owHandleFile.trim();
+    }
+
+    public Date getOwAffectDate() {
+        return owAffectDate;
+    }
+
+    public void setOwAffectDate(Date owAffectDate) {
+        this.owAffectDate = owAffectDate;
     }
 
     public String getRemark() {

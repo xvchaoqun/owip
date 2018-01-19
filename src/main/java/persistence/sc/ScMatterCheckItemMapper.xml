@@ -7,7 +7,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="compare_date" jdbcType="DATE" property="compareDate" />
     <result column="result_type" jdbcType="VARCHAR" property="resultType" />
-    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="self_file" jdbcType="VARCHAR" property="selfFile" />
     <result column="confirm_type" jdbcType="TINYINT" property="confirmType" />
     <result column="confirm_date" jdbcType="DATE" property="confirmDate" />
     <result column="handle_type" jdbcType="VARCHAR" property="handleType" />
@@ -15,6 +15,7 @@
     <result column="ow_handle_type" jdbcType="VARCHAR" property="owHandleType" />
     <result column="ow_handle_date" jdbcType="DATE" property="owHandleDate" />
     <result column="ow_handle_file" jdbcType="VARCHAR" property="owHandleFile" />
+    <result column="ow_affect_date" jdbcType="DATE" property="owAffectDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,8 +77,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, check_id, user_id, compare_date, result_type, file, confirm_type, confirm_date, 
-    handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, remark
+    id, check_id, user_id, compare_date, result_type, self_file, confirm_type, confirm_date, 
+    handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, ow_affect_date, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.sc.ScMatterCheckItemExample" resultMap="BaseResultMap">
     select
@@ -111,15 +113,17 @@
   </delete>
   <insert id="insert" parameterType="domain.sc.ScMatterCheckItem">
     insert into sc_matter_check_item (id, check_id, user_id, 
-      compare_date, result_type, file, 
+      compare_date, result_type, self_file, 
       confirm_type, confirm_date, handle_type, 
       check_file, ow_handle_type, ow_handle_date, 
-      ow_handle_file, remark)
+      ow_handle_file, ow_affect_date, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{checkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{compareDate,jdbcType=DATE}, #{resultType,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR}, 
+      #{compareDate,jdbcType=DATE}, #{resultType,jdbcType=VARCHAR}, #{selfFile,jdbcType=VARCHAR}, 
       #{confirmType,jdbcType=TINYINT}, #{confirmDate,jdbcType=DATE}, #{handleType,jdbcType=VARCHAR}, 
       #{checkFile,jdbcType=VARCHAR}, #{owHandleType,jdbcType=VARCHAR}, #{owHandleDate,jdbcType=DATE}, 
-      #{owHandleFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{owHandleFile,jdbcType=VARCHAR}, #{owAffectDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.ScMatterCheckItem">
     insert into sc_matter_check_item
@@ -139,8 +143,8 @@
       <if test="resultType != null">
         result_type,
       </if>
-      <if test="file != null">
-        file,
+      <if test="selfFile != null">
+        self_file,
       </if>
       <if test="confirmType != null">
         confirm_type,
@@ -163,6 +167,9 @@
       <if test="owHandleFile != null">
         ow_handle_file,
       </if>
+      <if test="owAffectDate != null">
+        ow_affect_date,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -183,8 +190,8 @@
       <if test="resultType != null">
         #{resultType,jdbcType=VARCHAR},
       </if>
-      <if test="file != null">
-        #{file,jdbcType=VARCHAR},
+      <if test="selfFile != null">
+        #{selfFile,jdbcType=VARCHAR},
       </if>
       <if test="confirmType != null">
         #{confirmType,jdbcType=TINYINT},
@@ -206,6 +213,9 @@
       </if>
       <if test="owHandleFile != null">
         #{owHandleFile,jdbcType=VARCHAR},
+      </if>
+      <if test="owAffectDate != null">
+        #{owAffectDate,jdbcType=DATE},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -236,8 +246,8 @@
       <if test="record.resultType != null">
         result_type = #{record.resultType,jdbcType=VARCHAR},
       </if>
-      <if test="record.file != null">
-        file = #{record.file,jdbcType=VARCHAR},
+      <if test="record.selfFile != null">
+        self_file = #{record.selfFile,jdbcType=VARCHAR},
       </if>
       <if test="record.confirmType != null">
         confirm_type = #{record.confirmType,jdbcType=TINYINT},
@@ -260,6 +270,9 @@
       <if test="record.owHandleFile != null">
         ow_handle_file = #{record.owHandleFile,jdbcType=VARCHAR},
       </if>
+      <if test="record.owAffectDate != null">
+        ow_affect_date = #{record.owAffectDate,jdbcType=DATE},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -275,7 +288,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       compare_date = #{record.compareDate,jdbcType=DATE},
       result_type = #{record.resultType,jdbcType=VARCHAR},
-      file = #{record.file,jdbcType=VARCHAR},
+      self_file = #{record.selfFile,jdbcType=VARCHAR},
       confirm_type = #{record.confirmType,jdbcType=TINYINT},
       confirm_date = #{record.confirmDate,jdbcType=DATE},
       handle_type = #{record.handleType,jdbcType=VARCHAR},
@@ -283,6 +296,7 @@
       ow_handle_type = #{record.owHandleType,jdbcType=VARCHAR},
       ow_handle_date = #{record.owHandleDate,jdbcType=DATE},
       ow_handle_file = #{record.owHandleFile,jdbcType=VARCHAR},
+      ow_affect_date = #{record.owAffectDate,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -303,8 +317,8 @@
       <if test="resultType != null">
         result_type = #{resultType,jdbcType=VARCHAR},
       </if>
-      <if test="file != null">
-        file = #{file,jdbcType=VARCHAR},
+      <if test="selfFile != null">
+        self_file = #{selfFile,jdbcType=VARCHAR},
       </if>
       <if test="confirmType != null">
         confirm_type = #{confirmType,jdbcType=TINYINT},
@@ -327,6 +341,9 @@
       <if test="owHandleFile != null">
         ow_handle_file = #{owHandleFile,jdbcType=VARCHAR},
       </if>
+      <if test="owAffectDate != null">
+        ow_affect_date = #{owAffectDate,jdbcType=DATE},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -339,7 +356,7 @@
       user_id = #{userId,jdbcType=INTEGER},
       compare_date = #{compareDate,jdbcType=DATE},
       result_type = #{resultType,jdbcType=VARCHAR},
-      file = #{file,jdbcType=VARCHAR},
+      self_file = #{selfFile,jdbcType=VARCHAR},
       confirm_type = #{confirmType,jdbcType=TINYINT},
       confirm_date = #{confirmDate,jdbcType=DATE},
       handle_type = #{handleType,jdbcType=VARCHAR},
@@ -347,6 +364,7 @@
       ow_handle_type = #{owHandleType,jdbcType=VARCHAR},
       ow_handle_date = #{owHandleDate,jdbcType=DATE},
       ow_handle_file = #{owHandleFile,jdbcType=VARCHAR},
+      ow_affect_date = #{owAffectDate,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

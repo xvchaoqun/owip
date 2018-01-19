@@ -223,6 +223,14 @@ import persistence.pmd.PmdPayBranchViewMapper;
 import persistence.pmd.PmdPayPartyMapper;
 import persistence.pmd.PmdPayPartyViewMapper;
 import persistence.pmd.PmdSpecialUserMapper;
+import persistence.sc.ScMatterAccessItemMapper;
+import persistence.sc.ScMatterAccessMapper;
+import persistence.sc.ScMatterCheckItemMapper;
+import persistence.sc.ScMatterCheckMapper;
+import persistence.sc.ScMatterItemMapper;
+import persistence.sc.ScMatterMapper;
+import persistence.sc.ScMatterTransferItemMapper;
+import persistence.sc.ScMatterTransferMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -326,6 +334,26 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 干部选拔-个人有关事项
+     */
+    @Autowired
+    protected ScMatterMapper scMatterMapper;
+    @Autowired
+    protected ScMatterItemMapper scMatterItemMapper;
+    @Autowired
+    protected ScMatterAccessMapper scMatterAccessMapper;
+    @Autowired
+    protected ScMatterAccessItemMapper scMatterAccessItemMapper;
+    @Autowired
+    protected ScMatterCheckMapper scMatterCheckMapper;
+    @Autowired
+    protected ScMatterCheckItemMapper scMatterCheckItemMapper;
+    @Autowired
+    protected ScMatterTransferMapper scMatterTransferMapper;
+    @Autowired
+    protected ScMatterTransferItemMapper scMatterTransferItemMapper;
 
     /**
      * 党费

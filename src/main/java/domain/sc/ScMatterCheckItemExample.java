@@ -442,73 +442,73 @@ public class ScMatterCheckItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andFileIsNull() {
-            addCriterion("file is null");
+        public Criteria andSelfFileIsNull() {
+            addCriterion("self_file is null");
             return (Criteria) this;
         }
 
-        public Criteria andFileIsNotNull() {
-            addCriterion("file is not null");
+        public Criteria andSelfFileIsNotNull() {
+            addCriterion("self_file is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFileEqualTo(String value) {
-            addCriterion("file =", value, "file");
+        public Criteria andSelfFileEqualTo(String value) {
+            addCriterion("self_file =", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileNotEqualTo(String value) {
-            addCriterion("file <>", value, "file");
+        public Criteria andSelfFileNotEqualTo(String value) {
+            addCriterion("self_file <>", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileGreaterThan(String value) {
-            addCriterion("file >", value, "file");
+        public Criteria andSelfFileGreaterThan(String value) {
+            addCriterion("self_file >", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileGreaterThanOrEqualTo(String value) {
-            addCriterion("file >=", value, "file");
+        public Criteria andSelfFileGreaterThanOrEqualTo(String value) {
+            addCriterion("self_file >=", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileLessThan(String value) {
-            addCriterion("file <", value, "file");
+        public Criteria andSelfFileLessThan(String value) {
+            addCriterion("self_file <", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileLessThanOrEqualTo(String value) {
-            addCriterion("file <=", value, "file");
+        public Criteria andSelfFileLessThanOrEqualTo(String value) {
+            addCriterion("self_file <=", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileLike(String value) {
-            addCriterion("file like", value, "file");
+        public Criteria andSelfFileLike(String value) {
+            addCriterion("self_file like", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileNotLike(String value) {
-            addCriterion("file not like", value, "file");
+        public Criteria andSelfFileNotLike(String value) {
+            addCriterion("self_file not like", value, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileIn(List<String> values) {
-            addCriterion("file in", values, "file");
+        public Criteria andSelfFileIn(List<String> values) {
+            addCriterion("self_file in", values, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileNotIn(List<String> values) {
-            addCriterion("file not in", values, "file");
+        public Criteria andSelfFileNotIn(List<String> values) {
+            addCriterion("self_file not in", values, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileBetween(String value1, String value2) {
-            addCriterion("file between", value1, value2, "file");
+        public Criteria andSelfFileBetween(String value1, String value2) {
+            addCriterion("self_file between", value1, value2, "selfFile");
             return (Criteria) this;
         }
 
-        public Criteria andFileNotBetween(String value1, String value2) {
-            addCriterion("file not between", value1, value2, "file");
+        public Criteria andSelfFileNotBetween(String value1, String value2) {
+            addCriterion("self_file not between", value1, value2, "selfFile");
             return (Criteria) this;
         }
 
@@ -969,6 +969,66 @@ public class ScMatterCheckItemExample {
 
         public Criteria andOwHandleFileNotBetween(String value1, String value2) {
             addCriterion("ow_handle_file not between", value1, value2, "owHandleFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateIsNull() {
+            addCriterion("ow_affect_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateIsNotNull() {
+            addCriterion("ow_affect_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_affect_date =", value, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_affect_date <>", value, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("ow_affect_date >", value, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_affect_date >=", value, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateLessThan(Date value) {
+            addCriterionForJDBCDate("ow_affect_date <", value, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_affect_date <=", value, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateIn(List<Date> values) {
+            addCriterionForJDBCDate("ow_affect_date in", values, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("ow_affect_date not in", values, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ow_affect_date between", value1, value2, "owAffectDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwAffectDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ow_affect_date not between", value1, value2, "owAffectDate");
             return (Criteria) this;
         }
 

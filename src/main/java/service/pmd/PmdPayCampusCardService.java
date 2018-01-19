@@ -464,11 +464,51 @@ public class PmdPayCampusCardService extends BaseMapper {
         }
 
         // 如果新生成的订单号和原订单号不一致，则关闭原订单号
-        if(StringUtils.isNotBlank(oldOrderNo) && StringUtils.equals(oldOrderNo, pmdOrder.getSn())){
+        if(StringUtils.isNotBlank(oldOrderNo) && !StringUtils.equals(oldOrderNo, pmdOrder.getSn())){
             try {
                 closeTrade(oldOrderNo);
             }catch (Exception ex){
                 logger.error("关闭订单"+oldOrderNo+"异常", ex);
+            }
+        }
+
+        // 检查一下生成的所有订单（不包括当前生成的订单），是否已经有支付成功的记录，如有则不允许跳转
+        {
+            PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
+            example.createCriteria().andMemberIdEqualTo(pmdMemberId).andSnNotEqualTo(pmdOrder.getSn());
+            List<PmdOrderCampuscard> pmdOrderCampuscards = pmdOrderCampuscardMapper.selectByExample(example);
+
+            String sn = null;
+            String queryRet = null;
+            try {
+                for (PmdOrderCampuscard pmdOrderCampuscard : pmdOrderCampuscards) {
+
+                    sn = pmdOrderCampuscard.getSn();
+                    queryRet = query(sn, pmdOrderCampuscard.getPayer());
+
+                    if(StringUtils.isNotBlank(queryRet)) { // 支付系统查询订单号不存在的话，接口返回的内容为空
+
+                        Gson gson = new Gson();
+                        JsonObject jsonObject = gson.fromJson(queryRet, JsonObject.class);
+                        JsonElement paid = jsonObject.get("paid");
+                        JsonElement payer = jsonObject.get("payer");
+
+                        if (paid.getAsBoolean()) {
+
+                            String code = payer.getAsString();
+                            SysUserView payUser = sysUserService.findByCode(code);
+
+                            logger.warn("当前缴费记录已由{}(工号：{})支付成功，支付订单号{}，请不要重复支付。",
+                                    payUser!=null?payUser.getRealname():"",code, sn);
+                            throw new OpException("当前缴费记录已由{}(工号：{})支付成功，支付订单号{}，请不要重复支付。",
+                                    payUser!=null?payUser.getRealname():"",code, sn);
+                        }
+                    }
+                }
+            }catch (IOException ex){
+
+                logger.error(String.format("校园卡支付平台异常, sn=%s, ret=%s", sn, queryRet), ex);
+                throw new OpException("校园卡支付平台异常，请稍后再试。");
             }
         }
 
@@ -520,5 +560,37 @@ public class PmdPayCampusCardService extends BaseMapper {
             3001：该交易正在处理中，请等待...（只针对于一卡通支付的情况）
             9995：数据库异常，更新失败
         */
+    }
+
+    // 查询订单结果
+    public String query(String sn, String payer) throws IOException {
+
+        String payertype = "1";
+        String sign = MD5Util.md5Hex(paycode+payertype+payer+sn, "utf-8");
+
+        List<BasicNameValuePair> urlParameters = new ArrayList<>();
+        urlParameters.add(new BasicNameValuePair("paycode", paycode));
+        urlParameters.add(new BasicNameValuePair("sn", sn));
+        urlParameters.add(new BasicNameValuePair("payertype", payertype));
+        urlParameters.add(new BasicNameValuePair("payer", payer));
+        urlParameters.add(new BasicNameValuePair("sign", sign));
+        HttpEntity postParams = new UrlEncodedFormEntity(urlParameters);
+
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(queryUrl);
+        httppost.setEntity(postParams);
+        CloseableHttpResponse res = httpclient.execute(httppost);
+
+        return EntityUtils.toString(res.getEntity());
+    }
+
+    // 根据查询订单返回结果，判断是否支付成功
+    public boolean hasPaid(String queryRet) {
+
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(queryRet, JsonObject.class);
+        JsonElement paid = jsonObject.get("paid");
+
+        return paid.getAsBoolean();
     }
 }
