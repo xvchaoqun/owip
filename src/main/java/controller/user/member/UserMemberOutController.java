@@ -42,7 +42,7 @@ public class UserMemberOutController extends BaseController{
         modelMap.put("userBean", userBean);
         MemberOut memberOut = memberOutService.getLatest(userId);
         if(userBean.getMemberStatus()==SystemConstants.MEMBER_STATUS_NORMAL
-                && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+                && memberOut!=null && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
             // 如果已是党员，可以进行转出操作
             memberOut = null;
         }

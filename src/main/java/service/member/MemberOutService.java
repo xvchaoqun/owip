@@ -170,7 +170,7 @@ public class MemberOutService extends BaseMapper {
     public void back(int userId) {
 
         MemberOut memberOut = getLatest(userId);
-        if (memberOut.getStatus() != SystemConstants.MEMBER_OUT_STATUS_APPLY)
+        if (memberOut==null || memberOut.getStatus() != SystemConstants.MEMBER_OUT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
@@ -195,7 +195,7 @@ public class MemberOutService extends BaseMapper {
     public void deny(int userId, String reason) {
 
         MemberOut memberOut = getLatest(userId);
-        if (memberOut.getStatus() != SystemConstants.MEMBER_OUT_STATUS_APPLY)
+        if (memberOut==null || memberOut.getStatus() != SystemConstants.MEMBER_OUT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
