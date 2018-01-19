@@ -264,9 +264,11 @@ body {
 }
 .multi-row-head-table #jqGrid_cb{
     padding: 10px!important;
+    padding-right: 2px!important;
 }
 .multi-row-head-table #jqGrid2_cb{
     padding: 10px!important;
+    padding-right: 2px!important;
 }
 
 .multi-row-head-table .frozen-bdiv.ui-jqgrid-bdiv {
@@ -334,7 +336,7 @@ body {
 }*/
 /* 鼠标悬浮背景色对齐校正*/
 .frozen-bdiv.ui-jqgrid-bdiv {
-    top: 39px !important;
+    /*top: 39px !important;*/
 }
 
 /*jqgrid ====end*/
