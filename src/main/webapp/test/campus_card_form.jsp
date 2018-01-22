@@ -6,6 +6,7 @@
 <%@ page import="service.sys.SysUserService" %>
 <%@ page import="domain.sys.SysUserView" %>
 <%@ page import="sys.utils.DateUtils" %>
+<%@ page import="org.apache.commons.lang.math.RandomUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,7 +30,7 @@
             // 缴费人账号类型，1：学工号，2：服务平台账号，3：校园卡号，4：身份证号
             bean.setPayertype("1");
             bean.setPayername(uv.getRealname());
-            bean.setSn(DateUtils.getCurrentDateTime("yyyyMMddHHmmss") + "-test");
+            bean.setSn(DateUtils.getCurrentDateTime("yyyyMMddHHmmss")+ String.format("%03d", RandomUtils.nextInt(999)) + "test");
             bean.setAmt(amount);
             bean.setMacc("");
             bean.setCommnet("党费收缴测试");
