@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scMatter.ScMatterCheckItemViewMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scMatter.ScMatterCheckItemView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="check_id" jdbcType="INTEGER" property="checkId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="compare_date" jdbcType="DATE" property="compareDate" />
+    <result column="result_type" jdbcType="VARCHAR" property="resultType" />
+    <result column="self_file" jdbcType="VARCHAR" property="selfFile" />
+    <result column="confirm_type" jdbcType="TINYINT" property="confirmType" />
+    <result column="confirm_date" jdbcType="DATE" property="confirmDate" />
+    <result column="handle_type" jdbcType="VARCHAR" property="handleType" />
+    <result column="check_file" jdbcType="VARCHAR" property="checkFile" />
+    <result column="ow_handle_type" jdbcType="VARCHAR" property="owHandleType" />
+    <result column="ow_handle_date" jdbcType="DATE" property="owHandleDate" />
+    <result column="ow_handle_file" jdbcType="VARCHAR" property="owHandleFile" />
+    <result column="ow_affect_date" jdbcType="DATE" property="owAffectDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="is_random" jdbcType="BIT" property="isRandom" />
+    <result column="check_date" jdbcType="DATE" property="checkDate" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, check_id, user_id, compare_date, result_type, self_file, confirm_type, confirm_date, 
+    handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, ow_affect_date, 
+    remark, year, is_random, check_date, num, code, realname
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_check_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemViewExample" resultType="java.lang.Long">
+    select count(*) from sc_matter_check_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scMatter.ScMatterCheckItemViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_check_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

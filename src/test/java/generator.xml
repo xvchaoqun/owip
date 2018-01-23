@@ -23,22 +23,54 @@
         </javaClientGenerator>
 
         <!--干部选拔-个人有关事项-->
-        <!--<table tableName="sc_matter" domainObjectName="sc.ScMatter" mapperName="sc.ScMatterMapper">
-        </table>
-        <table tableName="sc_matter_item" domainObjectName="sc.ScMatterItem" mapperName="sc.ScMatterItemMapper">
-        </table>
-        <table tableName="sc_matter_access" domainObjectName="sc.ScMatterAccess" mapperName="sc.ScMatterAccessMapper">
-        </table>
-        <table tableName="sc_matter_access_item" domainObjectName="sc.ScMatterAccessItem" mapperName="sc.ScMatterAccessItemMapper">
-        </table>
-        <table tableName="sc_matter_check" domainObjectName="sc.ScMatterCheck" mapperName="sc.ScMatterCheckMapper">
+        <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">
         </table>-->
-        <table tableName="sc_matter_check_item" domainObjectName="sc.ScMatterCheckItem" mapperName="sc.ScMatterCheckItemMapper">
+        <table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
         </table>
-        <!--<table tableName="sc_matter_transfer" domainObjectName="sc.ScMatterTransfer" mapperName="sc.ScMatterTransferMapper">
+        <table tableName="sc_matter_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterItemView" mapperName="sc.scMatter.ScMatterItemViewMapper">
+        </table>
+        <!--<table tableName="sc_matter_user_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterUserView" mapperName="sc.scMatter.ScMatterUserViewMapper">
         </table>-->
-        <table tableName="sc_matter_transfer_item" domainObjectName="sc.ScMatterTransferItem" mapperName="sc.ScMatterTransferItemMapper">
-        </table>
+
+        <!--<table tableName="sc_matter_access" domainObjectName="sc.scMatter.ScMatterAccess" mapperName="sc.scMatter.ScMatterAccessMapper">
+        </table>-->
+
+        <!--<table tableName="sc_matter_access_item" domainObjectName="sc.scMatter.ScMatterAccessItem" mapperName="sc.scMatter.ScMatterAccessItemMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_access_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterAccessItemView" mapperName="sc.scMatter.ScMatterAccessItemViewMapper">
+        </table>-->
+        <!-- <table tableName="sc_matter_check" domainObjectName="sc.scMatter.ScMatterCheck" mapperName="sc.scMatter.ScMatterCheckMapper">
+         </table>-->
+        <!--<table tableName="sc_matter_check_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterCheckView" mapperName="sc.scMatter.ScMatterCheckViewMapper">
+            <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+       <!-- <table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_check_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterCheckItemView" mapperName="sc.scMatter.ScMatterCheckItemViewMapper">
+            <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_matter_transfer" domainObjectName="sc.scMatter.ScMatterTransfer" mapperName="sc.scMatter.ScMatterTransferMapper">
+        </table>-->
 
 
 

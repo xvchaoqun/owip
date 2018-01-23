@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scMatter.ScMatterItemViewMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scMatter.ScMatterItemView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="matter_id" jdbcType="INTEGER" property="matterId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="real_hand_time" jdbcType="DATE" property="realHandTime" />
+    <result column="fill_time" jdbcType="DATE" property="fillTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="transfer_id" jdbcType="INTEGER" property="transferId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="draw_time" jdbcType="TIMESTAMP" property="drawTime" />
+    <result column="hand_time" jdbcType="TIMESTAMP" property="handTime" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="transfer_date" jdbcType="DATE" property="transferDate" />
+    <result column="transfer_location" jdbcType="VARCHAR" property="transferLocation" />
+    <result column="transfer_reason" jdbcType="VARCHAR" property="transferReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, matter_id, user_id, real_hand_time, fill_time, remark, transfer_id, year, type, 
+    draw_time, hand_time, code, realname, title, transfer_date, transfer_location, transfer_reason
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterItemViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.sc.scMatter.ScMatterItemViewExample" resultType="java.lang.Long">
+    select count(*) from sc_matter_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scMatter.ScMatterItemViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -218,7 +218,7 @@ public class MetaTypeController extends BaseController {
     public Map do_metaType_changeOrder(Integer id, Integer classId, Integer addNum, HttpServletRequest request) {
 
         Assert.isTrue(classId > 0, "wrong classId");
-        metaTypeService.changeOrder(id, addNum, classId);
+        metaTypeService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "元数据属性值调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

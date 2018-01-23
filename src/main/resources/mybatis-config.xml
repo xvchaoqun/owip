@@ -11,6 +11,10 @@
 	</properties>
 	 <settings>
 		<setting name="useGeneratedKeys" value="true"/>
+		 <!--开启延时加载  -->
+		 <setting name="lazyLoadingEnabled" value="true"/>
+		 <!--关闭立即加载  -->
+		 <setting name="aggressiveLazyLoading" value="false"/>
 	</settings>
  	<plugins>
 	        <plugin interceptor="org.mybatis.extend.interceptor.PaginationInterceptor"/>

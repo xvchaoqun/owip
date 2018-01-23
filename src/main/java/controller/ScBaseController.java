@@ -1,20 +1,15 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import service.pmd.PmdMonthService;
-import service.sc.ScMatterAccessItemService;
-import service.sc.ScMatterAccessService;
-import service.sc.ScMatterCheckItemService;
-import service.sc.ScMatterCheckService;
-import service.sc.ScMatterItemService;
-import service.sc.ScMatterService;
-import service.sc.ScMatterTransferItemService;
-import service.sc.ScMatterTransferService;
+import service.sc.scMatter.ScMatterAccessItemService;
+import service.sc.scMatter.ScMatterAccessService;
+import service.sc.scMatter.ScMatterCheckItemService;
+import service.sc.scMatter.ScMatterCheckService;
+import service.sc.scMatter.ScMatterItemService;
+import service.sc.scMatter.ScMatterService;
+import service.sc.scMatter.ScMatterTransferService;
 
 public class ScBaseController extends BaseController {
-
-    @Autowired
-    protected PmdMonthService pmdMonthService;
 
     @Autowired
     protected ScMatterService scMatterService;
@@ -30,7 +25,5 @@ public class ScBaseController extends BaseController {
     protected ScMatterCheckItemService scMatterCheckItemService;
     @Autowired
     protected ScMatterTransferService scMatterTransferService;
-    @Autowired
-    protected ScMatterTransferItemService scMatterTransferItemService;
 
 }

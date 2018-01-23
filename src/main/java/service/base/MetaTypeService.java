@@ -225,12 +225,13 @@ public class MetaTypeService extends BaseMapper {
             @CacheEvict(value = "MetaType:Code:ALL", allEntries = true),
             @CacheEvict(value = "MetaTyes", allEntries = true)
     })
-    public void changeOrder(int id, int addNum, int classId) { // 分类内部排序
+    public void changeOrder(int id, int addNum) { // 分类内部排序
 
         if(addNum == 0) return ;
 
         MetaType entity = metaTypeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        int classId = entity.getClassId();
 
         MetaTypeExample example = new MetaTypeExample();
         if (addNum > 0) {

@@ -225,7 +225,7 @@ public class ${TableName}Controller extends BaseController {
             criteria.andNameLike("%"+searchStr+"%");
         }
 
-        int count = ${tableName}Mapper.countByExample(example);
+        long count = ${tableName}Mapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);

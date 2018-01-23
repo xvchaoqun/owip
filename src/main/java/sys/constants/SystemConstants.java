@@ -10,8 +10,25 @@ import java.util.Set;
 
 public class SystemConstants {
 
-    public final static Map<String, String> appKeyMap = new HashMap<>();
+    /**
+     * 个人有关事项
+     */
+    // 认定结果 1 如实填报 2 漏报 3 瞒报
+    public final static byte SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_REAL = 1;
+    public final static byte SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_FORGET = 2;
+    public final static byte SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_NOT = 3;
+    public final static Map<Byte, String> SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP = new LinkedHashMap();
 
+    static {
+        SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP.put(SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_REAL, "如实填报");
+        SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP.put(SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_FORGET, "漏报");
+        SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP.put(SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_NOT, "瞒报");
+    }
+
+
+
+
+    public final static Map<String, String> appKeyMap = new HashMap<>();
     static {
 
         appKeyMap.put("LXXT", "7507a3c61bf38d9f06d00c3f2fa2de58");

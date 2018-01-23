@@ -84,6 +84,7 @@ import persistence.common.IPartyMapper;
 import persistence.common.IPcsMapper;
 import persistence.common.IPmdMapper;
 import persistence.common.IPropertyMapper;
+import persistence.common.IScMapper;
 import persistence.common.ISysMapper;
 import persistence.common.ITrainMapper;
 import persistence.common.IUnitMapper;
@@ -223,14 +224,18 @@ import persistence.pmd.PmdPayBranchViewMapper;
 import persistence.pmd.PmdPayPartyMapper;
 import persistence.pmd.PmdPayPartyViewMapper;
 import persistence.pmd.PmdSpecialUserMapper;
-import persistence.sc.ScMatterAccessItemMapper;
-import persistence.sc.ScMatterAccessMapper;
-import persistence.sc.ScMatterCheckItemMapper;
-import persistence.sc.ScMatterCheckMapper;
-import persistence.sc.ScMatterItemMapper;
-import persistence.sc.ScMatterMapper;
-import persistence.sc.ScMatterTransferItemMapper;
-import persistence.sc.ScMatterTransferMapper;
+import persistence.sc.scMatter.ScMatterAccessItemMapper;
+import persistence.sc.scMatter.ScMatterAccessItemViewMapper;
+import persistence.sc.scMatter.ScMatterAccessMapper;
+import persistence.sc.scMatter.ScMatterCheckItemMapper;
+import persistence.sc.scMatter.ScMatterCheckItemViewMapper;
+import persistence.sc.scMatter.ScMatterCheckMapper;
+import persistence.sc.scMatter.ScMatterCheckViewMapper;
+import persistence.sc.scMatter.ScMatterItemMapper;
+import persistence.sc.scMatter.ScMatterItemViewMapper;
+import persistence.sc.scMatter.ScMatterMapper;
+import persistence.sc.scMatter.ScMatterTransferMapper;
+import persistence.sc.scMatter.ScMatterUserViewMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -343,17 +348,27 @@ public class BaseMapper {
     @Autowired
     protected ScMatterItemMapper scMatterItemMapper;
     @Autowired
+    protected ScMatterItemViewMapper scMatterItemViewMapper;
+    @Autowired
+    protected ScMatterUserViewMapper scMatterUserViewMapper;
+    @Autowired
     protected ScMatterAccessMapper scMatterAccessMapper;
     @Autowired
     protected ScMatterAccessItemMapper scMatterAccessItemMapper;
     @Autowired
+    protected ScMatterAccessItemViewMapper scMatterAccessItemViewMapper;
+    @Autowired
     protected ScMatterCheckMapper scMatterCheckMapper;
+    @Autowired
+    protected ScMatterCheckViewMapper scMatterCheckViewMapper;
     @Autowired
     protected ScMatterCheckItemMapper scMatterCheckItemMapper;
     @Autowired
+    protected ScMatterCheckItemViewMapper scMatterCheckItemViewMapper;
+    @Autowired
     protected ScMatterTransferMapper scMatterTransferMapper;
     @Autowired
-    protected ScMatterTransferItemMapper scMatterTransferItemMapper;
+    protected IScMapper iScMapper;
 
     /**
      * 党费

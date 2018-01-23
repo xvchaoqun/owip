@@ -108,7 +108,7 @@
             </shiro:hasRole>
             { label: '布尔属性名称',  name: 'boolAttr', width: 150 },
             <shiro:hasRole name="${ROLE_ADMIN}">
-            { label: '代码', name: 'code', width: 200 },
+            { label: '代码', name: 'code', width: 300, align:'left' },
 
             { label: '附加属性名称',  name: 'extraAttr', width: 150 }
                 </shiro:hasRole>

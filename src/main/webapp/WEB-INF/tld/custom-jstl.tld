@@ -101,6 +101,11 @@
 		<function-signature>domain.base.MetaType getMetaType(java.lang.Integer)</function-signature>
 	</function>
 	<function>
+		<name>getMetaTypes</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.util.Map getMetaTypes(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>getMetaTypeByCode</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.base.MetaType getMetaTypeByCode(java.lang.String)</function-signature>
@@ -185,6 +190,11 @@
 		<name>toJSONArray</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.String toJSONArray(java.util.List)</function-signature>
+	</function>
+	<function>
+		<name>toJSONArrayWithFilter</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.String toJSONArray(java.util.List, java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>getHtmlFragment</name>

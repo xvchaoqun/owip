@@ -30,14 +30,14 @@
   </appender>
     <logger name="persistence" level="debug"/>
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="org.springframework.cache" level="debug"/>
+    <logger name="org.springframework.cache" level="ERROR"/>
     <logger name="org.mybatis" level="ERROR"/>
-    <logger name="net.sf.ehcache" level="debug"/>
+    <logger name="net.sf.ehcache" level="ERROR"/>
     <logger name="org.apache.ibatis" level="ERROR"/>
-    <logger name="org.quartz" level="INFO"/>
-  <root level="debug">
-  	  <appender-ref ref="debug" />
-  	  <appender-ref ref="info" />
+    <logger name="org.quartz" level="ERROR"/>
+  <root level="info">
+  	 <!-- <appender-ref ref="debug" />
+  	  <appender-ref ref="info" />-->
    	  <appender-ref ref="STDOUT" />
   </root>
 </configuration>

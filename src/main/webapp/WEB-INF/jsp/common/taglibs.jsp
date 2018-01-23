@@ -173,6 +173,8 @@
 
 <c:set value="<%=SystemConstants.CADRE_TUTOR_TYPE_MAP%>" var="CADRE_TUTOR_TYPE_MAP"/>
 
+<c:set value="<%=SystemConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
+
 <c:set value="<%=SystemConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
 <c:set value="<%=SystemConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>
 <c:set value="<%=SystemConstants.PMD_MONTH_STATUS_END%>" var="PMD_MONTH_STATUS_END"/>

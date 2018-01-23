@@ -174,6 +174,14 @@ public class CmTag {
         return StringUtils.isBlank(jsonStr) ? "[]" : jsonStr;
     }
 
+    public static String toJSONArray(List list, String includes) {
+
+        if (list == null) return "[]";
+        String jsonStr = JSONUtils.toString(list, includes.split(","));
+
+        return StringUtils.isBlank(jsonStr) ? "[]" : jsonStr;
+    }
+
     // 获取菜单显示处理数量
     public static Integer getMenuCacheCount(String countCacheKeys) {
 

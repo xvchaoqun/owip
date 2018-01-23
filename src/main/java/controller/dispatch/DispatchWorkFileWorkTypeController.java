@@ -115,8 +115,8 @@ public class DispatchWorkFileWorkTypeController extends BaseController{
             classCode = "mc_dwf_work_type_ow";
         }
 
-        MetaClass dwfWorkTypeClass = metaClassService.codeKeyMap().get(classCode);
-        metaTypeService.changeOrder(id, addNum, dwfWorkTypeClass.getId());
+        //MetaClass dwfWorkTypeClass = metaClassService.codeKeyMap().get(classCode);
+        metaTypeService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "工作文件类型调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

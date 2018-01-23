@@ -1,5 +1,6 @@
 package pay;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,9 +35,11 @@ public class QueryOrderTest {
         // ?paycode=&sn=&payertype=&payer=&sign=
         // md5(paycode+payertype+payer+sn)
         // return: {ret=true/false,msg=’错误信息’ Data={Paycode=,sn=,payertype=,payer=,paid=,paidtime=, amt= }}
-        String sn = "2018010210240864";
+       // String sn = "2018010210240864";
         //String sn = "2018010210240575";
-        //String sn = "2018010210240870";
+        String sn = "2018010210240870";
+
+
 
         //String sn = "2018010210240579"; // 关闭已支付的订单号
 
@@ -77,8 +80,18 @@ public class QueryOrderTest {
        /* String sn = "2018010210240575";
         String payer = "11112013069";  */
 
-        String sn = "2018010210240864";
-        String payer = "11312012117";
+        String sn = "2018010210240805";
+        String payer = "88040";
+
+        //String sn = "201801021024080501";
+        //String payer = "11312015074";
+
+        //String sn = "201801021024080501";
+        //String payer = "11312012117";
+
+
+       // String sn = "2018010210240864";
+       // String payer = "11312012117";
 
         String payertype = "1";
         String sign = MD5Util.md5Hex(paycode+payertype+payer+sn, "utf-8");
@@ -98,7 +111,9 @@ public class QueryOrderTest {
         CloseableHttpResponse res = httpclient.execute(httppost);
 
         System.out.println(res.getEntity().getContent());
-        System.out.println(EntityUtils.toString(res.getEntity()));
+        String ret = EntityUtils.toString(res.getEntity());
+        System.out.println(ret);
+        System.out.println(StringUtils.isNotBlank(ret));
     }
 
 

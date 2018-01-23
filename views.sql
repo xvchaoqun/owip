@@ -1,3 +1,35 @@
+-- 个人有关事项视图
+DROP VIEW IF EXISTS `sc_matter_item_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_item_view` AS
+select smi.*, sm.year, sm.type, sm.draw_time, sm.hand_time, u.code, u.realname, c.title,
+smt.transfer_date, smt.location as transfer_location, smt.reason as transfer_reason  from sc_matter_item smi
+left join sc_matter sm on sm.id=smi.matter_id
+left join sys_user_view u on smi.user_id = u.id
+left join cadre_view c on c.user_id=smi.user_id
+left join sc_matter_transfer smt on smt.id=smi.transfer_id;
+
+DROP VIEW IF EXISTS `sc_matter_access_item_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_access_item_view` AS
+select smai.*, smi.code, smi.realname, smi.type, smi.year,smi.fill_time, c.title from sc_matter_access_item smai
+left join sc_matter_item_view smi on smi.id=smai.matter_item_id
+left join cadre_view c on c.user_id=smi.user_id;
+
+DROP VIEW IF EXISTS `sc_matter_check_item_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_item_view` AS
+select smci.*, smc.year, smc.is_random, smc.check_date, smc.num, u.code, u.realname  from sc_matter_check_item smci
+left join sc_matter_check smc on smc.id=smci.check_id
+left join sys_user_view u on u.id=smci.user_id;
+
+DROP VIEW IF EXISTS `sc_matter_check_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_view` AS
+select smc.*, count(smci.id) as item_count from sc_matter_check smc
+left join sc_matter_check_item smci on smci.check_id=smc.id ;
+
+DROP VIEW IF EXISTS `sc_matter_user_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_user_view` AS
+select distinct smi.user_id, uv.username, uv.code, uv.realname from sc_matter_item smi
+left join sys_user_view uv on uv.id=smi.user_id;
+
 
 -- 党员每月实际缴费视图
 DROP VIEW IF EXISTS `pmd_member_pay_view`;

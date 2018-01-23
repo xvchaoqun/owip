@@ -103,9 +103,7 @@ public class PcsProposalSettingController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsProposalType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        MetaClass proposalTypeClass = metaClassService.codeKeyMap().get("mc_pcs_proposal");
-
-        metaTypeService.changeOrder(id, addNum, proposalTypeClass.getId());
+        metaTypeService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_PCS, "提案类型调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

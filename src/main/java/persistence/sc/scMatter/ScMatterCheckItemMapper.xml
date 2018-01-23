@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scMatter.ScMatterCheckItemMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scMatter.ScMatterCheckItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="check_id" jdbcType="INTEGER" property="checkId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="compare_date" jdbcType="DATE" property="compareDate" />
+    <result column="result_type" jdbcType="VARCHAR" property="resultType" />
+    <result column="self_file" jdbcType="VARCHAR" property="selfFile" />
+    <result column="confirm_type" jdbcType="TINYINT" property="confirmType" />
+    <result column="confirm_date" jdbcType="DATE" property="confirmDate" />
+    <result column="handle_type" jdbcType="VARCHAR" property="handleType" />
+    <result column="check_file" jdbcType="VARCHAR" property="checkFile" />
+    <result column="ow_handle_type" jdbcType="VARCHAR" property="owHandleType" />
+    <result column="ow_handle_date" jdbcType="DATE" property="owHandleDate" />
+    <result column="ow_handle_file" jdbcType="VARCHAR" property="owHandleFile" />
+    <result column="ow_affect_date" jdbcType="DATE" property="owAffectDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, check_id, user_id, compare_date, result_type, self_file, confirm_type, confirm_date, 
+    handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, ow_affect_date, 
+    remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_check_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_matter_check_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_matter_check_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemExample">
+    delete from sc_matter_check_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.scMatter.ScMatterCheckItem">
+    insert into sc_matter_check_item (id, check_id, user_id, 
+      compare_date, result_type, self_file, 
+      confirm_type, confirm_date, handle_type, 
+      check_file, ow_handle_type, ow_handle_date, 
+      ow_handle_file, ow_affect_date, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{checkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{compareDate,jdbcType=DATE}, #{resultType,jdbcType=VARCHAR}, #{selfFile,jdbcType=VARCHAR}, 
+      #{confirmType,jdbcType=TINYINT}, #{confirmDate,jdbcType=DATE}, #{handleType,jdbcType=VARCHAR}, 
+      #{checkFile,jdbcType=VARCHAR}, #{owHandleType,jdbcType=VARCHAR}, #{owHandleDate,jdbcType=DATE}, 
+      #{owHandleFile,jdbcType=VARCHAR}, #{owAffectDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.scMatter.ScMatterCheckItem">
+    insert into sc_matter_check_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="checkId != null">
+        check_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="compareDate != null">
+        compare_date,
+      </if>
+      <if test="resultType != null">
+        result_type,
+      </if>
+      <if test="selfFile != null">
+        self_file,
+      </if>
+      <if test="confirmType != null">
+        confirm_type,
+      </if>
+      <if test="confirmDate != null">
+        confirm_date,
+      </if>
+      <if test="handleType != null">
+        handle_type,
+      </if>
+      <if test="checkFile != null">
+        check_file,
+      </if>
+      <if test="owHandleType != null">
+        ow_handle_type,
+      </if>
+      <if test="owHandleDate != null">
+        ow_handle_date,
+      </if>
+      <if test="owHandleFile != null">
+        ow_handle_file,
+      </if>
+      <if test="owAffectDate != null">
+        ow_affect_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="checkId != null">
+        #{checkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="compareDate != null">
+        #{compareDate,jdbcType=DATE},
+      </if>
+      <if test="resultType != null">
+        #{resultType,jdbcType=VARCHAR},
+      </if>
+      <if test="selfFile != null">
+        #{selfFile,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmType != null">
+        #{confirmType,jdbcType=TINYINT},
+      </if>
+      <if test="confirmDate != null">
+        #{confirmDate,jdbcType=DATE},
+      </if>
+      <if test="handleType != null">
+        #{handleType,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFile != null">
+        #{checkFile,jdbcType=VARCHAR},
+      </if>
+      <if test="owHandleType != null">
+        #{owHandleType,jdbcType=VARCHAR},
+      </if>
+      <if test="owHandleDate != null">
+        #{owHandleDate,jdbcType=DATE},
+      </if>
+      <if test="owHandleFile != null">
+        #{owHandleFile,jdbcType=VARCHAR},
+      </if>
+      <if test="owAffectDate != null">
+        #{owAffectDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemExample" resultType="java.lang.Long">
+    select count(*) from sc_matter_check_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_matter_check_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkId != null">
+        check_id = #{record.checkId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.compareDate != null">
+        compare_date = #{record.compareDate,jdbcType=DATE},
+      </if>
+      <if test="record.resultType != null">
+        result_type = #{record.resultType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selfFile != null">
+        self_file = #{record.selfFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmType != null">
+        confirm_type = #{record.confirmType,jdbcType=TINYINT},
+      </if>
+      <if test="record.confirmDate != null">
+        confirm_date = #{record.confirmDate,jdbcType=DATE},
+      </if>
+      <if test="record.handleType != null">
+        handle_type = #{record.handleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkFile != null">
+        check_file = #{record.checkFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owHandleType != null">
+        ow_handle_type = #{record.owHandleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owHandleDate != null">
+        ow_handle_date = #{record.owHandleDate,jdbcType=DATE},
+      </if>
+      <if test="record.owHandleFile != null">
+        ow_handle_file = #{record.owHandleFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owAffectDate != null">
+        ow_affect_date = #{record.owAffectDate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_matter_check_item
+    set id = #{record.id,jdbcType=INTEGER},
+      check_id = #{record.checkId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      compare_date = #{record.compareDate,jdbcType=DATE},
+      result_type = #{record.resultType,jdbcType=VARCHAR},
+      self_file = #{record.selfFile,jdbcType=VARCHAR},
+      confirm_type = #{record.confirmType,jdbcType=TINYINT},
+      confirm_date = #{record.confirmDate,jdbcType=DATE},
+      handle_type = #{record.handleType,jdbcType=VARCHAR},
+      check_file = #{record.checkFile,jdbcType=VARCHAR},
+      ow_handle_type = #{record.owHandleType,jdbcType=VARCHAR},
+      ow_handle_date = #{record.owHandleDate,jdbcType=DATE},
+      ow_handle_file = #{record.owHandleFile,jdbcType=VARCHAR},
+      ow_affect_date = #{record.owAffectDate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scMatter.ScMatterCheckItem">
+    update sc_matter_check_item
+    <set>
+      <if test="checkId != null">
+        check_id = #{checkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="compareDate != null">
+        compare_date = #{compareDate,jdbcType=DATE},
+      </if>
+      <if test="resultType != null">
+        result_type = #{resultType,jdbcType=VARCHAR},
+      </if>
+      <if test="selfFile != null">
+        self_file = #{selfFile,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmType != null">
+        confirm_type = #{confirmType,jdbcType=TINYINT},
+      </if>
+      <if test="confirmDate != null">
+        confirm_date = #{confirmDate,jdbcType=DATE},
+      </if>
+      <if test="handleType != null">
+        handle_type = #{handleType,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFile != null">
+        check_file = #{checkFile,jdbcType=VARCHAR},
+      </if>
+      <if test="owHandleType != null">
+        ow_handle_type = #{owHandleType,jdbcType=VARCHAR},
+      </if>
+      <if test="owHandleDate != null">
+        ow_handle_date = #{owHandleDate,jdbcType=DATE},
+      </if>
+      <if test="owHandleFile != null">
+        ow_handle_file = #{owHandleFile,jdbcType=VARCHAR},
+      </if>
+      <if test="owAffectDate != null">
+        ow_affect_date = #{owAffectDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.scMatter.ScMatterCheckItem">
+    update sc_matter_check_item
+    set check_id = #{checkId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      compare_date = #{compareDate,jdbcType=DATE},
+      result_type = #{resultType,jdbcType=VARCHAR},
+      self_file = #{selfFile,jdbcType=VARCHAR},
+      confirm_type = #{confirmType,jdbcType=TINYINT},
+      confirm_date = #{confirmDate,jdbcType=DATE},
+      handle_type = #{handleType,jdbcType=VARCHAR},
+      check_file = #{checkFile,jdbcType=VARCHAR},
+      ow_handle_type = #{owHandleType,jdbcType=VARCHAR},
+      ow_handle_date = #{owHandleDate,jdbcType=DATE},
+      ow_handle_file = #{owHandleFile,jdbcType=VARCHAR},
+      ow_affect_date = #{owAffectDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scMatter.ScMatterCheckItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_matter_check_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
