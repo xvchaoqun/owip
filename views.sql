@@ -23,7 +23,7 @@ left join sys_user_view u on u.id=smci.user_id;
 DROP VIEW IF EXISTS `sc_matter_check_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_view` AS
 select smc.*, count(smci.id) as item_count from sc_matter_check smc
-left join sc_matter_check_item smci on smci.check_id=smc.id ;
+left join sc_matter_check_item smci on smci.check_id=smc.id group by smc.id;
 
 DROP VIEW IF EXISTS `sc_matter_user_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_user_view` AS
