@@ -24,6 +24,9 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 
+		<context:exclude-filter type="regex" expression="controller.*\.member\..*"/>
+		<context:exclude-filter type="regex" expression="controller.*\.modify\..*"/>
+		<context:exclude-filter type="regex" expression="controller.*\.cis\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.crs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.train\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>

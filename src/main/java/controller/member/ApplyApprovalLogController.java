@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.ApplyApprovalLog;
 import domain.member.ApplyApprovalLogExample;
 import domain.member.MemberAbroad;
@@ -35,7 +35,7 @@ import java.util.Map;
  * Created by fafa on 2016/4/9.
  */
 @Controller
-public class ApplyApprovalLogController extends BaseController {
+public class ApplyApprovalLogController extends MemberBaseController {
 
     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog")

@@ -1,6 +1,5 @@
 package service.member;
 
-import controller.BaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
@@ -11,7 +10,10 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import service.BaseMapper;
 import service.party.EnterApplyService;
+import service.party.MemberService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -23,12 +25,18 @@ import java.util.Date;
  * Created by fafa on 2016/4/23.
  */
 @Service
-public class MemberApplyOpService extends BaseController {
+public class MemberApplyOpService extends BaseMapper {
 
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private SysUserService sysUserService;
     @Autowired
     private EnterApplyService enterApplyService;
     @Autowired
     private MemberApplyService memberApplyService;
+    @Autowired
+    private ApplyOpenTimeService applyOpenTimeService;
     @Autowired
     private ApplyApprovalLogService applyApprovalLogService;
 

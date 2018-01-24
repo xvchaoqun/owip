@@ -29,7 +29,7 @@ public class MenuController extends BaseController {
     public String menu(ModelMap modelMap) {
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        List<SysResource> userMenus = sysResourceService.makeMenus(shiroUser.getPermissions());
+        List<SysResource> userMenus = sysUserService.makeMenus(shiroUser.getPermissions());
 
         modelMap.put("menus", userMenus);
         return "menu";
@@ -49,7 +49,7 @@ public class MenuController extends BaseController {
                 }
             }
         }
-        List<SysResource> userMenus = sysResourceService.makeMenus(permissions);
+        List<SysResource> userMenus = sysUserService.makeMenus(permissions);
         modelMap.put("menus", userMenus);
         return "menu";
     }
@@ -60,7 +60,7 @@ public class MenuController extends BaseController {
 
         if (roleId != null) {
             Set<String> rolePermissions = sysRoleService.getRolePermissions(roleId);
-            List<SysResource> userMenus = sysResourceService.makeMenus(rolePermissions);
+            List<SysResource> userMenus = sysUserService.makeMenus(rolePermissions);
             modelMap.put("menus", userMenus);
         }
 

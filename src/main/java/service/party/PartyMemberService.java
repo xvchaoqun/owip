@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.member.MemberService;
 import service.sys.SysConfigService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;

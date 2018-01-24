@@ -18,6 +18,7 @@ import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
+import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;

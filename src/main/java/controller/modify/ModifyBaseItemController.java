@@ -1,6 +1,6 @@
 package controller.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
@@ -30,7 +30,7 @@ import java.util.Map;
  * Created by fafa on 2016/11/27.
  */
 @Controller
-public class ModifyBaseItemController extends BaseController{
+public class ModifyBaseItemController extends ModifyBaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

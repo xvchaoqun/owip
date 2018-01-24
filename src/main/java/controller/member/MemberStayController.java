@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.member.MemberStay;
 import domain.member.MemberStayExample;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberStayController extends BaseController {
+public class MemberStayController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

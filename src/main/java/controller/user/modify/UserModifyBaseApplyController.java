@@ -1,6 +1,6 @@
 package controller.user.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserModifyBaseApplyController extends BaseController{
+public class UserModifyBaseApplyController extends ModifyBaseController{
 
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping("/modifyBaseApply_au")

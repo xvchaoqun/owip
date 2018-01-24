@@ -53,11 +53,6 @@ import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
-import service.cis.CisEvaluateService;
-import service.cis.CisInspectObjService;
-import service.cis.CisInspectorService;
-import service.cis.CisObjInspectorService;
-import service.cis.CisObjUnitService;
 import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
 import service.dispatch.DispatchCadreRelateService;
@@ -71,37 +66,18 @@ import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.global.CacheService;
-import service.member.ApplyApprovalLogService;
-import service.member.ApplyOpenTimeService;
-import service.member.MemberAbroadService;
-import service.member.MemberApplyService;
-import service.member.MemberInService;
-import service.member.MemberInflowOutService;
-import service.member.MemberInflowService;
-import service.member.MemberOutService;
-import service.member.MemberOutflowService;
-import service.member.MemberQuitService;
-import service.member.MemberReturnService;
-import service.member.MemberService;
-import service.member.MemberStayService;
-import service.member.MemberStudentService;
-import service.member.MemberTeacherService;
-import service.member.MemberTransferService;
-import service.modify.ModifyBaseApplyService;
-import service.modify.ModifyBaseItemService;
-import service.modify.ModifyCadreAuthService;
-import service.modify.ModifyTableApplyService;
 import service.party.BranchMemberAdminService;
 import service.party.BranchMemberGroupService;
 import service.party.BranchMemberService;
 import service.party.BranchService;
-import service.party.EnterApplyService;
+import service.party.MemberService;
+import service.party.MemberStudentService;
+import service.party.MemberTeacherService;
 import service.party.OrgAdminService;
 import service.party.PartyMemberAdminService;
 import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
-import service.party.RetireApplyService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
 import service.sys.FeedbackService;
@@ -143,44 +119,6 @@ import java.util.UUID;
 public class BaseController extends BaseMapper {
 
     @Autowired
-    protected EnterApplyService enterApplyService;
-    @Autowired
-    protected ApplyApprovalLogService applyApprovalLogService;
-    @Autowired
-    protected MemberTransferService memberTransferService;
-    @Autowired
-    protected MemberOutService memberOutService;
-    @Autowired
-    protected MemberInService memberInService;
-
-    @Autowired
-    protected MemberInflowService memberInflowService;
-    @Autowired
-    protected MemberInflowOutService memberInflowOutService;
-    @Autowired
-    protected MemberOutflowService memberOutflowService;
-    @Autowired
-    protected MemberReturnService memberReturnService;
-    @Autowired
-    protected MemberAbroadService memberAbroadService;
-    @Autowired
-    protected MemberStayService memberStayService;
-    @Autowired
-    protected MemberQuitService memberQuitService;
-    @Autowired
-    protected RetireApplyService retireApplyService;
-    @Autowired
-    protected MemberStudentService memberStudentService;
-    @Autowired
-    protected MemberTeacherService memberTeacherService;
-    @Autowired
-    protected MemberService memberService;
-    @Autowired
-    protected ApplyOpenTimeService applyOpenTimeService;
-    @Autowired
-    protected MemberApplyService memberApplyService;
-
-    @Autowired
     protected BranchMemberGroupService branchMemberGroupService;
     @Autowired
     protected BranchMemberAdminService branchMemberAdminService;
@@ -198,6 +136,12 @@ public class BaseController extends BaseMapper {
     protected BranchService branchService;
     @Autowired
     protected OrgAdminService orgAdminService;
+    @Autowired
+    protected MemberStudentService memberStudentService;
+    @Autowired
+    protected MemberTeacherService memberTeacherService;
+    @Autowired
+    protected MemberService memberService;
 
     @Autowired
     protected UnitAdminGroupService unitAdminGroupService;
@@ -276,18 +220,6 @@ public class BaseController extends BaseMapper {
     protected CadreAdditionalPostService cadreAdditionalPostService;
 
     @Autowired
-    protected CisEvaluateService cisEvaluateService;
-    @Autowired
-    protected CisInspectObjService cisInspectObjService;
-    @Autowired
-    protected CisInspectorService cisInspectorService;
-    @Autowired
-    protected CisObjInspectorService cisObjInspectorService;
-    @Autowired
-    protected CisObjUnitService cisObjUnitService;
-
-
-    @Autowired
     protected CrpRecordService crpRecordService;
 
     @Autowired
@@ -331,15 +263,6 @@ public class BaseController extends BaseMapper {
     protected MetaTypeService metaTypeService;
     @Autowired
     protected ShortMsgTplService shortMsgTplService;
-
-    @Autowired
-    protected ModifyCadreAuthService modifyCadreAuthService;
-    @Autowired
-    protected ModifyBaseApplyService modifyBaseApplyService;
-    @Autowired
-    protected ModifyBaseItemService modifyBaseItemService;
-    @Autowired
-    protected ModifyTableApplyService modifyTableApplyService;
 
     @Autowired
     protected AvatarService avatarService;

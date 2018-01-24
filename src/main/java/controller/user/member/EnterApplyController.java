@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
@@ -33,7 +33,7 @@ import java.util.Map;
 // 权限开通
 @Controller
 @RequestMapping("/user")
-public class EnterApplyController extends BaseController {
+public class EnterApplyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,6 +1,6 @@
 package controller.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseApplyExample;
 import domain.sys.SysUserView;
@@ -34,7 +34,7 @@ import java.util.Map;
  * Created by fafa on 2016/11/27.
  */
 @Controller
-public class ModifyBaseApplyController extends BaseController{
+public class ModifyBaseApplyController extends ModifyBaseController{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberInModify;
 import domain.member.MemberInModifyExample;
 import mixin.MixinUtils;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberInModifyController extends BaseController {
+public class MemberInModifyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

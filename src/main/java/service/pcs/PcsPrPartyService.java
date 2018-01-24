@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.cadre.CadreService;
-import service.member.MemberService;
+import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;

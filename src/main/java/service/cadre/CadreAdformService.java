@@ -16,7 +16,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
-import service.member.MemberService;
+import service.party.MemberService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;

@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
@@ -28,6 +29,8 @@ public class MemberOutService extends BaseMapper {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MemberQuitService memberQuitService;
     @Autowired
     private MemberOpService memberOpService;
 
@@ -238,7 +241,7 @@ public class MemberOutService extends BaseMapper {
         //record.setBranchId(memberOut.getBranchId());
         updateByPrimaryKeySelective(record);
 
-        memberService.quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
+        memberQuitService.quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
     }
 
     //撤销已完成转出审批的记录

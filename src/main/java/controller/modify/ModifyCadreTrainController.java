@@ -1,6 +1,6 @@
 package controller.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.sys.SysUserView;
@@ -15,7 +15,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 
 @Controller
-public class ModifyCadreTrainController extends BaseController {
+public class ModifyCadreTrainController extends ModifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

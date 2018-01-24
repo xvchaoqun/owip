@@ -1,6 +1,6 @@
 package controller.user.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserModifyTableApplyController extends BaseController {
+public class UserModifyTableApplyController extends ModifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

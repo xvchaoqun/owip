@@ -1,6 +1,6 @@
 package controller.cis;
 
-import controller.BaseController;
+import controller.CisBaseController;
 import domain.cis.CisObjUnit;
 import domain.cis.CisObjUnitExample;
 import domain.cis.CisObjUnitExample.Criteria;
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class CisObjUnitController extends BaseController {
+public class CisObjUnitController extends CisBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

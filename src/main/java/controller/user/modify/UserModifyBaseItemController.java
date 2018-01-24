@@ -1,6 +1,6 @@
 package controller.user.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.sys.SysUserView;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserModifyBaseItemController extends BaseController{
+public class UserModifyBaseItemController extends ModifyBaseController{
 
     // 干部本人更新某个字段的值（待审核状态）
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)

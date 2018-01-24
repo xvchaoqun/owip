@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.member.MemberInflow;
 import domain.party.Branch;
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserMemberInflowController extends BaseController{
+public class UserMemberInflowController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

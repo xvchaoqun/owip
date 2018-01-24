@@ -1,7 +1,7 @@
 package controller.member;
 
 import bean.UserBean;
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberTransfer;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberTransferController extends BaseController {
+public class MemberTransferController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

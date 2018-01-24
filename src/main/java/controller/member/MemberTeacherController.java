@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.member.MemberTeacher;
@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberTeacherController extends BaseController {
+public class MemberTeacherController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

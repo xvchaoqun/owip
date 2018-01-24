@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.MemberReturn;
@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberReturnController extends BaseController {
+public class MemberReturnController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

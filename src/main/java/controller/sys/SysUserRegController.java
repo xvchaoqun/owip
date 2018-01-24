@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.member.ApplyApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -200,6 +202,7 @@ public class SysUserRegController extends BaseController {
         sysUserRegService.deny(sysUserReg.getId());
         logger.info(addLog(SystemConstants.LOG_OW, "拒绝用户注册申请：%s", id));
 
+        ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(sysUserReg.getId(),
                 sysUserReg.getPartyId(), null, userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
@@ -222,6 +225,8 @@ public class SysUserRegController extends BaseController {
 
         int loginUserId = loginUser.getId();
         int userId = sysUserReg.getUserId();
+
+        ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(sysUserReg.getId(),
                 sysUserReg.getPartyId(), null, userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,

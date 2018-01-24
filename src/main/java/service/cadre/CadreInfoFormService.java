@@ -21,7 +21,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
-import service.member.MemberService;
+import service.party.MemberService;
 import service.sys.SysConfigService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;

@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.member.MemberService;
+import service.party.MemberService;
 import service.party.BranchService;
 import service.party.PartyService;
 

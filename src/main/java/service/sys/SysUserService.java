@@ -7,7 +7,6 @@ import domain.cadre.CadreView;
 import domain.ext.ExtBks;
 import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
-import domain.party.EnterApply;
 import domain.pcs.PcsAdmin;
 import domain.sys.SysResource;
 import domain.sys.SysRole;
@@ -29,7 +28,6 @@ import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.global.CacheService;
-import service.party.EnterApplyService;
 import service.pcs.PcsAdminService;
 import service.pmd.PmdPartyAdminService;
 import shiro.ShiroHelper;
@@ -37,6 +35,7 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +48,6 @@ public class SysUserService extends BaseMapper {
     private SysRoleService sysRoleService;
     @Autowired
     private SysResourceService sysResourceService;
-    @Autowired
-    private EnterApplyService enterApplyService;
     @Autowired
     private CacheService cacheService;
 
@@ -96,18 +93,6 @@ public class SysUserService extends BaseMapper {
 
         // 更新系统角色  访客->党员
         changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
-    }
-
-    @Transactional
-    public void changeRoleMemberToGuest(int userId) {
-
-        // 更新系统角色  党员->访客
-        changeRole(userId, SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_GUEST);
-        // 撤回原申请
-        EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-        if (_enterApply != null) {
-            enterApplyService.applyBack(userId, null, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
-        }
     }
 
 
@@ -407,6 +392,51 @@ public class SysUserService extends BaseMapper {
                 resources.add(resource);
         }
         return resources;
+    }
+
+    // 根据拥有的权限，形成菜单栏目
+    public List<SysResource> makeMenus(Set<String> ownPermissions){
+
+        List<SysResource> menus = new ArrayList<>();
+        Map<Integer, SysResource> sortedPermissions = sysResourceService.getSortedSysResources();
+        Collection<SysResource> permissions = sortedPermissions.values();
+        for (SysResource res : permissions) {
+            String type = res.getType();
+            String permission = res.getPermission();
+            if((org.apache.commons.lang3.StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
+                    || org.apache.commons.lang3.StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_URL))
+                    && ownPermissions.contains(permission)) {
+
+                if(res.getParentId()==null) {
+                    menus.add(res);
+                }else{
+                    SysResource parent = sortedPermissions.get(res.getParentId());
+
+                    // id=1是顶级节点，此值必须固定为1
+                    if(parent.getId()==1 ) {
+                        menus.add(res);
+                        continue;
+                    }
+
+                    // 必须拥有全部层级的父目录，才显示
+                    List<String> parents = new ArrayList<>();
+                    while (parent!=null && parent.getId()!=1){
+                        parents.add(parent.getPermission());
+                        if(parent.getParentId()!=null)
+                            parent = sortedPermissions.get(parent.getParentId());
+                        else
+                            parent = null;
+                    }
+
+                    if(ownPermissions.containsAll(parents)) {
+                        menus.add(res);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        return menus;
     }
 
     // 根据账号查找所有的角色（角色字符串集合）

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.abroad.ApplySelfService;
-import service.member.MemberService;
+import service.party.MemberService;
 
 /**
  * Created by fafa on 2015/11/9.

@@ -528,7 +528,7 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
-    <cache name="Permissions"
+    <cache name="SysResources"
            maxElementsInMemory="1000"
            overflowToDisk="true"
            eternal="true"

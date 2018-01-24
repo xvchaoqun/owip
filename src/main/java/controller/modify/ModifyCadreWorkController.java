@@ -1,6 +1,6 @@
 package controller.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
@@ -19,7 +19,7 @@ import sys.shiro.CurrentUser;
 import java.util.List;
 
 @Controller
-public class ModifyCadreWorkController extends BaseController {
+public class ModifyCadreWorkController extends ModifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

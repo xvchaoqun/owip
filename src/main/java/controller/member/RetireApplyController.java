@@ -1,6 +1,6 @@
-package controller.party;
+package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.party.RetireApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 // 党员退休（弃用）
 //@Controller
-public class RetireApplyController extends BaseController {
+public class RetireApplyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

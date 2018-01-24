@@ -1,8 +1,8 @@
-package controller.jasper;
+package controller.member;
 
 import bean.UserBean;
 import com.lowagie.text.DocumentException;
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberOut;
 import domain.member.MemberStay;
 import domain.party.Branch;
@@ -40,7 +40,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/report")
-public class MemberStayReportController extends BaseController {
+public class MemberStayReportController extends MemberBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 

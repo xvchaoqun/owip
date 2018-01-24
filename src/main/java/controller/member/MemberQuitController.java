@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberQuit;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberQuitController extends BaseController {
+public class MemberQuitController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -342,7 +342,7 @@ public class MemberQuitController extends BaseController {
                 record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY);
                 record.setCreateTime(new Date());
                 memberQuitService.insertSelective(record);
-                memberService.quit(record.getUserId(), SystemConstants.MEMBER_STATUS_QUIT);
+                memberQuitService.quit(record.getUserId(), SystemConstants.MEMBER_STATUS_QUIT);
             }else {
                 record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_APPLY);
                 record.setCreateTime(new Date());

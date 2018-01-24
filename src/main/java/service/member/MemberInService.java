@@ -22,6 +22,7 @@ import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
+import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -38,7 +39,7 @@ import java.util.List;
 public class MemberInService extends BaseMapper {
 
     @Autowired
-    private  MemberService memberService;
+    private MemberService memberService;
     @Autowired
     private PartyService partyService;
     @Autowired

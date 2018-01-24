@@ -2,6 +2,7 @@ package service.member;
 
 import controller.BaseController;
 import controller.global.OpException;
+import domain.member.Member;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
 import org.apache.ibatis.session.RowBounds;
@@ -14,6 +15,8 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
 import service.LoginUserService;
+import service.party.EnterApplyService;
+import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
@@ -28,6 +31,9 @@ public class MemberQuitService extends BaseMapper {
     private MemberService memberService;
     @Autowired
     private PartyService partyService;
+
+    @Autowired
+    private EnterApplyService enterApplyService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
 
@@ -199,7 +205,7 @@ public class MemberQuitService extends BaseMapper {
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
-        memberService.quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
+        quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
     }
     
     @Transactional
@@ -312,5 +318,26 @@ public class MemberQuitService extends BaseMapper {
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, SystemConstants.MEMBER_QUIT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+    }
+
+    /**
+     * 党员出党
+     *
+     * @param userId
+     * @param status SystemConstants.MEMBER_STATUS_QUIT
+     *               SystemConstants.MEMBER_STATUS_RETIRE
+     */
+    @Transactional
+    public void quit(int userId, byte status) {
+
+        //Member member = memberMapper.selectByPrimaryKey(userId);
+        Member record = new Member();
+        record.setUserId(userId);
+        record.setStatus(status);
+        //record.setBranchId(member.getBranchId());
+        memberService.updateByPrimaryKeySelective(record);
+
+        // 更新系统角色  党员->访客
+        enterApplyService.changeRoleMemberToGuest(userId);
     }
 }

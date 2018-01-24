@@ -1,7 +1,7 @@
 package controller.member;
 
 import bean.MemberApplyCount;
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.member.MemberApplyView;
@@ -56,7 +56,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberApplyController extends BaseController {
+public class MemberApplyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

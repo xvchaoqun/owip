@@ -1,7 +1,7 @@
 package controller.user.member;
 
 import bean.UserBean;
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberTransfer;
 import domain.party.Branch;
@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserMemberTransferController extends BaseController{
+public class UserMemberTransferController extends MemberBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresRoles(SystemConstants.ROLE_MEMBER)

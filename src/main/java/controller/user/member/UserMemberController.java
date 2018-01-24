@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.SysUserView;
@@ -16,7 +16,7 @@ import sys.shiro.CurrentUser;
 // 权限开通
 @Controller
 @RequestMapping("/user")
-public class UserMemberController extends BaseController {
+public class UserMemberController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

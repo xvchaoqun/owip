@@ -1,4 +1,4 @@
-package service.member;
+package service.party;
 
 import controller.global.OpException;
 import domain.member.Member;
@@ -28,14 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.DBErrorException;
-import service.party.BranchService;
-import service.party.EnterApplyService;
-import service.party.PartyService;
+import service.member.MemberApplyService;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.SysUserSyncService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -53,20 +52,20 @@ public class MemberService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private SysUserSyncService sysUserSyncService;
-    @Autowired
+    /*@Autowired
     private EnterApplyService enterApplyService;
     @Autowired
     private MemberApplyService memberApplyService;
     @Autowired
-    protected MemberApplyOpService memberApplyOpService;
+    protected MemberApplyOpService memberApplyOpService;*/
     @Autowired
     private PartyService partyService;
     @Autowired
     private BranchService branchService;
     @Autowired
     private LogService logService;
-    @Autowired
-    protected ApplyApprovalLogService applyApprovalLogService;
+   /* @Autowired
+    protected ApplyApprovalLogService applyApprovalLogService;*/
     @Autowired
     protected MemberTeacherService memberTeacherService;
 
@@ -75,26 +74,7 @@ public class MemberService extends BaseMapper {
         return memberMapper.selectByPrimaryKey(userId);
     }
 
-    /**
-     * 党员出党
-     *
-     * @param userId
-     * @param status SystemConstants.MEMBER_STATUS_QUIT
-     *               SystemConstants.MEMBER_STATUS_RETIRE
-     */
-    @Transactional
-    public void quit(int userId, byte status) {
 
-        //Member member = memberMapper.selectByPrimaryKey(userId);
-        Member record = new Member();
-        record.setUserId(userId);
-        record.setStatus(status);
-        //record.setBranchId(member.getBranchId());
-        updateByPrimaryKeySelective(record);
-
-        // 更新系统角色  党员->访客
-        sysUserService.changeRoleMemberToGuest(userId);
-    }
 
     /**
      * 党员出党后重新回来
@@ -118,6 +98,8 @@ public class MemberService extends BaseMapper {
     // 后台数据库中导入党员数据后，需要同步信息、更新状态
     @Transactional
     public void dbUpdate(int userId) {
+
+        EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
         if (_enterApply != null && _enterApply.getType() != SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
@@ -151,6 +133,8 @@ public class MemberService extends BaseMapper {
 
     @Transactional
     public void add(Member record) {
+
+        EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
         if (_enterApply != null && _enterApply.getType() != SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
@@ -191,6 +175,7 @@ public class MemberService extends BaseMapper {
         } else throw new OpException("数据异常，入党失败（已是党员或已转出）。" + uv.getCode() + "," + uv.getRealname());
 
         // 如果是预备党员，则要进入申请入党预备党员阶段（直接添加预备党员时发生）
+        MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         memberApplyService.addOrChangeToGrowApply(userId);
 
         // 更新系统角色  访客->党员
@@ -227,6 +212,7 @@ public class MemberService extends BaseMapper {
         record.setBranchId(branchId);
         memberMapper.updateByExampleSelective(record, example);
 
+        MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新入党申请的预备党员
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
         }
@@ -260,6 +246,7 @@ public class MemberService extends BaseMapper {
 
         iMemberMapper.changeMemberParty(partyId, branchId, example);
 
+        MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         for (int userId : userIds) { // 更新入党申请的预备党员
             memberApplyService.updateWhenModifyMember(userId, partyId, branchId);
         }
@@ -275,9 +262,9 @@ public class MemberService extends BaseMapper {
             memberMapper.deleteByExample(example);
         }
 
+        MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
         // 删除入党申请（预备党员、正式党员)
         for (Integer userId : userIds) {
-
             memberApplyService.denyWhenDeleteMember(userId);
         }
 
@@ -335,7 +322,9 @@ public class MemberService extends BaseMapper {
             Assert.isTrue(partyService.isDirectBranch(record.getPartyId()), "not direct branch");
             iMemberMapper.updateToDirectBranch("ow_member", "user_id", userId, record.getPartyId());
         }
+
         if (record.getPartyId() != null) {
+            MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
             memberApplyService.updateWhenModifyMember(userId, record.getPartyId(), record.getBranchId());
         }
 
@@ -393,7 +382,7 @@ public class MemberService extends BaseMapper {
             updateByPrimaryKeySelective(record, StringUtils.defaultIfBlank(remark, "修改党籍状态为"
                     + SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(politicalStatus)));
 
-
+            MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
             if (politicalStatus == SystemConstants.MEMBER_POLITICAL_STATUS_GROW) {
                 // 正式->预备，需要同时修改或添加入党申请【6.预备党员】阶段
                 memberApplyService.addOrChangeToGrowApply(userId);

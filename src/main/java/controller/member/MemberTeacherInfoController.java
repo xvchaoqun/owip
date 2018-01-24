@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
@@ -25,7 +25,7 @@ import java.util.Map;
  * 用于在教职工党员中修改注册账号的基本信息及人事信息
  */
 @Controller
-public class MemberTeacherInfoController extends BaseController {
+public class MemberTeacherInfoController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.ApplyOpenTime;
 import domain.member.ApplyOpenTimeExample;
 import domain.member.ApplyOpenTimeExample.Criteria;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ApplyOpenTimeController extends BaseController {
+public class ApplyOpenTimeController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

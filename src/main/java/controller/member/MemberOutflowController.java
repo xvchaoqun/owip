@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.member.Member;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberOutflowController extends BaseController {
+public class MemberOutflowController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

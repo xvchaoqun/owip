@@ -1,6 +1,6 @@
 package controller.cis;
 
-import controller.BaseController;
+import controller.CisBaseController;
 import domain.cis.CisInspector;
 import domain.cis.CisInspectorView;
 import domain.cis.CisInspectorViewExample;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CisInspectorController extends BaseController {
+public class CisInspectorController extends CisBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

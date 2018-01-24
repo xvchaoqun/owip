@@ -1,6 +1,6 @@
 package controller.cis;
 
-import controller.BaseController;
+import controller.CisBaseController;
 import domain.cis.CisInspectObj;
 import domain.cis.CisInspectObjView;
 import domain.cis.CisInspectObjViewExample;
@@ -46,7 +46,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Controller
-public class CisInspectObjController extends BaseController {
+public class CisInspectObjController extends CisBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,6 +1,6 @@
 package controller.cis;
 
-import controller.BaseController;
+import controller.CisBaseController;
 import domain.cis.CisEvaluate;
 import domain.cis.CisEvaluateExample;
 import domain.cis.CisEvaluateExample.Criteria;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class CisEvaluateController extends BaseController {
+public class CisEvaluateController extends CisBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

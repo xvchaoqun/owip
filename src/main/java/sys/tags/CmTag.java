@@ -75,7 +75,7 @@ import service.party.BranchMemberService;
 import service.party.BranchService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
-import service.party.RetireApplyService;
+import service.member.RetireApplyService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
@@ -120,7 +120,7 @@ public class CmTag {
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
-    static RetireApplyService retireApplyService = context.getBean(RetireApplyService.class);
+
     static DispatchService dispatchService = context.getBean(DispatchService.class);
     static DispatchCadreService dispatchCadreService = context.getBean(DispatchCadreService.class);
     static DispatchUnitService dispatchUnitService = context.getBean(DispatchUnitService.class);
@@ -135,10 +135,6 @@ public class CmTag {
     static CadreAdditionalPostService cadreAdditionalPostService = context.getBean(CadreAdditionalPostService.class);
     static CadreEduService cadreEduService = context.getBean(CadreEduService.class);
     static DispatchCadreRelateService dispatchCadreRelateService = context.getBean(DispatchCadreRelateService.class);
-    static ModifyCadreAuthService modifyCadreAuthService = context.getBean(ModifyCadreAuthService.class);
-
-    static CisInspectorService cisInspectorService = context.getBean(CisInspectorService.class);
-    static CisInspectObjService cisInspectObjService = context.getBean(CisInspectObjService.class);
 
     public static <T> T getBean(Class<T> cls){
 
@@ -560,6 +556,7 @@ public class CmTag {
 
     public static RetireApply getRetireApply(Integer userId) {
 
+        RetireApplyService retireApplyService = context.getBean(RetireApplyService.class);
         return retireApplyService.get(userId);
     }
 
@@ -709,6 +706,8 @@ public class CmTag {
     // 判断干部是否拥有直接修改本人干部信息的权限
     public static Boolean hasDirectModifyCadreAuth(Integer cadreId) {
 
+        ModifyCadreAuthService modifyCadreAuthService = context.getBean(ModifyCadreAuthService.class);
+
         String today = DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD);
         List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadreId);
         if (modifyCadreAuths == null || modifyCadreAuths.size() == 0) return false;
@@ -742,11 +741,13 @@ public class CmTag {
 
     public static List<CisInspectorView> getCisInspectors(Integer objId) {
 
+        CisInspectObjService cisInspectObjService = context.getBean(CisInspectObjService.class);
         return cisInspectObjService.getInspectors(objId);
     }
 
     public static CisInspectorView getCisInspector(Integer id) {
 
+        CisInspectorService cisInspectorService = context.getBean(CisInspectorService.class);
         return cisInspectorService.getInspector(id);
     }
 

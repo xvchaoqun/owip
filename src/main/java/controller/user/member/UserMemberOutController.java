@@ -1,7 +1,7 @@
 package controller.user.member;
 
 import bean.UserBean;
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserMemberOutController extends BaseController{
+public class UserMemberOutController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberStay;
 import domain.sys.SysUserView;
@@ -34,7 +34,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
-public class UserMemberStayController extends BaseController{
+public class UserMemberStayController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

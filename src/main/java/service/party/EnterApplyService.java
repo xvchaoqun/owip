@@ -28,7 +28,6 @@ import service.member.MemberInService;
 import service.member.MemberInflowService;
 import service.member.MemberOutService;
 import service.member.MemberReturnService;
-import service.member.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -58,6 +57,18 @@ public class EnterApplyService extends BaseMapper{
     private MemberInflowService memberInflowService;
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
+
+    @Transactional
+    public void changeRoleMemberToGuest(int userId) {
+
+        // 更新系统角色  党员->访客
+        sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_GUEST);
+        // 撤回原申请
+        EnterApply _enterApply = getCurrentApply(userId);
+        if (_enterApply != null) {
+            applyBack(userId, null, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+        }
+    }
 
     public List<EnterApply> findApplyList(int userId){
 

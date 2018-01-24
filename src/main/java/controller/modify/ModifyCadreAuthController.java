@@ -1,6 +1,6 @@
 package controller.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.modify.ModifyCadreAuth;
 import domain.modify.ModifyCadreAuthExample;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class ModifyCadreAuthController extends BaseController {
+public class ModifyCadreAuthController extends ModifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

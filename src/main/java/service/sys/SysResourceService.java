@@ -15,7 +15,6 @@ import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class SysResourceService extends BaseMapper{
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="Permissions", allEntries=true)
+			@CacheEvict(value="SysResources", allEntries=true)
 	})
 	public void insert(SysResource sysResource){
 
@@ -43,7 +42,7 @@ public class SysResourceService extends BaseMapper{
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="Permissions", allEntries=true)
+			@CacheEvict(value="SysResources", allEntries=true)
 	})
 	public void updateByPrimaryKeySelective(SysResource record){
 
@@ -93,7 +92,7 @@ public class SysResourceService extends BaseMapper{
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="Permissions", allEntries=true)
+			@CacheEvict(value="SysResources", allEntries=true)
 	})
 	public void del(Integer id){
 
@@ -114,51 +113,6 @@ public class SysResourceService extends BaseMapper{
 		SysResourceExample example = new SysResourceExample();
 		example.createCriteria().andParentIdsLike(sysResource.getParentIds() + sysResource.getId() + "/" + "%");
 		sysResourceMapper.deleteByExample(example);
-	}
-
-	// 根据拥有的权限，形成菜单栏目
-	public List<SysResource> makeMenus(Set<String> ownPermissions){
-
-		List<SysResource> menus = new ArrayList<>();
-		Map<Integer, SysResource> sortedPermissions = getSortedSysResources();
-		Collection<SysResource> permissions = sortedPermissions.values();
-		for (SysResource res : permissions) {
-			String type = res.getType();
-			String permission = res.getPermission();
-			if((StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
-					|| StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_URL))
-					&& ownPermissions.contains(permission)) {
-
-				if(res.getParentId()==null) {
-					menus.add(res);
-				}else{
-					SysResource parent = sortedPermissions.get(res.getParentId());
-
-					// id=1是顶级节点，此值必须固定为1
-					if(parent.getId()==1 ) {
-						menus.add(res);
-						continue;
-					}
-
-					// 必须拥有全部层级的父目录，才显示
-					List<String> parents = new ArrayList<>();
-					while (parent!=null && parent.getId()!=1){
-						parents.add(parent.getPermission());
-						if(parent.getParentId()!=null)
-							parent = sortedPermissions.get(parent.getParentId());
-						else
-							parent = null;
-					}
-
-					if(ownPermissions.containsAll(parents)) {
-						menus.add(res);
-						continue;
-					}
-				}
-			}
-		}
-
-		return menus;
 	}
 
 	public SysResource getByUrl(String url){
@@ -195,7 +149,7 @@ public class SysResourceService extends BaseMapper{
 		}
 	}
 
-	@Cacheable(value = "Permissions")
+	@Cacheable(value = "SysResources")
 	public Map<Integer, SysResource> getSortedSysResources(){
 
 		List<SysResource> menuList = new ArrayList<SysResource>();

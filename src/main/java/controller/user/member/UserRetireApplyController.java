@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserRetireApplyController extends BaseController{
+public class UserRetireApplyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @RequiresRoles(SystemConstants.ROLE_MEMBER)

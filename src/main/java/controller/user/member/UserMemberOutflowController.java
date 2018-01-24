@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberOutflow;
 import domain.party.Branch;
 import domain.party.Party;
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserMemberOutflowController extends BaseController{
+public class UserMemberOutflowController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

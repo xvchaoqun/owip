@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberAbroad;
 import domain.member.MemberAbroadView;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberAbroadController extends BaseController {
+public class MemberAbroadController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

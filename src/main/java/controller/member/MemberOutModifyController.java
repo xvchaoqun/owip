@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberOutModify;
 import domain.member.MemberOutModifyExample;
 import interceptor.OrderParam;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberOutModifyController extends BaseController {
+public class MemberOutModifyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

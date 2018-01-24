@@ -1,4 +1,4 @@
-package service.member;
+package service.party;
 
 import domain.member.MemberTeacher;
 import domain.member.MemberTeacherExample;

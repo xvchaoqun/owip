@@ -27,11 +27,11 @@ public class InitDataService extends BaseController implements ApplicationListen
 
             if(!springProps.devMode) {
                 // 刷新数据文件
-                cacheService.flushLocation();
-                cacheService.flushMetadata();
+                //cacheService.flushLocation();
+                //cacheService.flushMetadata();
 
                 // 刷新菜单数量缓存
-                cacheService.refreshCacheCounts();
+                //cacheService.refreshCacheCounts();
 
                 // 启动所有已开启的任务
                 schedulerJobService.runAllJobs();

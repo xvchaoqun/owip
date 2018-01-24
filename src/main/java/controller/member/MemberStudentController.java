@@ -1,6 +1,6 @@
 package controller.member;
 
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.member.MemberStay;
 import domain.member.MemberStudent;
 import domain.member.MemberStudentExample;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberStudentController extends BaseController {
+public class MemberStudentController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

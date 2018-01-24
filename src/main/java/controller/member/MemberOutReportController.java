@@ -1,4 +1,4 @@
-package controller.jasper;
+package controller.member;
 
 import bean.UserBean;
 import com.lowagie.text.DocumentException;

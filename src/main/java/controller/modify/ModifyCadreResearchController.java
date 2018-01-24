@@ -1,6 +1,6 @@
 package controller.modify;
 
-import controller.BaseController;
+import controller.ModifyBaseController;
 import domain.cadre.CadreResearch;
 import domain.cadre.CadreResearchExample;
 import domain.cadre.CadreResearchExample.Criteria;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class ModifyCadreResearchController extends BaseController {
+public class ModifyCadreResearchController extends ModifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

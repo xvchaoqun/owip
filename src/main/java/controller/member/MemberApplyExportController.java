@@ -1,7 +1,7 @@
 package controller.member;
 
 import bean.UserBean;
-import controller.BaseController;
+import controller.MemberBaseController;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.member.MemberApply;
@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MemberApplyExportController extends BaseController {
+public class MemberApplyExportController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
