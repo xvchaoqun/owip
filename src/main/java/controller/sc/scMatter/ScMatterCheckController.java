@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import controller.global.OpException;
 import domain.sc.scMatter.ScMatterCheck;
 import domain.sc.scMatter.ScMatterCheckExample;
@@ -39,7 +39,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterCheckController extends ScBaseController {
+public class ScMatterCheckController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -73,7 +73,7 @@ public class ScMatterCheckController extends ScBaseController {
         pageNo = Math.max(1, pageNo);
 
         ScMatterCheckViewExample example = new ScMatterCheckViewExample();
-        ScMatterCheckViewExample.Criteria criteria = example.createCriteria();
+        ScMatterCheckViewExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("check_date desc, id desc");
 
         if (year!=null) {
@@ -135,11 +135,11 @@ public class ScMatterCheckController extends ScBaseController {
 
         if (id == null) {
             scMatterCheckService.insertSelective(record, userIds);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加个人有关事项-抽查核实：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-抽查核实：%s", record.getId()));
         } else {
 
             scMatterCheckService.updateByPrimaryKeySelective(record, userIds);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新个人有关事项-抽查核实：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-抽查核实：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -179,7 +179,7 @@ public class ScMatterCheckController extends ScBaseController {
 
         if (null != ids && ids.length>0){
             scMatterCheckService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC, "批量删除个人有关事项-抽查核实：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-抽查核实：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

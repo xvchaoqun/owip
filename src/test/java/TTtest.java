@@ -16,6 +16,7 @@ public class TTtest {
     public static void main(String[] args) {
         //System.out.println(DateUtils.formatDateTimeMillis(1500889489690L, DateUtils.YYYY_MM_DD_HH_MM_SS));
 
+        System.out.println(("sc/scss").replaceAll("\\/", "\\."));
 
         System.out.println(DateUtils.parseDate("2017-06", DateUtils.YYYY_MM_DD));
     }

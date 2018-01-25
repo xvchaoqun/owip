@@ -95,6 +95,7 @@
         <context:exclude-filter type="regex" expression="service.pcs.*"/>
         <context:exclude-filter type="regex" expression="service.oa.*"/>
         <context:exclude-filter type="regex" expression="service.pmd.*"/>
+        <context:exclude-filter type="regex" expression="service.sc.scMatter.*"/>
     </context:component-scan>
     <!--<context:annotation-config />-->
 

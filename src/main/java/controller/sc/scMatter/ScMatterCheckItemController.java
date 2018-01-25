@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import controller.global.OpException;
 import domain.sc.scMatter.ScMatterCheckItem;
 import domain.sc.scMatter.ScMatterCheckItemExample;
@@ -38,7 +38,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterCheckItemController extends ScBaseController {
+public class ScMatterCheckItemController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -150,11 +150,11 @@ public class ScMatterCheckItemController extends ScBaseController {
 
         if (id == null) {
             scMatterCheckItemService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加个人有关事项-核查对象：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-核查对象：%s", record.getId()));
         } else {
 
             scMatterCheckItemService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新个人有关事项-核查对象：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-核查对象：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -185,11 +185,11 @@ public class ScMatterCheckItemController extends ScBaseController {
 
         if (id == null) {
             scMatterCheckItemService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加组织处理：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加组织处理：%s", record.getId()));
         } else {
 
             scMatterCheckItemService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新组织处理：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新组织处理：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -214,7 +214,7 @@ public class ScMatterCheckItemController extends ScBaseController {
         if (id != null) {
 
             scMatterCheckItemService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC, "删除个人有关事项-核查对象：%s", id));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "删除个人有关事项-核查对象：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -227,7 +227,7 @@ public class ScMatterCheckItemController extends ScBaseController {
 
         if (null != ids && ids.length>0){
             scMatterCheckItemService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC, "批量删除个人有关事项-核查对象：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-核查对象：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

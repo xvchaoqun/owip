@@ -4,9 +4,9 @@
 package controller.${folder};
 
 import controller.BaseController;
-import domain.${folder}.${TableName};
-import domain.${folder}.${TableName}Example;
-import domain.${folder}.${TableName}Example.Criteria;
+import domain.${folder?replace('/', '.')}.${TableName};
+import domain.${folder?replace('/', '.')}.${TableName}Example;
+import domain.${folder?replace('/', '.')}.${TableName}Example.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 

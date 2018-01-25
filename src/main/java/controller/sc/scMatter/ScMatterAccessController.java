@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import controller.global.OpException;
 import domain.sc.scMatter.ScMatterAccess;
 import domain.sc.scMatter.ScMatterAccessExample;
@@ -45,7 +45,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterAccessController extends ScBaseController {
+public class ScMatterAccessController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -93,7 +93,7 @@ public class ScMatterAccessController extends ScBaseController {
             records = iScMapper.selectScMatterAccessList(matterItemId, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }else {
             ScMatterAccessExample example = new ScMatterAccessExample();
-            Criteria criteria = example.createCriteria();
+            Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
             example.setOrderByClause("access_date desc, id desc");
 
             if (isCopy != null) {
@@ -131,11 +131,11 @@ public class ScMatterAccessController extends ScBaseController {
 
         if (id == null) {
             scMatterAccessService.insertSelective(record, matterItemIds);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加个人有关事项-调阅记录：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-调阅记录：%s", record.getId()));
         } else {
 
             scMatterAccessService.updateByPrimaryKeySelective(record, matterItemIds);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新个人有关事项-调阅记录：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-调阅记录：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -315,7 +315,7 @@ public class ScMatterAccessController extends ScBaseController {
 
         if (null != ids && ids.length>0){
             scMatterAccessService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC, "批量删除个人有关事项-调阅记录：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-调阅记录：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

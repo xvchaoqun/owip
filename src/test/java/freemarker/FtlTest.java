@@ -1,6 +1,7 @@
 package freemarker;
 
 import domain.cadre.CadreFamliy;
+import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -72,5 +73,26 @@ public class FtlTest {
         StringWriter writer = new StringWriter();
         tp.process(dataMap, writer);
         return writer.toString();
+    }
+
+    @Test
+    public void stringTemplate() throws IOException, TemplateException {
+
+        //.replace('/', '.')
+
+        StringTemplateLoader stringLoader = new StringTemplateLoader();
+        String templateContent="欢迎：${folder?replace('/', '.')}";
+        stringLoader.putTemplate("myTemplate",templateContent);
+
+        Configuration cfg = freeMarkerConfigurer.getConfiguration();
+        cfg.setTemplateLoader(stringLoader);
+
+        Template template = cfg.getTemplate("myTemplate","utf-8");
+        Map root = new HashMap();
+        root.put("folder", "sc/scMatter");
+        StringWriter writer = new StringWriter();
+        template.process(root, writer);
+
+        System.out.println(writer.toString());
     }
 }

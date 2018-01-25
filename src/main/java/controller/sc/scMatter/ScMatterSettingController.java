@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -25,7 +25,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterSettingController extends ScBaseController {
+public class ScMatterSettingController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -97,7 +97,7 @@ public class ScMatterSettingController extends ScBaseController {
     public Map do_scMatterSetting_changeOrder(Integer id,Integer addNum, HttpServletRequest request) {
 
         metaTypeService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_SC, "个人有关事项参数设置-调序：%s, %s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_SC_MATTER, "个人有关事项参数设置-调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

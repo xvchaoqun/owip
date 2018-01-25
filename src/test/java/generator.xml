@@ -22,17 +22,59 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <!--干部选拔-纪委函询管理-->
+        <!--<table tableName="sc_letter" domainObjectName="sc.scLetter.ScLetter" mapperName="sc.scLetter.ScLetterMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_item" domainObjectName="sc.scLetter.ScLetterItem" mapperName="sc.scLetter.ScLetterItemMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterItemView"
+               mapperName="sc.scLetter.ScLetterItemViewMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterView"
+               mapperName="sc.scLetter.ScLetterViewMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_reply" domainObjectName="sc.scLetter.ScLetterReply"
+               mapperName="sc.scLetter.ScLetterReplyMapper">
+        </table>-->
+        <table tableName="sc_letter_reply_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterReplyView"
+               mapperName="sc.scLetter.ScLetterReplyViewMapper">
+        </table>
+        <!--
+        <table tableName="sc_letter_reply_item" domainObjectName="sc.scLetter.ScLetterReplyItem"
+               mapperName="sc.scLetter.ScLetterReplyItemMapper">
+        </table>-->
+
+        <!--<table tableName="sc_letter_reply_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterReplyItemView"
+               mapperName="sc.scLetter.ScLetterReplyItemViewMapper">
+        </table>-->
+
         <!--干部选拔-个人有关事项-->
         <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">
         </table>-->
-        <table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
-        </table>
-        <table tableName="sc_matter_item_view"
+        <!--<table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterItemView" mapperName="sc.scMatter.ScMatterItemViewMapper">
-        </table>
+        </table>-->
         <!--<table tableName="sc_matter_user_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -59,6 +101,9 @@
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterCheckView" mapperName="sc.scMatter.ScMatterCheckViewMapper">
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
        <!-- <table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
         </table>-->

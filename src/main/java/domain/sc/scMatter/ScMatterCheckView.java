@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ScMatterCheckView implements Serializable {
-    private Long id;
+    private Integer id;
 
     private Integer year;
 
@@ -14,23 +14,23 @@ public class ScMatterCheckView implements Serializable {
 
     private String checkFileName;
 
-    private Long num;
+    private Integer num;
 
     private Boolean isRandom;
 
     private String remark;
 
-    private Integer isDeleted;
+    private Boolean isDeleted;
 
-    private Long itemCount;
+    private Integer itemCount;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -66,11 +66,11 @@ public class ScMatterCheckView implements Serializable {
         this.checkFileName = checkFileName == null ? null : checkFileName.trim();
     }
 
-    public Long getNum() {
+    public Integer getNum() {
         return num;
     }
 
-    public void setNum(Long num) {
+    public void setNum(Integer num) {
         this.num = num;
     }
 
@@ -90,19 +90,19 @@ public class ScMatterCheckView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Integer getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
+    public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
-    public Long getItemCount() {
+    public Integer getItemCount() {
         return itemCount;
     }
 
-    public void setItemCount(Long itemCount) {
+    public void setItemCount(Integer itemCount) {
         this.itemCount = itemCount;
     }
 }

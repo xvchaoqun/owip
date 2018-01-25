@@ -1,4 +1,12 @@
 
+2018-1-25
+更新 sc_matter_check_view
+
+ALTER TABLE `sc_matter_check`
+	ADD UNIQUE INDEX `year_num` (`year`, `num`);
+
+
+
 2018-1-19
 ALTER TABLE `ow_member_out`
 	DROP INDEX `user_id`;

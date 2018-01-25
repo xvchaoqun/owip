@@ -9,7 +9,7 @@ import service.sc.scMatter.ScMatterItemService;
 import service.sc.scMatter.ScMatterService;
 import service.sc.scMatter.ScMatterTransferService;
 
-public class ScBaseController extends BaseController {
+public class ScMatterBaseController extends BaseController {
 
     @Autowired
     protected ScMatterService scMatterService;

@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatter;
 import domain.sc.scMatter.ScMatterExample;
 import domain.sc.scMatter.ScMatterExample.Criteria;
@@ -34,7 +34,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterController extends ScBaseController {
+public class ScMatterController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -108,11 +108,11 @@ public class ScMatterController extends ScBaseController {
         Integer id = record.getId();
         if (id == null) {
             scMatterService.insertSelective(record, userIds);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加个人有关事项：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项：%s", record.getId()));
         } else {
 
             scMatterService.updateByPrimaryKeySelective(record, userIds);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新个人有关事项：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -148,7 +148,7 @@ public class ScMatterController extends ScBaseController {
 
         if (null != ids && ids.length>0){
             scMatterService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC, "批量删除个人有关事项：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

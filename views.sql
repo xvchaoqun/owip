@@ -1,3 +1,27 @@
+-- 纪委函询视图
+DROP VIEW IF EXISTS `sc_letter_item_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_item_view` AS
+select sli.*, u.realname, u.code from sc_letter_item sli
+left join sys_user_view u on sli.user_id=u.id;
+
+DROP VIEW IF EXISTS `sc_letter_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_view` AS
+select sl.*, count(distinct sli.id) as item_count, count(distinct slr.id) as reply_count  from sc_letter sl
+left join sc_letter_item sli on sli.letter_id=sl.id
+left join sc_letter_reply slr on slr.letter_id=sl.id group by sl.id;
+
+DROP VIEW IF EXISTS `sc_letter_reply_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_view` AS
+select slr.*, sl.year as letter_year, sl.num as letter_num,
+sl.query_date as letter_query_date, sl.type as letter_type from sc_letter_reply slr
+left join sc_letter sl on sl.id=slr.letter_id ;
+
+DROP VIEW IF EXISTS `sc_letter_reply_item_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_item_view` AS
+select slri.*, slr.letter_id, u.realname, u.code from sc_letter_reply_item slri
+left join sys_user_view u on slri.user_id=u.id
+left join sc_letter_reply slr on slr.id=slri.reply_id;
+
 -- 个人有关事项视图
 DROP VIEW IF EXISTS `sc_matter_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_item_view` AS
@@ -22,7 +46,7 @@ left join sys_user_view u on u.id=smci.user_id;
 
 DROP VIEW IF EXISTS `sc_matter_check_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_view` AS
-select smc.*, count(smci.id) as item_count from sc_matter_check smc
+select smc.*, count(distinct smci.id) as item_count from sc_matter_check smc
 left join sc_matter_check_item smci on smci.check_id=smc.id group by smc.id;
 
 DROP VIEW IF EXISTS `sc_matter_user_view`;

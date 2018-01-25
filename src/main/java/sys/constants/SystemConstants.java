@@ -186,7 +186,8 @@ public class SystemConstants {
     public static final String LOG_PCS = "mt_log_pcs";
     public static final String LOG_OA = "mt_log_oa";
     public static final String LOG_PMD = "mt_log_pmd";
-    public static final String LOG_SC = "mt_log_sc"; // 干部选拔任用
+    public static final String LOG_SC_MATTER = "mt_log_sc_matter"; // 干部选拔任用-个人有关事项
+    public static final String LOG_SC_LETTER = "mt_log_sc_letter"; // 干部选拔任用-纪委函询管理
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";

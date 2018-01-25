@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatterItemView;
 import domain.sc.scMatter.ScMatterItemViewExample;
 import domain.sc.scMatter.ScMatterTransfer;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterTransferController extends ScBaseController {
+public class ScMatterTransferController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -110,11 +110,11 @@ public class ScMatterTransferController extends ScBaseController {
 
         if (id == null) {
             scMatterTransferService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_SC, "添加个人有关事项-移交记录：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_SC_MATTER, "添加个人有关事项-移交记录：%s", record.getId()));
         } else {
 
             scMatterTransferService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_SC, "更新个人有关事项-移交记录：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_SC_MATTER, "更新个人有关事项-移交记录：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -146,7 +146,7 @@ public class ScMatterTransferController extends ScBaseController {
                                          HttpServletRequest request) {
 
         scMatterTransferService.transfer(transferId, matterItemIds);
-        logger.info(addLog(SystemConstants.LOG_SC, "移交记录：%s, %s", transferId, StringUtils.join(matterItemIds)));
+        logger.info(addLog(SystemConstants.LOG_SC_MATTER, "移交记录：%s, %s", transferId, StringUtils.join(matterItemIds)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -160,7 +160,7 @@ public class ScMatterTransferController extends ScBaseController {
 
         if (null != ids && ids.length > 0) {
             scMatterTransferService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_SC, "批量删除个人有关事项-移交记录：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-移交记录：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

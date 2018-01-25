@@ -1,0 +1,37 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scLetter",
+  "tables": [
+    {
+      "table": "sc_letter",
+      "key": "id",
+      "searchColumns": "year,type",
+      "showColumns": "year,type,num,query_date,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_LETTER",
+      "ignore": false
+    },
+    {
+      "table": "sc_letter_item",
+      "key": "id",
+      "searchColumns": "letter_id",
+      "showColumns": "letter_id,user_id",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_LETTER",
+      "ignore": false
+    },
+    {
+      "table": "sc_letter_reply",
+      "key": "id",
+      "searchColumns": "letter_id,reply_date",
+      "showColumns": "letter_id,type,num,reply_date,content,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_LETTER",
+      "ignore": false
+    }
+  ]
+}

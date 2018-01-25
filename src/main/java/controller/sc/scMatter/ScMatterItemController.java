@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import domain.ext.ExtJzg;
 import domain.sc.scMatter.ScMatterItem;
 import domain.sc.scMatter.ScMatterItemView;
@@ -38,7 +38,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterItemController extends ScBaseController {
+public class ScMatterItemController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -114,11 +114,11 @@ public class ScMatterItemController extends ScBaseController {
 
         if (id == null) {
             scMatterItemService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加个人有关事项-填报记录：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-填报记录：%s", record.getId()));
         } else {
 
             scMatterItemService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新个人有关事项-填报记录：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-填报记录：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -143,7 +143,7 @@ public class ScMatterItemController extends ScBaseController {
         if (id != null) {
 
             scMatterItemService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC, "删除个人有关事项-填报记录：%s", id));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "删除个人有关事项-填报记录：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -156,7 +156,7 @@ public class ScMatterItemController extends ScBaseController {
 
         if (null != ids && ids.length>0){
             scMatterItemService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC, "批量删除个人有关事项-填报记录：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-填报记录：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

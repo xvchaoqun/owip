@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatterAccessItem;
 import domain.sc.scMatter.ScMatterAccessItemExample;
 import domain.sc.scMatter.ScMatterAccessItemExample.Criteria;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterAccessItemController extends ScBaseController {
+public class ScMatterAccessItemController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -96,11 +96,11 @@ public class ScMatterAccessItemController extends ScBaseController {
 
         if (id == null) {
             scMatterAccessItemService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "添加个人有关事项-调阅对象及调阅明细：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-调阅对象及调阅明细：%s", record.getId()));
         } else {
 
             scMatterAccessItemService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC, "更新个人有关事项-调阅对象及调阅明细：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-调阅对象及调阅明细：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -125,7 +125,7 @@ public class ScMatterAccessItemController extends ScBaseController {
         if (id != null) {
 
             scMatterAccessItemService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC, "删除个人有关事项-调阅对象及调阅明细：%s", id));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "删除个人有关事项-调阅对象及调阅明细：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -138,7 +138,7 @@ public class ScMatterAccessItemController extends ScBaseController {
 
         if (null != ids && ids.length>0){
             scMatterAccessItemService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC, "批量删除个人有关事项-调阅对象及调阅明细：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-调阅对象及调阅明细：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -224,6 +224,14 @@ import persistence.pmd.PmdPayBranchViewMapper;
 import persistence.pmd.PmdPayPartyMapper;
 import persistence.pmd.PmdPayPartyViewMapper;
 import persistence.pmd.PmdSpecialUserMapper;
+import persistence.sc.scLetter.ScLetterItemMapper;
+import persistence.sc.scLetter.ScLetterItemViewMapper;
+import persistence.sc.scLetter.ScLetterMapper;
+import persistence.sc.scLetter.ScLetterReplyItemMapper;
+import persistence.sc.scLetter.ScLetterReplyItemViewMapper;
+import persistence.sc.scLetter.ScLetterReplyMapper;
+import persistence.sc.scLetter.ScLetterReplyViewMapper;
+import persistence.sc.scLetter.ScLetterViewMapper;
 import persistence.sc.scMatter.ScMatterAccessItemMapper;
 import persistence.sc.scMatter.ScMatterAccessItemViewMapper;
 import persistence.sc.scMatter.ScMatterAccessMapper;
@@ -339,6 +347,27 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 干部选拔-纪委函询管理
+     */
+    @Autowired
+    protected ScLetterMapper scLetterMapper;
+    @Autowired
+    protected ScLetterViewMapper scLetterViewMapper;
+    @Autowired
+    protected ScLetterItemMapper scLetterItemMapper;
+    @Autowired
+    protected ScLetterItemViewMapper scLetterItemViewMapper;
+    @Autowired
+    protected ScLetterReplyMapper scLetterReplyMapper;
+    @Autowired
+    protected ScLetterReplyViewMapper scLetterReplyViewMapper;
+    @Autowired
+    protected ScLetterReplyItemMapper scLetterReplyItemMapper;
+    @Autowired
+    protected ScLetterReplyItemViewMapper scLetterReplyItemViewMapper;
+
 
     /**
      * 干部选拔-个人有关事项

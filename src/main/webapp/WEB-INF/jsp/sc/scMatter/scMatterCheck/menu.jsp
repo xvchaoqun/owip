@@ -6,6 +6,6 @@
   <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scMatterCheck?cls=1"><i class="fa fa-file-pdf-o ${cls==1?'fa-1g':''}"></i> 核查文件</a>
   </li>
   <li class="${cls==2?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scMatterCheck?cls=2"}><i class="fa fa-share-alt ${cls==2?'fa-1g':''}"></i> 核查结果及处理</a>
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scMatterCheck?cls=2"><i class="fa fa-share-alt ${cls==2?'fa-1g':''}"></i> 核查结果及处理</a>
   </li>
 </ul>

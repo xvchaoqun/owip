@@ -142,52 +142,52 @@ public class ScMatterCheckViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -462,52 +462,52 @@ public class ScMatterCheckViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andNumEqualTo(Long value) {
+        public Criteria andNumEqualTo(Integer value) {
             addCriterion("num =", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotEqualTo(Long value) {
+        public Criteria andNumNotEqualTo(Integer value) {
             addCriterion("num <>", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumGreaterThan(Long value) {
+        public Criteria andNumGreaterThan(Integer value) {
             addCriterion("num >", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumGreaterThanOrEqualTo(Long value) {
+        public Criteria andNumGreaterThanOrEqualTo(Integer value) {
             addCriterion("num >=", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumLessThan(Long value) {
+        public Criteria andNumLessThan(Integer value) {
             addCriterion("num <", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumLessThanOrEqualTo(Long value) {
+        public Criteria andNumLessThanOrEqualTo(Integer value) {
             addCriterion("num <=", value, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumIn(List<Long> values) {
+        public Criteria andNumIn(List<Integer> values) {
             addCriterion("num in", values, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotIn(List<Long> values) {
+        public Criteria andNumNotIn(List<Integer> values) {
             addCriterion("num not in", values, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumBetween(Long value1, Long value2) {
+        public Criteria andNumBetween(Integer value1, Integer value2) {
             addCriterion("num between", value1, value2, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotBetween(Long value1, Long value2) {
+        public Criteria andNumNotBetween(Integer value1, Integer value2) {
             addCriterion("num not between", value1, value2, "num");
             return (Criteria) this;
         }
@@ -652,52 +652,52 @@ public class ScMatterCheckViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedEqualTo(Integer value) {
+        public Criteria andIsDeletedEqualTo(Boolean value) {
             addCriterion("is_deleted =", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotEqualTo(Integer value) {
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
             addCriterion("is_deleted <>", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThan(Integer value) {
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
             addCriterion("is_deleted >", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted >=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThan(Integer value) {
+        public Criteria andIsDeletedLessThan(Boolean value) {
             addCriterion("is_deleted <", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThanOrEqualTo(Integer value) {
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted <=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIn(List<Integer> values) {
+        public Criteria andIsDeletedIn(List<Boolean> values) {
             addCriterion("is_deleted in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotIn(List<Integer> values) {
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
             addCriterion("is_deleted not in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedBetween(Integer value1, Integer value2) {
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
@@ -712,52 +712,52 @@ public class ScMatterCheckViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andItemCountEqualTo(Long value) {
+        public Criteria andItemCountEqualTo(Integer value) {
             addCriterion("item_count =", value, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountNotEqualTo(Long value) {
+        public Criteria andItemCountNotEqualTo(Integer value) {
             addCriterion("item_count <>", value, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountGreaterThan(Long value) {
+        public Criteria andItemCountGreaterThan(Integer value) {
             addCriterion("item_count >", value, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountGreaterThanOrEqualTo(Long value) {
+        public Criteria andItemCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("item_count >=", value, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountLessThan(Long value) {
+        public Criteria andItemCountLessThan(Integer value) {
             addCriterion("item_count <", value, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountLessThanOrEqualTo(Long value) {
+        public Criteria andItemCountLessThanOrEqualTo(Integer value) {
             addCriterion("item_count <=", value, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountIn(List<Long> values) {
+        public Criteria andItemCountIn(List<Integer> values) {
             addCriterion("item_count in", values, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountNotIn(List<Long> values) {
+        public Criteria andItemCountNotIn(List<Integer> values) {
             addCriterion("item_count not in", values, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountBetween(Long value1, Long value2) {
+        public Criteria andItemCountBetween(Integer value1, Integer value2) {
             addCriterion("item_count between", value1, value2, "itemCount");
             return (Criteria) this;
         }
 
-        public Criteria andItemCountNotBetween(Long value1, Long value2) {
+        public Criteria andItemCountNotBetween(Integer value1, Integer value2) {
             addCriterion("item_count not between", value1, value2, "itemCount");
             return (Criteria) this;
         }

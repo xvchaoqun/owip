@@ -1,5 +1,6 @@
 package service.sc.scMatter;
 
+import controller.global.OpException;
 import domain.sc.scMatter.ScMatterCheck;
 import domain.sc.scMatter.ScMatterCheckExample;
 import domain.sc.scMatter.ScMatterCheckItem;
@@ -41,11 +42,29 @@ public class ScMatterCheckService extends BaseMapper {
         return num;
     }
 
+    public boolean idDuplicate(Integer id, int year, int num){
+
+        ScMatterCheckExample example = new ScMatterCheckExample();
+        ScMatterCheckExample.Criteria criteria = example.createCriteria()
+                .andYearEqualTo(year)
+                .andNumEqualTo(num);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+
+        return scMatterCheckMapper.countByExample(example) > 0;
+    }
+
     @Transactional
     public void insertSelective(ScMatterCheck record, Integer[] userIds){
 
-        record.setNum(genNum(record.getYear()));
+        if(record.getNum()==null)
+            record.setNum(genNum(record.getYear()));
+
         record.setIsDeleted(false);
+
+        if(idDuplicate(record.getId(), record.getYear(), record.getNum())){
+            throw new OpException("编号重复。");
+        }
+
         scMatterCheckMapper.insertSelective(record);
 
         updateUserIds(record.getId(), userIds);
@@ -66,6 +85,10 @@ public class ScMatterCheckService extends BaseMapper {
 
     @Transactional
     public void updateByPrimaryKeySelective(ScMatterCheck record, Integer[] userIds){
+
+        if(idDuplicate(record.getId(), record.getYear(), record.getNum())){
+            throw new OpException("编号重复。");
+        }
 
         scMatterCheckMapper.updateByPrimaryKeySelective(record);
 

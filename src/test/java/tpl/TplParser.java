@@ -49,7 +49,8 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-crs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-oa.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-pmd.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sc.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sc.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scLetter.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-pcs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-verify.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-base.json";
@@ -151,7 +152,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 
 		Map root = new HashMap();
-		root.put("folder", folder);
+		root.put("folder", folder.replaceAll("\\/", "\\."));
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));

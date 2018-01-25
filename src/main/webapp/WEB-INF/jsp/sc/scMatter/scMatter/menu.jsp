@@ -6,6 +6,6 @@
   <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scMatter?cls=1"><i class="fa fa-file-pdf-o ${cls==1?'fa-1g':''}"></i> 填报记录</a>
   </li>
   <li class="${cls==2?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scMatter?cls=2"}><i class="fa fa-share-alt ${cls==2?'fa-1g':''}"></i> 填报对象</a>
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/sc/scMatter?cls=2"><i class="fa fa-share-alt ${cls==2?'fa-1g':''}"></i> 填报对象</a>
   </li>
 </ul>

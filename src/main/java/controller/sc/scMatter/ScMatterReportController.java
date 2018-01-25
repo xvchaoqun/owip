@@ -1,7 +1,7 @@
 package controller.sc.scMatter;
 
 import com.lowagie.text.DocumentException;
-import controller.ScBaseController;
+import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatterAccess;
 import domain.sc.scMatter.ScMatterAccessItemView;
 import domain.sc.scMatter.ScMatterAccessItemViewExample;
@@ -43,7 +43,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
-public class ScMatterReportController extends ScBaseController {
+public class ScMatterReportController extends ScMatterBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 
